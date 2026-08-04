@@ -254,13 +254,36 @@ export class FSD extends PXEParent {
       }
     }
 
+    // Direct click on top PXE bar cycles slot selection
+    this.pxe.txtFrame.elt.addEventListener("click", () => this.cycleSlotSelection());
+    this.pxe.txt.elt.addEventListener("click", () => this.cycleSlotSelection());
+
     this.renderStage2Controls();
     this.updatePXEText();
+  }
+
+  cycleSlotSelection() {
+    if (this.stage === 2 && this.slots.length > 0) {
+      this.selectedSlotIndex = (this.selectedSlotIndex + 1) % this.slots.length;
+      this.updatePXEText();
+      this.renderStage2Controls();
+    }
   }
 
   assignVarToActiveSlot(v: string) {
     if (this.slots[this.selectedSlotIndex]) {
       this.slots[this.selectedSlotIndex].assignedVar = v;
+
+      // Automatically advance to the next unassigned slot if available
+      const nextUnassigned = this.slots.findIndex((s, idx) => idx > this.selectedSlotIndex && s.assignedVar === undefined);
+      if (nextUnassigned !== -1) {
+        this.selectedSlotIndex = nextUnassigned;
+      } else {
+        const anyUnassigned = this.slots.findIndex((s) => s.assignedVar === undefined);
+        if (anyUnassigned !== -1) {
+          this.selectedSlotIndex = anyUnassigned;
+        }
+      }
     }
     this.updatePXEText();
     this.renderStage2Controls();
@@ -268,22 +291,6 @@ export class FSD extends PXEParent {
 
   renderStage2Controls() {
     this.stageControls = [];
-
-    // Slot Target Selection Buttons (allows picking any slot freely)
-    this.slots.forEach((s, idx) => {
-      const isSelectedSlot = idx === this.selectedSlotIndex;
-      const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "_"}`;
-      const btn = new SVGSelectableText(() => {
-        this.selectedSlotIndex = idx;
-        this.updatePXEText();
-        this.renderStage2Controls();
-      }, label, false);
-
-      if (isSelectedSlot) {
-        btn.setA("stroke", "orange");
-      }
-      this.stageControls.push(btn);
-    });
 
     // Variable Assignment Buttons for active slot (x₁, x₂, etc.)
     this.availableVars.forEach((v) => {
