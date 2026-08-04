@@ -1,11 +1,18 @@
 import { Elt } from "./elt.js";
 import { Nav } from "./navFW.js";
 import { SVGElt, SVGSelectableText, SVGText } from "./svgElt.js";
-import { PXE, PXEParent } from "./pxe.js";
+import { PXE, PXEParent, TreeNode } from "./pxe.js";
 
-export interface FSDPredicateSlot {
-  predicate: string; // 'PG5' | 'PL10' | 'PG' | 'PL'
-  slots: string[];   // ['x'] or ['x', 'y']
+export interface SlotInfo {
+  predCode: string; // 'p'|'q'|'r'|'s'
+  predName: string; // 'PG5'|'PL10'|'PG'|'PL'
+  slotIndex: number; // 0 or 1
+  assignedVar?: string; // 'x₁', 'x₂', etc.
+}
+
+export interface QuantifierBinding {
+  quantifier: "∀" | "∃";
+  variable: string; // 'x₁', 'x₂', etc.
 }
 
 export class FSD extends PXEParent {
@@ -14,15 +21,16 @@ export class FSD extends PXEParent {
   fo: SVGElt;
   foY: number;
 
-  // Visual dimensions
   sideMargin = 12;
-  controlsFrameHeight = 30;
+  controlsFrameHeight = 35;
   vertMargin = 8;
 
-  // Title & instructions label
-  statusLabel: SVGText;
+  pxe: PXE;
 
-  // Step 1 Controls (Predicate expression building)
+  // State Machine Stage: 1 = Raw Exp, 2 = Slot Binding, 3 = Quantification, 4 = Table & Matrix
+  stage: 1 | 2 | 3 | 4 = 1;
+
+  // Stage 1 Buttons
   buttonPG5: SVGSelectableText;
   buttonPL10: SVGSelectableText;
   buttonPG: SVGSelectableText;
@@ -35,23 +43,24 @@ export class FSD extends PXEParent {
   buttonLB: SVGSelectableText;
   buttonRB: SVGSelectableText;
   buttonBackspace: SVGSelectableText;
-  displayButton: SVGSelectableText;
+  nextStageButton: SVGSelectableText;
 
-  // Quantifier sequence state
-  quantifierList: string[] = ["∀x", "∃y"]; // default prefix
-  boundVars: Record<string, string[]> = {
-    PG5: ["x"],
-    PL10: ["x"],
-    PG: ["x", "y"],
-    PL: ["x", "y"],
-  };
+  // Stage 2 State: Variables & Slots
+  availableVars: string[] = ["x₁"];
+  selectedVar: string = "x₁";
+  slots: SlotInfo[] = [];
 
-  // Dyadic grid resolution: 4, 8, 16, 32, 64, 128, 256
+  // Dynamic Stage 2 & 3 Controls
+  stageControls: SVGElt[] = [];
+
+  // Stage 3 State: Quantifier Prefix
+  quantifierBindings: QuantifierBinding[] = [];
+  selectedQuantifier: "∀" | "∃" = "∀";
+
+  // Stage 4 Matrix State
   gridResolution = 16;
   matrixVisible = false;
-  selectedPredicate = "PG";
-
-  pxe: PXE;
+  selectedColIndex = -1;
 
   constructor() {
     super();
@@ -85,16 +94,11 @@ export class FSD extends PXEParent {
       "x", x, "y", this.foY, "style", "background-color:white;padding:15px;overflow:auto"
     ]);
 
-    this.statusLabel = new SVGText();
-    this.statusLabel.setV("Formal Statement Demo");
-    this.statusLabel.setA("stroke", "darkslategray");
-    this.controls.push(this.statusLabel);
-
-    // Expression Builder buttons
-    this.buttonPG5 = new SVGSelectableText(() => this.addPred("PG5"), "PG5", false);
-    this.buttonPL10 = new SVGSelectableText(() => this.addPred("PL10"), "PL10", false);
-    this.buttonPG = new SVGSelectableText(() => this.addPred("PG"), "PG", false);
-    this.buttonPL = new SVGSelectableText(() => this.addPred("PL"), "PL", false);
+    // Stage 1 Buttons
+    this.buttonPG5 = new SVGSelectableText(() => this.pxe.addCharacter("p"), "PG5", false);
+    this.buttonPL10 = new SVGSelectableText(() => this.pxe.addCharacter("q"), "PL10", false);
+    this.buttonPG = new SVGSelectableText(() => this.pxe.addCharacter("r"), "PG", false);
+    this.buttonPL = new SVGSelectableText(() => this.pxe.addCharacter("s"), "PL", false);
 
     this.buttonNeg = new SVGSelectableText(() => this.pxe.addCharacter("n"), "¬", false);
     this.buttonAnd = new SVGSelectableText(() => this.pxe.addCharacter("a"), "∧", false);
@@ -105,29 +109,27 @@ export class FSD extends PXEParent {
     this.buttonRB = new SVGSelectableText(() => this.pxe.addCharacter("]"), "]", false);
     this.buttonBackspace = new SVGSelectableText(() => this.pxe.backspace(), "⌫", false);
 
-    this.displayButton = new SVGSelectableText(() => this.displayTable(), "Evaluate Statement", false);
+    this.nextStageButton = new SVGSelectableText(() => this.advanceStage(), "Bind Variables →", false);
 
-    this.controls.push(this.buttonPG5);
-    this.controls.push(this.buttonPL10);
-    this.controls.push(this.buttonPG);
-    this.controls.push(this.buttonPL);
-    this.controls.push(this.buttonNeg);
-    this.controls.push(this.buttonAnd);
-    this.controls.push(this.buttonOr);
-    this.controls.push(this.buttonImply);
-    this.controls.push(this.buttonEquiv);
-    this.controls.push(this.buttonLB);
-    this.controls.push(this.buttonRB);
-    this.controls.push(this.buttonBackspace);
-    this.controls.push(this.displayButton);
+    this.initStage1Controls();
   }
 
-  addPred(pred: string) {
-    // Map predicate name into PXE internal symbol (e.g. p, q, r, s)
-    if (pred === "PG5") this.pxe.addCharacter("p");
-    else if (pred === "PL10") this.pxe.addCharacter("q");
-    else if (pred === "PG") this.pxe.addCharacter("r");
-    else if (pred === "PL") this.pxe.addCharacter("s");
+  initStage1Controls() {
+    this.controls = [
+      this.buttonPG5,
+      this.buttonPL10,
+      this.buttonPG,
+      this.buttonPL,
+      this.buttonNeg,
+      this.buttonAnd,
+      this.buttonOr,
+      this.buttonImply,
+      this.buttonEquiv,
+      this.buttonLB,
+      this.buttonRB,
+      this.buttonBackspace,
+      this.nextStageButton,
+    ];
   }
 
   layoutEditor() {
@@ -146,249 +148,445 @@ export class FSD extends PXEParent {
   }
 
   showControls() {
+    // Clear old SVG controls from parent SVG
+    this.controls.forEach(c => {
+      if (c.elt && c.elt.parentElement) c.elt.parentElement.removeChild(c.elt);
+    });
+    this.stageControls.forEach(c => {
+      if (c.elt && c.elt.parentElement) c.elt.parentElement.removeChild(c.elt);
+    });
+
     const y = 2 * this.vertMargin + PXE.textFrameHeight + (2 / 3) * this.controlsFrameHeight;
     let x = this.sideMargin + 5;
-    this.controls.forEach((e) => {
-      this.append(e);
-      e.setAA(["x", x, "y", y]);
-      x = x + e.getBB().width + 8;
-    });
+
+    if (this.stage === 1) {
+      this.controls.forEach((e) => {
+        this.append(e);
+        e.setAA(["x", x, "y", y]);
+        x += e.getBB().width + 8;
+      });
+    } else if (this.stage === 2 || this.stage === 3) {
+      this.stageControls.forEach((e) => {
+        this.append(e);
+        e.setAA(["x", x, "y", y]);
+        x += e.getBB().width + 8;
+      });
+    }
   }
 
   setButtonStates() {
-    this.displayButton.setAble(this.pxe.displayState === "Valid");
+    if (this.stage === 1) {
+      const expectClass = this.pxe.setExpectClass();
+
+      const frontBtnsEnabled = expectClass === "front";
+      this.buttonPG5.setAble(frontBtnsEnabled);
+      this.buttonPL10.setAble(frontBtnsEnabled);
+      this.buttonPG.setAble(frontBtnsEnabled);
+      this.buttonPL.setAble(frontBtnsEnabled);
+      this.buttonNeg.setAble(frontBtnsEnabled);
+      this.buttonLB.setAble(frontBtnsEnabled);
+
+      const backBtnsEnabled = expectClass === "back";
+      this.buttonAnd.setAble(backBtnsEnabled);
+      this.buttonOr.setAble(backBtnsEnabled);
+      this.buttonImply.setAble(backBtnsEnabled);
+      this.buttonEquiv.setAble(backBtnsEnabled);
+      this.buttonRB.setAble(backBtnsEnabled && this.pxe.nl > 0);
+
+      this.buttonBackspace.setAble(this.pxe.exp.length > 0);
+
+      const isValid = expectClass === "back" && this.pxe.nl === 0;
+      this.nextStageButton.setAble(isValid);
+    }
   }
 
   clear() {
+    this.stage = 1;
+    this.availableVars = ["x₁"];
+    this.selectedVar = "x₁";
+    this.slots = [];
+    this.quantifierBindings = [];
+    this.matrixVisible = false;
+    this.selectedColIndex = -1;
+    this.initStage1Controls();
     this.fo.removeChildren();
     this.fo.setV("");
+    this.showControls();
+    this.pxe.clear();
   }
 
-  // 3-Step Setup & Table Display
-  displayTable() {
+  advanceStage() {
+    if (this.stage === 1) {
+      this.setupStage2();
+    } else if (this.stage === 2) {
+      this.setupStage3();
+    } else if (this.stage === 3) {
+      this.setupStage4();
+    }
+  }
+
+  // --- STAGE 2: Variable Slot Binding ---
+  setupStage2() {
+    this.stage = 2;
+    this.slots = [];
+    this.availableVars = ["x₁"];
+    this.selectedVar = "x₁";
+
+    // Extract all predicate tokens from pxe.exp
+    for (let i = 0; i < this.pxe.exp.length; i++) {
+      const ch = this.pxe.exp[i];
+      if (ch === "p") {
+        this.slots.push({ predCode: "p", predName: "PG5", slotIndex: 0 });
+      } else if (ch === "q") {
+        this.slots.push({ predCode: "q", predName: "PL10", slotIndex: 0 });
+      } else if (ch === "r") {
+        this.slots.push({ predCode: "r", predName: "PG", slotIndex: 0 });
+        this.slots.push({ predCode: "r", predName: "PG", slotIndex: 1 });
+      } else if (ch === "s") {
+        this.slots.push({ predCode: "s", predName: "PL", slotIndex: 0 });
+        this.slots.push({ predCode: "s", predName: "PL", slotIndex: 1 });
+      }
+    }
+
+    this.renderStage2Controls();
+    this.updatePXEText();
+  }
+
+  renderStage2Controls() {
+    this.stageControls = [];
+
+    // Variable Selector Buttons (x₁, x₂, + New Var)
+    this.availableVars.forEach((v) => {
+      const isSel = v === this.selectedVar;
+      const btn = new SVGSelectableText(() => {
+        this.selectedVar = v;
+        this.renderStage2Controls();
+      }, v, false);
+      btn.setAble(!isSel);
+      this.stageControls.push(btn);
+    });
+
+    const newVarBtn = new SVGSelectableText(() => {
+      const subscripts = ["₁", "₂", "₃", "₄", "₅", "₆"];
+      const nextIdx = this.availableVars.length;
+      const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
+      const newV = `x${sub}`;
+      this.availableVars.push(newV);
+      this.selectedVar = newV;
+      this.renderStage2Controls();
+    }, "+ Var", false);
+    this.stageControls.push(newVarBtn);
+
+    // Slot Filling Buttons
+    let slotNum = 1;
+    this.slots.forEach((s) => {
+      const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "_"}`;
+      const btn = new SVGSelectableText(() => {
+        s.assignedVar = this.selectedVar;
+        this.updatePXEText();
+        this.renderStage2Controls();
+      }, label, false);
+      this.stageControls.push(btn);
+      slotNum++;
+    });
+
+    // Stage 2 Transition Button
+    const allBound = this.slots.every((s) => s.assignedVar !== undefined);
+    const nextBtn = new SVGSelectableText(() => this.advanceStage(), "Quantify Variables →", false);
+    nextBtn.setAble(allBound);
+    this.stageControls.push(nextBtn);
+
+    this.showControls();
+  }
+
+  // --- STAGE 3: Variable Quantification ---
+  setupStage3() {
+    this.stage = 3;
+    this.quantifierBindings = [];
+    this.selectedQuantifier = "∀";
+    this.renderStage3Controls();
+    this.updatePXEText();
+  }
+
+  renderStage3Controls() {
+    this.stageControls = [];
+
+    // Unique variables used in Stage 2
+    const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar!).filter(Boolean)));
+    const unquantifiedVars = uniqueVars.filter(
+      (v) => !this.quantifierBindings.some((q) => q.variable === v)
+    );
+
+    // Quantifier Toggle (∀ vs ∃)
+    const btnForall = new SVGSelectableText(() => {
+      this.selectedQuantifier = "∀";
+      this.renderStage3Controls();
+    }, "∀ (For All)", false);
+    btnForall.setAble(this.selectedQuantifier !== "∀");
+
+    const btnExists = new SVGSelectableText(() => {
+      this.selectedQuantifier = "∃";
+      this.renderStage3Controls();
+    }, "∃ (Exists)", false);
+    btnExists.setAble(this.selectedQuantifier !== "∃");
+
+    this.stageControls.push(btnForall);
+    this.stageControls.push(btnExists);
+
+    // Unquantified Variable Target Buttons
+    unquantifiedVars.forEach((v) => {
+      const btn = new SVGSelectableText(() => {
+        this.quantifierBindings.push({
+          quantifier: this.selectedQuantifier,
+          variable: v,
+        });
+        this.updatePXEText();
+        this.renderStage3Controls();
+      }, `Bind ${this.selectedQuantifier}${v}`, false);
+      this.stageControls.push(btn);
+    });
+
+    // Stage 3 Transition Button (when all unique variables are quantified)
+    const allQuantified = unquantifiedVars.length === 0 && uniqueVars.length > 0;
+    const evalBtn = new SVGSelectableText(() => this.advanceStage(), "Evaluate Statement →", false);
+    evalBtn.setAble(allQuantified);
+    this.stageControls.push(evalBtn);
+
+    this.showControls();
+  }
+
+  // --- STAGE 4: Truth Table Header + 1 Row Table & Interactive Matrix ---
+  setupStage4() {
+    this.stage = 4;
+    this.stageControls = [];
+    this.showControls();
+    this.renderStage4Table();
+  }
+
+  // Format real-time PXE expression string for Top Bar
+  updatePXEText() {
+    if (this.stage === 1) {
+      this.pxe.displayText();
+      return;
+    }
+
+    let result = "";
+
+    // Quantifier Prefix (Stage 3)
+    if (this.quantifierBindings.length > 0) {
+      const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
+      result += `${qPrefix} [ `;
+    }
+
+    // Predicate expression with variable slots (Stage 2)
+    let slotIdx = 0;
+    for (let i = 0; i < this.pxe.exp.length; i++) {
+      const ch = this.pxe.exp[i];
+      if (ch === "p") {
+        const v0 = this.slots[slotIdx++]?.assignedVar || "_";
+        result += `PG5(${v0})`;
+      } else if (ch === "q") {
+        const v0 = this.slots[slotIdx++]?.assignedVar || "_";
+        result += `PL10(${v0})`;
+      } else if (ch === "r") {
+        const v0 = this.slots[slotIdx++]?.assignedVar || "_";
+        const v1 = this.slots[slotIdx++]?.assignedVar || "_";
+        result += `PG(${v0}, ${v1})`;
+      } else if (ch === "s") {
+        const v0 = this.slots[slotIdx++]?.assignedVar || "_";
+        const v1 = this.slots[slotIdx++]?.assignedVar || "_";
+        result += `PL(${v0}, ${v1})`;
+      } else {
+        result += PXE.fmt(ch);
+      }
+    }
+
+    if (this.quantifierBindings.length > 0) {
+      result += " ]";
+    }
+
+    this.pxe.txt.setV(result);
+    this.pxe.placeCaret();
+  }
+
+  // --- STAGE 4 RENDERING (Clean 1-Row Truth Table & Click-Triggered Matrix) ---
+  renderStage4Table() {
     this.fo.removeChildren();
     this.fo.setV("");
 
     const container = new Elt("div");
-    container.setA("style", "font-family: sans-serif; padding: 10px;");
+    container.setA("style", "font-family: sans-serif; padding: 5px;");
     this.fo.append(container);
 
-    // Section 1: Statement Configuration (Step 2 & 3 Controls)
-    const configCard = new Elt("div");
-    configCard.setA("style", "background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 12px; margin-bottom: 16px;");
-    container.append(configCard);
+    const statementStr = this.pxe.txt.getV();
+    const evalResult = this.evaluateFullStatement();
 
-    const title = new Elt("h4", "cfgTitle");
-    title.setV("Formal Statement Configuration");
-    title.setA("style", "margin: 0 0 10px 0; color: #2b3a42;");
-    configCard.append(title);
-
-    // Step 2 UI: Slot Binding controls
-    const step2Box = new Elt("div");
-    step2Box.setA("style", "margin-bottom: 10px; font-size: 14px;");
-    step2Box.setV("<b>Step 2 - Variable Slot Bindings:</b> PG(x,y) where x, y ∈ ℂ<sub>ω</sub> [0,1]");
-    configCard.append(step2Box);
-
-    // Step 3 UI: Quantifier Sequence Picker
-    const step3Box = new Elt("div");
-    step3Box.setA("style", "display: flex; align-items: center; gap: 12px; font-size: 14px;");
-    const qLabel = new Elt("span");
-    qLabel.setV("<b>Step 3 - Quantifier Order:</b> ");
-    step3Box.append(qLabel);
-
-    const qOptions = ["∀x ∃y", "∃y ∀x", "∀x ∀y", "∃x ∃y"];
-    qOptions.forEach(opt => {
-      const btn = new Elt("button");
-      btn.setV(opt);
-      const isSel = this.quantifierList.join(" ") === opt;
-      btn.setA("style", `padding: 4px 10px; border-radius: 4px; cursor: pointer; border: 1px solid #0056b3; background: ${isSel ? '#0056b3' : '#ffffff'}; color: ${isSel ? '#ffffff' : '#0056b3'}; font-weight: bold;`);
-      btn.elt.addEventListener("click", () => {
-        this.quantifierList = opt.split(" ");
-        this.displayTable();
-      });
-      step3Box.append(btn);
-    });
-    configCard.append(step3Box);
-
-    // Section 2: Summary Row (Truth Table Display)
-    const evalResult = this.evaluateQuantifiedStatement();
-
-    const summaryCard = new Elt("div");
-    summaryCard.setA("style", "border: 2px solid #2b3a42; border-radius: 6px; padding: 12px; background: #ffffff; margin-bottom: 16px;");
-    container.append(summaryCard);
-
-    const sumTitle = new Elt("div");
-    sumTitle.setV("<b>Quantified Predicate Truth Row</b> <i>(Click predicate cell to inspect Boolean Matrix Grid)</i>");
-    sumTitle.setA("style", "font-size: 13px; color: #555; margin-bottom: 8px;");
-    summaryCard.append(sumTitle);
-
+    // Clean 1-Row Truth Table (Matching TTD Style)
     const table = new Elt("table");
-    table.setA("style", "border-collapse: collapse; width: 100%; text-align: center; font-size: 16px;");
-    summaryCard.append(table);
+    table.setA("style", "border-collapse: collapse; width: 100%; border: 1px solid black; text-align: center;");
+    container.append(table);
 
     const thead = new Elt("thead");
-    const trHead = new Elt("tr");
-    trHead.setA("style", "background: #e9ecef;");
-
-    const thStmt = new Elt("th");
-    thStmt.setV("Quantified Statement");
-    thStmt.setA("style", "border: 1px solid #ced4da; padding: 8px;");
-    trHead.append(thStmt);
-
-    const thPred = new Elt("th");
-    thPred.setV("Predicate (Click to Inspect)");
-    thPred.setA("style", "border: 1px solid #ced4da; padding: 8px; cursor: pointer; color: firebrick; font-weight: bold;");
-    trHead.append(thPred);
-
-    const thValue = new Elt("th");
-    thValue.setV("Overall Truth Value");
-    thValue.setA("style", "border: 1px solid #ced4da; padding: 8px;");
-    trHead.append(thValue);
-
-    thead.append(trHead);
     table.append(thead);
 
-    const tbody = new Elt("tbody");
-    const trBody = new Elt("tr");
+    const trHead1 = new Elt("tr");
+    thead.append(trHead1);
 
-    const tdStmt = new Elt("td");
-    tdStmt.setV(`${this.quantifierList.join(" ")} [ PG(x, y) ]`);
-    tdStmt.setA("style", "border: 1px solid #ced4da; padding: 10px; font-weight: bold;");
-    trBody.append(tdStmt);
+    const thHeader = new Elt("th");
+    thHeader.setAA([
+      "colspan", "2",
+      "style", "border: 1px solid black; background-color: lightgrey; padding: 6px; font-size: 14px;"
+    ]);
+    thHeader.setV("Quantified Formal Statement Evaluation");
+    trHead1.append(thHeader);
 
-    const tdPred = new Elt("td");
-    tdPred.setV("PG(x, y)  🔍");
-    tdPred.setA("style", `border: 1px solid #ced4da; padding: 10px; cursor: pointer; background-color: ${this.matrixVisible ? '#d1ecf1' : '#f8f9fa'}; color: firebrick; font-weight: bold;`);
-    tdPred.elt.addEventListener("click", () => {
-      this.matrixVisible = !this.matrixVisible;
-      this.displayTable();
+    const trHead2 = new Elt("tr");
+    thead.append(trHead2);
+
+    const thCols = [
+      { name: statementStr, isPred: false },
+      { name: "PG(x₁, x₂)", isPred: true },
+    ];
+
+    thCols.forEach((col, idx) => {
+      const th = new Elt("th");
+      const isSelected = this.selectedColIndex === idx;
+      th.setAA([
+        "style",
+        `border: 1px solid black; padding: 8px; font-weight: bold; cursor: pointer; background-color: ${
+          isSelected ? "#d1ecf1" : "white"
+        }; color: ${col.isPred ? "firebrick" : "black"};`
+      ]);
+      th.setV(col.name + (col.isPred ? " 🔍" : ""));
+      th.elt.addEventListener("click", () => {
+        this.selectedColIndex = this.selectedColIndex === idx ? -1 : idx;
+        this.renderStage4Table();
+      });
+      trHead2.append(th);
     });
-    trBody.append(tdPred);
 
-    const tdVal = new Elt("td");
-    tdVal.setV(evalResult ? "T" : "F");
-    tdVal.setA("style", `border: 1px solid #ced4da; padding: 10px; font-weight: bold; font-size: 18px; color: ${evalResult ? 'green' : 'red'}; background: ${evalResult ? '#d4edda' : '#f8d7da'};`);
-    trBody.append(tdVal);
-
-    tbody.append(trBody);
+    const tbody = new Elt("tbody");
     table.append(tbody);
 
-    // Section 3: Interactive Boolean Matrix Visualizer
-    if (this.matrixVisible) {
-      this.renderBooleanMatrix(container, evalResult);
+    const trBody = new Elt("tr");
+    tbody.append(trBody);
+
+    const tdVal1 = new Elt("td");
+    tdVal1.setAA(["style", `border: 1px solid black; padding: 10px; font-weight: bold; font-size: 16px; color: ${evalResult ? "green" : "red"}; background-color: ${evalResult ? "#d4edda" : "#f8d7da"};`]);
+    tdVal1.setV(evalResult ? "T" : "F");
+    trBody.append(tdVal1);
+
+    const tdVal2 = new Elt("td");
+    tdVal2.setAA(["style", "border: 1px solid black; padding: 10px; font-weight: bold; font-size: 16px; color: firebrick; cursor: pointer;"]);
+    tdVal2.setV("T/F Matrix 🔍");
+    tdVal2.elt.addEventListener("click", () => {
+      this.selectedColIndex = this.selectedColIndex === 1 ? -1 : 1;
+      this.renderStage4Table();
+    });
+    trBody.append(tdVal2);
+
+    // Interactive Boolean Matrix View if clicked
+    if (this.selectedColIndex !== -1) {
+      this.renderMatrixVisualizer(container, evalResult);
     }
   }
 
-  evaluateQuantifiedStatement(): boolean {
+  evaluateFullStatement(): boolean {
     const N = this.gridResolution;
-    const qSeq = this.quantifierList.join(" ");
-
-    // Evaluate PG(x,y): x > y on dyadic grid points x_i = i/N, y_j = j/N for i,j in 1..N
     const grid: boolean[][] = [];
+
+    // Dyadic grid points over [0,1]
     for (let i = 0; i < N; i++) {
       const row: boolean[] = [];
-      const xVal = (i + 1) / N;
+      const x1 = (i + 1) / N;
       for (let j = 0; j < N; j++) {
-        const yVal = (j + 1) / N;
-        row.push(xVal > yVal); // PG(x,y)
+        const x2 = (j + 1) / N;
+        row.push(x1 > x2); // PG(x₁, x₂)
       }
       grid.push(row);
     }
 
-    if (qSeq === "∀x ∃y") {
-      // For every row i, is there at least one column j where grid[i][j] is True?
-      return grid.every(row => row.some(val => val));
-    } else if (qSeq === "∃y ∀x") {
-      // Is there at least one column j such that for all rows i, grid[i][j] is True?
-      for (let j = 0; j < N; j++) {
-        let allTrueInCol = true;
-        for (let i = 0; i < N; i++) {
-          if (!grid[i][j]) {
-            allTrueInCol = false;
-            break;
+    // Evaluate quantifier sequence (e.g. ∀x₁ ∃x₂)
+    const qStr = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
+
+    if (qStr.includes("∀x₁") && qStr.includes("∃x₂")) {
+      if (qStr.indexOf("∀x₁") < qStr.indexOf("∃x₂")) {
+        // ∀x₁ ∃x₂: Every row has at least one True cell
+        return grid.every((row) => row.some((val) => val));
+      } else {
+        // ∃x₂ ∀x₁: At least one column is entirely True
+        for (let j = 0; j < N; j++) {
+          let colAllTrue = true;
+          for (let i = 0; i < N; i++) {
+            if (!grid[i][j]) {
+              colAllTrue = false;
+              break;
+            }
           }
+          if (colAllTrue) return true;
         }
-        if (allTrueInCol) return true;
+        return false;
       }
-      return false;
-    } else if (qSeq === "∀x ∀y") {
-      return grid.every(row => row.every(val => val));
-    } else if (qSeq === "∃x ∃y") {
-      return grid.some(row => row.some(val => val));
     }
-    return false;
+
+    return grid.every((row) => row.some((val) => val));
   }
 
-  renderBooleanMatrix(container: Elt, evalResult: boolean) {
-    const card = new Elt("div");
-    card.setA("style", "border: 1px solid #17a2b8; border-radius: 6px; padding: 16px; background: #f0f4f8; margin-top: 10px;");
-    container.append(card);
+  renderMatrixVisualizer(container: Elt, evalResult: boolean) {
+    const matrixBox = new Elt("div");
+    matrixBox.setA("style", "margin-top: 15px; border: 1px solid #17a2b8; border-radius: 4px; padding: 12px; background: #fafafa;");
+    container.append(matrixBox);
 
-    const mTitle = new Elt("h4");
-    mTitle.setV(`Boolean Matrix Grid Inspection for PG(x, y) — Domain ℂ<sub>ω</sub> × ℂ<sub>ω</sub>`);
-    mTitle.setA("style", "margin: 0 0 8px 0; color: #17a2b8;");
-    card.append(mTitle);
-
-    // Dyadic resolution slider
+    // Dyadic resolution selector buttons
     const resBox = new Elt("div");
-    resBox.setA("style", "display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px;");
-    resBox.setV(`<b>Dyadic Grid Resolution (1/2<sup>k</sup>):</b> Step size 1/${this.gridResolution} (${this.gridResolution} × ${this.gridResolution} grid) `);
+    resBox.setA("style", "display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 10px;");
+    resBox.setV("<b>Dyadic Grid Scale (1/2<sup>k</sup>):</b> ");
 
-    const resolutions = [4, 8, 16, 32, 64, 128];
-    resolutions.forEach(r => {
+    [4, 8, 16, 32, 64].forEach((r) => {
       const btn = new Elt("button");
       btn.setV(`${r}×${r}`);
       const isSel = this.gridResolution === r;
-      btn.setA("style", `padding: 3px 8px; font-size: 12px; border-radius: 3px; cursor: pointer; border: 1px solid #17a2b8; background: ${isSel ? '#17a2b8' : '#ffffff'}; color: ${isSel ? '#ffffff' : '#17a2b8'};`);
+      btn.setA("style", `padding: 2px 6px; font-size: 11px; cursor: pointer; border: 1px solid #17a2b8; background: ${isSel ? '#17a2b8' : '#ffffff'}; color: ${isSel ? '#ffffff' : '#17a2b8'}; border-radius: 3px;`);
       btn.elt.addEventListener("click", () => {
         this.gridResolution = r;
-        this.displayTable();
+        this.renderStage4Table();
       });
       resBox.append(btn);
     });
-    card.append(resBox);
+    matrixBox.append(resBox);
 
-    const explain = new Elt("p");
-    explain.setA("style", "font-size: 13px; color: #495057; margin: 0 0 12px 0;");
-    explain.setV(`<b>Quantifier Scan Explanation (${this.quantifierList.join(" ")}):</b> Blue cells indicate <code>PG(x,y) = True</code> (where x > y). ` +
-      (this.quantifierList.join(" ") === "∀x ∃y" 
-        ? "For <b>∀x ∃y</b>, we scan row-by-row (x). Each row must contain at least 1 blue cell. Result is <b>True</b>."
-        : "For <b>∃y ∀x</b>, we scan column-by-column (y). At least 1 column must be <i>entirely blue</i> from top to bottom. No such column exists. Result is <b>False</b>!"));
-    card.append(explain);
-
-    // Render Canvas / SVG Grid
-    const N = Math.min(this.gridResolution, 64); // render up to 64x64 cleanly on screen
-    const cellSize = Math.max(4, Math.floor(320 / N));
+    // Render SVG Matrix Grid
+    const N = Math.min(this.gridResolution, 64);
+    const cellSize = Math.max(5, Math.floor(280 / N));
     const width = N * cellSize;
     const height = N * cellSize;
 
     const svgWrap = new Elt("div");
-    svgWrap.setA("style", "display: flex; gap: 20px; align-items: flex-start;");
+    svgWrap.setA("style", "display: flex; gap: 15px; align-items: center;");
 
     const svg = new SVGElt("svg");
-    svg.setAA(["width", width + 40, "height", height + 40, "style", "background: #ffffff; border: 1px solid #ccc; border-radius: 4px;"]);
+    svg.setAA(["width", width + 40, "height", height + 35, "style", "background: #ffffff; border: 1px solid #ccc;"]);
 
-    // Axis Labels
     const labelX = new SVGText();
-    labelX.setV("x (row) →");
-    labelX.setAA(["x", 5, "y", 15, "font-size", "12", "fill", "#555"]);
+    labelX.setV("x₁ (row) →");
+    labelX.setAA(["x", 5, "y", 14, "font-size", "11", "fill", "#333"]);
     svg.append(labelX);
 
     const labelY = new SVGText();
-    labelY.setV("y (col) ↓");
-    labelY.setAA(["x", width - 40, "y", 15, "font-size", "12", "fill", "#555"]);
+    labelY.setV("x₂ (col) ↓");
+    labelY.setAA(["x", width - 35, "y", 14, "font-size", "11", "fill", "#333"]);
     svg.append(labelY);
 
     for (let i = 0; i < N; i++) {
-      const xVal = (i + 1) / N;
+      const x1 = (i + 1) / N;
       for (let j = 0; j < N; j++) {
-        const yVal = (j + 1) / N;
-        const isTrue = xVal > yVal;
+        const x2 = (j + 1) / N;
+        const isTrue = x1 > x2;
 
         const rect = new SVGElt("rect");
         rect.setAA([
           "x", 30 + j * cellSize,
-          "y", 25 + i * cellSize,
+          "y", 22 + i * cellSize,
           "width", cellSize - (N > 32 ? 0 : 1),
           "height", cellSize - (N > 32 ? 0 : 1),
           "fill", isTrue ? "#007bff" : "#e9ecef",
@@ -400,20 +598,18 @@ export class FSD extends PXEParent {
 
     svgWrap.append(svg);
 
-    // Legend & Info
-    const legend = new Elt("div");
-    legend.setA("style", "font-size: 13px; line-height: 1.6;");
-    legend.setV(`
-      <b>Grid Properties:</b><br>
-      • Domain: ℂ<sub>ω</sub> × ℂ<sub>ω</sub> [0,1] × [0,1]<br>
-      • Resolution: ${N} × ${N} dyadic cells<br>
-      • Blue Cell: <code>x > y (True)</code><br>
-      • Grey Cell: <code>x ≤ y (False)</code><br>
-      • Statement Truth Value: <b style="color: ${evalResult ? 'green' : 'red'};">${evalResult ? 'True' : 'False'}</b>
+    const info = new Elt("div");
+    info.setA("style", "font-size: 12px; line-height: 1.5; color: #333;");
+    info.setV(`
+      <b>Boolean Matrix Details:</b><br>
+      • Domain: ℂ<sub>ω</sub> × ℂ<sub>ω</sub> [0,1]<br>
+      • Blue: <code>PG(x₁, x₂) = True</code><br>
+      • Grey: <code>PG(x₁, x₂) = False</code><br>
+      • Overall Truth: <b style="color:${evalResult ? 'green' : 'red'};">${evalResult ? 'True' : 'False'}</b>
     `);
-    svgWrap.append(legend);
+    svgWrap.append(info);
 
-    card.append(svgWrap);
+    matrixBox.append(svgWrap);
   }
 }
 
