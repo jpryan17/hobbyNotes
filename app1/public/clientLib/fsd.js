@@ -46,6 +46,7 @@ export class FSD extends PXEParent {
         this.controlsFrame = new SVGElt("rect");
         this.fo = new SVGElt("foreignObject");
         this.pxe = new PXE(this);
+        this.pxe.fmt = () => this.formatFSDExp(this.pxe.exp);
         this.append(this.editorFrame);
         this.append(this.pxe);
         this.append(this.controlsFrame);
@@ -305,49 +306,71 @@ export class FSD extends PXEParent {
         this.showControls();
         this.renderStage4Table();
     }
-    // Format real-time PXE expression string for Top Bar
-    updatePXEText() {
-        if (this.stage === 1) {
-            this.pxe.displayText();
-            return;
-        }
-        let result = "";
-        // Quantifier Prefix (Stage 3)
-        if (this.quantifierBindings.length > 0) {
+    // Format real-time PXE expression string for Top Bar with Predicate Names
+    formatFSDExp(exp) {
+        let display = "";
+        // Quantifier Prefix (Stage 3+)
+        if (this.quantifierBindings && this.quantifierBindings.length > 0) {
             const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
-            result += `${qPrefix} [ `;
+            display += `${qPrefix} [ `;
         }
-        // Predicate expression with variable slots (Stage 2)
         let slotIdx = 0;
-        for (let i = 0; i < this.pxe.exp.length; i++) {
-            const ch = this.pxe.exp[i];
+        for (let i = 0; i < exp.length; i++) {
+            const ch = exp[i];
             if (ch === "p") {
-                const v0 = this.slots[slotIdx++]?.assignedVar || "_";
-                result += `PG5(${v0})`;
+                const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                display += this.stage >= 2 ? `PG5(${v0})` : "PG5";
             }
             else if (ch === "q") {
-                const v0 = this.slots[slotIdx++]?.assignedVar || "_";
-                result += `PL10(${v0})`;
+                const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                display += this.stage >= 2 ? `PL10(${v0})` : "PL10";
             }
             else if (ch === "r") {
-                const v0 = this.slots[slotIdx++]?.assignedVar || "_";
-                const v1 = this.slots[slotIdx++]?.assignedVar || "_";
-                result += `PG(${v0}, ${v1})`;
+                const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                const v1 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                display += this.stage >= 2 ? `PG(${v0}, ${v1})` : "PG";
             }
             else if (ch === "s") {
-                const v0 = this.slots[slotIdx++]?.assignedVar || "_";
-                const v1 = this.slots[slotIdx++]?.assignedVar || "_";
-                result += `PL(${v0}, ${v1})`;
+                const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                const v1 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+                display += this.stage >= 2 ? `PL(${v0}, ${v1})` : "PL";
+            }
+            else if (ch === "[") {
+                display += "[\u2009";
+            }
+            else if (ch === "]") {
+                display += "\u2009]";
+            }
+            else if (ch === "n") {
+                display += "¬\u200a";
+            }
+            else if (ch === "a") {
+                display += "\u2009∧\u2009";
+            }
+            else if (ch === "o") {
+                display += "\u2009∨\u2009";
+            }
+            else if (ch === "i") {
+                display += "\u205f→\u205f";
+            }
+            else if (ch === "e") {
+                display += "\u205f\u205f↔\u205f\u205f";
             }
             else {
-                result += PXE.fmt(ch);
+                display += ch;
             }
         }
-        if (this.quantifierBindings.length > 0) {
-            result += " ]";
+        if (this.quantifierBindings && this.quantifierBindings.length > 0) {
+            display += " ]";
         }
+        return display;
+    }
+    // Format real-time PXE expression string for Top Bar
+    updatePXEText() {
+        const result = this.formatFSDExp(this.pxe.exp);
         this.pxe.txt.setV(result);
         this.pxe.placeCaret();
+        this.setButtonStates();
     }
     // --- STAGE 4 RENDERING (Clean 1-Row Truth Table & Click-Triggered Matrix) ---
     renderStage4Table() {
