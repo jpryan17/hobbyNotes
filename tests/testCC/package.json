@@ -1,0 +1,14 @@
+{
+  "name": "mup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bi": "node ../zzzNodeCommands/public/indexBuild.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}

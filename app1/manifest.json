@@ -1,0 +1,21 @@
+{
+    "name": "sirsbe",
+    "short_name": "sirsbe",
+    "start_url": "./app1",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "",
+    "scope":"./app1",
+    "related_applications": [{
+      "platform": "webapp",
+      "url": "https:8080/app1/manifest.json"
+    }],
+    "icons": [
+      {
+        "src": "./icon.svg",
+        "sizes": "any"
+      }
+    ]
+
+  }
+  

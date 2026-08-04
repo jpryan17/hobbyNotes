@@ -1,0 +1,85 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram name="Page-1" id="Ul0O2Jfwj3sCgnZwWiIQ">
+    <mxGraphModel dx="882" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HyTZfgoTUasNJ1xMfURL-13" target="HyTZfgoTUasNJ1xMfURL-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="180" as="sourcePoint" />
+            <mxPoint x="120" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-12" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;\(\mathscr{o_2}\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="260" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-13" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;\(\mathscr{o_1}\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="100" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-15" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;\(\mathfrak{m}\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="160" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-17" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;\(F_1(\mathscr{o}_1)\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="290" y="90" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-20" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;\(F_2(\mathscr{o}_1)\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="90" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-22" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;\(F_1(\mathscr{o}_2)\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="290" y="270" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-23" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;\(F_2(\mathscr{o}_2)\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="270" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-24" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="HyTZfgoTUasNJ1xMfURL-17" target="HyTZfgoTUasNJ1xMfURL-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="210" as="sourcePoint" />
+            <mxPoint x="450" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-25" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="HyTZfgoTUasNJ1xMfURL-22" target="HyTZfgoTUasNJ1xMfURL-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="430" as="sourcePoint" />
+            <mxPoint x="470" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-26" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HyTZfgoTUasNJ1xMfURL-17" target="HyTZfgoTUasNJ1xMfURL-22">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="230" as="sourcePoint" />
+            <mxPoint x="410" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-27" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="HyTZfgoTUasNJ1xMfURL-20" target="HyTZfgoTUasNJ1xMfURL-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="690" y="160" as="sourcePoint" />
+            <mxPoint x="740" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-28" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;\(\implies\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="180" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-29" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;\(\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="60" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-30" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;\(F_1(\mathfrak{m})\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="180" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-33" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;\(F_2(\mathfrak{m})\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="510" y="180" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-34" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;(category \(\mathscr{C}_1\))&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="20" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-35" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;(category \(\mathscr{C}_2\))&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="360" y="20" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-36" value="&lt;font style=&quot;font-size: 19px;&quot;&gt;\(\eta_{\mathscr{o}_1}\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="395" y="70" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HyTZfgoTUasNJ1xMfURL-37" value="&lt;font style=&quot;font-size: 19px;&quot;&gt;\(\eta_{\mathscr{o}_2}\)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="395" y="290" width="40" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

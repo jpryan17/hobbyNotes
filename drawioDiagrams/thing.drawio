@@ -1,0 +1,44 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+  <diagram name="Page-1" id="9KhPRaRz_NeTkyxS6KDa">
+    <mxGraphModel dx="882" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QtALOj3yf0JF9a0FImrr-8" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="290" y="120" width="170" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-2" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Type&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="QtALOj3yf0JF9a0FImrr-8" vertex="1">
+          <mxGeometry y="140.43478260869566" width="120" height="49.56521739130435" as="geometry" />
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-3" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Thing&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="QtALOj3yf0JF9a0FImrr-8" vertex="1">
+          <mxGeometry y="20" width="120" height="49.56521739130435" as="geometry" />
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="QtALOj3yf0JF9a0FImrr-8" source="QtALOj3yf0JF9a0FImrr-3" target="QtALOj3yf0JF9a0FImrr-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="8.26086956521739" as="sourcePoint" />
+            <mxPoint x="440" y="-33.04347826086956" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-5" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="QtALOj3yf0JF9a0FImrr-8" source="QtALOj3yf0JF9a0FImrr-2" target="QtALOj3yf0JF9a0FImrr-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="156.95652173913044" as="sourcePoint" />
+            <mxPoint x="200" y="115.65217391304348" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="170" y="165.2173913043478" />
+              <mxPoint x="170" y="45" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-6" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;has-a&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="QtALOj3yf0JF9a0FImrr-8" vertex="1">
+          <mxGeometry x="10" y="79.99782608695652" width="50" height="24.782608695652176" as="geometry" />
+        </mxCell>
+        <mxCell id="QtALOj3yf0JF9a0FImrr-7" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;is-a&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="QtALOj3yf0JF9a0FImrr-8" vertex="1">
+          <mxGeometry x="130" y="115.64999999999999" width="40" height="24.78" as="geometry" />
+        </mxCell>
+        <mxCell id="AOW5rcdAOtebAAVuHE65-1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#759BC2;" vertex="1" parent="1">
+          <mxGeometry x="250" y="110" width="240" height="220" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

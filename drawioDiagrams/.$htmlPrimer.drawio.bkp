@@ -1,0 +1,16 @@
+<mxfile host="Electron" modified="2024-08-02T02:53:47.627Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.13 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="YAa50u90fyuUEIZZnxSl" version="24.4.13" type="device">
+  <diagram name="Page-1" id="cu9_EUqsfJnYjBqOI62U">
+    <mxGraphModel dx="869" dy="656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oSQ-Hx1KtzNKTa1L_6uN-1" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;displaying an attached html file primer&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="360" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="oSQ-Hx1KtzNKTa1L_6uN-3" value="&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;When an email has an attached html file, the procedure for displaying the file content&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;depends on the application which handles your emails&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;A html file is a (formatted) text file that&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;contains marked up text.&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;The mark up is&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;recognized by (web) browsers, and the marked-up content is rendered as directed.&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="320" width="640" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

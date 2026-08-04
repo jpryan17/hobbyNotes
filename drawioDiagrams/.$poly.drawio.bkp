@@ -1,0 +1,43 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+  <diagram name="Page-1" id="hoYhGv8Vphx2RKXEvdC5">
+    <mxGraphModel dx="882" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fywRbornKxtDjrp1cNMe-1" value="formal power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="300" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-2" value="power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="560" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-3" value="power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="570" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-4" value="power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="580" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-5" value="power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="440" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-6" value="convergent power series" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="300" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-7" value="polynomial function" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-8" value="polynomial ring&amp;nbsp; \(P[X]/\mathbb{C}\)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-9" value="polynomial" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-11" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;single-variable polynomial over the complex numbers&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="630" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fywRbornKxtDjrp1cNMe-12" value="holomorphic function" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="505" y="170" width="140" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

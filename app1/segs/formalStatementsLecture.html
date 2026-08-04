@@ -1,0 +1,594 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>formalStatementsLecture</title>
+  </head>
+  <body>
+    <br>
+    Well hello all, look whose back, its Jack.<br>
+    <br>
+    [Grunts.]<br>
+    <br>
+    Hey, its OK; its your secret if you can't stop thinking about
+    propositions.<br>
+    <br>
+    [Grimaces and grunts.]<br>
+    <br>
+    OK; propositions are kind of boring. But don't worry. I am here to
+    vanquish them to a small role on a much larger stage, but first
+    (ahem) I must set the stage.<br>
+    <br>
+    [Eye-rolling groans.]<br>
+    <br>
+    We all know what a collection is right; and many might have heard of
+    set theory. Did you know not all collections are sets; some are too
+    big. Sets can be really, really big, so this will not be a problem
+    for us, and we can safely think of a set as a collection.<br>
+    <br>
+    ["But how can a collection be too big to be a set?" Inquisitive
+    faces.]<br>
+    <br>
+    Hello Jill, nice to see you. Well, a set is a mathematical term, a
+    very important mathematical term. A set not only has a mathematical
+    definition, it has a whole theory devoted to it. But as it turns
+    out, not all collections are sets. Some are just too big to fit
+    inside the precise mathematical definition. For example the
+    collection of all sets is not a set. If you try to treat this
+    collection as a set, paradoxes arise: you can draw contradicting
+    conclusions; all very confusing. And I'm no expert Jill. Sometimes,
+    at least until we have learned so for ourselves, we just have to
+    trust established mathematical fact as fact. <br>
+    <br>
+    ["OK, so you just warned us about something we don't have to worry
+    about?" Sounds of amused agreement.]<br>
+    <br>
+    Ha ha, I guess so Jill. But it does suggest a set is more than a
+    collection. There are rules that define limits, even if for us those
+    limits are far, far away and collections will always be sets. And
+    per the jargon of some logicians, set will be a primitive notion,
+    meaning we won't try to formally define or describe it: its our
+    intuition of a collection.<br>
+    <br>
+    But we will formally describe two set constructors, namely the<br>
+    <ul>
+      <li>product<br>
+      </li>
+      <li>and directed-pair <br>
+      </li>
+    </ul>
+    constructors which construct sets from sets. So we will need some
+    base sets for out constructors. A good example of a base set is the
+    set of natural numbers. Another example is the binary set of Boolean
+    truth values. Remember those, the possible values of a proposition?<br>
+    <br>
+    A product is a set whose members are tuples. A tuple is a sequence
+    of slots, but aside from identification, the order of slots doesn't
+    matter. Each slot is bound to a set. The value of the slot will
+    always be a member of the (bound) set. Multiple slots in a tuple may
+    be bound to the same or different sets.<br>
+    <br>
+    More specifically, the product is the set of all possible such
+    (bound) tuples.<br>
+    <br>
+    A product is denoted by the sets to which the tuple slots are bound.
+    The times symbol is used to separate the sets. For instance<br>
+    <ul>
+      <li>if members of the product are tuples with two slots, each of
+        which is bound to the natural numbers (denoted
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℕ</mi><annotation
+              encoding="TeX">ℕ</annotation></semantics></math>) then <br>
+      </li>
+      <ul>
+        <li>the product would be denoted by
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi></mrow><annotation
+                encoding="TeX">ℕ\timesℕ</annotation></semantics></math>.</li>
+      </ul>
+    </ul>
+    ["OK, but what has this to do with a product?"]<br>
+    <br>
+    You mean multiplication, like in arithmetic?<br>
+    <br>
+    ["yes."]<br>
+    <br>
+    Not much Jill. Worse, sometimes the sets are referred to as product
+    factors. Maybe sometimes we just run out of words and reuse them? I
+    don't know. But at least we now know what they're talking about
+    right?<br>
+    <br>
+    [Murmured denials.]<br>
+    <br>
+    But the product is used to help describe arithmetic. First though,
+    we describe a directed-pair. <br>
+    <br>
+    A directed-pair is constructed from two sets; one is called the
+    domain, the other the codomain. <br>
+    <br>
+    We use a directed-pair when we want to formally define a function. A
+    function is<br>
+    <ul>
+      <li>a directed-pair</li>
+      <li>and a rule that can assign to any member of the domain a
+        member of the codomain.<br>
+      </li>
+    </ul>
+    <p>Using an arrow to separate the domain and codomain, both addition
+      and multiplication of natural numbers can be described as<br>
+    </p>
+    <ul>
+      <li>the directed pair:
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+                stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
+              encoding="TeX">ℕ\timesℕ\toℕ</annotation></semantics></math>
+        <br>
+      </li>
+      <li>and a rule for adding or multiplying tuple values.</li>
+    </ul>
+    <p>Any questions?<br>
+    </p>
+    <p>["Can a directed-pair be a domain or codomain?"]<br>
+    </p>
+    <p>Ah, good question. Perhaps so. Sounds like a good start for
+      describing a function between functions. But for now, let's say we
+      won't use directed-pairs for domains or codomains. I think that's
+      a good idea; keep things simple.<br>
+    </p>
+    <p>[Mostly puzzled acknowledgment.]<br>
+    </p>
+    <p>Anyway, a set constructor product has nothing to do with
+      multiplication. Its just a set constructor name.<br>
+    </p>
+    <p>OK. We have our primitive notion of a set and two example sets: <br>
+    </p>
+    <ul>
+      <li>the natural numbers
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>≡</mo><mo
+                stretchy="false">{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>⋯</mo><mo
+                stretchy="false">}</mo></mrow><annotation encoding="TeX">ℕ\equiv\{1,2,⋯\}</annotation></semantics></math>&nbsp;
+        <br>
+      </li>
+      <li>and the set of Boolean truth values
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝔹</mi><mo>≡</mo><mo
+                stretchy="false">{</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi><mo>,</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi><mo
+                stretchy="false">}</mo></mrow><annotation encoding="TeX">𝔹\equiv\{true,false\}</annotation></semantics></math>.</li>
+    </ul>
+    <p>We have described two set constructors: product and
+      directed-pair.<br>
+    </p>
+    <p>We have a formal definition of function. When describing a
+      function, we will often use the following convention:<br>
+    </p>
+    <ul>
+      <li>we provide a name or symbol identifier for the function
+        followed, by a colon and the directed-pair, and<br>
+      </li>
+      <li>considering a base set as a tuple with a single slot,</li>
+      <ul>
+        <li>we provide a domain tuple with each slot labeled by a
+          variable,</li>
+        <li>and a description of how these variables determine the
+          codomain member</li>
+        <li>where the tuple and description are separated by the&nbsp;<math
+            xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo
+                stretchy="false">↦</mo><annotation encoding="TeX">↦</annotation></semantics></math>
+          symbol.<br>
+        </li>
+      </ul>
+    </ul>
+    <p>For example, consider the addition of two natural numbers. Then
+      we would have<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle
+                mathvariant="normal"><mi mathvariant="normal">f</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">l</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi></mstyle><mo>≡</mo><mrow><mo>{</mo><mtable
+                  displaystyle="false" columnalign="left left"><mtr><mtd><mo>+</mo><mspace
+                        width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+                        stretchy="false">→</mo><mi>ℕ</mi></mtd></mtr><mtr><mtd><mo
+                        stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                        stretchy="false">)</mo><mo stretchy="false">↦</mo><mstyle
+                        mathvariant="normal"><mi mathvariant="normal">a</mi><mi
+                          mathvariant="normal">d</mi><mi
+                          mathvariant="normal">d</mi><mspace
+                          width="0.2777777777777778em"></mspace></mstyle><mi>x</mi><mstyle
+                        mathvariant="normal"><mspace
+                          width="0.2777777777777778em"></mspace><mi
+                          mathvariant="normal">a</mi><mi
+                          mathvariant="normal">n</mi><mi
+                          mathvariant="normal">d</mi><mspace
+                          width="0.2777777777777778em"></mspace></mstyle><mi>y</mi></mtd></mtr></mtable></mrow></mrow><annotation
+              encoding="TeX">\mathrm{formal\;definition\;of\;addition}\equiv\begin{cases}
+              +\,:ℕ\timesℕ\toℕ \\ (x,y)↦\mathrm{add\;}x\mathrm{\;and\;}y
+              \end{cases}</annotation></semantics></math>&nbsp;<br>
+      </li>
+    </ul>
+    <p>We are in a good position to define the core component of formal
+      statements - are you ready? - ta da: the predicate.<br>
+    </p>
+    <p>A predicate is a function whose (directed-pair's) codomain is the
+      set of Boolean truth values
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝔹</mi><annotation
+            encoding="TeX">𝔹</annotation></semantics></math>.<br>
+    </p>
+    <p>If you feel a bit let down after all that fanfare, good. A
+      predicate is that simple.<br>
+    </p>
+    <p>A simple example is the greater than predicate that compares two
+      natural numbers. We can give this predicate a formal definition:<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle
+                mathvariant="normal"><mi mathvariant="normal">f</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">l</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">g</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">r</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">n</mi></mstyle><mo>≡</mo><mrow><mo>{</mo><mtable
+                  displaystyle="false" columnalign="left left"><mtr><mtd><mo>&gt;</mo><mspace
+                        width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+                        stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                        stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                        stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                          displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&gt;</mo><mi>y</mi><mo
+                                stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                                stretchy="false">(</mo><mi>x</mi><mo>&gt;</mo><mi>y</mi><mo
+                                stretchy="false">)</mo><mo
+                                stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow></mrow><annotation
+              encoding="TeX">\mathrm{formal\;definition\;of\;greater\;than}\equiv\begin{cases}
+              &gt;\,:ℕ\timesℕ\to𝔹 \\ (x,y)↦\begin{cases}
+              x&gt;y\impliestrue \\ \not(x&gt;y)\impliesfalse
+              \end{cases} \end{cases}</annotation></semantics></math> <br>
+      </li>
+    </ul>
+    <p>We can consider an even simpler predicate. We can consider
+      whether a natural number is less than 10. Can you guess what it's
+      formal definition might look like? Its one of those cases where we
+      should consider a base set as a single-slot tuple. We give a
+      definition.<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle
+                mathvariant="normal"><mi mathvariant="normal">f</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">l</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">g</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">r</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mn>10</mn></mstyle><mo>≡</mo><mrow><mo>{</mo><mtable
+                  displaystyle="false" columnalign="left left"><mtr><mtd><mrow><mo>&gt;</mo><mn>10</mn></mrow><mspace
+                        width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo
+                        stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                        stretchy="false">(</mo><mi>x</mi><mo
+                        stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                          displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&gt;</mo><mn>10</mn><mo
+                                stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                                stretchy="false">(</mo><mi>x</mi><mo>&gt;</mo><mn>10</mn><mo
+                                stretchy="false">)</mo><mo
+                                stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow></mrow><annotation
+              encoding="TeX">\mathrm{formal\;definition\;of\;greater\;than\;10}\equiv\begin{cases}
+              \mathrm{&gt;10}\,:ℕ\to𝔹 \\ (x)↦\begin{cases}
+              x&gt;10\impliestrue \\ \not(x&gt;10)\impliesfalse
+              \end{cases} \end{cases}</annotation></semantics></math></li>
+    </ul>
+    A predicate is neither true nor false; but we may ask if there is
+    some natural number greater than 10, or whether all natural numbers
+    are greater than 10, where clearly, the first question should&nbsp;
+    be answered yes and the second no. They are propositions. A
+    predicate can be turned into a proposition, you remember, a
+    statement which is always either true or false.<br>
+    <br>
+    There is a fancy word when checking whether a predicate is true for
+    some domain member or all domain members: quantification. Logicians
+    seen to be a rather formal bunch; their language seems a bit
+    stilted, but they mean well, so we live it, right guys?<br>
+    <br>
+    [Blank stares.]<br>
+    <br>
+    Anyway, they refer to quantifiers:<br>
+    <ul>
+      <li>there exists, denoted
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∃</mo><annotation
+              encoding="TeX">∃</annotation></semantics></math>, when
+        asking if there is some domain member associated with the true
+        codomain member, and</li>
+      <li>for all, denoted
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∀</mo><annotation
+              encoding="TeX">∀</annotation></semantics></math>, when
+        asking if all domain members are associated with the true
+        codomain member.</li>
+    </ul>
+    <p>Does everyone see a quantified predicate is a proposition? It
+      will always be either true or false.<br>
+    </p>
+    <p>In the simplest case of a single-slot predicate, such as the
+      greater than 10 predicate formalized above, quantification is
+      pretty simple. We either have<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo
+                stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo
+                stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation
+              encoding="TeX">∃x[P(x)]</annotation></semantics></math> or
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mo
+                stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo
+                stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation
+              encoding="TeX">∀x[P(x)]</annotation></semantics></math>,
+        where
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mstyle
+                mathvariant="normal"><mi mathvariant="normal">g</mi><mi
+                  mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">t</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mn>10</mn></mstyle></mrow><annotation
+              encoding="TeX">P\equiv\mathrm{greater\;than\;10}</annotation></semantics></math></li>
+    </ul>
+    both of which are straightforward to interpret, i.e. the first is a
+    true proposition, and the second is false. Easy enough to see, I
+    think. Everyone agree?<br>
+    <br>
+    ["What's that x?"]<br>
+    <br>
+    That is a great question. You see, you don't quantify a predicate
+    directly; you don't even quantify a tuple slot. Rather, you quantify
+    a variable bound to the slot. This variable may be any member of the
+    set to which the slot is bound.<br>
+    <br>
+    In fact, what we really want to quantify is a predicate expression.
+    If we quantify all the predicates in a predicate expression, we
+    would be dealing with a propositional expression, the same
+    propositional expressions we talked about when you were only
+    children, but you might remember some things about them.<br>
+    <br>
+    But considering a predicate expression complicates things a bit. For
+    example<br>
+    <ul>
+      <li>let&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>1</mn></msub><mo>≡</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mspace
+                width="0.2777777777777778em"></mspace><mn>10</mn></mrow><annotation
+              encoding="TeX">P_1\equivgreater\;than\;10</annotation></semantics></math>
+        and&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>2</mn></msub><mo>≡</mo><mi>l</mi><mi>e</mi><mi>s</mi><mi>s</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mspace
+                width="0.2777777777777778em"></mspace><mn>20</mn></mrow><annotation
+              encoding="TeX">P_2\equivless\;than\;20</annotation></semantics></math>
+        <br>
+      </li>
+      <li>and consider the quantified predicate expressions</li>
+      <ul>
+        <li>&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                  stretchy="false">[</mo><msub><mi>P</mi><mn>1</mn></msub><mo
+                  stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∧</mo><msub><mi>P</mi><mn>2</mn></msub><mo
+                  stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo
+                  stretchy="false">]</mo></mrow><annotation
+                encoding="TeX">∃x,y[P_1(x)∧P_2(y)]</annotation></semantics></math>
+          and
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo
+                  stretchy="false">[</mo><msub><mi>P</mi><mn>1</mn></msub><mo
+                  stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∧</mo><msub><mi>P</mi><mn>2</mn></msub><mo
+                  stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo
+                  stretchy="false">]</mo></mrow><annotation
+                encoding="TeX">∃x[P_1(x)∧P_2(x)]</annotation></semantics></math>.</li>
+      </ul>
+    </ul>
+    Can you see that the first one will always be true, while the second
+    will always be false because of the way we bind variables to slots?
+    In th first expression, each predicate has it's own variable. It is
+    easy to find two numbers that will satisfy the expression. On the
+    other hand, how is one number going to satisfy both predicates?<br>
+    <br>
+    Do you remember what a tautology is? This may help. Let&nbsp;<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+            width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mspace
+            width="0.2777777777777778em"></mspace><mn>10</mn></mrow><annotation
+          encoding="TeX">P\equivgreater\;than\;10</annotation></semantics></math>.
+    Then<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mo
+                stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo
+                stretchy="false">)</mo><mo>∨</mo><mo>¬</mo><mi>P</mi><mo
+                stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo
+                stretchy="false">]</mo></mrow><annotation encoding="TeX">∀x[P(x)∨\notP(x)]</annotation></semantics></math>.</li>
+    </ul>
+    When a predicate, such as the&nbsp;<math
+      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+            width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi></mrow><annotation
+          encoding="TeX">greater\;than</annotation></semantics></math>
+    predicate, has more than one slot, things become a bit more
+    complicated, because we might now have to consider the order of
+    mixed quantifiers. For example<br>
+    <ul>
+      <li>let&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi></mrow><annotation
+              encoding="TeX">P\equivgreater\;than</annotation></semantics></math>,
+        and consider the quantified predicate expressions</li>
+      <ul>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mo>∃</mo><mi>y</mi><mo
+                  stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                  stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation
+                encoding="TeX">∀x∃y[P(x,y)]</annotation></semantics></math>&nbsp;and
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>∀</mo><mi>y</mi><mo
+                  stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                  stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation
+                encoding="TeX">∃x∀y[P(x,y)]</annotation></semantics></math>.</li>
+      </ul>
+    </ul>
+    These are different propositions. The first is true. The second is
+    false. Some people see this easily. Some don't. I don't; I have to
+    think about it, and eventually I can say, <em>oh sure</em>, like it
+    was always easy to see.<br>
+    <br>
+    It would be nice to have something like the truth table demo that we
+    used to visualize propositional expressions that we could use to
+    help visualize quantified predicate expressions, wouldn't it? We
+    can't use a truth table because there are way too many possible
+    combinations to enumerate. In addition, the visualization tool needs
+    to understand the predicate rule in order to evaluate all possible
+    predicate values.<br>
+    <br>
+    So we have to keep things simple. The visualization tool is called
+    the formal statement demo. Its pretty simple, but sometimes simple
+    helps. <br>
+    <br>
+    There are only four builtin predicates<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>G</mi><mn>5</mn><mo>≡</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mspace
+                width="0.2777777777777778em"></mspace><mn>5</mn></mrow><annotation
+              encoding="TeX">PG5\equivgreater\;than\;5</annotation></semantics></math>&nbsp;<br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>L</mi><mn>10</mn><mo>≡</mo><mi>l</mi><mi>e</mi><mi>s</mi><mi>s</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi><mn>10</mn></mrow><annotation
+              encoding="TeX">PL10\equivless\;than10</annotation></semantics></math>
+        <br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>G</mi><mo>≡</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>r</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi></mrow><annotation
+              encoding="TeX">PG\equivgreater\;than</annotation></semantics></math>&nbsp;
+        <br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>L</mi><mo>≡</mo><mi>l</mi><mi>e</mi><mi>s</mi><mi>s</mi><mspace
+                width="0.2777777777777778em"></mspace><mi>t</mi><mi>h</mi><mi>a</mi><mi>n</mi></mrow><annotation
+              encoding="TeX">PL\equivless\;than</annotation></semantics></math>
+        <br>
+      </li>
+    </ul>
+    where the first two predicates are single-slotted, and the last two
+    predicates listed have two slots. Formally, we have four predicates<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>{</mo><mtable
+                displaystyle="false" columnalign="left left"><mtr><mtd><mi>P</mi><mi>G</mi><mn>5</mn><mspace
+                      width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo
+                      stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                      stretchy="false">(</mo><mi>x</mi><mo
+                      stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                        displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&gt;</mo><mn>5</mn><mo
+                              stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                              stretchy="false">(</mo><mi>x</mi><mo>&gt;</mo><mn>5</mn><mo
+                              stretchy="false">)</mo><mo
+                              stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow><annotation
+              encoding="TeX">\begin{cases} PG5\,:ℕ\to𝔹 \\
+              (x)↦\begin{cases} x&gt;5\impliestrue \\
+              \not(x&gt;5)\impliesfalse \end{cases} \end{cases}</annotation></semantics></math>&nbsp;
+        <br>
+      </li>
+    </ul>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>{</mo><mtable
+                displaystyle="false" columnalign="left left"><mtr><mtd><mi>P</mi><mi>L</mi><mn>10</mn><mspace
+                      width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo
+                      stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                      stretchy="false">(</mo><mi>x</mi><mo
+                      stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                        displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&lt;</mo><mn>10</mn><mo
+                              stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                              stretchy="false">(</mo><mi>x</mi><mo>&lt;</mo><mn>10</mn><mo
+                              stretchy="false">)</mo><mo
+                              stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow><annotation
+              encoding="TeX">\begin{cases} PL10\,:ℕ\to𝔹 \\
+              (x)↦\begin{cases} x&lt;10\impliestrue \\
+              \not(x&lt;10)\impliesfalse \end{cases} \end{cases}</annotation></semantics></math>
+        <br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>{</mo><mtable
+                displaystyle="false" columnalign="left left"><mtr><mtd><mi>P</mi><mi>G</mi><mspace
+                      width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+                      stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                      stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                      stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                        displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&gt;</mo><mi>y</mi><mo
+                              stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                              stretchy="false">(</mo><mi>x</mi><mo>&gt;</mo><mi>y</mi><mo
+                              stretchy="false">)</mo><mo
+                              stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow><annotation
+              encoding="TeX">\begin{cases} PG\,:ℕ\timesℕ\to𝔹 \\
+              (x,y)↦\begin{cases} x&gt;y\impliestrue \\
+              \not(x&gt;y)\impliesfalse \end{cases} \end{cases}</annotation></semantics></math>
+        <br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>{</mo><mtable
+                displaystyle="false" columnalign="left left"><mtr><mtd><mi>P</mi><mi>L</mi><mspace
+                      width="0.16666666666666666em"></mspace><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+                      stretchy="false">→</mo><mi>𝔹</mi></mtd></mtr><mtr><mtd><mo
+                      stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo
+                      stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
+                        displaystyle="false" columnalign="left left"><mtr><mtd><mi>x</mi><mo>&lt;</mo><mi>y</mi><mo
+                              stretchy="false">⇒</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mtd></mtr><mtr><mtd><mo>¬</mo><mo
+                              stretchy="false">(</mo><mi>x</mi><mo>&lt;</mo><mi>y</mi><mo
+                              stretchy="false">)</mo><mo
+                              stretchy="false">⇒</mo><mi>f</mi><mi>a</mi><mi>l</mi><mi>s</mi><mi>e</mi></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow><annotation
+              encoding="TeX">\begin{cases} PL\,:ℕ\timesℕ\to𝔹 \\
+              (x,y)↦\begin{cases} x&lt;y\impliestrue \\
+              \not(x&lt;y)\impliesfalse \end{cases} \end{cases}</annotation></semantics></math>
+        <br>
+      </li>
+    </ul>
+    <p>that the user can choose from to make a valid predicate
+      expression. At this point, there is no difference between a valid
+      predicate expression and a valid propositional expression, and the
+      predicate names can be used as if they label propositions. You are
+      able to construct predicate expressions in the same way you
+      constructed propositional expressions in the truth table demo.<br>
+    </p>
+    <p>But after you've constructed a valid predicate expression, you
+      must bind each slot in each predicate to a variable. In extreme
+      cases, you may assign the same variable to every slot, or a
+      different variable to each slot, or any combination you choose.<br>
+    </p>
+    <p>Then, you choose a sequence of quantifiers that bind all the
+      variables.<br>
+    </p>
+    <p>The demo should now be able to determine the truth value of the
+      quantified predicate expression, and provide visual aids to
+      explain why it has this value. This should help those like me who
+      need some time and examples before we can understand a quantified
+      predicate. Its not always obvious.<br>
+      <br>
+    </p>
+    <br>
+  </body>
+</html>

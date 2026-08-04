@@ -1,0 +1,37 @@
+{
+  "name": "my_js_note_apps",
+  "version": "1.0.0",
+  "description": "dir for myJSnote apps",
+  "scripts": {
+    "app1C": "cd ./app1 && npx tsc",
+    "clientLibC": "cd ./clientLib && npx tsc",
+    "utilsC": "cd ./nodeUtils && tsc",
+    "segsR": "cd ./nodeUtils && node ./public/genSegsFiles.js",
+    "ttdRefR": "node ./nodeUtils/public/genTTDRefs.js",
+    "indexR": "cd ./app1/dist && node ../../nodeUtils/public/indexBuild.js",
+    "scriptR": "cd ./app1/dist && node ../../nodeUtils/public/scriptBuild.js",
+    "serverC": "cd ./server && npx tsc",
+    "serverR": "node ./server/public/server.js",
+    "dlbtC": "cd ./djsb/labeledBtree && tsc",
+    "dpbtC": "cd ./djsb/projectedBtree && tsc",
+    "dbbtC": "cd ./djsb/birthdayBtree && tsc",
+    "drbtC": "cd ./djsb/drBtree && tsc",
+    "precC": "cd ./djsb/precisionBtree && tsc",
+    "simpC": "cd ./djsi/simplicityDiagram && tsc",
+    "subC": "cd ./djsi/aSubtree && tsc",
+    "cutC": "cd ./djsi/cutDiagram && tsc",
+    "opsC": "cd ./djsi/opsDiagram && tsc",
+    "test": "cd ./tests/proofBuilder && tsc",
+    "testCC": "cd ./testC && tsc",
+    "testBR": "cd ./testB && live-server",
+    "snip": "cd snippet && tsc && node snip.js"
+  },
+  "dependencies": {
+    "live-server": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "esbuild": "^0.28.1",
+    "typescript": "^7.0.2"
+  }
+}

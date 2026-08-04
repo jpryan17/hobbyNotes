@@ -1,0 +1,17 @@
+{
+    "name": "sirsbe",
+    "short_name": "sirsbe",
+    "start_url": "./installed",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "explore pwa..",
+    "icons": [
+      {
+        "src": "./pwa/icon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml"
+      }
+    ]
+ 
+  }
+  
