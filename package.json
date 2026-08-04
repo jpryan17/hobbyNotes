@@ -8,6 +8,7 @@
     "utilsC": "cd ./nodeUtils && tsc",
     "segsR": "cd ./nodeUtils && node ./public/genSegsFiles.js",
     "ttdRefR": "node ./nodeUtils/public/genTTDRefs.js",
+    "fsdRefR": "node ./nodeUtils/public/genFSDRefs.js",
     "indexR": "cd ./app1/dist && node ../../nodeUtils/public/indexBuild.js",
     "scriptR": "cd ./app1/dist && node ../../nodeUtils/public/scriptBuild.js",
     "serverC": "cd ./server && npx tsc",
