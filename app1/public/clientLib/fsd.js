@@ -218,23 +218,26 @@ export class FSD extends PXEParent {
     assignVarToActiveSlot(v) {
         if (this.slots[this.selectedSlotIndex]) {
             this.slots[this.selectedSlotIndex].assignedVar = v;
-            // Automatically advance to the next unassigned slot if available
-            const nextUnassigned = this.slots.findIndex((s, idx) => idx > this.selectedSlotIndex && s.assignedVar === undefined);
-            if (nextUnassigned !== -1) {
-                this.selectedSlotIndex = nextUnassigned;
-            }
-            else {
-                const anyUnassigned = this.slots.findIndex((s) => s.assignedVar === undefined);
-                if (anyUnassigned !== -1) {
-                    this.selectedSlotIndex = anyUnassigned;
-                }
-            }
         }
         this.updatePXEText();
         this.renderStage2Controls();
     }
     renderStage2Controls() {
         this.stageControls = [];
+        // Slot Target Selection Buttons (allows picking any slot freely)
+        this.slots.forEach((s, idx) => {
+            const isSelectedSlot = idx === this.selectedSlotIndex;
+            const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "_"}`;
+            const btn = new SVGSelectableText(() => {
+                this.selectedSlotIndex = idx;
+                this.updatePXEText();
+                this.renderStage2Controls();
+            }, label, false);
+            if (isSelectedSlot) {
+                btn.setA("stroke", "orange");
+            }
+            this.stageControls.push(btn);
+        });
         // Variable Assignment Buttons for active slot (x₁, x₂, etc.)
         this.availableVars.forEach((v) => {
             const btn = new SVGSelectableText(() => {
@@ -254,21 +257,7 @@ export class FSD extends PXEParent {
         }, "+ Var", false);
         newVarBtn.setAble(this.slots.length > 0);
         this.stageControls.push(newVarBtn);
-        // Slot Target Selection Buttons (shows active slot highlighted)
-        this.slots.forEach((s, idx) => {
-            const isSelectedSlot = idx === this.selectedSlotIndex;
-            const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "?"}`;
-            const btn = new SVGSelectableText(() => {
-                this.selectedSlotIndex = idx;
-                this.updatePXEText();
-                this.renderStage2Controls();
-            }, label, false);
-            if (isSelectedSlot) {
-                btn.setA("stroke", "orange");
-            }
-            this.stageControls.push(btn);
-        });
-        // Stage 2 Transition Button
+        // Stage 2 Transition Button (enabled only when ALL slots are bound)
         const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== undefined);
         const nextBtn = new SVGSelectableText(() => this.advanceStage(), "Quantify Variables →", false);
         nextBtn.setAble(allBound);
