@@ -228,12 +228,15 @@ export class FSD extends PXEParent {
     }
   }
 
+  selectedSlotIndex: number = 0;
+
   // --- STAGE 2: Variable Slot Binding ---
   setupStage2() {
     this.stage = 2;
     this.slots = [];
     this.availableVars = ["x₁"];
     this.selectedVar = "x₁";
+    this.selectedSlotIndex = 0;
 
     // Extract all predicate tokens from pxe.exp
     for (let i = 0; i < this.pxe.exp.length; i++) {
@@ -255,46 +258,67 @@ export class FSD extends PXEParent {
     this.updatePXEText();
   }
 
+  assignVarToActiveSlot(v: string) {
+    if (this.slots[this.selectedSlotIndex]) {
+      this.slots[this.selectedSlotIndex].assignedVar = v;
+
+      // Automatically advance to the next unassigned slot if available
+      const nextUnassigned = this.slots.findIndex((s, idx) => idx > this.selectedSlotIndex && s.assignedVar === undefined);
+      if (nextUnassigned !== -1) {
+        this.selectedSlotIndex = nextUnassigned;
+      } else {
+        const anyUnassigned = this.slots.findIndex((s) => s.assignedVar === undefined);
+        if (anyUnassigned !== -1) {
+          this.selectedSlotIndex = anyUnassigned;
+        }
+      }
+    }
+    this.updatePXEText();
+    this.renderStage2Controls();
+  }
+
   renderStage2Controls() {
     this.stageControls = [];
 
-    // Variable Selector Buttons (x₁, x₂, + New Var)
+    // Variable Assignment Buttons for active slot (x₁, x₂, etc.)
     this.availableVars.forEach((v) => {
-      const isSel = v === this.selectedVar;
       const btn = new SVGSelectableText(() => {
-        this.selectedVar = v;
-        this.renderStage2Controls();
+        this.assignVarToActiveSlot(v);
       }, v, false);
-      btn.setAble(!isSel);
+      btn.setAble(this.slots.length > 0);
       this.stageControls.push(btn);
     });
 
+    // "+ Var" button to create x₂, x₃, etc. and assign to active slot
     const newVarBtn = new SVGSelectableText(() => {
       const subscripts = ["₁", "₂", "₃", "₄", "₅", "₆"];
       const nextIdx = this.availableVars.length;
       const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
       const newV = `x${sub}`;
       this.availableVars.push(newV);
-      this.selectedVar = newV;
-      this.renderStage2Controls();
+      this.assignVarToActiveSlot(newV);
     }, "+ Var", false);
+    newVarBtn.setAble(this.slots.length > 0);
     this.stageControls.push(newVarBtn);
 
-    // Slot Filling Buttons
-    let slotNum = 1;
-    this.slots.forEach((s) => {
-      const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "_"}`;
+    // Slot Target Selection Buttons (shows active slot highlighted)
+    this.slots.forEach((s, idx) => {
+      const isSelectedSlot = idx === this.selectedSlotIndex;
+      const label = `${s.predName}[${s.slotIndex + 1}]: ${s.assignedVar || "?"}`;
       const btn = new SVGSelectableText(() => {
-        s.assignedVar = this.selectedVar;
+        this.selectedSlotIndex = idx;
         this.updatePXEText();
         this.renderStage2Controls();
       }, label, false);
+
+      if (isSelectedSlot) {
+        btn.setA("stroke", "orange");
+      }
       this.stageControls.push(btn);
-      slotNum++;
     });
 
     // Stage 2 Transition Button
-    const allBound = this.slots.every((s) => s.assignedVar !== undefined);
+    const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== undefined);
     const nextBtn = new SVGSelectableText(() => this.advanceStage(), "Quantify Variables →", false);
     nextBtn.setAble(allBound);
     this.stageControls.push(nextBtn);
@@ -376,22 +400,30 @@ export class FSD extends PXEParent {
       display += `${qPrefix} [ `;
     }
 
+    const getSlotVal = (idx: number) => {
+      const s = this.slots[idx];
+      if (!s) return "_";
+      if (s.assignedVar) return s.assignedVar;
+      if (this.stage === 2 && idx === this.selectedSlotIndex) return "?";
+      return "_";
+    };
+
     let slotIdx = 0;
     for (let i = 0; i < exp.length; i++) {
       const ch = exp[i];
       if (ch === "p") {
-        const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         display += this.stage >= 2 ? `PG5(${v0})` : "PG5";
       } else if (ch === "q") {
-        const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         display += this.stage >= 2 ? `PL10(${v0})` : "PL10";
       } else if (ch === "r") {
-        const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
-        const v1 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         display += this.stage >= 2 ? `PG(${v0}, ${v1})` : "PG";
       } else if (ch === "s") {
-        const v0 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
-        const v1 = this.stage >= 2 ? (this.slots[slotIdx++]?.assignedVar || "_") : "";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         display += this.stage >= 2 ? `PL(${v0}, ${v1})` : "PL";
       } else if (ch === "[") {
         display += "[\u2009";
