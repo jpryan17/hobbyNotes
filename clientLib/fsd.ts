@@ -160,17 +160,31 @@ export class FSD extends PXEParent {
     const y = 2 * this.vertMargin + PXE.textFrameHeight + (2 / 3) * this.controlsFrameHeight;
     let x = this.sideMargin + 5;
 
+    const getBtnWidth = (e: SVGElt) => {
+      let w = 0;
+      try {
+        w = e.getBB().width;
+      } catch (err) {
+        w = 0;
+      }
+      if (w <= 0) {
+        const textVal = e.getV ? e.getV() : "";
+        w = textVal.length * 10 + 6;
+      }
+      return Math.max(w, 20);
+    };
+
     if (this.stage === 1) {
       this.controls.forEach((e) => {
         this.append(e);
         e.setAA(["x", x, "y", y]);
-        x += e.getBB().width + 8;
+        x += getBtnWidth(e) + 12;
       });
     } else if (this.stage === 2 || this.stage === 3) {
       this.stageControls.forEach((e) => {
         this.append(e);
         e.setAA(["x", x, "y", y]);
-        x += e.getBB().width + 8;
+        x += getBtnWidth(e) + 12;
       });
     }
   }
@@ -216,6 +230,41 @@ export class FSD extends PXEParent {
     this.pxe.exp = "";
     this.pxe.nl = 0;
     this.pxe.displayText();
+  }
+
+  prevStage() {
+    if (this.stage === 2) {
+      this.stage = 1;
+      this.initStage1Controls();
+      this.showControls();
+      this.updatePXEText();
+    } else if (this.stage === 3) {
+      this.stage = 2;
+      this.renderStage2Controls();
+      this.updatePXEText();
+    } else if (this.stage === 4) {
+      this.stage = 3;
+      this.fo.removeChildren();
+      this.fo.setV("");
+      this.renderStage3Controls();
+      this.updatePXEText();
+    }
+  }
+
+  resetStage2() {
+    this.slots.forEach((s) => (s.assignedVar = undefined));
+    this.availableVars = ["x₁"];
+    this.selectedVar = "x₁";
+    this.selectedSlotIndex = 0;
+    this.updatePXEText();
+    this.renderStage2Controls();
+  }
+
+  resetStage3() {
+    this.quantifierBindings = [];
+    this.selectedQuantifier = "∀";
+    this.updatePXEText();
+    this.renderStage3Controls();
   }
 
   advanceStage() {
@@ -292,6 +341,15 @@ export class FSD extends PXEParent {
   renderStage2Controls() {
     this.stageControls = [];
 
+    // Stage 2 Navigation & Reset Buttons
+    const btnPrev = new SVGSelectableText(() => this.prevStage(), "← Exp", false);
+    btnPrev.setAble(true);
+    this.stageControls.push(btnPrev);
+
+    const btnReset = new SVGSelectableText(() => this.resetStage2(), "Reset Slots", false);
+    btnReset.setAble(this.slots.some((s) => s.assignedVar !== undefined));
+    this.stageControls.push(btnReset);
+
     // Variable Assignment Buttons for active slot (x₁, x₂, etc.)
     this.availableVars.forEach((v) => {
       const btn = new SVGSelectableText(() => {
@@ -333,6 +391,15 @@ export class FSD extends PXEParent {
 
   renderStage3Controls() {
     this.stageControls = [];
+
+    // Stage 3 Navigation & Reset Buttons
+    const btnPrev = new SVGSelectableText(() => this.prevStage(), "← Slots", false);
+    btnPrev.setAble(true);
+    this.stageControls.push(btnPrev);
+
+    const btnReset = new SVGSelectableText(() => this.resetStage3(), "Reset Prefix", false);
+    btnReset.setAble(this.quantifierBindings.length > 0);
+    this.stageControls.push(btnReset);
 
     // Unique variables used in Stage 2
     const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar!).filter(Boolean)));
