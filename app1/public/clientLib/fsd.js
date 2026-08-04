@@ -111,6 +111,14 @@ export class FSD extends PXEParent {
         this.fo.setAA(["width", foW, "height", foH]);
         this.showControls();
     }
+    clearStageControls() {
+        this.stageControls.forEach((c) => {
+            if (c.elt && c.elt.parentElement) {
+                c.elt.parentElement.removeChild(c.elt);
+            }
+        });
+        this.stageControls = [];
+    }
     showControls() {
         // Clear old SVG controls from parent SVG
         this.controls.forEach(c => {
@@ -181,6 +189,7 @@ export class FSD extends PXEParent {
         this.quantifierBindings = [];
         this.matrixVisible = false;
         this.selectedColIndex = -1;
+        this.clearStageControls();
         this.initStage1Controls();
         this.fo.removeChildren();
         this.fo.setV("");
@@ -190,6 +199,7 @@ export class FSD extends PXEParent {
         this.pxe.displayText();
     }
     prevStage() {
+        this.clearStageControls();
         if (this.stage === 2) {
             this.stage = 1;
             this.initStage1Controls();
@@ -224,6 +234,7 @@ export class FSD extends PXEParent {
         this.renderStage3Controls();
     }
     advanceStage() {
+        this.clearStageControls();
         if (this.stage === 1) {
             this.setupStage2();
         }
@@ -242,6 +253,7 @@ export class FSD extends PXEParent {
         this.availableVars = ["x₁"];
         this.selectedVar = "x₁";
         this.selectedSlotIndex = 0;
+        this.clearStageControls();
         // Extract all predicate tokens from pxe.exp
         for (let i = 0; i < this.pxe.exp.length; i++) {
             const ch = this.pxe.exp[i];
@@ -292,7 +304,7 @@ export class FSD extends PXEParent {
         this.renderStage2Controls();
     }
     renderStage2Controls() {
-        this.stageControls = [];
+        this.clearStageControls();
         // Stage 2 Navigation & Reset Buttons
         const btnPrev = new SVGSelectableText(() => this.prevStage(), "← Exp", false);
         btnPrev.setAble(true);
@@ -331,11 +343,12 @@ export class FSD extends PXEParent {
         this.stage = 3;
         this.quantifierBindings = [];
         this.selectedQuantifier = "∀";
+        this.clearStageControls();
         this.renderStage3Controls();
         this.updatePXEText();
     }
     renderStage3Controls() {
-        this.stageControls = [];
+        this.clearStageControls();
         // Stage 3 Navigation & Reset Buttons
         const btnPrev = new SVGSelectableText(() => this.prevStage(), "← Slots", false);
         btnPrev.setAble(true);
