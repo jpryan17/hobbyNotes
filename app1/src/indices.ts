@@ -1,5 +1,6 @@
 import { IndexItemDesc } from "../../clientLib/navIndex.js";
 import { ttd } from "../../clientLib/ttd.js";
+import { fsd } from "../../clientLib/fsd.js";
 
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 
@@ -24,6 +25,12 @@ export const formalStatementsIndex: IndexItemDesc[] = [
     htmlSegmentId: "formalStatementsIntro",
   },
   { type: "html", topic: "lecture", htmlSegmentId: "formalStatementsLecture" },
+  {
+    type: "diagram",
+    topic: "formal statement demo",
+    initCB: initFSD,
+    layoutCB: layoutFSD,
+  },
 ];
 export const numbersIndex: IndexItemDesc[] = [
   {
@@ -91,4 +98,12 @@ function initTTD() {
 }
 function layout() {
   ttd.layoutEditor();
+}
+
+function initFSD() {
+  fsd.clear();
+  return fsd;
+}
+function layoutFSD() {
+  fsd.layoutEditor();
 }

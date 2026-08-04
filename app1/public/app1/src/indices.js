@@ -1,4 +1,5 @@
 import { ttd } from "../../clientLib/ttd.js";
+import { fsd } from "../../clientLib/fsd.js";
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 export const propLogicIndex = [
     {
@@ -21,6 +22,12 @@ export const formalStatementsIndex = [
         htmlSegmentId: "formalStatementsIntro",
     },
     { type: "html", topic: "lecture", htmlSegmentId: "formalStatementsLecture" },
+    {
+        type: "diagram",
+        topic: "formal statement demo",
+        initCB: initFSD,
+        layoutCB: layoutFSD,
+    },
 ];
 export const numbersIndex = [
     {
@@ -85,4 +92,11 @@ function initTTD() {
 }
 function layout() {
     ttd.layoutEditor();
+}
+function initFSD() {
+    fsd.clear();
+    return fsd;
+}
+function layoutFSD() {
+    fsd.layoutEditor();
 }

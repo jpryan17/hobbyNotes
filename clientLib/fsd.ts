@@ -212,7 +212,9 @@ export class FSD extends PXEParent {
     this.fo.removeChildren();
     this.fo.setV("");
     this.showControls();
-    this.pxe.clear();
+    this.pxe.exp = "";
+    this.pxe.nl = 0;
+    this.pxe.displayText();
   }
 
   advanceStage() {
