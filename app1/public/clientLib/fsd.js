@@ -514,64 +514,97 @@ export class FSD extends PXEParent {
         this.fo.removeChildren();
         this.fo.setV("");
         const container = new Elt("div");
-        container.setA("style", "font-family: sans-serif; padding: 5px;");
+        container.setA("style", "font-family: Arial, sans-serif; padding: 10px; max-width: 95%; margin: 0 auto;");
         this.fo.append(container);
         const statementStr = this.pxe.txt.getV();
         const evalResult = this.evaluateFullStatement();
-        // Clean 1-Row Truth Table (Matching TTD Style)
+        // Extract unique predicate tokens from exp
+        const predTokens = [];
+        if (this.pxe.exp.includes("p"))
+            predTokens.push({ code: "p", name: "PG5" });
+        if (this.pxe.exp.includes("q"))
+            predTokens.push({ code: "q", name: "PL10" });
+        if (this.pxe.exp.includes("r"))
+            predTokens.push({ code: "r", name: "PG" });
+        if (this.pxe.exp.includes("s"))
+            predTokens.push({ code: "s", name: "PL" });
+        // Build Table Header Columns (Quantified Predicates + Compound Statement)
+        const columns = [];
+        // Add Quantified Predicate Columns
+        predTokens.forEach((p) => {
+            const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
+            const predSlots = this.slots.filter((s) => s.predName === p.name).map((s) => s.assignedVar || "_").join(", ");
+            const colLabel = qPrefix ? `${qPrefix} [ ${p.name}(${predSlots}) ]` : `${p.name}(${predSlots})`;
+            columns.push({ label: colLabel, isPred: true, predCode: p.code });
+        });
+        // If compound or single predicate, add full statement column if distinct
+        if (columns.length === 0 || columns[0].label !== statementStr) {
+            columns.push({ label: statementStr, isPred: false });
+        }
+        // Default select first predicate column for matrix view
+        if (this.selectedColIndex === -1 && columns.length > 0) {
+            this.selectedColIndex = 0;
+        }
+        // TTD-Style 1-Row Truth Table
         const table = new Elt("table");
-        table.setA("style", "border-collapse: collapse; width: 100%; border: 1px solid black; text-align: center;");
+        table.setA("style", "border-collapse: collapse; width: 100%; border: 2px solid #222; text-align: center; background: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);");
         container.append(table);
         const thead = new Elt("thead");
         table.append(thead);
-        const trHead1 = new Elt("tr");
-        thead.append(trHead1);
-        const thHeader = new Elt("th");
-        thHeader.setAA([
-            "colspan", "2",
-            "style", "border: 1px solid black; background-color: lightgrey; padding: 6px; font-size: 14px;"
+        // Title Row
+        const trTitle = new Elt("tr");
+        thead.append(trTitle);
+        const thTitle = new Elt("th");
+        thTitle.setAA([
+            "colspan", `${columns.length}`,
+            "style", "border-bottom: 2px solid #222; background: #343a40; color: #ffffff; padding: 8px 12px; font-size: 15px; font-weight: bold; letter-spacing: 0.5px;"
         ]);
-        thHeader.setV("Quantified Formal Statement Evaluation");
-        trHead1.append(thHeader);
-        const trHead2 = new Elt("tr");
-        thead.append(trHead2);
-        const thCols = [
-            { name: statementStr, isPred: false },
-            { name: "PG(x₁, x₂)", isPred: true },
-        ];
-        thCols.forEach((col, idx) => {
+        thTitle.setV("Truth Table Row — Quantified Formal Statement Evaluation");
+        trTitle.append(thTitle);
+        // Column Headers Row
+        const trHead = new Elt("tr");
+        thead.append(trHead);
+        columns.forEach((col, idx) => {
             const th = new Elt("th");
             const isSelected = this.selectedColIndex === idx;
+            const bg = isSelected ? "#e2f0fb" : col.isPred ? "#f8f9fa" : "#ffffff";
+            const borderColor = isSelected ? "#007bff" : "#ccc";
             th.setAA([
                 "style",
-                `border: 1px solid black; padding: 8px; font-weight: bold; cursor: pointer; background-color: ${isSelected ? "#d1ecf1" : "white"}; color: ${col.isPred ? "firebrick" : "black"};`
+                `border: 1px solid ${borderColor}; padding: 10px; font-size: 13px; font-family: monospace; font-weight: bold; cursor: pointer; background: ${bg}; color: ${col.isPred ? "#0056b3" : "#212529"}; transition: background 0.15s;`
             ]);
-            th.setV(col.name + (col.isPred ? " 🔍" : ""));
+            const labelText = col.isPred ? `${col.label} 🔍` : col.label;
+            th.setV(labelText);
             th.elt.addEventListener("click", () => {
                 this.selectedColIndex = this.selectedColIndex === idx ? -1 : idx;
                 this.renderStage4Table();
             });
-            trHead2.append(th);
+            trHead.append(th);
         });
+        // 1-Row Body (Truth Values)
         const tbody = new Elt("tbody");
         table.append(tbody);
         const trBody = new Elt("tr");
         tbody.append(trBody);
-        const tdVal1 = new Elt("td");
-        tdVal1.setAA(["style", `border: 1px solid black; padding: 10px; font-weight: bold; font-size: 16px; color: ${evalResult ? "green" : "red"}; background-color: ${evalResult ? "#d4edda" : "#f8d7da"};`]);
-        tdVal1.setV(evalResult ? "T" : "F");
-        trBody.append(tdVal1);
-        const tdVal2 = new Elt("td");
-        tdVal2.setAA(["style", "border: 1px solid black; padding: 10px; font-weight: bold; font-size: 16px; color: firebrick; cursor: pointer;"]);
-        tdVal2.setV("T/F Matrix 🔍");
-        tdVal2.elt.addEventListener("click", () => {
-            this.selectedColIndex = this.selectedColIndex === 1 ? -1 : 1;
-            this.renderStage4Table();
+        columns.forEach((col, idx) => {
+            const td = new Elt("td");
+            const val = evalResult; // Evaluated truth value for this row
+            const isSelected = this.selectedColIndex === idx;
+            td.setAA([
+                "style",
+                `border: 1px solid ${isSelected ? "#007bff" : "#ccc"}; padding: 12px; font-weight: bold; font-size: 18px; cursor: pointer; color: ${val ? "#155724" : "#721c24"}; background: ${val ? "#d4edda" : "#f8d7da"};`
+            ]);
+            td.setV(val ? "T" : "F");
+            td.elt.addEventListener("click", () => {
+                this.selectedColIndex = this.selectedColIndex === idx ? -1 : idx;
+                this.renderStage4Table();
+            });
+            trBody.append(td);
         });
-        trBody.append(tdVal2);
-        // Interactive Boolean Matrix View if clicked
-        if (this.selectedColIndex !== -1) {
-            this.renderMatrixVisualizer(container, evalResult);
+        // Interactive Boolean Matrix Visualizer for selected predicate column
+        if (this.selectedColIndex !== -1 && columns[this.selectedColIndex]) {
+            const selCol = columns[this.selectedColIndex];
+            this.renderMatrixVisualizer(container, evalResult, selCol.label);
         }
     }
     evaluateFullStatement() {
@@ -612,19 +645,24 @@ export class FSD extends PXEParent {
         }
         return grid.every((row) => row.some((val) => val));
     }
-    renderMatrixVisualizer(container, evalResult) {
+    renderMatrixVisualizer(container, evalResult, colLabel) {
         const matrixBox = new Elt("div");
-        matrixBox.setA("style", "margin-top: 15px; border: 1px solid #17a2b8; border-radius: 4px; padding: 12px; background: #fafafa;");
+        matrixBox.setA("style", "margin-top: 15px; border: 1px solid #17a2b8; border-radius: 6px; padding: 14px; background: #fdfdfd; box-shadow: 0 2px 4px rgba(0,0,0,0.05);");
         container.append(matrixBox);
+        // Header title for Matrix Visualizer
+        const titleBox = new Elt("div");
+        titleBox.setA("style", "font-weight: bold; font-size: 14px; color: #0056b3; margin-bottom: 8px;");
+        titleBox.setV(`Boolean Matrix Structure for: ${colLabel}`);
+        matrixBox.append(titleBox);
         // Dyadic resolution selector buttons
         const resBox = new Elt("div");
-        resBox.setA("style", "display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 10px;");
+        resBox.setA("style", "display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 12px;");
         resBox.setV("<b>Dyadic Grid Scale (1/2<sup>k</sup>):</b> ");
         [4, 8, 16, 32, 64].forEach((r) => {
             const btn = new Elt("button");
             btn.setV(`${r}×${r}`);
             const isSel = this.gridResolution === r;
-            btn.setA("style", `padding: 2px 6px; font-size: 11px; cursor: pointer; border: 1px solid #17a2b8; background: ${isSel ? '#17a2b8' : '#ffffff'}; color: ${isSel ? '#ffffff' : '#17a2b8'}; border-radius: 3px;`);
+            btn.setA("style", `padding: 3px 8px; font-size: 12px; cursor: pointer; border: 1px solid #17a2b8; background: ${isSel ? '#17a2b8' : '#ffffff'}; color: ${isSel ? '#ffffff' : '#17a2b8'}; border-radius: 3px; font-weight: bold;`);
             btn.elt.addEventListener("click", () => {
                 this.gridResolution = r;
                 this.renderStage4Table();
@@ -640,14 +678,14 @@ export class FSD extends PXEParent {
         const svgWrap = new Elt("div");
         svgWrap.setA("style", "display: flex; gap: 15px; align-items: center;");
         const svg = new SVGElt("svg");
-        svg.setAA(["width", width + 40, "height", height + 35, "style", "background: #ffffff; border: 1px solid #ccc;"]);
+        svg.setAA(["width", width + 45, "height", height + 35, "style", "background: #ffffff; border: 1px solid #ccc; border-radius: 3px;"]);
         const labelX = new SVGText();
         labelX.setV("x₁ (row) →");
-        labelX.setAA(["x", 5, "y", 14, "font-size", "11", "fill", "#333"]);
+        labelX.setAA(["x", 5, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
         svg.append(labelX);
         const labelY = new SVGText();
         labelY.setV("x₂ (col) ↓");
-        labelY.setAA(["x", width - 35, "y", 14, "font-size", "11", "fill", "#333"]);
+        labelY.setAA(["x", width - 35, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
         svg.append(labelY);
         for (let i = 0; i < N; i++) {
             const x1 = (i + 1) / N;
@@ -656,7 +694,7 @@ export class FSD extends PXEParent {
                 const isTrue = x1 > x2;
                 const rect = new SVGElt("rect");
                 rect.setAA([
-                    "x", 30 + j * cellSize,
+                    "x", 35 + j * cellSize,
                     "y", 22 + i * cellSize,
                     "width", cellSize - (N > 32 ? 0 : 1),
                     "height", cellSize - (N > 32 ? 0 : 1),
@@ -668,13 +706,13 @@ export class FSD extends PXEParent {
         }
         svgWrap.append(svg);
         const info = new Elt("div");
-        info.setA("style", "font-size: 12px; line-height: 1.5; color: #333;");
+        info.setA("style", "font-size: 13px; line-height: 1.6; color: #333;");
         info.setV(`
-      <b>Boolean Matrix Details:</b><br>
+      <b>Quantified Truth Explanation:</b><br>
       • Domain: ℂ<sub>ω</sub> × ℂ<sub>ω</sub> [0,1]<br>
-      • Blue: <code>PG(x₁, x₂) = True</code><br>
-      • Grey: <code>PG(x₁, x₂) = False</code><br>
-      • Overall Truth: <b style="color:${evalResult ? 'green' : 'red'};">${evalResult ? 'True' : 'False'}</b>
+      • Blue Cells: <code>True</code><br>
+      • Grey Cells: <code>False</code><br>
+      • Evaluated Result: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
     `);
         svgWrap.append(info);
         matrixBox.append(svgWrap);
