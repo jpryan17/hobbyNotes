@@ -498,9 +498,13 @@ export class FSD extends PXEParent {
     let display = "";
 
     // Quantifier Prefix (Stage 3+)
-    if (this.quantifierBindings && this.quantifierBindings.length > 0) {
-      const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
-      display += `${qPrefix} [ `;
+    if (this.stage >= 3) {
+      if (this.quantifierBindings && this.quantifierBindings.length > 0) {
+        const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
+        display += `${qPrefix} [ `;
+      } else {
+        display += "[ ";
+      }
     }
 
     const getSlotVal = (idx: number) => {
@@ -561,7 +565,7 @@ export class FSD extends PXEParent {
       }
     }
 
-    if (this.quantifierBindings && this.quantifierBindings.length > 0) {
+    if (this.stage >= 3) {
       display += " ]";
     }
 
