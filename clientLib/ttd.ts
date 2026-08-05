@@ -421,7 +421,7 @@ export class TTD extends PXEParent {
 
     return cols;
   }
-  bldTable() {
+  bldTable(customRows?: { predVals: string[]; expVals: string[] }[]) {
     this.fo.removeChildren();
     this.fo.setV("");
     this.setColWidth();
@@ -504,7 +504,7 @@ export class TTD extends PXEParent {
     head.append(hr3);
     const body = new Elt("tbody");
     table.append(body);
-    const rowCnt = Math.pow(2, this.predCols.length);
+    const rowCnt = customRows ? customRows.length : Math.pow(2, this.predCols.length);
     const colCnt = this.predCols.length + this.expCols.length + 1;
     for (let i = 0; i < rowCnt; i++) {
       const r = new Elt("tr", `${i}`);
@@ -533,25 +533,41 @@ export class TTD extends PXEParent {
         r.append(d);
       }
     }
-    for (let i = 0; i < this.predCols.length; i++) {
-      const pc = rowCnt / Math.pow(2, i + 1);
-      let j = 0;
-      let v = "T";
-      while (j < rowCnt) {
-        for (let k = 0; k < pc; k++) {
-          this.setCellVal(j, i, v);
-          j++;
+    if (customRows) {
+      for (let i = 0; i < rowCnt; i++) {
+        const rowData = customRows[i];
+        for (let p = 0; p < this.predCols.length; p++) {
+          this.setCellVal(i, p, rowData.predVals[p] || "T");
         }
-        v = v == "T" ? "F" : "T";
+        for (let e = 0; e < this.expCols.length; e++) {
+          const colIdx = this.predCols.length + 1 + e;
+          const cell = document.getElementById(`r${i}c${colIdx}`);
+          if (cell) cell.innerText = rowData.expVals[e] || "T";
+        }
+      }
+    } else {
+      for (let i = 0; i < this.predCols.length; i++) {
+        const pc = rowCnt / Math.pow(2, i + 1);
+        let j = 0;
+        let v = "T";
+        while (j < rowCnt) {
+          for (let k = 0; k < pc; k++) {
+            this.setCellVal(j, i, v);
+            j++;
+          }
+          v = v == "T" ? "F" : "T";
+        }
+      }
+      for (let i = 0; i < rowCnt; i++) {
+        const tree = this.tree as TreeNode;
+        this.setRowTruthVals(tree, i);
       }
     }
-    for (let i = 0; i < rowCnt; i++) {
-      const tree = this.tree as TreeNode;
-      this.setRowTruthVals(tree, i);
-    }
     const root = this.tree as TreeNode;
-    this.initColHighlightPos = this.expHeaderPos(root) as number;
-    this.colHighlight("over", this.initColHighlightPos);
+    if (root) {
+      this.initColHighlightPos = this.expHeaderPos(root) as number;
+      this.colHighlight("over", this.initColHighlightPos);
+    }
   }
   setHeaderListeners() {
     this.expCols.forEach((c) => {

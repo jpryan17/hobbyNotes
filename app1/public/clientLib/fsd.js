@@ -2,6 +2,7 @@ import { Elt } from "./elt.js";
 import { Nav } from "./navFW.js";
 import { SVGElt, SVGSelectableText, SVGText } from "./svgElt.js";
 import { PXE, PXEParent } from "./pxe.js";
+import { ttd } from "./ttd.js";
 export class FSD extends PXEParent {
     editorFrame;
     controlsFrame;
@@ -509,7 +510,7 @@ export class FSD extends PXEParent {
         this.pxe.placeCaret();
         this.setButtonStates();
     }
-    // --- STAGE 4 RENDERING (Exact TTD-Style 1-Row Truth Table & Interactive Matrix) ---
+    // --- STAGE 4 RENDERING (Exact TTD Engine 1-Row Truth Table & Interactive Matrix) ---
     renderStage4Table() {
         this.fo.removeChildren();
         this.fo.setV("");
@@ -527,108 +528,52 @@ export class FSD extends PXEParent {
         if (this.pxe.exp.includes("s"))
             predMap["s"] = { name: "PL", val: this.evaluatePredicate("PL") };
         const predCodes = Object.keys(predMap);
-        // Evaluate expression character-by-character columns (TTD expCols)
+        // Build syntax tree and columns using TTD engine
+        const tree = ttd.bldTree(this.pxe.exp);
+        ttd.tree = tree;
+        ttd.predCols = predCodes.map((c) => predMap[c].name);
+        ttd.expCols = ttd.treeToExpColumns(tree);
+        // Format expression column headers with predicate names
+        ttd.expCols.forEach((c) => {
+            if (c.header.includes("p"))
+                c.header = c.header.replace(/p/g, "PG5");
+            if (c.header.includes("q"))
+                c.header = c.header.replace(/q/g, "PL10");
+            if (c.header.includes("r"))
+                c.header = c.header.replace(/r/g, "PG");
+            if (c.header.includes("s"))
+                c.header = c.header.replace(/s/g, "PL");
+        });
+        // Single row evaluated values
+        const predVals = predCodes.map((c) => (predMap[c].val ? "T" : "F"));
         const predValsOnly = {};
         predCodes.forEach((c) => (predValsOnly[c] = predMap[c].val));
-        const expCols = this.evaluateExpCols(this.pxe.exp, predValsOnly);
-        // Default selected predicate for matrix view
+        const expColsEvaluated = this.evaluateExpCols(this.pxe.exp, predValsOnly);
+        const expVals = expColsEvaluated.map((c) => (c.val ? "T" : "F"));
+        // Delegate table building to TTD engine inside container
+        const origFo = ttd.fo;
+        ttd.fo = container;
+        ttd.bldTable([{ predVals, expVals }]);
+        ttd.fo = origFo;
+        // Default select first predicate column for matrix view
         if (this.selectedColIndex === -1 && predCodes.length > 0) {
             this.selectedColIndex = 0;
         }
-        // Exact TTD 1-Row Truth Table
-        const table = new Elt("table");
-        table.setA("style", "border-collapse: collapse; width: 100%; border: 2px solid #222; text-align: center; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 10px;");
-        container.append(table);
-        const thead = new Elt("thead");
-        table.append(thead);
-        // Header Row 1: "predicates" | blank | "expression"
-        const trHead1 = new Elt("tr");
-        thead.append(trHead1);
-        const thPredGroup = new Elt("th");
-        thPredGroup.setAA([
-            "colspan", `${Math.max(1, predCodes.length)}`,
-            "style", "border: 1px solid #222; background: #e9ecef; color: #212529; padding: 6px 10px; font-size: 14px; font-weight: bold;"
-        ]);
-        thPredGroup.setV("predicates");
-        trHead1.append(thPredGroup);
-        const thSepGroup = new Elt("th");
-        thSepGroup.setAA(["style", "width: 15px; background: antiquewhite; border: 1px solid #ccc;"]);
-        trHead1.append(thSepGroup);
-        const thExpGroup = new Elt("th");
-        thExpGroup.setAA([
-            "colspan", `${Math.max(1, expCols.length)}`,
-            "style", "border: 1px solid #222; background: #e9ecef; color: #212529; padding: 6px 10px; font-size: 14px; font-weight: bold;"
-        ]);
-        thExpGroup.setV("expression");
-        trHead1.append(thExpGroup);
-        // Header Row 2: Predicate Labels | blank | Expression Characters/Operators
-        const trHead2 = new Elt("tr");
-        thead.append(trHead2);
+        // Attach matrix click listeners to predicate headers and cells
         predCodes.forEach((code, idx) => {
             const p = predMap[code];
-            const th = new Elt("th");
-            const isSelected = this.selectedColIndex === idx;
-            th.setAA([
-                "style",
-                `border: 1px solid #ccc; padding: 8px; font-size: 13px; font-family: monospace; font-weight: bold; cursor: pointer; background: ${isSelected ? "#e2f0fb" : "#f8f9fa"}; color: #0056b3;`
-            ]);
-            th.setV(`${p.name} 🔍`);
-            th.elt.addEventListener("click", () => {
+            const bodyCell = document.getElementById(`r0c${idx}`);
+            const highlight = () => {
                 this.selectedColIndex = this.selectedColIndex === idx ? -1 : idx;
                 this.renderStage4Table();
-            });
-            trHead2.append(th);
+            };
+            if (bodyCell) {
+                bodyCell.style.cursor = "pointer";
+                bodyCell.title = "Click to toggle Boolean Matrix Visualizer";
+                bodyCell.addEventListener("click", highlight);
+            }
         });
-        const thSep2 = new Elt("th");
-        thSep2.setAA(["style", "width: 15px; background: antiquewhite; border: 1px solid #ccc;"]);
-        trHead2.append(thSep2);
-        expCols.forEach((col) => {
-            const th = new Elt("th");
-            const isOp = ["∧", "∨", "→", "↔", "¬"].includes(col.label);
-            th.setAA([
-                "style",
-                `border: 1px solid #ccc; padding: 8px; font-size: 13px; font-family: monospace; font-weight: bold; color: ${isOp ? "#d9534f" : "#333"}; background: #ffffff;`
-            ]);
-            th.setV(col.label);
-            trHead2.append(th);
-        });
-        // Single Row Body (Evaluated Truth Values)
-        const tbody = new Elt("tbody");
-        table.append(tbody);
-        const trBody = new Elt("tr");
-        tbody.append(trBody);
-        // Predicate values cells
-        predCodes.forEach((code, idx) => {
-            const p = predMap[code];
-            const td = new Elt("td");
-            const isSelected = this.selectedColIndex === idx;
-            td.setAA([
-                "style",
-                `border: 1px solid ${isSelected ? "#007bff" : "#ccc"}; padding: 10px; font-weight: bold; font-size: 16px; cursor: pointer; color: ${p.val ? "#155724" : "#721c24"}; background: ${p.val ? "#d4edda" : "#f8d7da"};`
-            ]);
-            td.setV(p.val ? "T" : "F");
-            td.elt.addEventListener("click", () => {
-                this.selectedColIndex = this.selectedColIndex === idx ? -1 : idx;
-                this.renderStage4Table();
-            });
-            trBody.append(td);
-        });
-        // Separator cell
-        const tdSep = new Elt("td");
-        tdSep.setAA(["style", "width: 15px; background: antiquewhite; border: 1px solid #ccc;"]);
-        trBody.append(tdSep);
-        // Expression operator values cells
-        expCols.forEach((col) => {
-            const td = new Elt("td");
-            const isOp = ["∧", "∨", "→", "↔", "¬"].includes(col.label);
-            td.setAA([
-                "style",
-                `border: 1px solid #ccc; padding: 10px; font-weight: bold; font-size: 16px; color: ${col.val ? "#155724" : "#721c24"}; background: ${col.val ? "#d4edda" : "#f8d7da"}; ${isOp ? "border: 2px solid #d9534f;" : ""}`
-            ]);
-            td.setV(col.val ? "T" : "F");
-            trBody.append(td);
-        });
-        // Interactive Boolean Matrix Visualizer for selected predicate
+        // Interactive Boolean Matrix Visualizer for selected predicate column
         if (this.selectedColIndex !== -1 && predCodes[this.selectedColIndex]) {
             const selCode = predCodes[this.selectedColIndex];
             const selPred = predMap[selCode];
