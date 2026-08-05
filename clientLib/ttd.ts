@@ -727,17 +727,17 @@ export class TTD extends PXEParent {
   }
   setColColor(headerPos: number, color: string) {
     const colPos = headerPos + this.predCols.length + 1;
-    const rowCnt = Math.pow(2, this.predCols.length);
-    for (let rowPos = 0; rowPos < rowCnt; ++rowPos) {
-      if (rowPos % 2 == 0) {
-        const id = `r${rowPos}c${colPos}`;
-        const cell = document.getElementById(id) as Element;
-        Elt.sa(
-          cell,
-          "style",
-          `background-color:${color};border: 1px solid black;text-align:center`,
-        );
-      }
+    let rowPos = 0;
+    while (true) {
+      const id = `r${rowPos}c${colPos}`;
+      const cell = document.getElementById(id) as Element;
+      if (!cell) break;
+      Elt.sa(
+        cell,
+        "style",
+        `background-color:${color};border: 1px solid black;text-align:center`,
+      );
+      rowPos++;
     }
   }
   expHeaderPos(node: TreeNode, negState?: number) {

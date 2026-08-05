@@ -533,16 +533,12 @@ export class FSD extends PXEParent {
         ttd.tree = tree;
         ttd.predCols = predCodes.map((c) => predMap[c].name);
         ttd.expCols = ttd.treeToExpColumns(tree);
-        // Format expression column headers with predicate names
+        // Format expression column headers with predicate names (supporting math italic symbols)
         ttd.expCols.forEach((c) => {
-            if (c.header.includes("p"))
-                c.header = c.header.replace(/p/g, "PG5");
-            if (c.header.includes("q"))
-                c.header = c.header.replace(/q/g, "PL10");
-            if (c.header.includes("r"))
-                c.header = c.header.replace(/r/g, "PG");
-            if (c.header.includes("s"))
-                c.header = c.header.replace(/s/g, "PL");
+            c.header = c.header.replace(/𝑝|p/g, "PG5");
+            c.header = c.header.replace(/𝑞|q/g, "PL10");
+            c.header = c.header.replace(/𝑟|r/g, "PG");
+            c.header = c.header.replace(/𝑠|s/g, "PL");
         });
         // Single row evaluated values
         const predVals = predCodes.map((c) => (predMap[c].val ? "T" : "F"));
