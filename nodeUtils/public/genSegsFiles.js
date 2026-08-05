@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
 const indexUtils_js_1 = require("./indexUtils.js");
+const genTTDRefs_js_1 = require("./genTTDRefs.js");
+const genFSDRefs_js_1 = require("./genFSDRefs.js");
 async function processSegFolder(app) {
     const segFolder = (0, path_1.resolve)(__dirname, `../../${app}/segs`);
     const segArray = [];
@@ -18,6 +20,9 @@ async function processSegFolder(app) {
                 continue;
             }
             try {
+                // Pre-process TTD and FSD reference tags in tandem
+                (0, genTTDRefs_js_1.processTTDRefFile)(filePath);
+                (0, genFSDRefs_js_1.processFSDRefFile)(filePath);
                 const body = (0, fs_1.readFileSync)(filePath, 'utf8');
                 const sp = body.indexOf('<body>') + 6;
                 const ep = body.indexOf('</body>');

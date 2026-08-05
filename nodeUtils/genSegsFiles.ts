@@ -1,6 +1,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { getRequiredSegIds } from './indexUtils.js';
+import { processTTDRefFile } from './genTTDRefs.js';
+import { processFSDRefFile } from './genFSDRefs.js';
 
 async function processSegFolder(app: string) {
     const segFolder = resolve(__dirname, `../../${app}/segs`);
@@ -20,6 +22,10 @@ async function processSegFolder(app: string) {
             }
 
             try {
+                // Pre-process TTD and FSD reference tags in tandem
+                processTTDRefFile(filePath);
+                processFSDRefFile(filePath);
+
                 const body = readFileSync(filePath, 'utf8');
                 const sp = body.indexOf('<body>') + 6;
                 const ep = body.indexOf('</body>');
