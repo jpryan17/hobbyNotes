@@ -290,6 +290,7 @@ export class FSD extends PXEParent {
   }
 
   selectedSlotIndex: number = 0;
+  selectedQuantifierVarIndex: number = 0;
 
   // --- STAGE 2: Variable Slot Binding ---
   setupStage2() {
@@ -316,12 +317,20 @@ export class FSD extends PXEParent {
       }
     }
 
-    // Direct click on top PXE bar cycles slot selection
-    this.pxe.txtFrame.elt.addEventListener("click", () => this.cycleSlotSelection());
-    this.pxe.txt.elt.addEventListener("click", () => this.cycleSlotSelection());
+    // Direct click on top PXE bar cycles slot/variable selection
+    this.pxe.txtFrame.elt.addEventListener("click", () => this.handlePXEClick());
+    this.pxe.txt.elt.addEventListener("click", () => this.handlePXEClick());
 
     this.renderStage2Controls();
     this.updatePXEText();
+  }
+
+  handlePXEClick() {
+    if (this.stage === 2) {
+      this.cycleSlotSelection();
+    } else if (this.stage === 3) {
+      this.cycleQuantifierVarSelection();
+    }
   }
 
   cycleSlotSelection() {
@@ -329,6 +338,20 @@ export class FSD extends PXEParent {
       this.selectedSlotIndex = (this.selectedSlotIndex + 1) % this.slots.length;
       this.updatePXEText();
       this.renderStage2Controls();
+    }
+  }
+
+  cycleQuantifierVarSelection() {
+    if (this.stage === 3) {
+      const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar!).filter(Boolean)));
+      const unquantifiedVars = uniqueVars.filter(
+        (v) => !this.quantifierBindings.some((q) => q.variable === v)
+      );
+      if (unquantifiedVars.length > 0) {
+        this.selectedQuantifierVarIndex = (this.selectedQuantifierVarIndex + 1) % unquantifiedVars.length;
+        this.updatePXEText();
+        this.renderStage3Controls();
+      }
     }
   }
 
@@ -397,10 +420,30 @@ export class FSD extends PXEParent {
   setupStage3() {
     this.stage = 3;
     this.quantifierBindings = [];
-    this.selectedQuantifier = "∀";
+    this.selectedQuantifierVarIndex = 0;
     this.clearStageControls();
     this.renderStage3Controls();
     this.updatePXEText();
+  }
+
+  applyQuantifier(qSymbol: "∀" | "∃") {
+    const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar!).filter(Boolean)));
+    const unquantifiedVars = uniqueVars.filter(
+      (v) => !this.quantifierBindings.some((q) => q.variable === v)
+    );
+
+    if (unquantifiedVars.length > 0) {
+      const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
+      if (targetVar) {
+        this.quantifierBindings.push({
+          quantifier: qSymbol,
+          variable: targetVar,
+        });
+        this.selectedQuantifierVarIndex = 0;
+      }
+    }
+    this.updatePXEText();
+    this.renderStage3Controls();
   }
 
   renderStage3Controls() {
@@ -411,46 +454,29 @@ export class FSD extends PXEParent {
     btnPrev.setAble(true);
     this.stageControls.push(btnPrev);
 
-    const btnReset = new SVGSelectableText(() => this.resetStage3(), "Reset Prefix", false);
+    const btnReset = new SVGSelectableText(() => this.resetStage3(), "Clear Quantifiers", false);
     btnReset.setAble(this.quantifierBindings.length > 0);
     this.stageControls.push(btnReset);
 
-    // Unique variables used in Stage 2
+    // Unique unquantified variables used in Stage 2
     const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar!).filter(Boolean)));
     const unquantifiedVars = uniqueVars.filter(
       (v) => !this.quantifierBindings.some((q) => q.variable === v)
     );
 
-    // Quantifier Toggle (∀ vs ∃)
-    const btnForall = new SVGSelectableText(() => {
-      this.selectedQuantifier = "∀";
-      this.renderStage3Controls();
-    }, "∀ (For All)", false);
-    btnForall.setAble(this.selectedQuantifier !== "∀");
+    const hasUnquantified = unquantifiedVars.length > 0;
 
-    const btnExists = new SVGSelectableText(() => {
-      this.selectedQuantifier = "∃";
-      this.renderStage3Controls();
-    }, "∃ (Exists)", false);
-    btnExists.setAble(this.selectedQuantifier !== "∃");
-
+    // Sparse Universal Quantifier Button "∀"
+    const btnForall = new SVGSelectableText(() => this.applyQuantifier("∀"), "∀", false);
+    btnForall.setAble(hasUnquantified);
     this.stageControls.push(btnForall);
+
+    // Sparse Existential Quantifier Button "∃"
+    const btnExists = new SVGSelectableText(() => this.applyQuantifier("∃"), "∃", false);
+    btnExists.setAble(hasUnquantified);
     this.stageControls.push(btnExists);
 
-    // Unquantified Variable Target Buttons
-    unquantifiedVars.forEach((v) => {
-      const btn = new SVGSelectableText(() => {
-        this.quantifierBindings.push({
-          quantifier: this.selectedQuantifier,
-          variable: v,
-        });
-        this.updatePXEText();
-        this.renderStage3Controls();
-      }, `Bind ${this.selectedQuantifier}${v}`, false);
-      this.stageControls.push(btn);
-    });
-
-    // Stage 3 Transition Button (when all unique variables are quantified)
+    // Stage 3 Transition Button (enabled when all unique variables are quantified)
     const allQuantified = unquantifiedVars.length === 0 && uniqueVars.length > 0;
     const evalBtn = new SVGSelectableText(() => this.advanceStage(), "Evaluate Statement →", false);
     evalBtn.setAble(allQuantified);
@@ -480,9 +506,23 @@ export class FSD extends PXEParent {
     const getSlotVal = (idx: number) => {
       const s = this.slots[idx];
       if (!s) return "_";
-      if (s.assignedVar) return s.assignedVar;
-      if (this.stage === 2 && idx === this.selectedSlotIndex) return "?";
-      return "_";
+      if (this.stage === 2 && !s.assignedVar && idx === this.selectedSlotIndex) return "?";
+      if (!s.assignedVar) return "_";
+
+      if (this.stage === 3) {
+        const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar!).filter(Boolean)));
+        const unquantifiedVars = uniqueVars.filter(
+          (v) => !this.quantifierBindings.some((q) => q.variable === v)
+        );
+        if (unquantifiedVars.length > 0) {
+          const activeTargetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
+          if (s.assignedVar === activeTargetVar) {
+            return `${s.assignedVar}?`;
+          }
+        }
+      }
+
+      return s.assignedVar;
     };
 
     let slotIdx = 0;
