@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>editedFormalStatementsLecture</title>
+  </head>
+  <body>
+    <h1>Formal Statements: The Lecture</h1>
+    <p>"Well hello all, look whose back, its Jack."</p>
+    <p><em>A collective grunt echoes through the room.</em></p>
+    <p>"Hey, its OK; its your secret if you can't stop thinking about
+      propositions."</p>
+    <p><em>Jack grimaces and rubs his temples.</em></p>
+    <p>"OK; propositions are kind of boring. But don't worry. I am here
+      to vanquish them to a small role on a much larger stage, but
+      first..." <em>Jack clears his throat</em> "...I must set the
+      stage."</p>
+    <p><em>Cue eye-rolling and a few audible groans.</em></p>
+    <p>"We all know what a collection is right; and many might have
+      heard of set theory. Did you know not all collections are sets;
+      some are too big. Sets can be really, really big, so this will not
+      be a problem for us, and we can safely think of a set as a
+      collection."</p>
+    <p>"But how can a collection be too big to be a set?" <em>Jill
+        asks, her face a picture of pure inquisitiveness.</em></p>
+    <p>"Hello, Jill, nice to see you. Well, a set is a mathematical
+      term, a very important mathematical term. A set not only has a
+      mathematical definition, it has a whole theory devoted to it. But
+      as it turns out, not all collections are sets. Some are just too
+      big to fit inside the precise mathematical definition. For example
+      the collection of all sets is not a set. If you try to treat this
+      collection as a set, paradoxes arise: you can draw contradicting
+      conclusions; all very confusing. And I'm no expert Jill.
+      Sometimes, at least until we have learned so for ourselves, we
+      just have to trust established mathematical fact as fact."</p>
+    <p>"OK, so you just warned us about something we don't have to worry
+      about?" <em>Jill asks, triggering a wave of amused agreement
+        around the room.</em></p>
+    <p>"Ha ha, I guess so Jill. But it does suggest a set is more than a
+      collection. There are rules that define limits, even if for us
+      those limits are far, far away and collections will always be
+      sets. And per the jargon of some logicians, set will be a
+      primitive notion, meaning we won't try to formally define or
+      describe it: its our intuition of a collection. But we will
+      formally describe two set constructors, namely the product and
+      directed-pair constructors which construct sets from sets. So we
+      will need some base sets for out constructors. A good example of a
+      base set is the set of natural numbers. Another example is the
+      binary set of Boolean truth values. Remember those, the possible
+      values of a proposition?</p>
+    <p>A product is a set whose members are tuples. A tuple is a
+      sequence of slots, but aside from identification, the order of
+      slots doesn't matter. Each slot is bound to a set. The value of
+      the slot will always be a member of the (bound) set. Multiple
+      slots in a tuple may be bound to the same or different sets. More
+      specifically, the product is the set of all possible such (bound)
+      tuples. A product is denoted by the sets to which the tuple slots
+      are bound. The times symbol is used to separate the sets. For
+      instance if members of the product are tuples with two slots, each
+      of which is bound to the natural numbers, denoted
+      <math xmlns="http://w3.org"><mi>ℕ</mi></math>, then the product
+      would be denoted by
+      <math xmlns="http://w3.org"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi></mrow><annotation
+            encoding="TeX">ℕ\timesℕ</annotation></semantics></math>."</p>
+    <p>"OK, but what has this to do with a product? Like multiplication,
+      like in arithmetic?" <em>Jill asks.</em></p>
+    <p>"Not much Jill. Worse, sometimes the sets are referred to as
+      product factors. Maybe sometimes we just run out of words and
+      reuse them? I don't know. But at least we now know what they're
+      talking about right?"</p>
+    <p><em>A few murmured denials drift back from the back rows.</em></p>
+    <p>"But the product is used to help describe arithmetic. First
+      though, we describe a directed-pair. A directed-pair is
+      constructed from two sets; one is called the domain, the other the
+      codomain. We use a directed-pair when we want to formally define a
+      function. A function is a directed-pair and a rule that can assign
+      to any member of the domain a member of the codomain. Using an
+      arrow to separate the domain and codomain, both addition and
+      multiplication of natural numbers can be described as the directed
+      pair:</p>
+    <p align="center">
+      <math xmlns="http://w3.org" display="block"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+              stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
+            encoding="TeX">ℕ\timesℕ\toℕ</annotation></semantics></math>
+    </p>
+    <p>and a rule for adding or multiplying tuple values. Any
+      questions?"</p>
+    <p>"Can a directed-pair be a domain or codomain?" <em>Jill asks.</em></p>
+    <p>"Ah, good question. Perhaps so. Sounds like a good start for
+      describing a function between functions. But for now, let's say we
+      won't use directed-pairs for domains or codomains. I think that's
+      a good idea; keep things simple."</p>
+    <p><em>A mostly puzzled but accepting nod goes around the room.</em></p>
+    <p>"Anyway, a set constructor product has nothing to do with
+      multiplication. Its just a set constructor name. OK. We have our
+      primitive notion of a set and two example sets: the natural
+      numbers
+      <math xmlns="http://w3.org"><semantics><mrow><mi>ℕ</mi><mo>≡</mo><mo
+              fence="true">{</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo
+              separator="true">,</mo><mo>…</mo><mo fence="true">}</mo></mrow><annotation
+            encoding="TeX">ℕ\equiv\{1,2,\dots\}</annotation></semantics></math>
+      and the set of Boolean truth values
+      <math xmlns="http://w3.org"><semantics><mrow><mi>𝔹</mi><mo>≡</mo><mo
+              fence="true">{</mo><mtext>true</mtext><mo separator="true">,</mo><mtext>false</mtext><mo
+              fence="true">}</mo></mrow><annotation encoding="TeX">𝔹\equiv\{\text{true},\text{false}\}</annotation></semantics></math>.
+      We have described two set constructors: product and directed-pair.
+      We have a formal definition of function. When describing a
+      function, we will often use the following convention: we provide a
+      name or symbol identifier for the function followed, by a colon
+      and the directed-pair, and considering a base set as a tuple with
+      a single slot, we provide a domain tuple with each slot labeled by
+      a variable, and a description of how these variables determine the
+      codomain member where the tuple and description are separated by
+      the
+      <math xmlns="http://w3.org"><mo stretchy="false">↦</mo></math>
+      symbol. For example, consider the addition of two natural numbers.
+      Then we would have:</p>
+    <p align="center">
+      <math xmlns="http://w3.org" display="block"><semantics><mrow><mtext>add</mtext><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
+              stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
+            encoding="TeX">\text{add} : ℕ\timesℕ\toℕ</annotation></semantics></math>
+      <math xmlns="http://w3.org" display="block"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo
+              separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo
+              stretchy="block">)</mo><mo stretchy="false">↦</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation
+            encoding="TeX">(x_1, x_2)\mapsto x_1+x_2</annotation></semantics></math>
+    </p>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Formal Statements: The Lecture (Part 1)</title>
+  </body>
+</html>

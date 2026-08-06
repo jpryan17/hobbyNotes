@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>editedFormalStatementsLectureV1</title>
+  </head>
+  <body>
+    <br>
+    Well hello all, look whose back, its Jack.<br>
+    <br>
+    [Grunts.]<br>
+    <br>
+    Hey, its OK; its your secret if you can't stop thinking about propositions.<br>
+    <br>
+    [Grimaces and grunts.]<br>
+    <br>
+    OK; propositions are kind of boring. But don't worry. I am here to vanquish them to a small role on a much larger stage, but first (ahem) I must set the stage.<br>
+    <br>
+    [Eye-rolling groans.]<br>
+    <br>
+    We all know what a collection is right; and many might have heard of set theory. Did you know not all collections are sets; some are too big. Sets can be really, really big, so this will not be a problem for us, and we can safely think of a set as a collection.<br>
+    <br>
+    ["But how can a collection be too big to be a set?" Inquisitive faces.]<br>
+    <br>
+    Hello Jill, nice to see you. Well, a set is a mathematical term, a very important mathematical term. A set not only has a mathematical definition, it has a whole theory devoted to it. But as it turns out, not all collections are sets. Some are just too big to fit inside the precise mathematical definition. For example the collection of all sets is not a set. If you try to treat this collection as a set, paradoxes arise: you can draw contradicting conclusions; all very confusing. And I'm no expert Jill. Sometimes, at least until we have learned so for ourselves, we just have to trust established mathematical fact as fact.<br>
+    <br>
+    ["OK, so you just warned us about something we don't have to worry about?" Sounds of amused agreement.]<br>
+    <br>
+    Ha ha, I guess so Jill. But it does suggest a set is more than a collection. There are rules that define limits, even if for us those limits are far, far away and collections will always be sets. And per the jargon of some logicians, <em>set</em> will be a primitive notion, meaning we won't try to formally define or describe it: its our intuition of a collection.<br>
+    <br>
+    But we will formally describe two set constructors, namely the<br>
+    <ul>
+      <li>product</li>
+      <li>and directed-pair</li>
+    </ul>
+    constructors which construct sets from sets. So we will need some base sets for our constructors. A good example of a base set is the set of natural numbers. Another example is the binary set of Boolean truth values. Remember those, the possible values of a proposition?<br>
+    <br>
+    A product is a set whose members are tuples. A tuple is a sequence of slots, but aside from identification, the order of slots doesn't matter. Each slot is bound to a set. The value of the slot will always be a member of the (bound) set. Multiple slots in a tuple may be bound to the same or different sets.<br>
+    <br>
+    More specifically, the product is the set of all possible such (bound) tuples.<br>
+    <br>
+    A product is denoted by the sets to which the tuple slots are bound. The times symbol (<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>×</mo></math>) is used to separate the sets. For instance<br>
+    <ul>
+      <li>if members of the product are tuples with two slots, each of which is bound to the natural numbers (denoted <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℕ</mi><annotation encoding="TeX">ℕ</annotation></semantics></math>) then</li>
+      <ul>
+        <li>the product would be denoted by <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi></mrow><annotation encoding="TeX">ℕ\timesℕ</annotation></semantics></math>.</li>
+      </ul>
+    </ul>
+    <br>
+    ["OK, but what has this to do with a product?"]<br>
+    <br>
+    You mean multiplication, like in arithmetic?<br>
+    <br>
+    ["yes."]<br>
+    <br>
+    Not much Jill. Worse, sometimes the sets are referred to as product factors. Maybe sometimes we just run out of words and reuse them? I don't know. But at least we now know what they're talking about right?<br>
+    <br>
+    [Murmured denials.]<br>
+    <br>
+    But the product is used to help describe arithmetic. First though, we describe a directed-pair. A directed-pair is constructed from two sets; one is called the domain, the other the codomain. We use a directed-pair when we want to formally define a function. A function is a directed-pair and a rule that can assign to any member of the domain a member of the codomain. Using an arrow (<math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">→</mo></math>) to separate the domain and codomain, both addition and multiplication of natural numbers can be described as the directed pair:<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation encoding="TeX">ℕ\timesℕ\toℕ</annotation></semantics></math></li>
+    </ul>
+    and a rule for adding or multiplying tuple values. Any questions?<br>
+    <br>
+    ["Can a directed-pair be a domain or codomain?"]<br>
+    <br>
+    Ah, good question. Perhaps so. Sounds like a good start for describing a function between functions. But for now, let's say we won't use directed-pairs for domains or codomains. I think that's a good idea; keep things simple.<br>
+    <br>
+    [Mostly puzzled acknowledgment.]<br>
+    <br>
+    Anyway, a set constructor product has nothing to do with multiplication. Its just a set constructor name. OK. We have our primitive notion of a set and two example sets:
+    <ul>
+      <li>the natural numbers <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>≡</mo><mo>{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>⋯</mo><mo>}</mo></mrow><annotation encoding="TeX">ℕ\equiv\{1,2,⋯\}</annotation></semantics></math></li>
+      <li>and the set of Boolean truth values <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝔹</mi><mo>≡</mo><mo>{</mo><mtext>true</mtext><mo>,</mo><mtext>false</mtext><mo>}</mo></mrow><annotation encoding="TeX">𝔹\equiv\{\text{true},\text{false}\}</annotation></semantics></math>.</li>
+    </ul>
+    We have described two set constructors: product and directed-pair. We have a formal definition of function.<br>
+    <br>
+    When describing a function, we will often use the following convention: we provide a name or symbol identifier for the function followed by a colon and the directed-pair, and considering a base set as a tuple with a single slot, we provide a domain tuple with each slot labeled by a variable, and a description of how these variables determine the codomain member, where the tuple and description are separated by the <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>↦</mo></math> symbol. For example, consider the addition of two natural numbers. Then we would have:<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>add</mtext><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation encoding="TeX">\text{add}: ℕ\timesℕ\toℕ</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo>↦</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="TeX">(x_1, x_2)\mapsto x_1 + x_2</annotation></semantics></math></li>
+    </ul>
+    We are in a good position to define the core component of formal statements — are you ready? — ta da: <strong>the predicate</strong>.<br>
+    <br>
+    A predicate is a function whose (directed-pair's) codomain is the set of Boolean truth values <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝔹</mi><annotation encoding="TeX">𝔹</annotation></semantics></math>. If you feel a bit let down after all that fanfare, good. A predicate is that simple. A simple example is the greater than predicate that compares two natural numbers. We can give this predicate a formal definition:<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>G</mi><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>𝔹</mi></mrow><annotation encoding="TeX">PG: ℕ\timesℕ\to𝔹</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo>↦</mo><begin{cases} \text{true if } x_1 &gt; x_2 \\ \text{false if } \neg(x_1 &gt; x_2) \end{cases}</mrow><annotation encoding="TeX">(x_1, x_2)\mapsto\begin{cases} \text{true if } x_1>x_2 \\ \text{false if } \not(x_1>x_2) \end{cases}</annotation></semantics></math></li>
+    </ul>
+    We can consider an even simpler predicate. We can consider whether a natural number is less than 10. Can you guess what its formal definition might look like? Its one of those cases where we should consider a base set as a single-slot tuple. We give a definition:<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>L</mi><mn>10</mn><mo>:</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>𝔹</mi></mrow><annotation encoding="TeX">PL10: ℕ\to𝔹</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>↦</mo><begin{cases} \text{true if } x_1 &lt; 10 \\ \text{false if } \neg(x_1 &lt; 10) \end{cases}</mrow><annotation encoding="TeX">(x_1)\mapsto\begin{cases} \text{true if } x_1<10 \\ \text{false if } \not(x_1<10) \end{cases}</annotation></semantics></math></li>
+    </ul>
+    A predicate is neither true nor false; but we may ask if there is some natural number greater than 10, or whether all natural numbers are greater than 10, where clearly, the first question should be answered yes and the second no. They are propositions. A predicate can be turned into a proposition, you remember, a statement which is always either true or false. There is a fancy word when checking whether a predicate is true for some domain member or all domain members: <strong>quantification</strong>.<br>
+    <br>
+    Logicians seem to be a rather formal bunch; their language seems a bit stilted, but they mean well, so we live with it, right guys?<br>
+    <br>
+    [Blank stares.]<br>
+    <br>
+    Anyway, they refer to quantifiers: <em>there exists</em>, denoted <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∃</mo><annotation encoding="TeX">∃</annotation></semantics></math>, when asking if there is some domain member associated with the true codomain member, and <em>for all</em>, denoted <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∀</mo><annotation encoding="TeX">∀</annotation></semantics></math>, when asking if all domain members are associated with the true codomain member. Does everyone see a quantified predicate is a proposition? It will always be either true or false. In the simplest case of a single-slot predicate, such as the greater than 10 predicate formalized above, quantification is pretty simple. We either have<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∃x[P(x)]</annotation></semantics></math> or <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mo stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀x[P(x)]</annotation></semantics></math>, where <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mtext>greater than 10</mtext></mrow><annotation encoding="TeX">P\equiv\mathrm{greater\;than\;10}</annotation></semantics></math></li>
+    </ul>
+    both of which are straightforward to interpret, i.e. the first is a true proposition, and the second is false. Easy enough to see, I think. Everyone agree?<br>
+    <br>
+    ["What's that x?"]<br>
+    <br>
+    That is a great question. You see, you don't quantify a predicate directly; you don't even quantify a tuple slot. Rather, you quantify a variable bound to the slot. This variable may be any member of the set to which the slot is bound. In fact, what we really want to quantify is a predicate expression. If we quantify all the predicates in a predicate expression, we would be dealing with a propositional expression, the same propositional expressions we talked about when you were only children, but you might remember some things about them.<br>
+    <br>
+    But considering a predicate expression complicates things a bit. For example let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>1</mn></msub><mo>≡</mo><mtext>greater than 10</mtext></mrow><annotation encoding="TeX">P_1\equiv\mathrm{greater\;than\;10}</annotation></semantics></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>2</mn></msub><mo>≡</mo><mtext>less than 20</mtext></mrow><annotation encoding="TeX">P_2\equiv\mathrm{less\;than\;20}</annotation></semantics></math> and consider the quantified predicate expressions<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false">[</mo><msub><mi>P</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∧</mo><msub><mi>P</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∃x,y[P_1(x)∧P_2(y)]</annotation></semantics></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo stretchy="false">[</mo><msub><mi>P</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∧</mo><msub><mi>P</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∃x[P_1(x)∧P_2(x)]</annotation></semantics></math>.</li>
+    </ul>
+    Can you see that the first one will always be true, while the second will always be false because of the way we bind variables to slots? In the first expression, each predicate has its own variable. It is easy to find two numbers that will satisfy the expression. On the other hand, how is one number going to satisfy both predicates?<br>
+    <br>
+    Do you remember what a tautology is? This may help. Let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mtext>greater than 10</mtext></mrow><annotation encoding="TeX">P\equiv\mathrm{greater\;than\;10}</annotation></semantics></math>. Then<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>x</mi><mo stretchy="false">[</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∨</mo><mo>¬</mo><mi>P</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀x[P(x)∨\neg P(x)]</annotation></semantics></math>.</li>
+    </ul>
+    When a predicate, such as the <em>greater than</em> predicate, has more than one slot, things become a bit more complicated, because we might now have to consider the order of mixed quantifiers. For example let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mtext>greater than</mtext></mrow><annotation encoding="TeX">P\equiv\mathrm{greater\;than}</annotation></semantics></math>, and consider the quantified predicate expressions<br>
+    <ul>
+      <li><fsd-ref exp="r" quantifiers="∀x ∃y" style="color:firebrick;font-weight:bold">∀x ∃y [ 𝑃(x,y)≀]</fsd-ref> and <fsd-ref exp="r" quantifiers="∃y ∀x" style="color:firebrick;font-weight:bold">∃y ∀x [ 𝑃(x,y)≀]</fsd-ref>.</li>
+    </ul>
+    These are different propositions. The first is true. The second is false. Some people see this easily. Some don't. I don't; I have to think about it, and eventually I can say, <em>oh sure</em>, like it was always easy to see.<br>
+    <br>
+    It would be nice to have something like the truth table demo that we used to visualize propositional expressions that we could use to help visualize quantified predicate expressions, wouldn't it? We can't use a truth table because there are way too many possible combinations to enumerate. In addition, the visualization tool needs to understand the predicate rule in order to evaluate all possible predicate values.<br>
+    <br>
+    So we have to keep things simple. The visualization tool is called the formal statement demo. Its pretty simple, but sometimes simple helps.<br>
+    <br>
+    There are only four builtin predicates:<br>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>G</mi><mn>5</mn><mo>≡</mo><mtext>greater than 5</mtext></mrow><annotation encoding="TeX">PG5\equiv\mathrm{greater\;than\;5}</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>L</mi><mn>10</mn><mo>≡</mo><mtext>less than 10</mtext></mrow><annotation encoding="TeX">PL10\equiv\mathrm{less\;than\;10}</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>G</mi><mo>≡</mo><mtext>greater than</mtext></mrow><annotation encoding="TeX">PG\equiv\mathrm{greater\;than}</annotation></semantics></math></li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>L</mi><mo>≡</mo><mtext>less than</mtext></mrow><annotation encoding="TeX">PL\equiv\mathrm{less\;than}</annotation></semantics></math></li>
+    </ul>
+    where the first two predicates are single-slotted, and the last two predicates listed have two slots. Formally, we have four predicates that the user can choose from to make a valid predicate expression. At this point, there is no difference between a valid predicate expression and a valid propositional expression, and the predicate names can be used as if they label propositions.<br>
+    <br>
+    You are able to construct predicate expressions in the same way you constructed propositional expressions in the truth table demo. But after you've constructed a valid predicate expression, you must bind each slot in each predicate to a variable. In extreme cases, you may assign the same variable to every slot, or a different variable to each slot, or any combination you choose. Then, you choose a sequence of quantifiers that bind all the variables.<br>
+    <br>
+    The demo should now be able to determine the truth value of the quantified predicate expression, and provide visual aids to explain why it has this value. This should help those like me who need some time and examples before we can understand a quantified predicate. Its not always obvious.<br>
+  </body>
+</html>

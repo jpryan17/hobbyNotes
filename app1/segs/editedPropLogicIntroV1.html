@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>editedPropLogicIntroV1</title>
+  </head>
+  <body>
+    <br>
+    <h1>Propositional Logic</h1>
+    <p>As mentioned in the page introduction, a primary goal of
+      propositional logic is to expose the student to formal science in
+      general, and Boolean logic in particular, on familiar ground.</p>
+    <p>A rather stilted teacher-classroom interaction is used below to
+      introduce a specific perspective on the formalization of
+      propositional logic appropriate for this level of education: <strong>as
+        a game that only cares about being right.</strong> The
+      pedagogical key to this presentation is the interactive truth
+      table demo, which gives immediate visual confirmation of an
+      expression's value for any given input.</p>
+    <hr>
+    <p>"Good morning, children. I am Jack, and I am here to talk to you
+      about something really amazing: logic."</p>
+    <p><em>In the sea of faces, we see the curious, the skeptical, and a
+        few quiet groans. We press on.</em></p>
+    <p>"Any questions?"</p>
+    <p><em>A hand shoots up from a mischievous face.</em></p>
+    <p>"Yes?"</p>
+    <p>"Is logic logical?" <em>Giggles echo across the room.</em></p>
+    <p>"An interesting question, um..."</p>
+    <p>"Jill."</p>
+    <p>"Well, Jill, you just used a clever bit of logic, and I stand
+      corrected. I'm not going to talk about logic. I'm going to talk
+      about a <em>formal</em> logic; specifically, propositional logic.</p>
+    <p>You see, a formal logic like propositional logic cares far more
+      about <strong>being right</strong> than being 'logical.' It
+      simply refuses to be wrong. That is why it is always supposing
+      things. It begins by supposing that a <strong>proposition</strong>
+      is a statement that can be judged as definitively true or false."</p>
+    <p>"Aren't all statements either true or false?"</p>
+    <p>"Well, Jill, I think maybe not. There are advanced formal logics
+      where you do not assume every statement must be true or false.
+      Some logicians find that very useful. But whatever is 'logically
+      correct' in the real world, the game of propositional logic
+      strictly supposes that a proposition is <em>always</em> either
+      true or false. There is no middle ground.</p>
+    <p>In many ways, a formal logic is a game logicians invented to copy
+      a small slice of human decision-making. If you play by the rules,
+      and the game copies logical thinking, then you are thinking
+      logically when you play. You literally cannot be wrong.</p>
+    <p>But to always be right, you have to suppose a lot of things, and
+      you have to ignore a lot of things. For example, look at these two
+      statements:</p>
+    <ol>
+      <li><em>It is raining.</em></li>
+      <li><em>It is dark.</em></li>
+    </ol>
+    <p>We assume our circumstances are simple enough that the questions
+      <em>'Is it raining?'</em> and <em>'Is it dark?'</em> can be
+      answered with a clean, absolute <strong>yes</strong> or <strong>no</strong>.
+      That assumption turns these statements into propositions.</p>
+    <p>Crucially, the game doesn't actually care if it is raining or if
+      it is dark. It only cares that each proposition has been assigned
+      a truth value. It supposes these values exist, but it doesn't care
+      if they are factually accurate. Figuring out actual weather isn't
+      the game's job—because if it guessed, it might be wrong."</p>
+    <hr>
+    <h3>Naming Variables</h3>
+    <p>Propositional logic provides strict rules for combining
+      propositions into larger expressions. Writing out full sentences
+      every time you want to refer to a proposition is a pain—especially
+      when the only thing we care about is the final true/false value.</p>
+    <p>To fix this, we give propositions short names:</p>
+    <ul>
+      <li><em>"It is raining"</em> is named <strong>P</strong></li>
+      <li><em>"It is dark"</em> is named <strong>Q</strong></li>
+    </ul>
+    <p>The specific names don't matter much. Short is always better. In
+      fact, since we are not in first grade anymore, we can think of any
+      four abstract propositions we want. To keep everyone on the same
+      page, we will universally name our four placeholder propositions
+      p, q, r, and s.</p>
+    <p>On this digital page, these names are rather magical. When you
+      use them to construct logical expressions, they will appear in a <strong>rusty
+        red</strong> color. Clicking on any red expression will
+      instantly pull up its interactive truth table.</p>
+    <p>If you view the truth table for a standalone variable like p, you
+      will see that a single proposition is technically a propositional
+      expression, just a very boring one. The final value of the
+      expression is simply the value of the proposition itself.</p>
+    <hr>
+    <h3>The Operators</h3>
+    <p>We can build far less boring expressions using logical operators.</p>
+    <h4>1. The NOT Operator (¬)</h4>
+    <p>Unlike other operators, NOT is an exception: it alters a single
+      proposition rather than combining two. It acts as a reverse switch
+      for truth values (e.g., ¬p).</p>
+    <h4>2. The AND Operator (∧)</h4>
+    <p>An expression joined by AND is true <strong>only if both</strong>
+      individual propositions are true. It evaluates to false if either
+      piece is false (e.g., p ∧ q).</p>
+    <h4>3. The OR Operator (∨)</h4>
+    <p>An expression joined by OR is true if <strong>at least one</strong>
+      of the propositions is true. It only evaluates to false if both
+      pieces are entirely false (e.g., p ∨ q).</p>
+    <h4>4. The SAME Operator (↔)</h4>
+    <p>Formally known as equivalence, the SAME operator evaluates to
+      true if both sides share the <strong>exact same truth value</strong>
+      (both true or both false). It returns false if their values differ
+      (e.g., p ↔ q).</p>
+    <table cellspacing="0" cellpadding="5" border="1">
+      <thead> <tr>
+          <th>Logical Operation</th>
+          <th>Symbol</th>
+        </tr>
+      </thead> <tbody>
+        <tr>
+          <td>NOT</td>
+          <td>¬</td>
+        </tr>
+        <tr>
+          <td>AND</td>
+          <td>∧</td>
+        </tr>
+        <tr>
+          <td>OR</td>
+          <td>∨</td>
+        </tr>
+        <tr>
+          <td>SAME</td>
+          <td>↔</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <h3>Nesting and Structure</h3>
+    <p>Just as the NOT operator can reverse a single proposition, it can
+      also reverse an entire nested expression trapped inside brackets:</p>
+    <ul>
+      <li>¬ [p ∧ q]</li>
+      <li>¬ [p ∨ q]</li>
+      <li>¬ [p ↔ q]</li>
+      <li>¬ [¬ p]</li>
+    </ul>
+    <p>Similarly, the other operators can be used to chain separate
+      expressions together:</p>
+    <ul>
+      <li>p ∧ [q ∨ r]</li>
+      <li>[p ∧ q] ∨ r</li>
+      <li>¬ p ∨ q</li>
+      <li>¬ [¬ p] ↔ p</li>
+    </ul>
+    <hr>
+    <h3>Impressing Your Parents: Tautologies</h3>
+    <p>"That last expression on the list (¬ [¬ p] ↔ p) is what logicians
+      call a <strong>tautology</strong>. Now <em>that</em> is a
+      vocabulary word that will impress your parents.</p>
+    <p>When you go home and they ask what you learned today, casually
+      say: <em>'Not much, just messing around with logical
+        tautologies.'</em> They will be so flummoxed they might
+      completely forget to ask if you finished your homework."</p>
+    <p><em>A few laughs escape from the middle rows.</em></p>
+    <p>"A tautology is just a fancy word for a propositional expression
+      that is <strong>always true</strong>, no matter what individual
+      truth values you feed into its variables.</p>
+    <p>Look at the third expression on our list: ¬ p ∨ q. This
+      structural pattern is used so incredibly often in mathematics that
+      we give it its own shorthand symbol: <strong>p → q</strong>. The
+      truth table engine natively recognizes this definition, making the
+      statement <strong>[¬ p ∨ q] ↔ [p → q]</strong> an absolute
+      tautology.</p>
+    <p>This operation is called <strong>implication</strong> (or
+      IF-THEN), denoted by the → symbol. Using our tools, we can easily
+      verify that <strong>[[p → q] ∧ [q → p]] ↔ [p ↔ q]</strong> is
+      also a perfect tautology."</p>
+    <hr>
+    <h3>Commutative and Associative Properties</h3>
+    <p>We use tautologies to cleanly prove the core algebraic properties
+      of our logical operations. For instance, the AND (∧), OR (∨), and
+      SAME (↔) operators are completely <strong>commutative</strong>.
+      This means the physical order of the variables does not alter the
+      truth value:</p>
+    <ul>
+      <li>[p ∧ q] ↔ [q ∧ p]</li>
+      <li>[p ∨ q] ↔ [q ∨ p]</li>
+      <li>[p ↔ q] ↔ [q ↔ p]</li>
+    </ul>
+    <p>Tautologies also verify that these three operations are <strong>associative</strong>,
+      meaning regrouping the brackets changes nothing:</p>
+    <ul>
+      <li>[[p ∧ q] ∧ r] ↔ [p ∧ [q ∧ r]]</li>
+      <li>[[p ∨ q] ∨ r] ↔ [p ∨ [q ∨ r]]</li>
+      <li>[[p ↔ q] ↔ r] ↔ [p ↔ [q ↔ r]]</li>
+    </ul>
+    <hr>
+    <p>"Well, this is all fine and good, you might ask, but what is it
+      actually good for?"</p>
+    <p>"Yes, we might," <em>Jill smiles from the front.</em></p>
+    <p>"For one thing, you all just natively learned the core mechanics
+      of Boolean logic. Slip that phrase into your dinner conversation
+      tomorrow night.</p>
+    <p>Of course, you are not industry experts just yet. Software
+      engineers and scientists routinely use Boolean logic to evaluate
+      expressions constructed from <em>millions</em> of simultaneous
+      variables. We would need a monstrously large truth table to sketch
+      that out by hand.</p>
+    <p>But we are mastering propositional logic today for a very
+      specific structural reason: a propositional expression provides
+      the clean, unyielding skeletal framework for a <strong>formal
+        statement</strong>—and formal statements are the absolute
+      bedrock of physical science."</p>
+    <title>Propositional Logic Lecture</title>
+  </body>
+</html>

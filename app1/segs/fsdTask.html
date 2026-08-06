@@ -6,36 +6,63 @@
     <title>fsdTask</title>
   </head>
   <body>
-    Task: implement the formal statement demo.<br>
+    I have a table that, for a given # of input parameters to a
+    predicate, lists, in order of descending strength, the strength of
+    the quantified predicate statement.<br>
     <br>
-    As background, you should <br>
-    <ul>
-      <li>review the ./app1/segs/ html files</li>
-      <ul>
-        <li>introduction, propLogicIntro, propLogicLecture,
-          formalStatementsIntro, formalStatementsLecture, and
-          numbersIntro</li>
-      </ul>
-      <li>and review the truth table demo (TTD) implementation.</li>
-    </ul>
-    <p>The idea was suggested in an LLM session that variables
-      quantified predicates could be translated into Boolean matrices
-      that could be displayed on a grid that, in it's limit, is the
-      transfinite grid determined by
-      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation
-            encoding="TeX">ℂ_ω</annotation></semantics></math> in the
-      case of a binary predicate.<br>
-    </p>
-    <p>In general, after successfully constructing a quantified
-      predicate, it's resulting truth structure could be displayed and
-      examined by<br>
-    </p>
-    <ul>
-      <li>first displaying the values of quantified predicates as one
-        displays a row in a truth table</li>
-      <li>and clicking on a predicate will display the truth state in
-        terms of Boolean matrices.</li>
-    </ul>
-    Well, that should get us started. <br>
+    <blockquote>
+      <blockquote>
+        <table width="40%" cellspacing="2" cellpadding="2" border="1">
+          <tbody>
+            <tr>
+              <td valign="top"># of parameters<br>
+              </td>
+              <td valign="top">order of quantifiers<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp; 1<br>
+              </td>
+              <td valign="top">&nbsp;&nbsp;<math
+                  xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∀</mo><annotation
+                      encoding="TeX">∀</annotation></semantics></math><br>
+                &nbsp;
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>∃</mo><annotation
+                      encoding="TeX">∃</annotation></semantics></math>&nbsp;
+                <br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp; 2<br>
+              </td>
+              <td valign="top">&nbsp;&nbsp;<math
+                  xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mo>∀</mo></mrow><annotation
+                      encoding="TeX">∀∀</annotation></semantics></math>
+                <br>
+                &nbsp;&nbsp;<math
+                  xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mo>∀</mo></mrow><annotation
+                      encoding="TeX">∃∀</annotation></semantics></math><br>
+                &nbsp;
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mo>∃</mo></mrow><annotation
+                      encoding="TeX">∀∃</annotation></semantics></math><br>
+                &nbsp;
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mo>∃</mo></mrow><annotation
+                      encoding="TeX">∃∃</annotation></semantics></math>&nbsp;&nbsp;
+                <br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;&nbsp; 3<br>
+              </td>
+              <td valign="top">&nbsp;fill in<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        table<br>
+      </blockquote>
+    </blockquote>
+    <br>
+    I am wondering if this is correct, and if you could fill in level 3?<br>
   </body>
 </html>
