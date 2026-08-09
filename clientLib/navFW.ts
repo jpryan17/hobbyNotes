@@ -40,7 +40,7 @@ export class Nav {
     static fontSize = 20
     static sideFontSize = 14
     static lineHeight = 40
-    static offset = 12
+    static offset = 30
     static frameMargin  = 5
     static upArrow = '\u2B9D'
     static dnArrow = '\u2B9F'
@@ -50,7 +50,8 @@ export class Nav {
     constructor (app:string,parent:Elt|null=null,editMode=false,cb:Function|undefined=undefined,
                   bgC='darkgoldenrod',lineC='beige',indexC='white',foC='aliceBlue'){
         const mainSlot = document.getElementById('main-slot') as HTMLDivElement
-        const textStyle = `box-sizing:border-box;width:100%;padding:${Nav.foPadding}px;font-size:${Nav.textFontSize}px;overflow:visible;`
+        const textStyle = `overflow:auto;padding:${Nav.foPadding}` +
+            `;font-size:${Nav.textFontSize}`
          //
         Nav.app = app
         Nav.parent = parent
@@ -88,7 +89,7 @@ export class Nav {
         Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`])
         Nav.index.setAA(['x',fm,'y',y])
         Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`])
-        Nav.fo.setAA(['y',y,'style',`overflow-y:auto;overflow-x:hidden;background-color:${Nav.foBgColor}`])
+        Nav.fo.setAA(['y',y,'style',`overflow:auto;background-color:${Nav.foBgColor}`])
         Nav.lineArrowButton.setAA(['x',xp,'y',yp,'stroke',Nav.color.std,'font-size',Nav.arrowSize])
         Nav.lineArrowButton.setV(Nav.dnArrow)
         Nav.lineArrowButton.elt.addEventListener('click',()=>
@@ -140,7 +141,8 @@ export class Nav {
     }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
-        const textStyle = `box-sizing:border-box;width:100%;padding:${Nav.foPadding}px;font-size:${Nav.textFontSize}px;overflow:visible;`
+        const textStyle = `overflow:auto;padding:${Nav.foPadding}` +
+                             `;font-size:${Nav.textFontSize}`
         Nav.segDiv.setA('style',textStyle)
     }
     static setTextSizeControlPos(lineWidth:number){
