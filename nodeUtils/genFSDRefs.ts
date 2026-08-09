@@ -14,9 +14,10 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
 
   if (!quantifiers) quantifiers = '∀x₁ ∃x₂';
 
-  // Map Predicates to internal codes: PG5 -> p, PL10 -> q, PG -> r, PL -> s
+  // Map Predicates to internal codes: PG5 -> p, PL10 -> q, PG -> r, PL -> s, ∈ -> m
   let body = cleaned;
   body = body
+    .replace(/\\in|∈|MEM/g, 'm')
     .replace(/PG5/g, 'p')
     .replace(/PL10/g, 'q')
     .replace(/PG/g, 'r')
@@ -35,7 +36,7 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
 
   let exp = '';
   for (const char of body) {
-    if ('pqrsnaoie[]'.includes(char)) {
+    if ('pqrsmnaoie[]'.includes(char)) {
       exp += char;
     }
   }

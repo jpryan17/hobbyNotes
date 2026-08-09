@@ -21,7 +21,7 @@ export const formalStatementsIndex = [
         topic: "introduction",
         htmlSegmentId: "formalStatementsIntro",
     },
-    { type: "html", topic: "lecture", htmlSegmentId: "formalStatementsLecture" },
+    { type: "html", topic: "lecture", htmlSegmentId: "editedFormalStatementsLectureV2" },
     {
         type: "diagram",
         topic: "formal statement demo",

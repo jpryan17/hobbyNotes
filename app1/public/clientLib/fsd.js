@@ -19,6 +19,7 @@ export class FSD extends PXEParent {
     buttonPL10;
     buttonPG;
     buttonPL;
+    buttonMEM;
     buttonNeg;
     buttonAnd;
     buttonOr;
@@ -29,7 +30,9 @@ export class FSD extends PXEParent {
     buttonBackspace;
     nextStageButton;
     // Stage 2 State: Variables & Slots
-    availableVars = ["x₁"];
+    elementVars = ["x₁", "x₂"];
+    setVars = ["y₁", "y₂"];
+    availableVars = ["x₁", "x₂", "y₁", "y₂"];
     selectedVar = "x₁";
     slots = [];
     // Dynamic Stage 2 & 3 Controls
@@ -73,6 +76,7 @@ export class FSD extends PXEParent {
         this.buttonPL10 = new SVGSelectableText(() => this.pxe.addCharacter("q"), "PL10", false);
         this.buttonPG = new SVGSelectableText(() => this.pxe.addCharacter("r"), "PG", false);
         this.buttonPL = new SVGSelectableText(() => this.pxe.addCharacter("s"), "PL", false);
+        this.buttonMEM = new SVGSelectableText(() => this.pxe.addCharacter("m"), "∈", false);
         this.buttonNeg = new SVGSelectableText(() => this.pxe.addCharacter("n"), "¬", false);
         this.buttonAnd = new SVGSelectableText(() => this.pxe.addCharacter("a"), "∧", false);
         this.buttonOr = new SVGSelectableText(() => this.pxe.addCharacter("o"), "∨", false);
@@ -90,6 +94,7 @@ export class FSD extends PXEParent {
             this.buttonPL10,
             this.buttonPG,
             this.buttonPL,
+            this.buttonMEM,
             this.buttonNeg,
             this.buttonAnd,
             this.buttonOr,
@@ -122,11 +127,11 @@ export class FSD extends PXEParent {
     }
     showControls() {
         // Clear old SVG controls from parent SVG
-        this.controls.forEach(c => {
+        this.controls.forEach((c) => {
             if (c.elt && c.elt.parentElement)
                 c.elt.parentElement.removeChild(c.elt);
         });
-        this.stageControls.forEach(c => {
+        this.stageControls.forEach((c) => {
             if (c.elt && c.elt.parentElement)
                 c.elt.parentElement.removeChild(c.elt);
         });
@@ -150,14 +155,14 @@ export class FSD extends PXEParent {
             this.controls.forEach((e) => {
                 this.append(e);
                 e.setAA(["x", x, "y", y]);
-                x += getBtnWidth(e) + 12;
+                x += getBtnWidth(e) + 10;
             });
         }
         else if (this.stage === 2 || this.stage === 3) {
             this.stageControls.forEach((e) => {
                 this.append(e);
                 e.setAA(["x", x, "y", y]);
-                x += getBtnWidth(e) + 12;
+                x += getBtnWidth(e) + 10;
             });
         }
     }
@@ -169,6 +174,7 @@ export class FSD extends PXEParent {
             this.buttonPL10.setAble(frontBtnsEnabled);
             this.buttonPG.setAble(frontBtnsEnabled);
             this.buttonPL.setAble(frontBtnsEnabled);
+            this.buttonMEM.setAble(frontBtnsEnabled);
             this.buttonNeg.setAble(frontBtnsEnabled);
             this.buttonLB.setAble(frontBtnsEnabled);
             const backBtnsEnabled = expectClass === "back";
@@ -184,7 +190,9 @@ export class FSD extends PXEParent {
     }
     clear() {
         this.stage = 1;
-        this.availableVars = ["x₁"];
+        this.elementVars = ["x₁", "x₂"];
+        this.setVars = ["y₁", "y₂"];
+        this.availableVars = ["x₁", "x₂", "y₁", "y₂"];
         this.selectedVar = "x₁";
         this.slots = [];
         this.quantifierBindings = [];
@@ -222,8 +230,6 @@ export class FSD extends PXEParent {
     }
     resetStage2() {
         this.slots.forEach((s) => (s.assignedVar = undefined));
-        this.availableVars = ["x₁"];
-        this.selectedVar = "x₁";
         this.selectedSlotIndex = 0;
         this.updatePXEText();
         this.renderStage2Controls();
@@ -252,26 +258,31 @@ export class FSD extends PXEParent {
     setupStage2() {
         this.stage = 2;
         this.slots = [];
-        this.availableVars = ["x₁"];
-        this.selectedVar = "x₁";
+        this.elementVars = ["x₁", "x₂"];
+        this.setVars = ["y₁", "y₂"];
+        this.availableVars = ["x₁", "x₂", "y₁", "y₂"];
         this.selectedSlotIndex = 0;
         this.clearStageControls();
         // Extract all predicate tokens from pxe.exp
         for (let i = 0; i < this.pxe.exp.length; i++) {
             const ch = this.pxe.exp[i];
             if (ch === "p") {
-                this.slots.push({ predCode: "p", predName: "PG5", slotIndex: 0 });
+                this.slots.push({ predCode: "p", predName: "PG5", slotIndex: 0, domainType: "S" });
             }
             else if (ch === "q") {
-                this.slots.push({ predCode: "q", predName: "PL10", slotIndex: 0 });
+                this.slots.push({ predCode: "q", predName: "PL10", slotIndex: 0, domainType: "S" });
             }
             else if (ch === "r") {
-                this.slots.push({ predCode: "r", predName: "PG", slotIndex: 0 });
-                this.slots.push({ predCode: "r", predName: "PG", slotIndex: 1 });
+                this.slots.push({ predCode: "r", predName: "PG", slotIndex: 0, domainType: "S" });
+                this.slots.push({ predCode: "r", predName: "PG", slotIndex: 1, domainType: "S" });
             }
             else if (ch === "s") {
-                this.slots.push({ predCode: "s", predName: "PL", slotIndex: 0 });
-                this.slots.push({ predCode: "s", predName: "PL", slotIndex: 1 });
+                this.slots.push({ predCode: "s", predName: "PL", slotIndex: 0, domainType: "S" });
+                this.slots.push({ predCode: "s", predName: "PL", slotIndex: 1, domainType: "S" });
+            }
+            else if (ch === "m") {
+                this.slots.push({ predCode: "m", predName: "∈", slotIndex: 0, domainType: "S" });
+                this.slots.push({ predCode: "m", predName: "∈", slotIndex: 1, domainType: "P(S)" });
             }
         }
         // Direct click on top PXE bar cycles slot/variable selection
@@ -306,6 +317,19 @@ export class FSD extends PXEParent {
             }
         }
     }
+    // Type-Checking Invariant: Ensure no variable is bound across mismatched domain types (S vs P(S))
+    checkTypeMismatch() {
+        const varTypes = {};
+        for (const s of this.slots) {
+            if (s.assignedVar) {
+                if (varTypes[s.assignedVar] && varTypes[s.assignedVar] !== s.domainType) {
+                    return { hasMismatch: true, conflictingVar: s.assignedVar };
+                }
+                varTypes[s.assignedVar] = s.domainType;
+            }
+        }
+        return { hasMismatch: false };
+    }
     assignVarToActiveSlot(v) {
         if (this.slots[this.selectedSlotIndex]) {
             this.slots[this.selectedSlotIndex].assignedVar = v;
@@ -333,29 +357,43 @@ export class FSD extends PXEParent {
         const btnReset = new SVGSelectableText(() => this.resetStage2(), "Reset Slots", false);
         btnReset.setAble(this.slots.some((s) => s.assignedVar !== undefined));
         this.stageControls.push(btnReset);
-        // Variable Assignment Buttons for active slot (x₁, x₂, etc.)
-        this.availableVars.forEach((v) => {
+        const activeSlot = this.slots[this.selectedSlotIndex];
+        const isPowerSet = activeSlot && activeSlot.domainType === "P(S)";
+        // Variable Assignment Buttons for active slot
+        const varsToShow = isPowerSet ? this.setVars : this.elementVars;
+        varsToShow.forEach((v) => {
             const btn = new SVGSelectableText(() => {
                 this.assignVarToActiveSlot(v);
             }, v, false);
             btn.setAble(this.slots.length > 0);
             this.stageControls.push(btn);
         });
-        // "+ Var" button to create x₂, x₃, etc. and assign to active slot
+        // "+ Var" button to create new variable for active slot domain
         const newVarBtn = new SVGSelectableText(() => {
             const subscripts = ["₁", "₂", "₃", "₄", "₅", "₆"];
-            const nextIdx = this.availableVars.length;
-            const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
-            const newV = `x${sub}`;
-            this.availableVars.push(newV);
-            this.assignVarToActiveSlot(newV);
-        }, "+ Var", false);
+            if (isPowerSet) {
+                const nextIdx = this.setVars.length;
+                const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
+                const newV = `y${sub}`;
+                this.setVars.push(newV);
+                this.assignVarToActiveSlot(newV);
+            }
+            else {
+                const nextIdx = this.elementVars.length;
+                const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
+                const newV = `x${sub}`;
+                this.elementVars.push(newV);
+                this.assignVarToActiveSlot(newV);
+            }
+        }, isPowerSet ? "+ yVar" : "+ xVar", false);
         newVarBtn.setAble(this.slots.length > 0);
         this.stageControls.push(newVarBtn);
-        // Stage 2 Transition Button (enabled only when ALL slots are bound)
+        // Check Type Clash
+        const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
+        // Stage 2 Transition Button (enabled only when ALL slots are bound AND no type clash)
         const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== undefined);
-        const nextBtn = new SVGSelectableText(() => this.advanceStage(), "Quantify Variables →", false);
-        nextBtn.setAble(allBound);
+        const nextBtn = new SVGSelectableText(() => this.advanceStage(), hasMismatch ? `Type Clash: ${conflictingVar}` : "Quantify Variables →", false);
+        nextBtn.setAble(allBound && !hasMismatch);
         this.stageControls.push(nextBtn);
         this.showControls();
     }
@@ -374,9 +412,12 @@ export class FSD extends PXEParent {
         if (unquantifiedVars.length > 0) {
             const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
             if (targetVar) {
+                const slot = this.slots.find((s) => s.assignedVar === targetVar);
+                const dType = slot ? slot.domainType : (targetVar.startsWith("y") ? "P(S)" : "S");
                 this.quantifierBindings.push({
                     quantifier: qSymbol,
                     variable: targetVar,
+                    domainType: dType,
                 });
                 this.selectedQuantifierVarIndex = 0;
             }
@@ -419,13 +460,15 @@ export class FSD extends PXEParent {
         this.showControls();
         this.renderStage4Table();
     }
-    // Format real-time PXE expression string for Top Bar with Predicate Names
+    // Format real-time PXE expression string for Top Bar with Predicate Names and Domain Types
     formatFSDExp(exp) {
         let display = "";
-        // Quantifier Prefix (Stage 3+)
+        // Quantifier Prefix with explicit domain typing (Stage 3+)
         if (this.stage >= 3) {
             if (this.quantifierBindings && this.quantifierBindings.length > 0) {
-                const qPrefix = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
+                const qPrefix = this.quantifierBindings
+                    .map((q) => `${q.quantifier}${q.variable}:${q.domainType === "P(S)" ? "𝒫(𝒮)" : "𝒮"}`)
+                    .join(" ");
                 display += `${qPrefix} [ `;
             }
             else {
@@ -436,10 +479,12 @@ export class FSD extends PXEParent {
             const s = this.slots[idx];
             if (!s)
                 return "_";
-            if (this.stage === 2 && !s.assignedVar && idx === this.selectedSlotIndex)
-                return "?";
-            if (!s.assignedVar)
-                return "_";
+            if (this.stage === 2 && !s.assignedVar && idx === this.selectedSlotIndex) {
+                return s.domainType === "P(S)" ? "y?" : "x?";
+            }
+            if (!s.assignedVar) {
+                return s.domainType === "P(S)" ? "y" : "x";
+            }
             if (this.stage === 3) {
                 const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar).filter(Boolean)));
                 const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
@@ -472,6 +517,11 @@ export class FSD extends PXEParent {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
                 display += this.stage >= 2 ? `PL(${v0}, ${v1})` : "PL";
+            }
+            else if (ch === "m") {
+                const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+                const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+                display += this.stage >= 2 ? `(${v0} ∈ ${v1})` : "∈";
             }
             else if (ch === "[") {
                 display += "[\u2009";
@@ -527,18 +577,21 @@ export class FSD extends PXEParent {
             predMap["r"] = { name: "PG", val: this.evaluatePredicate("PG") };
         if (this.pxe.exp.includes("s"))
             predMap["s"] = { name: "PL", val: this.evaluatePredicate("PL") };
+        if (this.pxe.exp.includes("m"))
+            predMap["m"] = { name: "∈", val: this.evaluatePredicate("∈") };
         const predCodes = Object.keys(predMap);
         // Build syntax tree and columns using TTD engine
         const tree = ttd.bldTree(this.pxe.exp);
         ttd.tree = tree;
         ttd.predCols = predCodes.map((c) => predMap[c].name);
         ttd.expCols = ttd.treeToExpColumns(tree);
-        // Format expression column headers with predicate names (supporting math italic symbols)
+        // Format expression column headers with predicate names
         ttd.expCols.forEach((c) => {
             c.header = c.header.replace(/𝑝|p/g, "PG5");
             c.header = c.header.replace(/𝑞|q/g, "PL10");
             c.header = c.header.replace(/𝑟|r/g, "PG");
             c.header = c.header.replace(/𝑠|s/g, "PL");
+            c.header = c.header.replace(/𝑚|m/g, "∈");
         });
         // Single row evaluated values
         const predVals = predCodes.map((c) => (predMap[c].val ? "T" : "F"));
@@ -577,6 +630,83 @@ export class FSD extends PXEParent {
         }
     }
     evaluatePredicate(predName) {
+        if (predName === "∈") {
+            // Power Set Incidence Matrix: Base Set S = 4 elements, Power Set P(S) = 16 subsets
+            const numElem = 4;
+            const numSubsets = 1 << numElem; // 16
+            const grid = [];
+            for (let i = 0; i < numElem; i++) {
+                const row = [];
+                for (let j = 0; j < numSubsets; j++) {
+                    row.push((j & (1 << i)) !== 0);
+                }
+                grid.push(row);
+            }
+            const xBinding = this.quantifierBindings.find((q) => q.domainType === "S");
+            const yBinding = this.quantifierBindings.find((q) => q.domainType === "P(S)");
+            const xQuant = xBinding ? xBinding.quantifier : "∃";
+            const yQuant = yBinding ? yBinding.quantifier : "∀";
+            const xFirst = xBinding && yBinding
+                ? this.quantifierBindings.indexOf(xBinding) < this.quantifierBindings.indexOf(yBinding)
+                : true;
+            if (xFirst) {
+                // Order: Qx x:S, Qy y:P(S)
+                if (xQuant === "∃" && yQuant === "∀") {
+                    // ∃x ∀y [x ∈ y] -> Is there an element in ALL subsets? (False, empty set has none)
+                    return grid.some((row) => row.every((val) => val));
+                }
+                else if (xQuant === "∀" && yQuant === "∃") {
+                    // ∀x ∃y [x ∈ y] -> For every element, is there some subset containing it? (True, e.g. {x} or S)
+                    return grid.every((row) => row.some((val) => val));
+                }
+                else if (xQuant === "∀" && yQuant === "∀") {
+                    return grid.every((row) => row.every((val) => val));
+                }
+                else {
+                    // ∃x ∃y
+                    return grid.some((row) => row.some((val) => val));
+                }
+            }
+            else {
+                // Order: Qy y:P(S), Qx x:S
+                if (yQuant === "∀" && xQuant === "∃") {
+                    // ∀y ∃x [x ∈ y] -> Does every subset have an element? (False, empty set ∅ has none)
+                    for (let j = 0; j < numSubsets; j++) {
+                        let colHasTrue = false;
+                        for (let i = 0; i < numElem; i++) {
+                            if (grid[i][j]) {
+                                colHasTrue = true;
+                                break;
+                            }
+                        }
+                        if (!colHasTrue)
+                            return false;
+                    }
+                    return true;
+                }
+                else if (yQuant === "∃" && xQuant === "∀") {
+                    // ∃y ∀x [x ∈ y] -> Is there a subset containing ALL elements? (True, S itself)
+                    for (let j = 0; j < numSubsets; j++) {
+                        let colAllTrue = true;
+                        for (let i = 0; i < numElem; i++) {
+                            if (!grid[i][j]) {
+                                colAllTrue = false;
+                                break;
+                            }
+                        }
+                        if (colAllTrue)
+                            return true;
+                    }
+                    return false;
+                }
+                else if (yQuant === "∀" && xQuant === "∀") {
+                    return grid.every((row) => row.every((val) => val));
+                }
+                else {
+                    return grid.some((row) => row.some((val) => val));
+                }
+            }
+        }
         const N = this.gridResolution;
         const grid = [];
         for (let i = 0; i < N; i++) {
@@ -634,6 +764,8 @@ export class FSD extends PXEParent {
                 cols.push({ label: "PG", val: predValues["r"] ?? true });
             else if (ch === "s")
                 cols.push({ label: "PL", val: predValues["s"] ?? true });
+            else if (ch === "m")
+                cols.push({ label: "∈", val: predValues["m"] ?? true });
             else if (ch === "a") {
                 const left = cols[cols.length - 1]?.val ?? true;
                 const rightCode = exp[i + 1];
@@ -678,6 +810,7 @@ export class FSD extends PXEParent {
             q: this.evaluatePredicate("PL10"),
             r: this.evaluatePredicate("PG"),
             s: this.evaluatePredicate("PL"),
+            m: this.evaluatePredicate("∈"),
         };
         const cols = this.evaluateExpCols(this.pxe.exp, predMap);
         const mainOp = cols.find((c) => ["∧", "∨", "→", "↔", "¬"].includes(c.label));
@@ -690,9 +823,79 @@ export class FSD extends PXEParent {
         // Header title for Matrix Visualizer
         const titleBox = new Elt("div");
         titleBox.setA("style", "font-weight: bold; font-size: 14px; color: #0056b3; margin-bottom: 8px;");
-        titleBox.setV(`Boolean Matrix Structure for Predicate: ${colLabel}`);
+        titleBox.setV(colLabel === "∈" ? "Power Set Incidence Matrix for Membership Predicate: ∈(x, y)" : `Boolean Matrix Structure for Predicate: ${colLabel}`);
         matrixBox.append(titleBox);
-        // Dyadic resolution selector buttons
+        if (colLabel === "∈") {
+            // Power Set Incidence Matrix Display
+            const numElem = 4;
+            const numSubsets = 16;
+            const cellSize = 22;
+            const width = numSubsets * cellSize + 55;
+            const height = numElem * cellSize + 40;
+            const svgWrap = new Elt("div");
+            svgWrap.setA("style", "display: flex; gap: 15px; align-items: center; flex-wrap: wrap;");
+            const svg = new SVGElt("svg");
+            svg.setAA(["width", width, "height", height, "style", "background: #ffffff; border: 1px solid #ccc; border-radius: 3px;"]);
+            // Row Labels (Elements of S)
+            for (let i = 0; i < numElem; i++) {
+                const rowText = new SVGText();
+                rowText.setV(`s${i + 1} ∈ 𝒮`);
+                rowText.setAA(["x", 4, "y", 28 + i * cellSize + 15, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
+                svg.append(rowText);
+            }
+            // Column Labels (Subsets of P(S))
+            const subsetLabels = [
+                "∅", "{s₁}", "{s₂}", "{s₁,s₂}", "{s₃}", "{s₁,s₃}", "{s₂,s₃}", "{s₁..₃}",
+                "{s₄}", "{s₁,s₄}", "{s₂,s₄}", "{s₁..₄}", "{s₃,s₄}", "{s₁,s₃,s₄}", "{s₂,s₃,s₄}", "𝒮"
+            ];
+            for (let j = 0; j < numSubsets; j++) {
+                const colText = new SVGText();
+                colText.setV(`Y${j}`);
+                colText.setAA(["x", 52 + j * cellSize + 2, "y", 16, "font-size", "9", "fill", "#555"]);
+                svg.append(colText);
+            }
+            // Grid Cells
+            for (let i = 0; i < numElem; i++) {
+                for (let j = 0; j < numSubsets; j++) {
+                    const isMember = (j & (1 << i)) !== 0;
+                    const rect = new SVGElt("rect");
+                    rect.setAA([
+                        "x", 50 + j * cellSize,
+                        "y", 24 + i * cellSize,
+                        "width", cellSize - 2,
+                        "height", cellSize - 2,
+                        "fill", isMember ? "#007bff" : "#e9ecef",
+                        "stroke", "#ced4da"
+                    ]);
+                    svg.append(rect);
+                    const cellText = new SVGText();
+                    cellText.setV(isMember ? "1" : "0");
+                    cellText.setAA([
+                        "x", 50 + j * cellSize + 6,
+                        "y", 24 + i * cellSize + 14,
+                        "font-size", "10",
+                        "fill", isMember ? "#ffffff" : "#6c757d",
+                        "font-weight", "bold"
+                    ]);
+                    svg.append(cellText);
+                }
+            }
+            svgWrap.append(svg);
+            const info = new Elt("div");
+            info.setA("style", "font-size: 13px; line-height: 1.6; color: #333; max-width: 480px;");
+            info.setV(`
+        <b>Algebra of Sets & Power Set Incidence Matrix:</b><br>
+        • Base Domain: <b>𝒮 = {s₁, s₂, s₃, s₄}</b> (4 rows)<br>
+        • Power Set: <b>𝒫(𝒮) = (𝒫(𝒮), ⋃, ⋂, ⁻)</b> (16 columns from ∅ to 𝒮)<br>
+        • Cell value <b>1 (Blue)</b> if element sᵢ ∈ subset Yⱼ; <b>0 (Grey)</b> if sᵢ ∉ Yⱼ.<br>
+        • Predicate Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b><br>
+        <small><i>Note: ∃x:𝒮 ∀y:𝒫(𝒮) [x ∈ y] is False because the empty set ∅ contains no element.</i></small>
+      `);
+            svgWrap.append(info);
+            matrixBox.append(svgWrap);
+            return;
+        }
+        // Dyadic resolution selector buttons for PG / PL
         const resBox = new Elt("div");
         resBox.setA("style", "display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 12px;");
         resBox.setV("<b>Dyadic Grid Scale (1/2<sup>k</sup>):</b> ");

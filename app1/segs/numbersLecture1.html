@@ -1,0 +1,1000 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+  </head>
+  <body>
+    Salutations class. I can see no formal introductions are required. I
+    may say though, you are a fine looking class!<br>
+    <br>
+    [groans.]<br>
+    <br>
+    We've arrived at my favorite subject: numbers!<br>
+    <br>
+    [dubious faces.]<br>
+    <br>
+    By now, I'm sure you know quite a lot about numbers: how to
+    represent them in different ways, and how to use them to calculate.
+    Useful stuff; been around a long time too. Thousands of years, I'd
+    calculate.<br>
+    <br>
+    [uggs.]<br>
+    <br>
+    I'm not going to try to add to your practical knowledge of numbers.
+    But I will try to present their formal definitions.<br>
+    <br>
+    I don't know how you'll feel, but I know I feel lucky that, after
+    thousands of years of working with and talking about numbers, back
+    in 1970, a new way of defining numbers was described by British
+    mathematician John Conway.<br>
+    <br>
+    Before this remarkable discovery, it was no easy task to describe
+    real numbers. I shall outline it for you. Don't worry, you aren't to
+    be held responsible for remembering any of the particulars. Those of
+    you heading toward further scientific study will soon enough become
+    familiar with the lingo I will use. But for now, I only want to
+    convey the fact that the standard definition of real numbers is by
+    no means easy. So relax and enjoy the story. You can forget it all
+    by lunchtime.<br>
+    <br>
+    We begin with the natural numbers. I'm sure you've noticed its
+    pretty standard to denote the naturals by the symbol
+    <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>≡</mo><mo
+            stretchy="false">{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mo>⋯</mo><mo
+            stretchy="false">}</mo></mrow><annotation encoding="TeX">ℕ\equiv\{1,2,⋯\}</annotation></semantics></math>,
+    a set of numbers easy to intuit and formalize which mathematicians
+    have don in various ways. This is where the story usually starts.
+    Nearly their defining property, the natural numbers exhibit an order
+    among members. with 1 the first, 2 the second, and so on. This
+    allows us to describe one natural number as greater or less than
+    some other natural number.<br>
+    <br>
+    One important way of formalizing the natural numbers, which is the
+    bedrock of how we will formalize numbers, is by an inductive
+    definition. An inductive definition describes a set by assuming the
+    set contains particular members. In the case of the natural numbers,
+    the assumed members are<br>
+    <ul>
+      <li>a unique root member; we call it 1;</li>
+      <li>and for every member of the set, there is a unique successor
+        member; for example, the successor of 1 is 2, the successor of 2
+        is 3, and so on.</li>
+    </ul>
+    <p>This gives the set of naturals it's non-finite character: for any
+      natural number, there is another greater natural number: it's
+      successor. But you already know that. It is one of those
+      fundamental intuitions that allow even children to quickly master
+      the naturals.<br>
+    </p>
+    When the naturals are defined by an inductive definition, both
+    addition and multiplication of natural numbers can be recursively
+    defined via inductive proofs. I'm sure for many of you, what I just
+    said is mere word salad, but I'm just as sure you all have a pretty
+    good handle on adding and multiplying natural numbers, as have many
+    of our ancestors for thousands of years. The point is that it is not
+    difficult to formally define the natural numbers in a manner that
+    exhibits their 'natural' order, and then formally define arithmetic
+    operations of addition and multiplication.<br>
+    <br>
+    But what about subtraction and division? Are these operation defined
+    for the naturals?<br>
+    <br>
+    [a mumbled&nbsp; no.]<br>
+    <br>
+    Mathematicians often describe the strength of the basic arithmetic
+    operations of addition and multiplication relative to the set in
+    which they operate. In the case of the natural numbers<br>
+    <ul>
+      <li>addition is a semigroup operation</li>
+      <li>and multiplication is a monoid operation.</li>
+    </ul>
+    <p>We denote addition of the naturals by the tuple
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℕ</mi><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ,+)</annotation></semantics></math>.
+      We refer such a combination as an algebraic structure. Those of
+      you who want to study science further, maybe even considering
+      scientific careers, will learn much more about algebraic
+      structure. But for the rest of us, relax. As important as they are
+      to career scientists, a knowledge of algebraic structure will not
+      be required for how we will eventually formally define numbers.
+      But before 1970, it was the only game in (any) town. So we, for
+      the sake of the story, will generally describe some algebraic
+      notions, but as I said, by lunchtime, you can safely forget all
+      the particulars.<br>
+    </p>
+    <p>The primary notion of an algebraic operation is that it is
+      closed, which means the result of an operation is always another
+      member of the set. So, both&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℕ</mi><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ,+)</annotation></semantics></math>
+      and&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℕ</mi><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ,\cdot)</annotation></semantics></math>,
+      where the dot denotes multiplication, are closed sing adding or
+      multiplying two natural numbers always produces another natural
+      number. But natural number addition is called a semigroup because
+      the operation is also associative which means if you add three or
+      more numbers, it does not matter in which order you add them. This
+      is also the case for multiplication, but multiplication of
+      naturals has a property that addition lacks. It has a number that
+      when used in the operation with another number always results in
+      that other number. You know which number?<br>
+    </p>
+    <p>[mumblings: class reaching agreement that number is 1]<br>
+    </p>
+    <p>Exactly, the result of 1 multiplied by any other number is that
+      other number. When an algebraic structure such as&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℕ</mi><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ,\cdot)</annotation></semantics></math>
+      contains a member such as 1, which is called a neutral or
+      sometimes identity member of the set, then it is called a monoid.
+      Pretty cool name, huh? zero was <br>
+    </p>
+    <p>[..]</p>
+    <p>It took a while before zero was introduced as a number. When I
+      searched for when on my computer I got this response:</p>
+    <blockquote>
+      <p><span data-subtree="aimfl,mfl"
+          data-copy-service-computed-style="font-family: &quot;Google
+          Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+          font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);" style="font-family:
+          &quot;Google Sans&quot;, Roboto, Arial, sans-serif; font-size:
+          16px; font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);"><span class="yADgie"
+            data-copy-service-computed-style="font-family: &quot;Google
+            Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+            font-weight: 400; margin: 0px; text-decoration: none;
+            border-bottom: 0px rgb(10, 10, 10);" style="font-family:
+            &quot;Google Sans&quot;, Roboto, Arial, sans-serif;
+            font-size: 16px; font-weight: 400; margin: 0px;
+            text-decoration: none; border-bottom: 0px rgb(10, 10, 10);">The
+
+
+            concept of zero was introduced in different ways across
+            history: as a simple placeholder by the Babylonians around
+            300 BCE</span></span><span class="yADgie"
+          data-copy-service-computed-style="font-family: &quot;Google
+          Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+          font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);" style="font-family:
+          &quot;Google Sans&quot;, Roboto, Arial, sans-serif; font-size:
+          16px; font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);">, as a full positional
+          number by the Maya civilization by 36 BCE, and as an
+          independent mathematical number with arithmetic rules by the
+          Indian mathematician Brahmagupta in </span><mark
+          jsuid="uak4od_j" class="HxTRcb"
+jsaction="click:&amp;uak4od_j|h5M12e;mouseenter:&amp;uak4od_j|sbHm2b;mouseleave:&amp;uak4od_j|Tx5Rb;rcuQ6b:&amp;uak4od_j|npT2md"
+          jscontroller="DfH0l#VLQhtf" data-sfc-root="ep"
+          data-wiz-uids="uak4od_k"
+          data-ved="2ahUKEwjkj__J4I-WAxVaBDQIHe-sCGcQuJAPegoIAggACAAIBxAB"
+          data-complete="true" data-sfc-inited="2"
+          data-copy-service-computed-style="font-family: &quot;Google
+          Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+          font-weight: 500; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(0, 29, 53);" style="font-family:
+          &quot;Google Sans&quot;, Roboto, Arial, sans-serif; font-size:
+          16px; font-weight: 500; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(0, 29, 53);"><!--qkimaf uak4od_j/HugV6--><!--cqw1tb uak4od_j/HugV6--><span
+            class="yADgie"
+            data-copy-service-computed-style="font-family: &quot;Google
+            Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+            font-weight: 500; margin: 0px; text-decoration: none;
+            border-bottom: 0px rgb(0, 29, 53);" style="font-family:
+            &quot;Google Sans&quot;, Roboto, Arial, sans-serif;
+            font-size: 16px; font-weight: 500; margin: 0px;
+            text-decoration: none; border-bottom: 0px rgb(0, 29, 53);">628
+
+
+            CE.</span></mark><span class="yADgie"
+          data-copy-service-computed-style="font-family: &quot;Google
+          Sans&quot;, Roboto, Arial, sans-serif; font-size: 16px;
+          font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);" style="font-family:
+          &quot;Google Sans&quot;, Roboto, Arial, sans-serif; font-size:
+          16px; font-weight: 400; margin: 0px; text-decoration: none;
+          border-bottom: 0px rgb(10, 10, 10);"></span><span><br>
+        </span></p>
+    </blockquote>
+    <p>Once zero is established as a number and added to the set of
+      naturals, the algebraic structure&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo><mo>,</mo><mstyle
+              mathvariant="normal"><mi mathvariant="normal">w</mi><mi
+                mathvariant="normal">h</mi><mi mathvariant="normal">e</mi><mi
+                mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mspace
+                width="0.2777777777777778em"></mspace></mstyle><msub><mi>ℕ</mi><mn>0</mn></msub><mo>≡</mo><mo
+              stretchy="false">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>.</mo><mo>⋯</mo><mo
+              stretchy="false">}</mo></mrow><annotation encoding="TeX">(ℕ_0,+),\mathrm{where\;}ℕ_0\equiv\{0,1,2.⋯\}</annotation></semantics></math>
+      is now also a monoid; but what about
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_0,\cdot)</annotation></semantics></math>?<br>
+    </p>
+    <p>["Its still a monoid."]<br>
+    </p>
+    <p>That's right Jill. Care to explain why?<br>
+    </p>
+    <p>["Well, we already know 1 times any number besides zero is 1
+      because you just told us." wry appreciation from classmates. And
+      zero times any number is zero, so&nbsp; "]<br>
+    </p>
+    <p>Exactly. We all agree?<br>
+    </p>
+    <p>[sure]<br>
+    </p>
+    <p>If an algebraic structure like&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_0,+)</annotation></semantics></math>
+      or&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_0,\cdot)</annotation></semantics></math>
+      has a neutral or identity member, then we can define the notion of
+      an inverse. A member of a set has an inverse with respect to an
+      algebraic structure if there is another member of the set where,
+      if the operation (addition or multiplication) is performed on
+      these two members, the result is the neutral element. Does the set
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mn>0</mn></msub><annotation
+            encoding="TeX">ℕ_0</annotation></semantics></math> have any
+      inverses with respect to&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_0,+)</annotation></semantics></math>
+      or
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>N</mi><mn>0</mn></msub><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(N_0,\cdot)</annotation></semantics></math>?
+      In other words, what natural numbers add to zero, and what
+      numbers, when multiplied equal 1?<br>
+    </p>
+    <p>["Only 0 and 1."]<br>
+    </p>
+    <p>Exactly right Jill. Add two zeros, you get zero. Multiply two
+      ones, you get one. Nothing else works. Easy enough. Everyone see
+      that? </p>
+    <p>[general agreement.]<br>
+    </p>
+    <p>So, mathematicians being a creative lot who happen to like
+      inverses, begin defining new numbers. They started with the
+      structure&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mn>0</mn></msub><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_0,+)</annotation></semantics></math>
+      and define an inverse number for every member that does not have
+      an inverse, which includes all numbers in the set besides zero. An
+      inverse of a natural number is designated by a negative sign, and
+      these inverses are often referred to as the negative numbers. And
+      when we add&nbsp; the negative numbers to , the resulting set is
+      called the integers which is often denoted by
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℤ</mi><annotation
+            encoding="TeX">ℤ</annotation></semantics></math>. We are all
+      quite familiar with addition of integers which is often denoted by
+      the algebraic structure
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,+)</annotation></semantics></math>.
+      This structure is not only a monoid, since it has an identity
+      member, which is?<br>
+    </p>
+    <p>[zero mumbled]<br>
+    </p>
+    <p>Right. And additionally, every member of the set has an inverse.
+      An algebraic structure where every member of thee set has an
+      inverse with respect to an operation is called a group. The notion
+      of a group will show up time and time again&nbsp; for those who
+      will continue their mathematical studies. But as I already
+      mentioned, algebraic structure is not required for a formal
+      description of numbers, so we needn't consider groups in any
+      detail. But for mathematicians and scientists generally, a group
+      is a deeply rich and powerful notion that takes many years of
+      study to fully appreciate.<br>
+    </p>
+    <p>OK, so what about multiplication of natural numbers. We know each
+      natural number&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation
+            encoding="TeX">n</annotation></semantics></math> has an
+      inverse; its simply its reciprocal
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mi>n</mi></mrow><annotation
+            encoding="TeX">1/n</annotation></semantics></math>. If we
+      add all reciprocals to&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mn>0</mn></msub><annotation
+            encoding="TeX">ℕ_0</annotation></semantics></math> and
+      denote this set as
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mi>𝓇</mi></msub><annotation
+            encoding="TeX">ℕ_𝓇</annotation></semantics></math>, then
+      is&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><msub><mi>ℕ</mi><mi>𝓇</mi></msub><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ_𝓇,\cdot)</annotation></semantics></math>
+      a group now that every natural number now has an inverse?<br>
+    </p>
+    <p>["No."]<br>
+    </p>
+    <p>Right again Jill, but why?<br>
+    </p>
+    <p>["Its not even an algebraic structure."]<br>
+    </p>
+    <p>Exactly. Do you know what basic property of an algebraic
+      structure is lacking class?<br>
+    </p>
+    <p>[general consensus on closure.]<br>
+    </p>
+    <p>That's right. The operation is no longer closed. For example 3
+      times 1/2 is not in
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mi>𝓇</mi></msub><annotation
+            encoding="TeX">ℕ_𝓇</annotation></semantics></math>.
+      Something of a dead end. So we return to the more promising case
+      of
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>+</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,+)</annotation></semantics></math>,
+      and consider
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,\cdot)</annotation></semantics></math>.
+      This is not a group since not every - in fact only 1 member,
+      namely 1 - has an multiplicative inverse. But at least it is an
+      algebraic structure; in fact like&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℕ</mi><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℕ,\cdot)</annotation></semantics></math>,&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,\cdot)</annotation></semantics></math>
+      is a monoid.<br>
+    </p>
+    <p>But we often like to both add and multiply in the same arithmetic
+      expression. What sort of algebraic structure supports that? Well
+      the simplest case is
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,+,\cdot)</annotation></semantics></math>.
+      Here, not only do we have to define each operation, we also have
+      to define how they interact when both operations are used in an
+      arithmetic expression. Of course, you have already learned these
+      rules. You have learned the so called distribution rules that
+      allow you to calculate an expression such as
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>⋅</mo><mo
+              stretchy="false">(</mo><mn>4</mn><mo>+</mo><mn>5</mn><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">3\cdot(4+5)</annotation></semantics></math>.
+      <br>
+    </p>
+    <p>The structure&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℤ</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℤ,+,\cdot)</annotation></semantics></math>
+      is called a ring. The addition operation is a group level
+      operation,&nbsp; multiplication is a monoid level operation, and
+      distribution rules link the two operations into a ring structure.
+      But what about multiplicative inverses, which are not in this so
+      called ring of integers?<br>
+    </p>
+    <p>We define a rational number as the collection of all equivalent
+      integer ratios. for example the collection [<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>2</mn><mo>/</mo><mn>4</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>3</mn><mo>/</mo><mn>6</mn><mo>,</mo><mo>⋯</mo></mrow><annotation
+            encoding="TeX">1/2,\,2/4,\,3/6, ⋯</annotation></semantics></math>]
+      is a rational number. We usually choose as a representative member
+      of this class the ratio whose denominator is the smallest among
+      all class members. For instance, in the collection [<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>2</mn><mo>/</mo><mn>4</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>3</mn><mo>/</mo><mn>6</mn><mo>,</mo><mo>⋯</mo></mrow><annotation
+            encoding="TeX">1/2,\,2/4,\,3/6, ⋯</annotation></semantics></math>],&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow><annotation
+            encoding="TeX">1/2</annotation></semantics></math> is
+      normally chosen as to represent the rational number. But it is
+      very important to not that, when adding two rational numbers, any
+      class member can be chosen from each class for an actual
+      calculation. When this is always the case, the operation is
+      described as well founded. Both addition and multiplication are
+      well founded operations, where<br>
+    </p>
+    <ul>
+      <li>operations are defined in terms of any class representatives</li>
+      <li>and the result will be the same no matter what representatives
+        are chosen.</li>
+    </ul>
+    <p>For example, given rational numbers [<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>2</mn><mo>/</mo><mn>4</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mo>⋯</mo></mrow><annotation
+            encoding="TeX">1/2,\,2/4,\,⋯</annotation></semantics></math>]
+      and [<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>/</mo><mn>3</mn><mo>,</mo><mo>/</mo><mo>,</mo><mn>4</mn><mo>/</mo><mn>6</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mo>⋯</mo></mrow><annotation
+            encoding="TeX">2/3,/,4/6,\,⋯</annotation></semantics></math>],
+
+
+      then, for example,
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>⋅</mo><mn>2</mn><mo>/</mo><mn>3</mn><mo>=</mo><mn>2</mn><mo>/</mo><mn>4</mn><mo>⋅</mo><mn>4</mn><mo>/</mo><mn>6</mn></mrow><annotation
+            encoding="TeX">1/2\cdot2/3 = 2/4\cdot4/6</annotation></semantics></math>.,
+
+
+      given that multiplication is well founded. We note that all
+      rational numbers have an additive inverse - by the way, what other
+      members are in the collection that define zero -<br>
+    </p>
+    <p>["None."]<br>
+    </p>
+    <p>Right. And what other members are in the class 1.<br>
+    </p>
+    <p>["An infinite number of other members."]<br>
+    </p>
+    <p>Yes of course. The rational number 1 is the collection [<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⋯</mo><mspace
+              width="0.16666666666666666em"></mspace><mo>−</mo><mn>2</mn><mo>/</mo><mo>−</mo><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mo>−</mo><mn>1</mn><mo>/</mo><mo>−</mo><mn>1</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>1</mn><mo>/</mo><mn>1</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>2</mn><mo>/</mo><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mo>⋯</mo></mrow><annotation
+            encoding="TeX">⋯\,-2/-2,\, -1/-1,\,1/1,\,2/2,\,⋯</annotation></semantics></math>]
+      - but not all rational numbers have a multiplicative inverse.
+      However, addition of rational numbers is a group, multiplication
+      of natural numbers is a monoid, and distribution rules allow both
+      operations in the same expression, so,&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℚ</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo><mo>,</mo><mstyle
+              mathvariant="normal"><mspace width="0.16666666666666666em"></mspace><mi
+                mathvariant="normal">w</mi><mi mathvariant="normal">h</mi><mi
+                mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi
+                mathvariant="normal">e</mi><mspace
+                width="0.2777777777777778em"></mspace></mstyle><mi>ℚ</mi><mstyle
+              mathvariant="normal"><mspace width="0.2777777777777778em"></mspace><mi
+                mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                mathvariant="normal">n</mi><mi mathvariant="normal">o</mi><mi
+                mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi
+                mathvariant="normal">s</mi><mspace
+                width="0.2777777777777778em"></mspace><mi
+                mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi
+                mathvariant="normal">e</mi><mspace
+                width="0.2777777777777778em"></mspace><mi
+                mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi
+                mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi
+                mathvariant="normal">a</mi><mi mathvariant="normal">l</mi><mi
+                mathvariant="normal">s</mi></mstyle></mrow><annotation
+            encoding="TeX">(ℚ,+,\cdot),\mathrm{\,where\;}ℚ\mathrm{\;denotes\;the\;rationals}</annotation></semantics></math>.
+      is a ring. Indeed its a special kind of ring called a field. The
+      defining characteristic of a ring, say
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>𝒮</mi><mo>,</mo><mo>+</mo><mo>.</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(𝒮,+.\cdot)</annotation></semantics></math>,
+      where&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation
+            encoding="TeX">𝒮</annotation></semantics></math> is the
+      ring structure's so called carrier set, that makes the ring a
+      field is that the only member of&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation
+            encoding="TeX">𝒮</annotation></semantics></math> that does
+      not have a multiplicative inverse is the additive identity. When
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒮</mi><mo>≡</mo><mi>ℚ</mi></mrow><annotation
+            encoding="TeX">𝒮\equivℚ</annotation></semantics></math>,
+      the additive identity is [<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation
+            encoding="TeX">0</annotation></semantics></math>]. All other
+      rational numbers have a multiplicative inverse, so the algebraic
+      structure&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">(</mo><mi>ℚ</mi><mo>,</mo><mo>+</mo><mo>.</mo><mo>⋅</mo><mo
+              stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℚ,+.\cdot)</annotation></semantics></math>
+      is a field.<br>
+    </p>
+    <p>Ah, but as the ancient Greek Pythagoreans discovered to their
+      dismay. Not all useful numbers are rational. For instance,
+      consider a square whose sides are an inch in length. If we want a
+      number to describe the length of the diagonal of a square, we can
+      use the Pythagorean theorem to find that it's length is
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation
+            encoding="TeX">\sqrt{2}</annotation></semantics></math>, and
+      not shortly after, it was proved that there is no ratio of
+      integers, and so no rational number that equals the
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation
+            encoding="TeX">\sqrt{2}</annotation></semantics></math>. And
+      I think we all know&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation
+            encoding="TeX">π</annotation></semantics></math> is not a
+      rational number, so we must continue our journey, but we are
+      almost there, at the threshold of the real numbers: mathematicians
+      have described procedures to complete the rationals, either by
+      including the 'limit' of all convergent sequences of numbers, or
+      via Dedekind cuts, whatever they are, hey?<br>
+    </p>
+    <p>Before 1970, to understand real numbers, all this had to be kept
+      in mind. But we don't, unless you are going to study science
+      further in college or wherever, in which case, get used to it. For
+      the rest of us, we can enjoy lunch, and afterwards, we will
+      describe a much simpler origin story for real numbers and beyond.<br>
+    </p>
+    <p>Welcome back class. Hope you enjoyed your lunches, but I hope
+      they didn't make you sleepy. I've interesting stuff to tell you
+      about. Don't want any6 snoring to interrupt the flow.<br>
+    </p>
+    <p>[..]<br>
+    </p>
+    <p>If we go back to the beginning of the long tortuous construction
+      of the reals, we remember we started with an inductive definition
+      of the natural numbers that allows for recursive definitions of an
+      ordered membership and arithmetic operations. We then used this
+      definition as the foundation for defining more complex sets of
+      numbers until we finally reached the reals.<br>
+    </p>
+    <p>We now take a different tack. Instead we include two more
+      inductive definitions. If you remember, the inductive definition
+      of the set of natural numbers is<br>
+    </p>
+    <ul>
+      <li>assume the set has a unique root member</li>
+      <li>and every member of the set has a unique successor member.</li>
+    </ul>
+    <p>The two new inductive definitions are<br>
+    </p>
+    <ul>
+      <li>assume the set has a unique root member</li>
+      <li>and every member of the set has two unique successor members;<br>
+      </li>
+    </ul>
+    and<br>
+    <ul>
+      <li>assume the set has a unique root member</li>
+      <li>and every member of the set has two unique successor members.<br>
+      </li>
+    </ul>
+    As I mentioned previously, the inductive definition that has a
+    single successor function has been associated with the naturals
+    since antiquity, but the other definitions weren't discovered until
+    the 1970s. The reason for this is basically because, whereas the
+    definitions are relatively easy to grasp, the recursive definitions
+    used to define membership order and arithmetic operations on members
+    are by no means obvious. But John Conway pioneered the way, and
+    since, mathematicians have been studying this approach to defining
+    number systems.<br>
+    <br>
+    So what can and should we know about these recursive definitions?
+    There's three basic levels of understanding these definitions<br>
+    <ul>
+      <li>the first is to know that, as mathematical fact, <b>these
+          definitions exist</b>, and they actually define membership
+        order(s) and valid arithmetic operations;</li>
+      <li>the second is to understand the algorithmic content of the
+        definitions, for example as exhibited perhaps by describing the
+        algorithm to a computer;</li>
+      <li>and third understanding the intrinsic ramification (logical
+        implications) inherent in the definitions.</li>
+    </ul>
+    <p>We only need to know these definitions exist, and display certain
+      behavior when implemented. Being something of a nerd<br>
+    </p>
+    <p>[acknowledged by the class.]<br>
+    </p>
+    <p>I have actually implemented the recursive definitions for the
+      2-successor case. You can look at the results if you want to get
+      some visual feedback in terms of algorithm behavior, but in many
+      cases, the thrill may be more in describing the algorithm than
+      tracking it's behavior. But I am certainly far from grasping the
+      inherent impacts of these definitions. But knowing these
+      definitions exist and they imply certain behavior is enough for
+      supporting an origin story for numbers that's much less convoluted
+      than the one described this morning.<br>
+    </p>
+    <p>I should now describe a distinction between finite and
+      transfinite induction. Finite induction, around since antiquity,
+      was the only induction known to mathematicians until the late
+      nineteenth century, when German mathematician Georg Cantor
+      introduced transfinite induction. Since transfinite induction is a
+      somewhat advanced mathematical topic, it will not be described.
+      But we do need to understand an important foundational notion of
+      this induction process.<br>
+    </p>
+    <p>Consider the set of natural numbers. Cantor assumes there are
+      numbers greater than any natural number. The smallest of the
+      numbers greater than any natural number is called the supremum of
+      the natural numbers, and is most often denoted by the Greek letter
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>. Note that
+      this number cannot be reached by ordinary finite induction. The
+      collection of all these numbers, the finite numbers and the
+      numbers greater than the finite numbers, are called the ordinal
+      numbers. This collection is so large, it is not a set. Fortunately
+      for us, other than mentioning that it includes both all finite
+      numbers, and in passing that, like the naturals, ordinal
+      membership is well ordered, we won't be discussing the ordinal
+      numbers any further. <br>
+    </p>
+    <p>["Well?"]<br>
+    </p>
+    <p>Good catch Jill. Each of the three sets described by the
+      inductive definitions exhibit different order types; specifically<br>
+    </p>
+    <ul>
+      <li>the set defined by the 1-successor definition have well
+        ordered members</li>
+      <li>the set defined by the 2-successor definition have totally (or
+        sometimes called linearly) ordered members, and<br>
+      </li>
+      <li>the set defined by the 4-successor definition have partially
+        ordered members.</li>
+    </ul>
+    <p>Given any two distinct members of a<b> totally ordered set </b><math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation
+            encoding="TeX">𝒮</annotation></semantics></math>, say
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>,</mo><mi>y</mi><mo>∊</mo><mi>𝒮</mi></mrow><annotation
+            encoding="TeX">x,y\in𝒮</annotation></semantics></math>,
+      then either&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>&lt;</mo><mi>y</mi></mrow><annotation
+            encoding="TeX">x&lt;y</annotation></semantics></math> or
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>&lt;</mo><mi>x</mi></mrow><annotation
+            encoding="TeX">y&lt;x</annotation></semantics></math>. For
+      our purposes (leaving out some mathematical subtleties), a <b>well
+
+        ordered set</b> is a totally ordered set that has a least
+      element. For a <b>partially ordered set</b>, sometimes two
+      members may be compared, and sometimes not. So hopefully that
+      answers your question?<br>
+    </p>
+    <p>["Sure."] <br>
+    </p>
+    <p>Good. Now for a bit of terminology introduced by Conway. All
+      numbers can be associated with their birthday. For the 1-successor
+      inductive definition, the birthday is a boring notion because,
+      since any birthday is associated with a single number, in fact is
+      the same as that number: no new info. However, for the 2 and 4
+      successor cases, many numbers may share the same birthday. A
+      birthday refers to the induction step at which the number is
+      defined.<br>
+    </p>
+    <p>As mentioned, transfinite induction is used to define the ordinal
+      numbers. Since only one number is generated at each induction
+      step, there is a one to one correspondence between an ordinal
+      number and it's birthday: they are essentially the same. In any
+      case, we may consider the set of numbers generated by transfinite
+      induction which are defined when we restrict the birthdays we
+      consider. If we try to consider all ordinals, we try to consider a
+      collection to big to be called a set. But if we only consider
+      ordinals whose birthday less than 4, well the set we have defined
+      is the subset of natural numbers (well of
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mn>0</mn></msub><annotation
+            encoding="TeX">ℕ_0</annotation></semantics></math>):&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+              stretchy="false">{</mo><mn>0</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>1</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>2</mn><mo>,</mo><mspace
+              width="0.16666666666666666em"></mspace><mn>3</mn><mo
+              stretchy="false">}</mo></mrow><annotation encoding="TeX">\{0,\,1,\,2,\,3\}</annotation></semantics></math>.
+      In these cases, we say we cutoff the induction process at a
+      specific birthday. It allows us to control the size of the
+      collection defined. It allows us to work with sets. <br>
+    </p>
+    <p>If the cutoff to the 1-successor induction process is birthday
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>, the set
+      defined is precisely
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℕ</mi><mn>0</mn></msub><annotation
+            encoding="TeX">ℕ_0</annotation></semantics></math>, which is
+      precisely the set defined by a (standard) finite inductive
+      definition that specifies zero to be the root.<br>
+    </p>
+    <p>So what sets are defined by the 2 and 4 successor transfinite
+      definitions when cutoff at
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>? <br>
+    </p>
+    <ul>
+      <li>In the case of the 2-successor definition, the set defined is
+        the dyadic rationals.</li>
+      <li>In the case of the 4-successor definition, the set defined is
+        the Gaussian dyadic rationals.</li>
+    </ul>
+    <p>And as with the 1-successor case, these sets are also defined by
+      finite inductive definitions.<br>
+    </p>
+    <p>However, since recursive definitions apply to all numbers
+      generated by transfinite induction, they certainly hold for
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>. So we may
+      consider numbers whose birthday is
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>.<br>
+    </p>
+    <p>We are now ready to define two core number sets<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℝ</mi><mi>ω</mi></msub><mo>≡</mo><mo
+                stretchy="false">{</mo><mstyle mathvariant="normal"><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">t</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">y</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">l</mi><mi
+                  mathvariant="normal">s</mi></mstyle><mo
+                stretchy="false">}</mo><mo>⋃</mo><mo stretchy="false">{</mo><mstyle
+                mathvariant="normal"><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">t</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">m</mi><mi mathvariant="normal">b</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">s</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">d</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">b</mi><mi mathvariant="normal">y</mi><mspace
+                  width="0.2777777777777778em"></mspace><mn>2</mn><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">c</mi><mi mathvariant="normal">c</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi
+                  mathvariant="normal">r</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">c</mi><mi mathvariant="normal">t</mi><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">v</mi><mi
+                  mathvariant="normal">e</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">w</mi><mi mathvariant="normal">h</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">e</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">b</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">r</mi><mi mathvariant="normal">t</mi><mi
+                  mathvariant="normal">h</mi><mi mathvariant="normal">d</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">y</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">s</mi><mspace
+                  width="0.2777777777777778em"></mspace></mstyle><mi>ω</mi><mo
+                stretchy="false">}</mo></mrow><annotation encoding="TeX">ℝ_ω\equiv\{\mathrm{set\;of\;dyadic\;rationals}\}⋃\{\mathrm{set\;of\;numbers\;defined\;by\;2\;successor\;inductive\;definition\;
+
+              whose\;birthday\;is\;}ω\}</annotation></semantics></math>
+        <br>
+      </li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℂ</mi><mi>ω</mi></msub><mo>≡</mo><mo
+                stretchy="false">{</mo><mstyle mathvariant="normal"><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">t</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">G</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">u</mi><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">y</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">l</mi><mi
+                  mathvariant="normal">s</mi></mstyle><mo
+                stretchy="false">}</mo><mo>⋃</mo><mo stretchy="false">{</mo><mstyle
+                mathvariant="normal"><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">t</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">m</mi><mi mathvariant="normal">b</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi
+                  mathvariant="normal">s</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">d</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">b</mi><mi mathvariant="normal">y</mi><mspace
+                  width="0.2777777777777778em"></mspace><mn>4</mn><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">c</mi><mi mathvariant="normal">c</mi><mi
+                  mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi
+                  mathvariant="normal">r</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi
+                  mathvariant="normal">c</mi><mi mathvariant="normal">t</mi><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">v</mi><mi
+                  mathvariant="normal">e</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi
+                  mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">w</mi><mi mathvariant="normal">h</mi><mi
+                  mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi
+                  mathvariant="normal">e</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">b</mi><mi mathvariant="normal">i</mi><mi
+                  mathvariant="normal">r</mi><mi mathvariant="normal">t</mi><mi
+                  mathvariant="normal">h</mi><mi mathvariant="normal">d</mi><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">y</mi><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">i</mi><mi mathvariant="normal">s</mi><mspace
+                  width="0.2777777777777778em"></mspace></mstyle><mi>ω</mi><mo
+                stretchy="false">}</mo></mrow><annotation encoding="TeX">ℂ_ω\equiv\{\mathrm{set\;of\;Gaussian\;dyadic\;rationals}\}⋃\{\mathrm{set\;of\;numbers\;defined\;by\;4\;successor\;inductive\;definition\;
+
+              whose\;birthday\;is\;}ω\}</annotation></semantics></math>&nbsp;<br>
+      </li>
+    </ul>
+    <p>where, loosely speaking,&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⋃</mo><annotation
+            encoding="TeX">⋃</annotation></semantics></math> denotes the
+      union or combination of the two sets.<br>
+    </p>
+    <p>We refer to these sets as&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℝ_ω</annotation></semantics></math> and&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℂ_ω</annotation></semantics></math> to
+      strongly emphasize the fact that that&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℝ</mi><mo>⊂</mo><msub><mi>ℝ</mi><mi>ω</mi></msub></mrow><annotation
+            encoding="TeX">ℝ⊂ℝ_ω</annotation></semantics></math> and
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℂ</mi><mo>⊂</mo><mi>ℂ</mi><mi>ω</mi></mrow><annotation
+            encoding="TeX">ℂ⊂ℂω</annotation></semantics></math>,
+      where&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℝ</mi><annotation
+            encoding="TeX">ℝ</annotation></semantics></math> denotes the
+      real numbers and&nbsp; denotes the complex numbers, and in case
+      you are not familiar with the notation&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊂</mo><annotation
+            encoding="TeX">⊂</annotation></semantics></math> denotes 'is
+      a subset of'.<br>
+    </p>
+    <p>I have been speaking somewhat imprecisely, or at least not
+      comprehensively enough. We first note that the transfinitely
+      defined sets and their recursive definitions generate a totally
+      ordered collection in the 2-successor case, and a partially
+      ordered collection in the 4-successor case. And in both cases, the
+      recursive definitions generate field level operations on these
+      collections. The 2-successior case is referred to as the surreal
+      numbers. The 4-successor case is referred to as the surcomplex
+      numbers. And<br>
+    </p>
+    <ul>
+      <li>&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo
+                stretchy="false">(</mo><mi>ℝ</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+                stretchy="false">)</mo><mspace
+                width="0.16666666666666666em"></mspace><mo>⊏</mo><mspace
+                width="0.16666666666666666em"></mspace><mo
+                stretchy="false">(</mo><mi>S</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>l</mi><mi>s</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+                stretchy="false">)</mo><mstyle mathvariant="normal"><mspace
+                  width="0.2777777777777778em"></mspace><mi
+                  mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi
+                  mathvariant="normal">d</mi><mspace
+                  width="0.2777777777777778em"></mspace></mstyle><mo
+                stretchy="false">(</mo><mi>ℂ</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+                stretchy="false">)</mo><mspace
+                width="0.16666666666666666em"></mspace><mo>⊏</mo><mspace
+                width="0.16666666666666666em"></mspace><mo
+                stretchy="false">(</mo><mi>S</mi><mi>u</mi><mi>r</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>x</mi><mo>,</mo><mo>+</mo><mo>,</mo><mo>⋅</mo><mo
+                stretchy="false">)</mo></mrow><annotation encoding="TeX">(ℝ,+,\cdot)\,⊏\,(Surreals,+,\cdot)\mathrm{\;and\;}(ℂ,+,\cdot)\,⊏\,(Surcomplex,+,\cdot)</annotation></semantics></math><br>
+      </li>
+    </ul>
+    <p>where, somewhat unconventionally, I am using&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊏</mo><annotation
+            encoding="TeX">⊏</annotation></semantics></math> to denote
+      'is a subfield of the Field'.<br>
+    </p>
+    <p>We should note that&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℝ_ω</annotation></semantics></math> is not a
+      subfield of the surreals and&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℂ_ω</annotation></semantics></math> is not a
+      subfield of the surcomplex Fields. In fact, neither recursively
+      defined arithmetic operation is closed on either set, so they
+      can't support any algebraic structure. But both&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℝ</mi><annotation
+            encoding="TeX">ℝ</annotation></semantics></math> and&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℂ</mi><annotation
+            encoding="TeX">ℂ</annotation></semantics></math> are easily
+      defined subsets of&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℝ_ω</annotation></semantics></math> and&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℂ_ω</annotation></semantics></math>
+      respectively.<br>
+    </p>
+    <p>So for the STEM-oriented (you all know STEM is an acronym for
+      science, technology, engineering and mathematics right?) among us,
+      you now have a much more compact origin-story for the real and
+      complex numbers. <br>
+    </p>
+    <p>But, for all of us right now, we don't care so much about&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℝ</mi><annotation
+            encoding="TeX">ℝ</annotation></semantics></math> and
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℂ</mi><annotation
+            encoding="TeX">ℂ</annotation></semantics></math>; from here
+      on out, we focus on&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℝ_ω</annotation></semantics></math> and
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation
+            encoding="TeX">ℂ_ω</annotation></semantics></math> instead.<br>
+    </p>
+    <p>That may surprise some of you. These sets are a bit sloppy
+      compared to&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℝ</mi><annotation
+            encoding="TeX">ℝ</annotation></semantics></math> and
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℂ</mi><annotation
+            encoding="TeX">ℂ</annotation></semantics></math>, which are
+      support field level algebraic structures. Why do we leave these
+      nice clean number sets to the STEM-oriented and use the raw sets
+      generated by induction? Well, the short answer is that now<br>
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>,</mo><mo>−</mo><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mn>1</mn><mo>/</mo><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mo>−</mo><mn>1</mn><mo>/</mo><mi>ω</mi><mo>∊</mo><msub><mi>ℝ</mi><mi>ω</mi></msub></mrow><annotation
+              encoding="TeX">ω,-ω,\,1/ω,\,-1/ω\in ℝ_ω</annotation></semantics></math>
+        and
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>,</mo><mo>−</mo><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mn>1</mn><mo>/</mo><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mo>−</mo><mn>1</mn><mo>/</mo><mi>ω</mi><mo>∊</mo><msub><mi>ℝ</mi><mi>ω</mi></msub><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mi>i</mi><mi>ω</mi><mo>,</mo><mo>−</mo><mi>i</mi><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mn>1</mn><mo>/</mo><mi>i</mi><mi>ω</mi><mo>,</mo><mspace
+                width="0.16666666666666666em"></mspace><mo>−</mo><mn>1</mn><mo>/</mo><mi>i</mi><mi>ω</mi><mo>∊</mo><msub><mi>ℂ</mi><mi>ω</mi></msub></mrow><annotation
+              encoding="TeX">ω,-ω,\,1/ω,\,-1/ω\in
+              ℝ_ω,\,iω,-iω,\,1/iω,\,-1/iω\in ℂ_ω</annotation></semantics></math>
+        <br>
+      </li>
+    </ul>
+    <p>and these numbers are useful, so useful its a small price to pay
+      that there's some leakage: sometimes, when we add numbers, the
+      result won't end up in the number set (<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℝ</mi><mi>ω</mi></msub><mstyle
+              mathvariant="normal"><mspace width="0.2777777777777778em"></mspace><mi
+                mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mspace
+                width="0.2777777777777778em"></mspace></mstyle><msub><mi>ℂ</mi><mi>ω</mi></msub></mrow><annotation
+            encoding="TeX">ℝ_ω \mathrm{\;or\;}ℂ_ω</annotation></semantics></math>).
+
+      But we know it will be some surreal or surcomplex number, just one
+      whose birthday is greater than
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math>; no big
+      deal really. But what we do know is that all arithmetic on real
+      numbers remain real and arithmetic on complex numbers will remain
+      complex.<br>
+    </p>
+    <p>But we will use numbers like&nbsp;<math
+        xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation
+            encoding="TeX">ω</annotation></semantics></math> and
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mi>ω</mi></mrow><annotation
+            encoding="TeX">1/ω</annotation></semantics></math>. It will
+      help us to avoid limit theory and standard analysis in general.<br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mi>ω</mi></mrow><annotation
+            encoding="TeX">1/ω</annotation></semantics></math><br>
+    </p>
+  </body>
+</html>

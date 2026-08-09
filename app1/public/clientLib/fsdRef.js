@@ -28,34 +28,41 @@ export class FSDRef extends HTMLElement {
             if (quantifiersStr || stageStr === "4") {
                 // Setup Stage 2 slots
                 fsd.setupStage2();
-                // Assign default subscripted variables to slots
-                const vars = ["x₁", "x₂"];
+                // Assign domain-typed variables to slots
                 fsd.slots.forEach((s, idx) => {
-                    s.assignedVar = vars[idx] || `x${idx + 1}`;
+                    if (s.domainType === "P(S)") {
+                        s.assignedVar = "y₁";
+                    }
+                    else {
+                        s.assignedVar = idx === 0 ? "x₁" : "x₂";
+                    }
                 });
                 // Parse quantifiers
                 fsd.setupStage3();
                 if (quantifiersStr) {
                     if (quantifiersStr.includes("∀x") || quantifiersStr.includes("∀x₁")) {
-                        fsd.quantifierBindings.push({ quantifier: "∀", variable: "x₁" });
+                        fsd.quantifierBindings.push({ quantifier: "∀", variable: "x₁", domainType: "S" });
                     }
-                    if (quantifiersStr.includes("∃y") || quantifiersStr.includes("∃x₂")) {
-                        fsd.quantifierBindings.push({ quantifier: "∃", variable: "x₂" });
+                    if (quantifiersStr.includes("∃y") || quantifiersStr.includes("∃y₁")) {
+                        fsd.quantifierBindings.push({ quantifier: "∃", variable: "y₁", domainType: "P(S)" });
+                    }
+                    else if (quantifiersStr.includes("∃x") || quantifiersStr.includes("∃x₂")) {
+                        fsd.quantifierBindings.push({ quantifier: "∃", variable: "x₂", domainType: "S" });
                     }
                     if (quantifiersStr.includes("∃y") && quantifiersStr.includes("∀x")) {
                         // Reverse order if ∃y comes before ∀x
                         if (quantifiersStr.indexOf("∃y") < quantifiersStr.indexOf("∀x")) {
                             fsd.quantifierBindings = [
-                                { quantifier: "∃", variable: "x₂" },
-                                { quantifier: "∀", variable: "x₁" },
+                                { quantifier: "∃", variable: "y₁", domainType: "P(S)" },
+                                { quantifier: "∀", variable: "x₁", domainType: "S" },
                             ];
                         }
                     }
                 }
                 else {
                     fsd.quantifierBindings = [
-                        { quantifier: "∀", variable: "x₁" },
-                        { quantifier: "∃", variable: "x₂" },
+                        { quantifier: "∀", variable: "x₁", domainType: "S" },
+                        { quantifier: "∃", variable: "x₂", domainType: fsd.slots[1]?.domainType || "S" },
                     ];
                 }
                 // Launch Stage 4 directly
