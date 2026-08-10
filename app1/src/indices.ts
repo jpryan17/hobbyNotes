@@ -24,7 +24,8 @@ export const formalStatementsIndex: IndexItemDesc[] = [
     topic: "introduction",
     htmlSegmentId: "formalStatementsIntro",
   },
-  { type: "html", topic: "lecture", htmlSegmentId: "editedFormalStatementsLectureV2" },
+  { type: "html", topic: "lecture1", htmlSegmentId: "editedFormalStatementsLectureV2" },
+  { type: "html", topic: "lecture2", htmlSegmentId: "formalStatementsLecture2" },
   {
     type: "diagram",
     topic: "formal statement demo",
@@ -33,11 +34,10 @@ export const formalStatementsIndex: IndexItemDesc[] = [
   },
 ];
 export const numbersIndex: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "introduction",
-    htmlSegmentId: "numbersIntro",
-  },
+  { type: "html", topic: "introduction", htmlSegmentId: "numbersIntro", },
+  { type: "html", topic: "lecture1", htmlSegmentId: "numbersLecture1" },
+  { type: "html", topic: "lecture2", htmlSegmentId: "numbersLecture2" },
+  { type: "html", topic: "lecture3", htmlSegmentId: "numbersLecture3" },
 ];
 export const bayesianInferenceIndex: IndexItemDesc[] = [
   {

@@ -194,8 +194,6 @@ export function processTTDRefFile(filePath: string): boolean {
         if (replacementsCount > 0) {
             writeFileSync(filePath, updatedContent);
             console.log(`[genTTDRefs] Converted ${replacementsCount} expression(s) in ${filePath}`);
-        } else {
-            console.log(`[genTTDRefs] No valid \\, tagged expressions found in ${filePath}`);
         }
         return true;
     } catch (err) {

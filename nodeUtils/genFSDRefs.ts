@@ -116,8 +116,6 @@ export function processFSDRefFile(filePath: string): boolean {
     if (replacementsCount > 0) {
       writeFileSync(filePath, updatedContent, 'utf8');
       console.log(`[genFSDRefs] Converted ${replacementsCount} expression(s) in ${filePath}`);
-    } else {
-      console.log(`[genFSDRefs] No valid \\, tagged predicate expressions found in ${filePath}`);
     }
     return true;
   } catch (err) {
