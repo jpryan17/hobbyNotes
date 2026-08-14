@@ -1,5 +1,5 @@
 import { Nav } from "./navFW.js";
-import { fsd, setFSD } from "./fsd.js";
+import { fsd, setFSD, QuantifierBinding, DomainType } from "./fsd.js";
 
 export class FSDRef extends HTMLElement {
   static stdColor = "firebrick";
@@ -32,6 +32,7 @@ export class FSDRef extends HTMLElement {
     this.addEventListener("click", () => {
       const exp = this.getAttribute("exp") || "r";
       const quantifiersStr = this.getAttribute("quantifiers");
+      const slotsStr = this.getAttribute("slots");
       const stageStr = this.getAttribute("stage");
 
       const index = Nav.indices[Nav.currentIndex];
@@ -42,44 +43,96 @@ export class FSDRef extends HTMLElement {
       fsd.clear();
       fsd.pxe.exp = exp;
 
-      if (quantifiersStr || stageStr === "4") {
+      // Attach FSD to DOM first so child elements and tables can be queried safely
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      Nav.setLastVisit();
+      Nav.addNavLineBackButton(buttonText);
+      Nav.fo.removeChildren();
+      Nav.fo.elt.scrollTop = 0;
+      Nav.fo.setA('style', 'overflow:hidden;');
+      Nav.fo.append(fsd);
+      Nav.display();
+
+      if (quantifiersStr || stageStr === "4" || !stageStr) {
         // Setup Stage 2 slots
         fsd.setupStage2();
 
-        // Assign domain-typed variables to slots
-        fsd.slots.forEach((s, idx) => {
-          if (s.domainType === "P(S)") {
-            s.assignedVar = "y₁";
+        // Assign domain-typed variables or constants to slots
+        if (slotsStr) {
+          const slotAssignments = slotsStr.split(",").map(s => s.trim());
+          fsd.slots.forEach((s, idx) => {
+            if (slotAssignments[idx]) {
+              s.assignedVar = slotAssignments[idx];
+            }
+          });
+        } else {
+          // Intelligent default slot assignment
+          if (exp === "paq" || exp === "p" || exp === "q") {
+            // Unary predicates on x₁: GT5(x₁) ∧ LT10(x₁)
+            fsd.slots.forEach((s) => {
+              s.assignedVar = "x₁";
+            });
+          } else if (exp === "mam") {
+            // Membership with subsets: x₁ ∈ GT5 ∧ x₁ ∈ LT10
+            if (fsd.slots.length >= 4) {
+              fsd.slots[0].assignedVar = "x₁";
+              fsd.slots[1].assignedVar = "GT5";
+              fsd.slots[2].assignedVar = "x₁";
+              fsd.slots[3].assignedVar = "LT10";
+            } else if (fsd.slots.length >= 2) {
+              fsd.slots[0].assignedVar = "x₁";
+              fsd.slots[1].assignedVar = "y₁";
+            }
+          } else if (exp === "ras" || exp === "r" || exp === "s") {
+            // Binary predicates on x₁, x₂: GT(x₁, x₂) ∧ LT(x₁, x₂)
+            fsd.slots.forEach((s, idx) => {
+              s.assignedVar = (idx % 2 === 0) ? "x₁" : "x₂";
+            });
           } else {
-            s.assignedVar = idx === 0 ? "x₁" : "x₂";
+            fsd.slots.forEach((s, idx) => {
+              if (s.domainType === "𝒫(ℕ)") {
+                s.assignedVar = "y₁";
+              } else {
+                s.assignedVar = idx === 0 ? "x₁" : "x₂";
+              }
+            });
           }
-        });
+        }
 
         // Parse quantifiers
         fsd.setupStage3();
         if (quantifiersStr) {
-          if (quantifiersStr.includes("∀x") || quantifiersStr.includes("∀x₁")) {
-            fsd.quantifierBindings.push({ quantifier: "∀", variable: "x₁", domainType: "S" });
+          fsd.quantifierBindings = [];
+          // Parse quantified tokens (e.g. ∃x₁:ℕ, ∀x₁:ℕ, ∃x₂:ℕ, ∃y₁:𝒫(ℕ))
+          const qTokens = quantifiersStr.split(/[, ]+/).filter(Boolean);
+          for (const token of qTokens) {
+            const isForall = token.startsWith("∀") || token.toLowerCase().startsWith("forall");
+            const isExists = token.startsWith("∃") || token.toLowerCase().startsWith("exists");
+            const qSymbol: "∀" | "∃" = isForall ? "∀" : "∃";
+            const cleanToken = token.replace(/∀|∃|\\forall|\\exists/g, "").trim();
+            const [vRaw, dRaw] = cleanToken.split(":");
+            let varName = vRaw ? vRaw.replace(/x1/g, "x₁").replace(/x2/g, "x₂").replace(/y1/g, "y₁").replace(/y2/g, "y₂").replace(/x_1/g, "x₁").replace(/x_2/g, "x₂") : "x₁";
+            let dType: DomainType = (dRaw && (dRaw.includes("P") || dRaw.includes("𝒫"))) ? "𝒫(ℕ)" : "ℕ";
+            if (varName.startsWith("y")) dType = "𝒫(ℕ)";
+            fsd.quantifierBindings.push({
+              quantifier: qSymbol,
+              variable: varName,
+              domainType: dType
+            });
           }
-          if (quantifiersStr.includes("∃y") || quantifiersStr.includes("∃y₁")) {
-            fsd.quantifierBindings.push({ quantifier: "∃", variable: "y₁", domainType: "P(S)" });
-          } else if (quantifiersStr.includes("∃x") || quantifiersStr.includes("∃x₂")) {
-            fsd.quantifierBindings.push({ quantifier: "∃", variable: "x₂", domainType: "S" });
-          }
-          if (quantifiersStr.includes("∃y") && quantifiersStr.includes("∀x")) {
-            // Reverse order if ∃y comes before ∀x
-            if (quantifiersStr.indexOf("∃y") < quantifiersStr.indexOf("∀x")) {
-              fsd.quantifierBindings = [
-                { quantifier: "∃", variable: "y₁", domainType: "P(S)" },
-                { quantifier: "∀", variable: "x₁", domainType: "S" },
-              ];
-            }
+          if (fsd.quantifierBindings.length === 0) {
+            fsd.quantifierBindings.push({ quantifier: "∃", variable: "x₁", domainType: "ℕ" });
           }
         } else {
-          fsd.quantifierBindings = [
-            { quantifier: "∀", variable: "x₁", domainType: "S" },
-            { quantifier: "∃", variable: "x₂", domainType: fsd.slots[1]?.domainType || "S" },
-          ];
+          // Default quantifiers based on assigned variables
+          const uniqueVars = Array.from(new Set(fsd.slots.map(s => s.assignedVar!).filter(v => v && v !== "GT5" && v !== "LT10")));
+          fsd.quantifierBindings = uniqueVars.map(v => ({
+            quantifier: "∃",
+            variable: v,
+            domainType: v.startsWith("y") ? "𝒫(ℕ)" : "ℕ"
+          }));
         }
 
         // Launch Stage 4 directly
@@ -90,12 +143,7 @@ export class FSDRef extends HTMLElement {
         fsd.showControls();
       }
 
-      Nav.setLastVisit();
-      Nav.addNavLineBackButton(buttonText);
-      Nav.fo.removeChildren();
-      Nav.fo.append(fsd);
       fsd.layoutEditor();
-      Nav.display();
     });
   }
 }

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Lecture 1: How Science Learns from Clues</b></i></font><br>
+      <font size="+1"><i>Explanations, Observations &amp; The 3-Stage Bayesian Filter</i></font>
+    </div>
+    <br>
+
+    <h3>1. Math Deduction vs. Scientific Discovery</h3>
+    <p>
+      In pure mathematics, when you prove a theorem like <code>2 + 2 = 4</code>, that truth is locked in forever. 
+      No new discovery in physics or chemistry will ever un-prove it. 
+      This is called <b>monotonic reasoning</b>: truth only ever accumulates.
+    </p>
+    <p>
+      But the natural sciences do not work by pure deduction. 
+      Scientists cannot peek behind the curtain of nature to see absolute truth. 
+      Instead, science is fundamentally <b>non-monotonic</b>:
+    </p>
+    <ul>
+      <li>You might see 10,000 white swans and feel almost certain that <i>all swans are white</i>.</li>
+      <li>Then, a single black swan swims by, and your belief in that theory immediately collapses!</li>
+    </ul>
+    <p>
+      In the real world, rational thinkers must be able to change their minds when new evidence appears. 
+      <b>Bayesian inference</b> is the mathematical tool that tells us exactly how much our beliefs should change.
+    </p>
+
+    <hr>
+
+    <h3>2. The Primary Ground: Sample Space (Ω) as the Arena of Reality</h3>
+    <p>
+      To make scientific thinking crystal clear, all of science is anchored on a single fundamental stage: the <b>Sample Space / State Space (Ω)</b>.
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left"><font size="+1">1. The State / Sample Space (Ω)</font></th>
+        <th width="35%" align="left"><font size="+1">2. We Hypothesize About Ω (ℋ)</font></th>
+        <th width="35%" align="left"><font size="+1">3. We Observe Ω (𝒟)</font></th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>The Primary Arena of Possibility</b><br>
+          • <b>Elements:</b> Elemental outcomes <code>p ∈ Ω</code>.<br>
+          • <i>Example:</i> <code>p = Heads</code> or <code>p = Tails</code> (or physical state coordinates).<br>
+          • <b>The Anchor:</b> The common ground where theoretical models make predictions and observations physically happen.
+        </td>
+        <td valign="top">
+          <b>The World of Explanations</b><br>
+          • <b>Elements:</b> Hypotheses <code>h ∈ ℋ</code>.<br>
+          • <b>Role:</b> Proposes a rule or probability distribution over <code>Ω</code>.<br>
+          • <i>Example:</i> <i>"The coin is fair"</i> (50/50 on Ω) vs. <i>"The coin is weighted"</i> (80/20 on Ω).<br>
+          • <b>Action:</b> Predicts likelihoods <code>h(p) = P(p | h)</code> for points in <code>Ω</code>.
+        </td>
+        <td valign="top">
+          <b>The World of Observations</b><br>
+          • <b>Elements:</b> Data observations <code>d ∈ 𝒟</code>.<br>
+          • <b>Role:</b> Nature delivers concrete points sampled from <code>Ω</code>.<br>
+          • <i>Example:</i> <i>"The coin landed on Heads 4 times in a row"</i> <code>d = [H, H, H, H] ∈ Ω⁴</code>.<br>
+          • <b>The Clue:</b> Collections of points recorded by our senses or instruments.
+        </td>
+      </tr>
+    </table>
+
+    <br>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 12px;">
+      <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
+                     [ Hypotheses (Explanations in ℋ) ]<br>
+                   (Candidate distributions on Ω)<br>
+                               │<br>
+                               │ Predicts: h(p) = P(p | h)<br>
+                               ▼<br>
+     ═════════════════════════════════════════════════════════<br>
+                SAMPLE SPACE / STATE SPACE (Ω)<br>
+                 The Arena of All Possibilities<br>
+     ═════════════════════════════════════════════════════════<br>
+                               ▲<br>
+                               │ Realizes: Sample points p ∈ Ω<br>
+                               │<br>
+                     [ Observations (Data 𝒟) ]<br>
+                  (Recorded occurrences from Ω)
+      </div>
+      <b>The Core Question of Inference:</b><br>
+      <i>"Given that we witnessed points <code>p ∈ Ω</code>, which candidate distribution <code>h ∈ ℋ</code> gave those points the highest likelihood?"</i>
+    </div>
+
+    <hr>
+
+    <h3>3. Slicing the Probability Line: The 3-Stage Bayesian Filter</h3>
+    <p>
+      Imagine all 100% of our belief laid out along a unit line from <code>0</code> to <code>1</code> on our hyperfinite transect. 
+      Bayesian updating is a visual <b>3-stage filter</b>:
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="33%" align="left">Stage 1: The Prior Slices</th>
+        <th width="34%" align="left">Stage 2: Likelihood Slicing</th>
+        <th width="33%" align="left">Stage 3: Normalization</th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>Where We Start:</b><br>
+          Our competing explanations share the unit line according to our initial belief:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">P(H_1) + P(H_2) = 1.000</div>
+        </td>
+        <td valign="top">
+          <b>Testing Compatibility:</b><br>
+          When data <code>D</code> is seen, each slice is shaved down according to its predictive power <code>P(D | H)</code>:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">Surviving = P(D | H) × P(H)</div>
+        </td>
+        <td valign="top">
+          <b>Rescaling to 100%:</b><br>
+          The surviving mass has shrunk. We divide each survivor by the total remaining width to restore a full 100% belief:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">Posterior = <sup>Surviving</sup> / <sub>Total</sub></div>
+        </td>
+      </tr>
+    </table>
+
+    <p align="center" style="margin-top: 12px;">
+      <bid-ref mode="filter">Open the Interactive 3-Stage Bayesian Filter Diagram</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>4. A Concrete Example: The Mars Rover Optical Sensor</h3>
+    <p>
+      An autonomous rover is navigating the surface of Mars in dim twilight. 
+      It needs to decide whether a dark shape in its path is an obstacle or just a flat shadow:
+    </p>
+    <ul>
+      <li><code>H_clear</code> (Flat ground / safe): Prior belief <code>P(H_clear) = 70% = 0.70</code></li>
+      <li><code>H_rock</code> (Dangerous boulder): Prior belief <code>P(H_rock) = 30% = 0.30</code></li>
+    </ul>
+    <p>
+      The rover fires a laser pulse. The sensor returns a bright reflection: <code>D = "Flash"</code>. 
+      We know the sensor's physical specs (Likelihoods):
+    </p>
+    <ul>
+      <li>If a rock is really there, it reflects the pulse <b>90%</b> of the time: <code>P(Flash | H_rock) = 0.90</code></li>
+      <li>If the ground is flat, dusty glare creates a false flash <b>15%</b> of the time: <code>P(Flash | H_clear) = 0.15</code></li>
+    </ul>
+
+    <h4>The Math in 3 Simple Steps:</h4>
+    <ol>
+      <li>
+        <b>Calculate the Surviving Slices:</b><br>
+        • Rock survivor: <code>0.90 × 0.30 = 0.270</code><br>
+        • Clear survivor: <code>0.15 × 0.70 = 0.105</code>
+      </li>
+      <br>
+      <li>
+        <b>Find the Total Surviving Width P(Flash):</b><br>
+        • <code>Total = 0.270 + 0.105 = 0.375</code> &nbsp; (37.5% total chance of seeing a flash)
+      </li>
+      <br>
+      <li>
+        <b>Normalize Back to 100%:</b><br>
+        • Updated belief in Rock: <code><sup>0.270</sup> / <sub>0.375</sub> = <b>72.0%</b></code><br>
+        • Updated belief in Clear: <code><sup>0.105</sup> / <sub>0.375</sub> = <b>28.0%</b></code>
+      </li>
+    </ol>
+
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; padding: 10px; margin: 10px 0;">
+      <b>The Takeaway:</b> Before the flash, the rover thought the rock was unlikely (30%). After observing the clue, its belief jumped to <b>72%</b>. 
+      The explanation that best predicted the clue expanded at the expense of the other.
+    </div>
+
+    <p align="center">
+      <bid-ref mode="mosaic">View this Example on the 2D Joint Mosaic Grid</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>5. Why This Works on the Hyperfinite Transect</h3>
+    <p>
+      Notice something remarkable about this process: 
+      <b>we never divided by zero, and we never had to do calculus integrals.</b>
+    </p>
+    <p>
+      Because our number line <code>ℝ_ω</code> has a discrete infinitesimal grid step <code>dx = 1/ω = ε &gt; 0</code>:
+    </p>
+    <ul>
+      <li>Every possible outcome carries an actual, positive sliver of probability: <code>P(x_k) &gt; 0</code>.</li>
+      <li>Only strictly impossible events (<code>E = ∅</code>) have probability zero.</li>
+      <li>Bayesian inference is always pure, exact arithmetic on the line.</li>
+    </ul>
+
+    <p align="center">
+      <bid-ref mode="transect">Inspect Point Masses on the Hyperfinite Transect</bid-ref>
+    </p>
+
+    <p>
+      In <b>Lecture 2</b>, we will see what happens when the rover collects a continuous stream of clues over time!
+    </p>
+  </body>
+</html>

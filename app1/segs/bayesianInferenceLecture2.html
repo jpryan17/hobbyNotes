@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Lecture 2: Sequential Updating &amp; The Odds Formulation</b></i></font><br>
+      <font size="+1"><i>Evidence Streams, Bayes Factors &amp; The Base-Rate Fallacy</i></font>
+    </div>
+    <br>
+
+    <h3>1. The Golden Rule: Today's Posterior is Tomorrow's Prior</h3>
+    <p>
+      In science and engineering, evidence rarely arrives as a single, isolated event. 
+      Detectors continuously stream readings, doctors run multiple tests, and navigation systems constantly poll sensors.
+    </p>
+    <p>
+      Bayesian inference handles ongoing data streams through a fundamental recursive principle:
+    </p>
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 16px; margin: 10px 0;">
+      Today's Posterior is Tomorrow's Prior.
+    </div>
+    <p>
+      When you receive evidence <code>D_1</code>, you compute the posterior <code>P(H | D_1)</code>. 
+      When the next piece of evidence <code>D_2</code> arrives, <code>P(H | D_1)</code> becomes your new prior baseline:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      [ Prior P(H) ] ──( Observe D_1 )──► [ Intermediate P(H | D_1) ] ──( Observe D_2 )──► [ Final P(H | D_1 ∩ D_2) ]
+    </div>
+    <p>
+      <b>Order Independence:</b> Because fraction arithmetic is associative and commutative, updating sequentially step-by-step yields the <i>exact same</i> mathematical result as combining all data into one giant event and updating all at once!
+    </p>
+
+    <p align="center">
+      <bid-ref mode="sequential">Step through the Live Sequential Evidence Pipeline</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>2. The Odds Formulation: Evidence as a Multiplier</h3>
+    <p>
+      While probabilities range between <code>0</code> and <code>1</code>, real-world decision makers often express uncertainty as <b>odds</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Prior Odds = <sup>P(H_1)</sup> / <sub>P(H_0)</sub>
+    </div>
+    <p>
+      When new data <code>D</code> arrives, the <b>Likelihood Ratio</b> (called the <b>Bayes Factor</b>) acts as a direct physical multiplier:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Bayes Factor(D) = <sup>P(D | H_1)</sup> / <sub>P(D | H_0)</sub>
+    </div>
+    <p>
+      This yields the celebrated <b>Odds Form of Bayes' Theorem</b>:
+    </p>
+
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 10px 0;">
+      <font size="+2" color="#1e3a8a">
+        <b>Posterior Odds = Bayes Factor × Prior Odds</b>
+      </font>
+    </div>
+
+    <ul>
+      <li><b>Bayes Factor &gt; 1:</b> The data pushes belief toward hypothesis <code>H_1</code>.</li>
+      <li><b>Bayes Factor &lt; 1:</b> The data pushes belief toward hypothesis <code>H_0</code>.</li>
+      <li><b>Bayes Factor = 1:</b> The data is completely uninformative (noise).</li>
+    </ul>
+
+    <p align="center">
+      <bid-ref mode="oddsGauge">Explore the Interactive Odds &amp; Bayes Factor Balance</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>3. The Base-Rate Fallacy (Rare Condition Screening)</h3>
+    <p>
+      One of the most vital insights Bayesian inference provides to basic education is explaining why <b>highly accurate tests produce mostly false alarms for rare conditions</b>.
+    </p>
+
+    <h4>The Scenario:</h4>
+    <p>
+      A rare defect affects only <b>1 in 100</b> manufactured components (<code>P(Defect) = 0.01</code>, so Prior Odds are <code>1 : 99</code>).<br>
+      A quality scanner is built with impressive laboratory accuracy:
+    </p>
+    <ul>
+      <li><b>True Positive Rate:</b> <code>P(Alarm | Defect) = 0.90</code> (Detects 90% of actual defects)</li>
+      <li><b>False Alarm Rate:</b> <code>P(Alarm | Good) = 0.05</code> (False alarm on only 5% of good chips)</li>
+    </ul>
+
+    <h4>The Bayes Factor for an Alarm:</h4>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Bayes Factor = <sup>0.90</sup> / <sub>0.05</sub> = <b>18.0×</b> &nbsp; (Strong evidence for a defect!)
+    </div>
+
+    <h4>Updating After Alarm 1:</h4>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Posterior Odds = 18 × (1 / 99) = <sup>18</sup> / <sub>99</sub> = <sup>2</sup> / <sub>11</sub><br>
+      Posterior Probability = <sup>2</sup> / <sub>(2 + 11)</sub> = <sup>2</sup> / <sub>13</sub> ≈ <b>15.4%</b>
+    </div>
+    <p>
+      <b>The Surprise:</b> Even after failing a 90%-accurate test, the component is still <b>84.6% likely to be GOOD!</b> 
+      Why? Because the overwhelming majority of the population (99%) is good, so a 5% false alarm rate on that massive majority produces far more false positives than the true positives from the tiny 1% pool.
+    </p>
+
+    <h4>Updating After Alarm 2 (Second Independent Test Fails):</h4>
+    <p>
+      We use our previous posterior odds (<code>2 : 11</code>) as our new prior:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      New Posterior Odds = 18 × (2 / 11) = <sup>36</sup> / <sub>11</sub><br>
+      New Posterior Probability = <sup>36</sup> / <sub>(36 + 11)</sub> = <sup>36</sup> / <sub>47</sub> ≈ <b>76.6%</b>
+    </div>
+    <p>
+      Now, with two independent confirmations, confidence in the defect jumps past 76%.
+    </p>
+
+    <p align="center">
+      <bid-ref mode="baseRate">Explore the Rare Condition Base Rate Simulator</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>4. Continuous Parameter Learning: The Beta-Binomial Transect</h3>
+    <p>
+      What if our hypothesis space is not just two discrete options, but a <b>continuous parameter</b> <code>θ ∈ [0, 1]</code> (such as the unknown bias of a coin)?
+    </p>
+    <p>
+      On our hyperfinite transect <code>ℝ_ω</code>, continuous parameter learning is straightforward:
+    </p>
+    <ul>
+      <li>We start with a uniform prior weight across all <code>N = ω</code> points.</li>
+      <li>Observing a <i>Head</i> multiplies the weight at point <code>θ</code> by <code>θ</code>.</li>
+      <li>Observing a <i>Tail</i> multiplies the weight at point <code>θ</code> by <code>(1 - θ)</code>.</li>
+    </ul>
+    <p>
+      After observing <code>a</code> heads and <code>b</code> tails, the weight profile on the transect is proportional to the <b>Beta distribution</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      P(θ | a, b) ∝ θ^a · (1 - θ)^b
+    </div>
+    <p>
+      As sample size grows, the probability mass on the transect automatically concentrates into a narrow, sharp peak centered precisely at the empirical frequency <code>θ = a / (a + b)</code>.
+    </p>
+
+    <p align="center">
+      <bid-ref mode="continuous">Interact with the Beta-Binomial Coin Bias Explorer</bid-ref>
+    </p>
+
+    <hr>
+
+    <h3>5. Looking Ahead</h3>
+    <p>
+      In <b>Lecture 3</b>, we investigate how Bayesian updating physically reduces <b>Entropy</b> (uncertainty) and establish the profound link between statistical inference and thermodynamics.
+    </p>
+  </body>
+</html>

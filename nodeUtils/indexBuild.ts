@@ -55,8 +55,8 @@ async function buildIndex(app: string) {
             try {
                 const body = readFileSync(filePath, 'utf8');
                 const segmentContent = getSegmentContent(body);
-                let seg = `\n<div id="${segId}" visibility="hidden">\n<!--SEG `;
-                seg = seg.concat(segmentContent, ' SEG-->\n</div>');
+                let seg = `\n<template id="${segId}">\n`;
+                seg = seg.concat(segmentContent, '\n</template>');
                 indexFileContent = indexFileContent.concat(seg);
             } catch (err) {
                 console.error(`[indexBuild Error] Error processing ${filePath}:`, err);

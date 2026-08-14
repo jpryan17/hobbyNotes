@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>fsd test</title>
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Formal Statements Demo (FSD) — Test Suite</b></i></font><br>
+      <font size="+1"><i>Clutter-Free Verification of Quantified Predicates on ℕ</i></font>
+    </div>
+    <br>
+
+    <h3>1. Quantified Predicate Statements on ℕ</h3>
+    <p>
+      Click any of the live expressions below to navigate to and evaluate the statement in FSD:
+    </p>
+
+    <ul>
+      <li>
+        <b>Test 1 (Unary Predicate on ℕ — MathML with \,):</b><br>
+        <fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 2 (Unary Predicates Conjunction):</b><br>
+        <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 3 (Binary Relations on ℕ × ℕ):</b><br>
+        <fsd-ref exp="ras" quantifiers="∃x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂,x₁,x₂" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 4 (Set Membership with Constant Subsets):</b><br>
+        <fsd-ref exp="mam" quantifiers="∃x₁:ℕ" slots="x₁,GT5,x₁,LT10" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 5 (Dynamic Registry Extension — EVEN Predicate):</b><br>
+        <fsd-ref exp="v" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ EVEN(x₁) ]</fsd-ref>
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>2. Notes on Notation &amp; Evaluation</h3>
+    <ul>
+      <li><b>Explicit Domain:</b> Every variable is explicitly typed (e.g. <code>x₁:ℕ</code> for natural numbers).</li>
+      <li><b>Quantification:</b> One quantifier per variable, separated by commas.</li>
+      <li><b>Subsets:</b> <code>GT5 = {x ∈ ℕ | x &gt; 5}</code> and <code>LT10 = {x ∈ ℕ | x &lt; 10}</code> serve as both predicates and constant subsets of <code>𝒫(ℕ)</code>.</li>
+      <li><b>Declarative Engine:</b> Predicates (including <code>EVEN</code>) are dynamically loaded and evaluated from <code>domainsAndPredicates.json</code>.</li>
+    </ul>
+  </body>
+</html>

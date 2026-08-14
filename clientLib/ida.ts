@@ -1,74 +1,152 @@
-import { Nav } from "./navFW.js";
-import { initSubtree, displaySubtree } from "./subtree.js";
-import { displayCutTree, initCutTree } from "./cut.js";
-import { displayOrderedtree, initOrderedtree } from "./order.js";
-import { displaySimtree, initSimtree } from "./simplicity.js";
-import { displayAddTree, initAddTree } from "./addMult.js";
-import { displayMultiplyTree, initMultiplyTree } from "./addMult.js";
-import { displayIsoTree, initIsoTree } from "./iso.js";
+import { Nav } from './navFW.js';
+import { BTreeDiagram, createBTree } from './bTreeDiagram.js';
+import { BTreeConfig, BTreeMode } from './bTreeConfig.js';
 
-interface interactiveDiagramArrayElement {
+export interface DiagramRegistryEntry {
   seg: string;
   diagram: string;
-  init: Function;
-  display: Function;
+  mode: BTreeMode;
+  config?: Partial<BTreeConfig>;
+  instance?: BTreeDiagram;
 }
-const ida: interactiveDiagramArrayElement[] = [
-  {
-    seg: "xaTotalOrder",
-    diagram: "subtree",
-    init: initSubtree,
-    display: displaySubtree,
-  },
-  {
-    seg: "xaTotalOrder",
-    diagram: "simtree",
-    init: initSimtree,
-    display: displaySimtree,
-  },
-  {
-    seg: "xaTotalOrder",
-    diagram: "orderedtree",
-    init: initOrderedtree,
-    display: displayOrderedtree,
-  },
-  {
-    seg: "xaCut",
-    diagram: "cutTree",
-    init: initCutTree,
-    display: displayCutTree,
-  },
-  {
-    seg: "xaAddition",
-    diagram: "addition",
-    init: initAddTree,
-    display: displayAddTree,
-  },
-  {
-    seg: "xaMultiplication",
-    diagram: "multiplication",
-    init: initMultiplyTree,
-    display: displayMultiplyTree,
-  },
-  {
-    seg: "xaDyadicRationals",
-    diagram: "isomorphism",
-    init: initIsoTree,
-    display: displayIsoTree,
-  },
+
+/**
+ * Declarative diagram registry covering all real numbers narrative segments
+ */
+export const diagramRegistry: DiagramRegistryEntry[] = [
+  // xaTotalOrder interactive diagrams
+  { seg: 'xaTotalOrder', diagram: 'subtree', mode: 'subtree' },
+  { seg: 'xaTotalOrder', diagram: 'simtree', mode: 'simplicity' },
+  { seg: 'xaTotalOrder', diagram: 'orderedtree', mode: 'order' },
+
+  // xaCut interactive cut diagram
+  { seg: 'xaCut', diagram: 'cutTree', mode: 'cut' },
+
+  // xaAddition & xaMultiplication interactive diagrams
+  { seg: 'xaAddition', diagram: 'addition', mode: 'addition' },
+  { seg: 'xaMultiplication', diagram: 'multiplication', mode: 'multiplication' },
+
+  // xaDyadicRationals isomorphism diagram
+  { seg: 'xaDyadicRationals', diagram: 'isomorphism', mode: 'isomorphism' },
+
+  // Static tree diagrams (replacing bulky pasted Draw.io SVGs)
+  { seg: 'xaTreeRepresentation', diagram: 'staticTreeBirthday', mode: 'birthday' },
+  { seg: 'xaTreeRepresentation', diagram: 'staticTreeLabeled', mode: 'labeled' },
+  { seg: 'xaTreeRepresentation', diagram: 'staticTreeProjected', mode: 'projected' },
+  { seg: 'xaDyadicRationals', diagram: 'staticTreeDyadic', mode: 'dyadic' },
+  { seg: 'xaDyadicRationals', diagram: 'staticTreePrecision', mode: 'precision' },
 ];
-//
-export function initAnyDJSI() {
-  ida.forEach((entry) => {
-    if (Nav.segId == entry.seg) {
-      entry.init(entry.diagram);
+
+/**
+ * Tracks currently active instantiated diagrams in the DOM
+ */
+const activeDiagrams = new Map<string, BTreeDiagram>();
+
+export function initAnyDJSI(): void {
+  activeDiagrams.clear();
+
+  // 1. Match from declarative registry
+  diagramRegistry.forEach((entry) => {
+    if (Nav.segId === entry.seg) {
+      const container = document.getElementById(entry.diagram);
+      if (container) {
+        const diagram = createBTree(container, {
+          mode: entry.mode,
+          id: entry.diagram,
+          ...(entry.config || {}),
+        });
+        activeDiagrams.set(entry.diagram, diagram);
+      }
+    }
+  });
+
+  // 2. Auto-detect any `<div class="djsi" data-btree="...">` in the current segment
+  const djsiNodes = document.querySelectorAll<HTMLElement>('.djsi[data-btree]');
+  djsiNodes.forEach((node) => {
+    const mode = node.getAttribute('data-btree') as BTreeMode;
+    const id = node.id || `btree-${Math.random().toString(36).substring(2, 7)}`;
+    if (mode && !activeDiagrams.has(id)) {
+      const diagram = createBTree(node, { mode, id });
+      activeDiagrams.set(id, diagram);
     }
   });
 }
-export function displayAnyDJSI() {
-  ida.forEach((entry) => {
-    if (Nav.segId == entry.seg) {
-      entry.display();
-    }
+
+export function displayAnyDJSI(): void {
+  const containerWidth = Nav.foWidth || window.innerWidth || 900;
+  activeDiagrams.forEach((diagram) => {
+    diagram.scaleToWidth(containerWidth);
   });
+}
+
+// --- Backward-Compatible Adapter Functions ---
+
+export function initSubtree(id = 'subtree'): BTreeDiagram {
+  const d = createBTree(id, 'subtree');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displaySubtree(id = 'subtree'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initCutTree(id = 'cutTree'): BTreeDiagram {
+  const d = createBTree(id, 'cut');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displayCutTree(id = 'cutTree'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initOrderedtree(id = 'orderedtree'): BTreeDiagram {
+  const d = createBTree(id, 'order');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displayOrderedtree(id = 'orderedtree'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initSimtree(id = 'simtree'): BTreeDiagram {
+  const d = createBTree(id, 'simplicity');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displaySimtree(id = 'simtree'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initAddTree(id = 'addition'): BTreeDiagram {
+  const d = createBTree(id, 'addition');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displayAddTree(id = 'addition'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initMultiplyTree(id = 'multiplication'): BTreeDiagram {
+  const d = createBTree(id, 'multiplication');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displayMultiplyTree(id = 'multiplication'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
+}
+
+export function initIsoTree(id = 'isomorphism'): BTreeDiagram {
+  const d = createBTree(id, 'isomorphism');
+  activeDiagrams.set(id, d);
+  return d;
+}
+export function displayIsoTree(id = 'isomorphism'): void {
+  const d = activeDiagrams.get(id);
+  if (d) d.scaleToWidth(Nav.foWidth || 900);
 }

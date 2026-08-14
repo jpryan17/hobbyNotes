@@ -511,6 +511,7 @@ export class TTD extends PXEParent {
       body.append(r);
       for (let j = 0; j < colCnt; j++) {
         const d = new Elt("td");
+        const cellId = `r${i}c${j}`;
         if (j == this.predCols.length) {
           if (i % 2 == 0) {
             d.setA("style", "background-color:antiquewhite");
@@ -518,34 +519,32 @@ export class TTD extends PXEParent {
         } else if (i % 2 != 0) {
           d.setAA([
             "id",
-            `r${i}c${j}`,
+            cellId,
             "style",
             "border: 1px solid black;text-align:center",
           ]);
         } else {
           d.setAA([
             "id",
-            `r${i}c${j}`,
+            cellId,
             "style",
             "border: 1px solid black;text-align:center;background-color:antiquewhite",
           ]);
         }
+
+        if (customRows) {
+          if (j < this.predCols.length) {
+            d.setV(customRows[i]?.predVals[j] || "T");
+          } else if (j > this.predCols.length) {
+            const expIdx = j - this.predCols.length - 1;
+            d.setV(customRows[i]?.expVals[expIdx] || "T");
+          }
+        }
+
         r.append(d);
       }
     }
-    if (customRows) {
-      for (let i = 0; i < rowCnt; i++) {
-        const rowData = customRows[i];
-        for (let p = 0; p < this.predCols.length; p++) {
-          this.setCellVal(i, p, rowData.predVals[p] || "T");
-        }
-        for (let e = 0; e < this.expCols.length; e++) {
-          const colIdx = this.predCols.length + 1 + e;
-          const cell = document.getElementById(`r${i}c${colIdx}`);
-          if (cell) cell.innerText = rowData.expVals[e] || "T";
-        }
-      }
-    } else {
+    if (!customRows) {
       for (let i = 0; i < this.predCols.length; i++) {
         const pc = rowCnt / Math.pow(2, i + 1);
         let j = 0;
@@ -759,11 +758,11 @@ export class TTD extends PXEParent {
   }
   getCellVal(r: number, c: number) {
     const d = document.getElementById(`r${r}c${c}`) as HTMLElement;
-    return d.innerHTML;
+    return d ? d.innerHTML : "T";
   }
   setCellVal(r: number, c: number, val: string) {
     const d = document.getElementById(`r${r}c${c}`) as HTMLElement;
-    d.innerHTML = val;
+    if (d) d.innerHTML = val;
   }
   predColPos(pred: string) {
     const pc = PXE.setKeyCode(pred);

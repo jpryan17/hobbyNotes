@@ -4,6 +4,7 @@ import {Nav} from './navFW.js'
 import {Elt} from './elt.js'
 import {SVGTSpan, textWidth} from './svgElt.js'
 import {SI} from './serverInterface.js'
+import {initAnyDJSI} from './ida.js'
 
 type NavColors = {bg:string,std:string,active:string,over:string, busy:string}
 
@@ -94,11 +95,17 @@ export class Sed {
         const color = Sed.getTargetColor(ev)
         if (color != alertC){
             Sed.setTargetColor(ev,busyC)
+            Nav.setLastVisit()
             await SI.setSegMap(true, Nav.segId)
             if (SI.errorFlag != 0) {
                 Sed.setTargetColor(ev,alertC)
             } else {
                 Nav.loadSegment()
+                initAnyDJSI()
+                if ((window as any).MathJax?.typesetPromise) {
+                    (window as any).MathJax.typesetPromise([Nav.segDiv.elt]).catch((err: any) => console.log('MathJax typeset error:', err))
+                }
+                Nav.setSegPos()
             }
         }
         Sed.setTargetColor(ev,activeC)  

@@ -2,233 +2,522 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Formal Statements: The Lecture</title>
+    <title>Formal Statements Lecture 1</title>
   </head>
   <body>
-    <h1>Formal Statements: The Lecture</h1>
-    <p>"Well hello, all. Look who’s back—it’s Jack."</p>
-    <p><em>A collective grunt echoes through the room.</em></p>
-    <p>"Hey, it’s okay. Your secret is safe with me if you haven’t been able to stop thinking about propositions since we last hung out in fourth grade."</p>
-    <p>"Look at you all—you're older, wiser, and you've survived a couple of years of standard math since then. But I admit it: those standalone propositions we learned back then are kind of boring. Don’t worry. I am here today to vanquish them to a small, supporting role on a much larger stage. But first..." <em>Jack clears his throat dramatically</em> "...I must set the stage."</p>
-    <p><em>Cue eye-rolling and a few audible groans.</em></p>
-    <p>"We all know what a collection of objects is, right? And many of you have probably heard the term 'set theory.' But did you know that not all collections are sets? Some collections are actually <em>too big</em> to be sets."</p>
-    <p>"Now, mathematical sets can be really, really big, so this size limit isn't going to cause any problems for us. For our purposes, we can safely think of a set as a collection."</p>
-    <p>"But how can a collection be too big to be a set?" <em>Jill asks, her face a picture of pure inquisitiveness.</em></p>
-    <p>"Hello, Jill, nice to see you again. Well, 'set' is a precise mathematical term—a very important one. A set doesn't just have a definition; it has a whole branch of mathematics devoted to its rules. As it turns out, if you try to group <em>absolutely everything</em> together into a single set, the math breaks. For example, the collection of all possible sets cannot be a set itself. If you try to treat it like one, you run face-first into paradoxes where you can prove contradicting conclusions. It’s all very confusing."</p>
-    <p>"And I’m no expert, Jill. Sometimes, at least until we have built the machinery to see it for ourselves, we just have to trust established mathematical fact as fact."</p>
-    <p>"Okay, so you just warned us about a massive mathematical trap that we don't even have to worry about?" <em>Jill asks, triggering a wave of amused agreement around the room.</em></p>
-    <p>"Ha! I guess I did, Jill. But it highlights a deeper point: a set is more than just a random pile of things. It has strict structural rules, even if those limits are far, far away from what we are doing today."</p>
-    <p>"In the jargon of logicians, a set is a <em>primitive notion</em>. That means we aren't going to waste time trying to formally define it with other words; we will just rely on our natural intuition of what a collection is. What we <em>will</em> formally describe are two <strong>set constructors</strong>—named the <strong>product</strong> and the <strong>directed-pair</strong>—which allow us to build new sets out of existing ones."</p>
-    <p>"To use these constructors, we need some base sets to start with. A great example of a base set is the set of natural numbers, which we denote as <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>=</mo><mo>{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mo>⋯</mo><mo>}</mo></mrow><annotation encoding="TeX">\mathbb{N} = \{1, 2, 3, \dots\}</annotation></semantics></math>. Another base set is our binary friend from yesterday: the set of Boolean truth values, <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝔹</mi><mo>=</mo><mo>{</mo><mtext>true</mtext><mo>,</mo><mtext>false</mtext><mo>}</mo></mrow><annotation encoding="TeX">\mathbb{B} = \{\text{true}, \text{false}\}</annotation></semantics></math>."</p>
-    <hr>
-    <h2>1. The Product Constructor (×)</h2>
-    <p>"Our first constructor is the product. A product is a set whose members are <strong>tuples</strong>. Think of a tuple as a sequence of slots. Aside from keeping track of which slot is which, the physical order of the slots doesn't change what the tuple is."</p>
-    <p>"Each slot is permanently bound to a specific set, and the value inside that slot must be a member of that set. You can bind multiple slots to the same set, or to completely different sets. The product constructor simply builds the set of <em>all possible</em> combinations of those bound slots."</p>
-    <p>"We denote a product by writing the sets side-by-side, separated by a multiplication symbol. For example, if we want to build a set of tuples with two slots, where both slots are bound to the natural numbers, we write the product as <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi></mrow><annotation encoding="TeX">\mathbb{N} \times \mathbb{N}</annotation></semantics></math>."</p>
-    <p>"Okay, but what does any of this have to do with a product? Like... multiplication in arithmetic?" <em>Jill interrupts.</em></p>
-    <p>"Not much, Jill. To make things worse, mathematicians often refer to the sets inside a constructor as 'product factors.' I guess we just run out of words sometimes and reuse old ones. It’s confusing, but at least now you know the secret code, right?"</p>
-    <p><em>A few murmured denials drift back from the back rows.</em></p>
-    <p>"Don't worry, the product constructor <em>is</em> eventually used to help describe arithmetic. But first, we need to look at our second constructor."</p>
-    <hr>
-    <h2>2. The Directed-Pair Constructor (→)</h2>
-    <p>"A directed-pair is constructed from two sets: the first is called the <strong>domain</strong>, and the second is called the <strong>codomain</strong>. We use a directed-pair when we want to formally define a <strong>function</strong>."</p>
-    <p>"A function is simply a directed-pair combined with a specific rule that assigns exactly one member of the codomain to any member of the domain. By using an arrow to separate the domain and codomain, we can describe standard addition or multiplication of natural numbers as a directed-pair:"</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>ℕ</mi></mrow>
-          <annotation encoding="TeX">\mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>accompanied by a rule for adding or multiplying those tuple values together. Any questions?"</p>
-    <p>"Can a directed-pair be a domain or a codomain itself?" <em>Jill asks.</em></p>
-    <p>"Ah, phenomenal question. Yes, it absolutely can. That is exactly how you start describing a function that processes <em>other functions</em>. But to keep things simple at our level, we are going to enforce a house rule: we won't use directed-pairs as domains or codomains. It keeps our scaffolding nice and flat."</p>
-    <p><em>A mostly puzzled but accepting nod goes around the room.</em></p>
-    <hr>
-    <h2>The Convention</h2>
-    <p>"Let’s establish a quick shorthand convention for writing a function. We write the name of the function, a colon, and its directed pair. Then, treating a single base set as a tuple with just one slot, we provide an input tuple labeled with variables, the mapping symbol <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>↦</mo></math>, and a rule showing how those variables determine the output."</p>
-    <p>"For addition, it looks like this:"</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mtext>add</mtext><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>ℕ</mi></mrow>
-          <annotation encoding="TeX">\text{add} : \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}</annotation>
-        </semantics>
-      </math>
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo>↦</mo><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub></mrow>
-          <annotation encoding="TeX">(x_1, x_2) \mapsto x_1 + x_2</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>"Now, we are in the perfect position to define the core component of all formal science. Are you ready? <em>Ta-da:</em> <strong>The Predicate</strong>."</p>
-    <p>"A predicate is simply a function whose codomain is locked to the set of Boolean truth values, <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝔹</mi><annotation encoding="TeX">\mathbb{B}</annotation></semantics></math>. If you feel a bit let down after all that buildup, good! A predicate is beautiful because it is that simple."</p>
-    <p>"A classic example is the 'greater than' predicate, which compares two natural numbers:"</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mtext>PG</mtext><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>𝔹</mi></mrow>
-          <annotation encoding="TeX">\text{PG} : \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{B}</annotation>
-        </semantics>
-      </math>
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo>↦</mo><mrow><mo fence="true">{</mo><mtable columnalign="left left" rowspacing="0.16em"><mtr><mtd><mtext>true</mtext></mtd><mtd><mrow><mtext>if </mtext><msub><mi>x</mi><mn>1</mn></msub><mo>&gt;</mo><msub><mi>x</mi><mn>2</mn></msub></mrow></mtd></mtr><mtr><mtd><mtext>false</mtext></mtd><mtd><mrow><mtext>if </mtext><mo>¬</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>&gt;</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mtd></mtr></mtable></mrow></mrow>
-          <annotation encoding="TeX">(x_1, x_2) \mapsto \begin{cases} \text{true} &amp; \text{if } x_1 &gt; x_2 \\ \text{false} &amp; \text{if } \neg(x_1 &gt; x_2) \end{cases}</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>"We can look at an even simpler predicate with only a single slot: checking whether a natural number is less than 10. Treating our domain as a single-slot tuple, its definition looks like this:"</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mtext>PL10</mtext><mo>:</mo><mi>ℕ</mi><mo stretchy="false">→</mo><mi>𝔹</mi></mrow>
-          <annotation encoding="TeX">\text{PL10} : \mathbb{N} \rightarrow \mathbb{B}</annotation>
-        </semantics>
-      </math>
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>↦</mo><mrow><mo fence="true">{</mo><mtable columnalign="left left" rowspacing="0.16em"><mtr><mtd><mtext>true</mtext></mtd><mtd><mrow><mtext>if </mtext><mi>x</mi><mo>&lt;</mo><mn>10</mn></mrow></mtd></mtr><mtr><mtd><mtext>false</mtext></mtd><mtd><mrow><mtext>if </mtext><mo>¬</mo><mo stretchy="false">(</mo><mi>x</mi><mo>&lt;</mo><mn>10</mn><mo stretchy="false">)</mo></mrow></mtd></mtr></mtable></mrow></mrow>
-          <annotation encoding="TeX">(x) \mapsto \begin{cases} \text{true} &amp; \text{if } x &lt; 10 \\ \text{false} &amp; \text{if } \neg(x &lt; 10) \end{cases}</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>"Crucially, a standalone predicate is <strong>neither true nor false</strong>. It’s just an empty template waiting for inputs. However, we can ask questions about it: <em>'Is there some natural number less than 10?'</em> or <em>'Are all natural numbers less than 10?'</em>"</p>
-    <p>"The answer to the first question is a definitive <strong>yes (true)</strong>, and the second is a definitive <strong>no (false)</strong>. By asking these questions, we have turned a flexible predicate back into a rigid proposition—a statement that is forced to be true or false."</p>
-    <hr>
-    <h2>The Content-Free Guide to Quantifiers</h2>
-    <p>"Well, we have to face them sooner or later; may as well make it sooner, right?"</p>
-    <p><em>The class reacts with shifting weight and curious glances.</em></p>
-    <p>"We shall face the dreaded backward E and the upside-down A—those symbols for the highbrow phrases 'there exists' and 'for all.' But, tradition and all, we need to get used to them. So let’s decode them and see exactly what’s being said before we connect them to any real-world content:"</p>
+    Well hello all, look who's back, it's Jack.<br>
+    <br>
+    [Grunts.]<br>
+    <br>
+    Hey, it's OK; it's your secret if you haven't been able to stop
+    thinking about propositions since we last talked.<br>
+    <br>
+    [Grimaces and quiet groans.]<br>
+    <br>
+    OK, standalone propositions are kind of boring. But don't worry. I
+    am here today to vanquish them to a small, supporting role on a much
+    larger stage. But first (ahem) I must set the stage.<br>
+    <br>
+    [Eye-rolling groans.]<br>
+    <br>
+    We all know what a collection of objects is, right? And many of you
+    have probably heard of set theory. Did you know not all collections
+    are sets? Some collections are actually <em>too big</em> to be
+    sets. Sets can be really, really big, so this size limit will not
+    cause any problems for us, and we can safely think of a set as a
+    collection.<br>
+    <br>
+    ["But how can a collection be too big to be a set?" Inquisitive
+    faces.]<br>
+    <br>
+    Hello Jill, nice to see you. Well, 'set' is a precise mathematical
+    term—a very important one. A set not only has a mathematical
+    definition, it has a whole theory devoted to it. But as it turns
+    out, if you try to group <em>absolutely everything</em> together
+    into a single set, the math breaks. For example, the collection of
+    all possible sets cannot be a set. If you try to treat it like one,
+    paradoxes arise: you can prove contradicting conclusions; all very
+    confusing. And I'm no expert, Jill. Sometimes, at least until we
+    have built the machinery to see it for ourselves, we just have to
+    trust established mathematical fact as fact.<br>
+    <br>
+    ["OK, so you just warned us about something we don't have to worry
+    about?" Amused agreement.]<br>
+    <br>
+    Ha ha, I guess so Jill. But it highlights that a set is more than
+    just a random pile of things. There are strict structural rules,
+    even if for us those limits are far away. In the jargon of
+    logicians, set is a <em>primitive notion</em>, meaning we won't try
+    to formally define it with other words: it's our natural intuition
+    of a collection.<br>
+    <br>
+    What we <em>will</em> formally describe are two <strong>set
+      constructors</strong>:
     <ul>
-      <li><strong>The ∃ Symbol:</strong> Means 'there exists,' which means that there is <em>some</em> member of the predicate domain that evaluates to, or assigns, the value true.</li>
-      <li><strong>The ∀ Symbol:</strong> Means 'for all,' which means that <em>every single</em> member of the domain evaluates to true.</li>
+      <li>the <strong>product</strong> constructor</li>
+      <li>and the <strong>directed-pair</strong> constructor</li>
     </ul>
-    <p>"Logicians seem to be a rather stilted bunch; their language seems a bit stilted, but they mean well, so we live with it, right guys?"</p>
-    <hr>
-    <h2>The Table of Strength</h2>
-    <p>"Before we even hook these symbols up to real math rules like 'greater than' or 'less than', the mere sequence of these characters tells us exactly how 'heavy' a statement is. Here is our master cheat sheet for two variables, listed from the absolute strongest claim to the weakest:"</p>
-    <table style="border-collapse: collapse; width: 100%; margin: 15px 0; border: 1px solid #000000;">
-      <thead>
-        <tr style="background: #f2f2f2;">
-          <th style="border: 1px solid #000000; padding: 8px; text-align: left;">Strength Tier</th>
-          <th style="border: 1px solid #000000; padding: 8px; text-align: left;">Quantifier Order</th>
-          <th style="border: 1px solid #000000; padding: 8px; text-align: left;">What it actually means</th>
-          <th style="border: 1px solid #000000; padding: 8px; text-align: left;">Operational Reality</th>
-        </tr>
-      </thead>
+    which allow us to construct new sets from existing ones. To use
+    them, we need some base sets. A great example of a base set is the
+    set of natural numbers, denoted <code>ℕ = {1, 2, 3, ...}</code>.
+    Another base set is our binary friend from propositional logic: the
+    set of Boolean truth values, <code>𝔹 = {true, false}</code> (or <code>{1,
+      0}</code>).<br>
+    <br>
+    <h3>The Product Constructor (×)</h3>
+    A <strong>product</strong> is a set whose members are tuples. A
+    tuple is a sequence of slots. Aside from bookkeeping of which slot
+    is which, the order of the slots doesn't change what the tuple is.
+    Each slot is permanently bound to a specific set, and the value
+    inside that slot will always be a member of that bound set. Multiple
+    slots in a tuple may be bound to the same set or to different sets.<br>
+    <br>
+    The product constructor builds the set of <em>all possible</em>
+    such combinations.<br>
+    <br>
+    A product is denoted by writing the sets side-by-side, separated by
+    a multiplication symbol. For example, if members of the product are
+    tuples with two slots, where both slots are bound to natural
+    numbers, the product is denoted:
+    <ul>
+      <li><code>ℕ × ℕ</code></li>
+    </ul>
+    ["OK, but what does any of this have to do with a product? Like
+    multiplication in arithmetic?"]<br>
+    <br>
+    Not much, Jill. To make things worse, mathematicians often refer to
+    the sets inside a constructor as 'product factors.' Maybe we just
+    run out of words sometimes and reuse old ones? I don't know. But at
+    least now you know the secret code, right?<br>
+    <br>
+    [Murmured denials.]<br>
+    <br>
+    Don't worry, the product constructor is eventually used to help
+    describe arithmetic. First though, we need to look at our second
+    constructor: the directed-pair.<br>
+    <br>
+    <h3>The Directed-Pair Constructor (→) &amp; Functions</h3>
+    A directed-pair is constructed from two sets: one is called the <strong>domain</strong>,
+    and the other is called the <strong>codomain</strong>.<br>
+    <br>
+    We use a directed-pair when we want to formally define a <strong>function</strong>.
+    A function is:
+    <ul>
+      <li>a directed-pair (<code>Domain → Codomain</code>)</li>
+      <li>and a rule that assigns to each member of the domain exactly
+        one member of the codomain.</li>
+    </ul>
+    By using an arrow to separate the domain and codomain, standard
+    addition or multiplication of natural numbers can be described as:
+    <ul>
+      <li>the directed pair: <code>ℕ × ℕ → ℕ</code></li>
+      <li>accompanied by a rule for adding or multiplying those tuple
+        values together.</li>
+    </ul>
+    ["Can a directed-pair be a domain or a codomain itself?"]<br>
+    <br>
+    Ah, phenomenal question Jill! Yes, it absolutely can. That is
+    exactly how you start describing a function that processes other
+    functions. But to keep things simple at our level, we enforce a
+    house rule: we won't use directed-pairs as domains or codomains. It
+    keeps our scaffolding nice and flat.<br>
+    <br>
+    [Accepting nods.]<br>
+    <br>
+    Let's establish a quick shorthand convention for writing a function.
+    We write the name of the function, a colon, and its directed pair.
+    Then, treating a single base set as a tuple with just one slot, we
+    provide an input tuple labeled with variables, the mapping symbol <code>↦</code>,
+    and a rule showing how those variables determine the output.<br>
+    <br>
+    For addition, it looks like this:
+    <ul>
+      <li><code>add : ℕ × ℕ → ℕ</code></li>
+      <li><code>(x₁, x₂) ↦ x₁ + x₂</code></li>
+    </ul>
+    <br>
+    <h3>The Predicate: Functions into 𝔹</h3>
+    Now we are in the perfect position to define the core building block
+    of all formal science. Are you ready? <em>Ta-da:</em> <strong>The
+      Predicate</strong>.<br>
+    <br>
+    A predicate is simply a function whose codomain is locked to the set
+    of Boolean truth values, <code>𝔹</code>. If you feel a bit let
+    down after all that buildup, good! A predicate is beautiful because
+    it is that simple.<br>
+    <br>
+    A classic example is the 'greater than' predicate, which compares
+    two natural numbers:
+    <ul>
+      <li><code>GT : ℕ × ℕ → 𝔹</code></li>
+      <li><code>(x₁, x₂) ↦ { true if x₁ &gt; x₂; false if ¬(x₁ &gt; x₂)
+          }</code></li>
+    </ul>
+    We can look at an even simpler predicate with only a single slot:
+    checking whether a natural number is less than 10:
+    <ul>
+      <li><code>LT10 : ℕ → 𝔹</code></li>
+      <li><code>(x) ↦ { true if x &lt; 10; false if ¬(x &lt; 10) }</code></li>
+    </ul>
+    Crucially, a standalone predicate is <strong>neither true nor false</strong>.
+    It's just an empty template waiting for inputs. However, we can ask
+    questions about it: <em>'Is there some natural number less than
+      10?'</em> or <em>'Are all natural numbers less than 10?'</em><br>
+    <br>
+    The answer to the first question is a definitive <strong>yes (true)</strong>,
+    and the second is a definitive <strong>no (false)</strong>. By
+    asking these questions, we turn a flexible predicate back into a
+    rigid proposition—a statement that is forced to be true or false.<br>
+    <br>
+    <h3>The Content-Free Guide to Quantifiers &amp; The Table of
+      Strength</h3>
+    Well, we have to face them sooner or later; may as well make it
+    sooner, right?<br>
+    <br>
+    [Shifting weight and curious glances.]<br>
+    <br>
+    We shall face the dreaded backward E and the upside-down A—those
+    symbols for the highbrow phrases 'there exists' and 'for all':
+    <ul>
+      <li><strong>The ∃ Symbol ("There Exists"):</strong> Means that
+        there is <em>some</em> member of the predicate domain that
+        evaluates to true.</li>
+      <li><strong>The ∀ Symbol ("For All"):</strong> Means that <em>every
+          single</em> member of the domain evaluates to true.</li>
+    </ul>
+    Logicians seem to be a rather stilted bunch, but they mean well, so
+    we live with it.<br>
+    <br>
+    Before we even hook these symbols up to real math rules like
+    'greater than' or 'less than', the mere sequence of these characters
+    tells us exactly how 'heavy' a statement is. Here is our master
+    cheat sheet for two variables, listed from the absolute strongest
+    claim to the weakest: <br>
+    <br>
+    <table style="border-collapse: collapse;" width="90%"
+      cellspacing="0" cellpadding="6" border="1">
       <tbody>
-        <tr>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Tier 1 (Strongest)</strong></td>
-          <td style="border: 1px solid #000000; padding: 8px; font-weight: bold;">∀ x ∀ y</td>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Everyone and everything:</strong> True for absolutely every possible pair.</td>
-          <td style="border: 1px solid #000000; padding: 8px;">Unyielding</td>
+        <tr bgcolor="#f2f2f2">
+          <th align="left">Strength Tier</th>
+          <th align="center">Quantifier Order</th>
+          <th align="left">What it actually means</th>
+          <th align="left">Operational Reality</th>
         </tr>
         <tr>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Tier 2 (Strong)</strong></td>
-          <td style="border: 1px solid #000000; padding: 8px; font-weight: bold;">∃ x ∀ y</td>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>The Master Key:</strong> One single, fixed choice works for every combination.</td>
-          <td style="border: 1px solid #000000; padding: 8px;">Rigid</td>
+          <td><b>Tier 1 (Strongest)</b></td>
+          <td align="center"><code>∀x ∀y</code></td>
+          <td><b>Everyone and everything:</b> True for absolutely every
+            possible pair.</td>
+          <td>Unyielding</td>
         </tr>
         <tr>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Tier 3 (Weak)</strong></td>
-          <td style="border: 1px solid #000000; padding: 8px; font-weight: bold;">∀ y ∃ x</td>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Custom Fit:</strong> Everyone gets a match, but the choice shifts depending on the situation.</td>
-          <td style="border: 1px solid #000000; padding: 8px;">Flexible</td>
+          <td><b>Tier 2 (Strong)</b></td>
+          <td align="center"><code>∃x ∀y</code></td>
+          <td><b>The Master Key:</b> One single, fixed choice works for
+            every combination.</td>
+          <td>Rigid</td>
         </tr>
         <tr>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>Tier 4 (Weakest)</strong></td>
-          <td style="border: 1px solid #000000; padding: 8px; font-weight: bold;">∃ x ∃ y</td>
-          <td style="border: 1px solid #000000; padding: 8px;"><strong>At least once:</strong> Minimum threshold. A single working pair exists somewhere.</td>
-          <td style="border: 1px solid #000000; padding: 8px;">Permissive</td>
+          <td><b>Tier 3 (Weak)</b></td>
+          <td align="center"><code>∀y ∃x</code></td>
+          <td><b>Custom Fit:</b> Everyone gets a match, but the choice
+            shifts depending on the situation.</td>
+          <td>Flexible</td>
+        </tr>
+        <tr>
+          <td><b>Tier 4 (Weakest)</b></td>
+          <td align="center"><code>∃x ∃y</code></td>
+          <td><b>At least once:</b> Minimum threshold. A single working
+            pair exists somewhere.</td>
+          <td>Permissive</td>
         </tr>
       </tbody>
     </table>
-    <p>"Because the Master Key requires one fixed choice upfront, it automatically forces the Custom Fit scenario to be true. The logical implication goes strictly down the ladder—Tier 2 completely guarantees Tier 3 (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>∀</mo><mi>y</mi><mo>⟹</mo><mo>∀</mo><mi>y</mi><mo>∃</mo><mi>x</mi></mrow><annotation encoding="TeX">\exists x \forall y \implies \forall y \exists x</annotation></semantics></math>)—but it never, ever goes backward."</p>
-    <p>"Now, here is the catch: because this chart tries to make rules about <em>all possible rules</em> without caring about what's inside the brackets, logicians call it <strong>Second-Order Logic</strong>. It’s the bird's-eye view of the math universe."</p>
-    <p>"We aren't doing that here. We are taking Step 1."</p>
-    <p>"Our curriculum uses <strong>First-Order Logic</strong>. In our sandbox, we don't make abstract statements about <em>all possible rules</em>. Instead, we keep our feet on the ground, pick a single, concrete relationship—like x > y—and watch how our variables move around inside a real, physical set of numbers."</p>
-    <p>"But the cool thing is that this second-order chart remains our guide. By simply looking at the order of the ∀ and ∃ signs at the very front of your text box, you'll already know exactly how heavy your statement is before the math engine even turns on."</p>
-    <hr>
-    <h2>The Visual Matrix Warmup</h2>
-    <p>"Now, before we turn on the simulator and start blindly typing in rules, we need a simple way to visualize what is actually happening under the hood when these quantifiers shift strength."</p>
-    <p>"Imagine we take a two-variable predicate and map it onto a <strong>Boolean Matrix</strong>—which is just a fancy name for a grid."</p>
+    <br>
+    Because the Master Key requires one fixed choice upfront, it
+    automatically forces the Custom Fit scenario to be true. The logical
+    implication goes strictly down the ladder—Tier 2 completely
+    guarantees Tier 3 (<code>∃x ∀y ⟹ ∀y ∃x</code>)—but it never, ever
+    goes backward.<br>
+    <br>
+    Now, here is the catch: because this chart tries to make rules about
+    <em>all possible rules</em> without caring about what's inside the
+    brackets, logicians call it <strong>Second-Order Logic</strong>.
+    It's the bird's-eye view of the math universe.<br>
+    <br>
+    We aren't doing that here. We are taking Step 1.<br>
+    <br>
+    Our curriculum uses <strong>First-Order Logic</strong>. In our
+    sandbox, we don't make abstract statements about all possible rules.
+    Instead, we keep our feet on the ground, pick a single, concrete
+    relationship—like <code>x &gt; y</code>—and watch how our variables
+    move around inside a real, physical set of numbers.<br>
+    <br>
+    But the cool thing is that this second-order chart remains our
+    guide. By simply looking at the order of the <code>∀</code> and <code>∃</code>
+    signs at the very front of your statement, you'll already know
+    exactly how heavy your claim is before the math engine even turns
+    on.<br>
+    <br>
+    <h3>Our Sandbox: Built-In Domains &amp; Predicates</h3>
+    Before we start chaining expressions together, let's open our
+    sandbox toolbox and meet the specific mathematical domains and
+    built-in predicates we have available to play with.<br>
+    <br>
+    In our sandbox, all statements live on three foundational domains:
     <ul>
-      <li>The <strong>rows</strong> represent our choices for x.</li>
-      <li>The <strong>columns</strong> represent our choices for y.</li>
-      <li>Inside the grid cells, we drop a <strong>1</strong> if the combination is True, and a <strong>0</strong> if it is False.</li>
+      <li><strong>1. The Base Set of Natural Numbers (<code>ℕ</code>):</strong>
+        <code>ℕ = {1, 2, 3, ...}</code>. When we want an <strong>element
+          variable</strong>, we write <code>x₁, x₂, x₃, ... ∈ ℕ</code>.</li>
+      <li><strong>2. The Power Set of Natural Numbers (<code>𝒫(ℕ)</code>):</strong>
+        The collection of all possible subsets of <code>ℕ</code>. When
+        we want a <strong>subset variable</strong>, we write <code>y₁,
+          y₂, ... ∈ 𝒫(ℕ)</code>.</li>
+      <li><strong>3. Constant Subsets in <code>𝒫(ℕ)</code>:</strong>
+        Special, fixed subsets that already have a built-in definition,
+        like <code>GT5 = {x ∈ ℕ | x &gt; 5}</code> and <code>LT10 = {x
+          ∈ ℕ | x &lt; 10}</code>.</li>
+      <li><strong>4. The Boolean Set (<code>𝔹</code>):</strong> <code>𝔹
+          = {true, false}</code> (or <code>{1, 0}</code>), which serves
+        as the codomain for every predicate.</li>
     </ul>
-    <p>"Let's look at how the geometry of this grid visually proves the difference between our two middle strength tiers."</p>
-
-    <h3>Grid A: Testing the 'Master Key' (∃ x ∀ y)</h3>
-    <p>The statement ∃ x ∀ y claims: <em>'There is a single master row x that is True for absolutely every column y.'</em></p>
-    <p>Visually, this means you are looking for a <strong>solid, unbroken horizontal row of 1s</strong> stretching completely across the grid:</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow>
-            <mtable><mtr><mtd></mtd><mtd><mtable><mtr><mtd><msub><mi>y</mi><mn>1</mn></msub></mtd><mtd><msub><mi>y</mi><mn>2</mn></msub></mtd><mtd><msub><mi>y</mi><mn>3</mn></msub></mtd><mtd><msub><mi>y</mi><mn>4</mn></msub></mtd></mtr></mtable></mtd></mtr><mtr><mtd><mtable><mtr><mtd><msub><mi>x</mi><mn>1</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>3</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>4</mn></msub></mtd></mtr></mtable></mtd><mtd><mrow><mo>[</mo><mtable><mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mathbf><mn>1</mn></mathbf></mtd><mtd><mathbf><mn>1</mn></mathbf></mtd><mtd><mathbf><mn>1</mn></mathbf></mtd><mtd><mathbf><mn>1</mn></mathbf></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd></mtr></mtable><mo>]</mo></mrow></mtd></mtr></mtable>
-          </mrow>
-          <annotation encoding="TeX">\begin{array}{cc} &amp; \begin{array}{cccc} y_1 &amp; y_2 &amp; y_3 &amp; y_4 \end{array} \\ \begin{array}{c} x_1 \\ x_2 \\ x_3 \\ x_4 \end{array} &amp; \left[ \begin{array}{cccc} 0 &amp; 1 &amp; 0 &amp; 0 \\ \mathbf{1} &amp; \mathbf{1} &amp; \mathbf{1} &amp; \mathbf{1} \\ 0 &amp; 0 &amp; 1 &amp; 1 \\ 1 &amp; 0 &amp; 0 &amp; 1 \end{array} \right] \end{array}</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>Look at row <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="TeX">x_2</annotation></semantics></math>. Because that master row cuts completely across, it forces every single column it crosses to intersect a 1. This is why the implication flows down the ladder: a solid horizontal row <strong>forces</strong> every column to be satisfied.</p>
-
-    <h3>Grid B: Testing the 'Custom Fit' (∀ y ∃ x)</h3>
-    <p>The statement ∀ y ∃ x claims: <em>'Every single column y has at least one row x where the answer is True.'</em></p>
-    <p>Visually, this means <strong>every vertical column must have a light turned on</strong>, but the 1s do not need to line up. They can be scattered anywhere:</p>
-    <p align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-        <semantics>
-          <mrow>
-            <mtable><mtr><mtd></mtd><mtd><mtable><mtr><mtd><msub><mi>y</mi><mn>1</mn></msub></mtd><mtd><msub><mi>y</mi><mn>2</mn></msub></mtd><mtd><msub><mi>y</mi><mn>3</mn></msub></mtd><mtd><msub><mi>y</mi><mn>4</mn></msub></mtd></mtr></mtable></mtd></mtr><mtr><mtd><mtable><mtr><mtd><msub><mi>x</mi><mn>1</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>3</mn></msub></mtd></mtr><mtr><mtd><msub><mi>x</mi><mn>4</mn></msub></mtd></mtr></mtable></mtd><mtd><mrow><mo>[</mo><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr></mtable><mo>]</mo></mrow></mtd></mtr></mtable>
-          </mrow>
-          <annotation encoding="TeX">\begin{array}{cc} &amp; \begin{array}{cccc} y_1 &amp; y_2 &amp; y_3 &amp; y_4 \end{array} \\ \begin{array}{c} x_1 \\ x_2 \\ x_3 \\ x_4 \end{array} &amp; \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 0 \end{array} \right] \end{array}</annotation>
-        </semantics>
-      </math>
-    </p>
-    <p>Scan this second grid vertically, column by column. Does every column have a 1? Yes, so the statement is True. But look horizontally: is there a single, solid row of 1s? Not even close. They are scattered diagonally.</p>
-    <p>This is the geometric proof of why the implication can never go backward. You can easily satisfy every vertical column individually without ever creating a single, master horizontal row. Shifting the quantifier order shifts the geometry of truth.</p>
-    <hr>
-    <h2>Variable Binding and Scope</h2>
-    <p>"In the simplest case of our single-slot predicate like the less than 10 predicate formalized above, this universal guide makes quantification pretty straightforward to interpret:"</p>
+    We have six primary predicates tailored to these domains: <br>
+    <br>
+    <table style="border-collapse: collapse;" width="95%"
+      cellspacing="0" cellpadding="6" border="1">
+      <tbody>
+        <tr bgcolor="#f2f2f2">
+          <th align="left">Predicate</th>
+          <th align="center">Signature</th>
+          <th align="left">Template / Meaning</th>
+          <th align="left">Evaluation Rule</th>
+        </tr>
+        <tr>
+          <td><b>GT5</b></td>
+          <td align="center"><code>ℕ → 𝔹</code></td>
+          <td><code>GT5(x)</code> (Single element)</td>
+          <td><code>true</code> if <code>x &gt; 5</code>, else <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><b>LT10</b></td>
+          <td align="center"><code>ℕ → 𝔹</code></td>
+          <td><code>LT10(x)</code> (Single element)</td>
+          <td><code>true</code> if <code>x &lt; 10</code>, else <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><b>EVEN</b></td>
+          <td align="center"><code>ℕ → 𝔹</code></td>
+          <td><code>EVEN(x)</code> (Single element)</td>
+          <td><code>true</code> if <code>x</code> is even, else <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><b>GT</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>GT(x₁, x₂)</code> (Two elements)</td>
+          <td><code>true</code> if <code>x₁ &gt; x₂</code>, else <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><b>LT</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>LT(x₁, x₂)</code> (Two elements)</td>
+          <td><code>true</code> if <code>x₁ &lt; x₂</code>, else <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><b>∈ (Membership)</b></td>
+          <td align="center"><code>ℕ × 𝒫(ℕ) → 𝔹</code></td>
+          <td><code>(x ∈ y)</code> (Element in subset)</td>
+          <td><code>true</code> if <code>x</code> is a member of subset
+            <code>y</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Notice something subtle and neat: <code>GT5</code> and <code>LT10</code>
+    can act both as <strong>unary predicates</strong> on an element (<code>GT5(x)</code>)
+    and as <strong>constant subsets</strong> in membership predicates (<code>x
+      ∈ GT5</code>). They are two sides of the exact same coin!<br>
+    <br>
+    <h3>Constructing Formal Statements</h3>
+    Now let's examine how we build concrete mathematical statements from
+    the ground up.<br>
+    <br>
+    Just as we combined atomic propositions in propositional logic using
+    Boolean connectives (<code>¬, ∧, ∨, →, ↔</code>), we can combine
+    predicates into <strong>predicate expressions</strong>, like:
     <ul>
-      <li><fsd-ref exp="[q[]]eiss[eq[]]" quantifiers="∃x ∃ x" style="color:firebrick;font-weight:bold">∃x ∃ x [ PG(x₁,x₂) ]</fsd-ref> is a <strong>true</strong> proposition.</li>
-      <li><fsd-ref exp="[q[]]ora[eq[]]" quantifiers="∀x ∀ x" style="color:firebrick;font-weight:bold">∀x ∀ x [ PG(x₁,x₂) ]</fsd-ref> is a <strong>false</strong> proposition.</li>
+      <li><code>P₁ ∧ P₂</code> &nbsp;|&nbsp; <code>P₁ ∨ ¬P₂</code>
+        &nbsp;|&nbsp; <code>P₁ → P₂</code></li>
     </ul>
-    <p>"Everyone tracking so far?"</p>
-    <p>"What's that x?" <em>Jill asks.</em></p>
-    <p>"That is a great question. You see, you don't quantify a predicate directly; you don't even quantify a tuple slot. Rather, you quantify a variable bound to the slot. This variable may be any member of the set to which the slot is bound."</p>
-    <p>"In fact, what we really want to quantify is a predicate expression. If we quantify all the predicates in a predicate expression, we would be dealing with a propositional expression—the same propositional expressions we talked about yesterday, but you might remember some things about them."</p>
-    <p>"But considering a predicate expression complicates things a bit. For example, let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>1</mn></msub><mo>≡</mo><mtext>greater than 10</mtext></mrow><annotation encoding="TeX">P_1 \equiv \text{greater than 10}</annotation></semantics></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mn>2</mn></msub><mo>≡</mo><mtext>less than 20</mtext></mrow><annotation encoding="TeX">P_2 \equiv \text{less than 20}</annotation></semantics></math>, and consider the quantified predicate expressions:"</p>
+    However, a predicate expression by itself is not yet a proposition.
+    A predicate has <strong>argument slots</strong> waiting for inputs.<br>
+    <br>
+    ["What actually goes inside a predicate?" Jill asks.]<br>
+    <br>
+    Remember Jill, <strong>a predicate is fundamentally a function</strong>.
+    It is defined on a directed pair:
+    <ul>
+      <li><code>Domain → 𝔹</code></li>
+    </ul>
+    where its domain is either a single set or a product of sets. If the
+    domain is a single set, we treat it as a 1-slot tuple. If the domain
+    is a product of sets, each <strong>product factor directly creates
+      and types an argument slot</strong>:
+    <ul>
+      <li>The 1st product factor defines the type of slot 1.</li>
+      <li>The 2nd product factor defines the type of slot 2, and so on.</li>
+    </ul>
+    For example:
+    <ul>
+      <li>In <code>GT5 : ℕ → 𝔹</code>, the domain is a single set <code>ℕ</code>,
+        giving us 1 slot typed to a natural number.</li>
+      <li>In <code>GT : ℕ × ℕ → 𝔹</code>, the domain is a 2-factor
+        product, giving us 2 slots <code>(slot₁, slot₂)</code>, each
+        typed to <code>ℕ</code>.</li>
+    </ul>
+    We do not quantify a predicate directly, nor do we quantify a raw
+    slot. Rather, we <strong>bind a variable</strong> (like <code>x₁,
+      x₂ ∈ ℕ</code>) to each slot—and then prefix a quantifier to bind
+    that variable.<br>
+    <br>
+    Let's see this in action with our first live formal statement. Go
+    ahead and click on this red statement on your screens, but don't get
+    lost, there's a button up on top that will bring you safely back
+    here:<br>
+    <ul>
+      <li><fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁"
+          style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref></li>
+    </ul>
+    There's a lot to look at right? But right now notice the expression
+    you clicked on is displayed near the top and below that is a table
+    that shows the quantified predicate GT5 to be true, and so the whole
+    expression to be true. And of course it's true; there are loads of
+    numbers greater than 5. If you need to, click on it again. You know
+    how to get back.<br>
+    <br>
+    ["Yeah, click your heels twice." Chuckles.]<br>
+    <br>
+    Well, Jill however you manage to get back, you might want to click
+    on this next statement:<br>
+    <ul>
+      <li><fsd-ref exp="p" quantifiers="∀x₁:ℕ" slots="x₁"
+          style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ]</fsd-ref></li>
+    </ul>
+    The table looks different as it should. I mean, not all numbers are
+    greater than 5, right?<br>
+    <br>
+    Notice what just happened: an open predicate function that was
+    neither true nor false became an absolute proposition as soon as we
+    bound its slot and quantified its variable!<br>
+    <br>
+    Now, what happens when we combine multiple predicates into a single
+    expression? The way we assign variables across the slots determines
+    its logical meaning:
     <ol>
-      <li><fsd-ref exp="[r[]ar[]]eiss[r[]ar[]]" quantifiers="∃xy ∃ x y" style="color:firebrick;font-weight:bold">∃xy ∃ x y [ PG(x₁,x₂) ]</fsd-ref></li>
-      <li><fsd-ref exp="[r[]ar[]]eiss[r[]ar[]]" quantifiers="∃x ∃ x" style="color:firebrick;font-weight:bold">∃x ∃ x [ PG(x₁,x₂) ]</fsd-ref></li>
+      <li> <strong>Shared Variable (Joint Constraint):</strong><br>
+        Click on this statement:
+        <ul>
+          <li><fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁"
+              style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∧
+              LT10(x₁) ]</fsd-ref></li>
+        </ul>
+        Notice how both predicates share the <em>same variable</em> <code>x₁</code>.
+        On your screens, you can see it evaluates to <strong>true</strong>
+        because numbers 6, 7, 8, and 9 simultaneously satisfy both
+        conditions (the intersection). </li>
+      <li> <strong>Independent Variables (Separate Constraints):</strong><br>
+        Now look at this one:
+        <ul>
+          <li><fsd-ref exp="paq" quantifiers="∃x₁:ℕ ∃x₂:ℕ" slots="x₁,x₂"
+              style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∃x₂:ℕ [
+              GT5(x₁) ∧ LT10(x₂) ]</fsd-ref></li>
+        </ul>
+        Here, <code>x₁</code> and <code>x₂</code> are independent
+        variables. It evaluates to <strong>true</strong> trivially
+        because we can choose <code>x₁ = 20</code> (greater than 5) and
+        <code>x₂ = 2</code> (less than 10) without any conflict. </li>
+      <li> <strong>Tautologies in Predicates:</strong><br>
+        Just like in propositional logic, click on:
+        <ul>
+          <li><fsd-ref exp="ponp" quantifiers="∀x₁:ℕ" slots="x₁,x₁"
+              style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ∨
+              ¬GT5(x₁) ]</fsd-ref></li>
+        </ul>
+        It is an absolute tautology because every number in <code>ℕ</code>
+        is either greater than 5 or not. </li>
     </ol>
-    <p>Can you see that the first one will always be true, while the second requires a bit more thought because of the way we bind variables to slots? In the first expression, each predicate has its own independent variable. It is easy to find two numbers that will satisfy the expression. On the other hand, how is one number going to satisfy both predicates?</p>
-    <p>Do you remember what a tautology is? This may help. Let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mtext>greater than 10</mtext></mrow><annotation encoding="TeX">P \equiv \text{greater than 10}</annotation></semantics></math>. Then <fsd-ref exp="[r[]onr[]]ora[r[]onr[]]" quantifiers="∀x ∀ x" style="color:firebrick;font-weight:bold">∀x ∀ x [ PG(x₁,x₂) ]</fsd-ref> is an absolute tautology.</p>
-    <p>When a predicate, such as the 'greater than' predicate, has more than one slot, things become a bit more complicated, because we might now have to consider the order of mixed quantifiers. For example, let <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>≡</mo><mtext>greater than</mtext></mrow><annotation encoding="TeX">P \equiv \text{greater than}</annotation></semantics></math>, and consider the quantified predicate expressions:</p>
-    <ol>
-      <li><fsd-ref exp="r" quantifiers="∀x ∃y" style="color:firebrick;font-weight:bold">∀x ∃y [ 𝑃(x,y)≀]</fsd-ref></li>
-      <li><fsd-ref exp="r" quantifiers="∃y ∀x" style="color:firebrick;font-weight:bold">∃y ∀x [ 𝑃(x,y)≀]</fsd-ref></li>
-    </ol>
-    <p>These are completely different propositions. The first is true. The second is false. Some people see this easily. Some don't. I don't; I have to think about it, and eventually I can say, 'oh sure,' like it was always easy to see.</p>
-    <p>It would be nice to have something like the truth table demo that we used to visualize propositional expressions that we could use to help visualize quantified predicate expressions, wouldn't it? We can't use a truth table because there are way too many possible combinations to enumerate. In addition, the visualization tool needs to understand the predicate rule in order to evaluate all possible predicate values. So we have to keep things simple. The visualization tool is called the formal statement demo. It's pretty simple, but sometimes simple helps."</p>
-    <hr>
-    <h2>The Formal Statement Demo</h2>
-    <p>"There are only four built-in predicates:"</p>
+    <br>
+    <h3>Visualizing Truth: The Boolean Matrix</h3>
+    Now, let's take a closer look at the display widget below the table in the demo—the <strong>Boolean Matrix</strong>.<br>
+    <br>
+    In propositional logic, we tested formulas using a static truth table with 4 or 8 rows. But in predicate logic over <code>ℕ</code>, there are infinitely many possible numbers. How can we develop a crisp intuition for why statements are true without getting lost in endless algebra? We look at their <strong>geometry</strong> on a sample of the domain.<br>
+    <br>
+    Let's return to the first two quantified statements we clicked:
     <ul>
-      <li>PG5 <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≡</mo><annotation encoding="TeX">\equiv</annotation></semantics></math> greater than 5</li>
-      <li>PL10 <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≡</mo><annotation encoding="TeX">\equiv</annotation></semantics></math> less than 10</li>
-      <li>PG <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≡</mo><annotation encoding="TeX">\equiv</annotation></semantics></math> greater than</li>
-      <li>PL <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≡</mo><annotation encoding="TeX">\equiv</annotation></semantics></math> less than</li>
+      <li><fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref></li>
+      <li><fsd-ref exp="p" quantifiers="∀x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ]</fsd-ref></li>
     </ul>
-    <p>where the first two predicates are single-slotted, and the last two predicates listed have two slots. Formally, we have four predicates that the user can choose from to make a valid predicate expression.</p>
-    <p>At this point, there is no difference between a valid predicate expression and a valid propositional expression, and the predicate names can be used as if they label propositions. You are able to construct predicate expressions in the same way you constructed propositional expressions in the truth table demo.</p>
-    <p>But after you've constructed a valid predicate expression, you must bind each slot in each predicate to a variable. In extreme cases, you may assign the same variable to every slot, or a different variable to each slot, or any combination you choose. Then, you choose a sequence of quantifiers that bind all the variables.</p>
-    <p>The demo should now be able to determine the truth value of the quantified predicate expression, and provide visual aids to explain why it has this value. This should help those like me who need some time and examples before we can understand a quantified predicate. It's not always obvious."</p>
+    When <code>GT5(x₁)</code> is evaluated across our sample of natural numbers <code>{1, 2, 3, 4, 5, 6, 7, 8}</code>, the demo computes a 1D strip of Boolean values:
+    <ul>
+      <li><code>[ 0, 0, 0, 0, 0, 1, 1, 1 ]</code></li>
+    </ul>
+    In the matrix display, cells 1 through 5 are dim <strong>Grey</strong> (false), while cells 6, 7, and 8 are lit up in <strong>Blue</strong> (true).<br>
+    <br>
+    Now, look at what the two quantifiers actually ask of this geometric strip:
+    <ul>
+      <li><strong>The ∃ Quantifier ("There exists"):</strong> Asks, <em>'Is there at least one Blue light turned on in the strip?'</em> Since cells 6, 7, 8 are lit up, the answer is <strong>true</strong>.</li>
+      <li><strong>The ∀ Quantifier ("For all"):</strong> Asks, <em>'Is every single cell in the entire strip Blue?'</em> Because cells 1 through 5 are grey, the answer is <strong>false</strong>.</li>
+    </ul>
+    Now, what happens when a predicate takes <em>two</em> variables, like <code>GT(x₁, x₂)</code> or <code>LT(x₁, x₂)</code>? The 1D strip naturally expands into a <strong>2D Boolean Matrix (Grid)</strong>:
+    <ul>
+      <li>The <strong>rows</strong> represent choices for <code>x₁</code>.</li>
+      <li>The <strong>columns</strong> represent choices for <code>x₂</code>.</li>
+      <li>Each cell <code>(x₁, x₂)</code> is lit up in <strong>Blue (1)</strong> if the relation holds, and dim <strong>Grey (0)</strong> if it fails.</li>
+    </ul>
+    This 2D matrix represents the raw, unquantified truth pattern of the relation across our sample domain.<br>
+
+    <br>
+    <h3>Quantifier Alternation &amp; The Table of Strength</h3>
+    Now that we understand the 2D grid widget, let's bring back our <strong>Second-Order Table of Strength</strong> from earlier and see how the order of alternating quantifiers (<code>∀</code> and <code>∃</code>) directly controls the geometry of truth!<br>
+    <br>
+    When all quantifiers in a prefix are the same (<code>∀x ∀y</code> or <code>∃x ∃y</code>), their order doesn't change the truth value of the statement. But when quantifiers <strong>alternate</strong> (mixing <code>∀</code> and <code>∃</code>), their order fundamentally alters the meaning:<br>
+    <br>
+    Let's test this directly on our screens. Go ahead and click on this statement:<br>
+    <ul>
+      <li><fsd-ref exp="r" quantifiers="∀x₁:ℕ ∃x₂:ℕ" slots="x₂,x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ, ∃x₂:ℕ [ GT(x₂, x₁) ]</fsd-ref></li>
+    </ul>
+    Look at the display that comes up. Near the top, the evaluation table confirms the statement is <strong>true</strong>. And below that, look at the interactive 2D Boolean Matrix.<br>
+    <br>
+    Notice the triangular staircase of blue cells? Now check our quantifier claim: <em>'For every natural number x₁, there exists some number x₂ greater than x₁.'</em><br>
+    <br>
+    This is our Tier 3 <strong>Custom Fit</strong>: for every row <code>x₁</code> you pick, is there at least one blue light turned on in that row? Look across the grid: row 1 has lights at columns 2, 3, 4; row 2 has lights at 3, 4; row 3 has a light at 4. Every row gets a match!<br>
+    <br>
+    Now, click on the exact same formula with the quantifiers flipped into Tier 2:<br>
+    <ul>
+      <li><fsd-ref exp="r" quantifiers="∃x₂:ℕ ∀x₁:ℕ" slots="x₂,x₁" style="color:firebrick;font-weight:bold">∃x₂:ℕ, ∀x₁:ℕ [ GT(x₂, x₁) ]</fsd-ref></li>
+    </ul>
+    Look at your screens. The evaluation flips to <strong>false</strong>.<br>
+    <br>
+    Why? Because <code>∃x₂ ∀x₁</code> is the <strong>Master Key</strong>. For this statement to be true, you would need a <strong>single, solid column of Blue</strong> stretching from top to bottom across all rows! Scan the columns on your grid: column 1 has zero blue cells; column 2 has one; column 3 has two; column 4 has three. Not a single column is 100% solid blue.<br>
+    <br>
+    ["So a Master Key needs a solid line, but a Custom Fit just needs a light in every row?"]<br>
+    <br>
+    Spot on, Jill! That is the geometric proof right in front of your eyes: having scattered blue lights can easily satisfy every row individually (Custom Fit), but it never produces a single, master column of 100% blue (Master Key). And a solid column automatically guarantees a light in every row it crosses—which is why Tier 2 completely forces Tier 3, but the implication can never go backward.<br>
+    <br>
+    Try clicking the grid resolution buttons in the demo—switch from <code>4×4</code> to <code>8×8</code>, <code>16×16</code>, or <code>32×32</code>. See how the triangular geometry stays identical no matter how high we count?<br>
+    <br>
+    <h3>Power Sets &amp; The Incidence Matrix</h3>
+    We can even test statements about subsets and the power set <code>𝒫(ℕ)</code> using the set membership predicate <code>∈</code>.<br>
+    <br>
+    Click on this statement:<br>
+    <ul>
+      <li><fsd-ref exp="m" quantifiers="∃x₁:ℕ ∀y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∀y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref></li>
+    </ul>
+    Look at the matrix now! For the four base numbers <code>ℕ₄ = {1, 2, 3, 4}</code>, there are <code>2⁴ = 16</code> possible subsets. The demo displays a <code>4 × 16</code> <strong>Power Set Incidence Matrix</strong>, where each column represents a different subset (from the empty set <code>∅</code> all the way to <code>{1, 2, 3, 4}</code>).<br>
+    <br>
+    The statement asks: <em>'Is there some number x₁ that is inside EVERY subset y₁?'</em><br>
+    <br>
+    Look at the very first column of your grid—that's the empty set <code>∅</code>. It has no members, so its entire column is grey. Because no number is in the empty set, no row can be solid blue, and the statement evaluates to <strong>false</strong>.<br>
+    <br>
+    Now you have all the tools of the Formal Statement Demo to build, bind, quantify, and visually evaluate any formal statement you can imagine!<br>
   </body>
 </html>

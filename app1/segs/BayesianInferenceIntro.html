@@ -1,12 +1,223 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    Bayesian inference<br>
+    <div align="center">
+      <font size="+2"><i><b>Introduction: The Logic of Scientific Discovery</b></i></font><br>
+      <font size="+1"><i>Hypotheses, Data Spaces &amp; Exact Belief Revision on the Hyperfinite Transect</i></font>
+    </div>
     <br>
-    stub: introduction to Bayesian inference.<br>
+
+    <h3>1. From Deductive Logic to Scientific Inference</h3>
+    <p>
+      In the preceding modules, we explored <b>Propositional Logic</b> and <b>Predicate Logic</b>. 
+      In that deductive world, every statement is definitively either <i>True</i> (1) or <i>False</i> (0). 
+      Deduction tells us what must follow if our premises are absolute.
+    </p>
+    <p>
+      However, deductive logic possesses a rigid structural property: it is strictly <b>monotonic</b>. 
+      In deduction, once a conclusion is proven from a set of premises, learning new facts can <i>never</i> invalidate the proof:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+    </div>
+    <p>
+      You can never "un-prove" a mathematical theorem by discovering new data.
+    </p>
+    <p>
+      Yet empirical discovery in the <b>natural sciences</b> is fundamentally <b>non-monotonic</b>:
+    </p>
+    <ul>
+      <li>Observing a thousand white swans leads to high confidence that <i>"All swans are white."</i></li>
+      <li>Observing a <b>single black swan</b> immediately shatters and revokes that belief!</li>
+    </ul>
+    <p>
+      In science, learning new data constantly forces us to retract, revise, or discard previously favored models. 
+      Classical deductive systems cannot model this retraction without self-contradiction.
+    </p>
+    <p>
+      <b>Bayesian Inference</b> is the unique, mathematically consistent formalization of <b>non-monotonic logic</b>. 
+      It provides the exact calculus of scientific discovery: allowing rational beliefs to rise, fall, and reallocate dynamically across competing hypotheses as new evidence arrives.
+    </p>
+
+    <hr>
+
+    <h3>2. The Primary Ground: Sample Space (Ω) as the Arena of Reality</h3>
+    <p>
+      In both probability theory and physics, scientific reasoning is anchored on a single fundamental substrate: the <b>Sample Space / State Space (Ω)</b>.
+    </p>
+    <p>
+      Instead of treating theoretical models and empirical data as detached worlds, they both operate on this common ground:
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left"><font size="+1">1. The State / Sample Space (Ω)</font></th>
+        <th width="35%" align="left"><font size="+1">2. We Hypothesize About Ω (ℋ)</font></th>
+        <th width="35%" align="left"><font size="+1">3. We Observe Ω (𝒟)</font></th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>The Primary Substrate of Reality</b><br>
+          • <b>Elements:</b> Atomic states or trial outcomes <code>p ∈ Ω</code>.<br>
+          • <b>The Arena:</b> The complete universe of possible occurrences or microscopic configurations.<br>
+          • <i>Example:</i> <code>Ω = {Heads, Tails}</code>, or detector pixels, or phase-space points <code>(q, p)</code>.
+        </td>
+        <td valign="top">
+          <b>The World of Explanations</b><br>
+          • <b>Elements:</b> Hypotheses / Models <code>h ∈ ℋ</code>.<br>
+          • <b>Role:</b> A hypothesis is a <i>proposed rule or probability distribution</i> over <code>Ω</code>.<br>
+          • <b>Function:</b> <code>h : Ω → [0, 1]_ω</code>, assigning likelihood <code>h(p) = P(p | h)</code> to every state <code>p ∈ Ω</code>.<br>
+          • <i>Example:</i> <code>h_fair</code> (50/50 on Ω) vs. <code>h_biased</code> (80/20 on Ω).
+        </td>
+        <td valign="top">
+          <b>The World of Observations</b><br>
+          • <b>Elements:</b> Realized datasets <code>d ∈ 𝒟</code>.<br>
+          • <b>Role:</b> Empirical measurements physically recorded from nature.<br>
+          • <b>Structure:</b> Collections or sequences of samples drawn from <code>Ω</code> (<code>d = (p₁, p₂, ...) ∈ Ωⁿ</code>).<br>
+          • <i>Example:</i> <code>d = [H, H, T, H] ∈ Ω⁴</code>.
+        </td>
+      </tr>
+    </table>
+
+    <br>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 14px;">
+      <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
+                     [ Hypotheses (Models in ℋ) ]<br>
+                   (Candidate distributions on Ω)<br>
+                               │<br>
+                               │ Hypothesize: h(p) = P(p | h)<br>
+                               ▼<br>
+     ═════════════════════════════════════════════════════════<br>
+                SAMPLE SPACE / STATE SPACE (Ω)<br>
+                 The Arena of All Possibilities<br>
+     ═════════════════════════════════════════════════════════<br>
+                               ▲<br>
+                               │ Observe: Sample points p ∈ Ω<br>
+                               │<br>
+                     [ Observations (Data 𝒟) ]<br>
+                  (Realized occurrences from Ω)
+      </div>
+      <b>The Unifying Logic of Inference:</b><br>
+      • <b>We hypothesize about Ω:</b> Proposing which probability distribution governs the states.<br>
+      • <b>We observe points in Ω:</b> Nature delivers concrete sample outcomes.<br>
+      • <b>Bayesian Inference:</b> Evaluates which candidate distribution over <code>Ω</code> assigned the highest likelihood to the actual points witnessed, updating our beliefs across <code>ℋ</code>.
+    </div>
+
+    <br>
+    <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px;">
+      <b>The Direct Bridge to Physics (Statistical Mechanics &amp; Quantum):</b><br>
+      • In <b>Probability &amp; Inference:</b> <code>Ω</code> is the <i>Sample Space</i> of observable outcomes.<br>
+      • In <b>Statistical Mechanics:</b> <code>Ω</code> is the <i>Microstate Space / Phase Space</i>, and physical macrostates (temperature, entropy) are probability ensembles over <code>Ω</code> (Boltzmann-Gibbs distribution <code>P(p) ∝ e^(-β E(p))</code>).<br>
+      • In <b>Quantum Mechanics:</b> <code>Ω</code> is the <i>Eigenstate / Measurement Outcome Spectrum</i> over which quantum density operators assign probability amplitudes in <code>ℂ_ω</code>.
+    </div>
+
+    <hr>
+
+    <h3>3. The Hypothesis as a Function: Generalizing the Predicate</h3>
+    <p>
+      In formal logic, a <b>Predicate</b> is a typed function mapping domain objects to binary truth:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Predicate: P : Domain → { 0, 1 }
+    </div>
+    <p>
+      We now define a <b>Hypothesis</b> as a natural continuous generalization: a rule that assigns likelihood weights to elemental outcomes in the <b>Sample Space <code>Ω</code></b> into the hyperfinite unit interval <code>[0, 1] ⊆ ℝ_ω</code>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      Hypothesis Likelihood: h : Ω → [0, 1]_ω &nbsp; where &nbsp; h(p) = P(p | h)
+    </div>
+    <ul>
+      <li>When certainty is absolute, <code>h(p)</code> returns <code>0</code> or <code>1</code>, degenerating precisely into a classical predicate (deterministic rule).</li>
+      <li>When uncertainty is present, <code>h(p)</code> assigns a graded degree of probability across the points <code>p ∈ Ω</code>.</li>
+      <li>At each observed point <code>p ∈ Ω</code>, Bayesian inference evaluates how well the prediction <code>h(p)</code> matches the empirical data to update belief over <code>ℋ</code>.</li>
+    </ul>
+
+    <hr>
+
+    <h3>4. The Anatomy of Bayes' Rule</h3>
+    <p>
+      Given an initial state of knowledge and a new empirical observation <code>D ∈ 𝒟</code>, <b>Bayes' Rule</b> calculates the updated belief for every competing hypothesis <code>H ∈ ℋ</code>:
+    </p>
+
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
+      <font size="+2" color="#1e3a8a">
+        <b>P(H | D) = <sup>P(D | H) · P(H)</sup> / <sub>P(D)</sub></b>
+      </font>
+    </div>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="22%" align="left">Component</th>
+        <th width="20%" align="left">Formal Type</th>
+        <th width="58%" align="left">Plain Scientific Meaning</th>
+      </tr>
+      <tr>
+        <td><b>Prior: P(H)</b></td>
+        <td>Measure on <code>ℋ</code></td>
+        <td>Our initial state of belief in hypothesis <code>H</code> before witnessing new data.</td>
+      </tr>
+      <tr>
+        <td><b>Likelihood: P(D | H)</b></td>
+        <td>Mapping <code>ℋ × 𝒟 → [0, 1]_ω</code></td>
+        <td>The forward predictive power: how probable was outcome <code>D</code> if hypothesis <code>H</code> is true?</td>
+      </tr>
+      <tr>
+        <td><b>Marginal: P(D)</b></td>
+        <td>Measure on <code>𝒟</code></td>
+        <td>The total weighted compatibility sum across all hypotheses: <code>∑ P(D | H_i) · P(H_i)</code>.</td>
+      </tr>
+      <tr>
+        <td><b>Posterior: P(H | D)</b></td>
+        <td>Updated measure on <code>ℋ</code></td>
+        <td>Our refined, rational state of belief in hypothesis <code>H</code> after incorporating data <code>D</code>.</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>5. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
+    <p>
+      In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
+    </p>
+    <p>
+      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (generated by transfinite induction with birthday cutoff <code>ω</code> and infinitesimal step size <code>dx = 1/ω = ε &gt; 0</code>), we achieve two decisive simplifications:
+    </p>
+    <ol>
+      <li><b>No Divide-by-Zero Singularities:</b> Because every non-empty event carries a strictly positive infinitesimal weight (<code>P(x_k) = p(x_k) · dx &gt; 0</code>), Bayes' division is always well-defined. Impossible events are strictly those where <code>E = ∅</code>.</li>
+      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable integral; it is simply <b>proportional slicing and rescaling of discrete point masses</b> on the transect.</li>
+      <li><b>Macroscopic Readout:</b> Whenever a standard decimal value or laboratory probability is required, hyperfinite values seamlessly <b>"pop" to the nearest real number</b> via the standard part map (<code>st: ℝ_ω → ℝ</code>), dropping infinitesimal parts (<code>∼ 𝒪(1/ω)</code>).</li>
+    </ol>
+
+    <hr>
+
+    <h3>6. Interactive Demonstration Suite (BID)</h3>
+    <p>
+      To build visual and computational intuition, the <b>Bayesian Inference Demo (BID)</b> (accessible directly via the main index) provides two complementary tool suites:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 20px; margin: 15px 0;">
+      <b>Static Geometric Perspectives:</b>
+      <ul>
+        <li><b>Hyperfinite Transect Lattice:</b> Exact discrete point masses <code>P(x_k) &gt; 0</code> on <code>ℝ_ω</code> summing to 1.000.</li>
+        <li><b>The 3-Stage Bayesian Filter:</b> Visualizing <i>Prior Partition → Likelihood Slicing → Posterior Normalization</i>.</li>
+        <li><b>2D Joint Mosaic Grid:</b> Proportional block areas spanning the joint product space <code>ℋ × 𝒟</code>.</li>
+        <li><b>Tree-to-Transect Projection:</b> Mapping dyadic branch paths of the 2-successor tree to probability intervals.</li>
+      </ul>
+      <b>Interactive Operational Labs:</b>
+      <ul>
+        <li><b>Head/Tail Tree (Ω):</b> The centerpiece state space tree connecting candidate models, coin tosses, and belief revision.</li>
+        <li><b>Sequential Evidence Stream:</b> Stepping through real-time observation pipelines (<i>"Today's posterior is tomorrow's prior"</i>).</li>
+        <li><b>Odds &amp; Bayes Factor Balance:</b> A physical scale/lever demonstrating likelihood multipliers.</li>
+        <li><b>Beta-Binomial Learning:</b> Dynamic belief curve sharpening over continuous parameter spaces.</li>
+        <li><b>Base Rate Screening Lab:</b> Exploring why false positives dominate rare disease diagnostic tests.</li>
+      </ul>
+    </div>
+
+    <p>
+      In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
+    </p>
   </body>
 </html>

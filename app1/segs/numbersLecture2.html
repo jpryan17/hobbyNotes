@@ -1,8 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
   </head>
   <body>
     <div align="center"><i><font size="+2">Lecture 2:<br>
@@ -21,22 +21,51 @@
     <br>
     [mostly puzzled looks, mild agreement.]<br>
     <br>
-    The natural numbers have a tree representation, but a rather boring
-    one: it is a trunk with no branches; just up and up with increasing
-    birthday.<br>
+    There seems to be a deep connection between numbers and balanced
+    trees, i.e. a graph structure with a single root and a constant
+    branching number. In fact, the branching number corresponds to the
+    number of successors identified by the inductive definition of the
+    number set. <br>
     <br>
-    The 2-successor inductively defined number set can be represented by
-    a binary tree. The 2-successor case will be the focus of our
-    exploration of the behavior of recursive definitions. <br>
+    Of course, recursive definitions of some level of order and
+    arithmetic-like operations need to be defined over the tree.
+    Mathematician have shown this can only be done for specific numbers:
+    <fsd-ref exp="aa" quantifiers="∀x₁ ∃x₂" style="color:firebrick;font-weight:bold">∀x₁ ∃x₂ [ PG(x₁,x₂) ]</fsd-ref>,
+    and the further out you go, the less useful the operations. We do
+    not explore any further than four, but not to our surprise, some
+    mathematicians certainly have, and physicists, for example, find
+    some of their findings useful. But we stick to the basics: 1, 2 and
+    4. &nbsp; <br>
     <br>
-    The 4-successor inductively defined number set can be represented by
-    two binary trees that share the same root. We leave the recursive
-    definitions in that case for an industrious student to explore, OK?<br>
+    As it is so often, the tree for the single successor case is rather
+    boring. It is like a trunk without branches reaching ever upward; or
+    an endless road with no side-roads, stretching toward the horizon;
+    either way, signpost after signpost, little nodes:&nbsp;<fsd-ref exp="aa" quantifiers="∀x₁ ∃x₂" style="color:firebrick;font-weight:bold">∀x₁ ∃x₂ [ PG(x₁,x₂) ]</fsd-ref>;
+    boring.<br>
     <br>
-    [..]<br>
+    The 2-successor case corresponds to a binary tree. Descriptions of
+    the tree representation of numbers will focus on the the 2-successor
+    case, with only minimal discussion of what I suspect - I possess
+    limited knowledge of the subject - is a rich environment to explore
+    complex numbers. <br>
     <br>
-    Our representations will only include numbers whose birthday is a
-    very small number of course, just so the tree can be displayed in
-    detail.<br>
+    A tree representation of a 1, 2, or 4 successor inductively defined
+    number system is primarily characterized by a cutoff birthday for
+    displayed numbers. As mathematicians have shown rather than assumed,
+    this corresponds to a (finite) display of natural, dyadic rational,
+    and Gaussian dyadic rational numbers, respectively.<br>
+    <br>
+    The 1-successor case not only serves as a trunk; in the 2-successor
+    case it serves as a branch. (It may be interesting to consider
+    whether there is a difference between viewing the branches of the
+    4-successor case as the 2-successor case, rather than a pair of
+    1-successor cases.)<br>
+    <br>
+    Since the birthday view is essential to recursive definitions, and
+    natural for a small set of displayed numbers, it will generally be
+    our perspective of tree representations. However before that, we
+    might attempt to summarize a wider perspective using the notion that
+    each branch of each 2-successor tree node is a 1-successor that does
+    not intersect (share nodes) with any other tree node.<br>
   </body>
 </html>

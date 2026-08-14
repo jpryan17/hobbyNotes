@@ -1,49 +1,137 @@
 import { readFileSync, writeFileSync, existsSync, statSync } from 'fs';
 import { resolve } from 'path';
 
-export function normalizeToFSDExp(str: string): { exp: string; quantifiers: string } {
-  let cleaned = str.replace(/<[^>]+>/g, '');
+export function normalizeToFSDExp(str: string): { exp: string; quantifiers: string; slots: string; display: string } {
+  // Strip MathML annotations first so TeX annotation is not concatenated with MathML presentation
+  let stripped = str.replace(/<annotation[\s\S]*?<\/annotation>/gi, '');
+  let cleaned = stripped.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
 
-  // Extract Quantifiers (e.g. \forall x, \exists y or ∀x ∃y)
-  const qMatches = cleaned.match(/(?:\\forall|\\exists|∀|∃)\s*[a-z0-9_, ]+/gi) || [];
-  let quantifiers = qMatches.join(' ')
-    .replace(/\\forall|∀/g, '∀')
-    .replace(/\\exists|∃/g, '∃')
-    .replace(/,/g, '')
+  // Extract Quantifiers (e.g. ∃x1:ℕ, ∃x2:ℕ or \exists x_1:\mathbb{N}, \exists x_2:\mathbb{N})
+  const qMatches = cleaned.match(/(?:\\forall|\\exists|∀|∃)\s*[a-z0-9_:, 𝒫()ℕ\\]+/gi) || [];
+  let quantifiers = qMatches.join(', ')
+    .replace(/\\forall/g, '∀')
+    .replace(/\\exists/g, '∃')
+    .replace(/\\mathbb\{N\}/g, 'ℕ')
+    .replace(/\\in/g, ':')
+    .replace(/x_1/g, 'x₁')
+    .replace(/x_2/g, 'x₂')
+    .replace(/y_1/g, 'y₁')
+    .replace(/y_2/g, 'y₂')
+    .replace(/x1/g, 'x₁')
+    .replace(/x2/g, 'x₂')
+    .replace(/y1/g, 'y₁')
+    .replace(/y2/g, 'y₂')
     .trim();
 
-  if (!quantifiers) quantifiers = '∀x₁ ∃x₂';
+  if (!quantifiers) quantifiers = '∃x₁:ℕ';
 
-  // Map Predicates to internal codes: PG5 -> p, PL10 -> q, PG -> r, PL -> s, ∈ -> m
+  // Format quantifiers cleanly with comma separation
+  const qTokens = quantifiers.split(/[, ]+/).filter(Boolean);
+  const normalizedQTokens = qTokens.map(t => {
+    let tok = t.trim();
+    if (!tok.includes(':')) {
+      tok = tok.startsWith('y') || tok.includes('y') ? `${tok}:𝒫(ℕ)` : `${tok}:ℕ`;
+    }
+    return tok;
+  });
+  quantifiers = normalizedQTokens.join(', ');
+
+  // Extract body inside brackets or after quantifiers
   let body = cleaned;
-  body = body
-    .replace(/\\in|∈|MEM/g, 'm')
-    .replace(/PG5/g, 'p')
-    .replace(/PL10/g, 'q')
-    .replace(/PG/g, 'r')
-    .replace(/PL/g, 's')
-    .replace(/P_1|P1|P/gi, 'r');
+  const bracketStart = cleaned.indexOf('[');
+  const bracketEnd = cleaned.lastIndexOf(']');
+  if (bracketStart !== -1 && bracketEnd !== -1 && bracketEnd > bracketStart) {
+    body = cleaned.substring(bracketStart + 1, bracketEnd);
+  }
+
+  // Parse Slots and Expression tokens from body
+  const slotsList: string[] = [];
+
+  // Replace membership expressions first: x1 ∈ GT5 -> m (slots: x1, GT5)
+  let expBody = body
+    .replace(/([a-z0-9_]+)\s*(?:∈|∊|\\in)\s*([A-Za-z0-9_]+)/g, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂').replace(/y1|y_1/g, 'y₁');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂').replace(/y1|y_1/g, 'y₁');
+      slotsList.push(normV1, normV2);
+      return 'm';
+    })
+    // Replace parameterized predicates: GT(x1, x2) -> r (slots: x1, x2)
+    .replace(/GT\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'r';
+    })
+    .replace(/LT\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 's';
+    })
+    .replace(/GT5\s*\(\s*([a-z0-9_]+)\s*\)/gi, (_, v1) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1);
+      return 'p';
+    })
+    .replace(/LT10\s*\(\s*([a-z0-9_]+)\s*\)/gi, (_, v1) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1);
+      return 'q';
+    })
+    .replace(/EVEN\s*\(\s*([a-z0-9_]+)\s*\)/gi, (_, v1) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1);
+      return 'v';
+    });
+
+  // Map remaining bare predicate identifiers if any
+  expBody = expBody
+    .replace(/GT5|PG5/g, () => { slotsList.push('x₁'); return 'p'; })
+    .replace(/LT10|PL10/g, () => { slotsList.push('x₁'); return 'q'; })
+    .replace(/GT|PG/g, () => { slotsList.push('x₁', 'x₂'); return 'r'; })
+    .replace(/LT|PL/g, () => { slotsList.push('x₁', 'x₂'); return 's'; })
+    .replace(/EVEN/g, () => { slotsList.push('x₁'); return 'v'; })
+    .replace(/\\in|∈|∊|MEM/g, () => { slotsList.push('x₁', 'y₁'); return 'm'; });
 
   // Map logical connectives
-  body = body
+  expBody = expBody
     .replace(/\\leftrightarrow|\\iff|\\equiv|<->|↔/g, 'e')
     .replace(/\\rightarrow|\\implies|\\to|->|→/g, 'i')
-    .replace(/\\wedge|\\and|&|∧/g, 'a')
-    .replace(/\\vee|\\or|\||∨/g, 'o')
+    .replace(/\\wedge|\\and|&|∧|⋀/g, 'a')
+    .replace(/\\vee|\\or|\||∨|⋁/g, 'o')
     .replace(/\\not|\\neg|~|!|¬/g, 'n')
     .replace(/\(/g, '[')
     .replace(/\)/g, ']');
 
   let exp = '';
-  for (const char of body) {
-    if ('pqrsmnaoie[]'.includes(char)) {
+  for (const char of expBody) {
+    if ('pqrsmvnaoie[]'.includes(char)) {
       exp += char;
     }
   }
 
-  if (!exp) exp = 'r';
+  if (!exp) exp = 'paq';
 
-  return { exp, quantifiers };
+  // Build clean human-readable display string
+  let displayBody = body
+    .replace(/\\in|∊/g, '∈')
+    .replace(/\\wedge|⋀/g, '∧')
+    .replace(/\\vee|⋁/g, '∨')
+    .replace(/\\rightarrow/g, '→')
+    .replace(/\\leftrightarrow/g, '↔')
+    .replace(/x1/g, 'x₁')
+    .replace(/x2/g, 'x₂')
+    .replace(/x_1/g, 'x₁')
+    .replace(/x_2/g, 'x₂')
+    .replace(/y1/g, 'y₁')
+    .replace(/y2/g, 'y₂')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const display = `${quantifiers} [ ${displayBody} ]`;
+  const slots = slotsList.join(',');
+
+  return { exp, quantifiers, slots, display };
 }
 
 export function convertFSDRefContent(content: string): { updatedContent: string; replacementsCount: number } {
@@ -58,7 +146,7 @@ export function convertFSDRefContent(content: string): { updatedContent: string;
     const endBrace = updatedContent.indexOf('}', idx + fsdMarker.length);
     if (endBrace !== -1) {
       const exp = updatedContent.substring(idx + fsdMarker.length, endBrace);
-      let quantifiers = '∀x₁ ∃x₂';
+      let quantifiers = '∃x₁:ℕ';
 
       if (updatedContent[endBrace + 1] === '{') {
         const qEnd = updatedContent.indexOf('}', endBrace + 2);
@@ -67,7 +155,7 @@ export function convertFSDRefContent(content: string): { updatedContent: string;
         }
       }
 
-      const replacement = `<fsd-ref exp="${exp}" quantifiers="${quantifiers}" style="color:firebrick;font-weight:bold">${quantifiers} [ PG(x₁,x₂) ]</fsd-ref>`;
+      const replacement = `<fsd-ref exp="${exp}" quantifiers="${quantifiers}" style="color:firebrick;font-weight:bold">${quantifiers} [ ${exp} ]</fsd-ref>`;
       const fullMatchLen = updatedContent[endBrace + 1] === '{' 
         ? updatedContent.indexOf('}', endBrace + 2) + 1 - idx
         : endBrace + 1 - idx;
@@ -85,17 +173,59 @@ export function convertFSDRefContent(content: string): { updatedContent: string;
   idx = updatedContent.indexOf(marker);
 
   while (idx !== -1) {
-    const mathStart = updatedContent.lastIndexOf('<math', idx);
-    const mathEnd = updatedContent.indexOf('</math>', idx);
+    // 1. Check if \, is inside or immediately following a <math>...</math> block
+    let mathStart = -1;
+    let mathEnd = -1;
 
-    if (mathStart !== -1 && mathEnd !== -1 && mathStart < idx && idx < mathEnd) {
+    const priorMathEnd = updatedContent.lastIndexOf('</math>', idx);
+    if (priorMathEnd !== -1) {
+      const between = updatedContent.substring(priorMathEnd + 7, idx).trim();
+      if (between === '') {
+        // \, is immediately following </math>
+        mathStart = updatedContent.lastIndexOf('<math', priorMathEnd);
+        mathEnd = priorMathEnd;
+      }
+    }
+
+    if (mathStart === -1) {
+      const lastMathStart = updatedContent.lastIndexOf('<math', idx);
+      const nextMathEnd = updatedContent.indexOf('</math>', idx);
+      if (lastMathStart !== -1 && nextMathEnd !== -1 && lastMathStart < idx && idx < nextMathEnd) {
+        mathStart = lastMathStart;
+        mathEnd = nextMathEnd;
+      }
+    }
+
+    if (mathStart !== -1 && mathEnd !== -1 && mathStart < mathEnd) {
       const mathBlock = updatedContent.substring(mathStart, mathEnd + 7);
-      const { exp, quantifiers } = normalizeToFSDExp(mathBlock);
+      const { exp, quantifiers, slots, display } = normalizeToFSDExp(mathBlock);
 
-      const replacement = `<fsd-ref exp="${exp}" quantifiers="${quantifiers}" style="color:firebrick;font-weight:bold">${quantifiers} [ PG(x₁,x₂) ]</fsd-ref>`;
-      updatedContent = updatedContent.substring(0, mathStart) + replacement + updatedContent.substring(mathEnd + 7);
+      const replacement = `<fsd-ref exp="${exp}" quantifiers="${quantifiers}" slots="${slots}" style="color:firebrick;font-weight:bold">${display}</fsd-ref>`;
+      const fullEnd = idx + marker.length;
+      updatedContent = updatedContent.substring(0, mathStart) + replacement + updatedContent.substring(fullEnd);
       replacementsCount++;
       idx = updatedContent.indexOf(marker, mathStart + replacement.length);
+      continue;
+    }
+
+    // 2. Check if plain-text preceding the \, marker (e.g. ∃x1:ℕ[GT5(x1)⋀LT10(x1)]\,)
+    const lineStart = Math.max(
+      updatedContent.lastIndexOf('\n', idx),
+      updatedContent.lastIndexOf('>', idx),
+      0
+    );
+    const textBefore = updatedContent.substring(lineStart, idx).trim();
+
+    if (textBefore.includes('∀') || textBefore.includes('∃') || textBefore.includes('\\forall') || textBefore.includes('\\exists')) {
+      const { exp, quantifiers, slots, display } = normalizeToFSDExp(textBefore);
+      const replacement = `<fsd-ref exp="${exp}" quantifiers="${quantifiers}" slots="${slots}" style="color:firebrick;font-weight:bold">${display}</fsd-ref>`;
+      
+      const replaceStart = updatedContent.indexOf(textBefore, lineStart);
+      const replaceEnd = idx + marker.length;
+
+      updatedContent = updatedContent.substring(0, replaceStart) + replacement + updatedContent.substring(replaceEnd);
+      replacementsCount++;
+      idx = updatedContent.indexOf(marker, replaceStart + replacement.length);
       continue;
     }
 

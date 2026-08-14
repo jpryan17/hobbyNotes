@@ -52,8 +52,8 @@ function addSegment(fileName:string){
     const segmentContent = getSegmentContent(data)
     const segmentName = basename(fileName,'.html')
 
-    let seg = `\n<div id="${segmentName}" visibility="hidden">\n<!--SEG `
-    seg = seg.concat(segmentContent,' SEG-->\n</div>')
+    let seg = `\n<template id="${segmentName}">\n`
+    seg = seg.concat(segmentContent, '\n</template>')
     indexFileContent = indexFileContent.concat(seg)
   } catch (err) {
       console.log(err);

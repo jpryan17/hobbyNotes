@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified B-Tree Diagram Engine Test Harness</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .controls-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .group-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      min-width: 110px;
+    }
+
+    .btn {
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid transparent;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: #475569;
+      color: #fff;
+    }
+
+    .btn.active {
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+
+    .info-card {
+      background: #1e293b;
+      border-left: 4px solid var(--primary);
+      padding: 12px 18px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .diagram-viewport {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 480px;
+      overflow-x: auto;
+    }
+
+    #diagram-slot {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #scratch-slot {
+      visibility: hidden;
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Unified B-Tree Diagram Engine</h1>
+    <p class="subtitle">Interactive verification harness for all real number static representations and Conway surreal interactions</p>
+  </header>
+
+  <div class="controls-card">
+    <div class="control-group">
+      <span class="group-label">Static Modes</span>
+      <button class="btn active" data-mode="plain">Plain Tree</button>
+      <button class="btn" data-mode="birthday">Birthday Palette</button>
+      <button class="btn" data-mode="labeled">Sign Expansion</button>
+      <button class="btn" data-mode="dyadic">Dyadic Rational</button>
+      <button class="btn" data-mode="projected">Number Line Projection</button>
+      <button class="btn" data-mode="precision">Precision Interval</button>
+    </div>
+
+    <div class="control-group">
+      <span class="group-label">Interactive</span>
+      <button class="btn" data-mode="subtree">Subtree (1-node)</button>
+      <button class="btn" data-mode="simplicity">Simplicity (1-node)</button>
+      <button class="btn" data-mode="order">Total Order (1-node)</button>
+      <button class="btn" data-mode="cut">Conway Cut (2-node)</button>
+      <button class="btn" data-mode="addition">Surreal Addition (+)</button>
+      <button class="btn" data-mode="multiplication">Surreal Mult (*)</button>
+      <button class="btn" data-mode="isomorphism">Dyadic Isomorphism</button>
+      <button class="btn" data-mode="omegaState">State/Ω Inspector (1-node)</button>
+    </div>
+  </div>
+
+  <div class="info-card" id="mode-info">
+    <strong>Plain Tree:</strong> Base binary tree topology up to max birthday depth.
+  </div>
+
+  <div class="diagram-viewport">
+    <div id="diagram-slot"></div>
+  </div>
+
+  <div id="scratch-slot"></div>
+
+  <script type="module" src="./public/tests/testBTree/src/main.js"></script>
+</body>
+</html>

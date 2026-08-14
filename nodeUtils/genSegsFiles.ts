@@ -3,6 +3,8 @@ import { resolve } from 'path';
 import { getRequiredSegIds } from './indexUtils.js';
 import { processTTDRefFile } from './genTTDRefs.js';
 import { processFSDRefFile } from './genFSDRefs.js';
+import { processBTDRefFile } from './genBTDRefs.js';
+import { processBIDRefFile } from './genBIDRefs.js';
 
 async function processSegFolder(app: string) {
     const segFolder = resolve(__dirname, `../../${app}/segs`);
@@ -22,9 +24,11 @@ async function processSegFolder(app: string) {
             }
 
             try {
-                // Pre-process TTD and FSD reference tags in tandem
+                // Pre-process TTD, FSD, BTD, and BID reference tags in tandem
                 processTTDRefFile(filePath);
                 processFSDRefFile(filePath);
+                processBTDRefFile(filePath);
+                processBIDRefFile(filePath);
 
                 const body = readFileSync(filePath, 'utf8');
                 const sp = body.indexOf('<body>') + 6;

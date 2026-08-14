@@ -18,6 +18,7 @@ export class Nav {
     static textSizeControl:SVGTSpan
     static index:SVGElt
     static indexRect:SVGElt
+    static foRect:SVGElt
     static fo:SVGElt
     static indices:Index[]=[]
     static currentIndex=-1
@@ -47,17 +48,19 @@ export class Nav {
     static arrowSize = 30
     static textFontSize = 16
 
+    static getTextStyle(){
+        return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 5}px 50px ${Nav.foPadding + 5}px;font-size:${Nav.textFontSize}px;display:flow-root;`
+    }
+
     constructor (app:string,parent:Elt|null=null,editMode=false,cb:Function|undefined=undefined,
                   bgC='darkgoldenrod',lineC='beige',indexC='white',foC='aliceBlue'){
         const mainSlot = document.getElementById('main-slot') as HTMLDivElement
-        const textStyle = `overflow:auto;padding:${Nav.foPadding}` +
-            `;font-size:${Nav.textFontSize}`
          //
         Nav.app = app
         Nav.parent = parent
         Nav.cb = cb
         Nav.segDiv = new Elt('div')
-        Nav.segDiv.setA('style',textStyle)
+        Nav.segDiv.setA('style',Nav.getTextStyle())
         Nav.editMode = editMode
         Nav.frame = new SVGElt('svg')
         Nav.line = new SVGElt('g')
@@ -70,6 +73,7 @@ export class Nav {
  
         Nav.index = new SVGElt('svg')
         Nav.indexRect = new SVGElt('rect')
+        Nav.foRect = new SVGElt('rect')
         Nav.fo = new SVGElt('foreignObject')
         //
         mainSlot.appendChild(Nav.frame.elt)
@@ -77,6 +81,7 @@ export class Nav {
         Nav.line.append(Nav.lineRect)
         Nav.line.append(Nav.lineBlock)
         Nav.frame.append(Nav.index)
+        Nav.frame.append(Nav.foRect)
         Nav.frame.append(Nav.fo)
         //
         const fm = Nav.frameMargin
@@ -89,7 +94,8 @@ export class Nav {
         Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`])
         Nav.index.setAA(['x',fm,'y',y])
         Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`])
-        Nav.fo.setAA(['y',y,'style',`overflow:auto;background-color:${Nav.foBgColor}`])
+        Nav.foRect.setAA(['y',y,'fill',`${Nav.foBgColor}`])
+        Nav.fo.setAA(['y',y,'style',`overflow-y:auto;overflow-x:hidden;`])
         Nav.lineArrowButton.setAA(['x',xp,'y',yp,'stroke',Nav.color.std,'font-size',Nav.arrowSize])
         Nav.lineArrowButton.setV(Nav.dnArrow)
         Nav.lineArrowButton.elt.addEventListener('click',()=>
@@ -141,9 +147,7 @@ export class Nav {
     }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
-        const textStyle = `overflow:auto;padding:${Nav.foPadding}` +
-                             `;font-size:${Nav.textFontSize}`
-        Nav.segDiv.setA('style',textStyle)
+        Nav.segDiv.setA('style',Nav.getTextStyle())
     }
     static setTextSizeControlPos(lineWidth:number){
         const controlWidth = textWidth('[\u2191]A[\u2193]',Nav.fontSize)
@@ -187,6 +191,7 @@ export class Nav {
         }
         const foX = (indexWidth>0)?  2 * fm + indexWidth : fm
         Nav.foWidth = (indexWidth>0)? bw - 3 * fm - indexWidth : bw - 2 * fm 
+        Nav.foRect.setAA(['x',`${foX}`,'width',Nav.foWidth,'height',Nav.foHeight])
         Nav.fo.setAA(['x',`${foX}`,'width',Nav.foWidth,'height',Nav.foHeight])
         displayAnyDJSI()
         if(layoutCB){
@@ -285,6 +290,7 @@ export class Nav {
     }
     static loadSegment(){
         Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
+        Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;')
         const seg = (Nav.editMode) ? Nav.segMap.get(Nav.segId) 
                                     : Nav.embeddedSeg(Nav.segId)  
         if(seg){
@@ -294,9 +300,16 @@ export class Nav {
         }
     }
     static embeddedSeg(segId:string){
-        const seg = document.getElementById(segId) as HTMLElement
+        const seg = document.getElementById(segId) as HTMLElement | HTMLTemplateElement | null
+        if (!seg) return ''
+        if (seg.tagName.toLowerCase() === 'template') {
+            return (seg as HTMLTemplateElement).innerHTML
+        }
         const inner = seg.innerHTML
-        return inner.substring(8,inner.length-8)
+        if (inner.startsWith('<!--SEG') && inner.endsWith('SEG-->')) {
+            return inner.substring(8, inner.length - 8)
+        }
+        return inner
     }
     static addNavLineBackButton(header:string){
         const widget = new SVGTSpan(Nav.lineTopics)

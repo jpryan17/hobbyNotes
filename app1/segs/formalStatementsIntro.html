@@ -1,195 +1,211 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Introduction: Formal Statements &amp; Predicates</title>
   </head>
   <body>
-    <div align="center"><i><font size="+2">formal statements<br>
-        </font></i></div>
+    <div align="center">
+      <font size="+2"><i><b>Introduction: Formal Statements &amp; Predicates</b></i></font><br>
+      <font size="+1"><i>Sets, Directed Pairs, Predicates as Functions &amp; The Formal Statement Demo (FSD)</i></font>
+    </div>
     <br>
-    <br>
-    The subject of formal statements naturally follows the subject of
-    propositional logic. This is because quantified predicates are
-    propositions, and a quantified predicate expression is a
-    propositional expression. <br>
-    <br>
-    We want to make statements about collections. As our target is basic
-    education, we can comfortably limit ourselves to collections of
-    cardinality easily handled by standard set theory. We adopt the
-    perspective established by axiomatized ZF set theory. As the only
-    type is set, we can use the language of classical single-sorted
-    first order predicate logic. <br>
-    <br>
-    We assume a universal collection of sets, and denote it with
-    <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒱</mi><annotation
-          encoding="TeX">𝒱</annotation></semantics></math>. This
-    collection, on pain of paradox, cannot be a set. But we use it to
-    describe the universal predicate of our adopted set theory:
-    membership, which we denote<br>
-    <ul>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∊</mo><mo>:</mo><mi>𝒱</mi><mo>×</mo><mi>𝒱</mi><mo
-                stretchy="false">→</mo><mi>𝔹</mi></mrow><annotation
-              encoding="TeX">\in:𝒱\times𝒱\to𝔹</annotation></semantics></math>&nbsp;&nbsp;</li>
-    </ul>
-    where&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝔹</mi><annotation
-          encoding="TeX">𝔹</annotation></semantics></math> is a binary
-    set whose members are interpreted as Boolean truth values; this is
-    analogous to how standard predicates will be handled. Unlike
-    standard predicates, like (propositional) logical operators, the
-    membership predicate is part of our formal language based on vanilla
-    FOL.<br>
-    <br>
-    We do not discuss the topic of inference mechanisms; we are only
-    interested in the language, and specifically, simple quantified
-    predicate expressions. The goal is not mastery of the language of
-    FOL It is a concrete means of allowing the student to become
-    familiar with the notion of a formal statement.<br>
-    <br>
-    <b>set constructors</b><br>
-    <br>
-    We assume two basic set constructors<br>
-    <ul>
-      <li>product, denoted&nbsp;<math
-          xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>×</mo><annotation
-              encoding="TeX">\times</annotation></semantics></math> <br>
-      </li>
-      <li>and directed pair, denoted
-        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo
-              stretchy="false">→</mo><annotation encoding="TeX">\to</annotation></semantics></math>&nbsp;</li>
-    </ul>
-    A product combines sets where, besides bookkeeping, the order of
-    factors is insignificant. The order of sets in a directed pair is
-    relevant. There is a from or domain set, and a to or codomain set.
-    At this basic level, we prohibit (even thinking about) a directed
-    pair from being used as a domain or codomain of any directed pair.<br>
-    <br>
-    <b>function<br>
-      <br>
-    </b>A function is<br>
-    <b></b>
-    <ul>
-      <li>a directed pair<br>
-      </li>
-      <li>and a rule that assigns to any member of the domain, a member
-        of the codomain.</li>
-    </ul>
-    <p>For example - given addition is defined for the naturals -<br>
+
+    <h3>1. From Propositional Logic to Sets &amp; Predicates</h3>
+    <p>
+      The subject of <b>Formal Statements</b> naturally follows propositional logic. 
+      This is because <b>quantified predicates are propositions</b>, and any quantified predicate expression is fundamentally a propositional expression.
     </p>
-    <ul>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo
-                stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
-              encoding="TeX">ℕ\toℕ</annotation></semantics></math> <br>
-      </li>
-      <li>add 2 to any member of the domain</li>
-    </ul>
-    <p>and<br>
+    <p>
+      We want to make rigorous statements about mathematical collections. 
+      For our educational target, we comfortably adopt the perspective established by axiomatized <b>Zermelo–Fraenkel (ZF) set theory</b>. 
+      In this framework, the only primitive type is the <b>set</b>, allowing us to operate in the clean language of classical single-sorted First-Order Logic (FOL).
     </p>
-    <ul>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
-                stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
-              encoding="TeX">ℕ\timesℕ\toℕ</annotation></semantics></math>
+    <p>
+      We assume a universal collection of all sets, denoted <code>𝒱</code>. 
+      On pain of Russell's paradox, this universal collection cannot be a set itself. 
+      However, we use <code>𝒱</code> to define the foundational primitive predicate of set theory—<b>membership (∈)</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      ∈ : 𝒱 × 𝒱 → 𝔹
+    </div>
+    <p>
+      where <code>𝔹 = {0, 1}</code> (or <code>{true, false}</code>) is the binary set of Boolean truth values. 
+      Unlike user-defined domain predicates, the membership relation <code>∈</code> is built directly into the formal language of First-Order Logic.
+    </p>
+
+    <hr>
+
+    <h3>2. Set Constructors: Product (×) and Directed Pair (→)</h3>
+    <p>
+      We assume two fundamental <b>set constructors</b>:
+    </p>
+    <ol>
+      <li>
+        <b>Product (×):</b> Combines sets into collections of ordered tuples. 
+        For example, <code>ℕ × ℕ = {(x₁, x₂) | x₁ ∈ ℕ, x₂ ∈ ℕ}</code> forms the set of all pairs of natural numbers. 
+        Besides bookkeeping of factor positions, the factors are un-directed components of a single product space.
+      </li>
+      <li>
+        <b>Directed Pair (→):</b> Constructs an ordered relation between two sets: a <b>from (domain)</b> set and a <b>to (codomain)</b> set.
         <br>
+        <i>House Rule:</i> At this introductory level, we prohibit using a directed pair as the domain or codomain of another directed pair, keeping our scaffolding flat and transparent.
       </li>
-      <li>add the product factors</li>
-    </ul>
-    <p>are functions. A function is often identified by prepending the
-      directed pair with a name [colon]; e.g.<br>
+    </ol>
+
+    <hr>
+
+    <h3>3. The Crisp Definition: Function and Predicate</h3>
+    <p>
+      With these constructors established, we define functions and predicates with total precision:
+    </p>
+
+    <h4>Definition of a Function</h4>
+    <p>
+      A <b>function</b> is:
     </p>
     <ul>
-      <li>add_two:
-        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℕ</mi><mo
-                stretchy="false">→</mo><mi>ℕ</mi></mrow><annotation
-              encoding="TeX">ℕ\toℕ</annotation></semantics></math> <br>
-      </li>
+      <li>A <b>directed pair</b> <code>Domain → Codomain</code></li>
+      <li>And a <b>rule</b> that assigns to each member of the domain exactly one member of the codomain.</li>
     </ul>
-    might refer to the function that adds 2 to the input. <br>
-    <br>
-    <b>predicate</b><br>
-    <br>
-    A predicate is a function whose codomain is the binary set of
-    Boolean truth values. Thus if&nbsp;<math
-      xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation
-          encoding="TeX">𝒮</annotation></semantics></math> is any set,
-    any function defined for the directed pair<br>
+    <p>
+      <i>Examples:</i>
+    </p>
     <ul>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒮</mi><mo
-                stretchy="false">→</mo><mi>𝔹</mi></mrow><annotation
-              encoding="TeX">𝒮\to𝔹</annotation></semantics></math> <br>
-      </li>
+      <li><code>add_two : ℕ → ℕ</code> &nbsp; with rule &nbsp; <code>x ↦ x + 2</code></li>
+      <li><code>add : ℕ × ℕ → ℕ</code> &nbsp; with rule &nbsp; <code>(x₁, x₂) ↦ x₁ + x₂</code></li>
     </ul>
-    is a predicate. For example, if<br>
+
+    <h4>Definition of a Predicate</h4>
+    <p>
+      A <b>predicate</b> is strictly defined as:
+    </p>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 12px; font-size: 15px; margin: 10px 0;">
+      <b>A predicate is a function whose codomain is the Boolean truth set <code>𝔹 = {0, 1}</code>.</b>
+    </div>
+    <p>
+      Thus, if <code>𝒮</code> is any set (such as a base set <code>ℕ</code> or a product <code>ℕ × ℕ</code>), any function defined on the directed pair:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      P : 𝒮 → 𝔹
+    </div>
+    <p>
+      <b>is a predicate</b>.
+    </p>
+    <p>
+      <i>Examples:</i>
+    </p>
     <ul>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>:</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
-                stretchy="false">→</mo><mi>𝔹</mi><mo>,</mo><mstyle
-                mathvariant="normal"><mspace
-                  width="0.2777777777777778em"></mspace><mo
-                  stretchy="false">(</mo><mi mathvariant="normal">w</mi><mi
-                  mathvariant="normal">h</mi><mi mathvariant="normal">e</mi><mi
-                  mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mspace
-                  width="0.2777777777777778em"></mspace></mstyle><mi>𝒮</mi><mo>≡</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo
-                stretchy="false">)</mo></mrow><annotation encoding="TeX">P:
-
-
-
-              ℕ\timesℕ\to𝔹,\mathrm{\;(where\;}𝒮\equivℕ\timesℕ)</annotation></semantics></math></li>
-      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle
-                mathvariant="normal"><mi mathvariant="normal">a</mi><mi
-                  mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mspace
-                  width="0.2777777777777778em"></mspace><mi
-                  mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi
-                  mathvariant="normal">t</mi><mi mathvariant="normal">t</mi><mi
-                  mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi
-                  mathvariant="normal">g</mi><mspace
-                  width="0.2777777777777778em"></mspace></mstyle><mo
-                stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo
-                stretchy="false">)</mo><mo>∊</mo><mi>ℕ</mi><mo>×</mo><mi>ℕ</mi><mo>,</mo><mspace
-                width="0.2777777777777778em"></mspace><mo
-                stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo
-                stretchy="false">)</mo><mo stretchy="false">↦</mo><mrow><mo>{</mo><mtable
-                  displaystyle="false" columnalign="left left"><mtr><mtd><mstyle
-                        mathvariant="normal"><mi mathvariant="normal">t</mi><mi
-                          mathvariant="normal">r</mi><mi
-                          mathvariant="normal">u</mi><mi
-                          mathvariant="normal">e</mi><mspace
-                          width="0.2777777777777778em"></mspace><mi
-                          mathvariant="normal">i</mi><mi
-                          mathvariant="normal">f</mi><mspace
-                          width="0.2777777777777778em"></mspace></mstyle><msub><mi>x</mi><mn>1</mn></msub><mo>&lt;</mo><msub><mi>x</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd><mstyle
-                        mathvariant="normal"><mi mathvariant="normal">f</mi><mi
-                          mathvariant="normal">a</mi><mi
-                          mathvariant="normal">l</mi><mi
-                          mathvariant="normal">s</mi><mi
-                          mathvariant="normal">e</mi><mspace
-                          width="0.2777777777777778em"></mspace><mi
-                          mathvariant="normal">i</mi><mi
-                          mathvariant="normal">f</mi><mspace
-                          width="0.2777777777777778em"></mspace></mstyle><mo>¬</mo><mo
-                        stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>&lt;</mo><msub><mi>x</mi><mn>2</mn></msub><mo
-                        stretchy="false">)</mo></mtd></mtr></mtable></mrow></mrow><annotation
-              encoding="TeX">\mathrm{and\;letting\;}(x_1,x_2)\inℕ\timesℕ,\;(x_1,x_2)↦\begin{cases}
-
-
-
-              \mathrm{true\;if\;}x_1&lt;x_2 \\
-              \mathrm{false\;if\;}\not(x_1&lt;x_2) \end{cases}</annotation></semantics></math>&nbsp;<br>
+      <li>
+        <b>Unary Predicate on <code>ℕ</code>:</b> 
+        <code>GT5 : ℕ → 𝔹</code>, defined by <code>x ↦ true if x > 5, false otherwise</code>.
+      </li>
+      <li>
+        <b>Binary Relation on <code>ℕ × ℕ</code>:</b> 
+        <code>LT : ℕ × ℕ → 𝔹</code> (where <code>𝒮 ≡ ℕ × ℕ</code>), defined by:
+        <div style="font-family: monospace; font-size: 14px; margin: 6px 0 6px 20px;">
+          (x₁, x₂) ↦ { true if x₁ < x₂; &nbsp; false if ¬(x₁ < x₂) }
+        </div>
+      </li>
+      <li>
+        <b>Set Membership Predicate:</b> 
+        <code>∈ : ℕ × 𝒫(ℕ) → 𝔹</code>, defined by <code>(x, y) ↦ true if x ∈ y, false otherwise</code>, where <code>𝒫(ℕ)</code> is the <b>Power Set</b> (the set of all subsets of <code>ℕ</code>).
       </li>
     </ul>
-    then&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation
-          encoding="TeX">P</annotation></semantics></math> is a
-    predicate. <br>
+
+    <hr>
+
+    <h3>4. Quantifiers: Converting Predicates into Propositions</h3>
+    <p>
+      An open predicate expression like <code>GT5(x)</code> or <code>LT(x₁, x₂)</code> contains <b>free variables</b>. 
+      Its truth value is unresolved until specific inputs are provided or until the variables are <b>quantified</b> over their domains:
+    </p>
+    <ul>
+      <li>
+        <b>Universal Quantifier (<code>∀</code>, "For All"):</b> Asserts that the predicate function evaluates to <code>true</code> for <i>all</i> elements in the domain.
+        <br>
+        <i>Example:</i> <code>∀x:ℕ [EVEN(x)]</code> evaluates to <b>False</b>.
+      </li>
+      <li>
+        <b>Existential Quantifier (<code>∃</code>, "There Exists"):</b> Asserts that the predicate function evaluates to <code>true</code> for <i>at least one</i> element in the domain.
+        <br>
+        <i>Example:</i> <code>∃x:ℕ [GT5(x) ∧ LT10(x)]</code> evaluates to <b>True</b> (elements 6, 7, 8, 9 satisfy both predicates).
+      </li>
+    </ul>
+    <p>
+      <b>Order of Mixed Quantifiers Matters:</b>
+    </p>
+    <ul>
+      <li><code>∀x₁:ℕ ∃x₂:ℕ [GT(x₂, x₁)]</code> is <b>True</b>: For every number <code>x₁</code>, there exists a strictly greater number <code>x₂ = x₁ + 1</code>.</li>
+      <li><code>∃x₂:ℕ ∀x₁:ℕ [GT(x₂, x₁)]</code> is <b>False</b>: There is no single natural number <code>x₂</code> greater than every number.</li>
+    </ul>
+
+    <hr>
+
+    <h3>5. Overview of the Formal Statement Demo (FSD)</h3>
+    <p>
+      The <b>Formal Statement Demo (FSD)</b> is an interactive four-stage construction workbench that brings these formal definitions to life. 
+      Students compose raw predicate tokens, bind them to domain-typed variables, prefix quantifiers, and inspect their evaluated truth:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13px; margin: 12px 0; line-height: 1.5;">
+      [ Stage 1: Raw Expression ] &nbsp; Assemble predicates (GT5, LT10, GT, LT, ∈, EVEN) with connectives<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 2: Slot &amp; Var Binding ] &nbsp; Bind slots to element vars (x₁, x₂:ℕ) or subset vars (y₁:𝒫(ℕ))<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 3: Quantifier Prefix ] &nbsp; Prefix universal (∀) and existential (∃) bindings to free vars<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 4: Matrix Visualizer ] &nbsp; Evaluate statement truth &amp; inspect 2D Boolean / Incidence Matrix
+    </div>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="25%" align="left">Stage</th>
+        <th width="35%" align="left">Action &amp; Controls</th>
+        <th width="40%" align="left">Formula Display in Top Bar</th>
+      </tr>
+      <tr>
+        <td><b>Stage 1: Raw Exp</b></td>
+        <td>Select predicate tokens (<code>GT5, LT10, GT, LT, ∈, EVEN</code>) and connectives (<code>¬, ∧, ∨, →, ↔</code>).</td>
+        <td><code>GT5 ∧ LT10</code> &nbsp;or&nbsp; <code>GT</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 2: Slot Binding</b></td>
+        <td>Assign domain-typed variables (<code>x₁, x₂ ∈ ℕ</code> for elements; <code>y₁ ∈ 𝒫(ℕ)</code> or constant subsets <code>GT5, LT10</code> for subsets) with live type-clash validation.</td>
+        <td><code>GT5(x₁) ∧ LT10(x₁)</code> &nbsp;or&nbsp; <code>GT(x₁, x₂)</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 3: Quantification</b></td>
+        <td>Prefix universal (<code>∀</code>) and existential (<code>∃</code>) quantifiers to bind free variables.</td>
+        <td><code>∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 4: Matrix Visualizer</b></td>
+        <td>Evaluates 1-row Truth Table and opens the 2D Boolean Relation Matrix or Power Set Incidence Matrix.</td>
+        <td>Final Evaluated Truth: <b>True (T)</b> or <b>False (F)</b></td>
+      </tr>
+    </table>
+
     <br>
-    <b>predicate expression<br>
-      <br>
-    </b>The same set of logical operators developed for constructing
-    propositional expressions can be used to construct predicate
-    expressions.<br>
-    <br>
-    <b>quantification</b><br>
-    <br>
-    A predicate expression may be quantified. <br>
-    <br>
-    The goal is to expose the student to experience with simple
-    quantified expressions.<br>
-    <b></b> <br>
+    <p>
+      Throughout the lecture notes, clicking on any <span style="color:firebrick;font-weight:bold">highlighted red statement</span> loads it directly into FSD:
+    </p>
+    <ul>
+      <li><b>Unary Predicate:</b> Click <fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref> to verify existential truth on <code>ℕ</code>.</li>
+      <li><b>Conjunction of Subsets:</b> Click <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref> to inspect the intersection of <code>GT5</code> and <code>LT10</code>.</li>
+      <li><b>Binary Relation Matrix:</b> Click <fsd-ref exp="r" quantifiers="∀x₁:ℕ ∃x₂:ℕ" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₁:ℕ, ∃x₂:ℕ [ GT(x₁, x₂) ]</fsd-ref> to explore the 2D matrix grid with dyadic scaling controls (<code>4×4</code> to <code>64×64</code>).</li>
+      <li><b>Power Set Incidence:</b> Click <fsd-ref exp="m" quantifiers="∃x₁:ℕ ∀y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∀y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref> to view the <code>4 × 16</code> Power Set Incidence Matrix for base set <code>ℕ₄ = {1, 2, 3, 4}</code>.</li>
+    </ul>
+
+    <hr>
+
+    <h3>6. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
+    <p>
+      Having established the language of formal statements, predicates, and Cartesian products, we possess the exact formal machinery needed to construct number systems. 
+      In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
+    </p>
   </body>
 </html>

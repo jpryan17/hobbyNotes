@@ -7,9 +7,15 @@ let predLogicBanner: Banner
 
 export function initOutlineBanner() {
     outlineBanner = new Banner([
-        'toward a theoretical maximum:',
-        'formal science in basic education',
-        ' - a shared hallucination'], 45, 30)
+        { text: 'toward a theoretical maximum:', fontSize: 36, color: '#475569' },
+        { text: 'formal science in basic education', fontSize: 48, fontWeight: 'bold', color: '#0f172a' },
+        { text: '— a shared hallucination', fontSize: 30, fontStyle: 'italic', color: '#64748b' }
+    ], {
+        fontSize: 44,
+        space: 20,
+        updateDate: 'Draft updated: August 2026',
+        dateCorner: 'BR'
+    })
     return outlineBanner
 }
 export function layoutOutlineBanner() {
