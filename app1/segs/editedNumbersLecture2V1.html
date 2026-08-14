@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Numbers Lecture 2</font></i><br>
+      <i><font size="+1">Tree Scaffolding, Labeled Paths &amp; The Dyadic Isomorphism</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Howdy folks!” Jack said with a grin.
+    </p>
+
+    <p>
+      “In our first lecture, we covered a lot of historical territory. Today, we are putting all the abstract set definitions aside so we can focus on something you can actually see and touch: <b>the geometry of the 2-successor tree</b>.”
+    </p>
+
+    <p>
+      “We don't need to get bogged down in formal recurrence formulas. Mathematicians like John Conway have already done the heavy lifting, proving that consistent arithmetic lives on this tree. Our goal today is much more fun: <b>understanding how every number is simply a unique address &mdash; a labeled path &mdash; along the tree branches</b>.”
+    </p>
+
+    <hr>
+
+    <h3>1. The 2-Successor Scaffold: Root and Sign Branches</h3>
+
+    <p>
+      “The entire universe of real numbers begins with the simplest possible inductive blueprint: <b>a 2-successor tree</b>.”
+    </p>
+
+    <ul>
+      <li><b>The Root:</b> The single starting node, assigned the value <b><code>0</code></b>.</li>
+      <li><b>Two Successors:</b> At every node, two independent branches shoot outward:
+        <ul>
+          <li>A <b>Left branch</b>, labeled with a minus sign: <code>[-]</code> (stepping lower in value).</li>
+          <li>A <b>Right branch</b>, labeled with a plus sign: <code>[+]</code> (stepping higher in value).</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>
+      “Because each node has two distinct successors that never intersect, every single node in the entire tree possesses a <b>unique sequence of sign labels</b> tracing its path from the root.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="labeled">Interactive Demo: Explore Labeled Sign Paths in BTD</btd-ref>
+    </div>
+
+    <hr>
+
+    <h3>2. The Birthday Metric: Generations of Depth</h3>
+
+    <p>
+      “A number’s <b>birthday <code>d</code></b> is simply its depth in the tree &mdash; the number of steps you must take from the root <code>0</code> to reach it:”
+    </p>
+
+    <ul>
+      <li><b>Birthday 0 (Depth 0):</b> The root itself: <code>0</code>. (Path: empty).</li>
+      <li><b>Birthday 1 (Depth 1):</b> Two numbers born:
+        <ul>
+          <li>Path <code>[-]</code> &rarr; <b><code>-1</code></b></li>
+          <li>Path <code>[+]</code> &rarr; <b><code>+1</code></b></li>
+        </ul>
+      </li>
+      <li><b>Birthday 2 (Depth 2):</b> Four numbers born:
+        <ul>
+          <li>Path <code>[--]</code> &rarr; <b><code>-2</code></b> (stepping left twice)</li>
+          <li>Path <code>[-+]</code> &rarr; <b><code>-½</code></b> (stepping left, then right)</li>
+          <li>Path <code>[+-]</code> &rarr; <b><code>+½</code></b> (stepping right, then left)</li>
+          <li>Path <code>[++]</code> &rarr; <b><code>+2</code></b> (stepping right twice)</li>
+        </ul>
+      </li>
+      <li><b>Birthday 3 (Depth 3):</b> Eight numbers born: <code>-3, -1½, -¾, -¼, +¼, +¾, +1½, +3</code>.</li>
+    </ul>
+
+    <p>
+      “At any finite birthday <code>d</code>, exactly <code>2^d</code> new numbers are born into the world!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="birthday">Interactive Demo: Inspect Birthday Levels (Depth d) in BTD</btd-ref>
+    </div>
+
+    <hr>
+
+    <h3>3. Navigating the Tree: Order and Subtrees</h3>
+
+    <p>
+      “How do we compare two numbers on the tree?”
+    </p>
+
+    <p>
+      “You don't need complicated formulas &mdash; you can read order directly off the tree's geometry:”
+    </p>
+
+    <ul>
+      <li><b>The Left Subtree:</b> Everything down the Left branch of a node <code>x</code> is strictly <b>less than</b> <code>x</code>.</li>
+      <li><b>The Right Subtree:</b> Everything down the Right branch of a node <code>x</code> is strictly <b>greater than</b> <code>x</code>.</li>
+    </ul>
+
+    <p>
+      “Whenever you branch right (<code>+</code>), you move up in value; whenever you branch left (<code>-</code>), you move down in value. The tree maintains a perfect <b>linear order</b> across all its leaves.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="subtree">Interactive Demo: Explore Left and Right Subtrees</btd-ref> &nbsp;|&nbsp;
+      <btd-ref mode="order">Test Order Relations in BTD</btd-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. The Dual Paths: Outer Expansion vs. Inner Precision</h3>
+
+    <p>
+      “As you traverse deeper into the tree, two distinct geometric behaviors emerge depending on which path you follow:”
+    </p>
+
+    <ol>
+      <li>
+        <b>The Outer Spine &mdash; Stepping Toward the Horizon:</b><br>
+        If you always choose the same direction (e.g., <code>[+], [++], [+++], ...</code>), you march straight through the integers: <code>1, 2, 3, 4, ...</code> 
+        This path expands outward, scaling up toward the infinite transfinite horizon <b><code>ω</code></b>.
+      </li>
+      <br>
+      <li>
+        <b>The Inner Zig-Zag &mdash; Diving into the Continuum:</b><br>
+        If you alternate directions (e.g., <code>[+-], [+-+], [+-+-], ...</code>), you cut between previous numbers, halving the interval at each step: <code>1/2, 1/4, 1/8, 1/16, ...</code> 
+        This path drills inward, scaling down toward the infinitesimal differential <b><code>dx = 1/ω</code></b>.
+      </li>
+    </ol>
+
+    <p>
+      “Because the binary tree is perfectly self-similar, the geometry of zooming in on an infinitesimal fraction is identical to the geometry of zooming out across boundless integers. The tree unifies the macro-scale and the micro-scale into a single fractal structure.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="precision">Interactive Demo: Inspect Tree Precision &amp; Dual Scales in BTD</btd-ref>
+    </div>
+
+    <hr>
+
+    <h3>5. The Dyadic Isomorphism</h3>
+
+    <p>
+      “Now that we've seen how the tree branches both outward toward integers and inward toward fractions,” Jack continued, “look at the exact numerical values produced at finite birthdays.”
+    </p>
+
+    <p>
+      “Every single path corresponds to an integer or a fraction whose denominator is a power of 2!” Jill observed.
+    </p>
+
+    <p>
+      “Exactly!” Jack nodded. “Mathematicians call this an <b>isomorphism</b>: a perfect, one-to-one correspondence between two mathematical representations:”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <table border="1" cellpadding="10" cellspacing="0" width="85%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+        <tr bgcolor="#f1f5f9">
+          <th width="40%" align="left">Sign Path on the 2-Successor Tree</th>
+          <th width="20%" align="center">Birthday</th>
+          <th width="40%" align="left">Isomorphic Dyadic Rational</th>
+        </tr>
+        <tr>
+          <td><code>(root)</code></td>
+          <td align="center">0</td>
+          <td><b><code>0</code></b></td>
+        </tr>
+        <tr>
+          <td><code>[+]</code> &nbsp;|&nbsp; <code>[-]</code></td>
+          <td align="center">1</td>
+          <td><b><code>+1</code></b> &nbsp;|&nbsp; <b><code>-1</code></b></td>
+        </tr>
+        <tr>
+          <td><code>[++]</code> &nbsp;|&nbsp; <code>[+-]</code></td>
+          <td align="center">2</td>
+          <td><b><code>+2</code></b> &nbsp;|&nbsp; <b><code>+½</code></b></td>
+        </tr>
+        <tr>
+          <td><code>[-+]</code> &nbsp;|&nbsp; <code>[--]</code></td>
+          <td align="center">2</td>
+          <td><b><code>-½</code></b> &nbsp;|&nbsp; <b><code>-2</code></b></td>
+        </tr>
+        <tr>
+          <td><code>[++-]</code> &nbsp;|&nbsp; <code>[+-+]</code></td>
+          <td align="center">3</td>
+          <td><b><code>+1½</code></b> &nbsp;|&nbsp; <b><code>+¾</code></b></td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      “Every finite path of signs <code>[+, -, +, ...]</code> translates directly and unambiguously into a unique dyadic fraction <code>m / 2^d</code>, and vice versa.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="dyadic">Interactive Demo: View Dyadic Rational Labels</btd-ref> &nbsp;|&nbsp;
+      <btd-ref mode="isomorphism">Explore the Sign-Path Isomorphism in BTD</btd-ref>
+    </div>
+
+    <hr>
+
+    <h3>6. Summary: The Scaffold for Intrinsic Spaces</h3>
+
+    <p>
+      “Let's recap what we've established today:”
+    </p>
+
+    <ul>
+      <li><b>2-Successor Induction</b> provides the geometric scaffold for all real numbers.</li>
+      <li>Every number is uniquely identified by its <b>labeled sign path</b> from root <code>0</code>.</li>
+      <li>Finite paths are <b>isomorphic to the dyadic rationals</b> <code>m / 2^d</code>.</li>
+      <li>At the transfinite boundary <code>ω</code>, the tree captures both continuous numbers (like <code>√2</code> and <code>π</code>) and genuine infinitesimals (<code>dx = 1/ω</code>).</li>
+    </ul>
+
+    <p>
+      “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
+    </p>
+  </body>
+</html>

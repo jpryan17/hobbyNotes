@@ -58,7 +58,7 @@ export const numbersIndex = [
     {
         type: "html",
         topic: "lecture 2: 2-successor trees & inductive growth",
-        htmlSegmentId: "numbersLecture2",
+        htmlSegmentId: "editedNumbersLecture2V1",
     },
     {
         type: "html",
