@@ -63,7 +63,7 @@ export const numbersIndex = [
     {
         type: "html",
         topic: "lecture 3: STEM connections & spaces",
-        htmlSegmentId: "numbersLecture3",
+        htmlSegmentId: "editedNumbersLecture3V1",
     },
     {
         type: "diagram",
