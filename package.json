@@ -7,6 +7,7 @@
     "app1R": "node ./nodeUtils/public/startApp1.js",
     "app1CR": "npm run app1C && npm run app1R",
     "app1DistR": "cd ./app1/dist && live-server",
+    "deploy": "git add . && git commit -m \"Update sharedhallucination notes and demos\" && git push origin master",
     "app1BuildR": "npm run app1C && npm run utilsC && npm run segsR && npm run indexR",
     "clientLibC": "cd ./clientLib && npx tsc",
     "utilsC": "cd ./nodeUtils && npx tsc",
