@@ -6,8 +6,8 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
   let stripped = str.replace(/<annotation[\s\S]*?<\/annotation>/gi, '');
   let cleaned = stripped.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
 
-  // Extract Quantifiers (e.g. ∃x1:ℕ, ∃x2:ℕ or \exists x_1:\mathbb{N}, \exists x_2:\mathbb{N})
-  const qMatches = cleaned.match(/(?:\\forall|\\exists|∀|∃)\s*[a-z0-9_:, 𝒫()ℕ\\]+/gi) || [];
+  // Extract Quantifiers (e.g. ∃x1:ℕ, ∃x2:[ℕ|GT(11)], ∀x₂:ℕ ∃x₁:[ℕ|GT(x₂)])
+  const qMatches = cleaned.match(/(?:\\forall|\\exists|∀|∃)\s*[a-z0-9_:, 𝒫()ℕ\\[\]|]+/gi) || [];
   let quantifiers = qMatches.join(', ')
     .replace(/\\forall/g, '∀')
     .replace(/\\exists/g, '∃')

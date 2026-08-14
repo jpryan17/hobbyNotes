@@ -41,6 +41,21 @@
         <b>Test 5 (Dynamic Registry Extension — EVEN Predicate):</b><br>
         <fsd-ref exp="v" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ EVEN(x₁) ]</fsd-ref>
       </li>
+      <br>
+      <li>
+        <b>Test 6 (Parameterized Constant Domains):</b><br>
+        <fsd-ref exp="r" quantifiers="∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 7 (Dependent Variable Domain — Triangular Active Matrix Region):</b><br>
+        <fsd-ref exp="r" quantifiers="∀x₂:ℕ, ∃x₁:[ℕ|GT(x₂)]" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₂:ℕ, ∃x₁:[ℕ | GT(x₂)] [ GT(x₁, x₂) ]</fsd-ref>
+      </li>
+      <br>
+      <li>
+        <b>Test 8 (Even Numbers with Dependent Lower Bound):</b><br>
+        <fsd-ref exp="s" quantifiers="∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]" slots="x₂,x₁" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]</fsd-ref>
+      </li>
     </ul>
 
     <hr>

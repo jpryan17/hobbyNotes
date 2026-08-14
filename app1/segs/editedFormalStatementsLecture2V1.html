@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Formal Statements: Lecture 2</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Lecture 2: The Semantics of the Algebra of Sets</font></i><br>
+      <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
+    </div>
+    <br>
+
+    <p>
+      Jack stepped to the center of the classroom, tapping his chalk against the board. 
+      “In our first lecture, we saw how predicates act as functions mapping elements to truth values: <code>P : 𝒮 → 𝔹</code>. 
+      Today, we take a giant leap forward: we are going to see how the propositional logic we learned earlier—our <code>∧</code>, <code>∨</code>, and <code>¬</code>—is literally the exact same algebra that governs collections of objects.”
+    </p>
+
+    <p>
+      Jill leaned forward. “You mean sets aren’t a brand new system with their own rules? They’re just Boolean logic wearing a different hat?”
+    </p>
+
+    <p>
+      “Precisely,” Jack smiled. “For any base set <code>𝒮</code>, its <b>algebra of sets</b> is the algebraic system:
+    </p>
+    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.1em; color: darkblue;">
+      ( 𝒫(𝒮), ⋃, ⋂, ⁻ )
+    </div>
+    <p>
+      where <code>𝒫(𝒮)</code> is the <b>power set</b>—the set of all possible subsets of <code>𝒮</code>. Today, we will examine how set operations work, compare classical textbook formulations with our modern bounded domains, and inspect the power set incidence matrix inside FSD.”
+    </p>
+
+    <hr>
+
+    <h3>The Power Set &amp; The Universal Membership Predicate</h3>
+
+    <p>
+      Jack drew a large box on the board containing four dots: <code>1, 2, 3, 4</code>.
+    </p>
+
+    <p>
+      “Let’s start with a concrete sandbox: our base set <code>ℕ₄ = {1, 2, 3, 4}</code>. 
+      How many different subsets can we form from these four numbers?”
+    </p>
+
+    <p>
+      “Each element has two choices: it’s either in the subset or out,” Jill answered. “So <code>2⁴ = 16</code> subsets!”
+    </p>
+
+    <p>
+      “Exactly,” Jack nodded. “That collection of 16 subsets is the <b>power set</b>, written <code>𝒫(ℕ₄)</code>. It contains everything from the empty set <code>∅</code>, to singletons like <code>{1}</code>, pairs like <code>{2, 3}</code>, all the way to the full set <code>ℕ₄</code>.”
+    </p>
+
+    <p>
+      “Now, how do we formally connect an individual element <code>x : 𝒮</code> to a subset <code>y : 𝒫(𝒮)</code>? 
+      We define the universal <b>membership predicate</b>:”
+    </p>
+
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.1em; color: darkblue;">
+      ∈ : 𝒮 × 𝒫(𝒮) → 𝔹
+    </div>
+
+    <p>
+      “Given element <code>x : 𝒮</code> and subset <code>y : 𝒫(𝒮)</code>, the atomic statement <code>(x ∈ y)</code> evaluates to <b>True (1)</b> if <code>x</code> belongs to <code>y</code>, and <b>False (0)</b> otherwise.”
+    </p>
+
+    <p>
+      Jack pointed to their screens. “Open FSD and click this live statement asserting that a non-empty subset exists:”
+    </p>
+
+    <div align="center" style="margin: 10px 0;">
+      <fsd-ref exp="m" quantifiers="∃x₁:ℕ, ∃y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∃y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref>
+    </div>
+
+    <p>
+      “Look at the 4 × 16 incidence matrix: each column represents one of the 16 subsets <code>Y₀..Y₁₅</code>. 
+      Notice that Column 0 (the empty set <code>∅</code>) is 100% grey (all zeros), while Column 15 (<code>ℕ₄</code>) is 100% blue (all ones). 
+      Every column is a unique binary characteristic vector!”
+    </p>
+
+    <hr>
+
+    <h3>Defining Set Operations with Bounded Logic</h3>
+
+    <p>
+      “Now,” Jack continued, “let’s see how our logical connectives <code>∨</code>, <code>∧</code>, and <code>¬</code> define the operations of set algebra directly on collections.”
+    </p>
+
+    <br>
+
+    <h4>1. Union (⋃) is Disjunction (∨)</h4>
+    <p>
+      An element belongs to the union <code>A ⋃ B</code> if and only if it belongs to <code>A</code> or belongs to <code>B</code>:
+    </p>
+    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
+      A ⋃ B  =  [ 𝒮 | (x ∈ A) ∨ (x ∈ B) ]
+    </div>
+
+    <br>
+
+    <h4>2. Intersection (⋂) is Conjunction (∧)</h4>
+    <p>
+      An element belongs to the intersection <code>A ⋂ B</code> if and only if it belongs to both <code>A</code> and <code>B</code>:
+    </p>
+    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
+      A ⋂ B  =  [ 𝒮 | (x ∈ A) ∧ (x ∈ B) ]  =  [ A | x ∈ B ]
+    </div>
+
+    <br>
+
+    <h4>3. Relative Complement (⁻) is Negation (¬)</h4>
+    <p>
+      The complement <code>A⁻</code> relative to universe <code>𝒮</code> contains all elements of <code>𝒮</code> that do not belong to <code>A</code>:
+    </p>
+    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
+      A⁻  =  [ 𝒮 | x ∉ A ]
+    </div>
+
+    <hr>
+
+    <h3>Subset Inclusion (⊆) &amp; Bounded Quantification</h3>
+
+    <p>
+      Jill raised her hand. “Jack, how do we say that set <code>A</code> is completely inside set <code>B</code>?”
+    </p>
+
+    <p>
+      “We define <b>subset inclusion</b> <code>A ⊆ B</code>,” Jack smiled. 
+      “Using bounded quantification, we say: <i>'For every element <code>x</code> in domain <code>A</code>, <code>x</code> must be a member of <code>B</code>'</i>:”
+    </p>
+
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: darkred; background: #fff3f3; padding: 10px; border-radius: 6px; border: 1px solid #f5c6cb;">
+      A ⊆ B  ⇔  ∀x:A [ x ∈ B ]
+    </div>
+
+    <p>
+      “Notice how clean that is,” Jack pointed out. “We didn’t need a complicated conditional formula. Restricting a quantifier's domain to <code>A</code> <i>is</i> asserting membership in <code>A</code>!”
+    </p>
+
+    <p>
+      “And from subset inclusion,” Jill added, “two sets are equal if they contain each other!”
+    </p>
+
+    <p>
+      “Exactly,” Jack nodded. “<b>Extensional equality</b> is mutual inclusion:”
+    </p>
+
+    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.05em; color: darkblue;">
+      A = B  ⇔  ( A ⊆ B  ∧  B ⊆ A )
+    </div>
+
+    <hr>
+
+    <h3>Interactive Experiments in FSD</h3>
+
+    <p>
+      Jack turned to the class screens. “Let’s test these concepts live in FSD. Click on each statement below to see how our logic engine and matrix visualizer evaluate them:”
+    </p>
+
+    <ul>
+      <li>
+        <b>1. Subsets with Bounded Even Domain:</b><br>
+        Is every even number a member of the subset of numbers greater than 5?<br>
+        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|EVEN]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | EVEN] [ (x₁ ∈ GT5) ]</fsd-ref> 
+        <i>(Evaluates to False: 2 and 4 are even but not &gt; 5).</i>
+      </li>
+      <br>
+      <li>
+        <b>2. Subsets with Restricted Lower Bound:</b><br>
+        Is every number greater than 11 also a member of GT5?<br>
+        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|GT(11)]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | GT(11)] [ (x₁ ∈ GT5) ]</fsd-ref> 
+        <i>(Evaluates to True: every number &gt; 11 satisfies &gt; 5).</i>
+      </li>
+      <br>
+      <li>
+        <b>3. Dependent Domain Slicing:</b><br>
+        For every number <code>x₂</code>, is there a number <code>x₁</code> strictly greater than <code>x₂</code>?<br>
+        <fsd-ref exp="r" quantifiers="∀x₂:ℕ, ∃x₁:[ℕ|GT(x₂)]" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₂:ℕ, ∃x₁:[ℕ | GT(x₂)] [ GT(x₁, x₂) ]</fsd-ref> 
+        <i>(Inspect the active triangular staircase region in the Boolean matrix!).</i>
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>Roadmap: From Set Algebra to Physical Spaces</h3>
+    <p>
+      “In our upcoming lectures,” Jack concluded, “we will take this algebra of sets <code>(𝒫(𝒮), ⋃, ⋂, ⁻)</code> and use it to construct <b>topologies</b>, <b>measure spaces</b>, and <b>metrics</b> over continuous number systems like the real numbers <code>ℝ</code> and the complex plane <code>ℂ</code>. 
+      Everything in advanced mathematics and physics—from continuous calculus to quantum state spaces—is built upon this exact foundation.”
+    </p>
+  </body>
+</html>

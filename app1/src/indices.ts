@@ -38,7 +38,7 @@ export const formalStatementsIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 2: the algebra of sets",
-    htmlSegmentId: "formalStatementsLecture2",
+    htmlSegmentId: "editedFormalStatementsLecture2V1",
   },
   {
     type: "diagram",

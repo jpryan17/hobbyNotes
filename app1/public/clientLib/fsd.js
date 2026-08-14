@@ -4,6 +4,46 @@ import { SVGElt, SVGSelectableText, SVGText } from "./svgElt.js";
 import { PXE, PXEParent } from "./pxe.js";
 import { ttd } from "./ttd.js";
 import { PredicateRegistry } from "./predicateRegistry.js";
+export function formatDomainSpec(spec) {
+    if (!spec.filterPred)
+        return spec.base;
+    if (spec.filterPred === "EVEN")
+        return `[${spec.base} | EVEN]`;
+    if (spec.param !== undefined) {
+        return `[${spec.base} | ${spec.filterPred}(${spec.param})]`;
+    }
+    return `[${spec.base} | ${spec.filterPred}]`;
+}
+export function parseDomainSpec(str) {
+    if (!str || str === "ℕ")
+        return { base: "ℕ" };
+    if (str === "𝒫(ℕ)" || str === "P(N)" || str === "P_N")
+        return { base: "𝒫(ℕ)" };
+    const clean = str.replace(/[\[\]]/g, "").trim();
+    const parts = clean.split("|").map((s) => s.trim());
+    const base = parts[0] === "𝒫(ℕ)" || parts[0] === "P(N)" ? "𝒫(ℕ)" : "ℕ";
+    if (parts.length < 2)
+        return { base };
+    const predPart = parts[1];
+    if (predPart.startsWith("EVEN")) {
+        return { base, filterPred: "EVEN" };
+    }
+    if (predPart.startsWith("GT5")) {
+        return { base, filterPred: "GT", param: 5 };
+    }
+    if (predPart.startsWith("LT10")) {
+        return { base, filterPred: "LT", param: 10 };
+    }
+    const match = predPart.match(/(GT|LT)\s*\(\s*([^)]+)\s*\)/);
+    if (match) {
+        const pName = match[1];
+        const pValRaw = match[2].trim();
+        const num = parseInt(pValRaw, 10);
+        const param = isNaN(num) ? pValRaw : num;
+        return { base, filterPred: pName, param };
+    }
+    return { base };
+}
 export class FSD extends PXEParent {
     editorFrame;
     controlsFrame;
@@ -33,6 +73,7 @@ export class FSD extends PXEParent {
     availableVars = ["x₁", "x₂", "y₁", "y₂", "GT5", "LT10"];
     selectedVar = "x₁";
     slots = [];
+    varDomains = {};
     // Dynamic Stage Controls
     stageControls = [];
     // Stage 3 State: Quantifier Prefix
@@ -42,6 +83,48 @@ export class FSD extends PXEParent {
     gridResolution = 16;
     matrixVisible = false;
     selectedColIndex = -1;
+    getVarDomain(v) {
+        if (this.varDomains[v])
+            return this.varDomains[v];
+        if (v.startsWith("y"))
+            return { base: "𝒫(ℕ)" };
+        return { base: "ℕ" };
+    }
+    setVarDomain(v, spec) {
+        this.varDomains[v] = spec;
+        this.updatePXEText();
+        this.renderStageControls();
+    }
+    cycleVarDomain(v) {
+        const cur = this.getVarDomain(v);
+        if (cur.base === "𝒫(ℕ)")
+            return;
+        const otherVars = Array.from(new Set(this.slots
+            .map((s) => s.assignedVar)
+            .filter((ov) => ov && ov.startsWith("x") && ov !== v)));
+        const options = [
+            { base: "ℕ" },
+            { base: "ℕ", filterPred: "GT", param: 11 },
+            { base: "ℕ", filterPred: "GT", param: 5 },
+            { base: "ℕ", filterPred: "LT", param: 5 },
+            { base: "ℕ", filterPred: "EVEN" },
+        ];
+        for (const ov of otherVars) {
+            options.push({ base: "ℕ", filterPred: "GT", param: ov });
+            options.push({ base: "ℕ", filterPred: "LT", param: ov });
+        }
+        const curStr = formatDomainSpec(cur);
+        const curIdx = options.findIndex((o) => formatDomainSpec(o) === curStr);
+        const nextIdx = (curIdx + 1) % options.length;
+        this.setVarDomain(v, options[nextIdx]);
+    }
+    adjustVarDomainParam(v, delta) {
+        const cur = this.getVarDomain(v);
+        if (typeof cur.param === "number") {
+            const nextVal = Math.max(1, Math.min(64, cur.param + delta));
+            this.setVarDomain(v, { ...cur, param: nextVal });
+        }
+    }
     constructor() {
         super();
         this.editorFrame = new SVGElt("rect");
@@ -194,6 +277,19 @@ export class FSD extends PXEParent {
             }
         }, isPowerSet ? "+ yVar" : "+ xVar", this.slots.length > 0);
         this.stageControls.push(newVarBtn);
+        // If active slot has an assigned element variable (e.g. x₁), add domain configurator
+        if (activeSlot && activeSlot.assignedVar && !activeSlot.assignedVar.startsWith("y") && activeSlot.assignedVar !== "GT5" && activeSlot.assignedVar !== "LT10") {
+            const curDomain = this.getVarDomain(activeSlot.assignedVar);
+            const domLabel = `Dom(${activeSlot.assignedVar}): ${formatDomainSpec(curDomain)}`;
+            const domChip = new SVGSelectableText(() => this.cycleVarDomain(activeSlot.assignedVar), domLabel, true, undefined, { std: "#0d6efd", over: "#0b5ed7", disabled: "grey", selected: "#0d6efd" });
+            this.stageControls.push(domChip);
+            if (typeof curDomain.param === "number") {
+                const btnMinus = new SVGSelectableText(() => this.adjustVarDomainParam(activeSlot.assignedVar, -1), "-", curDomain.param > 1);
+                const btnPlus = new SVGSelectableText(() => this.adjustVarDomainParam(activeSlot.assignedVar, 1), "+", curDomain.param < 64);
+                this.stageControls.push(btnMinus);
+                this.stageControls.push(btnPlus);
+            }
+        }
         // Check Type Clash
         const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
         // Stage 2 Transition Button (enabled only when ALL slots are bound AND no type clash)
@@ -211,18 +307,39 @@ export class FSD extends PXEParent {
         const uniqueVars = Array.from(new Set(this.slots
             .map((s) => s.assignedVar)
             .filter((v) => v && v !== "GT5" && v !== "LT10")));
-        const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
+        // Sort unquantified variables topologically: independent variables first, dependent variables next
+        const unquantifiedVars = uniqueVars
+            .filter((v) => !this.quantifierBindings.some((q) => q.variable === v))
+            .sort((a, b) => {
+            const specA = this.getVarDomain(a);
+            const specB = this.getVarDomain(b);
+            const aDependsOnB = typeof specA.param === "string" && specA.param === b;
+            const bDependsOnA = typeof specB.param === "string" && specB.param === a;
+            if (aDependsOnB)
+                return 1;
+            if (bDependsOnA)
+                return -1;
+            return 0;
+        });
         const hasUnquantified = unquantifiedVars.length > 0;
         if (hasUnquantified) {
             const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
-            const slot = this.slots.find((s) => s.assignedVar === targetVar);
-            const dType = slot ? slot.domainType : (targetVar.startsWith("y") ? "𝒫(ℕ)" : "ℕ");
+            const curDomain = this.getVarDomain(targetVar);
+            const dTypeStr = formatDomainSpec(curDomain);
             const varChip = new SVGSelectableText(() => {
                 this.selectedQuantifierVarIndex = (this.selectedQuantifierVarIndex + 1) % unquantifiedVars.length;
                 this.renderStageControls();
                 this.updatePXEText();
-            }, `Var: ${targetVar}:${dType}`, true, undefined, { std: "darkred", over: "fuchsia", disabled: "grey", selected: "darkred" });
+            }, `Var: ${targetVar}`, true, undefined, { std: "darkred", over: "fuchsia", disabled: "grey", selected: "darkred" });
             this.stageControls.push(varChip);
+            const domChip = new SVGSelectableText(() => this.cycleVarDomain(targetVar), `Dom: ${dTypeStr}`, !targetVar.startsWith("y"), undefined, { std: "#0d6efd", over: "#0b5ed7", disabled: "grey", selected: "#0d6efd" });
+            this.stageControls.push(domChip);
+            if (typeof curDomain.param === "number") {
+                const btnMinus = new SVGSelectableText(() => this.adjustVarDomainParam(targetVar, -1), "-", curDomain.param > 1);
+                const btnPlus = new SVGSelectableText(() => this.adjustVarDomainParam(targetVar, 1), "+", curDomain.param < 64);
+                this.stageControls.push(btnMinus);
+                this.stageControls.push(btnPlus);
+            }
         }
         // Sparse Universal Quantifier Button "∀"
         const btnForall = new SVGSelectableText(() => this.applyQuantifier("∀"), "∀", hasUnquantified);
@@ -329,6 +446,7 @@ export class FSD extends PXEParent {
         this.availableVars = ["x₁", "x₂", "y₁", "y₂", "GT5", "LT10"];
         this.selectedVar = "x₁";
         this.slots = [];
+        this.varDomains = {};
         this.quantifierBindings = [];
         this.matrixVisible = false;
         this.selectedColIndex = -1;
@@ -366,6 +484,7 @@ export class FSD extends PXEParent {
     }
     resetStage2() {
         this.slots.forEach((s) => (s.assignedVar = undefined));
+        this.varDomains = {};
         this.selectedSlotIndex = 0;
         this.renderStageControls();
         this.updatePXEText();
@@ -488,17 +607,31 @@ export class FSD extends PXEParent {
     }
     applyQuantifier(qSymbol) {
         // Only quantify variables (not constant subsets like GT5, LT10)
-        const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")));
-        const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
+        const uniqueVars = Array.from(new Set(this.slots
+            .map((s) => s.assignedVar)
+            .filter((v) => v && v !== "GT5" && v !== "LT10")));
+        const unquantifiedVars = uniqueVars
+            .filter((v) => !this.quantifierBindings.some((q) => q.variable === v))
+            .sort((a, b) => {
+            const specA = this.getVarDomain(a);
+            const specB = this.getVarDomain(b);
+            const aDependsOnB = typeof specA.param === "string" && specA.param === b;
+            const bDependsOnA = typeof specB.param === "string" && specB.param === a;
+            if (aDependsOnB)
+                return 1;
+            if (bDependsOnA)
+                return -1;
+            return 0;
+        });
         if (unquantifiedVars.length > 0) {
             const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
             if (targetVar) {
-                const slot = this.slots.find((s) => s.assignedVar === targetVar);
-                const dType = slot ? slot.domainType : (targetVar.startsWith("y") ? "𝒫(ℕ)" : "ℕ");
+                const curDomain = this.getVarDomain(targetVar);
+                const dTypeStr = formatDomainSpec(curDomain);
                 this.quantifierBindings.push({
                     quantifier: qSymbol,
                     variable: targetVar,
-                    domainType: dType,
+                    domainType: dTypeStr,
                 });
                 this.selectedQuantifierVarIndex = 0;
             }
@@ -513,6 +646,25 @@ export class FSD extends PXEParent {
         this.renderStageControls();
         this.updatePXEText();
         this.renderStage4Table();
+    }
+    getVariableDomainValues(v, context, N) {
+        const spec = this.getVarDomain(v);
+        const allN = Array.from({ length: N }, (_, i) => i + 1);
+        if (spec.base === "𝒫(ℕ)")
+            return allN;
+        if (!spec.filterPred)
+            return allN;
+        if (spec.filterPred === "EVEN")
+            return allN.filter((x) => x % 2 === 0);
+        if (spec.filterPred === "GT") {
+            const threshold = typeof spec.param === "number" ? spec.param : (context[spec.param] ?? 0);
+            return allN.filter((x) => x > threshold);
+        }
+        if (spec.filterPred === "LT") {
+            const threshold = typeof spec.param === "number" ? spec.param : (context[spec.param] ?? (N + 1));
+            return allN.filter((x) => x < threshold);
+        }
+        return allN;
     }
     // Format real-time PXE expression string for Top Bar with Predicate Names and Domain Types
     formatFSDExp(exp) {
@@ -705,11 +857,12 @@ export class FSD extends PXEParent {
             const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
             if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10")) {
                 // Membership with constant subset
-                const xBinding = this.quantifierBindings.find((q) => q.domainType === "ℕ");
+                const xBinding = this.quantifierBindings.find((q) => q.variable.startsWith("x"));
                 const xQuant = xBinding ? xBinding.quantifier : "∃";
                 const N = 16;
+                const domainVals = this.getVariableDomainValues(xBinding?.variable || "x₁", {}, N);
                 const matches = [];
-                for (let x = 1; x <= N; x++) {
+                for (const x of domainVals) {
                     matches.push(PredicateRegistry.evaluateAt("∈", ["x₁", mSlot.assignedVar], { "x₁": x }));
                 }
                 return xQuant === "∀" ? matches.every(Boolean) : matches.some(Boolean);
@@ -725,8 +878,8 @@ export class FSD extends PXEParent {
                 }
                 grid.push(row);
             }
-            const xBinding = this.quantifierBindings.find((q) => q.domainType === "ℕ");
-            const yBinding = this.quantifierBindings.find((q) => q.domainType === "𝒫(ℕ)");
+            const xBinding = this.quantifierBindings.find((q) => q.variable.startsWith("x"));
+            const yBinding = this.quantifierBindings.find((q) => q.variable.startsWith("y"));
             const xQuant = xBinding ? xBinding.quantifier : "∃";
             const yQuant = yBinding ? yBinding.quantifier : "∀";
             const xFirst = xBinding && yBinding
@@ -877,20 +1030,23 @@ export class FSD extends PXEParent {
     }
     evaluateFullStatement() {
         const N = this.gridResolution;
-        const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every(s => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10");
+        const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10");
         if (isSingleVar) {
             const q = this.quantifierBindings[0]?.quantifier || "∃";
+            const domainValues = this.getVariableDomainValues("x₁", {}, N);
+            if (domainValues.length === 0)
+                return false;
             const rowResults = [];
-            for (let x = 1; x <= N; x++) {
+            for (const x of domainValues) {
                 const localPreds = {
                     p: x > 5,
                     q: x < 10,
                     r: false,
                     s: false,
-                    m: true
+                    m: true,
+                    v: x % 2 === 0
                 };
-                // Check constant subset for m
-                const mSlot = this.slots.find(s => s.predName === "∈" && s.slotIndex === 1);
+                const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
                 if (mSlot) {
                     localPreds.m = mSlot.assignedVar === "GT5" ? x > 5 : mSlot.assignedVar === "LT10" ? x < 10 : true;
                 }
@@ -900,37 +1056,46 @@ export class FSD extends PXEParent {
             }
             return q === "∀" ? rowResults.every(Boolean) : rowResults.some(Boolean);
         }
-        // 2-variable domain evaluation on ℕ × ℕ
-        const q1 = this.quantifierBindings[0]?.quantifier || "∃";
-        const q2 = this.quantifierBindings[1]?.quantifier || "∃";
-        const grid = [];
-        for (let i = 0; i < N; i++) {
-            const row = [];
-            const x1 = i + 1;
-            for (let j = 0; j < N; j++) {
-                const x2 = j + 1;
-                const localPreds = {
-                    p: x1 > 5,
-                    q: x1 < 10,
-                    r: x1 > x2,
-                    s: x1 < x2,
-                    m: true
-                };
-                const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
-                const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
-                row.push(mainVal);
+        // 2-variable domain evaluation (supporting dependent domains)
+        if (this.quantifierBindings.length >= 2) {
+            const qOuter = this.quantifierBindings[0];
+            const qInner = this.quantifierBindings[1];
+            const vOuter = qOuter.variable;
+            const vInner = qInner.variable;
+            const outerVals = this.getVariableDomainValues(vOuter, {}, N);
+            if (outerVals.length === 0)
+                return false;
+            const outerResults = [];
+            for (const valOuter of outerVals) {
+                const ctx = { [vOuter]: valOuter };
+                const innerVals = this.getVariableDomainValues(vInner, ctx, N);
+                if (innerVals.length === 0) {
+                    outerResults.push(qInner.quantifier === "∀");
+                    continue;
+                }
+                const innerResults = [];
+                for (const valInner of innerVals) {
+                    ctx[vInner] = valInner;
+                    const x1 = ctx["x₁"] ?? 1;
+                    const x2 = ctx["x₂"] ?? 1;
+                    const localPreds = {
+                        p: x1 > 5,
+                        q: x1 < 10,
+                        r: x1 > x2,
+                        s: x1 < x2,
+                        m: true,
+                        v: x1 % 2 === 0
+                    };
+                    const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
+                    const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
+                    innerResults.push(mainVal);
+                }
+                const innerPass = qInner.quantifier === "∀" ? innerResults.every(Boolean) : innerResults.some(Boolean);
+                outerResults.push(innerPass);
             }
-            grid.push(row);
+            return qOuter.quantifier === "∀" ? outerResults.every(Boolean) : outerResults.some(Boolean);
         }
-        if (q1 === "∀" && q2 === "∀")
-            return grid.every(r => r.every(Boolean));
-        if (q1 === "∃" && q2 === "∃")
-            return grid.some(r => r.some(Boolean));
-        if (q1 === "∀" && q2 === "∃")
-            return grid.every(r => r.some(Boolean));
-        if (q1 === "∃" && q2 === "∀")
-            return grid.some(r => r.every(Boolean));
-        return grid.some(r => r.some(Boolean));
+        return true;
     }
     renderMatrixVisualizer(container, evalResult, colLabel) {
         const matrixBox = new Elt("div");
@@ -942,7 +1107,7 @@ export class FSD extends PXEParent {
         titleBox.setV(colLabel === "∈" ? "Power Set Incidence Matrix for Membership Predicate: ∈(x, y)" : `Boolean Matrix Structure on ℕ for Predicate: ${colLabel}`);
         matrixBox.append(titleBox);
         if (colLabel === "∈") {
-            const mSlot = this.slots.find(s => s.predName === "∈" && s.slotIndex === 1);
+            const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
             if (!mSlot || mSlot.assignedVar?.startsWith("y")) {
                 // Power Set Incidence Matrix Display
                 const numElem = 4;
@@ -1049,18 +1214,25 @@ export class FSD extends PXEParent {
         const boundSlots = this.slots
             .filter((s) => s.predName === colLabel)
             .map((s) => s.assignedVar || (s.slotIndex === 0 ? "x₁" : "x₂"));
+        const domX1 = this.getVarDomain("x₁");
+        const domX2 = this.getVarDomain("x₂");
         for (let i = 0; i < N; i++) {
             const x1 = i + 1;
             for (let j = 0; j < N; j++) {
                 const x2 = j + 1;
-                const isTrue = PredicateRegistry.evaluateAt(colLabel, boundSlots, { "x₁": x1, "x₂": x2 });
+                // Check if (x₁, x₂) falls inside the domain bounds (including dependent domains)
+                const ctx = { "x₁": x1, "x₂": x2 };
+                const x1Vals = this.getVariableDomainValues("x₁", ctx, N);
+                const x2Vals = this.getVariableDomainValues("x₂", ctx, N);
+                const inDomain = x1Vals.includes(x1) && x2Vals.includes(x2);
+                const isTrue = inDomain && PredicateRegistry.evaluateAt(colLabel, boundSlots, { "x₁": x1, "x₂": x2 });
                 const rect = new SVGElt("rect");
                 rect.setAA([
                     "x", 35 + j * cellSize,
                     "y", 22 + i * cellSize,
                     "width", cellSize - (N > 32 ? 0 : 1),
                     "height", cellSize - (N > 32 ? 0 : 1),
-                    "fill", isTrue ? "#007bff" : "#e9ecef",
+                    "fill", !inDomain ? "#f1f3f5" : (isTrue ? "#007bff" : "#ffffff"),
                     "stroke", N <= 16 ? "#ced4da" : "none"
                 ]);
                 svg.append(rect);
@@ -1071,10 +1243,12 @@ export class FSD extends PXEParent {
         info.setA("style", "font-size: 13px; line-height: 1.6; color: #333;");
         info.setV(`
       <b>Quantified Truth Explanation:</b><br>
-      • Domain: <b>ℕ × ℕ</b> (1..${N})<br>
-      • Blue Cells: <code>True</code><br>
-      • Grey Cells: <code>False</code><br>
-      • Predicate Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
+      • Row Domain (x₁): <b>${formatDomainSpec(domX1)}</b><br>
+      • Col Domain (x₂): <b>${formatDomainSpec(domX2)}</b><br>
+      • Blue Cells: <code>True</code> (inside active domain)<br>
+      • White Cells: <code>False</code> (inside active domain)<br>
+      • Grey Cells: <code>Inactive</code> (outside bounded/dependent domain)<br>
+      • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
     `);
         svgWrap.append(info);
         matrixBox.append(svgWrap);

@@ -202,7 +202,47 @@
 
     <hr>
 
-    <h3>6. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
+    <h3>6. Pedagogical Note: Classical Textbook Logic vs. Modern Bounded Domains</h3>
+    <p>
+      For instructors and advanced readers, it is worth highlighting why our curriculum replaces classical un-typed first-order logic formulas with <b>typed bounded quantification</b>.
+    </p>
+    <p>
+      In classical First-Order Logic (FOL), quantifiers range over a single un-typed universe <code>𝒮</code>, requiring every domain restriction to be explicitly phrased as a conditional implication (<code>⇒</code>) or conjunction (<code>∧</code>):
+    </p>
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 10px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="20%" align="left">Concept</th>
+        <th width="40%" align="left">Classical Textbook Formulation (Un-typed FOL)</th>
+        <th width="40%" align="left">Modern Bounded Domain Formulation</th>
+      </tr>
+      <tr>
+        <td><b>Subset Inclusion (⊆)</b></td>
+        <td><code>∀A:𝒫(𝒮) ∀B:𝒫(𝒮) [ A ⊆ B ⇔ ∀x:𝒮 [ (x ∈ A) ⇒ (x ∈ B) ] ]</code></td>
+        <td><code>A ⊆ B ⇔ ∀x:A [ x ∈ B ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Set Intersection (⋂)</b></td>
+        <td><code>∀A:𝒫(𝒮) ∀B:𝒫(𝒮) ∀x:𝒮 [ (x ∈ A ⋂ B) ⇔ (x ∈ A ∧ x ∈ B) ]</code></td>
+        <td><code>A ⋂ B = [ A | x ∈ B ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Bounded Property</b></td>
+        <td><code>∀x:ℕ [ P(x) ⇒ Q(x) ]</code></td>
+        <td><code>∀x:[ℕ | P] [ Q(x) ]</code></td>
+      </tr>
+    </table>
+    <p>
+      <b>Why This Eliminates Cognitive Clutter:</b>
+    </p>
+    <ul>
+      <li><b>Direct Semantic Focus:</b> Students do not need to wrestle with the vacuous truth of material implication (e.g. <i>"False implies anything"</i>) just to understand that one set is contained within another.</li>
+      <li><b>Type-Theoretic Scaffolding:</b> Restricting a variable's domain directly in its quantifier binding (<code>x : [ℕ | GT(11)]</code> or <code>x₁ : [ℕ | GT(x₂)]</code>) matches modern programming languages, dependent type theory, and interactive theorem provers.</li>
+      <li><b>Computational Evaluation:</b> In FSD, bounded domains allow immediate, reactive evaluation over active subgrids (such as triangular staircase slices), giving students visual, tactile intuition for quantified truth.</li>
+    </ul>
+
+    <hr>
+
+    <h3>7. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
     <p>
       Having established the language of formal statements, predicates, and Cartesian products, we possess the exact formal machinery needed to construct number systems. 
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.

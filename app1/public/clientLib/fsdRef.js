@@ -1,5 +1,5 @@
 import { Nav } from "./navFW.js";
-import { fsd, setFSD } from "./fsd.js";
+import { fsd, setFSD, parseDomainSpec, formatDomainSpec } from "./fsd.js";
 export class FSDRef extends HTMLElement {
     static stdColor = "firebrick";
     static overColor = "fuchsia";
@@ -91,22 +91,25 @@ export class FSDRef extends HTMLElement {
                 fsd.setupStage3();
                 if (quantifiersStr) {
                     fsd.quantifierBindings = [];
-                    // Parse quantified tokens (e.g. ∃x₁:ℕ, ∀x₁:ℕ, ∃x₂:ℕ, ∃y₁:𝒫(ℕ))
-                    const qTokens = quantifiersStr.split(/[, ]+/).filter(Boolean);
-                    for (const token of qTokens) {
-                        const isForall = token.startsWith("∀") || token.toLowerCase().startsWith("forall");
-                        const isExists = token.startsWith("∃") || token.toLowerCase().startsWith("exists");
+                    // Parse quantified tokens (e.g. ∃x₁:ℕ, ∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)], ∀x₂:ℕ ∃x₁:[ℕ|GT(x₂)])
+                    const qMatches = quantifiersStr.match(/(?:∀|∃|\\forall|\\exists)[^∀∃\\]+/g) || [quantifiersStr];
+                    for (const token of qMatches) {
+                        const isForall = token.startsWith("∀") || token.toLowerCase().startsWith("forall") || token.toLowerCase().startsWith("\\forall");
                         const qSymbol = isForall ? "∀" : "∃";
-                        const cleanToken = token.replace(/∀|∃|\\forall|\\exists/g, "").trim();
-                        const [vRaw, dRaw] = cleanToken.split(":");
-                        let varName = vRaw ? vRaw.replace(/x1/g, "x₁").replace(/x2/g, "x₂").replace(/y1/g, "y₁").replace(/y2/g, "y₂").replace(/x_1/g, "x₁").replace(/x_2/g, "x₂") : "x₁";
-                        let dType = (dRaw && (dRaw.includes("P") || dRaw.includes("𝒫"))) ? "𝒫(ℕ)" : "ℕ";
-                        if (varName.startsWith("y"))
-                            dType = "𝒫(ℕ)";
+                        const cleanToken = token.replace(/∀|∃|\\forall|\\exists/g, "").trim().replace(/^,/, "").trim();
+                        const colonIdx = cleanToken.indexOf(":");
+                        let varRaw = colonIdx !== -1 ? cleanToken.substring(0, colonIdx) : cleanToken;
+                        let dRaw = colonIdx !== -1 ? cleanToken.substring(colonIdx + 1).trim() : "";
+                        let varName = varRaw ? varRaw.replace(/x1/g, "x₁").replace(/x2/g, "x₂").replace(/y1/g, "y₁").replace(/y2/g, "y₂").replace(/x_1/g, "x₁").replace(/x_2/g, "x₂").trim() : "x₁";
+                        let dSpec = parseDomainSpec(dRaw);
+                        if (varName.startsWith("y") && !dRaw)
+                            dSpec = { base: "𝒫(ℕ)" };
+                        const dTypeStr = formatDomainSpec(dSpec);
+                        fsd.setVarDomain(varName, dSpec);
                         fsd.quantifierBindings.push({
                             quantifier: qSymbol,
                             variable: varName,
-                            domainType: dType
+                            domainType: dTypeStr
                         });
                     }
                     if (fsd.quantifierBindings.length === 0) {
@@ -119,7 +122,7 @@ export class FSDRef extends HTMLElement {
                     fsd.quantifierBindings = uniqueVars.map(v => ({
                         quantifier: "∃",
                         variable: v,
-                        domainType: v.startsWith("y") ? "𝒫(ℕ)" : "ℕ"
+                        domainType: formatDomainSpec(fsd.getVarDomain(v))
                     }));
                 }
                 // Launch Stage 4 directly
