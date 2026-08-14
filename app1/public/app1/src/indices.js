@@ -12,7 +12,7 @@ export const propLogicIndex = [
     {
         type: "html",
         topic: "lecture: truth, tables & paradoxes",
-        htmlSegmentId: "propLogicLecture",
+        htmlSegmentId: "editedPropLogicLectureV1",
     },
     {
         type: "diagram",
@@ -53,7 +53,7 @@ export const numbersIndex = [
     {
         type: "html",
         topic: "lecture 1: formal definitions & counting",
-        htmlSegmentId: "numbersLecture1",
+        htmlSegmentId: "editedNumbersLecture1V1",
     },
     {
         type: "html",

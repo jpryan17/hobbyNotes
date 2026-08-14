@@ -15,7 +15,7 @@ export const propLogicIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture: truth, tables & paradoxes",
-    htmlSegmentId: "propLogicLecture",
+    htmlSegmentId: "editedPropLogicLectureV1",
   },
   {
     type: "diagram",
@@ -56,7 +56,7 @@ export const numbersIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: formal definitions & counting",
-    htmlSegmentId: "numbersLecture1",
+    htmlSegmentId: "editedNumbersLecture1V1",
   },
   {
     type: "html",

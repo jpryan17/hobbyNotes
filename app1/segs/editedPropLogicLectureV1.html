@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Propositional Logic: Lecture</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Lecture: Propositional Logic</font></i><br>
+      <i><font size="+1">Truth, Tables, Operators &amp; The Rules of the Game</font></i>
+    </div>
+    <br>
+
+    <h3>Is Logic Logical?</h3>
+
+    <p>
+      “Good morning, children. I am Jack, and I'm here to talk to you about something really amazing: logic.”
+    </p>
+
+    <p>
+      <i>[In the sea of faces we see the curious, the skeptical, and some early signs of groans. Jack presses on.]</i>
+    </p>
+
+    <p>
+      “Any questions before we start?”
+    </p>
+
+    <p>
+      <i>[A hand shoots up immediately. A mischievous smile.]</i>
+    </p>
+
+    <p>
+      “Yes?”
+    </p>
+
+    <p>
+      “Is logic logical?” <i>[Scattered giggles around the room.]</i>
+    </p>
+
+    <p>
+      “An interesting question, um...”
+    </p>
+
+    <p>
+      “Jill.”
+    </p>
+
+    <p>
+      “Well, Jill, you just used a clever bit of logic, and I stand corrected. I’m not going to talk about vague, everyday logic. I’m going to talk about a <b>formal logic</b>; specifically, <b>propositional logic</b>. 
+      And a formal logic cares much more about being <i>consistent</i> than being philosophical—it simply doesn't want to be wrong. That’s why it is always <i>supposing</i> things. And it begins by supposing what a proposition is.”
+    </p>
+
+    <hr>
+
+    <h3>What is a Proposition?</h3>
+
+    <p>
+      “In propositional logic, a <b>proposition</b> is any statement that can be judged to be strictly <b>true</b> or <b>false</b>.”
+    </p>
+
+    <p>
+      “Aren’t all statements either true or false?” Jill asked.
+    </p>
+
+    <p>
+      “Not necessarily. Questions, commands, paradoxes, and vague opinions don’t have clear truth values. There are even formal logics with multiple truth values. But in propositional logic, we make a fundamental ground rule: <b>every proposition is either True (1) or False (0)</b>. There is no middle ground.”
+    </p>
+
+    <p>
+      “In many ways, a formal logic is like a game logicians invented to capture a crisp slice of decision making. If you follow the rules, your conclusions will never contradict your assumptions.”
+    </p>
+
+    <p>
+      “For example, take these two statements:”
+    </p>
+    <ul>
+      <li><i>It is raining.</i></li>
+      <li><i>It is dark.</i></li>
+    </ul>
+
+    <p>
+      “We assume circumstances allow each question—<i>Is it raining? Is it dark?</i>—to be answered with a definite <b>yes</b> or <b>no</b>. 
+      The logic game doesn't actually care if it's raining outside right now; it only cares that each statement has been assigned a Boolean truth value.”
+    </p>
+
+    <hr>
+
+    <h3>Naming Propositions: p, q, r, s</h3>
+
+    <p>
+      “Writing out full English sentences every time is tedious, especially when all we care about is the truth value. So we assign short names to our propositions:”
+    </p>
+    <ul>
+      <li><i>'It is raining'</i> might be named <code>ℛ</code></li>
+      <li><i>'It is dark'</i> might be named <code>𝒟</code></li>
+    </ul>
+
+    <p>
+      “To keep things uniform and clean across our interactive truth tables, we will standardly use four single-letter proposition names: <b>p</b>, <b>q</b>, <b>r</b>, and <b>s</b>.”
+    </p>
+
+    <p>
+      “On this page, these names are interactive! When you click on any <span style="color:firebrick;font-weight:bold">highlighted red expression</span>, it opens directly in our <b>Truth Table Demo (TTD)</b>.”
+    </p>
+
+    <p>
+      For example, clicking on a single bare proposition:
+    </p>
+    <ul>
+      <li><ttd-ref exp="p" style="color:firebrick;font-weight:bold">p</ttd-ref> &nbsp;or&nbsp; <ttd-ref exp="r" style="color:firebrick;font-weight:bold">r</ttd-ref></li>
+    </ul>
+    <p>
+      shows its basic 2-row truth table: when <code>p</code> is True, the expression is True; when <code>p</code> is False, the expression is False.
+    </p>
+
+    <hr>
+
+    <h3>The Basic Logical Operators: ¬, ∧, ∨, ↔</h3>
+
+    <p>
+      “Now, how do we combine simple propositions into richer statements? We use <b>logical operators</b>.”
+    </p>
+
+    <br>
+
+    <h4>1. The NOT Operator (¬) &mdash; Negation</h4>
+    <p>
+      The <b>not</b> operator (denoted by <code>¬</code>) reverses a proposition’s truth value. It is a <b>unary</b> operator (it acts on a single proposition):
+    </p>
+    <ul>
+      <li>Click <ttd-ref exp="np" style="color:firebrick;font-weight:bold">¬ p</ttd-ref> or <ttd-ref exp="nr" style="color:firebrick;font-weight:bold">¬ r</ttd-ref> to inspect the inverted truth table.</li>
+    </ul>
+
+    <br>
+
+    <h4>2. The AND Operator (∧) &mdash; Conjunction</h4>
+    <p>
+      The <b>and</b> operator (denoted by <code>∧</code>) is <b>True only if both propositions are true</b>, and False otherwise:
+    </p>
+    <ul>
+      <li>Click <ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref> or <ttd-ref exp="qas" style="color:firebrick;font-weight:bold">q ∧ s</ttd-ref> to inspect the 4-row conjunction table.</li>
+    </ul>
+
+    <br>
+
+    <h4>3. The OR Operator (∨) &mdash; Disjunction</h4>
+    <p>
+      The <b>or</b> operator (denoted by <code>∨</code>) is <b>True if at least one proposition is true</b>, and False only if both are false:
+    </p>
+    <ul>
+      <li>Click <ttd-ref exp="poq" style="color:firebrick;font-weight:bold">p ∨ q</ttd-ref> or <ttd-ref exp="qos" style="color:firebrick;font-weight:bold">q ∨ s</ttd-ref> to inspect the disjunction table.</li>
+    </ul>
+
+    <br>
+
+    <h4>4. The SAME Operator (↔) &mdash; Equivalence</h4>
+    <p>
+      The <b>equivalence</b> operator (denoted by <code>↔</code>) is <b>True if both propositions have the same truth value</b> (both True or both False):
+    </p>
+    <ul>
+      <li>Click <ttd-ref exp="peq" style="color:firebrick;font-weight:bold">p ↔ q</ttd-ref> or <ttd-ref exp="qes" style="color:firebrick;font-weight:bold">q ↔ s</ttd-ref> to inspect the equivalence table.</li>
+    </ul>
+
+    <br>
+
+    <div align="center">
+      <table border="1" cellpadding="8" cellspacing="0" width="70%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 14px;">
+        <tr bgcolor="#f1f5f9">
+          <th align="left">Operation</th>
+          <th align="center">Symbol</th>
+          <th align="left">Meaning</th>
+        </tr>
+        <tr>
+          <td><b>Not (Negation)</b></td>
+          <td align="center"><code>¬</code></td>
+          <td>Inverts truth value (True &rarr; False, False &rarr; True)</td>
+        </tr>
+        <tr>
+          <td><b>And (Conjunction)</b></td>
+          <td align="center"><code>∧</code></td>
+          <td>True only when <b>both</b> inputs are True</td>
+        </tr>
+        <tr>
+          <td><b>Or (Disjunction)</b></td>
+          <td align="center"><code>∨</code></td>
+          <td>True when <b>at least one</b> input is True</td>
+        </tr>
+        <tr>
+          <td><b>Same (Equivalence)</b></td>
+          <td align="center"><code>↔</code></td>
+          <td>True when inputs <b>match</b> in truth value</td>
+        </tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <h3>Compound Expressions &amp; Tautologies</h3>
+
+    <p>
+      “Operators can act not only on single propositions, but on entire compound expressions using brackets <code>[ ... ]</code>:”
+    </p>
+
+    <ul>
+      <li><b>Negating a Conjunction:</b> <ttd-ref exp="n[paq]" style="color:firebrick;font-weight:bold">¬ [ p ∧ q ]</ttd-ref></li>
+      <li><b>Negating a Disjunction:</b> <ttd-ref exp="n[poq]" style="color:firebrick;font-weight:bold">¬ [ p ∨ q ]</ttd-ref></li>
+      <li><b>Double Negation:</b> <ttd-ref exp="n[np]" style="color:firebrick;font-weight:bold">¬ [ ¬ p ]</ttd-ref></li>
+      <li><b>Mixed Connectives:</b> <ttd-ref exp="pa[qor]" style="color:firebrick;font-weight:bold">p ∧ [ q ∨ r ]</ttd-ref> &nbsp;and&nbsp; <ttd-ref exp="[paq]or" style="color:firebrick;font-weight:bold">[ p ∧ q ] ∨ r</ttd-ref></li>
+    </ul>
+
+    <p>
+      “Now look closely at this double negation equivalence statement:”
+    </p>
+
+    <div align="center" style="margin: 10px 0;">
+      <ttd-ref exp="n[np]ep" style="color:firebrick;font-weight:bold;font-size:1.1em;">¬ [ ¬ p ] ↔ p</ttd-ref>
+    </div>
+
+    <p>
+      “Click on it,” Jack instructed. “Look at the outermost column in the truth table. What do you notice?”
+    </p>
+
+    <p>
+      “Every single row is <b>True</b>!” Jill observed.
+    </p>
+
+    <p>
+      “Exactly. That is what logicians call a <b>tautology</b>. A tautology is a propositional expression that is <i>always true</i>, regardless of the truth values assigned to its component propositions.”
+    </p>
+
+    <hr>
+
+    <h3>Material Implication: p → q</h3>
+
+    <p>
+      “One compound expression appears so frequently in science and mathematics that it gets its own special symbol: <b>material implication (<code>→</code>)</b>.”
+    </p>
+
+    <p>
+      “The statement <i>'If p then q'</i> (written <code>p → q</code>) is defined as: <i>'Either p is false, or q is true'</i> (<code>¬p ∨ q</code>).”
+    </p>
+
+    <p>
+      “We can verify that this definition is completely sound by checking that the equivalence is a tautology:”
+    </p>
+
+    <div align="center" style="margin: 10px 0;">
+      <ttd-ref exp="[npoq]e[piq]" style="color:firebrick;font-weight:bold;font-size:1.1em;">[ ¬ p ∨ q ] ↔ [ p → q ]</ttd-ref>
+    </div>
+
+    <p>
+      “Furthermore, two-way mutual implication is logically identical to equivalence:”
+    </p>
+
+    <div align="center" style="margin: 10px 0;">
+      <ttd-ref exp="[[piq]a[qip]]e[peq]" style="color:firebrick;font-weight:bold;font-size:1.1em;">[ [ p → q ] ∧ [ q → p ] ] ↔ [ p ↔ q ]</ttd-ref>
+    </div>
+
+    <hr>
+
+    <h3>Algebraic Laws of Logic</h3>
+
+    <p>
+      “Just like arithmetic has algebraic laws (like <code>a + b = b + a</code>), propositional logic has algebraic properties that can be proved directly with truth table tautologies:”
+    </p>
+
+    <h4>1. Commutative Laws (Order Doesn't Matter)</h4>
+    <ul>
+      <li><b>Conjunction:</b> <ttd-ref exp="[paq]e[qap]" style="color:firebrick;font-weight:bold">[ p ∧ q ] ↔ [ q ∧ p ]</ttd-ref></li>
+      <li><b>Disjunction:</b> <ttd-ref exp="[poq]e[qop]" style="color:firebrick;font-weight:bold">[ p ∨ q ] ↔ [ q ∨ p ]</ttd-ref></li>
+      <li><b>Equivalence:</b> <ttd-ref exp="[peq]e[qep]" style="color:firebrick;font-weight:bold">[ p ↔ q ] ↔ [ q ↔ p ]</ttd-ref></li>
+    </ul>
+
+    <h4>2. Associative Laws (Grouping Doesn't Matter)</h4>
+    <ul>
+      <li><b>Conjunction:</b> <ttd-ref exp="[[paq]ar]e[pa[qar]]" style="color:firebrick;font-weight:bold">[ [ p ∧ q ] ∧ r ] ↔ [ p ∧ [ q ∧ r ] ]</ttd-ref></li>
+      <li><b>Disjunction:</b> <ttd-ref exp="[[poq]or]e[po[qor]]" style="color:firebrick;font-weight:bold">[ [ p ∨ q ] ∨ r ] ↔ [ p ∨ [ q ∨ r ] ]</ttd-ref></li>
+      <li><b>Equivalence:</b> <ttd-ref exp="[[peq]er]e[pe[qer]]" style="color:firebrick;font-weight:bold">[ [ p ↔ q ] ↔ r ] ↔ [ p ↔ [ q ↔ r ] ]</ttd-ref></li>
+    </ul>
+
+    <hr>
+
+    <h3>Why Learn Propositional Logic?</h3>
+
+    <p>
+      “Well, this is all neat, Jack,” Jill smiled. “But what is all this good for?”
+    </p>
+
+    <p>
+      “For one thing,” Jack replied, “you just learned the foundation of <b>Boolean algebra</b>, the exact logic running inside every computer processor on the planet.”
+    </p>
+
+    <p>
+      “More importantly for our journey, <b>propositional expressions provide the skeletal structure of formal mathematical statements</b>. 
+      In our next chapter, we will take these skeletons (<code>∧</code>, <code>∨</code>, <code>¬</code>, <code>→</code>) and flesh them out with <b>quantifiers</b> (<code>∀</code>, <code>∃</code>), <b>predicates</b>, and <b>sets</b>, building the language of modern mathematics and physics.”
+    </p>
+  </body>
+</html>
