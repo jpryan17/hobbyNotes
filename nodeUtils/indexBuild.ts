@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { resolve } from 'path';
 import { build } from 'esbuild';
 import { getRequiredSegIds } from './indexUtils.js';
@@ -15,7 +15,12 @@ function getSegmentContent(content: string): string {
 async function buildIndex(app: string) {
     const appDir = resolve(__dirname, `../../${app}`);
     const segFolder = resolve(appDir, 'segs');
-    const outputFilePath = resolve(appDir, 'dist/index.html');
+    const distFolder = resolve(appDir, 'dist');
+    const outputFilePath = resolve(distFolder, 'index.html');
+
+    if (!existsSync(distFolder)) {
+        mkdirSync(distFolder, { recursive: true });
+    }
 
     try {
         const segIds = await getRequiredSegIds(app);

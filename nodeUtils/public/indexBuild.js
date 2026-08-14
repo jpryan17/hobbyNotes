@@ -15,7 +15,11 @@ function getSegmentContent(content) {
 async function buildIndex(app) {
     const appDir = (0, path_1.resolve)(__dirname, `../../${app}`);
     const segFolder = (0, path_1.resolve)(appDir, 'segs');
-    const outputFilePath = (0, path_1.resolve)(appDir, 'dist/index.html');
+    const distFolder = (0, path_1.resolve)(appDir, 'dist');
+    const outputFilePath = (0, path_1.resolve)(distFolder, 'index.html');
+    if (!(0, fs_1.existsSync)(distFolder)) {
+        (0, fs_1.mkdirSync)(distFolder, { recursive: true });
+    }
     try {
         const segIds = await (0, indexUtils_js_1.getRequiredSegIds)(app);
         console.log(`[indexBuild] Extracted ${segIds.length} segIds from mainIndex for ${app}:`, segIds);
