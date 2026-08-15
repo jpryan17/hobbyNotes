@@ -84,22 +84,22 @@ export const bayesianInferenceIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: hyperfinite probability",
-    htmlSegmentId: "bayesianInferenceLecture1",
+    htmlSegmentId: "editedBayesianInferenceLecture1V1",
   },
   {
     type: "html",
     topic: "lecture 2: sequential updating",
-    htmlSegmentId: "bayesianInferenceLecture2",
+    htmlSegmentId: "editedBayesianInferenceLecture2V1",
   },
   {
     type: "html",
     topic: "lecture 3: standard vs nonstandard probability",
-    htmlSegmentId: "bayesianInferenceLecture3",
+    htmlSegmentId: "editedBayesianInferenceLecture3V1",
   },
   {
     type: "html",
     topic: "lecture 4: state spaces, entropy & ensembles",
-    htmlSegmentId: "bayesianInferenceLecture4",
+    htmlSegmentId: "editedBayesianInferenceLecture4V1",
   },
   {
     type: "diagram",
@@ -117,17 +117,17 @@ export const quantumLogicIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: the 3 polarizers & Venn failure",
-    htmlSegmentId: "quantumLogicLecture1",
+    htmlSegmentId: "editedQuantumLogicLecture1V1",
   },
   {
     type: "html",
     topic: "lecture 2: complex amplitudes on ℂ_ω",
-    htmlSegmentId: "quantumLogicLecture2",
+    htmlSegmentId: "editedQuantumLogicLecture2V1",
   },
   {
     type: "html",
     topic: "lecture 3: measurement as vector projection",
-    htmlSegmentId: "quantumLogicLecture3",
+    htmlSegmentId: "editedQuantumLogicLecture3V1",
   },
 ];
 export const quantumBayesianInferenceIndex: IndexItemDesc[] = [
@@ -139,12 +139,12 @@ export const quantumBayesianInferenceIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: density operators & quantum Bayes",
-    htmlSegmentId: "quantumBayesianInferenceLecture1",
+    htmlSegmentId: "editedQuantumBayesianInferenceLecture1V1",
   },
   {
     type: "html",
     topic: "lecture 2: physical reality as an ensemble",
-    htmlSegmentId: "quantumBayesianInferenceLecture2",
+    htmlSegmentId: "editedQuantumBayesianInferenceLecture2V1",
   },
 ];
 

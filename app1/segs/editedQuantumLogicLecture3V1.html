@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Quantum Logic Lecture 3: Quantum Measurement as Vector Projection</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Quantum Logic Lecture 3</font></i><br>
+      <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Welcome to Lecture 3!” Jack said.
+    </p>
+
+    <p>
+      Jill asked eagerly: “In our Bayesian Inference chapter, when evidence <code>E</code> arrived, we sliced out the incompatible parts of the probability cake and stretched the rest back to 100%. How does a quantum detector update a state vector when we make a measurement?”
+    </p>
+
+    <p>
+      “That is the ultimate bridge between classical inference and quantum physics,” Jack answered. “In quantum mechanics, measurement is <b>vector projection</b>!”
+    </p>
+
+    <hr>
+
+    <h3>1. From Subset Slicing to Vector Projection</h3>
+
+    <p>
+      “In classical Bayesian inference, observing data <code>E</code> acts like a cookie cutter on the 1D transect <code>ℝ_ω</code>. It slices out the subset of points incompatible with <code>E</code>.”
+    </p>
+
+    <p>
+      “In quantum mechanics, states are directional arrows in complex Hilbert space <code>ℋ_ω</code>. Measuring a quantum state in direction <code>|u⟩</code> acts as a <b>geometric projector</b>: it <b>drops a perpendicular</b> from the state vector onto the measurement axis and rescales the surviving arrow back to unit length!”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px 0; color: #1e3a8a;">
+      Classical Bayes: Slicing Subsets on ℝ_ω &nbsp;&hArr;&nbsp; Quantum Bayes: Projecting Vectors on ℂ_ω
+    </div>
+
+    <hr>
+
+    <h3>2. The Geometric Probability Law (The Dot Product)</h3>
+
+    <p>
+      “Suppose a photon is prepared in state vector <code>|v⟩</code> (a unit arrow). If we set up a detector pointing along unit direction <code>|u⟩</code>, what is the probability of detection?” Jack asked.
+    </p>
+
+    <p>
+      “<b>The Geometric Law:</b> The probability is simply the <b>squared cosine of the angle <code>θ</code> between the two vectors</b>:”
+    </p>
+
+    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 12px; font-size: 16px; margin: 10px 0;">
+      <font size="+1" color="#92400e"><b>P(Detection) = |⟨u | v⟩|² = cos²(θ)</b></font>
+    </div>
+
+    <ul>
+      <li><b>Parallel / Aligned (<code>θ = 0°</code>):</b> <code>cos²(0°) = 1.00</code> &rArr; <b>100% Certainty</b>.</li>
+      <li><b>Perpendicular / Orthogonal (<code>θ = 90°</code>):</b> <code>cos²(90°) = 0.00</code> &rArr; <b>0% Probability (Impossible)</b>.</li>
+      <li><b>Diagonal (<code>θ = 45°</code>):</b> <code>cos²(45°) = (1/√2)² = 0.50</code> &rArr; <b>50% Probability (Fifty-Fifty Split)</b>.</li>
+    </ul>
+
+    <hr>
+
+    <h3>3. Solving the 3-Polarizer Mystery with Vector Geometry</h3>
+
+    <p>
+      “Now,” Jack said, “we can solve the sunglasses puzzle from Lecture 1 using pure 2D geometry!”
+    </p>
+
+    <ol>
+      <li>
+        <b>Initial State:</b> Light passes Filter A (Horizontal 0°). The state vector is pointing along the horizontal X-axis:
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 4px 0;">
+          |v₀⟩ = (1, 0)^T &nbsp; (Horizontal 0°)
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Inserting Filter C (at 45°):</b> 
+        The angle between 0° and 45° is <code>θ = 45°</code>. 
+        The probability of passing is <code>cos²(45°) = 50%</code>. 
+        The surviving light vector <b>drops a perpendicular onto the 45° axis</b>, physically rotating into:
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 4px 0;">
+          |v₁⟩ = (1/√2, 1/√2)^T &nbsp; (Diagonal 45°)
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Reaching Filter B (Vertical 90°):</b> 
+        The angle between 45° and 90° is again <code>θ = 45°</code>! 
+        The probability of passing is another <code>cos²(45°) = 50%</code>.
+      </li>
+    </ol>
+
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 16px; margin: 12px 0;">
+      Total Light Output = 50% × 50% = 25%!
+    </div>
+
+    <p>
+      Jill smiled in triumph: “The diagonal filter didn't open a secret doorway &mdash; it <b>rotated the vector</b> into a 45° direction that had a non-zero perpendicular projection onto the vertical filter!”
+    </p>
+
+    <hr>
+
+    <h3>4. The Quantum Bayesian Filter (The Lüders Projection Rule)</h3>
+
+    <p>
+      “Just as Bayes' rule updates a classical probability distribution upon learning evidence, the <b>Lüders Projection Rule</b> updates a quantum state upon measurement:”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="50%" align="left">Classical Bayesian Update (ℝ_ω)</th>
+        <th width="50%" align="left">Quantum Bayesian Update (ℂ_ω)</th>
+      </tr>
+      <tr>
+        <td><b>Prior State:</b><br>Probability vector <code>P(s)</code> on state space <code>Ω</code></td>
+        <td><b>Prior State:</b><br>Directional state vector <code>|ψ⟩</code> in Hilbert space <code>ℋ_ω</code></td>
+      </tr>
+      <tr>
+        <td><b>Evidence Filter:</b><br>Slice subset indicator <code>𝕀_E</code></td>
+        <td><b>Measurement Filter:</b><br>Projection operator <code>P_E = |u⟩⟨u|</code></td>
+      </tr>
+      <tr>
+        <td><b>Normalization Factor (Evidence):</b><br><code>P(E) = ∑_{s ∈ E} P(s)</code></td>
+        <td><b>Normalization Factor (Evidence):</b><br><code>P(E) = || P_E |ψ⟩ ||² = |⟨u | ψ⟩|²</code></td>
+      </tr>
+      <tr>
+        <td><b>Posterior State:</b><br><code>P(s | E) = (P(s) · 𝕀_E(s)) / P(E)</code></td>
+        <td><b>Posterior State:</b><br><code>|ψ'⟩ = (P_E |ψ⟩) / √P(E)</code></td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>5. Chapter Summary &amp; Bridge to the Final Module</h3>
+
+    <p>
+      “We have now mastered the three pillars of Quantum Logic:”
+    </p>
+    <ul>
+      <li><b>1. Complex Amplitudes on <code>ℂ_ω</code>:</b> 2D vector arrows that allow constructive and destructive wave interference.</li>
+      <li><b>2. Superpositions:</b> Linear spans of vector subspaces that explain why atomic reality breaks classical Boolean Venn diagrams.</li>
+      <li><b>3. Measurement as Vector Projection:</b> Dropping perpendiculars to update state vectors via the quantum Lüders filter.</li>
+    </ul>
+
+    <p>
+      “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical density matrices</b> to complete our journey through physical reality!”
+    </p>
+  </body>
+</html>

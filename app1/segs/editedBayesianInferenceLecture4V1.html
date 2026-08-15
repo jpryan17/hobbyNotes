@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Bayesian Inference Lecture 4: State Spaces, Entropy &amp; Statistical Ensembles</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Bayesian Inference Lecture 4</font></i><br>
+      <i><font size="+1">State Spaces, Entropy &amp; The Physical Rosetta Stone</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Welcome to our grand finale on Bayesian Inference!” Jack announced to the class.
+    </p>
+
+    <p>
+      “Today, we build our <b>first physical model</b>. We are going to connect Bayesian reasoning to the physics of heat, thermodynamics, and the secret code of information theory.”
+    </p>
+
+    <p>
+      Jill leaned forward, intrigued: “Wait, what does Bayesian updating about Mars rovers and coin tosses have to do with physics and thermodynamics?”
+    </p>
+
+    <p>
+      “Everything!” Jack smiled. “In fact, by the end of today's lecture, you will see that statistical physics and Bayesian inference are two dialects of the exact same language.”
+    </p>
+
+    <hr>
+
+    <h3>1. The Physical State Space (Ω) &amp; Statistical Ensembles</h3>
+
+    <p>
+      “Let's return to our fundamental stage: the <b>State Space (Ω)</b>,” Jack began.
+    </p>
+
+    <p>
+      “In the 1870s, physicist Ludwig Boltzmann revolutionized physics by viewing a box of gas through pure probability:”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+      A "Statistical Ensemble" is a probability distribution over the discrete State Space Ω under incomplete macroscopic information.
+    </div>
+
+    <ul>
+      <li>
+        <b>Microstates (<code>s ∈ Ω</code>):</b> The ultra-detailed elemental states (like the exact positions and velocities of all gas particles, or the individual leaves of our 2-successor tree).
+      </li>
+      <br>
+      <li>
+        <b>Macrostates as Partitions:</b> When we use a thermometer or pressure gauge, we only measure coarse macroscopic quantities (like total energy or temperature). A single macrostate is a composite event <code>E ⊂ Ω</code> containing trillions of indistinguishable microstates!
+      </li>
+      <br>
+      <li>
+        <b>Multiplicity (<code>W</code>):</b> The number of distinct microscopic states that produce the exact same macroscopic reading: <code>W = |E|</code>.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>2. Surprisal &amp; Entropy: Shannon Meets Boltzmann</h3>
+
+    <p>
+      “Suppose an outcome <code>x_k</code> on our transect has probability <code>p_k = P(x_k)</code>,” Jack said. “How much 'surprise' or information does observing that outcome deliver?”
+    </p>
+
+    <ul>
+      <li>If <code>p_k = 1</code> (a 100% certain event), observing it gives <b>0 surprise</b>: <code>I(x_k) = 0</code>.</li>
+      <li>If <code>p_k → 0</code> (an extremely rare event), observing it gives <b>infinite surprise</b>.</li>
+      <li>If two independent events occur, their surprise simply adds: <code>I(x₁, x₂) = I(x₁) + I(x₂)</code>.</li>
+    </ul>
+
+    <p>
+      “The unique mathematical formula satisfying these properties is the <b>logarithmic surprisal</b>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; background: #f1f5f9; padding: 8px; border-radius: 4px; margin: 8px 0;">
+      I(x_k) = -ln(p_k) = ln(1 / p_k)
+    </div>
+
+    <h4>A. Shannon Information Entropy (H)</h4>
+    <p>
+      “The average expected surprisal across the entire state space is called <b>Shannon Entropy</b> (introduced by Claude Shannon in 1948):”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
+      H(P) ≡ -∑_{k=0}^{ω-1} p_k · ln(p_k)
+    </div>
+
+    <p>
+      “<code>H(P)</code> measures our total average uncertainty about which microscopic state the system actually occupies.”
+    </p>
+
+    <h4>B. Thermodynamic Boltzmann Entropy (S)</h4>
+    <p>
+      “In physics, the thermodynamic entropy <code>S</code> of a physical system is simply Shannon entropy scaled by <b>Boltzmann's constant</b> (<code>k_B ≈ 1.38 × 10⁻²³ J/K</code>):”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
+      S ≡ k_B · H(P) = -k_B ∑_{k=0}^{ω-1} p_k · ln(p_k)
+    </div>
+
+    <p>
+      “When all <code>W</code> microstates have equal probability <code>p_k = 1/W</code>, this simplifies directly to Ludwig Boltzmann's famous tombstone formula:”
+    </p>
+
+    <div align="center" style="background-color: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 18px; margin: 10px 0; color: #92400e; font-weight: bold;">
+      S = k_B · ln(W)
+    </div>
+
+    <p>
+      Jill smiled: “So entropy isn't some mystical property of heat &mdash; it is literally just a measure of how many microscopic states are hidden behind our macroscopic ignorance!”
+    </p>
+
+    <p>
+      “Exactly!” Jack nodded.
+    </p>
+
+    <hr>
+
+    <h3>3. Edwin Jaynes' Principle of Maximum Entropy (MaxEnt)</h3>
+
+    <p>
+      “In 1957, physicist Edwin Jaynes asked a profound question,” Jack continued:
+    </p>
+
+    <p>
+      <i>“If we only know a few macroscopic averages (like average energy <code>&lt;E&gt;</code>), what is the most honest, least biased probability distribution to assign to the microstates?”</i>
+    </p>
+
+    <p>
+      <b>The MaxEnt Principle:</b> The uniquely honest distribution is the one that <b>maximizes Shannon entropy <code>H(P)</code></b> subject to our known constraints. Any other distribution assumes unearned, speculative information!
+    </p>
+
+    <h4>Deriving the Boltzmann Distribution:</h4>
+    <p>
+      When we maximize <code>H(P) = -∑ p_k ln p_k</code> subject to total probability <code>∑ p_k = 1</code> and average energy <code>∑ p_k E_k = &lt;E&gt;</code>, calculus yields the celebrated <b>Boltzmann Distribution</b>:
+    </p>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 16px; margin: 12px 0;">
+      p_k = (1 / Z) · e^{-β E_k} &nbsp;&nbsp; where &nbsp;&nbsp; Z = ∑_{k=0}^{ω-1} e^{-β E_k}
+    </div>
+
+    <p>
+      Here <code>β = 1 / (k_B T)</code> is the inverse temperature, and <code>Z</code> is the famous <b>Partition Function</b> (from the German <i>Zustandssumme</i>, meaning 'sum over states').
+    </p>
+
+    <hr>
+
+    <h3>4. The Rosetta Stone: Statistical Mechanics ≡ Bayesian Inference</h3>
+
+    <p>
+      “Now,” Jack said with excitement, “look at the algebraic structure of the Partition Function <code>Z</code>.”
+    </p>
+
+    <p>
+      “Jill, compare the Boltzmann formula to Bayes' rule from Lecture 1!”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="50%" align="left">Statistical Mechanics (Physics)</th>
+        <th width="50%" align="left">Bayesian Inference (Information Theory)</th>
+      </tr>
+      <tr>
+        <td><b>Microstate <code>k</code> with energy <code>E_k</code></b></td>
+        <td><b>Hypothesis <code>H_k</code> with log-loss / cost <code>E_k</code></b></td>
+      </tr>
+      <tr>
+        <td><b>Boltzmann Factor:</b> <code>e^{-β E_k}</code></td>
+        <td><b>Unnormalized Weight:</b> <code>P(Data | H_k) · P(H_k)</code></td>
+      </tr>
+      <tr>
+        <td><b>Partition Function (Normalizer):</b><br><code>Z = ∑ e^{-β E_k}</code></td>
+        <td><b>Marginal Model Evidence (Normalizer):</b><br><code>P(Data) = ∑ P(Data | H_i) · P(H_i)</code></td>
+      </tr>
+      <tr>
+        <td><b>Helmholtz Free Energy:</b><br><code>F = -k_B T · ln(Z)</code></td>
+        <td><b>Negative Log-Evidence (Surprisal / BIC):</b><br><code>-ln P(Data)</code></td>
+      </tr>
+    </table>
+
+    <p>
+      Jill gasped: “The Partition Function <code>Z</code> in thermodynamics is the <b>exact same denominator</b> as the evidence normalizer in Bayes' rule!”
+    </p>
+
+    <p>
+      “Yes!” Jack said. “Physics and Bayesian inference are the exact same mathematics. Nature finding thermal equilibrium is identical to a rational mind updating its beliefs to minimize surprise!”
+    </p>
+
+    <hr>
+
+    <h3>5. Chapter Summary &amp; Bridge to Quantum Logic</h3>
+
+    <p>
+      “Over these four lectures, we have traveled from the basics of evidence all the way to statistical mechanics:”
+    </p>
+    <ul>
+      <li><b>Lecture 1:</b> Clues update beliefs via the 3-stage Bayesian filter (Prior &rarr; Likelihood Slicing &rarr; Normalization).</li>
+      <li><b>Lecture 2:</b> Sequential updating (<i>Today's Posterior is Tomorrow's Prior</i>) and overcoming the Base-Rate Fallacy.</li>
+      <li><b>Lecture 3:</b> The hyperfinite transect <code>ℝ_ω</code> restores strict positivity (<code>P(E) = 0 ⟺ E = ∅</code>) and eliminates zero-division paradoxes.</li>
+      <li><b>Lecture 4:</b> Maximum Entropy and the Rosetta Stone unifying statistical physics with Bayesian learning.</li>
+    </ul>
+
+    <p>
+      “In our next chapter, <b>Quantum Logic</b>, we will take one more step forward: from classical probabilities on the real transect <code>ℝ_ω</code> to <b>complex probability amplitudes on <code>ℂ_ω</code></b>!”
+    </p>
+  </body>
+</html>
