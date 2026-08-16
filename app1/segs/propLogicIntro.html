@@ -51,31 +51,31 @@
       <tr>
         <td><b>Negation</b></td>
         <td align="center"><code>¬</code></td>
-        <td><i>"NOT p"</i> (<code>¬p</code>)</td>
+        <td><i>"NOT p"</i> (<ttd-ref exp="np" style="color:firebrick;font-weight:bold">¬ p</ttd-ref>)</td>
         <td>Inverts truth value: True if <code>p</code> is False; False if <code>p</code> is True.</td>
       </tr>
       <tr>
         <td><b>Conjunction</b></td>
         <td align="center"><code>∧</code></td>
-        <td><i>"p AND q"</i> (<code>p ∧ q</code>)</td>
+        <td><i>"p AND q"</i> (<ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref>)</td>
         <td>True <b>only if both</b> <code>p</code> and <code>q</code> are True.</td>
       </tr>
       <tr>
         <td><b>Disjunction</b></td>
         <td align="center"><code>∨</code></td>
-        <td><i>"p OR q"</i> (<code>p ∨ q</code>)</td>
+        <td><i>"p OR q"</i> (<ttd-ref exp="poq" style="color:firebrick;font-weight:bold">p ∨ q</ttd-ref>)</td>
         <td>True if <b>at least one</b> of <code>p</code> or <code>q</code> is True.</td>
       </tr>
       <tr>
         <td><b>Implication</b></td>
         <td align="center"><code>→</code></td>
-        <td><i>"IF p THEN q"</i> (<code>p → q</code>)</td>
+        <td><i>"IF p THEN q"</i> (<ttd-ref exp="piq" style="color:firebrick;font-weight:bold">p → q</ttd-ref>)</td>
         <td>Defined as <code>¬p ∨ q</code>. False only when <code>p</code> is True and <code>q</code> is False.</td>
       </tr>
       <tr>
         <td><b>Equivalence</b></td>
         <td align="center"><code>↔</code></td>
-        <td><i>"p IF AND ONLY IF q"</i> (<code>p ↔ q</code>)</td>
+        <td><i>"p IF AND ONLY IF q"</i> (<ttd-ref exp="peq" style="color:firebrick;font-weight:bold">p ↔ q</ttd-ref>)</td>
         <td>True when <code>p</code> and <code>q</code> share the <b>exact same truth value</b>.</td>
       </tr>
     </table>
@@ -91,14 +91,14 @@
         <b>Tautology:</b> An expression that evaluates to <b>True under every possible truth assignment</b>. 
         Tautologies express universal logical laws. For example:
         <ul>
-          <li><b>Law of Excluded Middle:</b> <ttd-ref exp="pnpo" style="color:firebrick;font-weight:bold">p ∨ ¬p</ttd-ref> (every proposition is either True or False).</li>
-          <li><b>Implication Equivalence:</b> <ttd-ref exp="pnqoipei" style="color:firebrick;font-weight:bold">[¬p ∨ q] ↔ [p → q]</ttd-ref> (material conditional definition).</li>
-          <li><b>De Morgan's Laws:</b> <ttd-ref exp="enanano" style="color:firebrick;font-weight:bold">¬[p ∧ q] ↔ [¬p ∨ ¬q]</ttd-ref> (distributing negation over conjunction).</li>
+          <li><b>Law of Excluded Middle:</b> <ttd-ref exp="ponp" style="color:firebrick;font-weight:bold">p ∨ ¬ p</ttd-ref> (every proposition is either True or False).</li>
+          <li><b>Implication Equivalence:</b> <ttd-ref exp="[npoq]e[piq]" style="color:firebrick;font-weight:bold">[ ¬ p ∨ q ] ↔ [ p → q ]</ttd-ref> (material conditional definition).</li>
+          <li><b>De Morgan's Laws:</b> <ttd-ref exp="n[paq]e[nponq]" style="color:firebrick;font-weight:bold">¬ [ p ∧ q ] ↔ [ ¬ p ∨ ¬ q ]</ttd-ref> (distributing negation over conjunction).</li>
         </ul>
       </li>
       <li>
         <b>Contradiction:</b> An expression that evaluates to <b>False under all truth assignments</b>. 
-        For example: <ttd-ref exp="papna" style="color:firebrick;font-weight:bold">p ∧ ¬p</ttd-ref> (the Law of Non-Contradiction states its negation <ttd-ref exp="napna" style="color:firebrick;font-weight:bold">¬[p ∧ ¬p]</ttd-ref> is a tautology).
+        For example: <ttd-ref exp="panp" style="color:firebrick;font-weight:bold">p ∧ ¬ p</ttd-ref> (the Law of Non-Contradiction states its negation <ttd-ref exp="n[panp]" style="color:firebrick;font-weight:bold">¬ [ p ∧ ¬ p ]</ttd-ref> is a tautology).
       </li>
       <li>
         <b>Contingency:</b> An expression whose truth value depends on the specific inputs (e.g., <ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref>).
@@ -133,9 +133,9 @@
     </p>
     <ul>
       <li><b>Conjunction:</b> Click <ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref> to observe the 4-row table with a single True outcome.</li>
-      <li><b>Conditional:</b> Click <ttd-ref exp="poi" style="color:firebrick;font-weight:bold">p → q</ttd-ref> to verify why False implies anything.</li>
-      <li><b>Equivalence:</b> Click <ttd-ref exp="poe" style="color:firebrick;font-weight:bold">p ↔ q</ttd-ref> to see symmetric truth matching.</li>
-      <li><b>De Morgan Verification:</b> Click <ttd-ref exp="enanano" style="color:firebrick;font-weight:bold">¬[p ∧ q] ↔ [¬p ∨ ¬q]</ttd-ref> to confirm that all 4 rows evaluate to True (tautology).</li>
+      <li><b>Conditional:</b> Click <ttd-ref exp="piq" style="color:firebrick;font-weight:bold">p → q</ttd-ref> to verify why False implies anything.</li>
+      <li><b>Equivalence:</b> Click <ttd-ref exp="peq" style="color:firebrick;font-weight:bold">p ↔ q</ttd-ref> to see symmetric truth matching.</li>
+      <li><b>De Morgan Verification:</b> Click <ttd-ref exp="n[paq]e[nponq]" style="color:firebrick;font-weight:bold">¬ [ p ∧ q ] ↔ [ ¬ p ∨ ¬ q ]</ttd-ref> to confirm that all 4 rows evaluate to True (tautology).</li>
     </ul>
 
     <hr>
