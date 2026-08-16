@@ -291,8 +291,11 @@ export class Nav {
     static loadSegment(){
         Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
         Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;')
-        const seg = (Nav.editMode) ? Nav.segMap.get(Nav.segId) 
+        let seg = (Nav.editMode) ? Nav.segMap.get(Nav.segId) 
                                     : Nav.embeddedSeg(Nav.segId)  
+        if (!seg && Nav.editMode) {
+            seg = Nav.embeddedSeg(Nav.segId)
+        }
         if(seg){
             Nav.segDiv.elt.innerHTML = seg
             Nav.fo.removeChildren()

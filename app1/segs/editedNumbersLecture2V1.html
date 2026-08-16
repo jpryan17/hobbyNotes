@@ -142,7 +142,298 @@
 
     <hr>
 
-    <h3>5. The Dyadic Isomorphism: Preserving Elements &amp; Operations</h3>
+    <h3>5. Polar Fans &amp; The Complex Plane: Covering All of Space</h3>
+
+    <p>
+      “Now,” Jack said, turning to the chalkboard, “what happens if we interpret our 2-successor branches not as steps along a straight line, but as <b>directional rays fanning out from the origin</b>?”
+    </p>
+
+    <p>
+      Jill pictured it: “At step 1, the root splits into 2 rays. At step 2, it splits into 4 rays. By birthday <code>d</code>, you have <code>2^d</code> rays fanning outward like the beam of a flashlight!”
+    </p>
+
+    <p>
+      “Exactly,” Jack nodded. “And what is the maximum angular spread that flashlight can ever cover?”
+    </p>
+
+    <p>
+      Jill traced the angles: “If each binary branch halves the angle, the rays will densely fill a wedge... but no matter how many millions of times it branches, the entire tree is <b>trapped within 180° &mdash; exactly half of space!</b> The entire world behind the flashlight is completely in the dark!”
+    </p>
+
+    <!-- Figure 1: 180° Polar Fan & Blindspot -->
+    <div style="display: flex; justify-content: center; margin: 25px 0;">
+      <div style="width: 100%; max-width: 640px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <!-- Header -->
+          <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
+          <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
+          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">1. The 2-Successor Tree: 180° Polar Fan &amp; The Half-Space Blindspot</text>
+          
+          <defs>
+            <marker id="polar-arr-blue2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e40af" />
+            </marker>
+          </defs>
+
+          <!-- Upper Half-Plane Background (Illuminated 180° Wedge) -->
+          <path d="M 70 170 A 250 250 0 0 1 570 170 Z" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5" />
+          
+          <!-- Lower Half-Plane Background (180° Blindspot) -->
+          <path d="M 70 170 A 250 250 0 0 0 570 170 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4" />
+
+          <!-- Horizontal Separator Line -->
+          <line x1="45" y1="170" x2="595" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" />
+          <text x="590" y="163" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#64748b">0° / 180° Boundary</text>
+
+          <!-- Upper Illuminated Fan Label -->
+          <text x="320" y="52" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">ACTIVE 180° POLAR FAN (Real Continuum ℝ_ω)</text>
+          <text x="320" y="67" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">Binary branching sweeps 180° half-space like a flashlight beam</text>
+
+          <!-- Polar Branches -->
+          <!-- Level 0 -> Level 1 -->
+          <line x1="320" y1="170" x2="230" y2="125" stroke="#1e40af" stroke-width="2" />
+          <line x1="320" y1="170" x2="410" y2="125" stroke="#1e40af" stroke-width="2" />
+
+          <!-- Level 1 -> Level 2 -->
+          <line x1="230" y1="125" x2="140" y2="95" stroke="#1e40af" stroke-width="1.8" />
+          <line x1="230" y1="125" x2="265" y2="95" stroke="#1e40af" stroke-width="1.8" />
+          <line x1="410" y1="125" x2="375" y2="95" stroke="#1e40af" stroke-width="1.8" />
+          <line x1="410" y1="125" x2="500" y2="95" stroke="#1e40af" stroke-width="1.8" />
+
+          <!-- Level 2 -> Level 3 -->
+          <line x1="140" y1="95" x2="85" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line x1="140" y1="95" x2="125" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          
+          <line x1="265" y1="95" x2="235" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line x1="265" y1="95" x2="275" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+
+          <line x1="375" y1="95" x2="365" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line x1="375" y1="95" x2="405" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+
+          <line x1="500" y1="95" x2="515" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line x1="500" y1="95" x2="555" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+
+          <!-- Nodes & Labels -->
+          <circle cx="320" cy="170" r="5.5" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5" />
+          <text x="320" y="188" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Root (0)</text>
+
+          <circle cx="230" cy="125" r="4.5" fill="#2563eb" />
+          <text x="215" y="122" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[-] -1</text>
+
+          <circle cx="410" cy="125" r="4.5" fill="#2563eb" />
+          <text x="425" y="122" text-anchor="start" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[+] +1</text>
+
+          <circle cx="140" cy="95" r="3.8" fill="#3b82f6" />
+          <text x="130" y="92" text-anchor="end" font-family="sans-serif" font-size="9" fill="#1e40af">[--] -2</text>
+
+          <circle cx="265" cy="95" r="3.8" fill="#3b82f6" />
+          <text x="265" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[-+] -½</text>
+
+          <circle cx="375" cy="95" r="3.8" fill="#3b82f6" />
+          <text x="375" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[+-] +½</text>
+
+          <circle cx="500" cy="95" r="3.8" fill="#3b82f6" />
+          <text x="510" y="92" text-anchor="start" font-family="sans-serif" font-size="9" fill="#1e40af">[++] +2</text>
+
+          <!-- Lower Half Blindspot Details -->
+          <rect x="140" y="215" width="360" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+          <text x="320" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#991b1b">180° BLINDSPOT: THE DARK HALF OF SPACE</text>
+          <text x="320" y="256" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Unreachable by 2-successor branches &mdash; confined to a single half-plane!</text>
+        </svg>
+      </div>
+    </div>
+
+    <p>
+      “How do we unlock that dark half of space?” Jill asked, leaning forward.
+    </p>
+
+    <p>
+      “We need <b>two fans spreading out back-to-back</b>!” Jack answered. “And that is precisely what the <b>4-successor complex tree <code>ℂ_ω</code></b> delivers with its four unit directions <code>{ +1, -1, +i, -i }</code>:”
+    </p>
+
+    <ul>
+      <li><b>Fan 1 (Upper 180° Fan):</b> Sweeps from <code>0° &rarr; 180°</code> (anchored by <code>+1</code>, <code>+i</code>, <code>-1</code>).</li>
+      <li><b>Fan 2 (Lower 180° Fan):</b> Sweeps from <code>180° &rarr; 360°</code> (anchored by <code>-1</code>, <code>-i</code>, <code>+1</code>).</li>
+    </ul>
+
+    <p>
+      “With <b>two fans spreading out from the origin</b>, the entire 360° circle is completely illuminated &mdash; there is not a single blindspot anywhere in 2D space!”
+    </p>
+
+    <!-- Figure 2: Complex Plane as 2 Fans Spreading Out -->
+    <div style="display: flex; justify-content: center; margin: 25px 0;">
+      <div style="width: 100%; max-width: 640px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <!-- Header -->
+          <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
+          <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
+          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">2. The Complex Plane ℂ_ω: Two Polar Fans Spreading Out (360° All Space)</text>
+          
+          <defs>
+            <marker id="fan1-arr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+            </marker>
+            <marker id="fan2-arr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+            </marker>
+          </defs>
+
+          <!-- Circular Outer Boundary -->
+          <circle cx="320" cy="190" r="145" fill="#fafafa" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />
+
+          <!-- Fan 1 Semicircle (Upper Half 0° -> 180°) -->
+          <path d="M 175 190 A 145 145 0 0 1 465 190 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" />
+
+          <!-- Fan 2 Semicircle (Lower Half 180° -> 360°) -->
+          <path d="M 175 190 A 145 145 0 0 0 465 190 Z" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.2" />
+
+          <!-- Coordinate Axes -->
+          <line x1="145" y1="190" x2="495" y2="190" stroke="#64748b" stroke-width="1.5" />
+          <line x1="320" y1="35" x2="320" y2="345" stroke="#64748b" stroke-width="1.5" />
+
+          <!-- Unit Direction Labels -->
+          <text x="480" y="184" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+1 (0°)</text>
+          <text x="320" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+i (90°)</text>
+          <text x="160" y="184" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
+          <text x="320" y="340" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+
+          <!-- Fan 1 Branches (Blue - Upper 180°) -->
+          <!-- Ray toward 45° -->
+          <line x1="320" y1="190" x2="395" y2="115" stroke="#2563eb" stroke-width="1.8" />
+          <line x1="395" y1="115" x2="435" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
+          <line x1="395" y1="115" x2="415" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
+          
+          <!-- Ray toward 135° -->
+          <line x1="320" y1="190" x2="245" y2="115" stroke="#2563eb" stroke-width="1.8" />
+          <line x1="245" y1="115" x2="225" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
+          <line x1="245" y1="115" x2="205" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
+
+          <!-- Fan 2 Branches (Purple - Lower 180°) -->
+          <!-- Ray toward 225° -->
+          <line x1="320" y1="190" x2="245" y2="265" stroke="#7c3aed" stroke-width="1.8" />
+          <line x1="245" y1="265" x2="205" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+          <line x1="245" y1="265" x2="225" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+
+          <!-- Ray toward 315° -->
+          <line x1="320" y1="190" x2="395" y2="265" stroke="#7c3aed" stroke-width="1.8" />
+          <line x1="395" y1="265" x2="415" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+          <line x1="395" y1="265" x2="435" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+
+          <!-- Fan Nodes -->
+          <circle cx="395" cy="115" r="4" fill="#2563eb" />
+          <circle cx="245" cy="115" r="4" fill="#2563eb" />
+          <circle cx="245" cy="265" r="4" fill="#7c3aed" />
+          <circle cx="395" cy="265" r="4" fill="#7c3aed" />
+
+          <!-- Center Root (0) -->
+          <circle cx="320" cy="190" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
+          <text x="332" y="204" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">0</text>
+
+          <!-- Fan Labels & Badges -->
+          <rect x="360" y="65" width="220" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1" />
+          <text x="470" y="81" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">FAN 1: Upper 180° (0° &rarr; 180°)</text>
+
+          <rect x="60" y="295" width="220" height="24" rx="4" fill="#ffffff" stroke="#e9d5ff" stroke-width="1" />
+          <text x="170" y="311" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">FAN 2: Lower 180° (180° &rarr; 360°)</text>
+
+          <!-- Bottom Coverage Badge -->
+          <rect x="150" y="338" width="340" height="22" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+          <text x="320" y="353" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">2 Fans Spreading Out &rArr; Complete 360° Space Coverage (No Blindspots!)</text>
+        </svg>
+      </div>
+    </div>
+
+    <p>
+      Jill smiled: “So the 'imaginary' number <code>i</code> isn't some weird algebraic trick &mdash; it's just the <b>perpendicular 90° steering turn</b> that activates the second fan and unlocks all of space!”
+    </p>
+
+    <p>
+      “And look what happens if we step along Cartesian axes instead of polar angles,” Jack added, showing a third sketch:
+    </p>
+
+    <!-- Figure 3: Cartesian Orthogonal H-Tree -->
+    <div style="display: flex; justify-content: center; margin: 25px 0;">
+      <div style="width: 100%; max-width: 640px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <!-- Header -->
+          <rect x="0" y="0" width="600" height="28" fill="#f1f5f9" rx="8" />
+          <rect x="0" y="20" width="600" height="8" fill="#f1f5f9" />
+          <text x="300" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)</text>
+          
+          <defs>
+            <marker id="cart-arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#000000" />
+            </marker>
+          </defs>
+
+          <!-- Level 1: Central Horizontal Spine (x-axis) -->
+          <line x1="290" y1="140" x2="175" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="290" y1="140" x2="405" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+
+          <!-- Level 2: Left & Right Vertical Bars (y-axis perpendiculars) -->
+          <line x1="175" y1="140" x2="175" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="140" x2="175" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="140" x2="405" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="140" x2="405" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+
+          <!-- Level 3: Four Horizontal Bars (x-axis perpendiculars) -->
+          <line x1="175" y1="75" x2="115" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="75" x2="235" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="205" x2="115" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="205" x2="235" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="75" x2="345" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="75" x2="465" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="205" x2="345" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="405" y1="205" x2="465" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+
+          <!-- Level 4: Eight Vertical Terminal Arrows -->
+          <line x1="115" y1="75" x2="115" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="115" y1="75" x2="115" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="235" y1="75" x2="235" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="235" y1="75" x2="235" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+
+          <line x1="115" y1="205" x2="115" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="115" y1="205" x2="115" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="235" y1="205" x2="235" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="235" y1="205" x2="235" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+
+          <line x1="345" y1="75" x2="345" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="345" y1="75" x2="345" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="465" y1="75" x2="465" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="465" y1="75" x2="465" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+
+          <line x1="345" y1="205" x2="345" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="345" y1="205" x2="345" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="465" y1="205" x2="465" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="465" y1="205" x2="465" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+
+          <!-- Open Nodes -->
+          <circle cx="290" cy="140" r="6" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="175" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="405" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="175" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="175" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="405" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="405" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="115" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="235" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="115" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="235" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="345" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="465" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="345" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <circle cx="465" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+        </svg>
+      </div>
+    </div>
+
+    <p>
+      “Keep all of this in your back pocket,” Jack winked. “When we reach Quantum Logic, that 4-way turn and its two spreading fans will unlock wave interference and the entire quantum world!”
+    </p>
+
+    <hr>
+
+    <h3>6. The Dyadic Isomorphism: Preserving Elements &amp; Operations</h3>
 
     <p>
       “Now that we've seen how the tree branches both outward toward integers and inward toward fractions,” Jack continued, “look at the exact numerical values produced at finite birthdays.”
@@ -230,7 +521,7 @@
 
     <hr>
 
-    <h3>6. Summary: The Scaffold for Intrinsic Spaces</h3>
+    <h3>7. Summary: The Scaffold for Intrinsic Spaces</h3>
 
     <p>
       “Let's recap what we've established today:”
@@ -241,6 +532,7 @@
       <li>Every number is uniquely identified by its <b>labeled sign path</b> from root <code>0</code>.</li>
       <li>Finite paths are <b>isomorphic to the dyadic rationals</b> <code>m / 2^d</code>.</li>
       <li>At the transfinite boundary <code>ω</code>, the tree captures both continuous numbers (like <code>√2</code> and <code>π</code>) and genuine infinitesimals (<code>dx = 1/ω</code>).</li>
+      <li>The 2-successor polar fan is geometrically bounded to <b>180° (half of space)</b>, while the 4-successor complex continuum <code>ℂ_ω</code> operates as <b>two fans spreading out back-to-back to cover all 360° of space</b>.</li>
     </ul>
 
     <p>
