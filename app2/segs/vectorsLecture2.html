@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lecture 2: Structure-Preserving Maps &amp; Symmetries</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries</b></i></font><br>
+    <font size="+1"><i>— How Functions Bridge Between Operations: Homomorphisms &amp; Invariance —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Jason began Lecture 2 by writing a single equation in the center of the whiteboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f : ( G, ⋆ ) &rarr; ( H, ⊙ ) &emsp;&emsp; where &emsp;&emsp; f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+  </div>
+
+  <p>
+    “Last lecture,” Jason said, “we discovered how groups and fields emerge naturally from recursive trees. Today, we examine the central concept of modern mathematics: <b>how functions map between two different algebraic worlds while preserving their internal structure</b>.”
+  </p>
+
+  <p>
+    Jill looked closely at the equation: “Notice that there are two different symbols for the operations: <code>⋆</code> on the left and <code>⊙</code> on the right.”
+  </p>
+
+  <p>
+    “A crucial observation!” Jason beamed. “The operation <code>⋆</code> belongs to the starting group <code>G</code>, while the operation <code>⊙</code> belongs to the destination group <code>H</code>. A function <code>f</code> is <b>structure-preserving (a group homomorphism)</b> if calculating in the starting world and then mapping yields the exact same answer as mapping first and calculating in the destination world!”
+  </p>
+
+  <hr>
+
+  <h3>1. Pure Mathematical Examples of Structure Preservation</h3>
+
+  <p>
+    Jason walked through four progressively deeper mathematical bridges:
+  </p>
+
+  <h4>Example 1: Scaling a Measurement Ruler &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
+  <p>
+    Consider doubling all lengths via <code>f(x) = 2x</code>. The operation in both domain and codomain is standard addition (<code>⋆ = +, ⊙ = +</code>):
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a + b ) = 2·(a + b) = 2a + 2b = f(a) + f(b)</b>
+  </div>
+  <p>
+    Adding two lengths and doubling equals doubling each length and adding. The geometric scaling map preserves addition.
+  </p>
+
+  <h4>Example 2: Spatial Reflection / Negation &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
+  <p>
+    The reflection map <code>f(x) = -x</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a + b ) = -(a + b) = (-a) + (-b) = f(a) + f(b)</b>
+  </div>
+  <p>
+    Reflecting a combined sum across the origin is identical to reflecting each piece first and combining them.
+  </p>
+
+  <h4>Example 3: The Exponential Bridge &mdash; (ℝ, +) &rarr; (ℝ⁺, ·)</h4>
+  <p>
+    “Here is where the two operations truly differ,” Jason said. “Take the real numbers under <b>addition</b> <code>(ℝ, +)</code> and map them to positive real numbers under <b>multiplication</b> <code>(ℝ⁺, ·)</code> via <code>f(x) = e^x</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f( a + b ) = e^(a + b) = e^a · e^b = f(a) · f(b)</b>
+  </div>
+  <p>
+    “The exponential map seamlessly converts the additive structure of the domain (<code>⋆ = +</code>) into the multiplicative growth of the target (<code>⊙ = ·</code>)!”
+  </p>
+
+  <h4>Example 4: Embedding 1D into the 2D Complex Plane &mdash; (ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</h4>
+  <p>
+    Mapping a real number <code>x</code> to a complex number <code>f(x) = x + 0i</code> preserves addition across dimensions:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a +_ℝ b ) = (a + b) + 0i = (a + 0i) +_ℂ (b + 0i) = f(a) +_ℂ f(b)</b>
+  </div>
+  <p>
+    The 1D real axis is embedded inside the 2D plane with its internal algebraic geometry preserved with 100% fidelity.
+  </p>
+
+  <hr>
+
+  <h3>2. Continuous Phase Symmetries: Angles to Rotations</h3>
+
+  <p>
+    “Now look at continuous groups,” Jason said. “What happens when we map an angle <code>θ</code> to a point on the complex unit circle via <code>f(θ) = e^(iθ)</code>?”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f( θ₁ + θ₂ ) = e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂) = f(θ₁) · f(θ₂)</b>
+  </div>
+
+  <p>
+    “In the domain, we perform simple <b>angle addition</b>. In the target, we perform <b>complex multiplication</b> (a 2D rotation). The map <code>f(θ) = e^(iθ)</code> is a continuous group homomorphism from <code>(ℝ, +)</code> to the circle group <code>(U(1), ·)</code>!”
+  </p>
+
+  <p>
+    Jill smiled: “So whenever we rotate a phase by multiplying by <code>e^(iθ)</code>, we are just using a structure-preserving map!”
+  </p>
+
+  <p>
+    “Precisely!” Jason nodded. “And in our next lecture, we will generalize this from single groups to <b>Vector Spaces and Linear Maps</b>, where functions preserve both vector addition and scalar multiplication simultaneously!”
+  </p>
+</body>
+</html>

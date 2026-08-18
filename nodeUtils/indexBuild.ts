@@ -85,4 +85,5 @@ async function buildIndex(app: string) {
     }
 }
 
-buildIndex('app1');
+const targetApp = process.argv[2] || 'app1';
+buildIndex(targetApp);

@@ -54,7 +54,7 @@ class Serv {
                         console.error(`error running ttdRefR:`, e);
                     }
                 }
-                (0, child_process_1.execSync)("npm run segsR");
+                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${app}`);
             }
             const app = urlList[1];
             const fn = "segsFile.json";

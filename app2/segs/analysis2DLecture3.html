@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lecture 3: Quantum State Evolution &amp; Phase Transitions</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions</b></i></font><br>
+    <font size="+1"><i>— Continuous Unitary Evolution, Wavepacket Inference &amp; The Lee-Yang Circle Theorem —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Jason stood before the class to open the final lecture of the curriculum:
+  </p>
+
+  <p>
+    “We have traveled a remarkable intellectual journey. In <b>Course 1</b>, we discovered emergent algebraic structures, linear spaces, and Dirac bra-ket duality. In <b>Course 2</b>, we tamed continuous 1D change through infinitesimals and the telescoping Fundamental Theorem. Today, in our grand finale, we unite these foundations to describe <b>Continuous Quantum Bayesian Inference and the deep geometry of Phase Transitions</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. Continuous-Time Quantum Evolution</h3>
+
+  <p>
+    “In Course 1,” Jason reminded Jill, “we saw that a quantum state lives in a Hilbert space <code>(H, +, ·, ⟨·,·⟩)</code>. How does this state change continuously over time?”
+  </p>
+
+  <p>
+    “In quantum mechanics, time evolution is driven by the energy Hamiltonian operator <code>H</code> through a <b>continuous unitary group map</b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
+  </div>
+
+  <p>
+    Jason pointed to the exponent: “Notice the pieces we've built:”
+  </p>
+  <ul>
+    <li>The Hamiltonian <code>H</code> is a <b>linear operator</b> on the vector space (Course 1).</li>
+    <li>The complex unit <code>i</code> rotates phases across the 2D plane <code>ℂ_ω</code> without changing length (Course 3).</li>
+    <li>Evaluating the infinitesimal rate of change yields <b>Schrödinger's Equation</b> directly:
+      <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+        <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+      </div>
+    </li>
+  </ul>
+
+  <hr>
+
+  <h3>2. Continuous Wavepackets &amp; Quantum Bayesian Inference</h3>
+
+  <p>
+    “When a quantum state is continuous across space,” Jason continued, “the wavefunction <code>ψ(x) = ⟨x | ψ⟩</code> is the covector projection onto position <code>x</code>.”
+  </p>
+
+  <p>
+    The total probability is normalized through our hyperfinite integral:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx ) &nbsp;=&nbsp; 1</b>
+  </div>
+
+  <p>
+    “When a detector at position <code>x</code> registers the particle, the prior state <code>|ψ⟩</code> undergoes a <b>Bayesian likelihood update (state collapse)</b>, projecting into the detected state. The Born rule <code>P(x) = |ψ(x)|²</code> is the exact bridge between linear Hilbert geometry and observational Bayesian inference!”
+  </p>
+
+  <hr>
+
+  <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
+
+  <p>
+    “Now,” Jason smiled, “let's address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 580px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Real Axis -->
+        <line x1="30" y1="90" x2="550" y2="90" stroke="#334155" stroke-width="2" />
+        <text x="540" y="80" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Real Temp T</text>
+        <circle cx="290" cy="90" r="4" fill="#dc2626" />
+        <text x="290" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#dc2626">Critical Temp T_c</text>
+
+        <!-- Complex Unit Circle & Pinching Zeros -->
+        <ellipse cx="290" cy="90" rx="90" ry="70" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3" />
+        <circle cx="240" cy="40" r="3" fill="#2563eb" />
+        <circle cx="340" cy="40" r="3" fill="#2563eb" />
+        <circle cx="230" cy="90" r="3" fill="#2563eb" />
+        <circle cx="350" cy="90" r="3" fill="#2563eb" />
+        <circle cx="280" cy="85" r="3" fill="#2563eb" />
+        <circle cx="300" cy="85" r="3" fill="#2563eb" />
+        <circle cx="290" cy="91" r="3.5" fill="#dc2626" />
+
+        <text x="290" y="25" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Lee-Yang Zeros in Complex Plane ℂ_ω</text>
+        <text x="290" y="155" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#64748b">At N = ω, zeros pinch the real axis at T_c creating sudden macroscopic phase change!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    Jason explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
+  </p>
+
+  <ol>
+    <li>
+      <b>Finite Systems are Perfectly Smooth (N &lt; ω):</b> For any finite collection of <code>N</code> atoms, the partition function <code>Z_N(T)</code> is a polynomial with all positive real coefficients. A polynomial with positive coefficients <b>can never equal zero for any real temperature <code>T ∈ ℝ</code></b>.
+    </li>
+    <li>
+      <b>Zeros Live Exclusively in ℂ_ω:</b> In 1952, Nobel laureates T.D. Lee and C.N. Yang proved that all zeros of <code>Z_N</code> live off the real axis, distributed along a circle in the <b>complex plane <code>ℂ_ω</code></b>.
+    </li>
+    <li>
+      <b>The Thermodynamic Pinch (N = ω):</b> As the number of atoms reaches our transfinite scale <code>N = ω</code>, the density of complex zeros intensifies until they <b>pinch the real temperature axis at exact critical point <code>T_c</code></b>!
+    </li>
+    <li>
+      <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink &mdash; creating the sudden, sharp macroscopic transition of freezing, boiling, or ferromagnetism!
+    </li>
+  </ol>
+
+  <p>
+    Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”
+  </p>
+
+  <p>
+    “Exactly!” Jason concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
+  </p>
+</body>
+</html>

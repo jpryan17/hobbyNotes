@@ -76,4 +76,5 @@ async function buildIndex(app) {
         process.exit(1);
     }
 }
-buildIndex('app1');
+const targetApp = process.argv[2] || 'app1';
+buildIndex(targetApp);

@@ -64,4 +64,5 @@ async function processSegFolder(app) {
         process.exit(1);
     }
 }
-processSegFolder('app1');
+const targetApp = process.argv[2] || 'app1';
+processSegFolder(targetApp);

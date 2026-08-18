@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lecture 1: The Infinitesimal Microscope &amp; Continuity</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity</b></i></font><br>
+    <font size="+1"><i>— Halos, Monads &amp; The Discrete Intermediate Value Theorem —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Jason began Lecture 1 by drawing a single point on a horizontal real number line:
+  </p>
+
+  <div align="center" style="margin: 15px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 80" style="width: 100%; max-width: 500px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px;">
+      <line x1="40" y1="40" x2="460" y2="40" stroke="#334155" stroke-width="2" />
+      <polygon points="465,40 455,35 455,45" fill="#334155" />
+      <circle cx="250" cy="40" r="4" fill="#2563eb" />
+      <text x="250" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">x₀</text>
+    </svg>
+  </div>
+
+  <p>
+    “In standard 19th-century geometry,” Jason said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
+  </p>
+
+  <p>
+    Jill looked at the point: “And that's why Weierstrass and Cauchy had to invent the epsilon-delta limit &mdash; because they couldn't actually step inside the point without breaking arithmetic.”
+  </p>
+
+  <p>
+    “Exactly,” Jason nodded. “Now let's see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
+
+  <p>
+    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jason said:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 600px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Macroscopic Point -->
+        <rect x="20" y="20" width="220" height="120" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="130" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">Macroscopic View (ℝ)</text>
+        <line x1="40" y1="85" x2="220" y2="85" stroke="#64748b" stroke-width="2" />
+        <circle cx="130" cy="85" r="4" fill="#2563eb" />
+        <text x="130" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">x₀</text>
+
+        <!-- Arrow: Magnification -->
+        <text x="280" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">Zoom × ω</text>
+        <line x1="250" y1="85" x2="310" y2="85" stroke="#94a3b8" stroke-width="2" />
+        <polygon points="315,85 305,80 305,90" fill="#94a3b8" />
+
+        <!-- Right: Microscopic Halo -->
+        <rect x="330" y="20" width="250" height="120" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="455" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Microscopic Halo μ(x₀) in ℝ_ω</text>
+        <line x1="350" y1="85" x2="560" y2="85" stroke="#3b82f6" stroke-width="1.5" />
+        <circle cx="455" cy="85" r="4" fill="#1d4ed8" />
+        <circle cx="495" cy="85" r="3" fill="#60a5fa" />
+        <circle cx="415" cy="85" r="3" fill="#60a5fa" />
+        <text x="455" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">x₀</text>
+        <text x="500" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ + dx</text>
+        <text x="410" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ - dx</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “Under the magnification of <code>ω</code>,” Jason explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
+  </p>
+
+  <p>
+    “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
+  </div>
+
+  <p>
+    “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
+  </p>
+
+  <hr>
+
+  <h3>2. Continuity Without Epsilon-Delta</h3>
+
+  <p>
+    “With halos in hand,” Jason said, “how would you define continuity in plain geometric terms?”
+  </p>
+
+  <p>
+    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
+  </p>
+
+  <p>
+    “Spot on!” Jason beamed. “That is Robinson's nonstandard definition of continuity:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Continuity at x₀: &emsp;&emsp; ∀ x ∈ ℝ_ω, &nbsp; x ≈ x₀ &nbsp;&rArr;&nbsp; f(x) ≈ f(x₀)</b>
+  </div>
+
+  <p>
+    Compare this direct one-line statement with the standard quantifier jungle:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 12.5px; margin: 6px 0; color: #64748b;">
+    ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀x &nbsp; ( |x - x₀| &lt; δ &nbsp;&rArr;&nbsp; |f(x) - f(x₀)| &lt; ε )
+  </div>
+  <p>
+    Nonstandard analysis replaces nested quantifier gymnastics with a simple geometric truth: <b>a continuous function preserves halos</b>.
+  </p>
+
+  <hr>
+
+  <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
+
+  <p>
+    “Now let's look at one of the classical crown jewels of real analysis,” Jason said: “<b>The Intermediate Value Theorem (IVT)</b>.”
+  </p>
+
+  <p>
+    <i>Theorem:</i> If <code>f</code> is continuous on <code>[a, b]</code> with <code>f(a) &lt; 0</code> and <code>f(b) &gt; 0</code>, there exists a point <code>c ∈ [a, b]</code> where <code>f(c) = 0</code>.
+  </p>
+
+  <p>
+    “In standard textbooks,” Jason noted, “proving this requires Dedekind cuts, least upper bounds, or topological connectedness. On our hyperfinite grid <code>ℝ_ω</code>, the proof is an intuitive <b>discrete march</b>:”
+  </p>
+
+  <ol>
+    <li>
+      Partition <code>[a, b]</code> into <code>ω</code> hyperfinite steps of width <code>dx = (b - a) / ω</code>, forming a discrete grid:
+      <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0;">
+        a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b
+      </div>
+    </li>
+    <li>
+      Start at <code>x₀</code> and march node-by-node along the grid.
+    </li>
+    <li>
+      Because <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, there must be a <b>first grid point <code>x_m</code> where <code>f(x_m) &ge; 0</code></b>.
+    </li>
+    <li>
+      At the step immediately before it, <code>f(x_{m-1}) &lt; 0</code>.
+    </li>
+    <li>
+      Since <code>x_{m-1} ≈ x_m</code> (they differ by only <code>dx</code>), continuity guarantees that <code>f(x_{m-1}) ≈ f(x_m)</code>.
+    </li>
+    <li>
+      Because <code>f(x_{m-1}) &lt; 0 &le; f(x_m)</code> and their difference is infinitesimal, their common standard part must be <b>exact zero</b>:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>st( f(x_m) ) = 0</b>
+      </div>
+    </li>
+    <li>
+      Taking <code>c = st(x_m)</code> immediately yields <b><code>f(c) = 0</code></b>!
+    </li>
+  </ol>
+
+  <p>
+    Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
+  </p>
+
+  <p>
+    “Exactly,” Jason concluded. “No topological machinery, no uncomputable sets &mdash; just a constructive discrete march backed by the standard part shadow. In our next lecture, we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
+  </p>
+</body>
+</html>
