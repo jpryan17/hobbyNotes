@@ -70,6 +70,29 @@ export const course3Index: IndexItemDesc[] = [
   },
 ];
 
+export const satelliteIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: satellite seminars",
+    htmlSegmentId: "satelliteSeminarsIntro",
+  },
+  {
+    type: "html",
+    topic: "seminar 1: cosmology as information",
+    htmlSegmentId: "cosmologyAsInformation",
+  },
+  {
+    type: "html",
+    topic: "seminar 2: the logic of the particle zoo",
+    htmlSegmentId: "particleZooSeminar",
+  },
+  {
+    type: "html",
+    topic: "seminar 3: quantum entanglement & reality",
+    htmlSegmentId: "quantumEntanglementSeminar",
+  },
+];
+
 export const mainIndex: IndexItemDesc[] = [
   {
     type: "diagram",
@@ -96,5 +119,10 @@ export const mainIndex: IndexItemDesc[] = [
     type: "index",
     topic: "course 3: analysis 2D",
     indexDesc: course3Index,
+  },
+  {
+    type: "index",
+    topic: "satellite seminars",
+    indexDesc: satelliteIndex,
   },
 ];

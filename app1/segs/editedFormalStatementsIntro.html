@@ -19,8 +19,33 @@
     <strong>Zermelo-Fraenkel (ZF) set theory</strong>. In this system,
     the only fundamental data type is the <em>set</em>. Because
     everything is a set, we can express all of our ideas using the
-    clean language of classical, <strong>single-sorted first-order
+    clean language of classical,    <strong>single-sorted first-order
       predicate logic (FOL)</strong>.
+  </p>
+  <p>
+    <strong>A Note on Bounded Quantifiers vs. "Sorts":</strong><br>
+    When we write bounded quantifiers like
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <mo>&forall;</mo>
+        <mi>x</mi>
+        <mo>&in;</mo>
+        <mi>S</mi>
+        <mo>,</mo>
+        <mi>P</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+      </mrow>
+    </math> (e.g., "for all numbers <em>x</em> in ℕ"), it may appear as though <em>x</em> is assigned a distinct "sort" or data type.
+    However, in single-sorted FOL, bounded quantification is purely a convenient syntactic shorthand (relativization):
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+    (&forall; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &forall; x ( x &isin; S &rarr; P(x) )<br>
+    (&exist; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &exist; x ( x &isin; S &and; P(x) )
+  </div>
+  <p>
+    The variable <em>x</em> still ranges over the single universal domain of all sets <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>𝒱</mi></math>, and membership in <em>S</em> is simply a condition evaluated inside our single-sorted logic!
   </p>
   <p>To anchor this, we assume an overarching universal collection of
     all sets, which we denote as the universal collection

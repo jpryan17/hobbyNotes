@@ -65,6 +65,28 @@ export const course3Index = [
         htmlSegmentId: "analysis2DLecture3",
     },
 ];
+export const satelliteIndex = [
+    {
+        type: "html",
+        topic: "overview: satellite seminars",
+        htmlSegmentId: "satelliteSeminarsIntro",
+    },
+    {
+        type: "html",
+        topic: "seminar 1: cosmology as information",
+        htmlSegmentId: "cosmologyAsInformation",
+    },
+    {
+        type: "html",
+        topic: "seminar 2: the logic of the particle zoo",
+        htmlSegmentId: "particleZooSeminar",
+    },
+    {
+        type: "html",
+        topic: "seminar 3: quantum entanglement & reality",
+        htmlSegmentId: "quantumEntanglementSeminar",
+    },
+];
 export const mainIndex = [
     {
         type: "diagram",
@@ -91,5 +113,10 @@ export const mainIndex = [
         type: "index",
         topic: "course 3: analysis 2D",
         indexDesc: course3Index,
+    },
+    {
+        type: "index",
+        topic: "satellite seminars",
+        indexDesc: satelliteIndex,
     },
 ];

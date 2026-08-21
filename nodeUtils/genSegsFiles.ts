@@ -31,13 +31,15 @@ async function processSegFolder(app: string) {
                 processBIDRefFile(filePath);
 
                 const body = readFileSync(filePath, 'utf8');
-                const sp = body.indexOf('<body>') + 6;
-                const ep = body.indexOf('</body>');
-                if (sp === -1 || ep === -1 || ep < sp) {
+                const startMatch = /<body[^>]*>/i.exec(body);
+                const endMatch = /<\/body>/i.exec(body);
+                if (!startMatch || !endMatch || endMatch.index < startMatch.index) {
                     console.error(`[genSegsFiles Error] Invalid <body> content in segment file: ${filePath}`);
                     missingCount++;
                     continue;
                 }
+                const sp = startMatch.index + startMatch[0].length;
+                const ep = endMatch.index;
                 const seg = body.substring(sp, ep);
                 segArray.push({ id: segId, seg: seg });
             } catch (err) {

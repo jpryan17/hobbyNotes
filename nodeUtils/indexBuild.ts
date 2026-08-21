@@ -4,11 +4,13 @@ import { build } from 'esbuild';
 import { getRequiredSegIds } from './indexUtils.js';
 
 function getSegmentContent(content: string): string {
-    const sp = content.indexOf('<body>') + 6;
-    const ep = content.indexOf('</body>');
-    if (sp === -1 || ep === -1 || ep < sp) {
+    const startMatch = /<body[^>]*>/i.exec(content);
+    const endMatch = /<\/body>/i.exec(content);
+    if (!startMatch || !endMatch || endMatch.index < startMatch.index) {
         throw new Error('Invalid <body> content');
     }
+    const sp = startMatch.index + startMatch[0].length;
+    const ep = endMatch.index;
     return content.substring(sp, ep);
 }
 

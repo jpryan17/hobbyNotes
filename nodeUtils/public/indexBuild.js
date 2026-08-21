@@ -5,11 +5,13 @@ const path_1 = require("path");
 const esbuild_1 = require("esbuild");
 const indexUtils_js_1 = require("./indexUtils.js");
 function getSegmentContent(content) {
-    const sp = content.indexOf('<body>') + 6;
-    const ep = content.indexOf('</body>');
-    if (sp === -1 || ep === -1 || ep < sp) {
+    const startMatch = /<body[^>]*>/i.exec(content);
+    const endMatch = /<\/body>/i.exec(content);
+    if (!startMatch || !endMatch || endMatch.index < startMatch.index) {
         throw new Error('Invalid <body> content');
     }
+    const sp = startMatch.index + startMatch[0].length;
+    const ep = endMatch.index;
     return content.substring(sp, ep);
 }
 async function buildIndex(app) {

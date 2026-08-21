@@ -13,7 +13,7 @@
   <br>
 
   <p>
-    Jason began Lecture 2 by writing a single equation in the center of the whiteboard:
+    Jane began Lecture 2 by writing a single equation in the center of the whiteboard:
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
@@ -21,7 +21,7 @@
   </div>
 
   <p>
-    “Last lecture,” Jason said, “we discovered how groups and fields emerge naturally from recursive trees. Today, we examine the central concept of modern mathematics: <b>how functions map between two different algebraic worlds while preserving their internal structure</b>.”
+    “Last lecture,” Jane said, “we discovered how groups and fields emerge naturally from recursive trees. Today, we examine the central concept of modern mathematics: <b>how functions map between two different algebraic worlds while preserving their internal structure</b>.”
   </p>
 
   <p>
@@ -29,7 +29,7 @@
   </p>
 
   <p>
-    “A crucial observation!” Jason beamed. “The operation <code>⋆</code> belongs to the starting group <code>G</code>, while the operation <code>⊙</code> belongs to the destination group <code>H</code>. A function <code>f</code> is <b>structure-preserving (a group homomorphism)</b> if calculating in the starting world and then mapping yields the exact same answer as mapping first and calculating in the destination world!”
+    “A crucial observation!” Jane beamed. “The operation <code>⋆</code> belongs to the starting group <code>G</code>, while the operation <code>⊙</code> belongs to the destination group <code>H</code>. A function <code>f</code> is <b>structure-preserving (a group homomorphism)</b> if calculating in the starting world and then mapping yields the exact same answer as mapping first and calculating in the destination world!”
   </p>
 
   <hr>
@@ -37,7 +37,7 @@
   <h3>1. Pure Mathematical Examples of Structure Preservation</h3>
 
   <p>
-    Jason walked through four progressively deeper mathematical bridges:
+    Jane walked through four progressively deeper mathematical bridges:
   </p>
 
   <h4>Example 1: Scaling a Measurement Ruler &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
@@ -64,7 +64,7 @@
 
   <h4>Example 3: The Exponential Bridge &mdash; (ℝ, +) &rarr; (ℝ⁺, ·)</h4>
   <p>
-    “Here is where the two operations truly differ,” Jason said. “Take the real numbers under <b>addition</b> <code>(ℝ, +)</code> and map them to positive real numbers under <b>multiplication</b> <code>(ℝ⁺, ·)</code> via <code>f(x) = e^x</code>:”
+    “Here is where the two operations truly differ,” Jane said. “Take the real numbers under <b>addition</b> <code>(ℝ, +)</code> and map them to positive real numbers under <b>multiplication</b> <code>(ℝ⁺, ·)</code> via <code>f(x) = e^x</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>f( a + b ) = e^(a + b) = e^a · e^b = f(a) · f(b)</b>
@@ -86,10 +86,10 @@
 
   <hr>
 
-  <h3>2. Continuous Phase Symmetries: Angles to Rotations</h3>
+  <h3>2. Continuous Phase Symmetries: Angles, Rotations &amp; Unitary Groups</h3>
 
   <p>
-    “Now look at continuous groups,” Jason said. “What happens when we map an angle <code>θ</code> to a point on the complex unit circle via <code>f(θ) = e^(iθ)</code>?”
+    “Now look at continuous groups,” Jane said. “What happens when we map an angle <code>θ</code> to a point on the complex unit circle via <code>f(θ) = e^(iθ)</code>?”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
@@ -97,7 +97,7 @@
   </div>
 
   <p>
-    “In the domain, we perform simple <b>angle addition</b>. In the target, we perform <b>complex multiplication</b> (a 2D rotation). The map <code>f(θ) = e^(iθ)</code> is a continuous group homomorphism from <code>(ℝ, +)</code> to the circle group <code>(U(1), ·)</code>!”
+    “In the domain, we perform simple <b>angle addition</b>. In the target, we perform <b>complex multiplication</b> (a 2D rotation). The map <code>f(θ) = e^(iθ)</code> is a continuous group homomorphism from <code>(ℝ, +)</code> to the circle group <b><code>(U(1), ·)</code></b>!”
   </p>
 
   <p>
@@ -105,7 +105,21 @@
   </p>
 
   <p>
-    “Precisely!” Jason nodded. “And in our next lecture, we will generalize this from single groups to <b>Vector Spaces and Linear Maps</b>, where functions preserve both vector addition and scalar multiplication simultaneously!”
+    “Exactly,” Jane nodded. “And notice a crucial geometric property: <b>rotating a phase never changes a vector's length!</b>”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>The Unitary Group ( U(N) ): Isometries of Complex Space</b><br><br>
+    • In real geometry, a rotation preserves vector lengths: <b>|R v| = |v|</b> (the Orthogonal Group <b>SO(N)</b>).<br>
+    • In complex geometry, a <b>Unitary Transformation U</b> preserves inner products and total probability:<br>
+    <div align="center" style="font-size: 15px; margin: 6px 0;">
+      <b>⟨ U ϕ | U ψ ⟩ &nbsp;=&nbsp; ⟨ ϕ | ψ ⟩ &emsp;&hArr;&emsp; U† &middot; U &nbsp;=&nbsp; I</b>
+    </div>
+    • <b>Physical Meaning:</b> Unitary groups are the family of all transformations that <b>preserve total probability (100%) with zero information loss</b>!
+  </div>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 </body>
 </html>

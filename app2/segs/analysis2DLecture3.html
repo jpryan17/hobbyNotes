@@ -13,7 +13,7 @@
   <br>
 
   <p>
-    Jason stood before the class to open the final lecture of the curriculum:
+    Jane stood before the class to open the final lecture of the curriculum:
   </p>
 
   <p>
@@ -22,10 +22,10 @@
 
   <hr>
 
-  <h3>1. Continuous-Time Quantum Evolution</h3>
+  <h3>1. Continuous-Time Quantum Evolution &amp; Unitary Invariance</h3>
 
   <p>
-    “In Course 1,” Jason reminded Jill, “we saw that a quantum state lives in a Hilbert space <code>(H, +, ·, ⟨·,·⟩)</code>. How does this state change continuously over time?”
+    “In Course 1,” Jane reminded Jill, “we saw that a quantum state lives in a Hilbert space <code>(H, +, ·, ⟨·,·⟩)</code>. How does this state change continuously over time?”
   </p>
 
   <p>
@@ -37,11 +37,21 @@
   </div>
 
   <p>
-    Jason pointed to the exponent: “Notice the pieces we've built:”
+    Jane pointed to the exponent: “Notice how the mathematical pieces we've built snap together:”
   </p>
   <ul>
-    <li>The Hamiltonian <code>H</code> is a <b>linear operator</b> on the vector space (Course 1).</li>
-    <li>The complex unit <code>i</code> rotates phases across the 2D plane <code>ℂ_ω</code> without changing length (Course 3).</li>
+    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies (Course 1).</li>
+    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code> (Course 3).</li>
+    <li><b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign in the complex exponent:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t / ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b>
+      </div>
+      Multiplying them together yields:
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+        <b>U(t)† &middot; U(t) &nbsp;=&nbsp; e^(+iHt/ħ) &middot; e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
+      </div>
+    </li>
+    <li><b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation on the unit sphere of Hilbert space &mdash; <b>probabilities are 100% conserved and information is never destroyed</b>!</li>
     <li>Evaluating the infinitesimal rate of change yields <b>Schrödinger's Equation</b> directly:
       <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
         <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
@@ -54,7 +64,7 @@
   <h3>2. Continuous Wavepackets &amp; Quantum Bayesian Inference</h3>
 
   <p>
-    “When a quantum state is continuous across space,” Jason continued, “the wavefunction <code>ψ(x) = ⟨x | ψ⟩</code> is the covector projection onto position <code>x</code>.”
+    “When a quantum state is continuous across space,” Jane continued, “the wavefunction <code>ψ(x) = ⟨x | ψ⟩</code> is the covector projection onto position <code>x</code>.”
   </p>
 
   <p>
@@ -73,7 +83,7 @@
   <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
 
   <p>
-    “Now,” Jason smiled, “let's address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
+    “Now,” Jane smiled, “let's address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
   </p>
 
   <div style="display: flex; justify-content: center; margin: 20px 0;">
@@ -102,7 +112,7 @@
   </div>
 
   <p>
-    Jason explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
+    Jane explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
   </p>
 
   <ol>
@@ -125,7 +135,7 @@
   </p>
 
   <p>
-    “Exactly!” Jason concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
+    “Exactly!” Jane concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
   </p>
 </body>
 </html>

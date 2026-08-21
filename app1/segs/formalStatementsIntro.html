@@ -22,6 +22,16 @@
       In this framework, the only primitive type is the <b>set</b>, allowing us to operate in the clean language of classical single-sorted First-Order Logic (FOL).
     </p>
     <p>
+      <b>A Note on Bounded Quantifiers vs. "Sorts":</b><br>
+      When we write bounded quantifiers like <code>&forall; x &isin; S, P(x)</code> (e.g., "for all numbers <code>x</code> in <code>ℕ</code>"), it may appear as though <code>x</code> is assigned a distinct "sort" or data type. 
+      However, in single-sorted FOL, bounded quantification is purely a convenient syntactic shorthand (relativization):
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        (&forall; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &forall; x ( x &isin; S &rarr; P(x) )<br>
+        (&exist; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &exist; x ( x &isin; S &and; P(x) )
+      </div>
+      The variable <code>x</code> still ranges over the single universal domain of all sets <code>𝒱</code>, and membership in <code>S</code> is simply an antecedent condition. This keeps our formal logic strictly single-sorted while permitting intuitive, domain-restricted expressions!
+    </p>
+    <p>
       We assume a universal collection of all sets, denoted <code>𝒱</code>. 
       On pain of Russell's paradox, this universal collection cannot be a set itself. 
       However, we use <code>𝒱</code> to define the foundational primitive predicate of set theory—<b>membership (∈)</b>:

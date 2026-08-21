@@ -13,7 +13,7 @@
   <br>
 
   <p>
-    Jason opened the lecture by writing two simple structures on the board:
+    Jane opened the lecture by writing two simple structures on the board:
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
@@ -21,7 +21,7 @@
   </div>
 
   <p>
-    “In many traditional math courses,” Jason began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians made up arbitrary rules for a game. But in this course, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
+    “In many traditional math courses,” Jane began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians made up arbitrary rules for a game. But in this course, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
   </p>
 
   <p>
@@ -29,7 +29,7 @@
   </p>
 
   <p>
-    “Exactly,” Jason nodded. “And to see why, we first have to appreciate where our number scaffolds came from &mdash; and why our initial grid slice needs a safety net.”
+    “Exactly,” Jane nodded. “And to see why, we first have to appreciate where our number scaffolds came from &mdash; and why our initial grid slice needs a safety net.”
   </p>
 
   <hr>
@@ -37,7 +37,7 @@
   <h3>1. The Transfinite Scale: The Wee Cutoff at ω</h3>
 
   <p>
-    “In our foundational studies,” Jason said, “we constructed numbers generation by generation on the tree: Day 0 (<code>0 = { | }</code>), Day 1 (<code>-1, +1</code>), Day 2 (<code>±2, ±1/2</code>), and so on.”
+    “In our foundational studies,” Jane said, “we constructed numbers generation by generation on the tree: Day 0 (<code>0 = { | }</code>), Day 1 (<code>-1, +1</code>), Day 2 (<code>±2, ±1/2</code>), and so on.”
   </p>
 
   <p>
@@ -53,7 +53,7 @@
   </p>
 
   <p>
-    “Not at all!” Jason smiled. “They are caught in the wider transfinite tree as epsilons march off toward ever-higher horizons. By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀</code>:”
+    “Not at all!” Jane smiled. “They are caught in the wider transfinite tree as epsilons march off toward ever-higher horizons. By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀</code>:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
@@ -69,7 +69,7 @@
   <h3>2. Observing the Additive Skeleton: The Abelian Group (G, +)</h3>
 
   <p>
-    “Now look at recursive addition on the tree,” Jason continued. “When we define <code>x + y</code> by inductive rules on branch options, we observe four fundamental symmetries:”
+    “Now look at recursive addition on the tree,” Jane continued. “When we define <code>x + y</code> by inductive rules on branch options, we observe four fundamental symmetries:”
   </p>
 
   <ol>
@@ -94,7 +94,25 @@
   </ol>
 
   <p>
-    “We take this observed skeleton,” Jason explained, “and generalize it into a universal mathematical concept: any set with an operation satisfying these four properties is called an <b>Abelian Group <code>(G, +)</code></b>.”
+    “We take this observed skeleton,” Jane explained, “and generalize it into a universal mathematical concept: any set with an operation satisfying these four properties is called an <b>Abelian Group <code>(G, +)</code></b>.”
+  </p>
+
+  <p>
+    Jill leaned in with a sharp question: “We can easily observe these four symmetries by calculating on Day 0, Day 1, and Day 2... but how do we know they don't break down unexpectedly on Day 50, Day <code>ω</code>, or Day <code>ε₀</code>?”
+  </p>
+
+  <p>
+    “That is where <b>structural mathematical induction</b> comes in!” Jane beamed. “Because every number is defined recursively by its left and right branch options <code>x = { x^L | x^R }</code>, the proof of each group property is an airtight inductive proof from the tree root upward:”
+  </p>
+
+  <ul>
+    <li><b>Identity:</b> <code>x + 0 = { x^L + 0 | x^R + 0 } = { x^L | x^R } = x</code> &mdash; confirmed immediately by the induction hypothesis on earlier predecessors.</li>
+    <li><b>Commutativity:</b> <code>x + y = { x^L + y, x + y^L | x^R + y, x + y^R } = y + x</code> &mdash; confirmed because predecessor options commute by inductive assumption.</li>
+    <li><b>Inverses &amp; Associativity:</b> <code>x + (-x) = 0</code> and <code>(x + y) + z = x + (y + z)</code> are rigorously confirmed by transfinite induction across all branches.</li>
+  </ul>
+
+  <p>
+    “<b>Observation provides the discovery and geometric insight</b>,” Jane concluded, “<b>while inductive mathematical proofs confirm that the structures hold universally as deductive theorems!</b>”
   </p>
 
   <hr>
@@ -102,7 +120,7 @@
   <h3>3. The "Two-Group" Marvel: Why Fields Eject Zero</h3>
 
   <p>
-    “Now,” Jason said, leaning against the whiteboard, “here is a puzzle that mathematicians have marveled at for centuries: <b>can you simultaneously fit two independent groups onto the exact same carrier set?</b>”
+    “Now,” Jane said, leaning against the whiteboard, “here is a puzzle that mathematicians have marveled at for centuries: <b>can you simultaneously fit two independent groups onto the exact same carrier set?</b>”
   </p>
 
   <p>
@@ -110,7 +128,7 @@
   </p>
 
   <p>
-    “Let's test it,” Jason challenged. “Suppose <code>(F, +)</code> is an additive group with identity <code>0</code>. Now suppose multiplication <code>(F, ·)</code> is also a group with identity <code>1</code>.”
+    “Let's test it,” Jane challenged. “Suppose <code>(F, +)</code> is an additive group with identity <code>0</code>. Now suppose multiplication <code>(F, ·)</code> is also a group with identity <code>1</code>.”
   </p>
 
   <p>
@@ -122,7 +140,7 @@
   </p>
 
   <p>
-    “Exactly!” Jason smiled. “Zero is a black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
+    “Exactly!” Jane smiled. “Zero is a black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
@@ -133,7 +151,7 @@
   </div>
 
   <p>
-    “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jason said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
+    “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jane said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
   </p>
 
   <hr>
@@ -141,7 +159,7 @@
   <h3>4. Continuous Groups: Symmetries in Motion</h3>
 
   <p>
-    “Before we move on,” Jason remarked, “notice that groups are not just discrete addition tables. How one represents <b>continuous groups</b> is a living, vibrant topic at the heart of modern mathematics and physics.”
+    “Before we move on,” Jane remarked, “notice that groups are not just discrete addition tables. How one represents <b>continuous groups</b> is a living, vibrant topic at the heart of modern mathematics and physics.”
   </p>
 
   <ul>
@@ -157,7 +175,7 @@
   </ul>
 
   <p>
-    “In our next lecture,” Jason concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
+    “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 </body>
 </html>

@@ -12,16 +12,17 @@
   </div>
   <br>
 
-  <h3>Preface: Algebraic Structures are Observed, Not Imposed</h3>
+  <h3>Preface: Algebraic Structures are Observed in Construction &amp; Confirmed by Induction</h3>
   <p>
     In standard mathematical presentations, abstract algebra is often introduced top-down as an intimidating list of arbitrary axioms.
-    In this curriculum, we take the opposite, constructive approach: <b>algebraic structures are emergent symmetries directly observed from recursively defined operations on our number trees</b>.
+    In this curriculum, we take the opposite, constructive approach: <b>algebraic structures are emergent symmetries directly observed from recursively defined operations on our number trees &mdash; and then rigorously confirmed across all branches by structural mathematical induction</b>.
   </p>
   <p>
     We adopt a strict pedagogical discipline:
   </p>
   <ol>
-    <li><b>Physics-Free Mathematics First:</b> We first establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
+    <li><b>Observation &rarr; Inductive Confirmation:</b> We first observe regularities on early tree days, then use mathematical induction on birthdays to prove the algebraic laws as universal theorems.</li>
+    <li><b>Physics-Free Mathematics First:</b> We establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
     <li><b>Physical Realizations Second:</b> Once the algebraic geometry is rock-solid, we introduce physical realizations &mdash; such as Dirac bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces &mdash; as concrete applications.</li>
   </ol>
 
@@ -42,20 +43,20 @@
 
   <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
   <p>
-    When arithmetic operations are run recursively on the tree, natural algebraic skeletons emerge:
+    When arithmetic operations are run recursively on the tree, natural algebraic skeletons emerge and are confirmed by structural induction:
   </p>
 
   <h4>A. The Abelian Group <code>(G, +)</code></h4>
   <p>
-    Recursive addition on the tree naturally exhibits:
+    Recursive addition on the tree naturally exhibits four core symmetries, observed on early days and confirmed universally by mathematical induction on tree birthdays:
   </p>
   <ul>
-    <li><code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the root of the tree).</li>
+    <li><code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the root of the tree, confirmed inductively by <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).</li>
     <li><code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral tree reflection).</li>
     <li>Commutativity (<code>x + y = y + x</code>) and Associativity (<code>(x+y)+z = x+(y+z)</code>).</li>
   </ul>
   <p>
-    <i>Generalization:</i> Any collection of objects obeying these observed behaviors forms an <b>Abelian Group <code>(G, +)</code></b>.
+    <i>Generalization:</i> Any collection of objects obeying these observed and inductively proven behaviors forms an <b>Abelian Group <code>(G, +)</code></b>.
   </p>
 
   <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>

@@ -13,7 +13,7 @@
   <br>
 
   <p>
-    Jason began Lecture 1 by drawing a single point on a horizontal real number line:
+    Jane began Lecture 1 by drawing a single point on a horizontal real number line:
   </p>
 
   <div align="center" style="margin: 15px 0;">
@@ -26,7 +26,7 @@
   </div>
 
   <p>
-    “In standard 19th-century geometry,” Jason said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
+    “In standard 19th-century geometry,” Jane said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
   </p>
 
   <p>
@@ -34,7 +34,7 @@
   </p>
 
   <p>
-    “Exactly,” Jason nodded. “Now let's see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
+    “Exactly,” Jane nodded. “Now let's see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
   </p>
 
   <hr>
@@ -42,7 +42,7 @@
   <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
 
   <p>
-    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jason said:
+    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jane said:
   </p>
 
   <div style="display: flex; justify-content: center; margin: 20px 0;">
@@ -75,7 +75,7 @@
   </div>
 
   <p>
-    “Under the magnification of <code>ω</code>,” Jason explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
+    “Under the magnification of <code>ω</code>,” Jane explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
   </p>
 
   <p>
@@ -94,7 +94,7 @@
   <h3>2. Continuity Without Epsilon-Delta</h3>
 
   <p>
-    “With halos in hand,” Jason said, “how would you define continuity in plain geometric terms?”
+    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
   </p>
 
   <p>
@@ -102,7 +102,7 @@
   </p>
 
   <p>
-    “Spot on!” Jason beamed. “That is Robinson's nonstandard definition of continuity:”
+    “Spot on!” Jane beamed. “That is Robinson's nonstandard definition of continuity:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
@@ -119,12 +119,30 @@
     Nonstandard analysis replaces nested quantifier gymnastics with a simple geometric truth: <b>a continuous function preserves halos</b>.
   </p>
 
+  <h4>Concrete Example: Proving Continuity of f(x) = x²</h4>
+  <p>
+    Let us prove that <code>f(x) = x²</code> is continuous at any standard point <code>x₀</code>:
+  </p>
+  <p>
+    Let <code>x ∈ ℝ_ω</code> be any point in the halo <code>μ(x₀)</code>, so <code>x = x₀ + dx</code> where <code>dx ≈ 0</code> is an infinitesimal step:
+  </p>
+  <ol>
+    <li>Evaluate at <code>x₀ + dx</code>: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code></li>
+    <li>Compute the output difference: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx²</code></li>
+    <li>Factor out <code>dx</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = dx · (2x₀ + dx)</code></li>
+    <li>Analyze the product: Since <code>(2x₀ + dx)</code> is finite and <code>dx</code> is infinitesimal, their product is strictly infinitesimal (<code>≈ 0</code>).</li>
+    <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
+  </ol>
+  <p>
+    Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
+  </p>
+
   <hr>
 
   <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
 
   <p>
-    “Now let's look at one of the classical crown jewels of real analysis,” Jason said: “<b>The Intermediate Value Theorem (IVT)</b>.”
+    “Now let's look at one of the classical crown jewels of real analysis,” Jane said: “<b>The Intermediate Value Theorem (IVT)</b>.”
   </p>
 
   <p>
@@ -132,7 +150,7 @@
   </p>
 
   <p>
-    “In standard textbooks,” Jason noted, “proving this requires Dedekind cuts, least upper bounds, or topological connectedness. On our hyperfinite grid <code>ℝ_ω</code>, the proof is an intuitive <b>discrete march</b>:”
+    “In standard textbooks,” Jane noted, “proving this requires Dedekind cuts, least upper bounds, or topological connectedness. On our hyperfinite grid <code>ℝ_ω</code>, the proof is an intuitive <b>discrete march</b>:”
   </p>
 
   <ol>
@@ -170,7 +188,7 @@
   </p>
 
   <p>
-    “Exactly,” Jason concluded. “No topological machinery, no uncomputable sets &mdash; just a constructive discrete march backed by the standard part shadow. In our next lecture, we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
+    “Exactly,” Jane concluded. “No topological machinery, no uncomputable sets &mdash; just a constructive discrete march backed by the standard part shadow. In our next lecture, we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 </body>
 </html>
