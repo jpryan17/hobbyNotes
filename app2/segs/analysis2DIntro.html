@@ -1,104 +1,126 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Course 3 Overview: Analysis 2D &amp; The Complex Continuum</title>
-</head>
-
-<body>
-  <div align="center">
-    <font size="+2"><i><b>Course 3: Analysis 2D &amp; The Complex Continuum</b></i></font><br>
-    <font size="+1"><i>— Conformal Geometry, Discrete Contour Integrals &amp; Quantum Inference —</i></font>
-  </div>
-  <br>
-
-  <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
-  <p>
-    If 1D Real Analysis (Course 2) is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
-  </p>
-  <p>
-    Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
-  </p>
-
-  <hr>
-
-  <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
-  <p>
-    The complex continuum <code>ℂ_ω</code> is constructed by taking two copies of our 1D real tree scaffold <code>ℝ_ω</code> and crossing them at right angles:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>z &nbsp;=&nbsp; x + i · y &emsp; where &emsp; x, y ∈ ℝ_ω &emsp;and&emsp; i² = -1</b>
-  </div>
-  <p>
-    The fundamental infinitesimal cell displacement is:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0;">
-    <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
-  </div>
-
-  <hr>
-
-  <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
-  <p>
-    In real 2D calculus, a function <code>f : ℝ² &rarr; ℝ²</code> can stretch, squish, or distort shapes into arbitrary shears.
-    In <b>Complex Analysis</b>, requiring a single complex derivative <code>f'(z)</code> forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
-  </p>
-  <ul>
-    <li>Every infinitesimal grid square is <b>scaled and rotated</b>, but <b>never sheared</b>!</li>
-    <li>This geometric square-preservation is algebraically expressed by the <b>Cauchy-Riemann Equations</b>:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
-        <b>∂u/∂x = ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y = -∂v/∂x</b>
-      </div>
-    </li>
-  </ul>
-
-  <hr>
-
-  <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
-  <p>
-    In 1D calculus, the Fundamental Theorem worked by 1D telescoping cancellation between adjacent line segments.
-    In 2D complex calculus, <b>Cauchy's Integral Theorem</b> is the exact 2D planar analog:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (around any closed loop enclosing no poles)</b>
-  </div>
-  <p>
-    <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside.
-    Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
-  </p>
-
-  <hr>
-
-  <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp; Phase Transitions</h3>
-  <p>
-    Course 3 culminates in the ultimate unification of Linear Algebra, Analysis, and Inference:
-  </p>
-
-  <h4>A. Continuous Quantum State Evolution</h4>
-  <p>
-    The continuous-time evolution of a quantum state is a continuous phase rotation powered by the Hamiltonian operator <code>H</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-    <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
-  </div>
-
-  <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
-  <p>
-    Why does liquid water suddenly freeze into rigid ice at exactly 0°C?
-  </p>
-  <ul>
-    <li>For any finite system (<code>N &lt; ω</code>), the thermodynamic partition function <code>Z(T)</code> is smooth and analytic everywhere on the real temperature axis.</li>
-    <li>Its zeros live exclusively in the <b>complex plane</b> (Lee-Yang zeros).</li>
-    <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
-  </ul>
-
-  <hr>
-
-  <h3>Course 3 Lecture Plan</h3>
-  <ul>
-    <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b> Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation.</li>
-    <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b> Proving Cauchy's Integral Theorem via 2D cell edge cancellation, Laurent expansions, and root-counting loop integrals.</li>
-    <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b> Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem.</li>
-  </ul>
-</body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Course 3 Overview: Analysis 2D &amp; The Complex Continuum</title>
+  </head>
+  <body>
+    <div align="center"> <font size="+2"><i><b>Course 3: Analysis 2D
+            &amp; The Complex Continuum</b></i></font><br>
+      <font size="+1"><i>— Conformal Geometry, Discrete Contour
+          Integrals &amp; Quantum Inference —</i></font> </div>
+    <br>
+    <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
+    <p> If 1D Real Analysis (Course 2) is the calculus of moving along a
+      line, <b>2D Complex Analysis is the geometry of rotating,
+        scaling, and preserving shapes across an unbroken plane</b>. </p>
+    <p> Complex analysis is widely regarded as one of the most
+      stunningly unified theories in all of science. On our transfinite
+      tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex
+      analysis is not an intimidating maze of Riemann surfaces and
+      winding numbers; it is the <b>discrete geometry of
+        square-preserving cell transformations and 2D edge cancellations</b>.
+    </p>
+    <hr>
+    <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
+    <p> The complex continuum <code>ℂ_ω</code> is constructed by taking
+      two copies of our 1D real tree scaffold <code>ℝ_ω</code> and
+      crossing them at right angles: </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px
+      0; color: #1e3a8a; background-color: #f8fafc; padding: 10px;
+      border: 1px solid #cbd5e1; border-radius: 6px;" align="center"> <b>z
+        &nbsp;=&nbsp; x + i · y   where   x, y ∈ ℝ_ω  and  i² = -1</b> </div>
+    <p> The fundamental infinitesimal cell displacement is: </p>
+    <div style="font-family: monospace; font-size: 14px; margin: 6px 0;"
+      align="center"> <b>dz &nbsp;=&nbsp; dx + i · dy   (where dx = 1/ω
+        and dy = 1/ω)</b> </div>
+    <div style="font-family: monospace; font-size: 13.5px; margin: 12px
+      0; color: #1e3a8a; background-color: #eff6ff; padding: 12px;
+      border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
+      <br>
+      Crossing two 1D 2-successor trees <code>(ℝ_ω × ℝ_ω)</code> yields
+      <code>2ⁿ × 2ⁿ = 4ⁿ</code> cells — completely tiling 2D Cartesian
+      space with zero gaps!<br>
+      <br>
+      While two decoupled 1D axes fill Cartesian space, the native <b>4-successor
+        complex tree <code>ℂ_ω</code></b> binds <em>x</em> and <em>y</em>
+      into a single complex entity. Neighboring cells share 1D boundary
+      walls across which complex phase rotations <code>e^{iθ}</code>
+      and continuous quantum wave packets flow smoothly. </div>
+    <hr>
+    <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
+    <p> In real 2D calculus, a function <code>f : ℝ² → ℝ²</code> can
+      stretch, squish, or distort shapes into arbitrary shears. In <b>Complex
+        Analysis</b>, requiring a single complex derivative <code>f'(z)</code>
+      forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
+    </p>
+    <ul>
+      <li>Every infinitesimal grid square is <b>scaled and rotated</b>,
+        but <b>never sheared</b>!</li>
+      <li>This geometric square-preservation is algebraically expressed
+        by the <b>Cauchy-Riemann Equations</b>:
+        <div style="font-family: monospace; font-size: 14px; margin: 8px
+          0; color: #1e3a8a;" align="center"> <b>∂u/∂x = ∂v/∂y   and  
+            ∂u/∂y = -∂v/∂x</b> </div>
+      </li>
+    </ul>
+    <hr>
+    <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
+    <p> In 1D calculus, the Fundamental Theorem worked by 1D telescoping
+      cancellation between adjacent line segments. In 2D complex
+      calculus, <b>Cauchy's Integral Theorem</b> is the exact 2D planar
+      analog: </p>
+    <div style="font-family: monospace; font-size: 15px; margin: 12px 0;
+      color: #1e3a8a; background-color: #f8fafc; padding: 10px; border:
+      1px solid #cbd5e1; border-radius: 6px;" align="center"> <b>∮_γ
+        f(z) dz &nbsp;=&nbsp; 0   (around any closed loop enclosing no
+        poles)</b> </div>
+    <p> <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral
+      around the outer loop is identical to summing the circulations of
+      all microscopic <code>dx × dy</code> square cells inside. Every
+      internal shared boundary edge is traversed twice in opposite
+      directions — cancelling to exact zero! </p>
+    <hr>
+    <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp;
+      Phase Transitions</h3>
+    <p> Course 3 culminates in the ultimate unification of Linear
+      Algebra, Analysis, and Inference: </p>
+    <h4>A. Continuous Quantum State Evolution</h4>
+    <p> The continuous-time evolution of a quantum state is a continuous
+      phase rotation powered by the Hamiltonian operator <code>H</code>:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 8px
+      0; color: #1e3a8a;" align="center"> <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t)
+        |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b> </div>
+    <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
+    <p> Why does liquid water suddenly freeze into rigid ice at exactly
+      0°C? </p>
+    <ul>
+      <li>For any finite system (<code>N &lt; ω</code>), the
+        thermodynamic partition function <code>Z(T)</code> is smooth
+        and analytic everywhere on the real temperature axis.</li>
+      <li>Its zeros live exclusively in the <b>complex plane</b>
+        (Lee-Yang zeros).</li>
+      <li>At the thermodynamic limit (<code>N = ω</code>), these complex
+        zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>,
+        creating a sudden non-analytic singularity — the macroscopic
+        phase transition!</li>
+    </ul>
+    <hr>
+    <h3>Course 3 Lecture Plan</h3>
+    <ul>
+      <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
+        Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell
+        steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann
+        as square-preservation.</li>
+      <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b>
+        Proving Cauchy's Integral Theorem via 2D cell edge cancellation,
+        Laurent expansions, and root-counting loop integrals.</li>
+      <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b>
+        Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>,
+        continuous wavepackets, and the Lee-Yang Phase Transition
+        theorem.</li>
+    </ul>
+  </body>
 </html>
