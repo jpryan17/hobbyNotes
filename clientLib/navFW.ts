@@ -16,6 +16,7 @@ export class Nav {
     static lineArrowButton:SVGTSpan
     static lineTopics:SVGTSpan
     static textSizeControl:SVGTSpan
+    static feedbackControl:SVGTSpan
     static index:SVGElt
     static indexRect:SVGElt
     static foRect:SVGElt
@@ -70,7 +71,9 @@ export class Nav {
         Nav.lineTopics = new SVGTSpan(Nav.lineBlock)
         Nav.textSizeControl = new SVGTSpan(Nav.lineBlock)
         Nav.textSizeControl.setAA(['visibility','hidden','pointer-events','none'])
- 
+        Nav.feedbackControl = new SVGTSpan(Nav.lineBlock)
+        Nav.feedbackControl.setAA(['visibility','hidden','pointer-events','none'])
+
         Nav.index = new SVGElt('svg')
         Nav.indexRect = new SVGElt('rect')
         Nav.foRect = new SVGElt('rect')
@@ -106,6 +109,7 @@ export class Nav {
             {Nav.lineArrowButton.setA('stroke',Nav.color.std)})
         //
         Nav.setTextSizeControl()
+        Nav.setFeedbackControl()
         if(Nav.editMode) { new Sed(Nav.color) }
         if(Nav.parent){ Nav.addNavLineIndexItem('Banner',Nav.toBanner) }
         //
@@ -145,6 +149,21 @@ export class Nav {
             }
         })
     }
+    static setFeedbackControl(){
+        const widget = new SVGTSpan(Nav.feedbackControl)
+        widget.setA('font-size', Nav.fontSize)
+        widget.setV('[\uD83D\uDCAC Feedback]')
+        widget.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto'])
+        widget.elt.addEventListener('mouseover', () => {
+            widget.setA('stroke', Nav.color.over)
+        })
+        widget.elt.addEventListener('mouseout', () => {
+            widget.setA('stroke', Nav.color.active)
+        })
+        widget.elt.addEventListener('click', () => {
+            Nav.openFeedbackModal()
+        })
+    }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
         Nav.segDiv.setA('style',Nav.getTextStyle())
@@ -153,7 +172,159 @@ export class Nav {
         const controlWidth = textWidth('[\u2191]A[\u2193]',Nav.fontSize)
         const xp = lineWidth - controlWidth - 10
         Nav.textSizeControl.setA('x',xp)
-        return lineWidth - controlWidth - 30
+        Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
+
+        const feedbackText = '[\uD83D\uDCAC Feedback]'
+        const feedbackWidth = textWidth(feedbackText, Nav.fontSize)
+        const fbX = xp - feedbackWidth - 15
+        Nav.feedbackControl.setA('x', fbX)
+        Nav.feedbackControl.setAA(['visibility','visible','pointer-events','auto'])
+
+        return fbX - 20
+    }
+    static getActiveTopicTitle(): string {
+        if (Nav.currentIndex >= 0 && Nav.currentIndex < Nav.indices.length) {
+            const index = Nav.indices[Nav.currentIndex]
+            if (index && index.chosen >= 0 && index.chosen < index.choices.length) {
+                const choice = index.choices[index.chosen]
+                if (choice && choice[0]) {
+                    return choice[0].topic || 'General Curriculum'
+                }
+            }
+        }
+        return 'General Curriculum'
+    }
+    static openFeedbackModal() {
+        const topicTitle = Nav.getActiveTopicTitle()
+        const appTitle = Nav.app === 'app2' ? 'LAM Blaster Curriculum' : 'Formal Science Curriculum'
+
+        let modal = document.getElementById('feedback-modal-overlay')
+        if (modal) {
+            const topicSpan = document.getElementById('feedback-topic-name')
+            if (topicSpan) topicSpan.textContent = topicTitle
+            const subjInput = document.querySelector('input[name="subject"]') as HTMLInputElement
+            if (subjInput) subjInput.value = `Reader Feedback on ${topicTitle} (${Nav.app})`
+            const topicInput = document.querySelector('input[name="topic"]') as HTMLInputElement
+            if (topicInput) topicInput.value = topicTitle
+            modal.style.display = 'flex'
+            return
+        }
+
+        modal = document.createElement('div')
+        modal.id = 'feedback-modal-overlay'
+        modal.setAttribute('style', `
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, sans-serif;
+        `)
+
+        modal.innerHTML = `
+            <div style="background: #ffffff; border-radius: 10px; width: 90%; max-width: 480px; padding: 22px 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); border: 1px solid #cbd5e1; box-sizing: border-box;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                    <h3 style="margin: 0; font-size: 17px; color: #1e293b;">💬 Send Note to Authors</h3>
+                    <button id="close-feedback-btn" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer; padding: 0 4px;">&times;</button>
+                </div>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 12.5px; color: #475569;">
+                    <div><strong>App:</strong> ${appTitle}</div>
+                    <div><strong>Topic:</strong> <span id="feedback-topic-name">${topicTitle}</span></div>
+                </div>
+
+                <form id="feedback-modal-form">
+                    <input type="hidden" name="access_key" value="e2ad26d6-d392-48f7-814e-aad6e97a0fe5">
+                    <input type="hidden" name="subject" value="Reader Feedback on ${topicTitle} (${Nav.app})">
+                    <input type="hidden" name="topic" value="${topicTitle}">
+                    <input type="hidden" name="app" value="${Nav.app}">
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 4px;">Your Reflection or Question *</label>
+                        <textarea name="message" required rows="4" placeholder="What are your thoughts, questions, or suggestions on this lecture?" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+                        <div style="flex: 1;">
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;">Name / Nickname (Optional)</label>
+                            <input type="text" name="from_name" placeholder="e.g. Fellow Student" style="width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;">Email (Optional for replies)</label>
+                            <input type="email" name="email" placeholder="your.email@example.com" style="width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px;">
+                        </div>
+                    </div>
+
+                    <div id="feedback-status-msg" style="display: none; padding: 8px 10px; border-radius: 5px; font-size: 12.5px; margin-bottom: 12px;"></div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" id="cancel-feedback-btn" style="padding: 7px 14px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500;">Cancel</button>
+                        <button type="submit" id="submit-feedback-btn" style="padding: 7px 16px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;">Send Note &rarr;</button>
+                    </div>
+                </form>
+            </div>
+        `
+
+        document.body.appendChild(modal)
+
+        const closeModal = () => {
+            if (modal) modal.style.display = 'none'
+        }
+
+        document.getElementById('close-feedback-btn')?.addEventListener('click', closeModal)
+        document.getElementById('cancel-feedback-btn')?.addEventListener('click', closeModal)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal()
+        })
+
+        const form = document.getElementById('feedback-modal-form') as HTMLFormElement
+        const statusMsg = document.getElementById('feedback-status-msg') as HTMLDivElement
+        const submitBtn = document.getElementById('submit-feedback-btn') as HTMLButtonElement
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            submitBtn.disabled = true
+            submitBtn.textContent = 'Sending...'
+            
+            statusMsg.style.display = 'block'
+            statusMsg.style.background = '#f0f9ff'
+            statusMsg.style.color = '#0369a1'
+            statusMsg.style.border = '1px solid #bae6fd'
+            statusMsg.textContent = 'Sending message to authors...'
+
+            try {
+                const formData = new FormData(form)
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                })
+                const data = await response.json()
+                if (data.success) {
+                    statusMsg.style.background = '#f0fdf4'
+                    statusMsg.style.color = '#15803d'
+                    statusMsg.style.border = '1px solid #bbf7d0'
+                    statusMsg.textContent = '✓ Thank you! Your note has been delivered to Jane & Jack.'
+                    form.reset()
+                    setTimeout(() => {
+                        closeModal()
+                        submitBtn.disabled = false
+                        submitBtn.textContent = 'Send Note →'
+                    }, 2200)
+                } else {
+                    throw new Error(data.message || 'Submission failed')
+                }
+            } catch (err: any) {
+                statusMsg.style.background = '#fef2f2'
+                statusMsg.style.color = '#b91c1c'
+                statusMsg.style.border = '1px solid #fecaca'
+                statusMsg.textContent = '⚠️ Could not send message. Please try again.'
+                submitBtn.disabled = false
+                submitBtn.textContent = 'Send Note →'
+            }
+        })
     }
     //
     static display(){
