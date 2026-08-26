@@ -243,9 +243,18 @@ function runCLI() {
         }
     }
     else if (app && seg) {
-        const filePath = (0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), app, 'segs', `${seg}.html`))
+        let filePath = (0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), app, 'segs', `${seg}.html`))
             ? (0, path_1.resolve)(process.cwd(), app, 'segs', `${seg}.html`)
             : (0, path_1.resolve)(__dirname, `../../${app}/segs/${seg}.html`);
+        if (!(0, fs_1.existsSync)(filePath)) {
+            const altApp = app === 'app1' ? 'app2' : 'app1';
+            const altPath = (0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), altApp, 'segs', `${seg}.html`))
+                ? (0, path_1.resolve)(process.cwd(), altApp, 'segs', `${seg}.html`)
+                : (0, path_1.resolve)(__dirname, `../../${altApp}/segs/${seg}.html`);
+            if ((0, fs_1.existsSync)(altPath)) {
+                filePath = altPath;
+            }
+        }
         processTTDRefFile(filePath);
     }
     else {

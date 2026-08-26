@@ -1,6 +1,6 @@
 import { createServer } from "https";
 import { execSync, spawn } from "child_process";
-import { writeFileSync, readFileSync, statSync } from "fs";
+import { writeFileSync, readFileSync, statSync, existsSync } from "fs";
 import { extname, basename } from "path";
 
 /*
@@ -36,7 +36,15 @@ class Serv {
       const app = urlList[1];
       const segment = urlList[2];
       console.log(`received start editor request for ${app} seg ${segment}.`);
-      const filePath = `./${app}/segs/${segment}.html`;
+      let filePath = `./${app}/segs/${segment}.html`;
+      if (!existsSync(filePath)) {
+        const altApp = app === "app1" ? "app2" : "app1";
+        const altPath = `./${altApp}/segs/${segment}.html`;
+        if (existsSync(altPath)) {
+          filePath = altPath;
+        }
+      }
+      console.log(`launching SeaMonkey editor for ${filePath}...`);
       spawn("SeaMonkey", ["-editor", `${filePath}`]);
       response.writeHead(200, {
         "Access-Control-Allow-Origin": "*",

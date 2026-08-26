@@ -33,7 +33,15 @@ class Serv {
             const app = urlList[1];
             const segment = urlList[2];
             console.log(`received start editor request for ${app} seg ${segment}.`);
-            const filePath = `./${app}/segs/${segment}.html`;
+            let filePath = `./${app}/segs/${segment}.html`;
+            if (!(0, fs_1.existsSync)(filePath)) {
+                const altApp = app === "app1" ? "app2" : "app1";
+                const altPath = `./${altApp}/segs/${segment}.html`;
+                if ((0, fs_1.existsSync)(altPath)) {
+                    filePath = altPath;
+                }
+            }
+            console.log(`launching SeaMonkey editor for ${filePath}...`);
             (0, child_process_1.spawn)("SeaMonkey", ["-editor", `${filePath}`]);
             response.writeHead(200, {
                 "Access-Control-Allow-Origin": "*",

@@ -241,9 +241,18 @@ function runCLI() {
             console.error(`[genTTDRefs Error] File not found or is a directory: ${resolved}`);
         }
     } else if (app && seg) {
-        const filePath = existsSync(resolve(process.cwd(), app, 'segs', `${seg}.html`))
+        let filePath = existsSync(resolve(process.cwd(), app, 'segs', `${seg}.html`))
             ? resolve(process.cwd(), app, 'segs', `${seg}.html`)
             : resolve(__dirname, `../../${app}/segs/${seg}.html`);
+        if (!existsSync(filePath)) {
+            const altApp = app === 'app1' ? 'app2' : 'app1';
+            const altPath = existsSync(resolve(process.cwd(), altApp, 'segs', `${seg}.html`))
+                ? resolve(process.cwd(), altApp, 'segs', `${seg}.html`)
+                : resolve(__dirname, `../../${altApp}/segs/${seg}.html`);
+            if (existsSync(altPath)) {
+                filePath = altPath;
+            }
+        }
         processTTDRefFile(filePath);
     } else {
         console.log('Usage: node genTTDRefs.js --file <filePath> OR node genTTDRefs.js <appName> <segName>');
