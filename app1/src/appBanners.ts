@@ -8,8 +8,8 @@ let predLogicBanner: Banner
 export function initOutlineBanner() {
     outlineBanner = new Banner([
         { text: 'mathematics and the middle way', fontSize: 44, fontWeight: 'bold', color: '#0f172a' },
-        { text: 'nonstandard analysis & quantum inference', fontSize: 30, fontStyle: 'italic', color: '#1e3a8a' },
-        { text: '— from first principles of logic to physical reality', fontSize: 24, fontStyle: 'italic', color: '#64748b' }
+        { text: 'foundational science & nonstandard analysis', fontSize: 30, fontStyle: 'italic', color: '#1e3a8a' },
+        { text: '— a sequential journey from logic to quantum reality', fontSize: 24, fontStyle: 'italic', color: '#64748b' }
     ], {
         fontSize: 44,
         space: 20,
