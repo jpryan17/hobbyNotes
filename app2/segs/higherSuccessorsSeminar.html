@@ -74,17 +74,17 @@
 
   <hr>
 
-  <h3>4. Why Odd Branchings (e.g., 3-Successors) Fail Arithmetic</h3>
+  <h3>4. Why Non-2^k Branchings (3, 5, 6, 10...) Fail Arithmetic</h3>
   <p>
-    Why does physics and arithmetic rely exclusively on powers of two (<code>2, 4, 8, 16</code>) rather than odd branching factors like 3?
+    Why do physics and arithmetic rely exclusively on powers of two (<code>2, 4, 8, 16</code>) rather than non-power-of-two branching factors like 3 or 6?
   </p>
   <p>
-    The reason is purely geometric: <b>Odd branching factors lack reflection symmetry!</b>
+    The reason is purely structural: <b>Non-power-of-two branching factors fail interval bisection and directional closure!</b>
   </p>
   <ul>
-    <li>A 3-way split radiates outward at 120° angles (like a 3-pointed star). None of the 3 directions is the exact opposite of any other.</li>
-    <li>Without direct sign-reversal pairs (<code>+v</code> and <code>-v</code>), you cannot form additive inverses (<code>v + (-v) = 0</code>) directly on tree nodes.</li>
-    <li>To force 3-way rotations to close under arithmetic, you are forced to add their 3 negative opposites—turning the 3-successor tree into a <b>6-successor grid</b>!</li>
+    <li><b>Odd Branchings (e.g., 3-successor star):</b> Radiate outward at 120° angles with no opposite mates. Without direct sign-reversal pairs (<code>+v</code> and <code>-v</code>), additive inverses (<code>v + (-v) = 0</code>) fail directly on tree nodes.</li>
+    <li><b>Even Non-2^k Branchings (e.g., 6-successor grid):</b> While a 6-way split has opposite pairs, multiplying 6-successor basis elements generates 12 directional angles, failing algebraic closure unless extended to higher dimensions.</li>
+    <li><b>Dyadic Interval Bisection:</b> Conway's surreal tree constructs numbers via arithmetic midpoints <code>(L + R) / 2</code>. Interval bisection requires binary division by 2 (<code>2^k</code>), which non-power-of-two grids cannot natively perform.</li>
   </ul>
 
   <hr>
