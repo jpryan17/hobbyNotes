@@ -15,11 +15,19 @@ async function processSegFolder(app) {
         const segIds = await (0, indexUtils_js_1.getRequiredSegIds)(app);
         console.log(`[genSegsFiles] Extracted ${segIds.length} segIds from mainIndex:`, segIds);
         for (const segId of segIds) {
-            const filePath = (0, path_1.resolve)(segFolder, `${segId}.html`);
+            let filePath = (0, path_1.resolve)(segFolder, `${segId}.html`);
             if (!(0, fs_1.existsSync)(filePath)) {
-                console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
-                missingCount++;
-                continue;
+                const altApp = app === 'app1' ? 'app2' : 'app1';
+                const altFolder = (0, path_1.resolve)(__dirname, `../../${altApp}/segs`);
+                const altPath = (0, path_1.resolve)(altFolder, `${segId}.html`);
+                if ((0, fs_1.existsSync)(altPath)) {
+                    filePath = altPath;
+                }
+                else {
+                    console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
+                    missingCount++;
+                    continue;
+                }
             }
             try {
                 // Pre-process TTD, FSD, BTD, and BID reference tags in tandem

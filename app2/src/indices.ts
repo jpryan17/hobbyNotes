@@ -93,6 +93,29 @@ export const satelliteIndex: IndexItemDesc[] = [
   },
 ];
 
+export const miniSeminarsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "mini-seminar 1: the Fourier duality (position vs frequency)",
+    htmlSegmentId: "fourierTransformSeminar",
+  },
+  {
+    type: "html",
+    topic: "mini-seminar 2: ω-nodes to halo soup (particles to matrices)",
+    htmlSegmentId: "haloSoupSeminar",
+  },
+  {
+    type: "html",
+    topic: "mini-seminar 3: holography & boundaries (edge cancellations to area laws)",
+    htmlSegmentId: "holographicPrincipleSeminar",
+  },
+  {
+    type: "html",
+    topic: "mini-seminar 4: higher-successor definitions (2, 4, 8, 16 & beyond)",
+    htmlSegmentId: "higherSuccessorsSeminar",
+  },
+];
+
 export const mainIndex: IndexItemDesc[] = [
   {
     type: "diagram",
@@ -119,6 +142,11 @@ export const mainIndex: IndexItemDesc[] = [
     type: "index",
     topic: "course 3: analysis 2D",
     indexDesc: course3Index,
+  },
+  {
+    type: "index",
+    topic: "mini-seminars",
+    indexDesc: miniSeminarsIndex,
   },
   {
     type: "index",

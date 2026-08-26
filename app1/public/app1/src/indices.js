@@ -144,6 +144,7 @@ export const quantumBayesianInferenceIndex = [
         htmlSegmentId: "editedQuantumBayesianInferenceLecture2V1",
     },
 ];
+import { course1Index, course2Index, course3Index, miniSeminarsIndex, satelliteIndex, } from "../../app2/src/indices.js";
 export const conceptualHistoryIndex = [
     {
         type: "html",
@@ -156,14 +157,7 @@ export const conceptualHistoryIndex = [
         htmlSegmentId: "conceptualHistoryIntro",
     },
 ];
-export const mainIndex = [
-    {
-        type: "diagram",
-        topic: "title",
-        initCB: initOutlineBanner,
-        layoutCB: layoutOutlineBanner,
-    },
-    { type: "html", topic: "introduction", htmlSegmentId: "introduction" },
+export const foundationIndex = [
     {
         type: "index",
         topic: "conceptual history",
@@ -175,7 +169,6 @@ export const mainIndex = [
         topic: "formal statements",
         indexDesc: formalStatementsIndex,
     },
-    { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
     { type: "index", topic: "numbers", indexDesc: numbersIndex },
     {
         type: "index",
@@ -187,6 +180,56 @@ export const mainIndex = [
         type: "index",
         topic: "quantum Bayesian Inference",
         indexDesc: quantumBayesianInferenceIndex,
+    },
+];
+export const lamIndex = [
+    {
+        type: "index",
+        topic: "course 1: linear algebra",
+        indexDesc: course1Index,
+    },
+    {
+        type: "index",
+        topic: "course 2: analysis 1D",
+        indexDesc: course2Index,
+    },
+    {
+        type: "index",
+        topic: "course 3: analysis 2D",
+        indexDesc: course3Index,
+    },
+    {
+        type: "index",
+        topic: "mini-seminars",
+        indexDesc: miniSeminarsIndex,
+    },
+    {
+        type: "index",
+        topic: "satellite seminars",
+        indexDesc: satelliteIndex,
+    },
+];
+export const mainIndex = [
+    {
+        type: "diagram",
+        topic: "title",
+        initCB: initOutlineBanner,
+        layoutCB: layoutOutlineBanner,
+    },
+    {
+        type: "html",
+        topic: "curriculum overview",
+        htmlSegmentId: "middlewayIntro",
+    },
+    {
+        type: "index",
+        topic: "1. general science foundation",
+        indexDesc: foundationIndex,
+    },
+    {
+        type: "index",
+        topic: "2. liberal arts math & seminars",
+        indexDesc: lamIndex,
     },
 ];
 function initTTD() {

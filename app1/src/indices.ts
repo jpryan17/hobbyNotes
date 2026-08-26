@@ -148,6 +148,14 @@ export const quantumBayesianInferenceIndex: IndexItemDesc[] = [
   },
 ];
 
+import {
+  course1Index,
+  course2Index,
+  course3Index,
+  miniSeminarsIndex,
+  satelliteIndex,
+} from "../../app2/src/indices.js";
+
 export const conceptualHistoryIndex: IndexItemDesc[] = [
   {
     type: "html",
@@ -161,14 +169,7 @@ export const conceptualHistoryIndex: IndexItemDesc[] = [
   },
 ];
 
-export const mainIndex: IndexItemDesc[] = [
-  {
-    type: "diagram",
-    topic: "title",
-    initCB: initOutlineBanner,
-    layoutCB: layoutOutlineBanner,
-  },
-  { type: "html", topic: "introduction", htmlSegmentId: "introduction" },
+export const foundationIndex: IndexItemDesc[] = [
   {
     type: "index",
     topic: "conceptual history",
@@ -180,7 +181,6 @@ export const mainIndex: IndexItemDesc[] = [
     topic: "formal statements",
     indexDesc: formalStatementsIndex,
   },
-  { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
   { type: "index", topic: "numbers", indexDesc: numbersIndex },
   {
     type: "index",
@@ -188,11 +188,62 @@ export const mainIndex: IndexItemDesc[] = [
     indexDesc: bayesianInferenceIndex,
   },
   { type: "index", topic: "quantum logic", indexDesc: quantumLogicIndex },
-
   {
     type: "index",
     topic: "quantum Bayesian Inference",
     indexDesc: quantumBayesianInferenceIndex,
+  },
+];
+
+export const lamIndex: IndexItemDesc[] = [
+  {
+    type: "index",
+    topic: "course 1: linear algebra",
+    indexDesc: course1Index,
+  },
+  {
+    type: "index",
+    topic: "course 2: analysis 1D",
+    indexDesc: course2Index,
+  },
+  {
+    type: "index",
+    topic: "course 3: analysis 2D",
+    indexDesc: course3Index,
+  },
+  {
+    type: "index",
+    topic: "mini-seminars",
+    indexDesc: miniSeminarsIndex,
+  },
+  {
+    type: "index",
+    topic: "satellite seminars",
+    indexDesc: satelliteIndex,
+  },
+];
+
+export const mainIndex: IndexItemDesc[] = [
+  {
+    type: "diagram",
+    topic: "title",
+    initCB: initOutlineBanner,
+    layoutCB: layoutOutlineBanner,
+  },
+  {
+    type: "html",
+    topic: "curriculum overview",
+    htmlSegmentId: "middlewayIntro",
+  },
+  {
+    type: "index",
+    topic: "1. general science foundation",
+    indexDesc: foundationIndex,
+  },
+  {
+    type: "index",
+    topic: "2. liberal arts math & seminars",
+    indexDesc: lamIndex,
   },
 ];
 

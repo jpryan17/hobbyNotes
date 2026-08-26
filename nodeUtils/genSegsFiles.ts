@@ -16,11 +16,18 @@ async function processSegFolder(app: string) {
         console.log(`[genSegsFiles] Extracted ${segIds.length} segIds from mainIndex:`, segIds);
         
         for (const segId of segIds) {
-            const filePath = resolve(segFolder, `${segId}.html`);
+            let filePath = resolve(segFolder, `${segId}.html`);
             if (!existsSync(filePath)) {
-                console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
-                missingCount++;
-                continue;
+                const altApp = app === 'app1' ? 'app2' : 'app1';
+                const altFolder = resolve(__dirname, `../../${altApp}/segs`);
+                const altPath = resolve(altFolder, `${segId}.html`);
+                if (existsSync(altPath)) {
+                    filePath = altPath;
+                } else {
+                    console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
+                    missingCount++;
+                    continue;
+                }
             }
 
             try {
