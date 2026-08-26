@@ -1,132 +1,151 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Mini-Seminar: The Fourier Duality: Position vs. Frequency</title>
-</head>
-
-<body>
-  <div align="center">
-    <font size="+2"><i><b>Mini-Seminar: The Fourier Duality</b></i></font><br>
-    <font size="+1"><i>— Position vs. Frequency, Unitary Basis Rotations &amp; Quantum Geometry —</i></font>
-  </div>
-  <br>
-
-  <p>
-    Welcome to this applied mini-seminar! If you have ever used an equalizer on a music player, compressed a photo into a JPEG, received a Wi-Fi signal, or read about quantum particles behaving like waves, you have encountered the <b>Fourier Transform</b>.
-  </p>
-  <p>
-    In standard university engineering and calculus courses, the Fourier Transform is often introduced through intimidating continuous integrals, Lebesgue measure spaces, and infinite limits. 
-    The goal of this mini-seminar is to strip away that heavy mathematical machinery and reveal the simple, elegant core of Fourier duality for the reader: <b>the Fourier Transform is nothing more than looking at a vector from a rotated coordinate perspective</b>.
-  </p>
-
-  <hr>
-
-  <h3>1. Everyday Engineering &amp; The Two Perspective Domains</h3>
-  <p>
-    Imagine recording an audio signal or observing a quantum wave. You can describe the physical wave in two completely equivalent ways:
-  </p>
-  <ul>
-    <li>
-      <b>1. The Direct Spatial / Temporal Domain:</b><br>
-      Associates each discrete position point <code>x</code> (or moment in time <code>t</code>) with a single scalar amplitude <code>f(x)</code> &mdash; such as air pressure, voltage, or displacement at that exact location.
-    </li>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Mini-Seminar: The Fourier Duality: Position vs. Frequency</title>
+  </head>
+  <body>
+    <div align="center"> <font size="+2"><i><b>Mini-Seminar: The
+            Fourier Duality</b></i></font><br>
+      <font size="+1"><i>— Position vs. Frequency, Unitary Basis
+          Rotations &amp; Quantum Geometry —</i></font> </div>
     <br>
-    <li>
-      <b>2. The Frequency / Harmonic Domain:</b><br>
-      Decomposes that spatial signal into a spectrum of pure oscillating waves <code>e^(i · k · x)</code>. 
-      For each spatial frequency <code>k</code> (or pitch/wavenumber), it assigns a complex amplitude scalar <code>f̂(k)</code> indicating the exact strength and phase offset of that frequency component.
-    </li>
-  </ul>
-  <p>
-    Both descriptions contain the <b>exact same information</b>. The Fourier Transform is the mathematical lens that translates back and forth between these two coordinate domains without losing a single bit of information!
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>Physics Connection &mdash; Canonically Conjugate Variables:</b><br><br>
-    In physics, the input and output variables of a Fourier Transform are <b>canonically conjugate pairs</b>!<br><br>
-    • <b>Spatial Position (x) &emsp;&harr;&emsp; Spatial Momentum / Wavenumber (p = ℏk)</b><br>
-    • <b>Time (t) &emsp;&harr;&emsp; Energy / Frequency (E = ℏω)</b><br>
-    • <b>Angular Position (θ) &emsp;&harr;&emsp; Angular Momentum (L)</b><br><br>
-    The complex phase factor <code>e^(-i · k · x)</code> inside the Fourier matrix is generated directly by the product of these conjugate duals!
-  </div>
-
-  <hr>
-
-  <h3>2. Demystifying the Math: A Unitary Change of Basis on ℂ_ω</h3>
-  <p>
-    On our discrete hyperfinite grid <b><code>ℂ_ω</code></b> (where space is partitioned into <code>ω</code> cells of cell width <code>dx = 1/ω</code>), a signal or quantum state vector <code>f(x)</code> is simply a column vector of <code>ω</code> complex numbers:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>|f⟩ &nbsp;=&nbsp; [ f(x₁), &nbsp; f(x₂), &nbsp; ..., &nbsp; f(x_ω) ]ᵀ &emsp; ∈ &emsp; ℂ_ω</b>
-  </div>
-
-  <p>
-    In this setting, the Fourier Transform is not a mysterious continuous integral. It is direct <b>matrix-vector multiplication</b> by an <code>ω × ω</code> transformation matrix <code>F</code> composed of pure complex phase rotations <code>e^(-i · k_m · x_n)</code>:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>f̂(k_m) &nbsp;=&nbsp; ⟨ k_m ∣ f ⟩ &nbsp;=&nbsp; (1 / √ω) · ∑_{n=1}^{ω} f(x_n) · e^(-i · k_m · x_n)</b>
-  </div>
-
-  <p>
-    Each row of the Fourier matrix is a pure complex phase wave. Multiplying by <code>F</code> simply asks: <i>"How much does our spatial state vector |f⟩ line up with a wave vibrating at spatial frequency k_m?"</i>
-  </p>
-
-  <hr>
-
-  <h3>3. Energy &amp; Probability Conservation (F† · F = I)</h3>
-  <p>
-    As Jack and Jill demonstrated in our Linear Algebra lectures, a matrix is <b>unitary</b> if its conjugate transpose equals its inverse: <b><code>F† · F = I</code></b>.
-  </p>
-  <p>
-    The Fourier matrix is 100% unitary. Because <code>F</code> is a pure rigid rotation in <code>ℂ_ω</code>, it preserves vector length:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>‖f‖² (spatial space) &nbsp;=&nbsp; ⟨f ∣ f⟩ &nbsp;=&nbsp; ⟨f ∣ F† · F ∣ f⟩ &nbsp;=&nbsp; ‖f̂‖² (frequency space)</b>
-  </div>
-
-  <p>
-    In electrical engineering, this vector length preservation is called <b>Parseval's (or Plancherel's) Theorem</b>: total signal energy in the time domain equals total signal energy in the frequency domain. In quantum mechanics, it guarantees that total probability remains exactly 1 (100%) whether measured in position space or momentum space!
-  </p>
-
-  <hr>
-
-  <h3>4. The Geometry of Uncertainty: Position vs. Frequency</h3>
-  <p>
-    Fourier duality provides the most intuitive, visual proof of the famous <b>Heisenberg Uncertainty Principle</b>:
-  </p>
-
-  <ul>
-    <li>
-      <b>A Perfectly Localized Spatial Pulse (Position State |x₀⟩):</b><br>
-      Imagine a signal concentrated entirely in a single spatial cell <code>x₀</code>: <code>[0, ..., 1, ..., 0]ᵀ</code>. 
-      When multiplied by the Fourier matrix, every frequency row picks up a complex phase component <code>e^(-i · k_m · x₀)</code> of identical magnitude <code>1/√ω</code>. 
-      <i>A sharp, zero-spread pulse in space spreads out uniformly across every single frequency in existence!</i>
-    </li>
-    <br>
-    <li>
-      <b>A Pure Single-Frequency Wave (Momentum State |k₀⟩):</b><br>
-      Conversely, imagine a pure, single-frequency sine wave <code>e^(+i · k₀ · x)</code>. 
-      Its Fourier transform collapses down to a single sharp spike at frequency <code>k₀</code>. 
-      <i>A sharp, zero-spread note in frequency spreads out uniformly across all spatial cells!</i>
-    </li>
-  </ul>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>The Trade-Off:</b><br><br>
-    You cannot make a state vector simultaneously sharp in position and sharp in frequency! <br>
-    Squeezing a wave in spatial position <code>Δx</code> forces its frequency representation <code>Δp = ℏ · Δk</code> to spread out, yielding the fundamental geometric inequality: <br><br>
-    <b>Δx · Δp &nbsp;&ge;&nbsp; ℏ / 2</b>
-  </div>
-
-  <hr>
-
-  <h3>5. Summary: One Reality, Two Basis Coordinates</h3>
-  <p>
-    The Fourier Transform is not an abstract mathematical trick. It is the fundamental bridge connecting discrete spatial coordinates to continuous wave harmonics. 
-    By treating the transformation as a unitary basis rotation <code>F† · F = I</code> on <code>ℂ_ω</code>, we see that position and frequency are simply two complementary windows looking into the exact same physical reality.
-  </p>
-</body>
+    <p> Welcome to this applied mini-seminar! If you have ever used an
+      equalizer on a music player, compressed a photo into a JPEG,
+      received a Wi-Fi signal, or read about quantum particles behaving
+      like waves, you have encountered the <b>Fourier Transform</b>. </p>
+    <p> In standard university engineering and calculus courses, the
+      Fourier Transform is often introduced through intimidating
+      continuous integrals, Lebesgue measure spaces, and infinite
+      limits. The goal of this mini-seminar is to strip away that heavy
+      mathematical machinery and reveal the simple, elegant core of
+      Fourier duality for the reader: <b>the Fourier Transform is
+        nothing more than looking at a vector from a rotated coordinate
+        perspective</b>. </p>
+    <hr>
+    <h3>1. Everyday Engineering &amp; The Two Perspective Domains</h3>
+    <p> Imagine recording an audio signal or observing a quantum wave.
+      You can describe the physical wave in two completely equivalent
+      ways: </p>
+    <ul>
+      <li> <b>1. The Direct Spatial / Temporal Domain:</b><br>
+        Associates each discrete position point <code>x</code> (or
+        moment in time <code>t</code>) with a single scalar amplitude <code>f(x)</code>
+        — such as air pressure, voltage, or displacement at that exact
+        location. </li>
+      <br>
+      <li> <b>2. The Frequency / Harmonic Domain:</b><br>
+        Decomposes that spatial signal into a spectrum of pure
+        oscillating waves <code>e^(i · k · x)</code>. For each spatial
+        frequency <code>k</code> (or pitch/wavenumber), it assigns a
+        complex amplitude scalar <code>f̂(k)</code> indicating the
+        exact strength and phase offset of that frequency component. </li>
+    </ul>
+    <p> Both descriptions contain the <b>exact same information</b>.
+      The Fourier Transform is the mathematical lens that translates
+      back and forth between these two coordinate domains without losing
+      a single bit of information! </p>
+    <div style="font-family: monospace; font-size: 13.5px; margin: 12px
+      0; color: #1e3a8a; background-color: #eff6ff; padding: 12px;
+      border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>Physics Connection — Canonically Conjugate Variables:</b><br>
+      <br>
+      In physics, the input and output variables of a Fourier Transform
+      are <b>canonically conjugate pairs</b>!<br>
+      <br>
+      • <b>Spatial Position (x)  ↔  Spatial Momentum / Wavenumber (p =
+        ℏk)</b><br>
+      • <b>Time (t)  ↔  Energy / Frequency (E = ℏω)</b><br>
+      • <b>Angular Position (θ)  ↔  Angular Momentum (L)</b><br>
+      <br>
+      The complex phase factor <code>e^(-i · k · x)</code> inside the
+      Fourier matrix is generated directly by the product of these
+      conjugate duals! </div>
+    <hr>
+    <h3>2. Demystifying the Math: A Unitary Change of Basis on ℂ_ω</h3>
+    <p> On our discrete hyperfinite grid <b><code>ℂ_ω</code></b> (where
+      space is partitioned into <code>ω</code> cells of cell width <code>dx
+        = 1/ω</code>), a signal or quantum state vector <code>f(x)</code>
+      is simply a column vector of <code>ω</code> complex numbers: </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px
+      0; color: #1e3a8a; background-color: #f8fafc; padding: 10px;
+      border: 1px solid #cbd5e1; border-radius: 6px;" align="center"> <b>|f⟩
+        &nbsp;=&nbsp; [ f(x₁), &nbsp; f(x₂), &nbsp; ..., &nbsp; f(x_ω)
+        ]ᵀ   ∈   ℂ_ω</b> </div>
+    <p> In this setting, the Fourier Transform is not a mysterious
+      continuous integral. It is direct <b>matrix-vector multiplication</b>
+      by an <code>ω × ω</code> transformation matrix <code>F</code>
+      composed of pure complex phase rotations <code>e^(-i · k_m · x_n)</code>:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px
+      0; color: #1e3a8a; background-color: #eff6ff; padding: 12px;
+      border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>f̂(k_m) &nbsp;=&nbsp; ⟨ k_m ∣ f ⟩ &nbsp;=&nbsp; (1 / √ω) ·
+        ∑_{n=1}^{ω} f(x_n) · e^(-i · k_m · x_n)</b> </div>
+    <p> Each row of the Fourier matrix is a pure complex phase wave.
+      Multiplying by <code>F</code> simply asks: <i>"How much does our
+        spatial state vector |f⟩ line up with a wave vibrating at
+        spatial frequency k_m?"</i> </p>
+    <hr>
+    <h3>3. Energy &amp; Probability Conservation (F† · F = I)</h3>
+    <p> As Jane described in our Linear Algebra lectures, a matrix is <b>unitary</b>
+      if its conjugate transpose equals its inverse: <b><code>F† · F =
+          I</code></b>. </p>
+    <p> The Fourier matrix is 100% unitary. Because <code>F</code> is a
+      pure rigid rotation in <code>ℂ_ω</code>, it preserves vector
+      length: </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px
+      0; color: #1e3a8a; background-color: #f8fafc; padding: 10px;
+      border: 1px solid #cbd5e1; border-radius: 6px;" align="center"> <b>‖f‖²
+        (spatial space) &nbsp;=&nbsp; ⟨f ∣ f⟩ &nbsp;=&nbsp; ⟨f ∣ F† · F
+        ∣ f⟩ &nbsp;=&nbsp; ‖f̂‖² (frequency space)</b> </div>
+    <p> In electrical engineering, this vector length preservation is
+      called <b>Parseval's (or Plancherel's) Theorem</b>: total signal
+      energy in the time domain equals total signal energy in the
+      frequency domain. In quantum mechanics, it guarantees that total
+      probability remains exactly 1 (100%) whether measured in position
+      space or momentum space! </p>
+    <hr>
+    <h3>4. The Geometry of Uncertainty: Position vs. Frequency</h3>
+    <p> Fourier duality provides the most intuitive, visual proof of the
+      famous <b>Heisenberg Uncertainty Principle</b>: </p>
+    <ul>
+      <li> <b>A Perfectly Localized Spatial Pulse (Position State
+          |x₀⟩):</b><br>
+        Imagine a signal concentrated entirely in a single spatial cell
+        <code>x₀</code>: <code>[0, ..., 1, ..., 0]ᵀ</code>. When
+        multiplied by the Fourier matrix, every frequency row picks up a
+        complex phase component <code>e^(-i · k_m · x₀)</code> of
+        identical magnitude <code>1/√ω</code>. <i>A sharp, zero-spread
+          pulse in space spreads out uniformly across every single
+          frequency in existence!</i> </li>
+      <br>
+      <li> <b>A Pure Single-Frequency Wave (Momentum State |k₀⟩):</b><br>
+        Conversely, imagine a pure, single-frequency sine wave <code>e^(+i
+          · k₀ · x)</code>. Its Fourier transform collapses down to a
+        single sharp spike at frequency <code>k₀</code>. <i>A sharp,
+          zero-spread note in frequency spreads out uniformly across all
+          spatial cells!</i> </li>
+    </ul>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 12px
+      0; color: #1e3a8a; background-color: #eff6ff; padding: 12px;
+      border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>The Trade-Off:</b><br>
+      <br>
+      You cannot make a state vector simultaneously sharp in position
+      and sharp in frequency! <br>
+      Squeezing a wave in spatial position <code>Δx</code> forces its
+      frequency representation <code>Δp = ℏ · Δk</code> to spread out,
+      yielding the fundamental geometric inequality: <br>
+      <br>
+      <b>Δx · Δp &nbsp;≥&nbsp; ℏ / 2</b> </div>
+    <hr>
+    <h3>5. Summary: One Reality, Two Basis Coordinates</h3>
+    <p> The Fourier Transform is not an abstract mathematical trick. It
+      is the fundamental bridge connecting discrete spatial coordinates
+      to continuous wave harmonics. By treating the transformation as a
+      unitary basis rotation <code>F† · F = I</code> on <code>ℂ_ω</code>,
+      we see that position and frequency are simply two complementary
+      windows looking into the exact same physical reality. </p>
+  </body>
 </html>
