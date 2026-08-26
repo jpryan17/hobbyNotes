@@ -46,11 +46,19 @@ async function buildIndex(app) {
   <div id="scratch-slot" style="visibility:hidden"></div>`;
         let missingCount = 0;
         for (const segId of segIds) {
-            const filePath = (0, path_1.resolve)(segFolder, `${segId}.html`);
+            let filePath = (0, path_1.resolve)(segFolder, `${segId}.html`);
             if (!(0, fs_1.existsSync)(filePath)) {
-                console.error(`[indexBuild Error] Missing required segment file: ${filePath}`);
-                missingCount++;
-                continue;
+                const altApp = app === 'app1' ? 'app2' : 'app1';
+                const altFolder = (0, path_1.resolve)(__dirname, `../../${altApp}/segs`);
+                const altPath = (0, path_1.resolve)(altFolder, `${segId}.html`);
+                if ((0, fs_1.existsSync)(altPath)) {
+                    filePath = altPath;
+                }
+                else {
+                    console.error(`[indexBuild Error] Missing required segment file: ${filePath}`);
+                    missingCount++;
+                    continue;
+                }
             }
             try {
                 const body = (0, fs_1.readFileSync)(filePath, 'utf8');
