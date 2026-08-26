@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const https_1 = require("https");
 const child_process_1 = require("child_process");
 const fs_1 = require("fs");
+const path_1 = require("path");
 /*
 const Fs = require('fs')
 
@@ -33,16 +34,17 @@ class Serv {
             const app = urlList[1];
             const segment = urlList[2];
             console.log(`received start editor request for ${app} seg ${segment}.`);
-            let filePath = `./${app}/segs/${segment}.html`;
-            if (!(0, fs_1.existsSync)(filePath)) {
+            let relativePath = `./${app}/segs/${segment}.html`;
+            if (!(0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), relativePath))) {
                 const altApp = app === "app1" ? "app2" : "app1";
                 const altPath = `./${altApp}/segs/${segment}.html`;
-                if ((0, fs_1.existsSync)(altPath)) {
-                    filePath = altPath;
+                if ((0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), altPath))) {
+                    relativePath = altPath;
                 }
             }
-            console.log(`launching SeaMonkey editor for ${filePath}...`);
-            (0, child_process_1.spawn)("SeaMonkey", ["-editor", `${filePath}`]);
+            const absPath = (0, path_1.resolve)(process.cwd(), relativePath);
+            console.log(`launching SeaMonkey Composer for ${absPath}...`);
+            (0, child_process_1.spawn)("SeaMonkey", ["-editor", absPath]);
             response.writeHead(200, {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "text/html",
