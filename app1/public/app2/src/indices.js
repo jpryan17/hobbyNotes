@@ -86,6 +86,11 @@ export const satelliteIndex = [
         topic: "seminar 3: quantum entanglement & reality",
         htmlSegmentId: "quantumEntanglementSeminar",
     },
+    {
+        type: "html",
+        topic: "seminar 4: algebraic geometry & the infinitesimal microscope",
+        htmlSegmentId: "algebraicGeometrySeminar",
+    },
 ];
 export const miniSeminarsIndex = [
     {
