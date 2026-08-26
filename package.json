@@ -4,8 +4,11 @@
   "description": "Mathematics and the Middle Way (middlewaymath.app)",
   "scripts": {
     "dev": "npm run app1R",
+    "d": "npm run dev",
     "build": "npm run app1BuildR",
+    "b": "npm run build",
     "deploy": "git add . && git commit -m \"Deploy Mathematics and the Middle Way to middlewaymath.app\" && git push origin master",
+    "p": "npm run deploy",
     "deployLAM": "node ./nodeUtils/public/deployLam.js",
     "app1C": "cd ./app1 && npx tsc",
     "app1R": "node ./nodeUtils/public/startApp1.js",
