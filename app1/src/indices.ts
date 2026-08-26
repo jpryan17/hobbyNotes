@@ -171,6 +171,11 @@ export const conceptualHistoryIndex: IndexItemDesc[] = [
 
 export const foundationIndex: IndexItemDesc[] = [
   {
+    type: "html",
+    topic: "overview: basic education mission",
+    htmlSegmentId: "introduction",
+  },
+  {
     type: "index",
     topic: "conceptual history",
     indexDesc: conceptualHistoryIndex,
@@ -181,6 +186,7 @@ export const foundationIndex: IndexItemDesc[] = [
     topic: "formal statements",
     indexDesc: formalStatementsIndex,
   },
+  { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
   { type: "index", topic: "numbers", indexDesc: numbersIndex },
   {
     type: "index",
@@ -196,6 +202,11 @@ export const foundationIndex: IndexItemDesc[] = [
 ];
 
 export const lamIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: liberal arts math mission",
+    htmlSegmentId: "lamOverview",
+  },
   {
     type: "index",
     topic: "course 1: linear algebra",

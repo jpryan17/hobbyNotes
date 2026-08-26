@@ -5,13 +5,13 @@ let realsBanner;
 let predLogicBanner;
 export function initOutlineBanner() {
     outlineBanner = new Banner([
-        { text: 'toward a theoretical maximum:', fontSize: 36, color: '#475569' },
-        { text: 'formal science in basic education', fontSize: 48, fontWeight: 'bold', color: '#0f172a' },
-        { text: '— a shared hallucination', fontSize: 30, fontStyle: 'italic', color: '#64748b' }
+        { text: 'mathematics and the middle way', fontSize: 44, fontWeight: 'bold', color: '#0f172a' },
+        { text: 'nonstandard analysis & quantum inference', fontSize: 30, fontStyle: 'italic', color: '#1e3a8a' },
+        { text: '— from first principles of logic to physical reality', fontSize: 24, fontStyle: 'italic', color: '#64748b' }
     ], {
         fontSize: 44,
         space: 20,
-        updateDate: 'Draft updated: August 2026',
+        updateDate: 'August 2026',
         dateCorner: 'BR'
     });
     return outlineBanner;
