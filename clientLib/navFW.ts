@@ -507,8 +507,11 @@ export class Nav {
             for (let i = lineElts.length-1; i > widgetPos; i--){
                 Nav.lineTopics.elt.removeChild(lineElts[i].elt)
             }
+            while (Nav.indices.length > widgetPos + 1) {
+                Nav.indices.pop()
+            }
             const [stdC,activeC] = [Nav.color.std,Nav.color.active]
-            Nav.currentIndex =  widgetPos
+            Nav.currentIndex = widgetPos
             lineElts[widgetPos].setAA(['stroke',stdC,'pointer-events','none'])
             for (let i = 0; i < widgetPos; i++){
                 lineElts[i].setAA(['stroke',activeC,'pointer-events','auto'])
@@ -516,7 +519,7 @@ export class Nav {
         }
         Nav.setLastVisit()
         Nav.showNavLine()
-        const index = Nav.indices[this.currentIndex]
+        const index = Nav.indices[Nav.currentIndex]
         index.chosen = 0
         index.setSelectedItem()
         Nav.processSelection()
