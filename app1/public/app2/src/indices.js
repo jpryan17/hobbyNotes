@@ -91,6 +91,11 @@ export const satelliteIndex = [
         topic: "seminar 4: algebraic geometry & the infinitesimal microscope",
         htmlSegmentId: "algebraicGeometrySeminar",
     },
+    {
+        type: "html",
+        topic: "seminar 5: Grothendieck’s sheaf theory & stalks",
+        htmlSegmentId: "grothendieckSheafSeminar",
+    },
 ];
 export const miniSeminarsIndex = [
     {
