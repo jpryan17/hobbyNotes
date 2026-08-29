@@ -68,7 +68,17 @@
       A presheaf <code>ℱ</code> on a space <code>X</code> assigns to every open set <code>U ⊆ X</code> a commutative ring <code>ℱ(U)</code> of "local functions". Whenever <code>V ⊆ U</code>, there is a restriction homomorphism <code>res_{U,V}: ℱ(U) → ℱ(V)</code> that restricts a function on <code>U</code> down to the smaller neighborhood <code>V</code>.
     </p>
 
-    <h4>B. Sheaf Axioms (Local-to-Global Principle)</h4>
+    <h4>B. The Directed Pair (Domain, Codomain) for Sheaf Functions</h4>
+    <p>
+      What is the explicit directed pair <code>(Domain, Codomain)</code> for functions in sheaf theory across different geometric paradigms?
+    </p>
+    <ul>
+      <li><b>Classical Geometry (Manifolds):</b> <code>f : U &rarr; ℂ</code> where <code>Domain = U ⊆ X</code> is an open spatial set, and <code>Codomain = ℂ</code> is a fixed complex field. Restriction <code>res_{U,V}(f)</code> is literal domain restriction <code>f|_V</code>.</li>
+      <li><b>Grothendieck Schemes (Spec A):</b> <code>f(x) : x &isin; U &rarr; &kappa;(x)</code> where <code>Domain = U ⊆ Spec(A)</code> is an open set of prime ideals, and the <code>Codomain</code> at point <code>x = p</code> is the <b>residue field</b> <code>&kappa;(x) = O_{X,x} / m_x = Frac(A/p)</code>. Pointwise values live in local residue fields!</li>
+      <li><b>Conway Tree (ℂ_ω):</b> <code>f : U ⊆ ℂ_ω &rarr; ℂ_ω</code> where <code>Domain = U</code> is a discrete open hypercomplex grid (or halo <code>μ(z_0)</code>), and <code>Codomain = ℂ_ω</code> is the transfinite number tree. Abstract scheme residue fields collapse back into a single, concrete, visual directed pair!</li>
+    </ul>
+
+    <h4>C. Sheaf Axioms (Local-to-Global Principle)</h4>
     <p>
       A presheaf is a <b>sheaf</b> if local function snippets can be uniquely glued into global functions:
     </p>
@@ -77,7 +87,7 @@
       <li><b>Gluing Axiom:</b> If you have local functions <code>f_i ∈ ℱ(U_i)</code> that agree on all overlaps <code>U_i ∩ U_j</code>, there exists a <i>unique</i> global function <code>f ∈ ℱ(U)</code> whose restriction to each <code>U_i</code> is exactly <code>f_i</code>.</li>
     </ul>
 
-    <h4>C. Stalks <code>O_{X,x}</code> and Local Rings</h4>
+    <h4>D. Stalks <code>O_{X,x}</code> and Local Rings</h4>
     <p>
       The <b>stalk</b> <code>O_{X,x}</code> at a point <code>x ∈ Spec(A)</code> (where the point <code>x</code> is algebraically a <b>prime ideal</b> <code>p ⊂ A</code>) represents the ring of function germs at <code>x</code>. 
       Algebraically, the stalk is obtained by <b>localizing the ring <code>A</code> at the prime ideal <code>p</code></b> (written <code>A_p</code>), forming algebraic fractions <code>f/g</code> whose denominators <code>g ∉ p</code> do not vanish at <code>x</code>.

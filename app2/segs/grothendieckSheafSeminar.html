@@ -87,8 +87,36 @@
       of local functions. Whenever <code>V ⊆ U</code>, a restriction
       homomorphism <code>res_{U,V}: ℱ(U) → ℱ(V)</code> restricts
       functions on <code>U</code> down to the smaller neighborhood <code>V</code>.
+          of functions</b> <code>A = O(X)</code>.</li>
+      <li><b>Points as Prime Ideals:</b> Rather than defining points as
+        primitive spatial dots, a point <code>x ∈ Spec(A)</code> is
+        defined algebraically as a <b>prime ideal</b> <code>p ⊂ A</code>
+        (the collection of all functions that evaluate to zero at that
+        point).</li>
+    </ul>
+    <hr>
+    <h3>2. What is a Sheaf? (Presheaves, Local Rings, &amp; Gluing)</h3>
+    <p> To study geometry locally, Grothendieck formalized how rings of
+      functions change as you zoom into smaller open neighborhoods: </p>
+    <h4>A. Presheaf <code>ℱ</code></h4>
+    <p> A presheaf <code>ℱ</code> on a space <code>X</code> assigns to
+      every open set <code>U ⊆ X</code> a commutative ring <code>ℱ(U)</code>
+      of local functions. Whenever <code>V ⊆ U</code>, a restriction
+      homomorphism <code>res_{U,V}: ℱ(U) → ℱ(V)</code> restricts
+      functions on <code>U</code> down to the smaller neighborhood <code>V</code>.
     </p>
-    <h4>B. Sheaf Axioms (Local-to-Global Principle)</h4>
+
+    <h4>B. The Directed Pair (Domain, Codomain) for Sheaf Functions</h4>
+    <p>
+      What is the explicit directed pair <code>(Domain, Codomain)</code> for functions in sheaf theory across different geometric paradigms?
+    </p>
+    <ul>
+      <li><b>Classical Geometry (Manifolds):</b> <code>f : U &rarr; ℂ</code> where <code>Domain = U ⊆ X</code> is an open spatial set, and <code>Codomain = ℂ</code> is a fixed complex field. Restriction <code>res_{U,V}(f)</code> is literal domain restriction <code>f|_V</code>.</li>
+      <li><b>Grothendieck Schemes (Spec A):</b> <code>f(x) : x &isin; U &rarr; &kappa;(x)</code> where <code>Domain = U ⊆ Spec(A)</code> is an open set of prime ideals, and the <code>Codomain</code> at point <code>x = p</code> is the <b>residue field</b> <code>&kappa;(x) = O_{X,x} / m_x = Frac(A/p)</code>. Pointwise values live in local residue fields!</li>
+      <li><b>Conway Tree (ℂ_ω):</b> <code>f : U ⊆ ℂ_ω &rarr; ℂ_ω</code> where <code>Domain = U</code> is a discrete open hypercomplex grid (or halo <code>μ(z_0)</code>), and <code>Codomain = ℂ_ω</code> is the transfinite number tree. Abstract scheme residue fields collapse back into a single, concrete, visual directed pair!</li>
+    </ul>
+
+    <h4>C. Sheaf Axioms (Local-to-Global Principle)</h4>
     <p> A presheaf is a <b>sheaf</b> if local function snippets
       uniquely glue together into global functions: </p>
     <ul>
@@ -100,7 +128,7 @@
         unique global function <code>f ∈ ℱ(U)</code> whose restriction
         to each <code>U_i</code> is exactly <code>f_i</code>.</li>
     </ul>
-    <h4>C. Stalks <code>O_{X,x}</code> and Local Rings</h4>
+    <h4>D. Stalks <code>O_{X,x}</code> and Local Rings</h4>
     <p> The <b>stalk</b> <code>O_{X,x}</code> at a point <code>x ∈
         Spec(A)</code> (where the point <code>x</code> is algebraically
       a <b>prime ideal</b> <code>p ⊂ A</code>) represents the ring of
