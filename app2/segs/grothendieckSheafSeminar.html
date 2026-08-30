@@ -246,15 +246,36 @@
         Symmetry Groups G (1872)</h4>
       <p>Felix Klein resolved the crisis of competing 19th-century
         geometries: a geometry is completely defined by a <b>Transformation
-
-
           Group <i>G</i></b> acting on a space <i>X</i>, and the
         properties invariant under <i>G</i>! This direct breakthrough
         birthed Special Relativity (Lorentz Group <code>SO(1,3)</code>),
-
-
         Noether's conservation laws, and Standard Model Gauge Theories
         (<code>SU(3) × SU(2) × U(1)</code>).</p>
+      <!-- Nested Sub-Monograph: Erlangen Program & Special Relativity -->
+      <details style="margin: 12px auto; background-color: #ffffff; border: 1.5px dashed #3b82f6; border-radius: 6px; padding: 10px 14px;">
+        <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.88em;">
+          🔍 Deep Dive: How Klein’s Erlangen Program Birthed Special Relativity (SO(1,3)) &amp; Its Middle Way Tree Encoding
+        </summary>
+        <div style="margin-top: 10px; font-size: 0.85em; line-height: 1.6; color: #1e293b;">
+          <div style="background-color: #eff6ff; border-left: 3px solid #3b82f6; padding: 8px 12px; margin-bottom: 10px;">
+            <b>The Fundamental Principle:</b> Physics does not happen <i>in</i> a passive metric space; the <b>Transformation Group <i>G</i></b> dictates the metric, invariants, and physical laws!
+          </div>
+
+          <b>1. From Euclidean SO(3) to Minkowski SO(1,3):</b><br>
+          • <b>Euclidean Geometry (SO(3)):</b> Preserves spatial distances <code>ds² = dx² + dy² + dz²</code> under 3D spatial rotations.<br>
+          • <b>Special Relativity (SO(1,3)):</b> Hermann Minkowski (1908) realized Special Relativity (1905) is literally Klein's Erlangen Program applied to 4D spacetime! The Lorentz Transformation Group <code>SO(1,3)</code> (rotations + velocity boosts) preserves the <b>invariant spacetime interval</b>:
+          <div align="center" style="font-family: monospace; margin: 6px 0; color: #1e3a8a; font-weight: bold;">
+            ds² = -c² dt² + dx² + dy² + dz²
+          </div>
+          Light cones (<code>ds² = 0</code>), proper time (<code>dτ² = -ds²/c²</code>), and time dilation (<code>γ = 1/√(1 - v²/c²)</code>) are the invariant geometric properties defined by <code>SO(1,3)</code>.
+
+          <br><br>
+          <b>2. Middle Way Encoding on Conway's Tree (ℂ_ω):</b><br>
+          • <b>Hyperfinite Grid:</b> On Day <code>ω</code>, node coordinates <code>z_0 ∈ ℂ_ω</code> have hyperfinite grid step <code>dx = 1/ω</code>.<br>
+          • <b>Hyperbolic Rotations:</b> Lorentz velocity boosts <code>v</code> are represented as hypercomplex hyperbolic phase shifts <code>e^(j·χ) = cosh(χ) + j·sinh(χ)</code> across halo nodes <code>μ(z_0)</code>.<br>
+          • <b>Discrete Invariance:</b> The continuum Minkowski metric <code>ds² = -c² dt² + dx²</code> emerges as the standard part <code>st(·)</code> of hyperfinite discrete binary branching steps on <code>ℂ_ω</code>, showing how continuous spacetime invariants arise from discrete binary roots.
+        </div>
+      </details>
       <h4>5. Epoch 5: Topological Spaces (X, τ) — Pure Proximity &amp;
         Open Sets (1914)</h4>
       <p>Hausdorff and Kuratowski stripped away distance metrics
