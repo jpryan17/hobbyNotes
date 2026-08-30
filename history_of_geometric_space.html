@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>Historical Evolution of Geometric Space: From Euclid to Grothendieck &amp; Sheaf Theory</title>
@@ -13,6 +14,7 @@
       padding: 24px;
       background-color: #f8fafc;
     }
+
     .card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -21,21 +23,101 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       margin-bottom: 24px;
     }
-    h1 { color: #0f172a; font-size: 26px; text-align: center; margin-bottom: 6px; }
-    h2 { color: #1e3a8a; font-size: 17px; text-align: center; font-weight: normal; font-style: italic; margin-top: 0; }
-    h3 { color: #1e40af; font-size: 19px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-top: 28px; }
-    h4 { color: #0f766e; font-size: 15.5px; margin-top: 18px; margin-bottom: 6px; }
-    code { font-family: "JetBrains Mono", "Fira Code", Consolas, monospace; background-color: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 13.5px; color: #0f172a; }
-    .box-blue { background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; color: #1e3a8a; font-size: 14.5px; margin: 18px 0; }
-    .box-amber { background-color: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 16px; color: #78350f; font-size: 14.5px; margin: 18px 0; }
-    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13.5px; }
-    th { background-color: #1e3a8a; color: #ffffff; padding: 10px; text-align: left; }
-    td { padding: 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
-    tr:nth-child(even) { background-color: #f8fafc; }
-    ul { margin-top: 6px; }
-    li { margin-bottom: 6px; }
+
+    h1 {
+      color: #0f172a;
+      font-size: 26px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      font-size: 17px;
+      text-align: center;
+      font-weight: normal;
+      font-style: italic;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: #1e40af;
+      font-size: 19px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin-top: 28px;
+    }
+
+    h4 {
+      color: #0f766e;
+      font-size: 15.5px;
+      margin-top: 18px;
+      margin-bottom: 6px;
+    }
+
+    code {
+      font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      color: #0f172a;
+    }
+
+    .box-blue {
+      background-color: #eff6ff;
+      border: 1.5px solid #3b82f6;
+      border-radius: 8px;
+      padding: 16px;
+      color: #1e3a8a;
+      font-size: 14.5px;
+      margin: 18px 0;
+    }
+
+    .box-amber {
+      background-color: #fffbeb;
+      border: 1.5px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px;
+      color: #78350f;
+      font-size: 14.5px;
+      margin: 18px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13.5px;
+    }
+
+    th {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    ul {
+      margin-top: 6px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
   </style>
 </head>
+
 <body>
 
   <div class="card">
@@ -44,7 +126,9 @@
 
     <div class="box-blue" align="center">
       <b>Historical Overview:</b><br>
-      How did humanity's understanding of "space" transform from an absolute physical background box into coordinate tuples, curved manifolds, symmetry groups, abstract topologies, ring-based sheaves, and discrete transfinite trees? This monograph traces the 7 great conceptual revolutions of geometric space.
+      How did humanity's understanding of "space" transform from an absolute physical background box into coordinate
+      tuples, curved manifolds, symmetry groups, abstract topologies, ring-based sheaves, and discrete transfinite
+      trees? This monograph traces the 7 great conceptual revolutions of geometric space.
     </div>
 
     <h3>1. Epoch 1: Euclidean Space (Eⁿ) — Absolute Rigid Container (c. 300 BCE)</h3>
@@ -52,9 +136,12 @@
       For over two millennia, geometry was synonymous with Euclid’s <i>Elements</i>.
     </p>
     <ul>
-      <li><b>The Paradigm:</b> Space is a static, infinite 3D physical stage that exists prior to and independently of any matter placed within it.</li>
-      <li><b>Points &amp; Lines:</b> A "point" is an indivisible position having no length, width, or depth (<i>"that which has no part"</i>). Geometric shapes are constructed via ruler-and-compass operations.</li>
-      <li><b>Limitation:</b> Lacked numbers and coordinates. Equality of shapes meant rigid congruence (congruence by sliding or rotating shapes without distortion).</li>
+      <li><b>The Paradigm:</b> Space is a static, infinite 3D physical stage that exists prior to and independently of
+        any matter placed within it.</li>
+      <li><b>Points &amp; Lines:</b> A "point" is an indivisible position having no length, width, or depth (<i>"that
+          which has no part"</i>). Geometric shapes are constructed via ruler-and-compass operations.</li>
+      <li><b>Limitation:</b> Lacked numbers and coordinates. Equality of shapes meant rigid congruence (congruence by
+        sliding or rotating shapes without distortion).</li>
     </ul>
 
     <h3>2. Epoch 2: Cartesian Space (ℝⁿ) — Space as Numerical Tuples (1637)</h3>
@@ -62,9 +149,12 @@
       René Descartes and Pierre de Fermat arithmetized geometry, giving birth to analytic geometry.
     </p>
     <ul>
-      <li><b>The Paradigm:</b> Space is identified with <i>n</i>-tuples of real numbers <code>(x₁, x₂, ..., xₙ) ∈ ℝⁿ</code>.</li>
-      <li><b>Algebraization:</b> Geometric curves and surfaces become solution sets to algebraic equations <code>f(x, y) = 0</code>.</li>
-      <li><b>Impact:</b> Allowed Isaac Newton and Gottfried Wilhelm Leibniz to invent calculus by treating space as a continuous numeric backdrop for motion and rates of change.</li>
+      <li><b>The Paradigm:</b> Space is identified with <i>n</i>-tuples of real numbers
+        <code>(x₁, x₂, ..., xₙ) ∈ ℝⁿ</code>.</li>
+      <li><b>Algebraization:</b> Geometric curves and surfaces become solution sets to algebraic equations
+        <code>f(x, y) = 0</code>.</li>
+      <li><b>Impact:</b> Allowed Isaac Newton and Gottfried Wilhelm Leibniz to invent calculus by treating space as a
+        continuous numeric backdrop for motion and rates of change.</li>
     </ul>
 
     <h3>3. Epoch 3: Riemannian Manifolds (Mⁿ, g) — Local Charts &amp; Curved Space (1854)</h3>
@@ -72,58 +162,80 @@
       Carl Friedrich Gauss and Bernhard Riemann shattered the assumption that space is globally flat or Euclidean.
     </p>
     <ul>
-      <li><b>The Paradigm:</b> A space (manifold <i>Mⁿ</i>) is no longer a single global grid. It is a space that looks locally like <code>ℝⁿ</code> via overlapping <b>coordinate charts</b> <code>(U_i, φ_i)</code>.</li>
-      <li><b>Metric Tensor <code>g_ij</code>:</b> Distance is determined locally by a differential metric <code>ds² = ∑ g_ij dxⁱ dxʲ</code>. Space can bend, curve, and stretch.</li>
-      <li><b>Physics:</b> Albert Einstein adopted Riemannian geometry for <b>General Relativity</b> (1915): gravity is not a force, but the intrinsic curvature of 4D spacetime.</li>
+      <li><b>The Paradigm:</b> A space (manifold <i>Mⁿ</i>) is no longer a single global grid. It is a space that looks
+        locally like <code>ℝⁿ</code> via overlapping <b>coordinate charts</b> <code>(U_i, φ_i)</code>.</li>
+      <li><b>Metric Tensor <code>g_ij</code>:</b> Distance is determined locally by a differential metric
+        <code>ds² = ∑ g_ij dxⁱ dxʲ</code>. Space can bend, curve, and stretch.</li>
+      <li><b>Physics:</b> Albert Einstein adopted Riemannian geometry for <b>General Relativity</b> (1915): gravity is
+        not a force, but the intrinsic curvature of 4D spacetime.</li>
     </ul>
 
     <h3>4. Epoch 4: Klein’s Erlangen Program — Space Defined by Symmetry Groups G (1872)</h3>
     <p>
-      Felix Klein resolved the 19th-century crisis of competing geometries (Euclidean, Affine, Projective, Hyperbolic) with a single unifying principle.
+      Felix Klein resolved the 19th-century crisis of competing geometries (Euclidean, Affine, Projective, Hyperbolic)
+      with a single unifying principle.
     </p>
     <div class="box-amber">
       <b>Felix Klein’s Erlangen Paradigm:</b><br>
-      A geometry is completely defined by a <b>Transformation Group <i>G</i></b> acting on a space <i>X</i>, and the geometric properties that remain invariant under those transformations!<br>
+      A geometry is completely defined by a <b>Transformation Group <i>G</i></b> acting on a space <i>X</i>, and the
+      geometric properties that remain invariant under those transformations!<br>
       <div align="center" style="margin-top: 6px; font-family: monospace; font-weight: bold;">
-        Geometry  &equiv;  (Space X, Transformation Group G)
+        Geometry &equiv; (Space X, Transformation Group G)
       </div>
     </div>
     <ul>
-      <li><b>Unification:</b> Euclidean geometry studies invariants of the rigid motion group <code>SO(n)</code>; Projective geometry studies invariants of <code>PGL(n)</code>; Topology studies invariants of continuous maps.</li>
-      <li><b>Physics Impact:</b> Direct ancestor of Special Relativity (Lorentz Group <code>SO(1,3)</code>), Noether's conservation laws, and Standard Model Gauge Field Theories (<code>SU(3) &times; SU(2) &times; U(1)</code>).</li>
+      <li><b>Unification:</b> Euclidean geometry studies invariants of the rigid motion group <code>SO(n)</code>;
+        Projective geometry studies invariants of <code>PGL(n)</code>; Topology studies invariants of continuous maps.
+      </li>
+      <li><b>Physics Impact:</b> Direct ancestor of Special Relativity (Lorentz Group <code>SO(1,3)</code>), Noether's
+        conservation laws, and Standard Model Gauge Field Theories (<code>SU(3) &times; SU(2) &times; U(1)</code>).</li>
     </ul>
 
     <h3>5. Epoch 5: Topological Spaces (X, τ) — Pure Proximity &amp; Open Sets (1914)</h3>
     <p>
-      Felix Hausdorff and Kazimierz Kuratowski stripped away distance metrics entirely to isolate the pure concept of <i>continuity</i>.
+      Felix Hausdorff and Kazimierz Kuratowski stripped away distance metrics entirely to isolate the pure concept of
+      <i>continuity</i>.
     </p>
     <ul>
-      <li><b>The Paradigm:</b> A space is a set <i>X</i> equipped with a collection of <b>open sets</b> <code>τ ⊆ 𝒫(X)</code> satisfying closure under union and finite intersection.</li>
-      <li><b>Points:</b> Points remain primitive elements <code>x ∈ X</code>, but distance is replaced by neighborhood proximity.</li>
-      <li><b>Limitation:</b> Could not distinguish between spaces with different "internal algebraic structures" or handle infinitesimal directionalities.</li>
+      <li><b>The Paradigm:</b> A space is a set <i>X</i> equipped with a collection of <b>open sets</b>
+        <code>τ ⊆ 𝒫(X)</code> satisfying closure under union and finite intersection.</li>
+      <li><b>Points:</b> Points remain primitive elements <code>x ∈ X</code>, but distance is replaced by neighborhood
+        proximity.</li>
+      <li><b>Limitation:</b> Could not distinguish between spaces with different "internal algebraic structures" or
+        handle infinitesimal directionalities.</li>
     </ul>
 
     <h3>6. Epoch 6: Grothendieck Schemes &amp; Ring-Based Sheaves (Spec A, O_X) (1960)</h3>
     <p>
-      In the 1950s and 60s, Jean Leray, Henri Cartan, Jean-Pierre Serre, and <b>Alexander Grothendieck</b> executed the ultimate conceptual inversion.
+      In the 1950s and 60s, Jean Leray, Henri Cartan, Jean-Pierre Serre, and <b>Alexander Grothendieck</b> executed the
+      ultimate conceptual inversion.
     </p>
     <div class="box-blue">
       <b>Grothendieck’s Inversion:</b><br>
-      Instead of starting with spatial points <i>X</i> and looking at functions on them, <b>start with a commutative ring of functions <i>A</i></b>. The space <code>X = Spec(A)</code> is derived as the set of prime ideals <code>p ⊂ A</code>. Space is completely governed by its <b>structure sheaf <code>O_X</code></b> of local function rings!
+      Instead of starting with spatial points <i>X</i> and looking at functions on them, <b>start with a commutative
+        ring of functions <i>A</i></b>. The space <code>X = Spec(A)</code> is derived as the set of prime ideals
+      <code>p ⊂ A</code>. Space is completely governed by its <b>structure sheaf <code>O_X</code></b> of local function
+      rings!
     </div>
     <ul>
       <li><b>Presheaf <code>ℱ(U)</code>:</b> Assigns a ring of local functions to every open set <i>U</i>.</li>
-      <li><b>Stalks <code>O_{X,x}</code>:</b> The ring of function germs at point <i>x</i>, obtained by localizing the ring <i>A</i> at prime ideal <i>p</i> (<code>O_{X,x} = A_p</code>).</li>
-      <li><b>Nilpotents (<code>ε² = 0</code>):</b> Allows "fuzzy" geometric points equipped with infinitesimal tangent vectors (<code>a + b·ε</code>).</li>
+      <li><b>Stalks <code>O_{X,x}</code>:</b> The ring of function germs at point <i>x</i>, obtained by localizing the
+        ring <i>A</i> at prime ideal <i>p</i> (<code>O_{X,x} = A_p</code>).</li>
+      <li><b>Nilpotents (<code>ε² = 0</code>):</b> Allows "fuzzy" geometric points equipped with infinitesimal tangent
+        vectors (<code>a + b·ε</code>).</li>
     </ul>
 
     <h3>7. Epoch 7: The Middle Way Synthesis — Conway Trees &amp; Microscopic Halos (ℂ_ω)</h3>
     <p>
-      In our nonstandard framework, John H. Conway’s surreal number tree and Abraham Robinson’s nonstandard analysis synthesize abstract sheaves into concrete visual geometry.
+      In our nonstandard framework, John H. Conway’s surreal number tree and Abraham Robinson’s nonstandard analysis
+      synthesize abstract sheaves into concrete visual geometry.
     </p>
     <ul>
-      <li><b>Spatial Points &amp; Halos:</b> Abstract scheme stalks <code>O_{X,x}</code> become concrete <b>microscopic halos <code>μ(z_0)</code></b> of radius <code>dx = 1/ω</code> on transfinite Day <code>ω</code> trees <code>ℂ_ω</code>.</li>
-      <li><b>Constructive Sheaves:</b> Abstract ring localizations and nilpotents become hypercomplex tree functions evaluated on hyperfinite discrete grids.</li>
+      <li><b>Spatial Points &amp; Halos:</b> Abstract scheme stalks <code>O_{X,x}</code> become concrete <b>microscopic
+          halos <code>μ(z_0)</code></b> of radius <code>dx = 1/ω</code> on transfinite Day <code>ω</code> trees
+        <code>ℂ_ω</code>.</li>
+      <li><b>Constructive Sheaves:</b> Abstract ring localizations and nilpotents become hypercomplex tree functions
+        evaluated on hyperfinite discrete grids.</li>
     </ul>
 
     <h3>8. Master Comparison Table of Geometric Space</h3>
@@ -186,4 +298,5 @@
   </div>
 
 </body>
+
 </html>
