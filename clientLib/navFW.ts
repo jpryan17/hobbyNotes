@@ -194,7 +194,7 @@ export class Nav {
         const hasOpenDetails = document.querySelector('details[open]') !== null
         
         if (Nav.isReturning) {
-            if (scrollTop > Nav.returningScrollTop + 200 || hasOpenDetails) {
+            if (hasOpenDetails) {
                 Nav.isReturning = false
             } else {
                 Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
@@ -203,7 +203,8 @@ export class Nav {
             }
         }
 
-        if (hasOpenDetails || scrollTop > 150) {
+        // Return button appears ONLY when a hidden <details> section is expanded!
+        if (hasOpenDetails) {
             Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto'])
         } else {
             Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
