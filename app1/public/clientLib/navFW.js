@@ -196,6 +196,15 @@ export class Nav {
         Nav.showNavLine();
     }
     static scrollToLectureDialogue() {
+        // 1. Collapse/hide any expanded <details> monograph callouts
+        const openDetails = document.querySelectorAll('details[open]');
+        openDetails.forEach(d => {
+            d.open = false;
+        });
+        // 2. Immediately hide returnControl
+        Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        Nav.showNavLine();
+        // 3. Smooth scroll back to lecture dialogue
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]');
         if (anchor) {
             anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -203,9 +212,10 @@ export class Nav {
         else if (Nav.fo && Nav.fo.elt) {
             Nav.fo.elt.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        // 4. Re-verify visibility after scroll animation finishes
         setTimeout(() => {
             Nav.updateReturnControlVisibility();
-        }, 500);
+        }, 600);
     }
     static changeTextSize(whichWay) {
         Nav.textFontSize += (whichWay == '+') ? 1 : -1;
