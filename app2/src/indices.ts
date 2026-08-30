@@ -98,7 +98,7 @@ export const satelliteIndex: IndexItemDesc[] = [
   },
   {
     type: "html",
-    topic: "seminar 5: Grothendieck’s sheaf theory & stalks",
+    topic: "seminar 4.A: Grothendieck’s sheaf theory & stalks",
     htmlSegmentId: "grothendieckSheafSeminar",
   },
 ];
