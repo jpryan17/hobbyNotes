@@ -80,13 +80,6 @@
     <hr>
     <h3>2. What is a Sheaf? (Presheaves, Local Rings, &amp; Gluing)</h3>
     <p> To study geometry locally, Grothendieck formalized how rings of
-      functions change as you zoom into smaller open neighborhoods: </p>
-    <h4>A. Presheaf <code>ℱ</code></h4>
-    <p> A presheaf <code>ℱ</code> on a space <code>X</code> assigns to
-      every open set <code>U ⊆ X</code> a commutative ring <code>ℱ(U)</code>
-      of local functions. Whenever <code>V ⊆ U</code>, a restriction
-      homomorphism <code>res_{U,V}: ℱ(U) → ℱ(V)</code> restricts
-      functions on <code>U</code> down to the smaller neighborhood <code>V</code>.
           of functions</b> <code>A = O(X)</code>.</li>
       <li><b>Points as Prime Ideals:</b> Rather than defining points as
         primitive spatial dots, a point <code>x ∈ Spec(A)</code> is
@@ -105,7 +98,6 @@
       homomorphism <code>res_{U,V}: ℱ(U) → ℱ(V)</code> restricts
       functions on <code>U</code> down to the smaller neighborhood <code>V</code>.
     </p>
-
     <h4>B. Sheaf Axioms (Local-to-Global Principle)</h4>
     <p> A presheaf is a <b>sheaf</b> if local function snippets
       uniquely glue together into global functions: </p>
@@ -128,7 +120,6 @@
         ideal <code>p</code></b> (written <code>A_p</code>), forming
       algebraic fractions <code>f/g</code> whose denominators <code>g
         ∉ p</code> do not vanish at <code>x</code>. The stalk <code>O_{X,x}
-
         = A_p</code> is a <b>local ring</b> possessing a unique maximal
       ideal <code>m_x = p A_p</code> consisting of all function germs
       that vanish at <code>x</code>. </p>
@@ -137,22 +128,12 @@
     <p> Grothendieck extended geometry from smooth manifolds to <b>schemes</b>
       by allowing rings <code>A</code> to contain <b>nilpotent
         elements</b>—non-zero algebraic elements <code>ε</code> where <code>ε²
-
-
-
-
-
         = 0</code>. </p>
     <div style="background-color: #fffbeb; border: 1.5px solid #f59e0b;
       border-radius: 8px; padding: 14px; margin: 15px auto; max-width:
-      620px; font-size: 13.5px; line-height: 1.6; color: #78350f;"
+      620px; font-size: 0.88em; line-height: 1.6; color: #78350f;"
       align="center"> <b>Grothendieck's Nilpotent Dual Numbers:</b><br>
       A function of the form <code>f(x) = a + b·ε</code> (where <code>ε²
-
-
-
-
-
         = 0</code>) has a "value" at point <code>x</code> equal to
       standard <code>a</code>, but carries an infinitesimal "fuzzy
       tangent direction" <code>b</code>. This allowed Grothendieck to
@@ -163,49 +144,7 @@
     <p> On Conway's recursive complex number tree <code>ℂ_ω = ℝ_ω[i]</code>
       on transfinite Day <code>ω</code>, <b>Grothendieck's abstract
         sheaf abstractions become concrete, visual geometry</b>: </p>
-    <table style="border-collapse: collapse; font-size: 13.5px; width:
-      95%; max-width: 820px; background-color: #ffffff; border-color:
-      #cbd5e1; margin: 16px auto;" cellspacing="0" cellpadding="8"
-      border="1" align="center">
-      <thead> <tr style="background-color: #1e3a8a; color: #ffffff;
-          text-align: left;">
-          <th>Grothendieck Sheaf Concept</th>
-          <th>Abstract Ring-Theoretic Definition</th>
-          <th>Middle Way Realization on Conway Tree <code>ℂ_ω</code></th>
-        </tr>
-      </thead> <tbody>
-        <tr>
-          <td><b>Spatial Point <code>x_0</code></b></td>
-          <td>Maximal ideal <code>m_x ⊂ A</code></td>
-          <td>A standard complex coordinate <code>z_0 ∈ ℂ</code>.</td>
-        </tr>
-        <tr style="background-color: #f8fafc;">
-          <td><b>Stalk <code>O_{X,x_0}</code></b></td>
-          <td>Direct limit <code>lim_{U ∋ x_0} ℱ(U)</code></td>
-          <td>Ring of hypercomplex functions <code>f(z)</code>
-            restricted to the <b>halo</b> <code>μ(z_0)</code> of
-            radius <code>dx = 1/ω</code>.</td>
-        </tr>
-        <tr>
-          <td><b>Maximal Ideal <code>m_{x_0}</code></b></td>
-          <td>Functions vanishing at <code>x_0</code></td>
-          <td>Infinitesimal functions <code>f(z)</code> such that
-            standard part <code>st(f(z_0)) = 0</code>.</td>
-        </tr>
-        <tr style="background-color: #f8fafc;">
-          <td><b>Nilpotent Dual Number <code>ε</code></b></td>
-          <td>Formal algebraic element with <code>ε² = 0</code></td>
-        = 0</code>) has a "value" at point <code>x</code> equal to
-      standard <code>a</code>, but carries an infinitesimal "fuzzy
-      tangent direction" <code>b</code>. This allowed Grothendieck to
-      treat tangent vectors, jet bundles, and differential forms as pure
-      ring theory! </div>
-    <hr>
-    <h3>4. The Middle Way Realization: Stalks as Halos on <code>ℂ_ω</code></h3>
-    <p> On Conway's recursive complex number tree <code>ℂ_ω = ℝ_ω[i]</code>
-      on transfinite Day <code>ω</code>, <b>Grothendieck's abstract
-        sheaf abstractions become concrete, visual geometry</b>: </p>
-    <table style="border-collapse: collapse; font-size: 13.5px; width:
+    <table style="border-collapse: collapse; font-size: 0.88em; width:
       95%; max-width: 820px; background-color: #ffffff; border-color:
       #cbd5e1; margin: 16px auto;" cellspacing="0" cellpadding="8"
       border="1" align="center">
@@ -257,7 +196,7 @@
     After Dr. Alexander finished describing Grothendieck's geometric space, she paused, looking over at Jill with a warm smile:
   </p>
 
-  <p align="center" style="font-style: italic; color: #1e3a8a; font-size: 14.5px;">
+  <p align="center" style="font-style: italic; color: #1e3a8a; font-size: 0.92em;">
     “Jill, you seem somewhat perplexed.”
   </p>
 
@@ -265,7 +204,7 @@
     Jill nodded thoughtfully and responded:
   </p>
 
-  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #64748b; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 660px; font-size: 13.5px; line-height: 1.6; color: #1e293b;">
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #64748b; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 660px; font-size: 0.88em; line-height: 1.6; color: #1e293b;">
     <b>Jill's Question:</b><br>
     “I think you may be right, Doctor. I remember reading about the history of 'state space' and how that has affected physical theories. And of course I know about Euclidean geometry, and a bit about Riemannian geometry, but I am not sure about the history of geometry, and how that might relate to state space?”
   </div>
@@ -284,12 +223,12 @@
 
   <!-- Full Monograph 1: 7 Epochs of Geometric Space -->
   <details style="margin: 18px auto; max-width: 760px; background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px;">
-    <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 14px;">
+    <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.9em;">
       📖 Full Monograph 1: The Historical Evolution of Geometric Space (7 Epochs)
     </summary>
-    <div style="margin-top: 12px; font-size: 13.5px; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+    <div style="margin-top: 12px; font-size: 0.88em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
       
-      <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: #1e3a8a;" align="center">
+      <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.85em; color: #1e3a8a;" align="center">
         <b>Monograph Overview:</b> The 7 great conceptual revolutions of geometric space—from Euclidean rigid containers to Grothendieck sheaves and nonstandard binary trees.
       </div>
 
@@ -314,7 +253,7 @@
       <h4>7. Epoch 7: The Middle Way Synthesis — Conway Trees &amp; Microscopic Halos (ℂ_ω)</h4>
       <p>On Conway’s Day <code>ω</code> tree, abstract scheme stalks <code>O_{X,x}</code> become concrete <b>microscopic halos <code>μ(z_0)</code></b> of radius <code>dx = 1/ω</code> on <code>ℂ_ω</code>. Abstract localizations become hypercomplex tree functions evaluated on hyperfinite discrete grids.</p>
 
-      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-size: 12.5px; width: 100%; margin: 14px 0; border-color: #cbd5e1;">
+      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-size: 0.82em; width: 100%; margin: 14px 0; border-color: #cbd5e1;">
         <thead>
           <tr style="background-color: #1e3a8a; color: #ffffff;">
             <th>Historical Epoch</th>
@@ -338,12 +277,12 @@
 
   <!-- Full Monograph 2: Duality Matrix of Geometric Space vs. State Space -->
   <details style="margin: 18px auto; max-width: 760px; background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px;">
-    <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 14px;">
+    <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.9em;">
       📖 Full Monograph 2: Duality Matrix of Geometric Space vs. State Space
     </summary>
-    <div style="margin-top: 12px; font-size: 13.5px; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+    <div style="margin-top: 12px; font-size: 0.88em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
 
-      <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: #1e3a8a;" align="center">
+      <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.85em; color: #1e3a8a;" align="center">
         <b>Duality Principle:</b> Every system can be viewed through dual lenses: Geometric Space (points) vs. State Space (functions &amp; configurations).
       </div>
 
@@ -362,7 +301,7 @@
       <h4>5. The Middle Way Synthesis: Conway Trees (ℂ_ω)</h4>
       <p>On Day <code>ω</code> trees, Geometric Space (node path <i>z</i>₀) and State Space (halo function amplitude <code>f ∈ O(μ(z_0))</code>) merge into a single unified discrete scaffold!</p>
 
-      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-size: 12.5px; width: 100%; margin: 14px 0; border-color: #cbd5e1;">
+      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-size: 0.82em; width: 100%; margin: 14px 0; border-color: #cbd5e1;">
         <thead>
           <tr style="background-color: #1e3a8a; color: #ffffff;">
             <th>Domain / Physics</th>
@@ -386,7 +325,7 @@
     Jill listened intently, her face brightening as the vast historical connection locked into place:
   </p>
 
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #1e3a8a;">
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 0.88em; line-height: 1.6; color: #1e3a8a;">
     <b>Jill's Reflection:</b><br>
     “Honestly, Dr. Alexander, Grothendieck’s prime spectra, stalks, and nilpotents are a tremendous amount of abstract ring theory to take in! It doesn't seem that long ago that Jack told us we could ignore rings, (and after a mischievous grin aimed at Jack, continued) but in fairness, Jack was referring to how numbers could be described. But seeing how these abstract stalks map directly to concrete halos <code>μ(z_0)</code> on Conway’s tree <code>ℂ_ω</code>, those numbers give me a visual anchor. And complex as all this is, I know I speak for all the students in expressing our sincere gratitude to the faculty and guests for the basic tools and opportunity to listen in on so many interesting conversations of our time.”
   </div>
@@ -395,7 +334,7 @@
     Jane stepped forward, nodding in complete agreement with Jill:
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #334155;">
+  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 0.88em; line-height: 1.6; color: #334155;">
     <b>Jane's Concluding Remarks:</b><br>
     “Thank you, Jill. I think I speak for all of us (glancing at her colleagues on stage and in the audience) when I say it's been our pleasure fulfilling our responsibilities to you all. We've reached the end of our Liberal Arts curriculum. You now possess the conceptual lens: Grothendieck showed that <i>space is born from rings of functions</i>, and Conway's tree shows that <i>rings of functions are born from recursive binary branching</i>. We've raised the curtain: behind the most abstract machinery of modern mathematics lies a simple, visual, constructive <b>Middle Way</b>.<br>
     So enjoy pondering the mysteries of the universe with non-nonsensical acumen.”
