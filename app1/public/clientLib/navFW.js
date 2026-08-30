@@ -93,7 +93,7 @@ export class Nav {
         Nav.frame.setA('style', `background-color:${bgC}`);
         Nav.line.setA('height', h);
         Nav.lineRect.setAA(['x', fm, 'y', fm, 'height', h, 'fill', `${lineC}`]);
-        Nav.index.setAA(['x', 0, 'y', y]);
+        Nav.index.setAA(['x', fm, 'y', y]);
         Nav.indexRect.setAA(['x', 0, 'y', 0, 'fill', `${indexC}`]);
         Nav.foRect.setAA(['y', y, 'fill', `${Nav.foBgColor}`]);
         Nav.fo.setAA(['y', y, 'style', `overflow-y:auto;overflow-x:hidden;`]);
