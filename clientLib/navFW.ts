@@ -30,6 +30,8 @@ export class Nav {
     static segMap:Map<string,string> = new Map()
     static lastVisits = new Map<string,number>()
     static editMode:boolean
+    static isReturning = false
+    static returningScrollTop = 0
     
     static marginLeft:number
     static marginTop:number
@@ -189,9 +191,19 @@ export class Nav {
     static updateReturnControlVisibility() {
         if (!Nav.fo || !Nav.fo.elt) return
         const scrollTop = Nav.fo.elt.scrollTop
-        const hasAnchor = document.getElementById('jillQuestionAnchor') !== null || document.querySelector('a[name="jillQuestionAnchor"]') !== null
+        const hasOpenDetails = document.querySelector('details[open]') !== null
         
-        if (scrollTop > 80 || (hasAnchor && scrollTop > 40)) {
+        if (Nav.isReturning) {
+            if (scrollTop > Nav.returningScrollTop + 200 || hasOpenDetails) {
+                Nav.isReturning = false
+            } else {
+                Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
+                Nav.showNavLine()
+                return
+            }
+        }
+
+        if (hasOpenDetails || scrollTop > 150) {
             Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto'])
         } else {
             Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
@@ -205,22 +217,28 @@ export class Nav {
             (d as HTMLDetailsElement).open = false
         })
 
-        // 2. Immediately hide returnControl
+        // 2. Set returning state flag & immediately hide returnControl
+        Nav.isReturning = true
         Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
         Nav.showNavLine()
 
-        // 3. Smooth scroll back to lecture dialogue
+        // 3. Scroll cleanly to lecture dialogue anchor
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]')
         if (anchor) {
-            anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            anchor.scrollIntoView({ behavior: 'auto', block: 'start' })
         } else if (Nav.fo && Nav.fo.elt) {
-            Nav.fo.elt.scrollTo({ top: 0, behavior: 'smooth' })
+            Nav.fo.elt.scrollTo({ top: 0, behavior: 'auto' })
         }
 
-        // 4. Re-verify visibility after scroll animation finishes
+        if (Nav.fo && Nav.fo.elt) {
+            Nav.returningScrollTop = Nav.fo.elt.scrollTop
+        }
+
+        // 4. Confirm returnControl remains hidden
         setTimeout(() => {
-            Nav.updateReturnControlVisibility()
-        }, 600)
+            Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
+            Nav.showNavLine()
+        }, 150)
     }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
