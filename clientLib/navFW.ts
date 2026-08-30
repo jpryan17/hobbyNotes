@@ -169,17 +169,17 @@ export class Nav {
         })
     }
     static setReturnControl(){
-        const widget = new SVGTSpan(Nav.returnControl)
-        widget.setA('font-size', Nav.fontSize)
-        widget.setV('> [\u21BA Return]')
-        widget.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto', 'visibility', 'hidden'])
-        widget.elt.addEventListener('mouseover', () => {
-            widget.setA('stroke', Nav.color.over)
+        Nav.returnControl.setA('font-size', Nav.fontSize)
+        Nav.returnControl.setV('> [\u21BA Return]')
+        Nav.returnControl.setAA(['stroke', Nav.color.active, 'pointer-events', 'none', 'visibility', 'hidden'])
+        Nav.returnControl.elt.addEventListener('mouseover', () => {
+            Nav.returnControl.setA('stroke', Nav.color.over)
         })
-        widget.elt.addEventListener('mouseout', () => {
-            widget.setA('stroke', Nav.color.active)
+        Nav.returnControl.elt.addEventListener('mouseout', () => {
+            Nav.returnControl.setA('stroke', Nav.color.active)
         })
-        widget.elt.addEventListener('click', () => {
+        Nav.returnControl.elt.addEventListener('click', (ev: Event) => {
+            ev.stopPropagation()
             Nav.scrollToLectureDialogue()
         })
     }
@@ -191,11 +191,12 @@ export class Nav {
         const scrollTop = Nav.fo.elt.scrollTop
         const hasAnchor = document.getElementById('jillQuestionAnchor') !== null || document.querySelector('a[name="jillQuestionAnchor"]') !== null
         
-        if (scrollTop > 150 || (hasAnchor && scrollTop > 60)) {
+        if (scrollTop > 80 || (hasAnchor && scrollTop > 40)) {
             Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto'])
         } else {
             Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
         }
+        Nav.showNavLine()
     }
     static scrollToLectureDialogue(){
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]')
@@ -206,7 +207,7 @@ export class Nav {
         }
         setTimeout(() => {
             Nav.updateReturnControlVisibility()
-        }, 400)
+        }, 500)
     }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
@@ -519,6 +520,10 @@ export class Nav {
         if (Nav.fo && Nav.fo.elt) {
             Nav.fo.elt.removeEventListener('scroll', Nav.onFoScroll)
             Nav.fo.elt.addEventListener('scroll', Nav.onFoScroll)
+            Nav.segDiv.elt.removeEventListener('toggle', Nav.onFoScroll, true)
+            Nav.segDiv.elt.addEventListener('toggle', Nav.onFoScroll, true)
+            Nav.segDiv.elt.removeEventListener('click', Nav.onFoScroll, true)
+            Nav.segDiv.elt.addEventListener('click', Nav.onFoScroll, true)
             setTimeout(() => { Nav.updateReturnControlVisibility() }, 100)
         }
     }
