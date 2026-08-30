@@ -171,8 +171,8 @@ export class Nav {
     static setReturnControl(){
         const widget = new SVGTSpan(Nav.returnControl)
         widget.setA('font-size', Nav.fontSize)
-        widget.setV('[\u21BA Return]')
-        widget.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto'])
+        widget.setV('> [\u21BA Return]')
+        widget.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto', 'visibility', 'hidden'])
         widget.elt.addEventListener('mouseover', () => {
             widget.setA('stroke', Nav.color.over)
         })
@@ -183,13 +183,30 @@ export class Nav {
             Nav.scrollToLectureDialogue()
         })
     }
+    static onFoScroll = () => {
+        Nav.updateReturnControlVisibility()
+    }
+    static updateReturnControlVisibility() {
+        if (!Nav.fo || !Nav.fo.elt) return
+        const scrollTop = Nav.fo.elt.scrollTop
+        const hasAnchor = document.getElementById('jillQuestionAnchor') !== null || document.querySelector('a[name="jillQuestionAnchor"]') !== null
+        
+        if (scrollTop > 150 || (hasAnchor && scrollTop > 60)) {
+            Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto'])
+        } else {
+            Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none'])
+        }
+    }
     static scrollToLectureDialogue(){
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]')
         if (anchor) {
             anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else {
+        } else if (Nav.fo && Nav.fo.elt) {
             Nav.fo.elt.scrollTo({ top: 0, behavior: 'smooth' })
         }
+        setTimeout(() => {
+            Nav.updateReturnControlVisibility()
+        }, 400)
     }
     static changeTextSize(whichWay:string){
         Nav.textFontSize += (whichWay == '+') ? 1 : -1
@@ -207,13 +224,7 @@ export class Nav {
         Nav.feedbackControl.setA('x', fbX)
         Nav.feedbackControl.setAA(['visibility','visible','pointer-events','auto'])
 
-        const returnText = '[\u21BA Return]'
-        const returnWidth = textWidth(returnText, Nav.fontSize)
-        const retX = fbX - returnWidth - 15
-        Nav.returnControl.setA('x', retX)
-        Nav.returnControl.setAA(['visibility','visible','pointer-events','auto'])
-
-        return retX - 20
+        return fbX - 20
     }
     static getActiveTopicTitle(): string {
         if (Nav.currentIndex >= 0 && Nav.currentIndex < Nav.indices.length) {
@@ -505,6 +516,11 @@ export class Nav {
             Nav.fo.removeChildren()
             Nav.fo.append(Nav.segDiv)
         }
+        if (Nav.fo && Nav.fo.elt) {
+            Nav.fo.elt.removeEventListener('scroll', Nav.onFoScroll)
+            Nav.fo.elt.addEventListener('scroll', Nav.onFoScroll)
+            setTimeout(() => { Nav.updateReturnControlVisibility() }, 100)
+        }
     }
     static embeddedSeg(segId:string){
         const seg = document.getElementById(segId) as HTMLElement | HTMLTemplateElement | null
@@ -574,6 +590,9 @@ export class Nav {
             widget.setAA(['x',xp,'y',yp])
             xp += bb.width + Nav.margin.std  
         })
+        if (Nav.returnControl) {
+            Nav.returnControl.setAA(['x', xp, 'y', yp])
+        }
     }
     static clearNavLine(){
         Nav.lineTopics.removeChildren()
