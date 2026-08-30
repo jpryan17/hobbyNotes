@@ -16,6 +16,7 @@ export class Nav {
     static lineTopics;
     static textSizeControl;
     static feedbackControl;
+    static returnControl;
     static index;
     static indexRect;
     static foRect;
@@ -67,6 +68,8 @@ export class Nav {
         Nav.textSizeControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.feedbackControl = new SVGTSpan(Nav.lineBlock);
         Nav.feedbackControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        Nav.returnControl = new SVGTSpan(Nav.lineBlock);
+        Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.index = new SVGElt('svg');
         Nav.indexRect = new SVGElt('rect');
         Nav.foRect = new SVGElt('rect');
@@ -88,7 +91,7 @@ export class Nav {
         Nav.frame.setA('style', `background-color:${bgC}`);
         Nav.line.setA('height', h);
         Nav.lineRect.setAA(['x', fm, 'y', fm, 'height', h, 'fill', `${lineC}`]);
-        Nav.index.setAA(['x', fm, 'y', y]);
+        Nav.index.setAA(['x', 0, 'y', y]);
         Nav.indexRect.setAA(['x', 0, 'y', 0, 'fill', `${indexC}`]);
         Nav.foRect.setAA(['y', y, 'fill', `${Nav.foBgColor}`]);
         Nav.fo.setAA(['y', y, 'style', `overflow-y:auto;overflow-x:hidden;`]);
@@ -100,6 +103,7 @@ export class Nav {
         //
         Nav.setTextSizeControl();
         Nav.setFeedbackControl();
+        Nav.setReturnControl();
         if (Nav.editMode) {
             new Sed(Nav.color);
         }
@@ -160,6 +164,30 @@ export class Nav {
             Nav.openFeedbackModal();
         });
     }
+    static setReturnControl() {
+        const widget = new SVGTSpan(Nav.returnControl);
+        widget.setA('font-size', Nav.fontSize);
+        widget.setV('[\u21BA Return]');
+        widget.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto']);
+        widget.elt.addEventListener('mouseover', () => {
+            widget.setA('stroke', Nav.color.over);
+        });
+        widget.elt.addEventListener('mouseout', () => {
+            widget.setA('stroke', Nav.color.active);
+        });
+        widget.elt.addEventListener('click', () => {
+            Nav.scrollToLectureDialogue();
+        });
+    }
+    static scrollToLectureDialogue() {
+        const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]');
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        else {
+            Nav.fo.elt.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
     static changeTextSize(whichWay) {
         Nav.textFontSize += (whichWay == '+') ? 1 : -1;
         Nav.segDiv.setA('style', Nav.getTextStyle());
@@ -174,7 +202,12 @@ export class Nav {
         const fbX = xp - feedbackWidth - 15;
         Nav.feedbackControl.setA('x', fbX);
         Nav.feedbackControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
-        return fbX - 20;
+        const returnText = '[\u21BA Return]';
+        const returnWidth = textWidth(returnText, Nav.fontSize);
+        const retX = fbX - returnWidth - 15;
+        Nav.returnControl.setA('x', retX);
+        Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
+        return retX - 20;
     }
     static getActiveTopicTitle() {
         if (Nav.currentIndex >= 0 && Nav.currentIndex < Nav.indices.length) {
