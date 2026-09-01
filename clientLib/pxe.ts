@@ -73,7 +73,7 @@ export class PXE extends SVGGrpElt {
     this.txtFrame = new SVGElt("rect");
     this.txt = new SVGText();
     this.caret = new SVGElt("line");
-    this.clearButton = new SVGSelectableText(PXE.clear, "clear", false);
+    this.clearButton = new SVGSelectableText(() => this.clear(), "clear", false);
     this.parent.controls.push(this.clearButton);
     const x = parent.sideMargin;
     const y = parent.vertMargin;

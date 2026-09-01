@@ -303,9 +303,13 @@ export class TTD extends PXEParent {
     this.tree = undefined;
     this.predCols = [];
     this.expCols = [];
-    if (this.fo && this.fo.elt) {
-      this.fo.elt.innerHTML = "";
+    if (this.fo) {
+      this.fo.removeChildren();
+      if (this.fo.elt) {
+        this.fo.elt.innerHTML = "";
+      }
     }
+    this.setButtonStates();
   }
   displayTable() {
     this.tree = this.bldTree(this.pxe.exp);
