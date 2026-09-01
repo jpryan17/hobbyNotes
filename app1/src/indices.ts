@@ -212,6 +212,11 @@ export const proposalsIndex: IndexItemDesc[] = [
     topic: "proposal 2: narrowed-scope Lean 4 UI",
     htmlSegmentId: "lean4GenEdProposal",
   },
+  {
+    type: "html",
+    topic: "academic whitepaper: dual-agent verified AI tutor",
+    htmlSegmentId: "dualAgentAcademicProposal",
+  },
 ];
 
 export const lamIndex: IndexItemDesc[] = [
