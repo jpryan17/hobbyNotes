@@ -260,9 +260,12 @@ export class TTD extends PXEParent {
     }
   }
   setButtonStates() {
-    const clearState = true;
+    const clearState =
+      this.pxe.exp.length > 0 || (this.expCols && this.expCols.length > 0);
     const clearButton = this.controls[0] as SVGSelectableText;
-    clearButton.setAble(clearState);
+    if (clearButton && clearButton.setAble) {
+      clearButton.setAble(clearState);
+    }
     this.displayButton.setAble(this.pxe.displayState == "Valid");
 
     // Enable/disable symbol buttons based on expression state
@@ -297,8 +300,12 @@ export class TTD extends PXEParent {
     }
   }
   clear() {
-    this.fo.removeChildren();
-    this.fo.setV("");
+    this.tree = undefined;
+    this.predCols = [];
+    this.expCols = [];
+    if (this.fo && this.fo.elt) {
+      this.fo.elt.innerHTML = "";
+    }
   }
   displayTable() {
     this.tree = this.bldTree(this.pxe.exp);

@@ -282,9 +282,9 @@ export const mainIndex: IndexItemDesc[] = [
 ];
 
 function initTTD() {
-  //setTTD()
-  ttd.pxe.exp = "";
-  ttd.pxe.nl = 0;
+  if (ttd && ttd.pxe) {
+    ttd.pxe.clear();
+  }
   return ttd;
 }
 function layout() {
