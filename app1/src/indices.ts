@@ -186,7 +186,6 @@ export const foundationIndex: IndexItemDesc[] = [
     topic: "formal statements",
     indexDesc: formalStatementsIndex,
   },
-  { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
   { type: "index", topic: "numbers", indexDesc: numbersIndex },
   {
     type: "index",
@@ -198,6 +197,14 @@ export const foundationIndex: IndexItemDesc[] = [
     type: "index",
     topic: "quantum Bayesian Inference",
     indexDesc: quantumBayesianInferenceIndex,
+  },
+];
+
+export const proposalsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "proposal: agentic Maxima & Lean 4",
+    htmlSegmentId: "adjacentProposals",
   },
 ];
 
@@ -255,6 +262,11 @@ export const mainIndex: IndexItemDesc[] = [
     type: "index",
     topic: "2. liberal arts math & seminars",
     indexDesc: lamIndex,
+  },
+  {
+    type: "index",
+    topic: "3. adjacent research & proposals",
+    indexDesc: proposalsIndex,
   },
 ];
 
