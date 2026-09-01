@@ -190,8 +190,13 @@ export const foundationIndex = [
 export const proposalsIndex = [
     {
         type: "html",
-        topic: "proposal: agentic Maxima & Lean 4",
+        topic: "proposal 1: agentic Maxima & Lean 4",
         htmlSegmentId: "adjacentProposals",
+    },
+    {
+        type: "html",
+        topic: "proposal 2: narrowed-scope Lean 4 UI",
+        htmlSegmentId: "lean4GenEdProposal",
     },
 ];
 export const lamIndex = [
