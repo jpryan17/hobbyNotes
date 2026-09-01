@@ -186,6 +186,7 @@ export const foundationIndex: IndexItemDesc[] = [
     topic: "formal statements",
     indexDesc: formalStatementsIndex,
   },
+  { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
   { type: "index", topic: "numbers", indexDesc: numbersIndex },
   {
     type: "index",
