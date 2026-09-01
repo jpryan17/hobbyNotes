@@ -126,3 +126,7 @@ Phase 4: Open Source Release & Educational Deployment (Months 19–24)
 
 1. **Interface Spec Outline**: Finalize the mockup for the visual proof builder interface.
 2. **Agency Submission**: Submit preliminary concept paper to **NSF DUE (IUSE Initiative)** and the **Alfred P. Sloan Foundation**.
+
+> [!TIP]
+> **Or Maybe... (The Global Consortium Horizon)**  
+> Rather than establishing a traditional, regionally federated non-profit administrative structure, the initiative detours directly around administrative bureaucracy to form an **International Academic & Industry Enterprise**. By forming a direct open-science consortium linking frontier AI research labs, international theorem proving organizations (e.g., Lean FRO, Mathlib), and global academic institutes, the project scales rapidly on shared compute, world-class engineering, and global open-source adoption.

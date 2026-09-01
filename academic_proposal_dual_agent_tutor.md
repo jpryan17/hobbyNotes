@@ -97,3 +97,7 @@ Deploy the dual-layer architecture inside **`middlewaymath.app`** across general
 
 * **NSF Program**: Information & Intelligent Systems (IIS) — *Cyber-Human Systems (CHS) / AI-Augmented Learning*.
 * **Conference Submissions**: International Conference on Artificial Intelligence in Education (AIED 2027), Conference on Intelligent Computer Mathematics (CICM 2027).
+
+> [!TIP]
+> **Or Maybe... (The Global Consortium Horizon)**  
+> Rather than establishing a traditional, regionally federated non-profit administrative structure, the initiative detours directly around administrative bureaucracy to form an **International Academic & Industry Enterprise**. By forming a direct open-science consortium linking frontier AI research labs, international theorem proving organizations (e.g., Lean FRO, Mathlib), and global academic institutes, the project scales rapidly on shared compute, world-class engineering, and global open-source adoption.

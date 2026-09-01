@@ -131,3 +131,7 @@ Phase 4: Ecosystem Delivery & Mathlib Integration (Months 19–24)
 
 1. **Foundation Charter & SAB Criteria**: Formalize **The Middle Way Mathematics Foundation** charter template and SAB recruitment specs.
 2. **Concept Note / LOI Outreach**: Submit preliminary 2-page proposal summary to **NSF OAC (Software & Cyberinfrastructure)** and private foundations (Sloan Foundation, Schmidt Sciences).
+
+> [!TIP]
+> **Or Maybe... (The Global Consortium Horizon)**  
+> Rather than establishing a traditional, regionally federated non-profit administrative structure, the initiative detours directly around administrative bureaucracy to form an **International Academic & Industry Enterprise**. By forming a direct open-science consortium linking frontier AI research labs, international theorem proving organizations (e.g., Lean FRO, Mathlib), and global academic institutes, the project scales rapidly on shared compute, world-class engineering, and global open-source adoption.
