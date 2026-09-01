@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Introduction: Propositional Logic</title>
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
+      <font size="+1"><i>Deductive Certainty, Boolean Connectives &amp; The Truth Table Demo (TTD)</i></font>
+    </div>
+    <br>
+
+    <h3>1. The Goal: Grounding Formal Science on Familiar Terrain</h3>
+    <p>
+      As outlined in the curriculum introduction, the primary goal of <b>Propositional Logic</b> is to expose the student to the formal sciences on familiar, intuitive ground.
+    </p>
+    <p>
+      Propositional logic is the foundational game of <b>deductive certainty</b>. 
+      It begins with a single core supposition: a <b>proposition</b> is any declarative statement that can be judged definitively as either <b>True (1)</b> or <b>False (0)</b> within the binary Boolean set <code>𝔹 = {0, 1}</code>. 
+      There is no middle ground, vagueness, or ambiguity.
+    </p>
+    <p>
+      The formal system does not concern itself with empirical weather or physical facts; it cares exclusively about <b>deductive validity</b> ("being right" under assigned premises). 
+      Deductive proof is strictly <b>monotonic</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+    </div>
+    <p>
+      Once a mathematical theorem is proven from premises, discovering new facts can never overturn the proof.
+    </p>
+
+    <hr>
+
+    <h3>2. Atomic Variables &amp; The Boolean Connectives</h3>
+    <p>
+      To analyze complex arguments without writing long sentences, we represent atomic propositions with abstract variables: <code>p, q, r, s</code>.
+    </p>
+    <p>
+      These variables are combined into compound expressions using five standard logical connectives:
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="15%" align="left">Connective</th>
+        <th width="12%" align="center">Symbol</th>
+        <th width="28%" align="left">English Reading</th>
+        <th width="45%" align="left">Truth Condition</th>
+      </tr>
+      <tr>
+        <td><b>Negation</b></td>
+        <td align="center"><code>¬</code></td>
+        <td><i>"NOT p"</i> (<code>¬p</code>)</td>
+        <td>Inverts truth value: True if <code>p</code> is False; False if <code>p</code> is True.</td>
+      </tr>
+      <tr>
+        <td><b>Conjunction</b></td>
+        <td align="center"><code>∧</code></td>
+        <td><i>"p AND q"</i> (<code>p ∧ q</code>)</td>
+        <td>True <b>only if both</b> <code>p</code> and <code>q</code> are True.</td>
+      </tr>
+      <tr>
+        <td><b>Disjunction</b></td>
+        <td align="center"><code>∨</code></td>
+        <td><i>"p OR q"</i> (<code>p ∨ q</code>)</td>
+        <td>True if <b>at least one</b> of <code>p</code> or <code>q</code> is True.</td>
+      </tr>
+      <tr>
+        <td><b>Implication</b></td>
+        <td align="center"><code>→</code></td>
+        <td><i>"IF p THEN q"</i> (<code>p → q</code>)</td>
+        <td>Defined as <code>¬p ∨ q</code>. False only when <code>p</code> is True and <code>q</code> is False.</td>
+      </tr>
+      <tr>
+        <td><b>Equivalence</b></td>
+        <td align="center"><code>↔</code></td>
+        <td><i>"p IF AND ONLY IF q"</i> (<code>p ↔ q</code>)</td>
+        <td>True when <code>p</code> and <code>q</code> share the <b>exact same truth value</b>.</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>3. Overview of the Truth Table Demo (TTD)</h3>
+    <p>
+      The pedagogical centerpiece of this unit is the <b>Truth Table Demo (TTD)</b>. 
+      Rather than calculating truth tables manually by hand, TTD provides an immediate, interactive environment for composing and validating Boolean expressions:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13px; margin: 12px 0; line-height: 1.5;">
+      ┌────────────────────────────────────────────────────────────────────────┐<br>
+      │ Top Input Bar: Formula Editor with Live Grammar &amp; Syntax Checking     │<br>
+      │ Buttons: [ p ] [ q ] [ r ] [ s ] [ ¬ ] [ ∧ ] [ ∨ ] [ → ] [ ↔ ] [ ( ] [ ) ] │<br>
+      └───────────────────────────────────┬────────────────────────────────────┘<br>
+                                          │ Parses expression into AST<br>
+                                          ▼<br>
+      ┌────────────────────────────────────────────────────────────────────────┐<br>
+      │ Dynamic Truth Table: Evaluates Sub-Expressions Column-by-Column        │<br>
+      │ • Lists all 2ⁿ input rows for variables (p, q, ...)                    │<br>
+      │ • Computes inner bracketed expressions first                           │<br>
+      │ • Evaluates outermost connective column to determine full truth        │<br>
+      └────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <p>
+      Throughout these notes, clicking on any <span style="color:firebrick;font-weight:bold">highlighted red expression</span> instantly loads it into the live TTD tool for inspection!
+    </p>
+
+    <hr>
+
+    <h3>4. Tautologies, Contradictions &amp; Algebraic Laws</h3>
+    <p>
+      Compound expressions exhibit fundamental algebraic properties that can be verified live in TTD by clicking the red links below:
+    </p>
+    <ul>
+      <li>
+        <b>Tautology:</b> An expression that evaluates to <b>True under every possible truth assignment</b>. 
+        Tautologies express universal logical laws. For example:
+        <ul>
+          <li><b>Law of Excluded Middle:</b> <ttd-ref exp="ponp" style="color:firebrick;font-weight:bold">p ∨ ¬ p</ttd-ref> (every proposition is either True or False).</li>
+          <li><b>Implication Equivalence:</b> <ttd-ref exp="[npoq]e[piq]" style="color:firebrick;font-weight:bold">[ ¬ p ∨ q ] ↔ [ p → q ]</ttd-ref> (material conditional definition).</li>
+          <li><b>De Morgan's Laws:</b> <ttd-ref exp="n[paq]e[nponq]" style="color:firebrick;font-weight:bold">¬ [ p ∧ q ] ↔ [ ¬ p ∨ ¬ q ]</ttd-ref> (distributing negation over conjunction).</li>
+        </ul>
+      </li>
+      <br>
+      <li>
+        <b>Contradiction:</b> An expression that evaluates to <b>False under all truth assignments</b>. 
+        For example: <ttd-ref exp="panp" style="color:firebrick;font-weight:bold">p ∧ ¬ p</ttd-ref> (the Law of Non-Contradiction states its negation <ttd-ref exp="n[panp]" style="color:firebrick;font-weight:bold">¬ [ p ∧ ¬ p ]</ttd-ref> is a tautology).
+      </li>
+      <br>
+      <li>
+        <b>Contingency:</b> An expression whose truth value depends on the specific inputs (e.g., <ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref> or <ttd-ref exp="poq" style="color:firebrick;font-weight:bold">p ∨ q</ttd-ref>).
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>5. Moving Forward: From Propositions to Predicates</h3>
+    <p>
+      Propositional logic provides the indestructible logical skeleton. 
+      However, atomic propositions like <code>p</code> and <code>q</code> cannot describe the internal properties of objects or relationships between numbers. 
+      In the next module, <b>Formal Statements</b>, we expand this skeleton into full First-Order Predicate Logic by introducing sets, domain-typed relations, and quantifiers.
+    </p>
+  </body>
+</html>

@@ -234,9 +234,11 @@ export class TTD extends PXEParent {
         }
     }
     setButtonStates() {
-        const clearState = true;
+        const clearState = this.pxe.exp.length > 0 || (this.expCols && this.expCols.length > 0);
         const clearButton = this.controls[0];
-        clearButton.setAble(clearState);
+        if (clearButton && clearButton.setAble) {
+            clearButton.setAble(clearState);
+        }
         this.displayButton.setAble(this.pxe.displayState == "Valid");
         // Enable/disable symbol buttons based on expression state
         const expectClass = this.pxe.setExpectClass();
@@ -266,8 +268,16 @@ export class TTD extends PXEParent {
         }
     }
     clear() {
-        this.fo.removeChildren();
-        this.fo.setV("");
+        this.tree = undefined;
+        this.predCols = [];
+        this.expCols = [];
+        if (this.fo) {
+            this.fo.removeChildren();
+            if (this.fo.elt) {
+                this.fo.elt.innerHTML = "";
+            }
+        }
+        this.setButtonStates();
     }
     displayTable() {
         this.tree = this.bldTree(this.pxe.exp);

@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>editedFormalStatementsIntro</title>
+</head>
+
+<body>
+  <h1>Formal Statements</h1>
+  <p>The subject of formal statements naturally follows the subject of
+    propositional logic. This is because <strong>quantified
+      predicates are propositions</strong>, and a quantified predicate
+    expression is simply a propositional expression.</p>
+  <p>We want to make formal statements about collections. Because our
+    target is basic education, we can comfortably limit our scope to
+    collections of a size easily handled by standard set theory.</p>
+  <p>Specifically, we adopt the perspective established by axiomatized
+    <strong>Zermelo-Fraenkel (ZF) set theory</strong>. In this system,
+    the only fundamental data type is the <em>set</em>. Because
+    everything is a set, we can express all of our ideas using the
+    clean language of classical,    <strong>single-sorted first-order
+      predicate logic (FOL)</strong>.
+  </p>
+  <p>
+    <strong>A Note on Bounded Quantifiers vs. "Sorts":</strong><br>
+    When we write bounded quantifiers like
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <mo>&forall;</mo>
+        <mi>x</mi>
+        <mo>&in;</mo>
+        <mi>S</mi>
+        <mo>,</mo>
+        <mi>P</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+      </mrow>
+    </math> (e.g., "for all numbers <em>x</em> in ℕ"), it may appear as though <em>x</em> is assigned a distinct "sort" or data type.
+    However, in single-sorted FOL, bounded quantification is purely a convenient syntactic shorthand (relativization):
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+    (&forall; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &forall; x ( x &isin; S &rarr; P(x) )<br>
+    (&exist; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &exist; x ( x &isin; S &and; P(x) )
+  </div>
+  <p>
+    The variable <em>x</em> still ranges over the single universal domain of all sets <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>𝒱</mi></math>, and membership in <em>S</em> is simply a condition evaluated inside our single-sorted logic!
+  </p>
+  <p>To anchor this, we assume an overarching universal collection of
+    all sets, which we denote as the universal collection
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mi>𝒱</mi>
+        </mrow>
+        <annotation encoding="TeX">𝒱</annotation>
+      </semantics>
+    </math>. To avoid
+    logical paradoxes (like Russell's Paradox), this massive
+    collection itself cannot be classified as a set. However, we use
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mi>𝒱</mi>
+        </mrow>
+        <annotation encoding="TeX">𝒱</annotation>
+      </semantics>
+    </math> to define
+    the single absolute bedrock predicate of our entire system: <strong>membership</strong>,
+    which we denote as:
+  </p>
+  <p align="center">
+    <math xmlns="http://w3.org" display="block">
+      <semantics>
+        <mrow>
+          <mo>&in;</mo>
+          <mo>:</mo>
+          <mi>𝒱</mi>
+          <mo>&times;</mo>
+          <mi>𝒱</mi>
+          <mo stretchy="false">&rarr;</mo>
+          <mi>𝔹</mi>
+        </mrow>
+        <annotation encoding="TeX">\in : 𝒱 \times 𝒱 \to 𝔹</annotation>
+      </semantics>
+    </math>
+  </p>
+
+  <p>where
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mi>𝌄</mi>
+        </mrow>
+        <annotation encoding="TeX">𝌄</annotation>
+      </semantics>
+    </math> is a
+    binary set whose members are interpreted as Boolean truth values;
+    this is analogous to how standard predicates will be handled.
+  </p>
+  <p>Unlike standard predicates, like (propositional) logical
+    operators, the membership predicate is part of our formal language
+    based on vanilla FOL. We do not discuss the topic of inference
+    mechanisms; we are only interested in the language, and
+    specifically, simple quantified predicate expressions. The goal is
+    not mastery of the language of FOL. It is a concrete means of
+    allowing the student to become familiar with the notion of a
+    formal statement.</p>
+  <hr>
+  <h3>Set Constructors</h3>
+  <p>We assume two basic set constructors:</p>
+  <h4>1. The Product (<math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mi>×</mi>
+    </math>)</h4>
+  <p>A product combines sets where, besides bookkeeping, the order of
+    factors is insignificant.</p>
+  <h4>2. The Directed Pair (<math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mo stretchy="false">→</mo>
+    </math>)</h4>
+  <p>The order of sets in a directed pair is relevant. There is a from
+    or domain set, and a to or codomain set. At this basic level, we
+    prohibit a directed pair from being used as a domain or codomain
+    of any directed pair.</p>
+  <hr>
+  <h3>Function</h3>
+  <p>A function is a directed pair and a rule that assigns to any
+    member of the domain, a member of the codomain. For example —
+    given addition is defined for the naturals —
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mi>ℕ</mi>
+          <mo stretchy="false">→</mo>
+          <mi>ℕ</mi>
+        </mrow>
+        <annotation encoding="TeX">ℕ\toℕ</annotation>
+      </semantics>
+    </math> (add 2
+    to any member of the domain) and
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mi>ℕ</mi>
+          <mo>×</mo>
+          <mi>ℕ</mi>
+          <mo stretchy="false">→</mo>
+          <mi>ℕ</mi>
+        </mrow>
+        <annotation encoding="TeX">ℕ\timesℕ\toℕ</annotation>
+      </semantics>
+    </math>
+    (add the product factors) are functions. A function is often
+    identified by prepending the directed pair with a name; e.g.,
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <semantics>
+        <mrow>
+          <mtext>add_two</mtext>
+          <mo>:</mo>
+          <mi>ℕ</mi>
+          <mo stretchy="false">→</mo>
+          <mi>ℕ</mi>
+        </mrow>
+        <annotation encoding="TeX">\text{add_two}: ℕ\toℕ</annotation>
+      </semantics>
+    </math>
+    might refer to the function that adds 2 to the input.
+  </p>
+  <h3>Predicate</h3>
+
+  <p>A predicate is a function whose codomain is the binary set of Boolean truth values. Thus if
+    <math xmlns="http://w3.org">
+      <semantics>
+        <mrow>
+          <mi>𝒮</mi>
+        </mrow>
+        <annotation encoding="TeX">𝒮</annotation>
+      </semantics>
+    </math> is any set, any function defined for the directed pair
+    <math xmlns="http://w3.org">
+      <semantics>
+        <mrow>
+          <mi>𝒮</mi>
+          <mo stretchy="false">&rarr;</mo>
+          <mi>𝔹</mi>
+        </mrow>
+        <annotation encoding="TeX">𝒮\to𝔹</annotation>
+      </semantics>
+    </math> is a predicate. For example, if
+    <math xmlns="http://w3.org">
+      <semantics>
+        <mrow>
+          <mi>P</mi>
+          <mo>:</mo>
+          <mi>ℕ</mi>
+          <mo>&times;</mo>
+          <mi>ℕ</mi>
+          <mo stretchy="false">&rarr;</mo>
+          <mi>𝔹</mi>
+        </mrow>
+        <annotation encoding="TeX">P: ℕ\timesℕ\to𝔹</annotation>
+      </semantics>
+    </math> (where
+    <math xmlns="http://w3.org">
+      <semantics>
+        <mrow>
+          <mi>𝒮</mi>
+          <mo>&equiv;</mo>
+          <mi>ℕ</mi>
+          <mo>&times;</mo>
+          <mi>ℕ</mi>
+        </mrow>
+        <annotation encoding="TeX">𝒮\equivℕ\timesℕ</annotation>
+      </semantics>
+    </math>) and letting
+    <math xmlns="http://w3.org">
+      <semantics>
+        <mrow>
+          <mo stretchy="false">(</mo>
+          <msub>
+            <mi>x</mi>
+            <mn>1</mn>
+          </msub>
+          <mo separator="true">,</mo>
+          <msub>
+            <mi>x</mi>
+            <mn>2</mn>
+          </msub>
+          <mo stretchy="box">)</mo>
+          <mo>&in;</mo>
+          <mi>ℕ</mi>
+          <mo>&times;</mo>
+          <mi>ℕ</mi>
+        </mrow>
+        <annotation encoding="TeX">(x_1, x_2)\inℕ\timesℕ</annotation>
+      </semantics>
+    </math>, we have:
+  </p>
+
+  <p align="center">
+    <math xmlns="http://w3.org" display="block">
+      <semantics>
+        <mrow>
+          <mo stretchy="false">(</mo>
+          <msub>
+            <mi>x</mi>
+            <mn>1</mn>
+          </msub>
+          <mo separator="true">,</mo>
+          <msub>
+            <mi>x</mi>
+            <mn>2</mn>
+          </msub>
+          <mo stretchy="false">)</mo>
+          <mo stretchy="false">&mapsto;</mo>
+          <mrow>
+            <mo fence="true">{</mo>
+            <mtable columnalign="left left" rowspacing="0.16em">
+              <mtr>
+                <mtd>
+                  <mstyle scriptlevel="0" fill="currentColor">
+                    <mtext>true if </mtext>
+                  </mstyle>
+                </mtd>
+                <mtd>
+                  <mstyle scriptlevel="0">
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mo>&lt;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mn>2</mn>
+                      </msub>
+                    </mrow>
+                  </mstyle>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mstyle scriptlevel="0" fill="currentColor">
+                    <mtext>false if </mtext>
+                  </mstyle>
+                </mtd>
+                <mtd>
+                  <mstyle scriptlevel="0">
+                    <mrow>
+                      <mo>&not;</mo>
+                      <mo stretchy="false">(</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mo>&lt;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mn>2</mn>
+                      </msub>
+                      <mo stretchy="false">)</mo>
+                    </mrow>
+                  </mstyle>
+                </mtd>
+              </mtr>
+            </mtable>
+          </mrow>
+        </mrow>
+        <annotation encoding="TeX">(x_1, x_2)\mapsto\begin{cases} \text{true if } x_1&lt;x_2 \\ \text{false if }
+          \not(x_1&lt;x_2) \end{cases}</annotation>
+      </semantics>
+    </math>
+  </p>
+
+  <p>then <em>P</em> is a predicate.</p>
+  <hr>
+  <h3>Predicate Expression and Quantification</h3>
+  <p>The same set of logical operators developed for constructing
+    propositional expressions can be used to construct predicate
+    expressions. A predicate expression may be quantified. The goal is
+    to expose the student to experience with simple quantified
+    expressions.</p>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Formal Statements Introduction</title>
+</body>
+
+</html>

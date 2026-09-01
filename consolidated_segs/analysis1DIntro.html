@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Course 2 Overview: Analysis 1D &amp; The Real Continuum</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Course 2: Analysis 1D &amp; The Real Continuum</b></i></font><br>
+    <font size="+1"><i>— Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω —</i></font>
+  </div>
+  <br>
+
+  <h3>Preface: Taming the Unbroken Continuum</h3>
+  <p>
+    While <b>Algebra</b> studies exact equalities and discrete symmetries, <b>Analysis</b> is the branch of mathematics that tames <b>continuous change, approximation, and accumulation over an unbroken continuum</b>.
+  </p>
+  <p>
+    Whenever a quantity varies continuously across time or space, analysis addresses two master questions:
+  </p>
+  <ol>
+    <li><b>The Local Question (Instantaneous Rate of Change):</b> How fast is a function changing <i>right here, right now</i>, at a single point?</li>
+    <li><b>The Global Question (Continuous Accumulation):</b> How do uncountably many infinitesimal contributions across an unbroken interval cumulate into a single total sum (area, energy, or work)?</li>
+  </ol>
+
+  <hr>
+
+  <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
+  <p>
+    In classical 19th-century real analysis, every individual real number <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound foundational crisis:
+  </p>
+  <ul>
+    <li>Evaluating change at a single point requires dividing the change in output by the change in input: <code>Δy / Δx</code>.</li>
+    <li>If <code>Δx = 0</code>, division is algebraically impossible (<code>0 / 0</code> is undefined).</li>
+    <li>To avoid dividing by zero, standard analysis erected dense <b>epsilon-delta (ε-δ) limit towers</b>:
+      <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0;">
+        f'(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx ( 0 &lt; |Δx| &lt; δ &rArr; |Δy/Δx - L| &lt; ε )
+      </div>
+    </li>
+  </ul>
+
+  <p>
+    <b>The Nonstandard Resolution (Abraham Robinson, 1960):</b><br>
+    Rather than treating the continuum as a static collection of zero-width points, we use our constructive scaffold <b><code>ℝ_ω</code></b>, equipped with genuine **infinitesimals**:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Infinitesimal Step: &nbsp; dx = 1/ω &nbsp;&gt;&nbsp; 0 &emsp; (smaller than any standard real 1/n)</b>
+  </div>
+
+  <p>
+    Because <code>dx &gt; 0</code>, division by <code>dx</code> is 100% legal, ordinary algebra!
+  </p>
+
+  <hr>
+
+  <h3>2. The Core Machinery: Tree Birthdays &amp; Halos</h3>
+
+  <h4>A. Hyperreals as Conway Tree Nodes (Birthday &ge; &omega;)</h4>
+  <p>
+    On John Conway's recursive number tree, numbers are created day by day:
+  </p>
+  <ul>
+    <li>Standard real numbers and dyadic fractions are born on finite days: <code>0, 1, 2, ..., n</code>.</li>
+    <li><b>Hyperreal Numbers</b> (ubiquitous in nonstandard analysis literature) <b>are nothing more than Conway tree numbers whose birthday is <code>&ge; &omega;</code>!</b></li>
+  </ul>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Demystifying the Literature:</b><br><br>
+    The famous "Hyperreal Field <b>*ℝ</b>" constructed via ultrafilters in standard mathematical logic is <b>100% isomorphic to the subfield of Conway's Surreals born on Day <code>&le; &omega;_1</code></b>!<br><br>
+    Infinitesimals like <b><code>dx = 1/&omega; = { 0 | 1, 1/2, 1/4, 1/8, ... } &gt; 0</code></b> and infinite numbers like <b><code>&omega; = { 0, 1, 2, 3, ... | }</code></b> are simply nodes born on transfinite birthdays <b><code>&ge; &omega;</code></b>!
+  </div>
+
+  <h4>B. The Infinitesimal Halo (Monad) μ(x)</h4>
+  <p>
+    Around every number <code>x</code> born on a finite day sits a cluster of tree nodes born on Day <code>ω</code> that differ from <code>x</code> by an infinitesimal step &mdash; its <b>Halo <code>μ(x)</code></b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+    <b>μ(x) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x } &emsp; where &emsp; y ≈ x &hArr; |y - x| is an infinitesimal tree branch</b>
+  </div>
+
+  <h4>C. The Standard Part Function (st)</h4>
+  <p>
+    Every finite number <code>y ∈ ℝ_ω</code> is uniquely decomposed into its earliest standard ancestor plus transfinite branch dust: <code>y = x + ε</code> (where <code>x</code> was born on a finite day and <code>ε</code> on Day <code>ω</code>).
+    The <b>Standard Part Function <code>st(y) = x</code></b> simply prunes the branch back to its earliest standard ancestor on the tree, casting its observable shadow on <code>ℝ</code>.
+  </p>
+
+  <hr>
+
+  <h3>3. The 1D Calculus Toolkit on ℝ_ω</h3>
+
+  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
+    <tr bgcolor="#f8fafc">
+      <th width="20%" align="left">Concept</th>
+      <th width="40%" align="center">Nonstandard Formulation (ℝ_ω)</th>
+      <th width="40%" align="left">Intuitive Meaning</th>
+    </tr>
+    <tr>
+      <td><b>Continuity</b></td>
+      <td align="center"><code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code></td>
+      <td>Points in the same halo map to the same halo (nearby points stay nearby).</td>
+    </tr>
+    <tr>
+      <td><b>Derivative</b></td>
+      <td align="center"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></td>
+      <td>Direct algebraic division over an infinitesimal step, followed by standard part shadow.</td>
+    </tr>
+    <tr>
+      <td><b>Integral</b></td>
+      <td align="center"><code>∫[a to b] f(x) dx = st( ∑[k=1 to ω] f(x_k) · dx )</code></td>
+      <td>Genuine discrete addition of <code>ω</code> microscopic rectangular tiles.</td>
+    </tr>
+    <tr>
+      <td><b>Fundamental Theorem</b></td>
+      <td align="center"><code>∑[k=1 to ω] [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code></td>
+      <td>Pure telescoping cancellation of internal grid boundaries!</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <h3>4. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 640px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Header -->
+        <rect x="0" y="0" width="640" height="26" fill="#f1f5f9" rx="8" />
+        <rect x="0" y="18" width="640" height="8" fill="#f1f5f9" />
+        <text x="320" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">Comparing 1D Differentiation</text>
+
+        <!-- Left: Classical Secant Limit -->
+        <rect x="25" y="40" width="280" height="120" rx="4" fill="#faf5ff" stroke="#d8b4fe" />
+        <text x="165" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">Classical Standard Approach</text>
+        <text x="165" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#581c87">f'(x) = lim (Δx→0) Δy / Δx</text>
+        <text x="165" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Requires ε-δ quantified limit machinery</text>
+        <text x="165" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Secant lines approaching a limit</text>
+
+        <!-- Right: Nonstandard Algebraic Division -->
+        <rect x="335" y="40" width="280" height="120" rx="4" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="475" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Nonstandard ℝ_ω Approach</text>
+        <text x="475" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#1e3a8a">f'(x) = st( Δy / dx )</text>
+        <text x="475" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Actual step dx = 1/ω &gt; 0</text>
+        <text x="475" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Direct algebraic division &amp; standard shadow</text>
+      </svg>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>Course 2 Lecture Plan</h3>
+  <ul>
+    <li><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining continuity without <code>ε-δ</code>, and the Intermediate Value Theorem as a discrete grid march.</li>
+    <li><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b> Calculating slopes via pure algebra, the product and chain rules, and local linear approximation <code>df = f'(x)·dx</code>.</li>
+    <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
+  </ul>
+</body>
+</html>

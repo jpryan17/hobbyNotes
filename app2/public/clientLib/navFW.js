@@ -16,6 +16,7 @@ export class Nav {
     static lineTopics;
     static textSizeControl;
     static feedbackControl;
+    static returnControl;
     static index;
     static indexRect;
     static foRect;
@@ -27,6 +28,8 @@ export class Nav {
     static segMap = new Map();
     static lastVisits = new Map();
     static editMode;
+    static isReturning = false;
+    static returningScrollTop = 0;
     static marginLeft;
     static marginTop;
     static color = { bg: 'beige', std: 'black', active: 'blue', over: 'purple', busy: 'orange' };
@@ -67,6 +70,8 @@ export class Nav {
         Nav.textSizeControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.feedbackControl = new SVGTSpan(Nav.lineBlock);
         Nav.feedbackControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        Nav.returnControl = new SVGTSpan(Nav.lineBlock);
+        Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.index = new SVGElt('svg');
         Nav.indexRect = new SVGElt('rect');
         Nav.foRect = new SVGElt('rect');
@@ -100,6 +105,7 @@ export class Nav {
         //
         Nav.setTextSizeControl();
         Nav.setFeedbackControl();
+        Nav.setReturnControl();
         if (Nav.editMode) {
             new Sed(Nav.color);
         }
@@ -159,6 +165,75 @@ export class Nav {
         widget.elt.addEventListener('click', () => {
             Nav.openFeedbackModal();
         });
+    }
+    static setReturnControl() {
+        Nav.returnControl.setA('font-size', Nav.fontSize);
+        Nav.returnControl.setV('> [\u21BA Return]');
+        Nav.returnControl.setAA(['stroke', Nav.color.active, 'pointer-events', 'none', 'visibility', 'hidden']);
+        Nav.returnControl.elt.addEventListener('mouseover', () => {
+            Nav.returnControl.setA('stroke', Nav.color.over);
+        });
+        Nav.returnControl.elt.addEventListener('mouseout', () => {
+            Nav.returnControl.setA('stroke', Nav.color.active);
+        });
+        Nav.returnControl.elt.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            Nav.scrollToLectureDialogue();
+        });
+    }
+    static onFoScroll = () => {
+        Nav.updateReturnControlVisibility();
+    };
+    static updateReturnControlVisibility() {
+        if (!Nav.fo || !Nav.fo.elt)
+            return;
+        const scrollTop = Nav.fo.elt.scrollTop;
+        const hasOpenDetails = document.querySelector('details[open]') !== null;
+        if (Nav.isReturning) {
+            if (hasOpenDetails) {
+                Nav.isReturning = false;
+            }
+            else {
+                Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+                Nav.showNavLine();
+                return;
+            }
+        }
+        // Return button appears ONLY when a hidden <details> section is expanded!
+        if (hasOpenDetails) {
+            Nav.returnControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
+        }
+        else {
+            Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        }
+        Nav.showNavLine();
+    }
+    static scrollToLectureDialogue() {
+        // 1. Collapse/hide any expanded <details> monograph callouts
+        const openDetails = document.querySelectorAll('details[open]');
+        openDetails.forEach(d => {
+            d.open = false;
+        });
+        // 2. Set returning state flag & immediately hide returnControl
+        Nav.isReturning = true;
+        Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        Nav.showNavLine();
+        // 3. Scroll cleanly to lecture dialogue anchor
+        const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]');
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+        else if (Nav.fo && Nav.fo.elt) {
+            Nav.fo.elt.scrollTo({ top: 0, behavior: 'auto' });
+        }
+        if (Nav.fo && Nav.fo.elt) {
+            Nav.returningScrollTop = Nav.fo.elt.scrollTop;
+        }
+        // 4. Confirm returnControl remains hidden
+        setTimeout(() => {
+            Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+            Nav.showNavLine();
+        }, 150);
     }
     static changeTextSize(whichWay) {
         Nav.textFontSize += (whichWay == '+') ? 1 : -1;
@@ -469,6 +544,15 @@ export class Nav {
             Nav.fo.removeChildren();
             Nav.fo.append(Nav.segDiv);
         }
+        if (Nav.fo && Nav.fo.elt) {
+            Nav.fo.elt.removeEventListener('scroll', Nav.onFoScroll);
+            Nav.fo.elt.addEventListener('scroll', Nav.onFoScroll);
+            Nav.segDiv.elt.removeEventListener('toggle', Nav.onFoScroll, true);
+            Nav.segDiv.elt.addEventListener('toggle', Nav.onFoScroll, true);
+            Nav.segDiv.elt.removeEventListener('click', Nav.onFoScroll, true);
+            Nav.segDiv.elt.addEventListener('click', Nav.onFoScroll, true);
+            setTimeout(() => { Nav.updateReturnControlVisibility(); }, 100);
+        }
     }
     static embeddedSeg(segId) {
         const seg = document.getElementById(segId);
@@ -505,6 +589,9 @@ export class Nav {
             for (let i = lineElts.length - 1; i > widgetPos; i--) {
                 Nav.lineTopics.elt.removeChild(lineElts[i].elt);
             }
+            while (Nav.indices.length > widgetPos + 1) {
+                Nav.indices.pop();
+            }
             const [stdC, activeC] = [Nav.color.std, Nav.color.active];
             Nav.currentIndex = widgetPos;
             lineElts[widgetPos].setAA(['stroke', stdC, 'pointer-events', 'none']);
@@ -514,7 +601,7 @@ export class Nav {
         }
         Nav.setLastVisit();
         Nav.showNavLine();
-        const index = Nav.indices[this.currentIndex];
+        const index = Nav.indices[Nav.currentIndex];
         index.chosen = 0;
         index.setSelectedItem();
         Nav.processSelection();
@@ -536,6 +623,9 @@ export class Nav {
             widget.setAA(['x', xp, 'y', yp]);
             xp += bb.width + Nav.margin.std;
         });
+        if (Nav.returnControl) {
+            Nav.returnControl.setAA(['x', xp, 'y', yp]);
+        }
     }
     static clearNavLine() {
         Nav.lineTopics.removeChildren();

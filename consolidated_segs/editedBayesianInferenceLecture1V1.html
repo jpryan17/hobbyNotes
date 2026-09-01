@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Bayesian Inference Lecture 1: How Science Learns from Clues</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Bayesian Inference Lecture 1</font></i><br>
+      <i><font size="+1">How Science Learns from Clues &amp; The 3-Stage Bayesian Filter</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Welcome back, detectives!” Jack greeted the classroom with enthusiasm.
+    </p>
+
+    <p>
+      “Now that we have solid logic and number trees under our belt, we enter the real world of applied discovery: <b>how science learns from clues</b>.”
+    </p>
+
+    <p>
+      Jill raised her hand immediately: “Wait Jack, in our logic and math lectures, once you prove something, it's 100% true forever. Why can't scientists just prove physics theories with pure deduction like mathematicians do?”
+    </p>
+
+    <p>
+      “That is the fundamental difference between mathematics and the natural sciences!” Jack said.
+    </p>
+
+    <hr>
+
+    <h3>1. Math Deduction vs. Scientific Discovery</h3>
+
+    <p>
+      “In pure mathematics, reasoning is <b>monotonic</b>: truth only ever accumulates,” Jack explained. “When you prove that <code>2 + 2 = 4</code> or that <code>√2</code> is irrational, no future discovery will ever un-prove it.”
+    </p>
+
+    <p>
+      “Nature, however, doesn't come with an answer key at the back of the book. Scientists cannot peek behind the curtain of the cosmos to see absolute truth. Scientific reasoning is fundamentally <b>non-monotonic</b>:”
+    </p>
+
+    <ul>
+      <li>You might observe 10,000 white swans across Europe and feel almost certain that <i>'all swans are white'</i>.</li>
+      <li>Then, on a voyage to Australia, you see a single black swan &mdash; and your 100% theory instantly collapses!</li>
+    </ul>
+
+    <p>
+      “In the real world, rational thinkers must be able to <b>update their beliefs when new clues appear</b>. <b>Bayesian inference</b> is the exact mathematical engine that tells us how much our beliefs should change.”
+    </p>
+
+    <hr>
+
+    <h3>2. The Primary Arena: Sample Space (Ω)</h3>
+
+    <p>
+      “To make scientific reasoning crystal clear, all of inference is anchored on a single playing field: the <b>Sample Space / State Space (Ω)</b>.”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left"><font size="+1">1. The State Space (Ω)</font></th>
+        <th width="35%" align="left"><font size="+1">2. Hypotheses / Explanations (ℋ)</font></th>
+        <th width="35%" align="left"><font size="+1">3. Observations / Data (𝒟)</font></th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>The Arena of Possibilities:</b><br>
+          • <b>Elements:</b> Individual outcomes <code>p ∈ Ω</code>.<br>
+          • <i>Example:</i> <code>p = Heads</code> or <code>p = Tails</code> (or physical coordinate states).<br>
+          • <b>The Anchor:</b> The common ground where theories make predictions and real events land.
+        </td>
+        <td valign="top">
+          <b>The World of Explanations:</b><br>
+          • <b>Elements:</b> Candidate theories <code>h ∈ ℋ</code>.<br>
+          • <b>Role:</b> Proposes a probability distribution over <code>Ω</code>.<br>
+          • <i>Example:</i> <i>'The coin is fair'</i> (50/50) vs. <i>'The coin is biased'</i> (80/20).<br>
+          • <b>Action:</b> Predicts likelihoods <code>h(p) = P(p | h)</code>.
+        </td>
+        <td valign="top">
+          <b>The World of Realized Clues:</b><br>
+          • <b>Elements:</b> Concrete data points <code>d ∈ 𝒟</code>.<br>
+          • <b>Role:</b> Nature samples and delivers actual points from <code>Ω</code>.<br>
+          • <i>Example:</i> <i>'The coin landed Heads 4 times in a row'</i>.<br>
+          • <b>The Clue:</b> Concrete observations recorded by instruments.
+        </td>
+      </tr>
+    </table>
+
+    <br>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 12px;">
+      <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
+                     [ Hypotheses (Explanations in ℋ) ]<br>
+                   (Candidate distributions over Ω)<br>
+                               │<br>
+                               │ Predicts: h(p) = P(p | h)<br>
+                               ▼<br>
+     ═════════════════════════════════════════════════════════<br>
+                SAMPLE SPACE / STATE SPACE (Ω)<br>
+                 The Arena of All Possibilities<br>
+     ═════════════════════════════════════════════════════════<br>
+                               ▲<br>
+                               │ Realizes: Sample points p ∈ Ω<br>
+                               │<br>
+                     [ Observations (Data 𝒟) ]<br>
+                  (Recorded occurrences from Ω)
+      </div>
+      <b>The Core Question of Inference:</b><br>
+      <i>“Given that nature just produced clue <code>d ∈ Ω</code>, which candidate explanation in <code>ℋ</code> gave that clue the highest probability?”</i>
+    </div>
+
+    <p>
+      “So,” Jill summarized, “hypotheses make bets on what we'll see, nature actually rolls the dice, and we reward the hypotheses that predicted the outcome best?”
+    </p>
+
+    <p>
+      “Precisely!” Jack smiled.
+    </p>
+
+    <hr>
+
+    <h3>3. Slicing the Probability Line: The 3-Stage Bayesian Filter</h3>
+
+    <p>
+      “Imagine all 100% of our belief laid out along a unit line from <code>0</code> to <code>1</code> on our hyperfinite transect,” Jack said. “Bayesian updating works like a <b>3-stage filter</b>:”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+      <tr bgcolor="#f8fafc">
+        <th width="33%" align="left">Stage 1: The Prior Slices</th>
+        <th width="34%" align="left">Stage 2: Likelihood Slicing</th>
+        <th width="33%" align="left">Stage 3: Normalization</th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>Initial Belief Cake:</b><br>
+          Competing explanations divide the unit line according to our starting belief:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">P(H₁) + P(H₂) = 1.000</div>
+        </td>
+        <td valign="top">
+          <b>Testing Compatibility:</b><br>
+          When clue <code>D</code> is seen, each slice is shaved down by its predictive accuracy:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">Surviving = P(D | H) × P(H)</div>
+        </td>
+        <td valign="top">
+          <b>Rescaling to 100%:</b><br>
+          The total surviving mass has shrunk. We divide each survivor by the total remaining width to restore a full 100% belief:
+          <div align="center" style="font-family: monospace; margin: 6px 0;">Posterior = <sup>Surviving</sup> / <sub>Total</sub></div>
+        </td>
+      </tr>
+    </table>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="filter">Interactive Demo: The 3-Stage Bayesian Filter in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. A Concrete Mission: The Mars Rover Optical Sensor</h3>
+
+    <p>
+      “Let's look at a real-world engineering problem,” Jack proposed.
+    </p>
+
+    <p>
+      “An autonomous rover is navigating the rocky surface of Mars in dim twilight. Its cameras spot a dark silhouette in its path. It must decide whether the silhouette is a real hazard or just flat ground:”
+    </p>
+
+    <ul>
+      <li><b>H_clear (Flat ground / safe):</b> Prior belief <code>P(H_clear) = 70% = 0.70</code></li>
+      <li><b>H_rock (Dangerous boulder):</b> Prior belief <code>P(H_rock) = 30% = 0.30</code></li>
+    </ul>
+
+    <p>
+      “The rover fires an active laser pulse at the silhouette. The optical sensor returns a bright reflection: <code>D = 'Flash'</code>.”
+    </p>
+
+    <p>
+      “We know the sensor's physical specs (the <b>Likelihoods</b>):”
+    </p>
+
+    <ul>
+      <li>If a real boulder is there, it reflects the laser <b>90%</b> of the time: <code>P(Flash | H_rock) = 0.90</code></li>
+      <li>If the ground is flat, dusty glare produces a false flash <b>15%</b> of the time: <code>P(Flash | H_clear) = 0.15</code></li>
+    </ul>
+
+    <br>
+
+    <h4>The Math in 3 Simple Steps:</h4>
+    <ol>
+      <li>
+        <b>Calculate the Surviving Slices:</b><br>
+        • Rock survivor: <code>0.90 × 0.30 = 0.270</code><br>
+        • Clear survivor: <code>0.15 × 0.70 = 0.105</code>
+      </li>
+      <br>
+      <li>
+        <b>Find the Total Surviving Width P(Flash):</b><br>
+        • <code>Total = 0.270 + 0.105 = 0.375</code> &nbsp;(37.5% total chance of seeing a flash)
+      </li>
+      <br>
+      <li>
+        <b>Normalize Back to 100%:</b><br>
+        • Updated belief in Rock: <code><sup>0.270</sup> / <sub>0.375</sub> = <b>72.0%</b></code><br>
+        • Updated belief in Clear: <code><sup>0.105</sup> / <sub>0.375</sub> = <b>28.0%</b></code>
+      </li>
+    </ol>
+
+    <p>
+      Jill stared at the numbers: “Before the laser fired, the rover thought the rock was unlikely (only 30%). But because the rock hypothesis was six times better at predicting the flash, its slice jumped from 30% all the way to <b>72%</b>!”
+    </p>
+
+    <p>
+      “Exactly!” Jack nodded. “The explanation that best anticipated the clue expanded, while the rival explanation shrank.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="mosaic">Interactive Demo: View the 2D Joint Mosaic Grid in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>5. Exact Arithmetic on the Hyperfinite Transect</h3>
+
+    <p>
+      “Notice something extraordinary about this entire calculation,” Jack pointed out.
+    </p>
+
+    <p>
+      “We never had to do calculus integrals, and we never had to worry about dividing by zero.”
+    </p>
+
+    <p>
+      “Because our number line <code>ℝ_ω</code> has a discrete infinitesimal grid step <code>dx = 1/ω = ε &gt; 0</code>:
+    </p>
+    <ul>
+      <li>Every possible outcome carries an actual, positive sliver of probability mass (<code>P(p) &gt; 0</code>).</li>
+      <li>Only strictly impossible events (the empty set <code>∅</code>) have probability zero.</li>
+      <li>Bayesian updating is always pure, exact rational arithmetic on the line.”</li>
+    </ul>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>6. Summary &amp; Looking Ahead</h3>
+
+    <p>
+      “In today's lecture, we unlocked the core principle of scientific discovery:”
+    </p>
+    <ul>
+      <li>Science is non-monotonic: beliefs must update as clues arrive.</li>
+      <li>The 3-stage Bayesian filter (<b>Prior &rarr; Likelihood Slicing &rarr; Normalization</b>) determines the rational update.</li>
+      <li>The hyperfinite transect <code>ℝ_ω</code> guarantees exact probability arithmetic without calculus clutter.</li>
+    </ul>
+
+    <p>
+      “In Lecture 2, we will see what happens when our rover collects a continuous stream of multiple clues over time!”
+    </p>
+  </body>
+</html>

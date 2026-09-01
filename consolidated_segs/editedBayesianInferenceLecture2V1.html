@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Bayesian Inference Lecture 2: Sequential Updating &amp; The Odds Formulation</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Bayesian Inference Lecture 2</font></i><br>
+      <i><font size="+1">Sequential Updating, Bayes Factors &amp; The Base-Rate Fallacy</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Good morning, everyone!” Jack greeted the class.
+    </p>
+
+    <p>
+      Jill raised her hand right away: “Jack, in our last lecture, the Mars rover fired a single laser pulse and made up its mind. But in real life, a rover's sensors are streaming hundreds of readings every minute. Do we have to start our calculations completely over from scratch every time a new clue arrives?”
+    </p>
+
+    <p>
+      “Not at all!” Jack smiled. “In fact, Bayesian updating has a magnificent superpower designed specifically for ongoing streams of data.”
+    </p>
+
+    <hr>
+
+    <h3>1. The Golden Rule: Today's Posterior is Tomorrow's Prior</h3>
+
+    <p>
+      “In science, medicine, and robotics, evidence rarely arrives as a single, isolated event. Detectors stream sensor pings, doctors run multiple lab tests, and navigation systems constantly poll GPS satellites.”
+    </p>
+
+    <p>
+      “Bayesian inference handles continuous streams through a single recursive golden rule:”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
+      Today's Posterior is Tomorrow's Prior.
+    </div>
+
+    <p>
+      “When you receive your first clue <code>D₁</code>, you compute the posterior belief <code>P(H | D₁)</code>,” Jack explained. “When the second clue <code>D₂</code> arrives, you don't throw away your work &mdash; you simply use <code>P(H | D₁)</code> as your new starting baseline!”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 14px; background: #f1f5f9; padding: 10px; border-radius: 6px; margin: 10px 0;">
+      [ Prior P(H) ] ──( Clue D₁ )──► [ Intermediate P(H | D₁) ] ──( Clue D₂ )──► [ Final P(H | D₁ ⋂ D₂) ]
+    </div>
+
+    <p>
+      “And here is the best part,” Jack added. “<b>Order Independence!</b> Because fraction arithmetic is commutative and associative, updating step-by-step as clues arrive yields the <i>exact same</i> result as collecting all clues into one giant bundle and updating all at once!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="sequential">Interactive Demo: Step through the Live Evidence Stream in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>2. The Odds Formulation: Evidence as a Multiplier</h3>
+
+    <p>
+      “While probabilities are fractions between <code>0</code> and <code>1</code>,” Jack said, “real-world detectives and scientists often express uncertainty as <b>odds</b>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      Prior Odds = <sup>P(H₁)</sup> / <sub>P(H₀)</sub>
+    </div>
+
+    <p>
+      “When new data <code>D</code> arrives, the ratio of its predictive power (called the <b>Bayes Factor</b>) acts as a direct physical multiplier:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      Bayes Factor(D) = <sup>P(D | H₁)</sup> / <sub>P(D | H₀)</sub>
+    </div>
+
+    <p>
+      “This gives us the celebrated <b>Odds Form of Bayes' Theorem</b>:”
+    </p>
+
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
+      <font size="+2" color="#1e3a8a">
+        <b>Posterior Odds = Bayes Factor × Prior Odds</b>
+      </font>
+    </div>
+
+    <ul>
+      <li><b>Bayes Factor &gt; 1:</b> The evidence actively boosts hypothesis <code>H₁</code> over <code>H₀</code>.</li>
+      <li><b>Bayes Factor &lt; 1:</b> The evidence actively suppresses hypothesis <code>H₁</code> in favor of <code>H₀</code>.</li>
+      <li><b>Bayes Factor = 1:</b> The evidence is pure uninformative noise (neither hypothesis predicted it better).</li>
+    </ul>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="oddsGauge">Interactive Demo: Explore the Odds &amp; Bayes Factor Balance in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>3. The Base-Rate Fallacy: The Mystery of Rare Defects</h3>
+
+    <p>
+      “Now,” Jack said, leaning forward, “let's look at one of the most famous cognitive traps in human reasoning: <b>The Base-Rate Fallacy</b>.”
+    </p>
+
+    <p>
+      “Imagine a microchip factory producing high-precision processor chips. A rare defect affects only <b>1 in 100</b> chips (<code>P(Defect) = 0.01</code>, so Prior Odds are <code>1 : 99</code>).”
+    </p>
+
+    <p>
+      “Engineers install a sophisticated optical quality scanner with high laboratory accuracy:”
+    </p>
+    <ul>
+      <li><b>True Positive Rate:</b> <code>P(Alarm | Defect) = 0.90</code> (Catches 90% of all defective chips)</li>
+      <li><b>False Alarm Rate:</b> <code>P(Alarm | Good) = 0.05</code> (False alarm on only 5% of good chips)</li>
+    </ul>
+
+    <p>
+      “A chip rolls off the assembly line, passes under the scanner, and the scanner beeps: <b>BEEP! DEFECT DETECTED!</b>”
+    </p>
+
+    <p>
+      Jack turned to the class: “Jill, the scanner is 90% accurate and only gives false alarms 5% of the time. What are the chances this chip is actually defective?”
+    </p>
+
+    <p>
+      “Well,” Jill hesitated, “if the test is 90% accurate, it feels like the probability should be somewhere around 90%, right?”
+    </p>
+
+    <p>
+      “Almost everyone guesses that!” Jack smiled. “Now let's compute the Bayes Factor and see what the math actually says.”
+    </p>
+
+    <br>
+
+    <h4>Calculating After Alarm 1:</h4>
+    <ol>
+      <li>
+        <b>Find the Bayes Factor of an Alarm:</b>
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+          Bayes Factor = <sup>P(Alarm | Defect)</sup> / <sub>P(Alarm | Good)</sub> = <sup>0.90</sup> / <sub>0.05</sub> = <b>18.0×</b>
+        </div>
+        <i>(The alarm provides an 18-fold boost in favor of a defect!)</i>
+      </li>
+      <br>
+      <li>
+        <b>Multiply into the Prior Odds:</b>
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+          Posterior Odds = 18 × (1 / 99) = <sup>18</sup> / <sub>99</sub> = <sup>2</sup> / <sub>11</sub>
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Convert Back to Probability:</b>
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+          Posterior Probability = <sup>2</sup> / <sub>(2 + 11)</sub> = <sup>2</sup> / <sub>13</sub> ≈ <b>15.4%</b>
+        </div>
+      </li>
+    </ol>
+
+    <p>
+      Jill's eyes went wide: “Wait! The alarm went off, the scanner is 90% accurate, but the chip is still <b>84.6% likely to be totally GOOD</b>?! How is that possible?!”
+    </p>
+
+    <p>
+      “Because of the <b>Base Rate</b>!” Jack explained. “Out of 10,000 chips:
+    </p>
+    <ul>
+      <li>Only <code>100</code> are defective. The scanner catches 90 of them (<code>90</code> true alarms).</li>
+      <li>A massive <code>9,900</code> chips are good. But a 5% false alarm rate on that huge ocean produces <code>495</code> false alarms!</li>
+      <li>So out of <code>585</code> total alarms, <code>495</code> are false! A single alarm is mostly false positives because good chips are so overwhelmingly common.”</li>
+    </ul>
+
+    <br>
+
+    <h4>What Happens on a Second Independent Test?</h4>
+    <p>
+      “Now,” Jack continued, “let's apply our Golden Rule: <i>Today's Posterior is Tomorrow's Prior</i>. We run the suspicious chip through a completely independent second scanner, and it beeps <b>ALARM</b> again!”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      New Posterior Odds = 18 × (2 / 11) = <sup>36</sup> / <sub>11</sub><br>
+      New Probability = <sup>36</sup> / <sub>(36 + 11)</sub> = <sup>36</sup> / <sub>47</sub> ≈ <b>76.6%</b>
+    </div>
+
+    <p>
+      “Now,” Jill observed, “two independent tests combine to overpower the rare base rate, and confidence jumps above 76%!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="baseRate">Interactive Demo: Explore the Rare Condition Base Rate Simulator in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. Continuous Parameter Learning: The Beta-Binomial Transect</h3>
+
+    <p>
+      “What if our hypothesis isn't just a yes/no option, but an unknown continuous parameter <code>θ ∈ [0, 1]</code> (such as the unknown bias of a coin)?” Jack asked.
+    </p>
+
+    <p>
+      “On our hyperfinite transect <code>ℝ_ω</code>, continuous learning is pure arithmetic:”
+    </p>
+    <ul>
+      <li>We start with a flat uniform prior across all <code>N = ω</code> points on the transect.</li>
+      <li>Observing a <b>Head</b> multiplies the point mass at address <code>θ</code> by <code>θ</code>.</li>
+      <li>Observing a <b>Tail</b> multiplies the point mass at address <code>θ</code> by <code>(1 - θ)</code>.</li>
+    </ul>
+
+    <p>
+      “After observing <code>a</code> heads and <code>b</code> tails, the probability density profile across the transect is proportional to the <b>Beta distribution</b>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      P(θ | a, b) ∝ θ^a · (1 - θ)^b
+    </div>
+
+    <p>
+      “As more flips arrive, the probability mass naturally sharpens into a tight peak centered right over the true empirical frequency <code>θ = a / (a + b)</code>.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="continuous">Interactive Demo: Interact with the Beta-Binomial Coin Bias Explorer in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>5. Summary &amp; Next Steps</h3>
+
+    <p>
+      “Today we learned the three key dynamics of evidence:”
+    </p>
+    <ul>
+      <li><b>Sequential Updating:</b> Today's posterior is tomorrow's prior. Evidence streams are order-independent.</li>
+      <li><b>The Odds Form:</b> Evidence acts as a multiplicative Bayes Factor (<code>Posterior Odds = Bayes Factor × Prior Odds</code>).</li>
+      <li><b>The Base-Rate Fallacy:</b> Rare events require strong or repeated evidence to overcome low prior probabilities.</li>
+    </ul>
+
+    <p>
+      “In <b>Lecture 3</b>, we'll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
+    </p>
+  </body>
+</html>

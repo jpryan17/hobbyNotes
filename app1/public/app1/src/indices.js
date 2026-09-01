@@ -160,7 +160,7 @@ export const conceptualHistoryIndex = [
 export const foundationIndex = [
     {
         type: "html",
-        topic: "overview: basic education mission",
+        topic: "overview: foundational science mission",
         htmlSegmentId: "introduction",
     },
     {
@@ -175,7 +175,7 @@ export const foundationIndex = [
         indexDesc: formalStatementsIndex,
     },
     { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
-    { type: "index", topic: "numbers", indexDesc: numbersIndex },
+    { type: "index", topic: "numbers & graph trees", indexDesc: numbersIndex },
     {
         type: "index",
         topic: "Bayesian Inference",
@@ -205,10 +205,10 @@ export const proposalsIndex = [
         htmlSegmentId: "dualAgentAcademicProposal",
     },
 ];
-export const lamIndex = [
+export const analysisAndSeminarsIndex = [
     {
         type: "html",
-        topic: "overview: liberal arts math mission",
+        topic: "overview: continuous analysis & seminars",
         htmlSegmentId: "lamOverview",
     },
     {
@@ -237,6 +237,7 @@ export const lamIndex = [
         indexDesc: satelliteIndex,
     },
 ];
+export const lamIndex = analysisAndSeminarsIndex;
 export const mainIndex = [
     {
         type: "diagram",
@@ -251,17 +252,17 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "1. general science foundation",
+        topic: "Phase 1: Foundations of Formal Science (Year 1)",
         indexDesc: foundationIndex,
     },
     {
         type: "index",
-        topic: "2. liberal arts math & seminars",
-        indexDesc: lamIndex,
+        topic: "Phase 2: Continuous Structures & Applied Seminars (Advanced)",
+        indexDesc: analysisAndSeminarsIndex,
     },
     {
         type: "index",
-        topic: "3. adjacent research & proposals",
+        topic: "Phase 3: Adjacent Research & Proposals",
         indexDesc: proposalsIndex,
     },
 ];

@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Introduction: Formal Statements &amp; Predicates</title>
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Introduction: Formal Statements &amp; Predicates</b></i></font><br>
+      <font size="+1"><i>Sets, Directed Pairs, Predicates as Functions &amp; The Formal Statement Demo (FSD)</i></font>
+    </div>
+    <br>
+
+    <h3>1. From Propositional Logic to Sets &amp; Predicates</h3>
+    <p>
+      The subject of <b>Formal Statements</b> naturally follows propositional logic. 
+      This is because <b>quantified predicates are propositions</b>, and any quantified predicate expression is fundamentally a propositional expression.
+    </p>
+    <p>
+      We want to make rigorous statements about mathematical collections. 
+      For our educational target, we comfortably adopt the perspective established by axiomatized <b>Zermelo–Fraenkel (ZF) set theory</b>. 
+      In this framework, the only primitive type is the <b>set</b>, allowing us to operate in the clean language of classical single-sorted First-Order Logic (FOL).
+    </p>
+    <p>
+      <b>A Note on Bounded Quantifiers vs. "Sorts":</b><br>
+      When we write bounded quantifiers like <code>&forall; x &isin; S, P(x)</code> (e.g., "for all numbers <code>x</code> in <code>ℕ</code>"), it may appear as though <code>x</code> is assigned a distinct "sort" or data type. 
+      However, in single-sorted FOL, bounded quantification is purely a convenient syntactic shorthand (relativization):
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        (&forall; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &forall; x ( x &isin; S &rarr; P(x) )<br>
+        (&exist; x &isin; S) P(x) &nbsp;&equiv;&nbsp; &exist; x ( x &isin; S &and; P(x) )
+      </div>
+      The variable <code>x</code> still ranges over the single universal domain of all sets <code>𝒱</code>, and membership in <code>S</code> is simply an antecedent condition. This keeps our formal logic strictly single-sorted while permitting intuitive, domain-restricted expressions!
+    </p>
+    <p>
+      We assume a universal collection of all sets, denoted <code>𝒱</code>. 
+      On pain of Russell's paradox, this universal collection cannot be a set itself. 
+      However, we use <code>𝒱</code> to define the foundational primitive predicate of set theory—<b>membership (∈)</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      ∈ : 𝒱 × 𝒱 → 𝔹
+    </div>
+    <p>
+      where <code>𝔹 = {0, 1}</code> (or <code>{true, false}</code>) is the binary set of Boolean truth values. 
+      Unlike user-defined domain predicates, the membership relation <code>∈</code> is built directly into the formal language of First-Order Logic.
+    </p>
+
+    <hr>
+
+    <h3>2. Set Constructors: Product (×) and Directed Pair (→)</h3>
+    <p>
+      We assume two fundamental <b>set constructors</b>:
+    </p>
+    <ol>
+      <li>
+        <b>Product (×):</b> Combines sets into collections of ordered tuples. 
+        For example, <code>ℕ × ℕ = {(x₁, x₂) | x₁ ∈ ℕ, x₂ ∈ ℕ}</code> forms the set of all pairs of natural numbers. 
+        Besides bookkeeping of factor positions, the factors are un-directed components of a single product space.
+      </li>
+      <li>
+        <b>Directed Pair (→):</b> Constructs an ordered relation between two sets: a <b>from (domain)</b> set and a <b>to (codomain)</b> set.
+        <br>
+        <i>House Rule:</i> At this introductory level, we prohibit using a directed pair as the domain or codomain of another directed pair, keeping our scaffolding flat and transparent.
+      </li>
+    </ol>
+
+    <hr>
+
+    <h3>3. The Crisp Definition: Function and Predicate</h3>
+    <p>
+      With these constructors established, we define functions and predicates with total precision:
+    </p>
+
+    <h4>Definition of a Function</h4>
+    <p>
+      A <b>function</b> is:
+    </p>
+    <ul>
+      <li>A <b>directed pair</b> <code>Domain → Codomain</code></li>
+      <li>And a <b>rule</b> that assigns to each member of the domain exactly one member of the codomain.</li>
+    </ul>
+    <p>
+      <i>Examples:</i>
+    </p>
+    <ul>
+      <li><code>add_two : ℕ → ℕ</code> &nbsp; with rule &nbsp; <code>x ↦ x + 2</code></li>
+      <li><code>add : ℕ × ℕ → ℕ</code> &nbsp; with rule &nbsp; <code>(x₁, x₂) ↦ x₁ + x₂</code></li>
+    </ul>
+
+    <h4>Definition of a Predicate</h4>
+    <p>
+      A <b>predicate</b> is strictly defined as:
+    </p>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 12px; font-size: 15px; margin: 10px 0;">
+      <b>A predicate is a function whose codomain is the Boolean truth set <code>𝔹 = {0, 1}</code>.</b>
+    </div>
+    <p>
+      Thus, if <code>𝒮</code> is any set (such as a base set <code>ℕ</code> or a product <code>ℕ × ℕ</code>), any function defined on the directed pair:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      P : 𝒮 → 𝔹
+    </div>
+    <p>
+      <b>is a predicate</b>.
+    </p>
+    <p>
+      <i>Examples:</i>
+    </p>
+    <ul>
+      <li>
+        <b>Unary Predicate on <code>ℕ</code>:</b> 
+        <code>GT5 : ℕ → 𝔹</code>, defined by <code>x ↦ true if x > 5, false otherwise</code>.
+      </li>
+      <li>
+        <b>Binary Relation on <code>ℕ × ℕ</code>:</b> 
+        <code>LT : ℕ × ℕ → 𝔹</code> (where <code>𝒮 ≡ ℕ × ℕ</code>), defined by:
+        <div style="font-family: monospace; font-size: 14px; margin: 6px 0 6px 20px;">
+          (x₁, x₂) ↦ { true if x₁ < x₂; &nbsp; false if ¬(x₁ < x₂) }
+        </div>
+      </li>
+      <li>
+        <b>Set Membership Predicate:</b> 
+        <code>∈ : ℕ × 𝒫(ℕ) → 𝔹</code>, defined by <code>(x, y) ↦ true if x ∈ y, false otherwise</code>, where <code>𝒫(ℕ)</code> is the <b>Power Set</b> (the set of all subsets of <code>ℕ</code>).
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>4. Quantifiers: Converting Predicates into Propositions</h3>
+    <p>
+      An open predicate expression like <code>GT5(x)</code> or <code>LT(x₁, x₂)</code> contains <b>free variables</b>. 
+      Its truth value is unresolved until specific inputs are provided or until the variables are <b>quantified</b> over their domains:
+    </p>
+    <ul>
+      <li>
+        <b>Universal Quantifier (<code>∀</code>, "For All"):</b> Asserts that the predicate function evaluates to <code>true</code> for <i>all</i> elements in the domain.
+        <br>
+        <i>Example:</i> <code>∀x:ℕ [EVEN(x)]</code> evaluates to <b>False</b>.
+      </li>
+      <li>
+        <b>Existential Quantifier (<code>∃</code>, "There Exists"):</b> Asserts that the predicate function evaluates to <code>true</code> for <i>at least one</i> element in the domain.
+        <br>
+        <i>Example:</i> <code>∃x:ℕ [GT5(x) ∧ LT10(x)]</code> evaluates to <b>True</b> (elements 6, 7, 8, 9 satisfy both predicates).
+      </li>
+    </ul>
+    <p>
+      <b>Order of Mixed Quantifiers Matters:</b>
+    </p>
+    <ul>
+      <li><code>∀x₁:ℕ ∃x₂:ℕ [GT(x₂, x₁)]</code> is <b>True</b>: For every number <code>x₁</code>, there exists a strictly greater number <code>x₂ = x₁ + 1</code>.</li>
+      <li><code>∃x₂:ℕ ∀x₁:ℕ [GT(x₂, x₁)]</code> is <b>False</b>: There is no single natural number <code>x₂</code> greater than every number.</li>
+    </ul>
+
+    <hr>
+
+    <h3>5. Overview of the Formal Statement Demo (FSD)</h3>
+    <p>
+      The <b>Formal Statement Demo (FSD)</b> is an interactive four-stage construction workbench that brings these formal definitions to life. 
+      Students compose raw predicate tokens, bind them to domain-typed variables, prefix quantifiers, and inspect their evaluated truth:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13px; margin: 12px 0; line-height: 1.5;">
+      [ Stage 1: Raw Expression ] &nbsp; Assemble predicates (GT5, LT10, GT, LT, ∈, EVEN) with connectives<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 2: Slot &amp; Var Binding ] &nbsp; Bind slots to element vars (x₁, x₂:ℕ) or subset vars (y₁:𝒫(ℕ))<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 3: Quantifier Prefix ] &nbsp; Prefix universal (∀) and existential (∃) bindings to free vars<br>
+                 │<br>
+                 ▼<br>
+      [ Stage 4: Matrix Visualizer ] &nbsp; Evaluate statement truth &amp; inspect 2D Boolean / Incidence Matrix
+    </div>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="25%" align="left">Stage</th>
+        <th width="35%" align="left">Action &amp; Controls</th>
+        <th width="40%" align="left">Formula Display in Top Bar</th>
+      </tr>
+      <tr>
+        <td><b>Stage 1: Raw Exp</b></td>
+        <td>Select predicate tokens (<code>GT5, LT10, GT, LT, ∈, EVEN</code>) and connectives (<code>¬, ∧, ∨, →, ↔</code>).</td>
+        <td><code>GT5 ∧ LT10</code> &nbsp;or&nbsp; <code>GT</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 2: Slot Binding</b></td>
+        <td>Assign domain-typed variables (<code>x₁, x₂ ∈ ℕ</code> for elements; <code>y₁ ∈ 𝒫(ℕ)</code> or constant subsets <code>GT5, LT10</code> for subsets) with live type-clash validation.</td>
+        <td><code>GT5(x₁) ∧ LT10(x₁)</code> &nbsp;or&nbsp; <code>GT(x₁, x₂)</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 3: Quantification</b></td>
+        <td>Prefix universal (<code>∀</code>) and existential (<code>∃</code>) quantifiers to bind free variables.</td>
+        <td><code>∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Stage 4: Matrix Visualizer</b></td>
+        <td>Evaluates 1-row Truth Table and opens the 2D Boolean Relation Matrix or Power Set Incidence Matrix.</td>
+        <td>Final Evaluated Truth: <b>True (T)</b> or <b>False (F)</b></td>
+      </tr>
+    </table>
+
+    <br>
+    <p>
+      Throughout the lecture notes, clicking on any <span style="color:firebrick;font-weight:bold">highlighted red statement</span> loads it directly into FSD:
+    </p>
+    <ul>
+      <li><b>Unary Predicate:</b> Click <fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref> to verify existential truth on <code>ℕ</code>.</li>
+      <li><b>Conjunction of Subsets:</b> Click <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref> to inspect the intersection of <code>GT5</code> and <code>LT10</code>.</li>
+      <li><b>Binary Relation Matrix:</b> Click <fsd-ref exp="r" quantifiers="∀x₁:ℕ ∃x₂:ℕ" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₁:ℕ, ∃x₂:ℕ [ GT(x₁, x₂) ]</fsd-ref> to explore the 2D matrix grid with dyadic scaling controls (<code>4×4</code> to <code>64×64</code>).</li>
+      <li><b>Power Set Incidence:</b> Click <fsd-ref exp="m" quantifiers="∃x₁:ℕ ∀y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∀y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref> to view the <code>4 × 16</code> Power Set Incidence Matrix for base set <code>ℕ₄ = {1, 2, 3, 4}</code>.</li>
+    </ul>
+
+    <hr>
+
+    <h3>6. Pedagogical Note: Classical Textbook Logic vs. Modern Bounded Domains</h3>
+    <p>
+      For instructors and advanced readers, it is worth highlighting why our curriculum replaces classical un-typed first-order logic formulas with <b>typed bounded quantification</b>.
+    </p>
+    <p>
+      In classical First-Order Logic (FOL), quantifiers range over a single un-typed universe <code>𝒮</code>, requiring every domain restriction to be explicitly phrased as a conditional implication (<code>⇒</code>) or conjunction (<code>∧</code>):
+    </p>
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 10px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="20%" align="left">Concept</th>
+        <th width="40%" align="left">Classical Textbook Formulation (Un-typed FOL)</th>
+        <th width="40%" align="left">Modern Bounded Domain Formulation</th>
+      </tr>
+      <tr>
+        <td><b>Subset Inclusion (⊆)</b></td>
+        <td><code>∀A:𝒫(𝒮) ∀B:𝒫(𝒮) [ A ⊆ B ⇔ ∀x:𝒮 [ (x ∈ A) ⇒ (x ∈ B) ] ]</code></td>
+        <td><code>A ⊆ B ⇔ ∀x:A [ x ∈ B ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Set Intersection (⋂)</b></td>
+        <td><code>∀A:𝒫(𝒮) ∀B:𝒫(𝒮) ∀x:𝒮 [ (x ∈ A ⋂ B) ⇔ (x ∈ A ∧ x ∈ B) ]</code></td>
+        <td><code>A ⋂ B = [ A | x ∈ B ]</code></td>
+      </tr>
+      <tr>
+        <td><b>Bounded Property</b></td>
+        <td><code>∀x:ℕ [ P(x) ⇒ Q(x) ]</code></td>
+        <td><code>∀x:[ℕ | P] [ Q(x) ]</code></td>
+      </tr>
+    </table>
+    <p>
+      <b>Why This Eliminates Cognitive Clutter:</b>
+    </p>
+    <ul>
+      <li><b>Direct Semantic Focus:</b> Students do not need to wrestle with the vacuous truth of material implication (e.g. <i>"False implies anything"</i>) just to understand that one set is contained within another.</li>
+      <li><b>Type-Theoretic Scaffolding:</b> Restricting a variable's domain directly in its quantifier binding (<code>x : [ℕ | GT(11)]</code> or <code>x₁ : [ℕ | GT(x₂)]</code>) matches modern programming languages, dependent type theory, and interactive theorem provers.</li>
+      <li><b>Computational Evaluation:</b> In FSD, bounded domains allow immediate, reactive evaluation over active subgrids (such as triangular staircase slices), giving students visual, tactile intuition for quantified truth.</li>
+    </ul>
+
+    <div style="background-color: #f0f9ff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin: 18px auto; max-width: 760px; font-size: 0.88em; line-height: 1.6; color: #0c4a6e;">
+      <b>🛠️ Looking Ahead: Visual Intuition &amp; Interactive Theorem Proving</b><br>
+      While formal proof assistants like <b>Lean 4</b> operate under strict computer code syntax, our curriculum uses <b>FSD (Formal Statement Demo)</b> and <b>TTD</b> as a student-friendly bridge. FSD turns formal quantifier bindings into interactive, visual matrix grids so students master logical structure intuitively—preparing them for the formal proof engines of modern mathematics without being bogged down by complex code syntax.<br><br>
+      For curious instructors and advanced readers interested in how modern software formally verifies mathematics, explore the <a href="https://leanprover-community.github.io/" target="_blank" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Lean Community Project</a>.
+    </div>
+
+    <p>
+      <b>Instructor Note on Quantifier Order &mdash; Implicit vs. Explicit:</b><br>
+      Many instructors recall that their own first <i>explicit</i> encounter with the strict necessity of quantifier order occurred in advanced analysis when distinguishing <b>pointwise convergence</b> (<code>∀x ∀ε ∃N ...</code>, where <code>N</code> depends on <code>x</code>) from <b>uniform convergence</b> (<code>∀ε ∃N ∀x ...</code>, where a master <code>N</code> works universally). 
+      Yet, as our curriculum highlights, elementary students already <i>implicitly</i> understand and leverage this exact mechanism every day in basic arithmetic: recognizing that <i>"every number has a successor"</i> (<code>∀x ∃y [y > x]</code>) is completely different from the false claim of a <i>"single king number greater than all numbers"</i> (<code>∃y ∀x [y > x]</code>).
+    </p>
+
+    <hr>
+
+    <h3>7. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
+    <p>
+      Having established the language of formal statements, predicates, and Cartesian products, we possess the exact formal machinery needed to construct number systems. 
+      In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
+    </p>
+  </body>
+</html>

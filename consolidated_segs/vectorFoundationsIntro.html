@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Course 1 Overview: Linear Algebra &amp; The Inference Space</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Course 1: Linear Algebra &amp; The Inference Space</b></i></font><br>
+    <font size="+1"><i>— Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference —</i></font>
+  </div>
+  <br>
+
+  <h3>Preface: Algebraic Structures are Observed in Construction &amp; Confirmed by Induction</h3>
+  <p>
+    In standard mathematical presentations, abstract algebra is often introduced top-down as an intimidating list of arbitrary axioms.
+    In this curriculum, we take the opposite, constructive approach: <b>algebraic structures are emergent symmetries directly observed from recursively defined operations on our number trees &mdash; and then rigorously confirmed across all branches by structural mathematical induction</b>.
+  </p>
+  <p>
+    We adopt a strict pedagogical discipline:
+  </p>
+  <ol>
+    <li><b>Observation &rarr; Inductive Confirmation:</b> We first observe regularities on early tree days, then use mathematical induction on birthdays to prove the algebraic laws as universal theorems.</li>
+    <li><b>Physics-Free Mathematics First:</b> We establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
+    <li><b>Physical Realizations Second:</b> Once the algebraic geometry is rock-solid, we introduce physical realizations &mdash; such as Dirac bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces &mdash; as concrete applications.</li>
+  </ol>
+
+  <hr>
+
+  <h3>1. The Transfinite Scale: The Cutoff at ω &amp; The Countable ε₀ Safety Net</h3>
+  <p>
+    Closure is the non-negotiable bedrock of any algebraic structure: when you combine elements, the arithmetic result must stay inside the carrier set.
+  </p>
+  <ul>
+    <li><b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at ordinal <code>ω</code> in the recursive tree generation. In the transfinite hierarchy of ordinals, <code>ω</code> is a "wee little thing."</li>
+    <li><b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling vectors can produce exact values whose <b>birthdays are strictly greater than <code>ω</code></b> (born on Day <code>ω+1, ω·2, ω^ω</code>). These numbers didn't vanish &mdash; they were simply born on later days in the transfinite calendar!</li>
+    <li><b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where <code>ω^(ε₀) = ε₀</code>, the carrier set becomes <b>completely algebraically closed</b> &mdash; big enough to support a genuine field.</li>
+    <li><b>Standard Part Resolution:</b> The <b>Standard Part Function <code>st(x)</code></b> casts high-birthday transfinite results back down to their observable shadow on Day <code>ω</code>.</li>
+  </ul>
+
+  <hr>
+
+  <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
+  <p>
+    When arithmetic operations are run recursively on the tree, natural algebraic skeletons emerge and are confirmed by structural induction:
+  </p>
+
+  <h4>A. The Abelian Group <code>(G, +)</code></h4>
+  <p>
+    Recursive addition on the tree naturally exhibits four core symmetries, observed on early days and confirmed universally by mathematical induction on tree birthdays:
+  </p>
+  <ul>
+    <li><code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the root of the tree, confirmed inductively by <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).</li>
+    <li><code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral tree reflection).</li>
+    <li>Commutativity (<code>x + y = y + x</code>) and Associativity (<code>(x+y)+z = x+(y+z)</code>).</li>
+  </ul>
+  <p>
+    <i>Generalization:</i> Any collection of objects obeying these observed and inductively proven behaviors forms an <b>Abelian Group <code>(G, +)</code></b>.
+  </p>
+
+  <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>
+  <p>
+    A remarkable mathematical reality is that <b>you cannot simultaneously fit two full groups onto the exact same carrier set <code>F</code></b>:
+  </p>
+  <ul>
+    <li>If <code>(F, +)</code> is an additive group with identity <code>0</code>, then multiplication <i>cannot</i> form a group on all of <code>F</code> because <code>0</code> has no multiplicative inverse (<code>0 · x = 0 &ne; 1</code>).</li>
+    <li>The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.</li>
+    <li>A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of harmony between two operations: an additive group on all of <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched together by the <b>Distributive Law</b>:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+        <b>a · ( b + c ) = a · b + a · c</b>
+      </div>
+    </li>
+  </ul>
+
+  <hr>
+
+  <h3>3. Structure-Preserving Functions: Mapping Between Operations</h3>
+  <p>
+    A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is <b>structure-preserving (a group homomorphism)</b> if:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
+    <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+  </div>
+  <p>
+    <i>Core Meaning:</i> You get the exact same answer whether you combine elements first in the starting world using <code>⋆</code>, or map them first and combine them in the destination world using <code>⊙</code>!
+  </p>
+  <ul>
+    <li><b>The Exponential Bridge:</b> <code>(ℝ, +) &rarr; (ℝ⁺, ·)</code> with <code>e^(a + b) = e^a · e^b</code> (translates addition into multiplication).</li>
+    <li><b>Dimension Embedding:</b> <code>(ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</code> with <code>(a + b) + 0i = (a + 0i) +_ℂ (b + 0i)</code>.</li>
+    <li><b>The Phase Map:</b> <code>(ℝ, +) &rarr; (U(1), ·)</code> with <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> (converts angle addition to phase rotation).</li>
+  </ul>
+
+  <hr>
+
+  <h3>4. Vector Spaces, Linear Maps &amp; Duality</h3>
+  <p>
+    Combining our field <code>F</code> (such as <code>ℝ_ω</code> or <code>ℂ_ω</code>) with Cartesian multi-directional intuition produces a <b>Vector Space <code>(V, +, ·)</code></b> governed by Two Basic Moves:
+  </p>
+  <ol>
+    <li><b>Vector Addition (u + v):</b> Abelian group behavior inside <code>V</code>.</li>
+    <li><b>Scalar Multiplication (c · v):</b> Distributing field elements across vector directions.</li>
+  </ol>
+
+  <h4>Linear Maps &amp; Calculus Operators</h4>
+  <p>
+    A map <code>T : V &rarr; W</code> is linear if <code>T(u + v) = T(u) + T(v)</code> and <code>T(c·v) = c·T(v)</code>.
+    This enables the linear derivative operator <code>D(f+g) = Df + Dg</code> and integral functional <code>∫(f+g) = ∫f + ∫g</code>.
+  </p>
+
+  <h4>Vector / Covector Duality</h4>
+  <p>
+    Every vector space <code>V</code> naturally pairs with its **dual space** <code>V*</code> of covectors (linear measurement meters):
+  </p>
+  <ul>
+    <li><b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions (columns).</li>
+    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement meters (rows).</li>
+    <li><b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading (scalar number).</li>
+  </ul>
+
+  <hr>
+
+  <h3>5. The Concrete Realization: Quantum Bayesian Inference</h3>
+  <p>
+    With the mathematics established, the quantum realization falls right into place:
+  </p>
+  <ul>
+    <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ H</code>.</li>
+    <li>Measurement detectors are <b>covectors (bras)</b>: <code>⟨ϕ| ∈ H*</code>.</li>
+    <li>The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.</li>
+  </ul>
+
+  <hr>
+
+  <h3>Course 1 Lecture Plan</h3>
+  <ul>
+    <li><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b> Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>, why fields eject zero, and continuous transformation groups.</li>
+    <li><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b> Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection, the exponential bridge, and embedding dimensions.</li>
+    <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
+  </ul>
+</body>
+</html>

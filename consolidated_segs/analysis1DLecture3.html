@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lecture 3: Accumulation &amp; Telescoping Calculus</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Lecture 3: Accumulation &amp; Telescoping Calculus</b></i></font><br>
+    <font size="+1"><i>— Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Jane began the final lecture of Course 2 by drawing a continuous curve over an interval <code>[a, b]</code>, divided into a multitude of vertical strips:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 540px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Axes -->
+        <line x1="40" y1="130" x2="500" y2="130" stroke="#334155" stroke-width="2" />
+        <line x1="50" y1="140" x2="50" y2="20" stroke="#334155" stroke-width="2" />
+
+        <!-- Strips under curve -->
+        <path d="M 100 130 L 100 95 Q 220 30 350 70 T 460 30 L 460 130 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
+        
+        <!-- Individual Tile -->
+        <rect x="250" y="55" width="20" height="75" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+        <text x="260" y="45" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1e40af">f(x_k)·dx</text>
+
+        <!-- Labels -->
+        <text x="100" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">a = x₀</text>
+        <text x="460" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">b = x_ω</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In classical textbooks,” Jane said, “defining the integral requires taking the limit of Riemann sums as the mesh size shrinks to zero, or taking the supremum over all possible Darboux partitions.”
+  </p>
+
+  <p>
+    “On our hyperfinite scaffold <code>ℝ_ω</code>,” Jane smiled, “an integral is not an infinite limit. <b>It is literally a genuine discrete sum of <code>ω</code> microscopic rectangular tiles</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. The Discrete Hyperfinite Integral</h3>
+
+  <p>
+    Partition the interval <code>[a, b]</code> into <code>ω</code> equal infinitesimal steps of width <code>dx = (b - a) / ω</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b &emsp; where &emsp; x_k = a + k·dx
+  </div>
+
+  <p>
+    The continuous area under the curve is the standard part of the discrete sum:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b>
+  </div>
+
+  <p>
+    Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
+  </p>
+
+  <hr>
+
+  <h3>2. The Fundamental Theorem of Calculus as Telescoping Cancellation</h3>
+
+  <p>
+    “Now,” Jane said, “we arrive at the crown jewel connecting differentiation and integration: <b>The Fundamental Theorem of Calculus (FTC)</b>.”
+  </p>
+
+  <p>
+    “Suppose <code>F'(x) = f(x)</code>. Across each microscopic step <code>dx</code> from <code>x_{k-1}</code> to <code>x_k</code>, the change in <code>F</code> is:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>F(x_k) - F(x_{k-1}) &nbsp;≈&nbsp; F'(x_k) · dx &nbsp;=&nbsp; f(x_k) · dx</b>
+  </div>
+
+  <p>
+    “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b><br><br>
+    = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
+  </div>
+
+  <p>
+    Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
+  </div>
+
+  <p>
+    Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b>
+  </div>
+
+  <p>
+    “The entire Fundamental Theorem of Calculus is proven in a single line of telescoping cancellation,” Jane smiled. “There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
+  </p>
+
+  <hr>
+
+  <h3>3. Looking Forward to Course 3: Analysis 2D (ℂ_ω)</h3>
+
+  <p>
+    “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
+  </p>
+  <p>
+    “In <b>Course 3: Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
+  </p>
+  <ul>
+    <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
+    <li>How <b>Cauchy's Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
+    <li>How continuous quantum state evolution <code>U(t) = e^(-iHt/ħ)</code> completes our description of <b>Quantum Bayesian Inference</b>!</li>
+  </ul>
+</body>
+</html>

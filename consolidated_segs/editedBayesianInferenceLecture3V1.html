@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Bayesian Inference Lecture 3: Continuous Measure Theory vs. The Hyperfinite Transect</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Bayesian Inference Lecture 3</font></i><br>
+      <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Welcome back, everyone!” Jack greeted the class.
+    </p>
+
+    <p>
+      Jill raised her hand with a puzzled look: “Jack, over the weekend I was thinking about continuous probability. If you throw a dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
+    </p>
+
+    <p>
+      “In standard calculus,” Jack answered, “the integral over a single point is zero: <code>P(x) = 0</code>.”
+    </p>
+
+    <p>
+      “That's what's driving me crazy!” Jill said. “The dart <i>had</i> to hit somewhere! How can every single individual point have a probability of zero if one of them actually occurred?!”
+    </p>
+
+    <p>
+      “Congratulations, Jill,” Jack smiled. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
+    </p>
+
+    <hr>
+
+    <h3>1. The Two Paradigms of Probability</h3>
+
+    <p>
+      “In modern mathematical science,” Jack explained, “there are two distinct, complementary ways to formulate continuous probability and inference:”
+    </p>
+
+    <ol>
+      <li>
+        <b>Standard Continuous Analysis (Andrey Kolmogorov, 1933):</b><br>
+        Grounded in continuous point-set topology, <code>σ</code>-algebras, Lebesgue measure theory, and limit operations.
+      </li>
+      <br>
+      <li>
+        <b>Nonstandard / Discrete Analysis (Abraham Robinson, 1966 &amp; John Conway, 1976):</b><br>
+        Grounded in the discrete <b>hyperfinite transect <code>ℝ_ω</code></b> and 2D grid <code>ℂ_ω</code>, where continuous intervals are uniform lattices of <code>ω</code> infinitesimal steps <code>dx = 1/ω = ε &gt; 0</code>.
+      </li>
+    </ol>
+
+    <p>
+      “Both frameworks are deeply complementary. Continuous standard analysis is the engineering calculation workhorse of modern science. The hyperfinite transect, however, provides the foundational clarity that eliminates zero-division paradoxes and makes Bayesian probability crystal clear.”
+    </p>
+
+    <hr>
+
+    <h3>2. The Null Set Paradox vs. Strict Positivity</h3>
+
+    <p>
+      “Let's look closely at Jill's dart paradox,” Jack said:
+    </p>
+
+    <ul>
+      <li>
+        <b>Standard Continuous Analysis (The Null Set Paradox):</b><br>
+        For a continuous variable with probability density function <code>f(x)</code>, the probability of any exact single point is the integral from <code>x</code> to <code>x</code>, which equals zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.
+        <br><br>
+        <i>The Semantic Headache:</i> In standard measure theory, <b>an event having probability zero does NOT mean it is impossible</b>! Real, observable singleton points occur every second, yet each is assigned a measure of zero.
+      </li>
+      <br>
+      <li>
+        <b>The Hyperfinite Transect (Strict Positivity):</b><br>
+        On our transect <code>ℝ_ω</code>, the continuum is a uniform grid of <code>ω</code> nodes. Every individual node <code>x_k</code> carries an exact, non-zero infinitesimal probability mass:
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+          P(x_k) = p(x_k) · dx &gt; 0 &nbsp; (where dx = 1/ω)
+        </div>
+        <i>The Clean Intuition Restored:</i>
+        <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; width: 60%; margin: 8px auto; color: #1e3a8a;">
+          P(E) = 0 &nbsp;&hArr;&nbsp; E = ∅ &nbsp; (Only strictly impossible events have probability zero!)
+        </div>
+      </li>
+    </ul>
+
+    <p>
+      “So on our transect,” Jill beamed, “when the dart lands on a point, that point had an actual positive probability <code>dx</code>. Common sense is completely saved!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>3. Measurability: σ-Algebras vs. Full Power Sets</h3>
+
+    <p>
+      “Now, what about collections of events?” Jack asked.
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+      <tr bgcolor="#f8fafc">
+        <th width="50%" align="left">Standard Continuous Analysis</th>
+        <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>Restricted σ-Algebras:</b><br>
+          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a consistent probability to every subset in the power set <code>𝒫([0, 1])</code>.
+          <br><br>
+          Standard math is forced to restrict itself to a special sub-collection of 'measurable sets' (a <code>σ</code>-algebra <code>ℱ</code>).
+        </td>
+        <td valign="top">
+          <b>Full Power Set Available:</b><br>
+          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of size <code>N = ω</code>, <b>every subset <code>E ⊆ T</code> is measurable</b>!
+          <br><br>
+          The entire power set <code>𝒫(T)</code> is well-behaved. Non-measurable paradoxes (like the Banach-Tarski or Vitali paradoxes) simply cannot occur.
+        </td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>4. Conditioning &amp; The Divide-by-Zero Singularity</h3>
+
+    <p>
+      “Here is where the two approaches make a huge practical difference,” Jack continued.
+    </p>
+
+    <p>
+      “In Bayesian updating, when evidence <code>E</code> is observed, we compute the posterior: <code>P(H | E) = P(H ⋂ E) / P(E)</code>.”
+    </p>
+
+    <h4>The Standard Breakdown:</h4>
+    <p>
+      When your instrument records an exact measurement <code>X = x</code>, standard analysis tries to divide by <code>P(X = x) = 0</code> &mdash; a fatal <b>divide-by-zero crash</b>!
+    </p>
+    <p>
+      To fix this, standard measure theory must invent advanced machinery called <b>Radon-Nikodym derivatives</b> and conditional expectation operators. Even worse, it runs into the <b>Borel-Kolmogorov Paradox</b>: conditioning on a great circle on a sphere gives two <i>different</i> probability formulas depending solely on whether you describe the circle with spherical coordinates or planar geometric slices!
+    </p>
+
+    <h4>The Hyperfinite Solution:</h4>
+    <p>
+      On the hyperfinite transect <code>ℝ_ω</code>, every non-empty event <code>E ≠ ∅</code> contains nodes with positive probability <code>P(E) &gt; 0</code>:
+    </p>
+
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 15px; margin: 10px 0;">
+      P(E) &gt; 0 &nbsp;for all non-empty E &nbsp;&rArr;&nbsp; P(H | E) = (P(E | H) · P(H)) / P(E) &nbsp;is ALWAYS exact!
+    </div>
+
+    <p>
+      Conditioning is always exact rational arithmetic. Coordinate parametrization paradoxes completely vanish!
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="mosaic">Interactive Demo: View 2D Joint Conditioning in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>5. The Bridge: The Standard Part Map &amp; Peter Loeb's Theorem</h3>
+
+    <p>
+      “You might wonder,” Jill asked, “if we do our probability on the hyperfinite transect, how do we get normal real numbers back at the end of the day?”
+    </p>
+
+    <p>
+      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered. “The function <code>st: ℝ_ω → ℝ</code> simply rounds off infinitesimal parts:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 10px 0;">
+      P_std(E) ≡ st( ∑_{x_k ∈ E} P(x_k) ) = ∫_E f(x) dx
+    </div>
+
+    <p>
+      “In 1975, logician Peter Loeb proved that every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous integration.”
+    </p>
+
+    <hr>
+
+    <h3>6. Summary Comparison Matrix</h3>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="22%" align="left">Concept</th>
+        <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
+        <th width="39%" align="left">Hyperfinite Transect (Robinson &amp; Conway)</th>
+      </tr>
+      <tr>
+        <td><b>Sample Space</b></td>
+        <td>Uncountable continuous continuum <code>Ω</code></td>
+        <td>Discrete hyperfinite transect <code>T</code> of size <code>ω</code></td>
+      </tr>
+      <tr>
+        <td><b>Measurable Events</b></td>
+        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
+        <td>Full power set <code>𝒫(T)</code> (All subsets valid)</td>
+      </tr>
+      <tr>
+        <td><b>Single-Point Weight</b></td>
+        <td><code>P({x}) = 0</code> (Null set paradox)</td>
+        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive)</td>
+      </tr>
+      <tr>
+        <td><b>Impossibility</b></td>
+        <td><code>P(E) = 0  ⇏  E = ∅</code></td>
+        <td><code>P(E) = 0  ⟺  E = ∅</code></td>
+      </tr>
+      <tr>
+        <td><b>Integration</b></td>
+        <td>Lebesgue integral <code>∫ f dμ</code> via limits</td>
+        <td>Exact hyperfinite sum <code>∑ P(x_k)</code></td>
+      </tr>
+      <tr>
+        <td><b>Bayes Denominator</b></td>
+        <td><code>P(X = x) = 0</code> (Divide-by-zero risk)</td>
+        <td><code>P(E) &gt; 0</code> (Always exact algebraic division)</td>
+      </tr>
+      <tr>
+        <td><b>Conditioning Tool</b></td>
+        <td>Radon-Nikodym derivative <code>(dν / dμ)</code></td>
+        <td>Direct subset weight proportion</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>7. Looking Ahead to Statistical Mechanics</h3>
+
+    <p>
+      “Now that we see how the hyperfinite transect handles microstates and probabilities,” Jack concluded, “we are ready for our first physical model.”
+    </p>
+
+    <p>
+      “In <b>Lecture 4</b>, we will connect Bayesian probability directly to <b>Entropy, Boltzmann's statistical mechanics, and information theory</b>!”
+    </p>
+  </body>
+</html>

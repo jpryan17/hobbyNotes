@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Quantum Logic Lecture 1: The Breakdown of Common Sense Logic</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2">Quantum Logic Lecture 1</font></i><br>
+      <i><font size="+1">The Three Polarizers &amp; The Quantum Breakdown of Venn Diagrams</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Good morning, everyone!” Jack called out, holding up three pairs of polarized sunglasses.
+    </p>
+
+    <p>
+      Jill raised an eyebrow: “Sunglasses in logic class, Jack? Are we going to the beach?”
+    </p>
+
+    <p>
+      “Better!” Jack laughed. “We are going to use three pieces of tinted plastic to break the classical laws of logic we learned in Module 1!”
+    </p>
+
+    <hr>
+
+    <h3>1. A Physical Mystery: The Three Polarizers</h3>
+
+    <p>
+      “Let's shine a laser pointer through polarizing filters,” Jack demonstrated at the front table:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13px; margin: 12px 0;">
+      <b>Experiment 1: Two Crossed Polarizers</b><br>
+      [ Laser Source ] ──► [ Filter A: Horizontal 0° ] ──► [ Filter B: Vertical 90° ] ──► <b>0% Light Output</b><br>
+      <i>(Horizontal light cannot pass through vertical slits. Total darkness on the screen.)</i><br><br>
+
+      <b>Experiment 2: Inserting a 45° Diagonal Polarizer Between Them</b><br>
+      [ Laser Source ] ──► [ Filter A: 0° ] ──► [ Filter C: 45° ] ──► [ Filter B: 90° ] ──► <b>25% Light Output!</b><br>
+      <i>(Adding a third barrier makes light REAPPEAR!)</i>
+    </div>
+
+    <p>
+      Jill stared in disbelief: “Wait! Adding a <b>third obstacle</b> caused light to come back?! In classical logic, if two locked gates block all traffic, adding another locked gate between them cannot cause cars to suddenly pass through!”
+    </p>
+
+    <p>
+      “In everyday life, that's true,” Jack replied. “In classical mechanics, a filter only acts passively like a sieve. But at the quantum scale, passing through a 45° filter does not merely filter the photons &mdash; <b>it physically rotates their state into a new quantum superposition</b>, giving each photon a 50% probability of passing the final vertical filter!”
+    </p>
+
+    <hr>
+
+    <h3>2. The Collapse of Classical Venn Diagrams</h3>
+
+    <p>
+      “Now let's see why this destroys classical Boolean logic,” Jack said, walking to the board.
+    </p>
+
+    <p>
+      “In Module 1, we proved the classical <b>Distributive Law</b> for Boolean connectives:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0; color: #1e3a8a;">
+      A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)
+    </div>
+
+    <p>
+      <i>“In classical sets: 'Being an apple AND (red OR green)' is identical to 'Being a red apple OR a green apple.'”</i>
+    </p>
+
+    <p>
+      “Now let's test this exact formula on our polarized photon:”
+    </p>
+    <ul>
+      <li>Proposition <code>A</code>: <i>“The photon is polarized at 45°.”</i></li>
+      <li>Proposition <code>B</code>: <i>“The photon is polarized horizontally at 0°.”</i></li>
+      <li>Proposition <code>C</code>: <i>“The photon is polarized vertically at 90°.”</i></li>
+    </ul>
+
+    <br>
+
+    <h4>A. Evaluating the Left-Hand Side: <code>A ∧ (B ∨ C)</code></h4>
+    <ol>
+      <li>Any photon in the 2D plane can always be measured in the horizontal/vertical basis. Therefore, proposition <code>(B ∨ C)</code> (<i>“The photon is either 0° OR 90°”</i>) covers the entire 2D plane &mdash; it is a <b>Tautology (True)</b>.</li>
+      <li>If we prepare a photon that has just passed the 45° filter, proposition <code>A</code> is <b>True</b>.</li>
+      <li>Therefore, the Left-Hand Side evaluates to:
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+          A ∧ (B ∨ C) = True ∧ True = <b>True</b>
+        </div>
+      </li>
+    </ol>
+
+    <br>
+
+    <h4>B. Evaluating the Right-Hand Side: <code>(A ∧ B) ∨ (A ∧ C)</code></h4>
+    <ol>
+      <li>Can a photon be simultaneously 45° AND 0°? <b>No.</b> They are mutually incompatible angles. After passing 0°, it is at 0°, not 45°. Thus <code>(A ∧ B) = False</code>.</li>
+      <li>Can a photon be simultaneously 45° AND 90°? <b>No.</b> Mutually incompatible. Thus <code>(A ∧ C) = False</code>.</li>
+      <li>Therefore, the Right-Hand Side evaluates to:
+        <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+          (A ∧ B) ∨ (A ∧ C) = False ∨ False = <b>False</b>
+        </div>
+      </li>
+    </ol>
+
+    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 12px; margin: 15px auto; width: 80%;">
+      <font size="+1" color="#991b1b"><b>The Breakdown: Left-Hand Side (True) ≠ Right-Hand Side (False)!</b></font><br>
+      The Distributive Law of classical Boolean logic is physically violated by quantum reality!
+    </div>
+
+    <p>
+      Jill shook her head in wonder: “So classical Venn diagrams literally cannot draw quantum mechanics because set inclusion assumes objects have fixed, static properties!”
+    </p>
+
+    <hr>
+
+    <h3>3. The New Logic: Propositions as Geometric Subspaces</h3>
+
+    <p>
+      “In 1936, Garrett Birkhoff and John von Neumann realized how to fix logic,” Jack explained.
+    </p>
+
+    <p>
+      “In quantum mechanics, propositions are <b>not subsets of points in a Venn diagram</b>; they are <b>geometric vector subspaces (lines and planes) in a complex Hilbert space</b> on our complex grid <code>ℂ_ω</code>:”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="25%" align="left">Quantum Operation</th>
+        <th width="35%" align="left">Geometric Meaning in Hilbert Space</th>
+        <th width="40%" align="left">Physical Significance</th>
+      </tr>
+      <tr>
+        <td><b>State Vector <code>|ψ⟩</code></b></td>
+        <td>A 1D ray (direction vector) in Hilbert space</td>
+        <td>The complete quantum state of the photon.</td>
+      </tr>
+      <tr>
+        <td><b>Proposition <code>P</code></b></td>
+        <td>A closed subspace <code>V</code> (or Projection <code>P_V</code>)</td>
+        <td>A yes/no question: <i>“Is the state inside subspace V?”</i></td>
+      </tr>
+      <tr>
+        <td><b>Negation <code>¬P</code></b></td>
+        <td><b>Orthogonal Complement <code>V^⊥</code></b></td>
+        <td>All states at right angles (90°) to <code>V</code> (zero physical overlap).</td>
+      </tr>
+      <tr>
+        <td><b>Conjunction <code>P ∧ Q</code></b></td>
+        <td><b>Subspace Intersection <code>V ⋂ W</code></b></td>
+        <td>States satisfying both conditions simultaneously.</td>
+      </tr>
+      <tr>
+        <td><b>Disjunction <code>P ∨ Q</code></b></td>
+        <td><b>Linear Span <code>span(V ⋃ W)</code></b></td>
+        <td>The entire plane formed by <code>V</code> and <code>W</code>, which includes all linear superpositions <code>α|v⟩ + β|w⟩</code>!</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>4. Why Disjunction Creates Superposition</h3>
+
+    <p>
+      “Here is the secret of quantum logic,” Jack concluded.
+    </p>
+
+    <p>
+      “In classical set theory, the union of the X-axis and the Y-axis (<code>X ⋃ Y</code>) is just a cross made of two perpendicular lines.”
+    </p>
+
+    <p>
+      “In quantum logic, the disjunction of the horizontal subspace <code>B = span(|0°⟩)</code> and the vertical subspace <code>C = span(|90°⟩)</code> is not a cross &mdash; <b>it is the entire two-dimensional plane</b>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0;">
+      B ∨ C = span(|0°⟩, |90°⟩) = ℋ
+    </div>
+
+    <p>
+      “Because our 45° diagonal state <code>|45°⟩ = (1/√2)|0°⟩ + (1/√2)|90°⟩</code> lies inside this 2D plane, the proposition <code>|45°⟩ ∈ (B ∨ C)</code> is completely True, even though the photon is neither purely horizontal nor purely vertical!”
+    </p>
+
+    <hr>
+
+    <h3>5. Looking Ahead to Probability Amplitudes</h3>
+
+    <p>
+      “In today's lecture, we discovered that quantum logic is the geometry of rotating vector subspaces.”
+    </p>
+
+    <p>
+      “In <b>Lecture 2</b>, we will explore why nature uses <b>complex 2D amplitude arrows on <code>ℂ_ω</code></b> instead of plain 1D probabilities &mdash; and how the <b>Born Rule</b> turns complex waves into observable probabilities!”
+    </p>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div align="center"><i><font size="+2">Instructor Guide: Lecture 1 (Hyperfinite Probability)</font></i><br>
+    </div>
+    <br>
+    
+    <h3>1. Pedagogical Intent & Objectives</h3>
+    <p>
+      <b>Primary Goal:</b> Equip students with an intuitive yet mathematically solid understanding of Bayesian probability by removing the measure-theoretic hurdles of continuous probability.
+    </p>
+    <ul>
+      <li><b>Direct Continuity from Numbers:</b> Remind students that the hyperreal transect 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation encoding="TeX">ℝ_ω</annotation></semantics></math> 
+        was already constructed via the 2-successor tree at birthday 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="TeX">ω</annotation></semantics></math>.</li>
+      <li><b>Arithmetic Simplicity:</b> Emphasize that on the hyperfinite transect, all integrals are discrete sums, all densities are positive infinitesimal point masses, and Bayes' rule is pure elementary fraction arithmetic.</li>
+      <li><b>Bridge to Quantum:</b> Plant the seed that while classical probability weights are real numbers on the 1D transect 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation encoding="TeX">ℝ_ω</annotation></semantics></math>, 
+        quantum mechanics simply upgrades these weights to complex amplitudes on the 2D grid 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℂ</mi><mi>ω</mi></msub><annotation encoding="TeX">ℂ_ω</annotation></semantics></math>.</li>
+    </ul>
+
+    <hr>
+    
+    <h3>2. Conceptual Topic Flow</h3>
+    <table border="1" cellpadding="6" cellspacing="0" width="100%">
+      <tr bgcolor="#f1f5f9">
+        <th width="45%">Core Topic</th>
+        <th width="55%">Instructor Focus</th>
+      </tr>
+      <tr>
+        <td><b>Motivation & The Continuous Paradox</b><br>Why does P(x) = 0 for single points in standard calculus?</td>
+        <td>Contrast "P(E) = 0" with "E is impossible". Highlight how conditioning on zero-measure sets creates ambiguities in standard continuous theory.</td>
+      </tr>
+      <tr>
+        <td><b>The Hyperfinite Transect</b><br>Partitioning [0, 1] into ω slices of width dx = 1/ω = ε &gt; 0 on ℝ_ω.</td>
+        <td>Draw the discrete linear transect. Show that every point x_k has non-zero infinitesimal weight P(x_k) = p(x_k) * dx &gt; 0.</td>
+      </tr>
+      <tr>
+        <td><b>Bayesian Arithmetic</b><br>Deriving Bayes' Rule as exact proportional reallocation over partitions.</td>
+        <td>Work through the Signal vs. Noise classification example. Show that P(E) &gt; 0 always, preventing zero-division.</td>
+      </tr>
+      <tr>
+        <td><b>The Standard Part & Looking Ahead</b><br>Applying the standard part map st(·) to recover classical real probabilities.</td>
+        <td>Connect back to decision making. Preview 4-successor quad-trees and quantum amplitudes on the 2D grid in upcoming lectures.</td>
+      </tr>
+    </table>
+
+    <hr>
+    
+    <h3>3. Blackboard / Visual Layout</h3>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; font-family: monospace;">
+      +-----------------------------------------------------------------------------------+<br>
+      | [Left Board: The Linear Transect]          | [Right Board: Bayes Update]           |<br>
+      |                                            |                                       |<br>
+      |  0       x_1       x_2         x_ω-1   1   |  H_0 = [0, 1/2)     H_1 = [1/2, 1]    |<br>
+      |  *---------*---------*--- ... ---*-----*   |  P(H_0) = 1/2       P(H_1) = 1/2      |<br>
+      |  |&lt;-dx--&gt;|                                 |                                       |<br>
+      |  dx = 1/ω = ε &gt; 0 (Infinitesimal step)     |  Evidence E observed:                 |<br>
+      |                                            |  P(E|H_0) = 0.10,   P(E|H_1) = 0.80   |<br>
+      |  P(x_k) = p(x_k) * dx &gt; 0                  |  P(E) = (0.1)(0.5) + (0.8)(0.5) = 0.45|<br>
+      |                                            |                                       |<br>
+      |  P(E) = Σ P(x_k)  (Exact discrete sum)     |  P(H_1|E) = 0.40 / 0.45 = 8/9 ≈ 0.89  |<br>
+      +-----------------------------------------------------------------------------------+
+    </div>
+
+    <hr>
+    
+    <h3>4. Common Student Misconceptions & Clarifications</h3>
+    <ul>
+      <li>
+        <b>Misconception 1:</b> <i>"Is an infinitesimal dx = 1/ω just zero rounded down?"</i><br>
+        <b>Clarification:</b> No. In 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℝ</mi><mi>ω</mi></msub><annotation encoding="TeX">ℝ_ω</annotation></semantics></math>, 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="TeX">ε &gt; 0</annotation></semantics></math> 
+        is a strictly positive number strictly smaller than all standard positive fractions 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>/</mo><mi>n</mi></mrow><annotation encoding="TeX">1/n</annotation></semantics></math>. 
+        It only becomes zero when we explicitly apply the standard part map 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>st</mi><mo stretchy="false">(</mo><mi>ε</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="TeX">st(ε) = 0</annotation></semantics></math>.
+      </li>
+      <br>
+      <li>
+        <b>Misconception 2:</b> <i>"Why does Bayes' rule never divide by zero here?"</i><br>
+        <b>Clarification:</b> Any physically possible event 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="TeX">E</annotation></semantics></math> 
+        contains at least one point 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>k</mi></msub><annotation encoding="TeX">x_k</annotation></semantics></math> 
+        with weight 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>k</mi></msub><mo stretchy="false">)</mo><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="TeX">P(x_k) &gt; 0</annotation></semantics></math>. 
+        Hence 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo stretchy="false">)</mo><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="TeX">P(E) &gt; 0</annotation></semantics></math> 
+        is guaranteed, so conditioning on any possible evidence is always well-defined.
+      </li>
+    </ul>
+
+    <hr>
+    
+    <h3>5. Classroom Discussion Prompts</h3>
+    <ol>
+      <li><i>"If we throw a dart at a continuous target, standard measure theory says the probability of hitting any exact point is 0. How does our hyperfinite transect ℝ_ω resolve this paradox?"</i></li>
+      <li><i>"When a medical diagnostic test is 99% accurate, why is the posterior probability of illness often much lower than 99%? How does the prior weight P(H) on our transect control this balance?"</i></li>
+    </ol>
+  </body>
+</html>
