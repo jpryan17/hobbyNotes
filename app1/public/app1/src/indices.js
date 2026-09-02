@@ -257,7 +257,7 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Phase 3: Adjacent Research & Proposals",
+        topic: "adjacent research & proposals",
         indexDesc: proposalsIndex,
     },
 ];
