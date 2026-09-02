@@ -197,13 +197,108 @@
 
     <br>
 
-    <h4>8. Cantor, Transfinite Induction, and the Horizon ω</h4>
+    <h4>8. Well-Order &amp; The Discovery of Non-Standard Endless Order</h4>
     <p>
-      In the late 19th century, Georg Cantor introduced <b>transfinite induction</b>. 
-      The smallest transfinite ordinal greater than all finite natural numbers is called <b>omega (<code>ω</code>)</b>.
+      “Before we can understand the transfinite horizon,” Jack began, “we must look closely at what an <b>ordering</b> actually is.”
+    </p>
+
+    <p>
+      A set of numbers is <b>well-ordered</b> by a relation <code>≺</code> if:
+    </p>
+    <ol>
+      <li>Any two distinct elements can be compared (one comes strictly before the other).</li>
+      <li>Every non-empty subset has a <b>unique first element</b> (a least element).</li>
+    </ol>
+
+    <p>
+      The standard natural numbers <code>ℕ = { 1, 2, 3, 4, ... }</code> with standard <code>&lt;</code> are clearly well-ordered: <code>1</code> is the absolute starting point, every number <code>n</code> has an immediate next step <code>n + 1</code>, and any group of numbers you pick has a distinct minimum.
+    </p>
+
+    <p>
+      For centuries, it was taken for granted that an endless well-ordered progression could look only one way: the counting numbers <code>1, 2, 3, ...</code>. 
+      Let us test whether that assumption is true by building a concrete counterexample.
+    </p>
+
+    <br>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin: 10px 0;">
+      <h5 style="margin: 0 0 8px 0; color: #1e293b; font-size: 14px;">The Construction: Sorting Evens Before Odds</h5>
+      <p style="margin: 0 0 8px 0;">
+        Take the exact same set of counting numbers <code>ℕ</code>, but define a new ordering rule <code>≺</code>:
+      </p>
+      <ul style="margin: 0 0 8px 0;">
+        <li><b>Rule 1:</b> Every even number comes strictly before every odd number (for example, <code>100 ≺ 1</code>).</li>
+        <li><b>Rule 2:</b> Within the evens, follow normal numerical order (<code>2 ≺ 4 ≺ 6 ≺ 8 ≺ ...</code>).</li>
+        <li><b>Rule 3:</b> Within the odds, follow normal numerical order (<code>1 ≺ 3 ≺ 5 ≺ 7 ≺ ...</code>).</li>
+      </ul>
+      <p style="margin: 0;">
+        Written out in line, the elements appear in the following progression:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 14px; padding: 8px 0; color: #1e3a8a;">
+        2 ≺ 4 ≺ 6 ≺ 8 ≺ 10 ≺ ... ≺ 1 ≺ 3 ≺ 5 ≺ 7 ≺ ...
+      </div>
+    </div>
+
+    <p>
+      Let us verify whether this arrangement satisfies the strict definition of a <b>well-order</b>:
+    </p>
+    <ul>
+      <li>Can any two numbers be compared? <b>Yes</b> (an even and an odd compare by Rule 1; two evens or two odds compare by standard size).</li>
+      <li>Does every non-empty subset have a unique first element?
+        <ul>
+          <li>If the subset contains any even numbers, its first element is simply the smallest even number.</li>
+          <li>If the subset contains only odd numbers, its first element is simply the smallest odd number.</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      It is a 100% mathematically rigorous, contradiction-free <b>well-order</b>!
+    </p>
+
+    <br>
+    <h4>9. The Decisive Discovery: Where Does 1 Stand?</h4>
+    <p>
+      Now ask the crucial question: <b>Where does the number <code>1</code> sit in this well-ordered line?</b>
+    </p>
+
+    <p>
+      Look at the set of all elements that come strictly before <code>1</code>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+      { x ∈ ℕ | x ≺ 1 } = { 2, 4, 6, 8, 10, 12, ... }
+    </div>
+    <p>
+      The set of predecessors of <code>1</code> is <b>infinitely large</b>!
+    </p>
+
+    <p>
+      Can the position of <code>1</code> be labeled by any standard counting step <code>1, 2, 3, ..., n</code>?
+    </p>
+    <ul>
+      <li>If you claim it is at position <code>10</code>, there are already more than 10 even numbers strictly ahead of it.</li>
+      <li>If you claim it is at position <code>1,000,000</code>, there are already more than a million even numbers ahead of it.</li>
+      <li><b>Proof by Contradiction:</b> For every finite counting number <code>n</code>, there are strictly more than <code>n</code> predecessors ahead of <code>1</code>. Therefore, no finite natural number can index the position of <code>1</code>!</li>
+    </ul>
+
+    <p>
+      Yet <code>1</code> has a definite, unambiguous place in the order. This demonstrates two profound mathematical realities:
+    </p>
+    <ol>
+      <li><b>The natural numbers do not exhaust the possibilities of endless order.</b> An order can run an entire infinite progression, and still have a legitimate, well-defined step that comes <i>after</i> all of them.</li>
+      <li>The measure of a position in a well-ordered progression is called an <b>ordinal</b>.
+        <ul>
+          <li>The finite ordinals <code>0, 1, 2, 3, ...</code> index the positions <i>within</i> the first infinite progression.</li>
+          <li>The very first position that sits immediately <i>after</i> that entire infinite progression is defined as the first limit ordinal: <b>ω (omega)</b>.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <br>
+    <h4>10. Conway's Birthdays &amp; The Horizon ω</h4>
+    <p>
+      With the concept of an ordinal rigorously established, John Conway's recursive generation of numbers becomes completely clear:
     </p>
     <p>
-      Conway attached a simple, intuitive concept to every generated number: its <b>birthday</b>.
+      Conway attached an exact ordinal index to every generated number: its <b>birthday</b>.
     </p>
     <ul>
       <li>A number's <b>birthday <code>d</code></b> is the exact generation (induction depth) at which it is born.</li>
@@ -211,12 +306,13 @@
       <li>At Day 1: <code>-1 = { ∅ | 0 }</code> and <code>+1 = { 0 | ∅ }</code> are born.</li>
       <li>At Day 2: <code>-2, -1/2, +1/2, +2</code> are born.</li>
       <li>At Day <code>n</code>: all dyadic fractions <code>m / 2^n</code> are born.</li>
-      <li>At Day <code>ω</code>: all remaining real numbers (like <code>√2</code>, <code>π</code>, <code>e</code>), transfinite numbers (<code>ω</code>), and infinitesimals (<code>1/ω</code>) are born simultaneously!</li>
+      <li><b>At Day <code>ω</code>:</b> The entire infinite sequence of finite days has elapsed. At this exact limit horizon, all infinite binary paths complete their Dedekind cuts simultaneously! 
+      All remaining real numbers (like <code>√2, π, e</code>), the transfinite scale <code>ω</code>, and the microscopic infinitesimals <code>dx = 1/ω</code> are born together.</li>
     </ul>
 
     <br>
 
-    <h4>9. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h4>
+    <h4>11. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h4>
     <p>
       Jill raised her hand: “Do all three trees have the same kind of ordering?”
     </p>
@@ -231,7 +327,7 @@
 
     <br>
 
-    <h4>10. Defining the Core Sets: ℝ_ω and ℂ_ω</h4>
+    <h4>12. Defining the Core Sets: ℝ_ω and ℂ_ω</h4>
     <p>
       By cutting off the inductive branching process at birthday <code>ω</code>, we define two fundamental number sets:
     </p>
@@ -252,7 +348,7 @@
 
     <br>
 
-    <h4>11. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h4>
+    <h4>13. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h4>
     <p>
       “Why do we work with <code>ℝ_ω</code> and <code>ℂ_ω</code> instead of standard <code>ℝ</code> and <code>ℂ</code>?”
     </p>
