@@ -263,17 +263,45 @@ export class Nav {
         }
         return 'General Curriculum';
     }
+    static getActiveSegId() {
+        if (Nav.segId)
+            return Nav.segId;
+        if (Nav.currentIndex >= 0 && Nav.currentIndex < Nav.indices.length) {
+            const index = Nav.indices[Nav.currentIndex];
+            if (index && index.chosen >= 0 && index.chosen < index.choices.length) {
+                const choice = index.choices[index.chosen];
+                if (choice && choice[0] && choice[0].htmlSegmentId) {
+                    return choice[0].htmlSegmentId;
+                }
+            }
+        }
+        return 'general';
+    }
     static openFeedbackModal() {
         const topicTitle = Nav.getActiveTopicTitle();
-        const appTitle = Nav.app === 'app2' ? 'LAM Blaster Curriculum' : 'Formal Science Curriculum';
+        const currentSeg = Nav.getActiveSegId();
+        const appName = Nav.app === 'app2' ? 'app2' : 'app';
+        const subjectLine = `[${appName} : ${currentSeg}] ${topicTitle}`;
         let modal = document.getElementById('feedback-modal-overlay');
         if (modal) {
+            const appSpan = document.getElementById('feedback-app-name');
+            if (appSpan)
+                appSpan.textContent = appName;
+            const segSpan = document.getElementById('feedback-seg-name');
+            if (segSpan)
+                segSpan.textContent = currentSeg;
             const topicSpan = document.getElementById('feedback-topic-name');
             if (topicSpan)
                 topicSpan.textContent = topicTitle;
             const subjInput = document.querySelector('input[name="subject"]');
             if (subjInput)
-                subjInput.value = `Reader Feedback on ${topicTitle} (${Nav.app})`;
+                subjInput.value = subjectLine;
+            const appInput = document.querySelector('input[name="app"]');
+            if (appInput)
+                appInput.value = appName;
+            const segInput = document.querySelector('input[name="seg"]');
+            if (segInput)
+                segInput.value = currentSeg;
             const topicInput = document.querySelector('input[name="topic"]');
             if (topicInput)
                 topicInput.value = topicTitle;
@@ -301,15 +329,17 @@ export class Nav {
                 </div>
                 
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 12.5px; color: #475569;">
-                    <div><strong>App:</strong> ${appTitle}</div>
+                    <div><strong>App:</strong> <span id="feedback-app-name">${appName}</span></div>
+                    <div><strong>Segment:</strong> <code id="feedback-seg-name" style="background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-family: monospace;">${currentSeg}</code></div>
                     <div><strong>Topic:</strong> <span id="feedback-topic-name">${topicTitle}</span></div>
                 </div>
 
                 <form id="feedback-modal-form">
                     <input type="hidden" name="access_key" value="e2ad26d6-d392-48f7-814e-aad6e97a0fe5">
-                    <input type="hidden" name="subject" value="Reader Feedback on ${topicTitle} (${Nav.app})">
+                    <input type="hidden" name="subject" value="${subjectLine}">
+                    <input type="hidden" name="app" value="${appName}">
+                    <input type="hidden" name="seg" value="${currentSeg}">
                     <input type="hidden" name="topic" value="${topicTitle}">
-                    <input type="hidden" name="app" value="${Nav.app}">
 
                     <div style="margin-bottom: 12px;">
                         <label style="display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 4px;">Your Reflection or Question *</label>
