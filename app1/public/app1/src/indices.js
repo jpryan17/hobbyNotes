@@ -160,7 +160,7 @@ export const conceptualHistoryIndex = [
 export const foundationIndex = [
     {
         type: "html",
-        topic: "overview: foundational science mission",
+        topic: "overview: general science mission",
         htmlSegmentId: "introduction",
     },
     {
@@ -247,12 +247,12 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Phase 1: Foundations of Formal Science (Year 1)",
+        topic: "Phase 1: General Science Foundation",
         indexDesc: foundationIndex,
     },
     {
         type: "index",
-        topic: "Phase 2: Continuous Structures & Applied Seminars (Advanced)",
+        topic: "Phase 2: Continuous Structures & Seminars (Tertiary)",
         indexDesc: analysisAndSeminarsIndex,
     },
     {
