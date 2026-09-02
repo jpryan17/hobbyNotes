@@ -19,8 +19,14 @@
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 16px; margin: 12px 0;">
       <b>The 3-Tier Developmental Spine:</b>
       <ul>
-        <li><b>Tier A &mdash; Discrete Rules &amp; Visual Truth (Grades 0–6 / Elementary):</b> Focus on Boolean certainty (<code>∧, ∨, ¬</code>), truth tables (TTD), and predicate checking on 2D visual pixel grids (FSD). Students learn that formal logic is a contradiction-free game.</li>
-        <li><b>Tier B &mdash; Well-Order &amp; The Transfinite Horizon (Grades 7–8 / Middle School):</b> Demystify infinity using the intuitive queue analogy: the Naturals <code>ℕ</code> are the finite steps in line, and transfinite Day <code>ω</code> is simply the first arrival standing behind the endless line. Constructive binary trees (BTD) produce the continuum <code>ℝ_ω</code> and infinitesimal step size <code>dx = 1/ω</code>.</li>
+        <li><b>Tier A &mdash; Discrete Rules &amp; Visual Truth (Grades 0–6 / Elementary):</b> Focus on Boolean certainty (<code>∧, ∨, ¬</code>), truth tables (TTD), and predicate checking on 2D visual pixel grids (FSD). Students learn that formal logic is a transparent, contradiction-free game.</li>
+        <li><b>Tier B &mdash; Well-Order &amp; The Transfinite Horizon (Grades 7–8 / Middle School):</b> Replace hand-waving analogies with concrete mathematical construction:
+          <ul>
+            <li><b>Evens-Before-Odds:</b> Re-ordering <code>ℕ</code> as <code>2 ≺ 4 ≺ 6 ≺ ... ≺ 1 ≺ 3 ≺ ...</code> to prove by contradiction that an element can have infinitely many predecessors and cannot be assigned any finite rank <code>n</code>.</li>
+            <li><b>The Least Upper Bound (Supremum):</b> Using dyadic ruler steps <code>S = {1/2, 3/4, 7/8, ...} → 1</code> to demonstrate that ceilings can live outside their set, deducing <code>ω = sup(ℕ)</code> as a strict logical consequence.</li>
+            <li><b>The Cardinality Leap:</b> Binary trees (BTD) link vertical depth <code>ω</code> to horizontal width <code>2^ℵ₀</code>, constructing the uncountable continuum <code>ℝ_ω</code> and infinitesimal step size <code>dx = 1/ω</code>.</li>
+          </ul>
+        </li>
         <li><b>Tier C &mdash; State Spaces &amp; Quantum Reality (Grades 9–12 / High School):</b> Synergize with high school chemistry and physics. Students explore non-monotonic Bayesian updating across state spaces <code>Ω</code> (BID), Boltzmann statistical ensembles, the 3-polarizer experiment, amplitude rotations on <code>ℂ_ω</code>, and Quantum Density Operators (<code>ρ</code>).</li>
       </ul>
     </div>
@@ -29,7 +35,7 @@
 
     <h3>2. The Epistemic Bridge: Monotonic Deduction vs. Non-Monotonic Discovery</h3>
     <p>
-      A foundational teaching opportunity is clarifying why mathematics and natural science require two different logical tools:
+      A foundational teaching opportunity is clarifying why mathematics and natural science require two complementary logical engines:
     </p>
     <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
       <tr bgcolor="#f8fafc">
@@ -64,29 +70,39 @@
     <ol>
       <li><b>Direct Euclidean Space (<code>ℝ³ × ℝ</code>):</b> Hard particles and vector forces in 3D space. Intuitive for daily life, but clumsy for complex multi-body systems.</li>
       <li><b>Abstract Configuration &amp; Phase Spaces (<code>Q</code> and <code>P</code>):</b> Lagrange and Hamilton show that physical laws simplify when a system's state is treated as a single point moving through an energy manifold.</li>
-      <li><b>Statistical Ensembles (Boltzmann):</b> We cannot know the exact coordinates of 10²³ particles; macroscopic physical reality is modeled as an ensemble average over an abstract microscopic state space.</li>
+      <li><b>Statistical Ensembles (Boltzmann):</b> We cannot track 10²³ particles; macroscopic physical reality is modeled as an ensemble average over an abstract microscopic state space.</li>
       <li><b>The Space of Explanations (Bayes &amp; Jaynes):</b> Hypothesis Space <code>ℋ</code> vs. Data Space <code>𝒟</code> over State Space <code>Ω</code>. Science is formal navigation across competing theories of the physical world driven by empirical evidence.</li>
       <li><b>Quantum Phase Space (Density Operators <code>ρ</code>):</b> Replacing scalar probabilities with complex probability amplitudes on <code>ℂ_ω</code>. State updating upon quantum measurement is the quantum generalization of Bayes' rule.</li>
     </ol>
 
     <hr>
 
-    <h3>4. Classroom Discussion Prompts &amp; Intuitive Metaphors</h3>
+    <h3>4. Classroom Discussion Prompts &amp; Pedagogical Hints</h3>
     <ul>
       <li>
-        <b>Prompt 1 (Explaining Day ω to 8th Graders):</b><br>
-        <i>"Imagine all counting numbers standing in an endless line: 1, 2, 3... Who stands immediately behind that infinite line? We call them ω (Omega). Omega isn't 'bigger' than infinity; it's simply the first person in the next block!"</i>
+        <b>Prompt 1 (Introducing Day ω to 8th Graders Without Vague Analogies):</b><br>
+        <i>Avoid hand-waving metaphors like 'an endless queue' or 'hotel rooms.' Anchor in direct mathematical construction:</i><br>
+        1. <b>The Evens-Before-Odds Challenge:</b> Have students write out the even numbers followed by the odd numbers: <code>2 ≺ 4 ≺ 6 ≺ ... ≺ 1 ≺ 3 ≺ ...</code>. Ask: <i>"What is the rank of number 1?"</i> If someone guesses a finite integer <code>n</code>, show that <code>2n</code> is an even number that already precedes <code>1</code>. Contradiction! Therefore, <code>1</code> has infinitely many predecessors. Endless order does <i>not</i> exhaust the possibility of numbers lying beyond it.<br>
+        2. <b>The Dyadic Ceiling (LUB):</b> Measure steps along a 1-inch ruler: <code>1/2, 3/4, 7/8, 15/16...</code>. The ceiling is <code>1</code>, but <code>1</code> is never reached by any finite step in the set. Just as <code>1</code> is the Least Upper Bound (supremum) of this sequence, <b><code>ω = sup(ℕ)</code></b> is the Least Upper Bound of the counting numbers.
       </li>
       <br>
       <li>
-        <b>Prompt 2 (Cardinals vs. Ordinals):</b><br>
-        <i>"Cardinals answer 'How many?' (the size of a pile). Ordinals answer 'Which position?' (the order of a line). In the finite world they match, but in the infinite world, the same pile can be arranged in totally new orders!"</i>
+        <b>Prompt 2 (The Cardinality Leap: Depth vs. Width):</b><br>
+        <i>"How does a simple binary tree create the continuum?"</i><br>
+        Show students that vertical tree depth <code>ω</code> creates horizontal width <code>2^ℵ₀</code>:<br>
+        Across every finite birthday (<code>n &lt; ω</code>), the dyadic fractions form a <b>countably infinite set</b> (<code>ℵ₀</code>). But at the transfinite limit <b>Day ω</b>, an infinite path of binary choices generates the full <b>uncountable continuum</b> (<code>2^ℵ₀</code>). Students see that the leap to <code>ω</code> is not a mere parlor trick—it is the exact threshold where discrete inductive branching becomes continuous physical space with infinitesimal step size <code>dx = 1/ω</code>.
       </li>
       <br>
       <li>
         <b>Prompt 3 (Boltzmann &amp; Quantum Survival):</b><br>
-        <i>"Why did Boltzmann's statistical physics survive the quantum revolution intact?"</i><br>
-        <b>Key Takeaway:</b> Because Boltzmann formulated microscopic particles as an abstract statistical ensemble over a state space. When classical mechanics was replaced by quantum mechanics, the ensemble framework transferred directly.
+        <i>"Why did Boltzmann's statistical physics survive the quantum revolution intact while classical mechanics fell?"</i><br>
+        <b>Key Takeaway:</b> Because Boltzmann formulated physical systems as statistical distributions over an abstract <b>state space</b> <code>Ω</code>. When quantum mechanics replaced classical trajectories with quantum density operators <code>ρ</code>, the statistical state-space architecture carried over directly without missing a beat.
+      </li>
+      <br>
+      <li>
+        <b>Prompt 4 (Monotonic Proof vs. Non-Monotonic Scientific Inference):</b><br>
+        <i>"Why do we need two different types of logic in modern education?"</i><br>
+        <b>Key Takeaway:</b> Deductive mathematics is <b>monotonic</b>: once proved, Pythagoras' theorem will never be falsified by a new triangle. Natural science is <b>non-monotonic</b>: our beliefs must adapt when unexpected evidence arrives (the black swan). Formal education must teach both Boolean deduction (mathematics) and Bayesian belief updating (science) as partner disciplines.
       </li>
     </ul>
   </body>
