@@ -204,12 +204,7 @@ export const foundationIndex: IndexItemDesc[] = [
 export const proposalsIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "proposal 1: agentic Maxima & Lean 4",
-    htmlSegmentId: "adjacentProposals",
-  },
-  {
-    type: "html",
-    topic: "proposal 2: narrowed-scope Lean 4 UI",
+    topic: "proposal 1: narrowed-scope Lean 4 educational interface",
     htmlSegmentId: "lean4GenEdProposal",
   },
   {
