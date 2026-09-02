@@ -293,9 +293,56 @@
     </ol>
 
     <br>
-    <h4>10. Conway's Birthdays &amp; The Horizon ω</h4>
+    <h4>10. The Least Upper Bound (Supremum): Ceilings Outside Their Sets</h4>
     <p>
-      With the concept of an ordinal rigorously established, John Conway's recursive generation of numbers becomes completely clear:
+      “Now that we have discovered that an order can continue after an infinite progression,” Jack continued, “how do we formally define the boundary where the counting numbers end?”
+    </p>
+
+    <p>
+      “We look at how <b>bounds and ceilings</b> work in mathematics. Consider this sequence of ruler marks—our familiar dyadic fractions:”
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
+      S = { 1/2, 3/4, 7/8, 15/16, 31/32, ... }
+    </div>
+
+    <ul>
+      <li>Is <code>2</code> a ceiling (an upper bound)? <b>Yes</b>, every fraction in <code>S</code> is strictly less than <code>2</code>.</li>
+      <li>Is <code>1.5</code> a ceiling? <b>Yes</b>.</li>
+      <li>What is the <b>Least Upper Bound (LUB)</b>—the lowest, tightest possible ceiling for the entire set?</li>
+    </ul>
+
+    <p>
+      The answer is <b>1</b>.
+    </p>
+
+    <p>
+      Notice the critical insight: <b>1 does not belong to the set S!</b> Every single fraction in <code>S</code> is strictly less than <code>1</code>. The least upper bound is a legitimate, exact number that sits immediately <b>outside</b> the collection it bounds.
+    </p>
+
+    <p>
+      Now, we apply this exact same logic to the counting numbers:
+    </p>
+    <ol>
+      <li><b>The Principle of Bounds:</b> Any well-ordered progression of numbers that lacks an internal maximum has an external ceiling: its <b>Least Upper Bound (Supremum)</b>.</li>
+      <li><b>The Set:</b> The counting numbers form a complete well-ordered set: <code>ℕ = { 1, 2, 3, 4, ... }</code>.</li>
+      <li><b>No Internal Ceiling:</b> Can any natural number <code>n</code> be the ceiling of <code>ℕ</code>? <b>No</b>, because <code>n + 1</code> is always strictly larger.</li>
+      <li><b>Logical Conclusion:</b> Just as <code>1</code> is the external supremum of <code>{ 1/2, 3/4, 7/8, ... }</code>, the counting numbers must have an external supremum that sits immediately above them all.</li>
+    </ol>
+
+    <p>
+      We denote this least upper bound by <b>ω (omega)</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #0f172a;">
+      <b>ω = sup(ℕ)</b>
+    </div>
+    <p>
+      Omega is not an arbitrary invention or a figure of speech. It is the <b>least upper bound of the natural numbers</b>, established by the exact same mathematical rule that places <code>1</code> above the dyadic fractions.
+    </p>
+
+    <br>
+    <h4>11. Conway's Birthdays &amp; The Horizon ω</h4>
+    <p>
+      With the concept of an ordinal and its supremum rigorously established, John Conway's recursive generation of numbers becomes completely clear:
     </p>
     <p>
       Conway attached an exact ordinal index to every generated number: its <b>birthday</b>.
@@ -312,7 +359,7 @@
 
     <br>
 
-    <h4>11. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h4>
+    <h4>12. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h4>
     <p>
       Jill raised her hand: “Do all three trees have the same kind of ordering?”
     </p>
@@ -327,7 +374,7 @@
 
     <br>
 
-    <h4>12. Defining the Core Sets: ℝ_ω and ℂ_ω</h4>
+    <h4>13. Defining the Core Sets: ℝ_ω and ℂ_ω</h4>
     <p>
       By cutting off the inductive branching process at birthday <code>ω</code>, we define two fundamental number sets:
     </p>
@@ -348,7 +395,7 @@
 
     <br>
 
-    <h4>13. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h4>
+    <h4>14. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h4>
     <p>
       “Why do we work with <code>ℝ_ω</code> and <code>ℂ_ω</code> instead of standard <code>ℝ</code> and <code>ℂ</code>?”
     </p>
