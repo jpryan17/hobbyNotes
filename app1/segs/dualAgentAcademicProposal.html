@@ -50,17 +50,17 @@
         validity, but emit dense compiler diagnostics (<code>type
           mismatch at term h</code>) that alienate students. </p>
       <p> We propose a <b>Dual-Layer Architecture</b>: an unyielding
-        formal verification kernel (Lean 4 / Maxima CAS) running at the
-        backend, coupled with a conversational LLM agent at the
-        frontend. The frontend agent inspects the Lean 4 proof state in
-        real time when a student clicks <b>[ Help ]</b>, translating
-        formal logic into student-tailored Socratic hints with <b>zero
-          mathematical hallucinations</b>. </p>
+        formal verification kernel (Lean 4) running at the backend,
+        coupled with a conversational LLM agent at the frontend. The
+        frontend agent inspects the Lean 4 proof state in real time when
+        a student clicks <b>[ Help ]</b>, translating formal logic into
+        student-tailored Socratic hints with <b>zero mathematical
+          hallucinations</b>. </p>
       <h3>2. Dual-Layer Paradigm</h3>
       <ul>
-        <li><b>Layer 1 (The Soundness Anchor):</b> Lean 4 / Maxima
-          kernel running via WebAssembly / WebSocket. Evaluates proof
-          steps with 100% logical rigor.</li>
+        <li><b>Layer 1 (The Soundness Anchor):</b> Lean 4 kernel running
+          via WebAssembly / WebSocket. Evaluates proof steps with 100%
+          logical rigor.</li>
         <li><b>Layer 2 (The Conversational Interpreter):</b> LLM agent
           frontend that translates raw compiler diagnostics into
           friendly, Socratic pedagogical hints.</li>
