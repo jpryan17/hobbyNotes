@@ -91,11 +91,6 @@ export const satelliteIndex = [
         topic: "seminar 4: algebraic geometry",
         htmlSegmentId: "algebraicGeometrySeminar",
     },
-    {
-        type: "html",
-        topic: "monograph: Grothendieck sheaves & the rabbit hole",
-        htmlSegmentId: "grothendieckSheafSeminar",
-    },
 ];
 export const miniSeminarsIndex = [
     {
