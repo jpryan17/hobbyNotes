@@ -45,8 +45,11 @@ export class BIDRef extends HTMLElement {
       Nav.addNavLineBackButton(buttonText);
       Nav.fo.removeChildren();
       Nav.fo.append(bid);
-      bid.layout();
       Nav.display();
+      bid.layout();
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => bid.layout());
+      }
     });
   }
 }
