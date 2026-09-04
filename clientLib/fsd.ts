@@ -1437,7 +1437,19 @@ export class FSD extends PXEParent {
     const domX1 = this.getVarDomain("x₁");
     const domX2 = this.getVarDomain("x₂");
 
-    const includeWitnessCol = domX2.base === "ℕ" && domX2.filterPred !== "LT";
+    const isTier3RowCol = this.quantifierBindings.length >= 2 &&
+      this.quantifierBindings[0].variable === "x₁" &&
+      this.quantifierBindings[0].quantifier === "∀" &&
+      this.quantifierBindings[1].variable === "x₂" &&
+      this.quantifierBindings[1].quantifier === "∃";
+
+    const isTier2ColRow = this.quantifierBindings.length >= 2 &&
+      this.quantifierBindings[0].variable === "x₂" &&
+      this.quantifierBindings[0].quantifier === "∃" &&
+      this.quantifierBindings[1].variable === "x₁" &&
+      this.quantifierBindings[1].quantifier === "∀";
+
+    const includeWitnessCol = domX2.base === "ℕ" && domX2.filterPred !== "LT" && isTier3RowCol;
     const numCols = includeWitnessCol ? N + 1 : N;
 
     const width = numCols * cellSize;
@@ -1522,6 +1534,13 @@ export class FSD extends PXEParent {
 
     svgWrap.append(svg);
 
+    let specificNote = "";
+    if (isTier3RowCol && includeWitnessCol) {
+      specificNote = `• Dotted Col (>N): <b>Open-boundary witness column</b> in ℕ (shows row ${N}'s witness at x₂ = ${N + 1}, ensuring every row in ℕ contains a blue light).<br>`;
+    } else if (isTier2ColRow) {
+      specificNote = `• Master Key (∃x₂ ∀x₁): Demands a solid vertical column of 100% blue across all rows. In ℕ, every column x₂ fails for rows x₁ ≥ x₂ (the white diagonal and below), so no master key exists.<br>`;
+    }
+
     const info = new Elt("div");
     info.setA("style", "font-size: 13px; line-height: 1.6; color: #333; max-width: 480px;");
     info.setV(`
@@ -1531,7 +1550,7 @@ export class FSD extends PXEParent {
       • Blue Cells: <code>True</code> (inside active domain)<br>
       • White Cells: <code>False</code> (inside active domain)<br>
       • Grey Cells: <code>Inactive</code> (outside bounded/dependent domain)<br>
-      ${includeWitnessCol ? `• Dotted Col (>N): <b>Open-boundary witness column</b> in ℕ (shows row ${N}'s witness at x₂ = ${N + 1}, ensuring every row in ℕ contains a blue light).<br>` : ""}
+      ${specificNote}
       • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
     `);
     svgWrap.append(info);
