@@ -209,10 +209,26 @@ export class Nav {
         Nav.showNavLine();
     }
     static scrollToLectureDialogue() {
-        // 1. Identify currently open details before collapsing
         const openDetails = Array.from(document.querySelectorAll('details[open]'));
-        const outermostOpen = openDetails[0];
-        // 2. Collapse/hide any expanded <details> monograph callouts
+        if (openDetails.length === 0)
+            return;
+        // 1. Check if the innermost open details is nested inside another open details
+        const innermost = openDetails[openDetails.length - 1];
+        const parentOpen = innermost.parentElement?.closest('details[open]');
+        if (parentOpen) {
+            // Nested details case: collapse ONLY this nested details
+            innermost.open = false;
+            // Scroll cleanly back to this nested details' previous position (its summary/header)
+            innermost.scrollIntoView({ behavior: 'auto', block: 'start' });
+            if (Nav.fo && Nav.fo.elt) {
+                Nav.returningScrollTop = Nav.fo.elt.scrollTop;
+            }
+            // Keep returnControl visible and active because parent details remains open!
+            Nav.isReturning = false;
+            Nav.updateReturnControlVisibility();
+            return;
+        }
+        // 2. Outermost (root) details case: collapse all open details
         openDetails.forEach(d => {
             d.open = false;
         });
@@ -220,27 +236,24 @@ export class Nav {
         Nav.isReturning = true;
         Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.showNavLine();
-        // 4. Scroll cleanly to lecture dialogue anchor or target details
+        // 4. Scroll cleanly to lecture dialogue anchor or outermost details
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]');
         if (anchor) {
             anchor.scrollIntoView({ behavior: 'auto', block: 'start' });
         }
-        else if (outermostOpen) {
-            const prev = outermostOpen.previousElementSibling;
+        else {
+            const prev = innermost.previousElementSibling;
             if (prev) {
                 prev.scrollIntoView({ behavior: 'auto', block: 'start' });
             }
             else {
-                outermostOpen.scrollIntoView({ behavior: 'auto', block: 'start' });
+                innermost.scrollIntoView({ behavior: 'auto', block: 'start' });
             }
-        }
-        else if (Nav.fo && Nav.fo.elt) {
-            Nav.fo.elt.scrollTo({ top: 0, behavior: 'auto' });
         }
         if (Nav.fo && Nav.fo.elt) {
             Nav.returningScrollTop = Nav.fo.elt.scrollTop;
         }
-        // 4. Confirm returnControl remains hidden
+        // 5. Confirm returnControl remains hidden
         setTimeout(() => {
             Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
             Nav.showNavLine();
