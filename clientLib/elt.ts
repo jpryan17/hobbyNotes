@@ -29,11 +29,22 @@ export class Elt{
     getAN(names:string[]){return names.map(e => this.getN(e)) as number[]}
 
     getAA(names:string[]) { return names.map(e => this.elt.getAttributeNS(null,e))}
-    setA(name: string, val: string|number) 
-        { this.elt.setAttributeNS(null, name, val.toString())}
+    setA(name: string, val: string|number) {
+        if (name.includes(':')) {
+            this.elt.setAttribute(name, val.toString())
+        } else {
+            this.elt.setAttributeNS(null, name, val.toString())
+        }
+    }
     setAA(avPairs:(string|number)[]){
         for(let i=0;i<avPairs.length-1;i+=2){
-            this.elt.setAttributeNS(null, avPairs[i].toString(),avPairs[i+1].toString())
+            const name = avPairs[i].toString()
+            const val = avPairs[i+1].toString()
+            if (name.includes(':')) {
+                this.elt.setAttribute(name, val)
+            } else {
+                this.elt.setAttributeNS(null, name, val)
+            }
         }
     }
     eltBCR(){

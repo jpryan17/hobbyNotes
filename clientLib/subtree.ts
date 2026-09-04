@@ -60,6 +60,7 @@ export class SubtreeDiagram extends SVGElt{
     }
     coloredText(textSegs:[string,string][]){
         const line = new SVGText()
+        line.setA('xml:space', 'preserve')
         textSegs.forEach(seg=>{
             const span = new SVGTSpan(line)
             span.setV(seg[0])

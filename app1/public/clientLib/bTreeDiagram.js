@@ -85,6 +85,10 @@ export class BTreeDiagram extends SVGElt {
             this.leftRoom + 5,
             'y',
             this.height - 18,
+            'xml:space',
+            'preserve',
+            'style',
+            'white-space: pre;',
             'font-size',
             Math.max(this.fontSize, 14),
             'font-family',
@@ -159,12 +163,14 @@ export class BTreeDiagram extends SVGElt {
                 // Node Label (if configured)
                 if (this.config.labelType === 'sign') {
                     const label = this.getSignExpansionLabel(i, j);
-                    this.renderNodeText(x, y, label, this.fontSize);
+                    const fSize = i >= 4 ? 9.5 : (i === 3 ? 10.5 : this.fontSize);
+                    this.renderNodeText(x, y, label, fSize);
                 }
                 else if (this.config.labelType === 'dyadic') {
                     const exp = keyToExp(key);
                     const label = new DR(exp).format();
-                    this.renderNodeText(x, y, label, this.fontSize);
+                    const fSize = label.length > 3 ? 9.5 : this.fontSize;
+                    this.renderNodeText(x, y, label, fSize);
                 }
             }
         }
@@ -262,19 +268,20 @@ export class BTreeDiagram extends SVGElt {
                 expansion[i] = expansion[i] === WU.plus ? WU.minus : WU.plus;
             }
         }
-        const exp = expansion.join(' ');
+        const exp = expansion.join('');
         return exp === '' ? '[ ]' : `[${exp}]`;
     }
     renderNodeText(cx, cy, text, fontSize) {
-        const w = this.estimateTextWidth(text, fontSize);
-        const x = cx - 0.5 * w;
-        const y = cy + 0.35 * fontSize;
         const nodeLabel = new SVGText();
         nodeLabel.setAA([
             'x',
-            x,
+            cx,
             'y',
-            y,
+            cy,
+            'text-anchor',
+            'middle',
+            'dominant-baseline',
+            'central',
             'fill',
             '#212121',
             'stroke',
@@ -523,15 +530,20 @@ export class BTreeDiagram extends SVGElt {
     }
     setStatusPrompt(segments) {
         this.statusLine.clear();
-        let currentX = this.leftRoom + 5;
+        this.statusLine.setAA([
+            'x',
+            this.leftRoom + 5,
+            'y',
+            this.height - 18,
+            'xml:space',
+            'preserve',
+            'style',
+            'white-space: pre;',
+        ]);
         segments.forEach(([txt, color]) => {
             const span = new SVGTSpan(this.statusLine);
             span.setV(txt);
-            span.setA('fill', color);
-            span.setA('stroke', 'none');
-            span.setA('x', currentX);
-            const w = this.estimateTextWidth(txt, Math.max(this.fontSize, 14));
-            currentX += w + 2;
+            span.setAA(['fill', color, 'stroke', 'none']);
         });
     }
     /**
@@ -542,7 +554,7 @@ export class BTreeDiagram extends SVGElt {
         const sx = Math.min(targetW / this.width, 1);
         const targetH = sx * this.height;
         this.setAA(['width', targetW, 'height', targetH]);
-        this.treeGroup.xscale(sx, sx);
+        this.treeGroup.setA('transform', '');
         if (this.frameRect) {
             this.frameRect.setAA(['width', this.width - 2, 'height', this.height - 2]);
         }

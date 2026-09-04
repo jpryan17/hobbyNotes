@@ -92,13 +92,13 @@ export class BTD extends SVGElt {
 
     const interactiveModes: [BTreeMode, string][] = [
       ['subtree', 'Subtrees'],
-      ['simplicity', 'Simplicity (<s)'],
-      ['order', 'Total Order (<)'],
-      ['cut', 'Conway Cut (L|R)'],
-      ['addition', 'Surreal Add (+)'],
-      ['multiplication', 'Surreal Mult (*)'],
-      ['isomorphism', 'Dyadic Isomorphism'],
-      ['omegaState', 'State/Ω Inspector'],
+      ['simplicity', 'Simplicity (≺)'],
+      ['order', 'Total Order'],
+      ['cut', 'Conway Cut'],
+      ['addition', 'Surreal Add'],
+      ['multiplication', 'Surreal Mult'],
+      ['isomorphism', 'Isomorphism'],
+      ['omegaState', 'State / Ω'],
     ];
 
     staticModes.forEach(([mode, label]) => {
@@ -109,7 +109,7 @@ export class BTD extends SVGElt {
         `btn-${mode}`
       );
       btn.setA('font-size', this.fontSize);
-      btn.setA('font-family', 'system-ui, sans-serif');
+      btn.setA('font-family', 'system-ui, -apple-system, sans-serif');
       btn.setA('cursor', 'pointer');
       this.buttons.set(mode, btn);
       this.append(btn);
@@ -123,10 +123,34 @@ export class BTD extends SVGElt {
         `btn-${mode}`
       );
       btn.setA('font-size', this.fontSize);
-      btn.setA('font-family', 'system-ui, sans-serif');
+      btn.setA('font-family', 'system-ui, -apple-system, sans-serif');
       btn.setA('cursor', 'pointer');
       this.buttons.set(mode, btn);
       this.append(btn);
+    });
+
+    this.updateButtonStyles();
+  }
+
+  updateButtonStyles(): void {
+    this.buttons.forEach((btn, m) => {
+      if (m === this.currentMode) {
+        btn.color = {
+          std: '#d97706',
+          over: '#b45309',
+          disabled: 'grey',
+          selected: '#d97706',
+        };
+        btn.setAA(['font-weight', 'bold', 'stroke', '#d97706']);
+      } else {
+        btn.color = {
+          std: '#1e40af',
+          over: '#7c3aed',
+          disabled: 'grey',
+          selected: '#1e40af',
+        };
+        btn.setAA(['font-weight', 'normal', 'stroke', '#1e40af']);
+      }
     });
   }
 
@@ -134,13 +158,7 @@ export class BTD extends SVGElt {
     this.currentMode = mode;
 
     // Update active styling on buttons
-    this.buttons.forEach((btn, m) => {
-      if (m === mode) {
-        btn.setAA(['font-weight', 'bold', 'stroke', '#d97706']);
-      } else {
-        btn.setAA(['font-weight', 'normal', 'stroke', '#1e40af']);
-      }
-    });
+    this.updateButtonStyles();
 
     // Replace current diagram
     this.diagramGroup.removeChildren();
@@ -155,14 +173,16 @@ export class BTD extends SVGElt {
     const padding = 10;
     const usableWidth = totalWidth - 2 * padding;
 
-    this.setAA(['width', totalWidth, 'height', 520]);
-    this.controlsFrame.setAA(['x', padding, 'y', 5, 'width', usableWidth, 'height', this.controlsHeight]);
+    const labelWidth = 105;
+    const itemGap = 16;
+    const lineSpacing = 28;
+
+    let curY = 26;
 
     // Position Row 1: Static Views
-    let x1 = padding + 12;
-    const y1 = 26;
-    this.staticLabel.setAA(['x', x1, 'y', y1]);
-    x1 += 95;
+    let curX = padding + 12;
+    this.staticLabel.setAA(['x', curX, 'y', curY]);
+    curX += labelWidth;
 
     const staticOrder: BTreeMode[] = [
       'plain',
@@ -176,17 +196,32 @@ export class BTD extends SVGElt {
     staticOrder.forEach((mode) => {
       const btn = this.buttons.get(mode);
       if (btn) {
-        btn.setAA(['x', x1, 'y', y1]);
-        const textLen = (btn.getV() || '').length;
-        x1 += textLen * 7.5 + 16;
+        let btnW = 0;
+        try {
+          const bb = btn.getBB();
+          if (bb && bb.width > 0) btnW = bb.width;
+        } catch {
+          // ignore
+        }
+        if (!btnW) {
+          btnW = (btn.getV() || '').length * 8.0;
+        }
+
+        if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
+          curY += lineSpacing;
+          curX = padding + 12 + labelWidth;
+        }
+
+        btn.setAA(['x', curX, 'y', curY]);
+        curX += btnW + itemGap;
       }
     });
 
     // Position Row 2: Interactive Operations
-    let x2 = padding + 12;
-    const y2 = 56;
-    this.interactiveLabel.setAA(['x', x2, 'y', y2]);
-    x2 += 95;
+    curY += lineSpacing + 4;
+    curX = padding + 12;
+    this.interactiveLabel.setAA(['x', curX, 'y', curY]);
+    curX += labelWidth;
 
     const interactiveOrder: BTreeMode[] = [
       'subtree',
@@ -196,21 +231,44 @@ export class BTD extends SVGElt {
       'addition',
       'multiplication',
       'isomorphism',
+      'omegaState',
     ];
 
     interactiveOrder.forEach((mode) => {
       const btn = this.buttons.get(mode);
       if (btn) {
-        btn.setAA(['x', x2, 'y', y2]);
-        const textLen = (btn.getV() || '').length;
-        x2 += textLen * 7.5 + 16;
+        let btnW = 0;
+        try {
+          const bb = btn.getBB();
+          if (bb && bb.width > 0) btnW = bb.width;
+        } catch {
+          // ignore
+        }
+        if (!btnW) {
+          btnW = (btn.getV() || '').length * 8.0;
+        }
+
+        if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
+          curY += lineSpacing;
+          curX = padding + 12 + labelWidth;
+        }
+
+        btn.setAA(['x', curX, 'y', curY]);
+        curX += btnW + itemGap;
       }
     });
+
+    this.controlsHeight = curY + 16;
+    this.controlsFrame.setAA(['x', padding, 'y', 5, 'width', usableWidth, 'height', this.controlsHeight]);
 
     // Position and scale the active diagram
     if (this.currentDiagram) {
       this.diagramGroup.move(padding, this.controlsHeight + 15);
       this.currentDiagram.scaleToWidth(usableWidth);
+      const targetH = (usableWidth / this.currentDiagram.width) * this.currentDiagram.height;
+      this.setAA(['width', totalWidth, 'height', Math.ceil(this.controlsHeight + 25 + targetH)]);
+    } else {
+      this.setAA(['width', totalWidth, 'height', this.controlsHeight + 20]);
     }
   }
 }

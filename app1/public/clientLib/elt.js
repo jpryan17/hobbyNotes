@@ -26,10 +26,24 @@ export class Elt {
     getN(name) { return +this.getS(name); }
     getAN(names) { return names.map(e => this.getN(e)); }
     getAA(names) { return names.map(e => this.elt.getAttributeNS(null, e)); }
-    setA(name, val) { this.elt.setAttributeNS(null, name, val.toString()); }
+    setA(name, val) {
+        if (name.includes(':')) {
+            this.elt.setAttribute(name, val.toString());
+        }
+        else {
+            this.elt.setAttributeNS(null, name, val.toString());
+        }
+    }
     setAA(avPairs) {
         for (let i = 0; i < avPairs.length - 1; i += 2) {
-            this.elt.setAttributeNS(null, avPairs[i].toString(), avPairs[i + 1].toString());
+            const name = avPairs[i].toString();
+            const val = avPairs[i + 1].toString();
+            if (name.includes(':')) {
+                this.elt.setAttribute(name, val);
+            }
+            else {
+                this.elt.setAttributeNS(null, name, val);
+            }
         }
     }
     eltBCR() {

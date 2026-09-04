@@ -14,10 +14,14 @@ export function top(edit = false) {
     setFSD();
     setBTD();
     setBID();
-    customElements.define('ttd-ref', TTDRef);
-    customElements.define('fsd-ref', FSDRef);
-    customElements.define('btd-ref', BTDRef);
-    customElements.define('bid-ref', BIDRef);
+    if (!customElements.get('ttd-ref'))
+        customElements.define('ttd-ref', TTDRef);
+    if (!customElements.get('fsd-ref'))
+        customElements.define('fsd-ref', FSDRef);
+    if (!customElements.get('btd-ref'))
+        customElements.define('btd-ref', BTDRef);
+    if (!customElements.get('bid-ref'))
+        customElements.define('bid-ref', BIDRef);
     Nav.clearNavLine();
     Nav.loadIndex('main index', mainIndex);
 }
