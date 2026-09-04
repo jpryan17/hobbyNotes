@@ -6,7 +6,7 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Quantum Bayesian Inference Lecture 1</font></i><br>
+      <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
     </div>
     <br>
@@ -16,14 +16,14 @@
     </p>
 
     <p>
-      Jill looked at the board: “Jack, throughout our journey we've seen two different kinds of uncertainty:
+      Jill looked intently at the board: “Jack, throughout our journey we've encountered two fundamentally different kinds of uncertainty:
     </p>
     <ul>
-      <li>In <b>Bayesian Inference</b>, we had classical ignorance about which outcome occurred on the 1D line <code>ℝ_ω</code>.</li>
-      <li>In <b>Quantum Logic</b>, we had quantum wave superpositions of amplitude arrows on the 2D grid <code>ℂ_ω</code>.</li>
+      <li>In <b>Bayesian Inference</b>, we had classical ignorance about which outcome occurred on the 1D transect <code>ℝ_ω</code>.</li>
+      <li>In <b>Quantum Logic</b>, we had quantum wave superpositions of amplitude arrows on the 2D complex grid <code>ℂ_ω</code>.</li>
     </ul>
     <p>
-      “What happens when a real-world system has <b>both</b> quantum superpositions AND classical ignorance at the same time?”
+      “What happens when a real-world system has <b>both</b> quantum wave superpositions AND classical statistical ignorance at the exact same time?”
     </p>
 
     <p>
@@ -35,85 +35,124 @@
     <h3>1. Density Operators: The Master State of Knowledge</h3>
 
     <p>
-      “In classical probability,” Jack explained, “our prior knowledge is a simple probability vector <code>P = (p₀, p₁, ..., p_{ω-1})</code>.”
+      “In classical probability,” Jack explained, “our prior knowledge is represented by a simple probability vector <code>P = (p₀, p₁, ..., p_{ω-1})</code>.”
     </p>
 
     <p>
-      “In quantum physics, to combine quantum wave superpositions with statistical ignorance, we represent our total state of knowledge by an <code>ω × ω</code> <b>Density Operator <code>ρ</code></b>:”
+      “In quantum physics, to seamlessly combine quantum superpositions with classical ignorance, we represent our total state of knowledge by an <code>ω × ω</code> <b>Density Operator <code>ρ</code></b> on Hilbert space <code>ℋ_ω</code>:”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-      ρ = ∑_{k=0}^{ω-1} w_k |ψ_k⟩⟨ψ_k| &nbsp;&nbsp; where &nbsp;&nbsp; w_k ≥ 0 &nbsp; and &nbsp; ∑ w_k = 1.000
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+      ρ = ∑_{k=0}^{ω-1} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp;&nbsp; where &nbsp;&nbsp; w_k ≥ 0 &nbsp;&nbsp; and &nbsp;&nbsp; ∑_{k} w_k = 1.000
     </div>
 
     <ul>
       <li>
-        <b>Pure State (Complete Quantum Knowledge):</b> When the system is known with 100% certainty to be in a single definite quantum vector <code>|ψ⟩</code> (i.e. <code>w₀ = 1</code>), the density matrix is simply <code>ρ = |ψ⟩⟨ψ|</code> and <code>Tr(ρ²) = 1</code>.
+        <b>Pure State (Complete Quantum Knowledge):</b> When the system is known with 100% certainty to be in a single definite state vector <code>|ψ⟩</code> (i.e., <code>w₀ = 1</code>), the density operator is simply the projection <code>ρ = |ψ⟩⟨ψ|</code> and has purity <code>Tr(ρ²) = 1</code>.
       </li>
       <br>
       <li>
-        <b>Mixed State (Statistical Uncertainty):</b> When there is classical ignorance over which state was prepared (like a machine spitting out 50% horizontal and 50% vertical photons), <code>ρ</code> is a statistical mixture and <code>Tr(ρ²) &lt; 1</code>.
+        <b>Mixed State (Statistical Uncertainty):</b> When there is classical ignorance over which state was prepared (e.g., an emitter spitting out 50% horizontal and 50% vertical photons), <code>ρ</code> is a genuine statistical mixture and <code>Tr(ρ²) &lt; 1</code>.
       </li>
       <br>
       <li>
-        <b>Observable Expected Value:</b> For any measurement operator <code>Â</code>, its average expected measurement outcome is calculated directly via the discrete trace:
-        <div align="center" style="font-family: monospace; font-size: 16px; margin: 6px 0;">
+        <b>Observable Expectation Values:</b> For any physical measurement operator <code>Â</code>, its average expected measurement outcome is computed directly via the discrete matrix trace:
+        <div align="center" style="font-family: monospace; font-size: 16px; margin: 8px 0;">
           ⟨Â⟩ = Tr(ρ · Â)
         </div>
       </li>
     </ul>
+
+    <h4>Formal Statement (FS-QBI-1.1): The Quantum Density Operator on ℋ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Density Operator Definition:</b> A self-adjoint, positive semi-definite linear operator <code>ρ : ℋ_ω → ℋ_ω</code> such that <code>ρ = ρ†</code>, <code>ρ ≥ 0</code>, and <code>Tr(ρ) = 1</code>.<br>
+      • <b>Spectral Decomposition:</b> Any density operator can be diagonalized as <code>ρ = ∑_{k=0}^{ω-1} λ_k |e_k⟩⟨e_k|</code> with eigenvalues <code>λ_k ∈ [0, 1]</code> and <code>∑ λ_k = 1</code>.<br>
+      • <b>Purity Measure:</b> <code>γ(ρ) = Tr(ρ²)</code> satisfies <code>1/ω ≤ γ(ρ) ≤ 1</code>. <code>γ(ρ) = 1 ⟺ ρ = |ψ⟩⟨ψ|</code> (pure state).
+    </div>
 
     <hr>
 
     <h3>2. The Non-Commutative Quantum Bayes Rule (Lüders Projection)</h3>
 
     <p>
-      “Now,” Jack asked, “when a detector observes an outcome corresponding to projection operator <code>P_k</code>, how do we update the density matrix <code>ρ</code>?”
+      “Now,” Jack asked, “when an experimental detector observes an outcome corresponding to projection operator <code>P_k</code>, how does our state of knowledge update?”
     </p>
 
     <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 14px; margin: 15px 0;">
       <font size="+1" color="#065f46"><b>The Lüders Quantum Bayes Rule:</b></font>
       <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        ρ' = (P_k · ρ · P_k) / Tr(ρ · P_k)
+        ρ' = <sup>(P_k · ρ · P_k)</sup> / <sub>Tr(ρ · P_k)</sub>
       </div>
     </div>
 
     <p>
-      “Look at the exact 1-to-1 match with Bayes' rule from our earlier lectures!” Jack pointed out:
+      “Look at the exact 1-to-1 isomorphism with Bayes' rule from our earlier lectures!” Jack pointed out:
     </p>
-    <ul>
-      <li><code>ρ</code> is our <b>Prior State of Knowledge</b>.</li>
-      <li><code>P_k · ρ · P_k</code> is the <b>Measurement Filter</b> (sandwiching the density matrix between projection operators).</li>
-      <li><code>Tr(ρ · P_k) = P(k)</code> is the <b>Evidence Denominator</b> (the Born rule probability of witnessing clue <code>k</code>).</li>
-      <li><code>ρ'</code> is our updated <b>Posterior State of Knowledge</b>!</li>
-    </ul>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="25%" align="left">Bayesian Element</th>
+        <th width="35%" align="left">Classical Bayes (ℝ_ω)</th>
+        <th width="40%" align="left">Quantum Bayes (ℂ_ω)</th>
+      </tr>
+      <tr>
+        <td><b>Prior State</b></td>
+        <td>Probability vector <code>P(H)</code></td>
+        <td><b>Prior Density Operator <code>ρ</code></b></td>
+      </tr>
+      <tr>
+        <td><b>Likelihood Filter</b></td>
+        <td>Slicing by evidence indicator <code>P(E | H) · P(H)</code></td>
+        <td><b>Sandwiching: <code>P_k · ρ · P_k</code></b></td>
+      </tr>
+      <tr>
+        <td><b>Evidence Denominator</b></td>
+        <td>Marginal normalizer <code>P(E) = ∑ P(E | H_i) P(H_i)</code></td>
+        <td><b>Trace Normalizer: <code>Tr(ρ · P_k) = P(k)</code></b></td>
+      </tr>
+      <tr>
+        <td><b>Posterior State</b></td>
+        <td>Updated distribution <code>P(H | E)</code></td>
+        <td><b>Updated Density Operator <code>ρ'</code></b></td>
+      </tr>
+    </table>
 
     <h4>Why the Order of Learning Matters (Non-Commutativity)</h4>
     <p>
-      Jill raised her hand: “In classical Bayes, learning Clue A then Clue B gave the exact same posterior as learning Clue B then Clue A. Is that still true here?”
+      Jill raised her hand: “In classical Bayes, learning Clue A then Clue B gave the exact same posterior belief as learning Clue B then Clue A. Is that still true here?”
     </p>
 
     <p>
-      “Not in quantum mechanics!” Jack replied. “Because quantum projection operators do not commute (<code>P_A P_B ≠ P_B P_A</code>):”
+      “Not in quantum mechanics!” Jack replied. “Because quantum projection operators generally do not commute (<code>P_A P_B ≠ P_B P_A</code>):”
     </p>
 
-    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 14px; margin: 10px auto; width: 75%;">
+    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 10px auto; width: 80%;">
       P_A · P_B · ρ · P_B · P_A &nbsp;≠&nbsp; P_B · P_A · ρ · P_A · P_B
     </div>
 
     <p>
-      “The sequence in which you interact with a quantum system physically alters the resulting reality!”
+      “The sequence in which an observer interacts with a quantum system physically alters the resulting state of reality!”
     </p>
+
+    <h4>Formal Statement (FS-QBI-1.2): The Lüders Quantum Bayes Rule</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Lüders Update Map:</b> For measurement outcome associated with orthogonal projection <code>P_k</code> such that <code>Tr(ρ · P_k) &gt; 0</code>:<br>
+      <div align="center" style="margin: 6px 0; font-family: monospace;">
+        𝒯_k(ρ) = <sup>P_k · ρ · P_k</sup> / <sub>Tr(ρ · P_k)</sub>
+      </div>
+      • <b>Trace Preservation:</b> <code>Tr(𝒯_k(ρ)) = Tr(P_k ρ P_k) / Tr(ρ P_k) = 1</code>.<br>
+      • <b>Non-Commutative Invariance Breakdown:</b> If <code>[P_A, P_B] = P_A P_B - P_B P_A ≠ 0</code>, then <code>𝒯_A(𝒯_B(ρ)) ≠ 𝒯_B(𝒯_A(ρ))</code>.
+    </div>
 
     <hr>
 
-    <h3>3. von Neumann Entropy: Measuring Total Ignorance</h3>
+    <h3>3. von Neumann Entropy: Measuring Quantum Uncertainty</h3>
 
     <p>
-      “Just as Claude Shannon measured classical uncertainty with <code>H(P) = -∑ p_k ln p_k</code>, John von Neumann generalized entropy to quantum density matrices:”
+      “Just as Claude Shannon measured classical uncertainty with <code>H(P) = -∑ p_k ln p_k</code>, John von Neumann generalized entropy to quantum density operators in 1932:”
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 16px; margin: 12px 0;">
+    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 16px; margin: 12px 0;">
       S(ρ) ≡ -k_B · Tr(ρ · ln ρ) = -k_B ∑_{k=0}^{ω-1} λ_k · ln(λ_k)
     </div>
 
@@ -121,33 +160,40 @@
       where <code>λ_k</code> are the eigenvalues of <code>ρ</code>.
     </p>
     <ul>
-      <li>For a <b>Pure State</b> (complete knowledge), <code>S(ρ) = 0</code>.</li>
-      <li>For a <b>Maximally Mixed State</b> (total ignorance), <code>S(ρ) = k_B · ln(ω)</code>.</li>
+      <li>For a <b>Pure State</b> (complete knowledge), <code>S(ρ) = 0</code> (minimum entropy).</li>
+      <li>For a <b>Maximally Mixed State</b> <code>ρ = (1/ω) · 𝕀</code> (total macroscopic ignorance), <code>S(ρ) = k_B · ln(ω)</code> (maximum entropy).</li>
     </ul>
+
+    <h4>Formal Statement (FS-QBI-1.3): von Neumann Entropy</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Quantum Entropy:</b> <code>S(ρ) = -k_B · Tr(ρ ln ρ)</code>.<br>
+      • <b>Unitary Invariance:</b> For any unitary transformation <code>U</code>, <code>S(U ρ U†) = S(ρ)</code>.<br>
+      • <b>Subadditivity:</b> For composite quantum systems, <code>S(ρ_{AB}) ≤ S(ρ_A) + S(ρ_B)</code>, with equality if and only if <code>ρ_{AB} = ρ_A ⊗ ρ_B</code>.
+    </div>
 
     <hr>
 
     <h3>4. The Grand Rosetta Stone of Formal Science</h3>
 
     <p>
-      “Look at the entire journey we have traveled across all six chapters,” Jack said, drawing the master summary table on the board:
+      “Look at the entire intellectual journey we have traveled across all six chapters,” Jack said, drawing the master summary table on the board:
     </p>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
       <tr bgcolor="#f8fafc">
-        <th width="20%" align="left">Curriculum Module</th>
-        <th width="40%" align="left">Mathematical Formalism</th>
+        <th width="22%" align="left">Curriculum Module</th>
+        <th width="38%" align="left">Mathematical Formalism</th>
         <th width="40%" align="left">Epistemic &amp; Physical Meaning</th>
       </tr>
       <tr>
         <td><b>1. Propositional Logic</b></td>
         <td>Binary truth values <code>𝔹 = {0, 1}</code>, root <code>0 = { | }</code></td>
-        <td>Deductive certainty, monotonicity, sound axioms.</td>
+        <td>Deductive certainty, monotonicity, and sound axiomatic rules.</td>
       </tr>
       <tr>
         <td><b>2. Formal Statements</b></td>
         <td>Typed bounded quantification <code>∀x:[ℕ|P] [Q(x)]</code></td>
-        <td>Eliminating cognitive clutter, type-theoretic rigor.</td>
+        <td>Eliminating cognitive clutter; verified type-theoretic notation.</td>
       </tr>
       <tr>
         <td><b>3. Numbers &amp; Trees</b></td>
@@ -157,7 +203,7 @@
       <tr>
         <td><b>4. Classical Bayes</b></td>
         <td><code>P(H|E) = (P(E|H) · P(H)) / P(E)</code> on <code>ℝ_ω</code></td>
-        <td>Non-monotonic belief updating under observed clues.</td>
+        <td>Non-monotonic belief updating under streaming empirical clues.</td>
       </tr>
       <tr>
         <td><b>5. Statistical Mechanics</b></td>
@@ -167,12 +213,12 @@
       <tr>
         <td><b>6. Quantum Bayes</b></td>
         <td><code>ρ' = (P_k ρ P_k) / Tr(ρ P_k)</code>, <code>S(ρ) = -k_B Tr(ρ ln ρ)</code></td>
-        <td><b>The Formal Capstone:</b> Non-commutative inference on complex state spaces.</td>
+        <td><b>The Formal Capstone:</b> Non-commutative inference on complex Hilbert spaces.</td>
       </tr>
     </table>
 
     <p>
-      Jill smiled in wonder: “Every single subject &mdash; from logic puzzles to quantum physics &mdash; is just another branch of the exact same constructive tree!”
+      Jill smiled in wonder: “Every single subject &mdash; from logic puzzles and number trees to quantum physics &mdash; is just another branch of the exact same constructive tree!”
     </p>
 
     <p>
