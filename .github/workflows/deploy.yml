@@ -37,7 +37,7 @@ jobs:
         run: npm run app1BuildR
 
       - name: Write CNAME
-        run: echo "sharedhallucination.app" > app1/dist/CNAME
+        run: cp app1/CNAME app1/dist/CNAME || echo "middlewaymath.app" > app1/dist/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

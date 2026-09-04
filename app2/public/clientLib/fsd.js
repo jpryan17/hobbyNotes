@@ -942,37 +942,85 @@ export class FSD extends PXEParent {
         const grid = [];
         for (let i = 0; i < N; i++) {
             const row = [];
-            const x1 = i + 1; // 1..16 on ℕ
+            const x1 = i + 1; // 1..N on ℕ (row)
             for (let j = 0; j < N; j++) {
-                const x2 = j + 1; // 1..16 on ℕ
+                const x2 = j + 1; // 1..N on ℕ (col)
                 row.push(PredicateRegistry.evaluateAt(pred.id, boundSlots, { "x₁": x1, "x₂": x2 }));
             }
             grid.push(row);
         }
-        const qStr = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
-        if (qStr.includes("∀x₁") && qStr.includes("∃x₂")) {
-            if (qStr.indexOf("∀x₁") < qStr.indexOf("∃x₂")) {
-                return grid.every((row) => row.some((val) => val));
-            }
-            else {
-                for (let j = 0; j < N; j++) {
-                    let colAllTrue = true;
-                    for (let i = 0; i < N; i++) {
-                        if (!grid[i][j]) {
-                            colAllTrue = false;
-                            break;
-                        }
-                    }
-                    if (colAllTrue)
-                        return true;
+        if (this.quantifierBindings.length >= 2) {
+            const q0 = this.quantifierBindings[0];
+            const q1 = this.quantifierBindings[1];
+            if (q0.variable === "x₁" && q1.variable === "x₂") {
+                // q0 across rows (x₁), q1 across columns (x₂)
+                if (q0.quantifier === "∀" && q1.quantifier === "∃") {
+                    return grid.every((row, i) => {
+                        if (row.some(Boolean))
+                            return true;
+                        const x1 = i + 1;
+                        // In unbounded ℕ, boundary row x₁ = N has its witness at x₂ = x₁ + 1
+                        return PredicateRegistry.evaluateAt(pred.id, boundSlots, { "x₁": x1, "x₂": x1 + 1 });
+                    });
                 }
-                return false;
+                else if (q0.quantifier === "∃" && q1.quantifier === "∀") {
+                    return grid.some((row) => row.every(Boolean));
+                }
+                else if (q0.quantifier === "∀" && q1.quantifier === "∀") {
+                    return grid.every((row) => row.every(Boolean));
+                }
+                else {
+                    return grid.some((row) => row.some(Boolean));
+                }
+            }
+            else if (q0.variable === "x₂" && q1.variable === "x₁") {
+                // q0 across columns (x₂), q1 across rows (x₁)
+                if (q0.quantifier === "∀" && q1.quantifier === "∃") {
+                    for (let j = 0; j < N; j++) {
+                        let colHasTrue = false;
+                        for (let i = 0; i < N; i++) {
+                            if (grid[i][j]) {
+                                colHasTrue = true;
+                                break;
+                            }
+                        }
+                        if (!colHasTrue) {
+                            const x2 = j + 1;
+                            colHasTrue = PredicateRegistry.evaluateAt(pred.id, boundSlots, { "x₁": x2 + 1, "x₂": x2 });
+                        }
+                        if (!colHasTrue)
+                            return false;
+                    }
+                    return true;
+                }
+                else if (q0.quantifier === "∃" && q1.quantifier === "∀") {
+                    // Tier 2: One fixed column x₂ must satisfy all rows x₁
+                    for (let j = 0; j < N; j++) {
+                        let colAllTrue = true;
+                        for (let i = 0; i < N; i++) {
+                            if (!grid[i][j]) {
+                                colAllTrue = false;
+                                break;
+                            }
+                        }
+                        if (colAllTrue)
+                            return true;
+                    }
+                    return false;
+                }
+                else if (q0.quantifier === "∀" && q1.quantifier === "∀") {
+                    return grid.every((row) => row.every(Boolean));
+                }
+                else {
+                    return grid.some((row) => row.some(Boolean));
+                }
             }
         }
+        const qStr = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}`).join(" ");
         if (qStr.includes("∀")) {
-            return grid.every((row) => row.every((val) => val));
+            return grid.every((row) => row.every(Boolean));
         }
-        return grid.some((row) => row.some((val) => val));
+        return grid.some((row) => row.some(Boolean));
     }
     evaluateExpCols(exp, predValues) {
         const cols = [];
@@ -1031,6 +1079,20 @@ export class FSD extends PXEParent {
     evaluateFullStatement() {
         const N = this.gridResolution;
         const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10");
+        const getLocalPreds = (ctx) => {
+            const localPreds = {};
+            for (let i = 0; i < this.pxe.exp.length; i++) {
+                const ch = this.pxe.exp[i];
+                const pred = PredicateRegistry.getPredicate(ch);
+                if (pred && localPreds[ch] === undefined) {
+                    const boundSlots = this.slots
+                        .filter((s) => s.predName === pred.symbol || s.predCode === pred.code)
+                        .map((s) => s.assignedVar || (s.slotIndex === 0 ? "x₁" : "x₂"));
+                    localPreds[ch] = PredicateRegistry.evaluateAt(pred.id, boundSlots, ctx);
+                }
+            }
+            return localPreds;
+        };
         if (isSingleVar) {
             const q = this.quantifierBindings[0]?.quantifier || "∃";
             const domainValues = this.getVariableDomainValues("x₁", {}, N);
@@ -1038,18 +1100,8 @@ export class FSD extends PXEParent {
                 return false;
             const rowResults = [];
             for (const x of domainValues) {
-                const localPreds = {
-                    p: x > 5,
-                    q: x < 10,
-                    r: false,
-                    s: false,
-                    m: true,
-                    v: x % 2 === 0
-                };
-                const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
-                if (mSlot) {
-                    localPreds.m = mSlot.assignedVar === "GT5" ? x > 5 : mSlot.assignedVar === "LT10" ? x < 10 : true;
-                }
+                const ctx = { "x₁": x };
+                const localPreds = getLocalPreds(ctx);
                 const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
                 const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
                 rowResults.push(mainVal);
@@ -1065,6 +1117,8 @@ export class FSD extends PXEParent {
             const outerVals = this.getVariableDomainValues(vOuter, {}, N);
             if (outerVals.length === 0)
                 return false;
+            const innerDomain = this.getVarDomain(vInner);
+            const isInnerUnboundedN = innerDomain.base === "ℕ" && innerDomain.filterPred !== "LT";
             const outerResults = [];
             for (const valOuter of outerVals) {
                 const ctx = { [vOuter]: valOuter };
@@ -1076,21 +1130,22 @@ export class FSD extends PXEParent {
                 const innerResults = [];
                 for (const valInner of innerVals) {
                     ctx[vInner] = valInner;
-                    const x1 = ctx["x₁"] ?? 1;
-                    const x2 = ctx["x₂"] ?? 1;
-                    const localPreds = {
-                        p: x1 > 5,
-                        q: x1 < 10,
-                        r: x1 > x2,
-                        s: x1 < x2,
-                        m: true,
-                        v: x1 % 2 === 0
-                    };
+                    const localPreds = getLocalPreds(ctx);
                     const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
                     const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
                     innerResults.push(mainVal);
                 }
-                const innerPass = qInner.quantifier === "∀" ? innerResults.every(Boolean) : innerResults.some(Boolean);
+                let innerPass = qInner.quantifier === "∀" ? innerResults.every(Boolean) : innerResults.some(Boolean);
+                // In unbounded ℕ, boundary sample valOuter might have an existential witness at max(N, valOuter) + 1
+                if (!innerPass && qInner.quantifier === "∃" && isInnerUnboundedN) {
+                    const testWitness = Math.max(N, valOuter) + 1;
+                    const testCtx = { ...ctx, [vInner]: testWitness };
+                    const testPreds = getLocalPreds(testCtx);
+                    const testCols = this.evaluateExpCols(this.pxe.exp, testPreds);
+                    if (testCols.length > 0 && testCols[testCols.length - 1].val) {
+                        innerPass = true;
+                    }
+                }
                 outerResults.push(innerPass);
             }
             return qOuter.quantifier === "∀" ? outerResults.every(Boolean) : outerResults.some(Boolean);
