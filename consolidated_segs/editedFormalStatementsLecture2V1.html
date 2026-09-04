@@ -6,7 +6,7 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Lecture 2: The Semantics of the Algebra of Sets</font></i><br>
+      <i><font size="+2"><b>Lecture 2: The Semantics of the Algebra of Sets</b></font></i><br>
       <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
     </div>
     <br>
@@ -24,7 +24,7 @@
     <p>
       “Precisely,” Jack smiled. “For any base set <code>𝒮</code>, its <b>algebra of sets</b> is the algebraic system:
     </p>
-    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.1em; color: darkblue;">
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px;">
       ( 𝒫(𝒮), ⋃, ⋂, ⁻ )
     </div>
     <p>
@@ -33,7 +33,7 @@
 
     <hr>
 
-    <h3>The Power Set &amp; The Universal Membership Predicate</h3>
+    <h3>1. The Power Set &amp; The Universal Membership Predicate</h3>
 
     <p>
       Jack drew a large box on the board containing four dots: <code>1, 2, 3, 4</code>.
@@ -57,7 +57,7 @@
       We define the universal <b>membership predicate</b>:”
     </p>
 
-    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.1em; color: darkblue;">
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px;">
       ∈ : 𝒮 × 𝒫(𝒮) → 𝔹
     </div>
 
@@ -66,10 +66,10 @@
     </p>
 
     <p>
-      Jack pointed to their screens. “Open FSD and click this live statement asserting that a non-empty subset exists:”
+      Jack pointed to their screens. “Open FSD and click this live statement asserting that a non-empty subset exists in the power set:”
     </p>
 
-    <div align="center" style="margin: 10px 0;">
+    <div align="center" style="margin: 12px 0;">
       <fsd-ref exp="m" quantifiers="∃x₁:ℕ, ∃y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∃y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref>
     </div>
 
@@ -81,45 +81,92 @@
 
     <hr>
 
-    <h3>Defining Set Operations with Bounded Logic</h3>
+    <h3>2. Defining Set Operations with Bounded Logic</h3>
 
     <p>
-      “Now,” Jack continued, “let’s see how our logical connectives <code>∨</code>, <code>∧</code>, and <code>¬</code> define the operations of set algebra directly on collections.”
+      “Now,” Jack continued, “let’s see how our logical connectives <code>∨</code>, <code>∧</code>, and <code>¬</code> define the fundamental operations of set algebra directly on collections.”
     </p>
 
     <br>
 
-    <h4>1. Union (⋃) is Disjunction (∨)</h4>
+    <h4>A. Union (⋃) is Disjunction (∨)</h4>
     <p>
       An element belongs to the union <code>A ⋃ B</code> if and only if it belongs to <code>A</code> or belongs to <code>B</code>:
     </p>
-    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
+    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
       A ⋃ B  =  [ 𝒮 | (x ∈ A) ∨ (x ∈ B) ]
     </div>
+    <p>
+      Below is an evaluatable simile of the right-hand condition using our standard subsets <code>GT5</code> (numbers &gt; 5) and <code>LT10</code> (numbers &lt; 10). Notice how disjunction ensures every natural number falls into the union:
+    </p>
+    <ul>
+      <li>
+        <b>Union Covers Domain:</b> Click <fsd-ref exp="poq" quantifiers="∀x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ∨ LT10(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: every natural number is either &gt; 5 or &lt; 10, completely covering all of <code>ℕ</code>!</i>
+      </li>
+      <br>
+      <li>
+        <b>Existential Member of Union:</b> Click <fsd-ref exp="poq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∨ LT10(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: any number (e.g. 1 or 8) serves as a witness.</i>
+      </li>
+    </ul>
 
     <br>
 
-    <h4>2. Intersection (⋂) is Conjunction (∧)</h4>
+    <h4>B. Intersection (⋂) is Conjunction (∧)</h4>
     <p>
       An element belongs to the intersection <code>A ⋂ B</code> if and only if it belongs to both <code>A</code> and <code>B</code>:
     </p>
-    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
+    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
       A ⋂ B  =  [ 𝒮 | (x ∈ A) ∧ (x ∈ B) ]  =  [ A | x ∈ B ]
     </div>
+    <p>
+      Below are evaluatable similes of the right-hand conjunction:
+    </p>
+    <ul>
+      <li>
+        <b>Non-Empty Intersection:</b> Click <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: numbers {6, 7, 8, 9} satisfy both predicates simultaneously, forming the intersection!</i>
+      </li>
+      <br>
+      <li>
+        <b>Bounded Domain Formulation:</b> Click <fsd-ref exp="q" quantifiers="∃x₁:[ℕ|GT(5)]" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:[ℕ | GT(5)] [ LT10(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: restricting the domain directly to elements greater than 5 and testing for membership in LT10!</i>
+      </li>
+      <br>
+      <li>
+        <b>Universal Failure:</b> Click <fsd-ref exp="paq" quantifiers="∀x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>False (F)</b>: not every number belongs to the intersection (e.g. 1 through 5 and numbers &ge; 10 fail).</i>
+      </li>
+    </ul>
 
     <br>
 
-    <h4>3. Relative Complement (⁻) is Negation (¬)</h4>
+    <h4>C. Relative Complement (⁻) is Negation (¬)</h4>
     <p>
       The complement <code>A⁻</code> relative to universe <code>𝒮</code> contains all elements of <code>𝒮</code> that do not belong to <code>A</code>:
     </p>
-    <div align="center" style="margin: 8px 0; font-weight: bold; font-size: 1.1em; color: darkred;">
-      A⁻  =  [ 𝒮 | x ∉ A ]
+    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
+      A⁻  =  [ 𝒮 | x ∉ A ]  =  [ 𝒮 | ¬(x ∈ A) ]
     </div>
+    <p>
+      Below are evaluatable similes of the negated membership condition:
+    </p>
+    <ul>
+      <li>
+        <b>Complement Members:</b> Click <fsd-ref exp="np" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ ¬GT5(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: elements {1, 2, 3, 4, 5} do not satisfy GT5, forming its relative complement.</i>
+      </li>
+      <br>
+      <li>
+        <b>Universal Complement Check:</b> Click <fsd-ref exp="np" quantifiers="∀x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ ¬GT5(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>False (F)</b>: numbers 6, 7, 8... belong to GT5, so the universe is not entirely contained in the complement.</i>
+      </li>
+    </ul>
 
     <hr>
 
-    <h3>Subset Inclusion (⊆) &amp; Bounded Quantification</h3>
+    <h3>3. Subset Inclusion (⊆) &amp; Extensional Equality</h3>
 
     <p>
       Jill raised her hand. “Jack, how do we say that set <code>A</code> is completely inside set <code>B</code>?”
@@ -130,13 +177,29 @@
       “Using bounded quantification, we say: <i>'For every element <code>x</code> in domain <code>A</code>, <code>x</code> must be a member of <code>B</code>'</i>:”
     </p>
 
-    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: darkred; background: #fff3f3; padding: 10px; border-radius: 6px; border: 1px solid #f5c6cb;">
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
       A ⊆ B  ⇔  ∀x:A [ x ∈ B ]
     </div>
 
     <p>
       “Notice how clean that is,” Jack pointed out. “We didn’t need a complicated conditional formula. Restricting a quantifier's domain to <code>A</code> <i>is</i> asserting membership in <code>A</code>!”
     </p>
+
+    <p>
+      Below are evaluatable similes testing subset inclusion directly:
+    </p>
+
+    <ul>
+      <li>
+        <b>True Inclusion (GT11 ⊆ GT5):</b> Click <fsd-ref exp="p" quantifiers="∀x₁:[ℕ|GT(11)]" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | GT(11)] [ GT5(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: because every number &gt; 11 is strictly greater than 5, the subset <code>GT(11)</code> is strictly contained in <code>GT5</code>.</i>
+      </li>
+      <br>
+      <li>
+        <b>False Inclusion (EVEN ⊈ GT5):</b> Click <fsd-ref exp="p" quantifiers="∀x₁:[ℕ|EVEN]" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | EVEN] [ GT5(x₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>False (F)</b>: 2 and 4 are even numbers but fail to satisfy &gt; 5, providing immediate counterexamples.</i>
+      </li>
+    </ul>
 
     <p>
       “And from subset inclusion,” Jill added, “two sets are equal if they contain each other!”
@@ -146,13 +209,13 @@
       “Exactly,” Jack nodded. “<b>Extensional equality</b> is mutual inclusion:”
     </p>
 
-    <div align="center" style="margin: 10px 0; font-weight: bold; font-size: 1.05em; color: darkblue;">
+    <div align="center" style="margin: 12px 0; font-weight: bold; font-size: 1.15em; color: #1e3a8a; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px;">
       A = B  ⇔  ( A ⊆ B  ∧  B ⊆ A )
     </div>
 
     <hr>
 
-    <h3>Interactive Experiments in FSD</h3>
+    <h3>4. Interactive Experiments in FSD: Power Sets &amp; Matrix Slicing</h3>
 
     <p>
       Jack turned to the class screens. “Let’s test these concepts live in FSD. Click on each statement below to see how our logic engine and matrix visualizer evaluate them:”
@@ -160,30 +223,30 @@
 
     <ul>
       <li>
-        <b>1. Subsets with Bounded Even Domain:</b><br>
-        Is every even number a member of the subset of numbers greater than 5?<br>
-        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|EVEN]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | EVEN] [ (x₁ ∈ GT5) ]</fsd-ref> 
-        <i>(Evaluates to False: 2 and 4 are even but not &gt; 5).</i>
+        <b>1. Bounded Domain Slicing:</b><br>
+        Is every number greater than 11 also a member of GT5?<br>
+        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|GT(11)]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | GT(11)] [ (x₁ ∈ GT5) ]</fsd-ref><br>
+        <i>(Evaluates to <b>True (T)</b>: every number &gt; 11 satisfies &gt; 5).</i>
       </li>
       <br>
       <li>
-        <b>2. Subsets with Restricted Lower Bound:</b><br>
-        Is every number greater than 11 also a member of GT5?<br>
-        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|GT(11)]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | GT(11)] [ (x₁ ∈ GT5) ]</fsd-ref> 
-        <i>(Evaluates to True: every number &gt; 11 satisfies &gt; 5).</i>
+        <b>2. Even Domain Slicing:</b><br>
+        Is every even number greater than 5?<br>
+        <fsd-ref exp="m" quantifiers="∀x₁:[ℕ|EVEN]" slots="x₁,GT5" style="color:firebrick;font-weight:bold">∀x₁:[ℕ | EVEN] [ (x₁ ∈ GT5) ]</fsd-ref><br>
+        <i>(Evaluates to <b>False (F)</b>: counterexamples 2 and 4).</i>
       </li>
       <br>
       <li>
         <b>3. Dependent Domain Slicing:</b><br>
         For every number <code>x₂</code>, is there a number <code>x₁</code> strictly greater than <code>x₂</code>?<br>
-        <fsd-ref exp="r" quantifiers="∀x₂:ℕ, ∃x₁:[ℕ|GT(x₂)]" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₂:ℕ, ∃x₁:[ℕ | GT(x₂)] [ GT(x₁, x₂) ]</fsd-ref> 
+        <fsd-ref exp="r" quantifiers="∀x₂:ℕ, ∃x₁:[ℕ|GT(x₂)]" slots="x₁,x₂" style="color:firebrick;font-weight:bold">∀x₂:ℕ, ∃x₁:[ℕ | GT(x₂)] [ GT(x₁, x₂) ]</fsd-ref><br>
         <i>(Inspect the active triangular staircase region in the Boolean matrix!).</i>
       </li>
     </ul>
 
     <hr>
 
-    <h3>Roadmap: From Set Algebra to Physical Spaces</h3>
+    <h3>5. Roadmap: From Set Algebra to Continuous Spaces</h3>
     <p>
       “In our upcoming lectures,” Jack concluded, “we will take this algebra of sets <code>(𝒫(𝒮), ⋃, ⋂, ⁻)</code> and use it to construct <b>topologies</b>, <b>measure spaces</b>, and <b>metrics</b> over continuous number systems like the real numbers <code>ℝ</code> and the complex plane <code>ℂ</code>. 
       Everything in advanced mathematics and physics—from continuous calculus to quantum state spaces—is built upon this exact foundation.”

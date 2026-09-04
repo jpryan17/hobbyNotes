@@ -1268,11 +1268,33 @@ export class FSD extends PXEParent {
     const N = this.gridResolution;
     const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
 
-    if (this.slots.some((s) => s.assignedVar?.startsWith("y") || s.domainType === "𝒫(ℕ)")) {
+    if (this.slots.some((s) => s.assignedVar?.startsWith("y"))) {
       const predM = this.evaluatePredicate("∈");
       if (this.pxe.exp === "m") return predM;
       if (this.pxe.exp === "nm") return !predM;
     }
+
+    const tree = ttd.bldTree(this.pxe.exp);
+
+    const evalNode = (node: any, leafLookup: (code: string) => boolean): boolean => {
+      if (!node) return true;
+      let val: boolean;
+      if (node.nodeType === "a") {
+        val = evalNode(node.left, leafLookup) && evalNode(node.right, leafLookup);
+      } else if (node.nodeType === "o") {
+        val = evalNode(node.left, leafLookup) || evalNode(node.right, leafLookup);
+      } else if (node.nodeType === "i") {
+        val = !evalNode(node.left, leafLookup) || evalNode(node.right, leafLookup);
+      } else if (node.nodeType === "e") {
+        val = evalNode(node.left, leafLookup) === evalNode(node.right, leafLookup);
+      } else {
+        val = leafLookup(node.nodeType);
+      }
+      if (node.negations % 2 === 1) {
+        val = !val;
+      }
+      return val;
+    };
 
     const getLocalPreds = (ctx: { [k: string]: any }) => {
       const localPreds: { [code: string]: boolean } = {};
@@ -1298,8 +1320,7 @@ export class FSD extends PXEParent {
       for (const x of domainValues) {
         const ctx: { [k: string]: number } = { "x₁": x };
         const localPreds = getLocalPreds(ctx);
-        const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
-        const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
+        const mainVal = evalNode(tree, (ch) => localPreds[ch] ?? true);
         rowResults.push(mainVal);
       }
       return q === "∀" ? rowResults.every(Boolean) : rowResults.some(Boolean);
@@ -1333,8 +1354,7 @@ export class FSD extends PXEParent {
         for (const valInner of innerVals) {
           ctx[vInner] = valInner;
           const localPreds = getLocalPreds(ctx);
-          const cols = this.evaluateExpCols(this.pxe.exp, localPreds);
-          const mainVal = cols.length > 0 ? cols[cols.length - 1].val : true;
+          const mainVal = evalNode(tree, (ch) => localPreds[ch] ?? true);
           innerResults.push(mainVal);
         }
 
@@ -1345,8 +1365,7 @@ export class FSD extends PXEParent {
           const testWitness = Math.max(N, valOuter) + 1;
           const testCtx = { ...ctx, [vInner]: testWitness };
           const testPreds = getLocalPreds(testCtx);
-          const testCols = this.evaluateExpCols(this.pxe.exp, testPreds);
-          if (testCols.length > 0 && testCols[testCols.length - 1].val) {
+          if (evalNode(tree, (ch) => testPreds[ch] ?? true)) {
             innerPass = true;
           }
         }

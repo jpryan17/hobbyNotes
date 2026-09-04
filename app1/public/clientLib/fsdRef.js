@@ -51,14 +51,14 @@ export class FSDRef extends HTMLElement {
                 }
                 else {
                     // Intelligent default slot assignment
-                    if (exp === "paq" || exp === "p" || exp === "q") {
-                        // Unary predicates on x₁: GT5(x₁) ∧ LT10(x₁)
+                    if (exp === "paq" || exp === "poq" || exp === "p" || exp === "q" || exp === "np" || exp === "nq") {
+                        // Unary predicates on x₁: GT5(x₁), LT10(x₁), GT5(x₁) ∨ LT10(x₁), ¬GT5(x₁)
                         fsd.slots.forEach((s) => {
                             s.assignedVar = "x₁";
                         });
                     }
-                    else if (exp === "mam") {
-                        // Membership with subsets: x₁ ∈ GT5 ∧ x₁ ∈ LT10
+                    else if (exp === "mam" || exp === "mom") {
+                        // Membership with subsets: x₁ ∈ GT5 ∧/∨ x₁ ∈ LT10
                         if (fsd.slots.length >= 4) {
                             fsd.slots[0].assignedVar = "x₁";
                             fsd.slots[1].assignedVar = "GT5";
