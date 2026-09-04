@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Bayesian Inference Lecture 1</font></i><br>
-      <i><font size="+1">How Science Learns from Clues &amp; The 3-Stage Bayesian Filter</font></i>
+      <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
+      <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
     </div>
     <br>
 
@@ -32,8 +32,12 @@
     <h3>1. Math Deduction vs. Scientific Discovery</h3>
 
     <p>
-      “In pure mathematics, reasoning is <b>monotonic</b>: truth only ever accumulates,” Jack explained. “When you prove that <code>2 + 2 = 4</code> or that <code>√2</code> is irrational, no future discovery will ever un-prove it.”
+      “In pure mathematics, reasoning is <b>monotonic</b>: truth only ever accumulates,” Jack explained. “When you prove that <code>2 + 2 = 4</code> or that <code>√2</code> is irrational, no future discovery will ever un-prove it:”
     </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
+      Monotonic Deduction: &nbsp; Premises ⊢ Conclusion &nbsp; ⇒ &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+    </div>
 
     <p>
       “Nature, however, doesn't come with an answer key at the back of the book. Scientists cannot peek behind the curtain of the cosmos to see absolute truth. Scientific reasoning is fundamentally <b>non-monotonic</b>:”
@@ -45,12 +49,12 @@
     </ul>
 
     <p>
-      “In the real world, rational thinkers must be able to <b>update their beliefs when new clues appear</b>. <b>Bayesian inference</b> is the exact mathematical engine that tells us how much our beliefs should change.”
+      “In the real world, rational thinkers must be able to <b>update their beliefs when new clues appear</b>. <b>Bayesian inference</b> is the unique, mathematically consistent formalization of non-monotonic belief revision: it tells us exactly how much our beliefs should reallocate as new evidence arrives.”
     </p>
 
     <hr>
 
-    <h3>2. The Primary Arena: Sample Space (Ω)</h3>
+    <h3>2. The Primary Arena: Sample Space (Ω) &amp; The Tree Bridge</h3>
 
     <p>
       “To make scientific reasoning crystal clear, all of inference is anchored on a single playing field: the <b>Sample Space / State Space (Ω)</b>.”
@@ -66,7 +70,7 @@
         <td valign="top">
           <b>The Arena of Possibilities:</b><br>
           • <b>Elements:</b> Individual outcomes <code>p ∈ Ω</code>.<br>
-          • <i>Example:</i> <code>p = Heads</code> or <code>p = Tails</code> (or physical coordinate states).<br>
+          • <i>Example:</i> <code>p = Heads</code> or <code>p = Tails</code> (or detector pixels, particle coordinates).<br>
           • <b>The Anchor:</b> The common ground where theories make predictions and real events land.
         </td>
         <td valign="top">
@@ -105,17 +109,22 @@
                      [ Observations (Data 𝒟) ]<br>
                   (Recorded occurrences from Ω)
       </div>
-      <b>The Core Question of Inference:</b><br>
+      <b>The Core Question of Scientific Inference:</b><br>
       <i>“Given that nature just produced clue <code>d ∈ Ω</code>, which candidate explanation in <code>ℋ</code> gave that clue the highest probability?”</i>
     </div>
 
     <p>
-      “So,” Jill summarized, “hypotheses make bets on what we'll see, nature actually rolls the dice, and we reward the hypotheses that predicted the outcome best?”
+      Jill leaned forward: “Jack, is this Sample Space <code>Ω</code> directly related to the <b>2-successor binary trees</b> we built in our Numbers lectures?”
     </p>
 
     <p>
-      “Precisely!” Jack smiled.
+      “It is the very same structure!” Jack beamed. “Each path of signs <code>[-]</code> and <code>[+]</code> through our graph tree represents an elemental sequence of trial outcomes. At depth <code>d</code>, the <code>2^d</code> leaves partition the continuous probability transect into exact dyadic intervals:”
     </p>
+
+    <div align="center" style="margin: 14px 0; display: flex; justify-content: center; gap: 15px;">
+      <bid-ref mode="stateTree">BID: Head/Tail State Space Tree (Ω)</bid-ref>
+      <bid-ref mode="treeProjection">BID: Tree-to-Transect Projection</bid-ref>
+    </div>
 
     <hr>
 
@@ -135,7 +144,7 @@
         <td valign="top">
           <b>Initial Belief Cake:</b><br>
           Competing explanations divide the unit line according to our starting belief:
-          <div align="center" style="font-family: monospace; margin: 6px 0;">P(H₁) + P(H₂) = 1.000</div>
+          <div align="center" style="font-family: monospace; margin: 6px 0;">∑ P(H_i) = 1.000</div>
         </td>
         <td valign="top">
           <b>Testing Compatibility:</b><br>
@@ -145,13 +154,20 @@
         <td valign="top">
           <b>Rescaling to 100%:</b><br>
           The total surviving mass has shrunk. We divide each survivor by the total remaining width to restore a full 100% belief:
-          <div align="center" style="font-family: monospace; margin: 6px 0;">Posterior = <sup>Surviving</sup> / <sub>Total</sub></div>
+          <div align="center" style="font-family: monospace; margin: 6px 0;">Posterior = <sup>Surviving</sup> / <sub>Total P(D)</sub></div>
         </td>
       </tr>
     </table>
 
     <div align="center" style="margin: 15px 0;">
       <bid-ref mode="filter">Interactive Demo: The 3-Stage Bayesian Filter in BID</bid-ref>
+    </div>
+
+    <h4>Formal Statement (FS) Representation of the Filter:</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Hypothesis as a Typed Function:</b> <code>h : Ω → [0, 1]_ω</code> such that <code>∑_{p ∈ Ω} h(p) = 1.000</code>.<br>
+      • <b>Normalization Invariant:</b> <code>∑_{H ∈ ℋ} P(H | D) = 1.000</code>.<br>
+      • <b>The Exact Updating Rule:</b> <code>P(H | D) = (P(D | H) · P(H)) / P(D)</code> where <code>P(D) = ∑_{i} P(D | H_i) · P(H_i)</code>.
     </div>
 
     <hr>
@@ -196,7 +212,7 @@
       <br>
       <li>
         <b>Find the Total Surviving Width P(Flash):</b><br>
-        • <code>Total = 0.270 + 0.105 = 0.375</code> &nbsp;(37.5% total chance of seeing a flash)
+        • <code>Total = 0.270 + 0.105 = 0.375</code> &nbsp;(37.5% total marginal chance of seeing a flash)
       </li>
       <br>
       <li>
@@ -211,11 +227,20 @@
     </p>
 
     <p>
-      “Exactly!” Jack nodded. “The explanation that best anticipated the clue expanded, while the rival explanation shrank.”
+      “Exactly!” Jack nodded. “In fact, the ratio of likelihoods is called the <b>Bayes Factor</b>:”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="mosaic">Interactive Demo: View the 2D Joint Mosaic Grid in BID</bid-ref>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
+      Bayes Factor = P(Flash | H_rock) / P(Flash | H_clear) = 0.90 / 0.15 = 6.0
+    </div>
+
+    <p>
+      “The clue provided a 6-to-1 evidence multiplier favoring the boulder over the clear ground!”
+    </p>
+
+    <div align="center" style="margin: 15px 0; display: flex; justify-content: center; gap: 15px;">
+      <bid-ref mode="mosaic">BID: 2D Joint Mosaic Grid</bid-ref>
+      <bid-ref mode="oddsGauge">BID: Odds &amp; Bayes Factor Balance</bid-ref>
     </div>
 
     <hr>
@@ -234,9 +259,10 @@
       “Because our number line <code>ℝ_ω</code> has a discrete infinitesimal grid step <code>dx = 1/ω = ε &gt; 0</code>:
     </p>
     <ul>
-      <li>Every possible outcome carries an actual, positive sliver of probability mass (<code>P(p) &gt; 0</code>).</li>
+      <li>Every possible physical outcome carries an actual, positive sliver of probability mass (<code>P(p) &gt; 0</code>).</li>
       <li>Only strictly impossible events (the empty set <code>∅</code>) have probability zero.</li>
-      <li>Bayesian updating is always pure, exact rational arithmetic on the line.”</li>
+      <li>Bayesian updating is always pure, exact rational arithmetic on the line.</li>
+      <li>When decimal readouts are needed, the standard part map <code>st: ℝ_ω → ℝ</code> instantly drops infinitesimal parts (<code>∼ 𝒪(1/ω)</code>) to recover clean laboratory percentages.”</li>
     </ul>
 
     <div align="center" style="margin: 15px 0;">
@@ -253,11 +279,17 @@
     <ul>
       <li>Science is non-monotonic: beliefs must update as clues arrive.</li>
       <li>The 3-stage Bayesian filter (<b>Prior &rarr; Likelihood Slicing &rarr; Normalization</b>) determines the rational update.</li>
+      <li>The 2-successor dyadic tree directly generates the sample space <code>Ω</code> and projects down to transect intervals.</li>
       <li>The hyperfinite transect <code>ℝ_ω</code> guarantees exact probability arithmetic without calculus clutter.</li>
     </ul>
 
     <p>
-      “In Lecture 2, we will see what happens when our rover collects a continuous stream of multiple clues over time!”
+      “In Lecture 2, we will see what happens when our rover collects a continuous stream of multiple clues over time: <i>Today's posterior becomes tomorrow's prior!</i>”
     </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
+    </div>
   </body>
 </html>
+
