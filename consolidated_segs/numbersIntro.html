@@ -6,11 +6,12 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Numbers: Transfinite Trees &amp; Geometric Continua</font></i><br>
-      <i><font size="+1">Dyadic Continua, Radial Phase Spaces &amp; The Duality of Scale</font></i>
+      <font size="+2"><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font><br>
+      <font size="+1"><i>Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The Duality of Scale</i></font>
     </div>
     <br>
 
+    <h3>1. Transfinite Trees &amp; The Limit Ordinal (ω)</h3>
     <p>
       By the time the subject of a formal description of numbers is presented to students, they are already well versed in basic numerical calculation. 
       The goal of our formal description is to provide a foundational bridge: a rigorous way to describe mathematical models directly on discrete, executable graph trees, bypassing the heavy machinery of point-set topology and measure theory until specialized STEM tracks require them.
@@ -99,7 +100,7 @@
 
     <hr>
     
-    <h3>The Power of Graphs: Trees as Number Systems</h3>
+    <h3>2. The Power of Graphs: Inductive Branching as Number Systems</h3>
     <p>
       There is a profound geometric unity underlying this construction: <b>balanced trees are the direct visual and topological manifestation of inductive definitions</b>. 
       The branching factor of the graph corresponds precisely to the number of successor operations:
@@ -126,7 +127,7 @@
 
     <hr>
 
-    <h3>Geometric Space Partitioning: Polar Fans vs. The Cartesian H-Tree</h3>
+    <h3>3. Geometric Space Partitioning: Polar Fans vs. The Cartesian H-Tree</h3>
     <p>
       Graph representations of space partition the continuum in two fundamentally distinct ways: <b>angular polar fans</b> and <b>orthogonal Cartesian trees</b>.
     </p>
@@ -319,65 +320,80 @@
           <text x="300" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)</text>
           
           <defs>
-            <marker id="cart-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#000000" />
+            <marker id="cart-arr-spine" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0f766e" />
+            </marker>
+            <marker id="cart-arr-vert" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+            </marker>
+            <marker id="cart-arr-sub" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+            </marker>
+            <marker id="cart-arr-term" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#4f46e5" />
             </marker>
           </defs>
 
           <!-- Level 1: Central Horizontal Spine (x-axis) -->
-          <line x1="290" y1="140" x2="175" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="290" y1="140" x2="405" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
+          <line x1="290" y1="140" x2="175" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine)" />
+          <line x1="290" y1="140" x2="405" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine)" />
 
           <!-- Level 2: Left & Right Vertical Bars (y-axis perpendiculars) -->
-          <line x1="175" y1="140" x2="175" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="175" y1="140" x2="175" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="140" x2="405" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="140" x2="405" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
+          <line x1="175" y1="140" x2="175" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
+          <line x1="175" y1="140" x2="175" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
+          <line x1="405" y1="140" x2="405" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
+          <line x1="405" y1="140" x2="405" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
 
           <!-- Level 3: Four Horizontal Bars -->
-          <line x1="175" y1="75" x2="115" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="175" y1="75" x2="235" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="175" y1="205" x2="115" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="175" y1="205" x2="235" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="75" x2="345" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="75" x2="465" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="205" x2="345" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
-          <line x1="405" y1="205" x2="465" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow)" />
+          <line x1="175" y1="75" x2="115" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="175" y1="75" x2="235" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="175" y1="205" x2="115" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="175" y1="205" x2="235" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="405" y1="75" x2="345" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="405" y1="75" x2="465" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="405" y1="205" x2="345" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <line x1="405" y1="205" x2="465" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
 
           <!-- Level 4: Eight Vertical Terminal Arrows -->
-          <line x1="115" y1="75" x2="115" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="115" y1="75" x2="115" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="235" y1="75" x2="235" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="235" y1="75" x2="235" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="115" y1="205" x2="115" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="115" y1="205" x2="115" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="235" y1="205" x2="235" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="235" y1="205" x2="235" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="345" y1="75" x2="345" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="345" y1="75" x2="345" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="465" y1="75" x2="465" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="465" y1="75" x2="465" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="345" y1="205" x2="345" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="345" y1="205" x2="345" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="465" y1="205" x2="465" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
-          <line x1="465" y1="205" x2="465" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow)" />
+          <line x1="115" y1="75" x2="115" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="115" y1="75" x2="115" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="235" y1="75" x2="235" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="235" y1="75" x2="235" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="115" y1="205" x2="115" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="115" y1="205" x2="115" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="235" y1="205" x2="235" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="235" y1="205" x2="235" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="345" y1="75" x2="345" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="345" y1="75" x2="345" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="465" y1="75" x2="465" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="465" y1="75" x2="465" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="345" y1="205" x2="345" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="345" y1="205" x2="345" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="465" y1="205" x2="465" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line x1="465" y1="205" x2="465" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
 
-          <!-- Open Nodes -->
-          <circle cx="290" cy="140" r="6" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="115" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="235" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="115" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="235" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="345" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="465" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="345" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="465" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <!-- Nodes with clean styling -->
+          <circle cx="290" cy="140" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
+          <text x="290" y="158" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0f172a">0</text>
+          
+          <circle cx="175" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
+          <circle cx="405" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
+          <circle cx="175" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="175" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="405" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="405" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="115" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="235" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="115" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="235" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="345" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="465" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="345" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="465" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+
+          <!-- Bottom Summary Badge -->
+          <rect x="100" y="246" width="400" height="24" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+          <text x="300" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling (4ⁿ Cells)</text>
         </svg>
         <div style="font-size: 0.85em; color: #64748b; margin-top: 5px;"><i>Figure 3: Alternating Orthogonal Steps (x ↔ y) &mdash; Space partitioned via 90° turns and halved link lengths (1, 1/2, 1/4...)</i></div>
       </div>
@@ -386,28 +402,32 @@
 
     <hr>
 
-    <h3>The Duality of Scale: Shrinking vs. Expanding Links</h3>
+    <h3>4. The Duality of Scale: Shrinking Links (Continua) vs. Expanding Links (Integers)</h3>
     <p>
       When we examine the metric scaling of tree links across generations, we encounter a remarkable insight: <b>the micro-world of the continuum and the macro-world of the integers are reflections of the exact same dyadic geometry</b>.
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <table border="1" cellpadding="10" cellspacing="0" width="95%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
-        <tr bgcolor="#f8fafc">
-          <th width="22%" align="left">Perspective</th>
-          <th width="38%" align="left">Metric Scaling Rule</th>
-          <th width="40%" align="left">Mathematical Realm Generated</th>
-        </tr>
-        <tr>
-          <td><b>Shrinking Links<br>(Microscopic Dive)</b></td>
-          <td><b>Halving step lengths at each depth:</b><br><code>1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code></td>
-          <td><b>The Real Continuum &amp; Infinitesimals:</b><br>Subdivides intervals into dense dyadic cuts, reaching the infinitesimal differentials <code>dx</code> born at <code>ω</code>.</td>
-        </tr>
-        <tr>
-          <td><b>Expanding Links<br>(Macroscopic Reach)</b></td>
-          <td><b>Doubling step lengths at each depth:</b><br><code>1, 2, 4, 8, ..., 2⁺ᵈ</code></td>
-          <td><b>Unbounded Integers &amp; Transfinite Horizon:</b><br>Expands outward to span all unbounded integers, reaching the infinite scale <code>Ω = 2^ω</code>.</td>
-        </tr>
+    <div align="center" style="margin: 20px 0;">
+      <table style="width: 100%; max-width: 760px; border-collapse: collapse; margin: 16px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 14px; text-align: left; width: 25%;">Perspective</th>
+            <th style="padding: 10px 14px; text-align: left; width: 35%;">Metric Scaling Rule</th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%;">Mathematical Realm Generated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Shrinking Links<br><span style="color: #2563eb; font-size: 0.9em;">(Microscopic Dive)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Halving step lengths at each depth:</b><br><code>1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Real Continuum &amp; Infinitesimals:</b><br>Subdivides intervals into dense dyadic cuts, reaching the infinitesimal differentials <code>dx = 1/ω</code> born at <code>ω</code>.</td>
+          </tr>
+          <tr style="background-color: #f8fafc;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Expanding Links<br><span style="color: #7c3aed; font-size: 0.9em;">(Macroscopic Reach)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Doubling step lengths at each depth:</b><br><code>1, 2, 4, 8, ..., 2⁺ᵈ</code></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Unbounded Integers &amp; Transfinite Horizon:</b><br>Expands outward to span all unbounded integers, reaching the infinite scale <code>Ω = 2^ω</code>.</td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
@@ -420,7 +440,7 @@
 
     <hr>
 
-    <h3>The Jump to Standard Analysis: Families of Sets &amp; Intrinsic Spaces</h3>
+    <h3>5. The Jump to Standard Analysis: Families of Sets &amp; Intrinsic Spaces</h3>
     <p>
       In our core track, numbers come equipped with intrinsic geometric coordinates through their inductive tree addresses in <code>ℝ_ω</code> and <code>ℂ_ω</code>. 
       Every neighborhood, infinitesimal interval, and dyadic slice is already built into the graph.
@@ -454,5 +474,21 @@
     <p>
       In this way, the transition from discrete graph trees to the continuous spaces of STEM topics is mediated by moving from binary set operations to indexed families of sets.
     </p>
+
+    <hr>
+
+    <h3>6. Interactive Exploration: The 2-Successor Tree Demo (BTD)</h3>
+    <p>
+      To transition from passive reading to tactile mathematical discovery, the Middle Way curriculum includes the <b>2-Successor Tree Demo (BTD)</b>, accessible directly in the top navigation line:
+    </p>
+    <div style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; margin: 16px 0; color: #1e3a8a;">
+      <b>Exploring the Number Tree Interactively in BTD:</b>
+      <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #1e293b; line-height: 1.6;">
+        <li><b>Static Projections:</b> Toggle between the <i>Plain Tree</i>, <i>Birthday Levels</i> (days <code>0, 1, 2, 3...</code>), <i>Sign Expansions</i> (<code>{ -, + }</code> sequences), <i>Dyadic Fractions</i> (<code>-1, -1/2, 0, 1/2, 1...</code>), and the projected <i>Number Line</i>.</li>
+        <li><b>Simplicity &amp; Cuts:</b> Visualize Conway's simplicity rule (<code>&lt;s</code>) and how numbers are defined as cuts between older left and right numeric sets: <code>{ L | R }</code>.</li>
+        <li><b>Arithmetic Operations:</b> Experiment with interactive <i>Surreal Addition (<code>+</code>)</i> and <i>Surreal Multiplication (<code>*</code>)</i>, observing how tree paths recursively compose to form a complete field.</li>
+        <li><b>The Transfinite Horizon:</b> Inspect the <i>State / Ω Inspector</i> to see how the finite dyadic tree extends into transfinite limits at Day <code>ω</code>.</li>
+      </ul>
+    </div>
   </body>
 </html>

@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Numbers Lecture 1</font></i><br>
-      <i><font size="+1">The Classical Ascent vs. The Conway Inductive Revolution</font></i>
+      <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
+      <font size="+1"><i>The Classical Ascent vs. The Conway Inductive Revolution</i></font>
     </div>
     <br>
 
@@ -38,14 +38,14 @@
 
     <hr>
 
-    <h3>Part I: The Classical Ascent to Real Numbers</h3>
+    <h2>Part I: The Classical Ascent to Real Numbers</h2>
 
-    <h4>1. The Natural Numbers ℕ and Inductive Roots</h4>
+    <h3>1. The Natural Numbers ℕ and Inductive Roots</h3>
     <p>
       The classical story begins with the <b>natural numbers</b>:
     </p>
-    <div align="center">
-      <code>ℕ = { 1, 2, 3, 4, ... }</code>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px; max-width: 550px;">
+      ℕ = { 1, 2, 3, 4, ... }
     </div>
     <p>
       The natural numbers exhibit a strict order (<code>1 &lt; 2 &lt; 3 &lt; ...</code>). We define them inductively with two simple rules:
@@ -60,7 +60,7 @@
 
     <br>
 
-    <h4>2. Algebraic Structures: Semigroups and Monoids</h4>
+    <h3>2. Algebraic Structures: Semigroups and Monoids</h3>
     <p>
       In abstract algebra, mathematicians classify operations by their structural strength:
     </p>
@@ -72,7 +72,7 @@
 
     <br>
 
-    <h4>3. The Arrival of Zero (0) and The Integers ℤ</h4>
+    <h3>3. The Arrival of Zero (0) and The Integers ℤ</h3>
     <p>
       “It took civilizations a long time to treat <b>zero</b> as an actual number rather than a mere placeholder,” Jack explained. “The Babylonians used it as a positional separator around 300 BCE, the Maya used it by 36 BCE, and Indian mathematician Brahmagupta formulated complete arithmetic rules for zero in 628 CE.”
     </p>
@@ -80,8 +80,8 @@
     <p>
       When zero is added to the naturals:
     </p>
-    <div align="center">
-      <code>ℕ₀ = { 0, 1, 2, 3, ... }</code>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px; max-width: 550px;">
+      ℕ₀ = { 0, 1, 2, 3, ... }
     </div>
     <p>
       Now addition <code>(ℕ₀, +)</code> becomes a monoid as well, with identity element <code>0</code> (since <code>0 + n = n</code>).
@@ -89,15 +89,15 @@
 
     <br>
 
-    <h4>4. Groups and Rings: (ℤ, +, ·)</h4>
+    <h3>4. Groups and Rings: (ℤ, +, ·)</h3>
     <p>
       Once you have an identity element, you can ask for <b>inverses</b>: an element that combines with <code>x</code> to produce the identity.
     </p>
     <p>
       In <code>(ℕ₀, +)</code>, only <code>0</code> has an additive inverse (<code>0 + 0 = 0</code>). To give <i>every</i> number an additive inverse, mathematicians created the negative numbers, forming the <b>integers</b>:
     </p>
-    <div align="center">
-      <code>ℤ = { ..., -3, -2, -1, 0, 1, 2, 3, ... }</code>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px; max-width: 550px;">
+      ℤ = { ..., -3, -2, -1, 0, 1, 2, 3, ... }
     </div>
 
     <ul>
@@ -107,7 +107,7 @@
 
     <br>
 
-    <h4>5. The Rational Numbers ℚ and Fields</h4>
+    <h3>5. The Rational Numbers ℚ and Fields</h3>
     <p>
       “In the ring of integers <code>(ℤ, +, ·)</code>, only <code>1</code> and <code>-1</code> have multiplicative inverses,” Jill noted.
     </p>
@@ -122,7 +122,7 @@
 
     <br>
 
-    <h4>6. The Crisis of Incompleteness: √2, π, and Dedekind Cuts</h4>
+    <h3>6. The Crisis of Incompleteness: √2, π, and Dedekind Cuts</h3>
     <p>
       “So are we done? Is <code>ℚ</code> the end of the line?”
     </p>
@@ -140,7 +140,7 @@
     <p>
       Look at how much scaffolding was needed just to reach <code>ℝ</code>:
     </p>
-    <div align="center" style="margin: 15px 0;">
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 15px auto; color: #1e3a8a; background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 12px; max-width: 650px;">
       <b>Inductive ℕ &rarr; Monoid ℕ₀ &rarr; Group ℤ &rarr; Ring (ℤ, +, ·) &rarr; Field ℚ &rarr; Dedekind Cuts &rarr; ℝ</b>
     </div>
     <p>
@@ -149,7 +149,7 @@
 
     <hr>
 
-    <h3>Part II: The Conway Revolution &amp; Inductive Branching</h3>
+    <h2>Part II: The Conway Revolution &amp; Inductive Branching</h2>
 
     <p>
       “Welcome back! Hope you had a good lunch.”
@@ -165,39 +165,43 @@
 
     <br>
 
-    <h4>7. The Three Inductive Branching Laws</h4>
+    <h3>7. The Three Inductive Branching Laws</h3>
     <p>
       Instead of just one inductive rule, consider three fundamental branching rules:
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <table border="1" cellpadding="10" cellspacing="0" width="90%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
-        <tr bgcolor="#f1f5f9">
-          <th width="20%" align="left">Branching Factor</th>
-          <th width="40%" align="left">Inductive Definition</th>
-          <th width="40%" align="left">Mathematical Domain Generated</th>
-        </tr>
-        <tr>
-          <td><b>1-Successor</b></td>
-          <td>Unique root <code>0</code>; each node has <b>1 successor</b>.</td>
-          <td><b>The Natural Numbers ℕ₀</b> (the counting ray).</td>
-        </tr>
-        <tr>
-          <td><b>2-Successor</b></td>
-          <td>Unique root <code>0</code>; each node has <b>2 successors</b> (<code>[-]</code> and <code>[+]</code>).</td>
-          <td><b>The Dyadic Rationals &amp; Real Horizon ℝ_ω</b> (binary tree, interval subdivision).</td>
-        </tr>
-        <tr>
-          <td><b>4-Successor</b></td>
-          <td>Unique root <code>0</code>; each node has <b>4 successors</b> (<code>{+1, -1, +i, -i}</code>).</td>
-          <td><b>The Gaussian Dyadics &amp; Complex Horizon ℂ_ω</b> (2D spatial grid, phase rotation).</td>
-        </tr>
+    <div align="center" style="margin: 18px 0;">
+      <table style="width: 100%; max-width: 760px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 14px; text-align: left; width: 22%;">Branching Factor</th>
+            <th style="padding: 10px 14px; text-align: left; width: 38%;">Inductive Definition</th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%;">Mathematical Domain Generated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>1-Successor</b></td>
+            <td style="padding: 12px 14px; vertical-align: top;">Unique root <code>0</code>; each node has <b>1 successor</b>.</td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Natural Numbers ℕ₀</b><br><span style="color: #64748b; font-size: 0.9em;">(The linear counting ray)</span></td>
+          </tr>
+          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>2-Successor</b></td>
+            <td style="padding: 12px 14px; vertical-align: top;">Unique root <code>0</code>; each node has <b>2 successors</b> (<code>[-]</code> and <code>[+]</code>).</td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Dyadic Rationals &amp; Real Horizon ℝ_ω</b><br><span style="color: #2563eb; font-size: 0.9em;">(Binary tree, dense interval subdivision)</span></td>
+          </tr>
+          <tr style="background-color: #ffffff;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>4-Successor</b></td>
+            <td style="padding: 12px 14px; vertical-align: top;">Unique root <code>0</code>; each node has <b>4 successors</b> (<code>{+1, -1, +i, -i}</code>).</td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Gaussian Dyadics &amp; Complex Horizon ℂ_ω</b><br><span style="color: #7c3aed; font-size: 0.9em;">(2D spatial grid, phase rotation)</span></td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
     <br>
 
-    <h4>8. Well-Order &amp; The Discovery of Non-Standard Endless Order</h4>
+    <h3>8. Well-Order &amp; The Discovery of Non-Standard Endless Order</h3>
     <p>
       “Before we can understand the transfinite horizon,” Jack began, “we must look closely at what an <b>ordering</b> actually is.”
     </p>
@@ -255,7 +259,7 @@
     </p>
 
     <br>
-    <h4>9. The Decisive Discovery: Where Does 1 Stand?</h4>
+    <h3>9. The Decisive Discovery: Where Does 1 Stand?</h3>
     <p>
       Now ask the crucial question: <b>Where does the number <code>1</code> sit in this well-ordered line?</b>
     </p>
@@ -263,7 +267,7 @@
     <p>
       Look at the set of all elements that come strictly before <code>1</code>:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+    <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
       { x ∈ ℕ | x ≺ 1 } = { 2, 4, 6, 8, 10, 12, ... }
     </div>
     <p>
@@ -293,7 +297,7 @@
     </ol>
 
     <br>
-    <h4>10. The Least Upper Bound (Supremum): Ceilings Outside Their Sets</h4>
+    <h3>10. The Least Upper Bound (Supremum): Ceilings Outside Their Sets</h3>
     <p>
       “Now that we have discovered that an order can continue after an infinite progression,” Jack continued, “how do we formally define the boundary where the counting numbers end?”
     </p>
@@ -301,7 +305,7 @@
     <p>
       “We look at how <b>bounds and ceilings</b> work in mathematics. Consider this sequence of ruler marks—our familiar dyadic fractions:”
     </p>
-    <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
+    <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
       S = { 1/2, 3/4, 7/8, 15/16, 31/32, ... }
     </div>
 
@@ -332,7 +336,7 @@
     <p>
       We denote this least upper bound by <b>ω (omega)</b>:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #0f172a;">
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px auto; color: #0f172a; background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; max-width: 400px;">
       <b>ω = sup(ℕ)</b>
     </div>
     <p>
@@ -340,7 +344,7 @@
     </p>
 
     <br>
-    <h4>11. Conway's Birthdays &amp; The Horizon ω</h4>
+    <h3>11. Conway's Birthdays &amp; The Horizon ω</h3>
     <p>
       With the concept of an ordinal and its supremum rigorously established, John Conway's recursive generation of numbers becomes completely clear:
     </p>
@@ -355,7 +359,26 @@
       <li>At Day <code>n</code>: all dyadic fractions <code>m / 2^n</code> are born.</li>
     </ul>
 
-    <div style="background-color: #f1f5f9; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 14px; margin: 12px 0;">
+    <div style="background-color: #ecfdf5; border: 1.5px solid #10b981; border-radius: 6px; padding: 14px; margin: 14px 0; color: #064e3b;">
+      <b>Conway Cuts vs. Dedekind Cuts:</b><br>
+      Notice the profound conceptual contrast:
+      <ul style="margin: 6px 0 0 0; padding-left: 20px; color: #1e293b;">
+        <li><b>Dedekind Cuts (Classical):</b> Partition an <i>already existing</i> infinite field of rational numbers <code>ℚ</code> into two halves <code>(L, R)</code> to plug the holes (like <code>√2</code>).</li>
+        <li><b>Conway Cuts (Modern):</b> Start with <i>nothing at all</i>—the empty set <code>∅</code>. The cut <code>0 = { ∅ | ∅ }</code> creates zero, and subsequent cuts <code>{ L | R }</code> construct the numbers, their order, and their arithmetic simultaneously!</li>
+      </ul>
+    </div>
+
+    <div style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 14px; margin: 14px 0; color: #1e3a8a;">
+      <b>Interactive Exploration in BTD (2-Successor Tree Demo):</b><br>
+      You can explore Conway's generation of numbers interactively using the <b>BTD</b> tool in the navigation line:
+      <ul style="margin: 6px 0 0 0; padding-left: 20px; color: #1e293b;">
+        <li>Click <b>Birthday Levels</b> to see Day 0, Day 1, and Day 2 nodes highlight by generational layer.</li>
+        <li>Click <b>Dyadic Fractions</b> to inspect how signs <code>[-]</code> and <code>[+]</code> compute exact fractions <code>-1/2, +1/2, +2</code>.</li>
+        <li>Click <b>Conway Cut (L|R)</b> to view the active left and right numeric sets defining each node.</li>
+      </ul>
+    </div>
+
+    <div style="background-color: #f1f5f9; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 14px; margin: 14px 0;">
       <h5 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 14px;">The Cardinality Leap: From Countable Fractions to the Uncountable Continuum</h5>
       <p style="margin: 0 0 8px 0;">
         Look at the profound connection between the tree's <b>depth</b> and its <b>width</b>:
@@ -372,7 +395,7 @@
 
     <br>
 
-    <h4>12. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h4>
+    <h3>12. Order Types: Well-Ordered, Linearly Ordered, and Partially Ordered</h3>
     <p>
       Jill raised her hand: “Do all three trees have the same kind of ordering?”
     </p>
@@ -387,28 +410,28 @@
 
     <br>
 
-    <h4>13. Defining the Core Sets: ℝ_ω and ℂ_ω</h4>
+    <h3>13. Defining the Core Sets: ℝ_ω and ℂ_ω</h3>
     <p>
       By cutting off the inductive branching process at birthday <code>ω</code>, we define two fundamental number sets:
     </p>
     <ul>
       <li>
         <b>ℝ_ω:</b> The set of all finite dyadic rationals <code>m / 2^n</code> combined with all numbers born at birthday <code>ω</code>.
-        <div align="center" style="margin: 6px 0;">
-          <code>ℝ ⊂ ℝ_ω</code> &nbsp;(Standard real numbers are a clean subset).
+        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
+          ℝ ⊂ ℝ_ω &nbsp;(Standard real numbers embed as a dense subfield).
         </div>
       </li>
       <li>
         <b>ℂ_ω:</b> The set of all Gaussian dyadics combined with all 4-successor numbers born at birthday <code>ω</code>.
-        <div align="center" style="margin: 6px 0;">
-          <code>ℂ ⊂ ℂ_ω</code> &nbsp;(Standard complex numbers are a clean subset).
+        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
+          ℂ ⊂ ℂ_ω &nbsp;(Standard complex numbers embed as a dense subfield).
         </div>
       </li>
     </ul>
 
     <br>
 
-    <h4>14. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h4>
+    <h3>14. Why ℝ_ω and ℂ_ω? Eliminating the Clutter of Limit Theory</h3>
     <p>
       “Why do we work with <code>ℝ_ω</code> and <code>ℂ_ω</code> instead of standard <code>ℝ</code> and <code>ℂ</code>?”
     </p>
