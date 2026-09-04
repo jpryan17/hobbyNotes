@@ -12,19 +12,27 @@
     <br>
 
     <p>
-      Jane opened the first mini-seminar by writing two words on the board: <b>Position</b> and <b>Frequency</b>.
+      Jane stepped to the front of the seminar room to introduce the first speaker of the department's mini-seminar series:
     </p>
 
     <p>
-      “If you have ever adjusted an equalizer on a music player, saved a photo as a JPEG, connected to Wi-Fi, or wondered why electrons behave like waves,” Jane said, “you have encountered the <b>Fourier Transform</b>. In standard textbooks, it is often buried under heavy continuous integrals, Lebesgue measure theory, and infinite limits. Today, we reveal its simple, elegant heart: <b>the Fourier Transform is nothing more than viewing a vector from a rotated coordinate perspective</b>.”
+      “Welcome to our applied mini-seminars! Today, I’ve asked my graduate student <b>Liam</b> &mdash; who works at the intersection of signal processing and quantum information &mdash; to show us how the linear algebra we built in Course 1 powers modern communications and quantum mechanics.”
     </p>
 
     <p>
-      Jill raised her hand: “You mean changing coordinates like rotating our graph paper?”
+      Liam smiled, plugging his laptop into the projector and writing two words on the blackboard: <b>Position</b> and <b>Frequency</b>.
     </p>
 
     <p>
-      “Exactly,” Jane smiled. “A pure, rigid rotation of basis vectors in Hilbert space.”
+      “Thanks, Professor Jane,” Liam began. “If you’ve ever adjusted an equalizer on a music player, compressed an image into a JPEG, connected to Wi-Fi, or wondered why quantum particles act like waves, you’ve relied on the <b>Fourier Transform</b>. In university engineering courses, it’s often wrapped in terrifying continuous integrals and infinite limits. But on our transfinite scaffold, the truth is delightfully simple: <b>the Fourier Transform is nothing more than looking at a state vector from a rotated coordinate perspective!</b>”
+    </p>
+
+    <p>
+      Jill raised her hand: “Like turning our graph paper at an angle?”
+    </p>
+
+    <p>
+      “Exactly, Jill!” Liam beamed. “A pure, rigid rotation of basis vectors in Hilbert space.”
     </p>
 
     <hr>
@@ -32,7 +40,7 @@
     <h3>1. Everyday Engineering &amp; The Two Perspective Domains</h3>
 
     <p>
-      Imagine recording an audio signal or observing a quantum wave. You can describe this physical reality in two completely equivalent ways:
+      “Imagine recording an audio signal or observing a quantum wave,” Liam explained. “You can describe the exact same physical reality in two completely equivalent ways:”
     </p>
 
     <ul>
@@ -76,7 +84,7 @@
     <h3>2. Demystifying the Math: A Unitary Change of Basis on ℂ_ω</h3>
 
     <p>
-      On our discrete hyperfinite grid <b><code>ℂ_ω</code></b> (where space is partitioned into <code>ω</code> cells of width <code>dx = 1/ω</code>), a signal or quantum state vector <code>f(x)</code> is simply a column vector of <code>ω</code> complex numbers:
+      “On our discrete hyperfinite grid <b><code>ℂ_ω</code></b>,” Liam continued, “where space is partitioned into <code>ω</code> cells of width <code>dx = 1/ω</code>, a signal or quantum state vector <code>f(x)</code> is simply a column vector of <code>ω</code> complex numbers:”
     </p>
 
     <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
@@ -92,7 +100,7 @@
     </div>
 
     <p>
-      “Each row of the Fourier matrix is a pure complex phase wave,” Jane explained. “Multiplying by <code>F</code> simply asks: <i>'How much does our spatial state vector |f⟩ line up with a harmonic wave vibrating at frequency k_m?'</i>”
+      “Each row of the Fourier matrix is a pure complex harmonic wave,” Liam explained. “Multiplying by <code>F</code> simply asks: <i>'How much does our spatial state vector |f⟩ line up with a wave vibrating at frequency k_m?'</i>”
     </p>
 
     <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
@@ -113,11 +121,11 @@
     <h3>3. Energy &amp; Probability Conservation (F† · F = I)</h3>
 
     <p>
-      Jill noted: “Because <code>F</code> is unitary, the total length of the vector never changes, right?”
+      Jill raised her hand again: “Because Liam’s matrix <code>F</code> is unitary, does that mean the total length of the vector never changes?”
     </p>
 
     <p>
-      “Precisely!” Jane said. “In electrical engineering, this vector length preservation is called <b>Parseval's (or Plancherel's) Theorem</b>:
+      “Spot on, Jill!” Liam replied. “In electrical engineering, this vector length preservation is called <b>Parseval's (or Plancherel's) Theorem</b>:
     </p>
 
     <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
@@ -133,11 +141,7 @@
     <h3>4. The Geometry of Uncertainty: Position vs. Frequency</h3>
 
     <p>
-      Jill leaned forward: “How does this connect to Heisenberg’s uncertainty principle?”
-    </p>
-
-    <p>
-      “Fourier duality provides the most direct geometric proof of the <b>Uncertainty Principle</b>,” Jane replied:
+      “Now,” Liam said, “how does this basis rotation explain Heisenberg’s famous <b>Uncertainty Principle</b>?”
     </p>
 
     <ul>
@@ -152,6 +156,10 @@
       </li>
     </ul>
 
+    <p>
+      Jill nodded: “You can't have a note that is both a sharp click in time and a single pure pitch &mdash; rotating the vector makes that geometrically impossible!”
+    </p>
+
     <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-MS-1.2 (The Geometric Uncertainty Principle):</b><br>
       Let <code>Δx</code> and <code>Δk</code> denote the root-mean-square spatial and frequency spreads of state <code>|f⟩</code>. The non-commutativity of position and frequency basis projections imposes the strict geometric lower bound:
@@ -163,10 +171,10 @@
 
     <hr>
 
-    <h3>5. Summary: One Reality, Two Basis Coordinates</h3>
+    <h3>5. Jane's Synthesis: One Reality, Two Basis Coordinates</h3>
 
     <p>
-      “The Fourier Transform is not a mathematical trick,” Jane concluded. “It is the fundamental bridge connecting discrete spatial coordinates to continuous wave harmonics. By treating the transformation as a unitary basis rotation <code>F† · F = I</code> on <code>ℂ_ω</code>, we see that position and frequency are simply two complementary windows looking into the exact same physical reality.”
+      Jane stepped back up to thank Liam: “As Liam showed us, the Fourier Transform isn't an obscure calculus formula. It is the geometric bridge connecting discrete coordinates to continuous wave harmonics. By treating the transformation as a unitary rotation <code>F† · F = I</code> on <code>ℂ_ω</code>, we see that position and frequency are simply two complementary windows looking into the exact same physical reality.”
     </p>
   </body>
 </html>
