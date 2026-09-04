@@ -45,8 +45,11 @@ export class BTDRef extends HTMLElement {
       Nav.addNavLineBackButton(buttonText);
       Nav.fo.removeChildren();
       Nav.fo.append(btd);
-      btd.layout();
       Nav.display();
+      btd.layout();
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => btd.layout());
+      }
     });
   }
 }

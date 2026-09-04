@@ -166,6 +166,9 @@ export class BTD extends SVGElt {
     this.diagramGroup.append(this.currentDiagram);
 
     this.layout();
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => this.layout());
+    }
   }
 
   layout(): void {
@@ -174,7 +177,7 @@ export class BTD extends SVGElt {
     const usableWidth = totalWidth - 2 * padding;
 
     const labelWidth = 105;
-    const itemGap = 16;
+    const itemGap = 18;
     const lineSpacing = 28;
 
     let curY = 26;
@@ -204,7 +207,7 @@ export class BTD extends SVGElt {
           // ignore
         }
         if (!btnW) {
-          btnW = (btn.getV() || '').length * 8.0;
+          btnW = (btn.getV() || '').length * 9.0;
         }
 
         if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
@@ -245,7 +248,7 @@ export class BTD extends SVGElt {
           // ignore
         }
         if (!btnW) {
-          btnW = (btn.getV() || '').length * 8.0;
+          btnW = (btn.getV() || '').length * 9.0;
         }
 
         if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {

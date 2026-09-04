@@ -136,13 +136,16 @@ export class BTD extends SVGElt {
         this.currentDiagram = new BTreeDiagram({ mode });
         this.diagramGroup.append(this.currentDiagram);
         this.layout();
+        if (typeof requestAnimationFrame !== 'undefined') {
+            requestAnimationFrame(() => this.layout());
+        }
     }
     layout() {
         const totalWidth = Nav.foWidth > 0 ? Nav.foWidth : 900;
         const padding = 10;
         const usableWidth = totalWidth - 2 * padding;
         const labelWidth = 105;
-        const itemGap = 16;
+        const itemGap = 18;
         const lineSpacing = 28;
         let curY = 26;
         // Position Row 1: Static Views
@@ -170,7 +173,7 @@ export class BTD extends SVGElt {
                     // ignore
                 }
                 if (!btnW) {
-                    btnW = (btn.getV() || '').length * 8.0;
+                    btnW = (btn.getV() || '').length * 9.0;
                 }
                 if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
                     curY += lineSpacing;
@@ -208,7 +211,7 @@ export class BTD extends SVGElt {
                     // ignore
                 }
                 if (!btnW) {
-                    btnW = (btn.getV() || '').length * 8.0;
+                    btnW = (btn.getV() || '').length * 9.0;
                 }
                 if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
                     curY += lineSpacing;
