@@ -50,12 +50,70 @@
     The entire 3D interior "bulk" physics is 100% encoded on its outer 2D boundary shell, like a 3D hologram projected from a 2D film!
   </div>
 
-  <!-- VISUAL ANCHOR: 3D Bulk Volume Cell Cancellation to 2D Boundary -->
-  <div style="margin: 16px 0; padding: 14px; background-color: #f1f5f9; border: 2px dashed #94a3b8; border-radius: 8px; text-align: center;">
-    <font color="#475569" size="-1">
-      <b>[Visual Anchor: 3D Bulk Volume Cell Cancellation to 2D Boundary]</b><br>
-      <i>(Diagram: 3D bulk volume partitioned into cells with opposing internal boundary arrows canceling to zero, leaving highlighted outer 2D boundary skin.)</i>
-    </font>
+  <!-- VISUAL EMBED: 3D Bulk Volume Cell Cancellation to 2D Boundary -->
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 620px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 200" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: 3D Isometric Cell Grid with Internal Cancellations -->
+        <g transform="translate(140, 100)">
+          <!-- Outer Boundary Shell (Glowing/Dashed Blue) -->
+          <polygon points="0,-75 85,-35 85,45 0,85 -85,45 -85,-35" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5" />
+          <polyline points="0,-75 0,85" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,3" />
+          <polyline points="-85,-35 0,5 85,-35" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,3" />
+
+          <!-- Internal Cell Boundaries with Opposing Arrows -->
+          <!-- Face 1 internal -->
+          <line x1="-30" y1="-5" x2="-30" y2="35" stroke="#dc2626" stroke-width="2" />
+          <polygon points="-33,10 -30,0 -27,10" fill="#dc2626" />
+          <line x1="-25" y1="-5" x2="-25" y2="35" stroke="#16a34a" stroke-width="2" />
+          <polygon points="-28,20 -25,30 -22,20" fill="#16a34a" />
+
+          <!-- Face 2 internal -->
+          <line x1="30" y1="-5" x2="30" y2="35" stroke="#dc2626" stroke-width="2" />
+          <polygon points="27,20 30,30 33,20" fill="#dc2626" />
+          <line x1="35" y1="-5" x2="35" y2="35" stroke="#16a34a" stroke-width="2" />
+          <polygon points="32,10 35,0 38,10" fill="#16a34a" />
+
+          <!-- Internal cancellation text -->
+          <rect x="-65" y="4" width="130" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+          <text x="0" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#dc2626">Internal Edges Cancel: ↑ + ↓ = 0</text>
+
+          <!-- Outer boundary normal arrows -->
+          <line x1="-85" y1="5" x2="-105" y2="5" stroke="#2563eb" stroke-width="2" />
+          <polygon points="-102,2 -110,5 -102,8" fill="#2563eb" />
+
+          <line x1="85" y1="5" x2="105" y2="5" stroke="#2563eb" stroke-width="2" />
+          <polygon points="102,2 110,5 102,8" fill="#2563eb" />
+
+          <line x1="0" y1="-75" x2="0" y2="-92" stroke="#2563eb" stroke-width="2" />
+          <polygon points="-3,-88 0,-96 3,-88" fill="#2563eb" />
+
+          <text x="0" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">3D Bulk Volume V (N³ Cells)</text>
+        </g>
+
+        <!-- Projection Arrow -->
+        <g transform="translate(325, 100)">
+          <text x="25" y="-12" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Bulk Collapses</text>
+          <line x1="-15" y1="0" x2="65" y2="0" stroke="#2563eb" stroke-width="2.5" />
+          <polygon points="70,0 60,-5 60,5" fill="#2563eb" />
+          <text x="25" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#64748b">∑ internal = 0</text>
+        </g>
+
+        <!-- Right: 2D Boundary Shell & Entropy Scaling -->
+        <g transform="translate(485, 100)">
+          <rect x="-85" y="-65" width="170" height="130" rx="8" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5" />
+          <text x="0" y="-42" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e3a8a">2D Boundary Shell ∂V</text>
+          <text x="0" y="-24" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#64748b">6 · N² Boundary Faces</text>
+
+          <rect x="-70" y="-10" width="140" height="35" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1" />
+          <text x="0" y="6" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#1e40af">S_max ∝ Area(∂V)</text>
+          <text x="0" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#dc2626">O(N²) ≪ O(N³)</text>
+
+          <text x="0" y="44" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#475569">100% of physical state</text>
+          <text x="0" y="56" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#475569">lives on the 2D surface!</text>
+        </g>
+      </svg>
+    </div>
   </div>
 
   <hr>
