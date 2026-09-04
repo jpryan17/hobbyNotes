@@ -277,12 +277,26 @@
     </p>
     <ul>
       <li>
-        <fsd-ref exp="m" quantifiers="∃x₁:ℕ ∀y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∀y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref>
+        <b>Definition of the Empty Set (Nothing Belongs to ∅):</b><br>
+        Click <fsd-ref exp="nm" quantifiers="∀x₁:ℕ" slots="x₁,∅" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ ¬(x₁ ∈ ∅) ]</fsd-ref><br>
+        <i>Evaluates to <b>True</b>: by definition, Column Y₀ (the empty set <code>∅</code>) contains zero elements across all of <code>ℕ</code>.</i>
+      </li>
+      <br>
+      <li>
+        <b>Unqualified Power Set (Fails on ∅):</b><br>
+        Click <fsd-ref exp="m" quantifiers="∀y₁:𝒫(ℕ) ∃x₁:ℕ" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∀y₁:𝒫(ℕ), ∃x₁:ℕ [ (x₁ ∈ y₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>False</b> because Column 0 (the empty set <code>∅</code>) contains zero elements, so not every subset has a member.</i>
+      </li>
+      <br>
+      <li>
+        <b>Excluding the Empty Set (Non-Empty Power Set):</b><br>
+        Click <fsd-ref exp="m" quantifiers="∀y₁:[𝒫(ℕ)|y₁≠∅] ∃x₁:ℕ" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∀y₁:[𝒫(ℕ) | y₁ ≠ ∅], ∃x₁:ℕ [ (x₁ ∈ y₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True</b>: by explicitly excluding Column Y₀ via the domain guard <code>y₁ ≠ ∅</code>, every remaining active subset (Columns Y₁ through Y₁₅) contains at least one blue light!</i>
       </li>
     </ul>
+
     <p>
-      In FSD, for base set <code>ℕ₄ = {1, 2, 3, 4}</code>, the demo displays a <code>4 × 16</code> <b>Power Set Incidence Matrix</b>. 
-      The statement evaluates to <b>False</b> because Column 0 (the empty set <code>∅</code>) contains zero elements, so no number can belong to every subset.
+      In FSD, for base set <code>ℕ₄ = {1, 2, 3, 4}</code>, the demo displays the <code>4 × 16</code> <b>Power Set Incidence Matrix</b>, visually revealing how domain restrictions illuminate and shade individual columns of truth.
     </p>
 
     <p>

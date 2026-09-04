@@ -46,6 +46,13 @@ export const DEFAULT_DOMAINS_DATA = {
             baseSet: "N",
             description: "{x ∈ ℕ | x < 10}",
             evaluator: "(x) => x < 10"
+        },
+        {
+            id: "EMPTY",
+            symbol: "∅",
+            baseSet: "N",
+            description: "∅ = {}",
+            evaluator: "(x) => false"
         }
     ],
     predicates: [

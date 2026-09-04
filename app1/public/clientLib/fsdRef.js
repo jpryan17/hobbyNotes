@@ -118,7 +118,7 @@ export class FSDRef extends HTMLElement {
                 }
                 else {
                     // Default quantifiers based on assigned variables
-                    const uniqueVars = Array.from(new Set(fsd.slots.map(s => s.assignedVar).filter(v => v && v !== "GT5" && v !== "LT10")));
+                    const uniqueVars = Array.from(new Set(fsd.slots.map(s => s.assignedVar).filter(v => v && v !== "GT5" && v !== "LT10" && v !== "EMPTY" && v !== "∅")));
                     fsd.quantifierBindings = uniqueVars.map(v => ({
                         quantifier: "∃",
                         variable: v,

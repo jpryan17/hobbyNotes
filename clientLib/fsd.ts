@@ -9,13 +9,14 @@ export type DomainType = string;
 
 export interface DomainSpec {
   base: "ℕ" | "𝒫(ℕ)";
-  filterPred?: "GT" | "LT" | "EVEN" | "GT5" | "LT10";
-  param?: number | string; // e.g. 11, 5, "x₂", "x₁"
+  filterPred?: "GT" | "LT" | "EVEN" | "GT5" | "LT10" | "NONEMPTY";
+  param?: number | string; // e.g. 11, 5, "x₂", "x₁", "∅"
 }
 
 export function formatDomainSpec(spec: DomainSpec): string {
   if (!spec.filterPred) return spec.base;
   if (spec.filterPred === "EVEN") return `[${spec.base} | EVEN]`;
+  if (spec.filterPred === "NONEMPTY") return `[${spec.base} | y₁ ≠ ∅]`;
   if (spec.param !== undefined) {
     return `[${spec.base} | ${spec.filterPred}(${spec.param})]`;
   }
@@ -25,6 +26,9 @@ export function formatDomainSpec(spec: DomainSpec): string {
 export function parseDomainSpec(str: string): DomainSpec {
   if (!str || str === "ℕ") return { base: "ℕ" };
   if (str === "𝒫(ℕ)" || str === "P(N)" || str === "P_N") return { base: "𝒫(ℕ)" };
+  if (str === "𝒫*(ℕ)" || str === "P*(N)" || str === "𝒫⁺(ℕ)" || str === "P+(N)") {
+    return { base: "𝒫(ℕ)", filterPred: "NONEMPTY" };
+  }
 
   const clean = str.replace(/[\[\]]/g, "").trim();
   const parts = clean.split("|").map((s) => s.trim());
@@ -32,6 +36,9 @@ export function parseDomainSpec(str: string): DomainSpec {
   if (parts.length < 2) return { base };
 
   const predPart = parts[1];
+  if (predPart.includes("≠ ∅") || predPart.includes("!= ∅") || predPart.includes("≠∅") || predPart.includes("!=∅") || predPart.includes("NONEMPTY") || predPart.includes("NON_EMPTY")) {
+    return { base: "𝒫(ℕ)", filterPred: "NONEMPTY" };
+  }
   if (predPart.startsWith("EVEN")) {
     return { base, filterPred: "EVEN" };
   }
@@ -1024,7 +1031,7 @@ export class FSD extends PXEParent {
 
     if (pred.symbol === "∈") {
       const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
-      if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10")) {
+      if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10" || mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "∅")) {
         // Membership with constant subset
         const xBinding = this.quantifierBindings.find((q) => q.variable.startsWith("x"));
         const xQuant = xBinding ? xBinding.quantifier : "∃";
@@ -1055,6 +1062,10 @@ export class FSD extends PXEParent {
       const xQuant = xBinding ? xBinding.quantifier : "∃";
       const yQuant = yBinding ? yBinding.quantifier : "∀";
 
+      const yDomain: DomainSpec = yBinding ? this.getVarDomain(yBinding.variable) : { base: "𝒫(ℕ)" };
+      const excludeEmpty = yDomain.filterPred === "NONEMPTY";
+      const startSubset = excludeEmpty ? 1 : 0;
+
       const xFirst = xBinding && yBinding
         ? this.quantifierBindings.indexOf(xBinding) < this.quantifierBindings.indexOf(yBinding)
         : true;
@@ -1062,18 +1073,18 @@ export class FSD extends PXEParent {
       if (xFirst) {
         // Order: Qx x:ℕ, Qy y:𝒫(ℕ)
         if (xQuant === "∃" && yQuant === "∀") {
-          return grid.some((row) => row.every((val) => val));
+          return grid.some((row) => row.slice(startSubset).every((val) => val));
         } else if (xQuant === "∀" && yQuant === "∃") {
-          return grid.every((row) => row.some((val) => val));
+          return grid.every((row) => row.slice(startSubset).some((val) => val));
         } else if (xQuant === "∀" && yQuant === "∀") {
-          return grid.every((row) => row.every((val) => val));
+          return grid.every((row) => row.slice(startSubset).every((val) => val));
         } else {
-          return grid.some((row) => row.some((val) => val));
+          return grid.some((row) => row.slice(startSubset).some((val) => val));
         }
       } else {
         // Order: Qy y:𝒫(ℕ), Qx x:ℕ
         if (yQuant === "∀" && xQuant === "∃") {
-          for (let j = 0; j < numSubsets; j++) {
+          for (let j = startSubset; j < numSubsets; j++) {
             let colHasTrue = false;
             for (let i = 0; i < numElem; i++) {
               if (grid[i][j]) {
@@ -1085,7 +1096,7 @@ export class FSD extends PXEParent {
           }
           return true;
         } else if (yQuant === "∃" && xQuant === "∀") {
-          for (let j = 0; j < numSubsets; j++) {
+          for (let j = startSubset; j < numSubsets; j++) {
             let colAllTrue = true;
             for (let i = 0; i < numElem; i++) {
               if (!grid[i][j]) {
@@ -1097,9 +1108,19 @@ export class FSD extends PXEParent {
           }
           return false;
         } else if (yQuant === "∀" && xQuant === "∀") {
-          return grid.every((row) => row.every((val) => val));
+          for (let j = startSubset; j < numSubsets; j++) {
+            for (let i = 0; i < numElem; i++) {
+              if (!grid[i][j]) return false;
+            }
+          }
+          return true;
         } else {
-          return grid.some((row) => row.some((val) => val));
+          for (let j = startSubset; j < numSubsets; j++) {
+            for (let i = 0; i < numElem; i++) {
+              if (grid[i][j]) return true;
+            }
+          }
+          return false;
         }
       }
     }
@@ -1231,7 +1252,13 @@ export class FSD extends PXEParent {
 
   evaluateFullStatement(): boolean {
     const N = this.gridResolution;
-    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10");
+    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
+
+    if (this.slots.some((s) => s.assignedVar?.startsWith("y") || s.domainType === "𝒫(ℕ)")) {
+      const predM = this.evaluatePredicate("∈");
+      if (this.pxe.exp === "m") return predM;
+      if (this.pxe.exp === "nm") return !predM;
+    }
 
     const getLocalPreds = (ctx: { [k: string]: any }) => {
       const localPreds: { [code: string]: boolean } = {};
@@ -1332,13 +1359,18 @@ export class FSD extends PXEParent {
 
     if (colLabel === "∈") {
       const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
-      if (!mSlot || mSlot.assignedVar?.startsWith("y")) {
+      const isConstantEmpty = mSlot && (mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "∅");
+      if (!mSlot || mSlot.assignedVar?.startsWith("y") || isConstantEmpty) {
         // Power Set Incidence Matrix Display
         const numElem = 4;
         const numSubsets = 16;
         const cellSize = 22;
         const width = numSubsets * cellSize + 55;
         const height = numElem * cellSize + 40;
+
+        const yBinding = this.quantifierBindings.find((q) => q.variable.startsWith("y"));
+        const ySpec: DomainSpec = yBinding ? this.getVarDomain(yBinding.variable) : { base: "𝒫(ℕ)" };
+        const isNonEmptyFiltered = ySpec.filterPred === "NONEMPTY";
 
         const svgWrap = new Elt("div");
         svgWrap.setA("style", "display: flex; gap: 15px; align-items: center; flex-wrap: wrap;");
@@ -1355,21 +1387,26 @@ export class FSD extends PXEParent {
         }
 
         // Column Labels (Subsets of P(ℕ))
-        const subsetLabels = [
-          "∅", "{1}", "{2}", "{1,2}", "{3}", "{1,3}", "{2,3}", "{1..3}",
-          "{4}", "{1,4}", "{2,4}", "{1..4}", "{3,4}", "{1,3,4}", "{2,3,4}", "ℕ₄"
-        ];
-
         for (let j = 0; j < numSubsets; j++) {
+          const isExcluded = isNonEmptyFiltered && j === 0;
+          const isSelectedTarget = isConstantEmpty && j === 0;
           const colText = new SVGText();
-          colText.setV(`Y${j}`);
-          colText.setAA(["x", 52 + j * cellSize + 2, "y", 16, "font-size", "9", "fill", "#555"]);
+          colText.setV(j === 0 ? (isExcluded ? "∅ (off)" : "Y₀=∅") : `Y${j}`);
+          colText.setAA([
+            "x", 52 + j * cellSize + (j === 0 ? -4 : 2),
+            "y", 16,
+            "font-size", j === 0 ? "8" : "9",
+            "fill", isExcluded ? "#adb5bd" : (isSelectedTarget ? "#0056b3" : "#555"),
+            "font-weight", isSelectedTarget ? "bold" : "normal"
+          ]);
           svg.append(colText);
         }
 
         // Grid Cells
         for (let i = 0; i < numElem; i++) {
           for (let j = 0; j < numSubsets; j++) {
+            const isExcluded = isNonEmptyFiltered && j === 0;
+            const isSelectedTarget = isConstantEmpty && j === 0;
             const isMember = (j & (1 << i)) !== 0;
             const rect = new SVGElt("rect");
             rect.setAA([
@@ -1377,9 +1414,14 @@ export class FSD extends PXEParent {
               "y", 24 + i * cellSize,
               "width", cellSize - 2,
               "height", cellSize - 2,
-              "fill", isMember ? "#007bff" : "#e9ecef",
-              "stroke", "#ced4da"
+              "fill", isExcluded ? "#f1f3f5" : (isMember ? "#007bff" : (isSelectedTarget ? "#e9ecef" : "#e9ecef")),
+              "stroke", isSelectedTarget ? "#0056b3" : (isExcluded ? "#ced4da" : "#ced4da")
             ]);
+            if (isExcluded) {
+              rect.setAA(["stroke-dasharray", "2,2"]);
+            } else if (isSelectedTarget) {
+              rect.setAA(["stroke-width", "1.5"]);
+            }
             svg.append(rect);
 
             const cellText = new SVGText();
@@ -1388,7 +1430,7 @@ export class FSD extends PXEParent {
               "x", 50 + j * cellSize + 6,
               "y", 24 + i * cellSize + 14,
               "font-size", "10",
-              "fill", isMember ? "#ffffff" : "#6c757d",
+              "fill", isExcluded ? "#adb5bd" : (isMember ? "#ffffff" : "#6c757d"),
               "font-weight", "bold"
             ]);
             svg.append(cellText);
@@ -1403,8 +1445,10 @@ export class FSD extends PXEParent {
           <b>Algebra of Sets & Power Set Incidence Matrix:</b><br>
           • Base Domain: <b>ℕ₄ = {1, 2, 3, 4}</b> (4 rows)<br>
           • Power Set: <b>𝒫(ℕ₄)</b> (16 columns from ∅ to ℕ₄)<br>
+          ${isNonEmptyFiltered ? `• Column Y₀ (∅): <b>Excluded (Inactive)</b> by domain filter <code>y₁ ≠ ∅</code>.<br>` : ""}
+          ${isConstantEmpty ? `• Target Subset: <b>∅ = {} (Column Y₀)</b> contains 0 elements.<br>` : ""}
           • Cell value <b>1 (Blue)</b> if element xᵢ ∈ subset Yⱼ; <b>0 (Grey)</b> if xᵢ ∉ Yⱼ.<br>
-          • Predicate Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
+          • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
         `);
         svgWrap.append(info);
 
