@@ -64,6 +64,13 @@ Rather than exposing the entirety of Lean 4's Mathlib, the interface constrains 
 * Deploys a lightweight, browser-native Lean 4 kernel (Lean WebAssembly server) directly into `middlewaymath.app`.
 * Requires zero installation or server overhead—runs instantly on student laptops, tablets, or Chromebooks.
 
+### Preliminary Validated Prototype: The FSD Engine
+The conceptual feasibility of this architecture is grounded in an already operational, client-side proof-of-concept deployed on `middlewaymath.app`: the **Formal Statements Demonstrator (FSD)**:
+* **Recursive Syntax Tree (`evalNode`) Evaluation**: Real-time evaluation of composite logical formulas (disjunction `poq`, conjunction `paq`, negation `np`, and set operations) directly in client TypeScript/JavaScript.
+* **Bounded Domain Grounding**: Translates abstract quantifiers (`∀x₁:ℕ`, `∃x₁:ℕ`) over bounded sets (e.g., `ℕ_≤10`, `EMPTY ∅`, composite subsets) into deterministic matrix truth tables with zero latency.
+* **Declarative `<fsd-ref>` Component Harness**: Embeds interactive, click-and-evaluate formal statements inside curriculum lectures, providing immediate visual verification without requiring learners to touch a terminal or code editor.
+* **De-risking the Grant Scope**: Because the pedagogical visual layer and recursive AST evaluator are already built and field-tested, the grant focus shifts from speculative frontend prototyping to direct engineering of the Lean 4 WebAssembly bridging layer.
+
 ---
 
 ## 3. Technology Partner Scope of Work (RFP Framework)

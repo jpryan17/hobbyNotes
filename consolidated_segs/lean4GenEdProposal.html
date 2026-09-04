@@ -59,6 +59,17 @@
         <li><b>Zero-Install Browser WebAssembly Server:</b> Runs a browser-native Lean 4 kernel directly in the client browser on Chromebooks, tablets, or laptops.</li>
       </ul>
 
+      <div class="box-emerald">
+        <b>Preliminary Working Prototype: The FSD Engine</b><br>
+        The feasibility of this approach is demonstrated by the live <b>Formal Statements Demonstrator (FSD)</b> on <code>middlewaymath.app</code>:
+        <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+          <li><b>Recursive AST Evaluation:</b> Evaluates composite formulas (disjunctions, conjunctions, negations, set operations) directly in client TypeScript/JavaScript via recursive syntax tree traversal (<code>evalNode</code>).</li>
+          <li><b>Bounded Domain Grounding:</b> Resolves quantifiers (<code>∀x₁:ℕ</code>, <code>∃x₁:ℕ</code>) over bounded sets (<code>ℕ_≤10</code>, <code>∅</code>, composite subsets) into deterministic truth matrices.</li>
+          <li><b>Zero-Syntax Interface:</b> Declarative <code>&lt;fsd-ref&gt;</code> elements allow students to inspect and evaluate formal logic without encountering syntax errors or compiler tracebacks.</li>
+          <li><b>De-risking the Grant:</b> Proves the visual pedagogical layer is already functional, shifting engineering effort directly to the Lean 4 WebAssembly bridging layer.</li>
+        </ul>
+      </div>
+
       <h3>3. Foundation Governance &amp; SAB Oversight</h3>
       <p>
         Governed by <b>The Middle Way Mathematics Foundation</b>, the project seats a 3-member Scientific Advisory Board (Lean 4 Pedagogy Specialist, STEM UX Researcher, Formal Logic Architect) to evaluate technical RFP bids, audit WebAssembly execution fidelity, and review classroom pilot results.

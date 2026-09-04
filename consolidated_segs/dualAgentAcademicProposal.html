@@ -65,6 +65,17 @@
           frontend that translates raw compiler diagnostics into
           friendly, Socratic pedagogical hints.</li>
       </ul>
+
+      <div class="box-emerald">
+        <b>Validated Intermediate Representation: The FSD Recursive AST</b><br>
+        To prevent the LLM agent from hallucinating over raw compiler diagnostics, the architecture leverages the client-side semantic layer operational on <code>middlewaymath.app</code> (the <b>Formal Statements Demonstrator</b>):
+        <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+          <li><b>Recursive Syntax Tree Traces:</b> Evaluates expressions as structured trees (<code>evalNode</code>) over bounded sets (<code>ℕ_≤10</code>, <code>∅</code>, composite subsets).</li>
+          <li><b>Deterministic Counterexample Grounding:</b> Pinpoints the exact failing variable binding (e.g., <code>{ x₁: 3, left: False, right: False }</code>) across the domain matrix.</li>
+          <li><b>Zero-Hallucination Socratic Prompts:</b> Provides the conversational LLM with explicit symbolic coordinates for targeted pedagogical hints.</li>
+        </ul>
+      </div>
+
       <h3>3. Key Academic Contributions</h3>
       <table>
         <thead> <tr>
