@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Bayesian Inference Lecture 2</font></i><br>
-      <i><font size="+1">Sequential Updating, Bayes Factors &amp; The Base-Rate Fallacy</font></i>
+      <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
+      <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
     </div>
     <br>
 
@@ -35,7 +35,7 @@
       “Bayesian inference handles continuous streams through a single recursive golden rule:”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
       Today's Posterior is Tomorrow's Prior.
     </div>
 
@@ -43,13 +43,20 @@
       “When you receive your first clue <code>D₁</code>, you compute the posterior belief <code>P(H | D₁)</code>,” Jack explained. “When the second clue <code>D₂</code> arrives, you don't throw away your work &mdash; you simply use <code>P(H | D₁)</code> as your new starting baseline!”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 14px; background: #f1f5f9; padding: 10px; border-radius: 6px; margin: 10px 0;">
+    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
       [ Prior P(H) ] ──( Clue D₁ )──► [ Intermediate P(H | D₁) ] ──( Clue D₂ )──► [ Final P(H | D₁ ⋂ D₂) ]
     </div>
 
     <p>
-      “And here is the best part,” Jack added. “<b>Order Independence!</b> Because fraction arithmetic is commutative and associative, updating step-by-step as clues arrive yields the <i>exact same</i> result as collecting all clues into one giant bundle and updating all at once!”
+      “And here is the best part,” Jack added. “<b>Order Independence!</b> Because fraction multiplication is commutative and associative, updating step-by-step as clues arrive yields the <i>exact same</i> result as collecting all clues into one giant bundle and updating all at once!”
     </p>
+
+    <h4>Formal Statement (FS) of the Update Operator:</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Updating Operator:</b> Let <code>𝒯_d : 𝒫(ℋ) → 𝒫(ℋ)</code> represent the Bayesian update operator conditioned on datum <code>d</code>.<br>
+      • <b>Sequential Invariant:</b> <code>𝒯_{d₂}(𝒯_{d₁}(P₀)) = 𝒯_{d₁ ⋂ d₂}(P₀) = 𝒯_{d₁}(𝒯_{d₂}(P₀))</code>.<br>
+      • <b>Order Invariance:</b> The arrival sequence of conditionally independent clues does not affect the terminal posterior belief.
+    </div>
 
     <div align="center" style="margin: 15px 0;">
       <bid-ref mode="sequential">Interactive Demo: Step through the Live Evidence Stream in BID</bid-ref>
@@ -57,10 +64,10 @@
 
     <hr>
 
-    <h3>2. The Odds Formulation: Evidence as a Multiplier</h3>
+    <h3>2. The Odds Formulation &amp; Log-Odds Additivity</h3>
 
     <p>
-      “While probabilities are fractions between <code>0</code> and <code>1</code>,” Jack said, “real-world detectives and scientists often express uncertainty as <b>odds</b>:”
+      “While probabilities are fractions between <code>0</code> and <code>1</code>,” Jack said, “real-world detectives, statisticians, and information theorists often express uncertainty as <b>odds</b>:”
     </p>
 
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
@@ -68,7 +75,7 @@
     </div>
 
     <p>
-      “When new data <code>D</code> arrives, the ratio of its predictive power (called the <b>Bayes Factor</b>) acts as a direct physical multiplier:”
+      “When new data <code>D</code> arrives, the ratio of its forward predictive power (called the <b>Bayes Factor</b>) acts as a direct physical multiplier:”
     </p>
 
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
@@ -86,10 +93,18 @@
     </div>
 
     <ul>
-      <li><b>Bayes Factor &gt; 1:</b> The evidence actively boosts hypothesis <code>H₁</code> over <code>H₀</code>.</li>
+      <li><b>Bayes Factor &gt; 1:</b> The evidence actively favors hypothesis <code>H₁</code> over <code>H₀</code>.</li>
       <li><b>Bayes Factor &lt; 1:</b> The evidence actively suppresses hypothesis <code>H₁</code> in favor of <code>H₀</code>.</li>
       <li><b>Bayes Factor = 1:</b> The evidence is pure uninformative noise (neither hypothesis predicted it better).</li>
     </ul>
+
+    <p>
+      “Even more elegantly, when we take logarithms, multiplication becomes simple <b>addition of evidence bits</b> (decibans):”
+    </p>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
+      Log-Odds Form: &nbsp; log(Posterior Odds) = log(Prior Odds) + log(Bayes Factor)
+    </div>
 
     <div align="center" style="margin: 15px 0;">
       <bid-ref mode="oddsGauge">Interactive Demo: Explore the Odds &amp; Bayes Factor Balance in BID</bid-ref>
@@ -104,15 +119,15 @@
     </p>
 
     <p>
-      “Imagine a microchip factory producing high-precision processor chips. A rare defect affects only <b>1 in 100</b> chips (<code>P(Defect) = 0.01</code>, so Prior Odds are <code>1 : 99</code>).”
+      “Imagine a microchip factory producing high-precision processor chips. A rare defect affects only <b>1 in 100</b> chips (<code>P(Defect) = 0.01</code>, so starting Prior Odds are <code>1 : 99</code>).”
     </p>
 
     <p>
       “Engineers install a sophisticated optical quality scanner with high laboratory accuracy:”
     </p>
     <ul>
-      <li><b>True Positive Rate:</b> <code>P(Alarm | Defect) = 0.90</code> (Catches 90% of all defective chips)</li>
-      <li><b>False Alarm Rate:</b> <code>P(Alarm | Good) = 0.05</code> (False alarm on only 5% of good chips)</li>
+      <li><b>True Positive Rate (Sensitivity):</b> <code>P(Alarm | Defect) = 0.90</code> (Catches 90% of all defective chips)</li>
+      <li><b>False Alarm Rate (False Positive):</b> <code>P(Alarm | Good) = 0.05</code> (False alarm on only 5% of good chips)</li>
     </ul>
 
     <p>
@@ -163,13 +178,43 @@
     </p>
 
     <p>
-      “Because of the <b>Base Rate</b>!” Jack explained. “Out of 10,000 chips:
+      “Because of the <b>Base Rate</b>!” Jack explained. “Look at the natural frequency breakdown for 10,000 chips:”
     </p>
-    <ul>
-      <li>Only <code>100</code> are defective. The scanner catches 90 of them (<code>90</code> true alarms).</li>
-      <li>A massive <code>9,900</code> chips are good. But a 5% false alarm rate on that huge ocean produces <code>495</code> false alarms!</li>
-      <li>So out of <code>585</code> total alarms, <code>495</code> are false! A single alarm is mostly false positives because good chips are so overwhelmingly common.”</li>
-    </ul>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th>Category (10,000 Chips)</th>
+        <th>Alarm Sounds (Positive)</th>
+        <th>No Alarm (Negative)</th>
+        <th>Total</th>
+      </tr>
+      <tr>
+        <td><b>Truly Defective (1% Base Rate)</b></td>
+        <td bgcolor="#fee2e2" align="center"><b>90</b> (True Positives)</td>
+        <td align="center">10 (False Negatives)</td>
+        <td align="center"><b>100</b></td>
+      </tr>
+      <tr>
+        <td><b>Truly Good Chips (99%)</b></td>
+        <td bgcolor="#fef3c7" align="center"><b>495</b> (False Positives: 5% of 9,900)</td>
+        <td align="center">9,405 (True Negatives)</td>
+        <td align="center"><b>9,900</b></td>
+      </tr>
+      <tr bgcolor="#f1f5f9">
+        <td><b>Column Sums</b></td>
+        <td align="center"><b>585 Total Alarms</b></td>
+        <td align="center">9,415 Total Cleared</td>
+        <td align="center"><b>10,000</b></td>
+      </tr>
+    </table>
+
+    <p>
+      “Out of <code>585</code> total alarms, a massive <code>495</code> are false alarms from the vast ocean of good chips! So:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      P(Defect | Alarm) = <sup>True Alarms</sup> / <sub>Total Alarms</sub> = <sup>90</sup> / <sub>585</sub> = <sup>2</sup> / <sub>13</sub> ≈ <b>15.4%</b>
+    </div>
 
     <br>
 
@@ -193,14 +238,22 @@
 
     <hr>
 
-    <h3>4. Continuous Parameter Learning: The Beta-Binomial Transect</h3>
+    <h3>4. Continuous Parameter Learning: The Beta-Binomial Transect &amp; State Tree</h3>
 
     <p>
       “What if our hypothesis isn't just a yes/no option, but an unknown continuous parameter <code>θ ∈ [0, 1]</code> (such as the unknown bias of a coin)?” Jack asked.
     </p>
 
     <p>
-      “On our hyperfinite transect <code>ℝ_ω</code>, continuous learning is pure arithmetic:”
+      “Each sequence of coin tosses &mdash; such as <code>[H, H, T, H]</code> &mdash; is a path down our <b>2-successor binary tree</b> from Tier B:”
+    </p>
+
+    <div align="center" style="margin: 14px 0;">
+      <bid-ref mode="stateTree">BID: Head/Tail State Space Tree (Ω)</bid-ref>
+    </div>
+
+    <p>
+      “On our hyperfinite transect <code>ℝ_ω</code>, continuous learning is pure arithmetic across the discrete grid:”
     </p>
     <ul>
       <li>We start with a flat uniform prior across all <code>N = ω</code> points on the transect.</li>
@@ -229,12 +282,13 @@
     <h3>5. Summary &amp; Next Steps</h3>
 
     <p>
-      “Today we learned the three key dynamics of evidence:”
+      “Today we mastered the core dynamics of ongoing scientific evidence:”
     </p>
     <ul>
-      <li><b>Sequential Updating:</b> Today's posterior is tomorrow's prior. Evidence streams are order-independent.</li>
-      <li><b>The Odds Form:</b> Evidence acts as a multiplicative Bayes Factor (<code>Posterior Odds = Bayes Factor × Prior Odds</code>).</li>
-      <li><b>The Base-Rate Fallacy:</b> Rare events require strong or repeated evidence to overcome low prior probabilities.</li>
+      <li><b>Sequential Updating:</b> Today's posterior is tomorrow's prior. Evidence streams are order-independent (<code>𝒯_{d₂} ∘ 𝒯_{d₁} = 𝒯_{d₁ ⋂ d₂}</code>).</li>
+      <li><b>The Odds Form &amp; Log-Odds:</b> Evidence acts as a multiplicative Bayes Factor (<code>Posterior Odds = Bayes Factor × Prior Odds</code>) and adds linearly in log space.</li>
+      <li><b>The Base-Rate Fallacy:</b> Rare events require strong or repeated clues to overcome low base rates.</li>
+      <li><b>Continuous Parameter Learning:</b> Point masses on <code>ℝ_ω</code> update by discrete multiplication, concentrating into exact Beta distributions.</li>
     </ul>
 
     <p>
@@ -242,3 +296,4 @@
     </p>
   </body>
 </html>
+
