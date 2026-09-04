@@ -1013,11 +1013,25 @@ export class FSD extends PXEParent {
       }
     });
 
+    // Attach click listeners to expression headers and cells
+    ttd.expCols.forEach((col, idx) => {
+      const colIdx = predCodes.length + 1 + idx;
+      const expCell = document.getElementById(`r0c${colIdx}`);
+      if (expCell) {
+        expCell.style.cursor = "pointer";
+        expCell.title = "Click to view Matrix Visualizer";
+        expCell.addEventListener("click", () => {
+          this.selectedColIndex = 0;
+          this.renderStage4Table();
+        });
+      }
+    });
+
     // Interactive Boolean Matrix Visualizer for selected predicate column
     if (this.selectedColIndex !== -1 && predCodes[this.selectedColIndex]) {
       const selCode = predCodes[this.selectedColIndex];
       const selPred = predMap[selCode];
-      this.renderMatrixVisualizer(container, selPred.val, selPred.name);
+      this.renderMatrixVisualizer(container, finalStatementTruth, selPred.name, selPred.val);
     }
   }
 
@@ -1346,7 +1360,7 @@ export class FSD extends PXEParent {
     return true;
   }
 
-  renderMatrixVisualizer(container: Elt, evalResult: boolean, colLabel: string) {
+  renderMatrixVisualizer(container: Elt, finalStatementTruth: boolean, colLabel: string, predTruth?: boolean) {
     const matrixBox = new Elt("div");
     matrixBox.setA("style", "margin-top: 15px; border: 1px solid #17a2b8; border-radius: 6px; padding: 14px; background: #fdfdfd; box-shadow: 0 2px 4px rgba(0,0,0,0.05);");
     container.append(matrixBox);
@@ -1447,8 +1461,9 @@ export class FSD extends PXEParent {
           • Power Set: <b>𝒫(ℕ₄)</b> (16 columns from ∅ to ℕ₄)<br>
           ${isNonEmptyFiltered ? `• Column Y₀ (∅): <b>Excluded (Inactive)</b> by domain filter <code>y₁ ≠ ∅</code>.<br>` : ""}
           ${isConstantEmpty ? `• Target Subset: <b>∅ = {} (Column Y₀)</b> contains 0 elements.<br>` : ""}
+          ${isConstantEmpty ? `• Predicate Membership: <code>x₁ ∈ ∅</code> is <b>False</b> for all elements.<br>` : ""}
           • Cell value <b>1 (Blue)</b> if element xᵢ ∈ subset Yⱼ; <b>0 (Grey)</b> if xᵢ ∉ Yⱼ.<br>
-          • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
+          • Statement Evaluated Truth: <b style="color:${finalStatementTruth ? '#155724' : '#721c24'}; background:${finalStatementTruth ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${finalStatementTruth ? 'True (T)' : 'False (F)'}</b>
         `);
         svgWrap.append(info);
 
@@ -1595,7 +1610,7 @@ export class FSD extends PXEParent {
       • White Cells: <code>False</code> (inside active domain)<br>
       • Grey Cells: <code>Inactive</code> (outside bounded/dependent domain)<br>
       ${specificNote}
-      • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
+      • Statement Evaluated Truth: <b style="color:${finalStatementTruth ? '#155724' : '#721c24'}; background:${finalStatementTruth ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${finalStatementTruth ? 'True (T)' : 'False (F)'}</b>
     `);
     svgWrap.append(info);
 
