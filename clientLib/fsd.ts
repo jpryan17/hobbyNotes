@@ -1434,7 +1434,13 @@ export class FSD extends PXEParent {
     // Render SVG Matrix Grid
     const N = Math.min(this.gridResolution, 64);
     const cellSize = Math.max(5, Math.floor(280 / N));
-    const width = N * cellSize;
+    const domX1 = this.getVarDomain("x₁");
+    const domX2 = this.getVarDomain("x₂");
+
+    const includeWitnessCol = domX2.base === "ℕ" && domX2.filterPred !== "LT";
+    const numCols = includeWitnessCol ? N + 1 : N;
+
+    const width = numCols * cellSize;
     const height = N * cellSize;
 
     const svgWrap = new Elt("div");
@@ -1444,32 +1450,57 @@ export class FSD extends PXEParent {
     svg.setAA(["width", width + 45, "height", height + 35, "style", "background: #ffffff; border: 1px solid #ccc; border-radius: 3px; display: block; flex-shrink: 0;"]);
 
     const labelX = new SVGText();
-    labelX.setV("x₁ (row) →");
-    labelX.setAA(["x", 5, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
+    labelX.setV("x₁ (row) ↓");
+    labelX.setAA(["x", 4, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
     svg.append(labelX);
 
     const labelY = new SVGText();
-    labelY.setV("x₂ (col) ↓");
-    labelY.setAA(["x", width - 35, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
+    labelY.setV("x₂ (col) →");
+    labelY.setAA(["x", 75, "y", 14, "font-size", "11", "fill", "#333", "font-weight", "bold"]);
     svg.append(labelY);
+
+    if (includeWitnessCol) {
+      const sepLine = new SVGElt("line");
+      sepLine.setAA([
+        "x1", 35 + N * cellSize,
+        "y1", 20,
+        "x2", 35 + N * cellSize,
+        "y2", 22 + N * cellSize,
+        "stroke", "#17a2b8",
+        "stroke-width", "1.5",
+        "stroke-dasharray", "3,3"
+      ]);
+      svg.append(sepLine);
+
+      const labelWitness = new SVGText();
+      labelWitness.setV(">N");
+      labelWitness.setAA([
+        "x", 35 + N * cellSize + Math.max(1, Math.floor(cellSize / 2) - (N > 16 ? 6 : 9)),
+        "y", 14,
+        "font-size", N > 32 ? "8" : (N > 16 ? "9" : "10"),
+        "fill", "#17a2b8",
+        "font-weight", "bold"
+      ]);
+      svg.append(labelWitness);
+    }
 
     const boundSlots = this.slots
       .filter((s) => s.predName === colLabel)
       .map((s) => s.assignedVar || (s.slotIndex === 0 ? "x₁" : "x₂"));
 
-    const domX1 = this.getVarDomain("x₁");
-    const domX2 = this.getVarDomain("x₂");
-
     for (let i = 0; i < N; i++) {
       const x1 = i + 1;
-      for (let j = 0; j < N; j++) {
-        const x2 = j + 1;
+      const ctxRow: { [k: string]: number } = { "x₁": x1 };
+      const x1Vals = this.getVariableDomainValues("x₁", ctxRow, N);
+
+      for (let j = 0; j < numCols; j++) {
+        const isWitness = j === N;
+        const x2 = isWitness ? N + 1 : j + 1;
 
         // Check if (x₁, x₂) falls inside the domain bounds (including dependent domains)
         const ctx: { [k: string]: number } = { "x₁": x1, "x₂": x2 };
-        const x1Vals = this.getVariableDomainValues("x₁", ctx, N);
         const x2Vals = this.getVariableDomainValues("x₂", ctx, N);
-        const inDomain = x1Vals.includes(x1) && x2Vals.includes(x2);
+        const inDomain = x1Vals.includes(x1) && (isWitness ? domX2.base === "ℕ" : x2Vals.includes(x2));
 
         const isTrue = inDomain && PredicateRegistry.evaluateAt(colLabel, boundSlots, { "x₁": x1, "x₂": x2 });
 
@@ -1480,8 +1511,11 @@ export class FSD extends PXEParent {
           "width", cellSize - (N > 32 ? 0 : 1),
           "height", cellSize - (N > 32 ? 0 : 1),
           "fill", !inDomain ? "#f1f3f5" : (isTrue ? "#007bff" : "#ffffff"),
-          "stroke", N <= 16 ? "#ced4da" : "none"
+          "stroke", isWitness ? "#17a2b8" : (N <= 16 ? "#ced4da" : "none")
         ]);
+        if (isWitness) {
+          rect.setAA(["stroke-dasharray", "2,2"]);
+        }
         svg.append(rect);
       }
     }
@@ -1489,7 +1523,7 @@ export class FSD extends PXEParent {
     svgWrap.append(svg);
 
     const info = new Elt("div");
-    info.setA("style", "font-size: 13px; line-height: 1.6; color: #333;");
+    info.setA("style", "font-size: 13px; line-height: 1.6; color: #333; max-width: 480px;");
     info.setV(`
       <b>Quantified Truth Explanation:</b><br>
       • Row Domain (x₁): <b>${formatDomainSpec(domX1)}</b><br>
@@ -1497,6 +1531,7 @@ export class FSD extends PXEParent {
       • Blue Cells: <code>True</code> (inside active domain)<br>
       • White Cells: <code>False</code> (inside active domain)<br>
       • Grey Cells: <code>Inactive</code> (outside bounded/dependent domain)<br>
+      ${includeWitnessCol ? `• Dotted Col (>N): <b>Open-boundary witness column</b> in ℕ (shows row ${N}'s witness at x₂ = ${N + 1}, ensuring every row in ℕ contains a blue light).<br>` : ""}
       • Statement Evaluated Truth: <b style="color:${evalResult ? '#155724' : '#721c24'}; background:${evalResult ? '#d4edda' : '#f8d7da'}; padding:2px 6px; border-radius:3px;">${evalResult ? 'True (T)' : 'False (F)'}</b>
     `);
     svgWrap.append(info);
