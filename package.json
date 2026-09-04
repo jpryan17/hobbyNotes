@@ -9,7 +9,7 @@
     "c": "npm run compile",
     "build": "npm run compile && npm run utilsC && npm run segs && npm run index",
     "b": "npm run build",
-    "deploy": "npm run build && git add . && git diff --cached --quiet || git commit -m \"Deploy Mathematics and the Middle Way to middlewaymath.app\" && git push origin master",
+    "deploy": "node ./nodeUtils/public/deploy.js",
     "p": "npm run deploy",
     "dist": "cd ./app1/dist && live-server",
     "segs": "cd ./nodeUtils && node ./public/genSegsFiles.js",
