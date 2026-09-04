@@ -6,7 +6,7 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Quantum Logic Lecture 2</font></i><br>
+      <i><font size="+2"><b>Quantum Logic Lecture 2</b></font></i><br>
       <i><font size="+1">The 4-Successor Quad-Tree, Complex Amplitudes &amp; Wave Interference</font></i>
     </div>
     <br>
@@ -16,11 +16,11 @@
     </p>
 
     <p>
-      Jill raised her hand: “Jack, in Bayesian probability, every possibility has a positive real probability <code>P ≥ 0</code> on the 1D transect <code>ℝ_ω</code>. If there are two mutually exclusive ways for an event to happen, you just add them together: <code>P_total = P₁ + P₂</code>. Why on earth do quantum physicists need complex numbers with imaginary <code>i</code>?”
+      Jill raised her hand: “Jack, in classical Bayesian probability, every possibility has a positive real probability <code>P ≥ 0</code> on the 1D transect <code>ℝ_ω</code>. If there are two mutually exclusive ways for an event to happen, you just add their fractions together: <code>P_total = P₁ + P₂</code>. Why on earth do quantum physicists need complex numbers with imaginary <code>i</code>?”
     </p>
 
     <p>
-      “That is the million-dollar question!” Jack beamed. “And the answer comes down to one word: <b>Interference</b>.”
+      “That is the million-dollar question!” Jack beamed. “And the answer comes down to one single physical word: <b>Interference</b>.”
     </p>
 
     <hr>
@@ -28,19 +28,19 @@
     <h3>1. Why 1D Real Numbers Are Not Enough</h3>
 
     <p>
-      “In the classical world, probabilities only ever add up,” Jack explained. “If 10 particles go through Gate 1 and 10 particles go through Gate 2, you always detect 20 particles at the finish line.”
+      “In the classical macroscopic world, probabilities only ever accumulate,” Jack explained. “If 10 particles go through Gate 1 and 10 particles go through Gate 2, you always detect 20 particles arriving at the detector screen.”
     </p>
 
     <p>
-      “At the atomic scale, however, matter and light behave like <b>waves</b>. Waves have crests (peaks) and troughs (valleys). When two waves collide crest-to-trough, they <b>cancel each other out completely</b> (destructive interference)!”
+      “At the atomic scale, however, matter and light propagate like <b>waves</b>. Waves have crests (peaks) and troughs (valleys). When two waves arrive crest-to-trough, they <b>cancel each other out completely</b> &mdash; a phenomenon called destructive interference!”
     </p>
 
     <p>
-      Jill thought for a second: “If probabilities are always positive numbers, you can never add two positive numbers together to get zero!”
+      Jill thought for a second: “If probabilities are always positive real numbers, you can never add two positive numbers together to get zero!”
     </p>
 
     <p>
-      “Exactly!” Jack said. “<b>Nature does not keep track of probabilities directly. Nature keeps track of 2-dimensional amplitude arrows on our complex grid <code>ℂ_ω</code>!</b>”
+      “Exactly!” Jack said. “<b>Nature does not track probabilities directly. Nature tracks 2-dimensional amplitude arrows on our complex grid <code>ℂ_ω</code>!</b>”
     </p>
 
     <hr>
@@ -48,19 +48,19 @@
     <h3>2. The 4-Successor Quad-Tree &amp; The Complex Grid (ℂ_ω)</h3>
 
     <p>
-      “In Module 3, we built the 1D real transect <code>ℝ_ω</code> using a 2-successor tree <code>{-, +}</code>,” Jack recalled.
+      “In Module 3, we constructed the 1D real transect <code>ℝ_ω</code> using a 2-successor dyadic tree <code>{-, +}</code>,” Jack recalled.
     </p>
 
     <p>
-      “To allow numbers to rotate, wave, and cancel in 2 dimensions, we upgrade to the <b>4-successor quad-tree</b>:”
+      “To allow numbers to rotate, wave, and cancel in two dimensions, we upgrade our tree to the <b>4-successor quad-tree</b>:”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
       Quad-Tree Basis = { +1, -1, +i, -i } &nbsp; (The 4 Compass Directions / Clock Angles)
     </div>
 
     <p>
-      “Every node on this 2D complex lattice is a <b>complex number (a 2D vector arrow)</b>:”
+      “Every node on this 2D complex lattice is a <b>complex number &mdash; a 2D geometric vector arrow</b>:”
     </p>
 
     <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
@@ -72,6 +72,16 @@
       <li><code>θ</code> is the <b>phase angle</b> (clock direction) of the quantum wave.</li>
     </ul>
 
+    <h4>Formal Statement (FS-QL-2.1): The 4-Successor Complex Grid (ℂ_ω)</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Generator Set:</b> The 4-successor quad-tree branches on generator alphabet <code>Σ₄ = { +1, -1, +i, -i }</code>.<br>
+      • <b>Lattice ℂ_ω:</b> The uniform 2D square lattice of grid spacing <code>dx = dy = 1/ω = ε &gt; 0</code>:
+      <div align="center" style="margin: 6px 0; font-family: monospace;">
+        ℂ_ω = { z = (k_x + i k_y) · ε &nbsp;|&nbsp; k_x, k_y ∈ *ℤ, -ω ≤ k_x, k_y ≤ ω }
+      </div>
+      • <b>Inner Product &amp; Modulus:</b> For any <code>z = x + iy ∈ ℂ_ω</code>, its conjugate is <code>z* = x - iy</code>, and its squared norm is <code>|z|² = z · z* = x² + y² ≥ 0</code>.
+    </div>
+
     <hr>
 
     <h3>3. The Born Rule: From Complex Arrows to Real Probabilities</h3>
@@ -81,60 +91,103 @@
     </p>
 
     <p>
-      “In 1926, physicist Max Born discovered the foundational bridge of quantum mechanics:”
+      “In 1926, physicist <b>Max Born</b> discovered the foundational bridge of quantum mechanics:”
     </p>
 
     <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; margin: 12px 0;">
       <font size="+1" color="#92400e"><b>The Born Rule:</b></font><br>
-      The probability <code>P</code> of detecting an outcome with amplitude arrow <code>z = x + iy</code> is the <b>squared length</b> of the arrow:
+      The probability <code>P</code> of detecting an outcome with amplitude arrow <code>z = x + iy</code> is the <b>squared modulus</b> of the arrow:
       <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
         P = |z|² = x² + y² = z · z*
       </div>
     </div>
 
     <p>
-      “Because the squared length of any geometric arrow is always a real, non-negative number (<code>|z|² ≥ 0</code>), the Born Rule guarantees that every calculated probability is a completely valid positive number!”
+      “Because the squared length of any geometric arrow is always a real, non-negative number (<code>|z|² ≥ 0</code>), the Born Rule guarantees that every calculated probability is a completely valid non-negative real fraction!”
     </p>
 
     <hr>
 
-    <h3>4. Wave Interference: How Pathways Cancel</h3>
+    <h3>4. Wave Interference: How Alternate Pathways Cancel</h3>
 
     <p>
-      “Here is the quantum magic,” Jack said.
+      “Here is the quantum magic that separates physics from classical probability,” Jack said.
     </p>
 
     <p>
-      “When a quantum particle can reach a detector along two alternate pathways (like two slits in a screen), <b>amplitudes add up as 2D geometric vectors first</b>, and only then do we square the final vector to get the probability:”
+      “When a quantum particle can reach a detector along two alternate pathways (such as two slits in a screen), <b>amplitudes add up as 2D geometric vectors first</b>, and only then do we square the final vector to compute the probability:”
     </p>
 
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0;">
-      z_total = z₁ + z₂ &nbsp;&rArr;&nbsp; P_total = |z₁ + z₂|²
+      z_total = z₁ + z₂ &nbsp;⇒&nbsp; P_total = |z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂)
     </div>
 
-    <h4>Case A: Destructive Interference (Total Cancellation)</h4>
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left">Scenario</th>
+        <th width="35%" align="left">Amplitude Vector Addition</th>
+        <th width="35%" align="left">Observed Probability</th>
+      </tr>
+      <tr>
+        <td><b>Destructive Interference<br>(Total Cancellation)</b></td>
+        <td>
+          Path 1: <code>z₁ = +0.5</code> (East, 0°)<br>
+          Path 2: <code>z₂ = -0.5</code> (West, 180°)<br>
+          <code>z_total = (+0.5) + (-0.5) = 0</code>
+        </td>
+        <td>
+          <div style="color: #991b1b; font-weight: bold;">
+            P = |0|² = 0% Probability!<br>
+            (Complete Darkness on the screen)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Constructive Interference<br>(Wave Reinforcement)</b></td>
+        <td>
+          Path 1: <code>z₁ = +0.5</code> (East, 0°)<br>
+          Path 2: <code>z₂ = +0.5</code> (East, 0°)<br>
+          <code>z_total = (+0.5) + (+0.5) = 1.0</code>
+        </td>
+        <td>
+          <div style="color: #065f46; font-weight: bold;">
+            P = |1.0|² = 100% Probability!<br>
+            (Bright Intensity Maximum)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Classical Prediction<br>(Without Interference)</b></td>
+        <td>
+          Classical logic adds probabilities directly:<br>
+          <code>P_classical = P₁ + P₂</code>
+        </td>
+        <td>
+          <code>P = (0.5)² + (0.5)² = 50%</code><br>
+          (Misses the quantum wave physics entirely!)
+        </td>
+      </tr>
+    </table>
+
     <p>
-      Suppose Path 1 has amplitude <code>z₁ = +0.5</code> (pointing East) and Path 2 has amplitude <code>z₂ = -0.5</code> (pointing West, 180° out of phase):
+      Jill gasped: “Two open doors can cancel to zero because their complex amplitude arrows point in opposite directions and cancel out before we measure!”
     </p>
-    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 14px; margin: 8px 0;">
-      z_total = (+0.5) + (-0.5) = 0 &nbsp;&rArr;&nbsp; P_total = |0|² = <b>0% Probability! (Complete Darkness / Zero Clicks)</b>
+
+    <p>
+      “Precisely!” Jack cheered. “The cross-term <code>2 · Re(z₁* · z₂)</code> is the physical signature of quantum mechanics.”
+    </p>
+
+    <h4>Formal Statement (FS-QL-2.2): Superposition &amp; Interference Cross-Term</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Superposition Principle:</b> For mutually exclusive pathways with amplitudes <code>z₁, z₂ ∈ ℂ_ω</code>, the combined amplitude is the linear sum <code>z = z₁ + z₂</code>.<br>
+      • <b>Interference Expansion:</b>
+      <div align="center" style="margin: 6px 0; font-family: monospace;">
+        P(z₁ + z₂) = |z₁ + z₂|² = |z₁|² + |z₂|² + 2 · |z₁| · |z₂| · cos(θ₁ - θ₂)
+      </div>
+      • <b>Phase Modulations:</b><br>
+      &nbsp;&nbsp;&bull; <code>Δθ = 0</code> &nbsp;⇒&nbsp; Constructive maximum: <code>P = (|z₁| + |z₂|)²</code>.<br>
+      &nbsp;&nbsp;&bull; <code>Δθ = π</code> &nbsp;⇒&nbsp; Destructive minimum: <code>P = (|z₁| - |z₂|)²</code>.
     </div>
-
-    <h4>Case B: Constructive Interference (Reinforcement)</h4>
-    <p>
-      Suppose both pathways arrive perfectly in phase: <code>z₁ = +0.5</code> and <code>z₂ = +0.5</code>:
-    </p>
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 14px; margin: 8px 0;">
-      z_total = (+0.5) + (+0.5) = 1.0 &nbsp;&rArr;&nbsp; P_total = |1.0|² = <b>100% Probability! (Maximum Signal)</b>
-    </div>
-
-    <p>
-      Jill gasped: “So two open doors can cancel to zero because their complex arrows point in opposite directions and cancel out before we measure!”
-    </p>
-
-    <p>
-      “Precisely!” Jack cheered.
-    </p>
 
     <hr>
 

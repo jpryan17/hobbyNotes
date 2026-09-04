@@ -6,7 +6,7 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Quantum Logic Lecture 3</font></i><br>
+      <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
       <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
     </div>
     <br>
@@ -16,11 +16,11 @@
     </p>
 
     <p>
-      “In our first two lectures, we discovered that atomic reality breaks Boolean Venn diagrams, and that Nature keeps track of 2D amplitude arrows on our complex grid <code>ℂ_ω</code>. Today, we are going to answer the question that puzzled 20th-century physicists for decades: <b>What actually happens when a detector observes a quantum particle?</b>”
+      “In our first two lectures, we discovered that atomic reality shatters Boolean Venn diagrams, and that Nature keeps track of 2D amplitude arrows on our complex grid <code>ℂ_ω</code>. Today, we answer the question that puzzled physicists for decades: <b>What actually happens when a detector observes a quantum particle?</b>”
     </p>
 
     <p>
-      Jill raised her hand with a suspicious grin: “Hold on a second, Jack! In your lecture title, you wrote <i>'Vector Projection'</i>. That word <b>'vector'</b> sounds suspiciously like one of those heavy algebraic structures from the university STEM track you told us we could safely ignore back in Numbers Lecture 1! Are we suddenly smuggling in abstract linear algebra through the back door?”
+      Jill raised her hand with a suspicious grin: “Hold on a second, Jack! In your lecture title, you wrote <i>'Vector Projection'</i>. That word <b>'vector'</b> sounds suspiciously like one of those heavy algebraic structures from the university STEM track you told us we could safely bypass back in Numbers Lecture 1! Are we suddenly smuggling in abstract linear algebra through the back door?”
     </p>
 
     <p>
@@ -28,12 +28,12 @@
     </p>
 
     <p>
-      “As you probably noticed back in Module 3, our simple working grid <code>ℂ_ω</code> isn't algebraically closed on its own—multiplying infinitesimals <code>(1/ω) · (1/ω) = 1/ω²</code> or normalizing a 45° diagonal wave by <code>√2</code> creates numbers that fall off the <code>ω</code>-depth grid. To handle this, mathematicians have two choices:
+      “As you probably noticed back in Module 3, our simple working grid <code>ℂ_ω</code> isn't algebraically closed on its own &mdash; multiplying infinitesimals <code>(1/ω) · (1/ω) = 1/ω²</code> or normalizing a 45° diagonal wave by <code>√2</code> creates numbers that fall off the <code>ω</code>-depth grid. To handle this, mathematicians have two paths:”
     </p>
 
     <ul>
       <li>
-        <b>Choice A (The STEM Exit):</b> 'Pop' down to standard continuous reals using the standard part map <code>st</code>, and haul in the heavy machinery of <i>intrinsic topological spaces</i>.
+        <b>Choice A (The STEM Exit):</b> 'Pop' down to standard continuous reals using the standard part map <code>st</code>, and haul in the machinery of <i>intrinsic topological spaces</i>.
       </li>
       <li>
         <b>Choice B (The Tree Continuation):</b> Follow our tree further down to its enveloping algebraic field <b><code>G = ℂ_{&lt;ε₀}</code></b>, where every node is still an explicitly constructible set, every path is countable, and arithmetic is 100% closed.
@@ -41,7 +41,7 @@
     </ul>
 
     <p>
-      “Now, the good news for us,” Jack continued, “is that for our immediate journey, <b>you don't need either of those heavy tracks!</b> For this last step, we only need the <b>informal, geometric notion of a vector</b>: a plain 2D arrow on our complex canvas <code>ℂ_ω</code> that has a length and a clock angle, which we can add tip-to-tail and project onto detector axes!”
+      “Now, the good news for us,” Jack continued, “is that for our immediate journey, <b>you don't need either of those heavy tracks!</b> We only need the <b>informal, geometric notion of a vector</b>: a plain 2D arrow on our complex canvas <code>ℂ_ω</code> that has a length and a clock angle, which we can add tip-to-tail and project onto detector axes!”
     </p>
 
     <p>
@@ -53,18 +53,18 @@
     <h3>1. From Subset Slicing to Vector Projection</h3>
 
     <p>
-      “Let's contrast how classical and quantum filters work,” Jack said, drawing two diagrams side-by-side on the board.
+      “Let's contrast how classical and quantum filters work,” Jack said, sketching two diagrams side-by-side on the board.
     </p>
 
     <p>
-      “In our <i>Bayesian Inference</i> module, observing classical evidence <code>E</code> was like using a <b>cookie cutter</b> on our 1D state space <code>ℝ_ω</code>. It sliced out the subset of possibilities incompatible with <code>E</code>, and we stretched the remaining slice back to 100%.”
+      “In our <i>Bayesian Inference</i> module, observing classical evidence <code>E</code> was like using a <b>cookie cutter</b> on our 1D state space <code>ℝ_ω</code>. It sliced out the subset of possibilities incompatible with <code>E</code>, and we stretched the surviving slice back to 100%.”
     </p>
 
     <p>
-      “In quantum mechanics, states are directional arrows in complex Hilbert space <code>ℋ_ω</code>. When a detector set along axis <code>|u⟩</code> measures a particle in state <code>|v⟩</code>, it doesn't slice a set—it <b>drops a perpendicular</b> (casts a shadow) from the state arrow onto the detector's axis!”
+      “In quantum mechanics, states are directional arrows in complex Hilbert space <code>ℋ_ω</code>. When a detector set along axis <code>|u⟩</code> measures a particle in state <code>|v⟩</code>, it doesn't slice a set &mdash; it <b>drops a perpendicular</b> (casts a shadow) from the state arrow onto the detector's axis!”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px 0; color: #1e3a8a;">
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; font-weight: bold;">
       Classical Bayes: Slicing Subsets on ℝ_ω &nbsp;&hArr;&nbsp; Quantum Bayes: Dropping Shadows on ℂ_ω
     </div>
 
@@ -98,6 +98,16 @@
       <li><b>Diagonal (<code>θ = 45°</code>):</b> The arrow points midway. The shadow length is <code>1/√2</code>, so its squared length is <code>(1/√2)² = 0.50</code> &rArr; <b>50% Probability (A Fair Coin Toss)</b>.</li>
     </ul>
 
+    <h4>Formal Statement (FS-QL-3.1): Projection Operators &amp; The Dot Product Law</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Projection Operator:</b> For a unit ray <code>|u⟩ ∈ ℋ_ω</code>, the projection operator is <code>P_u = |u⟩⟨u|</code>, satisfying idempotence <code>P_u² = P_u</code> and self-adjointness <code>P_u† = P_u</code>.<br>
+      • <b>Born Transition Probability:</b> For an initial state <code>|v⟩</code>, the transition probability is the expectation value:
+      <div align="center" style="margin: 6px 0; font-family: monospace;">
+        P(u | v) = ⟨v | P_u | v⟩ = |⟨u | v⟩|² = cos²(θ_{uv})
+      </div>
+      • <b>Orthogonality Null Law:</b> If <code>|u⟩ ⊥ |v⟩</code> (i.e., <code>⟨u | v⟩ = 0</code>), then <code>P(u | v) = 0</code>.
+    </div>
+
     <hr>
 
     <h3>3. Solving the 3-Polarizer Mystery with Vector Geometry</h3>
@@ -116,19 +126,19 @@
 
     <ol>
       <li>
-        <b>Step 1 — Exiting Filter A (Horizontal 0°):</b><br>
+        <b>Step 1 &mdash; Exiting Filter A (Horizontal 0°):</b><br>
         The photon emerges pointing purely along the horizontal X-axis: <code>|v₀⟩ = (1, 0)^T</code>.
       </li>
       <br>
       <li>
-        <b>Step 2 — Meeting Diagonal Filter C (at 45°):</b><br>
+        <b>Step 2 &mdash; Meeting Diagonal Filter C (at 45°):</b><br>
         The angle between 0° and 45° is <code>θ = 45°</code>.<br>
         • Probability of passing: <code>P₁ = cos²(45°) = 50%</code>.<br>
-        • <b>Crucial Quantum Action:</b> The surviving light doesn't stay horizontal—it <b>drops a perpendicular onto the 45° axis</b> and physically re-aligns to pointing along the diagonal: <code>|v₁⟩ = (1/√2, 1/√2)^T</code>!
+        • <b>Crucial Quantum Action:</b> The surviving light doesn't stay horizontal &mdash; it <b>drops a perpendicular onto the 45° axis</b> and physically re-aligns to pointing along the diagonal: <code>|v₁⟩ = (1/√2, 1/√2)^T</code>!
       </li>
       <br>
       <li>
-        <b>Step 3 — Reaching Vertical Filter B (at 90°):</b><br>
+        <b>Step 3 &mdash; Reaching Vertical Filter B (at 90°):</b><br>
         The angle between the newly aligned 45° arrow and the 90° vertical filter is now <b>another 45°</b>!<br>
         • Probability of passing: <code>P₂ = cos²(45°) = 50%</code>.<br>
         • The surviving light drops a perpendicular onto the vertical axis: <code>|v₂⟩ = (0, 1)^T</code>!
@@ -144,7 +154,7 @@
     </p>
 
     <p>
-      “Bingo!” Jack cheered. “Classical logic assumed observation was passive. In quantum mechanics, **observation is an active geometric projection that rotates the state!**”
+      “Bingo!” Jack cheered. “Classical logic assumed observation was passive. In quantum mechanics, <b>observation is an active geometric projection that rotates the state!</b>”
     </p>
 
     <hr>
@@ -152,7 +162,7 @@
     <h3>4. The Quantum Bayesian Filter (The Lüders Rule)</h3>
 
     <p>
-      “To formalize this update,” Jack explained, “physicist Gerhart Lüders gave us the quantum equivalent of Bayes' theorem:”
+      “To formalize this state update,” Jack explained, “physicist Gerhart Lüders gave us the quantum equivalent of Bayes' theorem:”
     </p>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
@@ -165,18 +175,29 @@
         <td><b>Prior State:</b><br>Directional amplitude arrow <code>|ψ⟩</code> in Hilbert space <code>ℋ_ω</code></td>
       </tr>
       <tr>
-        <td><b>Evidence Filter:</b><br>Slice subset indicator <code>𝕀_E</code></td>
-        <td><b>Measurement Filter:</b><br>Projection operator <code>P_E = |u⟩⟨u|</code></td>
+        <td><b>Evidence Filter:</b><br>Subset indicator slicing <code>𝕀_E</code></td>
+        <td><b>Measurement Filter:</b><br>Orthogonal projection operator <code>P_E = |u⟩⟨u|</code></td>
       </tr>
       <tr>
-        <td><b>Evidence Probability:</b><br><code>P(E) = ∑_{s ∈ E} P(s)</code></td>
-        <td><b>Evidence Probability:</b><br><code>P(E) = || P_E |ψ⟩ ||² = |⟨u | ψ⟩|²</code></td>
+        <td><b>Evidence Normalizer:</b><br><code>P(E) = ∑_{s ∈ E} P(s)</code></td>
+        <td><b>Evidence Normalizer:</b><br><code>P(E) = || P_E |ψ⟩ ||² = |⟨u | ψ⟩|²</code></td>
       </tr>
       <tr>
         <td><b>Posterior State:</b><br><code>P(s | E) = (P(s) · 𝕀_E(s)) / P(E)</code></td>
         <td><b>Posterior State:</b><br><code>|ψ'⟩ = (P_E |ψ⟩) / √P(E)</code></td>
       </tr>
     </table>
+
+    <h4>Formal Statement (FS-QL-3.2): The Lüders State-Update Rule</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Quantum Conditioning Operator:</b> Let a system prepared in state <code>|ψ⟩ ∈ ℋ_ω</code> undergo projective measurement associated with closed subspace <code>V ⊆ ℋ_ω</code> and projector <code>P_V</code>.<br>
+      • <b>Success Probability:</b> The probability that outcome <code>V</code> occurs is <code>P(V) = || P_V |ψ⟩ ||² = ⟨ψ | P_V | ψ⟩</code>.<br>
+      • <b>Lüders Post-Measurement State:</b> Conditioned on outcome <code>V</code> occurring, the collapsed quantum state is:
+      <div align="center" style="margin: 6px 0; font-family: monospace;">
+        |ψ'⟩ = <sup>P_V |ψ⟩</sup> / <sub>|| P_V |ψ⟩ ||</sub> = <sup>P_V |ψ⟩</sup> / <sub>√⟨ψ | P_V | ψ⟩</sub>
+      </div>
+      • <b>Geometric Interpretation:</b> The Lüders rule drops an orthogonal projection from <code>|ψ⟩</code> onto subspace <code>V</code> and renormalizes the surviving shadow to unit length.
+    </div>
 
     <hr>
 
