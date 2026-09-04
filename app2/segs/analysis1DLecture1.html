@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Lecture 1: The Infinitesimal Microscope &amp; Continuity</title>
+  <title>Analysis 1D Lecture 1: The Infinitesimal Microscope &amp; Continuity</title>
 </head>
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity</b></i></font><br>
-    <font size="+1"><i>— Halos, Monads &amp; The Discrete Intermediate Value Theorem —</i></font>
+    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
+    <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
   </div>
   <br>
 
@@ -81,13 +81,21 @@
   <p>
     “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
   </div>
 
   <p>
     “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
   </p>
+
+  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Standard Part</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Relation:</b> <code>x ≈ y ⟺ |x - y| &lt; 1/n</code> for all standard <code>n ∈ ℕ</code>.<br>
+    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+    • <b>Standard Part Operator:</b> <code>st : ℝ_ω^{fin} → ℝ</code> assigns to each finite hyperreal <code>x</code> the unique standard real <code>r</code> satisfying <code>x ≈ r</code>.<br>
+    • <b>Algebraic Properties:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.
+  </div>
 
   <hr>
 
@@ -136,6 +144,12 @@
   <p>
     Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
   </p>
+
+  <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
+    • <b>Uniform Continuity:</b> <code>f</code> is uniformly continuous on an interval <code>I</code> if and only if <code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code> (no separate delta bound needed).
+  </div>
 
   <hr>
 
@@ -187,8 +201,17 @@
     Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
   </p>
 
+  <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
+    • <b>Discrete Crossing Lemma:</b> For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction.<br>
+    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.
+  </div>
+
+  <hr>
+
   <p>
-    “Exactly,” Jane concluded. “No topological machinery, no uncomputable sets &mdash; just a constructive discrete march backed by the standard part shadow. In our next lecture, we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
+    “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 </body>
 </html>

@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Lecture 2: Algebraic Derivatives &amp; Local Linearity</title>
+  <title>Analysis 1D Lecture 2: Algebraic Derivatives &amp; Local Linearity</title>
 </head>
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity</b></i></font><br>
-    <font size="+1"><i>— Slopes as Algebraic Division, Product Rules &amp; Differential Forms —</i></font>
+    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
   </div>
   <br>
 
@@ -50,6 +50,15 @@
   <p>
     No limits, no inequalities &mdash; just straightforward polynomial division!
   </p>
+
+  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
+      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
+      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
+    • <b>Derivative Value:</b> <code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code>.<br>
+    • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.
+  </div>
 
   <hr>
 
@@ -96,8 +105,17 @@
   <p>
     Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b>
+  </div>
+
+  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Product Rule:</b> <code>(uv)' = st( (u + du)(v + dv) - uv / dx ) = u·v' + v·u' + st((du/dx)·dv) = u·v' + v·u'</code>.<br>
+    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      dy/dx = (dy/du) · (du/dx) &nbsp;⇒&nbsp; st(dy/dx) = st(dy/du) · st(du/dx) = f'(g(x)) · g'(x)
+    </div>
   </div>
 
   <hr>
@@ -108,7 +126,7 @@
     “In standard calculus,” Jane noted, “students are strictly warned: <i>'dy/dx is not a fraction; you cannot cancel dx!'</i>”
   </p>
   <p>
-    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
     <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
@@ -116,7 +134,7 @@
   <p>
     Taking the standard part proves the Chain Rule directly:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a; background-color: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b>
   </div>
 
@@ -125,16 +143,29 @@
   <h3>4. Local Linearity &amp; The Differential Map</h3>
 
   <p>
-    “Remember our discussion from Course 1 on linear maps,” Jane concluded. “What does the derivative actually represent?”
+    “Remember our discussion from Course 1 on linear maps,” Jane concluded. “What does the derivative actually represent geometrically?”
   </p>
   <p>
-    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a **linear scaling map**:”
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
     <b>df &nbsp;=&nbsp; f'(x) · dx</b>
   </div>
   <p>
-    “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>. In our next lecture, we will see how adding uncountably many of these linear pieces builds **continuous integration and the telescoping Fundamental Theorem of Calculus**!”
+    “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
+    • <b>Differential Form:</b> The differential <code>df = f'(x)·dx</code> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <code>|Δf - df| / dx ≈ 0</code>, confirming that every differentiable curve is infinitesimally straight.
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 </body>
 </html>

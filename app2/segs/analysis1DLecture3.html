@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Lecture 3: Accumulation &amp; Telescoping Calculus</title>
+  <title>Analysis 1D Lecture 3: Accumulation &amp; Telescoping Calculus</title>
 </head>
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 3: Accumulation &amp; Telescoping Calculus</b></i></font><br>
-    <font size="+1"><i>— Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC —</i></font>
+    <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
+    <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
   </div>
   <br>
 
@@ -59,13 +59,21 @@
   <p>
     The continuous area under the curve is the standard part of the discrete sum:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b>
   </div>
 
   <p>
     Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
   </p>
+
+  <h4>Formal Statement (FS-A1D-3.1): The Hyperfinite Definite Integral on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Hyperfinite Riemann Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the hyperfinite sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
+    • <b>Definite Integral:</b> <code>∫_a^b f(x) dx ≡ st(S_ω)</code>.<br>
+    • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
+    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.
+  </div>
 
   <hr>
 
@@ -86,7 +94,7 @@
     “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b><br><br>
     = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
   </div>
@@ -102,13 +110,23 @@
   <p>
     Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
     <b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b>
   </div>
 
   <p>
     “The entire Fundamental Theorem of Calculus is proven in a single line of telescoping cancellation,” Jane smiled. “There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
   </p>
+
+  <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Exact Telescoping Identity:</b> For any hyperfinite sequence <code>F(x_k)</code>:<br>
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      ∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)
+    </div>
+    • <b>Infinitesimal Increment Substitution:</b> If <code>F'(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
+    • <b>Standard Part Theorem:</b> <code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code>.
+  </div>
 
   <hr>
 

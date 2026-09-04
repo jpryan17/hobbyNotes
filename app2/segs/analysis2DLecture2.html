@@ -7,8 +7,8 @@
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 2: Discrete Contour Integrals &amp; Residues</b></i></font><br>
-    <font size="+1"><i>— Cauchy's 2D Edge Cancellation, Poles &amp; Loop Root-Counting —</i></font>
+    <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
+    <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
   </div>
   <br>
 
@@ -76,6 +76,19 @@
     <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
   </div>
 
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.1 (Cauchy's Integral Theorem &amp; 2D Edge Cancellation):</b><br>
+    Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; st( ∑_{k} ∮_{∂□_k} f(z) dz ) &nbsp;=&nbsp; 0</b>
+    </div>
+    <b>Proof mechanism:</b> Every interior cell-boundary edge shared by adjacent cells <code>□_i</code> and <code>□_j</code> is oriented with opposite traversal directions:
+    <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+      <b>∫_{e_{ij}} f(z) dz + ∫_{e_{ji}} f(z) dz &nbsp;=&nbsp; 0</b>
+    </div>
+    All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.
+  </div>
+
   <hr>
 
   <h3>2. Singularities &amp; The Residue Theorem</h3>
@@ -99,6 +112,18 @@
 
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
     <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
+  </div>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
+    Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑_{k} Res(f, z_k) &emsp; where &emsp; Res(f, z_k) = c_{-1}</b>
+    </div>
+    Furthermore, integrating the logarithmic derivative yields the exact integer zero-counter:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>( 1 / 2π i ) ∮_γ [ f'(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
+    </div>
   </div>
 
   <hr>

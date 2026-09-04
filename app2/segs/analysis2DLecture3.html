@@ -7,8 +7,8 @@
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions</b></i></font><br>
-    <font size="+1"><i>— Continuous Unitary Evolution, Wavepacket Inference &amp; The Lee-Yang Circle Theorem —</i></font>
+    <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
+    <i><font size="+1">— Quantum State Evolution &amp; Phase Transitions —</font></i>
   </div>
   <br>
 
@@ -48,7 +48,7 @@
       </div>
       Multiplying them together yields:
       <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
-        <b>U(t)† &middot; U(t) &nbsp;=&nbsp; e^(+iHt/ħ) &middot; e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
+        <b>U(t)† · U(t) &nbsp;=&nbsp; e^(+iHt/ħ) · e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
       </div>
     </li>
     <li><b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation on the unit sphere of Hilbert space &mdash; <b>probabilities are 100% conserved and information is never destroyed</b>!</li>
@@ -58,6 +58,24 @@
       </div>
     </li>
   </ul>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger Equation):</b><br>
+    Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space <code>H</code>.
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Unitary Group Map:</b> The continuous time operator <code>U(t) = e^{-i H t / ħ}</code> satisfies:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥² &nbsp;=&nbsp; 1</b>
+        </div>
+      </li>
+      <li><b>Infinitesimal Generator:</b> Taking the time derivative at <code>dt = 1/ω</code> yields the differential Schrödinger equation:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+        </div>
+      </li>
+      <li><b>Probability Conservation:</b> Continuous quantum state dynamics preserves total Bayesian prior probability without dissipation.</li>
+    </ol>
+  </div>
 
   <hr>
 
@@ -129,6 +147,20 @@
       <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink &mdash; creating the sudden, sharp macroscopic transition of freezing, boiling, or ferromagnetism!
     </li>
   </ol>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Emergent Phase Transitions):</b><br>
+    Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition function of an <code>N</code>-particle system.
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Analyticity on Real Axis:</b> For all finite <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in <code>ℂ_ω \ ℝ</code>.</li>
+      <li><b>Transfinite Accumulation:</b> In the thermodynamic limit <code>N → ω</code>, the zero locus accumulates into continuous curves pinching the real axis:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at &emsp; T = T_c</b>
+        </div>
+      </li>
+      <li><b>Macroscopic Singularity:</b> The free energy per particle <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a non-analytic derivative singularity at <code>T_c</code>, giving rise to physical latent heat and spontaneous symmetry breaking.</li>
+    </ol>
+  </div>
 
   <p>
     Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”

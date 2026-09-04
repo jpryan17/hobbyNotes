@@ -7,8 +7,8 @@
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps</b></i></font><br>
-    <font size="+1"><i>— Crossing Tree Transects, The 2D Step dz &amp; Cauchy-Riemann Square Preservation —</i></font>
+    <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
+    <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
   </div>
   <br>
 
@@ -56,6 +56,19 @@
     “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, requiring a function to be <b>complex differentiable</b> imposes an astonishingly powerful geometric symmetry!”
   </p>
 
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
+    The hyperfinite complex continuum is the tensor product of two 1D tree transects:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i · y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
+    </div>
+    The fundamental displacement vector across any elementary cell is:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (with dx = 1/ω, &nbsp; dy = 1/ω)</b>
+    </div>
+    This generates a seamless tiling of <code>2ⁿ × 2ⁿ = 4ⁿ</code> square micro-cells with shared 1D boundary walls.
+  </div>
+
   <hr>
 
   <h3>1. Deriving the Cauchy-Riemann Equations</h3>
@@ -67,7 +80,7 @@
 
   <h4>Move 1: Horizontal Step (dz = dx, dy = 0)</h4>
   <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;&rarr;&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
+    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;→&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
   </div>
 
   <h4>Move 2: Vertical Step (dz = i·dy, dx = 0)</h4>
@@ -127,6 +140,20 @@
   <p>
     “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
   </p>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
+    Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Coordinate Symmetry:</b> <code>∂u/∂x = ∂v/∂y</code> and <code>∂u/∂y = -∂v/∂x</code>.</li>
+      <li><b>Jacobian Structure:</b> The derivative Jacobian matrix has the conformal form:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>J = [ [a, -b], [b, a] ] &emsp; with &nbsp; det(J) = a² + b² = |f'(z)|²</b>
+        </div>
+      </li>
+      <li><b>Conformal Invariance:</b> The linear map scales by <code>|f'(z)|</code> and rotates by <code>arg(f'(z))</code>, strictly preserving oriented angles and orthogonality.</li>
+    </ol>
+  </div>
 
   <p>
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
