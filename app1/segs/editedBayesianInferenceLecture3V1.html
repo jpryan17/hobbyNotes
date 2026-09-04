@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Bayesian Inference Lecture 3</font></i><br>
-      <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect</font></i>
+      <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
+      <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
     </div>
     <br>
 
@@ -16,19 +16,19 @@
     </p>
 
     <p>
-      Jill raised her hand with a puzzled look: “Jack, over the weekend I was thinking about continuous probability. If you throw a dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
+      Jill raised her hand with an animated, puzzled expression: “Jack, over the weekend I was thinking about continuous probability. If you throw a precision dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
     </p>
 
     <p>
-      “In standard calculus,” Jack answered, “the integral over a single point is zero: <code>P(x) = 0</code>.”
+      “In standard calculus,” Jack answered, “the integral over any single isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
     </p>
 
     <p>
-      “That's what's driving me crazy!” Jill said. “The dart <i>had</i> to hit somewhere! How can every single individual point have a probability of zero if one of them actually occurred?!”
+      “That's what's driving me crazy!” Jill exclaimed. “The dart <i>had</i> to hit somewhere! If every single individual point has a probability of exactly zero, how can an event with probability zero actually happen?! And if you add up zeroes, how do you ever get <code>1</code>?!”
     </p>
 
     <p>
-      “Congratulations, Jill,” Jack smiled. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
+      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
     </p>
 
     <hr>
@@ -36,23 +36,23 @@
     <h3>1. The Two Paradigms of Probability</h3>
 
     <p>
-      “In modern mathematical science,” Jack explained, “there are two distinct, complementary ways to formulate continuous probability and inference:”
+      “In modern mathematical science,” Jack explained, “there are two distinct, complementary paradigms for handling continuous probability and statistical inference:”
     </p>
 
     <ol>
       <li>
         <b>Standard Continuous Analysis (Andrey Kolmogorov, 1933):</b><br>
-        Grounded in continuous point-set topology, <code>σ</code>-algebras, Lebesgue measure theory, and limit operations.
+        Grounded in continuous point-set topology, <code>σ</code>-algebras, measure spaces <code>(Ω, ℱ, P)</code>, Lebesgue integration, and limit processes (<code>ε-δ</code>).
       </li>
       <br>
       <li>
-        <b>Nonstandard / Discrete Analysis (Abraham Robinson, 1966 &amp; John Conway, 1976):</b><br>
-        Grounded in the discrete <b>hyperfinite transect <code>ℝ_ω</code></b> and 2D grid <code>ℂ_ω</code>, where continuous intervals are uniform lattices of <code>ω</code> infinitesimal steps <code>dx = 1/ω = ε &gt; 0</code>.
+        <b>Hyperfinite Discrete Analysis (Abraham Robinson, 1966 &amp; John Conway, 1976):</b><br>
+        Grounded in the discrete <b>hyperfinite transect <code>ℝ_ω</code></b> (and 2D grid <code>ℂ_ω</code>), where continuous intervals are uniform lattices of <code>ω</code> infinitesimal steps <code>dx = 1/ω = ε &gt; 0</code>.
       </li>
     </ol>
 
     <p>
-      “Both frameworks are deeply complementary. Continuous standard analysis is the engineering calculation workhorse of modern science. The hyperfinite transect, however, provides the foundational clarity that eliminates zero-division paradoxes and makes Bayesian probability crystal clear.”
+      “Both frameworks are deeply complementary,” Jack emphasized. “Standard continuous analysis is the engineering workhorse of applied science. The hyperfinite transect, however, provides the conceptual foundation that eliminates divide-by-zero singularities, eliminates non-measurable sets, and restores physical common sense.”
     </p>
 
     <hr>
@@ -60,32 +60,38 @@
     <h3>2. The Null Set Paradox vs. Strict Positivity</h3>
 
     <p>
-      “Let's look closely at Jill's dart paradox,” Jack said:
+      “Let's analyze Jill's dart paradox across both frameworks,” Jack said:
     </p>
 
     <ul>
       <li>
-        <b>Standard Continuous Analysis (The Null Set Paradox):</b><br>
-        For a continuous variable with probability density function <code>f(x)</code>, the probability of any exact single point is the integral from <code>x</code> to <code>x</code>, which equals zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.
-        <br><br>
-        <i>The Semantic Headache:</i> In standard measure theory, <b>an event having probability zero does NOT mean it is impossible</b>! Real, observable singleton points occur every second, yet each is assigned a measure of zero.
+        <b>Standard Continuous Analysis (The Semantic Headache):</b><br>
+        In standard measure theory, the probability of any exact real singleton is zero:
+        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
+          P({x}) = ∫_x^x f(t) dt = 0
+        </div>
+        Because of this, standard mathematics is forced to adopt an unnatural semantic convention:
+        <div align="center" style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #991b1b; font-size: 13.5px;">
+          <b>Standard Concession:</b> <i>“An event having probability zero does NOT mean it cannot occur.”</i>
+        </div>
+        Real, physically observed point measurements occur constantly, yet measure theory assigns each of them a probability of zero!
       </li>
       <br>
       <li>
-        <b>The Hyperfinite Transect (Strict Positivity):</b><br>
-        On our transect <code>ℝ_ω</code>, the continuum is a uniform grid of <code>ω</code> nodes. Every individual node <code>x_k</code> carries an exact, non-zero infinitesimal probability mass:
-        <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
-          P(x_k) = p(x_k) · dx &gt; 0 &nbsp; (where dx = 1/ω)
+        <b>The Hyperfinite Transect (Strict Positivity Restored):</b><br>
+        On our hyperfinite transect <code>T = ℝ_ω</code>, the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
+        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
+          P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
         </div>
-        <i>The Clean Intuition Restored:</i>
-        <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; width: 60%; margin: 8px auto; color: #1e3a8a;">
-          P(E) = 0 &nbsp;&hArr;&nbsp; E = ∅ &nbsp; (Only strictly impossible events have probability zero!)
+        <i>The Clean Physical Law:</i>
+        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #065f46; font-size: 14px; font-weight: bold;">
+          P(E) = 0 &nbsp;⟺&nbsp; E = ∅ &nbsp;&nbsp; (Only the strictly impossible empty set has probability zero!)
         </div>
       </li>
     </ul>
 
     <p>
-      “So on our transect,” Jill beamed, “when the dart lands on a point, that point had an actual positive probability <code>dx</code>. Common sense is completely saved!”
+      “So on the transect,” Jill smiled in relief, “when the dart lands on a point, that point had an actual positive probability weight <code>dx</code>! We never have to tell a student that an event with probability zero actually occurred.”
     </p>
 
     <div align="center" style="margin: 15px 0;">
@@ -94,13 +100,44 @@
 
     <hr>
 
-    <h3>3. Measurability: σ-Algebras vs. Full Power Sets</h3>
+    <h3>3. Bridging Tier B Number Trees to the Transect</h3>
 
     <p>
-      “Now, what about collections of events?” Jack asked.
+      “Where does the hyperfinite transect come from?” Jill asked. “Is it just an abstract postulate?”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+    <p>
+      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we studied in Tier B!”
+    </p>
+
+    <p>
+      “Recall how sign sequences partition the unit interval <code>[0, 1)</code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
+      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0, 1)<br>
+      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br>
+      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2, 3/4), &nbsp; [++] = [3/4, 1)<br>
+      Depth k: 2^k dyadic leaves, each of uniform width Δx = 2^(-k)
+    </div>
+
+    <p>
+      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>. Discrete tree logic and continuous geometry become one and the same!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="treeProjection">Interactive Demo: Tree-to-Transect Projection in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. Measurability: σ-Algebras vs. Full Power Sets</h3>
+
+    <p>
+      “Now let's examine collections of events,” Jack said. “What subsets of numbers can we assign probabilities to?”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
       <tr bgcolor="#f8fafc">
         <th width="50%" align="left">Standard Continuous Analysis</th>
         <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
@@ -108,51 +145,74 @@
       <tr>
         <td valign="top">
           <b>Restricted σ-Algebras:</b><br>
-          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a consistent probability to every subset in the power set <code>𝒫([0, 1])</code>.
+          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a translation-invariant measure to every subset in the power set <code>𝒫([0, 1])</code>.
           <br><br>
-          Standard math is forced to restrict itself to a special sub-collection of 'measurable sets' (a <code>σ</code>-algebra <code>ℱ</code>).
+          Standard math is forced to retreat to a restricted sub-collection of 'measurable sets' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>). Pathological sets (e.g., Vitali sets, Banach-Tarski paradoxes) lurk just outside <code>ℱ</code>.
         </td>
         <td valign="top">
           <b>Full Power Set Available:</b><br>
-          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of size <code>N = ω</code>, <b>every subset <code>E ⊆ T</code> is measurable</b>!
+          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of cardinality <code>|T| = ω</code>, <b>every single subset <code>E ⊆ T</code> is measurable</b>!
           <br><br>
-          The entire power set <code>𝒫(T)</code> is well-behaved. Non-measurable paradoxes (like the Banach-Tarski or Vitali paradoxes) simply cannot occur.
+          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is simply a hyperfinite counting sum:
+          <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px 0; color: #1e3a8a;">
+            P(E) = ∑_{x_k ∈ E} p(x_k) · dx
+          </div>
+          Non-measurable paradoxes cannot even be formulated.
         </td>
       </tr>
     </table>
 
+    <h4>Formal Statement (FS-3.1): Hyperfinite Transect &amp; Measure Space</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Transect Domain:</b> <code>T = { x_k = k · dx | k ∈ {0, 1, ..., ω - 1}, dx = 1/ω = ε ∈ ℝ_ω, ε &gt; 0 }</code>.<br>
+      • <b>Measurable Algebra:</b> <code>𝒫(T)</code> (the complete power set of all internal subsets of <code>T</code>).<br>
+      • <b>Measure Function:</b> <code>P : 𝒫(T) → *[0, 1]</code> defined by <code>P(E) = ∑_{x_k ∈ E} p(x_k) · dx</code>, normalized such that <code>P(T) = 1</code>.<br>
+      • <b>Strict Positivity:</b> <code>∀ E ⊆ T, E ≠ ∅ ⇒ P(E) &gt; 0</code>, guaranteeing <code>P(E) = 0 ⟺ E = ∅</code>.
+    </div>
+
     <hr>
 
-    <h3>4. Conditioning &amp; The Divide-by-Zero Singularity</h3>
+    <h3>5. Conditioning &amp; The Divide-by-Zero Singularity</h3>
 
     <p>
-      “Here is where the two approaches make a huge practical difference,” Jack continued.
+      “Here is where the two paradigms diverge dramatically in practice,” Jack continued.
     </p>
 
     <p>
-      “In Bayesian updating, when evidence <code>E</code> is observed, we compute the posterior: <code>P(H | E) = P(H ⋂ E) / P(E)</code>.”
+      “In Bayesian updating, when evidence <code>E</code> is observed, we compute the posterior belief:”
     </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      P(H | E) = <sup>P(H ⋂ E)</sup> / <sub>P(E)</sub>
+    </div>
 
     <h4>The Standard Breakdown:</h4>
     <p>
-      When your instrument records an exact measurement <code>X = x</code>, standard analysis tries to divide by <code>P(X = x) = 0</code> &mdash; a fatal <b>divide-by-zero crash</b>!
+      When your instrument records an exact real measurement <code>X = x</code>, standard continuous analysis attempts to divide by <code>P(X = x) = 0</code> &mdash; a fatal <b>divide-by-zero singularity</b>!
     </p>
     <p>
-      To fix this, standard measure theory must invent advanced machinery called <b>Radon-Nikodym derivatives</b> and conditional expectation operators. Even worse, it runs into the <b>Borel-Kolmogorov Paradox</b>: conditioning on a great circle on a sphere gives two <i>different</i> probability formulas depending solely on whether you describe the circle with spherical coordinates or planar geometric slices!
+      To bypass this division by zero, standard measure theory must invent advanced, non-elementary machinery: <b>Radon-Nikodym derivatives</b> and limits of conditional expectations. Worse yet, it is vulnerable to the <b>Borel-Kolmogorov Paradox</b>: conditioning on a great circle on a sphere yields two completely <i>different</i> probability densities depending on whether you take the limit via spherical collars or planar slices!
     </p>
 
-    <h4>The Hyperfinite Solution:</h4>
+    <h4>The Hyperfinite Resolution:</h4>
     <p>
-      On the hyperfinite transect <code>ℝ_ω</code>, every non-empty event <code>E ≠ ∅</code> contains nodes with positive probability <code>P(E) &gt; 0</code>:
+      On the hyperfinite transect <code>ℝ_ω</code>, every non-empty event <code>E ≠ ∅</code> has a strictly positive infinitesimal probability <code>P(E) &gt; 0</code>:
     </p>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 15px; margin: 10px 0;">
-      P(E) &gt; 0 &nbsp;for all non-empty E &nbsp;&rArr;&nbsp; P(H | E) = (P(E | H) · P(H)) / P(E) &nbsp;is ALWAYS exact!
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 15px; margin: 10px 0;">
+      ∀ E ≠ ∅ : &nbsp; P(E) &gt; 0 &nbsp;⇒&nbsp; P(H | E) = <sup>(P(E | H) · P(H))</sup> / <sub>P(E)</sub> &nbsp;is ALWAYS an exact rational quotient!
     </div>
 
     <p>
-      Conditioning is always exact rational arithmetic. Coordinate parametrization paradoxes completely vanish!
+      “Conditioning is always exact arithmetic,” Jack noted. “Because every micro-bin has positive volume <code>dx · dy &gt; 0</code>, coordinate-parametrization paradoxes vanish completely!”
     </p>
+
+    <h4>Formal Statement (FS-3.2): Exact Non-Singular Conditioning</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Non-Singularity:</b> For any observed event <code>E ⊆ T</code> with <code>E ≠ ∅</code>, <code>P(E) &gt; 0</code>.<br>
+      • <b>Well-Defined Quotient:</b> The conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code> is unconditionally defined in <code>*ℝ</code> without limit processes.<br>
+      • <b>Coordinate Invariance:</b> The posterior ratio is invariant under coordinate reparametrization because it represents a direct ratio of finite hyperfinite sums.
+    </div>
 
     <div align="center" style="margin: 15px 0;">
       <bid-ref mode="mosaic">Interactive Demo: View 2D Joint Conditioning in BID</bid-ref>
@@ -160,81 +220,101 @@
 
     <hr>
 
-    <h3>5. The Bridge: The Standard Part Map &amp; Peter Loeb's Theorem</h3>
+    <h3>6. The Bridge: The Standard Part Map &amp; Peter Loeb's Theorem</h3>
 
     <p>
-      “You might wonder,” Jill asked, “if we do our probability on the hyperfinite transect, how do we get normal real numbers back at the end of the day?”
+      “You might wonder,” Jill asked thoughtfully, “if we do our probability calculations on the hyperfinite transect, how do we bridge back to ordinary real numbers for laboratory engineering?”
     </p>
 
     <p>
-      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered. “The function <code>st: ℝ_ω → ℝ</code> simply rounds off infinitesimal parts:”
+      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered. “The function <code>st : ℝ_ω → ℝ</code> simply rounds off infinitesimal parts to the nearest standard real number:”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 10px 0;">
-      P_std(E) ≡ st( ∑_{x_k ∈ E} P(x_k) ) = ∫_E f(x) dx
+    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 12px 0;">
+      P_std(E) ≡ st( ∑_{x_k ∈ E} p(x_k) · dx ) = ∫_E f(x) dx
     </div>
 
     <p>
-      “In 1975, logician Peter Loeb proved that every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous integration.”
+      “In 1975, mathematical logician <b>Peter Loeb</b> proved a landmark theorem: every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous Lebesgue integration!”
     </p>
+
+    <p>
+      “This means you can do all your thinking and proofs with clean, paradox-free discrete sums, and then apply <code>st()</code> at the final step to recover standard engineering formulas!”
+    </p>
+
+    <h4>Formal Statement (FS-3.3): The Loeb Measure &amp; Integral Equivalence</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+      • <b>Standard Part Operator:</b> <code>st : *ℝ_fin → ℝ</code> maps each finite hyperreal <code>x</code> to the unique real number <code>r</code> such that <code>|x - r| &lt; 1/n</code> for all <code>n ∈ ℕ</code>.<br>
+      • <b>Loeb Measure Construction:</b> For any internal event <code>E ⊆ T</code>, the standard probability is <code>μ_L(E) = st(P(E))</code>.<br>
+      • <b>Equivalence Theorem:</b> For any continuous density <code>f(x)</code> on <code>[a, b]</code>, <code>st(∑_{k} f(x_k) · dx) = ∫_a^b f(x) dx</code>.
+    </div>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="continuous">Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref>
+    </div>
 
     <hr>
 
-    <h3>6. Summary Comparison Matrix</h3>
+    <h3>7. Summary Comparison Matrix</h3>
 
     <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
       <tr bgcolor="#f8fafc">
-        <th width="22%" align="left">Concept</th>
+        <th width="22%" align="left">Dimension</th>
         <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
-        <th width="39%" align="left">Hyperfinite Transect (Robinson &amp; Conway)</th>
+        <th width="39%" align="left">Hyperfinite Discrete Transect (Robinson &amp; Conway)</th>
       </tr>
       <tr>
         <td><b>Sample Space</b></td>
-        <td>Uncountable continuous continuum <code>Ω</code></td>
-        <td>Discrete hyperfinite transect <code>T</code> of size <code>ω</code></td>
-      </tr>
-      <tr>
-        <td><b>Measurable Events</b></td>
-        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
-        <td>Full power set <code>𝒫(T)</code> (All subsets valid)</td>
+        <td>Uncountable continuous continuum <code>Ω = [0, 1]</code></td>
+        <td>Discrete hyperfinite transect <code>T = ℝ_ω</code> of size <code>ω</code></td>
       </tr>
       <tr>
         <td><b>Single-Point Weight</b></td>
         <td><code>P({x}) = 0</code> (Null set paradox)</td>
-        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive)</td>
+        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)</td>
       </tr>
       <tr>
-        <td><b>Impossibility</b></td>
-        <td><code>P(E) = 0  ⇏  E = ∅</code></td>
-        <td><code>P(E) = 0  ⟺  E = ∅</code></td>
+        <td><b>Impossibility Principle</b></td>
+        <td><code>P(E) = 0 ⇏ E = ∅</code> (Zero does not mean impossible)</td>
+        <td><code>P(E) = 0 ⟺ E = ∅</code> (Strict physical correspondence)</td>
       </tr>
       <tr>
-        <td><b>Integration</b></td>
-        <td>Lebesgue integral <code>∫ f dμ</code> via limits</td>
-        <td>Exact hyperfinite sum <code>∑ P(x_k)</code></td>
+        <td><b>Measurable Sets</b></td>
+        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
+        <td>Full power set <code>𝒫(T)</code> (All subsets measurable)</td>
       </tr>
       <tr>
-        <td><b>Bayes Denominator</b></td>
-        <td><code>P(X = x) = 0</code> (Divide-by-zero risk)</td>
-        <td><code>P(E) &gt; 0</code> (Always exact algebraic division)</td>
+        <td><b>Conditioning on Points</b></td>
+        <td><code>P(X = x) = 0</code> (Requires Radon-Nikodym derivative)</td>
+        <td><code>P(E) &gt; 0</code> (Direct exact fraction quotient)</td>
       </tr>
       <tr>
-        <td><b>Conditioning Tool</b></td>
-        <td>Radon-Nikodym derivative <code>(dν / dμ)</code></td>
-        <td>Direct subset weight proportion</td>
+        <td><b>Paradox Vulnerability</b></td>
+        <td>Borel-Kolmogorov, Vitali, Banach-Tarski paradoxes</td>
+        <td>Immune; geometric ratios remain coordinate-invariant</td>
+      </tr>
+      <tr>
+        <td><b>Integration Engine</b></td>
+        <td>Lebesgue integral <code>∫ f dμ</code> via supremum of limits</td>
+        <td>Exact hyperfinite summation <code>∑ p(x_k) · dx</code></td>
+      </tr>
+      <tr>
+        <td><b>Bridge to Real Numbers</b></td>
+        <td>Axiomatic foundation</td>
+        <td>Standard part map: <code>st(∑ p(x_k) · dx) = ∫ f(x) dx</code></td>
       </tr>
     </table>
 
     <hr>
 
-    <h3>7. Looking Ahead to Statistical Mechanics</h3>
+    <h3>8. Looking Ahead to Lecture 4</h3>
 
     <p>
-      “Now that we see how the hyperfinite transect handles microstates and probabilities,” Jack concluded, “we are ready for our first physical model.”
+      “Now that we have established how micro-states and probabilities exist without paradoxes on the hyperfinite transect,” Jack concluded, “we are prepared to enter the physical realm.”
     </p>
 
     <p>
-      “In <b>Lecture 4</b>, we will connect Bayesian probability directly to <b>Entropy, Boltzmann's statistical mechanics, and information theory</b>!”
+      “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann's statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   </body>
 </html>
