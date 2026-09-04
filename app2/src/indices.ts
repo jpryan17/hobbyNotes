@@ -93,12 +93,12 @@ export const satelliteIndex: IndexItemDesc[] = [
   },
   {
     type: "html",
-    topic: "seminar 4: algebraic geometry & the infinitesimal microscope",
+    topic: "seminar 4: algebraic geometry",
     htmlSegmentId: "algebraicGeometrySeminar",
   },
   {
     type: "html",
-    topic: "seminar 4.A: Grothendieck’s sheaf theory & stalks",
+    topic: "monograph: Grothendieck sheaves & the rabbit hole",
     htmlSegmentId: "grothendieckSheafSeminar",
   },
 ];
