@@ -57,19 +57,20 @@ Rather than exposing the entirety of Lean 4's Mathlib, the interface constrains 
 
 ### Innovation 2: The Tactic Shield Middleware
 * **Syntactic Insulation**: The student never types raw Lean 4 code. The UI renders proofs as intuitive visual block trees or structured natural language statements.
-* **Real-Time Translation**: The middleware continuously generates valid Lean 4 syntax in the background and queries the `leanprover/lean4` language server via WebAssembly / WebSocket.
+* **Real-Time Translation**: The middleware continuously generates valid Lean 4 syntax in the background and queries the Lean 4 verification service via low-latency WebSocket / HTTP API.
 * **Friendly Diagnostic Translator**: Lean 4 error messages (e.g., type mismatches or unfulfilled goals) are translated into clear, actionable visual hints (e.g., *"Missing step: Remember to apply the negation rule first"*).
 
-### Innovation 3: WebAssembly Browser Deployment
-* Deploys a lightweight, browser-native Lean 4 kernel (Lean WebAssembly server) directly into `middlewaymath.app`.
-* Requires zero installation or server overhead—runs instantly on student laptops, tablets, or Chromebooks.
+### Innovation 3: High-Availability Cloud Verification Service & Learning Telemetry
+* **Zero-Install Equity Across Devices**: Rather than imposing massive 50–100MB compiler downloads and browser memory exhaustion on student devices, a containerized Lean 4 verification microservice delivers sub-second proof checks over HTTP/WebSocket.
+* **Flawless Multi-Platform Compatibility**: Runs effortlessly on budget student Chromebooks, school iPads, tablets, and smartphones with equal speed.
+* **Empirical Learning Telemetry**: Centralizes anonymized learner interaction data (tactic sequences, common fallacy patterns, time-to-proof, and goal cascade drop-offs) to provide educational researchers with rigorous empirical evidence of pedagogical effectiveness.
 
 ### Preliminary Validated Prototype: The FSD Engine
 The conceptual feasibility of this architecture is grounded in an already operational, client-side proof-of-concept deployed on `middlewaymath.app`: the **Formal Statements Demonstrator (FSD)**:
 * **Recursive Syntax Tree (`evalNode`) Evaluation**: Real-time evaluation of composite logical formulas (disjunction `poq`, conjunction `paq`, negation `np`, and set operations) directly in client TypeScript/JavaScript.
 * **Bounded Domain Grounding**: Translates abstract quantifiers (`∀x₁:ℕ`, `∃x₁:ℕ`) over bounded sets (e.g., `ℕ_≤10`, `EMPTY ∅`, composite subsets) into deterministic matrix truth tables with zero latency.
 * **Declarative `<fsd-ref>` Component Harness**: Embeds interactive, click-and-evaluate formal statements inside curriculum lectures, providing immediate visual verification without requiring learners to touch a terminal or code editor.
-* **De-risking the Grant Scope**: Because the pedagogical visual layer and recursive AST evaluator are already built and field-tested, the grant focus shifts from speculative frontend prototyping to direct engineering of the Lean 4 WebAssembly bridging layer.
+* **De-risking the Grant Scope**: Because the pedagogical visual layer and recursive AST evaluator are already built and field-tested, the grant focus shifts from speculative frontend prototyping to direct engineering of the Lean 4 verification service bridge and telemetry pipeline.
 
 ---
 
@@ -78,9 +79,9 @@ The conceptual feasibility of this architecture is grounded in an already operat
 The project will issue an RFP to select an EdTech software engineering firm or formal methods lab.
 
 **Scope of Work for the Tech Partner:**
-* **Middleware Engineering**: Build the Lean 4 WebAssembly / API server wrapper and Tactic Shield middleware.
+* **Middleware & Service Engineering**: Build the containerized Lean 4 verification microservice, API wrappers, and Tactic Shield middleware.
 * **UI/UX Development**: Implement the drag-and-drop proof builder and interactive visual canvas integrated into `middlewaymath.app`.
-* **Diagnostic Engine**: Construct the error translation engine that converts Lean 4 kernel messages into student-friendly pedagogical feedback.
+* **Diagnostic Engine & Telemetry**: Construct the error translation engine that converts Lean 4 kernel messages into student-friendly pedagogical feedback, and instrument real-time learner telemetry.
 
 ---
 
@@ -102,8 +103,8 @@ Phase 1: SAB Seating & Tech Partner RFP (Months 1–3)
 ├── Seat Scientific Advisory Board and finalize Tactic Shield UI spec
 └── Issue competitive RFP and award contract to EdTech Implementation Partner
 
-Phase 2: Middleware & WebAssembly Lean 4 Server (Months 4–10)
-├── Build Lean 4 WebAssembly server wrapper for browser execution
+Phase 2: Middleware & Cloud Lean 4 Service (Months 4–10)
+├── Build containerized Lean 4 verification microservice and API gateway
 └── Develop Tactic Shield middleware for the 4-Domain subset schema
 
 Phase 3: Visual Proof Builder UI & Classroom Pilots (Months 11–18)
@@ -124,7 +125,8 @@ Phase 4: Open Source Release & Educational Deployment (Months 19–24)
 | **Foundation Leadership & SAB** | Curriculum design, SAB honoraria, educational evaluation | $110,000 |
 | **Contracted Tech Partner** | Subcontract for EdTech engineering firm (Middleware & UI build) | $250,000 |
 | **Classroom Pilots & Usability** | Student cohort testing, teacher workshops, UX evaluation | $60,000 |
-| **Open Source Hosting & APIs** | Server deployment, documentation, open WebAssembly packages | $30,000 |
+| **Cloud Hosting & Open APIs** | Microservice deployment, telemetry pipeline, documentation | $30,000 |
+| **Total Requested Funding** | **2-Year Public-Private Grant** | **$450,000** |
 | **Total Requested Funding** | **2-Year Public-Private Grant** | **$450,000** |
 
 ---
