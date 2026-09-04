@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Lecture 3: Vector Spaces, Linear Maps &amp; Duality</title>
+  <title>Linear Algebra Lecture 3: Vector Spaces, Linear Maps &amp; Duality</title>
 </head>
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality</b></i></font><br>
-    <font size="+1"><i>— The Relational Nature of Vectors, Linear Operators &amp; Dirac Bra-Ket Duality —</i></font>
+    <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
+    <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
   </div>
   <br>
 
@@ -87,8 +87,18 @@
   <ul>
     <li><b>Sound Waves &amp; Functions:</b> Adding two audio signals <code>f(t) + g(t)</code> (polyphony) and turning up the volume <code>c · f(t)</code>.</li>
     <li><b>Quantum Superpositions:</b> Combining two state amplitudes <code>|ψ₁⟩ + |ψ₂⟩</code> (wave interference) and rotating phase <code>e^(iθ) · |ψ⟩</code>.</li>
-    <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code>.</li>
+    <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code> on <code>ℂ_ω</code>.</li>
   </ul>
+
+  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, +, ·) over Field F</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Vector Space Definition:</b> A quadruple <code>(V, F, +, ·)</code> where <code>(V, +)</code> is an Abelian group and scalar multiplication <code>· : F × V → V</code> satisfies:<br>
+    &nbsp;&nbsp;1. Scalar Distributivity over Vectors: <code>c · (u + v) = c · u + c · v</code>.<br>
+    &nbsp;&nbsp;2. Field Distributivity over Scalars: <code>(a + b) · v = a · v + b · v</code>.<br>
+    &nbsp;&nbsp;3. Scalar Associativity: <code>(a · b) · v = a · (b · v)</code>.<br>
+    &nbsp;&nbsp;4. Scalar Identity: <code>1_F · v = v</code>.<br>
+    • <b>Basis &amp; Dimension:</b> A linearly independent subset <code>ℬ ⊂ V</code> that spans <code>V</code>; <code>dim(V) = |ℬ|</code>.
+  </div>
 
   <hr>
 
@@ -142,6 +152,14 @@
     <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved function with its local linear multiplier: <code>Δy ≈ f'(x) · dx</code>.</li>
   </ul>
 
+  <h4>Formal Statement (FS-LA-3.2): Linear Transformations &amp; Operators</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Linearity Axiom:</b> <code>T : V → W</code> satisfies <code>∀ u, v ∈ V, ∀ a, b ∈ F : &nbsp; T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
+    • <b>Zero Preservation:</b> <code>T(0_V) = 0_W</code>.<br>
+    • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
+    • <b>Calculus Realization:</b> The differential operator <code>D : C^∞(ℝ) → C^∞(ℝ)</code> is an endomorphism preserving function addition and scalar scaling.
+  </div>
+
   <hr>
 
   <h3>4. Vector / Covector Duality</h3>
@@ -172,10 +190,18 @@
   </div>
 
   <ul>
-    <li><b>Vectors (<code>v ∈ V</code>):</b> States, displacements, arrows (represented as columns).</li>
-    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors, stacks of contour lines (represented as rows).</li>
+    <li><b>Vectors (<code>v ∈ V</code>):</b> States, displacements, arrows (represented as column vectors).</li>
+    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors, stacks of contour lines (represented as row vectors).</li>
     <li><b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The covector eats the vector and outputs a scalar reading (how many contour lines the vector pierces).</li>
   </ul>
+
+  <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Dual Space:</b> <code>V* = Hom(V, F) = { f : V → F | f is linear }</code>.<br>
+    • <b>Natural Evaluation Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code>.<br>
+    • <b>Riesz Representation Theorem:</b> In any Hilbert space <code>ℋ_ω</code> with inner product <code>( · , · )</code>, every continuous functional <code>f ∈ ℋ_ω*</code> is uniquely represented by a vector <code>|u⟩</code> such that <code>f(|v⟩) = ⟨u | v⟩</code>.<br>
+    • <b>Dirac Notation Mapping:</b> Kets <code>|v⟩ ∈ ℋ_ω</code>, Bras <code>⟨u| ∈ ℋ_ω*</code>, and Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.
+  </div>
 
   <hr>
 
@@ -187,10 +213,10 @@
 
   <ul>
     <li>
-      <b>State Vectors are Kets (<code>|ψ⟩ ∈ H</code>):</b> The physical quantum state living in a complex Hilbert space <code>(H, +, ·, ⟨·,·⟩)</code>.
+      <b>State Vectors are Kets (<code>|ψ⟩ ∈ ℋ_ω</code>):</b> The physical quantum state living in complex Hilbert space <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code>.
     </li>
     <li>
-      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ H*</code>):</b> A covector in the dual space representing a measurement test.
+      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a measurement test.
     </li>
     <li>
       <b>The Bracket (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> eats the state vector <code>|ψ⟩</code> and outputs the complex probability amplitude!

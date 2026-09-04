@@ -7,14 +7,14 @@
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Course 1: Linear Algebra &amp; The Inference Space</b></i></font><br>
-    <font size="+1"><i>— Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference —</i></font>
+    <i><font size="+2"><b>Course 1 Overview: Linear Algebra &amp; The Inference Space</b></font></i><br>
+    <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference</font></i>
   </div>
   <br>
 
   <h3>Preface: Algebraic Structures are Observed in Construction &amp; Confirmed by Induction</h3>
   <p>
-    In standard mathematical presentations, abstract algebra is often introduced top-down as an intimidating list of arbitrary axioms.
+    In traditional mathematical presentations, abstract algebra is often introduced top-down as an intimidating list of arbitrary axioms handed down by authority.
     In this curriculum, we take the opposite, constructive approach: <b>algebraic structures are emergent symmetries directly observed from recursively defined operations on our number trees &mdash; and then rigorously confirmed across all branches by structural mathematical induction</b>.
   </p>
   <p>
@@ -33,10 +33,10 @@
     Closure is the non-negotiable bedrock of any algebraic structure: when you combine elements, the arithmetic result must stay inside the carrier set.
   </p>
   <ul>
-    <li><b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at ordinal <code>ω</code> in the recursive tree generation. In the transfinite hierarchy of ordinals, <code>ω</code> is a "wee little thing."</li>
-    <li><b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling vectors can produce exact values whose <b>birthdays are strictly greater than <code>ω</code></b> (born on Day <code>ω+1, ω·2, ω^ω</code>). These numbers didn't vanish &mdash; they were simply born on later days in the transfinite calendar!</li>
+    <li><b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at ordinal <code>ω</code> in recursive tree generation. In the transfinite hierarchy of ordinals, <code>ω</code> is a "wee little thing."</li>
+    <li><b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling vectors can produce exact values whose <b>birthdays are strictly greater than <code>ω</code></b> (born on Day <code>ω+1, ω·2, ω^ω</code>). These numbers did not vanish &mdash; they were simply born on later days in the transfinite calendar!</li>
     <li><b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where <code>ω^(ε₀) = ε₀</code>, the carrier set becomes <b>completely algebraically closed</b> &mdash; big enough to support a genuine field.</li>
-    <li><b>Standard Part Resolution:</b> The <b>Standard Part Function <code>st(x)</code></b> casts high-birthday transfinite results back down to their observable shadow on Day <code>ω</code>.</li>
+    <li><b>Standard Part Resolution:</b> The <b>Standard Part Function <code>st(x)</code></b> casts high-birthday transfinite results cleanly back down to their observable shadow on Day <code>ω</code>.</li>
   </ul>
 
   <hr>
@@ -67,7 +67,7 @@
     <li>If <code>(F, +)</code> is an additive group with identity <code>0</code>, then multiplication <i>cannot</i> form a group on all of <code>F</code> because <code>0</code> has no multiplicative inverse (<code>0 · x = 0 &ne; 1</code>).</li>
     <li>The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.</li>
     <li>A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of harmony between two operations: an additive group on all of <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched together by the <b>Distributive Law</b>:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
         <b>a · ( b + c ) = a · b + a · c</b>
       </div>
     </li>
@@ -79,7 +79,7 @@
   <p>
     A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is <b>structure-preserving (a group homomorphism)</b> if:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
   </div>
   <p>
@@ -110,11 +110,11 @@
 
   <h4>Vector / Covector Duality</h4>
   <p>
-    Every vector space <code>V</code> naturally pairs with its **dual space** <code>V*</code> of covectors (linear measurement meters):
+    Every vector space <code>V</code> naturally pairs with its <b>dual space</b> <code>V*</code> of covectors (linear measurement meters):
   </p>
   <ul>
-    <li><b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions (columns).</li>
-    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement meters (rows).</li>
+    <li><b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions (column vectors).</li>
+    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement meters (row vectors).</li>
     <li><b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading (scalar number).</li>
   </ul>
 
@@ -125,8 +125,8 @@
     With the mathematics established, the quantum realization falls right into place:
   </p>
   <ul>
-    <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ H</code>.</li>
-    <li>Measurement detectors are <b>covectors (bras)</b>: <code>⟨ϕ| ∈ H*</code>.</li>
+    <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
+    <li>Measurement detectors are <b>covectors (bras)</b>: <code>⟨ϕ| ∈ ℋ_ω*</code>.</li>
     <li>The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.</li>
   </ul>
 

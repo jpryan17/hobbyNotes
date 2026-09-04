@@ -2,18 +2,18 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle</title>
+  <title>Linear Algebra Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle</title>
 </head>
 
 <body>
   <div align="center">
-    <font size="+2"><i><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle</b></i></font><br>
-    <font size="+1"><i>— How Recursive Trees Build Groups, Fields &amp; Continuous Symmetries —</i></font>
+    <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
+    <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
   </div>
   <br>
 
   <p>
-    Jane opened the lecture by writing two simple structures on the board:
+    Jane opened the lecture by writing two clean structures on the board:
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
@@ -21,7 +21,7 @@
   </div>
 
   <p>
-    “In many traditional math courses,” Jane began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians made up arbitrary rules for a game. But in this course, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
+    “In many traditional math courses,” Jane began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians invented arbitrary rules for a game. But in this curriculum, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
   </p>
 
   <p>
@@ -34,18 +34,18 @@
 
   <hr>
 
-  <h3>1. The Transfinite Scale: The Wee Cutoff at ω</h3>
+  <h3>1. The Transfinite Scale: The Wee Cutoff at ω &amp; The ε₀ Safety Net</h3>
 
   <p>
     “In our foundational studies,” Jane said, “we constructed numbers generation by generation on the tree: Day 0 (<code>0 = { | }</code>), Day 1 (<code>-1, +1</code>), Day 2 (<code>±2, ±1/2</code>), and so on.”
   </p>
 
   <p>
-    “We stopped our observation at Day <code>ω</code>, giving us the scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code>. But in the vast transfinite hierarchy of ordinals, <b>ordinal <code>ω</code> is a wee little thing!</b> It is merely the very first step after the finite counting numbers.”
+    “We stopped our observation at Day <code>ω</code>, giving us the scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code>. But in the transfinite hierarchy of ordinals, <b>ordinal <code>ω</code> is a wee little thing!</b> It is merely the very first step after the finite counting numbers.”
   </p>
 
   <p>
-    “Of itself, a grid cutoff at <code>ω</code> is <b>not closed</b> under general arithmetic operations. When you multiply fine numbers, divide, or take roots, the exact arithmetic result often has a <b>birthday strictly greater than <code>ω</code></b> (such as Day <code>ω+1, ω·2, ω^ω</code>). This is the origin of <b>grid leakage</b>.”
+    “Of itself, a grid cutoff at <code>ω</code> is <b>not closed</b> under general arithmetic operations. When you multiply fine numbers, divide, or take polynomial roots, the exact arithmetic result often has a <b>birthday strictly greater than <code>ω</code></b> (such as Day <code>ω+1, ω·2, ω^ω</code>). This is the origin of <b>grid leakage</b>.”
   </p>
 
   <p>
@@ -56,13 +56,21 @@
     “Not at all!” Jane smiled. “They are caught in the wider transfinite tree as epsilons march off toward ever-higher horizons. By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀</code>:”
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>ε₀ &nbsp;=&nbsp; ω^(ω^(ω^...))</b> &emsp; where &emsp; <b>ω^(ε₀) = ε₀</b>
   </div>
 
   <p>
     “Because <code>ω^ε₀ = ε₀</code>, this carrier set is <b>completely algebraically closed</b>: any addition, multiplication, or polynomial root of numbers born before Day <code>ε₀</code> stays before Day <code>ε₀</code>. We have our rock-solid safety net, and the <b>Standard Part Function <code>st(x)</code></b> casts the shadow cleanly back to our observable grid on Day <code>ω</code>.”
   </p>
+
+  <h4>Formal Statement (FS-LA-1.1): The Countable Transfinite Safety Net ε₀</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Ordinal Fixed Point:</b> Let <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> be the first Cantor ordinal satisfying <code>ω^(ε₀) = ε₀</code>.<br>
+    • <b>Enveloping Carrier Field:</b> The sub-tree <code>G = ℂ_{&lt;ε₀}</code> comprises all surreal tree addresses created prior to Day <code>ε₀</code>.<br>
+    • <b>Algebraic Closure:</b> The carrier set <code>G</code> is algebraically closed under field arithmetic, roots, and finite linear combinations.<br>
+    • <b>Observable Shadow Map:</b> The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.
+  </div>
 
   <hr>
 
@@ -80,7 +88,7 @@
       </div>
     </li>
     <li>
-      <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that perfectly cancels it back to the root:
+      <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that cancels it back to the root:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
         <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b>
       </div>
@@ -108,12 +116,23 @@
   <ul>
     <li><b>Identity:</b> <code>x + 0 = { x^L + 0 | x^R + 0 } = { x^L | x^R } = x</code> &mdash; confirmed immediately by the induction hypothesis on earlier predecessors.</li>
     <li><b>Commutativity:</b> <code>x + y = { x^L + y, x + y^L | x^R + y, x + y^R } = y + x</code> &mdash; confirmed because predecessor options commute by inductive assumption.</li>
-    <li><b>Inverses &amp; Associativity:</b> <code>x + (-x) = 0</code> and <code>(x + y) + z = x + (y + z)</code> are rigorously confirmed by transfinite induction across all branches.</li>
+    <li><b>Inverses &amp; Associativity:</b> <code>x + (-x) = 0</code> and <code>(x + y) + z = x + (y + z)</code> are confirmed by transfinite induction across all branches.</li>
   </ul>
 
   <p>
     “<b>Observation provides the discovery and geometric insight</b>,” Jane concluded, “<b>while inductive mathematical proofs confirm that the structures hold universally as deductive theorems!</b>”
   </p>
+
+  <h4>Formal Statement (FS-LA-1.2): The Constructive Abelian Group (G, +)</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies:<br>
+    &nbsp;&nbsp;1. Closure: <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
+    &nbsp;&nbsp;2. Associativity: <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
+    &nbsp;&nbsp;3. Identity Element: <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
+    &nbsp;&nbsp;4. Inverse Element: <code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code>.<br>
+    • <b>Abelian Property:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
+    • <b>Inductive Verification:</b> Universal across all Conway surreal numbers by structural transfinite induction on birthdays.
+  </div>
 
   <hr>
 
@@ -140,10 +159,10 @@
   </p>
 
   <p>
-    “Exactly!” Jane smiled. “Zero is a black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
+    “Exactly!” Jane smiled. “Zero is an algebraic black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>The Field ( F, +, · )</b><br><br>
     1. Addition forms an Abelian group on all of <b>F</b>: &nbsp; <b>( F, + )</b><br>
     2. Multiplication forms an Abelian group on non-zero elements: &nbsp; <b>( F \ {0}, · )</b><br>
@@ -153,6 +172,15 @@
   <p>
     “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jane said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
   </p>
+
+  <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; Multiplicative Inverses</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Additive Group:</b> <code>(F, +)</code> is an Abelian group with identity element <code>0</code>.<br>
+    • <b>Multiplicative Group:</b> <code>(F \ {0}, ·)</code> is an Abelian group with identity element <code>1 ≠ 0</code>.<br>
+    • <b>Zero Annihilation Theorem:</b> <code>∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code>.<br>
+    • <b>Impossibility of Inverting Zero:</b> There exists no <code>y ∈ F</code> such that <code>0 · y = 1</code>; hence zero must be ejected to form the multiplicative group.<br>
+    • <b>Distributive Axiom:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.
+  </div>
 
   <hr>
 
