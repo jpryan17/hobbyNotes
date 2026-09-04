@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Numbers Lecture 2</font></i><br>
-      <i><font size="+1">Tree Scaffolding, Labeled Paths &amp; The Dyadic Isomorphism</font></i>
+      <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
+      <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
     </div>
     <br>
 
@@ -135,6 +135,30 @@
     <p>
       “Because the binary tree is perfectly self-similar, the geometry of zooming in on an infinitesimal fraction is identical to the geometry of zooming out across boundless integers. The tree unifies the macro-scale and the micro-scale into a single fractal structure.”
     </p>
+
+    <div align="center" style="margin: 18px 0;">
+      <table style="width: 100%; max-width: 760px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 14px; text-align: left; width: 25%;">Perspective</th>
+            <th style="padding: 10px 14px; text-align: left; width: 35%;">Metric Scaling Rule</th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%;">Mathematical Realm Generated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Inner Zig-Zag<br><span style="color: #2563eb; font-size: 0.9em;">(Microscopic Dive)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Halving step lengths at each depth:</b><br><code>1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Real Continuum &amp; Infinitesimals:</b><br>Subdivides intervals into dense dyadic cuts, reaching the infinitesimal differentials <code>dx = 1/ω</code> born at <code>ω</code>.</td>
+          </tr>
+          <tr style="background-color: #f8fafc;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Outer Spine<br><span style="color: #7c3aed; font-size: 0.9em;">(Macroscopic Reach)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Doubling step lengths at each depth:</b><br><code>1, 2, 4, 8, ..., 2⁺ᵈ</code></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Unbounded Integers &amp; Transfinite Horizon:</b><br>Expands outward to span all unbounded integers, reaching the infinite scale <code>Ω = 2^ω</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div align="center" style="margin: 15px 0;">
       <btd-ref mode="precision">Interactive Demo: Inspect Tree Precision &amp; Dual Scales in BTD</btd-ref>
@@ -361,68 +385,80 @@
           <text x="300" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)</text>
           
           <defs>
-            <marker id="cart-arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#000000" />
+            <marker id="cart-arr-spine2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0f766e" />
+            </marker>
+            <marker id="cart-arr-vert2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+            </marker>
+            <marker id="cart-arr-sub2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+            </marker>
+            <marker id="cart-arr-term2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#4f46e5" />
             </marker>
           </defs>
 
           <!-- Level 1: Central Horizontal Spine (x-axis) -->
-          <line x1="290" y1="140" x2="175" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="290" y1="140" x2="405" y2="140" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="290" y1="140" x2="175" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine2)" />
+          <line x1="290" y1="140" x2="405" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine2)" />
 
           <!-- Level 2: Left & Right Vertical Bars (y-axis perpendiculars) -->
-          <line x1="175" y1="140" x2="175" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="175" y1="140" x2="175" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="140" x2="405" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="140" x2="405" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="140" x2="175" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
+          <line x1="175" y1="140" x2="175" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
+          <line x1="405" y1="140" x2="405" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
+          <line x1="405" y1="140" x2="405" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
 
           <!-- Level 3: Four Horizontal Bars (x-axis perpendiculars) -->
-          <line x1="175" y1="75" x2="115" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="175" y1="75" x2="235" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="175" y1="205" x2="115" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="175" y1="205" x2="235" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="75" x2="345" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="75" x2="465" y2="75" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="205" x2="345" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
-          <line x1="405" y1="205" x2="465" y2="205" stroke="#000000" stroke-width="1.8" marker-end="url(#cart-arrow2)" />
+          <line x1="175" y1="75" x2="115" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="175" y1="75" x2="235" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="175" y1="205" x2="115" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="175" y1="205" x2="235" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="405" y1="75" x2="345" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="405" y1="75" x2="465" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="405" y1="205" x2="345" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <line x1="405" y1="205" x2="465" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
 
           <!-- Level 4: Eight Vertical Terminal Arrows -->
-          <line x1="115" y1="75" x2="115" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="115" y1="75" x2="115" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="235" y1="75" x2="235" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="235" y1="75" x2="235" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <line x1="115" y1="75" x2="115" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="115" y1="75" x2="115" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="235" y1="75" x2="235" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="235" y1="75" x2="235" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="115" y1="205" x2="115" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="115" y1="205" x2="115" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="235" y1="205" x2="235" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="235" y1="205" x2="235" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="345" y1="75" x2="345" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="345" y1="75" x2="345" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="465" y1="75" x2="465" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="465" y1="75" x2="465" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="345" y1="205" x2="345" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="345" y1="205" x2="345" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="465" y1="205" x2="465" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line x1="465" y1="205" x2="465" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
 
-          <line x1="115" y1="205" x2="115" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="115" y1="205" x2="115" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="235" y1="205" x2="235" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="235" y1="205" x2="235" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
+          <!-- Open Nodes with styling -->
+          <circle cx="290" cy="140" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
+          <text x="290" y="158" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0f172a">0</text>
+          
+          <circle cx="175" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
+          <circle cx="405" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
+          <circle cx="175" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="175" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="405" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="405" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+          <circle cx="115" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="235" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="115" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="235" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="345" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="465" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="345" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle cx="465" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
 
-          <line x1="345" y1="75" x2="345" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="345" y1="75" x2="345" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="465" y1="75" x2="465" y2="52" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="465" y1="75" x2="465" y2="98" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-
-          <line x1="345" y1="205" x2="345" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="345" y1="205" x2="345" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="465" y1="205" x2="465" y2="182" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-          <line x1="465" y1="205" x2="465" y2="228" stroke="#000000" stroke-width="1.5" marker-end="url(#cart-arrow2)" />
-
-          <!-- Open Nodes -->
-          <circle cx="290" cy="140" r="6" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="140" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="175" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="75" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="405" cy="205" r="5.5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="115" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="235" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="115" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="235" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="345" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="465" cy="75" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="345" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
-          <circle cx="465" cy="205" r="5" fill="#ffffff" stroke="#000000" stroke-width="2" />
+          <!-- Bottom Summary Badge -->
+          <rect x="100" y="246" width="400" height="24" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+          <text x="300" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling (4ⁿ Cells)</text>
         </svg>
       </div>
     </div>
@@ -447,38 +483,42 @@
       “Exactly!” Jack nodded. “Mathematicians call this an <b>isomorphism</b>. And what makes an isomorphism so powerful is that it is <b>not just a renaming of elements &mdash; it preserves the actual mathematical operations</b>!”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <table border="1" cellpadding="10" cellspacing="0" width="85%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
-        <tr bgcolor="#f1f5f9">
-          <th width="40%" align="left">Sign Path on the 2-Successor Tree</th>
-          <th width="20%" align="center">Birthday</th>
-          <th width="40%" align="left">Isomorphic Dyadic Rational</th>
-        </tr>
-        <tr>
-          <td><code>(root)</code></td>
-          <td align="center">0</td>
-          <td><b><code>0</code></b></td>
-        </tr>
-        <tr>
-          <td><code>[+]</code> &nbsp;|&nbsp; <code>[-]</code></td>
-          <td align="center">1</td>
-          <td><b><code>+1</code></b> &nbsp;|&nbsp; <b><code>-1</code></b></td>
-        </tr>
-        <tr>
-          <td><code>[++]</code> &nbsp;|&nbsp; <code>[+-]</code></td>
-          <td align="center">2</td>
-          <td><b><code>+2</code></b> &nbsp;|&nbsp; <b><code>+½</code></b></td>
-        </tr>
-        <tr>
-          <td><code>[-+]</code> &nbsp;|&nbsp; <code>[--]</code></td>
-          <td align="center">2</td>
-          <td><b><code>-½</code></b> &nbsp;|&nbsp; <b><code>-2</code></b></td>
-        </tr>
-        <tr>
-          <td><code>[++-]</code> &nbsp;|&nbsp; <code>[+-+]</code></td>
-          <td align="center">3</td>
-          <td><b><code>+1½</code></b> &nbsp;|&nbsp; <b><code>+¾</code></b></td>
-        </tr>
+    <div align="center" style="margin: 18px 0;">
+      <table style="width: 100%; max-width: 720px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 14px; text-align: left; width: 40%;">Sign Path on the 2-Successor Tree</th>
+            <th style="padding: 10px 14px; text-align: center; width: 20%;">Birthday</th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%;">Isomorphic Dyadic Rational</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 10px 14px;"><code>(root)</code></td>
+            <td style="padding: 10px 14px;" align="center">0</td>
+            <td style="padding: 10px 14px;"><b><code>0</code></b></td>
+          </tr>
+          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 10px 14px;"><code>[+]</code> &nbsp;|&nbsp; <code>[-]</code></td>
+            <td style="padding: 10px 14px;" align="center">1</td>
+            <td style="padding: 10px 14px;"><b><code>+1</code></b> &nbsp;|&nbsp; <b><code>-1</code></b></td>
+          </tr>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 10px 14px;"><code>[++]</code> &nbsp;|&nbsp; <code>[+-]</code></td>
+            <td style="padding: 10px 14px;" align="center">2</td>
+            <td style="padding: 10px 14px;"><b><code>+2</code></b> &nbsp;|&nbsp; <b><code>+½</code></b></td>
+          </tr>
+          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 10px 14px;"><code>[-+]</code> &nbsp;|&nbsp; <code>[--]</code></td>
+            <td style="padding: 10px 14px;" align="center">2</td>
+            <td style="padding: 10px 14px;"><b><code>-½</code></b> &nbsp;|&nbsp; <b><code>-2</code></b></td>
+          </tr>
+          <tr style="background-color: #ffffff;">
+            <td style="padding: 10px 14px;"><code>[++-]</code> &nbsp;|&nbsp; <code>[+-+]</code></td>
+            <td style="padding: 10px 14px;" align="center">3</td>
+            <td style="padding: 10px 14px;"><b><code>+1½</code></b> &nbsp;|&nbsp; <b><code>+¾</code></b></td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
@@ -490,22 +530,22 @@
       <li>
         <b>1. Order Preservation (≤):</b><br>
         Comparing two sign paths using tree geometry gives the exact same truth value as comparing the two fractions:
-        <div align="center" style="margin: 5px 0;">
-          <code>path₁ ≤_tree path₂ &nbsp;&hArr;&nbsp; frac₁ ≤ frac₂</code>
+        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
+          path₁ ≤_tree path₂ &nbsp;&hArr;&nbsp; frac₁ ≤ frac₂
         </div>
       </li>
       <li>
         <b>2. Addition Preservation (+):</b><br>
         Adding two paths on the tree via the tree's recursive addition rule yields the exact path corresponding to rational addition:
-        <div align="center" style="margin: 5px 0;">
-          <code>path(a +_tree b) &nbsp;=&nbsp; path(a) +_dyadic path(b)</code>
+        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
+          path(a +_tree b) &nbsp;=&nbsp; path(a) +_dyadic path(b)
         </div>
       </li>
       <li>
         <b>3. Multiplication Preservation (·):</b><br>
         Multiplying two tree paths yields the exact path corresponding to rational multiplication:
-        <div align="center" style="margin: 5px 0;">
-          <code>path(a ·_tree b) &nbsp;=&nbsp; path(a) ·_dyadic path(b)</code>
+        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
+          path(a ·_tree b) &nbsp;=&nbsp; path(a) ·_dyadic path(b)
         </div>
       </li>
     </ul>

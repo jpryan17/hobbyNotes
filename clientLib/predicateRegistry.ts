@@ -160,6 +160,15 @@ export const DEFAULT_DOMAINS_DATA: DomainSchema = {
       signature: ["N"],
       displayTemplate: "EVEN(${s1})",
       evaluator: "(s1) => s1 % 2 === 0"
+    },
+    {
+      id: "EQ",
+      code: "k",
+      symbol: "=",
+      arity: 2,
+      signature: ["N", "N"],
+      displayTemplate: "EQ(${s1}, ${s2})",
+      evaluator: "(s1, s2) => s1 === s2"
     }
   ]
 };

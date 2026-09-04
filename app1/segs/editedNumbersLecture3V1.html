@@ -6,8 +6,8 @@
   </head>
   <body>
     <div align="center">
-      <i><font size="+2">Numbers Lecture 3</font></i><br>
-      <i><font size="+1">STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</font></i>
+      <h2>Numbers Lecture 3</h2>
+      <h3>STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</h3>
     </div>
     <br>
 
@@ -36,6 +36,15 @@
     <!-- Comparison Diagram: Core vs. STEM -->
     <div align="center" style="margin: 25px 0;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" style="width: 100%; max-width: 680px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <defs>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+          </marker>
+          <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#9333ea" />
+          </marker>
+        </defs>
+
         <!-- Background Panels -->
         <!-- Core Left Panel -->
         <rect x="15" y="15" width="310" height="290" rx="8" fill="#f8fafc" stroke="#3b82f6" stroke-width="1.5" />
@@ -55,7 +64,7 @@
         <text x="170" y="110" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">2-Successor &amp; 4-Successor Tree Coordinates</text>
 
         <!-- Down Arrow -->
-        <line x1="170" y1="120" x2="170" y2="150" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)" />
+        <line x1="170" y1="120" x2="170" y2="148" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)" />
 
         <!-- Transect & Grid -->
         <rect x="40" y="150" width="260" height="50" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2" />
@@ -63,7 +72,7 @@
         <text x="170" y="190" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">Explicit Horizon (ω) and Infinitesimals (dx = 1/ω)</text>
 
         <!-- Down Arrow -->
-        <line x1="170" y1="200" x2="170" y2="230" stroke="#2563eb" stroke-width="2" />
+        <line x1="170" y1="200" x2="170" y2="228" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)" />
 
         <!-- Nonstandard Analysis -->
         <rect x="40" y="230" width="260" height="55" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5" />
@@ -77,7 +86,7 @@
         <text x="510" y="110" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9333ea">Uncountable Point Sets (No Inherent Graph Structure)</text>
 
         <!-- Down Arrow -->
-        <line x1="510" y1="120" x2="510" y2="150" stroke="#9333ea" stroke-width="2" />
+        <line x1="510" y1="120" x2="510" y2="148" stroke="#9333ea" stroke-width="2" marker-end="url(#arrow-purple)" />
 
         <!-- Intrinsic Spaces -->
         <rect x="380" y="150" width="260" height="50" rx="6" fill="#faf5ff" stroke="#9333ea" stroke-width="1.2" />
@@ -85,7 +94,7 @@
         <text x="510" y="190" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9333ea">Topologies, σ-Algebras &amp; Indexed Families of Sets</text>
 
         <!-- Down Arrow -->
-        <line x1="510" y1="200" x2="510" y2="230" stroke="#9333ea" stroke-width="2" />
+        <line x1="510" y1="200" x2="510" y2="228" stroke="#9333ea" stroke-width="2" marker-end="url(#arrow-purple)" />
 
         <!-- Standard Analysis -->
         <rect x="380" y="230" width="260" height="55" rx="6" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1.5" />
@@ -132,6 +141,11 @@
       </li>
     </ul>
 
+    <div align="center" style="margin: 15px 0;">
+      <btd-ref mode="birthday">Interactive Demo: Inspect Birthday Levels (Depth d) in BTD</btd-ref> &nbsp;|&nbsp;
+      <btd-ref mode="precision">Inspect Tree Precision &amp; Dyadic Cuts in BTD</btd-ref>
+    </div>
+
     <hr>
 
     <h3>3. The Indexed Family of Sets</h3>
@@ -145,8 +159,8 @@
       To do this rigorously, mathematicians define an <b>indexed family of sets</b>:”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      A mapping <code>A : I → 𝒫(𝒮)</code> &nbsp;where&nbsp; <code>i ↦ A_i</code> &nbsp;(with <code>A_i ⊆ 𝒮</code>).
+    <div align="center" style="margin: 14px auto; max-width: 600px; font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
+      A : I → 𝒫(𝒮) &nbsp;&nbsp;where&nbsp;&nbsp; i ↦ A_i &nbsp;(with A_i ⊆ 𝒮)
     </div>
 
     <p>
@@ -161,16 +175,37 @@
     <ul>
       <li>
         <b>Indexed Union (<code>⋃_{i ∈ I} A_i</code>):</b> An element belongs to the union if it is in <i>at least one</i> subset:
-        <div align="center" style="margin: 8px 0;">
-          <code>∀x:𝒮 [ x ∈ ⋃_{i ∈ I} A_i &nbsp;&hArr;&nbsp; ∃i:I [ x ∈ A_i ] ]</code>
+        <div align="center" style="margin: 10px auto; max-width: 620px; font-family: monospace; font-size: 14px; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px 14px;">
+          ∀x:𝒮 [ x ∈ ⋃_{i ∈ I} A_i &nbsp;⇔&nbsp; ∃i:I [ x ∈ A_i ] ]
         </div>
       </li>
       <br>
       <li>
         <b>Indexed Intersection (<code>⋂_{i ∈ I} A_i</code>):</b> An element belongs to the intersection if it is in <i>every</i> subset:
-        <div align="center" style="margin: 8px 0;">
-          <code>∀x:𝒮 [ x ∈ ⋂_{i ∈ I} A_i &nbsp;&hArr;&nbsp; ∀i:I [ x ∈ A_i ] ]</code>
+        <div align="center" style="margin: 10px auto; max-width: 620px; font-family: monospace; font-size: 14px; color: #1e3a8a; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px 14px;">
+          ∀x:𝒮 [ x ∈ ⋂_{i ∈ I} A_i &nbsp;⇔&nbsp; ∀i:I [ x ∈ A_i ] ]
         </div>
+      </li>
+    </ul>
+
+    <p>
+      “In our <b>Formal Statements Demo (FSD)</b>, the <b>Power Set Incidence Matrix</b> provides a tangible finite model of an indexed family of sets! For our 4-element base domain <code>ℕ₄ = {1, 2, 3, 4}</code>, each column <code>Y₀..Y₁₅</code> represents one subset in the indexed family <code>𝒫(ℕ₄)</code>:”
+    </p>
+
+    <ul>
+      <li>
+        <b>Membership in the Indexed Family:</b> Click <fsd-ref exp="m" quantifiers="∃x₁:ℕ, ∃y₁:𝒫(ℕ)" slots="x₁,y₁">∃x₁:ℕ, ∃y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: opens the 4×16 matrix grid, proving that there exist elements belonging to subsets in the family.</i>
+      </li>
+      <br>
+      <li>
+        <b>Every Non-Empty Subset Has Members:</b> Click <fsd-ref exp="m" quantifiers="∀y₁:[𝒫(ℕ) | y₁ ≠ ∅], ∃x₁:ℕ" slots="x₁,y₁">∀y₁:[𝒫(ℕ) | y₁ ≠ ∅], ∃x₁:ℕ [ (x₁ ∈ y₁) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: testing every non-empty subset column (Y₁ through Y₁₅) confirms each contains at least one active blue pixel.</i>
+      </li>
+      <br>
+      <li>
+        <b>Empty Set Boundary (Column Y₀ = ∅):</b> Click <fsd-ref exp="nm" quantifiers="∀x₁:ℕ" slots="x₁,∅">∀x₁:ℕ [ ¬(x₁ ∈ ∅) ]</fsd-ref><br>
+        <i>Evaluates to <b>True (T)</b>: Column Y₀ contains 0 active elements, confirming the universal absence of membership.</i>
       </li>
     </ul>
 
@@ -182,49 +217,87 @@
       “An <b>intrinsic space</b> on a domain <code>𝒮</code> is a distinguished family of subsets satisfying strict closure axioms under indexed operations:”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
-      <tr bgcolor="#f8fafc">
-        <th width="22%" align="left">Intrinsic Space</th>
-        <th width="38%" align="left">Distinguished Collection</th>
-        <th width="40%" align="left">Closure Axioms &amp; Purpose</th>
-      </tr>
-      <tr>
-        <td><b>1. Topological Space<br><code>(𝒮, 𝒯)</code></b></td>
-        <td><b>The Topology <code>𝒯 ⊆ 𝒫(𝒮)</code>:</b><br>The collection of all <b>open sets</b>.</td>
-        <td>
-          <ul>
-            <li><code>∅ ∈ 𝒯</code> and <code>𝒮 ∈ 𝒯</code>.</li>
-            <li><b>Arbitrary Unions:</b> Closed under unions of <i>any</i> size (countable or uncountable).</li>
-            <li><b>Finite Intersections:</b> Closed under intersections of <i>finitely many</i> open sets.</li>
-          </ul>
-          <i>Purpose: Defines continuity, boundaries, and limits without requiring a numeric ruler.</i>
-        </td>
-      </tr>
-      <tr>
-        <td><b>2. Measure Space<br><code>(𝒮, ℳ, μ)</code></b></td>
-        <td><b>The σ-Algebra <code>ℳ ⊆ 𝒫(𝒮)</code>:</b><br>The collection of all <b>measurable events</b>.</td>
-        <td>
-          <ul>
-            <li><code>𝒮 ∈ ℳ</code>.</li>
-            <li><b>Complements:</b> If <code>A ∈ ℳ</code>, then <code>A⁻ ∈ ℳ</code>.</li>
-            <li><b>Countable Unions:</b> If <code>{ A_n }_{n ∈ ℕ} ⊆ ℳ</code>, then <code>(⋃_{n ∈ ℕ} A_n) ∈ ℳ</code>.</li>
-          </ul>
-          <i>Purpose: Defines volume, integration, and Kolmogorov probability measures <code>P(E)</code>.</i>
-        </td>
-      </tr>
-      <tr>
-        <td><b>3. Metric Space<br><code>(𝒮, d)</code></b></td>
-        <td><b>Distance Function <code>d : 𝒮 × 𝒮 → ℝ</code>:</b><br>Generates the family of <b>open balls</b>: <code>B(x, ε) = [ 𝒮 | d(x, y) &lt; ε ]</code>.</td>
-        <td>
-          <ul>
-            <li><code>d(x, y) ≥ 0</code>, with <code>d(x, y) = 0 ⇔ x = y</code>.</li>
-            <li><code>d(x, y) = d(y, x)</code> (Symmetry).</li>
-            <li><code>d(x, z) ≤ d(x, y) + d(y, z)</code> (Triangle Inequality).</li>
-          </ul>
-          <i>Purpose: Arbitrary unions of open balls generate the canonical metric topology on <code>ℝ</code> and <code>ℂ</code>.</i>
-        </td>
-      </tr>
-    </table>
+    <div align="center" style="margin: 20px 0;">
+      <table style="width: 100%; max-width: 780px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 14px; text-align: left; width: 22%;">Intrinsic Space</th>
+            <th style="padding: 10px 14px; text-align: left; width: 36%;">Distinguished Collection</th>
+            <th style="padding: 10px 14px; text-align: left; width: 42%;">Closure Axioms &amp; Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>1. Topological Space<br><span style="color: #2563eb; font-size: 0.9em;">(𝒮, 𝒯)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The Topology <code>𝒯 ⊆ 𝒫(𝒮)</code>:</b><br>The collection of all <b>open sets</b>.</td>
+            <td style="padding: 12px 14px; vertical-align: top;">
+              <ul style="margin: 0; padding-left: 18px;">
+                <li><code>∅ ∈ 𝒯</code> and <code>𝒮 ∈ 𝒯</code>.</li>
+                <li><b>Arbitrary Unions:</b> Closed under unions of <i>any</i> size (countable or uncountable).</li>
+                <li><b>Finite Intersections:</b> Closed under intersections of <i>finitely many</i> open sets.</li>
+              </ul>
+              <div style="margin-top: 6px; font-size: 0.9em; color: #475569;"><i>Purpose: Defines continuity, boundaries, and limits without requiring a numeric ruler.</i></div>
+            </td>
+          </tr>
+          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>2. Measure Space<br><span style="color: #7c3aed; font-size: 0.9em;">(𝒮, ℳ, μ)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>The σ-Algebra <code>ℳ ⊆ 𝒫(𝒮)</code>:</b><br>The collection of all <b>measurable events</b>.</td>
+            <td style="padding: 12px 14px; vertical-align: top;">
+              <ul style="margin: 0; padding-left: 18px;">
+                <li><code>𝒮 ∈ ℳ</code>.</li>
+                <li><b>Complements:</b> If <code>A ∈ ℳ</code>, then <code>A⁻ ∈ ℳ</code>.</li>
+                <li><b>Countable Unions:</b> If <code>{ A_n }_{n ∈ ℕ} ⊆ ℳ</code>, then <code>(⋃_{n ∈ ℕ} A_n) ∈ ℳ</code>.</li>
+              </ul>
+              <div style="margin-top: 6px; font-size: 0.9em; color: #475569;"><i>Purpose: Defines volume, integration, and Kolmogorov probability measures <code>P(E)</code>.</i></div>
+            </td>
+          </tr>
+          <tr style="background-color: #ffffff;">
+            <td style="padding: 12px 14px; vertical-align: top;"><b>3. Metric Space<br><span style="color: #0f766e; font-size: 0.9em;">(𝒮, d)</span></b></td>
+            <td style="padding: 12px 14px; vertical-align: top;"><b>Distance Function <code>d : 𝒮 × 𝒮 → ℝ</code>:</b><br>Generates the family of <b>open balls</b>: <code>B(x, ε) = [ 𝒮 | d(x, y) &lt; ε ]</code>.</td>
+            <td style="padding: 12px 14px; vertical-align: top;">
+              <ul style="margin: 0; padding-left: 18px;">
+                <li><code>d(x, y) ≥ 0</code>, with <code>d(x, y) = 0 ⇔ x = y</code>.</li>
+                <li><code>d(x, y) = d(y, x)</code> (Symmetry).</li>
+                <li><code>d(x, z) ≤ d(x, y) + d(y, z)</code> (Triangle Inequality).</li>
+              </ul>
+              <div style="margin-top: 6px; font-size: 0.9em; color: #475569;"><i>Purpose: Arbitrary unions of open balls generate the canonical metric topology on <code>ℝ</code> and <code>ℂ</code>.</i></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Interactive Experiments in FSD: Simulating Intrinsic Spaces</h4>
+    <p>
+      “Even though standard analysis uses heavy topological machinery, we can simulate its core axioms and geometric structures directly in our <b>Formal Statements Demo (FSD)</b>:”
+    </p>
+
+    <ul>
+      <li>
+        <b>Metric Space Identity &amp; The Diagonal (<code>d(x, y) = 0 ⇔ x = y</code>):</b><br>
+        In a metric space, the distance between two points is zero if and only if they are identical. On our 2D Boolean matrix, this is the exact <b>equality relation (<code>=</code>)</b> lighting up the main diagonal:<br>
+        • Reflexivity (Zero Distance to Self): Click <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁">∀x₁:ℕ [ EQ(x₁, x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>.</i><br>
+        • Identity Diagonal Matrix: Click <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂">∀x₁:ℕ, ∃x₂:ℕ [ EQ(x₁, x₂) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>: shows the blue diagonal line where <code>x₁ = x₂</code>!</i><br>
+        • Strict Anti-Reflexivity: Click <fsd-ref exp="nr" quantifiers="∀x₁:ℕ" slots="x₁,x₁">∀x₁:ℕ [ ¬GT(x₁, x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>: no point has distance strictly greater than itself.</i>
+      </li>
+      <br>
+      <li>
+        <b>Open Balls as Conjunctions of Half-Spaces:</b><br>
+        On a 1D metric line, an open ball <code>B(c, r) = (c - r, c + r)</code> is the conjunction of two open half-spaces (<code>x &gt; c - r ∧ x &lt; c + r</code>). In FSD, the open ball <code>B(7.5, 2.5) = (5, 10)</code> is modeled directly:<br>
+        • Open Ball Members: Click <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁">∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>: elements {6, 7, 8, 9} are inside the open ball.</i><br>
+        • Bounded Neighborhood Domain: Click <fsd-ref exp="q" quantifiers="∃x₁:[ℕ | GT(5)]" slots="x₁">∃x₁:[ℕ | GT(5)] [ LT10(x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>.</i>
+      </li>
+      <br>
+      <li>
+        <b>σ-Algebra Complements:</b><br>
+        Every measurable subset possesses a measurable complement: Click <fsd-ref exp="np" quantifiers="∃x₁:ℕ" slots="x₁">∃x₁:ℕ [ ¬GT5(x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>: elements {1, 2, 3, 4, 5} form the relative complement.</i>
+      </li>
+      <br>
+      <li>
+        <b>Metric Line Unboundedness (Archimedean Property):</b><br>
+        Every point on the metric line is succeeded by points further out: Click <fsd-ref exp="r" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₂,x₁">∀x₁:ℕ, ∃x₂:ℕ [ GT(x₂, x₁) ]</fsd-ref> &rarr; <i>Evaluates to <b>True (T)</b>.</i>
+      </li>
+    </ul>
 
     <hr>
 

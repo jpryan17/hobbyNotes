@@ -1230,6 +1230,7 @@ export class FSD extends PXEParent {
       else if (ch === "s") cols.push({ label: "LT", val: predValues["s"] ?? true });
       else if (ch === "m") cols.push({ label: "∈", val: predValues["m"] ?? true });
       else if (ch === "v") cols.push({ label: "EVEN", val: predValues["v"] ?? true });
+      else if (ch === "k") cols.push({ label: "=", val: predValues["k"] ?? true });
       else if (ch === "a") {
         const left = cols[cols.length - 1]?.val ?? true;
         const rightCode = exp[i + 1];
@@ -1266,7 +1267,7 @@ export class FSD extends PXEParent {
 
   evaluateFullStatement(): boolean {
     const N = this.gridResolution;
-    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
+    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && !this.pxe.exp.includes("k") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
 
     if (this.slots.some((s) => s.assignedVar?.startsWith("y"))) {
       const predM = this.evaluatePredicate("∈");

@@ -70,8 +70,8 @@ export class FSDRef extends HTMLElement {
                             fsd.slots[1].assignedVar = "y₁";
                         }
                     }
-                    else if (exp === "ras" || exp === "r" || exp === "s") {
-                        // Binary predicates on x₁, x₂: GT(x₁, x₂) ∧ LT(x₁, x₂)
+                    else if (exp === "ras" || exp === "r" || exp === "s" || exp === "k" || exp === "nk") {
+                        // Binary predicates on x₁, x₂: GT(x₁, x₂), LT(x₁, x₂), EQ(x₁, x₂)
                         fsd.slots.forEach((s, idx) => {
                             s.assignedVar = (idx % 2 === 0) ? "x₁" : "x₂";
                         });
