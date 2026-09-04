@@ -209,19 +209,30 @@ export class Nav {
         Nav.showNavLine();
     }
     static scrollToLectureDialogue() {
-        // 1. Collapse/hide any expanded <details> monograph callouts
-        const openDetails = document.querySelectorAll('details[open]');
+        // 1. Identify currently open details before collapsing
+        const openDetails = Array.from(document.querySelectorAll('details[open]'));
+        const outermostOpen = openDetails[0];
+        // 2. Collapse/hide any expanded <details> monograph callouts
         openDetails.forEach(d => {
             d.open = false;
         });
-        // 2. Set returning state flag & immediately hide returnControl
+        // 3. Set returning state flag & immediately hide returnControl
         Nav.isReturning = true;
         Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.showNavLine();
-        // 3. Scroll cleanly to lecture dialogue anchor
+        // 4. Scroll cleanly to lecture dialogue anchor or target details
         const anchor = document.getElementById('jillQuestionAnchor') || document.querySelector('a[name="jillQuestionAnchor"]');
         if (anchor) {
             anchor.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+        else if (outermostOpen) {
+            const prev = outermostOpen.previousElementSibling;
+            if (prev) {
+                prev.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }
+            else {
+                outermostOpen.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }
         }
         else if (Nav.fo && Nav.fo.elt) {
             Nav.fo.elt.scrollTo({ top: 0, behavior: 'auto' });
