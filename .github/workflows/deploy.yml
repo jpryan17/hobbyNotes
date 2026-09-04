@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build distribution
-        run: npm run app1BuildR
+        run: npm run build
 
       - name: Write CNAME
         run: cp app1/CNAME app1/dist/CNAME || echo "middlewaymath.app" > app1/dist/CNAME
