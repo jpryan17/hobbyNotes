@@ -169,6 +169,33 @@ export const DEFAULT_DOMAINS_DATA: DomainSchema = {
       signature: ["N", "N"],
       displayTemplate: "EQ(${s1}, ${s2})",
       evaluator: "(s1, s2) => s1 === s2"
+    },
+    {
+      id: "LE",
+      code: "l",
+      symbol: "≤",
+      arity: 2,
+      signature: ["N", "N"],
+      displayTemplate: "LE(${s1}, ${s2})",
+      evaluator: "(s1, s2) => s1 <= s2"
+    },
+    {
+      id: "SUCC",
+      code: "u",
+      symbol: "+1",
+      arity: 2,
+      signature: ["N", "N"],
+      displayTemplate: "SUCC(${s1}, ${s2})",
+      evaluator: "(s1, s2) => s2 === s1 + 1"
+    },
+    {
+      id: "ODD",
+      code: "d",
+      symbol: "ODD",
+      arity: 1,
+      signature: ["N"],
+      displayTemplate: "ODD(${s1})",
+      evaluator: "(s1) => s1 % 2 !== 0"
     }
   ]
 };
