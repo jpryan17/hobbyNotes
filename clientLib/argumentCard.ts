@@ -36,7 +36,7 @@ export class ArgumentCard extends Elt {
     this.arg = arg;
     this.setA(
       "style",
-      "margin-top: 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; overflow: hidden; max-width: 600px;"
+      "margin-top: 16px; margin-bottom: 36px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 650px;"
     );
 
     const isTrue = arg.verdict;

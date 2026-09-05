@@ -1,4 +1,5 @@
 import { Nav } from "./navFW.js";
+import { Elt } from "./elt.js";
 import { fsd, setFSD, QuantifierBinding, DomainType, parseDomainSpec, formatDomainSpec } from "./fsd.js";
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
 import { getScaffoldReflection } from "./scaffoldReflection.js";
@@ -56,8 +57,18 @@ export class FSDRef extends HTMLElement {
         Nav.addNavLineBackButton(buttonText);
         Nav.fo.removeChildren();
         Nav.fo.elt.scrollTop = 0;
-        Nav.fo.setA('style', 'overflow:hidden; padding: 16px;');
-        Nav.fo.append(new ArgumentCard(formalArg));
+        Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:16px 20px 80px 20px;');
+
+        const scrollWrap = new Elt("div");
+        scrollWrap.setA("style", "width:100%;min-height:100%;box-sizing:border-box;display:flow-root;padding-bottom:60px;");
+        scrollWrap.append(new ArgumentCard(formalArg));
+        Nav.fo.append(scrollWrap);
+
+        if (Nav.fo && Nav.fo.elt) {
+          Nav.fo.elt.removeEventListener("scroll", Nav.onFoScroll);
+          Nav.fo.elt.addEventListener("scroll", Nav.onFoScroll);
+        }
+
         Nav.display();
         return;
       }

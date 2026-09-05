@@ -10,7 +10,7 @@ export class ArgumentCard extends Elt {
     constructor(arg) {
         super("div");
         this.arg = arg;
-        this.setA("style", "margin-top: 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; overflow: hidden; max-width: 600px;");
+        this.setA("style", "margin-top: 16px; margin-bottom: 36px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 650px;");
         const isTrue = arg.verdict;
         const headerBg = isTrue ? "#f0fdf4" : "#fef2f2";
         const headerBorder = isTrue ? "#bbf7d0" : "#fecaca";
