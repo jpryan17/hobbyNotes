@@ -162,61 +162,142 @@
 
     <h3>5. Built-In Domains &amp; Predicates</h3>
     <p>
-      Our sandbox is equipped with foundational domains and primary predicates:
+      To support concrete calculations and interactive visual exploration, our environment comes pre-loaded with foundational base domains, power sets, constant subsets, and an expressive library of built-in predicates.
     </p>
+
+    <h4>I. Base Domains &amp; Set Universes</h4>
     <ul>
-      <li><b>1. Natural Numbers (<code>ℕ = {1, 2, 3, ...}</code>):</b> Element variables <code>x₁, x₂ ∈ ℕ</code>.</li>
-      <li><b>2. Power Set (<code>𝒫(ℕ)</code>):</b> The set of all subsets of <code>ℕ</code>. Subset variables <code>y₁, y₂ ∈ 𝒫(ℕ)</code>.</li>
-      <li><b>3. Constant Subsets:</b> Built-in subsets like <code>GT5 = {x ∈ ℕ | x &gt; 5}</code> and <code>LT10 = {x ∈ ℕ | x &lt; 10}</code>.</li>
-      <li><b>4. Boolean Truth Set (<code>𝔹 = {0, 1}</code>):</b> The universal codomain.</li>
+      <li><b>1. Natural Numbers (<code>ℕ = {1, 2, 3, ...}</code>):</b> The default discrete counting universe for element variables <code>x₁, x₂ ∈ ℕ</code>.</li>
+      <li><b>2. Power Set of <code>ℕ</code> (<code>𝒫(ℕ)</code>):</b> The collection of all subsets of <code>ℕ</code> for subset variables <code>y₁, y₂ ∈ 𝒫(ℕ)</code>.</li>
+      <li><b>3. Boolean Truth Set (<code>𝔹 = {0, 1}</code>):</b> The universal truth codomain for all predicates.</li>
+      <li><b>4. Built-in Constant Subsets:</b>
+        <ul>
+          <li><code>∅</code> (The Empty Set): Contains no elements (<code>∀x:ℕ [ ¬(x ∈ ∅) ]</code>).</li>
+          <li><code>GT5</code>: The tail subset <code>{x ∈ ℕ | x &gt; 5} = {6, 7, 8, ...}</code>.</li>
+          <li><code>LT10</code>: The prefix subset <code>{x ∈ ℕ | x &lt; 10} = {1, 2, ..., 9}</code>.</li>
+        </ul>
+      </li>
+      <li><b>5. Extended Numeric Universes (Looking Ahead):</b> The integers <code>ℤ</code>, dyadic rationals <code>𝔻 = {m / 2ⁿ}</code>, the 1D hyperfinite continuous transect <code>ℝ_ω</code> (with infinitesimal step <code>dx = 1/ω</code>), and the 2D complex grid <code>ℂ_ω = ℝ_ω × ℝ_ω</code>.</li>
     </ul>
 
-    <table style="border-collapse: collapse; margin: 12px 0;" width="95%" cellspacing="0" cellpadding="8" border="1">
+    <h4>II. The Built-in Predicate Library</h4>
+    <p>
+      Predicates are organized into four natural structural families:
+    </p>
+
+    <table style="border-collapse: collapse; margin: 12px 0;" width="100%" cellspacing="0" cellpadding="8" border="1">
       <tbody>
-        <tr bgcolor="#f2f2f2">
-          <th align="left">Predicate</th>
-          <th align="center">Signature</th>
-          <th align="left">Template / Meaning</th>
-          <th align="left">Evaluation Rule</th>
+        <tr bgcolor="#f1f5f9">
+          <th width="16%" align="left">Family</th>
+          <th width="14%" align="left">Predicate</th>
+          <th width="18%" align="center">Signature</th>
+          <th width="24%" align="left">Template / Notation</th>
+          <th width="28%" align="left">Evaluation Rule</th>
         </tr>
+        <!-- Unary Predicates -->
         <tr>
+          <td rowspan="4"><b>Unary<br>(Properties)</b></td>
           <td><b>GT5</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>GT5(x)</code> (Single element)</td>
+          <td><code>GT5(x)</code></td>
           <td><code>true</code> if <code>x &gt; 5</code>, else <code>false</code>.</td>
         </tr>
         <tr>
           <td><b>LT10</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>LT10(x)</code> (Single element)</td>
+          <td><code>LT10(x)</code></td>
           <td><code>true</code> if <code>x &lt; 10</code>, else <code>false</code>.</td>
         </tr>
         <tr>
           <td><b>EVEN</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>EVEN(x)</code> (Single element)</td>
-          <td><code>true</code> if <code>x</code> is even, else <code>false</code>.</td>
+          <td><code>EVEN(x)</code></td>
+          <td><code>true</code> if <code>x mod 2 = 0</code>.</td>
         </tr>
         <tr>
+          <td><b>ODD</b></td>
+          <td align="center"><code>ℕ → 𝔹</code></td>
+          <td><code>ODD(x)</code></td>
+          <td><code>true</code> if <code>x mod 2 ≠ 0</code>.</td>
+        </tr>
+        <!-- Order & Equality -->
+        <tr>
+          <td rowspan="4"><b>Order &amp; Equality<br>(2-Slot)</b></td>
           <td><b>GT</b></td>
           <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>GT(x₁, x₂)</code> (Two elements)</td>
-          <td><code>true</code> if <code>x₁ &gt; x₂</code>, else <code>false</code>.</td>
+          <td><code>GT(x₁, x₂)</code> &nbsp;(or <code>x₁ &gt; x₂</code>)</td>
+          <td><code>true</code> if <code>x₁ &gt; x₂</code> (strictly below diagonal).</td>
         </tr>
         <tr>
           <td><b>LT</b></td>
           <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>LT(x₁, x₂)</code> (Two elements)</td>
-          <td><code>true</code> if <code>x₁ &lt; x₂</code>, else <code>false</code>.</td>
+          <td><code>LT(x₁, x₂)</code> &nbsp;(or <code>x₁ &lt; x₂</code>)</td>
+          <td><code>true</code> if <code>x₁ &lt; x₂</code> (strictly above diagonal).</td>
         </tr>
         <tr>
+          <td><b>LE (≤)</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>LE(x₁, x₂)</code> &nbsp;(or <code>x₁ ≤ x₂</code>)</td>
+          <td><code>true</code> if <code>x₁ ≤ x₂</code> (upper triangle + diagonal).</td>
+        </tr>
+        <tr>
+          <td><b>EQ (=)</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>EQ(x₁, x₂)</code> &nbsp;(or <code>x₁ = x₂</code>)</td>
+          <td><code>true</code> if <code>x₁ = x₂</code> (the pure main diagonal).</td>
+        </tr>
+        <!-- Arithmetic & Structure -->
+        <tr>
+          <td rowspan="3"><b>Arithmetic &amp; Proximity</b></td>
+          <td><b>SUCC (+1)</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>SUCC(x₁, x₂)</code> &nbsp;(or <code>x₂ = x₁ + 1</code>)</td>
+          <td><code>true</code> if <code>x₂ = x₁ + 1</code> (the successor line).</td>
+        </tr>
+        <tr>
+          <td><b>DIV (∣)</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>DIV(x₁, x₂)</code> &nbsp;(or <code>x₁ ∣ x₂</code>)</td>
+          <td><code>true</code> if <code>x₁ ≠ 0</code> and <code>x₂ mod x₁ = 0</code> (divisibility sieve).</td>
+        </tr>
+        <tr>
+          <td><b>NEAR (≈)</b></td>
+          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
+          <td><code>NEAR(x₁, x₂)</code> &nbsp;(or <code>x₁ ≈ x₂</code>)</td>
+          <td><code>true</code> if <code>|x₁ - x₂| ≤ 1</code> (tridiagonal monad band).</td>
+        </tr>
+        <!-- Set Relations -->
+        <tr>
+          <td rowspan="2"><b>Set Relations</b></td>
           <td><b>∈ (Membership)</b></td>
           <td align="center"><code>ℕ × 𝒫(ℕ) → 𝔹</code></td>
-          <td><code>(x ∈ y)</code> (Element in subset)</td>
-          <td><code>true</code> if <code>x</code> is a member of subset <code>y</code>.</td>
+          <td><code>(x ∈ y)</code></td>
+          <td><code>true</code> if element <code>x</code> belongs to subset <code>y</code>.</td>
+        </tr>
+        <tr>
+          <td><b>⊆ (Inclusion)</b></td>
+          <td align="center"><code>𝒫(ℕ) × 𝒫(ℕ) → 𝔹</code></td>
+          <td><code>(y₁ ⊆ y₂)</code></td>
+          <td><code>true</code> if every member of <code>y₁</code> is also in <code>y₂</code>.</td>
         </tr>
       </tbody>
     </table>
+
+    <h4>III. The Geometric Signature on the 2D Matrix</h4>
+    <p>
+      Jill stared at the table, fascinated. “Jack, when we evaluate a 2-slot predicate on <code>ℕ × ℕ</code>, each predicate creates a totally unique picture on the Boolean grid!”
+    </p>
+
+    <p>
+      “You’ve hit upon the core visual intuition,” Jack beamed. “Every relation has an unmistakable geometric fingerprint:
+    </p>
+    <ul>
+      <li><b>Equality (<code>=</code>):</b> Lights up the sharp 1-pixel <b>main diagonal</b> (<code>x₁ = x₂</code>).</li>
+      <li><b>Successor (<code>+1</code>):</b> Shifts that line by exactly one position onto the <b>first superdiagonal</b> (<code>x₂ = x₁ + 1</code>), representing the discrete counting step.</li>
+      <li><b>Adjacency / Monad (<code>≈</code>):</b> Thickens the diagonal into a <b>3-pixel wide tridiagonal ribbon</b> (<code>|x₁ - x₂| ≤ 1</code>). In our upcoming module on continuous numbers, when the step size shrinks to infinitesimal <code>dx = 1/ω</code>, this exact relation defines the <b>infinitesimal monad</b>—the cluster of all points indistinguishable from each other!</li>
+      <li><b>Divisibility (<code>∣</code>):</b> Paints a rich, harmonic <b>arithmetic sieve</b>: Column 1 is 100% lit, Column 2 lights every even row, Column 3 every third row, revealing prime numbers as rows with exactly two active cells.</li>
+      <li><b>Inclusion (<code>⊆</code>):</b> Compares two full columns of the Power Set Incidence Matrix, checking whether the active bits of <code>y₁</code> are a sub-pattern of <code>y₂</code>.</li>
+    </ul>
 
     <hr>
 

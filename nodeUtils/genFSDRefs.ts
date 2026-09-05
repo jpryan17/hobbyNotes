@@ -82,6 +82,47 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
       const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
       slotsList.push(normV1);
       return 'v';
+    })
+    .replace(/ODD\s*\(\s*([a-z0-9_]+)\s*\)/gi, (_, v1) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1);
+      return 'd';
+    })
+    .replace(/EQ\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'k';
+    })
+    .replace(/LE\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'l';
+    })
+    .replace(/SUCC\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'u';
+    })
+    .replace(/NEAR\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'w';
+    })
+    .replace(/DIV\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      const normV2 = v2.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+      slotsList.push(normV1, normV2);
+      return 'c';
+    })
+    .replace(/SUBSET\s*\(\s*([a-z0-9_]+)\s*,\s*([a-z0-9_]+)\s*\)/gi, (_, v1, v2) => {
+      const normV1 = v1.replace(/y1|y_1/g, 'y₁').replace(/y2|y_2/g, 'y₂');
+      const normV2 = v2.replace(/y1|y_1/g, 'y₁').replace(/y2|y_2/g, 'y₂');
+      slotsList.push(normV1, normV2);
+      return 'b';
     });
 
   // Map remaining bare predicate identifiers if any
@@ -91,6 +132,13 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
     .replace(/GT|PG/g, () => { slotsList.push('x₁', 'x₂'); return 'r'; })
     .replace(/LT|PL/g, () => { slotsList.push('x₁', 'x₂'); return 's'; })
     .replace(/EVEN/g, () => { slotsList.push('x₁'); return 'v'; })
+    .replace(/ODD/g, () => { slotsList.push('x₁'); return 'd'; })
+    .replace(/EQ/g, () => { slotsList.push('x₁', 'x₂'); return 'k'; })
+    .replace(/LE|≤/g, () => { slotsList.push('x₁', 'x₂'); return 'l'; })
+    .replace(/SUCC/g, () => { slotsList.push('x₁', 'x₂'); return 'u'; })
+    .replace(/NEAR|≈/g, () => { slotsList.push('x₁', 'x₂'); return 'w'; })
+    .replace(/DIV|∣/g, () => { slotsList.push('x₁', 'x₂'); return 'c'; })
+    .replace(/SUBSET|⊆/g, () => { slotsList.push('y₁', 'y₂'); return 'b'; })
     .replace(/\\in|∈|∊|MEM/g, () => { slotsList.push('x₁', 'y₁'); return 'm'; });
 
   // Map logical connectives
@@ -105,7 +153,7 @@ export function normalizeToFSDExp(str: string): { exp: string; quantifiers: stri
 
   let exp = '';
   for (const char of expBody) {
-    if ('pqrsmvnaoie[]'.includes(char)) {
+    if ('pqrsmvnaoie[]dkulwcb'.includes(char)) {
       exp += char;
     }
   }
