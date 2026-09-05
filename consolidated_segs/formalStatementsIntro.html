@@ -210,32 +210,14 @@
       <li><b>Power Set Incidence:</b> Click <fsd-ref exp="m" quantifiers="∃x₁:ℕ ∀y₁:𝒫(ℕ)" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ, ∀y₁:𝒫(ℕ) [ (x₁ ∈ y₁) ]</fsd-ref> to view the <code>4 × 16</code> Power Set Incidence Matrix for base set <code>ℕ₄ = {1, 2, 3, 4}</code>.</li>
     </ul>
 
+    <p>
+      In <b>Lecture 1</b>, we explore sets, tuples, constructors, the 4 tiers of quantifier strength, and our expanded library of built-in predicates. 
+      In <b>Lecture 2</b>, we lift Boolean operations into the full <b>Algebra of Sets</b> (unions, intersections, complements, and bounded domain comprehension).
+    </p>
+
     <hr>
 
-    <h3>6. Looking Ahead: Modern Bounded Domains, Interactive Proofs &amp; State Spaces</h3>
-    <p>
-      As we transition from introductory concepts to hands-on formalization, our curriculum bridges visual geometric intuition, computational evaluation, and modern mathematical foundations across three key horizons:
-    </p>
-
-    <h4>I. The Road Through Formal Statements (Lectures 1 &amp; 2)</h4>
-    <p>
-      In the upcoming lectures of this module, we systematically build the formal apparatus:
-    </p>
-    <ul>
-      <li>
-        <b>Lecture 1 (Sets, Tuples &amp; Constructors):</b> Grounded in Zermelo–Fraenkel (ZF) set theory, we build objects using the product constructor (<code>×</code>) and directed pairs (<code>→</code>). 
-        We formalize open predicates as functions into <code>𝔹 = {0, 1}</code>, master the <b>Second-Order Table of Strength</b> (the 4 quantifier tiers from unyielding <code>∀x ∀y</code> to custom-fit <code>∀y ∃x</code>), and introduce an expanded library of built-in arithmetic, order, and set predicates (<code>GT5</code>, <code>LT10</code>, <code>EVEN</code>, <code>ODD</code>, <code>GT</code>, <code>LT</code>, <code>LE</code>, <code>EQ</code>, <code>SUCC</code>, <code>DIV</code>, <code>NEAR</code>, <code>∈</code>, and <code>⊆</code>).
-      </li>
-      <li>
-        <b>Lecture 2 (The Semantics of the Algebra of Sets):</b> We show that set theory is not an isolated discipline, but Boolean propositional logic lifted directly to collections: intersection (<code>⋂</code>) is conjunction (<code>∧</code>), union (<code>⋃</code>) is disjunction (<code>∨</code>), and complementation (<code>⁻</code>) is negation (<code>¬</code>). 
-        We explore the <code>4 × 16</code> Power Set Incidence Matrix for <code>𝒫(ℕ₄)</code> and examine how domain guards illuminate and shade active subgrids of truth.
-      </li>
-      <li>
-        <b>Interactive Mastery in FSD:</b> Students test every quantified statement live in the <b>Formal Statement Demo (FSD)</b>, watching 2D Boolean matrices light up in real time to verify theoretical claims.
-      </li>
-    </ul>
-
-    <h4>II. Pedagogical Shift: Classical Textbook Logic vs. Modern Bounded Domains</h4>
+    <h3>6. Pedagogical Note: Classical Textbook Logic vs. Modern Bounded Domains</h3>
     <p>
       For instructors and advanced readers, it is worth highlighting why our curriculum replaces classical un-typed first-order logic formulas with <b>typed bounded quantification</b>.
     </p>
@@ -274,19 +256,23 @@
       <li><b>Computational Evaluation:</b> In FSD, bounded domains allow immediate, reactive evaluation over active subgrids (such as triangular staircase slices), giving students visual, tactile intuition for quantified truth.</li>
     </ul>
 
+    <div style="background-color: #f0f9ff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin: 18px auto; max-width: 760px; font-size: 0.88em; line-height: 1.6; color: #0c4a6e;">
+      <b>🛠️ Interactive Theorem Proving: FSD &amp; The Embedded Lean 4 Engine</b><br>
+      While formal proof assistants like <b>Lean 4</b> operate under strict computer code syntax, our curriculum unifies machine verification with human visual intuition. 
+      The <b>Formal Statement Demo (FSD)</b> and <b>TTD</b> turn formal quantifier bindings into interactive, tactile 2D matrix grids so students master logical structure geometrically. 
+      Under the hood, these statements map directly into our embedded <b>Lean 4 / Mathlib</b> proof environment, allowing students to verify truth visually on the matrix grid and simultaneously inspect machine-checked formal proofs in real time.<br><br>
+      Explore our interactive proof verification cards throughout the curriculum, or learn more about the formal proof revolution at the <a href="https://leanprover-community.github.io/" target="_blank" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Lean Community Project</a>.
+    </div>
+
     <p>
       <b>Instructor Note on Quantifier Order &mdash; Implicit vs. Explicit:</b><br>
       Many instructors recall that their own first <i>explicit</i> encounter with the strict necessity of quantifier order occurred in advanced analysis when distinguishing <b>pointwise convergence</b> (<code>∀x ∀ε ∃N ...</code>, where <code>N</code> depends on <code>x</code>) from <b>uniform convergence</b> (<code>∀ε ∃N ∀x ...</code>, where a master <code>N</code> works universally). 
       Yet, as our curriculum highlights, elementary students already <i>implicitly</i> understand and leverage this exact mechanism every day in basic arithmetic: recognizing that <i>"every number has a successor"</i> (<code>∀x ∃y [y > x]</code>) is completely different from the false claim of a <i>"single king number greater than all numbers"</i> (<code>∃y ∀x [y > x]</code>).
     </p>
 
-    <div style="background-color: #f0f9ff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin: 18px auto; max-width: 760px; font-size: 0.88em; line-height: 1.6; color: #0c4a6e;">
-      <b>🛠️ The Bridge to Interactive Theorem Proving (Lean 4)</b><br>
-      While formal proof assistants like <b>Lean 4</b> operate under strict computer code syntax, our curriculum uses <b>FSD (Formal Statement Demo)</b> and <b>TTD</b> as a student-friendly bridge. FSD turns formal quantifier bindings into interactive, visual matrix grids so students master logical structure intuitively—preparing them for the formal proof engines of modern mathematics without being bogged down by complex code syntax.<br><br>
-      For curious instructors and advanced readers interested in how modern software formally verifies mathematics, explore the <a href="https://leanprover-community.github.io/" target="_blank" style="color: #0284c7; font-weight: bold; text-decoration: underline;">Lean Community Project</a>.
-    </div>
+    <hr>
 
-    <h4>III. Horizon Ahead: Constructing Number Lines &amp; State Spaces</h4>
+    <h3>7. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
     <p>
       Having established the language of formal statements, predicates, and Cartesian products, we possess the exact formal machinery needed to construct number systems. 
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
