@@ -32,9 +32,11 @@
     “In quantum mechanics, time evolution is driven by the energy Hamiltonian operator <code>H</code> through a <b>continuous unitary group map</b>:”
   </p>
 
+  <fsd-ref tier="3" scaffold="unitary_preservation" title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)">
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
   </div>
+  </fsd-ref>
 
   <p>
     Jane pointed to the exponent: “Notice how the mathematical pieces we've built snap together:”
@@ -59,7 +61,8 @@
     </li>
   </ul>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger Equation):</b><br>
     Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space <code>H</code>.
     <ol style="margin: 6px 0 0 18px;">
@@ -76,6 +79,7 @@
       <li><b>Probability Conservation:</b> Continuous quantum state dynamics preserves total Bayesian prior probability without dissipation.</li>
     </ol>
   </div>
+  </fsd-ref>
 
   <hr>
 
@@ -88,9 +92,11 @@
   <p>
     The total probability is normalized through our hyperfinite integral:
   </p>
+  <fsd-ref tier="3" scaffold="hyper_sum" title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)">
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
     <b>∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx ) &nbsp;=&nbsp; 1</b>
   </div>
+  </fsd-ref>
 
   <p>
     “When a detector at position <code>x</code> registers the particle, the prior state <code>|ψ⟩</code> undergoes a <b>Bayesian likelihood update (state collapse)</b>, projecting into the detected state. The Born rule <code>P(x) = |ψ(x)|²</code> is the exact bridge between linear Hilbert geometry and observational Bayesian inference!”
@@ -148,7 +154,8 @@
     </li>
   </ol>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Emergent Phase Transitions):</b><br>
     Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition function of an <code>N</code>-particle system.
     <ol style="margin: 6px 0 0 18px;">
@@ -161,6 +168,7 @@
       <li><b>Macroscopic Singularity:</b> The free energy per particle <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a non-analytic derivative singularity at <code>T_c</code>, giving rise to physical latent heat and spontaneous symmetry breaking.</li>
     </ol>
   </div>
+  </fsd-ref>
 
   <p>
     Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”

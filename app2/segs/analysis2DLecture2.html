@@ -72,11 +72,14 @@
     Because the Cauchy-Riemann equations guarantee that circulation around every unpunctured microscopic square is zero, the total loop integral must be <b>identically zero</b>:
   </p>
 
+  <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="Cauchy Closed Loop Circulation (∮ f(z) dz = 0)">
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
   </div>
+  </fsd-ref>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="cauchy_edge_cancel" title="FS-A2D-2.1: Cauchy's Integral Theorem & 2D Edge Cancellation">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-2.1 (Cauchy's Integral Theorem &amp; 2D Edge Cancellation):</b><br>
     Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
     <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -88,6 +91,7 @@
     </div>
     All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.
   </div>
+  </fsd-ref>
 
   <hr>
 
@@ -114,7 +118,8 @@
     <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
   </div>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: The Residue Theorem & Logarithmic Root Counting">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
     Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
     <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -125,6 +130,7 @@
       <b>( 1 / 2π i ) ∮_γ [ f'(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
     </div>
   </div>
+  </fsd-ref>
 
   <hr>
 
@@ -134,9 +140,11 @@
     “Finally,” Jane said, “look at what happens when we integrate the logarithmic derivative <code>f'(z) / f(z)</code> around a loop <code>γ</code>:”
   </p>
 
+  <fsd-ref tier="3" scaffold="residue_theorem" title="Logarithmic Derivative Root Counter">
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>( 1 / 2π i ) · ∮_γ [ f'(z) / f(z) ] dz &nbsp;=&nbsp; Number of Zeros of f(z) inside γ</b>
   </div>
+  </fsd-ref>
 
   <p>
     Jill’s eyes widened: “A continuous loop integral acts as an <b>exact integer counter</b> for how many roots are trapped inside!”

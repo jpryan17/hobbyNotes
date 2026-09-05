@@ -56,7 +56,8 @@
     “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, requiring a function to be <b>complex differentiable</b> imposes an astonishingly powerful geometric symmetry!”
   </p>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: 2D Complex Continuum (ℂ_ω)">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
     The hyperfinite complex continuum is the tensor product of two 1D tree transects:
     <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -68,6 +69,7 @@
     </div>
     This generates a seamless tiling of <code>2ⁿ × 2ⁿ = 4ⁿ</code> square micro-cells with shared 1D boundary walls.
   </div>
+  </fsd-ref>
 
   <hr>
 
@@ -94,9 +96,11 @@
     Equating the horizontal and vertical slopes gives the famous <b>Cauchy-Riemann Equations</b>:
   </p>
 
+  <fsd-ref tier="3" scaffold="Holomorphic" title="Cauchy-Riemann Coordinate Symmetry">
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
   </div>
+  </fsd-ref>
 
   <hr>
 
@@ -141,7 +145,8 @@
     “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
   </p>
 
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+  <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Invariance">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
     <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
     Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
     <ol style="margin: 6px 0 0 18px;">
@@ -154,6 +159,7 @@
       <li><b>Conformal Invariance:</b> The linear map scales by <code>|f'(z)|</code> and rotates by <code>arg(f'(z))</code>, strictly preserving oriented angles and orthogonality.</li>
     </ol>
   </div>
+  </fsd-ref>
 
   <p>
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”

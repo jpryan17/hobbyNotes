@@ -32,7 +32,8 @@
       <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
     </div>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
       The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -40,6 +41,7 @@
       </div>
       Every point <code>z ∈ ℂ_ω</code> is tiled by infinitesimal <code>dx × dy</code> square cells with step <code>dz = dx + i·dy</code>, yielding a seamless 2D continuum with zero gaps.
     </div>
+    </fsd-ref>
 
     <div style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
       <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
@@ -62,7 +64,8 @@
       </li>
     </ul>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Maps">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Maps):</b><br>
       A function <code>f(z) = u(x,y) + i·v(x,y)</code> is complex differentiable if and only if horizontal and vertical infinitesimal slopes coincide:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -70,6 +73,7 @@
       </div>
       Geometrically, every microscopic square cell maps to another un-sheared square, preserving angles and local shapes.
     </div>
+    </fsd-ref>
 
     <hr>
     <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
@@ -83,7 +87,8 @@
       <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside. Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
     </p>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="FS-A2D-2.1: Cauchy's Integral Theorem & Boundary Cancellation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-2.1 (Cauchy's Integral Theorem &amp; Boundary Cancellation):</b><br>
       For any holomorphic function <code>f(z)</code> on a simply connected domain enclosing loop <code>γ</code>, tiling the interior into micro-cells <code>□_k</code> gives:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -91,8 +96,10 @@
       </div>
       Every shared internal cell edge is traversed in opposing directions (<code>↑ + ↓ = 0</code>, <code>→ + ← = 0</code>), leaving net boundary circulation zero.
     </div>
+    </fsd-ref>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: Residues & Logarithmic Root Counting">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-2.2 (Residues &amp; Logarithmic Root Counting):</b><br>
       When isolated poles <code>z_k</code> puncture the region, closed loop integration counts vortex circulations:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
@@ -100,6 +107,7 @@
       </div>
       Continuous contour integrals act as exact integer counters for enclosed roots.
     </div>
+    </fsd-ref>
 
     <hr>
     <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp; Phase Transitions</h3>
@@ -114,13 +122,15 @@
       <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
     </div>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Continuous Unitary Evolution & Schrödinger Equation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-3.1 (Continuous Unitary Evolution &amp; Schrödinger Equation):</b><br>
       Self-adjointness of the Hamiltonian (<code>H = H†</code>) guarantees that time evolution <code>U(t) = e^(-i H t / ħ)</code> is unitary (<code>U(t)† U(t) = I</code>), preserving total probability. Differentiating with respect to time yields the continuous Schrödinger equation:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
         <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
       </div>
     </div>
+    </fsd-ref>
 
     <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
     <p>
@@ -132,10 +142,12 @@
       <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
     </ul>
 
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Phase Transitions">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Phase Transitions):</b><br>
       For any finite system, partition zeros lie strictly off the real line in <code>ℂ_ω \ ℝ</code>. In the transfinite continuum limit (<code>N = ω</code>), the zero distribution pinches the real line at critical point <code>T_c</code>, inducing a non-analytic kink in free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> that manifests as a macroscopic phase transition.
     </div>
+    </fsd-ref>
 
     <hr>
     <h3>Course 3 Lecture Plan</h3>
