@@ -58,21 +58,18 @@
           mathematical hallucinations</b>. </p>
       <h3>2. Dual-Layer Paradigm</h3>
       <ul>
-        <li><b>Layer 1 (The Soundness Anchor):</b> Lean 4 / Maxima
-          kernel running via WebAssembly / WebSocket. Evaluates proof
-          steps with 100% logical rigor.</li>
-        <li><b>Layer 2 (The Conversational Interpreter):</b> LLM agent
-          frontend that translates raw compiler diagnostics into
-          friendly, Socratic pedagogical hints.</li>
+        <li><b>Layer 1 (The Soundness Anchor — 2-Tier Formal Verification):</b> Lean 4 kernel running via WebSocket / WebAssembly coupled with the <b>2-Tier Formal Verification Model</b>. Evaluates interactive student proof steps (Tier 1) with 100% logical rigor while anchoring complex continuum and calculus domains to machine-checked constitutional scaffolds (Tier 3 in <code>MiddleWayLean/Scaffold.lean</code>).</li>
+        <li><b>Layer 2 (The Conversational Interpreter):</b> Conversational LLM agent frontend that inspects Lean 4 kernel proof states, prominent Unicode mathematical propositions, and step-by-step deductive checks to synthesize friendly, Socratic pedagogical hints with <b>zero mathematical hallucinations</b>.</li>
       </ul>
 
       <div class="box-emerald">
-        <b>Validated Intermediate Representation: The FSD Recursive AST</b><br>
-        To prevent the LLM agent from hallucinating over raw compiler diagnostics, the architecture leverages the client-side semantic layer operational on <code>middlewaymath.app</code> (the <b>Formal Statements Demonstrator</b>):
+        <b>Validated Pedagogical Representation: The FSD &amp; Lean 4 Scaffold Engine</b><br>
+        To prevent the LLM agent from hallucinating over raw compiler diagnostics, the architecture leverages the client-side semantic layer and pre-computed verification cache operational on <code>middlewaymath.app</code>:
         <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-          <li><b>Recursive Syntax Tree Traces:</b> Evaluates expressions as structured trees (<code>evalNode</code>) over bounded sets (<code>ℕ_≤10</code>, <code>∅</code>, composite subsets).</li>
-          <li><b>Deterministic Counterexample Grounding:</b> Pinpoints the exact failing variable binding (e.g., <code>{ x₁: 3, left: False, right: False }</code>) across the domain matrix.</li>
-          <li><b>Zero-Hallucination Socratic Prompts:</b> Provides the conversational LLM with explicit symbolic coordinates for targeted pedagogical hints.</li>
+          <li><b>Prominent Propositions &amp; Deductive Checks:</b> Directly feeds the conversational agent structured, human-readable Unicode propositions (e.g., <code>∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑ ΔF = F(n) - F(0) ]</code>) and step-by-step verification checks rather than opaque type-checker errors.</li>
+          <li><b>Recursive Syntax Tree Traces:</b> Evaluates expressions as structured trees (<code>evalNode</code>) over bounded sets, pinpointing exact failing variable bindings (e.g., <code>{ x₁: 3, left: False, right: False }</code>) for instant counterexample grounding.</li>
+          <li><b>Constitutional Scaffold Anchoring:</b> Guarantees that continuous and nonstandard calculus concepts (infinitesimals <code>dx = 1/ω</code>, Cauchy closed contour circulation, unitary phase preservation) rest on formally proven Lean 4 theorems.</li>
+          <li><b>Zero-Latency Cached Verification:</b> Connects to build-time pre-computed Lean 4 kernel certifications (<code>Q.E.D. ✓</code> in milliseconds), eliminating cold-start latency during live student tutoring.</li>
         </ul>
       </div>
 

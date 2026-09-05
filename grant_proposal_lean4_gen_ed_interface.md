@@ -48,29 +48,28 @@ Standard STEM education forces a choice:
 
 ## 2. Key Technical Innovations
 
-### Innovation 1: The 4-Domain "Middle Way Lean" Subset Schema
-Rather than exposing the entirety of Lean 4's Mathlib, the interface constrains Lean 4 to four curated pedagogical modules:
-1. **Module 1: Propositional Logic**: Visual truth-table proofs, modus ponens, and De Morgan’s laws.
-2. **Module 2: Constructive Set & Tuple Theory**: Building sets and tuples step-by-step from the empty set root `0 = { | }`.
-3. **Module 3: Discrete Hyperfinite Transects (`ℝ_ω, ℂ_ω`)**: Proving telescoping derivatives `st(Δy / dx)` and discrete sums on Day `ω` trees with step `dx = 1/ω`.
-4. **Module 4: Bayesian State-Space Projections**: Visual state space proofs and probability updating.
+### Innovation 1: The 2-Tier Formal Verification Model
+Rather than exposing the raw, unconstrained type theory of Lean 4's Mathlib, the interface organizes mathematical content into two coordinated formal tiers:
+1. **Tier 1 (Interactive Ground)**: Evaluates live first-order statements (propositional logic, set constructors `0 = { | }`, bounded quantifiers `∀x₁:ℕ`, `∃x₁:ℕ`) through instant in-browser semantic AST evaluation paired with dual Lean 4 arithmetic/inductive certification (`by decide`, `by omega`).
+2. **Tier 3 (Constitutional Scaffolds)**: Directly anchors higher-order foundational theorems—including the Day `ω` hyperfinite transect (`ℝ_ω, ℂ_ω`), the telescoping Fundamental Theorem of Calculus, Cauchy closed loop circulation (`∮ f(z) dz = 0`), and unitary state preservation—to machine-checked proofs in [`MiddleWayLean/Scaffold.lean`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/MiddleWayLean/Scaffold.lean).
 
-### Innovation 2: The Tactic Shield Middleware
-* **Syntactic Insulation**: The student never types raw Lean 4 code. The UI renders proofs as intuitive visual block trees or structured natural language statements.
-* **Real-Time Translation**: The middleware continuously generates valid Lean 4 syntax in the background and queries the Lean 4 verification service via low-latency WebSocket / HTTP API.
-* **Friendly Diagnostic Translator**: Lean 4 error messages (e.g., type mismatches or unfulfilled goals) are translated into clear, actionable visual hints (e.g., *"Missing step: Remember to apply the negation rule first"*).
+### Innovation 2: Prominent Unicode Propositions & Deductive Verification Cards
+* **Clutter-Free Mathematical Clarity**: The student interface rejects dense LaTeX syntax and black-box outputs, presenting prominent, human-readable Unicode propositions (e.g., `∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]`).
+* **Transparent Deductive Argumentation**: Every card breaks down the argument establishing Boolean truth into explicit verification checks (e.g., Base Case, Inductive Step, Telescoping Identity) alongside a syntax-highlighted establishing Lean 4 code block.
 
-### Innovation 3: High-Availability Cloud Verification Service & Learning Telemetry
-* **Zero-Install Equity Across Devices**: Rather than imposing massive 50–100MB compiler downloads and browser memory exhaustion on student devices, a containerized Lean 4 verification microservice delivers sub-second proof checks over HTTP/WebSocket.
-* **Flawless Multi-Platform Compatibility**: Runs effortlessly on budget student Chromebooks, school iPads, tablets, and smartphones with equal speed.
+### Innovation 3: Hybrid Architecture — Static Kernel Pre-computation + High-Availability Cloud Microservice
+* **Zero-Cost, Zero-Latency Static Scaling**: A build-time generator utility (`genLeanCache`) verifies theorems directly against the Lean 4 kernel and caches pre-computed `Q.E.D. ✓` proofs and exact execution timings. 100% of standard curriculum reading on `middlewaymath.app` delivers instantaneous, kernel-certified truth without burning cloud compute or exhausting student device memory.
+* **Seamless Cloud Microservice Hand-off**: When students venture into the open-ended Statement Editor to construct novel propositions or fill in proof tactics (`sorry`), the interface dynamically calls the containerized Lean 4 cloud verification microservice.
+* **Flawless Multi-Platform Equity**: Runs effortlessly on budget student Chromebooks, school iPads, tablets, and smartphones with equal speed.
 * **Empirical Learning Telemetry**: Centralizes anonymized learner interaction data (tactic sequences, common fallacy patterns, time-to-proof, and goal cascade drop-offs) to provide educational researchers with rigorous empirical evidence of pedagogical effectiveness.
 
-### Preliminary Validated Prototype: The FSD Engine
-The conceptual feasibility of this architecture is grounded in an already operational, client-side proof-of-concept deployed on `middlewaymath.app`: the **Formal Statements Demonstrator (FSD)**:
-* **Recursive Syntax Tree (`evalNode`) Evaluation**: Real-time evaluation of composite logical formulas (disjunction `poq`, conjunction `paq`, negation `np`, and set operations) directly in client TypeScript/JavaScript.
-* **Bounded Domain Grounding**: Translates abstract quantifiers (`∀x₁:ℕ`, `∃x₁:ℕ`) over bounded sets (e.g., `ℕ_≤10`, `EMPTY ∅`, composite subsets) into deterministic matrix truth tables with zero latency.
-* **Declarative `<fsd-ref>` Component Harness**: Embeds interactive, click-and-evaluate formal statements inside curriculum lectures, providing immediate visual verification without requiring learners to touch a terminal or code editor.
-* **De-risking the Grant Scope**: Because the pedagogical visual layer and recursive AST evaluator are already built and field-tested, the grant focus shifts from speculative frontend prototyping to direct engineering of the Lean 4 verification service bridge and telemetry pipeline.
+### Preliminary Validated Prototype: The FSD & Lean 4 Curriculum Engine
+The conceptual feasibility of this architecture is grounded in an already operational, client-side proof-of-concept deployed across the entire curriculum on `middlewaymath.app` (Vectors, Analysis 1D, Bayesian Inference, Analysis 2D):
+* **Universal Curriculum Grounding**: Over 50 lecture modules actively deploy interactive `<fsd-ref>` elements linking informal text to machine-checked formal arguments.
+* **Constitutional Scaffold Reflection**: Foundational declarations in `MiddleWayLean/Scaffold.lean` (`telescoping_ftc`, `hyper_sum`, `st`, `C_w`, `Holomorphic`, `cauchy_integral_theorem`, `residue_theorem`, `unitary_preservation`, `lee_yang_zero_pinch`) are dynamically reflected and certified.
+* **Deterministic Truth & Proof Synthesis**: Recursive AST traversal evaluates bounded predicates in sub-millisecond time, backed by dual Lean 4 arithmetic and inductive proofs.
+* **Radical De-risking**: Reviewers can test the working interface today in any standard browser without installing Lean 4 or configuring compilers. Grant funding shifts directly from speculative R&D to multi-tenant cloud orchestration, open-ended student proof synthesis, and empirical learning telemetry.
+
 
 ---
 
