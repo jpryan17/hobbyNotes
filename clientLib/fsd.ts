@@ -1572,6 +1572,7 @@ export class FSD extends PXEParent {
             title: "Formal Reasoning (Existential Witness)",
             verdict: true,
             target: `Find ${v} in ${formatDomainSpec(spec)} satisfying statement`,
+            expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
             testOrPickLabel: "Pick",
             testOrPickValue: `${v} = ${witness}`,
             checks: [
@@ -1586,6 +1587,7 @@ export class FSD extends PXEParent {
             title: "Formal Reasoning (Existential Refutation)",
             verdict: false,
             target: `Find ${v} in ${formatDomainSpec(spec)} satisfying statement`,
+            expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
             testOrPickLabel: "Scenario",
             testOrPickValue: `Tested elements in ${formatDomainSpec(spec)} (up to N=${N})`,
             checks: [
@@ -1603,6 +1605,7 @@ export class FSD extends PXEParent {
             title: "Formal Reasoning (Universal Counterexample)",
             verdict: false,
             target: `Verify that condition holds for ALL ${v} in ${formatDomainSpec(spec)}`,
+            expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
             testOrPickLabel: "Test",
             testOrPickValue: `Pick ${v} = ${counterEx} (valid element in domain)`,
             checks: [
@@ -1618,6 +1621,7 @@ export class FSD extends PXEParent {
             title: "Formal Reasoning (Universal Verification)",
             verdict: true,
             target: `Verify that condition holds for ALL ${v} in ${formatDomainSpec(spec)}`,
+            expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
             testOrPickLabel: "Scenario",
             testOrPickValue: `All elements tested in ${formatDomainSpec(spec)}`,
             checks: [
@@ -1645,6 +1649,7 @@ export class FSD extends PXEParent {
           title: "Formal Reasoning (Universal-Existential ∀∃)",
           verdict: true,
           target: `For every ${v0} in ${formatDomainSpec(dom0)}, show there exists a matching ${v1} in ${formatDomainSpec(dom1)}`,
+          expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
           testOrPickLabel: "Pick",
           testOrPickValue: `Given any row ${v0}, select matching column ${v1} (e.g. ${v0} + 1)`,
           checks: [
@@ -1659,6 +1664,7 @@ export class FSD extends PXEParent {
           title: "Formal Reasoning (Universal-Existential Refutation)",
           verdict: false,
           target: `For every ${v0} in ${formatDomainSpec(dom0)}, show there exists a matching ${v1} in ${formatDomainSpec(dom1)}`,
+          expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
           testOrPickLabel: "Test",
           testOrPickValue: `Failing row ${v0} in ${formatDomainSpec(dom0)}`,
           checks: [
@@ -1675,6 +1681,7 @@ export class FSD extends PXEParent {
           title: "Formal Reasoning (Master-Key ∃∀)",
           verdict: true,
           target: `Find a single column ${v0} that works for ALL rows ${v1}`,
+          expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
           testOrPickLabel: "Pick",
           testOrPickValue: `Master Key column ${v0}`,
           checks: [
@@ -1688,6 +1695,7 @@ export class FSD extends PXEParent {
           title: "Formal Reasoning (Master-Key ∃∀ Refutation)",
           verdict: false,
           target: `Find a single column ${v0} in ${formatDomainSpec(dom0)} that works for ALL rows ${v1}`,
+          expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
           testOrPickLabel: "Test",
           testOrPickValue: `Tested columns ${v0} in ${formatDomainSpec(dom0)}`,
           checks: [
@@ -1704,6 +1712,7 @@ export class FSD extends PXEParent {
       title: "Formal Reasoning",
       verdict: finalStatementTruth,
       target: expStr,
+      expression: expStr,
       testOrPickLabel: "Scenario",
       testOrPickValue: "Evaluated over active domain",
       checks: [

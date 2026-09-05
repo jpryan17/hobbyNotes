@@ -1,6 +1,7 @@
 import { Nav } from "./navFW.js";
 import { fsd, setFSD, parseDomainSpec, formatDomainSpec } from "./fsd.js";
 import { ArgumentCard } from "./argumentCard.js";
+import { getScaffoldReflection } from "./scaffoldReflection.js";
 export class FSDRef extends HTMLElement {
     static stdColor = "firebrick";
     static overColor = "fuchsia";
@@ -28,20 +29,7 @@ export class FSDRef extends HTMLElement {
             const choice = index.choices[index.chosen];
             const buttonText = `back to ${choice[0].topic}`;
             if (tier === "3") {
-                const formalArg = {
-                    title: "Constitutional Scaffold Guarantee (Tier 3)",
-                    verdict: true,
-                    target: titleAttr,
-                    testOrPickLabel: "Scaffold",
-                    testOrPickValue: `MiddleWayLean/Scaffold.lean → ${scaffold}`,
-                    checks: [
-                        { label: "Kernel Check", question: "Verified by Lean 4 kernel at compile time?", passed: true, detail: "→ Certified ✓" },
-                        { label: "Domain Scope", question: "Global transfinite theorem over ℝ_ω / ℂ_ω?", passed: true, detail: "→ Universal" }
-                    ],
-                    conflictOrSupport: "Anchored in constitutional Middle Way Lean 4 scaffold.",
-                    conclusion: `Formally certified by Lean 4 in MiddleWayLean/Scaffold.lean (${scaffold}).`,
-                    leanSnippet: `-- Constitutional Scaffold Theorem\n#check MiddleWay.${scaffold}`
-                };
+                const formalArg = getScaffoldReflection(scaffold, titleAttr);
                 window.scrollTo(0, 0);
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
