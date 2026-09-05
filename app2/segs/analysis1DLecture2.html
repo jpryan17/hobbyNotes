@@ -56,7 +56,7 @@
     • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
       <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
       has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
-    • <b>Derivative Value:</b> <code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code>.<br>
+    • <b>Derivative Value:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Derivative Definition"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
     • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.
   </div>
 
@@ -106,15 +106,15 @@
     Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b>
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Product Rule"><b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b></fsd-ref>
   </div>
 
   <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Product Rule:</b> <code>(uv)' = st( (u + du)(v + dv) - uv / dx ) = u·v' + v·u' + st((du/dx)·dv) = u·v' + v·u'</code>.<br>
+    • <b>Product Rule:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Product Rule"><code>(uv)' = u·v' + v·u'</code></fsd-ref>.<br>
     • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
     <div align="center" style="margin: 4px 0; font-family: monospace;">
-      dy/dx = (dy/du) · (du/dx) &nbsp;⇒&nbsp; st(dy/dx) = st(dy/du) · st(du/dx) = f'(g(x)) · g'(x)
+      <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
     </div>
   </div>
 
@@ -135,7 +135,7 @@
     Taking the standard part proves the Chain Rule directly:
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b>
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Chain Rule Composition"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
   </div>
 
   <hr>
@@ -149,7 +149,7 @@
     “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>df &nbsp;=&nbsp; f'(x) · dx</b>
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f'(x) · dx</b></fsd-ref>
   </div>
   <p>
     “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
@@ -159,7 +159,7 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
     • <b>Differential Form:</b> The differential <code>df = f'(x)·dx</code> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
-    • <b>Error Bound:</b> <code>|Δf - df| / dx ≈ 0</code>, confirming that every differentiable curve is infinitesimally straight.
+    • <b>Error Bound:</b> <fsd-ref exp="w" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.
   </div>
 
   <hr>

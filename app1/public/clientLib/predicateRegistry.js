@@ -147,6 +147,33 @@ export const DEFAULT_DOMAINS_DATA = {
             signature: ["N"],
             displayTemplate: "ODD(${s1})",
             evaluator: "(s1) => s1 % 2 !== 0"
+        },
+        {
+            id: "SUBSET",
+            code: "b",
+            symbol: "⊆",
+            arity: 2,
+            signature: ["P_N", "P_N"],
+            displayTemplate: "${s1} ⊆ ${s2}",
+            evaluator: "(s1, s2) => typeof s1 === 'number' && typeof s2 === 'number' ? ((s1 & s2) === s1) : true"
+        },
+        {
+            id: "NEAR",
+            code: "w",
+            symbol: "≈",
+            arity: 2,
+            signature: ["N", "N"],
+            displayTemplate: "${s1} ≈ ${s2}",
+            evaluator: "(s1, s2) => Math.abs(s1 - s2) <= 1"
+        },
+        {
+            id: "DIV",
+            code: "c",
+            symbol: "∣",
+            arity: 2,
+            signature: ["N", "N"],
+            displayTemplate: "${s1} ∣ ${s2}",
+            evaluator: "(s1, s2) => s1 !== 0 && s2 % s1 === 0"
         }
     ]
 };

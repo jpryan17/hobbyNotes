@@ -23,8 +23,8 @@
       Stripped of mechanical details, Boltzmann's ensemble framework is purely formal:
     </p>
     <ul>
-      <li><b>Microstates (<code>s ∈ Ω</code>):</b> The fundamental, individual elemental states (the leaves of our 2-successor tree).</li>
-      <li><b>Macrostates as Partitions:</b> When we only measure a macroscopic property (such as total energy or total heads), that measurement groups multiple microstates into an <b>equivalence class / composite event <code>E ⊂ Ω</code></b>.</li>
+      <li><b>Microstates:</b> <fsd-ref exp="m" quantifiers="∃x₁:ℕ, ∃y₁:𝒫(ℕ)" slots="x₁,y₁" title="Microstate in State Space">The fundamental, individual elemental states (<code>s ∈ Ω</code>).</fsd-ref></li>
+      <li><b>Macrostates as Partitions:</b> <fsd-ref exp="b" quantifiers="∀y₁:𝒫(ℕ), ∀y₂:𝒫(ℕ)" slots="y₁,y₂" title="Macrostate Partition Subset">When we measure a macroscopic property, it groups microstates into an <b>equivalence class / composite event <code>E ⊂ Ω</code></b>.</fsd-ref></li>
       <li><b>The Multiplicity (<code>W</code>):</b> The number of microscopic states in <code>Ω</code> that produce the exact same macroscopic observation (the size <code>|E| = W</code> of that subtree cone).</li>
       <li><b>The Ensemble Distribution:</b> A probability assignment <code>P(s)</code> over all states in <code>Ω</code> that honors our macroscopic knowledge without introducing speculative bias.</li>
     </ul>
@@ -54,7 +54,7 @@
       The <b>expected surprisal</b> across all possible microstates on the transect is the <b>Shannon Entropy</b>:
     </p>
     <div align="center">
-      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo><mo>≡</mo><mo>−</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>ω</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>p</mi><mi>k</mi></msub><mi>ln</mi><msub><mi>p</mi><mi>k</mi></msub></mrow><annotation encoding="TeX">H(P) ≡ -Σ_{k=0}^{ω-1} p_k ln p_k</annotation></semantics></math>
+      <fsd-ref tier="3" scaffold="hyper_sum" title="Shannon Entropy Summation"><b>H(P) ≡ -∑_{k=0}^{ω-1} p_k ln p_k</b></fsd-ref>
     </div>
     <p>
       <code>H(P)</code> measures our total average uncertainty about which microstate the system actually occupies.

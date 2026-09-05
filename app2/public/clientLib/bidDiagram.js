@@ -495,7 +495,7 @@ export class BIDDiagram extends SVGElt {
         const tLeft = centerX - tWidth / 2;
         // Draw Binary Tree up to depth d=3 (8 leaves)
         const levels = [
-            [{ x: centerX, y: treeY, label: '0 (Root)' }],
+            [{ x: centerX, y: treeY, label: '[ ]' }],
             [
                 { x: centerX - 180, y: treeY + 50, label: '[-]' },
                 { x: centerX + 180, y: treeY + 50, label: '[+]' },
@@ -506,16 +506,11 @@ export class BIDDiagram extends SVGElt {
                 { x: centerX + 90, y: treeY + 105, label: '[+-]' },
                 { x: centerX + 270, y: treeY + 105, label: '[++]' },
             ],
-            [
-                { x: tLeft + (1 / 16) * tWidth * 2, y: treeY + 160, label: '---' },
-                { x: tLeft + (3 / 16) * tWidth * 2, y: treeY + 160, label: '--+' },
-                { x: tLeft + (5 / 16) * tWidth * 2, y: treeY + 160, label: '-+-' },
-                { x: tLeft + (7 / 16) * tWidth * 2, y: treeY + 160, label: '-++' },
-                { x: tLeft + (9 / 16) * tWidth * 2, y: treeY + 160, label: '+--' },
-                { x: tLeft + (11 / 16) * tWidth * 2, y: treeY + 160, label: '+-+' },
-                { x: tLeft + (13 / 16) * tWidth * 2, y: treeY + 160, label: '++-' },
-                { x: tLeft + (15 / 16) * tWidth * 2, y: treeY + 160, label: '+++' },
-            ],
+            ['---', '--+', '-+-', '-++', '+--', '+-+', '++-', '+++'].map((label, i) => ({
+                x: tLeft + (i + 0.5) * (tWidth / 8),
+                y: treeY + 160,
+                label,
+            })),
         ];
         // Tree edges
         for (let d = 0; d < 3; d++) {
@@ -528,6 +523,8 @@ export class BIDDiagram extends SVGElt {
                 this.drawLine(g, p.x, p.y, rightChild.x, rightChild.y, '#ef4444', 1.5);
             });
         }
+        // Label Root cleanly above the root circle
+        this.addText(g, '0 (Root)', centerX, treeY - 20, 11, '#64748b', 'middle', true);
         // Tree nodes
         levels.forEach((lvl, d) => {
             lvl.forEach((node) => {
@@ -535,7 +532,7 @@ export class BIDDiagram extends SVGElt {
                 const circle = new SVGElt('circle');
                 circle.setAA(['cx', node.x, 'cy', node.y, 'r', r, 'fill', '#ffffff', 'stroke', '#1e293b', 'stroke-width', 2]);
                 g.append(circle);
-                this.addText(g, node.label, node.x, node.y + 4, d === 3 ? 8 : 10, '#1e293b', 'middle', true);
+                this.addText(g, node.label, node.x, node.y + 4, d === 3 ? 8.5 : 10, '#1e293b', 'middle', true);
             });
         });
         // Projection dashed lines down to transect

@@ -93,10 +93,10 @@
   <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, +, ·) over Field F</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Vector Space Definition:</b> A quadruple <code>(V, F, +, ·)</code> where <code>(V, +)</code> is an Abelian group and scalar multiplication <code>· : F × V → V</code> satisfies:<br>
-    &nbsp;&nbsp;1. Scalar Distributivity over Vectors: <code>c · (u + v) = c · u + c · v</code>.<br>
-    &nbsp;&nbsp;2. Field Distributivity over Scalars: <code>(a + b) · v = a · v + b · v</code>.<br>
-    &nbsp;&nbsp;3. Scalar Associativity: <code>(a · b) · v = a · (b · v)</code>.<br>
-    &nbsp;&nbsp;4. Scalar Identity: <code>1_F · v = v</code>.<br>
+    &nbsp;&nbsp;1. Scalar Distributivity over Vectors: <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Scalar Distributivity"><code>c · (u + v) = c · u + c · v</code></fsd-ref>.<br>
+    &nbsp;&nbsp;2. Field Distributivity over Scalars: <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Field Distributivity"><code>(a + b) · v = a · v + b · v</code></fsd-ref>.<br>
+    &nbsp;&nbsp;3. Scalar Associativity: <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Scalar Associativity"><code>(a · b) · v = a · (b · v)</code></fsd-ref>.<br>
+    &nbsp;&nbsp;4. Scalar Identity: <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁" title="Scalar Identity"><code>1_F · v = v</code></fsd-ref>.<br>
     • <b>Basis &amp; Dimension:</b> A linearly independent subset <code>ℬ ⊂ V</code> that spans <code>V</code>; <code>dim(V) = |ℬ|</code>.
   </div>
 
@@ -140,7 +140,7 @@
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>T( u + v ) &nbsp;=&nbsp; T(u) + T(v) &emsp;&emsp;and&emsp;&emsp; T( c · v ) &nbsp;=&nbsp; c · T(v)</b>
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Linear Map Preservation"><b>T( u + v ) &nbsp;=&nbsp; T(u) + T(v) &emsp;&emsp;and&emsp;&emsp; T( c · v ) &nbsp;=&nbsp; c · T(v)</b></fsd-ref>
   </div>
 
   <p>
@@ -154,7 +154,7 @@
 
   <h4>Formal Statement (FS-LA-3.2): Linear Transformations &amp; Operators</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Linearity Axiom:</b> <code>T : V → W</code> satisfies <code>∀ u, v ∈ V, ∀ a, b ∈ F : &nbsp; T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
+    • <b>Linearity Axiom:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Linearity Axiom"><code>T : V → W satisfies ∀ u, v ∈ V, ∀ a, b ∈ F : T(a·u + b·v) = a·T(u) + b·T(v)</code></fsd-ref>.<br>
     • <b>Zero Preservation:</b> <code>T(0_V) = 0_W</code>.<br>
     • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
     • <b>Calculus Realization:</b> The differential operator <code>D : C^∞(ℝ) → C^∞(ℝ)</code> is an endomorphism preserving function addition and scalar scaling.
@@ -198,7 +198,7 @@
   <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Dual Space:</b> <code>V* = Hom(V, F) = { f : V → F | f is linear }</code>.<br>
-    • <b>Natural Evaluation Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code>.<br>
+    • <b>Natural Evaluation Pairing:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Natural Duality Pairing"><code>⟨ · , · ⟩ : V* × V → F where ⟨f, v⟩ = f(v)</code></fsd-ref>.<br>
     • <b>Riesz Representation Theorem:</b> In any Hilbert space <code>ℋ_ω</code> with inner product <code>( · , · )</code>, every continuous functional <code>f ∈ ℋ_ω*</code> is uniquely represented by a vector <code>|u⟩</code> such that <code>f(|v⟩) = ⟨u | v⟩</code>.<br>
     • <b>Dirac Notation Mapping:</b> Kets <code>|v⟩ ∈ ℋ_ω</code>, Bras <code>⟨u| ∈ ℋ_ω*</code>, and Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.
   </div>

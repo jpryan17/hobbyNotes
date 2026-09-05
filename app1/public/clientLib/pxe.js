@@ -16,7 +16,7 @@ export class PXE extends SVGGrpElt {
     static textFrameHeight = 30;
     static fontSize = 20;
     static fontPadding = 3;
-    static predicateChars = "pqrsmvklud";
+    static predicateChars = "pqrsmvkludbwc";
     static negChar = "n";
     static andChar = "a";
     static orChar = "o";
@@ -37,6 +37,9 @@ export class PXE extends SVGGrpElt {
         ["l", 0x2264],
         ["u", 0x002b],
         ["d", 0x1d451],
+        ["b", 0x2286],
+        ["w", 0x2248],
+        ["c", 0x2223],
         ["[", 0x005b],
         ["]", 0x005d],
         ["n", 0x00ac],

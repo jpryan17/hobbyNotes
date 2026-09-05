@@ -26,7 +26,7 @@
       When the next piece of evidence <code>D_2</code> arrives, <code>P(H | D_1)</code> becomes your new prior baseline:
     </p>
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
-      [ Prior P(H) ] ──( Observe D_1 )──► [ Intermediate P(H | D_1) ] ──( Observe D_2 )──► [ Final P(H | D_1 ∩ D_2) ]
+      [ Prior P(H) ] ──( Observe D_1 )──► [ Intermediate P(H | D_1) ] ──( Observe D_2 )──► <fsd-ref exp="b" quantifiers="∀y₁:𝒫(ℕ), ∀y₂:𝒫(ℕ)" slots="y₁,y₂" title="Sequential Evidence Conjunction"><b>[ Final P(H | D_1 ∩ D_2) ]</b></fsd-ref>
     </div>
     <p>
       <b>Order Independence:</b> Because fraction arithmetic is associative and commutative, updating sequentially step-by-step yields the <i>exact same</i> mathematical result as combining all data into one giant event and updating all at once!
@@ -57,7 +57,7 @@
 
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 10px 0;">
       <font size="+2" color="#1e3a8a">
-        <b>Posterior Odds = Bayes Factor × Prior Odds</b>
+        <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Odds Form of Bayes Theorem"><b>Posterior Odds = Bayes Factor × Prior Odds</b></fsd-ref>
       </font>
     </div>
 

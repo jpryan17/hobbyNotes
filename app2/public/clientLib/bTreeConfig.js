@@ -55,7 +55,7 @@ export const BTreePresets = {
         width: 900,
         height: 440,
         maxBD: 4,
-        nodeSize: 24,
+        nodeSize: 22,
         fontSize: 11,
         labelType: 'sign',
         antenna: true,

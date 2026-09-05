@@ -86,7 +86,7 @@
 
   <h4>Formal Statement (FS-LA-2.1): Group Homomorphisms &amp; Isomorphisms</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Homomorphism Definition:</b> A map <code>f : (G, ⋆) → (H, ⊙)</code> satisfying <code>∀ a, b ∈ G, f(a ⋆ b) = f(a) ⊙ f(b)</code>.<br>
+    • <b>Homomorphism Definition:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Group Homomorphism Definition"><code>∀ a, b ∈ G, f(a ⋆ b) = f(a) ⊙ f(b)</code></fsd-ref>.<br>
     • <b>Identity &amp; Inverse Preservation:</b> <code>f(e_G) = e_H</code> and <code>f(a⁻¹) = [f(a)]⁻¹</code>.<br>
     • <b>Kernel &amp; Invariance:</b> The kernel <code>ker(f) = { a ∈ G | f(a) = e_H }</code> is a normal subgroup of <code>G</code> measuring the loss of structural information.<br>
     • <b>Isomorphism:</b> If <code>f</code> is bijective (injective and surjective), <code>G ≅ H</code> are structurally identical algebraic systems.
@@ -129,8 +129,8 @@
   <h4>Formal Statement (FS-LA-2.2): The Unitary Group U(N) &amp; Metric Preservation</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Unitary Condition:</b> A linear operator <code>U : ℋ_ω → ℋ_ω</code> satisfies <code>U† · U = U · U† = 𝕀</code>, where <code>U†</code> is the Hermitian conjugate (conjugate transpose).<br>
-    • <b>Inner Product Invariance:</b> <code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code>.<br>
-    • <b>Norm Conservation:</b> <code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code>, ensuring that time evolution in closed quantum systems strictly conserves total probability.
+    • <b>Inner Product Invariance:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∀x₂:ℕ" slots="x₁,x₂" title="Unitary Inner Product Invariance"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>.<br>
+    • <b>Norm Conservation:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>, ensuring that time evolution in closed quantum systems strictly conserves total probability.
   </div>
 
   <hr>

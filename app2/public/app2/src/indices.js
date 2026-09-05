@@ -88,34 +88,29 @@ export const satelliteIndex = [
     },
     {
         type: "html",
-        topic: "seminar 4: algebraic geometry & the infinitesimal microscope",
+        topic: "seminar 4: algebraic geometry",
         htmlSegmentId: "algebraicGeometrySeminar",
-    },
-    {
-        type: "html",
-        topic: "seminar 4.A: Grothendieck’s sheaf theory & stalks",
-        htmlSegmentId: "grothendieckSheafSeminar",
     },
 ];
 export const miniSeminarsIndex = [
     {
         type: "html",
-        topic: "mini-seminar 1: the Fourier duality (position vs frequency)",
+        topic: "mini-seminar 1: the Fourier duality",
         htmlSegmentId: "fourierTransformSeminar",
     },
     {
         type: "html",
-        topic: "mini-seminar 2: ω-nodes to halo soup (particles to matrices)",
+        topic: "mini-seminar 2: ω-nodes to halo soup",
         htmlSegmentId: "haloSoupSeminar",
     },
     {
         type: "html",
-        topic: "mini-seminar 3: holography & boundaries (edge cancellations to area laws)",
+        topic: "mini-seminar 3: holography & boundaries",
         htmlSegmentId: "holographicPrincipleSeminar",
     },
     {
         type: "html",
-        topic: "mini-seminar 4: higher-successor definitions (2, 4, 8, 16 & beyond)",
+        topic: "mini-seminar 4: higher-successor definitions",
         htmlSegmentId: "higherSuccessorsSeminar",
     },
 ];

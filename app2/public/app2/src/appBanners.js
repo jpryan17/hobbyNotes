@@ -8,7 +8,7 @@ export function initOutlineBanner() {
     ], {
         fontSize: 44,
         space: 20,
-        updateDate: 'Draft updated: August 2026',
+        updateDate: 'Draft updated: September 2026',
         dateCorner: 'BR'
     });
     return outlineBanner;

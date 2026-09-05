@@ -70,7 +70,7 @@
   <h4>Formal Statement (FS-A1D-3.1): The Hyperfinite Definite Integral on ℝ_ω</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Hyperfinite Riemann Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the hyperfinite sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
-    • <b>Definite Integral:</b> <code>∫_a^b f(x) dx ≡ st(S_ω)</code>.<br>
+    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Hyperfinite Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
     • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
     • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.
   </div>
@@ -111,7 +111,7 @@
     Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
   </p>
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b>
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>
   </div>
 
   <p>
@@ -122,10 +122,10 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Exact Telescoping Identity:</b> For any hyperfinite sequence <code>F(x_k)</code>:<br>
     <div align="center" style="margin: 4px 0; font-family: monospace;">
-      ∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
     </div>
     • <b>Infinitesimal Increment Substitution:</b> If <code>F'(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
-    • <b>Standard Part Theorem:</b> <code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code>.
+    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.
   </div>
 
   <hr>

@@ -11,7 +11,7 @@ export interface FormalArgument {
   title: string;
   verdict: boolean;
   target: string;
-  testOrPickLabel: "Pick" | "Test" | "Scenario";
+  testOrPickLabel: "Pick" | "Test" | "Scenario" | "Scaffold";
   testOrPickValue: string;
   checks: ArgumentCheck[];
   conflictOrSupport?: string;

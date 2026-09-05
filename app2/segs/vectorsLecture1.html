@@ -69,7 +69,7 @@
     • <b>Ordinal Fixed Point:</b> Let <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> be the first Cantor ordinal satisfying <code>ω^(ε₀) = ε₀</code>.<br>
     • <b>Enveloping Carrier Field:</b> The sub-tree <code>G = ℂ_{&lt;ε₀}</code> comprises all surreal tree addresses created prior to Day <code>ε₀</code>.<br>
     • <b>Algebraic Closure:</b> The carrier set <code>G</code> is algebraically closed under field arithmetic, roots, and finite linear combinations.<br>
-    • <b>Observable Shadow Map:</b> The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.
+    • <b>Observable Shadow Map:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Shadow Map st(·)">The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.</fsd-ref>
   </div>
 
   <hr>
@@ -84,13 +84,13 @@
     <li>
       <b>The Root Identity:</b> Adding the empty root node <code>0 = { | }</code> leaves any branch unchanged:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b>
+        <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁" title="Root Identity x + 0 = x"><b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b></fsd-ref>
       </div>
     </li>
     <li>
       <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that cancels it back to the root:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b>
+        <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Additive Inverse Reflection"><b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b></fsd-ref>
       </div>
     </li>
     <li>
@@ -128,8 +128,8 @@
     • <b>Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies:<br>
     &nbsp;&nbsp;1. Closure: <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
     &nbsp;&nbsp;2. Associativity: <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
-    &nbsp;&nbsp;3. Identity Element: <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
-    &nbsp;&nbsp;4. Inverse Element: <code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code>.<br>
+    &nbsp;&nbsp;3. Identity Element: <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁" title="Group Identity Element"><code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code></fsd-ref>.<br>
+    &nbsp;&nbsp;4. Inverse Element: <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Group Inverse Element"><code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code></fsd-ref>.<br>
     • <b>Abelian Property:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
     • <b>Inductive Verification:</b> Universal across all Conway surreal numbers by structural transfinite induction on birthdays.
   </div>
@@ -177,7 +177,7 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Additive Group:</b> <code>(F, +)</code> is an Abelian group with identity element <code>0</code>.<br>
     • <b>Multiplicative Group:</b> <code>(F \ {0}, ·)</code> is an Abelian group with identity element <code>1 ≠ 0</code>.<br>
-    • <b>Zero Annihilation Theorem:</b> <code>∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code>.<br>
+    • <b>Zero Annihilation Theorem:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ" slots="x₁,x₁" title="Zero Annihilation"><code>∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code></fsd-ref>.<br>
     • <b>Impossibility of Inverting Zero:</b> There exists no <code>y ∈ F</code> such that <code>0 · y = 1</code>; hence zero must be ejected to form the multiplicative group.<br>
     • <b>Distributive Axiom:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.
   </div>
