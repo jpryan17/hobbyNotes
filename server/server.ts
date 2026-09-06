@@ -1,5 +1,5 @@
 import { createServer } from "https";
-import { execSync, spawn } from "child_process";
+import { execSync, spawn, spawnSync } from "child_process";
 import { writeFileSync, readFileSync, statSync, existsSync } from "fs";
 import { extname, basename, resolve } from "path";
 
@@ -140,6 +140,76 @@ class Serv {
                     })
                     */
           response.end(msg);
+        }
+      });
+    } else if (request.method === "OPTIONS") {
+      response.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
+      });
+      response.end();
+    } else if (urlList[0] == "evalMaxima") {
+      let body = "";
+      request.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+      request.on("end", () => {
+        try {
+          const payload = JSON.parse(body || "{}");
+          const expr = (payload.expression || "").trim();
+          const variable = (payload.variable || "x").trim();
+          const operation = payload.operation || "integrate";
+
+          if (!expr) {
+            response.writeHead(400, {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+            });
+            response.end(JSON.stringify({ success: false, error: "Expression cannot be empty." }));
+            return;
+          }
+
+          // Build batch command for Maxima with Common Lisp tracing
+          let maximaCmd = "";
+          const isPureInt = operation === "integrate" && !expr.startsWith("diff") && !expr.startsWith("ratsimp") && !expr.startsWith("integrate");
+          if (isPureInt) {
+            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); integrate(${expr}, ${variable});`;
+          } else if (expr.startsWith("integrate")) {
+            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr};`;
+          } else {
+            maximaCmd = `display2d: false; ${expr.endsWith(";") || expr.endsWith("$") ? expr : expr + ";"}`;
+          }
+
+          const maximaPath = existsSync("C:\\maxima-5.46.0\\bin\\maxima.bat")
+            ? "C:\\maxima-5.46.0\\bin\\maxima.bat"
+            : (process.platform === "win32" ? "maxima.bat" : "maxima");
+
+          console.log(`[server] Running Maxima command: ${maximaCmd}`);
+          const res = spawnSync(maximaPath, ["--very-quiet", `--batch-string=${maximaCmd}`], {
+            encoding: "utf8",
+            timeout: 10000,
+          });
+
+          const rawStdout = (res.stdout || "") + (res.stderr ? `\n${res.stderr}` : "");
+          response.writeHead(200, {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          });
+          response.end(JSON.stringify({
+            success: true,
+            rawOutput: rawStdout,
+            command: maximaCmd,
+            expression: expr,
+            variable: variable
+          }));
+        } catch (err: any) {
+          console.error("[server] evalMaxima error:", err);
+          response.writeHead(500, {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          });
+          response.end(JSON.stringify({ success: false, error: String(err) }));
         }
       });
     } else {
