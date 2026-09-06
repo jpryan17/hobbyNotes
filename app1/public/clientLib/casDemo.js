@@ -27,17 +27,23 @@ export class CasDemo extends Elt {
         card.appendChild(header);
         // Calculator instance
         this.calculator = document.createElement('mwm-cas-calculator');
+        this.calculator.addEventListener('mwm-calc-change', () => {
+            this.updateTitle();
+        });
         card.appendChild(this.calculator);
         this.elt.appendChild(card);
+    }
+    updateTitle() {
+        const titleEl = this.elt.querySelector('#casDemoTitle');
+        const res = this.calculator?.getCurrentResult();
+        if (titleEl && res) {
+            titleEl.textContent = res.mwmSemantics.title;
+        }
     }
     loadCalculation(calcId, expr) {
         if (calcId && this.calculator) {
             this.calculator.selectPreset(calcId, expr);
-            const titleEl = this.elt.querySelector('#casDemoTitle');
-            const res = this.calculator.getCurrentResult();
-            if (titleEl && res) {
-                titleEl.textContent = res.mwmSemantics.title;
-            }
+            this.updateTitle();
         }
     }
     layout() {

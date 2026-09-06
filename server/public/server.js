@@ -185,7 +185,7 @@ class Serv {
                         maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr};`;
                     }
                     else {
-                        maximaCmd = `display2d: false; ${expr.endsWith(";") || expr.endsWith("$") ? expr : expr + ";"}`;
+                        maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr.endsWith(";") || expr.endsWith("$") ? expr : expr + ";"}`;
                     }
                     const maximaPath = (0, fs_1.existsSync)("C:\\maxima-5.46.0\\bin\\maxima.bat")
                         ? "C:\\maxima-5.46.0\\bin\\maxima.bat"

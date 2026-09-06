@@ -45,19 +45,26 @@ export class CasDemo extends Elt {
 
     // Calculator instance
     this.calculator = document.createElement('mwm-cas-calculator') as MwmCasCalculator;
+    this.calculator.addEventListener('mwm-calc-change', () => {
+      this.updateTitle();
+    });
     card.appendChild(this.calculator);
 
     this.elt.appendChild(card);
   }
 
+  public updateTitle() {
+    const titleEl = this.elt.querySelector('#casDemoTitle');
+    const res = this.calculator?.getCurrentResult();
+    if (titleEl && res) {
+      titleEl.textContent = res.mwmSemantics.title;
+    }
+  }
+
   public loadCalculation(calcId: string, expr?: string) {
     if (calcId && this.calculator) {
       this.calculator.selectPreset(calcId, expr);
-      const titleEl = this.elt.querySelector('#casDemoTitle');
-      const res = this.calculator.getCurrentResult();
-      if (titleEl && res) {
-        titleEl.textContent = res.mwmSemantics.title;
-      }
+      this.updateTitle();
     }
   }
 

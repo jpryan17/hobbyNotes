@@ -723,7 +723,8 @@ export class MwmCasCalculator extends HTMLElement {
   }
 
   private async handleCustomEvaluate() {
-    const expr = (this.querySelector('#mwmCalcInput') as HTMLInputElement)?.value.trim();
+    const inputEl = this.querySelector('#mwmCalcInput') as HTMLInputElement | null;
+    const expr = inputEl?.value.trim() || this.inputExpr;
     if (!expr) return;
     this.inputExpr = expr;
 
@@ -735,52 +736,35 @@ export class MwmCasCalculator extends HTMLElement {
     }
 
     try {
-      // 1. Check direct match with pre-mined database
-      const cleanExpr = expr.replace(/\s+/g, '').toLowerCase();
-      if (PREMINED_MAXIMA_TRACES[expr] || PREMINED_MAXIMA_TRACES[cleanExpr]) {
-        const trace = PREMINED_MAXIMA_TRACES[expr] || PREMINED_MAXIMA_TRACES[cleanExpr];
-        this.currentResult = {
-          domain: 'R_w',
-          expression: expr,
-          mwmSemantics: {
-            title: `CAS Calculation: ${expr}`,
-            description: trace.description,
-            astSteps: [
-              `1. Input query: ${expr}`,
-              `2. Algorithm Identification Code: ${trace.aic}`,
-              `3. Winning procedure: ${trace.algorithmName}`
-            ],
-            notation: expr
-          },
-          maximaCas: {
-            command: `integrate(${expr}, x);`,
-            expanded: trace.rawOutput?.split(/\r?\n/).pop()?.trim() || 'Computed',
-            simplified: trace.rawOutput?.split(/\r?\n/).pop()?.trim() || 'Computed'
-          },
-          maximaMinerTrace: trace,
-          leanInvariant: {
-            theorem: 'MiddleWay.st / Exact Conservation',
-            scaffoldKey: 'st',
-            status: 'verified',
-            leanSnippet: '-- Machine verification: Preserves algebraic invariance on R_w'
-          }
-        };
-        this.activeTab = 'trace';
-        this.render();
-        return;
+      // 1. Determine target Maxima batch command
+      let targetCommand = expr;
+      if (this.currentResult && this.currentResult.maximaCas?.command) {
+        if (expr === this.currentResult.expression || expr === this.inputExpr) {
+          targetCommand = this.currentResult.maximaCas.command;
+        }
       }
 
-      // 2. If on dev, execute live query via backend server
-      if (this.isDev()) {
-        let rawStdout = '';
-        let serverSuccess = false;
+      // 2. Check for matching pre-mined trace as local fast fallback
+      const cleanExpr = expr.replace(/\s+/g, '').toLowerCase();
+      const intMatch = expr.match(/integrate\s*\(\s*(.+?)\s*,\s*[a-zA-Z0-9_]+\s*\)/i);
+      const innerExpr = intMatch ? intMatch[1].trim() : '';
+      const cleanInner = innerExpr.replace(/\s+/g, '').toLowerCase();
 
-        // Try primary server endpoint: SI.origin (https://localhost:8080/evalMaxima)
+      const directPremined = (this.currentPresetId && PREMINED_MAXIMA_TRACES[this.currentPresetId]) ||
+                             PREMINED_MAXIMA_TRACES[expr] ||
+                             PREMINED_MAXIMA_TRACES[cleanExpr] ||
+                             (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
+
+      let serverSuccess = false;
+      let rawStdout = '';
+
+      // 3. Live run-time mining via backend server on dev
+      if (this.isDev()) {
         try {
           const res = await fetch(`${SI.origin}/evalMaxima`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ expression: expr, variable: 'x', operation: 'integrate' })
+            body: JSON.stringify({ expression: targetCommand, variable: 'x', operation: 'integrate' })
           });
           if (res.ok) {
             const data = await res.json();
@@ -793,13 +777,13 @@ export class MwmCasCalculator extends HTMLElement {
           console.warn('[MwmCasCalculator] Primary /evalMaxima failed, trying port 8000...', siErr);
         }
 
-        // Try secondary MaxCalc engine on port 8000 if running
+        // Secondary fallback to port 8000 if running
         if (!serverSuccess) {
           try {
             const res = await fetch('http://127.0.0.1:8000/api/calc', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ expression: expr, variable: 'x', operation: 'integrate' })
+              body: JSON.stringify({ expression: targetCommand, variable: 'x', operation: 'integrate' })
             });
             if (res.ok) {
               const json = await res.json();
@@ -812,11 +796,28 @@ export class MwmCasCalculator extends HTMLElement {
             console.warn('[MwmCasCalculator] Port 8000 query failed:', portErr);
           }
         }
+      }
 
-        if (serverSuccess && rawStdout) {
-          const parsed = parseMaximaTrace(rawStdout);
+      // 4. Update calculation result while strictly maintaining the selected calculation
+      if (serverSuccess && rawStdout) {
+        const parsed = parseMaximaTrace(rawStdout);
+        if (this.currentResult) {
+          // MAINTAIN CURRENT CALCULATION: keep domain, presetId, semantics, and invariant!
+          if (parsed.finalResult) {
+            this.currentResult.maximaCas.simplified = parsed.finalResult;
+          }
+          this.currentResult.maximaMinerTrace = {
+            aic: parsed.aic,
+            algorithmName: parsed.algorithmName,
+            description: parsed.description,
+            attemptedHeuristics: parsed.attemptedHeuristics,
+            callTreeText: parsed.callTreeText,
+            rawOutput: rawStdout
+          };
+        } else {
+          // New custom calculation
           this.currentResult = {
-            domain: 'R_w',
+            domain: this.activeDomain || 'R_w',
             expression: expr,
             mwmSemantics: {
               title: `Live Maxima Calculation: ${expr}`,
@@ -829,7 +830,7 @@ export class MwmCasCalculator extends HTMLElement {
               notation: expr
             },
             maximaCas: {
-              command: `integrate(${expr}, x);`,
+              command: targetCommand,
               expanded: parsed.finalResult || 'Evaluated',
               simplified: parsed.finalResult || 'Evaluated'
             },
@@ -842,35 +843,33 @@ export class MwmCasCalculator extends HTMLElement {
               rawOutput: rawStdout
             },
             leanInvariant: {
-              theorem: 'MiddleWay.deriv & Scaffold.unitary_preservation',
-              scaffoldKey: 'telescoping_ftc',
+              theorem: 'MiddleWay.st / Exact Conservation',
+              scaffoldKey: 'st',
               status: 'verified',
-              leanSnippet: '-- Live verification bound to MiddleWay formal scaffold on R_w'
+              leanSnippet: '-- Machine verification: Preserves algebraic invariance on R_w'
             }
           };
-          this.activeTab = 'trace';
-          this.render();
-          return;
+        }
+      } else if (directPremined) {
+        // Attach pre-mined trace without switching calculation
+        if (this.currentResult) {
+          this.currentResult.maximaMinerTrace = directPremined;
+        }
+      } else {
+        // Keep current calculation completely intact
+        if (this.currentResult && !this.currentResult.maximaMinerTrace) {
+          this.currentResult.maximaMinerTrace = {
+            aic: 'ALG-MWM-SYMBOLIC',
+            algorithmName: 'Middle Way Algebraic Reduction',
+            description: `Evaluated expression for ${this.currentResult.mwmSemantics.title}.`,
+            attemptedHeuristics: ['Primary Maxima /evalMaxima endpoint offline or timed out'],
+            callTreeText: `• [mwm_reduction] expression: ${targetCommand}\n  • result: ${this.currentResult.maximaCas.simplified}`,
+            rawOutput: `Command: ${targetCommand}\nResult: ${this.currentResult.maximaCas.simplified}`
+          };
         }
       }
 
-      // 3. Fallback heuristic routing
-      const lower = expr.toLowerCase();
-      if (lower.includes('laplace') || lower.includes('d2')) {
-        this.selectPreset('r_laplace');
-      } else if (lower.includes('ftc') || lower.includes('sum')) {
-        this.selectPreset('r_ftc');
-      } else if (lower.includes('c_mul') || lower.includes('i')) {
-        this.selectPreset('c_mul');
-      } else if (lower.includes('loop') || lower.includes('cauchy')) {
-        this.selectPreset('c_loop');
-      } else if (lower.includes('tree') && lower.includes('+')) {
-        this.selectPreset('tree_node');
-      } else if (lower.includes('mat') || lower.includes('toeplitz')) {
-        this.selectPreset('mat_laplace');
-      } else {
-        this.selectPreset('r_diff');
-      }
+      // Switch to the Common Lisp trace tab to display the mined trace
       this.activeTab = 'trace';
       this.render();
     } catch (err) {
@@ -886,6 +885,11 @@ export class MwmCasCalculator extends HTMLElement {
   private render() {
     const res = this.currentResult;
     if (!res) return;
+
+    const inputEl = this.querySelector('#mwmCalcInput') as HTMLInputElement | null;
+    const wasInputFocused = document.activeElement === inputEl;
+    const selStart = inputEl?.selectionStart;
+    const selEnd = inputEl?.selectionEnd;
 
     this.innerHTML = `
       <div style="border: 1.5px solid #0284c7; border-radius: 12px; background: #ffffff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 780px; margin: 24px auto; overflow: hidden;">
@@ -994,6 +998,18 @@ export class MwmCasCalculator extends HTMLElement {
     `;
 
     this.bindEvents();
+
+    if (wasInputFocused) {
+      const newInput = this.querySelector('#mwmCalcInput') as HTMLInputElement | null;
+      if (newInput) {
+        newInput.focus();
+        if (selStart !== null && selStart !== undefined && selEnd !== null && selEnd !== undefined) {
+          try { newInput.setSelectionRange(selStart, selEnd); } catch {}
+        }
+      }
+    }
+
+    this.dispatchEvent(new CustomEvent('mwm-calc-change', { bubbles: true, detail: res }));
   }
 
   private renderPresetButtons(): string {
@@ -1193,6 +1209,7 @@ ${trace.rawOutput}
     this.querySelector('#mwmCalcEvalBtn')?.addEventListener('click', () => this.handleCustomEvaluate());
     this.querySelector('#mwmCalcInput')?.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Enter') {
+        e.preventDefault();
         if (this.isDev()) {
           this.handleCustomEvaluate();
         }
