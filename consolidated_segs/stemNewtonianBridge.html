@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Applied STEM Bridge: The Newtonian Review</title>
+</head>
+
+<body>
+  <div align="center">
+    <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Review</b></i></font><br>
+    <font size="+1"><i>— 1-Particle Discrete Kinematics, Jane’s Stencil &amp; Telescoping Work-Energy —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Before starting the multi-node thermal conduction experiment in the applied engineering laboratory, 
+    Professor James gathered Jill, Liam, and their lab team around the demonstration bench.
+  </p>
+
+  <hr>
+
+  <h3>1. The High School Trauma vs. Foundational Clarity</h3>
+
+  <p>
+    “Before we turn on thermal imaging cameras and model continuous heat diffusion across an $N$-node continuum,” 
+    Professor James said, leaning against the bench with a warm smile, 
+    “we need to make sure we are all speaking the exact same physical language. 
+    Tell me: how was classical Newtonian mechanics taught to you in school?”
+  </p>
+
+  <p>
+    Liam raised his hand, chuckling ruefully: 
+    “In my high school physics class, the teacher wrote four kinematic formulas on the chalkboard—<code>s = v₀·t + (1/2)·a·t²</code>, 
+    <code>v² = v₀² + 2as</code>, and so on—and told us to memorize them for the midterm. 
+    Whenever I asked why the factor of <code>1/2</code> was in front of <code>a·t²</code>, 
+    he told me: <i>‘That requires calculus; wait until university.’</i> 
+    And when I finally got to university calculus, the professor warned us: 
+    <i>‘<code>ds/dt</code> is not a fraction; if you cancel <code>dt</code>, you will fail the course!’</i> 
+    The whole thing felt like ritual incantations designed to keep students from dividing by zero.”
+  </p>
+
+  <p>
+    Jill smiled: 
+    “In Jack’s formal science class, we took the opposite approach. 
+    Jack taught us truth tables, number trees, and dyadic fractions, and showed us that physics begins with 
+    <b>honest, tangible observation</b>. We rolled steel balls down inclined planes and measured displacements on tracks. 
+    Jack never gave us hand-wavy limit tricks; he gave us clean, observable facts.”
+  </p>
+
+  <p>
+    “Jack was an enlightened teacher,” James said with deep admiration. 
+    “Jack built your physical intuition from honest experiment, and Jane gave you the algebraic calculus of <code>ℝ_ω</code>. 
+    Now, let’s spend fifteen minutes reviewing how Jane’s calculus on <code>ℝ_ω</code> and Jack’s number trees demystify 
+    Newton’s entire kinematic playbook with <b>zero limits and pure polynomial algebra</b>!”
+  </p>
+
+  <hr>
+
+  <h3>2. Free Fall Trajectory: Velocity &amp; Acceleration by Pure Division</h3>
+
+  <p>
+    “Consider a ball thrown upward with initial speed <code>v₀</code> under constant downward gravity <code>g</code>,” James said, 
+    writing the position polynomial on the board:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 15px; margin: 14px auto; max-width: 620px; color: #1e3a8a;">
+    s(t) = v₀·t - (1/2)·g·t²
+  </div>
+
+  <p>
+    “On our nonstandard scaffold <code>ℝ_ω</code>,” James continued, “time advances by genuine hyperfinite ticks <code>dt = 1/ω</code>. 
+    What is the displacement over a single tick?”
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 650px; line-height: 1.8;">
+    s(t + dt) - s(t) &nbsp;=&nbsp; [ v₀·(t + dt) - (1/2)·g·(t + dt)² ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; [ v₀·t + v₀·dt - (1/2)·g·(t² + 2t·dt + dt²) ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>(v₀ - g·t)·dt &nbsp;-&nbsp; (1/2)·g·dt²</b>
+  </div>
+
+  <p>
+    “Now divide by <code>dt</code>!” Liam said eagerly. “Because <code>dt</code> is a genuine hyperreal number on <code>ℝ_ω</code>, division is legal!”
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 650px; color: #1e3a8a;">
+    <cas-ref calc-id="newton_free_fall" expr="FREE_FALL(v0*t - 1/2*g*t^2, t)">
+      v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
+    </cas-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Click the formula above to inspect the Maxima CAS division and Lean 4 invariant)</i>
+  </p>
+
+  <p>
+    “Taking the standard shadow <code>st(·)</code> drops the hyperfinite dust <code>(1/2)·g·dt</code>, leaving the exact velocity <code>v(t) = v₀ - g·t</code>!” James beamed.
+  </p>
+
+  <p>
+    “And what about acceleration?” Jill asked. “We use Jane’s 3-point stencil <code>[1, -2, 1]</code> from Lecture 2!”
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 650px; line-height: 1.8;">
+    s(t - dt) - 2·s(t) + s(t + dt) &nbsp;=&nbsp; <b>-g · dt²</b><br><br>
+    a(t) &nbsp;=&nbsp; st( [ s(t - dt) - 2·s(t) + s(t + dt) ] / dt² ) &nbsp;=&nbsp; st( -g·dt² / dt² ) &nbsp;=&nbsp; <b>-g</b>
+  </div>
+
+  <p>
+    All the linear time terms <code>v₀·t</code> and <code>t²</code> cancel out identically! 
+    Acceleration is an <b>exact constant <code>-g</code></b> with strictly zero residual dust. 
+    Newton’s Second Law is simply the statement that force equals mass times the discrete temporal curvature of position.
+  </p>
+
+  <hr>
+
+  <h3>3. The Work-Energy Theorem as Telescoping Cancellation</h3>
+
+  <p>
+    “Now,” James asked, “where does kinetic energy <code>(1/2)·m·v²</code> come from, and why is mechanical energy conserved?”
+  </p>
+
+  <p>
+    Liam shook his head: “In school, we were told work is <code>Force × distance</code>, but no one ever proved why summing it gives <code>(1/2)·m·v²</code> without integral calculus.”
+  </p>
+
+  <p>
+    James walked to the center board: 
+    “Let’s look at a single time step <code>k</code>. Over displacement <code>Δx_k = v_k · dt</code>, net force is <code>F_k = m · a_k = m · (v_{k+1} - v_k) / dt</code>. 
+    Compute the work done on step <code>k</code>:”
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 650px;">
+    W_k = F_k · Δx_k = [ m · (v_{k+1} - v_k) / dt ] · [ v_k · dt ] = m · v_k · (v_{k+1} - v_k)
+  </div>
+
+  <p>
+    “Notice the algebraic identity,” James pointed out:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #0f172a;">
+    v_k · (v_{k+1} - v_k) &nbsp;=&nbsp; (1/2)·[ v_{k+1}² - v_k² ] &nbsp;-&nbsp; (1/2)·(v_{k+1} - v_k)²
+  </div>
+
+  <p>
+    “The second term is <code>O(dt²)</code> hyperfinite dust! Summing over all <code>n</code> time steps from launch to landing:”
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 14.5px; margin: 14px auto; max-width: 660px; color: #1e3a8a;">
+    <cas-ref calc-id="newton_work_energy" expr="WORK_ENERGY_SUM(F, x0, xn)">
+      ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
+    </cas-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Click the formula above to see the telescoping sum verified by Lean 4)</i>
+  </p>
+
+  <p>
+    “It’s a <b>telescoping sum</b>!” Liam exclaimed, his eyes wide. 
+    “Every intermediate velocity <code>v_k²</code> cancels out—the exact same telescoping principle Jane showed us for the Fundamental Theorem of Calculus!”
+  </p>
+
+  <p>
+    “Exactly, Liam!” James said. 
+    “And because work done by gravity is <code>-Δ(m·g·h)</code>, we have <code>Δ(KE) = -Δ(PE)</code>, which means 
+    <b><code>KE + PE = E_{total} = \text{constant}</code></b>. 
+    Energy conservation is not an empirical mystery; it is the deductive consequence of discrete difference telescoping.”
+  </p>
+
+  <hr>
+
+  <h3>4. The Harmonic Oscillator: Hooke’s Law as a 3-Point Stencil</h3>
+
+  <p>
+    “Finally,” James said, “what happens when force is not constant, but restoring—like a mass on a spring <code>F = -k·x</code>?”
+  </p>
+
+  <p>
+    Newton’s Second Law with Jane’s 3-point stencil gives:
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 650px;">
+    m · [ x(t - dt) - 2·x(t) + x(t + dt) ] / dt² &nbsp;=&nbsp; -k · x(t)
+  </div>
+
+  <p>
+    Rearranging to solve for the next time step <code>x(t + dt)</code>:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 14.5px; margin: 14px auto; max-width: 650px; color: #1e3a8a;">
+    <cas-ref calc-id="newton_harmonic_oscillator" expr="HOOKES_LAW_LEAPFROG(k, m, dt)">
+      x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
+    </cas-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Click the formula above to inspect the unitary eigenvalue roots on ℂ_ω)</i>
+  </p>
+
+  <p>
+    “Notice the magic of this equation,” James explained:
+  </p>
+  <ul>
+    <li>It is an <b>explicit leapfrog step</b>: any computer or 0–12 student with a basic spreadsheet can calculate the entire motion with zero matrix inversion.</li>
+    <li>When Maxima CAS solves the characteristic polynomial, the roots are pure complex phases on <code>ℂ_ω</code>: 
+      <code>λ = e^{\pm i·ω₀·dt}</code>. Because <code>|λ| = 1</code>, the amplitude of oscillation <b>never decays and never blows up</b>!</li>
+    <li>Lean 4 formally proves this via <code>Scaffold.unitary_preservation</code>: phase rotations preserve energy identically over arbitrary time spans.</li>
+  </ul>
+
+  <hr>
+
+  <h3>5. Scaling From 1 Particle to N Coupled Slices</h3>
+
+  <p>
+    James set down his chalk and looked at the class:
+  </p>
+
+  <p>
+    “In these three classical problems, we examined a <b>single particle</b> moving in time:
+    its velocity was a first difference, its acceleration was Jane’s <code>[1, -2, 1]</code> stencil in time, 
+    and its energy conservation was a telescoping cancellation.
+  </p>
+
+  <p>
+    Now, step over to the laboratory bench. What is the steel rod sitting in front of us? 
+    It is not a single particle; it is <b>$N$ coupled control volumes</b> arranged along a spatial line. 
+    And how do adjacent volumes interact? By direct contact—Jack’s <code>NEAR</code> relation! 
+    The exact same <code>[1, -2, 1]</code> stencil that governed temporal acceleration for one particle will now govern 
+    <b>spatial curvature and thermal diffusion across all $N$ slices simultaneously</b>.”
+  </p>
+
+  <p>
+    “Let’s heat the rod!” Liam said with a wide smile.
+  </p>
+
+  <br>
+
+  <!-- Interactive Sandbox -->
+  <div style="margin-top: 20px;">
+    <h4 style="text-align: center; color: #0f172a; margin-bottom: 8px;">Interactive CAS Demonstration Workbench</h4>
+    <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 0;">
+      Test classical Newtonian kinematics and conservation laws directly in the Middle Way symbolic calculator:
+    </p>
+    <mwm-cas-calculator calc-id="newton_free_fall"></mwm-cas-calculator>
+  </div>
+
+</body>
+</html>

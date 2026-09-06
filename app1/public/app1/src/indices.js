@@ -350,6 +350,11 @@ export const lamIndex = analysisAndSeminarsIndex;
 export const stemBridgeIndex = [
     {
         type: "html",
+        topic: "the Newtonian bridge: discrete kinematics & conservation",
+        htmlSegmentId: "stemNewtonianBridge",
+    },
+    {
+        type: "html",
         topic: "1D heat diffusion: discrete Laplacian & Fourier duality",
         htmlSegmentId: "stemHeatDiffusion",
     },
