@@ -370,6 +370,13 @@ export const analysisAndSeminarsIndex: IndexItemDesc[] = [
 
 export const lamIndex = analysisAndSeminarsIndex;
 
+export const casDemoIndexItem: IndexItemDesc = {
+  type: "diagram",
+  topic: "CAS calculation demo (CAS)",
+  initCB: initCasDemo,
+  layoutCB: layoutCasDemo,
+};
+
 export const stemBridgeIndex: IndexItemDesc[] = [
   {
     type: "html",
@@ -380,12 +387,6 @@ export const stemBridgeIndex: IndexItemDesc[] = [
     type: "html",
     topic: "1D heat diffusion: Laplacian & Fourier",
     htmlSegmentId: "stemHeatDiffusion",
-  },
-  {
-    type: "diagram",
-    topic: "CAS calculation demo (CAS)",
-    initCB: initCasDemo,
-    layoutCB: layoutCasDemo,
   },
 ];
 

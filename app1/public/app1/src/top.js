@@ -7,7 +7,7 @@ import { StemCard } from '../../clientLib/stemCard.js';
 import { MwmCasCalculator } from '../../clientLib/mwmCasCalculator.js';
 import { CasRef } from '../../clientLib/casRef.js';
 import { setCasDemo } from '../../clientLib/casDemo.js';
-import { mainIndex } from './indices.js';
+import { mainIndex, stemBridgeIndex, casDemoIndexItem } from './indices.js';
 import { setTTD } from '../../clientLib/ttd.js';
 import { setFSD } from '../../clientLib/fsd.js';
 import { setBTD } from '../../clientLib/btd.js';
@@ -33,6 +33,18 @@ export function top(edit = false) {
     setBTD();
     setBID();
     setCasDemo();
+    // In dev mode, index the CAS demo for testing & authoring; in static mode, keep unindexed
+    if (edit) {
+        if (!stemBridgeIndex.some(item => item.topic === casDemoIndexItem.topic)) {
+            stemBridgeIndex.push(casDemoIndexItem);
+        }
+    }
+    else {
+        const idx = stemBridgeIndex.findIndex(item => item.topic === casDemoIndexItem.topic);
+        if (idx !== -1) {
+            stemBridgeIndex.splice(idx, 1);
+        }
+    }
     Nav.clearNavLine();
     Nav.loadIndex('main', mainIndex);
 }

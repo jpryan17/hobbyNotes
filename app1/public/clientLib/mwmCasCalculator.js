@@ -1050,102 +1050,108 @@ export class MwmCasCalculator extends HTMLElement {
         const selStart = inputEl?.selectionStart;
         const selEnd = inputEl?.selectionEnd;
         this.innerHTML = `
-      <div style="border: 1.5px solid #0284c7; border-radius: 12px; background: #ffffff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 780px; margin: 24px auto; overflow: hidden;">
+      <div style="border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 10px auto; overflow: hidden;">
         
         <!-- Header Banner -->
-        <div style="background: linear-gradient(135deg, #0369a1 0%, #0f172a 100%); color: #ffffff; padding: 16px 22px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 12px 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
             <div>
-              <span style="display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; background: #38bdf8; color: #082f49; padding: 2px 8px; border-radius: 4px; margin-bottom: 4px;">
-                MWM CAS Prototype
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; background: #e2e8f0; color: #475569; padding: 2px 7px; border-radius: 4px; margin-right: 6px;">
+                Middle Way CAS
               </span>
-              <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #ffffff;">
-                Middle Way Symbolic Calculator
-              </h3>
+              <span style="font-size: 15px; font-weight: 700; color: #1e293b;">
+                Symbolic Calculation Demo
+              </span>
             </div>
-            <div style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #bae6fd; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 20px;">
-              ⚡ MWM ⇄ Maxima ⇄ Lean 4
+            <div style="font-size: 12px; color: #475569;">
+              Domain: <b style="color: #0f172a;">${res.domain}</b>
             </div>
           </div>
-          <p style="margin: 6px 0 0 0; font-size: 12.5px; color: #e0f2fe; line-height: 1.4;">
-            Execute symbolic calculations directly in Middle Way syntax across <b>ℝ_ω</b>, <b>ℂ_ω</b>, and <b>Discrete Matrices</b>.
+          <p style="margin: 4px 0 0 0; font-size: 12.5px; color: #475569; line-height: 1.4;">
+            Computational derivations across <b>ℝ_ω</b>, <b>ℂ_ω</b>, and <b>Discrete Matrices</b> anchored to Lean 4 invariants.
           </p>
         </div>
 
-        <!-- Domain Selector Pills -->
-        <div style="display: flex; gap: 8px; padding: 12px 20px; background: #f0f9ff; border-bottom: 1px solid #e0f2fe; overflow-x: auto;">
-          <button id="domR_w" class="mwm-dom-btn" style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'R_w' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'R_w' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'R_w' ? '#ffffff' : '#334155'};">
+        <!-- Domain Selector -->
+        <div style="display: flex; gap: 8px; padding: 10px 18px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; overflow-x: auto;">
+          <button id="domR_w" class="mwm-dom-btn" style="padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'R_w' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'R_w' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'R_w' ? '#ffffff' : '#334155'};">
             ℝ_ω Transect
           </button>
-          <button id="domC_w" class="mwm-dom-btn" style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'C_w' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'C_w' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'C_w' ? '#ffffff' : '#334155'};">
+          <button id="domC_w" class="mwm-dom-btn" style="padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'C_w' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'C_w' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'C_w' ? '#ffffff' : '#334155'};">
             ℂ_ω Complex Grid
           </button>
-          <button id="domMatrix" class="mwm-dom-btn" style="padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'Matrix' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'Matrix' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'Matrix' ? '#ffffff' : '#334155'};">
-            Matrix Engineering
+          <button id="domMatrix" class="mwm-dom-btn" style="padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid ${this.activeDomain === 'Matrix' ? '#0284c7' : '#cbd5e1'}; background: ${this.activeDomain === 'Matrix' ? '#0284c7' : '#ffffff'}; color: ${this.activeDomain === 'Matrix' ? '#ffffff' : '#334155'};">
+            Matrix Stencil
           </button>
         </div>
 
         <!-- Preset Chips -->
-        <div style="padding: 10px 20px; background: #fafafa; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Presets:</span>
+        <div style="padding: 8px 18px; background: #fafafa; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Presets:</span>
           ${this.renderPresetButtons()}
         </div>
 
-        <!-- Expression Input Bar (Evaluate Button dev-only) -->
-        <div style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+        <!-- Expression Input Bar with Dev Input Aids -->
+        <div style="padding: 12px 18px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+          ${this.isDev() ? `
+            <!-- Atomic Syntax Input Aids (Dev Mode, modeled after TTD/FSD symbol palettes) -->
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span style="font-size: 10.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Input Aids:</span>
+              <button class="mwm-aid-btn" data-insert="diff_w(, x)" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert discrete derivative diff_w(f, x)">diff_w</button>
+              <button class="mwm-aid-btn" data-insert="laplace_w(, x)" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert Jane's 3-point Laplacian stencil">laplace_w</button>
+              <button class="mwm-aid-btn" data-insert="st()" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Wrap or insert standard part shadow map st(·)">st(·)</button>
+              <button class="mwm-aid-btn" data-insert="norm_sq()" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert complex norm squared on ℂ_ω">norm_sq</button>
+              <button class="mwm-aid-btn" data-insert="c_mul((1+2i), (3+4i))" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert complex multiplication on ℂ_ω">c_mul</button>
+              <button class="mwm-aid-btn" data-insert="omega * dx" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert scale reciprocity identity ω · dx = 1">ω · dx</button>
+              <button class="mwm-aid-btn" data-insert="dx" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert infinitesimal step dx">dx</button>
+              <button class="mwm-aid-btn" data-insert="omega" style="font-family: monospace; font-size: 11.5px; padding: 2px 7px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; color: #1e293b; cursor: pointer;" title="Insert horizon scale ω">ω</button>
+            </div>
+          ` : ''}
+
           <div style="display: flex; gap: 8px; align-items: center;">
             <input 
               type="text" 
               id="mwmCalcInput" 
               value="${this.inputExpr}"
-              style="flex: 1; padding: 9px 14px; font-family: monospace; font-size: 13.5px; border: 1.5px solid #cbd5e1; border-radius: 6px; outline: none;"
-              placeholder="Enter atomic MWM syntax (e.g. diff_w(x^4, x), st(((x+dx)^3-x^3)/dx), norm_sq(3+4i), w*dx, laplace_w(x^3, x))"
+              style="flex: 1; padding: 7px 12px; font-family: monospace; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;"
+              placeholder="Enter atomic MWM syntax (e.g. diff_w(x^4, x), st(((x+dx)^3-x^3)/dx), norm_sq(3+4i), w*dx)"
             />
             ${this.isDev() ? `
               <button 
                 id="mwmCalcEvalBtn" 
-                style="background: #7c3aed; color: #ffffff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; box-shadow: 0 2px 4px rgba(124, 58, 237, 0.2);"
-                title="Live evaluation active in development mode via Maxima backend"
+                style="background: #2563eb; color: #ffffff; border: none; padding: 7px 14px; border-radius: 4px; font-weight: 600; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap;"
+                title="Evaluate expression via Maxima CAS backend"
               >
-                <span>⚡ Evaluate (Dev)</span>
+                <span>Evaluate (Dev)</span>
               </button>
             ` : ''}
           </div>
-          ${this.isDev() ? `
-            <div style="margin-top: 6px; font-size: 11px; color: #6d28d9; display: flex; align-items: center; gap: 4px;">
-              <span>●</span> <b>Dev Mode Active:</b> Live Maxima Common Lisp tracing enabled via backend.
-            </div>
-          ` : `
-            <div style="margin-top: 6px; font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 4px;">
-              <span>○</span> <b>Showcase Mode:</b> Select curated presets above to explore mathematical derivations &amp; traces.
-            </div>
-          `}
         </div>
 
         <!-- Output Tabs -->
         <div style="display: flex; border-bottom: 1px solid #cbd5e1; background: #f8fafc; overflow-x: auto;">
-          <button id="tabSemantics" style="flex: 1; padding: 10px 12px; font-size: 12.5px; font-weight: 600; border: none; border-bottom: 2.5px solid ${this.activeTab === 'semantics' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'semantics' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'semantics' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
+          <button id="tabSemantics" style="flex: 1; padding: 9px 10px; font-size: 12px; font-weight: 600; border: none; border-bottom: 2px solid ${this.activeTab === 'semantics' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'semantics' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'semantics' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
             1. MWM Semantics &amp; AST
           </button>
-          <button id="tabMaxima" style="flex: 1; padding: 10px 12px; font-size: 12.5px; font-weight: 600; border: none; border-bottom: 2.5px solid ${this.activeTab === 'maxima' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'maxima' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'maxima' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
+          <button id="tabMaxima" style="flex: 1; padding: 9px 10px; font-size: 12px; font-weight: 600; border: none; border-bottom: 2px solid ${this.activeTab === 'maxima' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'maxima' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'maxima' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
             2. Maxima CAS Derivation
           </button>
-          <button id="tabTrace" style="flex: 1; padding: 10px 12px; font-size: 12.5px; font-weight: 600; border: none; border-bottom: 2.5px solid ${this.activeTab === 'trace' ? '#7c3aed' : 'transparent'}; background: ${this.activeTab === 'trace' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'trace' ? '#7c3aed' : '#64748b'}; cursor: pointer; white-space: nowrap;">
-            3. Common Lisp Trace (MaximaMiner)
+          <button id="tabTrace" style="flex: 1; padding: 9px 10px; font-size: 12px; font-weight: 600; border: none; border-bottom: 2px solid ${this.activeTab === 'trace' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'trace' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'trace' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
+            3. Common Lisp Trace
           </button>
-          <button id="tabLean" style="flex: 1; padding: 10px 12px; font-size: 12.5px; font-weight: 600; border: none; border-bottom: 2.5px solid ${this.activeTab === 'lean' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'lean' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'lean' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
+          <button id="tabLean" style="flex: 1; padding: 9px 10px; font-size: 12px; font-weight: 600; border: none; border-bottom: 2px solid ${this.activeTab === 'lean' ? '#0284c7' : 'transparent'}; background: ${this.activeTab === 'lean' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'lean' ? '#0284c7' : '#64748b'}; cursor: pointer; white-space: nowrap;">
             4. Lean 4 Invariant
           </button>
         </div>
 
         <!-- Tab Body Content -->
-        <div style="padding: 18px 22px;">
+        <div style="padding: 16px 20px;">
           ${this.renderTabBody(res)}
         </div>
 
         <!-- Footer / Status -->
-        <div style="padding: 8px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; display: flex; justify-content: space-between; align-items: center;">
-          <span>Domain: <b>${res.domain}</b> · Engine: <b>Maxima 5.46 CAS + MaximaMiner</b></span>
+        <div style="padding: 7px 18px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; display: flex; justify-content: space-between; align-items: center;">
+          <span>Domain: <b>${res.domain}</b> · Engine: <b>Maxima 5.46 CAS</b></span>
           <span style="color: #16a34a; font-weight: 600;">✓ Invariant Formally Bound</span>
         </div>
 
@@ -1258,15 +1264,15 @@ export class MwmCasCalculator extends HTMLElement {
           <!-- Header with AIC Badge -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
             <div>
-              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; background: #ede9fe; color: #6d28d9; padding: 3px 8px; border-radius: 4px; border: 1px solid #ddd6fe;">
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; background: #ede9fe; color: #6d28d9; padding: 2px 7px; border-radius: 4px; border: 1px solid #ddd6fe;">
                 ${trace ? trace.aic : 'ALG-AUTONOMOUS-TRACE'}
               </span>
-              <h4 style="margin: 6px 0 0 0; font-size: 15px; color: #0f172a;">
+              <h4 style="margin: 4px 0 0 0; font-size: 14.5px; color: #0f172a;">
                 ${trace ? trace.algorithmName : 'Common Lisp Internal Execution Trace'}
               </h4>
             </div>
-            <span style="font-size: 11px; color: #6d28d9; background: #f5f3ff; border: 1px solid #ddd6fe; padding: 3px 10px; border-radius: 12px; font-weight: 600;">
-              ⚡ MaximaMiner Trace Engine
+            <span style="font-size: 11px; color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 4px;">
+              MaximaMiner Trace
             </span>
           </div>
 
@@ -1353,6 +1359,39 @@ ${trace.rawOutput}
         this.querySelector('#tabMaxima')?.addEventListener('click', () => this.setOutputTab('maxima'));
         this.querySelector('#tabTrace')?.addEventListener('click', () => this.setOutputTab('trace'));
         this.querySelector('#tabLean')?.addEventListener('click', () => this.setOutputTab('lean'));
+        // Dev-mode atomic input aid buttons
+        this.querySelectorAll('.mwm-aid-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const token = e.currentTarget.getAttribute('data-insert');
+                if (!token)
+                    return;
+                const input = this.querySelector('#mwmCalcInput');
+                if (!input)
+                    return;
+                const start = input.selectionStart ?? input.value.length;
+                const end = input.selectionEnd ?? input.value.length;
+                const val = input.value;
+                // If wrapping function like st() or norm_sq(), wrap current selection if any
+                if (token.endsWith('()') && start !== end) {
+                    const prefix = token.slice(0, -1); // e.g. "st("
+                    const selected = val.substring(start, end);
+                    const replacement = `${prefix}${selected})`;
+                    input.value = val.substring(0, start) + replacement + val.substring(end);
+                    input.setSelectionRange(start + prefix.length, start + prefix.length + selected.length);
+                }
+                else if (token.includes('()')) {
+                    const insertPos = token.indexOf('(') + 1;
+                    input.value = val.substring(0, start) + token + val.substring(end);
+                    input.setSelectionRange(start + insertPos, start + insertPos);
+                }
+                else {
+                    input.value = val.substring(0, start) + token + val.substring(end);
+                    input.setSelectionRange(start + token.length, start + token.length);
+                }
+                this.inputExpr = input.value;
+                input.focus();
+            });
+        });
         // Input evaluation (dev-only button)
         this.querySelector('#mwmCalcEvalBtn')?.addEventListener('click', () => this.handleCustomEvaluate());
         this.querySelector('#mwmCalcInput')?.addEventListener('keydown', (e) => {
