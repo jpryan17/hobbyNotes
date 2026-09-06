@@ -5,7 +5,6 @@ import { btd, initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { bid, initBID, layoutBID } from "../../clientLib/bid.js";
 
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
-import { StemCard } from "../../clientLib/stemCard.js";
 
 export const propLogicIndex: IndexItemDesc[] = [
   {
