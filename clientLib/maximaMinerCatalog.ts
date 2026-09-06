@@ -351,5 +351,95 @@ cos(x)^3/3 - cos(x)`
     callTreeText: '• [conway_add] args: [1, 1/2]\n  • [dyadic_sum] args: [1 + 1/2] -> 3/2',
     rawOutput: `1 Enter conway_add [1, 1/2]
  1 Exit  conway_add 3/2`
+  },
+
+  // Newtonian Kinematics: Free Fall Trajectory
+  'newton_free_fall': {
+    aic: 'ALG-MWM-SYMBOLIC',
+    algorithmName: 'Middle Way Algebraic Reduction',
+    description: 'Evaluated expression for Newtonian Kinematics: Free Fall Trajectory & Constant Acceleration.',
+    attemptedHeuristics: ['Primary Maxima /evalMaxima endpoint offline or timed out'],
+    callTreeText: '• [mwm_reduction] expression: s: v0*t - 1/2*g*t^2$ ratsimp((subst(t+dt, t, s) - s)/dt); ratsimp((subst(t-dt, t, s) - 2*s + subst(t+dt, t, s))/dt^2);\n  • result: v(t) = v0 - g*t,   a(t) = -g',
+    rawOutput: `display2d: false;
+s: v0*t - 1/2*g*t^2;
+ratsimp((subst(t+dt, t, s) - s)/dt);
+-> (2*v0 - 2*g*t - dt*g)/2
+st( (2*v0 - 2*g*t - dt*g)/2 ) -> v0 - g*t
+ratsimp((subst(t-dt, t, s) - 2*s + subst(t+dt, t, s))/dt^2);
+-> -g`
+  },
+
+  // Newtonian Kinematics: Work-Kinetic Energy
+  'newton_work_energy': {
+    aic: 'ALG-HEUR-DIFFDIV',
+    algorithmName: 'Work-Kinetic Energy Differential Invariance',
+    description: "Moses' diffdiv heuristic integrates momentum flow m·v dv directly on ℝ_ω, yielding the kinetic energy function (1/2)·m·v².",
+    attemptedHeuristics: ['standard discrete sum telescoped into exact kinetic energy difference'],
+    callTreeText: '• [sinint] args: [m*v, v] -> (m*v^2)/2\n  • [integrator] args: [m*v, v] -> (m*v^2)/2\n    • [diffdiv] args: [v, v] -> v^2/2\n  • [telescoping_sum] args: [∑_{k=0}^{n-1} m*v_k*Δv_k] -> (1/2)*m*v_n^2 - (1/2)*m*v_0^2',
+    rawOutput: `1 Enter sinint [m*v, v]
+ 1 Enter integrator [m*v, v]
+  1 Enter diffdiv [v, v]
+  1 Exit  diffdiv v^2/2
+ 1 Exit  integrator (m*v^2)/2
+1 Exit  sinint (m*v^2)/2
+(m*v^2)/2`
+  },
+
+  // Newtonian Kinematics: Harmonic Oscillator
+  'newton_harmonic_oscillator': {
+    aic: 'ALG-HEUR-DIFFDIV',
+    algorithmName: 'Harmonic Restoring Force Potential Integration',
+    description: 'Evaluates the conservative spring potential via diffdiv integration on restoring force -k·x dx, yielding -k·x²/2.',
+    attemptedHeuristics: [],
+    callTreeText: '• [sinint] args: [-k*x, x] -> -(k*x^2)/2\n  • [integrator] args: [-k*x, x] -> -(k*x^2)/2\n    • [diffdiv] args: [x, x] -> x^2/2\n  • [energy_conservation] args: [(1/2)*m*v^2 + (1/2)*k*x^2 = E_total]',
+    rawOutput: `1 Enter sinint [-k*x, x]
+ 1 Enter integrator [-k*x, x]
+  1 Enter diffdiv [x, x]
+  1 Exit  diffdiv x^2/2
+ 1 Exit  integrator -(k*x^2)/2
+1 Exit  sinint -(k*x^2)/2
+-(k*x^2)/2`
+  },
+
+  // Hyperfinite Summation / Telescoping FTC
+  'r_ftc': {
+    aic: 'ALG-MWM-TELESCOPING-FTC',
+    algorithmName: 'Hyperfinite Summation & Telescoping FTC on ℝ_ω',
+    description: 'Computes closed-form hyperfinite sum of discrete integers ∑_{i=1}^n i = (n² + n)/2 via pairwise boundary cancellation.',
+    attemptedHeuristics: [],
+    callTreeText: '• [simpsum] args: [sum(i, i, 1, n)] -> (n^2 + n)/2\n  • [telescoping_ftc] args: [hyper_sum (delta F) n] -> F(n) - F(0)',
+    rawOutput: `ev(sum(i, i, 1, n), simpsum: true);
+-> (n^2 + n)/2`
+  },
+
+  // Toeplitz Matrix Laplacian
+  'mat_laplace': {
+    aic: 'ALG-MWM-TOEPLITZ-SPECTRUM',
+    algorithmName: 'Toeplitz Tridiagonal Laplacian Spectrum',
+    description: 'Evaluates 5x5 tridiagonal discrete Laplacian A and computes symbolic eigenvalues [-2, -1, -2-√3, -2+√3, -3].',
+    attemptedHeuristics: [],
+    callTreeText: '• [toeplitz_laplacian] args: [dim=5, stencil=[1, -2, 1]]\n  • [eigenvalues] args: [A] -> [[-2, -1, -2-sqrt(3), -2+sqrt(3), -3], [1, 1, 1, 1, 1]]\n  • [stability_check] args: [all lambda_k < 0] -> Guaranteed Asymptotic Thermal Stability',
+    rawOutput: `A: matrix([-2,1,0,0,0],[1,-2,1,0,0],[0,1,-2,1,0],[0,0,1,-2,1],[0,0,0,1,-2])$
+eigenvalues(A);
+-> [[-2, -1, -2-sqrt(3), -2+sqrt(3), -3], [1, 1, 1, 1, 1]]`
   }
 };
+
+// Aliases for chip IDs and expressions
+PREMINED_MAXIMA_TRACES['miner_diffdiv'] = PREMINED_MAXIMA_TRACES['x*exp(x^2)'];
+PREMINED_MAXIMA_TRACES['miner_ratint'] = PREMINED_MAXIMA_TRACES['1/(x^3+1)'];
+PREMINED_MAXIMA_TRACES['miner_trigint'] = PREMINED_MAXIMA_TRACES['sin(x)^3'];
+PREMINED_MAXIMA_TRACES['miner_gamma'] = PREMINED_MAXIMA_TRACES['exp(x)/x'];
+PREMINED_MAXIMA_TRACES['FREE_FALL(v0*t - 1/2*g*t^2, t)'] = PREMINED_MAXIMA_TRACES['newton_free_fall'];
+PREMINED_MAXIMA_TRACES['free_fall(v0*t-1/2*g*t^2,t)'] = PREMINED_MAXIMA_TRACES['newton_free_fall'];
+PREMINED_MAXIMA_TRACES['WORK_ENERGY_SUM(F, x0, xn)'] = PREMINED_MAXIMA_TRACES['newton_work_energy'];
+PREMINED_MAXIMA_TRACES['HOOKES_LAW_LEAPFROG(k, m, dt)'] = PREMINED_MAXIMA_TRACES['newton_harmonic_oscillator'];
+PREMINED_MAXIMA_TRACES['FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})'] = PREMINED_MAXIMA_TRACES['heat_slice_flux'];
+PREMINED_MAXIMA_TRACES['TELESCOPING_CONSERVATION(q, 0, N)'] = PREMINED_MAXIMA_TRACES['telescoping_conservation'];
+PREMINED_MAXIMA_TRACES['DIFF_W(x^3, x)'] = PREMINED_MAXIMA_TRACES['r_diff'];
+PREMINED_MAXIMA_TRACES['LAPLACE_1D(x^2, x)'] = PREMINED_MAXIMA_TRACES['r_laplace'];
+PREMINED_MAXIMA_TRACES['TELESCOPING_FTC(F, 0, n)'] = PREMINED_MAXIMA_TRACES['r_ftc'];
+PREMINED_MAXIMA_TRACES['TOEPLITZ(5, alpha)'] = PREMINED_MAXIMA_TRACES['toeplitz_5x5'];
+PREMINED_MAXIMA_TRACES['TOEPLITZ_LAPLACIAN(5, alpha)'] = PREMINED_MAXIMA_TRACES['mat_laplace'];
+
+

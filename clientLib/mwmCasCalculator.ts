@@ -187,6 +187,8 @@ export class MwmCasCalculator extends HTMLElement {
             leanSnippet: 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :\n  hyper_sum (delta F) n = F n - F 0'
           }
         };
+        break;
+
       case 'newton_free_fall':
         this.activeDomain = 'R_w';
         this.inputExpr = customExpr || 'FREE_FALL(v0*t - 1/2*g*t^2, t)';
@@ -211,6 +213,7 @@ export class MwmCasCalculator extends HTMLElement {
             simplified: 'v(t) = v0 - g*t,   a(t) = -g',
             astTree: '((MPLUS) $V0 ((MTIMES) -1 $G $T))'
           },
+          maximaMinerTrace: PREMINED_MAXIMA_TRACES['newton_free_fall'],
           leanInvariant: {
             theorem: 'MiddleWay.delta & MiddleWay.st',
             scaffoldKey: 'st',
@@ -712,11 +715,16 @@ export class MwmCasCalculator extends HTMLElement {
 
     // Attach pre-mined MaximaMiner trace if not already present
     if (this.currentResult && !this.currentResult.maximaMinerTrace) {
-      if (PREMINED_MAXIMA_TRACES[presetId]) {
-        this.currentResult.maximaMinerTrace = PREMINED_MAXIMA_TRACES[presetId];
-      } else if (PREMINED_MAXIMA_TRACES[this.inputExpr]) {
-        this.currentResult.maximaMinerTrace = PREMINED_MAXIMA_TRACES[this.inputExpr];
-      }
+      const cleanInput = (this.inputExpr || '').replace(/\s+/g, '').toLowerCase();
+      const intMatch = (this.inputExpr || '').match(/integrate\s*\(\s*(.+?)\s*,\s*[a-zA-Z0-9_]+\s*\)/i);
+      const innerExpr = intMatch ? intMatch[1].trim() : '';
+      const cleanInner = innerExpr.replace(/\s+/g, '').toLowerCase();
+
+      this.currentResult.maximaMinerTrace =
+        PREMINED_MAXIMA_TRACES[presetId] ||
+        PREMINED_MAXIMA_TRACES[this.inputExpr] ||
+        PREMINED_MAXIMA_TRACES[cleanInput] ||
+        (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
     }
 
     this.render();
@@ -1123,11 +1131,11 @@ export class MwmCasCalculator extends HTMLElement {
             ${trace ? trace.description : 'Surfaces internal Common Lisp call frames, winning algorithm heuristics, and decision cascades.'}
           </p>
 
-          ${trace && trace.attemptedHeuristics && trace.attemptedHeuristics.length > 0 ? `
+          ${trace ? `
             <div style="margin-bottom: 14px;">
               <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Heuristic Decision Cascade:</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                ${trace.attemptedHeuristics.map(h => `
+                ${(trace.attemptedHeuristics || []).map(h => `
                   <span style="font-size: 11.5px; padding: 2px 8px; border-radius: 4px; background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; font-family: monospace;">
                     ✗ ${h}
                   </span>
