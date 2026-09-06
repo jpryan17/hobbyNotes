@@ -12,68 +12,165 @@
     <br>
 
     <p>
-      Professor James stood at the front of the computational engineering laboratory with a steel rod in one hand and a thermal imaging camera in the other. 
-      In the front row sat Jill, fresh from transferring over from Liberal Arts Mathematics after being captivated by Jane's continuous analysis on <code>ℝ_ω</code>, with her laptop open next to Liam.
+      Professor James set a long, gleaming steel rod across two insulated support blocks on the laboratory demonstration bench. 
+      Beside it, an infrared thermal imaging camera pointed directly at the rod, feeding a live display onto the large overhead monitor. 
+      A small electric heating element clamped near the one-third mark glowed dull orange. On the monitor, a vivid false-color heat map showed a sharp, brilliant peak of thermal color where the clamp sat, flanked by cool blues and purples along the rest of the bar.
     </p>
 
     <p>
-      “For those of you joining us from the foundational and liberal arts mathematics tracks,” James addressed the room, “we have spent semesters exploring pure logic, Conway number trees, and hyperfinite transects. 
-      Pure mathematics has the luxury of living in pristine, frictionless realms. 
-      Today, we welcome students who want to cross over into STEM and computational engineering: modeling heat shields, designing aerodynamic foils, and analyzing real physical systems.”
+      Sitting in the front row was Jill, notebook open alongside Liam. 
+      Over the past two semesters, she had immersed herself in Jack's foundational logic, sets, and Conway number trees, followed by Jane's exploration of continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code> in Liberal Arts Mathematics. 
+      Now, stepping across the quad into the applied engineering laboratory, she watched the glowing monitor with keen interest.
     </p>
 
     <p>
-      Jill raised her hand: “Professor James, in pure mathematics, if a boundary layer or thermal singularity causes trouble, you declare an axiom: <i>'Assume a smooth, boundaryless manifold.'</i> Looking at that steel rod—how do we take our discrete Middle Way scaffold and compute when boundary conditions and thermal dissipation cannot be wished away?”
+      Professor James switched off the electric heater and turned to the class, gesturing toward the bench:
+      <br>
+      <b>“Before we write down any formulas or touch a computer: How are we going to model this rod?”</b>
     </p>
 
     <p>
-      “Welcome to applied engineering, Jill!” James smiled warmly. “<b>You’ve hit upon why applied mathematics is often considerably more complex than pure mathematics.</b> 
-      In engineering, you cannot wish the physical grid or thermal dissipation away. You must compute with them. 
-      Today, we're going to see how Middle Way discrete calculus on <code>ℝ_ω</code> is the exact theoretical foundation of modern computational engineering.”
+      The room was quiet for a moment. James caught Jill's eye and smiled: 
+      “Jill, you’ve just joined us from Jane’s course on continuous structures. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical mind see?”
     </p>
 
-    <hr>
-
-    <h3>1. The 1D Heat Rod &amp; The Discrete Mesh on ℝ_ω</h3>
     <p>
-      Consider a conductive metal rod of length <code>L = 1.0</code> partitioned into <code>N</code> discrete cells with uniform lattice spacing <code>Δx = 1/(N-1)</code> on the hyperfinite transect <code>ℝ_ω</code>:
+      Jill looked up at the overhead monitor:
+      “On the screen, the temperature looks like a continuous curve—a function <code>T(x)</code> giving the temperature at every point from <code>x = 0</code> to <code>x = L</code>. In Professor Jane’s class, we learned that we can think of continuous curves on <code>ℝ_ω</code> as smooth progressions through an ultra-dense transect of points.”
+    </p>
+
+    <p>
+      “That is the classical mathematician's continuum view,” James nodded approvingly. 
+      “A continuous function <code>T(x, t)</code>. But now look at the monitor as time passes. What is actually happening to that sharp thermal peak?”
+    </p>
+
+    <p>
+      Jill watched the live display: 
+      “The orange peak is sinking. The hot spot is cooling down, while the cooler metal immediately next to it is warming up. The heat is spreading outward and flattening.”
+    </p>
+
+    <p>
+      “Why?” James asked. “Can an engineer track every one of the <code>10²⁴</code> vibrating iron atoms inside that bar? Or can our computers calculate values at an uncountably infinite number of points?”
+    </p>
+
+    <p>
+      “No,” Jill laughed. “The thermal camera itself has a finite grid of sensor pixels. And our computers only have finite floating-point memory.”
+    </p>
+
+    <p>
+      “Exactly,” said James. “To model this rod physically and computationally, we need to choose our fundamental building blocks. We don't track individual atoms, nor do we drown in uncomputable infinites. How should we represent the rod?”
+    </p>
+
+    <p>
+      Jill considered the setup: 
+      “We divide the length of the rod into small finite slices—little segments or control volumes of width <code>Δx</code>.”
     </p>
 
     <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 680px; line-height: 1.6;">
-      Node: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N ]<br>
-      Temp: &nbsp; &nbsp; u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_N(t)
+      Slice: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N - 1 ]<br>
+      Temp: &nbsp; &nbsp; &nbsp;u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{N-1}(t)
+    </div>
+
+    <hr>
+
+    <h3>1. Isolating a Single Slice: Contact Physics &amp; Energy Conservation</h3>
+    <p>
+      James stepped to the blackboard: 
+      “Let's slow down and look at just <b>one single slice</b>—slice <code>i</code> at temperature <code>u_i(t)</code>. 
+      What determines whether the temperature inside slice <code>i</code> rises or falls?”
+    </p>
+
+    <p>
+      Jill answered from first principles: 
+      “Energy conservation. Heat is thermal energy. Energy cannot be created or destroyed. 
+      The only way the heat energy inside slice <code>i</code> can change is if thermal energy flows in or out across its physical boundaries.”
+    </p>
+
+    <p>
+      “And who does slice <code>i</code> touch?” James asked.
+    </p>
+
+    <p>
+      “Only its immediate neighbors,” Jill replied. “Slice <code>i-1</code> on its left, and slice <code>i+1</code> on its right. 
+      In Jack's logic course, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
+      Heat cannot teleport across space; it can only cross boundaries through direct physical contact with adjacent slices.”
+    </p>
+
+    <p>
+      “And which way does it flow across those boundaries?” James asked.
+    </p>
+
+    <p>
+      “From hotter to colder,” Jill said. “If slice <code>i-1</code> is hotter than slice <code>i</code>, thermal energy flows into slice <code>i</code> from the left. 
+      If slice <code>i</code> is hotter than slice <code>i+1</code>, thermal energy flows out to the right.”
+    </p>
+
+    <p>
+      “That is <b>Fourier's Law of Thermal Conduction</b>,” James explained. 
+      “The rate of heat flux across a boundary is proportional to the temperature difference divided by the slice width <code>Δx</code>, scaled by the material's thermal conductivity <code>k</code>. 
+      When we account for the steel's density <code>ρ</code> and specific heat capacity <code>c</code>, they bundle into a single material constant: the <b>thermal diffusivity</b> <code>α = k / (ρ · c)</code> (with units of <code>length² / time</code>).”
+    </p>
+
+    <p>
+      “Now,” James continued, “let's write the energy ledger for slice <code>i</code>. 
+      The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
+    </p>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14.5px; margin: 12px auto; max-width: 620px; color: #1e3a8a;">
+      du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ]<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
     </div>
 
     <p>
-      By <b>Fourier’s Law of Thermal Conduction</b>, the conductive heat flux flowing across the boundary from cell <code>i-1</code> to cell <code>i</code> is proportional to the discrete difference quotient:
+      Jill stared at the right-hand side, a smile breaking across her face: 
+      “Wait! Look at that algebraic grouping: <code>u_{i-1} - 2u_i + u_{i+1}</code>. 
+      That is the <b>second discrete difference <code>Δ²u</code></b> from Jane's analysis course! 
+      It measures curvature—whether <code>u_i</code> sits above or below the average of its neighbors!”
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
-      q_{i - 1/2} = -k · [ u_i - u_{i-1} ] / Δx
-    </div>
 
     <p>
-      The net rate of heat energy accumulation at node <code>i</code> is the incoming flux minus the outgoing flux:
-    </p>
-    <div align="center" style="font-family: monospace; font-size: 15.5px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
-      du_i / dt = α · [ u_{i-1} - 2u_i + u_{i+1} ] / Δx²
-    </div>
-    <p>
-      where <code>α = k / (ρ · c)</code> is the thermal diffusivity of the material.
+      “Spot on!” James beamed. 
+      “If slice <code>i</code> is hotter than the average of its neighbors—a local peak—then <code>Δ²u &lt; 0</code>, so it cools down. 
+      If it is colder than its neighbors—a local valley—then <code>Δ²u &gt; 0</code>, so it warms up. 
+      Nature is computing a discrete second difference at every slice on the rod to smooth out thermal curvature!”
     </p>
 
     <hr>
 
-    <h3>2. The Tridiagonal Discrete Laplacian: NEAR (≈) and EQ (=)</h3>
+    <h3>2. Assembling All Slices: How the Matrix Emerges</h3>
     <p>
-      Notice the second difference operator in matrix form across the entire rod:
+      “Now,” James said, “what happens when we step back and look at the entire rod? 
+      We don't have just one slice; we have <code>N</code> slices along the rod, from slice <code>0</code> to slice <code>N-1</code>.”
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #0f172a;">
-      d<b>u</b>/dt = <b>A</b> · <b>u</b>
+
+    <p>
+      He wrote out the balance for each slice on the board:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 14px auto; max-width: 680px; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a;">
+      For slice 1: &nbsp; du₁/dt = (α / Δx²) · [ &nbsp;1·u₀ - 2·u₁ + 1·u₂ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 2: &nbsp; du₂/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; 1·u₁ - 2·u₂ + 1·u₃ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 3: &nbsp; du₃/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1·u₂ - 2·u₃ + 1·u₄ &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+      For slice i: &nbsp; du_i/dt = (α / Δx²) · [ ... &nbsp;1·u_{i-1} - 2·u_i + 1·u_{i+1} ... ]
     </div>
 
     <p>
-      The matrix <code><b>A</b></code> is the classic <b>tridiagonal Toeplitz discrete Laplacian</b>:
+      “If we have 50 or 500 slices,” James said, “writing 500 separate equations would drown us in paperwork. 
+      How can we package the temperatures of all <code>N</code> slices together?”
     </p>
+
+    <p>
+      “With linear algebra,” Jill suggested. 
+      “We stack all <code>N</code> temperatures into a single state vector 
+      <code>u(t) = [ u₀(t), u₁(t), ... , u_{N-1}(t) ]^T ∈ ℝ^N</code>, 
+      and collect all the coefficients into a single matrix <code><b>A</b></code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0; color: #0f172a; font-weight: bold;">
+      d<b>u</b>/dt = <b>A</b> · <b>u</b>
+    </div>
+
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
       <b>A</b> = (α / Δx²) · <br>
       [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
@@ -85,88 +182,81 @@
     </div>
 
     <p>
-      Jill raised an eyebrow, looking at the matrix on the screen: “Wait, Professor James—should I already know what a <i>'tridiagonal Toeplitz'</i> matrix is? It sounds like heavy academic jargon. Why on earth is it relevant to heating a steel rod?”
+      James stepped back and tapped the board:
+      “In applied mathematics and computational engineering, you will see this matrix given a formal name: 
+      the <b>tridiagonal Toeplitz discrete Laplacian</b>.”
     </p>
 
     <p>
-      Professor James laughed with approval: “Never let 19th-century terminology intimidate you, Jill! That name actually describes two simple physical properties you already understand intuitively:”
+      “When students see those words on an exam without physical context, they panic. But look at what each word actually means from the model we just built together:
     </p>
 
-    <div style="background-color: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 14px 18px; margin: 14px auto; max-width: 720px; font-size: 13.5px; line-height: 1.6; color: #14532d;">
-      <ol style="margin: 0; padding-left: 20px;">
-        <li>
-          <b>What 'Toeplitz' means &mdash; Spatial Homogeneity:</b><br>
-          Notice how every descending diagonal has the exact same constant value (all <code>-2</code> on the main diagonal, all <code>+1</code> on the bands directly above and below). 
-          In mathematics, any matrix where <code>A_{i,j} = a_{i-j}</code> is called <b>Toeplitz</b>. 
-          In physics, this simply means <i>the material is uniform everywhere</i>! 
-          A steel rod has the exact same thermal conductivity whether you measure at node 3, node 7, or node 14. Space is homogeneous—the laws of heat conduction don't change just because you slide along the rod.
-        </li>
-        <br>
-        <li>
-          <b>What 'Tridiagonal' means &mdash; Locality (The NEAR Relation):</b><br>
-          There are only three non-zero diagonals: the center line and its two immediate neighbors. 
-          Everything else is zero! 
-          Why? Because heat cannot jump through telepathy. 
-          Node <code>i</code> only touches node <code>i-1</code> and node <code>i+1</code>. 
-          This is the exact physical embodiment of our Middle Way relations:
-          <ul style="margin: 6px 0 0 0; padding-left: 20px;">
-            <li>The main diagonal (<code>-2</code>) is the identity relation <b><code>EQ (=)</code></b>: self-dissipation as heat leaves cell <code>i</code>.</li>
-            <li>The off-diagonal bands (<code>+1</code>) exist <b>strictly where <code>NEAR(x₁, x₂)</code> (<code>≈</code>) holds</b>: conductive exchange across the immediate boundary.</li>
-            <li>All other entries are <code>0</code> because distant nodes (<code>|x₁ - x₂| &gt; 1</code>) have no direct contact without passing through intermediate cells!</li>
-          </ul>
-        </li>
-      </ol>
-    </div>
+    <ul>
+      <li><b>'Discrete Laplacian':</b> It is simply the discrete counterpart of the spatial second derivative <code>∂²u / ∂x²</code> (the Laplacian operator <code>∇²</code>)—measuring local curvature across space.</li>
+      <li><b>'Tridiagonal' is Locality:</b> There are only three non-zero bands: the main diagonal (<code>-2</code>) and the two immediate neighbor bands (<code>+1</code>). Why? Because physical contact is strictly local! A slice only touches its immediate left and right neighbors. Slices farther away have zeros because heat cannot jump across space without passing through the slices in between.</li>
+      <li><b>'Toeplitz' is Uniformity:</b> In linear algebra, a matrix where every diagonal contains identical constant entries is named after Otto Toeplitz. Why is it constant here? Because <b>the steel rod is uniform</b>! The material diffusivity <code>α</code> is identical everywhere, and we sliced the rod into equal widths <code>Δx</code>.</li>
+    </ul>
 
     <p>
-      “So,” Jill summarized with a smile, “'tridiagonal Toeplitz' is just formal math-speak for <b>local physics on a uniform rod</b>!”
+      Jill smiled: “So 'tridiagonal Toeplitz' isn't some arbitrary academic puzzle—it's just the exact mathematical fingerprint of local contact physics on a uniform bar!”
     </p>
 
     <p>
-      “Precisely!” James beamed. “And what makes it so powerful for computational engineering is that because it is tridiagonal and Toeplitz, Maxima can derive its eigensystem symbolically in closed form without guessing. Its eigenvectors are none other than pure Fourier sine waves!”
+      “Precisely,” James affirmed. “Physics dictates the geometry of the matrix.”
     </p>
 
     <hr>
 
-    <h3>3. Interactive STEM Card: Maxima CAS Derivation &amp; Live Heat Diffusion</h3>
+    <h3>3. The Engineering Dilemma: The Curse of Coupling</h3>
     <p>
-      Below is our live <b>STEM Calculation Card</b>. 
-      The symbolic steps were derived and verified directly in <b>Maxima CAS</b>, paired with our Middle Way discrete lattice and Lean 4 conservation invariants:
+      James paused, leaning forward: 
+      “Now, Jill—here is the central problem of applied engineering. 
+      Look at <code>d<b>u</b>/dt = <b>A</b> · <b>u</b></code>. Can we just solve each node's temperature independently?”
+    </p>
+
+    <p>
+      Jill shook her head: 
+      “No! They are all tangled together. To compute <code>u₁</code>, you need <code>u₂</code>. But to compute <code>u₂</code>, you need <code>u₁</code> and <code>u₃</code>. If you touch one spot on the rod, ripples spread through every single node.”
+    </p>
+
+    <p>
+      “Exactly—<b>the physical system is coupled</b>!” James affirmed. 
+      “In pure mathematics, you can write the formal solution <code>u(t) = exp(A · t) · u₀</code> and declare the proof complete. 
+      In applied engineering, computing a matrix exponential of thousands of coupled nodes is brutal. 
+      How do we untangle them?”
+    </p>
+
+    <p>
+      Liam raised his hand from his laptop: 
+      “In Mini-Seminar 1 with Jane, we saw that whenever a linear system is shift-invariant and coupled across spatial neighbors, you can <b>rotate coordinates into the Fourier basis</b>!”
+    </p>
+
+    <p>
+      “That is the master stroke!” James beamed. 
+      “Because matrix <code><b>A</b></code> is tridiagonal and Toeplitz, its eigenvectors are none other than <b>pure Fourier sine waves</b>: 
+      <code>v_k = [sin(k·π·x_i / L)]</code>. 
+      When we rotate into the Fourier basis via unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0; color: #166534;">
+      F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
+    </div>
+
+    <p>
+      “In Fourier mode coordinates, all <code>N</code> nodes uncouple into independent exponential decays: 
+      <code>û_k(t) = û_k(0) · exp(-λ_k · t)</code>! 
+      The hardest problem in continuum physics is solved by choosing the right coordinate basis.”
+    </p>
+
+    <hr>
+
+    <h3>4. Interactive STEM Card: Maxima CAS Derivation &amp; Live Simulation</h3>
+    <p>
+      James turned to Liam’s laptop: “Let's test this directly. We'll have <b>Maxima CAS</b> derive the exact eigensystem and compute the transient simulation, while <b>Lean 4</b> verifies that no energy is lost.”
     </p>
 
     <!-- Embedded STEM Card -->
     <stem-card entry-id="heat_diffusion_1d"></stem-card>
-
-    <hr>
-
-    <h3>4. Fourier Duality as Operator Diagonalization</h3>
-    <p>
-      Liam stepped up to the blackboard, pointing back to <b>Mini-Seminar 1 (The Fourier Duality)</b>:
-    </p>
-    <p>
-      “In direct spatial coordinates, this physical system is entangled. If you heat up node 7, it immediately changes node 6 and node 8, which then change node 5 and node 9. To solve this in position space, you have to compute a full matrix exponential <code>u(t) = exp(A · t) · u₀</code>. 
-      Why did Fourier introduce sine and cosine waves?”
-    </p>
-
-    <div style="background-color: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px; font-size: 13.5px; line-height: 1.6; color: #14532d;">
-      <b>The Core Mathematical Principle:</b><br>
-      The discrete Fourier basis vectors <code>v_k = [sin(k·π·x_i / L)]</code> are the <b>exact eigenvectors of the discrete Laplacian matrix <code>A</code></b>!<br>
-      When we rotate the state vector into the Fourier basis via the unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:<br>
-      <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0;">
-        F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
-      </div>
-      In frequency space, the coupled system uncouples into <i>independent exponential decays</i>:
-      <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0;">
-        û_k(t) = û_k(0) · exp( -α · (kπ / L)² · t )
-      </div>
-    </div>
-
-    <p>
-      <b>Why High Frequencies Vanish Almost Instantly:</b><br>
-      Notice the <code>k²</code> factor in the exponent! 
-      Harmonic mode <code>k = 4</code> decays <b>16 times faster</b> than the fundamental mode <code>k = 1</code>. 
-      This is why sharp temperature corners, discontinuities, and localized spikes disappear in milliseconds (as seen on the interactive slider above), leaving only a smooth, gentle bell curve that slowly flattens to equilibrium.
-    </p>
 
     <hr>
 
