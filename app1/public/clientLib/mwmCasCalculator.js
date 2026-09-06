@@ -9,16 +9,31 @@
  *  - 2^n Conway Number Trees: Transfinite inductive dyadic branching & sign sequences
  *  - Matrix: Discrete Laplacian Toeplitz stencils & Fourier harmonic eigenvalues
  */
+import { MAXIMA_CACHE } from './maximaCache.js';
 export class MwmCasCalculator extends HTMLElement {
     activeDomain = 'R_w';
     activeTab = 'semantics';
     currentResult;
+    currentPresetId = 'r_diff';
     inputExpr = 'DIFF_W(x^3, x)';
     constructor() {
         super();
     }
     connectedCallback() {
-        this.selectPreset('r_diff');
+        const attrCalcId = this.getAttribute('calc-id') || this.getAttribute('calcId');
+        const attrExpr = this.getAttribute('expr');
+        if (attrCalcId) {
+            this.selectPreset(attrCalcId, attrExpr || undefined);
+        }
+        else if (this.currentResult) {
+            this.render();
+        }
+        else {
+            this.selectPreset('r_diff');
+        }
+    }
+    getCurrentResult() {
+        return this.currentResult || null;
     }
     selectDomain(domain) {
         this.activeDomain = domain;
@@ -35,14 +50,15 @@ export class MwmCasCalculator extends HTMLElement {
         this.activeTab = tab;
         this.render();
     }
-    selectPreset(presetId) {
+    selectPreset(presetId, customExpr) {
+        this.currentPresetId = presetId;
         switch (presetId) {
             case 'heat_slice_flux':
                 this.activeDomain = 'R_w';
-                this.inputExpr = 'FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})';
+                this.inputExpr = customExpr || 'FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})';
                 this.currentResult = {
                     domain: 'R_w',
-                    expression: 'FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})',
+                    expression: this.inputExpr,
                     mwmSemantics: {
                         title: 'James Lab Request: Single-Slice Net Heat Flux Ledger',
                         description: 'Computes net thermal energy accumulation inside slice i from incoming left flux and outgoing right flux.',
@@ -70,10 +86,10 @@ export class MwmCasCalculator extends HTMLElement {
                 break;
             case 'toeplitz_5x5':
                 this.activeDomain = 'Matrix';
-                this.inputExpr = 'TOEPLITZ(5, alpha)';
+                this.inputExpr = customExpr || 'TOEPLITZ(5, alpha)';
                 this.currentResult = {
                     domain: 'Matrix',
-                    expression: 'TOEPLITZ(5, alpha)',
+                    expression: this.inputExpr,
                     mwmSemantics: {
                         title: 'James Lab Request: 5x5 Tridiagonal Toeplitz Laplacian & Eigensystem',
                         description: 'Assembles the 5x5 discrete diffusion matrix A and derives symbolic eigenvalues and thermal stability.',
@@ -101,10 +117,10 @@ export class MwmCasCalculator extends HTMLElement {
                 break;
             case 'telescoping_conservation':
                 this.activeDomain = 'R_w';
-                this.inputExpr = 'TELESCOPING_CONSERVATION(q, 0, N)';
+                this.inputExpr = customExpr || 'TELESCOPING_CONSERVATION(q, 0, N)';
                 this.currentResult = {
                     domain: 'R_w',
-                    expression: 'TELESCOPING_CONSERVATION(q, 0, N)',
+                    expression: this.inputExpr,
                     mwmSemantics: {
                         title: 'James Lab Request: Total Thermal Energy Invariance on Rod',
                         description: 'Proves that the sum of local boundary fluxes across all N cells collapses to zero identically.',
@@ -378,6 +394,40 @@ export class MwmCasCalculator extends HTMLElement {
                     }
                 };
                 break;
+            default:
+                if (MAXIMA_CACHE && MAXIMA_CACHE[presetId]) {
+                    const entry = MAXIMA_CACHE[presetId];
+                    const isMat = entry.middleWayLink.domain.includes('Matrix') || entry.id.includes('toeplitz') || entry.id.includes('diffusion');
+                    this.activeDomain = isMat ? 'Matrix' : 'R_w';
+                    this.inputExpr = customExpr || entry.title;
+                    this.currentResult = {
+                        domain: this.activeDomain,
+                        expression: this.inputExpr,
+                        mwmSemantics: {
+                            title: entry.title,
+                            description: entry.problemStatement,
+                            astSteps: entry.maximaSession.formattedSteps.map(s => `${s.step}. ${s.label}: ${s.explanation}`),
+                            notation: entry.maximaSession.inputs[0] || entry.id
+                        },
+                        maximaCas: {
+                            command: entry.maximaSession.inputs.join('; '),
+                            expanded: entry.maximaSession.outputs[0] || 'Computed',
+                            simplified: entry.maximaSession.outputs[entry.maximaSession.outputs.length - 1] || '0',
+                            astTree: entry.id
+                        },
+                        leanInvariant: {
+                            theorem: entry.lean4Verification.theorem,
+                            scaffoldKey: entry.middleWayLink.scaffoldTheorems[0] || 'telescoping_ftc',
+                            status: 'verified',
+                            leanSnippet: entry.lean4Verification.summary
+                        }
+                    };
+                }
+                else {
+                    this.selectPreset('r_diff', customExpr);
+                    return;
+                }
+                break;
         }
         this.render();
     }
@@ -511,28 +561,34 @@ export class MwmCasCalculator extends HTMLElement {
         this.bindEvents();
     }
     renderPresetButtons() {
+        const isAct = (id) => id === this.currentPresetId
+            ? 'border: 1.5px solid #0284c7; background: #e0f2fe; color: #0369a1; font-weight: bold;'
+            : 'border: 1px solid #cbd5e1; background: #ffffff; color: #334155;';
         if (this.activeDomain === 'R_w') {
             return `
-        <button class="mwm-chip" data-id="r_diff" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">DIFF_W(x³, x)</button>
-        <button class="mwm-chip" data-id="r_laplace" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">LAPLACE_1D(x², x)</button>
-        <button class="mwm-chip" data-id="r_ftc" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">TELESCOPING_FTC</button>
+        <button class="mwm-chip" data-id="heat_slice_flux" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('heat_slice_flux')}">Flux Ledger (James)</button>
+        <button class="mwm-chip" data-id="telescoping_conservation" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('telescoping_conservation')}">Boundary Sum (James)</button>
+        <button class="mwm-chip" data-id="r_diff" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('r_diff')}">DIFF_W(x³, x)</button>
+        <button class="mwm-chip" data-id="r_laplace" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('r_laplace')}">LAPLACE_1D(x², x)</button>
+        <button class="mwm-chip" data-id="r_ftc" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('r_ftc')}">TELESCOPING_FTC</button>
       `;
         }
         else if (this.activeDomain === 'C_w') {
             return `
-        <button class="mwm-chip" data-id="c_mul" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">C_MUL( (2+3i), (4-i) )</button>
-        <button class="mwm-chip" data-id="c_loop" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">CAUCHY_CELL_LOOP</button>
+        <button class="mwm-chip" data-id="c_mul" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('c_mul')}">C_MUL( (2+3i), (4-i) )</button>
+        <button class="mwm-chip" data-id="c_loop" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('c_loop')}">CAUCHY_CELL_LOOP</button>
       `;
         }
         else if (this.activeDomain === 'Tree') {
             return `
-        <button class="mwm-chip" data-id="tree_node" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">NODE("+--") ↦ 1/4</button>
-        <button class="mwm-chip" data-id="tree_add" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">RECURSIVE_ADD(1 + 1/2)</button>
+        <button class="mwm-chip" data-id="tree_node" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('tree_node')}">NODE("+--") ↦ 1/4</button>
+        <button class="mwm-chip" data-id="tree_add" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('tree_add')}">RECURSIVE_ADD(1 + 1/2)</button>
       `;
         }
         else {
             return `
-        <button class="mwm-chip" data-id="mat_laplace" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">TOEPLITZ_LAPLACIAN(5)</button>
+        <button class="mwm-chip" data-id="toeplitz_5x5" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('toeplitz_5x5')}">5x5 Toeplitz (James)</button>
+        <button class="mwm-chip" data-id="mat_laplace" style="font-size: 11.5px; padding: 3px 10px; border-radius: 4px; cursor: pointer; ${isAct('mat_laplace')}">TOEPLITZ_LAPLACIAN(5)</button>
       `;
         }
     }

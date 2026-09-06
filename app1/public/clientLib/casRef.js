@@ -7,15 +7,16 @@ export class CasRef extends HTMLElement {
         super();
     }
     connectedCallback() {
-        this.setAttribute('style', `color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:1px 4px;border-radius:3px;transition:background 0.15s, color 0.15s;`);
+        this.setAttribute('style', `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;`);
         this.addEventListener('mouseover', () => {
-            this.setAttribute('style', `color:${CasRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:#e0f2fe;padding:1px 4px;border-radius:3px;`);
+            this.setAttribute('style', `display:inline-block;color:${CasRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:#e0f2fe;padding:2px 6px;border-radius:4px;`);
         });
         this.addEventListener('mouseout', () => {
-            this.setAttribute('style', `color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:transparent;padding:1px 4px;border-radius:3px;`);
+            this.setAttribute('style', `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:transparent;padding:2px 6px;border-radius:4px;`);
         });
-        this.addEventListener('click', () => {
-            const calcId = this.getAttribute('calc-id') || 'r_diff';
+        this.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const calcId = this.getAttribute('calc-id') || this.getAttribute('calcId') || 'r_diff';
             const expr = this.getAttribute('expr') || '';
             const index = Nav.indices[Nav.currentIndex];
             const choice = index ? index.choices[index.chosen] : null;
@@ -23,12 +24,13 @@ export class CasRef extends HTMLElement {
             const buttonText = `back to ${topicName}`;
             if (!casDemo)
                 setCasDemo();
-            casDemo.loadCalculation(calcId, expr);
             Nav.setLastVisit();
             Nav.addNavLineBackButton(buttonText);
             Nav.fo.removeChildren();
             Nav.fo.append(casDemo);
             Nav.display();
+            // Load calculation AFTER mounting to DOM so connectedCallback does not wipe it out
+            casDemo.loadCalculation(calcId, expr);
             casDemo.layout();
             if (typeof requestAnimationFrame !== 'undefined') {
                 requestAnimationFrame(() => casDemo.layout());

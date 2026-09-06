@@ -35,7 +35,7 @@ export class CasDemo extends Elt {
         <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; background: #0284c7; color: #ffffff; padding: 2px 8px; border-radius: 4px;">
           CAS Workbench
         </span>
-        <span style="font-size: 14px; font-weight: 600; color: #e2e8f0;">
+        <span id="casDemoTitle" style="font-size: 14px; font-weight: 600; color: #e2e8f0;">
           MWM Interactive Calculation Demo
         </span>
       </div>
@@ -65,8 +65,13 @@ export class CasDemo extends Elt {
   }
 
   public loadCalculation(calcId: string, expr?: string) {
-    if (calcId) {
-      this.calculator.selectPreset(calcId);
+    if (calcId && this.calculator) {
+      this.calculator.selectPreset(calcId, expr);
+      const titleEl = this.elt.querySelector('#casDemoTitle');
+      const res = this.calculator.getCurrentResult();
+      if (titleEl && res) {
+        titleEl.textContent = res.mwmSemantics.title;
+      }
     }
   }
 
