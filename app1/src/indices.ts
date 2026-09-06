@@ -5,6 +5,7 @@ import { btd, initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { bid, initBID, layoutBID } from "../../clientLib/bid.js";
 
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
+import { StemCard } from "../../clientLib/stemCard.js";
 
 export const propLogicIndex: IndexItemDesc[] = [
   {
@@ -249,6 +250,14 @@ export const analysisAndSeminarsIndex: IndexItemDesc[] = [
 
 export const lamIndex = analysisAndSeminarsIndex;
 
+export const stemBridgeIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "1D heat diffusion: discrete Laplacian & Fourier duality",
+    htmlSegmentId: "stemHeatDiffusion",
+  },
+];
+
 export const mainIndex: IndexItemDesc[] = [
   {
     type: "diagram",
@@ -270,6 +279,11 @@ export const mainIndex: IndexItemDesc[] = [
     type: "index",
     topic: "Phase 2: Continuous Structures & Seminars (Tertiary)",
     indexDesc: analysisAndSeminarsIndex,
+  },
+  {
+    type: "index",
+    topic: "STEM Bridge: Applied Mathematics & Computational CAS",
+    indexDesc: stemBridgeIndex,
   },
   {
     type: "index",

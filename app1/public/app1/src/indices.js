@@ -233,6 +233,13 @@ export const analysisAndSeminarsIndex = [
     },
 ];
 export const lamIndex = analysisAndSeminarsIndex;
+export const stemBridgeIndex = [
+    {
+        type: "html",
+        topic: "1D heat diffusion: discrete Laplacian & Fourier duality",
+        htmlSegmentId: "stemHeatDiffusion",
+    },
+];
 export const mainIndex = [
     {
         type: "diagram",
@@ -254,6 +261,11 @@ export const mainIndex = [
         type: "index",
         topic: "Phase 2: Continuous Structures & Seminars (Tertiary)",
         indexDesc: analysisAndSeminarsIndex,
+    },
+    {
+        type: "index",
+        topic: "STEM Bridge: Applied Mathematics & Computational CAS",
+        indexDesc: stemBridgeIndex,
     },
     {
         type: "index",

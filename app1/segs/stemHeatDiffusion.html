@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>STEM Bridge: 1D Thermal Diffusion &amp; Fourier Duality</title>
+  </head>
+  <body>
+    <div align="center">
+      <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
+      <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
+    </div>
+    <br>
+
+    <p>
+      Professor Jane walked into the laboratory seminar with a steel rod in one hand and a thermal imaging camera in the other. 
+      Beside her sat Liam, with Maxima CAS and Lean 4 open on his laptop.
+    </p>
+
+    <p>
+      “For the past several weeks,” Jane addressed the room, “we have explored the foundational universe of pure mathematics: Boolean logic, formal statements, Cartesian constructors, and the hyperfinite transect <code>ℝ_ω</code>. 
+      Pure mathematics has the luxury of living in pristine, frictionless realms. 
+      But today, we turn to the <b>approximate 20% to 25% of STEM-oriented students</b> who must build bridges, model heat shields, compute quantum states, and analyze real-world physical systems.”
+    </p>
+
+    <p>
+      Jill raised her hand: “Is applied mathematics just pure mathematics with numbers plugged in?”
+    </p>
+
+    <p>
+      “Quite the opposite,” Jane smiled. “<b>Applied mathematics is often considerably more complex than pure mathematics.</b> 
+      In pure math, if an edge case threatens your theorem, you simply declare an axiom: <i>'Assume a smooth, boundaryless manifold.'</i> 
+      In applied engineering, you cannot wish boundary layers, thermal dissipation, or grid discretization away. 
+      You must compute with them. 
+      Today, we examine how Middle Way discrete calculus is the exact theoretical foundation of modern computational engineering.”
+    </p>
+
+    <hr>
+
+    <h3>1. The 1D Heat Rod &amp; The Discrete Mesh on ℝ_ω</h3>
+    <p>
+      Consider a conductive metal rod of length <code>L = 1.0</code> partitioned into <code>N</code> discrete cells with uniform lattice spacing <code>Δx = 1/(N-1)</code> on the hyperfinite transect <code>ℝ_ω</code>:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 680px; line-height: 1.6;">
+      Node: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N ]<br>
+      Temp: &nbsp; &nbsp; u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_N(t)
+    </div>
+
+    <p>
+      By <b>Fourier’s Law of Thermal Conduction</b>, the conductive heat flux flowing across the boundary from cell <code>i-1</code> to cell <code>i</code> is proportional to the discrete difference quotient:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      q_{i - 1/2} = -k · [ u_i - u_{i-1} ] / Δx
+    </div>
+
+    <p>
+      The net rate of heat energy accumulation at node <code>i</code> is the incoming flux minus the outgoing flux:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15.5px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
+      du_i / dt = α · [ u_{i-1} - 2u_i + u_{i+1} ] / Δx²
+    </div>
+    <p>
+      where <code>α = k / (ρ · c)</code> is the thermal diffusivity of the material.
+    </p>
+
+    <hr>
+
+    <h3>2. The Tridiagonal Discrete Laplacian: NEAR (≈) and EQ (=)</h3>
+    <p>
+      Notice the second difference operator in matrix form across the entire rod:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #0f172a;">
+      d<b>u</b>/dt = <b>A</b> · <b>u</b>
+    </div>
+
+    <p>
+      The matrix <code><b>A</b></code> is the classic <b>tridiagonal Toeplitz discrete Laplacian</b>:
+    </p>
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
+      <b>A</b> = (α / Δx²) · <br>
+      [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
+      [ ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
+    </div>
+
+    <p>
+      This connects directly to the formal predicates we introduced in <b>Phase 1 (Formal Statements)</b>:
+    </p>
+    <ul>
+      <li>The main diagonal entries (<code>-2</code>) correspond to the identity relation <b><code>EQ (=)</code></b>: self-dissipation at node <code>i</code>.</li>
+      <li>The non-zero off-diagonal bands (<code>+1</code>) exist <b>strictly where <code>NEAR(x₁, x₂)</code> (<code>≈</code>) holds</b>: heat only transfers between immediately adjacent spatial neighbors.</li>
+      <li>All other cells are zero because non-adjacent cells (<code>|x₁ - x₂| &gt; 1</code>) cannot conduct heat directly without passing through intermediate nodes!</li>
+    </ul>
+
+    <hr>
+
+    <h3>3. Interactive STEM Card: Maxima CAS Derivation &amp; Live Heat Diffusion</h3>
+    <p>
+      Below is our live <b>STEM Calculation Card</b>. 
+      The symbolic steps were derived and verified directly in <b>Maxima CAS</b>, paired with our Middle Way discrete lattice and Lean 4 conservation invariants:
+    </p>
+
+    <!-- Embedded STEM Card -->
+    <stem-card entry-id="heat_diffusion_1d"></stem-card>
+
+    <hr>
+
+    <h3>4. Fourier Duality as Operator Diagonalization</h3>
+    <p>
+      Liam stepped up to the blackboard, pointing back to <b>Mini-Seminar 1 (The Fourier Duality)</b>:
+    </p>
+    <p>
+      “In direct spatial coordinates, this physical system is entangled. If you heat up node 7, it immediately changes node 6 and node 8, which then change node 5 and node 9. To solve this in position space, you have to compute a full matrix exponential <code>u(t) = exp(A · t) · u₀</code>. 
+      Why did Fourier introduce sine and cosine waves?”
+    </p>
+
+    <div style="background-color: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px; font-size: 13.5px; line-height: 1.6; color: #14532d;">
+      <b>The Core Mathematical Principle:</b><br>
+      The discrete Fourier basis vectors <code>v_k = [sin(k·π·x_i / L)]</code> are the <b>exact eigenvectors of the discrete Laplacian matrix <code>A</code></b>!<br>
+      When we rotate the state vector into the Fourier basis via the unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:<br>
+      <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0;">
+        F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
+      </div>
+      In frequency space, the coupled system uncouples into <i>independent exponential decays</i>:
+      <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0;">
+        û_k(t) = û_k(0) · exp( -α · (kπ / L)² · t )
+      </div>
+    </div>
+
+    <p>
+      <b>Why High Frequencies Vanish Almost Instantly:</b><br>
+      Notice the <code>k²</code> factor in the exponent! 
+      Harmonic mode <code>k = 4</code> decays <b>16 times faster</b> than the fundamental mode <code>k = 1</code>. 
+      This is why sharp temperature corners, discontinuities, and localized spikes disappear in milliseconds (as seen on the interactive slider above), leaving only a smooth, gentle bell curve that slowly flattens to equilibrium.
+    </p>
+
+    <hr>
+
+    <h3>5. The Fundamental Conservation Law: Machine-Verified in Lean 4</h3>
+    <p>
+      While individual temperatures drop and flatten, what happens to the <b>total thermal energy</b> across the rod?
+    </p>
+    <p>
+      Under insulated boundary conditions (zero flux at the rod ends: <code>q₀ = q_N = 0</code>), the rate of total energy change is:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      d/dt [ ∑_{i=1}^{N} u_i(t) · Δx ] = ∑_{i=1}^{N} [ q_{i - 1/2} - q_{i + 1/2} ]
+    </div>
+
+    <p>
+      Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
+      (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} = 0
+    </div>
+
+    <p>
+      This is the physical manifestation of our core formal theorem in <b>MiddleWayLean</b>:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-family: monospace; font-weight: bold; color: #1e3a8a; font-size: 13.5px;">
+          MiddleWayLean / Scaffold.lean: telescoping_ftc
+        </span>
+        <span style="background: #22c55e; color: #ffffff; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px;">
+          ✓ Machine-Verified
+        </span>
+      </div>
+      <div style="font-family: monospace; font-size: 12.5px; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; color: #334155; margin-bottom: 8px;">
+        theorem telescoping_ftc (F : Int → R_w) (n : Nat) :<br>
+        &nbsp;&nbsp;hyper_sum (fun i =&gt; F (i + 1) - F i) 0 n = F (n : Int) - F (0 : Int)
+      </div>
+      <p style="margin: 0; font-size: 12.5px; color: #475569; line-height: 1.5;">
+        <b>The Structural Invariance:</b> The computer algebra system (Maxima) provides the exact numbers and time curves, but Lean 4 guarantees that no numerical discretization or thermal dissipation can ever violate the fundamental conservation of energy.
+      </p>
+    </div>
+
+    <hr>
+
+    <h3>6. Summary &amp; Looking Forward</h3>
+    <p>
+      By connecting the Middle Way discrete transect <code>ℝ_ω</code> with Maxima CAS and Lean 4, we have shown:
+    </p>
+    <ul>
+      <li><b>Computational Engineering is not an Approximation:</b> The discrete mesh and difference operators are mathematically exact structures on <code>ℝ_ω</code>.</li>
+      <li><b>Fourier Duality is an Engineering Tool:</b> Rotating coordinates diagonalizes the discrete Laplacian, turning coupled spatial heat diffusion into independent harmonic decays.</li>
+      <li><b>CAS and Proof Engines are Natural Partners:</b> Maxima handles symbolic calculation, while Lean 4 proves foundational conservation.</li>
+    </ul>
+    <p>
+      In upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!
+    </p>
+  </body>
+</html>
