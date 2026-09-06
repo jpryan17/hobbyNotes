@@ -85,13 +85,46 @@
     </div>
 
     <p>
-      This connects directly to the formal predicates we introduced in <b>Phase 1 (Formal Statements)</b>:
+      Jill raised an eyebrow, looking at the matrix on the screen: “Wait, Professor James—should I already know what a <i>'tridiagonal Toeplitz'</i> matrix is? It sounds like heavy academic jargon. Why on earth is it relevant to heating a steel rod?”
     </p>
-    <ul>
-      <li>The main diagonal entries (<code>-2</code>) correspond to the identity relation <b><code>EQ (=)</code></b>: self-dissipation at node <code>i</code>.</li>
-      <li>The non-zero off-diagonal bands (<code>+1</code>) exist <b>strictly where <code>NEAR(x₁, x₂)</code> (<code>≈</code>) holds</b>: heat only transfers between immediately adjacent spatial neighbors.</li>
-      <li>All other cells are zero because non-adjacent cells (<code>|x₁ - x₂| &gt; 1</code>) cannot conduct heat directly without passing through intermediate nodes!</li>
-    </ul>
+
+    <p>
+      Professor James laughed with approval: “Never let 19th-century terminology intimidate you, Jill! That name actually describes two simple physical properties you already understand intuitively:”
+    </p>
+
+    <div style="background-color: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 14px 18px; margin: 14px auto; max-width: 720px; font-size: 13.5px; line-height: 1.6; color: #14532d;">
+      <ol style="margin: 0; padding-left: 20px;">
+        <li>
+          <b>What 'Toeplitz' means &mdash; Spatial Homogeneity:</b><br>
+          Notice how every descending diagonal has the exact same constant value (all <code>-2</code> on the main diagonal, all <code>+1</code> on the bands directly above and below). 
+          In mathematics, any matrix where <code>A_{i,j} = a_{i-j}</code> is called <b>Toeplitz</b>. 
+          In physics, this simply means <i>the material is uniform everywhere</i>! 
+          A steel rod has the exact same thermal conductivity whether you measure at node 3, node 7, or node 14. Space is homogeneous—the laws of heat conduction don't change just because you slide along the rod.
+        </li>
+        <br>
+        <li>
+          <b>What 'Tridiagonal' means &mdash; Locality (The NEAR Relation):</b><br>
+          There are only three non-zero diagonals: the center line and its two immediate neighbors. 
+          Everything else is zero! 
+          Why? Because heat cannot jump through telepathy. 
+          Node <code>i</code> only touches node <code>i-1</code> and node <code>i+1</code>. 
+          This is the exact physical embodiment of our Middle Way relations:
+          <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+            <li>The main diagonal (<code>-2</code>) is the identity relation <b><code>EQ (=)</code></b>: self-dissipation as heat leaves cell <code>i</code>.</li>
+            <li>The off-diagonal bands (<code>+1</code>) exist <b>strictly where <code>NEAR(x₁, x₂)</code> (<code>≈</code>) holds</b>: conductive exchange across the immediate boundary.</li>
+            <li>All other entries are <code>0</code> because distant nodes (<code>|x₁ - x₂| &gt; 1</code>) have no direct contact without passing through intermediate cells!</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <p>
+      “So,” Jill summarized with a smile, “'tridiagonal Toeplitz' is just formal math-speak for <b>local physics on a uniform rod</b>!”
+    </p>
+
+    <p>
+      “Precisely!” James beamed. “And what makes it so powerful for computational engineering is that because it is tridiagonal and Toeplitz, Maxima can derive its eigensystem symbolically in closed form without guessing. Its eigenvectors are none other than pure Fourier sine waves!”
+    </p>
 
     <hr>
 
