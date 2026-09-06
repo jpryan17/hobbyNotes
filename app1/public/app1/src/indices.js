@@ -2,6 +2,7 @@ import { ttd } from "../../clientLib/ttd.js";
 import { fsd } from "../../clientLib/fsd.js";
 import { initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { initBID, layoutBID } from "../../clientLib/bid.js";
+import { initCasDemo, layoutCasDemo } from "../../clientLib/casDemo.js";
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 export const propLogicIndex = [
     {
@@ -365,6 +366,12 @@ export const stemBridgeIndex = [
         type: "html",
         topic: "1D heat diffusion: Laplacian & Fourier",
         htmlSegmentId: "stemHeatDiffusion",
+    },
+    {
+        type: "diagram",
+        topic: "CAS calculation demo (CAS)",
+        initCB: initCasDemo,
+        layoutCB: layoutCasDemo,
     },
 ];
 export const mainIndex = [

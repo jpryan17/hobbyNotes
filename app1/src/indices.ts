@@ -3,6 +3,7 @@ import { ttd } from "../../clientLib/ttd.js";
 import { fsd } from "../../clientLib/fsd.js";
 import { btd, initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { bid, initBID, layoutBID } from "../../clientLib/bid.js";
+import { casDemo, initCasDemo, layoutCasDemo } from "../../clientLib/casDemo.js";
 
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 
@@ -379,6 +380,12 @@ export const stemBridgeIndex: IndexItemDesc[] = [
     type: "html",
     topic: "1D heat diffusion: Laplacian & Fourier",
     htmlSegmentId: "stemHeatDiffusion",
+  },
+  {
+    type: "diagram",
+    topic: "CAS calculation demo (CAS)",
+    initCB: initCasDemo,
+    layoutCB: layoutCasDemo,
   },
 ];
 
