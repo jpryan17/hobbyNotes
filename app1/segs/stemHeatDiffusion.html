@@ -19,8 +19,9 @@
 
     <p>
       Sitting in the front row was Jill, notebook open alongside Liam. 
-      Over the past two semesters, she had immersed herself in Jack's foundational logic, sets, and Conway number trees, followed by Jane's exploration of continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code> in Liberal Arts Mathematics. 
-      Now, stepping across the quad into the applied engineering laboratory, she watched the glowing monitor with keen interest.
+      Jack had been her teacher throughout all of 0–12 formal science, instilling in her the foundational discipline of propositional logic, set theory, binary trees, and Conway games. 
+      At the tertiary level, Jane had been her instructor for Liberal Arts Mathematics, guiding her through continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code>. 
+      Now, stepping across the quad into Professor James's applied engineering laboratory, she watched the glowing monitor with keen interest, eager to see how that lifelong mathematical arc connected to physical matter.
     </p>
 
     <p>
@@ -31,7 +32,7 @@
 
     <p>
       The room was quiet for a moment. James caught Jill's eye and smiled: 
-      “Jill, you’ve just joined us from Jane’s course on continuous structures. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical mind see?”
+      “Jill, you’ve spent your university years with Jane studying continuous structures, built on Jack's formal science foundation from school. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical training tell you to do?”
     </p>
 
     <p>
@@ -92,7 +93,7 @@
 
     <p>
       “Only its immediate neighbors,” Jill replied. “Slice <code>i-1</code> on its left, and slice <code>i+1</code> on its right. 
-      In Jack's logic course, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
+      In Jack's 0–12 formal science classes, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
       Heat cannot teleport across space; it can only cross boundaries through direct physical contact with adjacent slices.”
     </p>
 
@@ -116,10 +117,14 @@
       The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
     </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14.5px; margin: 12px auto; max-width: 620px; color: #1e3a8a;">
-      du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ]<br>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14.5px; margin: 12px auto; max-width: 650px; color: #1e3a8a;">
+      <cas-ref calc-id="heat_slice_flux" expr="FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})">
+        du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
+      </cas-ref>
     </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Click the formula above to send James's single-slice flux request to the MWM CAS Workbench)</i>
+    </p>
 
     <p>
       Jill stared at the right-hand side, a smile breaking across her face: 
@@ -172,7 +177,9 @@
     </div>
 
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
-      <b>A</b> = (α / Δx²) · <br>
+      <cas-ref calc-id="toeplitz_5x5" expr="TOEPLITZ(5, alpha)">
+        <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
+      </cas-ref><br><br>
       [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
@@ -180,6 +187,9 @@
       [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 ]<br>
       [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
     </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Click the matrix header above to send James's Toeplitz eigensystem request to the CAS Workbench)</i>
+    </p>
 
     <p>
       James stepped back and tapped the board:
@@ -275,8 +285,13 @@
       Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
     </p>
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
-      (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} = 0
+      <cas-ref calc-id="telescoping_conservation" expr="TELESCOPING_CONSERVATION(q, 0, N)">
+        (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
+      </cas-ref>
     </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
+      <i>(Click the sum above to send James's boundary flux cancellation request to the CAS Workbench)</i>
+    </p>
 
     <p>
       This is the physical manifestation of our core formal theorem in <b>MiddleWayLean</b>:
@@ -302,7 +317,21 @@
 
     <hr>
 
-    <h3>6. Summary &amp; Looking Forward</h3>
+    <h3>6. Interactive MWM CAS Workbench: Operational Mathematics Prototype</h3>
+    <p>
+      Professor James motioned toward the lab console: 
+      “Rather than forcing our thinking into the limit machinery of standard textbooks, we can use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
+    </p>
+    <p>
+      Explore the prototype workbench below across all three pedagogical tiers—from <b>2ⁿ Conway number trees</b> (Jack) and discrete calculus on <b>ℝ_ω</b> / <b>ℂ_ω</b> (Jane) to <b>discrete Laplacians and conservation</b> (James):
+    </p>
+
+    <!-- Embedded MWM CAS Calculator Prototype -->
+    <mwm-cas-calculator></mwm-cas-calculator>
+
+    <hr>
+
+    <h3>7. Summary &amp; Looking Forward</h3>
     <p>
       By connecting the Middle Way discrete transect <code>ℝ_ω</code> with Maxima CAS and Lean 4, we have shown:
     </p>
@@ -312,7 +341,7 @@
       <li><b>CAS and Proof Engines are Natural Partners:</b> Maxima handles symbolic calculation, while Lean 4 proves foundational conservation.</li>
     </ul>
     <p>
-      “When Jack taught us logic,” Jill reflected to her lab peers, “we learned that truth never changes. When Jane taught us analysis, we learned how continuous change blossoms from hyperfinite halos on ℝ_ω. And here in Professor James's lab, we see how computational algebra (Maxima) and foundational proof (Lean 4) drive real-world physical modeling.”
+      “Jack spent our 0–12 school years showing us that logical structure and truth never change,” Jill reflected to Liam and her lab peers. “Then Jane showed us at university how continuous change blossoms from hyperfinite halos on ℝ_ω. And here in Professor James's engineering lab, we see how computational algebra (Maxima) and foundational proof (Lean 4) drive real-world physical modeling.”
     </p>
     <p>
       “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”

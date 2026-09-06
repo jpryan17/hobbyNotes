@@ -133,8 +133,79 @@
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
     <b>df &nbsp;=&nbsp; f'(x) · dx</b>
   </div>
+  <hr>
+
+  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
+
   <p>
-    “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>. In our next lecture, we will see how adding uncountably many of these linear pieces builds **continuous integration and the telescoping Fundamental Theorem of Calculus**!”
+    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f'(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
+  </p>
+
+  <p>
+    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn't curvature come from the <i>difference of the differences</i>?”
+  </p>
+
+  <p>
+    “Precisely, Jill!” Jane beamed. “Let's compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
+  </p>
+
+  <ol>
+    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
+    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
+    <li><b>The Second Discrete Difference:</b></li>
+  </ol>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
+  </div>
+
+  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
+  <p>
+    Let's test this directly on our parabola from Section 1:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
+  </div>
+
+  <p>
+    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>f''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
+  </div>
+  <p>
+    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
+  </p>
+
+  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
+  <p>
+    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
+  </div>
+  <p>
+    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
+  </p>
+  <ul>
+    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
+    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
+    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
+  </ul>
+  <p>
+    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
+  </p>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 </body>
 </html>
