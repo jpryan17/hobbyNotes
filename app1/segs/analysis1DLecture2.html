@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Analysis 1D Lecture 2: Algebraic Derivatives &amp; Local Linearity</title>
+</head>
+
+<body>
+  <div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
+    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
+  </div>
+
+  <p>
+    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
+  </p>
+
+  <p>
+    “Exactly,” Jane smiled. “Let's see how this turns all of differential calculus into pure algebra.”
+  </p>
+
+  <hr>
+
+  <h3>1. Deriving Slopes by Pure Algebra</h3>
+
+  <h4>Example 1: The Parabola f(x) = x²</h4>
+  <p>
+    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
+  </p>
+  <ol>
+    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
+    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
+    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
+    <li>Take the standard part: &nbsp; <code>f'(x) = st(2x + dx) = 2x</code></li>
+  </ol>
+  <p>
+    No limits, no inequalities &mdash; just straightforward polynomial division!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
+      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
+      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
+    • <b>Derivative Value:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Derivative Definition"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
+    • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.
+  </div>
+
+  <hr>
+
+  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
+
+  <p>
+    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 500px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Base Box -->
+        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
+        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
+
+        <!-- Right Strip: u · dv -->
+        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
+        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
+
+        <!-- Top Strip: v · du -->
+        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
+        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
+
+        <!-- Corner: du · dv -->
+        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
+        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
+    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
+  </div>
+  <p>
+    Dividing by <code>dx</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
+  </div>
+  <p>
+    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Product Rule"><b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b></fsd-ref>
+  </div>
+
+  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Product Rule:</b> <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Product Rule"><code>(uv)' = u·v' + v·u'</code></fsd-ref>.<br>
+    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
+
+  <p>
+    “In standard calculus,” Jane noted, “students are strictly warned: <i>'dy/dx is not a fraction; you cannot cancel dx!'</i>”
+  </p>
+  <p>
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
+    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
+  </div>
+  <p>
+    Taking the standard part proves the Chain Rule directly:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Chain Rule Composition"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Local Linearity &amp; The Differential Map</h3>
+
+  <p>
+    “Remember our discussion from Course 1 on linear maps,” Jane concluded. “What does the derivative actually represent geometrically?”
+  </p>
+  <p>
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref exp="k" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f'(x) · dx</b></fsd-ref>
+  </div>
+  <p>
+    “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
+    • <b>Differential Form:</b> The differential <code>df = f'(x)·dx</code> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <fsd-ref exp="w" quantifiers="∀x₁:ℕ, ∃x₂:ℕ" slots="x₁,x₂" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
+  </p>
+</body>
+</html>
