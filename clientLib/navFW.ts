@@ -589,7 +589,8 @@ export class Nav {
     static loadNewIndex(choice:IndexItemDesc){
         Nav.setLastVisit()
         const indexDesc = choice.indexDesc as IndexItemDesc[]
-        Nav.loadIndex(choice.topic,indexDesc,choice.indexSelection)
+        const label = choice.navTopic || choice.topic
+        Nav.loadIndex(label,indexDesc,choice.indexSelection)
     }
     static loadSegment(){
         Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])

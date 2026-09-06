@@ -4,6 +4,7 @@ import {Nav} from './navFW.js'
 export interface IndexItemDesc {
     type:'html'|'diagram'|'index',
     topic:string,
+    navTopic?:string,
     indents?:number
     indexDesc?:IndexItemDesc[],
     indexSelection?:number

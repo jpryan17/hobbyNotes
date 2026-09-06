@@ -4,7 +4,7 @@ import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 export const course1Index: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "course overview: linear algebra",
+    topic: "overview: linear algebra",
     htmlSegmentId: "vectorFoundationsIntro",
   },
   {
@@ -27,22 +27,22 @@ export const course1Index: IndexItemDesc[] = [
 export const course2Index: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "course overview: analysis 1D",
+    topic: "overview: analysis 1D",
     htmlSegmentId: "analysis1DIntro",
   },
   {
     type: "html",
-    topic: "lecture 1: the infinitesimal microscope & continuity",
+    topic: "lecture 1: microscope & continuity",
     htmlSegmentId: "analysis1DLecture1",
   },
   {
     type: "html",
-    topic: "lecture 2: algebraic derivatives & local linearity",
+    topic: "lecture 2: derivatives & linearity",
     htmlSegmentId: "analysis1DLecture2",
   },
   {
     type: "html",
-    topic: "lecture 3: accumulation & telescoping calculus",
+    topic: "lecture 3: accumulation & calculus",
     htmlSegmentId: "analysis1DLecture3",
   },
 ];
@@ -50,22 +50,22 @@ export const course2Index: IndexItemDesc[] = [
 export const course3Index: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "course overview: analysis 2D",
+    topic: "overview: analysis 2D",
     htmlSegmentId: "analysis2DIntro",
   },
   {
     type: "html",
-    topic: "lecture 1: the 2D complex grid & conformal maps",
+    topic: "lecture 1: 2D grid & conformal maps",
     htmlSegmentId: "analysis2DLecture1",
   },
   {
     type: "html",
-    topic: "lecture 2: discrete contour integrals & residues",
+    topic: "lecture 2: contour integrals & residues",
     htmlSegmentId: "analysis2DLecture2",
   },
   {
     type: "html",
-    topic: "lecture 3: quantum state evolution & phase transitions",
+    topic: "lecture 3: state evolution & phase",
     htmlSegmentId: "analysis2DLecture3",
   },
 ];
@@ -83,12 +83,12 @@ export const satelliteIndex: IndexItemDesc[] = [
   },
   {
     type: "html",
-    topic: "seminar 2: the logic of the particle zoo",
+    topic: "seminar 2: particle zoo logic",
     htmlSegmentId: "particleZooSeminar",
   },
   {
     type: "html",
-    topic: "seminar 3: quantum entanglement & reality",
+    topic: "seminar 3: entanglement & reality",
     htmlSegmentId: "quantumEntanglementSeminar",
   },
   {
@@ -101,7 +101,7 @@ export const satelliteIndex: IndexItemDesc[] = [
 export const miniSeminarsIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "mini-seminar 1: the Fourier duality",
+    topic: "mini-seminar 1: Fourier duality",
     htmlSegmentId: "fourierTransformSeminar",
   },
   {
@@ -116,7 +116,7 @@ export const miniSeminarsIndex: IndexItemDesc[] = [
   },
   {
     type: "html",
-    topic: "mini-seminar 4: higher-successor definitions",
+    topic: "mini-seminar 4: higher-successors",
     htmlSegmentId: "higherSuccessorsSeminar",
   },
 ];
@@ -136,26 +136,31 @@ export const mainIndex: IndexItemDesc[] = [
   {
     type: "index",
     topic: "course 1: linear algebra",
+    navTopic: "course 1",
     indexDesc: course1Index,
   },
   {
     type: "index",
     topic: "course 2: analysis 1D",
+    navTopic: "course 2",
     indexDesc: course2Index,
   },
   {
     type: "index",
     topic: "course 3: analysis 2D",
+    navTopic: "course 3",
     indexDesc: course3Index,
   },
   {
     type: "index",
     topic: "mini-seminars",
+    navTopic: "mini-seminars",
     indexDesc: miniSeminarsIndex,
   },
   {
     type: "index",
     topic: "satellite seminars",
+    navTopic: "satellites",
     indexDesc: satelliteIndex,
   },
 ];

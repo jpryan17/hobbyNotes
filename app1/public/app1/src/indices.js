@@ -7,11 +7,10 @@ export const propLogicIndex = [
     {
         type: "html",
         topic: "introduction",
-        htmlSegmentId: "propLogicIntro",
     },
     {
         type: "html",
-        topic: "lecture: truth, tables & paradoxes",
+        topic: "lecture: truth tables & paradoxes",
         htmlSegmentId: "editedPropLogicLectureV1",
     },
     {
@@ -34,7 +33,7 @@ export const formalStatementsIndex = [
     },
     {
         type: "html",
-        topic: "lecture 2: the algebra of sets",
+        topic: "lecture 2: algebra of sets",
         htmlSegmentId: "editedFormalStatementsLecture2V1",
     },
     {
@@ -52,17 +51,17 @@ export const numbersIndex = [
     },
     {
         type: "html",
-        topic: "lecture 1: formal definitions & counting",
+        topic: "lecture 1: definitions & counting",
         htmlSegmentId: "editedNumbersLecture1V1",
     },
     {
         type: "html",
-        topic: "lecture 2: 2-successor trees & inductive growth",
+        topic: "lecture 2: 2-successor trees & growth",
         htmlSegmentId: "editedNumbersLecture2V1",
     },
     {
         type: "html",
-        topic: "lecture 3: STEM connections & spaces",
+        topic: "lecture 3: STEM & spaces",
         htmlSegmentId: "editedNumbersLecture3V1",
     },
     {
@@ -90,12 +89,12 @@ export const bayesianInferenceIndex = [
     },
     {
         type: "html",
-        topic: "lecture 3: standard vs nonstandard probability",
+        topic: "lecture 3: standard vs nonstandard prob",
         htmlSegmentId: "editedBayesianInferenceLecture3V1",
     },
     {
         type: "html",
-        topic: "lecture 4: state spaces, entropy & ensembles",
+        topic: "lecture 4: state spaces & entropy",
         htmlSegmentId: "editedBayesianInferenceLecture4V1",
     },
     {
@@ -113,7 +112,7 @@ export const quantumLogicIndex = [
     },
     {
         type: "html",
-        topic: "lecture 1: the 3 polarizers & Venn failure",
+        topic: "lecture 1: 3 polarizers & Venn failure",
         htmlSegmentId: "editedQuantumLogicLecture1V1",
     },
     {
@@ -123,7 +122,7 @@ export const quantumLogicIndex = [
     },
     {
         type: "html",
-        topic: "lecture 3: measurement as vector projection",
+        topic: "lecture 3: measurement & projection",
         htmlSegmentId: "editedQuantumLogicLecture3V1",
     },
 ];
@@ -135,19 +134,19 @@ export const quantumBayesianInferenceIndex = [
     },
     {
         type: "html",
-        topic: "lecture 1: density operators & quantum Bayes",
+        topic: "lecture 1: density ops & quantum Bayes",
         htmlSegmentId: "editedQuantumBayesianInferenceLecture1V1",
     },
     {
         type: "html",
-        topic: "lecture 2: physical reality as an ensemble",
+        topic: "lecture 2: reality as an ensemble",
         htmlSegmentId: "editedQuantumBayesianInferenceLecture2V1",
     },
 ];
 export const course1Index = [
     {
         type: "html",
-        topic: "course overview: linear algebra",
+        topic: "overview: linear algebra",
         htmlSegmentId: "vectorFoundationsIntro",
     },
     {
@@ -169,44 +168,44 @@ export const course1Index = [
 export const course2Index = [
     {
         type: "html",
-        topic: "course overview: analysis 1D",
+        topic: "overview: analysis 1D",
         htmlSegmentId: "analysis1DIntro",
     },
     {
         type: "html",
-        topic: "lecture 1: the infinitesimal microscope & continuity",
+        topic: "lecture 1: microscope & continuity",
         htmlSegmentId: "analysis1DLecture1",
     },
     {
         type: "html",
-        topic: "lecture 2: algebraic derivatives & local linearity",
+        topic: "lecture 2: derivatives & linearity",
         htmlSegmentId: "analysis1DLecture2",
     },
     {
         type: "html",
-        topic: "lecture 3: accumulation & telescoping calculus",
+        topic: "lecture 3: accumulation & calculus",
         htmlSegmentId: "analysis1DLecture3",
     },
 ];
 export const course3Index = [
     {
         type: "html",
-        topic: "course overview: analysis 2D",
+        topic: "overview: analysis 2D",
         htmlSegmentId: "analysis2DIntro",
     },
     {
         type: "html",
-        topic: "lecture 1: the 2D complex grid & conformal maps",
+        topic: "lecture 1: 2D grid & conformal maps",
         htmlSegmentId: "analysis2DLecture1",
     },
     {
         type: "html",
-        topic: "lecture 2: discrete contour integrals & residues",
+        topic: "lecture 2: contour integrals & residues",
         htmlSegmentId: "analysis2DLecture2",
     },
     {
         type: "html",
-        topic: "lecture 3: quantum state evolution & phase transitions",
+        topic: "lecture 3: state evolution & phase",
         htmlSegmentId: "analysis2DLecture3",
     },
 ];
@@ -223,12 +222,12 @@ export const satelliteIndex = [
     },
     {
         type: "html",
-        topic: "seminar 2: the logic of the particle zoo",
+        topic: "seminar 2: particle zoo logic",
         htmlSegmentId: "particleZooSeminar",
     },
     {
         type: "html",
-        topic: "seminar 3: quantum entanglement & reality",
+        topic: "seminar 3: entanglement & reality",
         htmlSegmentId: "quantumEntanglementSeminar",
     },
     {
@@ -240,7 +239,7 @@ export const satelliteIndex = [
 export const miniSeminarsIndex = [
     {
         type: "html",
-        topic: "mini-seminar 1: the Fourier duality",
+        topic: "mini-seminar 1: Fourier duality",
         htmlSegmentId: "fourierTransformSeminar",
     },
     {
@@ -255,19 +254,19 @@ export const miniSeminarsIndex = [
     },
     {
         type: "html",
-        topic: "mini-seminar 4: higher-successor definitions",
+        topic: "mini-seminar 4: higher-successors",
         htmlSegmentId: "higherSuccessorsSeminar",
     },
 ];
 export const conceptualHistoryIndex = [
     {
         type: "html",
-        topic: "instructor guide: curriculum roadmap",
+        topic: "instructor guide: roadmap",
         htmlSegmentId: "conceptualHistoryInstructorGuide",
     },
     {
         type: "html",
-        topic: "student narrative: evolving models of physical reality",
+        topic: "student narrative: physical reality",
         htmlSegmentId: "conceptualHistoryIntro",
     },
 ];
@@ -280,37 +279,41 @@ export const foundationIndex = [
     {
         type: "index",
         topic: "conceptual history",
+        navTopic: "history",
         indexDesc: conceptualHistoryIndex,
     },
-    { type: "index", topic: "propositional logic", indexDesc: propLogicIndex },
+    { type: "index", topic: "propositional logic", navTopic: "prop logic", indexDesc: propLogicIndex },
     {
         type: "index",
         topic: "formal statements",
+        navTopic: "formal statements",
         indexDesc: formalStatementsIndex,
     },
     { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
-    { type: "index", topic: "numbers & graph trees", indexDesc: numbersIndex },
+    { type: "index", topic: "numbers & trees", navTopic: "numbers", indexDesc: numbersIndex },
     {
         type: "index",
-        topic: "Bayesian Inference",
+        topic: "Bayesian inference",
+        navTopic: "Bayesian",
         indexDesc: bayesianInferenceIndex,
     },
-    { type: "index", topic: "quantum logic", indexDesc: quantumLogicIndex },
+    { type: "index", topic: "quantum logic", navTopic: "quantum logic", indexDesc: quantumLogicIndex },
     {
         type: "index",
-        topic: "quantum Bayesian Inference",
+        topic: "quantum Bayesian inference",
+        navTopic: "quantum Bayesian",
         indexDesc: quantumBayesianInferenceIndex,
     },
 ];
 export const proposalsIndex = [
     {
         type: "html",
-        topic: "proposal 1: narrowed-scope Lean 4 educational interface",
+        topic: "proposal 1: Lean 4 interface",
         htmlSegmentId: "lean4GenEdProposal",
     },
     {
         type: "html",
-        topic: "academic whitepaper: dual-agent verified AI tutor",
+        topic: "academic paper: dual-agent tutor",
         htmlSegmentId: "dualAgentAcademicProposal",
     },
 ];
@@ -323,26 +326,31 @@ export const analysisAndSeminarsIndex = [
     {
         type: "index",
         topic: "course 1: linear algebra",
+        navTopic: "course 1",
         indexDesc: course1Index,
     },
     {
         type: "index",
         topic: "course 2: analysis 1D",
+        navTopic: "course 2",
         indexDesc: course2Index,
     },
     {
         type: "index",
         topic: "course 3: analysis 2D",
+        navTopic: "course 3",
         indexDesc: course3Index,
     },
     {
         type: "index",
         topic: "mini-seminars",
+        navTopic: "mini-seminars",
         indexDesc: miniSeminarsIndex,
     },
     {
         type: "index",
         topic: "satellite seminars",
+        navTopic: "satellites",
         indexDesc: satelliteIndex,
     },
 ];
@@ -350,12 +358,12 @@ export const lamIndex = analysisAndSeminarsIndex;
 export const stemBridgeIndex = [
     {
         type: "html",
-        topic: "the Newtonian bridge: discrete kinematics & conservation",
+        topic: "Newtonian bridge: kinematics & conservation",
         htmlSegmentId: "stemNewtonianBridge",
     },
     {
         type: "html",
-        topic: "1D heat diffusion: discrete Laplacian & Fourier duality",
+        topic: "1D heat diffusion: Laplacian & Fourier",
         htmlSegmentId: "stemHeatDiffusion",
     },
 ];
@@ -373,22 +381,26 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Phase 1: General Science Foundation",
+        topic: "Phase 1: Foundation",
+        navTopic: "Phase 1",
         indexDesc: foundationIndex,
     },
     {
         type: "index",
-        topic: "Phase 2: Continuous Structures & Seminars (Tertiary)",
+        topic: "Phase 2: Continuous & Seminars",
+        navTopic: "Phase 2",
         indexDesc: analysisAndSeminarsIndex,
     },
     {
         type: "index",
-        topic: "STEM Bridge: Applied Mathematics & Computational CAS",
+        topic: "STEM Bridge: Applied Math & CAS",
+        navTopic: "STEM Bridge",
         indexDesc: stemBridgeIndex,
     },
     {
         type: "index",
-        topic: "adjacent research & proposals",
+        topic: "Research & Proposals",
+        navTopic: "Proposals",
         indexDesc: proposalsIndex,
     },
 ];

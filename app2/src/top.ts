@@ -20,5 +20,5 @@ export function top(edit = false) {
     if (!customElements.get('btd-ref')) customElements.define('btd-ref', BTDRef);
     if (!customElements.get('bid-ref')) customElements.define('bid-ref', BIDRef);
     Nav.clearNavLine();
-    Nav.loadIndex('main index', mainIndex);
+    Nav.loadIndex('main', mainIndex);
 }

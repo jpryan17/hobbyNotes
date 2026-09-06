@@ -34,5 +34,5 @@ export function top(edit = false) {
     setBID();
     setCasDemo();
     Nav.clearNavLine();
-    Nav.loadIndex('main index', mainIndex);
+    Nav.loadIndex('main', mainIndex);
 }

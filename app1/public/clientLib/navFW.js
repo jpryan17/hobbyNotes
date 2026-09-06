@@ -583,7 +583,8 @@ export class Nav {
     static loadNewIndex(choice) {
         Nav.setLastVisit();
         const indexDesc = choice.indexDesc;
-        Nav.loadIndex(choice.topic, indexDesc, choice.indexSelection);
+        const label = choice.navTopic || choice.topic;
+        Nav.loadIndex(label, indexDesc, choice.indexSelection);
     }
     static loadSegment() {
         Nav.textSizeControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
