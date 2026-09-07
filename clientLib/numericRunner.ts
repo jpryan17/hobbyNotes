@@ -51,6 +51,20 @@ export interface SimulationResult {
 
 export class NumericRunnerRegistry {
   /**
+   * Checks whether an established, dedicated simulation exists for this scaffold or calculation.
+   * If not established, the simulation option is hidden.
+   */
+  static hasSimulation(targetKey: string, slots?: Record<string, string>): boolean {
+    if (!targetKey) return false;
+    const key = targetKey.toLowerCase();
+    if (key.includes("free_fall") || key.includes("accel") || key.includes("gravity")) return true;
+    if (key.includes("work_energy") || key.includes("ke") || key.includes("energy")) return true;
+    if (key.includes("heat") || key.includes("flux") || key.includes("diffusion") || key.includes("toeplitz")) return true;
+    if (key.includes("c_mul") || key.includes("complex") || key.includes("c_w")) return true;
+    return false;
+  }
+
+  /**
    * Dispatches simulation based on scaffold/calculation ID or slot structure
    */
   static run(targetKey: string, slots: Record<string, string>, sampleTime?: number): SimulationResult | null {
@@ -67,11 +81,6 @@ export class NumericRunnerRegistry {
     }
     if (key.includes("c_mul") || key.includes("complex") || key.includes("c_w")) {
       return this.runComplexMultiplication(slots);
-    }
-
-    // Default fallback to free fall kinematics if velocity and gravity slots are detected
-    if (slots["v₀"] || slots["v0"] || slots["g"]) {
-      return this.runFreeFall(slots, sampleTime);
     }
 
     return null;
