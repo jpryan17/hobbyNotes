@@ -409,7 +409,7 @@ export class ArgumentCard extends Elt {
     this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
     devBtnGroup.append(this.verifyBtn);
 
-    // Dev Calculator Button (Available for any FS in Dev mode)
+    // Dev Calculator Button (Available for any FS)
     this.calcBtn = new Elt("button");
     this.calcBtn.setA(
       "style",
@@ -421,7 +421,7 @@ export class ArgumentCard extends Elt {
 
     // Dev Numeric Simulation Button (Strictly hidden if no simulation is established)
     const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(
-      arg.target || arg.expression || arg.title || "",
+      this.getSimulationContextKey(),
       arg.casCalculation?.slots
     );
     if (hasEstablishedSim) {
@@ -447,6 +447,20 @@ export class ArgumentCard extends Elt {
     this.append(this.simContainer);
 
     this.detectEnvironment();
+  }
+
+  private getSimulationContextKey(): string {
+    return [
+      this.arg.title,
+      this.arg.target,
+      this.arg.expression,
+      this.arg.testOrPickValue,
+      this.arg.conclusion,
+      this.arg.casCalculation?.command,
+      this.arg.casCalculation?.simplified
+    ]
+      .filter(Boolean)
+      .join(" ");
   }
 
   private getCachedVerification(): LeanCacheEntry | undefined {
@@ -475,6 +489,18 @@ export class ArgumentCard extends Elt {
 
     if (!isLocal) {
       ArgumentCard.serverStatus = "static";
+      if (this.simBtn) {
+        this.simBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
+        );
+      }
+      if (this.calcBtn) {
+        this.calcBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
+        );
+      }
       if (cached) {
         this.statusPill.setA(
           "style",
@@ -675,7 +701,7 @@ export class ArgumentCard extends Elt {
     }
 
     const simResult = NumericRunnerRegistry.run(
-      this.arg.target || this.arg.expression || this.arg.title,
+      this.getSimulationContextKey(),
       this.arg.casCalculation.slots
     );
 

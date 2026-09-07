@@ -13,34 +13,100 @@ export class NumericRunnerRegistry {
      * If not established, the simulation option is hidden.
      */
     static hasSimulation(targetKey, slots) {
-        if (!targetKey)
+        if (!targetKey && !slots)
             return false;
-        const key = targetKey.toLowerCase();
-        if (key.includes("free_fall") || key.includes("accel") || key.includes("gravity"))
+        const text = (targetKey || "").toLowerCase();
+        // 1. Free fall kinematics
+        if (text.includes("free_fall") ||
+            text.includes("free fall") ||
+            text.includes("accel") ||
+            text.includes("gravity") ||
+            text.includes("newton") ||
+            text.includes("s(t)") ||
+            (slots && (slots["v₀"] || slots["v0"]) && slots["g"])) {
             return true;
-        if (key.includes("work_energy") || key.includes("ke") || key.includes("energy"))
+        }
+        // 2. Work-energy
+        if (text.includes("work_energy") ||
+            text.includes("work energy") ||
+            text.includes("work-energy") ||
+            text.includes("kinetic") ||
+            text.includes("ke") ||
+            text.includes("1/2 m v^2") ||
+            text.includes("1/2) m v") ||
+            text.includes("δ(ke)") ||
+            text.includes("Δ(ke)") ||
+            (slots && slots["m"] && slots["v"])) {
             return true;
-        if (key.includes("heat") || key.includes("flux") || key.includes("diffusion") || key.includes("toeplitz"))
+        }
+        // 3. Heat diffusion & flux stencil
+        if (text.includes("heat") ||
+            text.includes("diffusion") ||
+            text.includes("flux") ||
+            text.includes("toeplitz") ||
+            text.includes("laplacian") ||
+            text.includes("u_{i-1}") ||
+            (slots && (slots["α"] || slots["alpha"] || slots["stencil"]))) {
             return true;
-        if (key.includes("c_mul") || key.includes("complex") || key.includes("c_w"))
+        }
+        // 4. Complex multiplication & Cauchy loop
+        if (text.includes("c_mul") ||
+            text.includes("cauchy_edge") ||
+            text.includes("c_loop") ||
+            text.includes("complex") ||
+            text.includes("c_w") ||
+            text.includes("ℂ_ω") ||
+            (text.includes("z₂ - z₁") && text.includes("z₁ - z₂")) ||
+            (slots && slots["z₁"] && slots["z₂"])) {
             return true;
+        }
         return false;
     }
     /**
      * Dispatches simulation based on scaffold/calculation ID or slot structure
      */
     static run(targetKey, slots, sampleTime) {
-        const key = targetKey.toLowerCase();
-        if (key.includes("free_fall") || key.includes("accel") || key.includes("gravity")) {
+        const text = (targetKey || "").toLowerCase();
+        if (text.includes("free_fall") ||
+            text.includes("free fall") ||
+            text.includes("accel") ||
+            text.includes("gravity") ||
+            text.includes("newton") ||
+            text.includes("s(t)") ||
+            ((slots["v₀"] || slots["v0"]) && slots["g"])) {
             return this.runFreeFall(slots, sampleTime);
         }
-        if (key.includes("work_energy") || key.includes("ke") || key.includes("energy")) {
+        if (text.includes("work_energy") ||
+            text.includes("work energy") ||
+            text.includes("work-energy") ||
+            text.includes("kinetic") ||
+            text.includes("ke") ||
+            text.includes("1/2 m v^2") ||
+            text.includes("1/2) m v") ||
+            text.includes("δ(ke)") ||
+            text.includes("Δ(ke)") ||
+            (slots["m"] && slots["v"])) {
             return this.runWorkEnergy(slots, sampleTime);
         }
-        if (key.includes("heat") || key.includes("flux") || key.includes("diffusion") || key.includes("toeplitz")) {
+        if (text.includes("heat") ||
+            text.includes("diffusion") ||
+            text.includes("flux") ||
+            text.includes("toeplitz") ||
+            text.includes("laplacian") ||
+            text.includes("u_{i-1}") ||
+            slots["α"] ||
+            slots["alpha"] ||
+            slots["stencil"]) {
             return this.runHeatDiffusion(slots);
         }
-        if (key.includes("c_mul") || key.includes("complex") || key.includes("c_w")) {
+        if (text.includes("c_mul") ||
+            text.includes("cauchy_edge") ||
+            text.includes("c_loop") ||
+            text.includes("complex") ||
+            text.includes("c_w") ||
+            text.includes("ℂ_ω") ||
+            (text.includes("z₂ - z₁") && text.includes("z₁ - z₂")) ||
+            (slots["z₁"] && slots["z₂"])) {
             return this.runComplexMultiplication(slots);
         }
         return null;

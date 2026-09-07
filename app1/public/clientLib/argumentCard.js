@@ -289,14 +289,14 @@ export class ArgumentCard extends Elt {
         this.verifyBtn.setV("⚡ Live Verify in Lean");
         this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
         devBtnGroup.append(this.verifyBtn);
-        // Dev Calculator Button (Available for any FS in Dev mode)
+        // Dev Calculator Button (Available for any FS)
         this.calcBtn = new Elt("button");
         this.calcBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
         this.calcBtn.setV("🧮 Calculator (Dev)");
         this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
         devBtnGroup.append(this.calcBtn);
         // Dev Numeric Simulation Button (Strictly hidden if no simulation is established)
-        const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(arg.target || arg.expression || arg.title || "", arg.casCalculation?.slots);
+        const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(this.getSimulationContextKey(), arg.casCalculation?.slots);
         if (hasEstablishedSim) {
             this.simBtn = new Elt("button");
             this.simBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
@@ -313,6 +313,19 @@ export class ArgumentCard extends Elt {
         this.simContainer.setA("style", "display: none;");
         this.append(this.simContainer);
         this.detectEnvironment();
+    }
+    getSimulationContextKey() {
+        return [
+            this.arg.title,
+            this.arg.target,
+            this.arg.expression,
+            this.arg.testOrPickValue,
+            this.arg.conclusion,
+            this.arg.casCalculation?.command,
+            this.arg.casCalculation?.simplified
+        ]
+            .filter(Boolean)
+            .join(" ");
     }
     getCachedVerification() {
         const targetKey = this.arg.target || "";
@@ -334,6 +347,12 @@ export class ArgumentCard extends Elt {
         const cached = this.getCachedVerification();
         if (!isLocal) {
             ArgumentCard.serverStatus = "static";
+            if (this.simBtn) {
+                this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
+            }
+            if (this.calcBtn) {
+                this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
+            }
             if (cached) {
                 this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;");
                 this.statusPill.setV("🟢 Lean 4 Certified (Pre-computed Q.E.D. ✓)");
@@ -479,7 +498,7 @@ export class ArgumentCard extends Elt {
             this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
             this.isCalcOpen = false;
         }
-        const simResult = NumericRunnerRegistry.run(this.arg.target || this.arg.expression || this.arg.title, this.arg.casCalculation.slots);
+        const simResult = NumericRunnerRegistry.run(this.getSimulationContextKey(), this.arg.casCalculation.slots);
         if (!simResult)
             return;
         this.simContainer.elt.innerHTML = "";
