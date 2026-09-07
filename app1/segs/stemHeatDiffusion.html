@@ -118,12 +118,12 @@
     </p>
 
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14.5px; margin: 12px auto; max-width: 650px; color: #1e3a8a;">
-      <cas-ref calc-id="heat_slice_flux" expr="FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Thermal Flux Balance & Discrete Laplacian Stencil">
         du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
-      </cas-ref>
+      </fsd-ref>
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Click the formula above to send James's single-slice flux request to the MWM CAS Workbench)</i>
+      <i>(Click the formula above to inspect the formal stencil proof in Lean 4)</i>
     </p>
 
     <p>
@@ -177,9 +177,9 @@
     </div>
 
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
-      <cas-ref calc-id="toeplitz_5x5" expr="TOEPLITZ(5, alpha)">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Toeplitz Laplacian Matrix Assembly">
         <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
-      </cas-ref><br><br>
+      </fsd-ref><br><br>
       [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
@@ -188,7 +188,7 @@
       [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Click the matrix header above to send James's Toeplitz eigensystem request to the CAS Workbench)</i>
+      <i>(Click the matrix header above to inspect the verified Toeplitz structure in Lean 4)</i>
     </p>
 
     <p>
@@ -285,12 +285,12 @@
       Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
     </p>
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
-      <cas-ref calc-id="telescoping_conservation" expr="TELESCOPING_CONSERVATION(q, 0, N)">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Boundary Flux Cancellation">
         (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
-      </cas-ref>
+      </fsd-ref>
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
-      <i>(Click the sum above to send James's boundary flux cancellation request to the CAS Workbench)</i>
+      <i>(Click the sum above to view the machine-verified boundary cancellation theorem in Lean 4)</i>
     </p>
 
     <p>

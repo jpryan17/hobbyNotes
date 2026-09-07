@@ -3,7 +3,6 @@ import { ttd } from "../../clientLib/ttd.js";
 import { fsd } from "../../clientLib/fsd.js";
 import { btd, initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { bid, initBID, layoutBID } from "../../clientLib/bid.js";
-import { casDemo, initCasDemo, layoutCasDemo } from "../../clientLib/casDemo.js";
 
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 
@@ -369,13 +368,6 @@ export const analysisAndSeminarsIndex: IndexItemDesc[] = [
 ];
 
 export const lamIndex = analysisAndSeminarsIndex;
-
-export const casDemoIndexItem: IndexItemDesc = {
-  type: "diagram",
-  topic: "CAS calculation demo (CAS)",
-  initCB: initCasDemo,
-  layoutCB: layoutCasDemo,
-};
 
 export const stemBridgeIndex: IndexItemDesc[] = [
   {
