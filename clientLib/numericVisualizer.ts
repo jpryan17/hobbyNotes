@@ -1,6 +1,6 @@
 import { Elt } from "./elt.js";
 import { SVGElt, SVGText } from "./svgElt.js";
-import { SimulationResult } from "./numericRunner.js";
+import { SimulationResult, NumericRunnerRegistry, DomainSlotDef } from "./numericRunner.js";
 
 export class NumericVisualizer extends Elt {
   private result: SimulationResult;
@@ -13,6 +13,8 @@ export class NumericVisualizer extends Elt {
   private slider: HTMLInputElement;
   private playBtn: Elt;
   private auditPill: Elt;
+  private tensorDisplayWrap: Elt;
+  private slotsInputsWrap: Elt;
 
   constructor(result: SimulationResult) {
     super("div");
@@ -27,7 +29,7 @@ export class NumericVisualizer extends Elt {
     const header = new Elt("div");
     header.setA(
       "style",
-      "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;"
+      "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;"
     );
 
     const titleWrap = new Elt("div");
@@ -35,7 +37,7 @@ export class NumericVisualizer extends Elt {
     const icon = new Elt("span");
     icon.setV("📊");
     const title = new Elt("span");
-    title.setA("style", "font-weight: 700; font-size: 12.5px; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;");
+    title.setA("style", "font-weight: 700; font-size: 13px; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;");
     title.setV(result.title);
     titleWrap.append(icon);
     titleWrap.append(title);
@@ -43,7 +45,7 @@ export class NumericVisualizer extends Elt {
     this.auditPill = new Elt("span");
     this.auditPill.setA(
       "style",
-      "font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; background: #166534; color: #dcfce7; border: 1px solid #22c55e;"
+      "font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 12px; background: #166534; color: #dcfce7; border: 1px solid #22c55e;"
     );
     this.auditPill.setV("✓ Invariant Verified");
 
@@ -51,23 +53,31 @@ export class NumericVisualizer extends Elt {
     header.append(this.auditPill);
     this.append(header);
 
-    // Initial Conditions Strip (Seeded from Formal Statement Slots)
-    const icStrip = new Elt("div");
-    icStrip.setA("style", "display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; font-size: 11px; align-items: center;");
-    const icLabel = new Elt("span");
-    icLabel.setA("style", "color: #94a3b8; font-weight: 600; text-transform: uppercase;");
-    icLabel.setV("Initial Conditions (from Formal Slots):");
-    icStrip.append(icLabel);
+    // 1. Interactive Domain-Typed Slot Inputs Section
+    const slotsSection = new Elt("div");
+    slotsSection.setA("style", "margin-bottom: 12px; background: #090d16; border: 1px solid #1e293b; border-radius: 6px; padding: 10px 12px;");
 
-    for (const [k, v] of Object.entries(result.initialConditions)) {
-      const pill = new Elt("span");
-      pill.setA("style", "background: #1e293b; color: #7dd3fc; border: 1px solid #334155; padding: 1px 6px; border-radius: 4px; font-family: monospace;");
-      pill.setV(`${k} = ${v}`);
-      icStrip.append(pill);
-    }
-    this.append(icStrip);
+    const slotsSectionHeader = new Elt("div");
+    slotsSectionHeader.setA("style", "font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;");
+    slotsSectionHeader.setV("<span>⚙️ Domain-Typed Input Slots (User Configurable):</span><span style='color:#0284c7'>Type Safety: Channeled</span>");
+    slotsSection.append(slotsSectionHeader);
 
-    // SVG Drawing Canvas Wrap
+    this.slotsInputsWrap = new Elt("div");
+    this.slotsInputsWrap.setA("style", "display: flex; flex-wrap: wrap; gap: 10px; align-items: center;");
+    this.buildSlotInputControls();
+    slotsSection.append(this.slotsInputsWrap);
+    this.append(slotsSection);
+
+    // 2. Real-Time Tensor / Numeric Output Display
+    this.tensorDisplayWrap = new Elt("div");
+    this.tensorDisplayWrap.setA(
+      "style",
+      "margin-bottom: 12px; background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 10px 12px;"
+    );
+    this.append(this.tensorDisplayWrap);
+    this.renderTensorDisplay();
+
+    // 3. SVG Visualization Canvas
     this.canvasWrap = new Elt("div");
     this.canvasWrap.setA(
       "style",
@@ -75,7 +85,7 @@ export class NumericVisualizer extends Elt {
     );
     this.append(this.canvasWrap);
 
-    // Control Toolbar
+    // 4. Playback / Time Control Toolbar
     const controls = new Elt("div");
     controls.setA(
       "style",
@@ -113,7 +123,6 @@ export class NumericVisualizer extends Elt {
     btnGroup.append(stepBtn);
     btnGroup.append(resetBtn);
 
-    // Slider & Time display
     const sliderGroup = new Elt("div");
     sliderGroup.setA("style", "display: flex; align-items: center; gap: 8px; flex: 1; max-width: 320px; min-width: 180px;");
 
@@ -141,6 +150,115 @@ export class NumericVisualizer extends Elt {
     this.append(controls);
 
     this.renderCurrentFrame();
+  }
+
+  /**
+   * Builds domain-typed input controls for each slot
+   */
+  private buildSlotInputControls() {
+    this.slotsInputsWrap.elt.innerHTML = "";
+
+    this.result.domainSlots.forEach((slot) => {
+      const slotBox = new Elt("div");
+      slotBox.setA("style", "display: flex; align-items: center; gap: 6px; background: #1e293b; border: 1px solid #334155; border-radius: 4px; padding: 3px 8px;");
+
+      const label = new Elt("span");
+      label.setA("style", "font-size: 11px; font-weight: 700; color: #38bdf8; font-family: monospace;");
+      label.setV(`${slot.name}:`);
+      slotBox.append(label);
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.value = slot.value;
+      if (slot.min !== undefined) input.min = slot.min.toString();
+      if (slot.max !== undefined) input.max = slot.max.toString();
+      if (slot.step !== undefined) input.step = slot.step.toString();
+      input.style.width = "55px";
+      input.style.background = "#0f172a";
+      input.style.color = "#f8fafc";
+      input.style.border = "1px solid #475569";
+      input.style.borderRadius = "3px";
+      input.style.padding = "2px 4px";
+      input.style.fontSize = "11.5px";
+      input.style.fontFamily = "monospace";
+      input.style.fontWeight = "bold";
+
+      input.addEventListener("change", () => {
+        slot.value = input.value;
+        this.recalculateWithUserInputs();
+      });
+
+      slotBox.elt.appendChild(input);
+
+      if (slot.unit) {
+        const unit = new Elt("span");
+        unit.setA("style", "font-size: 10.5px; color: #94a3b8;");
+        unit.setV(slot.unit);
+        slotBox.append(unit);
+      }
+
+      // Domain Type Badge
+      const domBadge = new Elt("span");
+      domBadge.setA("style", "font-size: 9.5px; padding: 1px 4px; border-radius: 3px; background: #0369a1; color: #ffffff; font-family: monospace; font-weight: 600;");
+      domBadge.setV(slot.domain);
+      slotBox.append(domBadge);
+
+      this.slotsInputsWrap.append(slotBox);
+    });
+  }
+
+  /**
+   * Recalculates simulation and tensor output when user edits slot inputs
+   */
+  private recalculateWithUserInputs() {
+    const slotMap: Record<string, string> = {};
+    this.result.domainSlots.forEach((s) => {
+      slotMap[s.name] = s.value;
+    });
+
+    const newResult = NumericRunnerRegistry.run(this.result.title, slotMap);
+    if (!newResult) return;
+
+    this.result = newResult;
+    this.slider.max = (this.result.frames.length - 1).toString();
+    this.currentFrameIndex = Math.min(this.currentFrameIndex, this.result.frames.length - 1);
+    this.slider.value = this.currentFrameIndex.toString();
+
+    this.renderTensorDisplay();
+    this.renderCurrentFrame();
+  }
+
+  /**
+   * Renders the bracketed Numeric / Tensor Result
+   */
+  private renderTensorDisplay() {
+    this.tensorDisplayWrap.elt.innerHTML = "";
+
+    const tout = this.result.currentTensorOutput;
+    if (!tout) return;
+
+    const tHeader = new Elt("div");
+    tHeader.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;");
+
+    const tTitle = new Elt("span");
+    tTitle.setA("style", "font-size: 11px; font-weight: 700; color: #a5f3fc; text-transform: uppercase; letter-spacing: 0.5px;");
+    tTitle.setV(`⚡ Computed Numeric / Tensor Result: <b style="color:#ffffff">${tout.label}</b>`);
+
+    const tDomain = new Elt("span");
+    tDomain.setA("style", "font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #0284c7; color: #ffffff; font-weight: 700; font-family: monospace;");
+    tDomain.setV(`Domain: ${tout.domain} (${tout.dimensions.join("×")})`);
+
+    tHeader.append(tTitle);
+    tHeader.append(tDomain);
+    this.tensorDisplayWrap.append(tHeader);
+
+    const pre = new Elt("pre");
+    pre.setA(
+      "style",
+      "margin: 0; padding: 8px 12px; background: #000000; color: #38bdf8; border: 1px solid #1e293b; border-radius: 4px; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 12px; line-height: 1.4; overflow-x: auto;"
+    );
+    pre.setV(tout.bracketedDisplay);
+    this.tensorDisplayWrap.append(pre);
   }
 
   private togglePlay() {
@@ -220,17 +338,14 @@ export class NumericVisualizer extends Elt {
     const svg = new SVGElt("svg");
     svg.setAA(["width", width, "height", height, "style", "display: block;"]);
 
-    // Ground line
     const groundY = height - 25;
     const ground = new SVGElt("line");
     ground.setAA(["x1", 30, "y1", groundY, "x2", width - 20, "y2", groundY, "stroke", "#334155", "stroke-width", "2"]);
     svg.append(ground);
 
-    // Max height scale
     const maxS = Math.max(...this.result.frames.map((f) => (f.data.s as number) || 1));
     const totalT = this.result.frames[this.result.frames.length - 1].time || 1;
 
-    // Draw full trajectory arc in dashed cyan
     let pathD = "";
     this.result.frames.forEach((f, idx) => {
       const px = 40 + (f.time / totalT) * (width - 80);
@@ -242,7 +357,6 @@ export class NumericVisualizer extends Elt {
     trajectory.setAA(["d", pathD, "fill", "none", "stroke", "#0284c7", "stroke-width", "1.5", "stroke-dasharray", "3,3", "opacity", "0.6"]);
     svg.append(trajectory);
 
-    // Current particle position
     const curX = 40 + (frame.time / totalT) * (width - 80);
     const curY = groundY - ((frame.data.s as number) / (maxS * 1.15)) * (height - 50);
 
@@ -250,14 +364,12 @@ export class NumericVisualizer extends Elt {
     particle.setAA(["cx", curX, "cy", curY, "r", "6", "fill", "#38bdf8", "stroke", "#ffffff", "stroke-width", "1.5"]);
     svg.append(particle);
 
-    // Velocity vector arrow
     const vScale = 0.8;
     const vy = curY - (frame.data.v as number) * vScale;
     const vLine = new SVGElt("line");
     vLine.setAA(["x1", curX, "y1", curY, "x2", curX, "y2", vy, "stroke", "#f43f5e", "stroke-width", "2", "stroke-linecap", "round"]);
     svg.append(vLine);
 
-    // Text metrics
     const textS = new SVGText();
     textS.setV(`s = ${(frame.data.s as number).toFixed(1)}m`);
     textS.setAA(["x", 40, "y", 22, "fill", "#38bdf8", "font-size", "12", "font-weight", "bold", "font-family", "monospace"]);
@@ -269,7 +381,7 @@ export class NumericVisualizer extends Elt {
     svg.append(textV);
 
     const textA = new SVGText();
-    textA.setV(`a = -9.80m/s² (Invariant ✓)`);
+    textA.setV(`a = ${(frame.data.accel as number).toFixed(2)}m/s² (Invariant ✓)`);
     textA.setAA(["x", 260, "y", 22, "fill", "#22c55e", "font-size", "12", "font-weight", "bold", "font-family", "monospace"]);
     svg.append(textA);
 
@@ -277,7 +389,7 @@ export class NumericVisualizer extends Elt {
   }
 
   /**
-   * Work-Energy Canvas: Dynamic Kinetic & Potential Energy Bars with Conserved Total Line
+   * Work-Energy Canvas: Kinetic & Potential Energy Bars
    */
   private renderWorkEnergyCanvas(frame: any) {
     const width = 500;
@@ -297,32 +409,26 @@ export class NumericVisualizer extends Elt {
     const peH = (pe / maxE) * (height - 60);
     const totH = (totalE / maxE) * (height - 60);
 
-    // KE Bar
     const rectKE = new SVGElt("rect");
     rectKE.setAA(["x", 90, "y", groundY - keH, "width", barW, "height", keH, "fill", "#38bdf8", "rx", "4"]);
     svg.append(rectKE);
 
-    // PE Bar
     const rectPE = new SVGElt("rect");
     rectPE.setAA(["x", 210, "y", groundY - peH, "width", barW, "height", peH, "fill", "#fbbf24", "rx", "4"]);
     svg.append(rectPE);
 
-    // Total Energy Bar
     const rectTot = new SVGElt("rect");
     rectTot.setAA(["x", 330, "y", groundY - totH, "width", barW, "height", totH, "fill", "#22c55e", "rx", "4"]);
     svg.append(rectTot);
 
-    // Base line
     const base = new SVGElt("line");
     base.setAA(["x1", 50, "y1", groundY, "x2", 450, "y2", groundY, "stroke", "#334155", "stroke-width", "2"]);
     svg.append(base);
 
-    // Conserved reference dashed line
     const refLine = new SVGElt("line");
     refLine.setAA(["x1", 50, "y1", groundY - totH, "x2", 450, "y2", groundY - totH, "stroke", "#22c55e", "stroke-width", "1.5", "stroke-dasharray", "4,4"]);
     svg.append(refLine);
 
-    // Labels
     const lKE = new SVGText();
     lKE.setV(`KE: ${ke.toFixed(1)}J`);
     lKE.setAA(["x", 92, "y", groundY + 18, "fill", "#38bdf8", "font-size", "11", "font-weight", "bold", "font-family", "monospace"]);
@@ -360,7 +466,6 @@ export class NumericVisualizer extends Elt {
       const bx = 40 + i * barWidth;
       const by = groundY - h;
 
-      // Color from blue (cold) to red/amber (hot)
       const ratio = Math.min(1, Math.max(0, (temp - 20) / 70));
       const r = Math.round(56 + ratio * 190);
       const g = Math.round(189 - ratio * 120);
@@ -379,7 +484,6 @@ export class NumericVisualizer extends Elt {
       }
     });
 
-    // Insulated boundary markers
     const leftBoundary = new SVGElt("line");
     leftBoundary.setAA(["x1", 38, "y1", 20, "x2", 38, "y2", groundY, "stroke", "#94a3b8", "stroke-width", "3"]);
     svg.append(leftBoundary);
