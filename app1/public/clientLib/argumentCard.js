@@ -1,5 +1,8 @@
 import { Elt } from "./elt.js";
 import { LEAN_CACHE } from "./leanCache.js";
+import { Nav } from "./navFW.js";
+import { NumericRunnerRegistry } from "./numericRunner.js";
+import { NumericVisualizer } from "./numericVisualizer.js";
 export class ArgumentCard extends Elt {
     static serverUrl = "http://localhost:8001";
     static serverStatus = "unknown";
@@ -7,6 +10,9 @@ export class ArgumentCard extends Elt {
     statusPill;
     footerNotice;
     verifyBtn;
+    simBtn;
+    simContainer;
+    isSimOpen = false;
     constructor(arg) {
         super("div");
         this.arg = arg;
@@ -137,6 +143,133 @@ export class ArgumentCard extends Elt {
             codeWrap.append(pre);
             body.append(codeWrap);
         }
+        // Collapsible CAS Calculation & MaximaMiner Mining Trace (NavFW Compatible)
+        if (arg.casCalculation || arg.miningTrace) {
+            const casWrap = new Elt("details");
+            casWrap.setA("style", "margin-top: 14px; background: #f8fafc; border: 1.5px solid #0284c7; border-radius: 6px; padding: 10px 14px;");
+            const summary = new Elt("summary");
+            summary.setA("style", "font-weight: 700; font-size: 12.5px; color: #0369a1; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;");
+            const summaryLeft = new Elt("span");
+            summaryLeft.setA("style", "display: inline-flex; align-items: center; gap: 6px;");
+            summaryLeft.setV("<span>⚡</span> <b>CAS Calculation &amp; MaximaMiner Trace</b>");
+            const summaryPrompt = new Elt("span");
+            summaryPrompt.setA("style", "font-size: 11px; font-weight: normal; color: #0284c7; opacity: 0.85;");
+            summaryPrompt.setV("(Click to Expand / Collapse)");
+            summary.append(summaryLeft);
+            summary.append(summaryPrompt);
+            casWrap.append(summary);
+            const content = new Elt("div");
+            content.setA("style", "margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 12.5px; color: #334155;");
+            // 1. Attached Slots / Parameters
+            if (arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0) {
+                const slotsRow = new Elt("div");
+                slotsRow.setA("style", "margin-bottom: 10px;");
+                const slotsHeader = new Elt("div");
+                slotsHeader.setA("style", "font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 5px;");
+                slotsHeader.setV("Bound Computational Slots &amp; Parameters:");
+                const badges = new Elt("div");
+                badges.setA("style", "display: flex; flex-wrap: wrap; gap: 6px;");
+                for (const [key, val] of Object.entries(arg.casCalculation.slots)) {
+                    const badge = new Elt("span");
+                    badge.setA("style", "background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 11.5px; font-weight: 600;");
+                    badge.setV(`${key} = ${val}`);
+                    badges.append(badge);
+                }
+                slotsRow.append(slotsHeader);
+                slotsRow.append(badges);
+                content.append(slotsRow);
+            }
+            // 2. Symbolic CAS Evaluation
+            if (arg.casCalculation) {
+                const calcRow = new Elt("div");
+                calcRow.setA("style", "margin-bottom: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;");
+                const cmdHeader = new Elt("div");
+                cmdHeader.setA("style", "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 4px;");
+                cmdHeader.setV("Maxima CAS Command &amp; Reduction:");
+                calcRow.append(cmdHeader);
+                const cmdPre = new Elt("div");
+                cmdPre.setA("style", "background: #f1f5f9; padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #0f172a; margin-bottom: 6px; word-break: break-all;");
+                cmdPre.setV(arg.casCalculation.command);
+                calcRow.append(cmdPre);
+                if (arg.casCalculation.expanded) {
+                    const expDiv = new Elt("div");
+                    expDiv.setA("style", "font-size: 12px; margin-bottom: 6px;");
+                    expDiv.setV(`<b>Expanded:</b> <code style="background:#f8fafc; padding:2px 4px; border-radius:3px;">${arg.casCalculation.expanded}</code>`);
+                    calcRow.append(expDiv);
+                }
+                const resDiv = new Elt("div");
+                resDiv.setA("style", "font-size: 12px; color: #166534; font-weight: 700;");
+                resDiv.setV(`<b>Simplified Invariant:</b> <span style="background: #dcfce7; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${arg.casCalculation.simplified}</span>`);
+                calcRow.append(resDiv);
+                content.append(calcRow);
+            }
+            // 3. MaximaMiner Mining Trace
+            if (arg.miningTrace) {
+                const trace = arg.miningTrace;
+                const minerRow = new Elt("div");
+                minerRow.setA("style", "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;");
+                // Algorithm Identification Code (AIC) Header
+                const minerHeader = new Elt("div");
+                minerHeader.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;");
+                const aicBadge = new Elt("span");
+                aicBadge.setA("style", "background: #0284c7; color: #ffffff; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 11px; font-weight: 700;");
+                aicBadge.setV(trace.aic || "ALG-MWM-SYMBOLIC");
+                const algName = new Elt("span");
+                algName.setA("style", "font-weight: 700; color: #1e293b; font-size: 12px;");
+                algName.setV(trace.algorithmName || "Symbolic Reduction Engine");
+                minerHeader.append(aicBadge);
+                minerHeader.append(algName);
+                minerRow.append(minerHeader);
+                if (trace.description) {
+                    const descDiv = new Elt("div");
+                    descDiv.setA("style", "font-size: 11.5px; color: #475569; margin-bottom: 8px; line-height: 1.4;");
+                    descDiv.setV(trace.description);
+                    minerRow.append(descDiv);
+                }
+                // Attempted Heuristics
+                if (trace.attemptedHeuristics && trace.attemptedHeuristics.length > 0) {
+                    const heurDiv = new Elt("div");
+                    heurDiv.setA("style", "margin-bottom: 8px; font-size: 11.5px;");
+                    heurDiv.setV(`<b>Heuristic Cascade:</b> <span style="color:#64748b;">${trace.attemptedHeuristics.join(" → ")}</span>`);
+                    minerRow.append(heurDiv);
+                }
+                // Common Lisp Call Tree
+                if (trace.callTreeText) {
+                    const treeLabel = new Elt("div");
+                    treeLabel.setA("style", "font-size: 11px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 4px;");
+                    treeLabel.setV("Common Lisp Mining Call Tree:");
+                    minerRow.append(treeLabel);
+                    const treePre = new Elt("pre");
+                    treePre.setA("style", "margin: 0 0 8px 0; padding: 8px; background: #0f172a; color: #38bdf8; border-radius: 4px; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 11.5px; line-height: 1.45; overflow-x: auto;");
+                    treePre.setV(trace.callTreeText);
+                    minerRow.append(treePre);
+                }
+                // Raw Lisp Output (Nested Collapsible)
+                if (trace.rawOutput) {
+                    const rawDetails = new Elt("details");
+                    rawDetails.setA("style", "margin-top: 6px; font-size: 11px;");
+                    const rawSummary = new Elt("summary");
+                    rawSummary.setA("style", "cursor: pointer; color: #64748b; font-weight: 600;");
+                    rawSummary.setV("🔍 View Raw Common Lisp Execution Frames (Enter / Exit)");
+                    const rawPre = new Elt("pre");
+                    rawPre.setA("style", "margin: 4px 0 0 0; padding: 6px 8px; background: #1e293b; color: #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 10.5px; max-height: 140px; overflow-y: auto;");
+                    rawPre.setV(trace.rawOutput);
+                    rawDetails.append(rawSummary);
+                    rawDetails.append(rawPre);
+                    rawDetails.elt.addEventListener("toggle", () => {
+                        Nav.updateReturnControlVisibility();
+                    });
+                    minerRow.append(rawDetails);
+                }
+                content.append(minerRow);
+            }
+            casWrap.append(content);
+            // NavFW integration: notify return control on toggle
+            casWrap.elt.addEventListener("toggle", () => {
+                Nav.updateReturnControlVisibility();
+            });
+            body.append(casWrap);
+        }
         this.append(body);
         // Footer
         const footer = new Elt("div");
@@ -144,13 +277,27 @@ export class ArgumentCard extends Elt {
         this.footerNotice = new Elt("span");
         this.footerNotice.setV("🛡️ Certified by Middle Way Logic Specification");
         footer.append(this.footerNotice);
+        const devBtnGroup = new Elt("div");
+        devBtnGroup.setA("style", "display: flex; align-items: center; gap: 6px;");
         // Dev Live Verify Button
         this.verifyBtn = new Elt("button");
         this.verifyBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
         this.verifyBtn.setV("⚡ Live Verify in Lean");
         this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
-        footer.append(this.verifyBtn);
+        devBtnGroup.append(this.verifyBtn);
+        // Dev Numeric Simulation Button
+        if (arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0) {
+            this.simBtn = new Elt("button");
+            this.simBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
+            this.simBtn.setV("▶ Run Numeric Sim (Dev)");
+            this.simBtn.elt.addEventListener("click", () => this.toggleSimulation());
+            devBtnGroup.append(this.simBtn);
+        }
+        footer.append(devBtnGroup);
         this.append(footer);
+        this.simContainer = new Elt("div");
+        this.simContainer.setA("style", "display: none;");
+        this.append(this.simContainer);
         this.detectEnvironment();
     }
     getCachedVerification() {
@@ -205,6 +352,9 @@ export class ArgumentCard extends Elt {
                     this.verifyBtn.setV("⚡ Live Verify in Lean");
                     this.verifyBtn.setA("title", "Click to verify live in the Lean 4 kernel.");
                 }
+                if (this.simBtn) {
+                    this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
+                }
             }
             else {
                 this.setServerOffline(cached);
@@ -216,6 +366,9 @@ export class ArgumentCard extends Elt {
     }
     setServerOffline(cached) {
         ArgumentCard.serverStatus = "offline";
+        if (this.simBtn) {
+            this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
+        }
         if (cached) {
             this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;");
             this.statusPill.setV("🟢 Lean 4 Certified (Cached Q.E.D. ✓)");
@@ -263,5 +416,26 @@ export class ArgumentCard extends Elt {
             this.footerNotice.setV("⚠️ Could not reach Lean 4 verification server.");
             this.verifyBtn.setV("Offline");
         }
+    }
+    toggleSimulation() {
+        if (!this.simContainer || !this.simBtn || !this.arg.casCalculation?.slots)
+            return;
+        if (this.isSimOpen) {
+            this.simContainer.setA("style", "display: none;");
+            this.simBtn.setV("▶ Run Numeric Sim (Dev)");
+            this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
+            this.isSimOpen = false;
+            return;
+        }
+        const simResult = NumericRunnerRegistry.run(this.arg.target || this.arg.expression || this.arg.title, this.arg.casCalculation.slots);
+        if (!simResult)
+            return;
+        this.simContainer.elt.innerHTML = "";
+        const visualizer = new NumericVisualizer(simResult);
+        this.simContainer.append(visualizer);
+        this.simContainer.setA("style", "display: block; padding: 0 14px 14px 14px;");
+        this.simBtn.setV("▼ Hide Simulation");
+        this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #64748b; background: #475569; color: #ffffff; border-radius: 4px;");
+        this.isSimOpen = true;
     }
 }

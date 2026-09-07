@@ -1,3 +1,4 @@
+import { PREMINED_MAXIMA_TRACES } from "./maximaMinerCatalog.js";
 export const SCAFFOLD_REGISTRY = {
     telescoping_ftc: {
         title: "Constitutional Scaffold: Fundamental Theorem of Calculus (FTC)",
@@ -21,7 +22,14 @@ export const SCAFFOLD_REGISTRY = {
     simp [hyper_sum]
     rw [ih]
     unfold delta
-    rw [sub_add_cancel]`
+    rw [sub_add_cancel]`,
+        casCalculation: {
+            command: "ev(sum(F[k+1] - F[k], k, 0, n-1), simpsum: true);",
+            expanded: "∑_{k=0}^{n-1} [ F(k+1) - F(k) ]",
+            simplified: "F(n) - F(0)",
+            slots: { "F": "F(k)", "n": "n", "ΔF": "F(k+1) - F(k)" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['telescoping_conservation']
     },
     hyper_sum: {
         title: "Constitutional Scaffold: Hyperfinite Integral Summation",
@@ -52,7 +60,14 @@ export const SCAFFOLD_REGISTRY = {
         conflictOrSupport: "Axiomatic projection from Day ω hyperfinite continuum to standard real numbers.",
         conclusion: "Every finite hyperfinite number projects uniquely to an exact standard real shadow. Certified True.",
         leanSnippet: `axiom is_finite : R_w → Prop
-axiom st : { x : R_w // is_finite x } → Float`
+axiom st : { x : R_w // is_finite x } → Float`,
+        casCalculation: {
+            command: "st( (2*v0 - 2*g*t - dt*g)/2 );",
+            expanded: "(v₀ - g·t) - (1/2)·g·dt",
+            simplified: "v₀ - g·t",
+            slots: { "dt": "1/ω", "halo": "μ(0)", "st(x)": "r" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
     },
     C_w: {
         title: "Constitutional Scaffold: 2D Complex Continuum Grid (ℂ_ω)",
@@ -71,7 +86,14 @@ axiom st : { x : R_w // is_finite x } → Float`
   im : R_w
 
 def C_w.mul (z1 z2 : C_w) : C_w :=
-  ⟨(z1.re * z2.re) - (z1.im * z2.im), (z1.re * z2.im) + (z2.re * z1.im)⟩`
+  ⟨(z1.re * z2.re) - (z1.im * z2.im), (z1.re * z2.im) + (z2.re * z1.im)⟩`,
+        casCalculation: {
+            command: "rectform((2+3*%i)*(4-%i));",
+            expanded: "(2·4 - 3·(-1)) + (2·(-1) + 3·4)·i",
+            simplified: "11 + 10·i",
+            slots: { "z₁": "2 + 3·i", "z₂": "4 - i", "i²": "-1" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['c_mul']
     },
     Holomorphic: {
         title: "Constitutional Scaffold: Cauchy-Riemann Symmetries & Conformal Invariance",
@@ -101,7 +123,14 @@ def C_w.mul (z1 z2 : C_w) : C_w :=
         conflictOrSupport: "2D planar generalization of 1D telescoping cancellation across shared micro-cell boundaries.",
         conclusion: "Every internal boundary edge between adjacent cells cancels in equal and opposite pairs. Certified True.",
         leanSnippet: `axiom cauchy_edge_cancel (z1 z2 : C_w) :
-  (z2 - z1) + (z1 - z2) = ⟨0, 0⟩`
+  (z2 - z1) + (z1 - z2) = ⟨0, 0⟩`,
+        casCalculation: {
+            command: "(z2 - z1) + (z1 - z2);",
+            expanded: "(z₂ - z₁) + (z₁ - z₂)",
+            simplified: "0",
+            slots: { "z₁": "cell[i,j]", "z₂": "cell[i+1,j]", "orientation": "opposing" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['c_loop']
     },
     cauchy_integral_theorem: {
         title: "Constitutional Scaffold: Cauchy's Integral Theorem",
@@ -177,7 +206,14 @@ def C_w.mul (z1 z2 : C_w) : C_w :=
         conclusion: "Free fall acceleration is an exact algebraic invariant -g with zero residual hyperfinite dust. Certified True.",
         leanSnippet: `-- Newtonian Kinematic Acceleration Invariance
 theorem free_fall_accel (v0 g : R_w) (t dt : R_w) (hdt : dt ≠ 0) :
-  ( (v0*(t-dt) - (1/2)*g*(t-dt)^2) - 2*(v0*t - (1/2)*g*t^2) + (v0*(t+dt) - (1/2)*g*(t+dt)^2) ) / dt^2 = -g`
+  ( (v0*(t-dt) - (1/2)*g*(t-dt)^2) - 2*(v0*t - (1/2)*g*t^2) + (v0*(t+dt) - (1/2)*g*(t+dt)^2) ) / dt^2 = -g`,
+        casCalculation: {
+            command: "s: v0*t - 1/2*g*t^2$ ratsimp((subst(t-dt, t, s) - 2*s + subst(t+dt, t, s))/dt^2);",
+            expanded: "[ (v₀(t-dt) - (1/2)g(t-dt)²) - 2(v₀t - (1/2)gt²) + (v₀(t+dt) - (1/2)g(t+dt)²) ] / dt²",
+            simplified: "-g",
+            slots: { "v₀": "20 m/s", "g": "9.8 m/s²", "t": "t", "dt": "1/ω" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
     },
     work_energy: {
         title: "Newtonian Bridge: Telescoping Work-Energy Theorem",
@@ -192,7 +228,14 @@ theorem free_fall_accel (v0 g : R_w) (t dt : R_w) (hdt : dt ≠ 0) :
         conflictOrSupport: "Physical manifestation of the discrete Fundamental Theorem of Calculus on ℝ_ω.",
         conclusion: "Total mechanical work telescopes to the net change in kinetic energy Δ(KE). Certified True.",
         leanSnippet: `theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
-  hyper_sum (delta F) n = F n - F 0`
+  hyper_sum (delta F) n = F n - F 0`,
+        casCalculation: {
+            command: "sinint(m*v, v);",
+            expanded: "∑_{k=0}^{n-1} m · v_k · Δv_k",
+            simplified: "(1/2)·m·v_n² - (1/2)·m·v₀² ≡ Δ(KE)",
+            slots: { "F": "m·a = -m·g", "dx": "v·dt", "m": "m", "v": "v(t)" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['newton_work_energy']
     },
     heat_flux: {
         title: "STEM Bridge: Discrete Heat Diffusion & Tridiagonal Contact Stencil",
@@ -208,7 +251,14 @@ theorem free_fall_accel (v0 g : R_w) (t dt : R_w) (hdt : dt ≠ 0) :
         conclusion: "Local curvature drives thermal relaxation while boundary sum guarantees global energy conservation. Certified True.",
         leanSnippet: `-- Discrete Thermal Conservation via Telescoping Boundary Sum
 theorem thermal_flux_conservation (q : Nat → R_w) (N : Nat) :
-  hyper_sum (delta q) N = q N - q 0`
+  hyper_sum (delta q) N = q N - q 0`,
+        casCalculation: {
+            command: "ratsimp(((u[i-1]-u[i]) - (u[i]-u[i+1])) / dx^2);",
+            expanded: "(α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]",
+            simplified: "d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]",
+            slots: { "α": "1.0", "Δx": "0.1", "stencil": "[1, -2, 1]", "boundary_flux": "q_N - q_0 ≡ 0" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['heat_slice_flux']
     }
 };
 export function getScaffoldReflection(scaffoldId, fallbackTitle) {
@@ -224,7 +274,9 @@ export function getScaffoldReflection(scaffoldId, fallbackTitle) {
             checks: entry.checks,
             conflictOrSupport: entry.conflictOrSupport,
             conclusion: entry.conclusion,
-            leanSnippet: entry.leanSnippet
+            leanSnippet: entry.leanSnippet,
+            casCalculation: entry.casCalculation,
+            miningTrace: entry.miningTrace || PREMINED_MAXIMA_TRACES[scaffoldId]
         };
     }
     // Fallback for custom or unmapped scaffold identifiers
@@ -241,6 +293,7 @@ export function getScaffoldReflection(scaffoldId, fallbackTitle) {
         ],
         conflictOrSupport: "Anchored in constitutional Middle Way Lean 4 scaffold.",
         conclusion: `Formally certified by Lean 4 in MiddleWayLean/Scaffold.lean (${scaffoldId}).`,
-        leanSnippet: `-- Constitutional Scaffold Theorem\n#check MiddleWay.${scaffoldId}`
+        leanSnippet: `-- Constitutional Scaffold Theorem\n#check MiddleWay.${scaffoldId}`,
+        miningTrace: PREMINED_MAXIMA_TRACES[scaffoldId]
     };
 }

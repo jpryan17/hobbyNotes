@@ -5,6 +5,7 @@ import { PXE, PXEParent, TreeNode } from "./pxe.js";
 import { ttd } from "./ttd.js";
 import { PredicateRegistry, PredicateDef } from "./predicateRegistry.js";
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
+import { PREMINED_MAXIMA_TRACES } from "./maximaMinerCatalog.js";
 
 export type DomainType = string;
 
@@ -1445,7 +1446,14 @@ export class FSD extends PXEParent {
             { label: "Successor Property", question: `Is (${v0} + 1) - ${v0} = 1?`, passed: true, detail: "→ Yes (Unit Step)" }
           ],
           conclusion: "Every coordinate on the discrete transect has an immediate successor. Proved by constructor x₂ = x₁ + 1.",
-          leanSnippet: `-- Discrete successor step verified\ntheorem fsd_transect_succ : ∀ (x : Nat), ∃ (y : Nat), y = x + 1 := by intro x; use (x + 1); rfl`
+          leanSnippet: `-- Discrete successor step verified\ntheorem fsd_transect_succ : ∀ (x : Nat), ∃ (y : Nat), y = x + 1 := by intro x; use (x + 1); rfl`,
+          casCalculation: {
+            command: "ev(x + 1, x=x1);",
+            expanded: "x₁ + 1",
+            simplified: `${v1} = ${v0} + 1`,
+            slots: { [v0]: v0, [v1]: `${v0} + 1` }
+          },
+          miningTrace: PREMINED_MAXIMA_TRACES['tree_add']
         };
       }
     }
@@ -1494,7 +1502,14 @@ export class FSD extends PXEParent {
           { label: "Halo Metric", question: "Is distance bounded by infinitesimal step dx?", passed: true, detail: "→ Yes (|x₁ - x₂| ≤ 1)" }
         ],
         conclusion: "Every coordinate on the discrete transect has an infinitesimal halo neighbor.",
-        leanSnippet: `-- Halo neighbor certified\ntheorem fsd_near_neighbor : ∀ (x : Nat), x ≤ x + 1 := by intro x; exact Nat.le_succ x`
+        leanSnippet: `-- Halo neighbor certified\ntheorem fsd_near_neighbor : ∀ (x : Nat), x ≤ x + 1 := by intro x; exact Nat.le_succ x`,
+        casCalculation: {
+          command: "st(x + dx) - st(x);",
+          expanded: "st(x + dx) - x",
+          simplified: "0",
+          slots: { "x₁": "x₁", "x₂": "x₁ + dx", "dx": "1/ω" }
+        },
+        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
       };
     }
 

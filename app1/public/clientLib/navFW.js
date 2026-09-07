@@ -602,6 +602,8 @@ export class Nav {
         if (Nav.fo && Nav.fo.elt) {
             Nav.fo.elt.removeEventListener('scroll', Nav.onFoScroll);
             Nav.fo.elt.addEventListener('scroll', Nav.onFoScroll);
+            Nav.fo.elt.removeEventListener('toggle', Nav.onFoScroll, true);
+            Nav.fo.elt.addEventListener('toggle', Nav.onFoScroll, true);
             Nav.segDiv.elt.removeEventListener('toggle', Nav.onFoScroll, true);
             Nav.segDiv.elt.addEventListener('toggle', Nav.onFoScroll, true);
             Nav.segDiv.elt.removeEventListener('click', Nav.onFoScroll, true);
