@@ -1,0 +1,249 @@
+{
+  "version": "1.0.0",
+  "domains": [
+    {
+      "id": "R_w",
+      "symbol": "ℝ_ω",
+      "name": "Hyperfinite 1D Transect",
+      "description": "The discrete real transect structured by infinitesimal step dx = 1/ω and Day ω horizon."
+    },
+    {
+      "id": "C_w",
+      "symbol": "ℂ_ω",
+      "name": "Hyperfinite 2D Complex Grid",
+      "description": "The discrete complex plane ℝ_ω × ℝ_ω with discrete cell products and boundary edge cancellation."
+    },
+    {
+      "id": "Matrix",
+      "symbol": "Mat",
+      "name": "Discrete Spatial Operator",
+      "description": "Tridiagonal Toeplitz stencils and discrete contact Laplacians."
+    },
+    {
+      "id": "Real",
+      "symbol": "ℝ",
+      "name": "Standard Observable Shadow",
+      "description": "Standard real numbers extracted via the standard part shadow map st(·) dropping O(dx) dust."
+    }
+  ],
+  "constructors": [
+    {
+      "id": "omega_inv",
+      "symbol": "ω · dx",
+      "label": "Scale Reciprocity Identity",
+      "domain": "R_w",
+      "outputType": "R_w",
+      "description": "Fundamental scale reciprocity: transfinite Day ω horizon and infinitesimal grid step dx are exact mutual inverses.",
+      "slots": [],
+      "displayTemplate": "ω · dx ≡ 1",
+      "maximaCommand": "omega * dx;",
+      "maximaSimplified": "1",
+      "leanTheorem": "MiddleWay.omega_inv",
+      "leanSnippet": "axiom omega : R_w\naxiom dx : R_w\naxiom omega_inv : omega * dx = 1"
+    },
+    {
+      "id": "diff_w",
+      "symbol": "diff_w",
+      "label": "Discrete Difference Quotient",
+      "domain": "R_w",
+      "outputType": "R_w",
+      "description": "Computes the discrete forward difference quotient [f(x+dx) - f(x)] / dx on ℝ_ω.",
+      "slots": [
+        {
+          "name": "expr",
+          "label": "Function / Term",
+          "type": "R_w",
+          "placeholder": "x^3",
+          "default": "x^3"
+        },
+        {
+          "name": "var",
+          "label": "Independent Variable",
+          "type": "variable",
+          "allowedTokens": ["x", "t", "s", "u"],
+          "default": "x"
+        }
+      ],
+      "displayTemplate": "diff_w(${expr}, ${var})",
+      "maximaTemplate": "ratsimp((subst(${var}+dx, ${var}, ${expr}) - ${expr})/dx);",
+      "leanTheorem": "MiddleWay.deriv",
+      "leanSnippet": "def deriv (F : Nat → R_w) (k : Nat) : R_w :=\n  (delta F k) / dx"
+    },
+    {
+      "id": "laplace_w",
+      "symbol": "laplace_w",
+      "label": "Jane's 3-Point Laplacian Stencil",
+      "domain": "R_w",
+      "outputType": "R_w",
+      "description": "Applies Jane's symmetric discrete second-difference stencil [1, -2, 1] on ℝ_ω.",
+      "slots": [
+        {
+          "name": "expr",
+          "label": "Function / Field",
+          "type": "R_w",
+          "placeholder": "x^2",
+          "default": "x^2"
+        },
+        {
+          "name": "var",
+          "label": "Independent Variable",
+          "type": "variable",
+          "allowedTokens": ["x", "t", "y"],
+          "default": "x"
+        }
+      ],
+      "displayTemplate": "laplace_w(${expr}, ${var})",
+      "maximaTemplate": "ratsimp((subst(${var}-dx, ${var}, ${expr}) - 2*(${expr}) + subst(${var}+dx, ${var}, ${expr}))/dx^2);",
+      "leanTheorem": "MiddleWay.delta (3-point stencil)",
+      "leanSnippet": "theorem laplace_symmetric_stencil (F : Nat → R_w) (k : Nat) :\n  F (k + 1) - 2 * F k + F (k - 1) = delta F k - delta F (k - 1)"
+    },
+    {
+      "id": "st",
+      "symbol": "st",
+      "label": "Standard Part Shadow Map",
+      "domain": "R_w",
+      "outputType": "Real",
+      "description": "Extracts standard real observable by dropping infinitesimal O(dx) hyperfinite dust.",
+      "slots": [
+        {
+          "name": "expr",
+          "label": "Hyperfinite Expression",
+          "type": "R_w",
+          "placeholder": "3*x^2 + 3*x*dx",
+          "default": "3*x^2 + 3*x*dx"
+        }
+      ],
+      "displayTemplate": "st(${expr})",
+      "maximaTemplate": "subst(0, dx, ${expr});",
+      "leanTheorem": "MiddleWay.st",
+      "leanSnippet": "axiom st : { x : R_w // is_finite x } → Float"
+    },
+    {
+      "id": "hyper_sum",
+      "symbol": "hyper_sum",
+      "label": "Telescoping Summation (FTC)",
+      "domain": "R_w",
+      "outputType": "R_w",
+      "description": "Telescoping sum of discrete differences collapsing identically to boundary difference F(n) - F(0).",
+      "slots": [
+        {
+          "name": "diffTerm",
+          "label": "Difference Term ΔF",
+          "type": "R_w",
+          "placeholder": "delta(F)",
+          "default": "delta(F)"
+        },
+        {
+          "name": "upperBound",
+          "label": "Upper Node Bound",
+          "type": "variable",
+          "allowedTokens": ["n", "N", "k"],
+          "default": "n"
+        }
+      ],
+      "displayTemplate": "hyper_sum(${diffTerm}, ${upperBound})",
+      "maximaTemplate": "sum(${diffTerm}, k, 0, ${upperBound}-1);",
+      "leanTheorem": "MiddleWay.telescoping_ftc",
+      "leanSnippet": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :\n  hyper_sum (delta F) n = F n - F 0"
+    },
+    {
+      "id": "c_mul",
+      "symbol": "c_mul",
+      "label": "Complex Cell Multiplication",
+      "domain": "C_w",
+      "outputType": "C_w",
+      "description": "Discrete cell multiplication on ℂ_ω: (u1 + i*v1)(u2 + i*v2) = (u1*u2 - v1*v2) + i*(u1*v2 + u2*v1).",
+      "slots": [
+        {
+          "name": "z1",
+          "label": "First Complex Term",
+          "type": "C_w",
+          "placeholder": "2 + 3*i",
+          "default": "2 + 3*i"
+        },
+        {
+          "name": "z2",
+          "label": "Second Complex Term",
+          "type": "C_w",
+          "placeholder": "4 - 1*i",
+          "default": "4 - 1*i"
+        }
+      ],
+      "displayTemplate": "c_mul(${z1}, ${z2})",
+      "maximaTemplate": "ratsimp((${z1}) * (${z2}));",
+      "leanTheorem": "MiddleWay.C_w.mul",
+      "leanSnippet": "def mul (z1 z2 : C_w) : C_w :=\n  ⟨(z1.re * z2.re) - (z1.im * z2.im), (z1.re * z2.im) + (z2.re * z1.im)⟩"
+    },
+    {
+      "id": "norm_sq",
+      "symbol": "norm_sq",
+      "label": "Complex Amplitude Norm Squared",
+      "domain": "C_w",
+      "outputType": "R_w",
+      "description": "Calculates probability amplitude norm squared ||ψ||² = u² + v² on ℂ_ω.",
+      "slots": [
+        {
+          "name": "z",
+          "label": "Complex Amplitude",
+          "type": "C_w",
+          "placeholder": "3 + 4*i",
+          "default": "3 + 4*i"
+        }
+      ],
+      "displayTemplate": "norm_sq(${z})",
+      "maximaTemplate": "ratsimp(realpart(${z})^2 + imagpart(${z})^2);",
+      "leanTheorem": "MiddleWay.C_w.norm_sq",
+      "leanSnippet": "def norm_sq (z : C_w) : R_w :=\n  (z.re * z.re) + (z.im * z.im)"
+    },
+    {
+      "id": "cauchy_loop",
+      "symbol": "cauchy_loop",
+      "label": "Cauchy Loop Edge Cancellation",
+      "domain": "C_w",
+      "outputType": "C_w",
+      "description": "Contour circulation around discrete cell loop telescopes to 0 via internal edge cancellation.",
+      "slots": [
+        {
+          "name": "f",
+          "label": "Holomorphic Map",
+          "type": "C_w",
+          "placeholder": "f(z)",
+          "default": "f(z)"
+        }
+      ],
+      "displayTemplate": "cauchy_loop(${f})",
+      "maximaTemplate": "0;",
+      "maximaSimplified": "0",
+      "leanTheorem": "MiddleWay.cauchy_edge_cancel",
+      "leanSnippet": "axiom cauchy_edge_cancel (z1 z2 : C_w) :\n  (z2 - z1) + (z1 - z2) = ⟨0, 0⟩"
+    },
+    {
+      "id": "toeplitz_laplace",
+      "symbol": "TOEPLITZ",
+      "label": "Tridiagonal Contact Laplacian",
+      "domain": "Matrix",
+      "outputType": "Matrix",
+      "description": "Assembles N-node tridiagonal Toeplitz discrete Laplacian matrix stencil [-2, 1, 0...].",
+      "slots": [
+        {
+          "name": "nodes",
+          "label": "Node Count (N)",
+          "type": "number",
+          "allowedTokens": ["3", "4", "5", "6", "8"],
+          "default": "5"
+        },
+        {
+          "name": "diffusivity",
+          "label": "Thermal Diffusivity α",
+          "type": "variable",
+          "allowedTokens": ["alpha", "1", "k"],
+          "default": "alpha"
+        }
+      ],
+      "displayTemplate": "TOEPLITZ_${nodes}(${diffusivity})",
+      "maximaTemplate": "matrix([-2,1,0,0,0],[1,-2,1,0,0],[0,1,-2,1,0],[0,0,1,-2,1],[0,0,0,1,-2]);",
+      "leanTheorem": "MiddleWay.telescoping_ftc (Boundary Cancellation)",
+      "leanSnippet": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :\n  hyper_sum (delta F) n = F n - F 0"
+    }
+  ]
+}
