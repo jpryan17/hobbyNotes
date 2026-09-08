@@ -89,7 +89,7 @@
     James said, writing the position polynomial on the board:
   </p>
 
-  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 15px; margin: 14px auto; max-width: 620px; color: #1e3a8a;">
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 24px; font-family: monospace; font-size: 15px; margin: 14px auto; width: fit-content; max-width: 90%; color: #1e3a8a;">
     s(t) = v₀·t - (1/2)·g·t²
   </div>
 
@@ -98,7 +98,7 @@
     What is the displacement over a single tick?”
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 660px; line-height: 1.8;">
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap;">
     s(t + dt) - s(t) &nbsp;=&nbsp; [ v₀·(t + dt) - (1/2)·g·(t + dt)² ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; [ v₀·t + v₀·dt - (1/2)·g·(t² + 2t·dt + dt²) ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>(v₀ - g·t)·dt &nbsp;-&nbsp; (1/2)·g·dt²</b>
@@ -109,7 +109,7 @@
     the quotient is standard algebra:”
   </p>
 
-  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 660px; color: #1e3a8a;">
+  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
     <cas-ref calc-id="newton_free_fall" expr="FREE_FALL(v0*t - 1/2*g*t^2, t)">
       v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
     </cas-ref>
@@ -127,7 +127,7 @@
     “And what about acceleration?” Jill asked. “We use Jane’s symmetric 3-point stencil <code>[1, -2, 1]</code>!”
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 660px; line-height: 1.8;">
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap; text-align: center;">
     s(t - dt) - 2·s(t) + s(t + dt) &nbsp;=&nbsp; <b>-g · dt²</b><br><br>
     a(t) &nbsp;=&nbsp; st( [ s(t - dt) - 2·s(t) + s(t + dt) ] / dt² ) &nbsp;=&nbsp; st( -g·dt² / dt² ) &nbsp;=&nbsp; <b>-g</b>
   </div>
@@ -153,7 +153,7 @@
     The work done over that single tick is:”
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 660px;">
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
     W_k = F_k · Δx_k = [ m · (v_{k+1} - v_k) / dt ] · [ v_k · dt ] = m · v_k · (v_{k+1} - v_k)
   </div>
 
@@ -168,7 +168,7 @@
     “The second term is of order <code>O(dt²)</code>. Summing over all <code>n</code> time steps from initial state to final state:”
   </p>
 
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 14.5px; margin: 14px auto; max-width: 670px; color: #1e3a8a;">
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
     <cas-ref calc-id="newton_work_energy" expr="WORK_ENERGY_SUM(F, x0, xn)">
       ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
     </cas-ref>
@@ -202,7 +202,7 @@
     Applying Newton’s Second Law with Jane’s symmetric 3-point temporal stencil gives:
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 660px;">
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
     m · [ x(t - dt) - 2·x(t) + x(t + dt) ] / dt² &nbsp;=&nbsp; -k · x(t)
   </div>
 
@@ -210,7 +210,7 @@
     Rearranging to solve explicitly for the next future time step <code>x(t + dt)</code>:
   </p>
 
-  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 14.5px; margin: 14px auto; max-width: 660px; color: #1e3a8a;">
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
     <cas-ref calc-id="newton_harmonic_oscillator" expr="HOOKES_LAW_LEAPFROG(k, m, dt)">
       x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
     </cas-ref>

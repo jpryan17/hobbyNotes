@@ -67,7 +67,7 @@
       “We divide the length of the rod into small finite slices—little segments or control volumes of width <code>Δx</code>.”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 12px auto; max-width: 680px; line-height: 1.6;">
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; line-height: 1.6; overflow-x: auto; white-space: nowrap;">
       Slice: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N - 1 ]<br>
       Temp: &nbsp; &nbsp; &nbsp;u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{N-1}(t)
     </div>
@@ -117,13 +117,13 @@
       The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
     </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14.5px; margin: 12px auto; max-width: 650px; color: #1e3a8a;">
-      <cas-ref calc-id="heat_slice_flux" expr="FLUX_ACCUMULATION(u_{i-1}, u_i, u_{i+1})">
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 22px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto; white-space: nowrap;">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Thermal Flux Balance & Discrete Laplacian Stencil">
         du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
-      </cas-ref>
+      </fsd-ref>
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Click the formula above to send James's single-slice flux request to the MWM CAS Workbench)</i>
+      <i>(Click the formula above to inspect the formal stencil proof in Lean 4)</i>
     </p>
 
     <p>
@@ -152,7 +152,7 @@
       He wrote out the balance for each slice on the board:
     </p>
 
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 14px auto; max-width: 680px; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a;">
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; margin: 14px auto; width: fit-content; max-width: 95%; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a; overflow-x: auto; white-space: nowrap;">
       For slice 1: &nbsp; du₁/dt = (α / Δx²) · [ &nbsp;1·u₀ - 2·u₁ + 1·u₂ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
       For slice 2: &nbsp; du₂/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; 1·u₁ - 2·u₂ + 1·u₃ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
       For slice 3: &nbsp; du₃/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1·u₂ - 2·u₃ + 1·u₄ &nbsp; &nbsp; &nbsp; &nbsp;]<br>
