@@ -308,7 +308,7 @@ export const foundationIndex = [
 export const proposalsIndex = [
     {
         type: "html",
-        topic: "proposal 1: Lean 4 interface",
+        topic: "proposal 1: open educational service hubs",
         htmlSegmentId: "lean4GenEdProposal",
     },
     {
