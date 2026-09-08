@@ -387,7 +387,7 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Phase 2: Continuous & Seminars",
+        topic: "Phase 2: analysis and seminars",
         navTopic: "Phase 2",
         indexDesc: analysisAndSeminarsIndex,
     },
