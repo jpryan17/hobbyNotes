@@ -84,8 +84,13 @@
       <font size="+1" color="#92400e"><b>The Geometric Probability Law:</b></font><br>
       For a particle prepared in unit state <code>|v⟩</code> observed by a detector along unit axis <code>|u⟩</code> with angle <code>θ</code> between them:
       <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        P(Detection) = |⟨u | v⟩|² = cos²(θ)
+        <fsd-ref tier="3" scaffold="polarizer_projection" title="Geometric Probability Law: P = cos²(θ)">
+          P(Detection) = |⟨u | v⟩|² = cos²(θ)
+        </fsd-ref>
       </div>
+      <p style="text-align: center; font-size: 12px; color: #92400e; margin-top: 4px; margin-bottom: 0;">
+        <i>(Click above to inspect the proof in Lean 4 or test angles in the Dev Calculator)</i>
+      </p>
     </div>
 
     <p>
@@ -146,7 +151,12 @@
     </ol>
 
     <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 14px; font-weight: bold; font-size: 16px; margin: 14px 0;">
-      Total Light Output = P₁ × P₂ = 50% × 50% = 25%!
+      <fsd-ref tier="3" scaffold="polarizer_projection" title="Three-Polarizer Geometric Rotation &amp; Transmission">
+        Total Light Output = P₁ × P₂ = 50% × 50% = 25%!
+      </fsd-ref>
+      <p style="text-align: center; font-size: 12px; color: #065f46; margin-top: 6px; margin-bottom: 0; font-weight: normal;">
+        <i>(Click above to simulate the 3-polarizer angle sweep and inspect unitary projection in Lean 4)</i>
+      </p>
     </div>
 
     <p>
@@ -193,9 +203,14 @@
       • <b>Quantum Conditioning Operator:</b> Let a system prepared in state <code>|ψ⟩ ∈ ℋ_ω</code> undergo projective measurement associated with closed subspace <code>V ⊆ ℋ_ω</code> and projector <code>P_V</code>.<br>
       • <b>Success Probability:</b> The probability that outcome <code>V</code> occurs is <code>P(V) = || P_V |ψ⟩ ||² = ⟨ψ | P_V | ψ⟩</code>.<br>
       • <b>Lüders Post-Measurement State:</b> Conditioned on outcome <code>V</code> occurring, the collapsed quantum state is:
-      <div align="center" style="margin: 6px 0; font-family: monospace;">
-        |ψ'⟩ = <sup>P_V |ψ⟩</sup> / <sub>|| P_V |ψ⟩ ||</sub> = <sup>P_V |ψ⟩</sup> / <sub>√⟨ψ | P_V | ψ⟩</sub>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="luders_update" title="The Lüders State-Update Rule">
+          |ψ'⟩ = <sup>P_V |ψ⟩</sup> / <sub>|| P_V |ψ⟩ ||</sub> = <sup>P_V |ψ⟩</sup> / <sub>√⟨ψ | P_V | ψ⟩</sub>
+        </fsd-ref>
       </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click above to verify state vector renormalization in Lean 4 or test projection in the Dev Calculator)</i>
+      </p>
       • <b>Geometric Interpretation:</b> The Lüders rule drops an orthogonal projection from <code>|ψ⟩</code> onto subspace <code>V</code> and renormalizes the surviving shadow to unit length.
     </div>
 

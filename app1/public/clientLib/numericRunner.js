@@ -60,6 +60,26 @@ export class NumericRunnerRegistry {
             (slots && slots["z₁"] && slots["z₂"])) {
             return true;
         }
+        // 5. Bayesian filter & sequential updating
+        if (text.includes("bayes") ||
+            text.includes("p(h|d)") ||
+            text.includes("rover") ||
+            (slots && slots["P(H)"])) {
+            return true;
+        }
+        // 6. Three-polarizer sequential projection
+        if (text.includes("polariz") ||
+            text.includes("three-polarizer") ||
+            text.includes("sunglasses") ||
+            (slots && slots["θ₁"])) {
+            return true;
+        }
+        // 7. Quantum wave interference cross-term
+        if (text.includes("interfer") ||
+            text.includes("cross-term") ||
+            (slots && slots["|z₁|"] && slots["Δθ"])) {
+            return true;
+        }
         return false;
     }
     /**
@@ -108,6 +128,23 @@ export class NumericRunnerRegistry {
             (text.includes("z₂ - z₁") && text.includes("z₁ - z₂")) ||
             (slots["z₁"] && slots["z₂"])) {
             return this.runComplexMultiplication(slots);
+        }
+        if (text.includes("bayes") ||
+            text.includes("p(h|d)") ||
+            text.includes("rover") ||
+            slots["P(H)"]) {
+            return this.runBayesFilter(slots);
+        }
+        if (text.includes("polariz") ||
+            text.includes("three-polarizer") ||
+            text.includes("sunglasses") ||
+            slots["θ₁"]) {
+            return this.runPolarizerProjection(slots);
+        }
+        if (text.includes("interfer") ||
+            text.includes("cross-term") ||
+            (slots["|z₁|"] && slots["Δθ"])) {
+            return this.runQuantumInterference(slots);
         }
         return null;
     }
@@ -337,6 +374,160 @@ export class NumericRunnerRegistry {
             domainSlots,
             currentTensorOutput: tensorOutput,
             invariantTheorem: "(z₁.re * z₂.re - z₁.im * z₂.im) + i*(z₁.re * z₂.im + z₂.re * z₁.im)",
+            frames
+        };
+    }
+    /**
+     * 5. Bayesian Filter & Sequential Updating Simulation
+     * Domain: R_w -> Output Tensor P = [P(H | D), P(¬H | D)]^T in R^2
+     */
+    static runBayesFilter(slots) {
+        const initPH = parseFloat(slots["P(H)"] || slots["pH"] || "0.30") || 0.30;
+        const pD_H = parseFloat(slots["P(D|H)"] || slots["pD_H"] || "0.90") || 0.90;
+        const pD_notH = parseFloat(slots["P(D|¬H)"] || slots["pD_notH"] || "0.15") || 0.15;
+        const steps = 10;
+        const domainSlots = [
+            { name: "P(H)", label: "Prior P(Hazard)", domain: "R_w", min: 0.01, max: 0.99, step: 0.05, value: initPH.toString() },
+            { name: "P(D|H)", label: "Hit Rate P(Flash|Hazard)", domain: "R_w", min: 0.1, max: 1.0, step: 0.05, value: pD_H.toString() },
+            { name: "P(D|¬H)", label: "False Alarm P(Flash|Clear)", domain: "R_w", min: 0.0, max: 1.0, step: 0.05, value: pD_notH.toString() }
+        ];
+        const frames = [];
+        let curPH = initPH;
+        for (let k = 0; k <= steps; k++) {
+            const curPNotH = 1.0 - curPH;
+            const sumCheck = curPH + curPNotH;
+            const invariantPassed = Math.abs(sumCheck - 1.0) < 1e-5;
+            frames.push({
+                time: k,
+                data: {
+                    pH: parseFloat(curPH.toFixed(4)),
+                    pNotH: parseFloat(curPNotH.toFixed(4)),
+                    confidence: parseFloat((curPH * 100).toFixed(1))
+                },
+                invariantPassed,
+                invariantMetric: `P(H|D^${k}) + P(¬H|D^${k}) ≡ ${sumCheck.toFixed(4)} (Conserved 100%)`
+            });
+            // Update for next observation of D
+            const num = pD_H * curPH;
+            const denom = num + pD_notH * curPNotH;
+            curPH = denom > 0 ? num / denom : 0;
+        }
+        const finalPH = frames[frames.length - 1].data.pH;
+        const finalPNotH = 1.0 - finalPH;
+        const tensorOutput = {
+            label: "Posterior State Tensor P ∈ ℝ_ω²",
+            domain: "R_w",
+            dimensions: [2],
+            bracketedDisplay: `[ P(Hazard | D) ]   [ ${(finalPH * 100).toFixed(1)}% ]\n[ P(Clear  | D) ] = [ ${(finalPNotH * 100).toFixed(1)}% ]\n[ Total Belief  ]   [ 100.0% ]`,
+            raw: [finalPH, finalPNotH]
+        };
+        return {
+            title: "Sequential Bayesian Belief Updating (ℝ_ω)",
+            variableLabels: { pH: "P(Hazard | D)", pNotH: "P(Clear | D)", confidence: "Hazard Confidence [%]" },
+            initialConditions: { "P(H)": `${(initPH * 100).toFixed(0)}%`, "P(D|H)": `${(pD_H * 100).toFixed(0)}%`, "P(D|¬H)": `${(pD_notH * 100).toFixed(0)}%` },
+            domainSlots,
+            currentTensorOutput: tensorOutput,
+            invariantTheorem: "∑_{i} P(H_i | D) ≡ 1.000 (Normalization Conserved)",
+            frames
+        };
+    }
+    /**
+     * 6. Three-Polarizer Sequential Vector Projection Simulation
+     * Domain: R_w -> Output Tensor P = [P₁, P₂, P_total]^T in R^3
+     */
+    static runPolarizerProjection(slots) {
+        const domainSlots = [
+            { name: "θ₁", label: "Diagonal Filter Angle", domain: "R_w", unit: "°", min: 0, max: 90, step: 5, value: "45" }
+        ];
+        const frames = [];
+        const steps = 18; // 0 to 90 degrees by 5 degrees
+        for (let k = 0; k <= steps; k++) {
+            const thetaDeg = k * 5;
+            const rad1 = (thetaDeg * Math.PI) / 180;
+            const rad2 = ((90 - thetaDeg) * Math.PI) / 180;
+            const p1 = Math.cos(rad1) * Math.cos(rad1);
+            const p2 = Math.cos(rad2) * Math.cos(rad2);
+            const pTot = p1 * p2;
+            frames.push({
+                time: thetaDeg,
+                data: {
+                    theta: thetaDeg,
+                    p1: parseFloat((p1 * 100).toFixed(1)),
+                    p2: parseFloat((p2 * 100).toFixed(1)),
+                    pTotal: parseFloat((pTot * 100).toFixed(2))
+                },
+                invariantPassed: pTot <= 0.2501,
+                invariantMetric: `P_total(${thetaDeg}°) = ${(pTot * 100).toFixed(2)}% (Max at 45° = 25.00%)`
+            });
+        }
+        const midFrame = frames[9]; // 45 deg
+        const p1_45 = midFrame.data.p1;
+        const p2_45 = midFrame.data.p2;
+        const pTot_45 = midFrame.data.pTotal;
+        const tensorOutput = {
+            label: "Three-Polarizer Transmission Tensor P ∈ ℝ_ω³",
+            domain: "R_w",
+            dimensions: [3],
+            bracketedDisplay: `[ P₁(0° → 45°)   ]   [ ${p1_45.toFixed(1)}% ]\n[ P₂(45° → 90°)  ] = [ ${p2_45.toFixed(1)}% ]\n[ Total Restored ]   [ ${pTot_45.toFixed(2)}% ]`,
+            raw: [p1_45 / 100, p2_45 / 100, pTot_45 / 100]
+        };
+        return {
+            title: "Three-Polarizer Geometric Rotation & Transmission (ℂ_ω)",
+            variableLabels: { theta: "Filter Angle [°]", p1: "Step 1 Pass [%]", p2: "Step 2 Pass [%]", pTotal: "Final Transmission [%]" },
+            initialConditions: { "Filter A": "0° (Horizontal)", "Filter C": "θ (Variable)", "Filter B": "90° (Vertical)" },
+            domainSlots,
+            currentTensorOutput: tensorOutput,
+            invariantTheorem: "P_total(θ) = cos²(θ) · cos²(90° - θ) = (1/4)·sin²(2θ) ≤ 25%",
+            frames
+        };
+    }
+    /**
+     * 7. Quantum Wave Superposition & Interference Cross-Term
+     * Domain: R_w -> Output Tensor P = [P_quant, P_class, Cross_Term]^T in R^3
+     */
+    static runQuantumInterference(slots) {
+        const r1 = parseFloat(slots["|z₁|"] || "0.5") || 0.5;
+        const r2 = parseFloat(slots["|z₂|"] || "0.5") || 0.5;
+        const domainSlots = [
+            { name: "|z₁|", label: "Amplitude 1", domain: "R_w", min: 0.1, max: 1.0, step: 0.05, value: r1.toString() },
+            { name: "|z₂|", label: "Amplitude 2", domain: "R_w", min: 0.1, max: 1.0, step: 0.05, value: r2.toString() }
+        ];
+        const frames = [];
+        const steps = 24; // 0 to 360 deg in 15 deg steps
+        const pClass = r1 * r1 + r2 * r2;
+        for (let k = 0; k <= steps; k++) {
+            const dThetaDeg = k * 15;
+            const rad = (dThetaDeg * Math.PI) / 180;
+            const cross = 2 * r1 * r2 * Math.cos(rad);
+            const pQuant = Math.max(0, pClass + cross);
+            frames.push({
+                time: dThetaDeg,
+                data: {
+                    dTheta: dThetaDeg,
+                    pQuant: parseFloat((pQuant * 100).toFixed(1)),
+                    pClass: parseFloat((pClass * 100).toFixed(1)),
+                    crossTerm: parseFloat((cross * 100).toFixed(1))
+                },
+                invariantPassed: pQuant >= 0,
+                invariantMetric: `Δθ=${dThetaDeg}°: P_quant=${(pQuant * 100).toFixed(1)}% (Classical=${(pClass * 100).toFixed(1)}%)`
+            });
+        }
+        const minP = Math.pow(r1 - r2, 2);
+        const maxP = Math.pow(r1 + r2, 2);
+        const tensorOutput = {
+            label: "Interference State Tensor P ∈ ℝ_ω³",
+            domain: "R_w",
+            dimensions: [3],
+            bracketedDisplay: `[ P_destructive (180°) ]   [ ${(minP * 100).toFixed(1)}% ]\n[ P_classical   (no wave)] = [ ${(pClass * 100).toFixed(1)}% ]\n[ P_constructive (0°)   ]   [ ${(maxP * 100).toFixed(1)}% ]`,
+            raw: [minP, pClass, maxP]
+        };
+        return {
+            title: "Quantum Wave Interference & Born Cross-Term (ℂ_ω)",
+            variableLabels: { dTheta: "Phase Difference Δθ [°]", pQuant: "Quantum Probability [%]", pClass: "Classical Sum [%]", crossTerm: "Interference Term [%]" },
+            initialConditions: { "|z₁|": `${r1}`, "|z₂|": `${r2}`, "Δθ Range": "0° to 360°" },
+            domainSlots,
+            currentTensorOutput: tensorOutput,
+            invariantTheorem: "P = |z₁ + z₂|² = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)",
             frames
         };
     }

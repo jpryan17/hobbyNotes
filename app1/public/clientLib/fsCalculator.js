@@ -529,7 +529,246 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    // 9. Generic Fallback Equation Inference for Any Other FS
+    // 9. Bayesian Filter & Updating (P(H|D))
+    if (allText.includes("bayes") || allText.includes("p(h|d)") || allText.includes("prior") || allText.includes("likelihood") || allText.includes("rover")) {
+        modes.push({
+            id: "bayes_posterior_calc",
+            label: "(P(H), P(D|H), P(D|¬H)) → P(H|D)",
+            targetSymbol: "P(H|D)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H) · P(H) + P(D|¬H) · (1 - P(H)) ]",
+            inputs: [
+                { name: "pH", symbol: "P(H)", domain: "ℝ_ω", defaultValue: 0.30, step: 0.05, min: 0.01, max: 0.99, description: "Prior belief" },
+                { name: "pD_H", symbol: "P(D|H)", domain: "ℝ_ω", defaultValue: 0.90, step: 0.05, min: 0.01, max: 1.0, description: "True positive rate (Likelihood)" },
+                { name: "pD_notH", symbol: "P(D|¬H)", domain: "ℝ_ω", defaultValue: 0.15, step: 0.05, min: 0.0, max: 1.0, description: "False positive rate" }
+            ],
+            evaluate: (vals) => {
+                const pNotH = 1.0 - vals.pH;
+                const numerator = vals.pD_H * vals.pH;
+                const pD = numerator + vals.pD_notH * pNotH;
+                const posterior = pD > 0 ? numerator / pD : 0;
+                return {
+                    resultValue: posterior,
+                    formattedFormula: `P(H|D) = [ (${vals.pD_H.toFixed(2)})·(${vals.pH.toFixed(2)}) ] / [ (${numerator.toFixed(3)}) + (${vals.pD_notH.toFixed(2)})·(${pNotH.toFixed(2)}) ] = ${numerator.toFixed(3)} / ${pD.toFixed(3)}`,
+                    displayResult: `${(posterior * 100).toFixed(1)}% (${posterior.toFixed(4)})`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Marginal evidence P(D) = ${pD.toFixed(4)}`
+                };
+            }
+        });
+        modes.push({
+            id: "bayes_evidence_calc",
+            label: "(P(H), P(D|H), P(D|¬H)) → P(D)",
+            targetSymbol: "P(D)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P(D) = P(D|H)·P(H) + P(D|¬H)·(1 - P(H))",
+            inputs: [
+                { name: "pH", symbol: "P(H)", domain: "ℝ_ω", defaultValue: 0.30, step: 0.05, min: 0.01, max: 0.99 },
+                { name: "pD_H", symbol: "P(D|H)", domain: "ℝ_ω", defaultValue: 0.90, step: 0.05, min: 0.01, max: 1.0 },
+                { name: "pD_notH", symbol: "P(D|¬H)", domain: "ℝ_ω", defaultValue: 0.15, step: 0.05, min: 0.0, max: 1.0 }
+            ],
+            evaluate: (vals) => {
+                const pD = vals.pD_H * vals.pH + vals.pD_notH * (1.0 - vals.pH);
+                return {
+                    resultValue: pD,
+                    formattedFormula: `P(D) = (${vals.pD_H.toFixed(2)})·(${vals.pH.toFixed(2)}) + (${vals.pD_notH.toFixed(2)})·(${(1.0 - vals.pH).toFixed(2)})`,
+                    displayResult: `${(pD * 100).toFixed(1)}% (${pD.toFixed(4)})`,
+                    domainBadge: "∈ ℝ_ω"
+                };
+            }
+        });
+    }
+    // 10. Shannon Information Entropy (H(P))
+    if (allText.includes("shannon") || allText.includes("entropy") || allText.includes("h(p)") || allText.includes("information")) {
+        modes.push({
+            id: "shannon_entropy_calc",
+            label: "(p₁, p₂, p₃, p₄) → H(P)",
+            targetSymbol: "H(P)",
+            targetDomain: "ℝ_ω",
+            targetUnit: "nats",
+            formulaDescription: "H(P) = -∑_{i=1}^4 p_i · ln(p_i)",
+            inputs: [
+                { name: "p1", symbol: "p₁", domain: "ℝ_ω", defaultValue: 0.25, step: 0.05, min: 0.001, max: 1.0 },
+                { name: "p2", symbol: "p₂", domain: "ℝ_ω", defaultValue: 0.25, step: 0.05, min: 0.001, max: 1.0 },
+                { name: "p3", symbol: "p₃", domain: "ℝ_ω", defaultValue: 0.25, step: 0.05, min: 0.001, max: 1.0 },
+                { name: "p4", symbol: "p₄", domain: "ℝ_ω", defaultValue: 0.25, step: 0.05, min: 0.001, max: 1.0 }
+            ],
+            evaluate: (vals) => {
+                const raw = [vals.p1, vals.p2, vals.p3, vals.p4];
+                const sum = raw.reduce((a, b) => a + b, 0);
+                const norm = raw.map((p) => p / sum);
+                let h = 0;
+                norm.forEach((p) => {
+                    if (p > 1e-9)
+                        h -= p * Math.log(p);
+                });
+                const hBits = h / Math.LN2;
+                const maxH = Math.log(4);
+                return {
+                    resultValue: h,
+                    formattedFormula: `H(P) = -∑ p_i·ln(p_i) [ Normalized: [${norm.map((n) => n.toFixed(2)).join(", ")}] ]`,
+                    displayResult: `${h.toFixed(3)} nats (${hBits.toFixed(3)} bits)`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Max capacity ln(4) = ${maxH.toFixed(3)} nats. Uncertainty: ${((h / maxH) * 100).toFixed(1)}%`
+                };
+            }
+        });
+    }
+    // 11. Born Probability Rule & Angle Projection
+    if (allText.includes("born") || allText.includes("polariz") || allText.includes("cos²") || allText.includes("shadow") || allText.includes("|⟨u|v⟩|")) {
+        modes.push({
+            id: "born_angle_calc",
+            label: "(θ in degrees) → P = cos²(θ)",
+            targetSymbol: "P",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P = cos²(θ)  [ Born transition probability ]",
+            inputs: [
+                { name: "thetaDeg", symbol: "θ", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 180, description: "Filter angle" }
+            ],
+            evaluate: (vals) => {
+                const rad = (vals.thetaDeg * Math.PI) / 180;
+                const cosVal = Math.cos(rad);
+                const p = cosVal * cosVal;
+                return {
+                    resultValue: p,
+                    formattedFormula: `P = cos²(${vals.thetaDeg}°) = (${cosVal.toFixed(3)})²`,
+                    displayResult: `${(p * 100).toFixed(1)}% (${p.toFixed(4)})`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: vals.thetaDeg === 45 ? "Midway diagonal: exact 50% coin-toss transmission" : undefined
+                };
+            }
+        });
+        modes.push({
+            id: "born_modulus_calc",
+            label: "(Re z, Im z) → P = |z|²",
+            targetSymbol: "P",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P = |z|² = x² + y²",
+            inputs: [
+                { name: "re", symbol: "Re(z)", domain: "ℝ_ω", defaultValue: 0.707, step: 0.05, min: -1.0, max: 1.0 },
+                { name: "im", symbol: "Im(z)", domain: "ℝ_ω", defaultValue: 0.707, step: 0.05, min: -1.0, max: 1.0 }
+            ],
+            evaluate: (vals) => {
+                const p = vals.re * vals.re + vals.im * vals.im;
+                return {
+                    resultValue: p,
+                    formattedFormula: `P = (${vals.re.toFixed(3)})² + (${vals.im.toFixed(3)})²`,
+                    displayResult: `${p.toFixed(4)} (${(p * 100).toFixed(1)}%)`,
+                    domainBadge: "∈ ℝ_ω"
+                };
+            }
+        });
+    }
+    // 12. Superposition & Wave Interference Cross-Term
+    if (allText.includes("interfer") || allText.includes("cross-term") || allText.includes("superpos") || allText.includes("cos(Δθ)")) {
+        modes.push({
+            id: "wave_interference_calc",
+            label: "(|z₁|, |z₂|, Δθ) → P_quantum vs P_classical",
+            targetSymbol: "P_quantum",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P = |z₁|² + |z₂|² + 2·|z₁|·|z₂|·cos(Δθ)",
+            inputs: [
+                { name: "r1", symbol: "|z₁|", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.0, max: 1.0, description: "Amplitude 1" },
+                { name: "r2", symbol: "|z₂|", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.0, max: 1.0, description: "Amplitude 2" },
+                { name: "dThetaDeg", symbol: "Δθ", domain: "ℝ_ω", unit: "°", defaultValue: 0, step: 15, min: 0, max: 360, description: "Phase difference" }
+            ],
+            evaluate: (vals) => {
+                const rad = (vals.dThetaDeg * Math.PI) / 180;
+                const cosTerm = Math.cos(rad);
+                const pClass = vals.r1 * vals.r1 + vals.r2 * vals.r2;
+                const cross = 2 * vals.r1 * vals.r2 * cosTerm;
+                const pQuant = Math.max(0, pClass + cross);
+                return {
+                    resultValue: pQuant,
+                    formattedFormula: `P = (${vals.r1}² + ${vals.r2}²) + 2·(${vals.r1})·(${vals.r2})·cos(${vals.dThetaDeg}°) = ${pClass.toFixed(3)} + (${cross.toFixed(3)})`,
+                    displayResult: `P_quantum = ${(pQuant * 100).toFixed(1)}% (Classical: ${(pClass * 100).toFixed(1)}%)`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: vals.dThetaDeg === 180 ? "Destructive interference: total wave cancellation to 0!" : vals.dThetaDeg === 0 ? "Constructive interference maximum" : undefined
+                };
+            }
+        });
+    }
+    // 13. Three-Polarizer Sequential Chain
+    if (allText.includes("three-polarizer") || allText.includes("polarizer_projection") || allText.includes("chain restoration") || allText.includes("sunglasses")) {
+        modes.push({
+            id: "three_polarizer_chain_calc",
+            label: "(θ₁: Filter A→C, θ₂: Filter C→B) → Transmission",
+            targetSymbol: "P_total",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "P_total = cos²(θ₁) · cos²(θ₂)",
+            inputs: [
+                { name: "th1", symbol: "θ₁ (A→C)", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 90 },
+                { name: "th2", symbol: "θ₂ (C→B)", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 90 }
+            ],
+            evaluate: (vals) => {
+                const r1 = (vals.th1 * Math.PI) / 180;
+                const r2 = (vals.th2 * Math.PI) / 180;
+                const p1 = Math.cos(r1) * Math.cos(r1);
+                const p2 = Math.cos(r2) * Math.cos(r2);
+                const pTot = p1 * p2;
+                return {
+                    resultValue: pTot,
+                    formattedFormula: `P_total = cos²(${vals.th1}°) · cos²(${vals.th2}°) = (${p1.toFixed(3)}) · (${p2.toFixed(3)})`,
+                    displayResult: `${(pTot * 100).toFixed(1)}% Light Transmission`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: vals.th1 === 45 && vals.th2 === 45 ? "Experiment 2: 25% light output restored by inserting 45° diagonal filter!" : undefined
+                };
+            }
+        });
+    }
+    // 14. Density Operator, Purity & von Neumann Entropy
+    if (allText.includes("density") || allText.includes("purity") || allText.includes("tr(ρ)") || allText.includes("von_neumann") || allText.includes("quantum_bayes")) {
+        modes.push({
+            id: "density_purity_calc",
+            label: "(w₁: Pure |0°⟩, w₂: Pure |90°⟩) → Purity Tr(ρ²)",
+            targetSymbol: "Tr(ρ²)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "Tr(ρ²) = w₁² + w₂²  [ 1.0 = Pure state, 0.5 = Maximally mixed ]",
+            inputs: [
+                { name: "w1", symbol: "w₁", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.0, max: 1.0, description: "Ensemble weight 1" }
+            ],
+            evaluate: (vals) => {
+                const w1 = vals.w1;
+                const w2 = 1.0 - w1;
+                const purity = w1 * w1 + w2 * w2;
+                return {
+                    resultValue: purity,
+                    formattedFormula: `Tr(ρ²) = (${w1.toFixed(2)})² + (${w2.toFixed(2)})²`,
+                    displayResult: `${purity.toFixed(3)} ${purity === 1.0 ? "(100% Pure State)" : "(Statistical Mixture)"}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Density Matrix: diag(${w1.toFixed(2)}, ${w2.toFixed(2)}). Tr(ρ) ≡ 1.000`
+                };
+            }
+        });
+        modes.push({
+            id: "von_neumann_entropy_calc",
+            label: "(Eigenvalue λ₁) → S(ρ) = -[λ₁ ln λ₁ + (1-λ₁) ln(1-λ₁)]",
+            targetSymbol: "S(ρ)",
+            targetDomain: "ℝ_ω",
+            targetUnit: "nats",
+            formulaDescription: "S(ρ) = -∑ λ_i · ln(λ_i)",
+            inputs: [
+                { name: "l1", symbol: "λ₁", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.001, max: 0.999 }
+            ],
+            evaluate: (vals) => {
+                const l1 = vals.l1;
+                const l2 = 1.0 - l1;
+                let s = 0;
+                if (l1 > 1e-9)
+                    s -= l1 * Math.log(l1);
+                if (l2 > 1e-9)
+                    s -= l2 * Math.log(l2);
+                return {
+                    resultValue: s,
+                    formattedFormula: `S(ρ) = -[ (${l1.toFixed(2)})·ln(${l1.toFixed(2)}) + (${l2.toFixed(2)})·ln(${l2.toFixed(2)}) ]`,
+                    displayResult: `${s.toFixed(3)} nats`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: l1 === 0.5 ? "Maximum quantum entropy for 2-level qubit = ln(2) ≈ 0.693 nats" : undefined
+                };
+            }
+        });
+    }
+    // 15. Generic Fallback Equation Inference for Any Other FS
     if (modes.length === 0) {
         const slots = arg.casCalculation?.slots;
         if (slots && Object.keys(slots).length > 0) {

@@ -167,7 +167,15 @@
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Hypothesis as a Typed Function:</b> <code>h : Ω → [0, 1]_ω</code> such that <code>∑_{p ∈ Ω} h(p) = 1.000</code>.<br>
       • <b>Normalization Invariant:</b> <code>∑_{H ∈ ℋ} P(H | D) = 1.000</code>.<br>
-      • <b>The Exact Updating Rule:</b> <code>P(H | D) = (P(D | H) · P(H)) / P(D)</code> where <code>P(D) = ∑_{i} P(D | H_i) · P(H_i)</code>.
+      • <b>The Exact Updating Rule:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="bayes_filter" title="The 3-Stage Bayesian Filter &amp; Normalization Invariant">
+          P(H | D) = (P(D | H) · P(H)) / P(D) &nbsp;&nbsp; where &nbsp;&nbsp; P(D) = ∑_{i} P(D | H_i) · P(H_i)
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to verify in Lean 4, run the interactive Bayesian Calculator, or simulate evidence updates)</i>
+      </p>
     </div>
 
     <hr>

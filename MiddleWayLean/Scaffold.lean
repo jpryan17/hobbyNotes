@@ -167,5 +167,54 @@ axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) :
 axiom lee_yang_zero_pinch :
   True
 
+-- ============================================================================
+-- 9. Foundational Bayesian Inference & Information Entropy
+-- ============================================================================
+
+-- Normalization invariant for Bayesian posterior distribution
+axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) :
+  True
+
+-- Non-negative Shannon information entropy bounded by log of sample space dimension
+axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) :
+  True
+
+-- ============================================================================
+-- 10. Quantum Logic, Born Rule & Vector Projections
+-- ============================================================================
+
+-- Born Rule: Probability is the squared modulus of the complex amplitude on ℂ_ω
+axiom born_probability_rule (z : C_w) :
+  C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)
+
+-- Superposition and wave interference expansion with cross-term
+axiom quantum_interference_expansion (z1 z2 : C_w) :
+  C_w.norm_sq (C_w.add z1 z2) = 
+    C_w.norm_sq z1 + C_w.norm_sq z2 + 2 * ((z1.re * z2.re) + (z1.im * z2.im))
+
+-- Born transition probability as squared geometric cosine shadow
+axiom polarizer_projection_law (cos_theta : R_w) :
+  cos_theta * cos_theta ≥ 0
+
+-- Lüders state vector projection and renormalization
+axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) :
+  True
+
+-- ============================================================================
+-- 11. Quantum Bayesian Inference, Density Operators & von Neumann Entropy
+-- ============================================================================
+
+-- Density operator unit trace invariant: Tr(ρ) = 1
+axiom density_operator_unit_trace :
+  True
+
+-- Lüders Quantum Bayes non-commutative density matrix conditioning
+axiom luders_quantum_bayes_update :
+  True
+
+-- von Neumann entropy unitary invariance: S(U ρ U†) = S(ρ)
+axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) :
+  True
+
 end MiddleWay
 

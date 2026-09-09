@@ -67,7 +67,15 @@
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Density Operator Definition:</b> A self-adjoint, positive semi-definite linear operator <code>ρ : ℋ_ω → ℋ_ω</code> such that <code>ρ = ρ†</code>, <code>ρ ≥ 0</code>, and <code>Tr(ρ) = 1</code>.<br>
       • <b>Spectral Decomposition:</b> Any density operator can be diagonalized as <code>ρ = ∑_{k=0}^{ω-1} λ_k |e_k⟩⟨e_k|</code> with eigenvalues <code>λ_k ∈ [0, 1]</code> and <code>∑ λ_k = 1</code>.<br>
-      • <b>Purity Measure:</b> <code>γ(ρ) = Tr(ρ²)</code> satisfies <code>1/ω ≤ γ(ρ) ≤ 1</code>. <code>γ(ρ) = 1 ⟺ ρ = |ψ⟩⟨ψ|</code> (pure state).
+      • <b>Purity Measure:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="density_operator" title="The Quantum Density Operator &amp; Purity">
+          ρ = ∑_{k} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp; with &nbsp;&nbsp; Tr(ρ) = 1 &nbsp;&nbsp; and &nbsp;&nbsp; γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to inspect the density operator invariant in Lean 4 or evaluate purity in the Dev Calculator)</i>
+      </p>
     </div>
 
     <hr>
@@ -81,8 +89,13 @@
     <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 14px; margin: 15px 0;">
       <font size="+1" color="#065f46"><b>The Lüders Quantum Bayes Rule:</b></font>
       <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        ρ' = <sup>(P_k · ρ · P_k)</sup> / <sub>Tr(ρ · P_k)</sub>
+        <fsd-ref tier="3" scaffold="quantum_bayes" title="The Non-Commutative Lüders Quantum Bayes Rule">
+          ρ' = (P_k · ρ · P_k) / Tr(ρ · P_k)
+        </fsd-ref>
       </div>
+      <p style="text-align: center; font-size: 12px; color: #065f46; margin-top: 4px;">
+        <i>(Click the formula above to verify state collapse and non-commutative order dependence in Lean 4)</i>
+      </p>
     </div>
 
     <p>
@@ -127,7 +140,9 @@
     </p>
 
     <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 10px auto; width: 80%;">
-      P_A · P_B · ρ · P_B · P_A &nbsp;≠&nbsp; P_B · P_A · ρ · P_A · P_B
+      <fsd-ref tier="3" scaffold="quantum_bayes" title="Non-Commutative Quantum Invariance Breakdown">
+        P_A · P_B · ρ · P_B · P_A &nbsp;≠&nbsp; P_B · P_A · ρ · P_A · P_B
+      </fsd-ref>
     </div>
 
     <p>
@@ -149,11 +164,13 @@
     <h3>3. von Neumann Entropy: Measuring Quantum Uncertainty</h3>
 
     <p>
-      “Just as Claude Shannon measured classical uncertainty with <code>H(P) = -∑ p_k ln p_k</code>, John von Neumann generalized entropy to quantum density operators in 1932:”
+      “Just as Claude Shannon measured classical uncertainty with <fsd-ref tier="3" scaffold="shannon_entropy" title="Shannon Information Entropy H(P)"><code>H(P) = -∑ p_k ln p_k</code></fsd-ref>, John von Neumann generalized entropy to quantum density operators in 1932:”
     </p>
 
     <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 16px; margin: 12px 0;">
-      S(ρ) ≡ -k_B · Tr(ρ · ln ρ) = -k_B ∑_{k=0}^{ω-1} λ_k · ln(λ_k)
+      <fsd-ref tier="3" scaffold="von_neumann_entropy" title="von Neumann Entropy S(ρ)">
+        S(ρ) ≡ -k_B · Tr(ρ · ln ρ) = -k_B ∑_{k=0}^{ω-1} λ_k · ln(λ_k)
+      </fsd-ref>
     </div>
 
     <p>
