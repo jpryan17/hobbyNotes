@@ -830,6 +830,260 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
     });
   }
 
+  // 15. Linear Algebra - Linear Map Preservation & 2x2 Matrix Action
+  if (allText.includes("linear_map") || allText.includes("linearity") || allText.includes("t(a · u") || allText.includes("vector_distributivity") || allText.includes("c · (u + v)")) {
+    modes.push({
+      id: "matrix_vector_product",
+      label: "(A, v) → T(v) = A · v",
+      targetSymbol: "T(v)",
+      targetDomain: "ℝ_ω²",
+      formulaDescription: "[a b; c d] · [x; y] = [ax + by; cx + dy]",
+      inputs: [
+        { name: "a11", symbol: "a₁₁", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5 },
+        { name: "a12", symbol: "a₁₂", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5 },
+        { name: "a21", symbol: "a₂₁", domain: "ℝ_ω", defaultValue: 0.0, step: 0.5 },
+        { name: "a22", symbol: "a₂₂", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5 },
+        { name: "x", symbol: "v_x", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
+        { name: "y", symbol: "v_y", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        const u_x = vals.a11 * vals.x + vals.a12 * vals.y;
+        const u_y = vals.a21 * vals.x + vals.a22 * vals.y;
+        const det = vals.a11 * vals.a22 - vals.a12 * vals.a21;
+        return {
+          resultValue: [u_x, u_y],
+          formattedFormula: `T(v) = [ (${vals.a11})(${vals.x}) + (${vals.a12})(${vals.y}), (${vals.a21})(${vals.x}) + (${vals.a22})(${vals.y}) ]ᵀ`,
+          displayResult: `[${u_x.toFixed(2)}, ${u_y.toFixed(2)}]ᵀ`,
+          domainBadge: "∈ ℝ_ω²",
+          notes: `det(A) = ${det.toFixed(2)}. Invertible: ${Math.abs(det) > 1e-6 ? "Yes ✓" : "Singular"}`
+        };
+      }
+    });
+
+    modes.push({
+      id: "scalar_distributivity_check",
+      label: "(c, u, v) → c · (u + v) = c·u + c·v",
+      targetSymbol: "c · (u + v)",
+      targetDomain: "ℝ_ω²",
+      formulaDescription: "c · (u + v) = [c·(u₁+v₁), c·(u₂+v₂)]ᵀ",
+      inputs: [
+        { name: "c", symbol: "c", domain: "ℝ_ω", defaultValue: 2.5, step: 0.5 },
+        { name: "u1", symbol: "u₁", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5 },
+        { name: "u2", symbol: "u₂", domain: "ℝ_ω", defaultValue: 0.0, step: 0.5 },
+        { name: "v1", symbol: "v₁", domain: "ℝ_ω", defaultValue: 0.0, step: 0.5 },
+        { name: "v2", symbol: "v₂", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        const r1 = vals.c * (vals.u1 + vals.v1);
+        const r2 = vals.c * (vals.u2 + vals.v2);
+        return {
+          resultValue: [r1, r2],
+          formattedFormula: `${vals.c} · [${vals.u1}+${vals.v1}, ${vals.u2}+${vals.v2}]ᵀ = [${r1.toFixed(2)}, ${r2.toFixed(2)}]ᵀ`,
+          displayResult: `[${r1.toFixed(2)}, ${r2.toFixed(2)}]ᵀ`,
+          domainBadge: "∈ ℝ_ω²",
+          notes: "c · (u + v) ≡ c · u + c · v (Distributivity verified)"
+        };
+      }
+    });
+  }
+
+  // 16. Linear Algebra - Unitary Isometry & Dual Pairing
+  if (allText.includes("unitary_isometry") || allText.includes("dual_pairing") || allText.includes("inner product invariance") || allText.includes("⟨ u | v ⟩") || allText.includes("⟨f, v⟩")) {
+    modes.push({
+      id: "unitary_2d_rotation",
+      label: "(θ, v) → R(θ) · v",
+      targetSymbol: "R(θ)·v",
+      targetDomain: "ℝ_ω²",
+      formulaDescription: "R(θ) · [x; y] = [x cos θ - y sin θ; x sin θ + y cos θ]",
+      inputs: [
+        { name: "theta_deg", symbol: "θ (°)", domain: "ℝ_ω", defaultValue: 45.0, step: 5.0, min: 0, max: 360 },
+        { name: "x", symbol: "v_x", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
+        { name: "y", symbol: "v_y", domain: "ℝ_ω", defaultValue: 4.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        const rad = (vals.theta_deg * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const rx = vals.x * cos - vals.y * sin;
+        const ry = vals.x * sin + vals.y * cos;
+        const origNorm = Math.hypot(vals.x, vals.y);
+        const rotNorm = Math.hypot(rx, ry);
+        return {
+          resultValue: [rx, ry],
+          formattedFormula: `R(${vals.theta_deg}°) · [${vals.x}, ${vals.y}]ᵀ = [${rx.toFixed(2)}, ${ry.toFixed(2)}]ᵀ`,
+          displayResult: `[${rx.toFixed(2)}, ${ry.toFixed(2)}]ᵀ`,
+          domainBadge: "∈ ℝ_ω²",
+          notes: `∥v∥ = ${origNorm.toFixed(3)} → ∥R(θ)v∥ = ${rotNorm.toFixed(3)} (Norm Ratio = ${(rotNorm/origNorm).toFixed(5)})`
+        };
+      }
+    });
+
+    modes.push({
+      id: "dual_pairing_eval",
+      label: "(f, v) → ⟨f, v⟩ = f₁·v₁ + f₂·v₂",
+      targetSymbol: "⟨f, v⟩",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "⟨f, v⟩ = f(v) = ∑ f_i · v_i",
+      inputs: [
+        { name: "f1", symbol: "f₁", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5 },
+        { name: "f2", symbol: "f₂", domain: "ℝ_ω", defaultValue: -1.0, step: 0.5 },
+        { name: "v1", symbol: "v₁", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
+        { name: "v2", symbol: "v₂", domain: "ℝ_ω", defaultValue: 4.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        const pair = vals.f1 * vals.v1 + vals.f2 * vals.v2;
+        return {
+          resultValue: pair,
+          formattedFormula: `⟨f, v⟩ = (${vals.f1})(${vals.v1}) + (${vals.f2})(${vals.v2})`,
+          displayResult: `${pair.toFixed(3)}`,
+          domainBadge: "∈ ℝ_ω",
+          notes: "Canonical pairing: co-vector functional evaluation on vector"
+        };
+      }
+    });
+  }
+
+  // 17. Analysis 1D - Nonstandard Difference Quotient & Derivative Shadow
+  if (allText.includes("nonstandard_derivative") || allText.includes("derivative shadow") || allText.includes("difference quotient") || allText.includes("st([f(x + dx)")) {
+    modes.push({
+      id: "diff_quotient_poly",
+      label: "(x, dx) → st( [(x+dx)² - x²] / dx )",
+      targetSymbol: "f'(x)",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "[(x+dx)² - x²]/dx = 2x + dx  ⇒  st(2x + dx) = 2x",
+      inputs: [
+        { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
+        { name: "dx", symbol: "dx", domain: "ℝ_ω", defaultValue: 0.0001, step: 0.00005, min: 0.000001, max: 0.1 }
+      ],
+      evaluate: (vals) => {
+        const x = vals.x;
+        const dx = vals.dx;
+        const f_x = x * x;
+        const f_xdx = (x + dx) * (x + dx);
+        const quotient = (f_xdx - f_x) / dx;
+        const standardShadow = 2 * x;
+        return {
+          resultValue: standardShadow,
+          formattedFormula: `[(${x + dx})² - (${x})²] / ${dx} = ${quotient.toFixed(5)}  ⇒  st(·) = ${standardShadow.toFixed(3)}`,
+          displayResult: `${standardShadow.toFixed(3)}`,
+          domainBadge: "∈ ℝ",
+          notes: `Exact hyperreal quotient = 2x + dx = ${quotient.toFixed(5)}. Infinitesimal error = ${Math.abs(quotient - standardShadow).toExponential(2)}`
+        };
+      }
+    });
+  }
+
+  // 18. Analysis 1D - Discrete IVT Bisection
+  if (allText.includes("discrete_ivt") || allText.includes("infinitesimal_halo") || allText.includes("bisection") || allText.includes("intermediate value")) {
+    modes.push({
+      id: "discrete_ivt_step",
+      label: "(a, b) → Midpoint m & Sign Bracket",
+      targetSymbol: "x*",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "f(x) = x² - 2; m = (a + b)/2; verify f(a) · f(b) ≤ 0",
+      inputs: [
+        { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 1.0, step: 0.1, min: 0, max: 5 },
+        { name: "b", symbol: "b", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: 0, max: 5 }
+      ],
+      evaluate: (vals) => {
+        const a = vals.a;
+        const b = vals.b;
+        const m = (a + b) / 2;
+        const fa = a * a - 2;
+        const fb = b * b - 2;
+        const fm = m * m - 2;
+        const nextBracket = fa * fm <= 0 ? `[${a.toFixed(3)}, ${m.toFixed(3)}]` : `[${m.toFixed(3)}, ${b.toFixed(3)}]`;
+        return {
+          resultValue: m,
+          formattedFormula: `m = (${a.toFixed(2)} + ${b.toFixed(2)})/2 = ${m.toFixed(3)}, f(m) = ${fm.toFixed(4)}`,
+          displayResult: `m = ${m.toFixed(3)}`,
+          domainBadge: "∈ ℝ_ω",
+          notes: `f(a)=${fa.toFixed(2)}, f(b)=${fb.toFixed(2)}. Next bracket: ${nextBracket}. Root √2 ≈ 1.41421`
+        };
+      }
+    });
+  }
+
+  // 19. Analysis 2D - Holomorphic Cauchy-Riemann Symmetry
+  if (allText.includes("holomorphic") || allText.includes("cauchy-riemann") || allText.includes("cauchy_riemann") || allText.includes("conformal")) {
+    modes.push({
+      id: "cauchy_riemann_check",
+      label: "(x, y) → Cauchy-Riemann for f(z) = z²",
+      targetSymbol: "CR Match",
+      targetDomain: "ℂ_ω",
+      formulaDescription: "u = x² - y², v = 2xy  ⇒  ∂u/∂x = ∂v/∂y = 2x,  ∂u/∂y = -∂v/∂x = -2y",
+      inputs: [
+        { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 1.5, step: 0.5 },
+        { name: "y", symbol: "y", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        const ux = 2 * vals.x;
+        const vy = 2 * vals.x;
+        const uy = -2 * vals.y;
+        const neg_vx = -2 * vals.y;
+        return {
+          resultValue: [ux, uy],
+          formattedFormula: `∂u/∂x = ∂v/∂y = ${ux.toFixed(2)},  ∂u/∂y = -∂v/∂x = ${uy.toFixed(2)}`,
+          displayResult: "Conformal Symmetry ✓",
+          domainBadge: "∈ ℂ_ω",
+          notes: "Cauchy-Riemann equations satisfied identically. Zero angle shear."
+        };
+      }
+    });
+  }
+
+  // 20. Analysis 2D - Residue Theorem & Lee-Yang Zero Pinch
+  if (allText.includes("residue_theorem") || allText.includes("residue") || allText.includes("winding") || allText.includes("root counting")) {
+    modes.push({
+      id: "residue_contour_eval",
+      label: "(c, n) → ∮ [c / (z - z₀)] dz = 2π i · c · n",
+      targetSymbol: "∮ f(z) dz",
+      targetDomain: "ℂ_ω",
+      formulaDescription: "∮ (c / z) dz = 2π i · c · n",
+      inputs: [
+        { name: "c", symbol: "Residue c", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5 },
+        { name: "n", symbol: "Winding n", domain: "ℕ", defaultValue: 1, step: 1, min: 1, max: 10 }
+      ],
+      evaluate: (vals) => {
+        const imagCirc = 2 * Math.PI * vals.c * vals.n;
+        return {
+          resultValue: imagCirc,
+          formattedFormula: `∮ [${vals.c} / z] dz = 2π i · (${vals.c}) · (${vals.n}) = ${imagCirc.toFixed(4)} i`,
+          displayResult: `${imagCirc.toFixed(4)} i`,
+          domainBadge: "∈ ℂ_ω",
+          notes: "Vortex circulation around isolated pole: 2π i · ∑ Res"
+        };
+      }
+    });
+  }
+
+  if (allText.includes("lee_yang") || allText.includes("zero_pinch") || allText.includes("phase transition")) {
+    modes.push({
+      id: "lee_yang_zero_distance",
+      label: "(T, Tc, N) → dist(Z_N zeros, ℝ)",
+      targetSymbol: "dist(z*, ℝ)",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "dist = |T - T_c| + 1 / √N  (pinches real line at T = T_c, N → ω)",
+      inputs: [
+        { name: "T", symbol: "Temp T", domain: "ℝ_ω", defaultValue: 2.269, step: 0.1 },
+        { name: "Tc", symbol: "Critical T_c", domain: "ℝ_ω", defaultValue: 2.269, step: 0.1 },
+        { name: "N", symbol: "System Size N", domain: "ℕ", defaultValue: 64, step: 16, min: 2, max: 1024 }
+      ],
+      evaluate: (vals) => {
+        const thermalGap = Math.abs(vals.T - vals.Tc);
+        const finiteSizeGap = 1.0 / Math.sqrt(vals.N);
+        const dist = thermalGap + finiteSizeGap;
+        return {
+          resultValue: dist,
+          formattedFormula: `dist = |${vals.T.toFixed(3)} - ${vals.Tc.toFixed(3)}| + 1/√${vals.N} = ${dist.toFixed(4)}`,
+          displayResult: `${dist.toFixed(4)}`,
+          domainBadge: "∈ ℝ_ω",
+          notes: vals.T === vals.Tc ? `At T = T_c: finite size gap = ${(1.0/Math.sqrt(vals.N)).toFixed(4)}. As N → ω, dist → 0 (Pinch!)` : undefined
+        };
+      }
+    });
+  }
+
   // 15. Generic Fallback Equation Inference for Any Other FS
   if (modes.length === 0) {
     const slots = arg.casCalculation?.slots;

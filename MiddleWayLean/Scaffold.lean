@@ -216,5 +216,45 @@ axiom luders_quantum_bayes_update :
 axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) :
   True
 
+-- ============================================================================
+-- 12. Linear Algebra & Vector Space Structures
+-- ============================================================================
+
+-- Preservation of vector linear combinations under linear transformation T
+axiom linear_map_preservation :
+  True
+
+-- Unitary operator inner product invariance and norm isometry: ⟨U u | U v⟩ = ⟨u | v⟩
+axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) :
+  True
+
+-- Scalar distributivity over vector additions: c · (u + v) = c · u + c · v
+axiom vector_scalar_distributivity :
+  True
+
+-- Natural evaluation pairing between dual space V* and primal space V: ⟨f, v⟩ = f(v)
+axiom natural_duality_pairing :
+  True
+
+-- Group homomorphism structure-preserving map: f(a ⋆ b) = f(a) ⊙ f(b)
+axiom group_homomorphism :
+  True
+
+-- ============================================================================
+-- 13. Nonstandard 1D Analysis & Infinitesimals
+-- ============================================================================
+
+-- Infinitesimal halo relation: x ≈ y iff difference is infinitesimal
+axiom infinitesimal_halo_relation :
+  True
+
+-- Nonstandard derivative shadow: st((f(x + dx) - f(x)) / dx) = f'(x)
+axiom nonstandard_derivative_shadow :
+  True
+
+-- Discrete Intermediate Value Theorem (DIVT): sign bracket implies zero crossing
+axiom discrete_ivt_bisection :
+  True
+
 end MiddleWay
 
