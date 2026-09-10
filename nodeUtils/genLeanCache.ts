@@ -303,9 +303,9 @@ export function generateLeanCache(): Record<string, LeanCacheEntry> {
       key: 'dual_pairing',
       target: 'scaffold:dual_pairing',
       expression: '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)',
-      signature: 'axiom natural_duality_pairing : True',
-      snippet: '#check natural_duality_pairing',
-      summary: 'Canonical bilinear evaluation pairing between dual space V* and primal space V'
+      signature: 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F',
+      snippet: '#check LinearFunctional\n#check dual_eval\n#check R_w_id_functional',
+      summary: 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'
     },
     {
       key: 'infinitesimal_halo',

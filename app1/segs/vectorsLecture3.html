@@ -169,10 +169,39 @@
 
   <hr>
 
-  <h3>4. Vector / Covector Duality</h3>
+  <h3>4. Vector / Covector Duality: The Algebraic Dual Space V*</h3>
 
   <p>
-    “Every vector space <code>V</code> comes paired with a natural mirror space: its <b>dual space <code>V*</code> of covectors</b> (linear measurement meters):”
+    “In standard textbooks,” Jane remarked, “duality is often rushed through as 'row vectors times column vectors' or jumped straight into physical measurement. But mathematically, <b>duality is one of the deepest and most elegant concepts in all of algebra</b>.”
+  </p>
+
+  <p>
+    “Let <code>V</code> be a vector space over field <code>F</code>. We can ask: what is the set of all possible scalar-valued linear functions from <code>V</code> into <code>F</code>? This set is called the <b>Dual Space</b>, denoted <code>V* = Hom(V, F)</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>V* &nbsp;=&nbsp; Hom( V, F ) &nbsp;=&nbsp; { f : V &rarr; F &nbsp;|&nbsp; f is linear }</b><br><br>
+    (f + g)(v) = f(v) + g(v) &emsp;&emsp;and&emsp;&emsp; (c · f)(v) = c · f(v)
+  </div>
+
+  <p>
+    “Notice the immediate mathematical consequence,” Jane emphasized: “Because linear functions can be added pointwise and scaled by field elements, <b>the dual space <code>V*</code> is itself an authentic Vector Space over <code>F</code></b>!”
+  </p>
+
+  <p>
+    “Between the vector space <code>V</code> and its dual space <code>V*</code> lies a fundamental algebraic bridge: the <b>Canonical Bilinear Evaluation Pairing</b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>⟨ · , · ⟩ : V* × V &rarr; F &emsp;where&emsp; ⟨f, v⟩ &nbsp;=&nbsp; f(v)</b></fsd-ref>
+  </div>
+
+  <p>
+    “This pairing is <b>bilinear</b> (linear in <code>f</code> and linear in <code>v</code>) and completely <b>non-degenerate</b>: no non-zero vector can hide from every functional, and no non-zero functional is blind to every vector. Furthermore, every vector <code>v ∈ V</code> naturally acts as a linear functional on <code>V*</code> via <code>ev_v(f) = f(v)</code>, establishing the canonical isomorphism into the double dual: <code>V ≅ V**</code>.”
+  </p>
+
+  <p>
+    “<b>How Humans Realize This Pure Algebra:</b> While duality is fundamentally this pure algebraic pairing <code>Hom(V, F)</code>, humans naturally visualize and physically embody it in two vivid ways:”
   </p>
 
   <div style="display: flex; justify-content: center; margin: 20px 0;">
@@ -186,7 +215,7 @@
 
         <!-- Right: Covector Lines -->
         <rect x="310" y="20" width="250" height="100" rx="6" fill="#faf5ff" stroke="#d8b4fe" />
-        <text x="435" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">Covector (f ∈ V*): Measuring Meter</text>
+        <text x="435" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">Covector (f ∈ V*): Linear Form / Meter</text>
         <line x1="340" y1="60" x2="340" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
         <line x1="380" y1="60" x2="380" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
         <line x1="420" y1="60" x2="420" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
@@ -197,17 +226,16 @@
   </div>
 
   <ul>
-    <li><b>Vectors (<code>v ∈ V</code>):</b> States, displacements, arrows (represented as column vectors).</li>
-    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors, stacks of contour lines (represented as row vectors).</li>
-    <li><b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The covector eats the vector and outputs a scalar reading (how many contour lines the vector pierces).</li>
+    <li><b>Geometric Realization (Contour Piercing):</b> Vectors are directed displacements (arrows), while covectors are parallel level-hyperplanes <code>f(x) = c</code>. The scalar evaluation <code>⟨f, v⟩</code> counts how many contour sheets the arrow pierces.</li>
+    <li><b>Physical Realization (Measurement &amp; Detectors):</b> Vectors represent physical configurations or states, while covectors represent linear detector responses measuring properties of those states.</li>
   </ul>
 
   <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Dual Space:</b> <code>V* = Hom(V, F) = { f : V → F | f is linear }</code>.<br>
-    • <b>Natural Evaluation Pairing:</b> <fsd-ref tier="3" scaffold="dual_pairing" title="Natural Duality Pairing"><code>⟨ · , · ⟩ : V* × V → F where ⟨f, v⟩ = f(v)</code></fsd-ref>.<br>
-    • <b>Riesz Representation Theorem:</b> In any Hilbert space <code>ℋ_ω</code> with inner product <code>( · , · )</code>, every continuous functional <code>f ∈ ℋ_ω*</code> is uniquely represented by a vector <code>|u⟩</code> such that <code>f(|v⟩) = ⟨u | v⟩</code>.<br>
-    • <b>Dirac Notation Mapping:</b> Kets <code>|v⟩ ∈ ℋ_ω</code>, Bras <code>⟨u| ∈ ℋ_ω*</code>, and Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.
+    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>Linear Functional Axioms (in Lean 4)</b></fsd-ref>.<br>
+    • <b>Bilinear Canonical Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code> is bilinear, non-degenerate, and canonically reflexive (<code>V ≅ V**</code>).<br>
+    • <b>Part 2 — Geometric &amp; Physical Realizations:</b> Level-surface piercing in geometry, linear measurement detectors in physics, and the <b>Riesz Representation Theorem</b> on Hilbert spaces <code>ℋ_ω</code> where every continuous functional is represented by an inner product with a vector: <code>f(v) = (u, v)</code>.<br>
+    • <b>Dirac Notation Mapping:</b> State vectors are Kets <code>|v⟩ ∈ ℋ_ω</code>, dual functionals are Bras <code>⟨u| ∈ ℋ_ω*</code>, and evaluation is the Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.
   </div>
 
   <hr>

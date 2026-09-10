@@ -338,6 +338,27 @@ structure LinearMap (F : Type) (V : Type) (W : Type)
 axiom R_w_id_linear_map : LinearMap R_w R_w R_w R_w_is_field R_w_is_abelian_group R_w_is_abelian_group R_w_vector_space R_w_vector_space
 
 -- ============================================================================
+-- The Abstract Dual Space Structure V* & Natural Evaluation Pairing
+-- ============================================================================
+
+-- 1> Abstract Lean Axioms: Dual Space V* = Hom(V, F)
+--    A linear functional is a linear map from V into the 1D field F:
+structure LinearFunctional (F : Type) (V : Type)
+    (fieldF : Field F) (groupV : AbelianGroup V)
+    (vsV : VectorSpace F V fieldF groupV) where
+  toFun : V -> F
+  map_add : ∀ u v : V, toFun (groupV.add u v) = fieldF.add (toFun u) (toFun v)
+  map_smul : ∀ (c : F) (v : V), toFun (vsV.smul c v) = fieldF.mul c (toFun v)
+
+-- Canonical Evaluation Pairing ⟨f, v⟩ = f(v):
+def dual_eval {F V : Type} {fieldF : Field F} {groupV : AbelianGroup V} {vsV : VectorSpace F V fieldF groupV}
+    (f : LinearFunctional F V fieldF groupV vsV) (v : V) : F :=
+  f.toFun v
+
+-- 2> Constructive Model Grounding: Canonical identity functional on ℝ_ω
+axiom R_w_id_functional : LinearFunctional R_w R_w R_w_is_field R_w_is_abelian_group R_w_vector_space
+
+-- ============================================================================
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
 
