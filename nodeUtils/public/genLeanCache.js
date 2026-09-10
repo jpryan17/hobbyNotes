@@ -339,9 +339,9 @@ function generateLeanCache(force = false) {
             key: 'infinitesimal_halo',
             target: 'scaffold:infinitesimal_halo',
             expression: 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n',
-            signature: 'axiom infinitesimal_halo_relation : True',
-            snippet: '#check infinitesimal_halo_relation',
-            summary: 'Infinitesimal halo equivalence relation and standard part shadow projection'
+            signature: 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)',
+            snippet: '#check is_infinitesimal\n#check approx\n#check halo\n#check dx_is_infinitesimal\n#check infinitesimal_halo_relation',
+            summary: 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'
         },
         {
             key: 'nonstandard_derivative',

@@ -362,9 +362,41 @@ axiom R_w_id_functional : LinearFunctional R_w R_w R_w_is_field R_w_is_abelian_g
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
 
--- Infinitesimal halo relation: x ≈ y iff difference is infinitesimal
-axiom infinitesimal_halo_relation :
-  True
+-- Absolute value metric on ℝ_ω
+axiom R_w_abs : R_w → R_w
+def abs (x : R_w) : R_w := R_w_abs x
+
+-- An element is infinitesimal if its magnitude is smaller than 1 / n for every standard n ∈ ℕ (n > 0)
+def is_infinitesimal (ε : R_w) : Prop :=
+  ∀ (n : Nat), n > 0 → abs ε < (1 : R_w) / (n : R_w)
+
+-- Two hyperreals are infinitely close (in the same halo) iff their difference is infinitesimal
+def approx (x y : R_w) : Prop :=
+  is_infinitesimal (x - y)
+
+-- Infix notation: x ≈ y
+infix:50 " ≈ " => approx
+
+-- The Infinitesimal Halo (Monad) of a point x₀ ∈ ℝ_ω:
+-- μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }
+def halo (x0 : R_w) : Type :=
+  { y : R_w // y ≈ x0 }
+
+-- Fundamental Equivalence & Cluster Properties of the Halo:
+-- 1> Equivalence relation properties: reflexivity, symmetry, transitivity
+axiom approx_refl (x : R_w) : x ≈ x
+axiom approx_symm {x y : R_w} : x ≈ y → y ≈ x
+axiom approx_trans {x y z : R_w} : x ≈ y → y ≈ z → x ≈ z
+
+-- 2> dx is an authentic non-zero infinitesimal element in the halo of 0
+axiom dx_is_infinitesimal : is_infinitesimal dx
+axiom dx_ne_zero : dx ≠ 0
+
+-- 3> The Infinitesimal Halo Relation:
+-- Two points land in the same halo iff their distance |x - y| is infinitesimal
+theorem infinitesimal_halo_relation (x y : R_w) :
+  x ≈ y ↔ is_infinitesimal (x - y) := by
+  rfl
 
 -- Nonstandard derivative shadow: st((f(x + dx) - f(x)) / dx) = f'(x)
 axiom nonstandard_derivative_shadow :
