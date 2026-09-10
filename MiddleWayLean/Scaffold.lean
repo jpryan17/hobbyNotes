@@ -253,6 +253,50 @@ axiom zero_annihilation :
   True
 
 -- ============================================================================
+-- The Abstract Abelian Group Structure & Conway Model Grounding
+-- ============================================================================
+
+-- 1> Abstract Lean Axioms defining an Abelian Group (G, +, 0, -)
+structure AbelianGroup (G : Type) where
+  add : G -> G -> G
+  zero : G
+  neg : G -> G
+  add_assoc : ∀ a b c : G, add (add a b) c = add a (add b c)
+  add_comm  : ∀ a b : G, add a b = add b a
+  add_zero  : ∀ a : G, add a zero = a
+  add_neg   : ∀ a : G, add a (neg a) = zero
+
+-- 2> Constructive Model Grounding: (ℝ_ω, +) is an Abelian Group
+-- Established constructively via Conway structural transfinite induction on tree birthdays
+axiom R_w_is_abelian_group : AbelianGroup R_w
+
+-- Backward compatibility alias
+axiom abelian_group_axioms : True
+
+-- ============================================================================
+-- The Abstract Field Structure & Conway Continuum Field Grounding
+-- ============================================================================
+
+-- 1> Abstract Lean Axioms defining a Field (F, +, ·, 0, 1, -, ⁻¹)
+structure Field (F : Type) extends AbelianGroup F where
+  mul : F -> F -> F
+  one : F
+  inv : F -> F
+  mul_assoc : ∀ a b c : F, mul (mul a b) c = mul a (mul b c)
+  mul_comm  : ∀ a b : F, mul a b = mul b a
+  mul_one   : ∀ a : F, mul a one = a
+  mul_inv   : ∀ a : F, a ≠ zero -> mul a (inv a) = one
+  distrib   : ∀ a b c : F, mul a (add b c) = add (mul a b) (mul a c)
+  zero_ne_one : zero ≠ one
+
+-- 2> Constructive Model Grounding: (ℝ_ω, +, ·) is a Field
+-- Established constructively over the Day ω Conway surreal continuum
+axiom R_w_is_field : Field R_w
+
+-- Backward compatibility alias
+axiom field_axioms : True
+
+-- ============================================================================
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
 

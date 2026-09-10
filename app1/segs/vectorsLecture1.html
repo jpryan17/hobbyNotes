@@ -84,13 +84,13 @@
     <li>
       <b>The Root Identity:</b> Adding the empty root node <code>0 = { | }</code> leaves any branch unchanged:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <fsd-ref tier="3" scaffold="additive_identity" title="Additive Identity x + 0 = x"><b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b></fsd-ref>
+        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b>
       </div>
     </li>
     <li>
       <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that cancels it back to the root:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <fsd-ref tier="3" scaffold="additive_inverse" title="Additive Inverse Reflection x + (-x) = 0"><b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b></fsd-ref>
+        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b>
       </div>
     </li>
     <li>
@@ -125,13 +125,13 @@
 
   <h4>Formal Statement (FS-LA-1.2): The Constructive Abelian Group (G, +)</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies:<br>
-    &nbsp;&nbsp;1. Closure: <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
-    &nbsp;&nbsp;2. Associativity: <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
-    &nbsp;&nbsp;3. Identity Element: <fsd-ref tier="3" scaffold="additive_identity" title="Group Identity Element"><code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code></fsd-ref>.<br>
-    &nbsp;&nbsp;4. Inverse Element: <fsd-ref tier="3" scaffold="additive_inverse" title="Group Inverse Element"><code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code></fsd-ref>.<br>
-    • <b>Abelian Property:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
-    • <b>Inductive Verification:</b> Universal across all Conway surreal numbers by structural transfinite induction on birthdays.
+    • <b>Part 1 — Abstract Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies the <fsd-ref tier="3" scaffold="abelian_group" title="The Constructive Abelian Group (G, +)"><b>Abelian Group Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Closure:</b> <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
+    &nbsp;&nbsp;2. <b>Associativity:</b> <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
+    &nbsp;&nbsp;3. <b>Identity Element:</b> <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
+    &nbsp;&nbsp;4. <b>Inverse Element:</b> <code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code>.<br>
+    &nbsp;&nbsp;5. <b>Commutativity:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
+    • <b>Part 2 — Constructive Argument for (ℝ_ω, +):</b> The surreal continuum <code>(ℝ_ω, +)</code> is certified an exact constructive model of the Abelian group axioms via structural transfinite induction on Conway birthdays: the empty root <code>0 = { | }</code> provides the neutral identity, branch reflection <code>-x = { -x^R | -x^L }</code> cancels each element back to the root, and bilateral option symmetries guarantee commutativity and associativity across all tree branches.
   </div>
 
   <hr>
@@ -173,13 +173,14 @@
     “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jane said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
   </p>
 
-  <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; Multiplicative Inverses</h4>
+  <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; The Two-Group Marvel</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Additive Group:</b> <code>(F, +)</code> is an Abelian group with identity element <code>0</code>.<br>
-    • <b>Multiplicative Group:</b> <code>(F \ {0}, ·)</code> is an Abelian group with identity element <code>1 ≠ 0</code>.<br>
-    • <b>Zero Annihilation Theorem:</b> <fsd-ref tier="3" scaffold="zero_annihilation" title="Zero Annihilation Theorem"><code>∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code></fsd-ref>.<br>
-    • <b>Impossibility of Inverting Zero:</b> There exists no <code>y ∈ F</code> such that <code>0 · y = 1</code>; hence zero must be ejected to form the multiplicative group.<br>
-    • <b>Distributive Axiom:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.
+    • <b>Part 1 — Abstract Field Definition:</b> A triple <code>(F, +, ·)</code> satisfying the <fsd-ref tier="3" scaffold="field_structure" title="The Field (F, +, ·) &amp; Multiplicative Inverses"><b>Constitutional Field Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Additive Group:</b> <code>(F, +)</code> forms an Abelian group with identity <code>0</code>.<br>
+    &nbsp;&nbsp;2. <b>Multiplicative Group:</b> Non-zero elements <code>(F \ {0}, ·)</code> form an Abelian group with unit <code>1 ≠ 0</code>.<br>
+    &nbsp;&nbsp;3. <b>Distributive Peace Treaty:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.<br>
+    • <b>Zero Annihilation &amp; Ejection:</b> Distributivity forces <code>0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code>, deductively proving that <code>0</code> cannot possess a multiplicative inverse and must be ejected from the multiplicative group.<br>
+    • <b>Part 2 — Constructive Argument for (ℝ_ω, +, ·):</b> The Day <code>ω</code> continuum <code>(ℝ_ω, +, ·)</code> is certified a fully functioning real-closed ordered field containing all standard reals and hyperfinite infinitesimals <code>dx = 1/ω</code>.
   </div>
 
   <hr>

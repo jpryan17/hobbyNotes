@@ -349,6 +349,22 @@ function generateLeanCache() {
             signature: 'axiom zero_annihilation : True',
             snippet: '#check zero_annihilation',
             summary: 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'
+        },
+        {
+            key: 'abelian_group',
+            target: 'scaffold:abelian_group',
+            expression: 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]',
+            signature: 'structure AbelianGroup (G : Type)',
+            snippet: '#check AbelianGroup\n#check R_w_is_abelian_group',
+            summary: 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'
+        },
+        {
+            key: 'field_structure',
+            target: 'scaffold:field_structure',
+            expression: 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]',
+            signature: 'structure Field (F : Type) extends AbelianGroup F',
+            snippet: '#check Field\n#check R_w_is_field',
+            summary: 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'
         }
     ];
     for (const item of tier3Items) {
