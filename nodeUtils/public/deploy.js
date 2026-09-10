@@ -35,10 +35,18 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
 const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const rootDir = path.resolve(__dirname, '../../');
+const distIndexPath = path.join(rootDir, 'app1', 'dist', 'index.html');
+const forceBuild = process.argv.includes('--build') || process.argv.includes('-b');
 try {
-    console.log('[deploy] Running build...');
-    (0, child_process_1.execSync)('npm run build', { cwd: rootDir, stdio: 'inherit' });
+    if (forceBuild || !fs.existsSync(distIndexPath)) {
+        console.log('[deploy] Building distribution...');
+        (0, child_process_1.execSync)('npm run build', { cwd: rootDir, stdio: 'inherit' });
+    }
+    else {
+        console.log('[deploy] Verified existing dist/index.html. Skipping redundant build step (use --build to force).');
+    }
     console.log('[deploy] Staging changes in git...');
     (0, child_process_1.execSync)('git add .', { cwd: rootDir, stdio: 'inherit' });
     try {

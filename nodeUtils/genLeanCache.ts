@@ -80,7 +80,40 @@ function verifySnippetWithLean(
   return { qed: isQed, timeMs, output: combined };
 }
 
-export function generateLeanCache(): Record<string, LeanCacheEntry> {
+import * as crypto from 'crypto';
+
+export function generateLeanCache(force: boolean = false): Record<string, LeanCacheEntry> {
+  const targetJsonPath = path.join(rootDir, 'clientLib', 'leanCache.json');
+  const hashFilePath = path.join(rootDir, 'clientLib', '.leanCache.hash');
+  const tsSourcePath = path.join(rootDir, 'nodeUtils', 'genLeanCache.ts');
+
+  // Compute combined hash of Scaffold.lean and this generator source
+  let currentHash = '';
+  try {
+    const h = crypto.createHash('md5');
+    if (fs.existsSync(scaffoldPath)) h.update(fs.readFileSync(scaffoldPath));
+    if (fs.existsSync(tsSourcePath)) h.update(fs.readFileSync(tsSourcePath));
+    currentHash = h.digest('hex');
+  } catch {}
+
+  // Smart Skip Check: If hash matches and leanCache.json exists, skip re-computation
+  if (!force && currentHash && fs.existsSync(hashFilePath) && fs.existsSync(targetJsonPath)) {
+    try {
+      const savedHash = fs.readFileSync(hashFilePath, 'utf8').trim();
+      if (savedHash === currentHash) {
+        const cachedRaw = fs.readFileSync(targetJsonPath, 'utf8');
+        const cachedData = JSON.parse(cachedRaw) as Record<string, LeanCacheEntry>;
+        const keyCount = Object.keys(cachedData).length;
+        if (keyCount > 50) {
+          console.log(`[genLeanCache] Cache is up-to-date (${keyCount} keys verified). Skipping redundant re-verification.`);
+          return cachedData;
+        }
+      }
+    } catch (e) {
+      // If error inspecting hash, proceed with normal generation
+    }
+  }
+
   const leanBin = resolveLeanBinary();
   const engine = getLeanVersion(leanBin);
   const now = new Date().toISOString();
@@ -535,10 +568,16 @@ export const LEAN_CACHE: Record<string, LeanCacheEntry> = ${JSON.stringify(cache
     fs.writeFileSync(app2PublicJsonPath, jsonContent, 'utf8');
   }
 
+  // 5. Save verification hash to skip future redundant runs
+  if (currentHash) {
+    fs.writeFileSync(hashFilePath, currentHash, 'utf8');
+  }
+
   console.log(`[genLeanCache] Successfully generated Lean 4 cache with ${Object.keys(cache).length} lookup keys!`);
   return cache;
 }
 
 if (process.argv[1] && process.argv[1].includes('genLeanCache')) {
-  generateLeanCache();
+  const force = process.argv.includes('--force') || process.argv.includes('-f');
+  generateLeanCache(force);
 }

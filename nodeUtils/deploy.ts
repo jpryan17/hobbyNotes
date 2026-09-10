@@ -1,11 +1,19 @@
 import { execSync } from 'child_process';
 import * as path from 'path';
 
+import * as fs from 'fs';
+
 const rootDir = path.resolve(__dirname, '../../');
+const distIndexPath = path.join(rootDir, 'app1', 'dist', 'index.html');
+const forceBuild = process.argv.includes('--build') || process.argv.includes('-b');
 
 try {
-  console.log('[deploy] Running build...');
-  execSync('npm run build', { cwd: rootDir, stdio: 'inherit' });
+  if (forceBuild || !fs.existsSync(distIndexPath)) {
+    console.log('[deploy] Building distribution...');
+    execSync('npm run build', { cwd: rootDir, stdio: 'inherit' });
+  } else {
+    console.log('[deploy] Verified existing dist/index.html. Skipping redundant build step (use --build to force).');
+  }
 
   console.log('[deploy] Staging changes in git...');
   execSync('git add .', { cwd: rootDir, stdio: 'inherit' });

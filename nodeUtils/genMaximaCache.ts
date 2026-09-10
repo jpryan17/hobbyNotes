@@ -173,7 +173,35 @@ function generateHeatSimulation(
   return { spatialNodes, timeSteps, temperatureProfiles, totalEnergy, fourierModes };
 }
 
-export function generateMaximaCache(): void {
+import * as crypto from 'crypto';
+
+export function generateMaximaCache(force: boolean = false): void {
+  const targetTsPath = path.join(clientLibDir, 'maximaCache.ts');
+  const targetJsonPath = path.join(clientLibDir, 'maximaCache.json');
+  const hashFilePath = path.join(clientLibDir, '.maximaCache.hash');
+  const tsSourcePath = path.join(rootDir, 'nodeUtils', 'genMaximaCache.ts');
+
+  // Compute hash of this generator source
+  let currentHash = '';
+  try {
+    const h = crypto.createHash('md5');
+    if (fs.existsSync(tsSourcePath)) h.update(fs.readFileSync(tsSourcePath));
+    currentHash = h.digest('hex');
+  } catch {}
+
+  // Smart Skip Check: If output JSON, TS, and hash match, skip
+  if (!force && currentHash && fs.existsSync(hashFilePath) && fs.existsSync(targetJsonPath) && fs.existsSync(targetTsPath)) {
+    try {
+      const savedHash = fs.readFileSync(hashFilePath, 'utf8').trim();
+      if (savedHash === currentHash) {
+        console.log('[genMaximaCache] Maxima cache is up-to-date. Skipping redundant re-computation.');
+        return;
+      }
+    } catch (e) {
+      // Proceed on error
+    }
+  }
+
   console.log('[genMaximaCache] Initializing Maxima CAS derivation engine...');
   const maximaBin = resolveMaximaBinary();
   console.log(`[genMaximaCache] Using Maxima executable: ${maximaBin}`);
@@ -656,9 +684,15 @@ export function getMaximaEntry(id: string): MaximaCacheEntry | undefined {
 `;
   fs.writeFileSync(tsPath, tsContent, 'utf8');
   console.log(`[genMaximaCache] Successfully wrote TypeScript export to ${tsPath}`);
+
+  // Save verification hash to skip future redundant runs
+  if (currentHash) {
+    fs.writeFileSync(hashFilePath, currentHash, 'utf8');
+  }
 }
 
 // Auto-execute if invoked as a CLI script
 if (require.main === module) {
-  generateMaximaCache();
+  const force = process.argv.includes('--force') || process.argv.includes('-f');
+  generateMaximaCache(force);
 }
