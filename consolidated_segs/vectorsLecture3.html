@@ -243,7 +243,11 @@
   <h3>5. The Physical Realization: Dirac Bra-Ket Quantum Inference</h3>
 
   <p>
-    “With our mathematical duality established in pure notation,” Jane smiled, “we can now appreciate the profound syntax of quantum mechanics introduced by Paul Dirac:”
+    “Remember back in Course 1 when we first encountered Max Born’s rule in Quantum Logic?” Jane smiled. “Back then, we treated the wave function as a complex amplitude arrow <code>z = x + iy</code> whose squared length gave an observable probability.”
+  </p>
+
+  <p>
+    “Now look at what that really is through our mature vector lens!” Jane continued. “In modern quantum mechanics, that arrow isn't just an isolated number — it is an authentic <b>vector evaluation pairing</b> in a complex Hilbert space <code>ℋ_ω</code>:”
   </p>
 
   <ul>
@@ -251,28 +255,36 @@
       <b>State Vectors are Kets (<code>|ψ⟩ ∈ ℋ_ω</code>):</b> The physical quantum state living in complex Hilbert space <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code>.
     </li>
     <li>
-      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a measurement test.
+      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a linear detector apparatus.
     </li>
     <li>
-      <b>The Bracket (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> eats the state vector <code>|ψ⟩</code> and outputs the complex probability amplitude!
+      <b>The Bracket as Dual Evaluation (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> acts on the state vector <code>|ψ⟩</code> via canonical evaluation, yielding the complex transition amplitude!
     </li>
     <li>
-      <b>Born Rule Probability:</b> The observable probability is the squared magnitude:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+      <b>The Born Rule Re-Envisioned:</b> The observable detector probability is the squared magnitude of this linear functional evaluation:
+      <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
         <b>P(ϕ | ψ) &nbsp;=&nbsp; |⟨ϕ | ψ⟩|²</b>
       </div>
+      By linking our duality pairing directly to <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>, every physical measurement is grounded in the geometry of complex vectors!
     </li>
     <li>
-      <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that measures state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>!
+      <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that tests for state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>.
     </li>
     <li>
-      <b>Unitary State Transformations (<code>U† &middot; U = I</code>):</b> When a state evolves via a linear operator <code>|ψ⟩ &rarr; U |ψ⟩</code>, its dual covector transforms as <code>⟨ψ| &rarr; ⟨ψ| U†</code>. 
-      Because <code>U† U = I</code>, the total probability length is strictly conserved:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0; color: #1e3a8a;">
-        <b>⟨ψ| U† U |ψ⟩ &nbsp;=&nbsp; ⟨ψ | ψ⟩ &nbsp;=&nbsp; 1 (Exact 100% Probability!)</b>
+      <b>Unitary Transformations &amp; Isometry:</b> When a state evolves under a linear operator <code>|ψ⟩ &rarr; U |ψ⟩</code>, its dual covector transforms as <code>⟨ψ| &rarr; ⟨ψ| U†</code>. Because <code>U† U = I</code>, the inner product is strictly preserved:
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+        <b>⟨ψ| U† U |ψ⟩ &nbsp;=&nbsp; ⟨ψ | ψ⟩ &nbsp;=&nbsp; 1 (Exact 100% Probability Conservation!)</b>
       </div>
     </li>
   </ul>
+
+  <h4>Formal Statement (FS-LA-3.4): Dirac Bra-Ket Quantum Inference &amp; Probability Conservation</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — State &amp; Detector Duality:</b> Physical states are vectors <code>|ψ⟩ ∈ ℋ_ω</code>; measurement detectors are continuous linear functionals (covectors) <code>⟨ϕ| ∈ ℋ_ω*</code>. Canonical evaluation yields the complex probability amplitude <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>.<br>
+    • <b>Part 2 — The Born Transition Probability:</b> The observable transition probability is the modulus squared of the dual pairing:
+    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>.<br>
+    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>.
+  </div>
 
   <p>
     Jill beamed: “So Dirac's bra-ket notation is simply the physical language of vector/covector duality and unitary probability conservation!”
