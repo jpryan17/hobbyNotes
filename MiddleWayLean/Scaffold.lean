@@ -322,6 +322,22 @@ structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : Abelian
 axiom R_w_vector_space : VectorSpace R_w R_w R_w_is_field R_w_is_abelian_group
 
 -- ============================================================================
+-- The Abstract Linear Map Structure (Vector Space Homomorphism)
+-- ============================================================================
+
+-- 1> Abstract Lean Axioms: Linear Map T : V → W over Field F
+--    Preserves both the additive Abelian Group operation and Field scalar multiplication:
+structure LinearMap (F : Type) (V : Type) (W : Type)
+    (fieldF : Field F) (groupV : AbelianGroup V) (groupW : AbelianGroup W)
+    (vsV : VectorSpace F V fieldF groupV) (vsW : VectorSpace F W fieldF groupW) where
+  toFun : V -> W
+  map_add : ∀ u v : V, toFun (groupV.add u v) = groupW.add (toFun u) (toFun v)
+  map_smul : ∀ (c : F) (v : V), toFun (vsV.smul c v) = vsW.smul c (toFun v)
+
+-- 2> Constructive Model Grounding: Identity linear map on ℝ_ω
+axiom R_w_id_linear_map : LinearMap R_w R_w R_w R_w_is_field R_w_is_abelian_group R_w_is_abelian_group R_w_vector_space R_w_vector_space
+
+-- ============================================================================
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
 

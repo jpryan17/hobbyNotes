@@ -278,10 +278,10 @@ export function generateLeanCache(): Record<string, LeanCacheEntry> {
     {
       key: 'linear_map_preservation',
       target: 'scaffold:linear_map_preservation',
-      expression: 'T(a · u + b · v) = a · T(u) + b · T(v)',
-      signature: 'axiom linear_map_preservation : True',
-      snippet: '#check linear_map_preservation',
-      summary: 'Preservation of vector linear combinations under linear transformation T'
+      expression: 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]',
+      signature: 'structure LinearMap (F : Type) (V : Type) (W : Type) ...',
+      snippet: '#check LinearMap\n#check R_w_id_linear_map',
+      summary: 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'
     },
     {
       key: 'unitary_isometry',

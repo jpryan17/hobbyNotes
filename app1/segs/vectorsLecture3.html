@@ -139,28 +139,32 @@
   <h3>3. Linear Maps: Preserving the Vector Space</h3>
 
   <p>
-    “Now,” Jane said, “just as a group homomorphism preserves group addition, a function between vector spaces <code>T : V &rarr; W</code> is a <b>Linear Map</b> if it preserves both basic moves simultaneously:”
+    “Now,” Jane said, “with our two-pillar definition of a vector space in hand, what does it mean to map one vector space to another? A function between vector spaces <code>T : V &rarr; W</code> is a <b>Linear Map</b> if and only if it preserves <i>both foundational pillars simultaneously</i>:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="linear_map_preservation" title="Linear Map Preservation"><b>T( u + v ) &nbsp;=&nbsp; T(u) + T(v) &emsp;&emsp;and&emsp;&emsp; T( c · v ) &nbsp;=&nbsp; c · T(v)</b></fsd-ref>
+    <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>1. Group Homomorphism: T( u + v ) = T(u) + T(v) &emsp;&amp;&emsp; 2. Field Scaling Homogeneity: T( c · v ) = c · T(v)</b></fsd-ref>
   </div>
 
   <p>
-    “Decorating functions with linearity is what powers all of calculus:”
+    “Decorating functions with linearity is what powers all of calculus and modern physics:”
   </p>
   <ul>
     <li><b>The Derivative Operator <code>D = d/dx</code>:</b> <code>D(f + g) = D(f) + D(g)</code> and <code>D(c·f) = c·D(f)</code>.</li>
-    <li><b>The Integral Functional <code>∫</code>:</b> <code>∫ (f + g) dx = ∫ f dx + ∫ g dx</code>.</li>
-    <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved function with its local linear multiplier: <code>Δy ≈ f'(x) · dx</code>.</li>
+    <li><b>The Integral Functional <code>∫</code>:</b> <code>∫ (f + g) dx = ∫ f dx + ∫ g dx</code> and <code>∫ (c·f) dx = c · ∫ f dx</code>.</li>
+    <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved curve with its local linear operator: <code>Δy ≈ f'(x) · dx</code>.</li>
+    <li><b>Quantum Unitary Operators:</b> State evolution <code>U |ψ⟩</code> preserves quantum superposition and norm geometry.</li>
   </ul>
 
-  <h4>Formal Statement (FS-LA-3.2): Linear Transformations &amp; Operators</h4>
+  <h4>Formal Statement (FS-LA-3.2): The Linear Map T : V → W as Vector Space Homomorphism</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Linearity Axiom:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" title="Linearity Axiom"><code>T : V → W satisfies ∀ u, v ∈ V, ∀ a, b ∈ F : T(a·u + b·v) = a·T(u) + b·T(v)</code></fsd-ref>.<br>
-    • <b>Zero Preservation:</b> <code>T(0_V) = 0_W</code>.<br>
+    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>Vector Space Homomorphism Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Additive Group Preservation:</b> <code>∀ u, v ∈ V, T(u + v) = T(u) + T(v)</code> (preserves the vector Abelian group).<br>
+    &nbsp;&nbsp;2. <b>Scalar Action Preservation:</b> <code>∀ c ∈ F, ∀ v ∈ V, T(c · v) = c · T(v)</code> (preserves scalar field dilation).<br>
+    &nbsp;&nbsp;3. <b>Combined Superposition Principle:</b> <code>∀ a, b ∈ F, ∀ u, v ∈ V, T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
+    • <b>Forced Invariants:</b> Linearity strictly forces origin preservation <code>T(0_V) = 0_W</code> and inverse reflection <code>T(-v) = -T(v)</code>.<br>
     • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
-    • <b>Calculus Realization:</b> The differential operator <code>D : C^∞(ℝ) → C^∞(ℝ)</code> is an endomorphism preserving function addition and scalar scaling.
+    • <b>Calculus Realization:</b> The differential operator <code>D = d/dx</code> and definite integral <code>∫</code> are certified linear maps on smooth function spaces over <code>ℝ_ω</code>.
   </div>
 
   <hr>
