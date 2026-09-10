@@ -294,10 +294,10 @@ export function generateLeanCache(): Record<string, LeanCacheEntry> {
     {
       key: 'vector_distributivity',
       target: 'scaffold:vector_distributivity',
-      expression: 'c · (u + v) = c · u + c · v  ∧  (a + b) · v = a · v + b · v',
-      signature: 'axiom vector_scalar_distributivity : True',
-      snippet: '#check vector_scalar_distributivity',
-      summary: 'Scalar multiplication distributivity across vector space addition'
+      expression: 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]',
+      signature: 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)',
+      snippet: '#check VectorSpace\n#check R_w_vector_space',
+      summary: 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'
     },
     {
       key: 'dual_pairing',

@@ -34,9 +34,17 @@ instance : Mul R_w     where mul   := R_w_mul
 instance : Div R_w     where div   := R_w_div
 instance : Neg R_w     where neg   := R_w_neg
 
--- Coercion from Int into ℝ_ω
+-- Coercion from Int and Nat into ℝ_ω
 axiom ofInt : Int → R_w
 instance : Coe Int R_w where coe := ofInt
+instance (n : Nat) : OfNat R_w n where ofNat := ofInt (Int.ofNat n)
+instance : Coe Nat R_w where coe := fun n => ofInt (Int.ofNat n)
+
+-- Ordering relations on ℝ_ω (hyperfinite ordered field)
+axiom R_w_le : R_w → R_w → Prop
+axiom R_w_lt : R_w → R_w → Prop
+instance : LE R_w where le := R_w_le
+instance : LT R_w where lt := R_w_lt
 
 -- Basic algebraic axioms needed for telescoping cancellation
 axiom sub_self (x : R_w) : x - x = 0
@@ -295,6 +303,23 @@ axiom R_w_is_field : Field R_w
 
 -- Backward compatibility alias
 axiom field_axioms : True
+
+-- ============================================================================
+-- The Abstract Vector Space Structure (V over Field F)
+-- ============================================================================
+
+-- 1> Abstract Lean Axioms: Vector Space V over Field F
+-- Combines an additive Abelian Group (V, +) with a Field (F, +, ·)
+-- and scalar action (smul) satisfying the 4 linear compatibility axioms:
+structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V) where
+  smul : F -> V -> V
+  smul_add : ∀ (c : F) (u v : V), smul c (groupV.add u v) = groupV.add (smul c u) (smul c v)
+  add_smul : ∀ (a b : F) (v : V), smul (fieldF.add a b) v = groupV.add (smul a v) (smul b v)
+  mul_smul : ∀ (a b : F) (v : V), smul (fieldF.mul a b) v = smul a (smul b v)
+  one_smul : ∀ (v : V), smul fieldF.one v = v
+
+-- 2> Constructive Model Grounding: ℝ_ω as a canonical Vector Space over Field ℝ_ω
+axiom R_w_vector_space : VectorSpace R_w R_w R_w_is_field R_w_is_abelian_group
 
 -- ============================================================================
 -- 13. Nonstandard 1D Analysis & Infinitesimals

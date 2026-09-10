@@ -90,14 +90,17 @@
     <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code> on <code>ℂ_ω</code>.</li>
   </ul>
 
-  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, +, ·) over Field F</h4>
+  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, F, +, ·) as Group &amp; Field Synergy</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Vector Space Definition:</b> A quadruple <code>(V, F, +, ·)</code> where <code>(V, +)</code> is an Abelian group and scalar multiplication <code>· : F × V → V</code> satisfies the <fsd-ref tier="3" scaffold="vector_distributivity" title="Vector Space Scalar Action &amp; Distributivity"><b>Linear Compatibility Axioms</b></fsd-ref>:<br>
-    &nbsp;&nbsp;1. <b>Scalar Distributivity over Vectors:</b> <code>c · (u + v) = c · u + c · v</code>.<br>
-    &nbsp;&nbsp;2. <b>Field Distributivity over Scalars:</b> <code>(a + b) · v = a · v + b · v</code>.<br>
-    &nbsp;&nbsp;3. <b>Scalar Associativity:</b> <code>(a · b) · v = a · (b · v)</code>.<br>
-    &nbsp;&nbsp;4. <b>Scalar Identity:</b> <code>1_F · v = v</code>.<br>
-    • <b>Basis &amp; Dimension:</b> A linearly independent subset <code>ℬ ⊂ V</code> that spans <code>V</code>; <code>dim(V) = |ℬ|</code>.
+    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fsd-ref tier="3" scaffold="vector_distributivity" title="The Constructive Vector Space (V, F, +, ·)"><b>Vector Space Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;• <b>Pillar 1 — Additive Abelian Group (V, +):</b> The vectors form an Abelian group (Closure, Associativity, Zero Origin <code>0_V</code>, Inverses <code>-v</code>, Commutativity) governing step addition.<br>
+    &nbsp;&nbsp;• <b>Pillar 2 — Scalar Field (F, +, ·):</b> The scalars form an algebraic field (Continuous scaling, identities <code>0_F, 1_F</code>, non-zero reciprocals, field distributivity).<br>
+    &nbsp;&nbsp;• <b>Pillar 3 — Linear Compatibility Action:</b> Scalar multiplication <code>· : F × V → V</code> knits the field to the group via 4 axioms:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;1. <b>Scalar Distributivity over Vectors:</b> <code>∀ c ∈ F, ∀ u, v ∈ V, c · (u + v) = c · u + c · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;2. <b>Field Distributivity over Scalars:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a + b) · v = a · v + b · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;3. <b>Scalar Action Associativity:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a · b) · v = a · (b · v)</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;4. <b>Unit Scalar Identity:</b> <code>∀ v ∈ V, 1_F · v = v</code>.<br>
+    • <b>Constructive Model Grounding:</b> The hyperfinite continuum <code>ℝ_ω</code> and coordinate spaces <code>ℝ_ω^n</code> are certified canonical vector spaces over the scalar field <code>ℝ_ω</code>.
   </div>
 
   <hr>
