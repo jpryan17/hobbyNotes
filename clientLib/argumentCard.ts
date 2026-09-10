@@ -422,11 +422,14 @@ export class ArgumentCard extends Elt {
       devBtnGroup.append(this.calcBtn);
     }
 
-    // Dev Numeric Simulation Button (Strictly hidden if no simulation is established)
-    const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(
-      this.getSimulationContextKey(),
-      arg.casCalculation?.slots
-    );
+    // Dev Numeric Simulation Button (Strictly hidden if no simulation is established or runnable)
+    const hasSlots = arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0;
+    const simContextKey = this.getSimulationContextKey();
+    const hasEstablishedSim =
+      hasSlots &&
+      NumericRunnerRegistry.hasSimulation(simContextKey, arg.casCalculation!.slots) &&
+      NumericRunnerRegistry.run(simContextKey, arg.casCalculation!.slots) !== null;
+
     if (hasEstablishedSim) {
       this.simBtn = new Elt("button");
       this.simBtn.setA(

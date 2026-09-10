@@ -145,23 +145,17 @@ export class NumericRunnerRegistry {
 
     // 8. Vector rotation & unitary isometry (Course 1)
     if (
-      text.includes("linear_map") ||
       text.includes("unitary_isometry") ||
-      text.includes("vector_distributivity") ||
-      text.includes("dual_pairing") ||
       text.includes("rotation") ||
-      text.includes("isometry") ||
-      (slots && (slots["A"] || slots["θ"] || slots["v"]))
+      (slots && (slots["θ"] || slots["v"] || (slots["x"] && slots["y"])))
     ) {
       return true;
     }
 
-    // 9. Discrete IVT & nonstandard derivative (Course 2)
+    // 9. Discrete IVT root bisection (Course 2)
     if (
       text.includes("discrete_ivt") ||
       text.includes("bisection") ||
-      text.includes("nonstandard_derivative") ||
-      text.includes("infinitesimal_halo") ||
       (slots && slots["a"] && slots["b"])
     ) {
       return true;
@@ -286,15 +280,11 @@ export class NumericRunnerRegistry {
     }
 
     if (
-      text.includes("linear_map") ||
       text.includes("unitary_isometry") ||
-      text.includes("vector_distributivity") ||
-      text.includes("dual_pairing") ||
       text.includes("rotation") ||
-      text.includes("isometry") ||
-      slots["A"] ||
       slots["θ"] ||
-      slots["v"]
+      slots["v"] ||
+      (slots["x"] && slots["y"])
     ) {
       return this.runVectorRotation(slots);
     }
@@ -302,8 +292,6 @@ export class NumericRunnerRegistry {
     if (
       text.includes("discrete_ivt") ||
       text.includes("bisection") ||
-      text.includes("nonstandard_derivative") ||
-      text.includes("infinitesimal_halo") ||
       (slots["a"] && slots["b"])
     ) {
       return this.runDiscreteIVTBisection(slots);

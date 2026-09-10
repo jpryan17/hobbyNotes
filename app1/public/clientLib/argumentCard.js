@@ -298,8 +298,12 @@ export class ArgumentCard extends Elt {
             this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
             devBtnGroup.append(this.calcBtn);
         }
-        // Dev Numeric Simulation Button (Strictly hidden if no simulation is established)
-        const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(this.getSimulationContextKey(), arg.casCalculation?.slots);
+        // Dev Numeric Simulation Button (Strictly hidden if no simulation is established or runnable)
+        const hasSlots = arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0;
+        const simContextKey = this.getSimulationContextKey();
+        const hasEstablishedSim = hasSlots &&
+            NumericRunnerRegistry.hasSimulation(simContextKey, arg.casCalculation.slots) &&
+            NumericRunnerRegistry.run(simContextKey, arg.casCalculation.slots) !== null;
         if (hasEstablishedSim) {
             this.simBtn = new Elt("button");
             this.simBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
