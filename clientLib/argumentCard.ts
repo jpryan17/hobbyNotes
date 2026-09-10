@@ -4,7 +4,7 @@ import { Nav } from "./navFW.js";
 import { MaximaMinerTrace } from "./maximaMinerCatalog.js";
 import { NumericRunnerRegistry } from "./numericRunner.js";
 import { NumericVisualizer } from "./numericVisualizer.js";
-import { FsCalculator } from "./fsCalculator.js";
+import { FsCalculator, inferFsCalculationModes } from "./fsCalculator.js";
 
 export interface ArgumentCheck {
   label: string;
@@ -409,15 +409,18 @@ export class ArgumentCard extends Elt {
     this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
     devBtnGroup.append(this.verifyBtn);
 
-    // Dev Calculator Button (Available for any FS)
-    this.calcBtn = new Elt("button");
-    this.calcBtn.setA(
-      "style",
-      "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
-    );
-    this.calcBtn.setV("🧮 Calculator (Dev)");
-    this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
-    devBtnGroup.append(this.calcBtn);
+    // Dev Calculator Button (Strictly hidden if no meaningful calculation modes exist)
+    const calcModes = inferFsCalculationModes(arg);
+    if (calcModes.length > 0) {
+      this.calcBtn = new Elt("button");
+      this.calcBtn.setA(
+        "style",
+        "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
+      );
+      this.calcBtn.setV("🧮 Calculator (Dev)");
+      this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
+      devBtnGroup.append(this.calcBtn);
+    }
 
     // Dev Numeric Simulation Button (Strictly hidden if no simulation is established)
     const hasEstablishedSim = NumericRunnerRegistry.hasSimulation(

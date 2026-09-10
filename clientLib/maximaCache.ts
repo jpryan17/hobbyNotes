@@ -74,8 +74,8 @@ export const MAXIMA_CACHE: Record<string, MaximaCacheEntry> = {
         "factor(char_poly);"
       ],
       "outputs": [
-        "batch(\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757088_1071.mac\")",
-        "read and interpret C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757088_1071.mac",
+        "batch(\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012056806_738.mac\")",
+        "read and interpret C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012056806_738.mac",
         "display2d:false",
         "A4:matrix([-2,1,0,0],[1,-2,1,0],[0,1,-2,1],[0,0,1,-2])",
         "matrix([-2,1,0,0],[1,-2,1,0],[0,1,-2,1],[0,0,1,-2])",
@@ -85,7 +85,7 @@ export const MAXIMA_CACHE: Record<string, MaximaCacheEntry> = {
         "((-lambda)-2)*(lambda+(((-lambda)-2)^2-1)*((-lambda)-2)+2)-((-lambda)-2)^2+1",
         "factor(char_poly)",
         "(lambda^2+3*lambda+1)*(lambda^2+5*lambda+5)",
-        "\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757088_1071.mac\""
+        "\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012056806_738.mac\""
       ],
       "formattedSteps": [
         {
@@ -411,8 +411,8 @@ export const MAXIMA_CACHE: Record<string, MaximaCacheEntry> = {
         "ode_sol: ode2(d_u_dt, u_hat, t);"
       ],
       "outputs": [
-        "batch(\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757425_6198.mac\")",
-        "read and interpret C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757425_6198.mac",
+        "batch(\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012057249_7774.mac\")",
+        "read and interpret C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012057249_7774.mac",
         "display2d:false",
         "assume(k > 0,L > 0)",
         "[k > 0,L > 0]",
@@ -420,7 +420,7 @@ export const MAXIMA_CACHE: Record<string, MaximaCacheEntry> = {
         "(L*cos((%pi*a*k)/L))/(%pi*k)-(L*cos((%pi*b*k)/L))/(%pi*k)",
         "decay_factor:exp((-alpha)*((k*%pi)/L)^2*t)",
         "%e^-((%pi^2*alpha*k^2*t)/L^2)",
-        "\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789010757425_6198.mac\""
+        "\"C:/Users/jprya/OneDrive/Documents/hobbyNotes/nodeUtils/scratch/maxima_batch_1789012057249_7774.mac\""
       ],
       "formattedSteps": [
         {

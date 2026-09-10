@@ -1070,61 +1070,8 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    // 15. Generic Fallback Equation Inference for Any Other FS
-    if (modes.length === 0) {
-        const slots = arg.casCalculation?.slots;
-        if (slots && Object.keys(slots).length > 0) {
-            const keys = Object.keys(slots);
-            modes.push({
-                id: "generic_slots_eval",
-                label: `(${keys.slice(0, -1).join(", ") || keys[0]}) → ${keys[keys.length - 1] || "Result"}`,
-                targetSymbol: keys[keys.length - 1] || "Output",
-                targetDomain: "ℝ_ω",
-                formulaDescription: arg.casCalculation?.simplified || arg.target || "Slot Evaluation",
-                inputs: keys.map((k, i) => {
-                    const rawNum = parseFloat(slots[k]);
-                    return {
-                        name: k,
-                        symbol: k,
-                        domain: "ℝ_ω",
-                        defaultValue: isNaN(rawNum) ? (i + 1) * 2 : rawNum,
-                        step: 1.0
-                    };
-                }),
-                evaluate: (vals) => {
-                    const valEntries = Object.entries(vals);
-                    const computed = valEntries.reduce((acc, [, v]) => acc + v, 0);
-                    return {
-                        resultValue: computed,
-                        formattedFormula: valEntries.map(([k, v]) => `${k}=${v.toFixed(2)}`).join(", "),
-                        displayResult: `${computed.toFixed(3)}`,
-                        domainBadge: "∈ ℝ_ω"
-                    };
-                }
-            });
-        }
-        else {
-            modes.push({
-                id: "generic_fs_eval",
-                label: "(x) → Verification Invariant",
-                targetSymbol: "Invariant",
-                targetDomain: "ℝ_ω",
-                formulaDescription: arg.target || arg.title,
-                inputs: [
-                    { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 1.0, step: 0.1, min: -100, max: 100, description: "Test parameter" }
-                ],
-                evaluate: (vals) => {
-                    return {
-                        resultValue: 0.0,
-                        formattedFormula: `Evaluation invariant at x = ${vals.x.toFixed(2)}`,
-                        displayResult: "0.00 (Invariant Certified)",
-                        domainBadge: "∈ ℝ_ω",
-                        notes: arg.conclusion
-                    };
-                }
-            });
-        }
-    }
+    // Return empty if no established, non-trivial calculation modes were matched.
+    // This suppresses the calculator button on statements that are purely axiomatic or lack algebraic degrees of freedom.
     return modes;
 }
 /**
@@ -1144,6 +1091,13 @@ export class FsCalculator extends Elt {
         this.arg = arg;
         this.modes = inferFsCalculationModes(arg);
         this.setA("style", "margin-top: 12px; padding: 16px; border: 1px solid #38bdf8; border-radius: 8px; background: #f0f9ff; font-family: system-ui, -apple-system, sans-serif; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);");
+        if (this.modes.length === 0) {
+            const notice = new Elt("div");
+            notice.setA("style", "font-size: 12px; color: #64748b; font-style: italic; padding: 8px 0;");
+            notice.setV("No non-trivial algebraic calculation directions inferred for this formal statement.");
+            this.append(notice);
+            return;
+        }
         // Title Bar
         const titleBar = new Elt("div");
         titleBar.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #bae6fd; padding-bottom: 8px;");
