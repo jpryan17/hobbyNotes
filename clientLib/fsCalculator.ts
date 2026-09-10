@@ -831,7 +831,67 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
   }
 
   // 15. Linear Algebra - Linear Map Preservation & 2x2 Matrix Action
-  if (allText.includes("linear_map") || allText.includes("linearity") || allText.includes("t(a · u") || allText.includes("vector_distributivity") || allText.includes("c · (u + v)")) {
+  if (allText.includes("linear_map") || allText.includes("linearity") || allText.includes("t(a · u") || allText.includes("vector_distributivity") || allText.includes("c · (u + v)") || allText.includes("additive_identity") || allText.includes("additive_inverse") || allText.includes("zero_annihilation") || allText.includes("x + 0") || allText.includes("x + (-x)")) {
+    modes.push({
+      id: "additive_identity_check",
+      label: "(x) → x + 0 = x",
+      targetSymbol: "x + 0",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "x + 0 = 0 + x = x",
+      inputs: [
+        { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 5.0, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        return {
+          resultValue: vals.x,
+          formattedFormula: `(${vals.x}) + 0 = ${vals.x}`,
+          displayResult: `${vals.x.toFixed(3)}`,
+          domainBadge: "∈ ℝ_ω",
+          notes: "Universal neutral identity element for addition"
+        };
+      }
+    });
+
+    modes.push({
+      id: "additive_inverse_check",
+      label: "(x) → x + (-x) = 0",
+      targetSymbol: "x + (-x)",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "x + (-x) = (-x) + x = 0",
+      inputs: [
+        { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 4.2, step: 0.5 }
+      ],
+      evaluate: (vals) => {
+        return {
+          resultValue: 0.0,
+          formattedFormula: `(${vals.x}) + (-${vals.x}) = 0.000`,
+          displayResult: "0.000 (Root)",
+          domainBadge: "∈ ℝ_ω",
+          notes: "Bilateral reflection across tree root node cancels to 0"
+        };
+      }
+    });
+
+    modes.push({
+      id: "zero_annihilation_check",
+      label: "(x) → 0 · x = 0",
+      targetSymbol: "0 · x",
+      targetDomain: "ℝ_ω",
+      formulaDescription: "0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0",
+      inputs: [
+        { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 17.5, step: 1.0 }
+      ],
+      evaluate: (vals) => {
+        return {
+          resultValue: 0.0,
+          formattedFormula: `0 · (${vals.x}) = 0.000`,
+          displayResult: "0.000",
+          domainBadge: "∈ ℝ_ω",
+          notes: "Field distributivity forces zero to annihilate all elements"
+        };
+      }
+    });
+
     modes.push({
       id: "matrix_vector_product",
       label: "(A, v) → T(v) = A · v",

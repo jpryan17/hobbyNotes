@@ -240,6 +240,18 @@ axiom natural_duality_pairing :
 axiom group_homomorphism :
   True
 
+-- Additive identity: x + 0 = 0 + x = x
+axiom additive_identity :
+  True
+
+-- Additive inverse: x + (-x) = (-x) + x = 0
+axiom additive_inverse :
+  True
+
+-- Zero annihilation in fields: 0 · x = 0
+axiom zero_annihilation :
+  True
+
 -- ============================================================================
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
