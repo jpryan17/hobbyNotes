@@ -60,17 +60,17 @@
     The continuous area under the curve is the standard part of the discrete sum:
   </p>
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b>
+    <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b></fsd-ref>
   </div>
 
   <p>
     Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
   </p>
 
-  <h4>Formal Statement (FS-A1D-3.1): The Hyperfinite Definite Integral on ℝ_ω</h4>
+  <h4>Formal Statement (FS-A1D-3.1): The Discrete Definite Integral on ℝ_ω</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Hyperfinite Riemann Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the hyperfinite sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
-    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Hyperfinite Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
+    • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
+    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
     • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
     • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.
   </div>
@@ -95,7 +95,7 @@
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b><br><br>
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref><br><br>
     = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
   </div>
 
@@ -120,7 +120,7 @@
 
   <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Exact Telescoping Identity:</b> For any hyperfinite sequence <code>F(x_k)</code>:<br>
+    • <b>Exact Telescoping Identity:</b> For any discrete sequence <code>F(x_k)</code>:<br>
     <div align="center" style="margin: 4px 0; font-family: monospace;">
       <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
     </div>
@@ -136,7 +136,7 @@
     “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
   </p>
   <p>
-    “In <b>Course 3: Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
+    “In <b>Course 3: Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
   </p>
   <ul>
     <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>

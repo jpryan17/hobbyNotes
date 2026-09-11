@@ -143,7 +143,7 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
     {
       key: 'hyper_sum',
       target: 'scaffold:hyper_sum',
-      expression: '∫[a, b] f(x) dx = st( ∑_{k=0}^{ω-1} f(x_k) · dx )',
+      expression: '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )',
       signature: 'def hyper_sum (f : Nat → R_w) : Nat → R_w',
       snippet: '#check hyper_sum',
       summary: 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'
