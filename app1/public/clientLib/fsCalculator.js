@@ -508,7 +508,7 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    if (allText.includes("x₁ ≤ x₁") || allText.includes("≤") || allText.includes("reflexiv")) {
+    if (allText.includes("x₁ ≤ x₁") || allText.includes("order reflexiv") || allText.includes("order_reflexiv") || allText.includes("pred_le_refl")) {
         modes.push({
             id: "pred_le_refl",
             label: "(x₁) → x₁ ≤ x₁",
@@ -579,7 +579,7 @@ export function inferFsCalculationModes(arg) {
         });
     }
     // 10. Shannon Information Entropy (H(P))
-    if (allText.includes("shannon") || allText.includes("entropy") || allText.includes("h(p)") || allText.includes("information")) {
+    if (allText.includes("shannon") || allText.includes("shannon_entropy") || allText.includes("h(p)") || (allText.includes("entropy") && !allText.includes("von_neumann"))) {
         modes.push({
             id: "shannon_entropy_calc",
             label: "(p₁, p₂, p₃, p₄) → H(P)",
