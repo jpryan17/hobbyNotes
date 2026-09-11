@@ -157,6 +157,15 @@ axiom st : { x : R_w // is_finite x } → R_w
 -- 7. 2D Cell Geometry & Cauchy Theorems
 -- ============================================================================
 
+-- Cauchy-Riemann coordinate symmetry conditions on ℂ_ω:
+-- ∂u/∂x = ∂v/∂y  ∧  ∂u/∂y = -∂v/∂x
+def satisfies_cauchy_riemann (u_x v_y u_y v_x : R_w) : Prop :=
+  u_x = v_y ∧ u_y = -v_x
+
+-- Conformal Jacobian determinant: det(J) = a² + b² = |f'(z)|² ≥ 0
+def conformal_jacobian_det (a b : R_w) : R_w :=
+  a * a + b * b
+
 -- Cauchy-Riemann derivative matching for holomorphic maps
 structure Holomorphic (f : C_w → C_w) : Prop where
   conformal : True
