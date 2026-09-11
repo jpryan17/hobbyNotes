@@ -147,7 +147,7 @@ function generateLeanCache(force = false) {
             key: 'st',
             target: 'scaffold:st',
             expression: '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]',
-            signature: 'axiom st : { x : R_w // is_finite x } → Float',
+            signature: 'axiom st : { x : R_w // is_finite x } → R_w',
             snippet: '#check st',
             summary: 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'
         },
@@ -211,7 +211,7 @@ function generateLeanCache(force = false) {
             key: 'free_fall_accel',
             target: 'scaffold:free_fall_accel',
             expression: 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g',
-            signature: 'axiom st : { x : R_w // is_finite x } → Float',
+            signature: 'axiom st : { x : R_w // is_finite x } → R_w',
             snippet: '#check st\n#check delta',
             summary: 'Newtonian kinematic temporal curvature invariance under discrete stencil'
         },

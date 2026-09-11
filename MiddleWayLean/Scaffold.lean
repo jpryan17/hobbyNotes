@@ -134,14 +134,14 @@ instance : Mul C_w where mul := mul
 end C_w
 
 -- ============================================================================
--- 6. The Standard Part Shadow Map: st(·) : ℝ_ω → Float / Continuum
+-- 6. The Standard Part Shadow Map: st(·) : ℝ_ω → ℝ_ω (Standard Continuum)
 -- ============================================================================
 
 -- Predicate identifying finite elements (bounded by standard integers)
 axiom is_finite : R_w → Prop
 
--- Standard part extraction to continuum
-axiom st : { x : R_w // is_finite x } → Float
+-- Standard part extraction: projects a finite hyperreal to its standard shadow
+axiom st : { x : R_w // is_finite x } → R_w
 
 -- ============================================================================
 -- 7. 2D Cell Geometry & Cauchy Theorems
@@ -402,16 +402,15 @@ theorem infinitesimal_halo_relation (x y : R_w) :
 def is_finite_bound (x : R_w) : Prop :=
   ∃ (n : Nat), abs x < (n : R_w)
 
--- 5> The Standard Part Shadow Axiom & Halo Closeness:
--- Every finite hyperreal x ∈ ℝ_ω has an exact standard part shadow st(x)
+-- 5> The Standard Part Shadow Axioms & Halo Closeness:
+-- Every finite hyperreal x ∈ ℝ_ω has an exact standard part shadow st(x) ∈ ℝ_ω
 -- that resides in its unique infinitesimal halo: x ≈ st(x)
-axiom st_shadow (x : { x : R_w // is_finite x }) : R_w
-axiom st_shadow_is_standard (x : { x : R_w // is_finite x }) : is_finite (st_shadow x)
-axiom st_shadow_approx (x : { x : R_w // is_finite x }) : (x.val) ≈ (st_shadow x)
+axiom st_is_standard (x : { x : R_w // is_finite x }) : is_finite (st x)
+axiom st_approx (x : { x : R_w // is_finite x }) : (x.val) ≈ (st x)
 
 -- Standard part preserves addition and multiplication (ring homomorphism on finite elements):
 axiom st_add (x y : { x : R_w // is_finite x }) :
-  st_shadow ⟨x.val + y.val, sorry⟩ = st_shadow x + st_shadow y
+  st ⟨x.val + y.val, sorry⟩ = st x + st y
 
 -- Nonstandard derivative shadow: st((f(x + dx) - f(x)) / dx) = f'(x)
 axiom nonstandard_derivative_shadow :

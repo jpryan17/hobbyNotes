@@ -116,7 +116,7 @@
             "displayTemplate": "st(${expr})",
             "maximaTemplate": "subst(0, dx, ${expr});",
             "leanTheorem": "MiddleWay.st",
-            "leanSnippet": "axiom st : { x : R_w // is_finite x } → Float"
+            "leanSnippet": "axiom st : { x : R_w // is_finite x } → R_w"
         },
         {
             "id": "hyper_sum",

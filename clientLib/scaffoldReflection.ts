@@ -72,7 +72,7 @@ export const SCAFFOLD_REGISTRY: Record<string, ScaffoldEntry> = {
   st: {
     title: "Constitutional Scaffold: Standard Part Shadow Map (st)",
     expression: "∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]",
-    leanSignature: "axiom st : { x : R_w // is_finite x } → Float",
+    leanSignature: "axiom st : { x : R_w // is_finite x } → R_w",
     testOrPickValue: "MiddleWayLean/Scaffold.lean → st",
     checks: [
       { label: "Domain Boundedness", question: "Is x bounded by standard integers (is_finite x)?", passed: true, detail: "→ Verified ✓" },
@@ -82,7 +82,7 @@ export const SCAFFOLD_REGISTRY: Record<string, ScaffoldEntry> = {
     conflictOrSupport: "Axiomatic projection from Day ω hyperfinite continuum to standard real numbers.",
     conclusion: "Every finite hyperfinite number projects uniquely to an exact standard real shadow. Certified True.",
     leanSnippet: `axiom is_finite : R_w → Prop
-axiom st : { x : R_w // is_finite x } → Float`,
+axiom st : { x : R_w // is_finite x } → R_w`,
     casCalculation: {
       command: "st( (2*v0 - 2*g*t - dt*g)/2 );",
       expanded: "(v₀ - g·t) - (1/2)·g·dt",
