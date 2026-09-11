@@ -10,6 +10,10 @@ export function inferFsCalculationModes(arg) {
     const cmd = (arg.casCalculation?.command || "").toLowerCase();
     const title = (arg.title || "").toLowerCase();
     const allText = `${target} ${expr} ${simp} ${cmd} ${title}`;
+    // Constitutional scaffold cards are foundational Lean 4 mathematical theorems/proofs, not numerical calculators
+    if (target.startsWith("scaffold:") || title.includes("constitutional scaffold") || target.includes("scaffold")) {
+        return [];
+    }
     // 1. Newtonian Kinematics & Free Fall Acceleration
     if (allText.includes("free_fall") || allText.includes("v₀ - gt") || allText.includes("s(t)") || allText.includes("gravity") || allText.includes("accel")) {
         modes.push({
@@ -880,8 +884,10 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    // 17. Analysis 1D - Nonstandard Difference Quotient & Derivative Shadow
-    if (allText.includes("nonstandard_derivative") || allText.includes("derivative shadow") || allText.includes("difference quotient") || allText.includes("st([f(x + dx)")) {
+    // 17. Analysis 1D - Nonstandard Difference Quotient & Derivative Shadow (Numeric exploration)
+    if (!allText.includes("scaffold") &&
+        !allText.includes("constitutional") &&
+        (allText.includes("diff_quotient_calc") || allText.includes("numeric_derivative"))) {
         modes.push({
             id: "diff_quotient_poly",
             label: "(x, dx) → st( [(x+dx)² - x²] / dx )",
