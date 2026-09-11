@@ -49,6 +49,10 @@ axiom R_w_lt : R_w → R_w → Prop
 instance : LE R_w where le := R_w_le
 instance : LT R_w where lt := R_w_lt
 
+-- Absolute value metric on ℝ_ω
+axiom R_w_abs : R_w → R_w
+def abs (x : R_w) : R_w := R_w_abs x
+
 -- Basic algebraic axioms needed for telescoping cancellation
 axiom sub_self (x : R_w) : x - x = 0
 axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
@@ -59,6 +63,8 @@ axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
 
 -- The hyperfinite infinite horizon at Day ω
 axiom omega : R_w
+axiom omega_pos : 0 < omega
+axiom abs_omega : abs omega = omega
 
 -- The infinitesimal grid step dx = 1/ω
 axiom dx : R_w
@@ -140,8 +146,9 @@ end C_w
 -- 6. The Standard Part Shadow Map: st(·) : ℝ_ω → ℝ_ω (Standard Continuum)
 -- ============================================================================
 
--- Predicate identifying finite elements (bounded by standard integers)
-axiom is_finite : R_w → Prop
+-- Predicate identifying finite elements: strictly bounded within the Day ω horizon (|x| < |ω|)
+def is_finite (x : R_w) : Prop :=
+  abs x < abs omega
 
 -- Standard part extraction: projects a finite hyperreal to its standard shadow
 axiom st : { x : R_w // is_finite x } → R_w
@@ -365,10 +372,6 @@ axiom R_w_id_functional : LinearFunctional R_w R_w R_w_is_field R_w_is_abelian_g
 -- 13. Nonstandard 1D Analysis & Infinitesimals
 -- ============================================================================
 
--- Absolute value metric on ℝ_ω
-axiom R_w_abs : R_w → R_w
-def abs (x : R_w) : R_w := R_w_abs x
-
 -- An element is infinitesimal if its magnitude is smaller than 1 / n for every standard n ∈ ℕ (n > 0)
 def is_infinitesimal (ε : R_w) : Prop :=
   ∀ (n : Nat), n > 0 → abs ε < (1 : R_w) / (n : R_w)
@@ -401,9 +404,12 @@ theorem infinitesimal_halo_relation (x y : R_w) :
   x ≈ y ↔ is_infinitesimal (x - y) := by
   rfl
 
--- 4> Finite Elements (bounded by standard integers):
+-- 4> Finite Elements (bounded by standard integers / strictly within the horizon |ω|):
 def is_finite_bound (x : R_w) : Prop :=
   ∃ (n : Nat), abs x < (n : R_w)
+
+-- Horizon equivalence on Day ω: being bounded by an integer is equivalent to |x| < |ω|
+axiom finite_iff_horizon (x : R_w) : is_finite_bound x ↔ is_finite x
 
 -- 5> The Standard Part Shadow Axioms & Halo Closeness:
 -- Every finite hyperreal x ∈ ℝ_ω has an exact standard part shadow st(x) ∈ ℝ_ω
@@ -420,11 +426,13 @@ axiom st_add (x y : { x : R_w // is_finite x }) :
 -- ============================================================================
 
 -- 1> Hard Numbers: Dyadic rationals m / 2ᵏ born on finite days k < ω (zero halo dust)
--- Practical test: It can be encoded with a finite number of bits without referencing ω.
-axiom is_hard : R_w → Prop
+-- Practical test: It can be encoded with a finite string of binary bits without referencing ω.
+def is_hard (x : R_w) : Prop :=
+  ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
 
-axiom is_hard_iff_dyadic (x : R_w) :
-  is_hard x ↔ ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+theorem is_hard_iff_dyadic (x : R_w) :
+  is_hard x ↔ ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k) := by
+  rfl
 
 -- Every hard number is finite (bounded within the standard horizon):
 axiom hard_is_finite (x : R_w) : is_hard x → is_finite x

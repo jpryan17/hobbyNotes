@@ -53,23 +53,21 @@
   </p>
 
   <p>
-    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, requiring a function to be <b>complex differentiable</b> imposes an astonishingly powerful geometric symmetry!”
+    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
   </p>
 
-  <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: 2D Complex Continuum (ℂ_ω)">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
-    The hyperfinite complex continuum is the tensor product of two 1D tree transects:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i · y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
-    </div>
-    The fundamental displacement vector across any elementary cell is:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (with dx = 1/ω, &nbsp; dy = 1/ω)</b>
-    </div>
-    This generates a seamless tiling of <code>2ⁿ × 2ⁿ = 4ⁿ</code> square micro-cells with shared 1D boundary walls.
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
   </div>
-  </fsd-ref>
+
+  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
+    • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
+    • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
+    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
+    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.
+  </div>
 
   <hr>
 
