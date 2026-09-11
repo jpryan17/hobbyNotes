@@ -24,6 +24,7 @@ axiom R_w_sub  : R_w → R_w → R_w
 axiom R_w_mul  : R_w → R_w → R_w
 axiom R_w_div  : R_w → R_w → R_w
 axiom R_w_neg  : R_w → R_w
+axiom R_w_pow  : R_w → Nat → R_w
 
 -- Standard Lean 4 typeclasses for arithmetic notation
 instance : OfNat R_w (nat_lit 0) where ofNat := R_w_zero
@@ -33,6 +34,8 @@ instance : Sub R_w     where sub   := R_w_sub
 instance : Mul R_w     where mul   := R_w_mul
 instance : Div R_w     where div   := R_w_div
 instance : Neg R_w     where neg   := R_w_neg
+instance : HPow R_w Nat R_w where hPow := R_w_pow
+
 
 -- Coercion from Int and Nat into ℝ_ω
 axiom ofInt : Int → R_w
@@ -416,9 +419,24 @@ axiom st_add (x y : { x : R_w // is_finite x }) :
 -- 14. Mini-Seminar 2: The Nucleus-Halo Decomposition on ℝ_ω & ℂ_ω
 -- ============================================================================
 
--- 1> Standard Nucleus: Exact coordinates born on finite days with zero infinitesimal residue
+-- 1> Hard Numbers: Dyadic rationals m / 2ᵏ born on finite days k < ω (zero halo dust)
+-- Practical test: It can be encoded with a finite number of bits without referencing ω.
+axiom is_hard : R_w → Prop
+
+axiom is_hard_iff_dyadic (x : R_w) :
+  is_hard x ↔ ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+
+-- Every hard number is finite (bounded within the standard horizon):
+axiom hard_is_finite (x : R_w) : is_hard x → is_finite x
+
+-- Hard numbers have zero dust: they are their own standard part (pure nucleus):
+axiom hard_st_eq (x : R_w) (h : is_hard x) :
+  st ⟨x, hard_is_finite x h⟩ = x
+
+-- 2> Standard Nucleus: Exact coordinates with zero infinitesimal residue
 def is_standard_nucleus (x : R_w) (h : is_finite x) : Prop :=
   st ⟨x, h⟩ = x
+
 
 -- 2> Halo Decomposition (1D): Every limited element splits into a standard nucleus + halo dust
 -- x = x₀ + ε  where x₀ = st(x) and ε ∈ μ(0)

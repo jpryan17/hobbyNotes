@@ -53,8 +53,20 @@
   </p>
 
   <p>
-    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, requiring a function to be <b>complex differentiable</b> imposes an astonishingly powerful geometric symmetry!”
+    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
   </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
+  </div>
+
+  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
+    • <b>Complex Finite Boundedness:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im)</code>.<br>
+    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
+    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard finite-birthday nucleus and 2D halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.
+  </div>
 
   <hr>
 
