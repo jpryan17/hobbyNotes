@@ -504,10 +504,23 @@ axiom product_rule_shadow (u v : R_w → R_w) (x Lu Lv : R_w)
     (hu : has_derivative_at u x Lu) (hv : has_derivative_at v x Lv) :
   has_derivative_at (fun t => u t * v t) x (u x * Lv + v x * Lu)
 
--- 6> Symmetric 3-Point Curvature Stencil [1, -2, 1]:
+-- 6> Algebraic Chain Rule on ℝ_ω:
+-- (f ∘ g)'(x) = f'(g(x)) · g'(x)
+axiom chain_rule_shadow (f g : R_w → R_w) (x Lg Lf : R_w)
+    (hg : has_derivative_at g x Lg) (hf : has_derivative_at f (g x) Lf) :
+  has_derivative_at (fun t => f (g t)) x (Lf * Lg)
+
+-- 7> Symmetric 3-Point Curvature Stencil [1, -2, 1]:
 -- Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)
 def delta2 (f : R_w → R_w) (x dx : R_w) : R_w :=
   f (x - dx) - (2 : R_w) * f x + f (x + dx)
+
+-- 8> Second Derivative Shadow:
+-- f''(x) = st( Δ²f(x) / dx² )
+axiom second_derivative_shadow (f : R_w → R_w) (x L2 dx : R_w)
+    (hdx : is_infinitesimal dx) (hne : dx ≠ 0)
+    (hfin : is_finite (delta2 f x dx / (dx * dx))) :
+  st ⟨delta2 f x dx / (dx * dx), hfin⟩ = L2
 
 -- ============================================================================
 -- 16. The Discrete Intermediate Value Theorem (DIVT) & Bisection

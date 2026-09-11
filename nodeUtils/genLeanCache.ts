@@ -353,8 +353,32 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       target: 'scaffold:nonstandard_derivative',
       expression: "f'(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)",
       signature: 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L',
-      snippet: '#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow\n#check local_linearity\n#check product_rule_shadow\n#check delta2',
+      snippet: '#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow',
       summary: 'Nonstandard difference quotient derivative shadow on hyperreal continuum'
+    },
+    {
+      key: 'algebraic_product_rule',
+      target: 'scaffold:algebraic_product_rule',
+      expression: "(u · v)' = u · v' + v · u'  ∧  (f ∘ g)'(x) = f'(g(x)) · g'(x)",
+      signature: 'axiom product_rule_shadow & axiom chain_rule_shadow',
+      snippet: '#check product_rule_shadow\n#check chain_rule_shadow',
+      summary: 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'
+    },
+    {
+      key: 'local_linearity',
+      target: 'scaffold:local_linearity',
+      expression: "df = f'(x) · dx  ∧  |Δf - df| / dx ≈ 0",
+      signature: 'def differential_form & axiom local_linearity',
+      snippet: '#check differential_form\n#check local_linearity',
+      summary: 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'
+    },
+    {
+      key: 'discrete_curvature',
+      target: 'scaffold:discrete_curvature',
+      expression: "Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''(x) = st( Δ²f(x) / dx² )",
+      signature: 'def delta2 & axiom second_derivative_shadow',
+      snippet: '#check delta2\n#check second_derivative_shadow',
+      summary: 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'
     },
     {
       key: 'discrete_ivt',
