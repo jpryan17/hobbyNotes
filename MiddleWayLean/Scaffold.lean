@@ -471,9 +471,34 @@ axiom st_C_approx (z : { z : C_w // is_finite_C z }) :
 axiom nonstandard_derivative_shadow :
   True
 
--- Discrete Intermediate Value Theorem (DIVT): sign bracket implies zero crossing
-axiom discrete_ivt_bisection :
-  True
+-- ============================================================================
+-- 15. The Discrete Intermediate Value Theorem (DIVT) & Bisection
+-- ============================================================================
+
+-- 1> Robinson Halo Continuity (S-Continuity):
+-- Infinitely close inputs map to infinitely close outputs across infinitesimal increments
+def is_continuous (f : R_w → R_w) : Prop :=
+  ∀ (x y : R_w), x ≈ y → f x ≈ f y
+
+-- 2> Discrete Intermediate Value Theorem (DIVT):
+-- If f is halo-continuous and sign-bracketed across [a, b] (f a ≤ 0 ∧ 0 ≤ f b with a ≤ b),
+-- then hyperfinite grid traversal guarantees a lattice point x* ∈ [a, b] in the halo of zero: f(x*) ≈ 0
+axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w)
+    (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) :
+  ∃ (x_star : R_w), a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0
+
+-- 3> Standard Shadow Root:
+-- For finite endpoints, projecting the hyperfinite crossing point x* via st(·)
+-- yields a standard real root c = st(x*) where f(c) ≈ 0
+axiom ivt_standard_root (f : R_w → R_w) (a b : R_w)
+    (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b)
+    (ha : is_finite a) (hb : is_finite b) :
+  ∃ (c : R_w), is_finite c ∧ a ≤ c ∧ c ≤ b ∧ f c ≈ 0
+
+-- 4> Hyperfinite Bisection Contraction:
+-- Successive midpoint bisection halves the bracket interval: length at step k is (b - a) / 2^k
+def bisection_interval_len (a b : R_w) (k : Nat) : R_w :=
+  (b - a) / ((2 : R_w) ^ k)
 
 end MiddleWay
 

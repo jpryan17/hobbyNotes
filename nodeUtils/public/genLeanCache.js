@@ -354,9 +354,9 @@ function generateLeanCache(force = false) {
         {
             key: 'discrete_ivt',
             target: 'scaffold:discrete_ivt',
-            expression: 'f(a) · f(b) ≤ 0  ⇒  ∃ x ∈ [a, b], |f(x)| ≤ |Δf_step|',
-            signature: 'axiom discrete_ivt_bisection : True',
-            snippet: '#check discrete_ivt_bisection',
+            expression: 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0',
+            signature: 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0',
+            snippet: '#check is_continuous\n#check discrete_ivt_bisection\n#check ivt_standard_root\n#check bisection_interval_len',
             summary: 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'
         },
         {
