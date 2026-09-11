@@ -412,6 +412,35 @@ axiom st_approx (x : { x : R_w // is_finite x }) : (x.val) ≈ (st x)
 axiom st_add (x y : { x : R_w // is_finite x }) :
   st ⟨x.val + y.val, sorry⟩ = st x + st y
 
+-- ============================================================================
+-- 14. Mini-Seminar 2: The Nucleus-Halo Decomposition on ℝ_ω & ℂ_ω
+-- ============================================================================
+
+-- 1> Standard Nucleus: Exact coordinates born on finite days with zero infinitesimal residue
+def is_standard_nucleus (x : R_w) (h : is_finite x) : Prop :=
+  st ⟨x, h⟩ = x
+
+-- 2> Halo Decomposition (1D): Every limited element splits into a standard nucleus + halo dust
+-- x = x₀ + ε  where x₀ = st(x) and ε ∈ μ(0)
+axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) :
+  ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε
+
+-- 3> Complex Halo Decomposition on ℂ_ω (Mini-Seminar 2, FS-MS-2.1 & FS-MS-2.2):
+-- z = z₀ + ε  where z₀ ∈ ℂ is the standard nucleus and ε is the transfinite halo soup
+def is_finite_C (z : C_w) : Prop :=
+  is_finite z.re ∧ is_finite z.im
+
+-- Macroscopic Measurement: Projects complex halo soup down to standard observable nucleus
+def st_C (z : { z : C_w // is_finite_C z }) : C_w :=
+  ⟨st ⟨z.val.re, z.property.1⟩, st ⟨z.val.im, z.property.2⟩⟩
+
+-- Complex halo closeness: z - st_C(z) has infinitesimal real and imaginary parts
+def approx_C (z w : C_w) : Prop :=
+  is_infinitesimal (z.re - w.re) ∧ is_infinitesimal (z.im - w.im)
+
+axiom st_C_approx (z : { z : C_w // is_finite_C z }) :
+  approx_C z.val (st_C z)
+
 -- Nonstandard derivative shadow: st((f(x + dx) - f(x)) / dx) = f'(x)
 axiom nonstandard_derivative_shadow :
   True
