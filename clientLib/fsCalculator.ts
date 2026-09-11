@@ -166,7 +166,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
   }
 
   // 2. Telescoping Work-Energy Theorem
-  if (allText.includes("work_energy") || allText.includes("ke") || allText.includes("energy") || allText.includes("1/2 m v^2") || allText.includes("f_k · δx_k")) {
+  if (allText.includes("work_energy") || allText.includes("kinetic energy") || allText.includes("1/2 m v^2") || allText.includes("f_k · δx_k")) {
     modes.push({
       id: "we_ke_from_m_v",
       label: "(m, v) → KE",
@@ -673,7 +673,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
   }
 
   // 11. Born Probability Rule & Angle Projection
-  if (allText.includes("born") || allText.includes("polariz") || allText.includes("cos²") || allText.includes("shadow") || allText.includes("|⟨u|v⟩|")) {
+  if (allText.includes("born_rule") || allText.includes("born probability") || allText.includes("born_probability") || allText.includes("polariz") || allText.includes("cos²") || allText.includes("|⟨u|v⟩|") || (allText.includes("born") && (allText.includes("probability") || allText.includes("rule") || allText.includes("transition")))) {
     modes.push({
       id: "born_angle_calc",
       label: "(θ in degrees) → P = cos²(θ)",

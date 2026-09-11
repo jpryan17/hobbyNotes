@@ -112,7 +112,7 @@ export function parseAtomicMwm(rawInput: string): MwmCalculationResult | null {
         theorem: 'MiddleWay.st',
         scaffoldKey: 'st',
         status: 'verified',
-        leanSnippet: 'axiom is_finite : R_w → Prop\naxiom st : { x : R_w // is_finite x } → R_w'
+        leanSnippet: 'def is_finite (x : R_w) : Prop :=\n  abs x < abs omega\n\naxiom st : { x : R_w // is_finite x } → R_w'
       }
     };
   }
@@ -625,7 +625,7 @@ export class MwmCasCalculator extends HTMLElement {
             theorem: 'MiddleWay.deriv & MiddleWay.st',
             scaffoldKey: 'st',
             status: 'verified',
-            leanSnippet: 'def deriv (F : Nat → R_w) (k : Nat) : R_w :=\n  (delta F k) / dx\n\naxiom st : { x : R_w // is_finite x } → R_w'
+            leanSnippet: 'def deriv (F : Nat → R_w) (k : Nat) : R_w :=\n  (delta F k) / dx\n\ndef is_finite (x : R_w) : Prop :=\n  abs x < abs omega\n\naxiom st : { x : R_w // is_finite x } → R_w'
           }
         };
         break;
