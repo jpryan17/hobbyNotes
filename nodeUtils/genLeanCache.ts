@@ -351,9 +351,9 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
     {
       key: 'nonstandard_derivative',
       target: 'scaffold:nonstandard_derivative',
-      expression: 'f\'(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)',
-      signature: 'axiom nonstandard_derivative_shadow : True',
-      snippet: '#check nonstandard_derivative_shadow',
+      expression: "f'(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)",
+      signature: 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L',
+      snippet: '#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow\n#check local_linearity\n#check product_rule_shadow\n#check delta2',
       summary: 'Nonstandard difference quotient derivative shadow on hyperreal continuum'
     },
     {

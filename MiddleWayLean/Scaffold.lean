@@ -467,12 +467,50 @@ def approx_C (z w : C_w) : Prop :=
 axiom st_C_approx (z : { z : C_w // is_finite_C z }) :
   approx_C z.val (st_C z)
 
--- Nonstandard derivative shadow: st((f(x + dx) - f(x)) / dx) = f'(x)
-axiom nonstandard_derivative_shadow :
-  True
+-- ============================================================================
+-- 15. The Nonstandard Derivative & Differential Forms
+-- ============================================================================
+
+-- 1> Difference Quotient on the Hyperreal Continuum:
+-- Δy / dx = (f(x + dx) - f(x)) / dx for any step dx ≠ 0
+def diff_quotient (f : R_w → R_w) (x dx : R_w) : R_w :=
+  (f (x + dx) - f x) / dx
+
+-- 2> Robinson Nonstandard Differentiability:
+-- A function f : ℝ_ω → ℝ_ω has standard derivative L at finite point x iff
+-- for every non-zero infinitesimal dx ∈ μ(0) \ {0}, the difference quotient is infinitely close to L:
+def has_derivative_at (f : R_w → R_w) (x L : R_w) : Prop :=
+  is_finite x ∧ is_finite L ∧ ∀ (dx : R_w), is_infinitesimal dx → dx ≠ 0 → diff_quotient f x dx ≈ L
+
+-- 3> Nonstandard Derivative Shadow:
+-- Taking the standard part shadow st(·) of the hyperreal difference quotient yields the exact derivative L:
+axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w)
+    (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0)
+    (hfin : is_finite (diff_quotient f x dx)) :
+  st ⟨diff_quotient f x dx, hfin⟩ = L
+
+-- 4> Differential 1-Form & Local Linearity:
+-- The differential df = L · dx is the dominant linear shadow with infinitesimal relative error:
+def differential_form (L dx : R_w) : R_w :=
+  L * dx
+
+axiom local_linearity (f : R_w → R_w) (x L dx : R_w)
+    (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) :
+  (f (x + dx) - f x - differential_form L dx) / dx ≈ 0
+
+-- 5> Algebraic Product Rule on ℝ_ω:
+-- (u · v)' = u · v' + v · u'
+axiom product_rule_shadow (u v : R_w → R_w) (x Lu Lv : R_w)
+    (hu : has_derivative_at u x Lu) (hv : has_derivative_at v x Lv) :
+  has_derivative_at (fun t => u t * v t) x (u x * Lv + v x * Lu)
+
+-- 6> Symmetric 3-Point Curvature Stencil [1, -2, 1]:
+-- Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)
+def delta2 (f : R_w → R_w) (x dx : R_w) : R_w :=
+  f (x - dx) - (2 : R_w) * f x + f (x + dx)
 
 -- ============================================================================
--- 15. The Discrete Intermediate Value Theorem (DIVT) & Bisection
+-- 16. The Discrete Intermediate Value Theorem (DIVT) & Bisection
 -- ============================================================================
 
 -- 1> Robinson Halo Continuity (S-Continuity):
