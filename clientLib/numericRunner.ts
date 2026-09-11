@@ -154,9 +154,9 @@ export class NumericRunnerRegistry {
 
     // 9. Discrete IVT root bisection (Course 2)
     if (
-      text.includes("discrete_ivt") ||
-      text.includes("bisection") ||
-      (slots && slots["a"] && slots["b"])
+      !text.includes("scaffold") &&
+      !text.includes("discrete_ivt") &&
+      (text.includes("bisection_sim") || (text.includes("bisection") && slots && slots["a"] && slots["b"]))
     ) {
       return true;
     }
@@ -290,9 +290,9 @@ export class NumericRunnerRegistry {
     }
 
     if (
-      text.includes("discrete_ivt") ||
-      text.includes("bisection") ||
-      (slots["a"] && slots["b"])
+      !text.includes("scaffold") &&
+      !text.includes("discrete_ivt") &&
+      (text.includes("bisection_sim") || (text.includes("bisection") && slots["a"] && slots["b"]))
     ) {
       return this.runDiscreteIVTBisection(slots);
     }

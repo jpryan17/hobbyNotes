@@ -976,8 +976,12 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
     });
   }
 
-  // 18. Analysis 1D - Discrete IVT Bisection
-  if (allText.includes("discrete_ivt") || allText.includes("bisection") || allText.includes("intermediate value")) {
+  // 18. Analysis 1D - Discrete IVT Bisection (Numerical step calculator, excluded from constitutional scaffold card)
+  if (
+    !allText.includes("scaffold") &&
+    !allText.includes("discrete_ivt") &&
+    (allText.includes("bisection_calc") || allText.includes("bisection_step") || (allText.includes("bisection") && allText.includes("midpoint")))
+  ) {
     modes.push({
       id: "discrete_ivt_step",
       label: "(a, b) → Midpoint m & Sign Bracket",

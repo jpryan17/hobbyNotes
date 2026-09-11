@@ -682,13 +682,7 @@ axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w)
 axiom ivt_standard_root (f : R_w → R_w) (a b : R_w)
     (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b)
     (ha : is_finite a) (hb : is_finite b) :
-  ∃ (c : R_w), is_finite c ∧ a ≤ c ∧ c ≤ b ∧ f c ≈ 0`,
-    casCalculation: {
-      command: "solve(x^2 - 2 = 0, x);",
-      expanded: "m = (a + b)/2, evaluate sign(f(m))",
-      simplified: "x* ≈ 1.41421",
-      slots: { "a": "1.0", "b": "2.0", "f(x)": "x² - 2", "root": "1.41421" }
-    }
+  ∃ (c : R_w), is_finite c ∧ a ≤ c ∧ c ≤ b ∧ f c ≈ 0`
   },
 
   additive_identity: {

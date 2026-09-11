@@ -87,9 +87,9 @@ export class NumericRunnerRegistry {
             return true;
         }
         // 9. Discrete IVT root bisection (Course 2)
-        if (text.includes("discrete_ivt") ||
-            text.includes("bisection") ||
-            (slots && slots["a"] && slots["b"])) {
+        if (!text.includes("scaffold") &&
+            !text.includes("discrete_ivt") &&
+            (text.includes("bisection_sim") || (text.includes("bisection") && slots && slots["a"] && slots["b"]))) {
             return true;
         }
         // 10. Riemann sum accumulation & telescoping FTC (Course 2)
@@ -185,9 +185,9 @@ export class NumericRunnerRegistry {
             (slots["x"] && slots["y"])) {
             return this.runVectorRotation(slots);
         }
-        if (text.includes("discrete_ivt") ||
-            text.includes("bisection") ||
-            (slots["a"] && slots["b"])) {
+        if (!text.includes("scaffold") &&
+            !text.includes("discrete_ivt") &&
+            (text.includes("bisection_sim") || (text.includes("bisection") && slots["a"] && slots["b"]))) {
             return this.runDiscreteIVTBisection(slots);
         }
         if (text.includes("hyper_sum") ||
