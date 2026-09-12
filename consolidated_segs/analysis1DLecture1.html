@@ -151,7 +151,8 @@
   <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
-    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).
+    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">cas_halo_continuity: f(x) = x² Algebraic Halo Expansion &amp; Preservation</cas-ref>
   </div>
 
   <hr>
@@ -208,7 +209,8 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
     • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
-    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.
+    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_ivt_bisection" expr="BISECTION(x^3 - 2, 1, 2)">cas_ivt_bisection: Discrete Grid March for f(x) = x³ - 2 = 0</cas-ref>
   </div>
 
   <hr>

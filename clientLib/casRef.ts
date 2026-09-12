@@ -2,8 +2,8 @@ import { Nav } from './navFW.js';
 import { casDemo, setCasDemo } from './casDemo.js';
 
 export class CasRef extends HTMLElement {
-  static stdColor = '#0284c7';
-  static overColor = '#0369a1';
+  static stdColor = '#047857';
+  static overColor = '#064e3b';
 
   constructor() {
     super();
@@ -12,20 +12,20 @@ export class CasRef extends HTMLElement {
   connectedCallback(): void {
     this.setAttribute(
       'style',
-      `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;`
+      `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;`
     );
 
     this.addEventListener('mouseover', () => {
       this.setAttribute(
         'style',
-        `display:inline-block;color:${CasRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:#e0f2fe;padding:2px 6px;border-radius:4px;`
+        `display:inline-block;color:${CasRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#059669;text-underline-offset:3px;background:#ecfdf5;padding:2px 6px;border-radius:4px;`
       );
     });
 
     this.addEventListener('mouseout', () => {
       this.setAttribute(
         'style',
-        `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-underline-offset:3px;background:transparent;padding:2px 6px;border-radius:4px;`
+        `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;background:transparent;padding:2px 6px;border-radius:4px;`
       );
     });
 

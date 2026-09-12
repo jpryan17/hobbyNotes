@@ -4,6 +4,8 @@ import { FSDRef } from '../../clientLib/fsdRef.js';
 import { BTDRef } from '../../clientLib/btdRef.js';
 import { BIDRef } from '../../clientLib/bidRef.js';
 import { StemCard } from '../../clientLib/stemCard.js';
+import { CasRef } from '../../clientLib/casRef.js';
+import { MwmCasCalculator } from '../../clientLib/mwmCasCalculator.js';
 import { mainIndex } from './indices.js';
 import { setTTD } from '../../clientLib/ttd.js';
 import { setFSD } from '../../clientLib/fsd.js';
@@ -21,6 +23,10 @@ export function top(edit = false) {
         customElements.define('bid-ref', BIDRef);
     if (!customElements.get('stem-card'))
         customElements.define('stem-card', StemCard);
+    if (!customElements.get('cas-ref'))
+        customElements.define('cas-ref', CasRef);
+    if (!customElements.get('mwm-cas-calculator'))
+        customElements.define('mwm-cas-calculator', MwmCasCalculator);
     setTTD();
     setFSD();
     setBTD();

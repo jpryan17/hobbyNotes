@@ -57,7 +57,8 @@
       <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
       has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
     • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
-    • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.
+    • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_derivative_cubic" expr="DIFF_W(x^3 - 3*x, x)">cas_derivative_cubic: f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</cas-ref>
   </div>
 
   <hr>
@@ -116,6 +117,7 @@
     <div align="center" style="margin: 4px 0; font-family: monospace;">
       <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
     </div>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_product_rule" expr="PRODUCT_RULE(x^2 + 1, x^3 - 1)">cas_product_rule: Nonstandard Product Rule on (x² + 1)(x³ - 1)</cas-ref>
   </div>
 
   <hr>

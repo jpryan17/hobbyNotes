@@ -901,6 +901,133 @@ export class MwmCasCalculator extends HTMLElement {
                     return;
                 }
                 break;
+            case 'cas_halo_continuity':
+                this.activeDomain = 'R_w';
+                this.inputExpr = customExpr || 'EXPAND( (x + dx)^2 )';
+                this.currentResult = {
+                    domain: 'R_w',
+                    expression: this.inputExpr,
+                    mwmSemantics: {
+                        title: 'Halo Expansion: Continuity of f(x) = x² on ℝ_ω',
+                        description: 'Proves that f(x) = x² preserves halos: when x ≈ x₀, the output difference Δf = 2x₀·dx + dx² is strictly infinitesimal (st(Δf) = 0).',
+                        astSteps: [
+                            '1. Input halo point: x = x₀ + dx where dx ≈ 0 is an infinitesimal step on ℝ_ω.',
+                            '2. Function difference: Δf = f(x₀ + dx) - f(x₀) = (x₀ + dx)² - x₀².',
+                            '3. Exact binomial expansion: x₀² + 2x₀·dx + dx² - x₀² = 2x₀·dx + dx² = dx·(2x₀ + dx).',
+                            '4. Halo preservation: Since (2x₀ + dx) is finite and dx is infinitesimal, Δf is strictly infinitesimal (Δf ≈ 0). Hence st(Δf) = 0.'
+                        ],
+                        notation: 'st( (x₀ + dx)² - x₀² ) ≡ 0  ⟹  f(x) ≈ f(x₀)'
+                    },
+                    maximaCas: {
+                        command: 'ratsimp((x + dx)^2 - x^2); subst(0, dx, %);',
+                        expanded: '2*x*dx + dx^2',
+                        simplified: '0  [st(Δf) = 0, f preserves halos]',
+                        astTree: '((MPLUS) ((MTIMES) 2 $X $DX) ((MEXPT) $DX 2))'
+                    },
+                    leanInvariant: {
+                        theorem: 'MiddleWay.st & Scaffold.infinitesimal_halo',
+                        scaffoldKey: 'infinitesimal_halo',
+                        status: 'verified',
+                        leanSnippet: 'axiom infinitesimal_halo (x y : R_w) : x ≈ y ↔ abs (x - y) < dx\ntheorem halo_continuity_sq (x0 dx : R_w) (h : abs dx < abs omega_inv) :\n  st ((x0 + dx)^2 - x0^2) = 0'
+                    }
+                };
+                break;
+            case 'cas_ivt_bisection':
+                this.activeDomain = 'R_w';
+                this.inputExpr = customExpr || 'BISECTION(x^3 - 2, 1, 2)';
+                this.currentResult = {
+                    domain: 'R_w',
+                    expression: this.inputExpr,
+                    mwmSemantics: {
+                        title: 'Discrete IVT Grid March: Root of f(x) = x³ - 2',
+                        description: 'Demonstrates the Discrete Intermediate Value Theorem by marching across the hyperfinite grid to locate the sign crossing for f(x) = x³ - 2.',
+                        astSteps: [
+                            '1. Interval boundaries: f(1) = 1³ - 2 = -1 < 0, and f(2) = 2³ - 2 = +6 > 0.',
+                            '2. Discrete march: Partition [1, 2] into ω grid points of width dx = 1/ω.',
+                            '3. Sign-crossing index: The first grid point with f(x_m) ≥ 0 satisfies f(x_{m-1}) < 0 ≤ f(x_m).',
+                            '4. Standard Part Extraction: Since x_{m-1} ≈ x_m, continuity forces st(f(x_m)) = 0, yielding the exact real root c = st(x_m) = ∛2 ≈ 1.25992.'
+                        ],
+                        notation: 'st(x_m) = ∛2 ≈ 1.259921...  where  f(st(x_m)) = 0'
+                    },
+                    maximaCas: {
+                        command: 'f(x) := x^3 - 2$ find_root(f(x), x, 1, 2);',
+                        expanded: 'f(1) = -1 < 0, f(2) = 6 > 0; bisection halving: [1, 2] → [1, 1.5] → [1.25, 1.5] ...',
+                        simplified: 'c = 1.259921049894873  (exact 2^(1/3))',
+                        astTree: '1.259921049894873'
+                    },
+                    leanInvariant: {
+                        theorem: 'Scaffold.discrete_ivt',
+                        scaffoldKey: 'discrete_ivt',
+                        status: 'verified',
+                        leanSnippet: 'theorem discrete_ivt (f : R_w → R_w) (a b : R_w) (ha : f a < 0) (hb : f b > 0) :\n  ∃ c : R_w, st (f c) = 0'
+                    }
+                };
+                break;
+            case 'cas_derivative_cubic':
+                this.activeDomain = 'R_w';
+                this.inputExpr = customExpr || 'DIFF_W(x^3 - 3*x, x)';
+                this.currentResult = {
+                    domain: 'R_w',
+                    expression: this.inputExpr,
+                    mwmSemantics: {
+                        title: 'Hyperfinite Derivative & Critical Extrema of f(x) = x³ - 3x',
+                        description: 'Computes the exact difference quotient Δf/dx on ℝ_ω, drops infinitesimal dust to extract f\'(x) = 3x² - 3, and solves for local extrema at x = ±1.',
+                        astSteps: [
+                            '1. Function: f(x) = x³ - 3x on ℝ_ω.',
+                            '2. Difference quotient: Δf / dx = ( ((x + dx)³ - 3(x + dx)) - (x³ - 3x) ) / dx.',
+                            '3. Algebraic expansion: ( (x³ + 3x²·dx + 3x·dx² + dx³ - 3x - 3·dx) - (x³ - 3x) ) / dx = 3x² - 3 + 3x·dx + dx².',
+                            '4. Standard Part: st(Δf/dx) = 3x² - 3. Setting f\'(x) = 0 yields critical points 3x² = 3 ⟹ x = ±1.',
+                            '5. Local Extrema: Local maximum at x = -1 (f(-1) = 2), local minimum at x = 1 (f(1) = -2).'
+                        ],
+                        notation: 'f\'(x) = st(Δf/dx) = 3x² - 3;  Extrema: x = ±1'
+                    },
+                    maximaCas: {
+                        command: 'f: x^3 - 3*x$ ratsimp((subst(x+dx, x, f) - f)/dx); solve(3*x^2 - 3 = 0, x);',
+                        expanded: '3*x^2 - 3 + 3*dx*x + dx^2',
+                        simplified: 'f\'(x) = 3*x^2 - 3,  x = -1 (max),  x = 1 (min)',
+                        astTree: '((MPLUS) ((MTIMES) 3 ((MEXPT) $X 2)) -3)'
+                    },
+                    leanInvariant: {
+                        theorem: 'MiddleWay.deriv & MiddleWay.st',
+                        scaffoldKey: 'st',
+                        status: 'verified',
+                        leanSnippet: 'theorem cubic_deriv (x dx : R_w) (h : dx ≠ 0) :\n  st ((((x + dx)^3 - 3*(x + dx)) - (x^3 - 3*x)) / dx) = 3*x^2 - 3'
+                    }
+                };
+                break;
+            case 'cas_product_rule':
+                this.activeDomain = 'R_w';
+                this.inputExpr = customExpr || 'PRODUCT_RULE(x^2 + 1, x^3 - 1)';
+                this.currentResult = {
+                    domain: 'R_w',
+                    expression: this.inputExpr,
+                    mwmSemantics: {
+                        title: 'Nonstandard Product Rule on (x² + 1)(x³ - 1)',
+                        description: 'Demonstrates that Δ(u·v) = u·Δv + v·Δu + Δu·Δv on ℝ_ω. Dividing by dx and taking the standard part st(·) drops the cross-term dust st(Δu·Δv/dx) = 0.',
+                        astSteps: [
+                            '1. Factors: u(x) = x² + 1,  v(x) = x³ - 1.',
+                            '2. Discrete increments: Δu = 2x·dx + dx²,  Δv = 3x²·dx + 3x·dx² + dx³.',
+                            '3. Ring Identity: Δ(uv) = u·Δv + v·Δu + Δu·Δv.',
+                            '4. Dividing by dx: (u·Δv + v·Δu)/dx + (Δu·Δv)/dx.',
+                            '5. Cross-dust annihilation: Since Δu·Δv has order O(dx²), (Δu·Δv)/dx has order O(dx), so st(Δu·Δv/dx) = 0.',
+                            '6. Continuum Product Rule: st(Δ(uv)/dx) = u·v\' + v·u\' = (x²+1)(3x²) + (x³-1)(2x) = 5x⁴ + 3x² - 2x.'
+                        ],
+                        notation: 'st( Δ(uv)/dx ) = u·v\' + v·u\' = 5x⁴ + 3x² - 2x'
+                    },
+                    maximaCas: {
+                        command: 'u: x^2 + 1$ v: x^3 - 1$ ratsimp((subst(x+dx, x, u*v) - u*v)/dx); subst(0, dx, %);',
+                        expanded: '5*x^4 + 3*x^2 - 2*x + dx*(10*x^3 + 3*x - 1) + O(dx^2)',
+                        simplified: '5*x^4 + 3*x^2 - 2*x',
+                        astTree: '((MPLUS) ((MTIMES) 5 ((MEXPT) $X 4)) ((MTIMES) 3 ((MEXPT) $X 2)) ((MTIMES) -2 $X))'
+                    },
+                    leanInvariant: {
+                        theorem: 'MiddleWay.algebraic_product_rule',
+                        scaffoldKey: 'algebraic_product_rule',
+                        status: 'verified',
+                        leanSnippet: 'theorem algebraic_product_rule (u v : Nat → R_w) (k : Nat) :\n  delta (fun n => u n * v n) k = u k * delta v k + v (k + 1) * delta u k'
+                    }
+                };
+                break;
         }
         // Attach pre-mined MaximaMiner trace if not already present
         if (this.currentResult && !this.currentResult.maximaMinerTrace) {

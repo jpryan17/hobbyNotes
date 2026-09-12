@@ -316,6 +316,11 @@ export const proposalsIndex = [
         topic: "academic paper: dual-agent tutor",
         htmlSegmentId: "dualAgentAcademicProposal",
     },
+    {
+        type: "html",
+        topic: "whitepaper: minimal axiomatic core",
+        htmlSegmentId: "minimalAxiomaticCoreProposal",
+    },
 ];
 export const analysisAndSeminarsIndex = [
     {
