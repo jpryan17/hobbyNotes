@@ -1,4 +1,6 @@
 import { Elt } from "./elt.js";
+import { NumericRunnerRegistry } from "./numericRunner.js";
+import { NumericVisualizer } from "./numericVisualizer.js";
 /**
  * Infers directional (inputs → output) sets from any Formal Statement (FS).
  */
@@ -1467,6 +1469,71 @@ export function inferFsCalculationModes(arg) {
     return modes;
 }
 /**
+ * Resolves whether an established simulation exists for a specific (inputs → output) calculation mode.
+ * Returns the SimulationResult if established, or null if no dedicated simulation exists for this pair.
+ */
+export function getEstablishedSimulationForMode(mode, currentInputValues, arg) {
+    if (mode.hasSimulation === false)
+        return null;
+    if (mode.runSimulation) {
+        return mode.runSimulation(currentInputValues, arg);
+    }
+    // 1. Build composite context key from argument and mode
+    const modeKey = [
+        arg.target,
+        arg.title,
+        arg.expression,
+        arg.casCalculation?.command,
+        arg.casCalculation?.simplified,
+        mode.id,
+        mode.label,
+        mode.formulaDescription
+    ]
+        .filter(Boolean)
+        .join(" ");
+    // 2. Build slots dictionary
+    const slots = {};
+    if (arg.casCalculation?.slots) {
+        Object.assign(slots, arg.casCalculation.slots);
+    }
+    // Populate from current input values
+    for (const inp of mode.inputs) {
+        const val = currentInputValues[inp.name] ?? inp.defaultValue;
+        const numVal = Array.isArray(val) ? val[0] : val;
+        slots[inp.name] = numVal.toString();
+        slots[inp.symbol] = numVal.toString();
+    }
+    // Common physics/math aliases for simulation runners
+    if (slots["v"] && !slots["v₀"] && !slots["v0"]) {
+        slots["v₀"] = slots["v"];
+        slots["v0"] = slots["v"];
+    }
+    if (slots["v0"] && !slots["v₀"]) {
+        slots["v₀"] = slots["v0"];
+    }
+    if (slots["v₀"] && !slots["v0"]) {
+        slots["v0"] = slots["v₀"];
+    }
+    if (slots["alpha"] && !slots["α"]) {
+        slots["α"] = slots["alpha"];
+    }
+    if (slots["α"] && !slots["alpha"]) {
+        slots["alpha"] = slots["α"];
+    }
+    if (slots["theta"] && !slots["θ"]) {
+        slots["θ"] = slots["theta"];
+    }
+    if (slots["theta1"] && !slots["θ₁"]) {
+        slots["θ₁"] = slots["theta1"];
+    }
+    // Check if simulation exists in NumericRunnerRegistry
+    if (!NumericRunnerRegistry.hasSimulation(modeKey, slots)) {
+        return null;
+    }
+    const sampleTime = parseFloat(slots["t"]) || 1.0;
+    return NumericRunnerRegistry.run(modeKey, slots, sampleTime);
+}
+/**
  * Interactive FS Calculator Component
  */
 export class FsCalculator extends Elt {
@@ -1478,6 +1545,10 @@ export class FsCalculator extends Elt {
     formulaBanner;
     inputControlsContainer;
     resultDisplayContainer;
+    isSimOpen = false;
+    simBtn;
+    simContainer;
+    currentSimulationResult = null;
     constructor(arg) {
         super("div");
         this.arg = arg;
@@ -1529,6 +1600,10 @@ export class FsCalculator extends Elt {
         this.resultDisplayContainer.setA("style", "background: #ffffff; border: 1px solid #0284c7; border-radius: 6px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; box-sizing: border-box;");
         bodyFlex.append(this.resultDisplayContainer);
         this.append(bodyFlex);
+        // Simulation Display Container (Collapsible inside calculator display context)
+        this.simContainer = new Elt("div");
+        this.simContainer.setA("style", "display: none;");
+        this.append(this.simContainer);
         // Initialize mode
         this.renderModeSelector();
         this.switchMode(0);
@@ -1579,7 +1654,7 @@ export class FsCalculator extends Elt {
         this.formulaBanner.append(targetBadge);
         // Render Input Controls
         this.renderInputControls();
-        // Recalculate
+        // Recalculate and update simulation
         this.computeAndRenderResult();
     }
     renderInputControls() {
@@ -1686,6 +1761,67 @@ export class FsCalculator extends Elt {
             noteBox.setA("style", "margin-top: 6px; font-size: 10px; color: #059669; font-weight: 600;");
             noteBox.setV(`✓ ${res.notes}`);
             this.resultDisplayContainer.append(noteBox);
+        }
+        // Established Simulation Control (Visible ONLY if simulation has been established for this mode)
+        const simResult = getEstablishedSimulationForMode(mode, this.currentInputValues, this.arg);
+        this.currentSimulationResult = simResult;
+        if (simResult) {
+            const simActionRow = new Elt("div");
+            simActionRow.setA("style", "margin-top: 10px; padding-top: 8px; border-top: 1px dashed #bae6fd; display: flex; justify-content: space-between; align-items: center;");
+            const simLabel = new Elt("span");
+            simLabel.setA("style", "font-size: 10.5px; color: #0369a1; font-weight: 600; display: flex; align-items: center; gap: 4px;");
+            simLabel.setV("🔬 Simulation Established");
+            simActionRow.append(simLabel);
+            this.simBtn = new Elt("button");
+            this.simBtn.setA("style", `padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s ease; ${this.isSimOpen
+                ? "background: #0284c7; color: #ffffff; border: 1px solid #0369a1;"
+                : "background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;"}`);
+            this.simBtn.setV(this.isSimOpen ? "▼ Hide Simulation" : "▶ View Simulation");
+            this.simBtn.elt.addEventListener("click", () => this.toggleSimulation());
+            simActionRow.append(this.simBtn);
+            this.resultDisplayContainer.append(simActionRow);
+            // If simulation is currently expanded, refresh its visualizer with new inputs
+            if (this.isSimOpen && this.simContainer) {
+                this.simContainer.removeChildren();
+                const visualizer = new NumericVisualizer(simResult);
+                this.simContainer.append(visualizer);
+                this.simContainer.setA("style", "display: block; margin-top: 14px;");
+            }
+        }
+        else {
+            // If no simulation is established for this mode, collapse simulation view if open
+            if (this.isSimOpen && this.simContainer) {
+                this.isSimOpen = false;
+                this.simContainer.removeChildren();
+                this.simContainer.setA("style", "display: none;");
+            }
+        }
+    }
+    toggleSimulation() {
+        if (!this.simContainer)
+            return;
+        if (this.isSimOpen) {
+            this.isSimOpen = false;
+            this.simContainer.removeChildren();
+            this.simContainer.setA("style", "display: none;");
+            if (this.simBtn) {
+                this.simBtn.setV("▶ View Simulation");
+                this.simBtn.setA("style", "padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s ease; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;");
+            }
+            return;
+        }
+        const mode = this.modes[this.activeModeIndex];
+        const simResult = this.currentSimulationResult || getEstablishedSimulationForMode(mode, this.currentInputValues, this.arg);
+        if (!simResult)
+            return;
+        this.isSimOpen = true;
+        this.simContainer.removeChildren();
+        const visualizer = new NumericVisualizer(simResult);
+        this.simContainer.append(visualizer);
+        this.simContainer.setA("style", "display: block; margin-top: 14px;");
+        if (this.simBtn) {
+            this.simBtn.setV("▼ Hide Simulation");
+            this.simBtn.setA("style", "padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s ease; background: #0284c7; color: #ffffff; border: 1px solid #0369a1;");
         }
     }
 }

@@ -2,8 +2,6 @@ import { Elt } from "./elt.js";
 import { LEAN_CACHE, LeanCacheEntry } from "./leanCache.js";
 import { Nav } from "./navFW.js";
 import { MaximaMinerTrace } from "./maximaMinerCatalog.js";
-import { NumericRunnerRegistry } from "./numericRunner.js";
-import { NumericVisualizer } from "./numericVisualizer.js";
 import { FsCalculator, inferFsCalculationModes } from "./fsCalculator.js";
 
 export interface ArgumentCheck {
@@ -42,9 +40,6 @@ export class ArgumentCard extends Elt {
   private statusPill: Elt;
   private footerNotice: Elt;
   private verifyBtn?: Elt;
-  private simBtn?: Elt;
-  private simContainer?: Elt;
-  private isSimOpen = false;
   private calcBtn?: Elt;
   private calcContainer?: Elt;
   private isCalcOpen = false;
@@ -422,25 +417,6 @@ export class ArgumentCard extends Elt {
       devBtnGroup.append(this.calcBtn);
     }
 
-    // Dev Numeric Simulation Button (Strictly hidden if no simulation is established or runnable)
-    const hasSlots = arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0;
-    const simContextKey = this.getSimulationContextKey();
-    const hasEstablishedSim =
-      hasSlots &&
-      NumericRunnerRegistry.hasSimulation(simContextKey, arg.casCalculation!.slots) &&
-      NumericRunnerRegistry.run(simContextKey, arg.casCalculation!.slots) !== null;
-
-    if (hasEstablishedSim) {
-      this.simBtn = new Elt("button");
-      this.simBtn.setA(
-        "style",
-        "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
-      );
-      this.simBtn.setV("▶ Run Numeric Sim (Dev)");
-      this.simBtn.elt.addEventListener("click", () => this.toggleSimulation());
-      devBtnGroup.append(this.simBtn);
-    }
-
     footer.append(devBtnGroup);
     this.append(footer);
 
@@ -448,25 +424,7 @@ export class ArgumentCard extends Elt {
     this.calcContainer.setA("style", "display: none;");
     this.append(this.calcContainer);
 
-    this.simContainer = new Elt("div");
-    this.simContainer.setA("style", "display: none;");
-    this.append(this.simContainer);
-
     this.detectEnvironment();
-  }
-
-  private getSimulationContextKey(): string {
-    return [
-      this.arg.title,
-      this.arg.target,
-      this.arg.expression,
-      this.arg.testOrPickValue,
-      this.arg.conclusion,
-      this.arg.casCalculation?.command,
-      this.arg.casCalculation?.simplified
-    ]
-      .filter(Boolean)
-      .join(" ");
   }
 
   private getCachedVerification(): LeanCacheEntry | undefined {
@@ -495,12 +453,6 @@ export class ArgumentCard extends Elt {
 
     if (!isLocal) {
       ArgumentCard.serverStatus = "static";
-      if (this.simBtn) {
-        this.simBtn.setA(
-          "style",
-          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
-        );
-      }
       if (this.calcBtn) {
         this.calcBtn.setA(
           "style",
@@ -557,12 +509,6 @@ export class ArgumentCard extends Elt {
             "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
           );
         }
-        if (this.simBtn) {
-          this.simBtn.setA(
-            "style",
-            "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
-          );
-        }
       } else {
         this.setServerOffline(cached);
       }
@@ -577,12 +523,6 @@ export class ArgumentCard extends Elt {
       this.calcBtn.setA(
         "style",
         "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
-      );
-    }
-    if (this.simBtn) {
-      this.simBtn.setA(
-        "style",
-        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
       );
     }
     if (cached) {
@@ -661,17 +601,6 @@ export class ArgumentCard extends Elt {
       return;
     }
 
-    // Close simulation if open
-    if (this.isSimOpen && this.simContainer && this.simBtn) {
-      this.simContainer.setA("style", "display: none;");
-      this.simBtn.setV("▶ Run Numeric Sim (Dev)");
-      this.simBtn.setA(
-        "style",
-        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;"
-      );
-      this.isSimOpen = false;
-    }
-
     this.calcContainer.elt.innerHTML = "";
     const calculator = new FsCalculator(this.arg);
     this.calcContainer.append(calculator);
@@ -682,43 +611,5 @@ export class ArgumentCard extends Elt {
       "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #64748b; background: #475569; color: #ffffff; border-radius: 4px;"
     );
     this.isCalcOpen = true;
-  }
-
-  private toggleSimulation() {
-    if (!this.simContainer || !this.simBtn || !this.arg.casCalculation?.slots) return;
-
-    if (this.isSimOpen) {
-      this.simContainer.setA("style", "display: none;");
-      this.simBtn.setV("▶ Run Numeric Sim (Dev)");
-      this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #10b981; background: #059669; color: #ffffff; border-radius: 4px;");
-      this.isSimOpen = false;
-      return;
-    }
-
-    // Close calculator if open
-    if (this.isCalcOpen && this.calcContainer && this.calcBtn) {
-      this.calcContainer.setA("style", "display: none;");
-      this.calcBtn.setV("🧮 Calculator");
-      this.calcBtn.setA(
-        "style",
-        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
-      );
-      this.isCalcOpen = false;
-    }
-
-    const simResult = NumericRunnerRegistry.run(
-      this.getSimulationContextKey(),
-      this.arg.casCalculation.slots
-    );
-
-    if (!simResult) return;
-
-    this.simContainer.elt.innerHTML = "";
-    const visualizer = new NumericVisualizer(simResult);
-    this.simContainer.append(visualizer);
-    this.simContainer.setA("style", "display: block; padding: 0 14px 14px 14px;");
-    this.simBtn.setV("▼ Hide Simulation");
-    this.simBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #64748b; background: #475569; color: #ffffff; border-radius: 4px;");
-    this.isSimOpen = true;
   }
 }
