@@ -75,6 +75,8 @@ import { MAXIMA_CACHE } from './maximaCache.js';
 import { PREMINED_MAXIMA_TRACES, MaximaMinerTrace, parseMaximaTrace } from './maximaMinerCatalog.js';
 import { SI } from './serverInterface.js';
 import { Nav } from './navFW.js';
+import { FsCalculator, inferFsCalculationModes } from './fsCalculator.js';
+import { FormalArgument } from './argumentCard.js';
 /**
  * Atomic MWM Syntax Parser & Scaffold.lean Type Resolver
  * Evaluates freehand expressions anchored strictly to the foundational types
@@ -393,9 +395,7 @@ export class MwmCasCalculator extends HTMLElement {
   private currentResult?: MwmCalculationResult;
   private currentPresetId: string = 'r_diff';
   private inputExpr: string = 'DIFF_W(x^3, x)';
-  private calcVarValues: Record<string, number> = {};
   private isCalculatorOpen: boolean = false;
-  private activeScenarioId: string = '';
 
   constructor() {
     super();
@@ -1479,20 +1479,7 @@ export class MwmCasCalculator extends HTMLElement {
         (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
     }
 
-    // Initialize calcVarValues and activeScenarioId for interactiveCalc if present
-    if (this.currentResult?.interactiveCalc) {
-      const calc = this.currentResult.interactiveCalc;
-      this.calcVarValues = {};
-      if (calc.scenarios && calc.scenarios.length > 0) {
-        this.activeScenarioId = calc.scenarios[0].id;
-        this.calcVarValues = { ...calc.scenarios[0].values };
-      } else {
-        this.activeScenarioId = '';
-        for (const v of calc.variables) {
-          this.calcVarValues[v.name] = v.defaultValue;
-        }
-      }
-    }
+
 
     this.render();
   }
@@ -1636,6 +1623,25 @@ export class MwmCasCalculator extends HTMLElement {
     const selStart = inputEl?.selectionStart;
     const selEnd = inputEl?.selectionEnd;
 
+    const arg: FormalArgument = {
+      title: res.mwmSemantics.title,
+      verdict: true,
+      target: res.mwmSemantics.notation || res.expression,
+      expression: res.expression,
+      testOrPickLabel: 'Scenario',
+      testOrPickValue: res.expression,
+      checks: [],
+      conclusion: res.mwmSemantics.notation,
+      casCalculation: {
+        command: res.maximaCas.command,
+        simplified: res.maximaCas.simplified,
+        expanded: res.maximaCas.expanded
+      },
+      miningTrace: res.maximaMinerTrace,
+      leanSnippet: res.leanInvariant.leanSnippet
+    };
+    const modes = inferFsCalculationModes(arg);
+
     this.innerHTML = `
       <div style="border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 10px auto; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
         
@@ -1660,26 +1666,24 @@ export class MwmCasCalculator extends HTMLElement {
         </div>
 
         <!-- Calculator Launch Bar -->
-        ${res.interactiveCalc ? `
+        ${modes.length > 0 ? `
           <div style="padding: 10px 20px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 13px; font-weight: 700; color: #064e3b;">
-                🎛️ Interactive Parameter Exploration
+                🧮 Algebraic Stencil Calculator
               </span>
-              ${res.interactiveCalc.scenarios && res.interactiveCalc.scenarios.length > 0 ? `
-                <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 12px; border: 1px solid #86efac; font-weight: 600;">
-                  ${res.interactiveCalc.scenarios.length} Choices of Inputs → Output
-                </span>
-              ` : ''}
+              <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 12px; border: 1px solid #86efac; font-weight: 600;">
+                ${modes.length} Inferred Direction${modes.length > 1 ? 's' : ''}
+              </span>
             </div>
             <button id="toggleCalculatorBtn" style="display: inline-flex; align-items: center; gap: 6px; background: ${this.isCalculatorOpen ? '#047857' : '#059669'}; color: #ffffff; border: 1px solid #047857; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.15s ease;">
-              <span>${this.isCalculatorOpen ? '✕ Hide Calculator' : '🎛️ Display Parameter Calculator'}</span>
+              <span>${this.isCalculatorOpen ? '▼ Hide Calculator' : '🧮 Display Calculator'}</span>
             </button>
           </div>
         ` : ''}
 
-        <!-- Interactive Parameter Calculator (Rendered when toggled open) -->
-        ${(this.isCalculatorOpen && res.interactiveCalc) ? this.renderInteractiveCalculator(res) : ''}
+        <!-- Algebraic Stencil Calculator Mount (Rendered when toggled open) -->
+        <div id="mwmFsCalcMount" style="${(this.isCalculatorOpen && modes.length > 0) ? 'display: block; padding: 12px 20px 16px 20px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0;' : 'display: none;'}"></div>
 
         <!-- Output Tabs (Themed Accent #047857) -->
         <div style="display: flex; border-bottom: 1px solid #cbd5e1; background: #f8fafc; overflow-x: auto;">
@@ -1735,7 +1739,7 @@ export class MwmCasCalculator extends HTMLElement {
       </div>
     `;
 
-    this.bindEvents();
+    this.bindEvents(arg, modes);
 
     if (wasInputFocused) {
       const newInput = this.querySelector('#mwmCalcInput') as HTMLInputElement | null;
@@ -1748,164 +1752,6 @@ export class MwmCasCalculator extends HTMLElement {
     }
 
     this.dispatchEvent(new CustomEvent('mwm-calc-change', { bubbles: true, detail: res }));
-  }
-
-  private renderLedgerHtml(evalData: {
-    steps: MwmInteractiveStep[];
-    resultLabel: string;
-    resultValue: string;
-    note?: string;
-  }): string {
-    return `
-      <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
-        ${evalData.steps.map(step => `
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; border-radius: 4px; background: ${step.highlight ? '#ecfdf5' : '#ffffff'}; border: 1px solid ${step.highlight ? '#a7f3d0' : '#e2e8f0'}; font-size: 12px;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="color: ${step.highlight ? '#065f46' : '#334155'}; font-weight: ${step.highlight ? '700' : '600'};">${step.label}</span>
-              ${step.formula ? `<span style="font-size: 11px; color: #64748b; font-family: monospace;">[${step.formula}]</span>` : ''}
-            </div>
-            <span style="font-family: monospace; font-size: 12.5px; font-weight: 700; color: ${step.highlight ? '#047857' : '#0f172a'};">${step.value}</span>
-          </div>
-        `).join('')}
-      </div>
-      
-      <!-- Primary Live Result Card -->
-      <div style="background: #064e3b; color: #ffffff; border-radius: 6px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <div>
-          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #a7f3d0; font-weight: 600;">
-            ${evalData.resultLabel}
-          </div>
-          <div style="font-size: 15px; font-weight: 700; color: #ffffff; font-family: monospace; margin-top: 2px;">
-            ${evalData.resultValue}
-          </div>
-        </div>
-        <span style="font-size: 11px; background: #047857; color: #d1fae5; padding: 3px 8px; border-radius: 4px; border: 1px solid #059669; font-weight: 600;">
-          Live 60 FPS
-        </span>
-      </div>
-
-      ${evalData.note ? `
-        <div style="margin-top: 8px; font-size: 11.5px; color: #047857; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 6px 10px; line-height: 1.4;">
-          ℹ ${evalData.note}
-        </div>
-      ` : ''}
-    `;
-  }
-
-  private renderInteractiveCalculator(res: MwmCalculationResult): string {
-    if (!res.interactiveCalc) return '';
-    const calc = res.interactiveCalc;
-    const evalData = calc.evaluate(this.calcVarValues);
-
-    return `
-      <div style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0; padding: 16px 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 14px;">🎛️</span>
-            <span style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #064e3b;">
-              Interactive Parameter Calculator
-            </span>
-          </div>
-          <span style="font-size: 11px; background: #dcfce7; color: #15803d; font-weight: 600; padding: 2px 8px; border-radius: 10px; border: 1px solid #86efac;">
-            Live ℝ_ω Computation
-          </span>
-        </div>
-
-        <!-- Choices of Inputs -> Output Section -->
-        ${calc.scenarios && calc.scenarios.length > 0 ? `
-          <div style="margin-bottom: 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-              <div style="font-size: 12px; font-weight: 700; color: #064e3b; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-                <span>🎯 Choices of Inputs → Output:</span>
-                <span style="font-size: 11px; font-weight: normal; color: #64748b; text-transform: none;">(Click any choice to load its parameters into the live ledger)</span>
-              </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px;">
-              ${calc.scenarios.map(sc => {
-                const isActive = this.activeScenarioId === sc.id;
-                return `
-                  <div 
-                    class="mwm-scenario-card" 
-                    data-scenario="${sc.id}"
-                    style="cursor: pointer; border: 1px solid ${isActive ? '#059669' : '#e2e8f0'}; background: ${isActive ? '#ecfdf5' : '#f8fafc'}; border-radius: 6px; padding: 8px 10px; transition: all 0.15s ease;"
-                  >
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                      <span class="mwm-sc-title" style="font-size: 12px; font-weight: 700; color: ${isActive ? '#047857' : '#1e293b'};">
-                        ${sc.name}
-                      </span>
-                      <span class="mwm-sc-badge" style="font-size: 10px; background: ${isActive ? '#047857' : '#e2e8f0'}; color: ${isActive ? '#ffffff' : '#475569'}; padding: 1px 6px; border-radius: 4px; font-weight: 600;">
-                        ${isActive ? 'Active' : 'Click to test'}
-                      </span>
-                    </div>
-                    <div style="font-size: 11.5px; color: #475569; margin-bottom: 2px;">
-                      <b style="color: #334155;">Inputs:</b> <span style="font-family: monospace;">${sc.inputsDesc}</span>
-                    </div>
-                    <div style="font-size: 11.5px; color: #065f46;">
-                      <b style="color: #047857;">Output:</b> <span style="font-family: monospace; font-weight: 600;">${sc.outputDesc}</span>
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          </div>
-        ` : ''}
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start;">
-          <!-- Controls Column -->
-          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-            <div style="font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px;">
-              Input Controls
-            </div>
-            ${calc.variables.map(v => {
-              const curVal = this.calcVarValues[v.name] !== undefined ? this.calcVarValues[v.name] : v.defaultValue;
-              return `
-                <div style="margin-bottom: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 4px;">
-                    <label style="font-weight: 600; color: #1e293b;">${v.label}:</label>
-                    <span class="mwm-val-badge" data-var="${v.name}" style="font-family: monospace; font-weight: 700; color: #047857; background: #ecfdf5; padding: 1px 6px; border-radius: 4px; border: 1px solid #a7f3d0;">
-                      ${curVal}
-                    </span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <input 
-                      type="range" 
-                      class="mwm-calc-range"
-                      data-var="${v.name}"
-                      min="${v.min}" 
-                      max="${v.max}" 
-                      step="${v.step}" 
-                      value="${curVal}"
-                      style="flex: 1; accent-color: #047857; cursor: pointer;"
-                    />
-                    <input 
-                      type="number" 
-                      class="mwm-calc-num"
-                      data-var="${v.name}"
-                      min="${v.min}" 
-                      max="${v.max}" 
-                      step="${v.step}" 
-                      value="${curVal}"
-                      style="width: 70px; padding: 3px 6px; font-family: monospace; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: right;"
-                    />
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-
-          <!-- Evaluation Ledger Column -->
-          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-            <div style="font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px;">
-              Evaluation Ledger
-            </div>
-            <div id="mwmCalcResultsContainer">
-              ${this.renderLedgerHtml(evalData)}
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
   }
 
   private renderTabBody(res: MwmCalculationResult): string {
@@ -2042,7 +1888,7 @@ ${trace.rawOutput}
     }
   }
 
-  private bindEvents() {
+  private bindEvents(arg?: FormalArgument, modes?: any[]) {
     // Output tab buttons
     this.querySelector('#tabSemantics')?.addEventListener('click', () => this.setOutputTab('semantics'));
     this.querySelector('#tabMaxima')?.addEventListener('click', () => this.setOutputTab('maxima'));
@@ -2055,90 +1901,15 @@ ${trace.rawOutput}
       this.render();
     });
 
-    // Choices of Inputs -> Output scenario cards
-    const scenarioCards = this.querySelectorAll<HTMLElement>('.mwm-scenario-card');
-    scenarioCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const scId = card.getAttribute('data-scenario');
-        if (!scId || !this.currentResult?.interactiveCalc?.scenarios) return;
-        const scenario = this.currentResult.interactiveCalc.scenarios.find(s => s.id === scId);
-        if (!scenario) return;
-        this.activeScenarioId = scId;
-        for (const [k, v] of Object.entries(scenario.values)) {
-          this.calcVarValues[k] = v;
-          const linkedRange = this.querySelector<HTMLInputElement>(`.mwm-calc-range[data-var="${k}"]`);
-          if (linkedRange) linkedRange.value = `${v}`;
-          const linkedNum = this.querySelector<HTMLInputElement>(`.mwm-calc-num[data-var="${k}"]`);
-          if (linkedNum) linkedNum.value = `${v}`;
-          const badge = this.querySelector(`.mwm-val-badge[data-var="${k}"]`);
-          if (badge) badge.textContent = `${v}`;
-        }
-        scenarioCards.forEach(c => {
-          const isThis = c.getAttribute('data-scenario') === scId;
-          c.style.border = `1px solid ${isThis ? '#059669' : '#e2e8f0'}`;
-          c.style.background = isThis ? '#ecfdf5' : '#f8fafc';
-          const statusBadge = c.querySelector<HTMLElement>('.mwm-sc-badge');
-          if (statusBadge) {
-            statusBadge.style.background = isThis ? '#047857' : '#e2e8f0';
-            statusBadge.style.color = isThis ? '#ffffff' : '#475569';
-            statusBadge.textContent = isThis ? 'Active' : 'Click to test';
-          }
-          const title = c.querySelector<HTMLElement>('.mwm-sc-title');
-          if (title) {
-            title.style.color = isThis ? '#047857' : '#1e293b';
-          }
-        });
-        updateLedger();
-      });
-    });
-
-    // Interactive parameter calculator sliders & number inputs
-    const rangeInputs = this.querySelectorAll<HTMLInputElement>('.mwm-calc-range');
-    const numInputs = this.querySelectorAll<HTMLInputElement>('.mwm-calc-num');
-
-    const updateLedger = () => {
-      if (!this.currentResult?.interactiveCalc) return;
-      const evalData = this.currentResult.interactiveCalc.evaluate(this.calcVarValues);
-      const container = this.querySelector('#mwmCalcResultsContainer');
-      if (container) {
-        container.innerHTML = this.renderLedgerHtml(evalData);
+    // Mount FsCalculator algebraic stencil if open
+    if (this.isCalculatorOpen && arg && modes && modes.length > 0) {
+      const mount = this.querySelector('#mwmFsCalcMount');
+      if (mount) {
+        mount.innerHTML = '';
+        const fsCalc = new FsCalculator(arg);
+        mount.appendChild(fsCalc.elt);
       }
-    };
-
-    rangeInputs.forEach(range => {
-      range.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement;
-        const varName = target.getAttribute('data-var');
-        if (!varName) return;
-        const val = parseFloat(target.value);
-        this.calcVarValues[varName] = val;
-        // sync number input
-        const linkedNum = this.querySelector<HTMLInputElement>(`.mwm-calc-num[data-var="${varName}"]`);
-        if (linkedNum) linkedNum.value = target.value;
-        // sync value badge
-        const badge = this.querySelector(`.mwm-val-badge[data-var="${varName}"]`);
-        if (badge) badge.textContent = `${val}`;
-        updateLedger();
-      });
-    });
-
-    numInputs.forEach(num => {
-      num.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement;
-        const varName = target.getAttribute('data-var');
-        if (!varName) return;
-        const val = parseFloat(target.value);
-        if (isNaN(val)) return;
-        this.calcVarValues[varName] = val;
-        // sync range input
-        const linkedRange = this.querySelector<HTMLInputElement>(`.mwm-calc-range[data-var="${varName}"]`);
-        if (linkedRange) linkedRange.value = target.value;
-        // sync value badge
-        const badge = this.querySelector(`.mwm-val-badge[data-var="${varName}"]`);
-        if (badge) badge.textContent = `${val}`;
-        updateLedger();
-      });
-    });
+    }
 
     // Input evaluation (dev-only button)
     this.querySelector('#mwmCalcEvalBtn')?.addEventListener('click', () => this.handleCustomEvaluate());

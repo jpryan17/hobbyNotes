@@ -10,8 +10,8 @@ export function inferFsCalculationModes(arg) {
     const cmd = (arg.casCalculation?.command || "").toLowerCase();
     const title = (arg.title || "").toLowerCase();
     const allText = `${target} ${expr} ${simp} ${cmd} ${title}`;
-    // Constitutional scaffold cards are foundational Lean 4 mathematical theorems/proofs, not numerical calculators
-    if (target.startsWith("scaffold:") || title.includes("constitutional scaffold") || target.includes("scaffold")) {
+    // Pure constitutional scaffold cards without calculation or algebraic expression are foundational Lean 4 mathematical proofs, not numerical calculators
+    if (!arg.casCalculation?.command && !arg.expression && (target.startsWith("scaffold:") || title.includes("constitutional scaffold"))) {
         return [];
     }
     // 1. Newtonian Kinematics & Free Fall Acceleration
@@ -884,65 +884,249 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    // 17. Analysis 1D - Nonstandard Difference Quotient & Derivative Shadow (Numeric exploration)
-    if (!allText.includes("scaffold") &&
-        !allText.includes("constitutional") &&
-        (allText.includes("diff_quotient_calc") || allText.includes("numeric_derivative"))) {
+    // 17. Analysis 1D - Halo Continuity & Perturbation Invariance
+    if (allText.includes("halo") || allText.includes("continuity") || allText.includes("(x + dx)^2") || allText.includes("(x+dx)^2") || allText.includes("halo_continuity")) {
         modes.push({
-            id: "diff_quotient_poly",
-            label: "(x, dx) → st( [(x+dx)² - x²] / dx )",
-            targetSymbol: "f'(x)",
+            id: "halo_st_invariance",
+            label: "(x₀, dx) → st(Δf) = 0",
+            targetSymbol: "st(Δf)",
             targetDomain: "ℝ_ω",
-            formulaDescription: "[(x+dx)² - x²]/dx = 2x + dx  ⇒  st(2x + dx) = 2x",
+            formulaDescription: "st( (x₀ + dx)² - x₀² ) = st( 2x₀·dx + dx² ) = 0",
             inputs: [
-                { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
-                { name: "dx", symbol: "dx", domain: "ℝ_ω", defaultValue: 0.0001, step: 0.00005, min: 0.000001, max: 0.1 }
+                { name: "x0", symbol: "x₀", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5, min: -10, max: 10, description: "Base coordinate" },
+                { name: "dx", symbol: "dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.1, description: "Infinitesimal step" }
             ],
             evaluate: (vals) => {
-                const x = vals.x;
+                const x0 = vals.x0;
                 const dx = vals.dx;
-                const f_x = x * x;
-                const f_xdx = (x + dx) * (x + dx);
-                const quotient = (f_xdx - f_x) / dx;
-                const standardShadow = 2 * x;
+                const deltaF = 2 * x0 * dx + dx * dx;
                 return {
-                    resultValue: standardShadow,
-                    formattedFormula: `[(${x + dx})² - (${x})²] / ${dx} = ${quotient.toFixed(5)}  ⇒  st(·) = ${standardShadow.toFixed(3)}`,
-                    displayResult: `${standardShadow.toFixed(3)}`,
-                    domainBadge: "∈ ℝ",
-                    notes: `Exact hyperreal quotient = 2x + dx = ${quotient.toFixed(5)}. Infinitesimal error = ${Math.abs(quotient - standardShadow).toExponential(2)}`
+                    resultValue: 0.0,
+                    formattedFormula: `Δf = 2(${x0.toFixed(2)})(${dx.toFixed(4)}) + (${dx.toFixed(4)})² = ${deltaF.toFixed(6)}  ⇒  st(Δf) = 0.0000`,
+                    displayResult: "0.0000 (Halo Invariant ✓)",
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Fluctuation Δf = ${deltaF.toExponential(3)} is strictly infinitesimal. Points stay within halo μ(f(x₀)).`
+                };
+            }
+        });
+        modes.push({
+            id: "halo_delta_f",
+            label: "(x₀, dx) → Fluctuation Δf",
+            targetSymbol: "Δf",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "Δf = f(x₀ + dx) - f(x₀) = 2x₀·dx + dx²",
+            inputs: [
+                { name: "x0", symbol: "x₀", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5, min: -10, max: 10 },
+                { name: "dx", symbol: "dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.1 }
+            ],
+            evaluate: (vals) => {
+                const x0 = vals.x0;
+                const dx = vals.dx;
+                const deltaF = 2 * x0 * dx + dx * dx;
+                return {
+                    resultValue: deltaF,
+                    formattedFormula: `Δf = 2(${x0.toFixed(2)})(${dx.toFixed(4)}) + (${dx.toFixed(4)})²`,
+                    displayResult: `${deltaF.toFixed(6)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: "Dust order O(dx). As dx → 0, Δf → 0."
                 };
             }
         });
     }
-    // 18. Analysis 1D - Discrete IVT Bisection (Numerical step calculator, excluded from constitutional scaffold card)
-    if (!allText.includes("scaffold") &&
-        !allText.includes("discrete_ivt") &&
-        (allText.includes("bisection_calc") || allText.includes("bisection_step") || (allText.includes("bisection") && allText.includes("midpoint")))) {
+    // 18. Analysis 1D - Discrete IVT Bisection
+    if (allText.includes("bisection") || allText.includes("ivt") || allText.includes("x^3 - 2") || allText.includes("x³ - 2") || allText.includes("ivt_bisection")) {
         modes.push({
-            id: "discrete_ivt_step",
-            label: "(a, b) → Midpoint m & Sign Bracket",
-            targetSymbol: "x*",
+            id: "ivt_bisection_root",
+            label: "(a, b, cuts) → Root c = st(x_m)",
+            targetSymbol: "c",
             targetDomain: "ℝ_ω",
-            formulaDescription: "f(x) = x² - 2; m = (a + b)/2; verify f(a) · f(b) ≤ 0",
+            formulaDescription: "Discrete bisection march on f(x) = x³ - 2 = 0",
             inputs: [
-                { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 1.0, step: 0.1, min: 0, max: 5 },
-                { name: "b", symbol: "b", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: 0, max: 5 }
+                { name: "a", symbol: "Bracket start a", domain: "ℝ_ω", defaultValue: 1.0, step: 0.1, min: 0, max: 1.25 },
+                { name: "b", symbol: "Bracket end b", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: 1.26, max: 3 },
+                { name: "cuts", symbol: "Bisection cuts N", domain: "ℕ", defaultValue: 14, step: 1, min: 1, max: 25 }
             ],
             evaluate: (vals) => {
-                const a = vals.a;
-                const b = vals.b;
-                const m = (a + b) / 2;
-                const fa = a * a - 2;
-                const fb = b * b - 2;
-                const fm = m * m - 2;
-                const nextBracket = fa * fm <= 0 ? `[${a.toFixed(3)}, ${m.toFixed(3)}]` : `[${m.toFixed(3)}, ${b.toFixed(3)}]`;
+                let left = vals.a, right = vals.b;
+                const f = (x) => x * x * x - 2;
+                const iters = Math.round(vals.cuts);
+                for (let i = 0; i < iters; i++) {
+                    const mid = (left + right) / 2;
+                    if (f(mid) < 0)
+                        left = mid;
+                    else
+                        right = mid;
+                }
+                const root = (left + right) / 2;
+                const exact = Math.cbrt(2);
+                const err = Math.abs(root - exact);
+                return {
+                    resultValue: root,
+                    formattedFormula: `Interval: [${left.toFixed(5)}, ${right.toFixed(5)}]  ⇒  dx: ${(right - left).toExponential(2)}`,
+                    displayResult: `${root.toFixed(6)} (∛2)`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Error from exact ∛2: ${err.toExponential(2)}. Discrete sign-crossing verified.`
+                };
+            }
+        });
+        modes.push({
+            id: "ivt_bisection_midpoint",
+            label: "(a, b) → Midpoint m & Next Bracket",
+            targetSymbol: "m",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "m = (a + b) / 2, evaluate f(m) = m³ - 2",
+            inputs: [
+                { name: "a", symbol: "a (f(a) < 0)", domain: "ℝ_ω", defaultValue: 1.0, step: 0.1, min: 0, max: 1.25 },
+                { name: "b", symbol: "b (f(b) > 0)", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: 1.26, max: 3 }
+            ],
+            evaluate: (vals) => {
+                const m = (vals.a + vals.b) / 2;
+                const fm = m * m * m - 2;
+                const nextBracket = fm < 0 ? `[${m.toFixed(3)}, ${vals.b.toFixed(3)}]` : `[${vals.a.toFixed(3)}, ${m.toFixed(3)}]`;
                 return {
                     resultValue: m,
-                    formattedFormula: `m = (${a.toFixed(2)} + ${b.toFixed(2)})/2 = ${m.toFixed(3)}, f(m) = ${fm.toFixed(4)}`,
-                    displayResult: `m = ${m.toFixed(3)}`,
+                    formattedFormula: `m = (${vals.a.toFixed(2)} + ${vals.b.toFixed(2)}) / 2 = ${m.toFixed(3)}, f(m) = ${fm.toFixed(4)}`,
+                    displayResult: `m = ${m.toFixed(4)}`,
                     domainBadge: "∈ ℝ_ω",
-                    notes: `f(a)=${fa.toFixed(2)}, f(b)=${fb.toFixed(2)}. Next bracket: ${nextBracket}. Root √2 ≈ 1.41421`
+                    notes: `Next sign-crossing bracket: ${nextBracket}`
+                };
+            }
+        });
+    }
+    // 18b. Analysis 1D - Hyperfinite Derivative & Extrema of Cubic
+    if (allText.includes("x^3 - 3*x") || allText.includes("x³ - 3x") || allText.includes("derivative_cubic") || allText.includes("critical extrema")) {
+        modes.push({
+            id: "cubic_deriv_st",
+            label: "(x, dx) → st(Δf/dx) = 3x² - 3",
+            targetSymbol: "f'(x)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "st( [ (x+dx)³ - 3(x+dx) - (x³ - 3x) ] / dx ) = 3x² - 3",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5, min: -3, max: 3 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const stDeriv = 3 * x * x - 3;
+                const fx = x * x * x - 3 * x;
+                const fxdx = Math.pow(x + dx, 3) - 3 * (x + dx);
+                const quot = (fxdx - fx) / dx;
+                const isCrit = Math.abs(stDeriv) < 0.01;
+                return {
+                    resultValue: stDeriv,
+                    formattedFormula: `Δf/dx = ${quot.toFixed(5)}  ⇒  st(Δf/dx) = 3(${x.toFixed(2)})² - 3 = ${stDeriv.toFixed(3)}`,
+                    displayResult: `${stDeriv.toFixed(3)}${isCrit ? (x > 0 ? " ★ Local Min (Slope 0)" : " ★ Local Max (Slope 0)") : ""}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: isCrit ? `Critical extremum confirmed at x = ${x.toFixed(1)} with f(${x.toFixed(1)}) = ${fx.toFixed(2)}` : `Residual hyperfinite dust: ${Math.abs(quot - stDeriv).toExponential(2)}`
+                };
+            }
+        });
+        modes.push({
+            id: "cubic_difference_quotient",
+            label: "(x, dx) → Difference Quotient Δf/dx",
+            targetSymbol: "Δf/dx",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "Δf/dx = 3x² - 3 + 3x·dx + dx²",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 1.0, step: 0.5, min: -3, max: 3 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const quot = (Math.pow(x + dx, 3) - 3 * (x + dx) - (x * x * x - 3 * x)) / dx;
+                return {
+                    resultValue: quot,
+                    formattedFormula: `Δf/dx = 3(${x})² - 3 + 3(${x})(${dx}) + (${dx})² = ${quot.toFixed(5)}`,
+                    displayResult: `${quot.toFixed(5)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Standard shadow st(·) = ${(3 * x * x - 3).toFixed(3)}`
+                };
+            }
+        });
+    }
+    // 18c. Analysis 1D - Nonstandard Product Rule
+    if (allText.includes("product_rule") || allText.includes("(x^2+1)(x^3-1)") || allText.includes("(x² + 1)(x³ - 1)")) {
+        modes.push({
+            id: "prod_rule_st",
+            label: "(x, dx) → st(Δ(uv)/dx) = 5x⁴ + 3x² - 2x",
+            targetSymbol: "(uv)'",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "st( [u·Δv + v·Δu + Δu·Δv] / dx ) = u·v' + v·u' = 5x⁴ + 3x² - 2x",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 1.5, step: 0.5, min: -3, max: 3 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const stVal = 5 * Math.pow(x, 4) + 3 * Math.pow(x, 2) - 2 * x;
+                const u = x * x + 1;
+                const v = Math.pow(x, 3) - 1;
+                const uNext = Math.pow(x + dx, 2) + 1;
+                const vNext = Math.pow(x + dx, 3) - 1;
+                const quot = (uNext * vNext - u * v) / dx;
+                const crossDust = ((uNext - u) * (vNext - v)) / dx;
+                return {
+                    resultValue: stVal,
+                    formattedFormula: `st(Δ(uv)/dx) = 5(${x})⁴ + 3(${x})² - 2(${x}) = ${stVal.toFixed(4)}`,
+                    displayResult: `${stVal.toFixed(4)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Difference quotient = ${quot.toFixed(4)}. Cross-dust term (Δu·Δv)/dx = ${crossDust.toExponential(2)} vanishes under st(·).`
+                };
+            }
+        });
+        modes.push({
+            id: "prod_rule_cross_dust",
+            label: "(x, dx) → Cross-Dust (Δu·Δv)/dx",
+            targetSymbol: "Cross-Dust",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "(Δu · Δv) / dx  [Infinitesimal dust O(dx) dropped by st(·)]",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 1.5, step: 0.5, min: -3, max: 3 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const du = 2 * x * dx + dx * dx;
+                const dv = 3 * x * x * dx + 3 * x * dx * dx + dx * dx * dx;
+                const cross = (du * dv) / dx;
+                return {
+                    resultValue: cross,
+                    formattedFormula: `(Δu · Δv) / dx = (${du.toFixed(4)}) · (${dv.toFixed(4)}) / ${dx} = ${cross.toExponential(4)}`,
+                    displayResult: `${cross.toExponential(3)} ≈ 0`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: "Strictly infinitesimal: st( (Δu · Δv) / dx ) ≡ 0"
+                };
+            }
+        });
+    }
+    // 18d. Analysis 1D - Derivative of x^3
+    if (allText.includes("diff_w(x^3") || allText.includes("diff_w(x³") || allText.includes("Δ(x³)") || allText.includes("x^3, x") || allText.includes("r_diff")) {
+        modes.push({
+            id: "diff_x3_st",
+            label: "(x, dx) → st(Δ(x³)/dx) = 3x²",
+            targetSymbol: "f'(x)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "st( [ (x+dx)³ - x³ ] / dx ) = st( 3x² + 3x·dx + dx² ) = 3x²",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5, min: -4, max: 4 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.02 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const stVal = 3 * x * x;
+                const quot = (Math.pow(x + dx, 3) - Math.pow(x, 3)) / dx;
+                const dust = quot - stVal;
+                return {
+                    resultValue: stVal,
+                    formattedFormula: `Δf/dx = ${quot.toFixed(5)}  ⇒  st(Δ(x³)/dx) = 3(${x.toFixed(2)})² = ${stVal.toFixed(3)}`,
+                    displayResult: `${stVal.toFixed(3)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Residual dust 3x·dx + dx² = ${dust.toExponential(3)} vanishes under st(·).`
                 };
             }
         });
@@ -1024,6 +1208,260 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
+    // 21. Scale Horizon & Grid Step Reciprocity: omega * dx = 1
+    if (allText.includes("omega") || allText.includes("dx") || allText.includes("omega_inv") || allText.includes("scale reciprocity") || allText.includes("ω · dx") || allText.includes("omega * dx")) {
+        modes.push({
+            id: "scale_dx_from_omega",
+            label: "(ω) → dx = 1 / ω",
+            targetSymbol: "dx",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "dx = 1 / ω  (Grid Step = Horizon Scale Reciprocal)",
+            inputs: [
+                { name: "omega", symbol: "Horizon Scale ω", domain: "ℝ_ω", defaultValue: 1000, step: 100, min: 1, max: 1000000 }
+            ],
+            evaluate: (vals) => {
+                const dx = 1.0 / (vals.omega || 1);
+                return {
+                    resultValue: dx,
+                    formattedFormula: `dx = 1 / ${vals.omega} = ${dx.toExponential(4)}`,
+                    displayResult: `${dx.toExponential(4)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: "Infinitesimal step dx is the exact reciprocal of transfinite horizon ω."
+                };
+            }
+        });
+        modes.push({
+            id: "scale_omega_from_dx",
+            label: "(dx) → ω = 1 / dx",
+            targetSymbol: "ω",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "ω = 1 / dx  (Horizon Scale = Inverse Grid Step)",
+            inputs: [
+                { name: "dx", symbol: "Grid Step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.000001, max: 1 }
+            ],
+            evaluate: (vals) => {
+                const omega = 1.0 / (vals.dx || 0.001);
+                return {
+                    resultValue: omega,
+                    formattedFormula: `ω = 1 / ${vals.dx} = ${omega.toFixed(1)}`,
+                    displayResult: `${omega.toFixed(1)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: "Transfinite horizon ω scales inversely with resolution step dx."
+                };
+            }
+        });
+        modes.push({
+            id: "scale_product",
+            label: "(ω, dx) → ω · dx = 1.0",
+            targetSymbol: "ω · dx",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "ω · dx = 1  (Constitutional MWM Invariant)",
+            inputs: [
+                { name: "omega", symbol: "Horizon ω", domain: "ℝ_ω", defaultValue: 1000, step: 100, min: 1, max: 1000000 },
+                { name: "dx", symbol: "Step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.000001, max: 1 }
+            ],
+            evaluate: (vals) => {
+                const prod = vals.omega * vals.dx;
+                const err = Math.abs(prod - 1.0);
+                return {
+                    resultValue: prod,
+                    formattedFormula: `(${vals.omega}) · (${vals.dx}) = ${prod.toFixed(4)}`,
+                    displayResult: `${prod.toFixed(4)} ${err < 1e-6 ? "✓ Exact Invariant" : `(Δ = ${err.toExponential(2)})`}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: err < 1e-6 ? "Exact balance between macro-horizon and micro-step." : "Unbalanced parameters."
+                };
+            }
+        });
+    }
+    // 22. Hyperfinite Quartic Derivative: diff_w(x^4, x)
+    if (allText.includes("diff_w(x^4") || allText.includes("x^4, x") || allText.includes("x⁴") || allText.includes("4x³") || allText.includes("quartic")) {
+        modes.push({
+            id: "diff_x4_st",
+            label: "(x, dx) → st(Δ(x⁴)/dx) = 4x³",
+            targetSymbol: "f'(x)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5, min: -5, max: 5 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const stVal = 4 * Math.pow(x, 3);
+                const quot = (Math.pow(x + dx, 4) - Math.pow(x, 4)) / dx;
+                const dust = quot - stVal;
+                return {
+                    resultValue: stVal,
+                    formattedFormula: `Δ(x⁴)/dx = ${quot.toFixed(5)}  ⇒  st(Δ(x⁴)/dx) = 4(${x.toFixed(2)})³ = ${stVal.toFixed(3)}`,
+                    displayResult: `${stVal.toFixed(3)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Dust 6x²dx + 4xdx² + dx³ = ${dust.toExponential(3)} vanishes under st(·).`
+                };
+            }
+        });
+        modes.push({
+            id: "diff_x4_quotient",
+            label: "(x, dx) → Full Difference Quotient Δ(x⁴)/dx",
+            targetSymbol: "Δf/dx",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "Δ(x⁴)/dx = 4x³ + 6x²dx + 4xdx² + dx³",
+            inputs: [
+                { name: "x", symbol: "Evaluation point x", domain: "ℝ_ω", defaultValue: 2.0, step: 0.5, min: -5, max: 5 },
+                { name: "dx", symbol: "Infinitesimal step dx", domain: "ℝ_ω", defaultValue: 0.001, step: 0.0005, min: 0.0001, max: 0.05 }
+            ],
+            evaluate: (vals) => {
+                const x = vals.x;
+                const dx = vals.dx;
+                const quot = (Math.pow(x + dx, 4) - Math.pow(x, 4)) / dx;
+                return {
+                    resultValue: quot,
+                    formattedFormula: `Δ(x⁴)/dx = ${quot.toFixed(6)}`,
+                    displayResult: `${quot.toFixed(6)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: "Exact hyperfinite difference quotient on ℝ_ω."
+                };
+            }
+        });
+    }
+    // 23. Telescoping Sum on Transect
+    if (allText.includes("telescoping") || allText.includes("sum_telescoping") || allText.includes("telescoping_sum") || allText.includes("2k·dx + dx²")) {
+        modes.push({
+            id: "telescoping_sum_calc",
+            label: "(N) → Telescoping Sum ∑ Δ(x²) = 1.0",
+            targetSymbol: "∑ Δ(x²)",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "∑_{k=0}^{N-1} [ ( (k+1)dx )² - (k dx)² ] = (N dx)² = 1.0",
+            inputs: [
+                { name: "N", symbol: "Grid Steps N", domain: "ℕ", defaultValue: 100, step: 50, min: 10, max: 10000 }
+            ],
+            evaluate: (vals) => {
+                const N = Math.round(vals.N);
+                const dx = 1.0 / N;
+                let sum = 0;
+                for (let k = 0; k < N; k++) {
+                    sum += 2 * k * dx * dx + dx * dx;
+                }
+                return {
+                    resultValue: sum,
+                    formattedFormula: `∑_{k=0}^{${N - 1}} [ 2k·(${dx.toFixed(4)})² + (${dx.toFixed(4)})² ] = ${sum.toFixed(6)}`,
+                    displayResult: `${sum.toFixed(6)} (Exact Telescoping Invariant)`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Internal boundary cancellations leave exactly boundary term (N·dx)² = 1.0000.`
+                };
+            }
+        });
+    }
+    // 24. Discrete Toeplitz Laplacian & Fourier Mode
+    if (allText.includes("toeplitz") || allText.includes("laplacian") || allText.includes("fourier_mode") || allText.includes("eigenvalue") || allText.includes("trig_eigenvalue")) {
+        modes.push({
+            id: "fourier_eigenvalue_calc",
+            label: "(k, N, dx) → Eigenvalue λ_k = 4/dx² · sin²(πk / (2N))",
+            targetSymbol: "λ_k",
+            targetDomain: "ℝ_ω",
+            formulaDescription: "λ_k = (4 / dx²) · sin²(π · k / (2N))",
+            inputs: [
+                { name: "k", symbol: "Harmonic Mode k", domain: "ℕ", defaultValue: 1, step: 1, min: 1, max: 10 },
+                { name: "N", symbol: "Grid Points N", domain: "ℕ", defaultValue: 16, step: 4, min: 4, max: 64 },
+                { name: "dx", symbol: "Grid Spacing dx", domain: "ℝ_ω", defaultValue: 0.1, step: 0.05, min: 0.01, max: 1.0 }
+            ],
+            evaluate: (vals) => {
+                const k = Math.round(vals.k);
+                const N = Math.round(vals.N);
+                const dx = vals.dx;
+                const argVal = (Math.PI * k) / (2 * N);
+                const s = Math.sin(argVal);
+                const lambda = (4 / (dx * dx)) * s * s;
+                return {
+                    resultValue: lambda,
+                    formattedFormula: `λ_${k} = [4 / (${dx})²] · sin²(π·${k} / 2·${N}) = ${lambda.toFixed(4)}`,
+                    displayResult: `${lambda.toFixed(4)}`,
+                    domainBadge: "∈ ℝ_ω",
+                    notes: `Eigenmode ${k} on ${N}-point grid. Continuum limit λ ≈ (π·k / L)².`
+                };
+            }
+        });
+    }
+    // 25. Conway Dyadic Trees & Sign Sequence Numbers
+    if (allText.includes("conway") || allText.includes("dyadic") || allText.includes("conway_dyadic") || allText.includes("conway_sign") || allText.includes("2^n")) {
+        modes.push({
+            id: "conway_simplicity_calc",
+            label: "(left, right) → Conway Simplicity Number x = {L | R}",
+            targetSymbol: "x = {L | R}",
+            targetDomain: "2^n Conway Tree",
+            formulaDescription: "Find earliest-created dyadic rational in (L, R)",
+            inputs: [
+                { name: "L", symbol: "Left Bound L", domain: "ℝ_ω", defaultValue: 0.0, step: 0.25, min: -10, max: 10 },
+                { name: "R", symbol: "Right Bound R", domain: "ℝ_ω", defaultValue: 1.0, step: 0.25, min: -10, max: 10 }
+            ],
+            evaluate: (vals) => {
+                const L = vals.L;
+                const R = vals.R;
+                let res = 0;
+                let day = 0;
+                if (L >= R) {
+                    return {
+                        resultValue: 0,
+                        formattedFormula: `Invalid cut: L (${L}) >= R (${R})`,
+                        displayResult: "Empty Cut",
+                        domainBadge: "Conway Tree",
+                        notes: "Strict inequality L < R required for Conway number formation."
+                    };
+                }
+                if (L < 0 && R > 0) {
+                    res = 0;
+                    day = 0;
+                }
+                else if (L >= 0) {
+                    const ceilL = Math.floor(L) + 1;
+                    if (ceilL < R) {
+                        res = ceilL;
+                        day = Math.abs(res);
+                    }
+                    else {
+                        let denom = 2;
+                        while (denom <= 1024) {
+                            const num = Math.floor(L * denom) + 1;
+                            const cand = num / denom;
+                            if (cand < R) {
+                                res = cand;
+                                day = Math.round(Math.log2(denom));
+                                break;
+                            }
+                            denom *= 2;
+                        }
+                    }
+                }
+                else {
+                    const floorR = Math.ceil(R) - 1;
+                    if (floorR > L) {
+                        res = floorR;
+                        day = Math.abs(res);
+                    }
+                    else {
+                        let denom = 2;
+                        while (denom <= 1024) {
+                            const num = Math.ceil(R * denom) - 1;
+                            const cand = num / denom;
+                            if (cand > L) {
+                                res = cand;
+                                day = Math.round(Math.log2(denom));
+                                break;
+                            }
+                            denom *= 2;
+                        }
+                    }
+                }
+                return {
+                    resultValue: res,
+                    formattedFormula: `x = { ${L} | ${R} } = ${res}`,
+                    displayResult: `${res} (Born on Day ${day})`,
+                    domainBadge: "2^n Conway Tree",
+                    notes: "Conway Simplicity Rule: first number created that fits strictly between L and R."
+                };
+            }
+        });
+    }
     // Return empty if no established, non-trivial calculation modes were matched.
     // This suppresses the calculator button on statements that are purely axiomatic or lack algebraic degrees of freedom.
     return modes;
@@ -1057,7 +1495,7 @@ export class FsCalculator extends Elt {
         titleBar.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #bae6fd; padding-bottom: 8px;");
         const titleText = new Elt("div");
         titleText.setA("style", "font-weight: 700; font-size: 13px; color: #0369a1; display: flex; align-items: center; gap: 6px;");
-        titleText.setV("🧮 FS Algebraic Calculator (Dev Mode)");
+        titleText.setV("🧮 FS Algebraic Calculator");
         titleBar.append(titleText);
         const devBadge = new Elt("span");
         devBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: #0284c7; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px;");
@@ -1101,7 +1539,7 @@ export class FsCalculator extends Elt {
             return;
         const label = new Elt("div");
         label.setA("style", "font-size: 11px; font-weight: 600; color: #0369a1; margin-bottom: 6px;");
-        label.setV("Select Target Inversion Mode (Inferred from FS):");
+        label.setV("🎯 Directional Inputs → Output Modes (Inferred from FS):");
         this.modeSelectorContainer.append(label);
         const btnGroup = new Elt("div");
         btnGroup.setA("style", "display: flex; flex-wrap: wrap; gap: 6px;");

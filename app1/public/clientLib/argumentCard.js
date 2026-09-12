@@ -289,12 +289,12 @@ export class ArgumentCard extends Elt {
         this.verifyBtn.setV("⚡ Live Verify in Lean");
         this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
         devBtnGroup.append(this.verifyBtn);
-        // Dev Calculator Button (Strictly hidden if no meaningful calculation modes exist)
+        // Calculator Button (Available whenever meaningful calculation modes exist)
         const calcModes = inferFsCalculationModes(arg);
         if (calcModes.length > 0) {
             this.calcBtn = new Elt("button");
-            this.calcBtn.setA("style", "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
-            this.calcBtn.setV("🧮 Calculator (Dev)");
+            this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
+            this.calcBtn.setV("🧮 Calculator");
             this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
             devBtnGroup.append(this.calcBtn);
         }
@@ -468,7 +468,7 @@ export class ArgumentCard extends Elt {
             return;
         if (this.isCalcOpen) {
             this.calcContainer.setA("style", "display: none;");
-            this.calcBtn.setV("🧮 Calculator (Dev)");
+            this.calcBtn.setV("🧮 Calculator");
             this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
             this.isCalcOpen = false;
             return;
@@ -501,7 +501,7 @@ export class ArgumentCard extends Elt {
         // Close calculator if open
         if (this.isCalcOpen && this.calcContainer && this.calcBtn) {
             this.calcContainer.setA("style", "display: none;");
-            this.calcBtn.setV("🧮 Calculator (Dev)");
+            this.calcBtn.setV("🧮 Calculator");
             this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
             this.isCalcOpen = false;
         }
