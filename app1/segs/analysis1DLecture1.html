@@ -97,7 +97,8 @@
     • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
     • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
     • <b>Nucleus-Halo Decomposition:</b> Every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust: <code>x = x₀ + ε</code> where <code>x₀ = st(x)</code> and <code>ε ∈ μ(0)</code>.<br>
-    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.
+    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">Infinitesimal Halo Decomposition x = st(x) + ε</cas-ref>
   </div>
 
   <hr>
@@ -113,35 +114,36 @@
   </p>
 
   <p>
-    “Spot on!” Jane beamed. “That is Robinson's nonstandard definition of continuity:”
+    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Robinson Halo Continuity"><b>Continuity at x₀: &emsp;&emsp; ∀ x ∈ ℝ_ω, &nbsp; x ≈ x₀ &nbsp;&rArr;&nbsp; f(x) ≈ f(x₀)</b></fsd-ref>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>x ≈ x₀ &emsp;&rArr;&emsp; f(x) ≈ f(x₀)</b>
   </div>
 
   <p>
-    Compare this direct one-line statement with the standard quantifier jungle:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 12.5px; margin: 6px 0; color: #64748b;">
-    ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀x &nbsp; ( |x - x₀| &lt; δ &nbsp;&rArr;&nbsp; |f(x) - f(x₀)| &lt; ε )
-  </div>
-  <p>
-    Nonstandard analysis replaces nested quantifier gymnastics with a simple geometric truth: <b>a continuous function preserves halos</b>.
+    “In standard calculus,” Jane continued, “professors torture students with Weierstrass’s <i>epsilon-delta definition</i>: 
+    <code>∀ ε &gt; 0, ∃ δ &gt; 0, ∀ x, |x - x₀| &lt; δ &rArr; |f(x) - f(x₀)| &lt; ε</code>. 
+    It has four alternating quantifiers and turns a simple visual idea into a nightmare of nested inequalities!”
   </p>
 
-  <h4>Concrete Example: Proving Continuity of f(x) = x²</h4>
   <p>
-    Let us prove that <code>f(x) = x²</code> is continuous at any standard point <code>x₀</code>:
+    “On <code>ℝ_ω</code>, continuity has <b>zero epsilon-deltas</b>: a function is continuous at <code>x₀</code> if and only if it maps the halo of <code>x₀</code> into the halo of <code>f(x₀)</code>:”
   </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping"><b>f( μ(x₀) ) &nbsp;&sube;&nbsp; μ( f(x₀) )</b></fsd-ref>
+  </div>
+
   <p>
-    Let <code>x ∈ ℝ_ω</code> be any point in the halo <code>μ(x₀)</code>, so <code>x = x₀ + dx</code> where <code>dx ≈ 0</code> is an infinitesimal step:
+    “Let's test this on our favorite function,” Jane said: “<b>Is <code>f(x) = x²</code> continuous?</b>”
   </p>
+
   <ol>
-    <li>Evaluate at <code>x₀ + dx</code>: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code></li>
-    <li>Compute the output difference: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx²</code></li>
-    <li>Factor out <code>dx</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = dx · (2x₀ + dx)</code></li>
-    <li>Analyze the product: Since <code>(2x₀ + dx)</code> is finite and <code>dx</code> is infinitesimal, their product is strictly infinitesimal (<code>≈ 0</code>).</li>
+    <li>Take any point in the halo of <code>x₀</code>: &nbsp; <code>x = x₀ + dx</code>, where <code>dx ≈ 0</code>.</li>
+    <li>Compute the output: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code>.</li>
+    <li>Subtract <code>f(x₀)</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx² = dx · (2x₀ + dx)</code>.</li>
+    <li>Because <code>2x₀ + dx</code> is finite and <code>dx</code> is infinitesimal, their product is infinitesimal!</li>
     <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
   </ol>
   <p>
@@ -152,7 +154,7 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
     • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">cas_halo_continuity: f(x) = x² Algebraic Halo Expansion &amp; Preservation</cas-ref>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">f(x) = x² Halo Expansion &amp; Preservation</cas-ref>
   </div>
 
   <hr>
@@ -168,37 +170,20 @@
   </p>
 
   <p>
-    “In standard textbooks,” Jane noted, “proving this requires Dedekind cuts, least upper bounds, or topological connectedness. On our hyperfinite grid <code>ℝ_ω</code>, the proof is an intuitive <b>discrete march</b>:”
+    “In standard analysis, proving IVT requires the completeness axiom of the real numbers (Dedekind cuts or least upper bounds) &mdash; an unconstructive proof that tells you a root exists, but gives you no procedure to find it!”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>,” Jane explained, “the proof is a <b>finite computational algorithm</b>:”
   </p>
 
   <ol>
-    <li>
-      Partition <code>[a, b]</code> into <code>ω</code> hyperfinite steps of width <code>dx = (b - a) / ω</code>, forming a discrete grid:
-      <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0;">
-        a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b
-      </div>
-    </li>
-    <li>
-      Start at <code>x₀</code> and march node-by-node along the grid.
-    </li>
-    <li>
-      Because <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, there must be a <b>first grid point <code>x_m</code> where <code>f(x_m) &ge; 0</code></b>.
-    </li>
-    <li>
-      At the step immediately before it, <code>f(x_{m-1}) &lt; 0</code>.
-    </li>
-    <li>
-      Since <code>x_{m-1} ≈ x_m</code> (they differ by only <code>dx</code>), continuity guarantees that <code>f(x_{m-1}) ≈ f(x_m)</code>.
-    </li>
-    <li>
-      Because <code>f(x_{m-1}) &lt; 0 &le; f(x_m)</code> and their difference is infinitesimal, their common standard part must be <b>exact zero</b>:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>st( f(x_m) ) = 0</b>
-      </div>
-    </li>
-    <li>
-      Taking <code>c = st(x_m)</code> immediately yields <b><code>f(c) = 0</code></b>!
-    </li>
+    <li>Partition the interval <code>[a, b]</code> into <code>ω</code> equal steps of size <code>dx = (b - a)/ω</code>: &nbsp; <code>x_k = a + k · dx</code>.</li>
+    <li>Evaluate <code>f</code> at each grid point from left to right: &nbsp; <code>f(x₀) &lt; 0, f(x₁), f(x₂), ...</code>.</li>
+    <li>Because <code>f(x_ω) = f(b) &gt; 0</code>, there must be a <b>first index <code>m</code> where <code>f(x_m) ≥ 0</code></b>.</li>
+    <li>At this transition step: &nbsp; <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code>.</li>
+    <li>Because <code>x_{m-1}</code> and <code>x_m</code> differ by only <code>dx ≈ 0</code>, they belong to the same halo: <code>x_{m-1} ≈ x_m</code>!</li>
+    <li>By continuity: &nbsp; <code>f(x_{m-1}) ≈ f(x_m)</code>. Because <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code> are infinitesimally close, their common standard part must be zero: &nbsp; <b><code>st(f(x_m)) = 0</code></b>!</li>
   </ol>
 
   <p>
@@ -210,7 +195,7 @@
     • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
     • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
     • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_ivt_bisection" expr="BISECTION(x^3 - 2, 1, 2)">cas_ivt_bisection: Discrete Grid March for f(x) = x³ - 2 = 0</cas-ref>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_ivt_bisection" expr="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</cas-ref>
   </div>
 
   <hr>

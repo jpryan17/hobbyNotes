@@ -66,7 +66,8 @@
     • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
     • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
     • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
-    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.
+    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_complex_step" expr="NORM_SQ(x + i*y)">2D Complex Step &amp; Modulus Invariance on ℂ_ω</cas-ref>
   </div>
 
   <hr>
@@ -155,6 +156,7 @@
         </div>
       </li>
       <li><b>Conformal Invariance:</b> The linear map scales by <code>|f'(z)|</code> and rotates by <code>arg(f'(z))</code>, strictly preserving oriented angles and orthogonality.</li>
+      <li><b>CAS Example:</b> <cas-ref calc-id="cas_cauchy_riemann" expr="CR_DIFF(z^2, z)">Cauchy-Riemann Symmetries on f(z) = z²</cas-ref></li>
     </ol>
   </div>
   </fsd-ref>

@@ -58,7 +58,7 @@
       has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
     • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
     • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_derivative_cubic" expr="DIFF_W(x^3 - 3*x, x)">cas_derivative_cubic: f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</cas-ref>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_derivative_cubic" expr="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</cas-ref>
   </div>
 
   <hr>
@@ -117,7 +117,7 @@
     <div align="center" style="margin: 4px 0; font-family: monospace;">
       <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
     </div>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_product_rule" expr="PRODUCT_RULE(x^2 + 1, x^3 - 1)">cas_product_rule: Nonstandard Product Rule on (x² + 1)(x³ - 1)</cas-ref>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_product_rule" expr="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</cas-ref>
   </div>
 
   <hr>
@@ -134,19 +134,31 @@
     <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
   </div>
   <p>
-    Taking the standard part proves the Chain Rule directly:
+    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
   </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Chain Rule Composition"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
+  </div>
+  <p>
+    Taking standard parts yields the classical Chain Rule:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
   </div>
 
   <hr>
 
-  <h3>4. Local Linearity &amp; The Differential Map</h3>
+  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
 
   <p>
-    “Remember our discussion from Course 1 on linear maps,” Jane concluded. “What does the derivative actually represent geometrically?”
+    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f'(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
   </p>
+  <p>
+    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f'(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
+  </div>
   <p>
     “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
   </p>
@@ -161,7 +173,8 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
     • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f'(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
-    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.
+    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_diff_forms" expr="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</cas-ref>
   </div>
 
   <hr>
@@ -237,7 +250,8 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
     • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
-    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.
+    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_second_diff" expr="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</cas-ref>
   </div>
 
   <hr>

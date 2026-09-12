@@ -177,9 +177,9 @@
     </div>
 
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
-      <cas-ref calc-id="toeplitz_5x5" expr="TOEPLITZ(5, alpha)">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Toeplitz Laplacian Matrix Assembly">
         <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
-      </cas-ref><br><br>
+      </fsd-ref><br><br>
       [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
       [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
@@ -188,7 +188,7 @@
       [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Click the matrix header above to send James's Toeplitz eigensystem request to the CAS Workbench)</i>
+      <i>(Inspect verified Toeplitz structure in Lean 4 or explore with <cas-ref calc-id="toeplitz_5x5" expr="TOEPLITZ_LAPLACIAN(5)">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</cas-ref>)</i>
     </p>
 
     <p>
@@ -285,12 +285,12 @@
       Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
     </p>
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
-      <cas-ref calc-id="telescoping_conservation" expr="TELESCOPING_CONSERVATION(q, 0, N)">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Boundary Flux Cancellation">
         (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
-      </cas-ref>
+      </fsd-ref>
     </div>
     <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
-      <i>(Click the sum above to send James's boundary flux cancellation request to the CAS Workbench)</i>
+      <i>(View machine-verified boundary cancellation in Lean 4 or explore with <cas-ref calc-id="telescoping_conservation" expr="TELESCOPING_FLUX_SUM(N)">Total Thermal Energy Conservation via Telescoping Sum</cas-ref>)</i>
     </p>
 
     <p>
@@ -317,17 +317,19 @@
 
     <hr>
 
-    <h3>6. Interactive MWM CAS Workbench: Operational Mathematics Prototype</h3>
+    <h3>6. Middle Way Mathematics (MWM) CAS Interactivity</h3>
     <p>
       Professor James motioned toward the lab console: 
-      “Rather than forcing our thinking into the limit machinery of standard textbooks, we can use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
+      “Rather than forcing our thinking into the limit machinery of standard textbooks, we use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
     </p>
     <p>
-      Explore the prototype workbench below across all three pedagogical tiers—from <b>2ⁿ Conway number trees</b> (Jack) and discrete calculus on <b>ℝ_ω</b> / <b>ℂ_ω</b> (Jane) to <b>discrete Laplacians and conservation</b> (James):
+      Explore these concrete heat diffusion models directly in the CAS workbench:
     </p>
-
-    <!-- Embedded MWM CAS Calculator Prototype -->
-    <mwm-cas-calculator></mwm-cas-calculator>
+    <ul>
+      <li><cas-ref calc-id="heat_slice_flux" expr="HEAT_FLUX_SLICE(alpha, dx)">Single-Slice Net Thermal Flux Balance</cas-ref> &mdash; Inflow minus outflow simplifies to the discrete second difference Δ²u.</li>
+      <li><cas-ref calc-id="toeplitz_5x5" expr="TOEPLITZ_LAPLACIAN(5)">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</cas-ref> &mdash; Demonstrates negative real eigenvalues and asymptotic thermal stability.</li>
+      <li><cas-ref calc-id="telescoping_conservation" expr="TELESCOPING_FLUX_SUM(N)">Total Thermal Energy Conservation via Telescoping Sum</cas-ref> &mdash; Proves zero heat loss under insulated boundaries without integral approximations.</li>
+    </ul>
 
     <hr>
 

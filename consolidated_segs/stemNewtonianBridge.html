@@ -109,13 +109,13 @@
     the quotient is standard algebra:”
   </p>
 
-  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <cas-ref calc-id="newton_free_fall" expr="FREE_FALL(v0*t - 1/2*g*t^2, t)">
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="free_fall_accel" title="Free Fall Velocity & Acceleration Invariance">
       v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
-    </cas-ref>
+    </fsd-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Click the formula above to inspect the Maxima CAS derivation and Lean 4 invariant)</i>
+    <i>(Inspect formal invariance proof in Lean 4 or explore with <cas-ref calc-id="newton_free_fall" expr="FREE_FALL(v0, g, dt)">Free Fall Kinematics &amp; Acceleration Stencil</cas-ref>)</i>
   </p>
 
   <p>
@@ -140,41 +140,41 @@
 
   <hr>
 
-  <h3>3. Exercising the Calculator: The Work-Energy Theorem as Telescoping Cancellation</h3>
+  <h3>3. The Work-Energy Theorem: Exact Telescoping Summation</h3>
 
   <p>
-    “Now,” James asked, “how does our difference ledger derive kinetic energy and mechanical conservation?”
+    “Next,” James continued, “let’s examine the <b>Work-Kinetic Energy Theorem</b>. 
+    In classical mechanics, work is defined as force integrated over distance: <code>W = ∫ F dx</code>. 
+    Marcus, how does our discrete ledger compute work over a succession of discrete steps?”
   </p>
 
   <p>
-    Marcus stepped forward: 
-    “In an applied simulation, at discrete time step <code>k</code>, the displacement is <code>Δx_k = v_k · dt</code>, 
-    and the net force is <code>F_k = m · a_k = m · (v_{k+1} - v_k) / dt</code>. 
-    The work done over that single tick is:”
+    “On <code>ℝ_ω</code>, displacement is a sequence of discrete steps <code>Δx_k</code>,” Marcus explained. 
+    “At each step, force is mass times acceleration: <code>F_k = m · (Δv_k / Δt)</code>. 
+    The incremental work done during step <code>k</code> is:
   </p>
 
   <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
-    W_k = F_k · Δx_k = [ m · (v_{k+1} - v_k) / dt ] · [ v_k · dt ] = m · v_k · (v_{k+1} - v_k)
+    W_k &nbsp;=&nbsp; F_k · Δx_k &nbsp;=&nbsp; [ m · (Δv_k / Δt) ] · [ v_k · Δt ] &nbsp;=&nbsp; <b>m · v_k · Δv_k</b>
   </div>
 
   <p>
-    “Notice the exact algebraic polarization identity,” James pointed out:
+    Now apply the fundamental algebraic identity:
+    <br>
+    <code>v_k · Δv_k &nbsp;=&nbsp; (1/2)·[ (v_k + Δv_k)² - v_k² - (Δv_k)² ]</code>.
   </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #0f172a;">
-    v_k · (v_{k+1} - v_k) &nbsp;=&nbsp; (1/2)·[ v_{k+1}² - v_k² ] &nbsp;-&nbsp; (1/2)·(v_{k+1} - v_k)²
-  </div>
 
   <p>
     “The second term is of order <code>O(dt²)</code>. Summing over all <code>n</code> time steps from initial state to final state:”
   </p>
 
   <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <cas-ref calc-id="newton_work_energy" expr="WORK_ENERGY_SUM(F, x0, xn)">
+    <fsd-ref tier="3" scaffold="work_energy" title="Telescoping Work-Energy Theorem">
       ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
-    </cas-ref>
+    </fsd-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Click the formula above to see the telescoping sum verified by Maxima CAS and Lean 4)</i>
+    <i>(Inspect telescoping sum in Lean 4 or explore with <cas-ref calc-id="newton_work_energy" expr="WORK_ENERGY(m, v)">Telescoping Work-Kinetic Energy Conservation</cas-ref>)</i>
   </p>
 
   <p>
@@ -191,7 +191,7 @@
 
   <hr>
 
-  <h3>4. Exercising the Calculator: Hooke’s Law &amp; The Symplectic Leapfrog Stencil</h3>
+  <h3>4. Exercising the Leapfrog Stencil: Hooke’s Law &amp; Unitary Phase Roots</h3>
 
   <p>
     “Finally,” James said, “what happens when the force is non-constant and position-dependent, 
@@ -211,12 +211,12 @@
   </p>
 
   <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <cas-ref calc-id="newton_harmonic_oscillator" expr="HOOKES_LAW_LEAPFROG(k, m, dt)">
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="Hooke's Law Leapfrog & Unitary Phase Invariance">
       x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
-    </cas-ref>
+    </fsd-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Click the formula above to inspect the unitary eigenvalue roots on ℂ_ω)</i>
+    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <cas-ref calc-id="newton_harmonic_oscillator" expr="LEAPFROG(k, m, dt)">Harmonic Leapfrog Stencil &amp; Unitary Phase Roots</cas-ref>)</i>
   </p>
 
   <p>
@@ -258,15 +258,6 @@
   </p>
 
   <br>
-
-  <!-- Interactive Sandbox -->
-  <div style="margin-top: 20px;">
-    <h4 style="text-align: center; color: #0f172a; margin-bottom: 8px;">Interactive CAS Demonstration Workbench</h4>
-    <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 0;">
-      Test classical Newtonian kinematics and conservation laws directly in the Middle Way symbolic calculator:
-    </p>
-    <mwm-cas-calculator calc-id="newton_free_fall"></mwm-cas-calculator>
-  </div>
 
 </body>
 </html>

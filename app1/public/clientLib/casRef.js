@@ -7,6 +7,14 @@ export class CasRef extends HTMLElement {
         super();
     }
     connectedCallback() {
+        const rawHtml = this.innerHTML.trim();
+        if (!rawHtml) {
+            const calcId = this.getAttribute('calc-id') || this.getAttribute('calcId') || 'Calculation';
+            this.innerHTML = `&lt;&lt;CAS: ${calcId}&gt;&gt;`;
+        }
+        else if (!rawHtml.startsWith('&lt;&lt;') && !rawHtml.startsWith('<<') && !rawHtml.startsWith('«')) {
+            this.innerHTML = `&lt;&lt;CAS: ${rawHtml}&gt;&gt;`;
+        }
         this.setAttribute('style', `display:inline-block;color:${CasRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;`);
         this.addEventListener('mouseover', () => {
             this.setAttribute('style', `display:inline-block;color:${CasRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#059669;text-underline-offset:3px;background:#ecfdf5;padding:2px 6px;border-radius:4px;`);

@@ -72,7 +72,8 @@
     • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
     • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
     • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
-    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.
+    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_discrete_integral" expr="SUM_W(x^2, 0, 1)">Discrete Definite Integral of x² on [0, 1] ≡ 1/3</cas-ref>
   </div>
 
   <hr>
@@ -125,7 +126,8 @@
       <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
     </div>
     • <b>Infinitesimal Increment Substitution:</b> If <code>F'(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
-    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.
+    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <cas-ref calc-id="cas_telescoping_ftc" expr="TELESCOPING_FTC(x^3, a, b)">Telescoping FTC Cancellation on f(x) = 3x²</cas-ref>
   </div>
 
   <hr>
