@@ -321,6 +321,7 @@ export class MwmCasCalculator extends HTMLElement {
     currentResult;
     currentPresetId = 'r_diff';
     inputExpr = 'DIFF_W(x^3, x)';
+    calcVarValues = {};
     constructor() {
         super();
     }
@@ -480,6 +481,39 @@ export class MwmCasCalculator extends HTMLElement {
                         astTree: '((MPLUS) $V0 ((MTIMES) -1 $G $T))'
                     },
                     maximaMinerTrace: PREMINED_MAXIMA_TRACES['newton_free_fall'],
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'v0', label: 'Initial velocity v₀ (m/s)', min: 0, max: 50, step: 1, defaultValue: 20 },
+                            { name: 'g', label: 'Gravitational accel g (m/s²)', min: 1, max: 20, step: 0.1, defaultValue: 9.8 },
+                            { name: 't', label: 'Flight time t (s)', min: 0, max: 5, step: 0.1, defaultValue: 1.0 },
+                            { name: 'dt', label: 'Hyperfinite step dt', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        evaluate: (vals) => {
+                            const v0 = vals['v0'] !== undefined ? vals['v0'] : 20;
+                            const g = vals['g'] !== undefined ? vals['g'] : 9.8;
+                            const t = vals['t'] !== undefined ? vals['t'] : 1.0;
+                            const dt = vals['dt'] !== undefined ? vals['dt'] : 0.001;
+                            const s = (time) => v0 * time - 0.5 * g * time * time;
+                            const stPos = s(t);
+                            const stVel = v0 - g * t;
+                            const numVel = (s(t + dt) - s(t)) / dt;
+                            const numAccel = (s(t - dt) - 2 * s(t) + s(t + dt)) / (dt * dt);
+                            const velDust = Math.abs(numVel - stVel);
+                            return {
+                                steps: [
+                                    { label: 'Position s(t)', value: `${stPos.toFixed(4)} m`, formula: 'v₀·t - ½g·t²' },
+                                    { label: 'Perturbed s(t+dt)', value: `${s(t + dt).toFixed(4)} m`, formula: 's(t + dt)' },
+                                    { label: 'Difference Quotient Δs / dt', value: `${numVel.toFixed(5)} m/s`, formula: 'Δs / dt' },
+                                    { label: 'Velocity Shadow v(t)', value: `${stVel.toFixed(4)} m/s`, formula: 'v₀ - g·t', highlight: true },
+                                    { label: '2nd Diff Stencil (Jane)', value: `${numAccel.toFixed(4)} m/s²`, formula: 'Δ²s / dt²' },
+                                    { label: 'Constant Accel a(t)', value: `${(-g).toFixed(4)} m/s²`, formula: '-g', highlight: true }
+                                ],
+                                resultLabel: "st( Δs / dt ) & st( Δ²s / dt² )",
+                                resultValue: `v(${t.toFixed(1)}s) = ${stVel.toFixed(2)} m/s,  a = ${(-g).toFixed(1)} m/s²`,
+                                note: `Velocity quotient has only ${velDust.toExponential(2)} dust (which vanishes under st(·)). Acceleration stencil Δ²s/dt² is EXACTLY -g with zero dust!`
+                            };
+                        }
+                    },
                     leanInvariant: {
                         theorem: 'MiddleWay.delta & MiddleWay.st',
                         scaffoldKey: 'st',
@@ -573,6 +607,35 @@ export class MwmCasCalculator extends HTMLElement {
                         expanded: '3*x^2 + 3*dx*x + dx^2',
                         simplified: '3*x^2  [after subst(0, dx, %)]',
                         astTree: '((MPLUS) ((MTIMES) 3 ((MEXPT) $X 2)) ((MTIMES) 3 $DX $X) ((MEXPT) $DX 2))'
+                    },
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'x', label: 'Base coordinate x', min: -4, max: 4, step: 0.1, defaultValue: 2.0 },
+                            { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        evaluate: (vals) => {
+                            const x = vals['x'] !== undefined ? vals['x'] : 2.0;
+                            const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
+                            const fx = Math.pow(x, 3);
+                            const fx_plus_dx = Math.pow(x + dx, 3);
+                            const deltaF = fx_plus_dx - fx;
+                            const quot = deltaF / dx;
+                            const stVal = 3 * Math.pow(x, 2);
+                            const dust = Math.abs(quot - stVal);
+                            return {
+                                steps: [
+                                    { label: 'Base Value f(x)', value: fx.toFixed(6), formula: 'x³' },
+                                    { label: 'Perturbed Value f(x+dx)', value: fx_plus_dx.toFixed(6), formula: '(x+dx)³' },
+                                    { label: 'Forward Difference Δf', value: deltaF.toFixed(6), formula: 'f(x+dx) - f(x)' },
+                                    { label: 'Difference Quotient Δf / dx', value: quot.toFixed(6), formula: 'Δf / dx' },
+                                    { label: 'Standard Derivative st(·)', value: stVal.toFixed(6), formula: '3x²', highlight: true },
+                                    { label: 'Residual Dust 3x·dx + dx²', value: dust.toExponential(4), formula: '|Δf/dx - 3x²|' }
+                                ],
+                                resultLabel: "st( Δ(x³) / dx )",
+                                resultValue: `${stVal.toFixed(4)}`,
+                                note: `At x = ${x.toFixed(1)}, the hyperfinite quotient is ${quot.toFixed(6)}. Under st(·), residual dust ${dust.toExponential(2)} vanishes.`
+                            };
+                        }
                     },
                     leanInvariant: {
                         theorem: 'MiddleWay.deriv & MiddleWay.st',
@@ -924,6 +987,32 @@ export class MwmCasCalculator extends HTMLElement {
                         simplified: '0  [st(Δf) = 0, f preserves halos]',
                         astTree: '((MPLUS) ((MTIMES) 2 $X $DX) ((MEXPT) $DX 2))'
                     },
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'x0', label: 'Base coordinate x₀', min: -5, max: 5, step: 0.1, defaultValue: 2.0 },
+                            { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        evaluate: (vals) => {
+                            const x0 = vals['x0'] !== undefined ? vals['x0'] : 2.0;
+                            const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
+                            const fx0 = x0 * x0;
+                            const fx = Math.pow(x0 + dx, 2);
+                            const deltaF = fx - fx0;
+                            const formulaDust = 2 * x0 * dx + dx * dx;
+                            return {
+                                steps: [
+                                    { label: 'Standard Nucleus f(x₀)', value: fx0.toFixed(6), formula: 'x₀²' },
+                                    { label: 'Perturbed Output f(x₀ + dx)', value: fx.toFixed(6), formula: '(x₀ + dx)²' },
+                                    { label: 'Actual Output Fluctuation Δf', value: deltaF.toFixed(6), formula: 'f(x₀+dx) - f(x₀)' },
+                                    { label: 'Algebraic Dust 2x₀·dx + dx²', value: formulaDust.toFixed(6), formula: '2x₀·dx + dx²' },
+                                    { label: 'Standard Part st(Δf)', value: '0.0000', formula: 'st(2x₀·dx + dx²)', highlight: true }
+                                ],
+                                resultLabel: "st( f(x₀ + dx) - f(x₀) )",
+                                resultValue: "0.0000  (Points stay in halo μ(f(x₀)))",
+                                note: `At x₀ = ${x0.toFixed(1)}, the hyperfinite difference is only ${deltaF.toExponential(2)}. Under st(·), halo fluctuation vanishes identically.`
+                            };
+                        }
+                    },
                     leanInvariant: {
                         theorem: 'MiddleWay.st & Scaffold.infinitesimal_halo',
                         scaffoldKey: 'infinitesimal_halo',
@@ -954,6 +1043,43 @@ export class MwmCasCalculator extends HTMLElement {
                         expanded: 'f(1) = -1 < 0, f(2) = 6 > 0; bisection halving: [1, 2] → [1, 1.5] → [1.25, 1.5] ...',
                         simplified: 'c = 1.259921049894873  (exact 2^(1/3))',
                         astTree: '1.259921049894873'
+                    },
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'a', label: 'Bracket start a (f(a) < 0)', min: 0, max: 1.25, step: 0.05, defaultValue: 1.0 },
+                            { name: 'b', label: 'Bracket end b (f(b) > 0)', min: 1.26, max: 3.0, step: 0.05, defaultValue: 2.0 },
+                            { name: 'iters', label: 'Grid Bisection Cuts', min: 1, max: 25, step: 1, defaultValue: 14 }
+                        ],
+                        evaluate: (vals) => {
+                            const a = vals['a'] !== undefined ? vals['a'] : 1.0;
+                            const b = vals['b'] !== undefined ? vals['b'] : 2.0;
+                            const iters = Math.round(vals['iters'] !== undefined ? vals['iters'] : 14);
+                            let left = a, right = b;
+                            const f = (val) => Math.pow(val, 3) - 2;
+                            for (let i = 0; i < iters; i++) {
+                                const mid = (left + right) / 2;
+                                if (f(mid) < 0)
+                                    left = mid;
+                                else
+                                    right = mid;
+                            }
+                            const root = (left + right) / 2;
+                            const exact = Math.cbrt(2);
+                            const err = Math.abs(root - exact);
+                            return {
+                                steps: [
+                                    { label: 'Left evaluation f(a)', value: f(a).toFixed(4), formula: 'a³ - 2' },
+                                    { label: 'Right evaluation f(b)', value: f(b).toFixed(4), formula: 'b³ - 2' },
+                                    { label: 'Current Grid Interval', value: `[${left.toFixed(6)}, ${right.toFixed(6)}]`, formula: 'Interval [a, b]' },
+                                    { label: 'Grid Resolution dx', value: (right - left).toExponential(3), formula: '(b - a) / 2^N' },
+                                    { label: 'Target Evaluation f(c)', value: f(root).toExponential(3), formula: 'f(c) ≈ 0', highlight: true },
+                                    { label: 'Theoretical Root ∛2', value: exact.toFixed(7), formula: 'Exact 2^(1/3)' }
+                                ],
+                                resultLabel: "Computed Root c = st(x_m)",
+                                resultValue: `${root.toFixed(7)}  (Error: ${err.toExponential(2)})`,
+                                note: `After ${iters} bisection cuts, the hyperfinite sign crossing isolates ∛2 to within ${err.toExponential(2)}.`
+                            };
+                        }
                     },
                     leanInvariant: {
                         theorem: 'Scaffold.discrete_ivt',
@@ -986,6 +1112,39 @@ export class MwmCasCalculator extends HTMLElement {
                         expanded: '3*x^2 - 3 + 3*dx*x + dx^2',
                         simplified: 'f\'(x) = 3*x^2 - 3,  x = -1 (max),  x = 1 (min)',
                         astTree: '((MPLUS) ((MTIMES) 3 ((MEXPT) $X 2)) -3)'
+                    },
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'x', label: 'Evaluation point x', min: -3, max: 3, step: 0.1, defaultValue: 1.0 },
+                            { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.05, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        evaluate: (vals) => {
+                            const x = vals['x'] !== undefined ? vals['x'] : 1.0;
+                            const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
+                            const fx = Math.pow(x, 3) - 3 * x;
+                            const x_plus_dx = x + dx;
+                            const fx_plus_dx = Math.pow(x_plus_dx, 3) - 3 * x_plus_dx;
+                            const deltaF = fx_plus_dx - fx;
+                            const quot = deltaF / dx;
+                            const stDeriv = 3 * Math.pow(x, 2) - 3;
+                            const dust = Math.abs(quot - stDeriv);
+                            const isCrit = Math.abs(stDeriv) < 0.05;
+                            return {
+                                steps: [
+                                    { label: 'Base position f(x)', value: fx.toFixed(6), formula: 'x³ - 3x' },
+                                    { label: 'Perturbed position f(x + dx)', value: fx_plus_dx.toFixed(6), formula: '(x+dx)³ - 3(x+dx)' },
+                                    { label: 'Output Difference Δf', value: deltaF.toFixed(6), formula: 'f(x+dx) - f(x)' },
+                                    { label: 'Difference Quotient Δf / dx', value: quot.toFixed(6), formula: 'Δf / dx' },
+                                    { label: 'Standard Part Shadow f\'(x)', value: stDeriv.toFixed(6), formula: '3x² - 3', highlight: true },
+                                    { label: 'Hyperfinite Residual Dust', value: dust.toExponential(4), formula: '|Δf/dx - st(Δf/dx)|' }
+                                ],
+                                resultLabel: "st( Δf / dx )",
+                                resultValue: `${stDeriv.toFixed(4)}${isCrit ? (x > 0 ? '  ★ Local Minimum (Slope 0)' : '  ★ Local Maximum (Slope 0)') : ''}`,
+                                note: isCrit
+                                    ? `At x = ${x.toFixed(1)}, derivative is zero! Confirms critical extremum with f(${x.toFixed(1)}) = ${fx.toFixed(2)}.`
+                                    : `Hyperfinite quotient matches the derivative shadow within ${dust.toExponential(2)} residual dust.`
+                            };
+                        }
                     },
                     leanInvariant: {
                         theorem: 'MiddleWay.deriv & MiddleWay.st',
@@ -1020,6 +1179,37 @@ export class MwmCasCalculator extends HTMLElement {
                         simplified: '5*x^4 + 3*x^2 - 2*x',
                         astTree: '((MPLUS) ((MTIMES) 5 ((MEXPT) $X 4)) ((MTIMES) 3 ((MEXPT) $X 2)) ((MTIMES) -2 $X))'
                     },
+                    interactiveCalc: {
+                        variables: [
+                            { name: 'x', label: 'Evaluation point x', min: -3, max: 3, step: 0.1, defaultValue: 1.5 },
+                            { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.05, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        evaluate: (vals) => {
+                            const x = vals['x'] !== undefined ? vals['x'] : 1.5;
+                            const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
+                            const u = (val) => Math.pow(val, 2) + 1;
+                            const v = (val) => Math.pow(val, 3) - 1;
+                            const uVal = u(x), vVal = v(x);
+                            const du = u(x + dx) - uVal;
+                            const dv = v(x + dx) - vVal;
+                            const prodDiff = (u(x + dx) * v(x + dx) - uVal * vVal) / dx;
+                            const stRule = 5 * Math.pow(x, 4) + 3 * Math.pow(x, 2) - 2 * x;
+                            const crossDust = (du * dv) / dx;
+                            return {
+                                steps: [
+                                    { label: 'Factor u(x) = x² + 1', value: uVal.toFixed(4), formula: 'x² + 1' },
+                                    { label: 'Factor v(x) = x³ - 1', value: vVal.toFixed(4), formula: 'x³ - 1' },
+                                    { label: 'u · (dv/dx)', value: (uVal * (dv / dx)).toFixed(4), formula: 'u · v\'' },
+                                    { label: 'v · (du/dx)', value: (vVal * (du / dx)).toFixed(4), formula: 'v · u\'' },
+                                    { label: 'Cross-Dust (du·dv)/dx', value: crossDust.toExponential(4), formula: 'O(dx) → 0', highlight: false },
+                                    { label: 'Product Rule Standard Shadow', value: stRule.toFixed(4), formula: '5x⁴ + 3x² - 2x', highlight: true }
+                                ],
+                                resultLabel: "st( Δ(uv) / dx )",
+                                resultValue: `${stRule.toFixed(4)}`,
+                                note: `Discrete difference quotient is ${prodDiff.toFixed(4)}. Cross-term (du·dv)/dx = ${crossDust.toExponential(2)} drops under st(·).`
+                            };
+                        }
+                    },
                     leanInvariant: {
                         theorem: 'MiddleWay.algebraic_product_rule',
                         scaffoldKey: 'algebraic_product_rule',
@@ -1040,6 +1230,13 @@ export class MwmCasCalculator extends HTMLElement {
                     PREMINED_MAXIMA_TRACES[this.inputExpr] ||
                     PREMINED_MAXIMA_TRACES[cleanInput] ||
                     (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
+        }
+        // Initialize calcVarValues for interactiveCalc if present
+        if (this.currentResult?.interactiveCalc) {
+            this.calcVarValues = {};
+            for (const v of this.currentResult.interactiveCalc.variables) {
+                this.calcVarValues[v.name] = v.defaultValue;
+            }
         }
         this.render();
     }
@@ -1199,6 +1396,9 @@ export class MwmCasCalculator extends HTMLElement {
           </p>
         </div>
 
+        <!-- Interactive Parameter Calculator (Front & Center) -->
+        ${this.renderInteractiveCalculator(res)}
+
         <!-- Output Tabs (Themed Accent #047857) -->
         <div style="display: flex; border-bottom: 1px solid #cbd5e1; background: #f8fafc; overflow-x: auto;">
           <button id="tabSemantics" style="flex: 1; padding: 10px 12px; font-size: 12px; font-weight: 600; border: none; border-bottom: 2px solid ${this.activeTab === 'semantics' ? '#047857' : 'transparent'}; background: ${this.activeTab === 'semantics' ? '#ffffff' : 'transparent'}; color: ${this.activeTab === 'semantics' ? '#047857' : '#64748b'}; cursor: pointer; white-space: nowrap;">
@@ -1266,6 +1466,117 @@ export class MwmCasCalculator extends HTMLElement {
             }
         }
         this.dispatchEvent(new CustomEvent('mwm-calc-change', { bubbles: true, detail: res }));
+    }
+    renderLedgerHtml(evalData) {
+        return `
+      <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+        ${evalData.steps.map(step => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; border-radius: 4px; background: ${step.highlight ? '#ecfdf5' : '#ffffff'}; border: 1px solid ${step.highlight ? '#a7f3d0' : '#e2e8f0'}; font-size: 12px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="color: ${step.highlight ? '#065f46' : '#334155'}; font-weight: ${step.highlight ? '700' : '600'};">${step.label}</span>
+              ${step.formula ? `<span style="font-size: 11px; color: #64748b; font-family: monospace;">[${step.formula}]</span>` : ''}
+            </div>
+            <span style="font-family: monospace; font-size: 12.5px; font-weight: 700; color: ${step.highlight ? '#047857' : '#0f172a'};">${step.value}</span>
+          </div>
+        `).join('')}
+      </div>
+      
+      <!-- Primary Live Result Card -->
+      <div style="background: #064e3b; color: #ffffff; border-radius: 6px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #a7f3d0; font-weight: 600;">
+            ${evalData.resultLabel}
+          </div>
+          <div style="font-size: 15px; font-weight: 700; color: #ffffff; font-family: monospace; margin-top: 2px;">
+            ${evalData.resultValue}
+          </div>
+        </div>
+        <span style="font-size: 11px; background: #047857; color: #d1fae5; padding: 3px 8px; border-radius: 4px; border: 1px solid #059669; font-weight: 600;">
+          Live 60 FPS
+        </span>
+      </div>
+
+      ${evalData.note ? `
+        <div style="margin-top: 8px; font-size: 11.5px; color: #047857; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 6px 10px; line-height: 1.4;">
+          ℹ ${evalData.note}
+        </div>
+      ` : ''}
+    `;
+    }
+    renderInteractiveCalculator(res) {
+        if (!res.interactiveCalc)
+            return '';
+        const calc = res.interactiveCalc;
+        const evalData = calc.evaluate(this.calcVarValues);
+        return `
+      <div style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0; padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 14px;">🎛️</span>
+            <span style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #064e3b;">
+              Interactive Parameter Calculator
+            </span>
+          </div>
+          <span style="font-size: 11px; background: #dcfce7; color: #15803d; font-weight: 600; padding: 2px 8px; border-radius: 10px; border: 1px solid #86efac;">
+            Live ℝ_ω Computation
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start;">
+          <!-- Controls Column -->
+          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div style="font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px;">
+              Input Controls
+            </div>
+            ${calc.variables.map(v => {
+            const curVal = this.calcVarValues[v.name] !== undefined ? this.calcVarValues[v.name] : v.defaultValue;
+            return `
+                <div style="margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 4px;">
+                    <label style="font-weight: 600; color: #1e293b;">${v.label}:</label>
+                    <span class="mwm-val-badge" data-var="${v.name}" style="font-family: monospace; font-weight: 700; color: #047857; background: #ecfdf5; padding: 1px 6px; border-radius: 4px; border: 1px solid #a7f3d0;">
+                      ${curVal}
+                    </span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <input 
+                      type="range" 
+                      class="mwm-calc-range"
+                      data-var="${v.name}"
+                      min="${v.min}" 
+                      max="${v.max}" 
+                      step="${v.step}" 
+                      value="${curVal}"
+                      style="flex: 1; accent-color: #047857; cursor: pointer;"
+                    />
+                    <input 
+                      type="number" 
+                      class="mwm-calc-num"
+                      data-var="${v.name}"
+                      min="${v.min}" 
+                      max="${v.max}" 
+                      step="${v.step}" 
+                      value="${curVal}"
+                      style="width: 70px; padding: 3px 6px; font-family: monospace; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: right;"
+                    />
+                  </div>
+                </div>
+              `;
+        }).join('')}
+          </div>
+
+          <!-- Evaluation Ledger Column -->
+          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div style="font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px;">
+              Evaluation Ledger
+            </div>
+            <div id="mwmCalcResultsContainer">
+              ${this.renderLedgerHtml(evalData)}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
     }
     renderTabBody(res) {
         if (this.activeTab === 'semantics') {
@@ -1409,6 +1720,58 @@ ${trace.rawOutput}
         this.querySelector('#tabMaxima')?.addEventListener('click', () => this.setOutputTab('maxima'));
         this.querySelector('#tabTrace')?.addEventListener('click', () => this.setOutputTab('trace'));
         this.querySelector('#tabLean')?.addEventListener('click', () => this.setOutputTab('lean'));
+        // Interactive parameter calculator sliders & number inputs
+        const rangeInputs = this.querySelectorAll('.mwm-calc-range');
+        const numInputs = this.querySelectorAll('.mwm-calc-num');
+        const updateLedger = () => {
+            if (!this.currentResult?.interactiveCalc)
+                return;
+            const evalData = this.currentResult.interactiveCalc.evaluate(this.calcVarValues);
+            const container = this.querySelector('#mwmCalcResultsContainer');
+            if (container) {
+                container.innerHTML = this.renderLedgerHtml(evalData);
+            }
+        };
+        rangeInputs.forEach(range => {
+            range.addEventListener('input', (e) => {
+                const target = e.target;
+                const varName = target.getAttribute('data-var');
+                if (!varName)
+                    return;
+                const val = parseFloat(target.value);
+                this.calcVarValues[varName] = val;
+                // sync number input
+                const linkedNum = this.querySelector(`.mwm-calc-num[data-var="${varName}"]`);
+                if (linkedNum)
+                    linkedNum.value = target.value;
+                // sync value badge
+                const badge = this.querySelector(`.mwm-val-badge[data-var="${varName}"]`);
+                if (badge)
+                    badge.textContent = `${val}`;
+                updateLedger();
+            });
+        });
+        numInputs.forEach(num => {
+            num.addEventListener('input', (e) => {
+                const target = e.target;
+                const varName = target.getAttribute('data-var');
+                if (!varName)
+                    return;
+                const val = parseFloat(target.value);
+                if (isNaN(val))
+                    return;
+                this.calcVarValues[varName] = val;
+                // sync range input
+                const linkedRange = this.querySelector(`.mwm-calc-range[data-var="${varName}"]`);
+                if (linkedRange)
+                    linkedRange.value = target.value;
+                // sync value badge
+                const badge = this.querySelector(`.mwm-val-badge[data-var="${varName}"]`);
+                if (badge)
+                    badge.textContent = `${val}`;
+                updateLedger();
+            });
+        });
         // Input evaluation (dev-only button)
         this.querySelector('#mwmCalcEvalBtn')?.addEventListener('click', () => this.handleCustomEvaluate());
         this.querySelector('#mwmCalcInput')?.addEventListener('keydown', (e) => {
