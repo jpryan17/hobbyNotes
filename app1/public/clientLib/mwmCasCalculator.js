@@ -322,6 +322,8 @@ export class MwmCasCalculator extends HTMLElement {
     currentPresetId = 'r_diff';
     inputExpr = 'DIFF_W(x^3, x)';
     calcVarValues = {};
+    isCalculatorOpen = false;
+    activeScenarioId = '';
     constructor() {
         super();
     }
@@ -332,6 +334,9 @@ export class MwmCasCalculator extends HTMLElement {
                 window.location.hostname.endsWith('.local'))));
     }
     connectedCallback() {
+        if (this.hasAttribute('open-calc') || this.hasAttribute('show-calc')) {
+            this.isCalculatorOpen = true;
+        }
         const attrCalcId = this.getAttribute('calc-id') || this.getAttribute('calcId');
         const attrExpr = this.getAttribute('expr');
         if (attrCalcId) {
@@ -488,6 +493,29 @@ export class MwmCasCalculator extends HTMLElement {
                             { name: 't', label: 'Flight time t (s)', min: 0, max: 5, step: 0.1, defaultValue: 1.0 },
                             { name: 'dt', label: 'Hyperfinite step dt', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
                         ],
+                        scenarios: [
+                            {
+                                id: 'early_flight',
+                                name: 'Early Flight (Ascending)',
+                                inputsDesc: 'v₀ = 20 m/s, g = 9.8 m/s², t = 1.0s, dt = 0.001',
+                                outputDesc: 'v(1.0s) = +10.20 m/s, a = -9.80 m/s²',
+                                values: { v0: 20, g: 9.8, t: 1.0, dt: 0.001 }
+                            },
+                            {
+                                id: 'apogee',
+                                name: 'Apogee Peak (Zero Velocity)',
+                                inputsDesc: 'v₀ = 20 m/s, g = 9.8 m/s², t = 2.04s, dt = 0.001',
+                                outputDesc: 'v(2.04s) = 0.00 m/s, a = -9.80 m/s²',
+                                values: { v0: 20, g: 9.8, t: 2.04, dt: 0.001 }
+                            },
+                            {
+                                id: 'late_descent',
+                                name: 'Late Descent (Falling)',
+                                inputsDesc: 'v₀ = 20 m/s, g = 9.8 m/s², t = 3.5s, dt = 0.001',
+                                outputDesc: 'v(3.5s) = -14.30 m/s, a = -9.80 m/s²',
+                                values: { v0: 20, g: 9.8, t: 3.5, dt: 0.001 }
+                            }
+                        ],
                         evaluate: (vals) => {
                             const v0 = vals['v0'] !== undefined ? vals['v0'] : 20;
                             const g = vals['g'] !== undefined ? vals['g'] : 9.8;
@@ -612,6 +640,29 @@ export class MwmCasCalculator extends HTMLElement {
                         variables: [
                             { name: 'x', label: 'Base coordinate x', min: -4, max: 4, step: 0.1, defaultValue: 2.0 },
                             { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
+                        ],
+                        scenarios: [
+                            {
+                                id: 'diff_x2',
+                                name: 'Positive Transect Point (x = 2)',
+                                inputsDesc: 'x = 2.0, dx = 0.001',
+                                outputDesc: 'st(Δ(x³)/dx) = 12.0000 (Exact 3x²)',
+                                values: { x: 2.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'diff_x1',
+                                name: 'Unit Coordinate (x = 1)',
+                                inputsDesc: 'x = 1.0, dx = 0.001',
+                                outputDesc: 'st(Δ(x³)/dx) = 3.0000 (Exact 3x²)',
+                                values: { x: 1.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'diff_x0',
+                                name: 'Inflection at Origin (x = 0)',
+                                inputsDesc: 'x = 0.0, dx = 0.001',
+                                outputDesc: 'st(Δ(x³)/dx) = 0.0000 (Horizontal Saddle)',
+                                values: { x: 0.0, dx: 0.001 }
+                            }
                         ],
                         evaluate: (vals) => {
                             const x = vals['x'] !== undefined ? vals['x'] : 2.0;
@@ -992,6 +1043,29 @@ export class MwmCasCalculator extends HTMLElement {
                             { name: 'x0', label: 'Base coordinate x₀', min: -5, max: 5, step: 0.1, defaultValue: 2.0 },
                             { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.02, step: 0.0001, defaultValue: 0.001 }
                         ],
+                        scenarios: [
+                            {
+                                id: 'halo_x2',
+                                name: 'Standard Coordinate (x₀ = 2.0)',
+                                inputsDesc: 'x₀ = 2.0, dx = 0.001 (1/1000)',
+                                outputDesc: 'Δf = 0.004001 ⇒ st(Δf) = 0.0000 (Halo Invariant)',
+                                values: { x0: 2.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'halo_x5',
+                                name: 'Far Scale Coordinate (x₀ = 5.0)',
+                                inputsDesc: 'x₀ = 5.0, dx = 0.0005',
+                                outputDesc: 'Δf = 0.005000 ⇒ st(Δf) = 0.0000 (Halo Invariant)',
+                                values: { x0: 5.0, dx: 0.0005 }
+                            },
+                            {
+                                id: 'halo_x0',
+                                name: 'At the Origin (x₀ = 0.0)',
+                                inputsDesc: 'x₀ = 0.0, dx = 0.010',
+                                outputDesc: 'Δf = 0.000100 ⇒ st(Δf) = 0.0000 (Halo Invariant)',
+                                values: { x0: 0.0, dx: 0.01 }
+                            }
+                        ],
                         evaluate: (vals) => {
                             const x0 = vals['x0'] !== undefined ? vals['x0'] : 2.0;
                             const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
@@ -1049,6 +1123,29 @@ export class MwmCasCalculator extends HTMLElement {
                             { name: 'a', label: 'Bracket start a (f(a) < 0)', min: 0, max: 1.25, step: 0.05, defaultValue: 1.0 },
                             { name: 'b', label: 'Bracket end b (f(b) > 0)', min: 1.26, max: 3.0, step: 0.05, defaultValue: 2.0 },
                             { name: 'iters', label: 'Grid Bisection Cuts', min: 1, max: 25, step: 1, defaultValue: 14 }
+                        ],
+                        scenarios: [
+                            {
+                                id: 'coarse_march',
+                                name: 'Coarse Grid March (N = 4)',
+                                inputsDesc: 'a = 1.0, b = 2.0, cuts = 4',
+                                outputDesc: 'Root c ≈ 1.281250 (Error ≈ 2.1 × 10⁻²)',
+                                values: { a: 1.0, b: 2.0, iters: 4 }
+                            },
+                            {
+                                id: 'standard_bracket',
+                                name: 'Standard Dyadic Halving (N = 14)',
+                                inputsDesc: 'a = 1.0, b = 2.0, cuts = 14',
+                                outputDesc: 'Root c ≈ 1.259949 (Error ≈ 2.8 × 10⁻⁵)',
+                                values: { a: 1.0, b: 2.0, iters: 14 }
+                            },
+                            {
+                                id: 'deep_hyperfinite',
+                                name: 'Deep Hyperfinite Grid (N = 25)',
+                                inputsDesc: 'a = 1.0, b = 2.0, cuts = 25',
+                                outputDesc: 'Root c ≈ 1.259921 (Exact ∛2, Error < 10⁻⁷)',
+                                values: { a: 1.0, b: 2.0, iters: 25 }
+                            }
                         ],
                         evaluate: (vals) => {
                             const a = vals['a'] !== undefined ? vals['a'] : 1.0;
@@ -1118,6 +1215,36 @@ export class MwmCasCalculator extends HTMLElement {
                             { name: 'x', label: 'Evaluation point x', min: -3, max: 3, step: 0.1, defaultValue: 1.0 },
                             { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.05, step: 0.0001, defaultValue: 0.001 }
                         ],
+                        scenarios: [
+                            {
+                                id: 'local_min',
+                                name: 'Local Minimum (Valley)',
+                                inputsDesc: 'x = 1.0, dx = 0.001',
+                                outputDesc: 'st(Δf/dx) = 0.0000 (Zero Slope, f(1) = -2)',
+                                values: { x: 1.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'local_max',
+                                name: 'Local Maximum (Peak)',
+                                inputsDesc: 'x = -1.0, dx = 0.001',
+                                outputDesc: 'st(Δf/dx) = 0.0000 (Zero Slope, f(-1) = +2)',
+                                values: { x: -1.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'steep_slope',
+                                name: 'Ascending Flank',
+                                inputsDesc: 'x = 2.0, dx = 0.001',
+                                outputDesc: 'st(Δf/dx) = 9.0000 (Rapid Growth)',
+                                values: { x: 2.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'inflection_origin',
+                                name: 'Inflection Point (Origin)',
+                                inputsDesc: 'x = 0.0, dx = 0.001',
+                                outputDesc: 'st(Δf/dx) = -3.0000 (Steepest Descent)',
+                                values: { x: 0.0, dx: 0.001 }
+                            }
+                        ],
                         evaluate: (vals) => {
                             const x = vals['x'] !== undefined ? vals['x'] : 1.0;
                             const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
@@ -1184,6 +1311,29 @@ export class MwmCasCalculator extends HTMLElement {
                             { name: 'x', label: 'Evaluation point x', min: -3, max: 3, step: 0.1, defaultValue: 1.5 },
                             { name: 'dx', label: 'Infinitesimal step dx', min: 0.0001, max: 0.05, step: 0.0001, defaultValue: 0.001 }
                         ],
+                        scenarios: [
+                            {
+                                id: 'standard_x',
+                                name: 'Evaluation at x = 1.5',
+                                inputsDesc: 'x = 1.5, dx = 0.001',
+                                outputDesc: 'st(Δ(uv)/dx) = 29.0625 (Cross-dust ≈ 0)',
+                                values: { x: 1.5, dx: 0.001 }
+                            },
+                            {
+                                id: 'root_x',
+                                name: 'Evaluation at Root x = 1.0',
+                                inputsDesc: 'x = 1.0, dx = 0.001',
+                                outputDesc: 'st(Δ(uv)/dx) = 6.0000 (Since v(1)=0, u·v\'=6)',
+                                values: { x: 1.0, dx: 0.001 }
+                            },
+                            {
+                                id: 'origin_x',
+                                name: 'Evaluation at Origin x = 0.0',
+                                inputsDesc: 'x = 0.0, dx = 0.001',
+                                outputDesc: 'st(Δ(uv)/dx) = 0.0000 (Tangent is Horizontal)',
+                                values: { x: 0.0, dx: 0.001 }
+                            }
+                        ],
                         evaluate: (vals) => {
                             const x = vals['x'] !== undefined ? vals['x'] : 1.5;
                             const dx = vals['dx'] !== undefined ? vals['dx'] : 0.001;
@@ -1231,11 +1381,19 @@ export class MwmCasCalculator extends HTMLElement {
                     PREMINED_MAXIMA_TRACES[cleanInput] ||
                     (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
         }
-        // Initialize calcVarValues for interactiveCalc if present
+        // Initialize calcVarValues and activeScenarioId for interactiveCalc if present
         if (this.currentResult?.interactiveCalc) {
+            const calc = this.currentResult.interactiveCalc;
             this.calcVarValues = {};
-            for (const v of this.currentResult.interactiveCalc.variables) {
-                this.calcVarValues[v.name] = v.defaultValue;
+            if (calc.scenarios && calc.scenarios.length > 0) {
+                this.activeScenarioId = calc.scenarios[0].id;
+                this.calcVarValues = { ...calc.scenarios[0].values };
+            }
+            else {
+                this.activeScenarioId = '';
+                for (const v of calc.variables) {
+                    this.calcVarValues[v.name] = v.defaultValue;
+                }
             }
         }
         this.render();
@@ -1396,8 +1554,27 @@ export class MwmCasCalculator extends HTMLElement {
           </p>
         </div>
 
-        <!-- Interactive Parameter Calculator (Front & Center) -->
-        ${this.renderInteractiveCalculator(res)}
+        <!-- Calculator Launch Bar -->
+        ${res.interactiveCalc ? `
+          <div style="padding: 10px 20px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 13px; font-weight: 700; color: #064e3b;">
+                🎛️ Interactive Parameter Exploration
+              </span>
+              ${res.interactiveCalc.scenarios && res.interactiveCalc.scenarios.length > 0 ? `
+                <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 12px; border: 1px solid #86efac; font-weight: 600;">
+                  ${res.interactiveCalc.scenarios.length} Choices of Inputs → Output
+                </span>
+              ` : ''}
+            </div>
+            <button id="toggleCalculatorBtn" style="display: inline-flex; align-items: center; gap: 6px; background: ${this.isCalculatorOpen ? '#047857' : '#059669'}; color: #ffffff; border: 1px solid #047857; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.15s ease;">
+              <span>${this.isCalculatorOpen ? '✕ Hide Calculator' : '🎛️ Display Parameter Calculator'}</span>
+            </button>
+          </div>
+        ` : ''}
+
+        <!-- Interactive Parameter Calculator (Rendered when toggled open) -->
+        ${(this.isCalculatorOpen && res.interactiveCalc) ? this.renderInteractiveCalculator(res) : ''}
 
         <!-- Output Tabs (Themed Accent #047857) -->
         <div style="display: flex; border-bottom: 1px solid #cbd5e1; background: #f8fafc; overflow-x: auto;">
@@ -1521,6 +1698,46 @@ export class MwmCasCalculator extends HTMLElement {
             Live ℝ_ω Computation
           </span>
         </div>
+
+        <!-- Choices of Inputs -> Output Section -->
+        ${calc.scenarios && calc.scenarios.length > 0 ? `
+          <div style="margin-bottom: 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+              <div style="font-size: 12px; font-weight: 700; color: #064e3b; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                <span>🎯 Choices of Inputs → Output:</span>
+                <span style="font-size: 11px; font-weight: normal; color: #64748b; text-transform: none;">(Click any choice to load its parameters into the live ledger)</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px;">
+              ${calc.scenarios.map(sc => {
+            const isActive = this.activeScenarioId === sc.id;
+            return `
+                  <div 
+                    class="mwm-scenario-card" 
+                    data-scenario="${sc.id}"
+                    style="cursor: pointer; border: 1px solid ${isActive ? '#059669' : '#e2e8f0'}; background: ${isActive ? '#ecfdf5' : '#f8fafc'}; border-radius: 6px; padding: 8px 10px; transition: all 0.15s ease;"
+                  >
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                      <span class="mwm-sc-title" style="font-size: 12px; font-weight: 700; color: ${isActive ? '#047857' : '#1e293b'};">
+                        ${sc.name}
+                      </span>
+                      <span class="mwm-sc-badge" style="font-size: 10px; background: ${isActive ? '#047857' : '#e2e8f0'}; color: ${isActive ? '#ffffff' : '#475569'}; padding: 1px 6px; border-radius: 4px; font-weight: 600;">
+                        ${isActive ? 'Active' : 'Click to test'}
+                      </span>
+                    </div>
+                    <div style="font-size: 11.5px; color: #475569; margin-bottom: 2px;">
+                      <b style="color: #334155;">Inputs:</b> <span style="font-family: monospace;">${sc.inputsDesc}</span>
+                    </div>
+                    <div style="font-size: 11.5px; color: #065f46;">
+                      <b style="color: #047857;">Output:</b> <span style="font-family: monospace; font-weight: 600;">${sc.outputDesc}</span>
+                    </div>
+                  </div>
+                `;
+        }).join('')}
+            </div>
+          </div>
+        ` : ''}
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start;">
           <!-- Controls Column -->
@@ -1720,6 +1937,52 @@ ${trace.rawOutput}
         this.querySelector('#tabMaxima')?.addEventListener('click', () => this.setOutputTab('maxima'));
         this.querySelector('#tabTrace')?.addEventListener('click', () => this.setOutputTab('trace'));
         this.querySelector('#tabLean')?.addEventListener('click', () => this.setOutputTab('lean'));
+        // Calculator toggle button
+        this.querySelector('#toggleCalculatorBtn')?.addEventListener('click', () => {
+            this.isCalculatorOpen = !this.isCalculatorOpen;
+            this.render();
+        });
+        // Choices of Inputs -> Output scenario cards
+        const scenarioCards = this.querySelectorAll('.mwm-scenario-card');
+        scenarioCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const scId = card.getAttribute('data-scenario');
+                if (!scId || !this.currentResult?.interactiveCalc?.scenarios)
+                    return;
+                const scenario = this.currentResult.interactiveCalc.scenarios.find(s => s.id === scId);
+                if (!scenario)
+                    return;
+                this.activeScenarioId = scId;
+                for (const [k, v] of Object.entries(scenario.values)) {
+                    this.calcVarValues[k] = v;
+                    const linkedRange = this.querySelector(`.mwm-calc-range[data-var="${k}"]`);
+                    if (linkedRange)
+                        linkedRange.value = `${v}`;
+                    const linkedNum = this.querySelector(`.mwm-calc-num[data-var="${k}"]`);
+                    if (linkedNum)
+                        linkedNum.value = `${v}`;
+                    const badge = this.querySelector(`.mwm-val-badge[data-var="${k}"]`);
+                    if (badge)
+                        badge.textContent = `${v}`;
+                }
+                scenarioCards.forEach(c => {
+                    const isThis = c.getAttribute('data-scenario') === scId;
+                    c.style.border = `1px solid ${isThis ? '#059669' : '#e2e8f0'}`;
+                    c.style.background = isThis ? '#ecfdf5' : '#f8fafc';
+                    const statusBadge = c.querySelector('.mwm-sc-badge');
+                    if (statusBadge) {
+                        statusBadge.style.background = isThis ? '#047857' : '#e2e8f0';
+                        statusBadge.style.color = isThis ? '#ffffff' : '#475569';
+                        statusBadge.textContent = isThis ? 'Active' : 'Click to test';
+                    }
+                    const title = c.querySelector('.mwm-sc-title');
+                    if (title) {
+                        title.style.color = isThis ? '#047857' : '#1e293b';
+                    }
+                });
+                updateLedger();
+            });
+        });
         // Interactive parameter calculator sliders & number inputs
         const rangeInputs = this.querySelectorAll('.mwm-calc-range');
         const numInputs = this.querySelectorAll('.mwm-calc-num');
