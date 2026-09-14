@@ -1560,7 +1560,7 @@ export class FsCalculator extends Elt {
     simBtn;
     simContainer;
     currentSimulationResult = null;
-    constructor(arg) {
+    constructor(arg, options) {
         super("div");
         this.arg = arg;
         this.modes = inferFsCalculationModes(arg);
@@ -1653,9 +1653,52 @@ export class FsCalculator extends Elt {
         this.simContainer = new Elt("div");
         this.simContainer.setA("style", "display: none;");
         this.append(this.simContainer);
-        // Initialize mode
+        // Initialize mode & optional preset
+        let initialModeIndex = 0;
+        let initialPresetValues;
+        if (options?.presetKey) {
+            const targetPreset = FS_CATALOG.examples.find((ex) => ex.presetKey === options.presetKey || ex.id === options.presetKey);
+            if (targetPreset) {
+                const modeIdx = this.modes.findIndex((m) => m.id === targetPreset.modeId);
+                if (modeIdx >= 0) {
+                    initialModeIndex = modeIdx;
+                    initialPresetValues = targetPreset.values;
+                }
+            }
+        }
+        else if (options?.activeModeId) {
+            const modeIdx = this.modes.findIndex((m) => m.id === options.activeModeId);
+            if (modeIdx >= 0) {
+                initialModeIndex = modeIdx;
+            }
+        }
         this.renderModeSelector();
-        this.switchMode(0);
+        this.switchMode(initialModeIndex);
+        if (initialPresetValues) {
+            Object.assign(this.currentInputValues, initialPresetValues);
+            this.renderInputControls();
+            this.computeAndRenderResult();
+        }
+    }
+    applyPresetByKey(presetKey) {
+        const targetPreset = FS_CATALOG.examples.find((ex) => ex.presetKey === presetKey || ex.id === presetKey);
+        if (!targetPreset)
+            return false;
+        const modeIdx = this.modes.findIndex((m) => m.id === targetPreset.modeId);
+        if (modeIdx >= 0) {
+            this.switchMode(modeIdx);
+        }
+        Object.assign(this.currentInputValues, targetPreset.values);
+        this.renderInputControls();
+        this.computeAndRenderResult();
+        return true;
+    }
+    getActiveCalculationState() {
+        return {
+            statement: this.catalogStatement,
+            mode: this.modes[this.activeModeIndex],
+            inputValues: { ...this.currentInputValues }
+        };
     }
     renderModeSelector() {
         this.modeSelectorContainer.removeChildren();

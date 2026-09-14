@@ -32,21 +32,31 @@ export interface FormalArgument {
   miningTrace?: MaximaMinerTrace;
 }
 
+export interface ArgumentCardOptions {
+  autoOpenCalculator?: boolean;
+  presetKey?: string;
+  activeModeId?: string;
+}
+
 export class ArgumentCard extends Elt {
   static serverUrl = "http://localhost:8001";
   static serverStatus: "unknown" | "online" | "offline" | "static" = "unknown";
 
   private arg: FormalArgument;
+  private options?: ArgumentCardOptions;
   private statusPill: Elt;
   private footerNotice: Elt;
   private verifyBtn?: Elt;
+  private studioBtn?: Elt;
   private calcBtn?: Elt;
   private calcContainer?: Elt;
+  private calculatorInstance?: FsCalculator;
   private isCalcOpen = false;
 
-  constructor(arg: FormalArgument) {
+  constructor(arg: FormalArgument, options?: ArgumentCardOptions) {
     super("div");
     this.arg = arg;
+    this.options = options;
     this.setA(
       "style",
       "margin-top: 16px; margin-bottom: 36px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 650px;"
@@ -404,7 +414,17 @@ export class ArgumentCard extends Elt {
     this.verifyBtn.elt.addEventListener("click", () => this.liveVerify());
     devBtnGroup.append(this.verifyBtn);
 
-    // Calculator Button (Available whenever meaningful calculation modes exist)
+    // Dev Studio Launcher Button (Available only in dev / local edit mode)
+    this.studioBtn = new Elt("button");
+    this.studioBtn.setA(
+      "style",
+      "display: none; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px; transition: all 0.15s ease;"
+    );
+    this.studioBtn.setV("🛠️ Studio");
+    this.studioBtn.elt.addEventListener("click", () => this.launchStudio());
+    devBtnGroup.append(this.studioBtn);
+
+    // Calculator Button (Available whenever meaningful calculation modes exist, in both static and dev modes)
     const calcModes = inferFsCalculationModes(arg);
     if (calcModes.length > 0) {
       this.calcBtn = new Elt("button");
@@ -423,6 +443,10 @@ export class ArgumentCard extends Elt {
     this.calcContainer = new Elt("div");
     this.calcContainer.setA("style", "display: none;");
     this.append(this.calcContainer);
+
+    if (options?.autoOpenCalculator && calcModes.length > 0) {
+      this.toggleCalculator(options.presetKey, options.activeModeId);
+    }
 
     this.detectEnvironment();
   }
@@ -449,10 +473,17 @@ export class ArgumentCard extends Elt {
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname.endsWith(".local"));
 
+    const isDev =
+      isLocal ||
+      (typeof Nav !== "undefined" && Boolean((Nav as any).edit));
+
     const cached = this.getCachedVerification();
 
-    if (!isLocal) {
+    if (!isDev) {
       ArgumentCard.serverStatus = "static";
+      if (this.studioBtn) {
+        this.studioBtn.setA("style", "display: none;");
+      }
       if (this.calcBtn) {
         this.calcBtn.setA(
           "style",
@@ -481,6 +512,14 @@ export class ArgumentCard extends Elt {
         this.footerNotice.setV("🛡️ Certified by Middle Way Logic Specification (Static Model)");
       }
       return;
+    }
+
+    // Dev Mode: Enable Studio button
+    if (this.studioBtn) {
+      this.studioBtn.setA(
+        "style",
+        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px; transition: all 0.15s ease;"
+      );
     }
 
     // Attempt Lean Server ping for local dev
@@ -519,6 +558,12 @@ export class ArgumentCard extends Elt {
 
   private setServerOffline(cached?: LeanCacheEntry) {
     ArgumentCard.serverStatus = "offline";
+    if (this.studioBtn) {
+      this.studioBtn.setA(
+        "style",
+        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px;"
+      );
+    }
     if (this.calcBtn) {
       this.calcBtn.setA(
         "style",
@@ -549,9 +594,16 @@ export class ArgumentCard extends Elt {
         "style",
         "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #fef9c3; color: #854d0e; font-weight: 600;"
       );
-      this.statusPill.setV("🟡 Dev Mode (Server Offline)");
-      this.statusPill.setA("title", "Run 'npm run leanServer' for live kernel verification.");
-      this.footerNotice.setV("🛡️ Certified by Middle Way Logic Specification (Dev Model)");
+      this.statusPill.setV("🟡 Local Server Offline");
+      this.footerNotice.setV("⚠️ Lean verification server not running. Start with 'npm run leanServer'.");
+      if (this.verifyBtn) {
+        this.verifyBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #94a3b8; background: #94a3b8; color: #ffffff; border-radius: 4px;"
+        );
+        this.verifyBtn.setV("⚡ Verify (Offline)");
+        this.verifyBtn.setA("title", "Server offline. Click to retry connection.");
+      }
     }
   }
 
@@ -587,10 +639,29 @@ export class ArgumentCard extends Elt {
     }
   }
 
-  private toggleCalculator() {
+  private launchStudio() {
+    const calcState = this.calculatorInstance?.getActiveCalculationState();
+    const eventDetail = {
+      statementId: calcState?.statement?.id || this.arg.target,
+      scaffoldKey: calcState?.statement?.scaffoldKey || this.arg.target,
+      title: this.arg.title,
+      mode: calcState?.mode,
+      inputValues: calcState?.inputValues,
+      arg: this.arg
+    };
+    console.log("[FS Studio Launcher] Opening studio session context:", eventDetail);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-fs-studio", { detail: eventDetail }));
+    }
+    if (this.footerNotice) {
+      this.footerNotice.setV(`🛠️ Studio session ready for "${this.arg.title}"`);
+    }
+  }
+
+  private toggleCalculator(presetKey?: string, activeModeId?: string) {
     if (!this.calcContainer || !this.calcBtn) return;
 
-    if (this.isCalcOpen) {
+    if (this.isCalcOpen && !presetKey && !activeModeId) {
       this.calcContainer.setA("style", "display: none;");
       this.calcBtn.setV("🧮 Calculator");
       this.calcBtn.setA(
@@ -602,7 +673,8 @@ export class ArgumentCard extends Elt {
     }
 
     this.calcContainer.elt.innerHTML = "";
-    const calculator = new FsCalculator(this.arg);
+    const calculator = new FsCalculator(this.arg, { presetKey, activeModeId });
+    this.calculatorInstance = calculator;
     this.calcContainer.append(calculator);
     this.calcContainer.setA("style", "display: block; padding: 0 14px 14px 14px;");
     this.calcBtn.setV("▼ Hide Calculator");

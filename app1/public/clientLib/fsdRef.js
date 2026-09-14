@@ -3,6 +3,7 @@ import { Elt } from "./elt.js";
 import { fsd, setFSD, parseDomainSpec, formatDomainSpec } from "./fsd.js";
 import { ArgumentCard } from "./argumentCard.js";
 import { getScaffoldReflection } from "./scaffoldReflection.js";
+import { FS_CATALOG } from "./fsCatalog.js";
 export class FSDRef extends HTMLElement {
     static stdColor = "firebrick";
     static overColor = "fuchsia";
@@ -24,13 +25,21 @@ export class FSDRef extends HTMLElement {
         });
         this.addEventListener("click", () => {
             const tier = this.getAttribute("tier");
-            const scaffold = this.getAttribute("scaffold") || "MiddleWayLean/Scaffold.lean";
+            const scaffoldOrId = this.getAttribute("scaffold") || this.getAttribute("id") || "MiddleWayLean/Scaffold.lean";
             const titleAttr = this.getAttribute("title") || this.innerText.trim();
+            const autoOpenCalc = this.hasAttribute("open-calc") || this.hasAttribute("auto-calc");
+            const presetAttr = this.getAttribute("preset") || undefined;
+            const modeAttr = this.getAttribute("calc-mode") || undefined;
             const index = Nav.indices[Nav.currentIndex];
             const choice = index.choices[index.chosen];
             const buttonText = `back to ${choice[0].topic}`;
-            if (tier === "3") {
-                const formalArg = getScaffoldReflection(scaffold, titleAttr);
+            const catalogStmt = FS_CATALOG.formalStatements.find((s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId);
+            if (tier === "3" || catalogStmt) {
+                const effectiveScaffold = catalogStmt?.scaffoldKey || scaffoldOrId;
+                const formalArg = getScaffoldReflection(effectiveScaffold, titleAttr || catalogStmt?.title);
+                if (catalogStmt && !formalArg.expression) {
+                    formalArg.expression = catalogStmt.expression;
+                }
                 window.scrollTo(0, 0);
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
@@ -41,7 +50,11 @@ export class FSDRef extends HTMLElement {
                 Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:16px 20px 80px 20px;');
                 const scrollWrap = new Elt("div");
                 scrollWrap.setA("style", "width:100%;min-height:100%;box-sizing:border-box;display:flow-root;padding-bottom:60px;");
-                scrollWrap.append(new ArgumentCard(formalArg));
+                scrollWrap.append(new ArgumentCard(formalArg, {
+                    autoOpenCalculator: autoOpenCalc,
+                    presetKey: presetAttr,
+                    activeModeId: modeAttr
+                }));
                 Nav.fo.append(scrollWrap);
                 if (Nav.fo && Nav.fo.elt) {
                     Nav.fo.elt.removeEventListener("scroll", Nav.onFoScroll);
