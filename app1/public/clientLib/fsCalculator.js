@@ -1,6 +1,16 @@
 import { Elt } from "./elt.js";
 import { NumericRunnerRegistry } from "./numericRunner.js";
 import { NumericVisualizer } from "./numericVisualizer.js";
+import { FS_CATALOG } from "./fsCatalog.js";
+export function getFsCatalogStatement(scaffoldKeyOrTarget) {
+    if (!scaffoldKeyOrTarget)
+        return undefined;
+    const clean = scaffoldKeyOrTarget.replace(/^scaffold:/, "").trim().toLowerCase();
+    return FS_CATALOG.formalStatements.find((s) => s.scaffoldKey.toLowerCase() === clean || s.id.toLowerCase() === clean);
+}
+export function getFsCatalogExamplesForMode(modeId) {
+    return FS_CATALOG.examples.filter((ex) => ex.modeId === modeId);
+}
 /**
  * Infers directional (inputs → output) sets from any Formal Statement (FS).
  */
@@ -1545,6 +1555,7 @@ export class FsCalculator extends Elt {
     formulaBanner;
     inputControlsContainer;
     resultDisplayContainer;
+    catalogStatement;
     isSimOpen = false;
     simBtn;
     simContainer;
@@ -1553,6 +1564,7 @@ export class FsCalculator extends Elt {
         super("div");
         this.arg = arg;
         this.modes = inferFsCalculationModes(arg);
+        this.catalogStatement = getFsCatalogStatement(arg.target || "") || getFsCatalogStatement(arg.title || "");
         this.setA("style", "margin-top: 12px; padding: 16px; border: 1px solid #38bdf8; border-radius: 8px; background: #f0f9ff; font-family: system-ui, -apple-system, sans-serif; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);");
         if (this.modes.length === 0) {
             const notice = new Elt("div");
@@ -1563,15 +1575,52 @@ export class FsCalculator extends Elt {
         }
         // Title Bar
         const titleBar = new Elt("div");
-        titleBar.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #bae6fd; padding-bottom: 8px;");
+        titleBar.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #bae6fd; padding-bottom: 8px; flex-wrap: wrap; gap: 8px;");
         const titleText = new Elt("div");
-        titleText.setA("style", "font-weight: 700; font-size: 13px; color: #0369a1; display: flex; align-items: center; gap: 6px;");
+        titleText.setA("style", "font-weight: 700; font-size: 13px; color: #0369a1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;");
         titleText.setV("🧮 FS Algebraic Calculator");
+        if (this.catalogStatement) {
+            // 1. Statement Type Badge (math / physics / information)
+            const typeBadge = new Elt("span");
+            const isPhysics = this.catalogStatement.type === "physics";
+            const isMath = this.catalogStatement.type === "math";
+            typeBadge.setA("style", `font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; ${isPhysics
+                ? "background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe;"
+                : isMath
+                    ? "background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd;"
+                    : "background: #fef3c7; color: #b45309; border: 1px solid #fde68a;"}`);
+            typeBadge.setV(isPhysics ? "⚛️ Physics" : isMath ? "📐 Math" : "💡 Information");
+            titleText.append(typeBadge);
+            // 2. Hierarchy Breadcrumb (Parent FS → Child FS)
+            if (this.catalogStatement.parentId) {
+                const parentStatement = getFsCatalogStatement(this.catalogStatement.parentId);
+                const parentTitle = parentStatement ? parentStatement.title : this.catalogStatement.parentId.replace(/^fs_/, "");
+                const hierarchyBadge = new Elt("span");
+                hierarchyBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;");
+                hierarchyBadge.setV(`↳ ${parentTitle} [${this.catalogStatement.tier}]`);
+                titleText.append(hierarchyBadge);
+            }
+            else if (this.catalogStatement.tier) {
+                const tierBadge = new Elt("span");
+                tierBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; text-transform: capitalize;");
+                tierBadge.setV(`Governing ${this.catalogStatement.tier}`);
+                titleText.append(tierBadge);
+            }
+        }
         titleBar.append(titleText);
+        const badgeGroup = new Elt("div");
+        badgeGroup.setA("style", "display: flex; align-items: center; gap: 6px; flex-wrap: wrap;");
+        if (this.catalogStatement?.governingSeed) {
+            const seedBadge = new Elt("span");
+            seedBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;");
+            seedBadge.setV(`🌱 ${this.catalogStatement.governingSeed}`);
+            badgeGroup.append(seedBadge);
+        }
         const devBadge = new Elt("span");
         devBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: #0284c7; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px;");
         devBadge.setV(`${this.modes.length} Inferred Direction${this.modes.length > 1 ? "s" : ""}`);
-        titleBar.append(devBadge);
+        badgeGroup.append(devBadge);
+        titleBar.append(badgeGroup);
         this.append(titleBar);
         // Mode Selector (if multiple directions inferred)
         this.modeSelectorContainer = new Elt("div");
@@ -1660,6 +1709,28 @@ export class FsCalculator extends Elt {
     renderInputControls() {
         this.inputControlsContainer.removeChildren();
         const mode = this.modes[this.activeModeIndex];
+        // Verified Example Presets (Active configured FsCalculator stencil presets)
+        const presets = getFsCatalogExamplesForMode(mode.id);
+        if (presets.length > 0) {
+            const presetBar = new Elt("div");
+            presetBar.setA("style", "margin-bottom: 12px; padding: 8px 10px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;");
+            const presetTitle = new Elt("span");
+            presetTitle.setA("style", "font-size: 10px; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;");
+            presetTitle.setV("💡 Verified Presets:");
+            presetBar.append(presetTitle);
+            presets.forEach((preset) => {
+                const pBtn = new Elt("button");
+                pBtn.setA("style", "padding: 3px 8px; font-size: 11px; font-weight: 600; border: 1px solid #86efac; background: #ffffff; color: #15803d; border-radius: 12px; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);");
+                pBtn.setV(preset.title);
+                pBtn.elt.addEventListener("click", () => {
+                    Object.assign(this.currentInputValues, preset.values);
+                    this.renderInputControls();
+                    this.computeAndRenderResult();
+                });
+                presetBar.append(pBtn);
+            });
+            this.inputControlsContainer.append(presetBar);
+        }
         mode.inputs.forEach((inp) => {
             const row = new Elt("div");
             row.setA("style", "display: flex; flex-direction: column; gap: 4px; padding-bottom: 8px; border-bottom: 1px dashed #e2e8f0;");
