@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HobbyNotes Database & Transaction Console</title>
+    <link rel="stylesheet" href="./console.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="brand-icon">🗄️</div>
+                <div>
+                    <h1 class="app-title">HobbyNotes SQL & Transaction Console</h1>
+                    <div class="app-subtitle">Middle Way Mathematics Database Bridge</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div id="connection-badge" class="connection-badge status-checking">
+                    <span class="status-dot"></span>
+                    <span id="connection-text">Connecting to PostgreSQL...</span>
+                </div>
+                <button id="refresh-health-btn" class="icon-btn" title="Check Connection Health">🔄</button>
+            </div>
+        </header>
+
+        <!-- Controls Toolbar -->
+        <div class="controls-toolbar">
+            <div class="toolbar-section">
+                <button id="submit-btn" class="btn btn-primary" title="Execute Query (Ctrl + Enter)">
+                    <span class="btn-icon">▶</span> Run Query
+                </button>
+                <button id="clear-btn" class="btn btn-secondary" title="Clear Editor">Clear</button>
+                
+                <div class="dropdown-wrapper">
+                    <button id="templates-btn" class="btn btn-secondary">
+                        <span class="btn-icon">📋</span> Templates ▾
+                    </button>
+                    <div id="templates-menu" class="dropdown-menu"></div>
+                </div>
+
+                <div class="dropdown-wrapper">
+                    <button id="history-btn" class="btn btn-secondary">
+                        <span class="btn-icon">🕒</span> History ▾
+                    </button>
+                    <div id="history-menu" class="dropdown-menu"></div>
+                </div>
+
+                <button id="reseed-btn" class="btn btn-secondary" style="color: #b45309; border-color: #fcd34d; font-weight: 600;" title="Reset database to clean Git baseline (seed_v2.sql)">
+                    <span class="btn-icon">🔄</span> Reset DB from Source
+                </button>
+            </div>
+
+            <!-- Transaction Controls -->
+            <div class="toolbar-section transaction-section">
+                <span class="section-label">Transaction:</span>
+                <button id="begin-btn" class="btn btn-tx">Begin</button>
+                <button id="commit-btn" class="btn btn-commit" disabled>Commit</button>
+                <button id="rollback-btn" class="btn btn-rollback" disabled>Rollback</button>
+                <span id="tx-status" class="tx-badge idle">NO TRANSACTION</span>
+            </div>
+        </div>
+
+        <!-- Split Editor / Results Area -->
+        <main class="workbench-container">
+            <!-- SQL Editor Pane -->
+            <div id="editor-pane" class="pane editor-pane">
+                <div class="pane-header">
+                    <span class="pane-title">SQL Query / DML Script</span>
+                    <span class="pane-hint">Press <strong>Ctrl + Enter</strong> to execute</span>
+                </div>
+                <textarea id="sql-input" class="sql-textarea" spellcheck="false" placeholder="-- Type your SQL query here or select a template above...
+SELECT id, title, domain_category, invariant_summary FROM situations LIMIT 10;"></textarea>
+            </div>
+
+            <!-- Drag Resizer -->
+            <div id="drag-resizer" class="resizer-bar" title="Drag to resize panels"></div>
+
+            <!-- Results Pane -->
+            <div id="results-pane" class="pane results-pane">
+                <div class="pane-header results-header">
+                    <div class="results-tabs">
+                        <button id="tab-table-btn" class="tab-btn active">📊 Table View</button>
+                        <button id="tab-json-btn" class="tab-btn">📄 Raw JSON</button>
+                    </div>
+                    <div id="execution-stats" class="execution-stats">Ready</div>
+                </div>
+
+                <div class="results-body">
+                    <!-- Table View -->
+                    <div id="table-view" class="view-panel active">
+                        <div id="table-container" class="table-container">
+                            <div class="empty-state">No query results yet. Select a template or write an SQL query to begin.</div>
+                        </div>
+                    </div>
+
+                    <!-- JSON View -->
+                    <div id="json-view" class="view-panel">
+                        <div class="json-actions">
+                            <button id="copy-json-btn" class="btn btn-small">📋 Copy JSON</button>
+                        </div>
+                        <pre id="json-container" class="json-container"><code>// JSON output will appear here...</code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Application Script Bundle -->
+    <script type="module" src="./public/bundle.js"></script>
+</body>
+</html>

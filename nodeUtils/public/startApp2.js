@@ -79,8 +79,8 @@ async function start() {
         // Brief pause to allow the server to bind to port 8080
         await new Promise((r) => setTimeout(r, 800));
     }
-    console.log('[app2R] Launching live-server for app2 (port 8082, ignoring segs/ for manual [R] control)...\n');
-    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app2', '--port=8082', '--ignore=segs,dist'], {
+    console.log('[app2R] Launching live-server for app2 (port 8082, ignoring segs, dist, builds for manual control)...\n');
+    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app2', '--port=8082', '--ignore=segs,dist,builds'], {
         cwd: rootDir,
         stdio: 'inherit',
         shell: true,

@@ -80,10 +80,78 @@
         <li><b>Instructor Pedagogical Autonomy:</b> Rather than locking educators into rigid, pre-canned textbook problem sets, an open Maxima CAS service gives teachers complete freedom to choose, customize, and generate their own salient examples—tailoring the mathematics to their specific classroom inquiries, regional engineering contexts, or student curiosity.</li>
       </ul>
 
-      <h3>3. Proof of Concept: How Middle Way Mathematics Proves the Model</h3>
+      <h3>3. Multi-Role Architecture: Pedagogical Sovereignty for Instructors</h3>
       <p>
-        The <i>Middle Way Mathematics</i> prototype (<a href="https://www.middlewaymath.app" target="_blank" style="color: #0369a1; font-weight: 600;">middlewaymath.app</a>) directly demonstrates how an educational application flourishes when heavy computation is decoupled from frontend delivery:
+        A central barrier in legacy educational software is the bureaucratic bottleneck: teachers are either restricted to "read-only" consumers of pre-baked digital textbooks, or forced to navigate rigid administrative permissions to make the slightest adjustment. 
       </p>
+      <p>
+        The <i>Middle Way Mathematics</i> architecture resolves this tension through a model of <b>pedagogical sovereignty</b> distributed across three complementary roles:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%;">Role</th>
+            <th style="width: 38%;">Scope &amp; Responsibilities</th>
+            <th style="width: 40%;">Tooling &amp; Workflow in MWM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1. Authorized Hub Keeper</b><br><span style="font-size: 12px; color: #cbd5e1;">(Platform &amp; Rigor)</span></td>
+            <td>Curates the canonical mathematical baseline; verifies formal Lean 4 theorems; manages global calculation stencils; authorizes instructors; oversees schema and repository integrity.</td>
+            <td>Database Console (<code>/console</code>), <code>[🔄 Reset DB from Source]</code>, automated theorem verification caches, and database baseline seed (<code>seed_v2.sql</code>).</td>
+          </tr>
+          <tr>
+            <td><b>2. Course Instructor</b><br><span style="font-size: 12px; color: #cbd5e1;">(Pedagogical Sovereignty)</span></td>
+            <td><b>Enjoys the exact same authoring flexibility as the Hub Keeper.</b> Full freedom to rewrite narrative chapters, restructure outline hierarchy, reorder topics, and tune interactive stencils to their syllabus—with zero committee gatekeeping.</td>
+            <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, and <code>[🚀 Build Page]</code> to compile an autonomous, self-contained course document.</td>
+          </tr>
+          <tr>
+            <td><b>3. Student Learner</b><br><span style="font-size: 12px; color: #cbd5e1;">(Interactive Exploration)</span></td>
+            <td>Zero-friction learning: no logins, no paywalls, no server crashes mid-study. Explores verified algebraic invariants and physical simulations directly in the browser with zero latency.</td>
+            <td>Static Single-Page Application (HTML + embedded SVG + pre-rendered MathML/MathJax) delivered via any standard browser on phones, tablets, or Chromebooks.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="box-blue" style="border-left: 5px solid #2563eb; margin: 20px 0;">
+        <h4 style="margin: 0 0 8px 0; color: #1d4ed8; font-size: 16px;">The Sovereignty Principle: Full Power, Isolated Scope</h4>
+        <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6;">
+          In this framework, the distinction between an Instructor and a Hub Keeper is <b>scope of distribution</b>, never creative capability:
+        </p>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+          <li><b>Zero Bureaucratic Bottlenecks:</b> An instructor teaching a physics-oriented calculus class can reorder the entire curriculum to front-load vectors, rewrite the narrative introduction to highlight Newtonian mechanics, and instantly compile a customized course bundle via <code>[🚀 Build Page]</code>. Their students see the tailored course immediately—no platform permissions required.</li>
+          <li><b>Independent Course Snapshots:</b> Changes made by an instructor live in their generated course page. The shared canonical repository remains stable and uncorrupted, preventing conflicting edits between classrooms.</li>
+          <li><b>Frictionless Upstreaming:</b> If an instructor originates an exceptionally lucid explanation or a novel verified problem stencil, the Hub Keeper can easily pull those edits into the canonical seed for global adoption. But the teacher never has to wait for approval to teach with it tomorrow morning.</li>
+        </ul>
+      </div>
+
+      <h3>4. Proof of Concept Milestone: What We Have Built &amp; Demonstrated</h3>
+      <p>
+        The <i>Middle Way Mathematics</i> project has now moved beyond theoretical design into an <b>operational, fully functioning Proof of Concept (PoC)</b>. It directly proves that a modern, interactive formal science curriculum can be authored, mathematically verified, and deployed without expensive server infrastructure:
+      </p>
+
+      <div class="box-emerald" style="border-left: 5px solid #059669; margin: 20px 0;">
+        <h4 style="margin: 0 0 8px 0; color: #065f46; font-size: 16px;">Working Feasibility Prototype Milestones</h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+          <li><b>WYSIWYG Page-Mimic Authoring Studio:</b> An integrated, in-situ authoring overlay attached directly to the SVG navigation control bar (<code>Line 2 Dev Studio</code>). Authors can click any chapter in the outline to edit topic titles, restructure hierarchy, re-parent sections, and author lecture text with live MathJax typesetting in place—no external CMS or complex config files required.</li>
+          <li><b>Dual Formal Verification &amp; Symbolic CAS Stencils:</b> Seamlessly bridges Lean 4 machine-verified proof statements (<code>&lt;fsd-ref&gt;</code>) with Maxima computer algebra calculations (<code>&lt;cas-ref&gt;</code>), enabling students to explore verified mathematical invariants with interactive stepper controls (<code>[-] [value] [+]</code>).</li>
+          <li><b>Isolated In-Memory Dev Sandbox:</b> Real-time authoring and curricular restructuring operate safely in client memory. The established PostgreSQL canonical database is protected from experimental edits, while an explicit <code>[💾 Update DB]</code> control allows transactional database commits on demand.</li>
+          <li><b>One-Click Static Build Snapshot Engine:</b> With a single click (<code>[🚀 Build Page]</code>), the author's live browser state is compiled into an isolated, zero-dependency standalone HTML file in <b>under 300 milliseconds</b> (writing to <code>app1/builds/&lt;custom_name&gt;.html</code>), ready for offline distribution or rapid evaluation.</li>
+        </ul>
+      </div>
+
+      <div class="box-amber" style="border-left: 5px solid #d97706; margin: 20px 0;">
+        <h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 16px;">The "Invisibility Barrier": Why the Public Hub is the Essential Catalyst</h4>
+        <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6;">
+          <b>The Local Scope of the Prototype:</b> This authoring workflow, live Lean 4 proof extraction, and Maxima CAS derivation currently runs in a <i>local development environment</i>. However, on the public static deployment on the open web, <b>this dynamic editing and on-demand verification is necessarily inactive</b>.
+        </p>
+        <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+          To keep public delivery 100% free of cloud hosting fees and server maintenance vulnerabilities, reader deployments run as static assets with <code>editMode = false</code>, relying on pre-computed JSON caches. The local prototype demonstrates the feasibility of the workflow, the authoring studio, and the compile pipeline. <b>The public educational service hub is the bridge required to move beyond local demonstration</b>—transforming what is currently a local feasibility prototype into a shared public service where educators and students can author, verify, and explore live mathematics directly in their browsers.
+        </p>
+      </div>
+
       <ul>
         <li><b>Calculus as Algebra on the Conway Tree:</b> By defining hyperreal numbers via Conway's tree (<code>ℝ_ω, ℂ_ω</code>) and keeping transfinite <code>ω</code> and infinitesimal <code>dt = 1/ω</code> as first-class citizens, differential and integral calculus reduces to finite algebraic stencils.</li>
         <li><b>100% Client-Side Evaluation:</b> Because the formulas are algebraic, the interactive <b>Formal Statement (FS) Calculator</b> and physical simulations run entirely in browser-native TypeScript. Students can change variables, invert input-output mappings, and run trajectory animations with <b>zero server overhead and zero latency</b>.</li>
@@ -106,7 +174,7 @@
         Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods costs a tiny fraction of a typical foundation grant—roughly <b>$10,000 to $25,000 per year</b> in commodity cloud compute. That single hub can serve thousands of independent classrooms, research projects, and student developers worldwide.
       </div>
 
-      <h3>4. Recommended Action Plan for Foundations &amp; Consortia</h3>
+      <h3>5. Recommended Action Plan for Foundations &amp; Consortia</h3>
       <table>
         <thead>
           <tr>
@@ -134,7 +202,7 @@
         </tbody>
       </table>
 
-      <h3>5. Conclusion: Fund the Engines, Free the Teachers</h3>
+      <h3>6. Conclusion: Fund the Engines, Free the Teachers</h3>
       <p>
         The future of general science education does not belong to monolithic corporate platforms that rent access to proprietary math engines. 
         It belongs to an open ecosystem where verified formal logic and symbolic mathematics are treated as <b>public utilities</b>—open to all, maintained for the common good, and accessible to anyone with an internet connection.

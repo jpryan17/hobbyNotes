@@ -25,16 +25,22 @@ export class FSDRef extends HTMLElement {
         });
         this.addEventListener("click", () => {
             const tier = this.getAttribute("tier");
-            const scaffoldOrId = this.getAttribute("scaffold") || this.getAttribute("id") || "MiddleWayLean/Scaffold.lean";
+            const scaffoldOrId = this.getAttribute("scaffold") || this.getAttribute("id") || this.getAttribute("calc-id") || this.getAttribute("calcId") || "MiddleWayLean/Scaffold.lean";
             const titleAttr = this.getAttribute("title") || this.innerText.trim();
             const autoOpenCalc = this.hasAttribute("open-calc") || this.hasAttribute("auto-calc");
             const presetAttr = this.getAttribute("preset") || undefined;
             const modeAttr = this.getAttribute("calc-mode") || undefined;
             const index = Nav.indices[Nav.currentIndex];
-            const choice = index.choices[index.chosen];
-            const buttonText = `back to ${choice[0].topic}`;
-            const catalogStmt = FS_CATALOG.formalStatements.find((s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId);
-            if (tier === "3" || catalogStmt) {
+            const choice = index ? index.choices[index.chosen] : null;
+            const buttonText = `back to ${choice && choice[0] ? choice[0].topic : 'lecture'}`;
+            const cleanId = scaffoldOrId.trim().toLowerCase();
+            const matchedExample = FS_CATALOG.examples.find((ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId);
+            const matchedMode = FS_CATALOG.calculationModes.find((m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId);
+            const catalogStmt = FS_CATALOG.formalStatements.find((s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
+                s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
+                s.id.toLowerCase() === cleanId ||
+                s.scaffoldKey.toLowerCase() === cleanId);
+            if (tier === "3" || catalogStmt || matchedMode || matchedExample) {
                 const effectiveScaffold = catalogStmt?.scaffoldKey || scaffoldOrId;
                 const formalArg = getScaffoldReflection(effectiveScaffold, titleAttr || catalogStmt?.title);
                 if (catalogStmt && !formalArg.expression) {
@@ -51,9 +57,9 @@ export class FSDRef extends HTMLElement {
                 const scrollWrap = new Elt("div");
                 scrollWrap.setA("style", "width:100%;min-height:100%;box-sizing:border-box;display:flow-root;padding-bottom:60px;");
                 scrollWrap.append(new ArgumentCard(formalArg, {
-                    autoOpenCalculator: autoOpenCalc,
-                    presetKey: presetAttr,
-                    activeModeId: modeAttr
+                    autoOpenCalculator: autoOpenCalc || !!matchedMode || !!matchedExample,
+                    presetKey: presetAttr || (matchedExample ? (matchedExample.presetKey || matchedExample.id) : undefined),
+                    activeModeId: modeAttr || (matchedMode ? matchedMode.id : undefined)
                 }));
                 Nav.fo.append(scrollWrap);
                 if (Nav.fo && Nav.fo.elt) {

@@ -2,11 +2,12 @@ import { spawn, ChildProcess } from 'child_process';
 import * as net from 'net';
 import { resolve } from 'path';
 
-const SERVER_PORT = 8080;
+const SERVER_PORT = 3000;
+const HTTPS_PORT = 8080;
 const SERVER_HOST = '127.0.0.1';
 
 /**
- * Checks if the backend HTTPS server is already listening on port 8080
+ * Checks if the backend server is already listening on port 3000 or 8080
  */
 function isServerRunning(port: number, host: string): Promise<boolean> {
   return new Promise((resolvePromise) => {
@@ -37,25 +38,25 @@ async function start() {
   const serverPath = resolve(rootDir, 'server/public/server.js');
   let serverProcess: ChildProcess | null = null;
 
-  console.log('[app1R] Checking if edit-mode server is running on port 8080...');
+  console.log('[app1R] Checking if backend server is running on port 3000...');
   const running = await isServerRunning(SERVER_PORT, SERVER_HOST);
 
   if (running) {
-    console.log('[app1R] Edit-mode server is already running.');
+    console.log('[app1R] Backend edit-mode server is already running on port 3000.');
   } else {
-    console.log('[app1R] Starting backend edit-mode server (https://localhost:8080)...');
+    console.log('[app1R] Starting backend edit-mode server (http://localhost:3000)...');
     serverProcess = spawn('node', [serverPath], {
       cwd: rootDir,
       stdio: 'inherit',
       shell: true,
     });
 
-    // Brief pause to allow the server to bind to port 8080
+    // Brief pause to allow the server to bind to port 3000
     await new Promise((r) => setTimeout(r, 800));
   }
 
-  console.log('[app1R] Launching live-server for app1 (ignoring segs/ for manual [R] control)...\n');
-  const liveServerProcess = spawn('npx', ['live-server', './app1', '--ignore=segs,dist'], {
+  console.log('[app1R] Launching live-server for app1 (ignoring segs, dist, builds for manual control)...\n');
+  const liveServerProcess = spawn('npx', ['live-server', './app1', '--ignore=segs,dist,builds'], {
     cwd: rootDir,
     stdio: 'inherit',
     shell: true,

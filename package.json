@@ -15,17 +15,28 @@
     "maximaCache:force": "node ./nodeUtils/public/genMaximaCache.js --force",
     "stencils": "node ./nodeUtils/public/harvestStencils.js",
     "leanServer": "node ./leanServer/public/server.js",
+    "serverC": "cd ./server && npx tsc",
+    "consoleC": "node ./node_modules/esbuild/bin/esbuild console/console.ts --bundle --outfile=console/public/bundle.js --format=esm --sourcemap",
     "server": "node ./server/public/server.js",
     "utilsC": "cd ./nodeUtils && npx tsc",
     "segs": "cd ./nodeUtils && node ./public/genSegsFiles.js",
     "index": "node ./nodeUtils/public/indexBuild.js",
+    "db:seed": "npm run utilsC && node ./nodeUtils/public/genSqlSeeds.js",
+    "publish:db": "npm run utilsC && node ./nodeUtils/public/dbPublisher.js app1",
     "dist": "cd ./app1/dist && live-server"
   },
   "dependencies": {
-    "live-server": "^1.1.0"
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "live-server": "^1.1.0",
+    "pg": "^8.23.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/node": "^26.1.2",
+    "@types/pg": "^8.23.1",
     "esbuild": "^0.28.1",
     "typescript": "^7.0.2"
   }

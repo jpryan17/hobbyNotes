@@ -7,7 +7,7 @@ import {BIDRef} from '../../clientLib/bidRef.js'
 import {StemCard} from '../../clientLib/stemCard.js'
 import {CasRef} from '../../clientLib/casRef.js'
 import {MwmCasCalculator} from '../../clientLib/mwmCasCalculator.js'
-import {mainIndex} from './indices.js'
+import {mainIndex, hydrateDiagramCallbacks} from './indices.js'
 import {setTTD} from '../../clientLib/ttd.js'
 import {setFSD} from '../../clientLib/fsd.js'
 import {setBTD} from '../../clientLib/btd.js'
@@ -29,6 +29,9 @@ export function top(edit=false){
     setBID()
 
     Nav.clearNavLine()
-    Nav.loadIndex('main',mainIndex)     
+    const activeIndex = (typeof window !== 'undefined' && (window as any).__MWM_DEV_INDEX__)
+        ? hydrateDiagramCallbacks((window as any).__MWM_DEV_INDEX__)
+        : mainIndex;
+    Nav.loadIndex('main', activeIndex)     
 }
 

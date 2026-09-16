@@ -32,6 +32,10 @@ export class Nav {
     static editMode:boolean
     static isReturning = false
     static returningScrollTop = 0
+    static devLine: SVGElt
+    static devLineRect: SVGElt
+    static devLineBlock: SVGText
+    static devLineHeight = 36
     
     static marginLeft:number
     static marginTop:number
@@ -79,6 +83,12 @@ export class Nav {
         Nav.returnControl = new SVGTSpan(Nav.lineBlock)
         Nav.returnControl.setAA(['visibility','hidden','pointer-events','none'])
 
+        if (Nav.editMode) {
+            Nav.devLine = new SVGElt('g')
+            Nav.devLineRect = new SVGElt('rect')
+            Nav.devLineBlock = new SVGText()
+        }
+
         Nav.index = new SVGElt('svg')
         Nav.indexRect = new SVGElt('rect')
         Nav.foRect = new SVGElt('rect')
@@ -88,18 +98,29 @@ export class Nav {
         Nav.frame.append(Nav.line)
         Nav.line.append(Nav.lineRect)
         Nav.line.append(Nav.lineBlock)
+        if (Nav.editMode) {
+            Nav.frame.append(Nav.devLine)
+            Nav.devLine.append(Nav.devLineRect)
+            Nav.devLine.append(Nav.devLineBlock)
+        }
         Nav.frame.append(Nav.index)
         Nav.frame.append(Nav.foRect)
         Nav.frame.append(Nav.fo)
         //
         const fm = Nav.frameMargin
         const h = Nav.lineHeight
-        const y = 2*fm + h
+        const devH = Nav.editMode ? Nav.devLineHeight : 0
+        const yDev = 2 * fm + h
+        const y = Nav.editMode ? (3 * fm + h + devH) : (2 * fm + h)
         const xp =  Nav.margin.start
         const yp = 1/2 * Nav.lineHeight + .6 * Nav.fontSize
         Nav.frame.setA('style',`background-color:${bgC}`)
         Nav.line.setA('height',h)
         Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`])
+        if (Nav.editMode) {
+            Nav.devLine.setA('height', devH)
+            Nav.devLineRect.setAA(['x', fm, 'y', yDev, 'height', devH, 'fill', '#fef9c3'])
+        }
         Nav.index.setAA(['x',fm,'y',y])
         Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`])
         Nav.foRect.setAA(['y',y,'fill',`${Nav.foBgColor}`])
@@ -463,17 +484,22 @@ export class Nav {
         const bw = window.innerWidth - Nav.offset
         const bh = window.innerHeight - Nav.offset
         const fm = Nav.frameMargin
-        const py = Nav.lineHeight + 2 * fm
+        const devH = Nav.editMode ? Nav.devLineHeight : 0
+        const y = Nav.editMode ? (3 * fm + Nav.lineHeight + devH) : (2 * fm + Nav.lineHeight)
         //
         Nav.frame.setAA(['width',bw,'height',bh])
         Nav.line.setA('width',bw-2*fm)
         Nav.lineRect.setA('width',bw-2*fm)
-        Nav.foHeight = bh - Nav.lineHeight - 3 * fm 
+        if (Nav.editMode && Nav.devLine) {
+            Nav.devLine.setA('width', bw - 2 * fm)
+            Nav.devLineRect.setA('width', bw - 2 * fm)
+        }
+        Nav.foHeight = bh - Nav.lineHeight - (Nav.editMode ? devH + 4 * fm : 3 * fm) 
 
         //
         const textSizeControlSize = Nav.setTextSizeControlPos(bw-2*fm)
         if (Nav.editMode){ 
-            Sed.setEditControlsPos(textSizeControlSize)
+            Sed.setEditControlsPos(bw - 2 * fm)
         }
         //
         let indexWidth = 0
@@ -494,8 +520,9 @@ export class Nav {
         }
         const foX = (indexWidth>0)?  2 * fm + indexWidth : fm
         Nav.foWidth = (indexWidth>0)? bw - 3 * fm - indexWidth : bw - 2 * fm 
-        Nav.foRect.setAA(['x',`${foX}`,'width',Nav.foWidth,'height',Nav.foHeight])
-        Nav.fo.setAA(['x',`${foX}`,'width',Nav.foWidth,'height',Nav.foHeight])
+        Nav.index.setAA(['x', fm, 'y', y])
+        Nav.foRect.setAA(['x',`${foX}`,'y',y,'width',Nav.foWidth,'height',Nav.foHeight])
+        Nav.fo.setAA(['x',`${foX}`,'y',y,'width',Nav.foWidth,'height',Nav.foHeight])
         displayAnyDJSI()
         if(layoutCB){
             layoutCB()

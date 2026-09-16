@@ -1,16 +1,17 @@
-// support for app segment editing 
+// support for app segment editing & studio overlay
 
 import {Nav} from './navFW.js'
 import {Elt} from './elt.js'
 import {SVGTSpan, textWidth} from './svgElt.js'
 import {SI} from './serverInterface.js'
 import {initAnyDJSI} from './ida.js'
+import {StudioOverlay} from './studioOverlay.js'
 
 type NavColors = {bg:string,std:string,active:string,over:string, busy:string}
 
 export class Sed {
     //
-    static editControlsWidth:number
+    static editControlsWidth:number = 0
     static editControls:SVGTSpan
     static editControlsActiveStatus=true
     static savedContent:Elt
@@ -19,56 +20,17 @@ export class Sed {
     //
     constructor (navColors:NavColors){
         Sed.colors = [navColors.std,navColors.active,navColors.over,navColors.busy,'red']
-        const [stdC,activeC,overC,busyC,alertC] = Sed.colors
-        Sed.editControls = new SVGTSpan(Nav.lineBlock)
-        Sed.controls.forEach(header=>{
-            const widget = new SVGTSpan(Sed.editControls)
-            widget.setAA(['font-size',Nav.fontSize,'stroke',stdC,'pointer-events','none'])
-            widget.setV(header)
-            if (header != ' '){
-                widget.elt.addEventListener('mouseover',(ev)=>{
-                    const cc = widget.getS('stroke')
-                    if (cc != busyC && cc != alertC) {widget.setA('stroke',overC)}
-                })
-                widget.elt.addEventListener('mouseout',()=>{
-                    const cc = widget.getS('stroke')
-                    if (cc != busyC && cc != alertC) {widget.setA('stroke',activeC)}
-                })
-                //
-                if (header == '[E]'){
-                    widget.elt.addEventListener('click',(ev)=> {Sed.segEditHandler(ev)})
-                }else if(header == '[R]'){
-                    widget.elt.addEventListener('click',(ev)=> {Sed.segReplaceHandler(ev)})
-                }else if (header == '[L]'){
-                    widget.elt.addEventListener('click',(ev)=> {Sed.logViewHandler(ev)})
-                }
-            }
-        })
-        Sed.editControlsWidth = textWidth('[E] [R] [L]', Nav.fontSize)
-        Sed.setEditControlStatus(false)
+        
+        // Initialize modern Studio Overlay controls
+        StudioOverlay.init(navColors)
         SI.logInit()    
     }
     //
     static setEditControlsPos(lineWidth:number){
-        Sed.editControls.setA('x', lineWidth - Sed.editControlsWidth)
+        StudioOverlay.setPos(lineWidth)
     }
     static setEditControlStatus(status:boolean){
-        const [stdC,activeC] = [Nav.color.std,Nav.color.active]
-        if (status) {
-            if (! Sed.editControlsActiveStatus){
-                Sed.editControlsActiveStatus = true
-                // activate controls
-                Sed.editControls.children().forEach(control =>{
-                control.setAA(['pointer-events','auto','stroke',activeC])
-                })
-            }    
-        } else if (Sed.editControlsActiveStatus){
-            Sed.editControlsActiveStatus = false
-            //de-activate controls
-            Sed.editControls.children().forEach(control =>{
-            control.setAA(['pointer-events','none','stroke',stdC])
-            })
-        }
+        Sed.editControlsActiveStatus = status
     }
 
     static setTargetColor(ev:Event,color:string){

@@ -36,10 +36,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
 const net = __importStar(require("net"));
 const path_1 = require("path");
-const SERVER_PORT = 8080;
+const SERVER_PORT = 3000;
+const HTTPS_PORT = 8080;
 const SERVER_HOST = '127.0.0.1';
 /**
- * Checks if the backend HTTPS server is already listening on port 8080
+ * Checks if the backend server is already listening on port 3000 or 8080
  */
 function isServerRunning(port, host) {
     return new Promise((resolvePromise) => {
@@ -64,23 +65,23 @@ async function start() {
     const rootDir = (0, path_1.resolve)(__dirname, '../../');
     const serverPath = (0, path_1.resolve)(rootDir, 'server/public/server.js');
     let serverProcess = null;
-    console.log('[app1R] Checking if edit-mode server is running on port 8080...');
+    console.log('[app1R] Checking if backend server is running on port 3000...');
     const running = await isServerRunning(SERVER_PORT, SERVER_HOST);
     if (running) {
-        console.log('[app1R] Edit-mode server is already running.');
+        console.log('[app1R] Backend edit-mode server is already running on port 3000.');
     }
     else {
-        console.log('[app1R] Starting backend edit-mode server (https://localhost:8080)...');
+        console.log('[app1R] Starting backend edit-mode server (http://localhost:3000)...');
         serverProcess = (0, child_process_1.spawn)('node', [serverPath], {
             cwd: rootDir,
             stdio: 'inherit',
             shell: true,
         });
-        // Brief pause to allow the server to bind to port 8080
+        // Brief pause to allow the server to bind to port 3000
         await new Promise((r) => setTimeout(r, 800));
     }
-    console.log('[app1R] Launching live-server for app1 (ignoring segs/ for manual [R] control)...\n');
-    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app1', '--ignore=segs,dist'], {
+    console.log('[app1R] Launching live-server for app1 (ignoring segs, dist, builds for manual control)...\n');
+    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app1', '--ignore=segs,dist,builds'], {
         cwd: rootDir,
         stdio: 'inherit',
         shell: true,

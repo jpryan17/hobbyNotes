@@ -442,3 +442,34 @@ function initFSD() {
 function layoutFSD() {
   fsd.layoutEditor();
 }
+
+export function hydrateDiagramCallbacks(tree: IndexItemDesc[]): IndexItemDesc[] {
+  return tree.map((item) => {
+    const cloned: IndexItemDesc = { ...item };
+    if (cloned.type === 'diagram') {
+      const topicLower = (cloned.topic || '').toLowerCase();
+      const keyLower = ((cloned as any).diagramKey || '').toLowerCase();
+      if (topicLower.includes('truth table') || keyLower.includes('ttd')) {
+        cloned.initCB = initTTD;
+        cloned.layoutCB = layout;
+      } else if (topicLower.includes('formal statement') || keyLower.includes('fsd')) {
+        cloned.initCB = initFSD;
+        cloned.layoutCB = layoutFSD;
+      } else if (topicLower.includes('binary tree') || keyLower.includes('btd')) {
+        cloned.initCB = initBTD;
+        cloned.layoutCB = layoutBTD;
+      } else if (topicLower.includes('binary interval') || keyLower.includes('bid')) {
+        cloned.initCB = initBID;
+        cloned.layoutCB = layoutBID;
+      } else if (topicLower.includes('banner')) {
+        cloned.initCB = initOutlineBanner;
+        cloned.layoutCB = layoutOutlineBanner;
+      }
+    }
+    if (cloned.indexDesc && Array.isArray(cloned.indexDesc)) {
+      cloned.indexDesc = hydrateDiagramCallbacks(cloned.indexDesc);
+    }
+    return cloned;
+  });
+}
+

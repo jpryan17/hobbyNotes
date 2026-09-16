@@ -1,5 +1,6 @@
 import { SVGGrpElt, SVGText } from './svgElt.js';
 import { Nav } from './navFW.js';
+import { StudioOverlay } from './studioOverlay.js';
 let that;
 export class Index extends SVGGrpElt {
     static fontSize = 16;
@@ -9,10 +10,12 @@ export class Index extends SVGGrpElt {
     static selectedColor = 'black';
     chosen;
     choices = [];
+    _rawIndexDesc;
     //
     constructor(indexDesc, initialSelection) {
         super();
         that = this;
+        this._rawIndexDesc = indexDesc;
         this.chosen = initialSelection;
         this.setA('style', `background-color:aliceblue`);
         const [m, fs, c] = [Index.margin, Index.fontSize, Index.stdColor];
@@ -38,7 +41,12 @@ export class Index extends SVGGrpElt {
                 const itemWidget = ev.target;
                 this.chosen = this.choices.findIndex(c => c[1].elt == itemWidget);
                 this.setSelectedItem();
-                Nav.processSelection();
+                if (Nav.editMode && StudioOverlay.isEditModeActive) {
+                    StudioOverlay.openOutlineModal(this, this.chosen);
+                }
+                else {
+                    Nav.processSelection();
+                }
             });
         });
     }

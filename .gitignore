@@ -8,3 +8,4 @@ dist/
 *.exe
 **/bin/
 **/scratch/
+.env
