@@ -3,11 +3,11 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 
 const rootDir = path.resolve(__dirname, '../../');
-const webDir = path.resolve(rootDir, 'MaximaMiner/web');
+const webDir = path.resolve(rootDir, 'archive/MaximaMiner/web');
 const cnamePath = path.join(webDir, 'CNAME');
 
 console.log('[deployMaxCalc] Pre-mining benchmark database...');
-execSync('python MaximaMiner/scripts/gen_premined.py', { cwd: rootDir, stdio: 'inherit' });
+execSync('python archive/MaximaMiner/scripts/gen_premined.py', { cwd: rootDir, stdio: 'inherit' });
 
 console.log('[deployMaxCalc] Writing CNAME for lamblaster.app...');
 fs.writeFileSync(cnamePath, 'lamblaster.app\n', 'utf8');

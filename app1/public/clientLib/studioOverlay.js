@@ -598,19 +598,86 @@ export class StudioOverlay {
         modal.id = 'studio-content-modal';
         modal.className = 'studio-modal-backdrop';
         modal.innerHTML = `
-            <div class="studio-modal-dialog large">
+            <div class="studio-modal-dialog xlarge">
                 <div class="studio-modal-header">
-                    <h3>✏️ Edit Chapter Content: <code>${Nav.segId}</code></h3>
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <h3 style="margin:0;">✏️ Edit Chapter Content: <code>${Nav.segId}</code></h3>
+                        <div class="studio-view-pills">
+                            <button id="view-wysiwyg-btn" class="studio-pill active" title="WYSIWYG Normal Visual Editor">👁️ Normal (WYSIWYG)</button>
+                            <button id="view-source-btn" class="studio-pill" title="Raw HTML Source Markup">📝 HTML Source</button>
+                            <button id="view-split-btn" class="studio-pill" title="Side-by-side Visual & Source">🌓 Split View</button>
+                        </div>
+                    </div>
                     <div class="studio-header-actions">
-                        <button class="studio-btn small secondary" id="editor-stencil-btn">+ Insert Stencil Tag</button>
                         <button class="studio-close-btn" id="content-close-btn">✕</button>
                     </div>
                 </div>
-                <div class="studio-modal-body">
-                    <p class="studio-hint">Directly edit the HTML narrative of this chapter. Math formulas are written in standard MathML or TeX, and stencils are embedded using <code>&lt;fsd-ref scaffold="..." tier="3" auto-calc&gt;</code>.</p>
-                    <textarea id="segment-html-editor" class="studio-code-editor" spellcheck="false">${StudioOverlay.escapeHtml(currentHtml)}</textarea>
-                    <div class="studio-btn-row space-between">
-                        <span id="editor-char-count" class="studio-char-count">${currentHtml.length} characters</span>
+
+                <!-- Structural Element Formatting Toolbar -->
+                <div class="studio-editor-toolbar" id="studio-content-toolbar">
+                    <div class="studio-tb-group">
+                        <select id="tb-format" class="studio-tb-select" title="Paragraph Format">
+                            <option value="p">¶ Paragraph</option>
+                            <option value="h2">Heading 2 (Section)</option>
+                            <option value="h3">Heading 3 (Sub-section)</option>
+                            <option value="h4">Heading 4 (Topic)</option>
+                            <option value="pre">Code Block</option>
+                        </select>
+                    </div>
+
+                    <div class="studio-tb-divider"></div>
+
+                    <div class="studio-tb-group">
+                        <button id="tb-bold" class="studio-tb-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+                        <button id="tb-italic" class="studio-tb-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+                        <button id="tb-underline" class="studio-tb-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+                        <button id="tb-code" class="studio-tb-btn" title="Inline Code"><code>&lt;&gt;</code></button>
+                    </div>
+
+                    <div class="studio-tb-divider"></div>
+
+                    <div class="studio-tb-group">
+                        <button id="tb-ul" class="studio-tb-btn" title="Bulleted List">• List</button>
+                        <button id="tb-ol" class="studio-tb-btn" title="Numbered List">1. List</button>
+                    </div>
+
+                    <div class="studio-tb-divider"></div>
+
+                    <!-- MWM Callout Palette -->
+                    <div class="studio-tb-group">
+                        <button id="tb-box-blue" class="studio-tb-btn" style="color: #1d4ed8; border-color: #bfdbfe;" title="Insert Blue Note Box">📘 Note</button>
+                        <button id="tb-box-emerald" class="studio-tb-btn" style="color: #047857; border-color: #a7f3d0;" title="Insert Emerald Theorem Box">📗 Theorem</button>
+                        <button id="tb-box-amber" class="studio-tb-btn" style="color: #b45309; border-color: #fde68a;" title="Insert Amber Caution Box">📙 Caution</button>
+                        <button id="tb-box-card" class="studio-tb-btn" title="Insert Structured Card Container">🗂️ Card</button>
+                    </div>
+
+                    <div class="studio-tb-divider"></div>
+
+                    <!-- Stencils & Mathematical Notation -->
+                    <div class="studio-tb-group">
+                        <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
+                        <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
+                        <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
+                    </div>
+                </div>
+
+                <!-- Editor Canvases (Panes) -->
+                <div class="studio-editor-panes mode-wysiwyg" id="studio-editor-panes">
+                    <!-- Visual WYSIWYG Pane -->
+                    <div id="pane-wysiwyg" class="studio-pane">
+                        <div id="segment-wysiwyg-editor" class="studio-wysiwyg-editor" contenteditable="true" spellcheck="false"></div>
+                    </div>
+
+                    <!-- Raw HTML Source Pane -->
+                    <div id="pane-source" class="studio-pane">
+                        <textarea id="segment-html-editor" class="studio-code-editor" spellcheck="false"></textarea>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="studio-modal-body" style="padding: 12px 20px; border-top: 1px solid #e2e8f0; flex: 0 0 auto; gap: 0;">
+                    <div class="studio-btn-row space-between" style="margin-top: 0;">
+                        <span id="editor-char-count" class="studio-char-count">0 characters</span>
                         <div class="studio-btn-group">
                             <button class="studio-btn secondary" id="btn-cancel-content">Cancel</button>
                             <button class="studio-btn primary" id="btn-save-content">✓ Apply to Dev Session & Reload</button>
@@ -620,10 +687,229 @@ export class StudioOverlay {
             </div>
         `;
         document.body.appendChild(modal);
+        const panesContainer = document.getElementById('studio-editor-panes');
+        const wysiwygDiv = document.getElementById('segment-wysiwyg-editor');
         const textarea = document.getElementById('segment-html-editor');
         const charCount = document.getElementById('editor-char-count');
+        const pillWysiwyg = document.getElementById('view-wysiwyg-btn');
+        const pillSource = document.getElementById('view-source-btn');
+        const pillSplit = document.getElementById('view-split-btn');
+        const formatSelect = document.getElementById('tb-format');
+        const btnBold = document.getElementById('tb-bold');
+        const btnItalic = document.getElementById('tb-italic');
+        const btnUnderline = document.getElementById('tb-underline');
+        const btnCode = document.getElementById('tb-code');
+        const btnUl = document.getElementById('tb-ul');
+        const btnOl = document.getElementById('tb-ol');
+        const btnBoxBlue = document.getElementById('tb-box-blue');
+        const btnBoxEmerald = document.getElementById('tb-box-emerald');
+        const btnBoxAmber = document.getElementById('tb-box-amber');
+        const btnCard = document.getElementById('tb-box-card');
+        const btnInsertStencil = document.getElementById('tb-insert-stencil');
+        const btnInsertMath = document.getElementById('tb-insert-math');
+        const btnRenderMath = document.getElementById('tb-render-math');
+        let currentMode = 'wysiwyg';
+        const protectStencils = (root) => {
+            root.querySelectorAll('fsd-ref, cas-ref').forEach((el) => {
+                el.setAttribute('contenteditable', 'false');
+            });
+        };
+        const cleanWysiwygHtml = (html) => {
+            return html.replace(/\s+contenteditable="false"/gi, '');
+        };
+        const updateStats = () => {
+            const text = currentMode === 'source' ? textarea.value : (wysiwygDiv.innerText || '');
+            const chars = (currentMode === 'source' ? textarea.value.length : (wysiwygDiv.innerHTML.length));
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            charCount.textContent = `${chars.toLocaleString()} chars • ${words.toLocaleString()} words`;
+        };
+        // Initialize editor content
+        wysiwygDiv.innerHTML = currentHtml;
+        protectStencils(wysiwygDiv);
+        textarea.value = currentHtml;
+        updateStats();
+        // Initial MathJax rendering in visual editor
+        if (window.MathJax?.typesetPromise) {
+            window.MathJax.typesetPromise([wysiwygDiv]).catch(() => { });
+        }
+        // View Mode Switcher
+        const setMode = (mode) => {
+            if (mode === currentMode)
+                return;
+            // Synchronize contents across views before switching
+            if (currentMode === 'wysiwyg') {
+                textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+            }
+            else if (currentMode === 'source') {
+                wysiwygDiv.innerHTML = textarea.value;
+                protectStencils(wysiwygDiv);
+            }
+            currentMode = mode;
+            panesContainer.className = `studio-editor-panes mode-${mode}`;
+            pillWysiwyg.classList.toggle('active', mode === 'wysiwyg');
+            pillSource.classList.toggle('active', mode === 'source');
+            pillSplit.classList.toggle('active', mode === 'split');
+            if (mode === 'wysiwyg' || mode === 'split') {
+                wysiwygDiv.focus();
+            }
+            else {
+                textarea.focus();
+            }
+            updateStats();
+        };
+        pillWysiwyg.addEventListener('click', () => setMode('wysiwyg'));
+        pillSource.addEventListener('click', () => setMode('source'));
+        pillSplit.addEventListener('click', () => setMode('split'));
+        // Helper: Insert HTML snippet at active cursor/selection
+        const insertHtmlSnippet = (html) => {
+            if (currentMode === 'source') {
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const val = textarea.value;
+                textarea.value = val.substring(0, start) + html + val.substring(end);
+                textarea.selectionStart = textarea.selectionEnd = start + html.length;
+                textarea.focus();
+                updateStats();
+                return;
+            }
+            wysiwygDiv.focus();
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+                const range = sel.getRangeAt(0);
+                range.deleteContents();
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                const frag = document.createDocumentFragment();
+                let node;
+                let lastNode = null;
+                while ((node = tempDiv.firstChild)) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+                if (lastNode) {
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+                protectStencils(wysiwygDiv);
+                updateStats();
+            }
+        };
+        // Toolbar: Block Formats
+        formatSelect.addEventListener('change', () => {
+            const val = formatSelect.value;
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('formatBlock', false, `<${val}>`);
+            }
+        });
+        // Toolbar: Inline Typography
+        btnBold.addEventListener('click', () => {
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('bold');
+            }
+        });
+        btnItalic.addEventListener('click', () => {
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('italic');
+            }
+        });
+        btnUnderline.addEventListener('click', () => {
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('underline');
+            }
+        });
+        btnCode.addEventListener('click', () => {
+            if (currentMode === 'source') {
+                insertHtmlSnippet('<code>code</code>');
+            }
+            else {
+                wysiwygDiv.focus();
+                const sel = window.getSelection();
+                if (sel && !sel.isCollapsed) {
+                    const range = sel.getRangeAt(0);
+                    const code = document.createElement('code');
+                    code.appendChild(range.extractContents());
+                    range.insertNode(code);
+                }
+                else {
+                    insertHtmlSnippet('<code>code</code>');
+                }
+            }
+        });
+        // Toolbar: Lists
+        btnUl.addEventListener('click', () => {
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('insertUnorderedList');
+            }
+        });
+        btnOl.addEventListener('click', () => {
+            if (currentMode !== 'source') {
+                wysiwygDiv.focus();
+                document.execCommand('insertOrderedList');
+            }
+        });
+        // Toolbar: MWM Callout Containers
+        btnBoxBlue.addEventListener('click', () => {
+            insertHtmlSnippet('\n<div class="box-blue"><b>Note:</b> Enter conceptual note here...</div>\n<p><br></p>');
+        });
+        btnBoxEmerald.addEventListener('click', () => {
+            insertHtmlSnippet('\n<div class="box-emerald"><b>Theorem:</b> Enter machine-verified claim or invariant...</div>\n<p><br></p>');
+        });
+        btnBoxAmber.addEventListener('click', () => {
+            insertHtmlSnippet('\n<div class="box-amber"><b>Caution:</b> Enter caution or boundary condition...</div>\n<p><br></p>');
+        });
+        btnCard.addEventListener('click', () => {
+            insertHtmlSnippet('\n<div class="card">\n  <h3>Section Header</h3>\n  <p>Enter narrative content here...</p>\n</div>\n<p><br></p>');
+        });
+        // Toolbar: Stencils & Mathematical Notation
+        btnInsertStencil.addEventListener('click', () => {
+            StudioOverlay.openStencilPicker((tag) => {
+                insertHtmlSnippet(tag);
+            });
+        });
+        btnInsertMath.addEventListener('click', () => {
+            insertHtmlSnippet(' $\\omega = \\text{transfinite}$ ');
+        });
+        btnRenderMath.addEventListener('click', async () => {
+            btnRenderMath.textContent = '⏳ Rendering...';
+            if (window.MathJax?.typesetPromise) {
+                try {
+                    await window.MathJax.typesetPromise([wysiwygDiv]);
+                    StudioOverlay.showToast('✓ Math rendered in visual editor.');
+                }
+                catch (e) {
+                    console.error('MathJax error:', e);
+                }
+            }
+            btnRenderMath.innerHTML = '<span>🔄 Render Math</span>';
+        });
+        // Split Mode Live Sync
+        let wysiwygSyncTimer = null;
+        wysiwygDiv.addEventListener('input', () => {
+            updateStats();
+            if (currentMode === 'split') {
+                clearTimeout(wysiwygSyncTimer);
+                wysiwygSyncTimer = setTimeout(() => {
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                }, 300);
+            }
+        });
+        let sourceSyncTimer = null;
         textarea.addEventListener('input', () => {
-            charCount.textContent = `${textarea.value.length} characters`;
+            updateStats();
+            if (currentMode === 'split') {
+                clearTimeout(sourceSyncTimer);
+                sourceSyncTimer = setTimeout(() => {
+                    wysiwygDiv.innerHTML = textarea.value;
+                    protectStencils(wysiwygDiv);
+                }, 400);
+            }
         });
         // Close handlers
         const closeModal = () => modal.remove();
@@ -633,22 +919,11 @@ export class StudioOverlay {
             if (e.target === modal)
                 closeModal();
         });
-        // Quick stencil insert into textarea
-        document.getElementById('editor-stencil-btn')?.addEventListener('click', () => {
-            StudioOverlay.openStencilPicker((tag) => {
-                const start = textarea.selectionStart;
-                const end = textarea.selectionEnd;
-                const val = textarea.value;
-                textarea.value = val.substring(0, start) + tag + val.substring(end);
-                textarea.selectionStart = textarea.selectionEnd = start + tag.length;
-                textarea.focus();
-            });
-        });
-        // Apply changes to in-memory Dev Session
+        // Action: Apply Changes to In-Memory Dev Session
         document.getElementById('btn-save-content')?.addEventListener('click', async () => {
-            const newHtml = textarea.value;
-            Nav.segMap.set(Nav.segId, newHtml);
-            Nav.segDiv.elt.innerHTML = newHtml;
+            const finalHtml = currentMode === 'source' ? textarea.value : cleanWysiwygHtml(wysiwygDiv.innerHTML);
+            Nav.segMap.set(Nav.segId, finalHtml);
+            Nav.segDiv.elt.innerHTML = finalHtml;
             initAnyDJSI();
             if (window.MathJax?.typesetPromise) {
                 await window.MathJax.typesetPromise([Nav.segDiv.elt]);
@@ -953,6 +1228,191 @@ export class StudioOverlay {
             .studio-modal-dialog.large {
                 width: 960px;
             }
+            .studio-modal-dialog.xlarge {
+                width: 1180px;
+                max-width: 96vw;
+                height: 90vh;
+            }
+            .studio-view-pills {
+                display: flex;
+                background: #e2e8f0;
+                padding: 3px;
+                border-radius: 8px;
+                gap: 2px;
+            }
+            .studio-pill {
+                background: transparent;
+                border: none;
+                padding: 5px 12px;
+                font-size: 0.82rem;
+                font-weight: 600;
+                color: #475569;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+            .studio-pill:hover {
+                color: #0f172a;
+            }
+            .studio-pill.active {
+                background: #ffffff;
+                color: #2563eb;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            }
+            .studio-editor-toolbar {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: wrap;
+                padding: 8px 16px;
+                background: #f8fafc;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .studio-tb-group {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+            }
+            .studio-tb-divider {
+                width: 1px;
+                height: 22px;
+                background: #cbd5e1;
+                margin: 0 4px;
+            }
+            .studio-tb-btn {
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                border-radius: 5px;
+                padding: 4px 8px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #334155;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                transition: all 0.15s;
+            }
+            .studio-tb-btn:hover {
+                background: #f1f5f9;
+                border-color: #94a3b8;
+                color: #0f172a;
+            }
+            .studio-tb-btn:active {
+                background: #e2e8f0;
+            }
+            .studio-tb-select {
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                border-radius: 5px;
+                padding: 4px 8px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #334155;
+                cursor: pointer;
+                outline: none;
+            }
+            .studio-editor-panes {
+                display: flex;
+                flex: 1;
+                min-height: 0;
+                overflow: hidden;
+                position: relative;
+            }
+            .studio-editor-panes.mode-wysiwyg #pane-source {
+                display: none;
+            }
+            .studio-editor-panes.mode-wysiwyg #pane-wysiwyg {
+                display: flex;
+                flex: 1;
+            }
+            .studio-editor-panes.mode-source #pane-wysiwyg {
+                display: none;
+            }
+            .studio-editor-panes.mode-source #pane-source {
+                display: flex;
+                flex: 1;
+            }
+            .studio-editor-panes.mode-split #pane-wysiwyg {
+                display: flex;
+                flex: 1;
+                border-right: 2px solid #e2e8f0;
+            }
+            .studio-editor-panes.mode-split #pane-source {
+                display: flex;
+                flex: 1;
+            }
+            .studio-pane {
+                flex-direction: column;
+                min-width: 0;
+                height: 100%;
+                overflow-y: auto;
+            }
+            .studio-wysiwyg-editor {
+                flex: 1;
+                padding: 24px 32px;
+                background: #ffffff;
+                color: #1e293b;
+                outline: none;
+                overflow-y: auto;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-size: 15px;
+                line-height: 1.65;
+            }
+            .studio-wysiwyg-editor h1 { font-size: 1.6rem; color: #0f172a; margin-top: 14px; margin-bottom: 8px; }
+            .studio-wysiwyg-editor h2 { font-size: 1.35rem; color: #1e3a8a; margin-top: 18px; margin-bottom: 8px; }
+            .studio-wysiwyg-editor h3 { font-size: 1.15rem; color: #1e40af; margin-top: 16px; margin-bottom: 6px; }
+            .studio-wysiwyg-editor h4 { font-size: 1.0rem; color: #0369a1; margin-top: 14px; margin-bottom: 4px; }
+            .studio-wysiwyg-editor p { margin: 8px 0; }
+            .studio-wysiwyg-editor code { font-family: monospace; background: #f1f5f9; padding: 2px 5px; border-radius: 4px; color: #0f172a; font-size: 13.5px; }
+            .studio-wysiwyg-editor pre { background: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 6px; overflow-x: auto; font-family: monospace; }
+            .studio-wysiwyg-editor pre code { background: transparent; color: inherit; padding: 0; }
+            .studio-wysiwyg-editor .box-blue { background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; color: #1e3a8a; margin: 14px 0; }
+            .studio-wysiwyg-editor .box-emerald { background-color: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; padding: 14px 18px; color: #064e3b; margin: 14px 0; }
+            .studio-wysiwyg-editor .box-amber { background-color: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 14px 18px; color: #78350f; margin: 14px 0; }
+            .studio-wysiwyg-editor .card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 14px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+            .studio-wysiwyg-editor table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+            .studio-wysiwyg-editor th { background: #1e3a8a; color: white; padding: 8px 12px; text-align: left; }
+            .studio-wysiwyg-editor td { border-bottom: 1px solid #e2e8f0; padding: 8px 12px; }
+            /* Atomic Stencil Chips in WYSIWYG */
+            .studio-wysiwyg-editor fsd-ref, .studio-wysiwyg-editor cas-ref {
+                display: inline-block;
+                background: #eff6ff;
+                border: 1.5px solid #3b82f6;
+                border-radius: 6px;
+                padding: 2px 8px;
+                margin: 2px 4px;
+                font-weight: 600;
+                color: #1e40af;
+                cursor: pointer;
+                user-select: all;
+            }
+            .studio-wysiwyg-editor cas-ref {
+                background: #ecfdf5;
+                border-color: #10b981;
+                color: #064e3b;
+            }
+            .studio-code-editor {
+                flex: 1;
+                width: 100%;
+                height: 100%;
+                font-family: Consolas, Monaco, monospace;
+                font-size: 0.9rem;
+                line-height: 1.45;
+                padding: 16px;
+                border: none;
+                box-sizing: border-box;
+                resize: none;
+                background: #0f172a;
+                color: #f8fafc;
+                outline: none;
+            }
+            .studio-code-editor:focus {
+                outline: none;
+            }
+            .studio-hint {
+                font-size: 0.85rem;
+                color: #64748b;
             .studio-modal-header {
                 padding: 16px 20px;
                 border-bottom: 1px solid #e2e8f0;
