@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 import http from 'http';
 import https from 'https';
 import { execSync, spawn, spawnSync } from 'child_process';
-import { writeFileSync, readFileSync, statSync, existsSync } from 'fs';
+import { writeFileSync, readFileSync, statSync, existsSync, readdirSync, unlinkSync, copyFileSync, mkdirSync } from 'fs';
 import { resolve } from 'path';
 import { pathToFileURL } from 'url';
 
@@ -360,6 +360,216 @@ app.post('/api/reseed-db', async (_req: Request, res: Response) => {
         });
     } catch (err: any) {
         console.error('[dbBridge Error] Reseed DB failed:', err);
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// ---------------------------------------------------------------------
+// 3e. 2-Phase Segment Staging & Promotion Endpoints
+// ---------------------------------------------------------------------
+
+function formatSegmentFileHtml(existingHtml: string | null, newContent: string, segId: string): string {
+    if (existingHtml && /<body[^>]*>/i.test(existingHtml) && /<\/body>/i.test(existingHtml)) {
+        return existingHtml.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, (_match, p1, _inner, p3) => {
+            return `${p1}\n${newContent.trim()}\n${p3}`;
+        });
+    }
+    return `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>${segId}</title>
+  </head>
+  <body>
+${newContent.trim()}
+  </body>
+</html>\n`;
+}
+
+// 1. Stage a segment draft to savedSegs/<segId>.html
+app.post('/api/stage-segment', (req: Request, res: Response) => {
+    const { app: appName = 'app1', segId, contentHtml } = req.body;
+    if (!segId || typeof contentHtml !== 'string') {
+        return res.status(400).json({ status: 'error', message: 'segId and contentHtml are required.' });
+    }
+
+    try {
+        const savedDir = resolve(process.cwd(), 'savedSegs');
+        if (!existsSync(savedDir)) {
+            mkdirSync(savedDir, { recursive: true });
+        }
+
+        let existingHtml: string | null = null;
+        const sourcePath = resolve(process.cwd(), `${appName}/segs/${segId}.html`);
+        if (existsSync(sourcePath)) {
+            existingHtml = readFileSync(sourcePath, 'utf8');
+        }
+
+        const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, segId);
+        const targetPath = resolve(savedDir, `${segId}.html`);
+        writeFileSync(targetPath, formattedHtml, 'utf8');
+
+        console.log(`[dbBridge] Staged segment '${segId}' to ${targetPath} (${Buffer.byteLength(formattedHtml)} bytes)`);
+        res.json({
+            status: 'success',
+            segId,
+            filePath: `savedSegs/${segId}.html`,
+            bytes: Buffer.byteLength(formattedHtml),
+            stagedAt: new Date().toISOString(),
+            message: `Segment '${segId}' staged successfully to savedSegs/ directory.`
+        });
+    } catch (err: any) {
+        console.error('[dbBridge Error] Stage segment failed:', err);
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 2. List all staged segments in savedSegs/
+app.get('/api/staged-segments', (_req: Request, res: Response) => {
+    try {
+        const savedDir = resolve(process.cwd(), 'savedSegs');
+        if (!existsSync(savedDir)) {
+            return res.json({ status: 'success', staged: [] });
+        }
+
+        const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+        const staged = files.map(filename => {
+            const filePath = resolve(savedDir, filename);
+            const stats = statSync(filePath);
+            const segId = filename.replace(/\.html$/, '');
+            const content = readFileSync(filePath, 'utf8');
+            const hTitleMatch = /<font[^>]*size=["']?\+2["']?[^>]*>(?:<i>)?(?:<b>)?(.*?)(?:<\/b>)?(?:<\/i>)?<\/font>/i.exec(content);
+            const h3Match = /<h3>(.*?)<\/h3>/i.exec(content);
+            const titleMatch = /<title>(.*?)<\/title>/i.exec(content);
+            const title = (hTitleMatch && hTitleMatch[1]) || (h3Match && h3Match[1]) || (titleMatch && titleMatch[1]) || segId;
+
+            const bodyMatch = /(<body[^>]*>)([\s\S]*?)(<\/body>)/i.exec(content);
+            const contentHtml = bodyMatch ? bodyMatch[2].trim() : content;
+
+            return {
+                segId,
+                filename,
+                title: title.replace(/<[^>]*>/g, '').trim(),
+                contentHtml,
+                bytes: stats.size,
+                modifiedMs: stats.mtimeMs,
+                modifiedAt: stats.mtime.toISOString(),
+            };
+        });
+
+        staged.sort((a, b) => b.modifiedMs - a.modifiedMs);
+        res.json({ status: 'success', staged });
+    } catch (err: any) {
+        console.error('[dbBridge Error] Get staged segments failed:', err);
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 2b. Get a single staged segment by segId
+app.get('/api/staged-segments/:segId', (req: Request, res: Response) => {
+    const { segId } = req.params;
+    try {
+        const filePath = resolve(process.cwd(), `savedSegs/${segId}.html`);
+        if (!existsSync(filePath)) {
+            return res.status(404).json({ status: 'error', message: `Staged segment '${segId}' not found.` });
+        }
+        const fullContent = readFileSync(filePath, 'utf8');
+        const bodyMatch = /(<body[^>]*>)([\s\S]*?)(<\/body>)/i.exec(fullContent);
+        const contentHtml = bodyMatch ? bodyMatch[2].trim() : fullContent;
+        res.json({ status: 'success', segId, contentHtml, fullHtml: fullContent });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 3. Discard a specific staged segment
+app.delete('/api/staged-segments/:segId', (req: Request, res: Response) => {
+    const { segId } = req.params;
+    try {
+        const filePath = resolve(process.cwd(), `savedSegs/${segId}.html`);
+        if (existsSync(filePath)) {
+            unlinkSync(filePath);
+            console.log(`[dbBridge] Discarded staged segment: ${filePath}`);
+            res.json({ status: 'success', message: `Staged segment '${segId}' discarded.` });
+        } else {
+            res.status(404).json({ status: 'error', message: `Staged segment '${segId}' not found.` });
+        }
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 4. Discard all staged segments
+app.delete('/api/staged-segments', (_req: Request, res: Response) => {
+    try {
+        const savedDir = resolve(process.cwd(), 'savedSegs');
+        if (existsSync(savedDir)) {
+            const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+            for (const f of files) {
+                unlinkSync(resolve(savedDir, f));
+            }
+        }
+        res.json({ status: 'success', message: 'All staged segments cleared.' });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 5. Promote all staged segments to source files, regenerate seed, reseed DB, and rebuild index
+app.post('/api/promote-staged-segments', async (req: Request, res: Response) => {
+    const { app: appName = 'app1' } = req.body;
+    const savedDir = resolve(process.cwd(), 'savedSegs');
+    if (!existsSync(savedDir)) {
+        return res.status(400).json({ status: 'error', message: 'No savedSegs/ directory found.' });
+    }
+
+    const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+    if (files.length === 0) {
+        return res.status(400).json({ status: 'error', message: 'No staged segment files found in savedSegs/.' });
+    }
+
+    const start = Date.now();
+    try {
+        for (const f of files) {
+            const src = resolve(savedDir, f);
+            const dest = resolve(process.cwd(), `${appName}/segs/${f}`);
+            copyFileSync(src, dest);
+            console.log(`[dbBridge] Promoted ${f} -> ${dest}`);
+
+            if (existsSync(resolve(process.cwd(), 'consolidated_segs'))) {
+                copyFileSync(src, resolve(process.cwd(), `consolidated_segs/${f}`));
+            }
+        }
+
+        console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
+        execSync(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+
+        console.log(`[dbBridge] Regenerating db/seed_v2.sql...`);
+        execSync('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
+
+        const seedPath = resolve(process.cwd(), 'db/seed_v2.sql');
+        const seedSql = readFileSync(seedPath, 'utf8');
+        await pool.query(seedSql);
+        console.log(`[dbBridge] Reseeded PostgreSQL database from updated seed_v2.sql`);
+
+        console.log(`[dbBridge] Rebuilding ${appName}/dist/index.html...`);
+        execSync(`node ./nodeUtils/public/indexBuild.js ${appName}`, { cwd: process.cwd() });
+
+        for (const f of files) {
+            try { unlinkSync(resolve(savedDir, f)); } catch {}
+        }
+
+        const durationMs = Date.now() - start;
+        console.log(`[dbBridge] Staged promotion complete for ${files.length} segment(s) in ${durationMs}ms.`);
+
+        res.json({
+            status: 'success',
+            promotedCount: files.length,
+            durationMs,
+            message: `Successfully promoted ${files.length} segment(s) to source files, updated seed_v2.sql, reseeded PostgreSQL, and rebuilt index.html in ${durationMs}ms.`
+        });
+    } catch (err: any) {
+        console.error('[dbBridge Error] Promote staged segments failed:', err);
         res.status(500).json({ status: 'error', message: err.message || String(err) });
     }
 });

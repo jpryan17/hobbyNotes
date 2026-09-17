@@ -30,6 +30,7 @@ export class StudioOverlay {
     public static controlsWidth: number = 0;
     public static modeWidget: SVGTSpan;
     public static buildWidget: SVGTSpan;
+    public static stagedWidget: SVGTSpan;
     public static dbWidget: SVGTSpan;
     public static contentWidget: SVGTSpan;
     public static stencilWidget: SVGTSpan;
@@ -110,6 +111,10 @@ export class StudioOverlay {
         StudioOverlay.buildWidget = createButton('[🚀 Build Page]', () => StudioOverlay.handleBuildPage());
         createSpacer();
 
+        // 5b. Update Established Segments & DB from savedSegs/
+        StudioOverlay.stagedWidget = createButton('[📦 savedSegs (0)]', () => StudioOverlay.openStagedReviewModal());
+        createSpacer();
+
         // 6. Commit Dev State to Database
         StudioOverlay.dbWidget = createButton('[💾 Update DB]', () => StudioOverlay.openUpdateDbModal());
         createSpacer();
@@ -133,6 +138,9 @@ export class StudioOverlay {
 
         // Preload segment list for dropdown selectors
         StudioOverlay.loadSegmentCatalog();
+
+        // Check for any currently staged segments
+        StudioOverlay.checkStagedCount();
     }
 
     // Positions the studio controls on the dedicated dev line
@@ -143,8 +151,9 @@ export class StudioOverlay {
     }
 
     private static updateWidth(): void {
-        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [🔄 Reload] [🚀 Build Page] [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
-        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 90;
+        const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 savedSegs (0)]';
+        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
+        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 130;
     }
 
     // Toggle between View mode (normal student navigation) and Edit mode (in-situ outline editing)
@@ -662,7 +671,7 @@ export class StudioOverlay {
     // 4. IN-SITU SEGMENT HTML/MARKDOWN CONTENT EDITOR
     // =========================================================================
 
-    public static openContentEditor(): void {
+    public static async openContentEditor(): Promise<void> {
         if (!Nav.segId) {
             StudioOverlay.showToast('Please select a chapter before opening Content Editor.', true);
             return;
@@ -671,7 +680,36 @@ export class StudioOverlay {
         const existing = document.getElementById('studio-content-modal');
         if (existing) existing.remove();
 
-        const currentHtml = Nav.segMap.get(Nav.segId) || Nav.segDiv.elt.innerHTML || '';
+        // 1. Established canonical version (default truth)
+        const establishedHtml = Nav.segMap.get(Nav.segId) || Nav.segDiv.elt.innerHTML || '';
+
+        // 2. Fetch all drafts in savedSegs/ to populate version dropdown
+        let allStaged: any[] = [];
+        let currentSegDraft: any = null;
+        try {
+            const stagedRes = await fetch(`${getApiBaseUrl()}/api/staged-segments`);
+            if (stagedRes.ok) {
+                const stagedData = await stagedRes.json();
+                if (stagedData && stagedData.status === 'success' && Array.isArray(stagedData.staged)) {
+                    allStaged = stagedData.staged;
+                    currentSegDraft = allStaged.find((s: any) => s.segId === Nav.segId);
+                }
+            }
+        } catch {}
+
+        // Construct version dropdown options
+        let optionsHtml = `<option value="established" selected>📖 Established (Canonical Source)</option>`;
+        if (currentSegDraft) {
+            optionsHtml += `<option value="staged:${currentSegDraft.segId}">📦 Draft: savedSegs/${currentSegDraft.filename} (${(currentSegDraft.bytes / 1024).toFixed(1)} KB)</option>`;
+        }
+        for (const s of allStaged) {
+            if (s.segId !== Nav.segId) {
+                optionsHtml += `<option value="staged:${s.segId}">📦 Draft: savedSegs/${s.filename} (${(s.bytes / 1024).toFixed(1)} KB)</option>`;
+            }
+        }
+
+        const stagedCount = allStaged.length;
+        const currentHtml = establishedHtml;
 
         const modal = document.createElement('div');
         modal.id = 'studio-content-modal';
@@ -680,8 +718,14 @@ export class StudioOverlay {
         modal.innerHTML = `
             <div class="studio-modal-dialog xlarge">
                 <div class="studio-modal-header">
-                    <div style="display: flex; align-items: center; gap: 14px;">
-                        <h3 style="margin:0;">✏️ Edit Chapter Content: <code>${Nav.segId}</code></h3>
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                        <h3 style="margin:0;">✏️ Edit Content: <code>${Nav.segId}</code></h3>
+                        <div style="display: flex; align-items: center; gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 8px;">
+                            <label for="editor-version-select" style="font-size: 0.8rem; font-weight: 600; color: #475569;">Displaying:</label>
+                            <select id="editor-version-select" class="studio-tb-select" style="font-size: 0.82rem; font-weight: 600; color: #0f172a; padding: 3px 6px; border: none; background: transparent; cursor: pointer;">
+                                ${optionsHtml}
+                            </select>
+                        </div>
                         <div class="studio-view-pills">
                             <button id="view-wysiwyg-btn" class="studio-pill active" title="WYSIWYG Normal Visual Editor">👁️ Normal (WYSIWYG)</button>
                             <button id="view-source-btn" class="studio-pill" title="Raw HTML Source Markup">📝 HTML Source</button>
@@ -758,9 +802,11 @@ export class StudioOverlay {
                 <div class="studio-modal-body" style="padding: 12px 20px; border-top: 1px solid #e2e8f0; flex: 0 0 auto; gap: 0;">
                     <div class="studio-btn-row space-between" style="margin-top: 0;">
                         <span id="editor-char-count" class="studio-char-count">0 characters</span>
-                        <div class="studio-btn-group">
+                        <div class="studio-btn-group" style="gap: 8px;">
                             <button class="studio-btn secondary" id="btn-cancel-content">Cancel</button>
-                            <button class="studio-btn primary" id="btn-save-content">✓ Apply to Dev Session & Reload</button>
+                            <button class="studio-btn secondary" id="btn-stage-content" style="color: #b45309; border-color: #fcd34d; font-weight: 600; background: #fffbeb;" title="Save draft to savedSegs/ on disk without modifying established source files">💾 Save to savedSegs</button>
+                            ${stagedCount > 0 ? `<button class="studio-btn emerald" id="btn-promote-from-editor" style="font-weight: 700; background: #059669; color: white;" title="Update established source files, reseed DB, and clear savedSegs/">🚀 Update Established &amp; DB (${stagedCount})</button>` : ''}
+                            <button class="studio-btn primary" id="btn-save-content">✓ Apply to Dev Session</button>
                         </div>
                     </div>
                 </div>
@@ -1021,6 +1067,113 @@ export class StudioOverlay {
             if (e.target === modal) closeModal();
         });
 
+        // Version Dropdown Switcher (Established Canonical vs savedSegs Drafts)
+        const versionSelect = document.getElementById('editor-version-select') as HTMLSelectElement;
+        versionSelect?.addEventListener('change', async () => {
+            const val = versionSelect.value;
+            if (val === 'established') {
+                wysiwygDiv.innerHTML = establishedHtml;
+                protectStencils(wysiwygDiv);
+                textarea.value = establishedHtml;
+                updateStats();
+                if ((window as any).MathJax?.typesetPromise) {
+                    (window as any).MathJax.typesetPromise([wysiwygDiv]).catch(() => {});
+                }
+                StudioOverlay.showToast(`Displaying Established (Canonical) version of '${Nav.segId}'.`);
+            } else if (val.startsWith('staged:')) {
+                const draftSegId = val.replace('staged:', '');
+                const found = allStaged.find((s: any) => s.segId === draftSegId);
+                let draftHtml = found?.contentHtml;
+                if (!draftHtml) {
+                    try {
+                        const r = await fetch(`${getApiBaseUrl()}/api/staged-segments/${draftSegId}`);
+                        const d = await r.json();
+                        draftHtml = d?.contentHtml;
+                    } catch {}
+                }
+                if (draftHtml) {
+                    wysiwygDiv.innerHTML = draftHtml;
+                    protectStencils(wysiwygDiv);
+                    textarea.value = draftHtml;
+                    updateStats();
+                    if ((window as any).MathJax?.typesetPromise) {
+                        (window as any).MathJax.typesetPromise([wysiwygDiv]).catch(() => {});
+                    }
+                    StudioOverlay.showToast(`Displaying draft from savedSegs/${draftSegId}.html`);
+                }
+            }
+        });
+
+        // Action: Promote All savedSegs directly from editor footer
+        document.getElementById('btn-promote-from-editor')?.addEventListener('click', async () => {
+            const btn = document.getElementById('btn-promote-from-editor') as HTMLButtonElement;
+            btn.disabled = true;
+            btn.textContent = '⏳ Updating Established & DB...';
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/promote-staged-segments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ app: 'app1' })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    StudioOverlay.showToast(`🎉 ${data.message}`);
+                    closeModal();
+                    StudioOverlay.checkStagedCount();
+                    StudioOverlay.handleReload();
+                } else {
+                    throw new Error(data.message || 'Promotion failed');
+                }
+            } catch (e: any) {
+                StudioOverlay.showToast(`❌ Error: ${e.message}`, true);
+                btn.disabled = false;
+                btn.textContent = '🚀 Update Established Segs & DB';
+            }
+        });
+
+        // Action: Stage Draft to savedSegs/ directory on disk
+        document.getElementById('btn-stage-content')?.addEventListener('click', async () => {
+            const btn = document.getElementById('btn-stage-content') as HTMLButtonElement;
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.textContent = '⏳ Staging...';
+
+            const finalHtml = currentMode === 'source' ? textarea.value : cleanWysiwygHtml(wysiwygDiv.innerHTML);
+
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/stage-segment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        segId: Nav.segId,
+                        contentHtml: finalHtml
+                    })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    // Update in-memory session and DOM so the user sees their changes immediately
+                    Nav.segMap.set(Nav.segId, finalHtml);
+                    Nav.segDiv.elt.innerHTML = finalHtml;
+                    initAnyDJSI();
+                    if ((window as any).MathJax?.typesetPromise) {
+                        await (window as any).MathJax.typesetPromise([Nav.segDiv.elt]);
+                    }
+                    Nav.setSegPos();
+
+                    closeModal();
+                    StudioOverlay.showToast(`✓ Staged '${Nav.segId}' to savedSegs/ (${data.filename || ''})`);
+                    StudioOverlay.checkStagedCount();
+                } else {
+                    throw new Error(data.error || 'Failed to stage segment');
+                }
+            } catch (err: any) {
+                console.error('Staging error:', err);
+                StudioOverlay.showToast(`❌ Error staging segment: ${err.message}`, true);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+
         // Action: Apply Changes to In-Memory Dev Session
         document.getElementById('btn-save-content')?.addEventListener('click', async () => {
             const finalHtml = currentMode === 'source' ? textarea.value : cleanWysiwygHtml(wysiwygDiv.innerHTML);
@@ -1251,6 +1404,11 @@ export class StudioOverlay {
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
+                                <div style="font-family: monospace; font-weight: 700; color: #d97706; min-width: 110px;">[📦 Staged]</div>
+                                <div><strong>2-Phase Staging & Promotion:</strong> Review drafts saved in <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">savedSegs/</code> before modifying source code. Promote drafts directly into canonical source files (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/segs/</code>), regenerate seeds, update PostgreSQL, and rebuild <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/dist/index.html</code> in one coordinated operation.</div>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
                                 <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[💾 Update DB]</div>
                                 <div><strong>Commit to Database:</strong> Explicitly writes your active in-memory Dev outline hierarchy and segment content into PostgreSQL. Normal dev edits and builds leave the database completely alone.</div>
                             </div>
@@ -1302,6 +1460,250 @@ export class StudioOverlay {
             }
         };
         window.addEventListener('keydown', onEsc);
+    }
+
+    // =========================================================================
+    // 9. STAGED SEGMENTS REVIEW & PROMOTION MODAL
+    // =========================================================================
+
+    public static async checkStagedCount(): Promise<void> {
+        try {
+            const res = await fetch(`${getApiBaseUrl()}/api/staged-segments`);
+            const data = await res.json();
+            if (data && data.status === 'success' && Array.isArray(data.staged)) {
+                const count = data.staged.length;
+                if (StudioOverlay.stagedWidget) {
+                    if (count > 0) {
+                        StudioOverlay.stagedWidget.setV(`[🚀 Update from savedSegs (${count})]`);
+                        StudioOverlay.stagedWidget.setAA(['stroke', '#d97706', 'font-weight', 'bold']);
+                    } else {
+                        StudioOverlay.stagedWidget.setV(`[📦 savedSegs (0)]`);
+                        StudioOverlay.stagedWidget.setAA(['stroke', '#64748b', 'font-weight', 'normal']);
+                    }
+                    StudioOverlay.updateWidth();
+                }
+            }
+        } catch {
+            // Ignore if backend not reachable
+        }
+    }
+
+    public static async openStagedReviewModal(): Promise<void> {
+        const existing = document.getElementById('studio-staged-modal');
+        if (existing) {
+            existing.remove();
+            return;
+        }
+
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = 'studio-staged-modal';
+        modalOverlay.className = 'studio-modal-backdrop';
+
+        modalOverlay.innerHTML = `
+            <div class="studio-modal-dialog large" style="max-height: 85vh;">
+                <div class="studio-modal-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.4rem;">📦</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;" id="staged-modal-title">Update Established Segments &amp; DB from savedSegs/</h3>
+                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Promote drafted chapters from savedSegs/ into canonical source files (app1/segs/) and PostgreSQL</div>
+                        </div>
+                    </div>
+                    <button class="studio-close-btn" id="staged-close-btn">✕</button>
+                </div>
+                <div class="studio-modal-body" style="gap: 16px;">
+                    
+                    <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #92400e;">
+                        <strong>2-Phase Staging Workflow:</strong> Drafts saved in <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">savedSegs/</code> allow you to draft, diff, and review edits without touching canonical source files. When ready, click <strong>Update Established Segments &amp; Reseed DB</strong> below to copy all savedSegs to <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/segs/</code>, regenerate <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">db/seed_v2.sql</code>, update PostgreSQL, rebuild <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">index.html</code>, and clear the saved directory.
+                    </div>
+
+                    <div id="staged-list-container" class="studio-staged-list">
+                        <div style="text-align: center; padding: 30px; color: #94a3b8;">
+                            ⏳ Loading staged segments...
+                        </div>
+                    </div>
+
+                </div>
+                <div class="studio-modal-footer" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <button class="studio-btn danger small" id="btn-discard-all" style="display: none;">🗑️ Discard All</button>
+                    </div>
+                    <div class="studio-btn-group" style="gap: 10px;">
+                        <button class="studio-btn secondary" id="btn-close-staged">Close</button>
+                        <button class="studio-btn emerald" id="btn-promote-all" style="display: none; font-weight: 700; padding: 10px 18px; font-size: 0.95rem;">🚀 Update Established Segments &amp; Reseed DB (Clears savedSegs/)</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modalOverlay);
+
+        const closeModal = () => {
+            modalOverlay.remove();
+            StudioOverlay.checkStagedCount();
+        };
+
+        document.getElementById('staged-close-btn')?.addEventListener('click', closeModal);
+        document.getElementById('btn-close-staged')?.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        const listContainer = document.getElementById('staged-list-container') as HTMLDivElement;
+        const btnPromoteAll = document.getElementById('btn-promote-all') as HTMLButtonElement;
+        const btnDiscardAll = document.getElementById('btn-discard-all') as HTMLButtonElement;
+        const modalTitle = document.getElementById('staged-modal-title') as HTMLElement;
+
+        const loadStagedList = async () => {
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/staged-segments`);
+                const data = await res.json();
+                if (!data || data.status !== 'success' || !Array.isArray(data.staged)) {
+                    throw new Error(data?.message || 'Invalid server response');
+                }
+
+                const staged = data.staged;
+                modalTitle.textContent = `Staged Segments (${staged.length})`;
+
+                if (staged.length === 0) {
+                    listContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
+                            <span style="font-size: 2.2rem; display: block; margin-bottom: 8px;">📭</span>
+                            <strong style="color: #475569; font-size: 1rem; display: block;">No Staged Segments in savedSegs/</strong>
+                            <p style="color: #64748b; font-size: 0.85rem; margin: 6px 0 0 0;">
+                                To stage an edit, open any chapter in the Content Editor (<code style="background:#e2e8f0; padding:1px 4px; border-radius:3px;">[✏️ Content]</code>) and click <strong>💾 Save to savedSegs</strong>.
+                            </p>
+                        </div>
+                    `;
+                    btnPromoteAll.style.display = 'none';
+                    btnDiscardAll.style.display = 'none';
+                    StudioOverlay.checkStagedCount();
+                    return;
+                }
+
+                btnPromoteAll.style.display = 'inline-block';
+                btnDiscardAll.style.display = 'inline-block';
+
+                listContainer.innerHTML = '';
+                for (const item of staged) {
+                    const card = document.createElement('div');
+                    card.className = 'studio-staged-card';
+
+                    const kb = (item.bytes / 1024).toFixed(1);
+                    const modDate = new Date(item.modifiedMs).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+                    card.innerHTML = `
+                        <div class="studio-staged-info">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="studio-staged-name">${StudioOverlay.escapeHtml(item.segId)}.html</span>
+                                <span style="font-weight: 600; color: #1e293b; font-size: 0.9rem;">${StudioOverlay.escapeHtml(item.title)}</span>
+                            </div>
+                            <div class="studio-staged-meta">
+                                <span>${kb} KB</span> • <span>Modified: ${modDate}</span> • <code>savedSegs/${StudioOverlay.escapeHtml(item.filename)}</code>
+                            </div>
+                        </div>
+                        <div class="studio-staged-actions">
+                            <button class="studio-btn secondary small btn-preview-item" data-seg="${item.segId}" title="Load into Content Editor">✏️ Preview / Edit</button>
+                            <button class="studio-btn danger small btn-discard-item" data-seg="${item.segId}" title="Discard staged draft">🗑️ Discard</button>
+                        </div>
+                    `;
+
+                    // Preview / Edit handler
+                    card.querySelector('.btn-preview-item')?.addEventListener('click', async () => {
+                        Nav.segId = item.segId;
+                        if (item.contentHtml) {
+                            Nav.segMap.set(item.segId, item.contentHtml);
+                            Nav.segDiv.elt.innerHTML = item.contentHtml;
+                            initAnyDJSI();
+                            if ((window as any).MathJax?.typesetPromise) {
+                                await (window as any).MathJax.typesetPromise([Nav.segDiv.elt]);
+                            }
+                            Nav.setSegPos();
+                        }
+                        closeModal();
+                        StudioOverlay.openContentEditor();
+                    });
+
+                    // Discard single draft handler
+                    card.querySelector('.btn-discard-item')?.addEventListener('click', async () => {
+                        if (!confirm(`Discard staged draft for '${item.segId}'?`)) return;
+                        try {
+                            const delRes = await fetch(`${getApiBaseUrl()}/api/staged-segments/${item.segId}`, {
+                                method: 'DELETE'
+                            });
+                            const delData = await delRes.json();
+                            if (delData.status === 'success') {
+                                StudioOverlay.showToast(`✓ Discarded draft '${item.segId}'.`);
+                                loadStagedList();
+                                StudioOverlay.checkStagedCount();
+                            } else {
+                                throw new Error(delData.message || 'Failed to discard');
+                            }
+                        } catch (e: any) {
+                            StudioOverlay.showToast(`❌ Error: ${e.message}`, true);
+                        }
+                    });
+
+                    listContainer.appendChild(card);
+                }
+
+                StudioOverlay.checkStagedCount();
+            } catch (err: any) {
+                listContainer.innerHTML = `
+                    <div style="color: #b91c1c; background: #fee2e2; padding: 14px; border-radius: 6px;">
+                        ❌ Failed to load staged segments: ${err.message}
+                    </div>
+                `;
+            }
+        };
+
+        // Discard all handler
+        btnDiscardAll.addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to discard ALL staged drafts in savedSegs/? This cannot be undone.')) return;
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/staged-segments`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    StudioOverlay.showToast('✓ All staged drafts discarded.');
+                    loadStagedList();
+                    StudioOverlay.checkStagedCount();
+                } else {
+                    throw new Error(data.message || 'Failed to discard all');
+                }
+            } catch (e: any) {
+                StudioOverlay.showToast(`❌ Error: ${e.message}`, true);
+            }
+        });
+
+        // Promote all handler
+        btnPromoteAll.addEventListener('click', async () => {
+            btnPromoteAll.disabled = true;
+            btnPromoteAll.textContent = '⏳ Promoting, Reseeding & Building...';
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/promote-staged-segments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ app: 'app1' })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    StudioOverlay.showToast(`🎉 ${data.message}`);
+                    closeModal();
+                    StudioOverlay.checkStagedCount();
+                    // Reload active chapter from database to reflect changes live
+                    StudioOverlay.handleReload();
+                } else {
+                    throw new Error(data.message || 'Failed to promote staged segments');
+                }
+            } catch (e: any) {
+                console.error('Promotion error:', e);
+                StudioOverlay.showToast(`❌ Promotion failed: ${e.message}`, true);
+                btnPromoteAll.disabled = false;
+                btnPromoteAll.textContent = '🚀 Update Established Segments & Reseed DB (Clears savedSegs/)';
+            }
+        });
+
+        loadStagedList();
     }
 
     private static escapeHtml(str: string): string {
@@ -1530,6 +1932,43 @@ export class StudioOverlay {
             .studio-hint {
                 font-size: 0.85rem;
                 color: #64748b;
+            }
+            .studio-staged-list {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                max-height: 480px;
+                overflow-y: auto;
+            }
+            .studio-staged-card {
+                background: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 14px 18px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 14px;
+            }
+            .studio-staged-title {
+                font-weight: 600;
+                color: #0f172a;
+                font-size: 0.95rem;
+            }
+            .studio-staged-meta {
+                font-size: 0.8rem;
+                color: #64748b;
+                margin-top: 2px;
+            }
+            .studio-staged-badge {
+                background: #fef3c7;
+                color: #92400e;
+                font-size: 0.75rem;
+                font-weight: 700;
+                padding: 2px 8px;
+                border-radius: 12px;
+                margin-left: 8px;
+            }
             .studio-modal-header {
                 padding: 16px 20px;
                 border-bottom: 1px solid #e2e8f0;
@@ -1707,10 +2146,52 @@ export class StudioOverlay {
                 font-size: 0.85rem;
                 color: #0369a1;
             }
-            .studio-stencil-actions {
+            .studio-staged-list {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                max-height: 440px;
+                overflow-y: auto;
+            }
+            .studio-staged-card {
+                border: 1px solid #fed7aa;
+                border-radius: 8px;
+                padding: 12px 14px;
+                background: #fffbeb;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                transition: border-color 0.15s ease;
+            }
+            .studio-staged-card:hover {
+                border-color: #f97316;
+            }
+            .studio-staged-info {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .studio-staged-name {
+                font-family: monospace;
+                font-weight: 700;
+                font-size: 0.95rem;
+                color: #9a3412;
+            }
+            .studio-staged-meta {
+                font-size: 0.8rem;
+                color: #78350f;
+            }
+            .studio-staged-actions {
                 display: flex;
                 gap: 8px;
-                margin-top: 4px;
+            }
+            .studio-btn.emerald {
+                background: #059669;
+                color: white;
+            }
+            .studio-btn.emerald:hover {
+                background: #047857;
             }
             .studio-toast {
                 position: fixed;

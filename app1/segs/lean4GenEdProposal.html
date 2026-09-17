@@ -38,29 +38,39 @@
   </style>
   </head>
   <body>
-    <div class="card">
+<div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
-      <h2>— A Pragmatic Proposal for the Patronage of Open-Source Educational Resource Hubs —</h2>
+      <h2>— Prototyping an Open Civic Infrastructure for Formal Proof, Symbolic Algebra, and Autonomous Curricula —</h2>
 
-      <div class="box-blue">
-        <b>Core Proposal:</b><br>
-        Instead of expecting independent educators, grassroots curriculum creators, and schools to become cloud DevOps engineers or purchase expensive proprietary EdTech subscriptions, educational foundations and consortia should patronize <b>publicly available, community-driven online service hubs</b> for foundational open-source engines like <b>Lean 4</b> (formal verification) and <b>Maxima</b> (symbolic algebra). By treating computational truth as civic infrastructure, projects like <i>Middle Way Mathematics</i> can freely connect and deliver machine-verified STEM education to anyone with a browser.
+      <!-- Core Proposal Statement Up Front -->
+      <div class="box-blue" style="border-left: 5px solid #2563eb; padding: 18px 20px;">
+        <h3 style="margin: 0 0 8px 0; color: #1d4ed8; font-size: 18px; border: none; padding: 0;">
+          Core Proposal: Prototyping the Educational Resource Hub (ERH)
+        </h3>
+        <p style="margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">
+          We propose the prototyping and deployment of a publicly available, community-supported <b>Educational Resource Hub (ERH)</b> for foundational mathematical and computational science services. 
+          By treating mathematical verification and symbolic calculation as shared civic infrastructure rather than proprietary commodities, the Hub fulfills a fundamental <b>dual role</b>:
+        </p>
+        <ol style="margin: 0; padding-left: 22px; font-size: 14.5px; line-height: 1.6;">
+          <li><b>Generic Public-Domain Compute APIs:</b> Hosting high-performance, stateless microservice endpoints for formal theorem proving (<b>Lean 4</b>), computer algebra systems (<b>Maxima CAS</b>), and extensible community verification engines—freely queryable by any client application across the internet.</li>
+          <li><b>Federated Curricular Storage &amp; Infrastructure:</b> Providing managed database and storage resources for recognized <b>"Schools of Thought"</b> to curate and maintain their respective <b>Pedagogic Databases (PDBs)</b> without the burden of private cloud administration.</li>
+        </ol>
       </div>
 
-      <h3>1. The Problem: The DevOps Friction Wall</h3>
+      <h3>1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap</h3>
       <p>
         The open-source community has produced astonishing tools that represent the summit of mathematical rigor and computational power:
       </p>
       <ul>
-        <li><b>Lean 4:</b> An interactive theorem prover offering absolute, machine-checked certainty for mathematical claims.</li>
-        <li><b>Maxima CAS:</b> A venerable, battle-tested computer algebra system capable of exact symbolic integration, series expansions, and eigensystem solutions.</li>
+        <li><b>Lean 4:</b> An interactive theorem prover offering absolute, machine-checked certainty for formal mathematical claims.</li>
+        <li><b>Maxima CAS:</b> A venerable, battle-tested computer algebra system capable of exact symbolic integration, series expansions, and invariant derivations.</li>
       </ul>
       <p>
-        Yet these tools remain almost entirely absent from secondary and general undergraduate classrooms. The barrier is not that students cannot grasp the ideas; the barrier is <b>operational friction</b>:
+        Yet these tools remain almost entirely absent from secondary and general undergraduate classrooms. The barrier is not that students cannot grasp the ideas; the barrier is <b>operational friction</b> caused by the conflation of <i>mathematical computation</i> with <i>curriculum delivery</i>:
       </p>
       <ol>
         <li><b>Local Install Pain:</b> Installing Lean 4, Git, Elan, VS Code extensions, or Common Lisp runtimes on diverse student laptops (or locked-down school Chromebooks) is a logistical nightmare for teachers.</li>
-        <li><b>The Personal Cloud Bill:</b> To offer these tools via a web interface, an independent curriculum creator or school department must manage container clusters, configure reverse proxies, monitor security, and pay monthly cloud hosting bills out of their own pocket.</li>
+        <li><b>The Personal Cloud Bill:</b> To offer these tools via the web, an independent curriculum creator or school department must manage container clusters, configure reverse proxies, monitor security, and pay monthly cloud hosting bills out of their own pocket.</li>
         <li><b>The Commercial Trap:</b> In the absence of open infrastructure, schools fall prey to proprietary SaaS platforms that lock curricula behind expensive per-seat licensing fees and opaque software stacks.</li>
       </ol>
 
@@ -69,67 +79,223 @@
         A carpentry teacher isn't asked to smelt their own steel for hand saws, and a chemistry teacher isn't asked to build a water treatment plant to get clean tap water for lab beakers. Why do we expect STEM teachers and curriculum authors to run their own cloud server farms just to give students access to a theorem checker or computer algebra system?
       </div>
 
-      <h3>2. The Solution: Open Educational Service Hubs</h3>
+      <h3>2. The Solution: Decoupling Generic Compute from Curricular Content</h3>
       <p>
-        The most cost-effective and democratic intervention open-science foundations (such as Sloan, the NSF, or university consortia) can make is <b>patronage of shared public educational service hubs</b>:
+        The most cost-effective and democratic intervention open-science foundations (such as the NSF, Sloan, or university consortia) can make is <b>patronage of shared public educational service hubs</b>:
       </p>
       <ul>
-        <li><b>Centrally Hosted, Publicly Available:</b> Secure, containerized server clusters running stateless Lean 4 verification and Maxima CAS evaluation workers, managed by academic institutions or open-source foundations.</li>
-        <li><b>Simple, Open Microservice APIs:</b> Standard HTTP/JSON and WebSocket endpoints where any client application can send a snippet of formal logic or an algebraic expression and receive a structured certificate of validity or symbolic reduction.</li>
+        <li><b>Centrally Hosted, Publicly Available:</b> Secure, containerized server clusters running stateless Lean 4 verification and Maxima CAS evaluation workers, managed by open-source infrastructure administrators.</li>
+        <li><b>Simple, Open Microservice APIs:</b> Standard HTTP/JSON and WebSocket endpoints where any client application can send a formal logic snippet or algebraic expression and receive a structured certificate of validity or symbolic reduction.</li>
         <li><b>Universal Client Access:</b> Any independent educational project, hobbyist web app, high school science lab, or student portal can freely query the hub as a public utility—just like querying an open NTP time server or public DNS.</li>
-        <li><b>Instructor Pedagogical Autonomy:</b> Rather than locking educators into rigid, pre-canned textbook problem sets, an open Maxima CAS service gives teachers complete freedom to choose, customize, and generate their own salient examples—tailoring the mathematics to their specific classroom inquiries, regional engineering contexts, or student curiosity.</li>
+        <li><b>Curricular Decoupling:</b> The Hub itself has zero editorial bias or curricular gatekeeping. It provides computational horsepower and database housing, while independent academic communities curate their own pedagogic structures.</li>
       </ul>
 
-      <h3>3. Multi-Role Architecture: Pedagogical Sovereignty for Instructors</h3>
+      <h3>3. Federated Multi-Role Architecture: 4 Distinct Roles Across 2 Operational Planes</h3>
       <p>
-        A central barrier in legacy educational software is the bureaucratic bottleneck: teachers are either restricted to "read-only" consumers of pre-baked digital textbooks, or forced to navigate rigid administrative permissions to make the slightest adjustment. 
+        The <i>Middle Way Mathematics</i> architecture resolves the historic bottleneck of educational software by formalizing a clean separation across two operational planes—<b>generic compute utilities</b> versus <b>state-bearing pedagogic databases (PDBs)</b>—distributed across four clearly delimited roles:
       </p>
-      <p>
-        The <i>Middle Way Mathematics</i> architecture resolves this tension through a model of <b>pedagogical sovereignty</b> distributed across three complementary roles:
-      </p>
+
+      <!-- Federated Architecture Vector Diagram -->
+      <div style="margin: 28px 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto;">
+        <h4 style="margin: 0 0 16px 0; font-size: 1.05rem; color: #0f172a; text-align: center; font-weight: 700;">
+          Federated Architecture: Public Utility Compute, Curricular Databases &amp; Autonomous Delivery
+        </h4>
+        <svg viewBox="0 0 920 600" width="100%" height="auto" style="max-width: 920px; display: block; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 8 5 L 0 9 z" fill="#334155" />
+            </marker>
+          </defs>
+
+          <!-- 1. Top Left: Hub Admin -->
+          <g transform="translate(40, 20)">
+            <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">Hub Admin.</text>
+
+            <rect x="90" y="5" width="220" height="95" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="90" y="5" width="220" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
+            <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
+            <text x="140" y="24" font-weight="700" font-size="12" fill="#1e293b">Responsibilities</text>
+            <text x="105" y="54" font-size="12" fill="#334155">• Define/maintain generic APIs</text>
+            <text x="105" y="80" font-size="12" fill="#334155">• Support pedagogic resources</text>
+          </g>
+
+          <!-- 2. Top Right: PDB Admin -->
+          <g transform="translate(520, 20)">
+            <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">PDB Admin.</text>
+
+            <rect x="90" y="5" width="245" height="95" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="90" y="5" width="245" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
+            <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
+            <text x="140" y="24" font-weight="700" font-size="12" fill="#1e293b">Responsibilities</text>
+            <text x="105" y="54" font-size="12" fill="#334155">• Define/maintain DBI</text>
+            <text x="105" y="80" font-size="12" fill="#334155">• Define/maintain canonical</text>
+            <text x="115" y="94" font-size="12" fill="#334155">static pages</text>
+          </g>
+
+          <!-- 3. Central Rounded Infrastructure Container -->
+          <rect x="40" y="170" width="840" height="205" rx="28" fill="#ffffff" stroke="#334155" stroke-width="2" />
+          
+          <!-- Dotted Divider between Generic APIs and PDBs -->
+          <line x1="470" y1="170" x2="470" y2="375" stroke="#64748b" stroke-width="2" stroke-dasharray="4,4" />
+
+          <!-- Left Half: Generic APIs -->
+          <text x="250" y="202" text-anchor="middle" font-weight="700" font-size="15" fill="#0f172a">generic APIs</text>
+
+          <rect x="65" y="218" width="375" height="138" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
+
+          <!-- Card: Formal Validation (Lean 4) -->
+          <rect x="80" y="232" width="140" height="110" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+          <text x="150" y="254" text-anchor="middle" font-size="11" fill="#475569">formal validation</text>
+          <text x="150" y="270" text-anchor="middle" font-size="11" fill="#64748b">i.e.</text>
+          <text x="150" y="286" text-anchor="middle" font-size="11" fill="#475569">theorem prover</text>
+          <text x="150" y="304" text-anchor="middle" font-size="11" fill="#64748b">e.g.</text>
+          <text x="150" y="324" text-anchor="middle" font-weight="800" font-size="14" fill="#1e3a8a">Lean4</text>
+
+          <!-- Card: Symbolic Calculation (Maxima) -->
+          <rect x="235" y="232" width="140" height="110" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+          <text x="305" y="254" text-anchor="middle" font-size="11" fill="#475569">symbolic calculation</text>
+          <text x="305" y="270" text-anchor="middle" font-size="11" fill="#64748b">i.e.</text>
+          <text x="305" y="286" text-anchor="middle" font-size="11" fill="#475569">CAS</text>
+          <text x="305" y="304" text-anchor="middle" font-size="11" fill="#64748b">e.g.</text>
+          <text x="305" y="324" text-anchor="middle" font-weight="800" font-size="14" fill="#047857">Maxima</text>
+
+          <!-- Extensibility Dots for Generic APIs -->
+          <circle cx="398" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+          <circle cx="418" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+
+          <!-- Right Half: Pedagogic Databases -->
+          <text x="675" y="202" text-anchor="middle" font-weight="700" font-size="15" fill="#0f172a">pedagogic databases</text>
+
+          <rect x="500" y="218" width="310" height="138" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
+
+          <!-- PDB Cylinder Database Icon -->
+          <g transform="translate(530, 240)">
+            <ellipse cx="30" cy="12" rx="26" ry="9" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
+            <path d="M 4,12 L 4,52 A 26,9 0 0,0 56,52 L 56,12" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
+            <ellipse cx="30" cy="52" rx="26" ry="9" fill="none" stroke="#4338ca" stroke-width="1.5" />
+            <text x="30" y="36" text-anchor="middle" font-weight="700" font-size="12" fill="#312e81">PDB</text>
+          </g>
+
+          <!-- Canonical Static Page Icon -->
+          <g transform="translate(635, 242)">
+            <path d="M 0,0 L 48,0 L 68,20 L 68,68 C 50,60 30,76 0,68 Z" fill="#ffffff" stroke="#334155" stroke-width="1.5" />
+            <path d="M 48,0 L 48,20 L 68,20" fill="#f1f5f9" stroke="#334155" stroke-width="1.5" />
+            <text x="34" y="38" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">static</text>
+            <text x="34" y="52" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">page</text>
+          </g>
+
+          <!-- Extensibility Dots for Pedagogic Databases -->
+          <circle cx="830" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+          <circle cx="850" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+
+          <!-- 4. Bottom Left: Instructor -->
+          <g transform="translate(40, 420)">
+            <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">Instructor</text>
+
+            <rect x="90" y="5" width="220" height="115" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="90" y="5" width="220" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
+            <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
+            <text x="145" y="24" font-weight="700" font-size="12" fill="#1e293b">Capabilities</text>
+            <text x="105" y="52" font-size="12" fill="#334155">• access to generic APIs</text>
+            <text x="105" y="78" font-size="12" fill="#334155">• read access to PDBs</text>
+            <text x="105" y="104" font-size="12" fill="#334155">• generate custom static page</text>
+          </g>
+
+          <!-- Dotted connector from Instructor to Custom Static Page -->
+          <line x1="350" y1="480" x2="425" y2="480" stroke="#64748b" stroke-width="2" stroke-dasharray="4,4" />
+
+          <!-- Custom Static Page Artifact -->
+          <g transform="translate(435, 445)">
+            <path d="M 0,0 L 60,0 L 80,20 L 80,68 C 60,60 30,76 0,68 Z" fill="#fffbeb" stroke="#d97706" stroke-width="1.8" />
+            <path d="M 60,0 L 60,20 L 80,20" fill="#fde68a" stroke="#d97706" stroke-width="1.5" />
+            <text x="40" y="38" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e">custom</text>
+            <text x="40" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e">static page</text>
+          </g>
+
+          <!-- Arrow from Custom Static Page to Student -->
+          <path d="M 525 480 L 640 480" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+          <!-- 5. Bottom Right: Student -->
+          <g transform="translate(680, 420)">
+            <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="14" fill="#0f172a">Student</text>
+          </g>
+
+          <!-- 6. Arrow from Canonical Static Page directly to Student -->
+          <path d="M 670 312 L 670 390 L 710 390 L 710 410" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+        </svg>
+      </div>
 
       <table>
         <thead>
           <tr>
-            <th style="width: 22%;">Role</th>
+            <th style="width: 20%;">Role</th>
             <th style="width: 38%;">Scope &amp; Responsibilities</th>
-            <th style="width: 40%;">Tooling &amp; Workflow in MWM</th>
+            <th style="width: 42%;">Operational Workflow &amp; Capabilities</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><b>1. Authorized Hub Keeper</b><br><span style="font-size: 12px; color: #cbd5e1;">(Platform &amp; Rigor)</span></td>
-            <td>Curates the canonical mathematical baseline; verifies formal Lean 4 theorems; manages global calculation stencils; authorizes instructors; oversees schema and repository integrity.</td>
-            <td>Database Console (<code>/console</code>), <code>[🔄 Reset DB from Source]</code>, automated theorem verification caches, and database baseline seed (<code>seed_v2.sql</code>).</td>
+            <td><b>1. Hub Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Infrastructure &amp; Generic Compute)</span></td>
+            <td><b>Pure platform utility: zero curriculum opinions.</b> Defines and maintains generic, public-domain microservice APIs (Lean 4 validation, Maxima CAS computation). Manages compute clusters, container sandboxing, and raw database storage allocations for participating schools.</td>
+            <td>Stateless cloud container pods; OpenAPI / JSON-RPC endpoints (<code>/eval</code>, <code>/calc</code>); pre-computed theorem caches. Unaware of specific course syllabi, problem sets, or pedagogical interpretations.</td>
           </tr>
           <tr>
-            <td><b>2. Course Instructor</b><br><span style="font-size: 12px; color: #cbd5e1;">(Pedagogical Sovereignty)</span></td>
-            <td><b>Enjoys the exact same authoring flexibility as the Hub Keeper.</b> Full freedom to rewrite narrative chapters, restructure outline hierarchy, reorder topics, and tune interactive stencils to their syllabus—with zero committee gatekeeping.</td>
-            <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, and <code>[🚀 Build Page]</code> to compile an autonomous, self-contained course document.</td>
+            <td><b>2. PDB Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Curricular Authority per School)</span></td>
+            <td><b>Each recognized "School of Thought" maintains its own PDB.</b> Defines and maintains the Database Interface (DBI) and schema for their specific curriculum. Curates canonical chapter narratives, outline hierarchies, formal proof stencils, and authoritative static releases.</td>
+            <td>PostgreSQL curriculum schema, Database Console (<code>/console</code>), canonical database seeds (<code>seed_v2.sql</code>), and automated production static publisher (<code>app1/dist/index.html</code>) delivered directly to students.</td>
           </tr>
           <tr>
-            <td><b>3. Student Learner</b><br><span style="font-size: 12px; color: #cbd5e1;">(Interactive Exploration)</span></td>
-            <td>Zero-friction learning: no logins, no paywalls, no server crashes mid-study. Explores verified algebraic invariants and physical simulations directly in the browser with zero latency.</td>
-            <td>Static Single-Page Application (HTML + embedded SVG + pre-rendered MathML/MathJax) delivered via any standard browser on phones, tablets, or Chromebooks.</td>
+            <td><b>3. Course Instructor</b><br><span style="font-size: 12px; color: #cbd5e1;">(Pedagogical Sovereignty)</span></td>
+            <td><b>Zero administrative burdens: no server configuration or DB maintenance.</b> Enjoys read access to PDBs and direct query access to generic APIs. Free to adapt chapters, reorder outlines, and generate a customized <b>custom static page</b> with zero committee gatekeeping.</td>
+            <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, 2-Phase Staging Sandbox (<code>savedSegs/</code>), and One-Click Build Snapshot Engine (<code>[🚀 Build Page]</code>) emitting standalone HTML for their students.</td>
+          </tr>
+          <tr>
+            <td><b>4. Student Learner</b><br><span style="font-size: 12px; color: #cbd5e1;">(Zero-Friction Discovery)</span></td>
+            <td>Accesses either the PDB Admin’s <b>canonical static page</b> (self-study, public reader) or the Instructor’s <b>custom static page</b> (active classroom). Zero logins, zero paywalls, zero server crashes. Explores verified algebraic invariants and physical simulations directly in the browser.</td>
+            <td>Static Single-Page Application (HTML + embedded SVG + pre-rendered MathML/MathJax) delivered via standard HTTPS to any laptop, tablet, or locked-down school Chromebook.</td>
           </tr>
         </tbody>
       </table>
 
       <div class="box-blue" style="border-left: 5px solid #2563eb; margin: 20px 0;">
-        <h4 style="margin: 0 0 8px 0; color: #1d4ed8; font-size: 16px;">The Sovereignty Principle: Full Power, Isolated Scope</h4>
+        <h4 style="margin: 0 0 8px 0; color: #1d4ed8; font-size: 16px;">The Plurality Principle: Independent Curricula Drinking from Shared Wells</h4>
         <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6;">
-          In this framework, the distinction between an Instructor and a Hub Keeper is <b>scope of distribution</b>, never creative capability:
+          As highlighted by the extensibility markers (<code>○ ○</code>) in the architecture diagram, this model is inherently <b>federated and pluralistic</b>:
         </p>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-          <li><b>Zero Bureaucratic Bottlenecks:</b> An instructor teaching a physics-oriented calculus class can reorder the entire curriculum to front-load vectors, rewrite the narrative introduction to highlight Newtonian mechanics, and instantly compile a customized course bundle via <code>[🚀 Build Page]</code>. Their students see the tailored course immediately—no platform permissions required.</li>
-          <li><b>Independent Course Snapshots:</b> Changes made by an instructor live in their generated course page. The shared canonical repository remains stable and uncorrupted, preventing conflicting edits between classrooms.</li>
-          <li><b>Frictionless Upstreaming:</b> If an instructor originates an exceptionally lucid explanation or a novel verified problem stencil, the Hub Keeper can easily pull those edits into the canonical seed for global adoption. But the teacher never has to wait for approval to teach with it tomorrow morning.</li>
+          <li><b>Generic Compute is Plural:</b> The hub starts with Lean 4 and Maxima, but naturally accommodates SMT solvers (Z3), alternative proof assistants (Coq, Isabelle), or symbolic CAS engines (SymPy, Julia).</li>
+          <li><b>Pedagogic Databases are Plural:</b> Middle Way Mathematics is one PDB. Other institutions can launch independent PDBs for discrete mathematics, quantum mechanics, organic chemistry, or circuit design—all drinking from the exact same publicly funded computational utility.</li>
+          <li><b>Dual Delivery Pathways:</b> Students are not trapped in a monolithic portal. A self-studying reader across the globe receives the high-polish canonical edition directly from the PDB Admin; simultaneously, a university student in an honors mechanics track receives a custom-tuned edition generated directly by their professor.</li>
         </ul>
       </div>
 
       <h3>4. Proof of Concept Milestone: What We Have Built &amp; Demonstrated</h3>
       <p>
-        The <i>Middle Way Mathematics</i> project has now moved beyond theoretical design into an <b>operational, fully functioning Proof of Concept (PoC)</b>. It directly proves that a modern, interactive formal science curriculum can be authored, mathematically verified, and deployed without expensive server infrastructure:
+        The <i>Middle Way Mathematics</i> project has moved beyond theoretical design into an <b>operational, fully functioning Proof of Concept (PoC)</b>. It directly proves that a modern, interactive formal science curriculum can be authored, mathematically verified, and deployed without expensive server infrastructure:
       </p>
 
       <div class="box-emerald" style="border-left: 5px solid #059669; margin: 20px 0;">
@@ -137,8 +303,8 @@
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
           <li><b>WYSIWYG Page-Mimic Authoring Studio:</b> An integrated, in-situ authoring overlay attached directly to the SVG navigation control bar (<code>Line 2 Dev Studio</code>). Authors can click any chapter in the outline to edit topic titles, restructure hierarchy, re-parent sections, and author lecture text with live MathJax typesetting in place—no external CMS or complex config files required.</li>
           <li><b>Dual Formal Verification &amp; Symbolic CAS Stencils:</b> Seamlessly bridges Lean 4 machine-verified proof statements (<code>&lt;fsd-ref&gt;</code>) with Maxima computer algebra calculations (<code>&lt;cas-ref&gt;</code>), enabling students to explore verified mathematical invariants with interactive stepper controls (<code>[-] [value] [+]</code>).</li>
-          <li><b>Isolated In-Memory Dev Sandbox:</b> Real-time authoring and curricular restructuring operate safely in client memory. The established PostgreSQL canonical database is protected from experimental edits, while an explicit <code>[💾 Update DB]</code> control allows transactional database commits on demand.</li>
-          <li><b>One-Click Static Build Snapshot Engine:</b> With a single click (<code>[🚀 Build Page]</code>), the author's live browser state is compiled into an isolated, zero-dependency standalone HTML file in <b>under 300 milliseconds</b> (writing to <code>app1/builds/&lt;custom_name&gt;.html</code>), ready for offline distribution or rapid evaluation.</li>
+          <li><b>2-Phase Staging &amp; Coordinated Promotion Sandbox:</b> Real-time authoring operates safely in client memory and a dedicated local staging sandbox (<code>savedSegs/</code>). Canonical files and databases remain untouched until an explicit promotion copies assets, regenerates SQL seeds, reseeds PostgreSQL, and re-bundles production artifacts.</li>
+          <li><b>One-Click Static Build Snapshot Engine:</b> With a single click (<code>[🚀 Build Page]</code>), the author's live browser state is compiled into an isolated, zero-dependency standalone HTML file in <b>under 300 milliseconds</b> (writing to <code>app1/builds/&lt;custom_name&gt;.html</code>), ready for offline distribution or immediate classroom evaluation.</li>
         </ul>
       </div>
 
@@ -152,63 +318,62 @@
         </p>
       </div>
 
-      <ul>
-        <li><b>Calculus as Algebra on the Conway Tree:</b> By defining hyperreal numbers via Conway's tree (<code>ℝ_ω, ℂ_ω</code>) and keeping transfinite <code>ω</code> and infinitesimal <code>dt = 1/ω</code> as first-class citizens, differential and integral calculus reduces to finite algebraic stencils.</li>
-        <li><b>100% Client-Side Evaluation:</b> Because the formulas are algebraic, the interactive <b>Formal Statement (FS) Calculator</b> and physical simulations run entirely in browser-native TypeScript. Students can change variables, invert input-output mappings, and run trajectory animations with <b>zero server overhead and zero latency</b>.</li>
-        <li><b>Dynamic Example Generation &amp; The Algebraic Stencil Pipeline:</b>
-          Middle Way Mathematics demonstrates how CAS empowers instructors in practice:
-          <ol style="margin: 8px 0; padding-left: 20px;">
-            <li><i>Instructor Formulation:</i> An educator inputs a novel problem or physical setup (e.g., custom polynomial potential, specific damping ratio, or multi-polarizer filter angle sequence).</li>
-            <li><i>Symbolic Reduction &amp; Invariant Discovery:</i> Maxima CAS performs the symbolic expansion, collects hyperfinite difference quotients, drops infinitesimal dust terms via the standard part shadow <code>st(·)</code>, and extracts the verified invariant.</li>
-            <li><i>Automatic Stencil Constriction:</i> The client analyzes the formal statement, extracts all valid directional <code>(inputs) → output</code> sets, and automatically constructs a clean, interactive algebraic stencil (<code>FsCalculator</code>) with stepper controls (<code>[-] [value] [+]</code>) and live evaluations for students.</li>
-          </ol>
-        </li>
-        <li><b>Phased Rollout — Curated Catalogs Today, Dynamic Hubs Tomorrow:</b>
-          To maintain a 100% zero-cost static deployment today, salient examples are curated in advance and embedded directly into course lectures using dark green <code>&lt;cas-ref&gt;</code> interactive inline references. This provides immediate visual feedback and hands-on exploration without server costs. The ultimate mission of the public service hub is to lift this pre-computed constraint: allowing instructors in active classrooms to type in <i>any</i> spontaneous question or boundary condition and have it instantly solved, verified, and transformed into an interactive student stencil on the fly.</li>
-        <li><b>Static Build-Time Caching:</b> For standard curriculum reading, all 51 Lean 4 theorems and Maxima derivations are pre-computed into static JSON caches during build time. Static readers enjoy instant Q.E.D. verification without hitting any servers.</li>
-        <li><b>The Live Frontier:</b> The only missing capability on the static site is arbitrary, real-time proof checking and CAS problem generation when a student or instructor authors a <i>completely novel</i> theorem or problem. With access to a public Lean 4 / Maxima educational service hub, a single <code>fetch()</code> request connects the static browser to live verification.</li>
-      </ul>
+      <!-- Restructured Section 5: Advisory Council Grant Governance -->
+      <h3>5. Recommended Action Plan: Educational Resource Hub Advisory Council</h3>
+      <p>
+        To transition this working prototype into an enduring public utility, we propose establishing an <b>Educational Resource Hub (ERH) Advisory Council</b> to administer a foundational prototype grant (estimated at <b>$100,000 to $175,000</b> in seed support). 
+        The Advisory Council—composed of representatives from the formal verification community, open computer algebra maintainers, participating schools of thought, and classroom educators—will execute across five structured tracks:
+      </p>
 
-      <div class="box-emerald">
-        <b>Radical Cost Efficiency:</b><br>
-        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods costs a tiny fraction of a typical foundation grant—roughly <b>$10,000 to $25,000 per year</b> in commodity cloud compute. That single hub can serve thousands of independent classrooms, research projects, and student developers worldwide.
-      </div>
-
-      <h3>5. Recommended Action Plan for Foundations &amp; Consortia</h3>
       <table>
         <thead>
           <tr>
-            <th>Phase</th>
-            <th>Deliverable</th>
-            <th>Primary Beneficiary</th>
+            <th style="width: 25%;">Governance Track</th>
+            <th style="width: 45%;">Core Mandate &amp; Deliverables</th>
+            <th style="width: 30%;">Outcome Milestone</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><b>1. Hub Deployment</b></td>
-            <td>Containerized, autoscaling Lean 4 kernel and Maxima CAS microservice endpoints with open OpenAPI / Swagger specifications.</td>
-            <td>Global open-science community &amp; developers</td>
+            <td><b>1. Council Formation &amp; Grant Administration</b></td>
+            <td>Charter the ERH Advisory Council; establish fiduciary oversight, operational bylaws, and milestone disbursement criteria for the prototype grant.</td>
+            <td>Chartered Council &amp; governance roadmap.</td>
           </tr>
           <tr>
-            <td><b>2. Lightweight Client SDKs &amp; Authoring Toolkit</b></td>
-            <td>Zero-dependency JavaScript/TypeScript client libraries for embedding live verification, CAS derivation traces, and automated algebraic stencils into static HTML/Markdown pages, empowering instructors to create their own verified examples on the fly.</td>
-            <td>Curriculum authors, blog writers, STEM instructors &amp; classroom teachers</td>
+            <td><b>2. Infrastructure &amp; Hardware Procurement</b></td>
+            <td>Determine compute, security, and container isolation requirements. Procure and configure autoscaling worker clusters to safely sandbox untrusted Lean 4 kernel scripts and Maxima CAS computations.</td>
+            <td>Secure, containerized cloud infrastructure operational with 99.9% uptime target.</td>
           </tr>
           <tr>
-            <td><b>3. Template Scaffolds</b></td>
-            <td>Open-source starter repositories (modeled on the <a href="https://github.com/jpryan17/hobbyNotes" target="_blank" style="color: #0369a1; text-decoration: underline;">hobbyNotes GitHub repository</a>) demonstrating static client + hub verification workflows.</td>
-            <td>Students, independent researchers, hobbyists</td>
+            <td><b>3. Generic API Standards &amp; Review</b></td>
+            <td>Review, modify, and ratify open microservice API specifications (OpenAPI / JSON-RPC) for stateless theorem verification (<code>/verify</code>) and symbolic calculation (<code>/calc</code>).</td>
+            <td>Published, standardized public API endpoints and client SDKs.</td>
+          </tr>
+          <tr>
+            <td><b>4. School of Thought Protocols &amp; PDB Housing</b></td>
+            <td>Define technical protocols, database schemas, and onboarding criteria for recognized academic groups to house and version their Pedagogic Databases (PDBs) on Hub storage.</td>
+            <td>First cohort of participating disciplinary PDBs onboarded (Middle Way Math pilot).</td>
+          </tr>
+          <tr>
+            <td><b>5. Classroom Pilot &amp; Static Publishing Trials</b></td>
+            <td>Deploy the zero-overhead Instructor authoring tools in partner secondary and undergraduate classrooms; evaluate student reception of both canonical and custom static pages.</td>
+            <td>Empirical pedagogical feedback report &amp; multi-institution expansion proposal.</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>6. Conclusion: Fund the Engines, Free the Teachers</h3>
+      <div class="box-emerald">
+        <b>Radical Cost Efficiency:</b><br>
+        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods alongside managed PDB storage costs a tiny fraction of a typical foundation grant—roughly <b>$15,000 to $30,000 per year</b> in commodity cloud compute. That single hub can serve dozens of disciplinary schools of thought and thousands of independent classrooms worldwide.
+      </div>
+
+      <h3>6. Conclusion: Fund the Civic Engines, Free the Teachers</h3>
       <p>
         The future of general science education does not belong to monolithic corporate platforms that rent access to proprietary math engines. 
         It belongs to an open ecosystem where verified formal logic and symbolic mathematics are treated as <b>public utilities</b>—open to all, maintained for the common good, and accessible to anyone with an internet connection.
       </p>
       <p>
-        By funding shared open-source educational service hubs, philanthropic patrons can remove the DevOps barrier once and for all: <b>empowering grassroots educators to choose their own examples, students to explore without fear of error, and ten thousand independent educational flowers to bloom.</b>
+        By funding shared open-source educational service hubs through a structured Advisory Council, philanthropic patrons can remove the DevOps barrier once and for all: <b>empowering disciplinary schools to curate rigorous curricula, grassroots educators to choose their own examples, students to explore without fear of error, and ten thousand independent educational flowers to bloom.</b>
       </p>
 
       <hr style="margin: 28px 0; border: 0; border-top: 1px solid #e2e8f0;">
@@ -217,5 +382,5 @@
         <i>Open Source Project Repository: <a href="https://github.com/jpryan17/hobbyNotes" target="_blank" style="color: #0369a1;">https://github.com/jpryan17/hobbyNotes</a> &bull; Prototype Application: <a href="https://www.middlewaymath.app" target="_blank" style="color: #0369a1;">middlewaymath.app</a></i>
       </div>
     </div>
-  </body>
+</body>
 </html>
