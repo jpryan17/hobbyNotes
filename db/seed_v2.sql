@@ -2,7 +2,7 @@
 -- HobbyNotes / Middle Way Mathematics
 -- Seed Data: Iteration 2 (Refined Conceptual Architecture)
 -- Normalized MWM-DB: Middle Way Math Single Source of Truth
--- Generated At: 2026-09-17T03:09:55.792Z
+-- Generated At: 2026-09-17T06:50:39.025Z
 -- =====================================================================
 
 -- 1. Applications (Curriculum Targets)
@@ -11288,7 +11288,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         </p>
         <ol style="margin: 0; padding-left: 22px; font-size: 14.5px; line-height: 1.6;">
           <li><b>Generic Public-Domain Compute APIs:</b> Hosting high-performance, stateless microservice endpoints for formal theorem proving (<b>Lean 4</b>), computer algebra systems (<b>Maxima CAS</b>), and extensible community verification engines—freely queryable by any client application across the internet.</li>
-          <li><b>Federated Curricular Storage &amp; Infrastructure:</b> Providing managed database and storage resources for recognized <b>"Schools of Thought"</b> to curate and maintain their respective <b>Pedagogic Databases (PDBs)</b> without the burden of private cloud administration.</li>
+          <li><b>Federated Curricular Storage via a Single DBMS:</b> Providing managed database and storage resources within a single, centralized DBMS (such as PostgreSQL), where recognized <b>"Schools of Thought"</b> are allocated dedicated database schemas to curate and maintain their respective <b>Pedagogic Databases (PDBs)</b> without the burden of database server administration.</li>
         </ol>
       </div>
 
@@ -11327,63 +11327,79 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
       <h3>3. Federated Multi-Role Architecture: 4 Distinct Roles Across 2 Operational Planes</h3>
       <p>
-        The <i>Middle Way Mathematics</i> architecture resolves the historic bottleneck of educational software by formalizing a clean separation across two operational planes—<b>generic compute utilities</b> versus <b>state-bearing pedagogic databases (PDBs)</b>—distributed across four clearly delimited roles:
+        The <i>Middle Way Mathematics</i> architecture resolves the historic bottleneck of educational software by formalizing a clean separation across two operational planes—<b>generic compute utilities</b> versus <b>state-bearing pedagogic databases (PDBs)</b> hosted as dedicated schemas in a single DBMS—distributed across four clearly delimited roles:
       </p>
 
       <!-- Federated Architecture Vector Diagram -->
       <div style="margin: 28px 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto;">
         <h4 style="margin: 0 0 16px 0; font-size: 1.05rem; color: #0f172a; text-align: center; font-weight: 700;">
-          Federated Architecture: Public Utility Compute, Curricular Databases &amp; Autonomous Delivery
+          Federated Architecture: Public Utility Compute, Curricular Schemas &amp; Autonomous Delivery
         </h4>
         <svg viewBox="0 0 920 600" width="100%" height="auto" style="max-width: 920px; display: block; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif;">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 8 5 L 0 9 z" fill="#334155" />
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+            </marker>
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
             </marker>
           </defs>
 
-          <!-- 1. Top Left: Hub Admin -->
-          <g transform="translate(40, 20)">
+          <!-- Background Canvas Boundary -->
+          <rect x="10" y="10" width="900" height="580" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5" />
+
+          <!-- 1. Top Section: Hub Administrator -->
+          <g transform="translate(40, 25)">
+            <!-- Stick Figure: Hub Admin -->
             <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
             <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
-            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">Hub Admin.</text>
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">Hub Admin</text>
 
-            <rect x="90" y="5" width="220" height="95" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+            <!-- Capabilities Card -->
+            <rect x="90" y="5" width="220" height="115" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
             <rect x="90" y="5" width="220" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
             <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
             <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
-            <text x="140" y="24" font-weight="700" font-size="12" fill="#1e293b">Responsibilities</text>
-            <text x="105" y="54" font-size="12" fill="#334155">• Define/maintain generic APIs</text>
-            <text x="105" y="80" font-size="12" fill="#334155">• Support pedagogic resources</text>
+            <text x="145" y="24" font-weight="700" font-size="12" fill="#1e293b">Capabilities</text>
+            <text x="105" y="52" font-size="12" fill="#334155">• define/maintain generic APIs</text>
+            <text x="105" y="78" font-size="12" fill="#334155">• maintain single DBMS engine</text>
+            <text x="105" y="104" font-size="12" fill="#334155">• allocate schemas &amp; storage</text>
           </g>
 
-          <!-- 2. Top Right: PDB Admin -->
-          <g transform="translate(520, 20)">
+          <!-- Arrow from Hub Admin downward to Hub Resources -->
+          <path d="M 200 152 L 200 178" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+          <!-- 2. Top Right: School of Thought (PDB Admin) -->
+          <g transform="translate(560, 25)">
+            <!-- Stick Figure: School of Thought -->
             <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
             <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="72" x2="18" y2="105" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
-            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">PDB Admin.</text>
+            <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">School of Thought</text>
+            <text x="35" y="139" text-anchor="middle" font-size="11" fill="#64748b">(PDB Admin)</text>
 
-            <rect x="90" y="5" width="245" height="95" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
-            <rect x="90" y="5" width="245" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
+            <!-- Capabilities Card -->
+            <rect x="90" y="5" width="225" height="115" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+            <rect x="90" y="5" width="225" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
             <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
             <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
-            <text x="140" y="24" font-weight="700" font-size="12" fill="#1e293b">Responsibilities</text>
-            <text x="105" y="54" font-size="12" fill="#334155">• Define/maintain DBI</text>
-            <text x="105" y="80" font-size="12" fill="#334155">• Define/maintain canonical</text>
-            <text x="115" y="94" font-size="12" fill="#334155">static pages</text>
+            <text x="145" y="24" font-weight="700" font-size="12" fill="#1e293b">Capabilities</text>
+            <text x="105" y="52" font-size="12" fill="#334155">• define/maintain school schema</text>
+            <text x="105" y="78" font-size="12" fill="#334155">• curate PDB tables &amp; stencils</text>
+            <text x="105" y="104" font-size="12" fill="#334155">• generate canonical static page</text>
           </g>
 
-          <!-- 3. Central Rounded Infrastructure Container -->
-          <rect x="40" y="170" width="840" height="205" rx="28" fill="#ffffff" stroke="#334155" stroke-width="2" />
-          
-          <!-- Dotted Divider between Generic APIs and PDBs -->
-          <line x1="470" y1="170" x2="470" y2="375" stroke="#64748b" stroke-width="2" stroke-dasharray="4,4" />
+          <!-- Arrow from School of Thought downward to Pedagogic Databases -->
+          <path d="M 720 152 L 720 178" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)" />
+
+          <!-- 3. Middle Section: The Public Educational Resource Hub (Shared Civic Infrastructure) -->
+          <rect x="40" y="184" width="840" height="188" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+          <text x="60" y="206" font-weight="800" font-size="13" fill="#64748b" letter-spacing="1">EDUCATIONAL RESOURCE HUB</text>
 
           <!-- Left Half: Generic APIs -->
           <text x="250" y="202" text-anchor="middle" font-weight="700" font-size="15" fill="#0f172a">generic APIs</text>
@@ -11410,33 +11426,36 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <circle cx="398" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
           <circle cx="418" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
 
-          <!-- Right Half: Pedagogic Databases -->
-          <text x="675" y="202" text-anchor="middle" font-weight="700" font-size="15" fill="#0f172a">pedagogic databases</text>
+          <!-- Right Half: Pedagogic Schemas in Single DBMS -->
+          <text x="675" y="202" text-anchor="middle" font-weight="700" font-size="15" fill="#0f172a">pedagogic schemas (single DBMS)</text>
 
           <rect x="500" y="218" width="310" height="138" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
 
-          <!-- PDB Cylinder Database Icon -->
-          <g transform="translate(530, 240)">
-            <ellipse cx="30" cy="12" rx="26" ry="9" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
-            <path d="M 4,12 L 4,52 A 26,9 0 0,0 56,52 L 56,12" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
-            <ellipse cx="30" cy="52" rx="26" ry="9" fill="none" stroke="#4338ca" stroke-width="1.5" />
-            <text x="30" y="36" text-anchor="middle" font-weight="700" font-size="12" fill="#312e81">PDB</text>
+          <!-- PDB Cylinder Database Icon (Single DBMS with Schemas) -->
+          <g transform="translate(525, 236)">
+            <ellipse cx="36" cy="12" rx="32" ry="9" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
+            <path d="M 4,12 L 4,58 A 32,9 0 0,0 68,58 L 68,12" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.5" />
+            <ellipse cx="36" cy="58" rx="32" ry="9" fill="none" stroke="#4338ca" stroke-width="1.5" />
+            <text x="36" y="32" text-anchor="middle" font-weight="800" font-size="11" fill="#312e81">Hub DBMS</text>
+            <text x="36" y="47" text-anchor="middle" font-size="9.5" fill="#4338ca">schema PDB₁</text>
+            <text x="36" y="58" text-anchor="middle" font-size="9.5" fill="#4338ca">schema PDB₂</text>
           </g>
 
           <!-- Canonical Static Page Icon -->
-          <g transform="translate(635, 242)">
+          <g transform="translate(640, 242)">
             <path d="M 0,0 L 48,0 L 68,20 L 68,68 C 50,60 30,76 0,68 Z" fill="#ffffff" stroke="#334155" stroke-width="1.5" />
             <path d="M 48,0 L 48,20 L 68,20" fill="#f1f5f9" stroke="#334155" stroke-width="1.5" />
-            <text x="34" y="38" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">static</text>
-            <text x="34" y="52" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">page</text>
+            <text x="34" y="38" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">canonical</text>
+            <text x="34" y="52" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">static page</text>
           </g>
 
-          <!-- Extensibility Dots for Pedagogic Databases -->
+          <!-- Extensibility Dots for Pedagogic Schemas -->
           <circle cx="830" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
           <circle cx="850" cy="287" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
 
           <!-- 4. Bottom Left: Instructor -->
           <g transform="translate(40, 420)">
+            <!-- Stick Figure: Instructor -->
             <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
             <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
@@ -11444,13 +11463,14 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
             <line x1="35" y1="72" x2="52" y2="105" stroke="#1e293b" stroke-width="2.5" />
             <text x="35" y="124" text-anchor="middle" font-weight="700" font-size="13" fill="#0f172a">Instructor</text>
 
+            <!-- Capabilities Card -->
             <rect x="90" y="5" width="220" height="115" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
             <rect x="90" y="5" width="220" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" />
             <rect x="98" y="13" width="10" height="10" fill="#cbd5e1" stroke="#64748b" stroke-width="1" />
             <line x1="100" y1="18" x2="106" y2="18" stroke="#1e293b" stroke-width="1.5" />
             <text x="145" y="24" font-weight="700" font-size="12" fill="#1e293b">Capabilities</text>
             <text x="105" y="52" font-size="12" fill="#334155">• access to generic APIs</text>
-            <text x="105" y="78" font-size="12" fill="#334155">• read access to PDBs</text>
+            <text x="105" y="78" font-size="12" fill="#334155">• read access to school schemas</text>
             <text x="105" y="104" font-size="12" fill="#334155">• generate custom static page</text>
           </g>
 
@@ -11470,6 +11490,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
           <!-- 5. Bottom Right: Student -->
           <g transform="translate(680, 420)">
+            <!-- Stick Figure: Student -->
             <circle cx="35" cy="22" r="14" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
             <line x1="35" y1="36" x2="35" y2="72" stroke="#1e293b" stroke-width="2.5" />
             <line x1="15" y1="50" x2="55" y2="50" stroke="#1e293b" stroke-width="2.5" />
@@ -11495,17 +11516,17 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         <tbody>
           <tr>
             <td><b>1. Hub Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Infrastructure &amp; Generic Compute)</span></td>
-            <td><b>Pure platform utility: zero curriculum opinions.</b> Defines and maintains generic, public-domain microservice APIs (Lean 4 validation, Maxima CAS computation). Manages compute clusters, container sandboxing, and raw database storage allocations for participating schools.</td>
-            <td>Stateless cloud container pods; OpenAPI / JSON-RPC endpoints (<code>/eval</code>, <code>/calc</code>); pre-computed theorem caches. Unaware of specific course syllabi, problem sets, or pedagogical interpretations.</td>
+            <td><b>Pure platform utility: zero curriculum opinions.</b> Defines and maintains generic, public-domain microservice APIs (Lean 4 validation, Maxima CAS computation). Maintains the single, high-availability DBMS (PostgreSQL), managing server uptime, automated backups, and allocating isolated database schemas to recognized schools of thought.</td>
+            <td>Stateless cloud container pods; OpenAPI / JSON-RPC endpoints (<code>/eval</code>, <code>/calc</code>); centralized DBMS administration (user provisioning, schema-level RBAC). Unaware of specific course syllabi, problem sets, or pedagogical interpretations.</td>
           </tr>
           <tr>
             <td><b>2. PDB Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Curricular Authority per School)</span></td>
-            <td><b>Each recognized "School of Thought" maintains its own PDB.</b> Defines and maintains the Database Interface (DBI) and schema for their specific curriculum. Curates canonical chapter narratives, outline hierarchies, formal proof stencils, and authoritative static releases.</td>
-            <td>PostgreSQL curriculum schema, Database Console (<code>/console</code>), canonical database seeds (<code>seed_v2.sql</code>), and automated production static publisher (<code>app1/dist/index.html</code>) delivered directly to students.</td>
+            <td><b>Curricular authority within their allocated schema (<code>schema &lt;school_name&gt;</code>).</b> Governs the tables, views, and data structures for their curriculum within the hub''s single DBMS. Zero server administration: curates canonical chapter narratives, outline hierarchies, formal proof stencils, and authoritative static releases.</td>
+            <td>Dedicated schema in the hub DBMS, Database Console (<code>/console</code>), schema migration &amp; seed scripts (<code>seed_v2.sql</code>), and automated production static publisher (<code>app1/dist/index.html</code>) delivered directly to students.</td>
           </tr>
           <tr>
             <td><b>3. Course Instructor</b><br><span style="font-size: 12px; color: #cbd5e1;">(Pedagogical Sovereignty)</span></td>
-            <td><b>Zero administrative burdens: no server configuration or DB maintenance.</b> Enjoys read access to PDBs and direct query access to generic APIs. Free to adapt chapters, reorder outlines, and generate a customized <b>custom static page</b> with zero committee gatekeeping.</td>
+            <td><b>Zero administrative burdens: no server configuration or DB maintenance.</b> Enjoys read access to school schemas and direct query access to generic APIs. Free to adapt chapters, reorder outlines, and generate a customized <b>custom static page</b> with zero committee gatekeeping.</td>
             <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, 2-Phase Staging Sandbox (<code>savedSegs/</code>), and One-Click Build Snapshot Engine (<code>[🚀 Build Page]</code>) emitting standalone HTML for their students.</td>
           </tr>
           <tr>
@@ -11523,7 +11544,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         </p>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
           <li><b>Generic Compute is Plural:</b> The hub starts with Lean 4 and Maxima, but naturally accommodates SMT solvers (Z3), alternative proof assistants (Coq, Isabelle), or symbolic CAS engines (SymPy, Julia).</li>
-          <li><b>Pedagogic Databases are Plural:</b> Middle Way Mathematics is one PDB. Other institutions can launch independent PDBs for discrete mathematics, quantum mechanics, organic chemistry, or circuit design—all drinking from the exact same publicly funded computational utility.</li>
+          <li><b>Pedagogic Schemas are Plural:</b> Middle Way Mathematics is one schema (<code>schema middleway</code>). Other institutions can launch independent curricular schemas (e.g., constructive analysis, quantum mechanics, discrete mathematics) inside the hub''s single DBMS—each maintaining full namespace sovereignty while drinking from the exact same publicly funded computational utility.</li>
           <li><b>Dual Delivery Pathways:</b> Students are not trapped in a monolithic portal. A self-studying reader across the globe receives the high-polish canonical edition directly from the PDB Admin; simultaneously, a university student in an honors mechanics track receives a custom-tuned edition generated directly by their professor.</li>
         </ul>
       </div>
@@ -11576,7 +11597,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           </tr>
           <tr>
             <td><b>2. Infrastructure &amp; Hardware Procurement</b></td>
-            <td>Determine compute, security, and container isolation requirements. Procure and configure autoscaling worker clusters to safely sandbox untrusted Lean 4 kernel scripts and Maxima CAS computations.</td>
+            <td>Determine compute, security, and container isolation requirements. Procure and configure autoscaling worker clusters and the centralized PostgreSQL DBMS to safely sandbox untrusted computations and isolate school schemas.</td>
             <td>Secure, containerized cloud infrastructure operational with 99.9% uptime target.</td>
           </tr>
           <tr>
@@ -11585,9 +11606,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
             <td>Published, standardized public API endpoints and client SDKs.</td>
           </tr>
           <tr>
-            <td><b>4. School of Thought Protocols &amp; PDB Housing</b></td>
-            <td>Define technical protocols, database schemas, and onboarding criteria for recognized academic groups to house and version their Pedagogic Databases (PDBs) on Hub storage.</td>
-            <td>First cohort of participating disciplinary PDBs onboarded (Middle Way Math pilot).</td>
+            <td><b>4. School of Thought Protocols &amp; Schema Allocations</b></td>
+            <td>Define technical protocols, namespace standards, and onboarding criteria for recognized academic groups to receive dedicated database schemas in the hub''s single DBMS (PDB hosting).</td>
+            <td>First cohort of participating disciplinary schemas onboarded (Middle Way Math pilot).</td>
           </tr>
           <tr>
             <td><b>5. Classroom Pilot &amp; Static Publishing Trials</b></td>
@@ -11599,7 +11620,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
       <div class="box-emerald">
         <b>Radical Cost Efficiency:</b><br>
-        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods alongside managed PDB storage costs a tiny fraction of a typical foundation grant—roughly <b>$15,000 to $30,000 per year</b> in commodity cloud compute. That single hub can serve dozens of disciplinary schools of thought and thousands of independent classrooms worldwide.
+        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods alongside a single managed DBMS instance (housing dozens of school schemas) costs a tiny fraction of a typical foundation grant—roughly <b>$15,000 to $30,000 per year</b> in commodity cloud compute. That single hub can serve dozens of disciplinary schools of thought and thousands of independent classrooms worldwide with zero database server overhead for schools.
       </div>
 
       <h3>6. Conclusion: Fund the Civic Engines, Free the Teachers</h3>
