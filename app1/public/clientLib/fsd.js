@@ -1374,21 +1374,45 @@ export class FSD extends PXEParent {
                 leanSnippet: `-- Divisibility reflexivity certified\ntheorem fsd_dvd_refl : ∀ (x : Nat), x ∣ x := by intro x; exact Nat.dvd_refl x`
             };
         }
+        const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
+        const isConstantEmpty = mSlot && (mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "∅");
+        if (isConstantEmpty) {
+            const isNeg = this.pxe.exp.includes("n");
+            const q = this.quantifierBindings[0]?.quantifier || "∀";
+            const v = this.quantifierBindings[0]?.variable || "x₁";
+            const formulaStr = `${q}${v}:ℕ [ ${isNeg ? `¬(${v} ∈ ∅)` : `(${v} ∈ ∅)`} ]`;
+            return {
+                title: "Formal Reasoning (Empty Set Definition ∅)",
+                verdict: finalStatementTruth,
+                target: formulaStr,
+                expression: formulaStr,
+                testOrPickLabel: "Scenario",
+                testOrPickValue: `Any element ${v} ∈ ℕ tested against Column Y₀ = ∅`,
+                checks: [
+                    { label: "Empty Set Cardinality", question: "Does ∅ contain any elements?", passed: true, detail: "→ |∅| = 0" },
+                    { label: "Membership Check", question: `Is ${v} ∈ ∅ universally False on ℕ?`, passed: true, detail: "→ Yes (Empty)" },
+                    { label: "Negation Truth", question: isNeg ? `Does ¬(${v} ∈ ∅) hold for all natural numbers?` : `Does ${v} ∈ ∅ hold?`, passed: finalStatementTruth, detail: finalStatementTruth ? "→ True" : "→ False" }
+                ],
+                conflictOrSupport: isNeg ? "Since ∅ contains no elements, every natural number satisfies the negation." : "The empty set has zero elements.",
+                conclusion: isNeg ? "Verified True: by definition of ∅, nothing belongs to the empty set." : "Disproven: the empty set has no members.",
+                leanSnippet: `-- Empty set membership verified\ntheorem fsd_empty_not_mem : ∀ (x : Nat), ¬(x ∈ (∅ : Set Nat)) := by intro x h; contradiction`
+            };
+        }
         if (this.slots.some((s) => s.assignedVar?.startsWith("y")) || colLabel === "∈") {
             const yBinding = this.quantifierBindings.find((q) => q.variable.startsWith("y"));
             const ySpec = yBinding ? this.getVarDomain(yBinding.variable) : { base: "𝒫(ℕ)" };
             const isNonEmpty = ySpec.filterPred === "NONEMPTY";
-            const xQuant = this.quantifierBindings.find((q) => q.variable.startsWith("x"))?.quantifier || "∃";
-            const yQuant = yBinding?.quantifier || "∀";
+            const targetFormula = expStr;
             return {
                 title: "Formal Reasoning (Power Set & Membership)",
                 verdict: finalStatementTruth,
-                target: `${xQuant}x:ℕ, ${yQuant}y:${formatDomainSpec(ySpec)} [ x ∈ y ]`,
+                target: targetFormula,
+                expression: targetFormula,
                 testOrPickLabel: finalStatementTruth ? "Pick" : "Test",
                 testOrPickValue: finalStatementTruth ? "Tested valid subset incidence in 𝒫(ℕ₄)" : (isNonEmpty ? "Examined non-empty subsets" : "Checked empty set ∅ (Column Y₀)"),
                 checks: [
                     { label: "Base Set", question: "Elements of ℕ evaluated in {1, 2, 3, 4}", passed: true, detail: "→ 4 Elements" },
-                    { label: "Power Set 𝒫(ℕ)", question: "Subset columns evaluated from ∅ to ℕ₄", passed: true, detail: "→ 16 Subsets" },
+                    { label: "Power Set 𝒫(ℕ)", question: "Subset columns evaluated from ∅ to ℕ₄", passed: true, detail: isNonEmpty ? "→ 15 Non-empty Subsets" : "→ 16 Subsets" },
                     { label: "Membership", question: "Evaluated x ∈ y across incidence matrix", passed: finalStatementTruth, detail: finalStatementTruth ? "→ Satisfied" : "→ Fails" }
                 ],
                 conflictOrSupport: !finalStatementTruth && !isNonEmpty ? "The empty set ∅ contains no elements, so x ∈ ∅ is universally False." : undefined,
@@ -1429,7 +1453,7 @@ export class FSD extends PXEParent {
                         title: "Formal Reasoning (Existential Witness)",
                         verdict: true,
                         target: `Find ${v} in ${formatDomainSpec(spec)} satisfying statement`,
-                        expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
+                        expression: expStr,
                         testOrPickLabel: "Pick",
                         testOrPickValue: `${v} = ${witness}`,
                         checks: [
@@ -1445,7 +1469,7 @@ export class FSD extends PXEParent {
                         title: "Formal Reasoning (Existential Refutation)",
                         verdict: false,
                         target: `Find ${v} in ${formatDomainSpec(spec)} satisfying statement`,
-                        expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
+                        expression: expStr,
                         testOrPickLabel: "Scenario",
                         testOrPickValue: `Tested elements in ${formatDomainSpec(spec)} (up to N=${N})`,
                         checks: [
@@ -1464,7 +1488,7 @@ export class FSD extends PXEParent {
                         title: "Formal Reasoning (Universal Counterexample)",
                         verdict: false,
                         target: `Verify that condition holds for ALL ${v} in ${formatDomainSpec(spec)}`,
-                        expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
+                        expression: expStr,
                         testOrPickLabel: "Test",
                         testOrPickValue: `Pick ${v} = ${counterEx} (valid element in domain)`,
                         checks: [
@@ -1481,7 +1505,7 @@ export class FSD extends PXEParent {
                         title: "Formal Reasoning (Universal Verification)",
                         verdict: true,
                         target: `Verify that condition holds for ALL ${v} in ${formatDomainSpec(spec)}`,
-                        expression: `${q}${v}:${formatDomainSpec(spec)} [ ${expStr} ]`,
+                        expression: expStr,
                         testOrPickLabel: "Scenario",
                         testOrPickValue: `All elements tested in ${formatDomainSpec(spec)}`,
                         checks: [
@@ -1507,7 +1531,7 @@ export class FSD extends PXEParent {
                     title: "Formal Reasoning (Universal-Existential ∀∃)",
                     verdict: true,
                     target: `For every ${v0} in ${formatDomainSpec(dom0)}, show there exists a matching ${v1} in ${formatDomainSpec(dom1)}`,
-                    expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
+                    expression: expStr,
                     testOrPickLabel: "Pick",
                     testOrPickValue: `Given any row ${v0}, select matching column ${v1} (e.g. ${v0} + 1)`,
                     checks: [
@@ -1523,7 +1547,7 @@ export class FSD extends PXEParent {
                     title: "Formal Reasoning (Universal-Existential Refutation)",
                     verdict: false,
                     target: `For every ${v0} in ${formatDomainSpec(dom0)}, show there exists a matching ${v1} in ${formatDomainSpec(dom1)}`,
-                    expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
+                    expression: expStr,
                     testOrPickLabel: "Test",
                     testOrPickValue: `Failing row ${v0} in ${formatDomainSpec(dom0)}`,
                     checks: [
@@ -1541,7 +1565,7 @@ export class FSD extends PXEParent {
                     title: "Formal Reasoning (Master-Key ∃∀)",
                     verdict: true,
                     target: `Find a single column ${v0} that works for ALL rows ${v1}`,
-                    expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
+                    expression: expStr,
                     testOrPickLabel: "Pick",
                     testOrPickValue: `Master Key column ${v0}`,
                     checks: [
@@ -1556,7 +1580,7 @@ export class FSD extends PXEParent {
                     title: "Formal Reasoning (Master-Key ∃∀ Refutation)",
                     verdict: false,
                     target: `Find a single column ${v0} in ${formatDomainSpec(dom0)} that works for ALL rows ${v1}`,
-                    expression: `${q0}${v0}:${formatDomainSpec(dom0)}, ${q1}${v1}:${formatDomainSpec(dom1)} [ ${expStr} ]`,
+                    expression: expStr,
                     testOrPickLabel: "Test",
                     testOrPickValue: `Tested columns ${v0} in ${formatDomainSpec(dom0)}`,
                     checks: [

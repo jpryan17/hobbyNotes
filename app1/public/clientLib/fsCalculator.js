@@ -425,8 +425,404 @@ export function inferFsCalculationModes(arg) {
             }
         });
     }
-    // 8. Order Reflexivity & Predicates (FSD)
-    if (allText.includes("gt(") || allText.includes("x₁ > x₂")) {
+    // 8. Order Reflexivity, Compound Logic & Predicates (FSD)
+    const hasAnd = expr.includes("∧") || expr.includes("\\land") || allText.includes("paq") || (allText.includes("gt5") && allText.includes("lt10") && (expr.includes("∧") || allText.includes("∧")));
+    const hasOr = expr.includes("∨") || expr.includes("\\lor") || allText.includes("poq") || (allText.includes("gt5") && allText.includes("lt10") && (expr.includes("∨") || allText.includes("∨")));
+    const hasImply = expr.includes("→") || expr.includes("\\to") || expr.includes("⇒");
+    const hasEquiv = expr.includes("↔") || expr.includes("\\leftrightarrow") || expr.includes("⇔");
+    const hasNeg = expr.includes("¬") || expr.includes("\\neg") || allText.includes("¬gt5") || allText.includes("np");
+    // Compound Conjunction: GT5(x₁) ∧ LT10(x₁)
+    if (hasAnd && allText.includes("gt5") && allText.includes("lt10")) {
+        modes.push({
+            id: "pred_gt5_and_lt10",
+            label: "(x₁) → GT5(x₁) ∧ LT10(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "GT5(x₁) ∧ LT10(x₁)  (Discrete Intersection: 5 < x₁ < 10)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 7, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const p = v > 5;
+                const q = v < 10;
+                const truth = p && q;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `[ ${v} > 5: ${p ? "True" : "False"} ] ∧ [ ${v} < 10: ${q ? "True" : "False"} ] ⟹ ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (In Intersection)" : "False ✗ (Outside Interval)",
+                    domainBadge: "∈ 𝔹",
+                    notes: truth
+                        ? `x₁ = ${v} satisfies both predicates. Belongs to the discrete interval {6, 7, 8, 9} = (5, 10) ∩ ℕ.`
+                        : `Fails condition: ${!p ? `${v} is not > 5` : `${v} is not < 10`}.`
+                };
+            }
+        });
+    }
+    // Compound Disjunction: GT5(x₁) ∨ LT10(x₁)
+    if (hasOr && allText.includes("gt5") && allText.includes("lt10")) {
+        modes.push({
+            id: "pred_gt5_or_lt10",
+            label: "(x₁) → GT5(x₁) ∨ LT10(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "GT5(x₁) ∨ LT10(x₁)  (Discrete Union: x₁ > 5 ∨ x₁ < 10)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 12, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const p = v > 5;
+                const q = v < 10;
+                const truth = p || q;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `[ ${v} > 5: ${p ? "True" : "False"} ] ∨ [ ${v} < 10: ${q ? "True" : "False"} ] ⟹ ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (In Union)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: `Union is universally True on ℕ because every natural number is either < 10 or > 5.`
+                };
+            }
+        });
+    }
+    // Compound Negation: ¬GT5(x₁)
+    if (hasNeg && allText.includes("gt5")) {
+        modes.push({
+            id: "pred_not_gt5",
+            label: "(x₁) → ¬GT5(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "¬GT5(x₁)  (Complement: x₁ ≤ 5)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const p = v > 5;
+                const truth = !p;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `¬ [ ${v} > 5: ${p ? "True" : "False"} ] ⟹ ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (Complement)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: `Negation inverts truth: x₁ = ${v} ${truth ? "is in the complement {0..5}" : "is > 5, so negation fails"}.`
+                };
+            }
+        });
+    }
+    // Compound Equivalence: GT5(x₁) ↔ x₁ > 5
+    if ((hasEquiv || allText.includes("↔") || allText.includes("iff")) && allText.includes("gt5")) {
+        modes.push({
+            id: "pred_equiv_gt5",
+            label: "(x₁) → GT5(x₁) ↔ x₁ > 5",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "GT5(x₁) ↔ x₁ > 5  (Equivalence Definition)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 7, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const p = v > 5;
+                const q = v > 5;
+                const truth = p === q;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `[ ${v} > 5: ${p ? "True" : "False"} ] ↔ [ ${v} > 5: ${q ? "True" : "False"} ] ⟹ True`,
+                    displayResult: "True ✓ (Logically Equivalent)",
+                    domainBadge: "∈ 𝔹",
+                    notes: "Logical equivalence holds identically for all x₁ ∈ ℕ by definition of GT5."
+                };
+            }
+        });
+    }
+    // Set Intersection Conjunction: x₁ ∈ GT5 ∧ x₁ ∈ LT10
+    if (hasAnd && (allText.includes("mam") || (allText.includes("∈") && allText.includes("gt5") && allText.includes("lt10")))) {
+        modes.push({
+            id: "pred_mem_gt5_and_lt10",
+            label: "(x₁) → x₁ ∈ GT5 ∧ x₁ ∈ LT10",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "x₁ ∈ GT5 ∧ x₁ ∈ LT10  (Set Intersection: GT5 ∩ LT10 = {6, 7, 8, 9})",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 7, step: 1, min: 0, max: 100, description: "Candidate element" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const inGT5 = v > 5;
+                const inLT10 = v < 10;
+                const inInter = inGT5 && inLT10;
+                return {
+                    resultValue: inInter,
+                    formattedFormula: `(${v} ∈ GT5: ${inGT5}) ∧ (${v} ∈ LT10: ${inLT10}) ⟹ ${inInter ? "True" : "False"}`,
+                    displayResult: inInter ? "True ✓ (In Intersection)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: inInter ? `Element ${v} belongs to the set intersection GT5 ∩ LT10 = {6, 7, 8, 9}.` : `Element ${v} is outside the intersection.`
+                };
+            }
+        });
+    }
+    // Set Union Disjunction: x₁ ∈ GT5 ∨ x₁ ∈ LT10
+    if (hasOr && (allText.includes("mom") || (allText.includes("∈") && allText.includes("gt5") && allText.includes("lt10")))) {
+        modes.push({
+            id: "pred_mem_gt5_or_lt10",
+            label: "(x₁) → x₁ ∈ GT5 ∨ x₁ ∈ LT10",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "x₁ ∈ GT5 ∨ x₁ ∈ LT10  (Set Union: GT5 ∪ LT10 = ℕ)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 12, step: 1, min: 0, max: 100, description: "Candidate element" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const inGT5 = v > 5;
+                const inLT10 = v < 10;
+                const inUnion = inGT5 || inLT10;
+                return {
+                    resultValue: inUnion,
+                    formattedFormula: `(${v} ∈ GT5: ${inGT5}) ∨ (${v} ∈ LT10: ${inLT10}) ⟹ ${inUnion ? "True" : "False"}`,
+                    displayResult: inUnion ? "True ✓ (In Union)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: "Union covers all of ℕ because every natural number is either > 5 or < 10."
+                };
+            }
+        });
+    }
+    // Compound Negation: ¬LT10(x₁)
+    if (hasNeg && allText.includes("lt10")) {
+        modes.push({
+            id: "pred_not_lt10",
+            label: "(x₁) → ¬LT10(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "¬LT10(x₁)  (Relative Complement: x₁ ≥ 10)",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 12, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const p = v < 10;
+                const truth = !p;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `¬ [ ${v} < 10: ${p ? "True" : "False"} ] ⟹ ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (Complement x₁ ≥ 10)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: truth ? `${v} is ≥ 10, belonging to the complement.` : `${v} is < 10, so negation fails.`
+                };
+            }
+        });
+    }
+    // Compound Negation: ¬EVEN(x₁)
+    if (hasNeg && allText.includes("even")) {
+        modes.push({
+            id: "pred_not_even",
+            label: "(x₁) → ¬EVEN(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "¬EVEN(x₁) ⇔ ODD(x₁) ⇔ x₁ mod 2 = 1",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 7, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+            ],
+            evaluate: (vals) => {
+                const v = Math.round(vals.x1);
+                const isEven = v % 2 === 0;
+                const truth = !isEven;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `¬ [ ${v} mod 2 = 0: ${isEven ? "True" : "False"} ] ⟹ ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (Odd)" : "False ✗ (Even)",
+                    domainBadge: "∈ 𝔹",
+                    notes: truth ? `${v} is odd (not divisible by 2).` : `${v} is even.`
+                };
+            }
+        });
+    }
+    // Set Membership & Power Set Incidence in 𝒫(ℕ₄)
+    if (allText.includes("∈") || allText.includes("power set") || allText.includes("𝒫(ℕ)") || allText.includes("p(n)") || expr.includes("∈") || target.includes("power set")) {
+        // Empty Set Membership: x₁ ∈ ∅ and ¬(x₁ ∈ ∅)
+        if (allText.includes("∅") || allText.includes("empty")) {
+            modes.push({
+                id: "mem_empty_not",
+                label: "(x₁) → ¬(x₁ ∈ ∅)",
+                targetSymbol: "Truth",
+                targetDomain: "𝔹",
+                formulaDescription: "¬(x₁ ∈ ∅) ⇔ True  (Empty Set Definition)",
+                inputs: [
+                    { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+                ],
+                evaluate: (vals) => {
+                    const v = Math.round(vals.x1);
+                    return {
+                        resultValue: true,
+                        formattedFormula: `¬ [ ${v} ∈ ∅: False ] ⟹ True`,
+                        displayResult: "True ✓ (Nothing in ∅)",
+                        domainBadge: "∈ 𝔹",
+                        notes: `By definition of the empty set ∅ = {}, zero elements belong to it. Therefore, ¬(x₁ ∈ ∅) holds universally for every element x₁ = ${v}.`
+                    };
+                }
+            });
+            modes.push({
+                id: "mem_empty",
+                label: "(x₁) → x₁ ∈ ∅",
+                targetSymbol: "Truth",
+                targetDomain: "𝔹",
+                formulaDescription: "x₁ ∈ ∅ ⇔ False  (Empty Set has no members)",
+                inputs: [
+                    { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 100, description: "Candidate natural number" }
+                ],
+                evaluate: (vals) => {
+                    const v = Math.round(vals.x1);
+                    return {
+                        resultValue: false,
+                        formattedFormula: `${v} ∈ ∅ ⟹ False`,
+                        displayResult: "False ✗ (∅ is Empty)",
+                        domainBadge: "∈ 𝔹",
+                        notes: `No natural number belongs to the empty set ∅.`
+                    };
+                }
+            });
+        }
+        // Non-Empty Power Set Guard: y₁ ≠ ∅
+        if (allText.includes("≠ ∅") || allText.includes("!= ∅") || allText.includes("nonempty") || allText.includes("non-empty")) {
+            modes.push({
+                id: "fsd_powerset_nonempty_membership",
+                label: "(x₁, Y_j) → x₁ ∈ Y_j [y₁ ≠ ∅]",
+                targetSymbol: "Truth",
+                targetDomain: "𝔹",
+                formulaDescription: "x₁ ∈ Y_j in 𝒫*(ℕ₄)  (Columns Y₁..Y₁₅, excluding Column Y₀ = ∅)",
+                inputs: [
+                    { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 2, step: 1, min: 1, max: 4, description: "Element x₁ ∈ {1, 2, 3, 4}" },
+                    { name: "yj", symbol: "j (Col)", domain: "ℕ", defaultValue: 5, step: 1, min: 1, max: 15, description: "Non-empty subset column Y₁..Y₁₅" }
+                ],
+                evaluate: (vals) => {
+                    const x1 = Math.max(1, Math.min(4, Math.round(vals.x1)));
+                    const j = Math.max(1, Math.min(15, Math.round(vals.yj)));
+                    const bitMask = 1 << (x1 - 1);
+                    const isMember = (j & bitMask) !== 0;
+                    const members = [];
+                    for (let b = 0; b < 4; b++) {
+                        if ((j & (1 << b)) !== 0)
+                            members.push(b + 1);
+                    }
+                    const subsetStr = `{ ${members.join(", ")} }`;
+                    return {
+                        resultValue: isMember,
+                        formattedFormula: `x₁ = ${x1} ∈ Y_${j} = ${subsetStr} ? ${isMember ? "True" : "False"}`,
+                        displayResult: isMember ? "True ✓ (Member)" : "False ✗ (Non-member)",
+                        domainBadge: "∈ 𝔹",
+                        notes: `Column Y₀ = ∅ is excluded by the domain restriction y₁ ≠ ∅. Every active column contains at least 1 element, ensuring ∀y₁:[𝒫(ℕ)|y₁≠∅] ∃x₁:ℕ [x₁ ∈ y₁] evaluates to True!`
+                    };
+                }
+            });
+        }
+        modes.push({
+            id: "fsd_powerset_membership",
+            label: "(x₁, Y_j) → x₁ ∈ Y_j",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "x₁ ∈ Y_j in 𝒫(ℕ₄)  (Base set ℕ₄ = {1, 2, 3, 4})",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 2, step: 1, min: 1, max: 4, description: "Element x₁ ∈ {1, 2, 3, 4}" },
+                { name: "yj", symbol: "j (Col)", domain: "ℕ", defaultValue: 5, step: 1, min: 0, max: 15, description: "Subset column Y₀..Y₁₅" }
+            ],
+            evaluate: (vals) => {
+                const x1 = Math.max(1, Math.min(4, Math.round(vals.x1)));
+                const j = Math.max(0, Math.min(15, Math.round(vals.yj)));
+                const bitMask = 1 << (x1 - 1);
+                const isMember = (j & bitMask) !== 0;
+                const members = [];
+                for (let b = 0; b < 4; b++) {
+                    if ((j & (1 << b)) !== 0)
+                        members.push(b + 1);
+                }
+                const subsetStr = members.length > 0 ? `{ ${members.join(", ")} }` : "∅ (Empty Set)";
+                return {
+                    resultValue: isMember,
+                    formattedFormula: `x₁ = ${x1} ∈ Y_${j} = ${subsetStr} ? ${isMember ? "True" : "False"}`,
+                    displayResult: isMember ? "True ✓ (Member)" : "False ✗ (Non-member)",
+                    domainBadge: "∈ 𝔹",
+                    notes: j === 0
+                        ? "Column Y₀ = ∅ contains zero elements. No x₁ can ever satisfy x₁ ∈ ∅, explaining why ∃x₁ ∀y₁ [x₁ ∈ y₁] is universally False!"
+                        : `Subset Y_${j} has ${members.length} element(s). Bit ${x1} is ${isMember ? "1 (active)" : "0 (inactive)"}.`
+                };
+            }
+        });
+        if (allText.includes("gt5")) {
+            modes.push({
+                id: "mem_const_gt5",
+                label: "(x₁) → x₁ ∈ GT5",
+                targetSymbol: "Truth",
+                targetDomain: "𝔹",
+                formulaDescription: "x₁ ∈ GT5 ⇔ x₁ > 5",
+                inputs: [
+                    { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 8, step: 1, min: 0, max: 100 }
+                ],
+                evaluate: (vals) => {
+                    const v = Math.round(vals.x1);
+                    const truth = v > 5;
+                    return {
+                        resultValue: truth,
+                        formattedFormula: `${v} ∈ GT5 ⇔ ${v} > 5 ? ${truth ? "True" : "False"}`,
+                        displayResult: truth ? "True ✓" : "False ✗",
+                        domainBadge: "∈ 𝔹"
+                    };
+                }
+            });
+        }
+    }
+    // Binary Predicates: GT, LT
+    // Check for reversed argument order GT(x₂, x₁) / x₂ > x₁ first
+    if (allText.includes("gt(x₂, x₁)") || allText.includes("gt(x2, x1)") || allText.includes("x₂ > x₁")) {
+        modes.push({
+            id: "pred_gt_x2_x1",
+            label: "(x₁, x₂) → GT(x₂, x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "GT(x₂, x₁) ⇔ x₂ > x₁",
+            inputs: [
+                { name: "x1", symbol: "x₁ (Row)", domain: "ℕ", defaultValue: 2, step: 1, min: 0, max: 100, description: "Given row x₁" },
+                { name: "x2", symbol: "x₂ (Col)", domain: "ℕ", defaultValue: 5, step: 1, min: 0, max: 100, description: "Chosen column x₂" }
+            ],
+            evaluate: (vals) => {
+                const v1 = Math.round(vals.x1);
+                const v2 = Math.round(vals.x2);
+                const truth = v2 > v1;
+                const diff = v2 - v1;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `x₂ (${v2}) > x₁ (${v1}) ? ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (Column > Row)" : "False ✗",
+                    domainBadge: "∈ 𝔹",
+                    notes: truth
+                        ? `Column x₂ = ${v2} is strictly greater than row x₁ = ${v1} (Lead: ${diff}).`
+                        : `Fails: column x₂ = ${v2} is not strictly greater than row x₁ = ${v1}.`
+                };
+            }
+        });
+        modes.push({
+            id: "pred_gt_witness",
+            label: "(x₁) → Witness x₂ = x₁ + 1",
+            targetSymbol: "x₂",
+            targetDomain: "ℕ",
+            formulaDescription: "x₂ = x₁ + 1  (Constructive Witness for ∀x₁ ∃x₂ [GT(x₂, x₁)])",
+            inputs: [
+                { name: "x1", symbol: "x₁ (Row)", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 100, description: "Any row x₁" }
+            ],
+            evaluate: (vals) => {
+                const v1 = Math.round(vals.x1);
+                const v2 = v1 + 1;
+                return {
+                    resultValue: v2,
+                    formattedFormula: `x₂ = ${v1} + 1 = ${v2}`,
+                    displayResult: `x₂ = ${v2} (Witness ✓)`,
+                    domainBadge: "∈ ℕ",
+                    notes: `For row x₁ = ${v1}, choosing x₂ = ${v2} guarantees GT(${v2}, ${v1}) holds (${v2} > ${v1}). This proves ∀x₁:ℕ, ∃x₂:ℕ [GT(x₂, x₁)].`
+                };
+            }
+        });
+    }
+    if (allText.includes("gt(x₁, x₂)") || allText.includes("gt(x1, x2)") || allText.includes("x₁ > x₂") || (!allText.includes("gt(x₂, x₁)") && allText.includes("gt("))) {
         modes.push({
             id: "pred_gt",
             label: "(x₁, x₂) → GT(x₁, x₂)",
@@ -520,6 +916,28 @@ export function inferFsCalculationModes(arg) {
                     displayResult: truth ? "True ✓" : "False ✗",
                     domainBadge: "∈ 𝔹",
                     notes: `Slack: 10 - ${v1} = ${10 - v1}`
+                };
+            }
+        });
+    }
+    if (allText.includes("even(") || allText.includes("even")) {
+        modes.push({
+            id: "pred_even",
+            label: "(x₁) → EVEN(x₁)",
+            targetSymbol: "Truth",
+            targetDomain: "𝔹",
+            formulaDescription: "EVEN(x₁) ⇔ x₁ mod 2 = 0",
+            inputs: [
+                { name: "x1", symbol: "x₁", domain: "ℕ", defaultValue: 6, step: 1, min: 0, max: 100 }
+            ],
+            evaluate: (vals) => {
+                const v1 = Math.round(vals.x1);
+                const truth = v1 % 2 === 0;
+                return {
+                    resultValue: truth,
+                    formattedFormula: `${v1} mod 2 = ${v1 % 2} ? ${truth ? "True" : "False"}`,
+                    displayResult: truth ? "True ✓ (Even)" : "False ✗ (Odd)",
+                    domainBadge: "∈ 𝔹"
                 };
             }
         });
