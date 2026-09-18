@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trigonometry on the Conway Number Tree &amp; ℂ_ω</title>
+  <title>Trigonometry on the Number Trees &amp; ℂ_ω</title>
   <style>
     :root {
       --primary: #1e3a8a;
@@ -189,144 +189,343 @@
       border-top: 1px solid #e2e8f0;
       margin: 36px 0;
     }
+
+    .diagram-container {
+      margin: 28px 0;
+      text-align: center;
+    }
+
+    .diagram-caption {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Trigonometry on the Conway Number Tree &amp; ℂ_ω</h1>
+    <h1>Trigonometry on the Number Trees &amp; ℂ_ω</h1>
     <div class="subtitle">
-      A Constructive STEM Perspective — From Discrete Dyadic Branching to Complex Continuum Rotation
+      A Constructive STEM Perspective — Grounded in 1-Successor Counting, 2-Successor Dyadic Bisection, and the 4-Successor Complex Continuum
     </div>
 
     <p>
-      The connection between John Conway’s number tree and trigonometry is both mathematically profound and computationally practical. When viewed through the lens of binary branching trees and the nonstandard complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometric identities, hardware algorithms, and complex analysis cease to be arbitrary formulas and reveal their natural inductive geometry.
+      The connection between our foundational descriptions of number trees and trigonometry is both mathematically profound and computationally practical. 
+      Across our curriculum—from the 1-successor natural trunk (<code>ℕ</code>), through the 2-successor binary dyadic tree (<code>ℝ_ω</code>), to the 4-successor quadtree (<code>ℂ_ω</code>)—balanced trees are not merely algebraic visualizations; they are the <b>inductive scaffolding of geometry and rotation</b>.
     </p>
 
     <div class="callout">
-      <strong>Core Conceptual Shift:</strong> Classical trigonometry builds on transcendental continuous functions and limits. The Conway approach reveals that circular rotation is the natural continuum shadow of simple binary choices (dyadic bisections) and hyperfinite perpendicular steps.
+      <strong>Core Insight:</strong> Classical trigonometry introduces sines, cosines, and angles through transcendental limits and geometric ratios. On our number trees, circular rotation emerges constructively:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>The 1-Successor Trunk (ℕ):</b> Counts discrete perimeter steps <code>k &rarr; k + 1</code> around the unit circle, driving discrete arc length accumulation and complex contour integration.</li>
+        <li><b>The 2-Successor Binary Tree (ℝ_ω):</b> Bisects angles at each birthday level, generating François Viète’s nested radicals, Walsh-Hadamard square waves, and the CORDIC hardware bit-shift algorithm.</li>
+        <li><b>The 4-Successor Quadtree (ℂ_ω):</b> Deploys the 4th roots of unity <code>{ +1, -1, +i, -i }</code> as two 180° polar fans, turning Euler’s formula into pure perpendicular stepping on an infinitesimal square grid.</li>
+      </ol>
     </div>
 
+    <!-- MAPPING TABLE -->
+    <div align="center" style="margin: 24px 0;">
+      <table style="max-width: 820px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Number Tree</th>
+            <th style="width: 26%;">Branching &amp; Basis</th>
+            <th style="width: 28%;">Spatial / Geometric Role</th>
+            <th style="width: 28%;">Trigonometric Expression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1-Successor</b><br><span style="color: #64748b; font-size: 0.85em;">(The Trunk ℕ_ω)</span></td>
+            <td>1 successor: <code>k &rarr; k + 1</code><br>Unique root <code>0</code></td>
+            <td>Linear counting ray; perimeter marcher along circle boundary</td>
+            <td>Perimeter sum: <code>Perimeter = ∑[k=1 to ω] ds = 2π</code><br>Contour winding: <code>∮ (1/z) dz = 2π i</code></td>
+          </tr>
+          <tr>
+            <td><b>2-Successor</b><br><span style="color: #2563eb; font-size: 0.85em;">(The Binary Tree ℝ_ω)</span></td>
+            <td>2 successors: <code>{ -, + }</code><br>Dyadics <code>m / 2ⁿ</code></td>
+            <td>180° polar fan; recursive interval bisection</td>
+            <td>Half-angle cosine: <code>cos(θ/2) = √[(1+cos θ)/2]</code><br>Viète nested radicals; CORDIC bit-shifts</td>
+          </tr>
+          <tr>
+            <td><b>4-Successor</b><br><span style="color: #7c3aed; font-size: 0.85em;">(The Quadtree ℂ_ω)</span></td>
+            <td>4 successors: <code>{ +1, -1, +i, -i }</code><br>4th roots of unity</td>
+            <td>Two 180° fans back-to-back (360° all space); 2D grid <code>dz = dx + i·dy</code></td>
+            <td>Euler’s formula via perpendicular steps: <code>z_(k+1) = z_k (1 + i·dθ)</code><br>Cauchy-Riemann conformal cell symmetry</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
     <!-- PART 1 -->
-    <h2><span class="badge badge-blue">Part 1</span> The Real Conway Tree: Discrete Bisections &amp; Algorithms</h2>
+    <h2><span class="badge badge-blue">Part 1</span> The 2-Successor Binary Tree: Angle Bisections, Radicals &amp; CORDIC</h2>
 
     <h3>1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)</h3>
     <p>
-      At finite Conway birthdays <em>n</em>, the 2-successor tree generates the dense set of <b>dyadic rationals</b> <code>𝔻 = { m / 2ⁿ }</code>. Mapping the normalized interval <code>[0, 1)</code> to the circular domain <code>[0, 2π)</code> reveals that descending the tree corresponds precisely to <b>successive angle bisection</b>:
+      In our formal description of numbers, the 2-successor tree at finite cutoff birthdays <em>n</em> generates the dense set of <b>dyadic rationals</b>:
+    </p>
+    <div class="formula-box">
+      𝔻 = { m / 2ⁿ | m ∈ ℤ, n ∈ ℕ₀ }
+    </div>
+    <p>
+      Mapping the normalized unit interval <code>[0, 1)</code> to the circular angle domain <code>[0, 2π)</code> reveals that descending the Conway tree level by level corresponds precisely to <b>recursive angle bisection</b>:
     </p>
 
     <ul class="step-list">
-      <li><b>Day 0:</b> Root <code>0</code> (Angle <code>0</code>)</li>
-      <li><b>Day 1:</b> Semi-circle poles (Angles <code>0, π</code>)</li>
-      <li><b>Day 2:</b> Quadrant axis markers (Angles <code>π/2, 3π/2</code>)</li>
-      <li><b>Day 3:</b> The classical 45° diagonals (Angles <code>π/4, 3π/4, 5π/4, 7π/4</code>)</li>
-      <li><b>Day <em>n</em>:</b> Granular binary angles <code>θ_n = 2π / 2ⁿ</code></li>
+      <li><b>Day 0:</b> Root <code>0</code> &rarr; Angle <code>0</code> (Coordinate vector <code>(1, 0)</code>)</li>
+      <li><b>Day 1:</b> Semi-circle poles &rarr; Angles <code>0, π</code> (Points <code>(1, 0)</code> and <code>(-1, 0)</code>)</li>
+      <li><b>Day 2:</b> Quadrant axis markers &rarr; Angles <code>π/2, 3π/2</code> (Points <code>(0, 1)</code> and <code>(0, -1)</code>)</li>
+      <li><b>Day 3:</b> The classical 45° diagonals &rarr; Angles <code>π/4, 3π/4, 5π/4, 7π/4</code></li>
+      <li><b>Day 4:</b> 22.5° facets &rarr; Angles <code>π/8, 3π/8, 5π/8, 7π/8, ...</code></li>
+      <li><b>Day <em>n</em>:</b> Granular dyadic angles <code>θ_n = 2π / 2ⁿ</code></li>
     </ul>
 
     <p>
-      The geometric rule for stepping down along the positive branch is given by the half-angle cosine identity:
+      The algebraic rule for stepping down along the positive branch is given by the trigonometric half-angle identity:
     </p>
     <div class="formula-box">
       cos(θ / 2) = √[ (1 + cos θ) / 2 ]
     </div>
 
-    <p>Starting from <code>cos(π/2) = 0</code> and stepping recursively down the branches yields nested square roots of 2:</p>
+    <p>Starting from the Day 2 cardinal axis <code>cos(π/2) = 0</code> and stepping recursively down the branches generates François Viète’s sequence of <b>nested square roots of 2</b>:</p>
     <div class="formula-box">
       cos(π/4)  = √2 / 2<br>
       cos(π/8)  = √[ 2 + √2 ] / 2<br>
       cos(π/16) = √[ 2 + √(2 + √2) ] / 2<br>
-      cos(π/2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(n nested radicals)
+      cos(π / 2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(with n nested square roots)
     </div>
 
     <p>
-      Multiplying these branch cosines as we descend toward transfinite Day <code>ω</code> reproduces <b>François Viète’s famous 1593 infinite product for π</b>:
+      Descending the extreme branch of the tree all the way to transfinite Day <code>ω</code> yields <b>François Viète’s celebrated 1593 infinite product for π</b>:
     </p>
     <div class="formula-box">
       2 / π = (√2 / 2) · (√[2 + √2] / 2) · (√[2 + √(2 + √2)] / 2) · ...
     </div>
     <p>
-      On the Conway tree, this product is not an ad-hoc analytic trick: it is the exact cumulative projection of radial coordinates as you zoom in toward the origin.
+      In classical analysis, Viète's product looks like an isolated analytical miracle. On our 2-successor number tree, it is simply the <b>cumulative radial projection along the tree’s principal spine</b> as birthday depth approaches <code>ω</code>.
     </p>
 
-    <h3>2. The CORDIC Algorithm: How Hardware Actually Computes Trig</h3>
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 410" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f1f5f9" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f1f5f9" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 2-Successor Conway Angle Tree &amp; Unit Circle Dyadic Bisections</text>
+
+        <!-- Left Pane: Binary Angle Tree -->
+        <rect x="14" y="44" width="450" height="352" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CONWAY DYADIC ANGLE TREE (Birthdays 0 to 4)</text>
+
+        <!-- Birthday Labels on Far Left -->
+        <text x="24" y="94" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 0</text>
+        <text x="24" y="154" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 1</text>
+        <text x="24" y="214" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 2</text>
+        <text x="24" y="274" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 3</text>
+        <text x="24" y="334" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 4</text>
+        <text x="24" y="384" font-family="monospace" font-size="10.5" font-weight="bold" fill="#0284c7">Day ω</text>
+
+        <!-- Tree Edges -->
+        <!-- Root to Day 1 -->
+        <line x1="239" y1="92" x2="155" y2="150" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="239" y1="92" x2="323" y2="150" stroke="#2563eb" stroke-width="2.2" />
+
+        <!-- Day 1 to Day 2 -->
+        <line x1="323" y1="150" x2="270" y2="210" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="323" y1="150" x2="375" y2="210" stroke="#2563eb" stroke-width="2.2" />
+
+        <!-- Day 2 to Day 3 -->
+        <line x1="375" y1="210" x2="345" y2="270" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="375" y1="210" x2="410" y2="270" stroke="#2563eb" stroke-width="2.2" />
+
+        <!-- Day 3 to Day 4 -->
+        <line x1="410" y1="270" x2="392" y2="330" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="410" y1="270" x2="432" y2="330" stroke="#2563eb" stroke-width="2.2" />
+
+        <!-- Day 4 to Day ω dots -->
+        <line x1="432" y1="330" x2="442" y2="375" stroke="#0284c7" stroke-width="2" stroke-dasharray="3,3" />
+
+        <!-- Tree Nodes -->
+        <!-- Day 0 Root -->
+        <circle cx="239" cy="92" r="7" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5" />
+        <text x="239" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Root: θ = 0 (cos = 1)</text>
+
+        <!-- Day 1 Nodes -->
+        <circle cx="155" cy="150" r="6" fill="#64748b" />
+        <text x="145" y="154" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">0 (1)</text>
+        <circle cx="323" cy="150" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+        <text x="335" y="148" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π (cos = -1)</text>
+
+        <!-- Day 2 Nodes -->
+        <circle cx="270" cy="210" r="5" fill="#94a3b8" />
+        <text x="260" y="214" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">3π/2 (-i)</text>
+        <circle cx="375" cy="210" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+        <text x="387" y="208" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/2 (cos = 0)</text>
+
+        <!-- Day 3 Nodes -->
+        <circle cx="345" cy="270" r="4.5" fill="#94a3b8" />
+        <text x="338" y="274" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/4</text>
+        <circle cx="410" cy="270" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+        <text x="422" y="268" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/4 (cos = √2/2)</text>
+
+        <!-- Day 4 Nodes -->
+        <circle cx="392" cy="330" r="4" fill="#94a3b8" />
+        <text x="385" y="334" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/8</text>
+        <circle cx="432" cy="330" r="6.5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+        <text x="444" y="328" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#0369a1">π/8 (cos = √[2+√2]/2)</text>
+
+        <!-- Viète Callout Box in Left Pane -->
+        <rect x="70" y="280" width="220" height="96" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+        <text x="180" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Viète's Spine (n &rarr; ω):</text>
+        <text x="80" y="318" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/4)  = √2 / 2</text>
+        <text x="80" y="334" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/8)  = √[2 + √2] / 2</text>
+        <text x="80" y="350" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/16) = √[2+√(2+√2)] / 2</text>
+        <text x="180" y="367" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#2563eb">2/π = ∏ cos(π / 2ⁿ⁺¹)</text>
+
+        <!-- Right Pane: Unit Circle Bisections & CORDIC -->
+        <rect x="475" y="44" width="290" height="352" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CIRCULAR BISECTIONS &amp; CORDIC</text>
+
+        <!-- Coordinate Axes -->
+        <line x1="510" y1="210" x2="730" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="620" y1="100" x2="620" y2="320" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+
+        <!-- Unit Circle -->
+        <circle cx="620" cy="210" r="95" fill="none" stroke="#3b82f6" stroke-width="2" />
+
+        <!-- Angle Rays -->
+        <!-- Day 1 Pole: π (180°) -->
+        <line x1="620" y1="210" x2="525" y2="210" stroke="#64748b" stroke-width="2" />
+        <!-- Day 2 Cardinal: π/2 (90°) -->
+        <line x1="620" y1="210" x2="620" y2="115" stroke="#2563eb" stroke-width="2" />
+        <!-- Day 3 Diagonal: π/4 (45°) -->
+        <line x1="620" y1="210" x2="687" y2="143" stroke="#0284c7" stroke-width="1.8" />
+        <!-- Day 4 Facet: π/8 (22.5°) -->
+        <line x1="620" y1="210" x2="708" y2="174" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2" />
+
+        <!-- Points on Circle -->
+        <circle cx="715" cy="210" r="4.5" fill="#1e3a8a" />
+        <text x="722" y="206" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e3a8a">0</text>
+
+        <circle cx="525" cy="210" r="4.5" fill="#64748b" />
+        <text x="512" y="206" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">π</text>
+
+        <circle cx="620" cy="115" r="4.5" fill="#2563eb" />
+        <text x="620" y="107" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e40af">π/2</text>
+
+        <circle cx="687" cy="143" r="4.5" fill="#0284c7" />
+        <text x="696" y="139" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#0369a1">π/4 (45°)</text>
+
+        <circle cx="708" cy="174" r="4.5" fill="#059669" />
+        <text x="718" y="172" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#059669">π/8 (22.5°)</text>
+
+        <!-- Target Angle & CORDIC Steering Vector -->
+        <line x1="620" y1="210" x2="672" y2="129" stroke="#dc2626" stroke-width="2.5" />
+        <circle cx="672" cy="129" r="4" fill="#dc2626" />
+        <text x="680" y="123" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626">Target θ</text>
+
+        <!-- CORDIC Note Box in Right Pane -->
+        <rect x="490" y="332" width="260" height="54" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1" />
+        <text x="620" y="348" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#991b1b">CORDIC Binary Tree Search:</text>
+        <text x="620" y="364" text-anchor="middle" font-family="monospace" font-size="9" fill="#7f1d1d">θ ≈ ∑ d_k · arctan(2⁻ᵏ), d_k ∈ {-1, +1}</text>
+        <text x="620" y="378" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" fill="#991b1b">Hardware walks Left/Right using pure bit-shifts</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: The 2-Successor Conway Angle Tree &amp; Circular Bisections &mdash; each birthday level bisects the circumference, generating Viète’s nested radicals and guiding CORDIC hardware rotations.
+      </div>
+    </div>
+
+    <h3>2. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
     <p>
-      Microprocessors, GPS receivers, and pocket calculators rarely compute sines and cosines with Taylor series, because multiplications and divisions consume excessive clock cycles and accumulate floating-point rounding errors.
+      In modern computing, microprocessors, DSP chips, and GPU graphics pipelines rarely evaluate trigonometric functions with Taylor polynomials or floating-point division. Division and multiplication require multiple clock cycles and accumulate rounding drift.
     </p>
     <p>
-      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), which is literally a <b>path traversal along a Conway sign sequence</b>:
+      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), invented by Jack Volder in 1959. CORDIC is literally a <b>path traversal down our 2-successor number tree</b>:
     </p>
 
     <ol>
       <li>
-        Any input angle <code>θ</code> is expressed as a sum of precomputed dyadic elementary angles:
+        Any arbitrary target angle <code>θ</code> is approximated by a finite sequence of binary steering choices:
         <div class="formula-box">
           θ ≈ ∑[k=0 to n] d_k · arctan(2⁻ᵏ), &nbsp;&nbsp;where d_k ∈ { -1, +1 }
         </div>
       </li>
       <li>
-        At each clock cycle <em>k</em>, the hardware evaluates a single binary question: <em>Am I clockwise or counterclockwise from the target?</em>
+        At each clock cycle <em>k</em>, the hardware examines the current angle accumulator:
         <ul>
-          <li>If counterclockwise (<code>d_k = +1</code>), rotate forwards.</li>
-          <li>If clockwise (<code>d_k = -1</code>), rotate backwards.</li>
+          <li>If counterclockwise from the target, set <code>d_k = +1</code> (branch Right).</li>
+          <li>If clockwise from the target, set <code>d_k = -1</code> (branch Left).</li>
         </ul>
       </li>
       <li>
-        Because the angular step factor is <code>2⁻ᵏ</code>, vector updates require <b>zero multiplications</b>—only bit-shifts (dividing by 2) and additions:
+        Because the angular step magnitude is <code>2⁻ᵏ</code>, the rotation matrix update requires <b>zero multiplications</b>—only binary bit-shifts (arithmetic right-shift by <em>k</em> bits) and additions:
         <div class="formula-box">
-          x_(k+1) = x_k - d_k · y_k · 2⁻ᵏ<br>
-          y_(k+1) = y_k + d_k · x_k · 2⁻ᵏ
+          x_(k+1) = x_k - d_k · (y_k &gt;&gt; k)<br>
+          y_(k+1) = y_k + d_k · (x_k &gt;&gt; k)
         </div>
       </li>
     </ol>
     <p>
-      Executing trigonometry in physical silicon is mathematically isomorphic to walking a path of Left and Right choices down a Conway tree of dyadic angles.
+      Executing trigonometry in silicon is mathematically identical to choosing Conway Left and Right sign steps <code>{ -, + }</code> down the dyadic angle tree!
     </p>
 
     <h3>3. Walsh Functions: The "Square-Wave Trig" of the Binary Tree</h3>
     <p>
-      In continuous space, smooth sines and cosines form an orthogonal basis for classical Fourier analysis. On a discrete binary tree, the exact counterparts to sinusoidal waves are <b>Walsh-Hadamard functions</b>.
+      On the smooth continuum, circular sine and cosine waves form the orthogonal basis for continuous Fourier analysis. On a discrete 2-successor binary tree, the exact trigonometric counterparts are <b>Walsh-Hadamard functions</b>.
     </p>
     <ul class="step-list">
-      <li>Rather than undulating continuously, Walsh waves are square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
-      <li>They are generated directly from the bit parity along Conway tree addresses (nim-addition / XOR operations).</li>
-      <li>This makes Walsh-Hadamard transforms the native trigonometric language of digital signal processing, CDMA telecommunications, and quantum gate operations.</li>
+      <li>Rather than undulating continuously, Walsh waves are rectangular square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
+      <li>They correspond to the parity of branch choices along Conway tree addresses (evaluated via bitwise XOR / nim-addition).</li>
+      <li>Just as continuous Fourier transforms decompose signals into sinusoids, the <b>Fast Walsh-Hadamard Transform (FWHT)</b> decomposes discrete tree signals with zero multiplications, forming the mathematical engine of CDMA telecommunications, error-correcting codes, and quantum Hadamard gates.</li>
     </ul>
 
     <hr>
 
     <!-- PART 2 -->
-    <h2><span class="badge badge-purple">Part 2</span> The Complex Continuum ℂ_ω: From Algebra to Physical Reality</h2>
+    <h2><span class="badge badge-purple">Part 2</span> The 4-Successor Quadtree &amp; The Complex Continuum ℂ_ω</h2>
 
     <p>
-      When we extend the Conway construction to transfinite Day <code>ω</code> and cross two real axes into the 2D complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the fundamental engine of geometry and physical conservation laws.
+      When we extend the number tree to transfinite limit ordinal Day <code>ω</code> and cross two real axes into the complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the indispensable geometry of 2D space and quantum mechanics.
     </p>
 
-    <h3>1. From Binary Tree to the 4-Successor Quadtree</h3>
+    <h3>1. From the Binary Tree to the 4-Successor Quadtree</h3>
     <p>
-      On <code>ℝ_ω</code>, Conway’s tree branches in two directions: <code>{ -1, +1 }</code>. In the complex domain <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, the tree branches in four directions:
+      On <code>ℝ_ω</code>, the tree branches in two directions: <code>{ -1, +1 }</code>. In our description of the complex continuum <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, each node has <b>4 successors</b>:
     </p>
     <div class="formula-box purple">
-      { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
+      Basis = { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
     </div>
     <p>
-      These are the <b>4th roots of unity</b>, identifying the four cardinal directions:
+      As highlighted in our introduction to graph trees, these 4 generators are the <b>4th roots of unity</b>:
     </p>
     <div class="formula-box purple">
-      e^(i · 0) = +1, &nbsp;&nbsp; e^(i · π/2) = +i, &nbsp;&nbsp; e^(i · π) = -1, &nbsp;&nbsp; e^(i · 3π/2) = -i
+      e^(i · 0) = +1 &nbsp;&nbsp;(East, 0°)<br>
+      e^(i · π/2) = +i &nbsp;&nbsp;(North, 90°)<br>
+      e^(i · π) = -1 &nbsp;&nbsp;(West, 180°)<br>
+      e^(i · 3π/2) = -i &nbsp;&nbsp;(South, 270°)
     </div>
     <p>
-      Descending the complex Conway tree tiles the 2D plane with self-similar square cells of infinitesimal grid width <code>dz = dx + i·dy</code>, where <code>dx = dy = 1/ω</code>.
+      Recall from <a href="javascript:void(0)" onclick="window.parent.postMessage({type:'NAV_SEGMENT', segmentId:'numbersIntro'}, '*');" style="color: #2563eb; text-decoration: underline;">numbersIntro.html</a> that <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
     </p>
+    <ul>
+      <li><b>Fan 1 (Upper Half-Plane):</b> Sweeps angles <code>0° &rarr; 180°</code>.</li>
+      <li><b>Fan 2 (Lower Half-Plane):</b> Sweeps angles <code>180° &rarr; 360°</code>.</li>
+      <li>The imaginary unit <code>i</code> serves as the <b>90° perpendicular steering operator</b> that transitions between the two fans, covering all 360° space without blindspots.</li>
+    </ul>
 
-    <h3>2. The Unit Circle Becomes an Exact Hyperfinite ω-gon</h3>
+    <h3>2. The Unit Circle Becomes an Exact Hyperfinite regular ω-gon</h3>
     <p>
-      In classical analysis, the unit circle is an abstract continuous manifold whose perimeter requires transcendental limits. On <code>ℂ_ω</code>, the unit circle is an <b>exact regular ω-sided polygon</b>:
+      In standard calculus, the unit circle is an idealized curve whose circumference requires limits of inscribed polygons. On <code>ℂ_ω</code>, the unit circle is <b>literally a regular polygon with transfinite integer ω sides</b>:
     </p>
     <ul class="step-list">
-      <li><b>Number of vertices:</b> Transfinite integer <code>ω</code>.</li>
-      <li><b>Infinitesimal step angle:</b> <code>dθ = 2π / ω = 2π · dx</code>.</li>
+      <li><b>Vertex Count:</b> Exactly <code>ω</code> vertices indexed by the 1-successor trunk counter <code>k ∈ {0, 1, 2, ..., ω}</code>.</li>
+      <li><b>Infinitesimal Step Angle:</b> <code>dθ = 2π / ω = 2π · dx</code>, where <code>dx = 1/ω</code>.</li>
       <li>
-        <b>Vertex coordinates:</b>
+        <b>Vertex Coordinates:</b>
         <div class="formula-box purple">
           z_k = e^(i · 2πk / ω) = cos(2πk / ω) + i · sin(2πk / ω)
         </div>
@@ -335,123 +534,242 @@
       <li><b>Sine</b> is the vertical projection onto the imaginary tree <code>i · ℝ_ω</code>.</li>
     </ul>
 
-    <p>The circumference is evaluated as an elementary discrete sum without limits:</p>
+    <p>The circumference is computed as an exact discrete sum of chord lengths:</p>
     <div class="formula-box purple">
       Perimeter = ∑[k=1 to ω] |z_k - z_(k-1)| = ω · |e^(i · 2π/ω) - 1| ≈ ω · (2π / ω) = 2π
     </div>
     <p>
-      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with microscopic polygon chord errors vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
+      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with the microscopic difference between chords and arc vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
     </p>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f5f3ff" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f5f3ff" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#6b21a8">Figure 2: The 4-Successor Quadtree &amp; Perpendicular Rotation on ℂ_ω</text>
+
+        <!-- Left Pane: 4-Successor Quadtree Root -->
+        <rect x="14" y="44" width="350" height="372" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+        <text x="189" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">4-SUCCESSOR BASIS (4th Roots of Unity)</text>
+
+        <!-- Compass Cardinal Axes from Root -->
+        <!-- Center root at (189, 185) -->
+        <line x1="189" y1="185" x2="305" y2="185" stroke="#7c3aed" stroke-width="3" />
+        <line x1="189" y1="185" x2="73" y2="185" stroke="#7c3aed" stroke-width="3" />
+        <line x1="189" y1="185" x2="189" y2="69" stroke="#7c3aed" stroke-width="3" />
+        <line x1="189" y1="185" x2="189" y2="301" stroke="#7c3aed" stroke-width="3" />
+
+        <!-- Sub-branches (Quadtree cell tiling) -->
+        <rect x="235" y="115" width="40" height="40" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="3,2" />
+        <text x="255" y="139" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c3aed">cell dz</text>
+
+        <!-- Compass Nodes -->
+        <circle cx="189" cy="185" r="7.5" fill="#4c1d95" stroke="#ffffff" stroke-width="1.5" />
+        <text x="189" y="202" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4c1d95">Root (0)</text>
+
+        <!-- East: +1 -->
+        <circle cx="305" cy="185" r="6" fill="#7c3aed" />
+        <text x="315" y="189" text-anchor="start" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+1 (0°)</text>
+
+        <!-- North: +i -->
+        <circle cx="189" cy="69" r="6" fill="#7c3aed" />
+        <text x="189" y="99" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+i (90°)</text>
+
+        <!-- West: -1 -->
+        <circle cx="73" cy="185" r="6" fill="#7c3aed" />
+        <text x="63" y="189" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
+
+        <!-- South: -i -->
+        <circle cx="189" cy="301" r="6" fill="#7c3aed" />
+        <text x="189" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+
+        <!-- Note on Two Fans in Left Pane -->
+        <rect x="25" y="336" width="328" height="66" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1" />
+        <text x="189" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#581c87">Two 180° Polar Fans Spanning 360°:</text>
+        <text x="35" y="368" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Upper Fan (0° &rarr; 180°): Spans Upper Half-Plane</text>
+        <text x="35" y="382" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Lower Fan (180° &rarr; 360°): Spans Lower Half-Plane</text>
+        <text x="35" y="396" font-family="system-ui, sans-serif" font-size="9" fill="#7c3aed">• Operator 'i' rotates 90° into the perpendicular fan</text>
+
+        <!-- Right Pane: Perpendicular Stepping on ℂ_ω -->
+        <rect x="376" y="44" width="390" height="372" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="571" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">PERPENDICULAR STEPPING ON ℂ_ω GRID</text>
+
+        <!-- Grid Lines in Background -->
+        <g stroke="#f1f5f9" stroke-width="1.5">
+          <line x1="395" y1="100" x2="750" y2="100" />
+          <line x1="395" y1="140" x2="750" y2="140" />
+          <line x1="395" y1="180" x2="750" y2="180" />
+          <line x1="395" y1="220" x2="750" y2="220" />
+          <line x1="395" y1="260" x2="750" y2="260" />
+          <line x1="420" y1="80" x2="420" y2="300" />
+          <line x1="460" y1="80" x2="460" y2="300" />
+          <line x1="500" y1="80" x2="500" y2="300" />
+          <line x1="540" y1="80" x2="540" y2="300" />
+          <line x1="580" y1="80" x2="580" y2="300" />
+          <line x1="620" y1="80" x2="620" y2="300" />
+          <line x1="660" y1="80" x2="660" y2="300" />
+          <line x1="700" y1="80" x2="700" y2="300" />
+        </g>
+
+        <!-- Origin at (430, 270) -->
+        <circle cx="430" cy="270" r="4.5" fill="#475569" />
+        <text x="420" y="284" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">Origin (0,0)</text>
+
+        <!-- Circular Arc (Polygon contour) -->
+        <path d="M 430 80 A 190 190 0 0 1 620 270" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-dasharray="4,4" />
+
+        <!-- Radial Vector z_k -->
+        <line x1="430" y1="270" x2="564" y2="136" stroke="#2563eb" stroke-width="2.2" />
+        <circle cx="564" cy="136" r="5" fill="#2563eb" />
+        <text x="495" y="215" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#2563eb">Radius z_k (1)</text>
+        <text x="560" y="125" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Vertex z_k</text>
+
+        <!-- Perpendicular Tangent Vector + i · z_k · dθ -->
+        <line x1="564" y1="136" x2="520" y2="92" stroke="#7c3aed" stroke-width="2.5" />
+        <!-- Right Angle Symbol at (564, 136) -->
+        <path d="M 553 125 L 542 136 L 553 147" fill="none" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="560" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">+ i · z_k · dθ</text>
+
+        <!-- Resulting Step to z_(k+1) -->
+        <line x1="430" y1="270" x2="520" y2="92" stroke="#059669" stroke-width="2" stroke-dasharray="3,2" />
+        <circle cx="520" cy="92" r="5" fill="#059669" />
+        <text x="510" y="82" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertex z_(k+1)</text>
+
+        <!-- 1-Successor Perimeter Counter Label -->
+        <rect x="400" y="310" width="345" height="92" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+        <text x="572" y="328" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Euler’s Rotation &amp; Infinitesimal Elongation:</text>
+        <text x="410" y="348" font-family="monospace" font-size="9.5" fill="#334155">z_(k+1) = z_k · [ 1 + i · (θ / ω) ]</text>
+        <text x="410" y="366" font-family="monospace" font-size="9.5" fill="#6b21a8">|z_(k+1)|² = 1 + (θ/ω)² = 1 + θ² · dx²</text>
+        <text x="410" y="384" font-family="system-ui, sans-serif" font-size="9" fill="#059669">Compounding ω steps: |z_ω| = [1 + θ² dx²]^(ω/2) &rarr; st(|z|) = <b>1</b></text>
+        <text x="410" y="398" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">The 1-Successor Counter (k &rarr; k+1) steps along the regular ω-gon!</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 2: The 4-Successor Quadtree &amp; Perpendicular Stepping on ℂ_ω &mdash; the 4 compass directions set the quadtree grid, and perpendicular steps <code>z_(k+1) = z_k (1 + i·dθ)</code> generate circular rotation with zero standard elongation.
+      </div>
+    </div>
 
     <h3>3. Euler’s Formula as Pure Perpendicular Stepping</h3>
     <p>
-      Multiplying by <code>i</code> rotates any vector on <code>ℂ_ω</code> counterclockwise by exactly 90°. To trace circular rotation:
+      Multiplying by the imaginary unit <code>i</code> rotates any vector in <code>ℂ_ω</code> counterclockwise by exactly 90°.
+      When we inspect this dynamic on our hyperfinite grid:
     </p>
     <ol>
       <li>
-        At point <code>z_k</code>, take an infinitesimal step perpendicular to the radius:
+        At any current vertex <code>z_k</code> on the unit circle, take a tiny step strictly perpendicular to the radial vector:
         <div class="formula-box purple">
           z_(k+1) = z_k + i · (θ / ω) · z_k = z_k · [ 1 + i · (θ / ω) ]
         </div>
       </li>
       <li>
-        Evaluate the change in radial length:
+        Evaluate the change in radial length using the Pythagorean theorem:
         <div class="formula-box purple">
           |1 + i · (θ / ω)|² = 1 + (θ / ω)² = 1 + θ² · dx²
         </div>
-        The radial elongation is purely second-order dust <code>O(dx²)</code>, which has <b>zero standard part</b>.
+        Because <code>dx = 1/ω</code> is infinitesimal, the radial elongation is purely second-order infinitesimal dust <code>O(dx²)</code>.
       </li>
       <li>
-        Compounding <code>ω</code> perpendicular steps produces the circular trajectory:
+        Compounding <code>ω</code> such perpendicular steps yields Euler’s formula:
         <div class="formula-box purple">
           z_ω = [ 1 + i · (θ / ω) ]^ω ≡ e^(i·θ) = cos θ + i · sin θ
+        </div>
+        Taking the standard part:
+        <div class="formula-box purple">
+          st( |z_ω| ) = st( [1 + θ² · dx²]^(ω/2) ) = 1 + 0 = 1
         </div>
       </li>
     </ol>
     <p>
-      Smooth circular rotation <code>(cos θ, sin θ)</code> is simply the macroscopic shadow of marching perpendicular steps along the square grid cells of <code>ℂ_ω</code>!
+      In standard calculus, Euler's formula <code>e^(iθ) = cos θ + i·sin θ</code> is proved via infinite Taylor series. On <code>ℂ_ω</code>, it is simply the macroscopic shadow of <b>marching perpendicular steps along the square grid cells of the 4-successor quadtree</b>!
     </p>
 
-    <h3>4. Cauchy-Riemann Equations: The "No-Shear" Conformal Symmetry</h3>
+    <h3>4. Cauchy-Riemann Equations: Holomorphic "No-Shear" Conformal Symmetry</h3>
     <p>
-      A mapping <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is holomorphic if and only if it preserves the shape of the underlying Conway quadtree cells. The Cauchy-Riemann equations:
+      A complex function <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is differentiable (holomorphic) if and only if it preserves the intrinsic geometry of the underlying quadtree cells. 
+      The Cauchy-Riemann equations:
     </p>
     <div class="formula-box purple">
       ∂u/∂x = ∂v/∂y, &nbsp;&nbsp;&nbsp;&nbsp; ∂u/∂y = -∂v/∂x
     </div>
     <p>
-      are the exact algebraic condition ensuring that <b>every infinitesimal square cell maps to another square cell</b> (scaled and rotated by <code>e^(i·θ)</code>, with zero angle shear). Trigonometry is the intrinsic geometry of conformal invariance.
+      are the exact algebraic condition stating that <b>every infinitesimal square cell maps to another scaled, rotated square cell with zero angle distortion</b>. Holomorphic functions are conformal transformations: their local derivative <code>f'(z) = r · e^(i·θ)</code> acts as a pure scale and trigonometric rotation on every quadtree cell.
     </p>
 
     <h3>5. Why 2π i Appears in Contour Integrals</h3>
     <p>
-      The famous factor <code>2π i</code> in Cauchy’s Residue Theorem:
+      The ubiquitous factor <code>2π i</code> in Cauchy’s Residue Theorem:
     </p>
     <div class="formula-box purple">
       ∮ (1 / z) dz = 2π i
     </div>
     <p>
-      is immediately transparent on the <code>ℂ_ω</code> polygon. Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
+      is immediately transparent when viewed through our 1-successor perimeter counter marching around the <code>ℂ_ω</code> regular ω-gon. 
+      Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
     </p>
     <div class="formula-box purple">
       dz / z = [ i · e^(i·θ) dθ ] / e^(i·θ) = i · dθ<br><br>
-      ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
+      ∮ (1 / z) dz = ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
     </div>
     <p>
-      The residue factor <code>2π i</code> is literally the total winding angle (<code>2π</code>) multiplied by the imaginary 90° rotation operator (<code>i</code>).
+      The contour integral is simply the 1-successor discrete accumulation of <code>ω</code> identical elementary rotations, where <code>2π</code> is the full circumference angle and <code>i</code> is the 90° perpendicular turning operator.
     </p>
 
     <h3>6. Quantum Phase: Why Nature Uses ℂ_ω Instead of ℝ_ω</h3>
     <p>
-      In <b>Quantum Logic</b>, this geometric structure connects directly to physical reality:
+      In our <b>Quantum Logic</b> curriculum, this geometric distinction explains why physical universe amplitudes require <code>ℂ_ω</code> rather than classical real numbers <code>ℝ_ω</code>:
     </p>
     <ul class="step-list">
-      <li>Classical probabilities are non-negative real numbers in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂</code>).</li>
-      <li>Quantum states are complex amplitudes <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase.</li>
-      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel:
+      <li>Classical probabilities on the 1D real line <code>ℝ_ω</code> are non-negative weights in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂ &ge; p₁</code>).</li>
+      <li>Quantum wave amplitudes are complex numbers <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase angle on the 4-successor quadtree.</li>
+      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel each other out completely:
         <div class="formula-box purple">
           e^(i · 0) + e^(i · π) = 1 + (-1) = 0
         </div>
       </li>
       <li>
-        The Pythagorean identity on <code>ℂ_ω</code>:
+        The fundamental Pythagorean trigonometric identity:
         <div class="formula-box purple">
           cos²θ + sin²θ = 1
         </div>
-        is the fundamental law that guarantees <b>unitarity and the conservation of total probability</b> across all quantum state transformations.
+        is the physical conservation law guaranteeing that total quantum probability remains strictly <code>1.0</code> (unitarity) under all unitary time evolutions.
       </li>
     </ul>
 
     <hr>
 
-    <h2>Synthesis</h2>
+    <h2>Synthesis: The Three Number Trees in Trigonometry</h2>
     <table>
       <thead>
         <tr>
           <th>Regime</th>
-          <th>Domain</th>
-          <th>Trigonometric Interpretation</th>
-          <th>Key Insight / Application</th>
+          <th>Number Tree</th>
+          <th>Generators &amp; Step Size</th>
+          <th>Trigonometric Manifestation</th>
+          <th>Core STEM Application</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><b>Discrete / Finite</b></td>
-          <td>Conway Tree (Day <em>n</em>)</td>
-          <td>Angle bisection, dyadic rationals <code>m / 2ⁿ</code></td>
-          <td>CORDIC bit-shift algorithm; Viète’s nested radicals for π.</td>
+          <td><b>1-Successor</b></td>
+          <td><code>ℕ_ω</code> (The Trunk)</td>
+          <td><code>k &rarr; k + 1</code><br>Uniform arc <code>ds = 2π / ω</code></td>
+          <td>Discrete perimeter accumulation; circular step index</td>
+          <td>Contour integration residue <code>∮ (1/z) dz = 2π i</code>; discrete Riemann-Stieltjes sums.</td>
         </tr>
         <tr>
-          <td><b>Harmonic / Algebraic</b></td>
-          <td>Sign Sequences <code>{ -1, +1 }</code></td>
-          <td>Walsh-Hadamard square waves</td>
-          <td>Digital communications, CDMA, and discrete Walsh-Fourier series.</td>
+          <td><b>2-Successor</b></td>
+          <td><code>ℝ_ω</code> (Binary Tree)</td>
+          <td><code>{ -, + }</code><br>Dyadic step <code>2⁻ⁿ</code></td>
+          <td>Recursive angle bisections; nested square roots of 2</td>
+          <td>CORDIC multiplierless bit-shift hardware; Viète’s product for π; Walsh-Hadamard telecommunications.</td>
         </tr>
         <tr>
-          <td><b>Continuous / Complex</b></td>
-          <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></td>
-          <td>Exact regular <code>ω</code>-gon on hyperfinite grid</td>
-          <td>Euler’s formula as perpendicular steps; <code>2π i</code> residue winding; quantum phase cancellation.</td>
+          <td><b>4-Successor</b></td>
+          <td><code>ℂ_ω</code> (The Quadtree)</td>
+          <td><code>{ +1, -1, +i, -i }</code><br>Grid cell <code>dz = dx + i·dy</code></td>
+          <td>Hyperfinite regular ω-gon; perpendicular tangent rotation</td>
+          <td>Euler’s formula <code>e^(iθ)</code>; Cauchy-Riemann conformal grid invariance; quantum phase cancellation and unitarity.</td>
         </tr>
       </tbody>
     </table>
