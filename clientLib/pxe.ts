@@ -157,8 +157,8 @@ export class PXE extends SVGGrpElt {
     this.caret.setA("visibility", this.blinkState);
   }
   static setKeyCode(key: string) {
-    const m = PXE.charTokens.find((e) => e[0] == key) as [string, number];
-    return String.fromCodePoint(m[1]);
+    const m = PXE.charTokens.find((e) => e[0] == key) as [string, number] | undefined;
+    return m ? String.fromCodePoint(m[1]) : key;
   }
   fmt() {
     return PXE.fmt(this.exp);

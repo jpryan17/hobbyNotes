@@ -7,6 +7,7 @@ import { SI } from './serverInterface.js';
 import { initAnyDJSI } from './ida.js';
 import { fetchNavItems, publishStaticSiteApi, syncDevStateToDbApi, fetchSegmentByIdOrKey, fetchConsolidatedSegmentsApi } from './db/clientQueries.js';
 import { getApiBaseUrl } from './db/api.js';
+import { ttd } from './ttd.js';
 export class StudioOverlay {
     // Mode State: false = View (reader simulation), true = Edit (in-situ popups & tools)
     static isEditModeActive = false;
@@ -739,6 +740,7 @@ export class StudioOverlay {
                     <!-- Stencils & Mathematical Notation -->
                     <div class="studio-tb-group">
                         <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
+                        <button id="tb-insert-ttd" class="studio-tb-btn" style="color: #b91c1c; border-color: #fca5a5; font-weight: 700;" title="Insert Truth Table Demo (TTD) Expression Tag">⚖️ + TTD</button>
                         <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
                         <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
                     </div>
@@ -928,18 +930,41 @@ export class StudioOverlay {
         const btnBoxAmber = document.getElementById('tb-box-amber');
         const btnCard = document.getElementById('tb-box-card');
         const btnInsertStencil = document.getElementById('tb-insert-stencil');
+        const btnInsertTtd = document.getElementById('tb-insert-ttd');
         const btnInsertMath = document.getElementById('tb-insert-math');
         const btnRenderMath = document.getElementById('tb-render-math');
         let currentMode = 'wysiwyg';
         let isWysiwygDirty = false;
         let isSourceDirty = false;
+        let lastWysiwygRange = null;
+        const saveWysiwygRange = () => {
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+                const r = sel.getRangeAt(0);
+                if (wysiwygDiv.contains(r.commonAncestorContainer)) {
+                    lastWysiwygRange = r.cloneRange();
+                }
+            }
+        };
+        document.addEventListener('selectionchange', saveWysiwygRange);
+        wysiwygDiv.addEventListener('keyup', saveWysiwygRange);
+        wysiwygDiv.addEventListener('mouseup', saveWysiwygRange);
         const protectStencils = (root) => {
-            root.querySelectorAll('fsd-ref, cas-ref').forEach((el) => {
+            root.querySelectorAll('fsd-ref, cas-ref, ttd-ref').forEach((el) => {
                 el.setAttribute('contenteditable', 'false');
+                if (el.tagName.toLowerCase() === 'ttd-ref' && !el.querySelector('.ttd-chip-del')) {
+                    const delBtn = document.createElement('span');
+                    delBtn.className = 'ttd-chip-del';
+                    delBtn.title = 'Delete TTD tag';
+                    delBtn.setAttribute('contenteditable', 'false');
+                    delBtn.textContent = '✕';
+                    el.appendChild(delBtn);
+                }
             });
         };
         const cleanWysiwygHtml = (html) => {
             return html
+                .replace(/<span class="ttd-chip-del"[^>]*>.*?<\/span>/gi, '')
                 .replace(/\s+contenteditable="false"/gi, '')
                 .replace(/\s+spellcheck="false"/gi, '');
         };
@@ -954,6 +979,67 @@ export class StudioOverlay {
         protectStencils(wysiwygDiv);
         textarea.value = currentHtml;
         updateStats();
+        // In-situ click on ttd-ref chips inside visual editor to modify or delete
+        wysiwygDiv.addEventListener('click', (e) => {
+            const target = e.target;
+            // Direct click on inline delete button (✕)
+            if (target.classList.contains('ttd-chip-del') || target.closest('.ttd-chip-del')) {
+                e.preventDefault();
+                e.stopPropagation();
+                const chip = target.closest('ttd-ref');
+                if (chip) {
+                    chip.remove();
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split') {
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    }
+                    updateStats();
+                    StudioOverlay.showToast('✓ Deleted <ttd-ref> tag.');
+                }
+                return;
+            }
+            const ttdRef = target.closest('ttd-ref');
+            if (ttdRef) {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentExp = ttdRef.getAttribute('exp') || '';
+                StudioOverlay.openTtdInFullCanvas(currentExp, (returnedExp, returnedFmt, isValid, action) => {
+                    if (action === 'delete') {
+                        ttdRef.remove();
+                        isWysiwygDirty = true;
+                        if (currentMode === 'split') {
+                            textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                        }
+                        updateStats();
+                        StudioOverlay.showToast('✓ Deleted <ttd-ref> tag from document.');
+                        return;
+                    }
+                    if (!returnedExp || !returnedExp.trim()) {
+                        ttdRef.remove();
+                        isWysiwygDirty = true;
+                        if (currentMode === 'split') {
+                            textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                        }
+                        updateStats();
+                        StudioOverlay.showToast('✓ Removed empty <ttd-ref> tag from document.');
+                        return;
+                    }
+                    if (isValid === false) {
+                        StudioOverlay.showToast('⚠️ Expression was incomplete. Chip was not changed.', true);
+                        return;
+                    }
+                    ttdRef.setAttribute('exp', returnedExp);
+                    ttdRef.setAttribute('style', 'color:firebrick;font-weight:bold');
+                    ttdRef.innerHTML = `${returnedFmt}<span class="ttd-chip-del" title="Delete TTD tag" contenteditable="false">✕</span>`;
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split') {
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    }
+                    updateStats();
+                    StudioOverlay.showToast(`✓ Updated TTD expression: ${returnedFmt}`);
+                }, true);
+            }
+        });
         // Initial MathJax rendering in visual editor
         if (window.MathJax?.typesetPromise) {
             window.MathJax.typesetPromise([wysiwygDiv]).catch(() => { });
@@ -1120,6 +1206,108 @@ export class StudioOverlay {
                 insertHtmlSnippet(tag);
             });
         });
+        btnInsertTtd?.addEventListener('mousedown', (e) => {
+            // Prevent button click from clearing active selection in wysiwygDiv
+            e.preventDefault();
+            saveWysiwygRange();
+        });
+        btnInsertTtd?.addEventListener('click', () => {
+            saveWysiwygRange();
+            let savedSourcePos = null;
+            if (currentMode === 'source') {
+                savedSourcePos = {
+                    start: textarea.selectionStart,
+                    end: textarea.selectionEnd
+                };
+            }
+            else {
+                // In WYSIWYG or Split mode: place temporary marker at caret
+                const oldMarker = document.getElementById('studio-ttd-caret-marker');
+                if (oldMarker)
+                    oldMarker.remove();
+                const marker = document.createElement('span');
+                marker.id = 'studio-ttd-caret-marker';
+                marker.style.display = 'inline-block';
+                marker.style.width = '0';
+                marker.style.height = '0';
+                marker.style.overflow = 'hidden';
+                const sel = window.getSelection();
+                let range = null;
+                if (sel && sel.rangeCount > 0 && wysiwygDiv.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+                    range = sel.getRangeAt(0);
+                }
+                else if (lastWysiwygRange && wysiwygDiv.contains(lastWysiwygRange.commonAncestorContainer)) {
+                    range = lastWysiwygRange;
+                }
+                if (range) {
+                    range.deleteContents();
+                    range.insertNode(marker);
+                }
+                else {
+                    wysiwygDiv.appendChild(marker);
+                }
+            }
+            StudioOverlay.openTtdInFullCanvas('', (returnedExp, returnedFmt, isValid, action) => {
+                const marker = document.getElementById('studio-ttd-caret-marker');
+                if (action === 'delete') {
+                    if (marker)
+                        marker.remove();
+                    StudioOverlay.showToast('TTD insertion cancelled.');
+                    return;
+                }
+                if (!returnedExp || !returnedExp.trim() || isValid === false) {
+                    if (marker)
+                        marker.remove();
+                    StudioOverlay.showToast(isValid === false ? '⚠️ Incomplete expression. Tag not inserted.' : 'TTD cancelled (no expression entered).');
+                    return;
+                }
+                const tag = `<ttd-ref exp="${returnedExp}" style="color:firebrick;font-weight:bold">${returnedFmt}</ttd-ref>`;
+                if (currentMode === 'source' && savedSourcePos) {
+                    const val = textarea.value;
+                    textarea.value = val.substring(0, savedSourcePos.start) + tag + val.substring(savedSourcePos.end);
+                    textarea.selectionStart = textarea.selectionEnd = savedSourcePos.start + tag.length;
+                    textarea.focus();
+                    isSourceDirty = true;
+                    updateStats();
+                    StudioOverlay.showToast(`✓ Inserted TTD tag: ${returnedFmt}`);
+                    return;
+                }
+                // In WYSIWYG or Split mode:
+                if (marker && marker.parentNode) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = tag;
+                    protectStencils(temp);
+                    const newEl = temp.firstElementChild;
+                    if (newEl) {
+                        marker.parentNode.insertBefore(newEl, marker);
+                        marker.remove();
+                        // Place caret immediately after the new tag
+                        wysiwygDiv.focus();
+                        const newSel = window.getSelection();
+                        if (newSel) {
+                            const newRange = document.createRange();
+                            newRange.setStartAfter(newEl);
+                            newRange.collapse(true);
+                            newSel.removeAllRanges();
+                            newSel.addRange(newRange);
+                            lastWysiwygRange = newRange.cloneRange();
+                        }
+                    }
+                    else {
+                        marker.remove();
+                    }
+                }
+                else {
+                    insertHtmlSnippet(tag);
+                }
+                if (currentMode === 'split') {
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                }
+                isWysiwygDirty = true;
+                updateStats();
+                StudioOverlay.showToast(`✓ Inserted TTD tag: ${returnedFmt}`);
+            }, false);
+        });
         btnInsertMath.addEventListener('click', () => {
             insertHtmlSnippet(' $\\omega = \\text{transfinite}$ ');
         });
@@ -1198,7 +1386,10 @@ export class StudioOverlay {
             }
         });
         // Close handlers
-        const closeModal = () => modal.remove();
+        const closeModal = () => {
+            document.removeEventListener('selectionchange', saveWysiwygRange);
+            modal.remove();
+        };
         document.getElementById('content-close-btn')?.addEventListener('click', closeModal);
         document.getElementById('btn-cancel-content')?.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
@@ -1411,6 +1602,55 @@ export class StudioOverlay {
                 StudioOverlay.showToast('Copied stencil tag to clipboard!');
             });
         });
+    }
+    // =========================================================================
+    // 5b. NATIVE FULL TTD CANVAS STAGE DISPATCH & RETURN
+    // =========================================================================
+    static openTtdInFullCanvas(initialExp = '', onReturn, isEditingExisting = false) {
+        const contentModal = document.getElementById('studio-content-modal');
+        // Temporarily hide Content Editor modal so DOM state & unsaved prose are preserved
+        if (contentModal) {
+            contentModal.style.display = 'none';
+        }
+        // Set up native TTD on Nav.fo
+        Nav.setLastVisit();
+        ttd.clear();
+        ttd.pxe.exp = initialExp ? initialExp.trim() : '';
+        let nl = 0;
+        for (const ch of ttd.pxe.exp) {
+            if (ch === '[')
+                nl++;
+            else if (ch === ']')
+                nl--;
+        }
+        ttd.pxe.nl = Math.max(0, nl);
+        ttd.pxe.displayText();
+        ttd.setContentEditorCallback((returnedExp, returnedFmt, isValid, action) => {
+            // Restore Nav & chapter segment in fo
+            Nav.loadSegment();
+            Nav.setSegPos();
+            Nav.display();
+            // Unhide Content Editor modal
+            if (contentModal) {
+                contentModal.style.display = '';
+            }
+            if (onReturn) {
+                onReturn(returnedExp, returnedFmt, isValid, action);
+            }
+        }, isEditingExisting);
+        Nav.fo.removeChildren();
+        Nav.fo.append(ttd);
+        ttd.layoutEditor();
+        if (initialExp.trim() && ttd.pxe.displayState === 'Valid') {
+            ttd.displayTable();
+        }
+        Nav.display();
+        if (isEditingExisting) {
+            StudioOverlay.showToast('🚀 Native TTD active. Edit formula and click "return to content editor", or click "delete tag from document".');
+        }
+        else {
+            StudioOverlay.showToast('🚀 Native TTD active. Build expression and click "return to content editor".');
+        }
     }
     // =========================================================================
     // 6. SHARED HELPERS & TOAST NOTIFICATIONS
@@ -2282,6 +2522,49 @@ export class StudioOverlay {
                 border-color: #10b981;
                 color: #064e3b;
             }
+            .studio-wysiwyg-editor ttd-ref {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: #fef2f2;
+                border: 1.5px solid #dc2626;
+                border-radius: 6px;
+                padding: 2px 8px;
+                margin: 2px 4px;
+                font-weight: 700;
+                color: #b91c1c;
+                cursor: pointer;
+                user-select: all;
+                transition: all 0.15s ease;
+                vertical-align: middle;
+            }
+            .studio-wysiwyg-editor ttd-ref:hover {
+                background: #fee2e2;
+                border-color: #991b1b;
+                box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+            }
+            .studio-wysiwyg-editor ttd-ref .ttd-chip-del {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: rgba(220, 38, 38, 0.15);
+                color: #991b1b;
+                font-size: 10px;
+                line-height: 1;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                user-select: none;
+            }
+            .studio-wysiwyg-editor ttd-ref .ttd-chip-del:hover {
+                background: #dc2626;
+                color: #ffffff;
+                transform: scale(1.2);
+            }
+
             .studio-code-editor {
                 flex: 1 1 100%;
                 width: 100%;

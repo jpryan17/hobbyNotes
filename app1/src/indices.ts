@@ -10,6 +10,7 @@ export const propLogicIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "introduction",
+    htmlSegmentId: "propLogicIntro",
   },
   {
     type: "html",

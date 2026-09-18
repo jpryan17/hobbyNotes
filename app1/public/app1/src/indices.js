@@ -7,6 +7,7 @@ export const propLogicIndex = [
     {
         type: "html",
         topic: "introduction",
+        htmlSegmentId: "propLogicIntro",
     },
     {
         type: "html",

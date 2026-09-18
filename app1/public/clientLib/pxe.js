@@ -142,7 +142,7 @@ export class PXE extends SVGGrpElt {
     }
     static setKeyCode(key) {
         const m = PXE.charTokens.find((e) => e[0] == key);
-        return String.fromCodePoint(m[1]);
+        return m ? String.fromCodePoint(m[1]) : key;
     }
     fmt() {
         return PXE.fmt(this.exp);
