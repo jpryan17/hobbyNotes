@@ -38,6 +38,7 @@ export class TTD extends PXEParent {
     usedByProofBuilderDemo;
     usedByContentEditor;
     isEditingExistingTag = false;
+    cancelButton;
     //
     initColHighlightPos = -1;
     tree;
@@ -98,10 +99,12 @@ export class TTD extends PXEParent {
         this.displayButton = new SVGSelectableText(displayTable, "display table", false);
         this.proofButton = this.setProofButton();
         this.editorButton = this.setEditorButton();
+        this.cancelButton = this.setCancelButton();
         this.deleteButton = this.setDeleteButton();
         this.controls.push(this.displayButton);
         this.controls.push(this.proofButton);
         this.controls.push(this.editorButton);
+        this.controls.push(this.cancelButton);
         this.controls.push(this.deleteButton);
         // Initialize input label
         this.inputLabel = new SVGText();
@@ -180,6 +183,14 @@ export class TTD extends PXEParent {
                 "stroke",
                 this.pxe.displayState == "Valid" ? "forestgreen" : "orange",
             ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "auto",
+                "visibility",
+                "visible",
+                "stroke",
+                "#64748b",
+            ]);
             if (this.isEditingExistingTag) {
                 this.deleteButton.setAA([
                     "pointer-events",
@@ -201,6 +212,12 @@ export class TTD extends PXEParent {
         }
         else {
             this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
                 "pointer-events",
                 "none",
                 "visibility",
@@ -309,6 +326,28 @@ export class TTD extends PXEParent {
         });
         return editorButton;
     }
+    setCancelButton() {
+        const cancelButton = new SVGText();
+        cancelButton.setV("cancel");
+        cancelButton.setAA([
+            "stroke",
+            "#64748b",
+            "visibility",
+            "hidden",
+            "pointer-events",
+            "none",
+        ]);
+        cancelButton.elt.addEventListener("mouseover", () => {
+            cancelButton.setA("stroke", "#0f172a");
+        });
+        cancelButton.elt.addEventListener("mouseout", () => {
+            cancelButton.setA("stroke", "#64748b");
+        });
+        cancelButton.elt.addEventListener("click", () => {
+            this.cancelAndReturn();
+        });
+        return cancelButton;
+    }
     setDeleteButton() {
         const deleteButton = new SVGText();
         deleteButton.setV("delete tag from document");
@@ -331,12 +370,44 @@ export class TTD extends PXEParent {
         });
         return deleteButton;
     }
+    cancelAndReturn() {
+        if (this.usedByContentEditor) {
+            const cb = this.usedByContentEditor;
+            this.usedByContentEditor = undefined;
+            this.isEditingExistingTag = false;
+            this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.deleteButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            cb("", "", false, "cancel");
+        }
+    }
     deleteTagAndReturn() {
         if (this.usedByContentEditor) {
             const cb = this.usedByContentEditor;
             this.usedByContentEditor = undefined;
             this.isEditingExistingTag = false;
             this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
                 "pointer-events",
                 "none",
                 "visibility",
@@ -357,6 +428,12 @@ export class TTD extends PXEParent {
             this.usedByContentEditor = undefined;
             this.isEditingExistingTag = false;
             this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
                 "pointer-events",
                 "none",
                 "visibility",
@@ -405,6 +482,14 @@ export class TTD extends PXEParent {
         if (this.usedByContentEditor) {
             const color = this.pxe.displayState == "Valid" ? "forestgreen" : "orange";
             this.editorButton.setA("stroke", color);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "auto",
+                "visibility",
+                "visible",
+                "stroke",
+                "#64748b",
+            ]);
             if (this.isEditingExistingTag) {
                 this.deleteButton.setAA([
                     "pointer-events",

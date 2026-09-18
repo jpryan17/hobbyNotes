@@ -6,6 +6,10 @@
 Live Portal: **[https://middlewaymath.app](https://middlewaymath.app)**  
 Open-Source Repository: **[https://github.com/jpryan17/hobbyNotes](https://github.com/jpryan17/hobbyNotes)**
 
+> [!WARNING]
+> **Active Development Notice: Pre-Stable Project**  
+> *Mathematics and the Middle Way* and its in-situ authoring studio are undergoing active, continuous evolution. Core authoring tools (TTD, FSD, CAS stencils), curricular segments, and database schemas are being refined daily. Expect ongoing interface changes, experimental workflows, and non-finalized authoring tools until the v2.0 milestone stabilizes.
+
 ---
 
 ## 🌟 Overview & Mission

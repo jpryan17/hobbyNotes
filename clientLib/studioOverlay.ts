@@ -22,6 +22,7 @@ import {
 import { getApiBaseUrl } from './db/api.js';
 import { PXE } from './pxe.js';
 import { ttd } from './ttd.js';
+import { fsd, setFSD } from './fsd.js';
 
 type NavColors = { bg: string; std: string; active: string; over: string; busy: string };
 
@@ -829,6 +830,7 @@ export class StudioOverlay {
                     <div class="studio-tb-group">
                         <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
                         <button id="tb-insert-ttd" class="studio-tb-btn" style="color: #b91c1c; border-color: #fca5a5; font-weight: 700;" title="Insert Truth Table Demo (TTD) Expression Tag">⚖️ + TTD</button>
+                        <button id="tb-insert-fsd" class="studio-tb-btn" style="color: #be185d; border-color: #fbcfe8; font-weight: 700;" title="Insert Formal Statement Demo (FSD) Tag">📐 + FSD</button>
                         <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
                         <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
                     </div>
@@ -1023,6 +1025,7 @@ export class StudioOverlay {
         const btnCard = document.getElementById('tb-box-card') as HTMLButtonElement;
         const btnInsertStencil = document.getElementById('tb-insert-stencil') as HTMLButtonElement;
         const btnInsertTtd = document.getElementById('tb-insert-ttd') as HTMLButtonElement;
+        const btnInsertFsd = document.getElementById('tb-insert-fsd') as HTMLButtonElement;
         const btnInsertMath = document.getElementById('tb-insert-math') as HTMLButtonElement;
         const btnRenderMath = document.getElementById('tb-render-math') as HTMLButtonElement;
 
@@ -1055,12 +1058,21 @@ export class StudioOverlay {
                     delBtn.textContent = '✕';
                     el.appendChild(delBtn);
                 }
+                if (el.tagName.toLowerCase() === 'fsd-ref' && !el.querySelector('.fsd-chip-del')) {
+                    const delBtn = document.createElement('span');
+                    delBtn.className = 'fsd-chip-del';
+                    delBtn.title = 'Delete FSD tag';
+                    delBtn.setAttribute('contenteditable', 'false');
+                    delBtn.textContent = '✕';
+                    el.appendChild(delBtn);
+                }
             });
         };
 
         const cleanWysiwygHtml = (html: string): string => {
             return html
                 .replace(/<span class="ttd-chip-del"[^>]*>.*?<\/span>/gi, '')
+                .replace(/<span class="fsd-chip-del"[^>]*>.*?<\/span>/gi, '')
                 .replace(/\s+contenteditable="false"/gi, '')
                 .replace(/\s+spellcheck="false"/gi, '');
         };
@@ -1078,11 +1090,11 @@ export class StudioOverlay {
         textarea.value = currentHtml;
         updateStats();
 
-        // In-situ click on ttd-ref chips inside visual editor to modify or delete
+        // In-situ click on ttd-ref and fsd-ref chips inside visual editor to modify or delete
         wysiwygDiv.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
 
-            // Direct click on inline delete button (✕)
+            // Direct click on inline delete button (✕) for TTD
             if (target.classList.contains('ttd-chip-del') || target.closest('.ttd-chip-del')) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1099,12 +1111,34 @@ export class StudioOverlay {
                 return;
             }
 
+            // Direct click on inline delete button (✕) for FSD
+            if (target.classList.contains('fsd-chip-del') || target.closest('.fsd-chip-del')) {
+                e.preventDefault();
+                e.stopPropagation();
+                const chip = target.closest('fsd-ref') as HTMLElement;
+                if (chip) {
+                    chip.remove();
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split') {
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    }
+                    updateStats();
+                    StudioOverlay.showToast('✓ Deleted <fsd-ref> tag.');
+                }
+                return;
+            }
+
             const ttdRef = target.closest('ttd-ref') as HTMLElement;
             if (ttdRef) {
                 e.preventDefault();
                 e.stopPropagation();
                 const currentExp = ttdRef.getAttribute('exp') || '';
                 StudioOverlay.openTtdInFullCanvas(currentExp, (returnedExp, returnedFmt, isValid, action) => {
+                    if (action === 'cancel') {
+                        StudioOverlay.showToast('TTD editing cancelled. No changes made.');
+                        return;
+                    }
+
                     if (action === 'delete') {
                         ttdRef.remove();
                         isWysiwygDirty = true;
@@ -1141,6 +1175,66 @@ export class StudioOverlay {
                     }
                     updateStats();
                     StudioOverlay.showToast(`✓ Updated TTD expression: ${returnedFmt}`);
+                }, true);
+                return;
+            }
+
+            const fsdRef = target.closest('fsd-ref') as HTMLElement;
+            if (fsdRef) {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentExp = fsdRef.getAttribute('exp') || '';
+                const currentQuantifiers = fsdRef.getAttribute('quantifiers') || '';
+                const currentSlots = fsdRef.getAttribute('slots') || '';
+                const currentStage = fsdRef.getAttribute('stage') || '';
+
+                StudioOverlay.openFsdInFullCanvas({
+                    exp: currentExp,
+                    quantifiers: currentQuantifiers,
+                    slots: currentSlots,
+                    stage: currentStage
+                }, (returnedData, action) => {
+                    if (action === 'cancel') {
+                        StudioOverlay.showToast('FSD editing cancelled. No changes made.');
+                        return;
+                    }
+
+                    if (action === 'delete') {
+                        fsdRef.remove();
+                        isWysiwygDirty = true;
+                        if (currentMode === 'split') {
+                            textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                        }
+                        updateStats();
+                        StudioOverlay.showToast('✓ Deleted <fsd-ref> tag from document.');
+                        return;
+                    }
+
+                    if (!returnedData.exp || !returnedData.exp.trim()) {
+                        fsdRef.remove();
+                        isWysiwygDirty = true;
+                        if (currentMode === 'split') {
+                            textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                        }
+                        updateStats();
+                        StudioOverlay.showToast('✓ Removed empty <fsd-ref> tag from document.');
+                        return;
+                    }
+
+                    fsdRef.setAttribute('exp', returnedData.exp);
+                    if (returnedData.quantifiers) fsdRef.setAttribute('quantifiers', returnedData.quantifiers);
+                    else fsdRef.removeAttribute('quantifiers');
+                    if (returnedData.slots) fsdRef.setAttribute('slots', returnedData.slots);
+                    else fsdRef.removeAttribute('slots');
+                    fsdRef.setAttribute('style', 'color:firebrick;font-weight:bold');
+                    fsdRef.innerHTML = `${returnedData.formattedText}<span class="fsd-chip-del" title="Delete FSD tag" contenteditable="false">✕</span>`;
+
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split') {
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    }
+                    updateStats();
+                    StudioOverlay.showToast(`✓ Updated FSD statement: ${returnedData.formattedText}`);
                 }, true);
             }
         });
@@ -1363,7 +1457,7 @@ export class StudioOverlay {
             StudioOverlay.openTtdInFullCanvas('', (returnedExp, returnedFmt, isValid, action) => {
                 const marker = document.getElementById('studio-ttd-caret-marker');
 
-                if (action === 'delete') {
+                if (action === 'delete' || action === 'cancel') {
                     if (marker) marker.remove();
                     StudioOverlay.showToast('TTD insertion cancelled.');
                     return;
@@ -1423,6 +1517,117 @@ export class StudioOverlay {
                 isWysiwygDirty = true;
                 updateStats();
                 StudioOverlay.showToast(`✓ Inserted TTD tag: ${returnedFmt}`);
+            }, false);
+        });
+
+        btnInsertFsd?.addEventListener('mousedown', (e) => {
+            // Prevent button click from clearing active selection in wysiwygDiv
+            e.preventDefault();
+            saveWysiwygRange();
+        });
+
+        btnInsertFsd?.addEventListener('click', () => {
+            saveWysiwygRange();
+            let savedSourcePos: { start: number; end: number } | null = null;
+
+            if (currentMode === 'source') {
+                savedSourcePos = {
+                    start: textarea.selectionStart,
+                    end: textarea.selectionEnd
+                };
+            } else {
+                // In WYSIWYG or Split mode: place temporary marker at caret
+                const oldMarker = document.getElementById('studio-fsd-caret-marker');
+                if (oldMarker) oldMarker.remove();
+
+                const marker = document.createElement('span');
+                marker.id = 'studio-fsd-caret-marker';
+                marker.style.display = 'inline-block';
+                marker.style.width = '0';
+                marker.style.height = '0';
+                marker.style.overflow = 'hidden';
+
+                const sel = window.getSelection();
+                let range: Range | null = null;
+                if (sel && sel.rangeCount > 0 && wysiwygDiv.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+                    range = sel.getRangeAt(0);
+                } else if (lastWysiwygRange && wysiwygDiv.contains(lastWysiwygRange.commonAncestorContainer)) {
+                    range = lastWysiwygRange;
+                }
+
+                if (range) {
+                    range.deleteContents();
+                    range.insertNode(marker);
+                } else {
+                    wysiwygDiv.appendChild(marker);
+                }
+            }
+
+            StudioOverlay.openFsdInFullCanvas({}, (returnedData, action) => {
+                const marker = document.getElementById('studio-fsd-caret-marker');
+
+                if (action === 'delete' || action === 'cancel') {
+                    if (marker) marker.remove();
+                    StudioOverlay.showToast('FSD insertion cancelled.');
+                    return;
+                }
+
+                if (!returnedData.exp || !returnedData.exp.trim()) {
+                    if (marker) marker.remove();
+                    StudioOverlay.showToast('FSD cancelled (no expression entered).');
+                    return;
+                }
+
+                const qAttr = returnedData.quantifiers ? ` quantifiers="${returnedData.quantifiers}"` : '';
+                const sAttr = returnedData.slots ? ` slots="${returnedData.slots}"` : '';
+                const tag = `<fsd-ref exp="${returnedData.exp}"${qAttr}${sAttr} style="color:firebrick;font-weight:bold">${returnedData.formattedText}</fsd-ref>`;
+
+                if (currentMode === 'source' && savedSourcePos) {
+                    const val = textarea.value;
+                    textarea.value = val.substring(0, savedSourcePos.start) + tag + val.substring(savedSourcePos.end);
+                    textarea.selectionStart = textarea.selectionEnd = savedSourcePos.start + tag.length;
+                    textarea.focus();
+                    isSourceDirty = true;
+                    updateStats();
+                    StudioOverlay.showToast(`✓ Inserted FSD tag: ${returnedData.formattedText}`);
+                    return;
+                }
+
+                // In WYSIWYG or Split mode:
+                if (marker && marker.parentNode) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = tag;
+                    protectStencils(temp);
+                    const newEl = temp.firstElementChild as HTMLElement;
+                    if (newEl) {
+                        marker.parentNode.insertBefore(newEl, marker);
+                        marker.remove();
+
+                        // Place caret immediately after the new tag
+                        wysiwygDiv.focus();
+                        const newSel = window.getSelection();
+                        if (newSel) {
+                            const newRange = document.createRange();
+                            newRange.setStartAfter(newEl);
+                            newRange.collapse(true);
+                            newSel.removeAllRanges();
+                            newSel.addRange(newRange);
+                            lastWysiwygRange = newRange.cloneRange();
+                        }
+                    } else {
+                        marker.remove();
+                    }
+                } else {
+                    insertHtmlSnippet(tag);
+                }
+
+                if (currentMode === 'split') {
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                }
+
+                isWysiwygDirty = true;
+                updateStats();
+                StudioOverlay.showToast(`✓ Inserted FSD tag: ${returnedData.formattedText}`);
             }, false);
         });
 
@@ -1737,7 +1942,7 @@ export class StudioOverlay {
 
     public static openTtdInFullCanvas(
         initialExp: string = '',
-        onReturn?: (exp: string, expFmt: string, isValid?: boolean, action?: 'save' | 'delete') => void,
+        onReturn?: (exp: string, expFmt: string, isValid?: boolean, action?: 'save' | 'delete' | 'cancel') => void,
         isEditingExisting: boolean = false
     ): void {
         const contentModal = document.getElementById('studio-content-modal');
@@ -1787,6 +1992,56 @@ export class StudioOverlay {
             StudioOverlay.showToast('🚀 Native TTD active. Edit formula and click "return to content editor", or click "delete tag from document".');
         } else {
             StudioOverlay.showToast('🚀 Native TTD active. Build expression and click "return to content editor".');
+        }
+    }
+
+    // =========================================================================
+    // 5c. NATIVE FULL FSD CANVAS STAGE DISPATCH & RETURN
+    // =========================================================================
+
+    public static openFsdInFullCanvas(
+        initialData?: { exp?: string; quantifiers?: string; slots?: string; stage?: string },
+        onReturn?: (data: { exp: string; quantifiers: string; slots: string; formattedText: string }, action: 'save' | 'delete' | 'cancel') => void,
+        isEditingExisting: boolean = false
+    ): void {
+        const contentModal = document.getElementById('studio-content-modal');
+
+        // Temporarily hide Content Editor modal so DOM state & unsaved prose are preserved
+        if (contentModal) {
+            contentModal.style.display = 'none';
+        }
+
+        if (!fsd) setFSD();
+        Nav.setLastVisit();
+
+        fsd.setContentEditorCallback((returnedData, action) => {
+            // Restore Nav & chapter segment in fo
+            Nav.loadSegment();
+            Nav.setSegPos();
+            Nav.display();
+
+            // Unhide Content Editor modal
+            if (contentModal) {
+                contentModal.style.display = '';
+            }
+
+            if (onReturn) {
+                onReturn(returnedData, action);
+            }
+        }, isEditingExisting);
+
+        Nav.fo.removeChildren();
+        Nav.fo.elt.scrollTop = 0;
+        Nav.fo.setA('style', 'overflow:hidden;');
+        Nav.fo.append(fsd);
+
+        fsd.loadFromRefData(initialData || {});
+        Nav.display();
+
+        if (isEditingExisting) {
+            StudioOverlay.showToast('🚀 Native FSD active. Edit statement and click "return to content editor", or click "delete tag from document".');
+        } else {
+            StudioOverlay.showToast('🚀 Native FSD active. Build formal statement and click "return to content editor".');
         }
     }
 
@@ -2730,6 +2985,48 @@ export class StudioOverlay {
             }
             .studio-wysiwyg-editor ttd-ref .ttd-chip-del:hover {
                 background: #dc2626;
+                color: #ffffff;
+                transform: scale(1.2);
+            }
+            .studio-wysiwyg-editor fsd-ref {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: #fdf2f8;
+                border: 1.5px solid #be185d;
+                border-radius: 6px;
+                padding: 2px 8px;
+                margin: 2px 4px;
+                font-weight: 700;
+                color: #9d174d;
+                cursor: pointer;
+                user-select: all;
+                transition: all 0.15s ease;
+                vertical-align: middle;
+            }
+            .studio-wysiwyg-editor fsd-ref:hover {
+                background: #fce7f3;
+                border-color: #831843;
+                box-shadow: 0 0 0 2px rgba(190, 24, 93, 0.2);
+            }
+            .studio-wysiwyg-editor fsd-ref .fsd-chip-del {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: rgba(190, 24, 93, 0.15);
+                color: #831843;
+                font-size: 10px;
+                line-height: 1;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                user-select: none;
+            }
+            .studio-wysiwyg-editor fsd-ref .fsd-chip-del:hover {
+                background: #be185d;
                 color: #ffffff;
                 transform: scale(1.2);
             }

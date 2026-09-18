@@ -110,6 +110,175 @@ export class FSD extends PXEParent {
     varDomains = {};
     // Dynamic Stage Controls
     stageControls = [];
+    // Content Editor Integration
+    usedByContentEditor;
+    isEditingExistingTag = false;
+    editorButton;
+    cancelButton;
+    deleteButton;
+    setContentEditorCallback(cb, isEditingExisting = false) {
+        this.usedByContentEditor = cb;
+        this.isEditingExistingTag = isEditingExisting;
+    }
+    setEditorButton() {
+        const editorButton = new SVGText();
+        editorButton.setV("return to content editor");
+        editorButton.setAA([
+            "stroke",
+            "forestgreen",
+            "visibility",
+            "hidden",
+            "pointer-events",
+            "none",
+        ]);
+        editorButton.elt.addEventListener("mouseover", () => {
+            editorButton.setA("stroke", "purple");
+        });
+        editorButton.elt.addEventListener("mouseout", () => {
+            let isReady = true;
+            if (this.stage === 1) {
+                const expectClass = this.pxe.setExpectClass();
+                isReady = expectClass === "back" && this.pxe.nl === 0;
+            }
+            this.editorButton.setA("stroke", isReady ? "forestgreen" : "orange");
+        });
+        editorButton.elt.addEventListener("click", () => {
+            this.backToContentEditor();
+        });
+        return editorButton;
+    }
+    setCancelButton() {
+        const cancelButton = new SVGText();
+        cancelButton.setV("cancel");
+        cancelButton.setAA([
+            "stroke",
+            "#64748b",
+            "visibility",
+            "hidden",
+            "pointer-events",
+            "none",
+        ]);
+        cancelButton.elt.addEventListener("mouseover", () => {
+            cancelButton.setA("stroke", "#0f172a");
+        });
+        cancelButton.elt.addEventListener("mouseout", () => {
+            cancelButton.setA("stroke", "#64748b");
+        });
+        cancelButton.elt.addEventListener("click", () => {
+            this.cancelAndReturn();
+        });
+        return cancelButton;
+    }
+    setDeleteButton() {
+        const deleteButton = new SVGText();
+        deleteButton.setV("delete tag from document");
+        deleteButton.setAA([
+            "stroke",
+            "crimson",
+            "visibility",
+            "hidden",
+            "pointer-events",
+            "none",
+        ]);
+        deleteButton.elt.addEventListener("mouseover", () => {
+            deleteButton.setA("stroke", "darkred");
+        });
+        deleteButton.elt.addEventListener("mouseout", () => {
+            deleteButton.setA("stroke", "crimson");
+        });
+        deleteButton.elt.addEventListener("click", () => {
+            this.deleteTagAndReturn();
+        });
+        return deleteButton;
+    }
+    cancelAndReturn() {
+        if (this.usedByContentEditor) {
+            const cb = this.usedByContentEditor;
+            this.usedByContentEditor = undefined;
+            this.isEditingExistingTag = false;
+            this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.deleteButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            cb({ exp: "", quantifiers: "", slots: "", formattedText: "" }, "cancel");
+        }
+    }
+    deleteTagAndReturn() {
+        if (this.usedByContentEditor) {
+            const cb = this.usedByContentEditor;
+            this.usedByContentEditor = undefined;
+            this.isEditingExistingTag = false;
+            this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.deleteButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            cb({ exp: "", quantifiers: "", slots: "", formattedText: "" }, "delete");
+        }
+    }
+    backToContentEditor() {
+        if (this.usedByContentEditor) {
+            const cb = this.usedByContentEditor;
+            this.usedByContentEditor = undefined;
+            this.isEditingExistingTag = false;
+            this.editorButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            this.deleteButton.setAA([
+                "pointer-events",
+                "none",
+                "visibility",
+                "hidden",
+            ]);
+            const data = this.getDataForRefTag();
+            cb(data, "save");
+        }
+    }
+    getDataForRefTag() {
+        const exp = this.pxe.exp;
+        const quantifiers = this.quantifierBindings
+            .map((q) => `${q.quantifier}${q.variable}:${q.domainType}`)
+            .join(" ");
+        const slots = this.slots.map((s) => s.assignedVar || "").join(",");
+        const formattedText = this.formatFSDExp(exp);
+        return { exp, quantifiers, slots, formattedText };
+    }
     // Stage 3 State: Quantifier Prefix
     quantifierBindings = [];
     selectedQuantifier = "∀";
@@ -166,6 +335,9 @@ export class FSD extends PXEParent {
         this.fo = new SVGElt("foreignObject");
         this.pxe = new PXE(this);
         this.pxe.fmt = () => this.formatFSDExp(this.pxe.exp);
+        this.editorButton = this.setEditorButton();
+        this.cancelButton = this.setCancelButton();
+        this.deleteButton = this.setDeleteButton();
         this.append(this.editorFrame);
         this.append(this.pxe);
         this.append(this.controlsFrame);
@@ -227,6 +399,37 @@ export class FSD extends PXEParent {
         }
         else if (this.stage === 4) {
             this.buildStage4Controls();
+        }
+        if (this.usedByContentEditor) {
+            this.editorButton.setAA([
+                "pointer-events",
+                "auto",
+                "visibility",
+                "visible",
+                "stroke",
+                "forestgreen",
+            ]);
+            this.cancelButton.setAA([
+                "pointer-events",
+                "auto",
+                "visibility",
+                "visible",
+                "stroke",
+                "#64748b",
+            ]);
+            this.stageControls.unshift(this.editorButton);
+            this.stageControls.splice(1, 0, this.cancelButton);
+            if (this.isEditingExistingTag) {
+                this.deleteButton.setAA([
+                    "pointer-events",
+                    "auto",
+                    "visibility",
+                    "visible",
+                    "stroke",
+                    "crimson",
+                ]);
+                this.stageControls.splice(2, 0, this.deleteButton);
+            }
         }
         this.layoutStageControls();
         this.setButtonStates();
@@ -472,6 +675,22 @@ export class FSD extends PXEParent {
             if (this.nextStageButton)
                 this.nextStageButton.setAble(isValid);
         }
+        if (this.usedByContentEditor) {
+            let isReady = true;
+            if (this.stage === 1) {
+                const expectClass = this.pxe.setExpectClass();
+                isReady = expectClass === "back" && this.pxe.nl === 0;
+            }
+            this.editorButton.setA("stroke", isReady ? "forestgreen" : "orange");
+            this.cancelButton.setAA([
+                "pointer-events",
+                "auto",
+                "visibility",
+                "visible",
+                "stroke",
+                "#64748b",
+            ]);
+        }
     }
     clear() {
         this.stage = 1;
@@ -539,6 +758,121 @@ export class FSD extends PXEParent {
         else if (this.stage === 3) {
             this.setupStage4();
         }
+    }
+    loadFromRefData(data = {}) {
+        this.clear();
+        const exp = (data.exp || "").trim();
+        this.pxe.exp = exp;
+        let nl = 0;
+        for (const ch of this.pxe.exp) {
+            if (ch === "[")
+                nl++;
+            else if (ch === "]")
+                nl--;
+        }
+        this.pxe.nl = Math.max(0, nl);
+        const quantifiersStr = data.quantifiers;
+        const slotsStr = data.slots;
+        const stageStr = data.stage;
+        if (!exp) {
+            this.stage = 1;
+            this.showControls();
+            this.layoutEditor();
+            return;
+        }
+        if (quantifiersStr || stageStr === "4" || !stageStr) {
+            // Setup Stage 2 slots
+            this.setupStage2();
+            // Assign domain-typed variables or constants to slots
+            if (slotsStr) {
+                const slotAssignments = slotsStr.split(",").map((s) => s.trim());
+                this.slots.forEach((s, idx) => {
+                    if (slotAssignments[idx]) {
+                        s.assignedVar = slotAssignments[idx];
+                    }
+                });
+            }
+            else {
+                // Intelligent default slot assignment
+                if (exp === "paq" || exp === "poq" || exp === "p" || exp === "q" || exp === "np" || exp === "nq") {
+                    this.slots.forEach((s) => {
+                        s.assignedVar = "x₁";
+                    });
+                }
+                else if (exp === "mam" || exp === "mom") {
+                    if (this.slots.length >= 4) {
+                        this.slots[0].assignedVar = "x₁";
+                        this.slots[1].assignedVar = "GT5";
+                        this.slots[2].assignedVar = "x₁";
+                        this.slots[3].assignedVar = "LT10";
+                    }
+                    else if (this.slots.length >= 2) {
+                        this.slots[0].assignedVar = "x₁";
+                        this.slots[1].assignedVar = "y₁";
+                    }
+                }
+                else if (exp === "ras" || exp === "r" || exp === "s" || exp === "k" || exp === "nk") {
+                    this.slots.forEach((s, idx) => {
+                        s.assignedVar = (idx % 2 === 0) ? "x₁" : "x₂";
+                    });
+                }
+                else {
+                    this.slots.forEach((s, idx) => {
+                        if (s.domainType === "𝒫(ℕ)") {
+                            s.assignedVar = "y₁";
+                        }
+                        else {
+                            s.assignedVar = idx === 0 ? "x₁" : "x₂";
+                        }
+                    });
+                }
+            }
+            // Parse quantifiers
+            this.setupStage3();
+            if (quantifiersStr) {
+                this.quantifierBindings = [];
+                const qMatches = quantifiersStr.match(/(?:∀|∃|\\forall|\\exists)[^∀∃\\]+/g) || [quantifiersStr];
+                for (const token of qMatches) {
+                    const isForall = token.startsWith("∀") || token.toLowerCase().startsWith("forall") || token.toLowerCase().startsWith("\\forall");
+                    const qSymbol = isForall ? "∀" : "∃";
+                    const cleanToken = token.replace(/∀|∃|\\forall|\\exists/g, "").trim().replace(/^,/, "").trim();
+                    const colonIdx = cleanToken.indexOf(":");
+                    let varRaw = colonIdx !== -1 ? cleanToken.substring(0, colonIdx) : cleanToken;
+                    let dRaw = colonIdx !== -1 ? cleanToken.substring(colonIdx + 1).trim() : "";
+                    let varName = varRaw ? varRaw.replace(/x1/g, "x₁").replace(/x2/g, "x₂").replace(/y1/g, "y₁").replace(/y2/g, "y₂").replace(/x_1/g, "x₁").replace(/x_2/g, "x₂").trim() : "x₁";
+                    let dSpec = parseDomainSpec(dRaw);
+                    if (varName.startsWith("y") && !dRaw)
+                        dSpec = { base: "𝒫(ℕ)" };
+                    const dTypeStr = formatDomainSpec(dSpec);
+                    this.setVarDomain(varName, dSpec);
+                    this.quantifierBindings.push({
+                        quantifier: qSymbol,
+                        variable: varName,
+                        domainType: dTypeStr,
+                    });
+                }
+                if (this.quantifierBindings.length === 0) {
+                    this.quantifierBindings.push({ quantifier: "∃", variable: "x₁", domainType: "ℕ" });
+                }
+            }
+            else {
+                const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10" && v !== "EMPTY" && v !== "∅")));
+                this.quantifierBindings = uniqueVars.map((v) => ({
+                    quantifier: "∃",
+                    variable: v,
+                    domainType: formatDomainSpec(this.getVarDomain(v)),
+                }));
+            }
+            // Launch Stage 4 directly
+            this.setupStage4();
+        }
+        else if (stageStr === "2") {
+            this.setupStage2();
+        }
+        else {
+            this.showControls();
+        }
+        this.layoutEditor();
     }
     selectedSlotIndex = 0;
     selectedQuantifierVarIndex = 0;
