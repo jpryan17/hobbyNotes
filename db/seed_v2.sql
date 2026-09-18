@@ -2,7 +2,7 @@
 -- HobbyNotes / Middle Way Mathematics
 -- Seed Data: Iteration 2 (Refined Conceptual Architecture)
 -- Normalized MWM-DB: Middle Way Math Single Source of Truth
--- Generated At: 2026-09-17T07:07:46.085Z
+-- Generated At: 2026-09-18T04:31:58.645Z
 -- =====================================================================
 
 -- 1. Applications (Curriculum Targets)
@@ -11272,7 +11272,274 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
     </p>
   ', 'published'),
-  (50, 'lean4GenEdProposal', 49, '1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap', 'lean4-gen-ed-proposal', '
+  (50, 'stemTrigFoundations', 49, '1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)', 'stem-trig-foundations', '
+
+  <div class="container">
+    <h1>Trigonometry on the Conway Number Tree &amp; ℂ_ω</h1>
+    <div class="subtitle">
+      A Constructive STEM Perspective — From Discrete Dyadic Branching to Complex Continuum Rotation
+    </div>
+
+    <p>
+      The connection between John Conway’s number tree and trigonometry is both mathematically profound and computationally practical. When viewed through the lens of binary branching trees and the nonstandard complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometric identities, hardware algorithms, and complex analysis cease to be arbitrary formulas and reveal their natural inductive geometry.
+    </p>
+
+    <div class="callout">
+      <strong>Core Conceptual Shift:</strong> Classical trigonometry builds on transcendental continuous functions and limits. The Conway approach reveals that circular rotation is the natural continuum shadow of simple binary choices (dyadic bisections) and hyperfinite perpendicular steps.
+    </div>
+
+    <!-- PART 1 -->
+    <h2><span class="badge badge-blue">Part 1</span> The Real Conway Tree: Discrete Bisections &amp; Algorithms</h2>
+
+    <h3>1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)</h3>
+    <p>
+      At finite Conway birthdays <em>n</em>, the 2-successor tree generates the dense set of <b>dyadic rationals</b> <code>𝔻 = { m / 2ⁿ }</code>. Mapping the normalized interval <code>[0, 1)</code> to the circular domain <code>[0, 2π)</code> reveals that descending the tree corresponds precisely to <b>successive angle bisection</b>:
+    </p>
+
+    <ul class="step-list">
+      <li><b>Day 0:</b> Root <code>0</code> (Angle <code>0</code>)</li>
+      <li><b>Day 1:</b> Semi-circle poles (Angles <code>0, π</code>)</li>
+      <li><b>Day 2:</b> Quadrant axis markers (Angles <code>π/2, 3π/2</code>)</li>
+      <li><b>Day 3:</b> The classical 45° diagonals (Angles <code>π/4, 3π/4, 5π/4, 7π/4</code>)</li>
+      <li><b>Day <em>n</em>:</b> Granular binary angles <code>θ_n = 2π / 2ⁿ</code></li>
+    </ul>
+
+    <p>
+      The geometric rule for stepping down along the positive branch is given by the half-angle cosine identity:
+    </p>
+    <div class="formula-box">
+      cos(θ / 2) = √[ (1 + cos θ) / 2 ]
+    </div>
+
+    <p>Starting from <code>cos(π/2) = 0</code> and stepping recursively down the branches yields nested square roots of 2:</p>
+    <div class="formula-box">
+      cos(π/4)  = √2 / 2<br>
+      cos(π/8)  = √[ 2 + √2 ] / 2<br>
+      cos(π/16) = √[ 2 + √(2 + √2) ] / 2<br>
+      cos(π/2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(n nested radicals)
+    </div>
+
+    <p>
+      Multiplying these branch cosines as we descend toward transfinite Day <code>ω</code> reproduces <b>François Viète’s famous 1593 infinite product for π</b>:
+    </p>
+    <div class="formula-box">
+      2 / π = (√2 / 2) · (√[2 + √2] / 2) · (√[2 + √(2 + √2)] / 2) · ...
+    </div>
+    <p>
+      On the Conway tree, this product is not an ad-hoc analytic trick: it is the exact cumulative projection of radial coordinates as you zoom in toward the origin.
+    </p>
+
+    <h3>2. The CORDIC Algorithm: How Hardware Actually Computes Trig</h3>
+    <p>
+      Microprocessors, GPS receivers, and pocket calculators rarely compute sines and cosines with Taylor series, because multiplications and divisions consume excessive clock cycles and accumulate floating-point rounding errors.
+    </p>
+    <p>
+      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), which is literally a <b>path traversal along a Conway sign sequence</b>:
+    </p>
+
+    <ol>
+      <li>
+        Any input angle <code>θ</code> is expressed as a sum of precomputed dyadic elementary angles:
+        <div class="formula-box">
+          θ ≈ ∑[k=0 to n] d_k · arctan(2⁻ᵏ), &nbsp;&nbsp;where d_k ∈ { -1, +1 }
+        </div>
+      </li>
+      <li>
+        At each clock cycle <em>k</em>, the hardware evaluates a single binary question: <em>Am I clockwise or counterclockwise from the target?</em>
+        <ul>
+          <li>If counterclockwise (<code>d_k = +1</code>), rotate forwards.</li>
+          <li>If clockwise (<code>d_k = -1</code>), rotate backwards.</li>
+        </ul>
+      </li>
+      <li>
+        Because the angular step factor is <code>2⁻ᵏ</code>, vector updates require <b>zero multiplications</b>—only bit-shifts (dividing by 2) and additions:
+        <div class="formula-box">
+          x_(k+1) = x_k - d_k · y_k · 2⁻ᵏ<br>
+          y_(k+1) = y_k + d_k · x_k · 2⁻ᵏ
+        </div>
+      </li>
+    </ol>
+    <p>
+      Executing trigonometry in physical silicon is mathematically isomorphic to walking a path of Left and Right choices down a Conway tree of dyadic angles.
+    </p>
+
+    <h3>3. Walsh Functions: The "Square-Wave Trig" of the Binary Tree</h3>
+    <p>
+      In continuous space, smooth sines and cosines form an orthogonal basis for classical Fourier analysis. On a discrete binary tree, the exact counterparts to sinusoidal waves are <b>Walsh-Hadamard functions</b>.
+    </p>
+    <ul class="step-list">
+      <li>Rather than undulating continuously, Walsh waves are square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
+      <li>They are generated directly from the bit parity along Conway tree addresses (nim-addition / XOR operations).</li>
+      <li>This makes Walsh-Hadamard transforms the native trigonometric language of digital signal processing, CDMA telecommunications, and quantum gate operations.</li>
+    </ul>
+
+    <hr>
+
+    <!-- PART 2 -->
+    <h2><span class="badge badge-purple">Part 2</span> The Complex Continuum ℂ_ω: From Algebra to Physical Reality</h2>
+
+    <p>
+      When we extend the Conway construction to transfinite Day <code>ω</code> and cross two real axes into the 2D complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the fundamental engine of geometry and physical conservation laws.
+    </p>
+
+    <h3>1. From Binary Tree to the 4-Successor Quadtree</h3>
+    <p>
+      On <code>ℝ_ω</code>, Conway’s tree branches in two directions: <code>{ -1, +1 }</code>. In the complex domain <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, the tree branches in four directions:
+    </p>
+    <div class="formula-box purple">
+      { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
+    </div>
+    <p>
+      These are the <b>4th roots of unity</b>, identifying the four cardinal directions:
+    </p>
+    <div class="formula-box purple">
+      e^(i · 0) = +1, &nbsp;&nbsp; e^(i · π/2) = +i, &nbsp;&nbsp; e^(i · π) = -1, &nbsp;&nbsp; e^(i · 3π/2) = -i
+    </div>
+    <p>
+      Descending the complex Conway tree tiles the 2D plane with self-similar square cells of infinitesimal grid width <code>dz = dx + i·dy</code>, where <code>dx = dy = 1/ω</code>.
+    </p>
+
+    <h3>2. The Unit Circle Becomes an Exact Hyperfinite ω-gon</h3>
+    <p>
+      In classical analysis, the unit circle is an abstract continuous manifold whose perimeter requires transcendental limits. On <code>ℂ_ω</code>, the unit circle is an <b>exact regular ω-sided polygon</b>:
+    </p>
+    <ul class="step-list">
+      <li><b>Number of vertices:</b> Transfinite integer <code>ω</code>.</li>
+      <li><b>Infinitesimal step angle:</b> <code>dθ = 2π / ω = 2π · dx</code>.</li>
+      <li>
+        <b>Vertex coordinates:</b>
+        <div class="formula-box purple">
+          z_k = e^(i · 2πk / ω) = cos(2πk / ω) + i · sin(2πk / ω)
+        </div>
+      </li>
+      <li><b>Cosine</b> is the horizontal projection onto the real tree <code>ℝ_ω</code>.</li>
+      <li><b>Sine</b> is the vertical projection onto the imaginary tree <code>i · ℝ_ω</code>.</li>
+    </ul>
+
+    <p>The circumference is evaluated as an elementary discrete sum without limits:</p>
+    <div class="formula-box purple">
+      Perimeter = ∑[k=1 to ω] |z_k - z_(k-1)| = ω · |e^(i · 2π/ω) - 1| ≈ ω · (2π / ω) = 2π
+    </div>
+    <p>
+      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with microscopic polygon chord errors vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
+    </p>
+
+    <h3>3. Euler’s Formula as Pure Perpendicular Stepping</h3>
+    <p>
+      Multiplying by <code>i</code> rotates any vector on <code>ℂ_ω</code> counterclockwise by exactly 90°. To trace circular rotation:
+    </p>
+    <ol>
+      <li>
+        At point <code>z_k</code>, take an infinitesimal step perpendicular to the radius:
+        <div class="formula-box purple">
+          z_(k+1) = z_k + i · (θ / ω) · z_k = z_k · [ 1 + i · (θ / ω) ]
+        </div>
+      </li>
+      <li>
+        Evaluate the change in radial length:
+        <div class="formula-box purple">
+          |1 + i · (θ / ω)|² = 1 + (θ / ω)² = 1 + θ² · dx²
+        </div>
+        The radial elongation is purely second-order dust <code>O(dx²)</code>, which has <b>zero standard part</b>.
+      </li>
+      <li>
+        Compounding <code>ω</code> perpendicular steps produces the circular trajectory:
+        <div class="formula-box purple">
+          z_ω = [ 1 + i · (θ / ω) ]^ω ≡ e^(i·θ) = cos θ + i · sin θ
+        </div>
+      </li>
+    </ol>
+    <p>
+      Smooth circular rotation <code>(cos θ, sin θ)</code> is simply the macroscopic shadow of marching perpendicular steps along the square grid cells of <code>ℂ_ω</code>!
+    </p>
+
+    <h3>4. Cauchy-Riemann Equations: The "No-Shear" Conformal Symmetry</h3>
+    <p>
+      A mapping <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is holomorphic if and only if it preserves the shape of the underlying Conway quadtree cells. The Cauchy-Riemann equations:
+    </p>
+    <div class="formula-box purple">
+      ∂u/∂x = ∂v/∂y, &nbsp;&nbsp;&nbsp;&nbsp; ∂u/∂y = -∂v/∂x
+    </div>
+    <p>
+      are the exact algebraic condition ensuring that <b>every infinitesimal square cell maps to another square cell</b> (scaled and rotated by <code>e^(i·θ)</code>, with zero angle shear). Trigonometry is the intrinsic geometry of conformal invariance.
+    </p>
+
+    <h3>5. Why 2π i Appears in Contour Integrals</h3>
+    <p>
+      The famous factor <code>2π i</code> in Cauchy’s Residue Theorem:
+    </p>
+    <div class="formula-box purple">
+      ∮ (1 / z) dz = 2π i
+    </div>
+    <p>
+      is immediately transparent on the <code>ℂ_ω</code> polygon. Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
+    </p>
+    <div class="formula-box purple">
+      dz / z = [ i · e^(i·θ) dθ ] / e^(i·θ) = i · dθ<br><br>
+      ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
+    </div>
+    <p>
+      The residue factor <code>2π i</code> is literally the total winding angle (<code>2π</code>) multiplied by the imaginary 90° rotation operator (<code>i</code>).
+    </p>
+
+    <h3>6. Quantum Phase: Why Nature Uses ℂ_ω Instead of ℝ_ω</h3>
+    <p>
+      In <b>Quantum Logic</b>, this geometric structure connects directly to physical reality:
+    </p>
+    <ul class="step-list">
+      <li>Classical probabilities are non-negative real numbers in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂</code>).</li>
+      <li>Quantum states are complex amplitudes <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase.</li>
+      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel:
+        <div class="formula-box purple">
+          e^(i · 0) + e^(i · π) = 1 + (-1) = 0
+        </div>
+      </li>
+      <li>
+        The Pythagorean identity on <code>ℂ_ω</code>:
+        <div class="formula-box purple">
+          cos²θ + sin²θ = 1
+        </div>
+        is the fundamental law that guarantees <b>unitarity and the conservation of total probability</b> across all quantum state transformations.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h2>Synthesis</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Regime</th>
+          <th>Domain</th>
+          <th>Trigonometric Interpretation</th>
+          <th>Key Insight / Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Discrete / Finite</b></td>
+          <td>Conway Tree (Day <em>n</em>)</td>
+          <td>Angle bisection, dyadic rationals <code>m / 2ⁿ</code></td>
+          <td>CORDIC bit-shift algorithm; Viète’s nested radicals for π.</td>
+        </tr>
+        <tr>
+          <td><b>Harmonic / Algebraic</b></td>
+          <td>Sign Sequences <code>{ -1, +1 }</code></td>
+          <td>Walsh-Hadamard square waves</td>
+          <td>Digital communications, CDMA, and discrete Walsh-Fourier series.</td>
+        </tr>
+        <tr>
+          <td><b>Continuous / Complex</b></td>
+          <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></td>
+          <td>Exact regular <code>ω</code>-gon on hyperfinite grid</td>
+          <td>Euler’s formula as perpendicular steps; <code>2π i</code> residue winding; quantum phase cancellation.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+', 'published'),
+  (51, 'lean4GenEdProposal', 50, '1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap', 'lean4-gen-ed-proposal', '
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
       <h2>— Prototyping an Open Civic Infrastructure for Formal Proof, Symbolic Algebra, and Autonomous Curricula —</h2>
@@ -11530,7 +11797,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <tr>
             <td><b>3. Course Instructor</b><br><span style="font-size: 12px; color: #cbd5e1;">(Pedagogical Sovereignty)</span></td>
             <td><b>Zero administrative burdens: no server configuration or DB maintenance.</b> Enjoys read access to school schemas and direct query access to generic APIs. Free to adapt chapters, reorder outlines, and generate a customized <b>custom static page</b> with zero committee gatekeeping.</td>
-            <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, 2-Phase Staging Sandbox (<code>savedSegs/</code>), and One-Click Build Snapshot Engine (<code>[🚀 Build Page]</code>) emitting standalone HTML for their students.</td>
+            <td>In-Situ Dev Studio (<code>Line 2 Dev Studio</code>), Outline Tree Editor, Content Editor, 2-Phase Staging Sandbox (<code>stagedSegs/</code>), and One-Click Build Snapshot Engine (<code>[🚀 Build Page]</code>) emitting standalone HTML for their students.</td>
           </tr>
           <tr>
             <td><b>4. Student Learner</b><br><span style="font-size: 12px; color: #cbd5e1;">(Zero-Friction Discovery)</span></td>
@@ -11562,7 +11829,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
           <li><b>WYSIWYG Page-Mimic Authoring Studio:</b> An integrated, in-situ authoring overlay attached directly to the SVG navigation control bar (<code>Line 2 Dev Studio</code>). Authors can click any chapter in the outline to edit topic titles, restructure hierarchy, re-parent sections, and author lecture text with live MathJax typesetting in place—no external CMS or complex config files required.</li>
           <li><b>Dual Formal Verification &amp; Symbolic CAS Stencils:</b> Seamlessly bridges Lean 4 machine-verified proof statements (<code>&lt;fsd-ref&gt;</code>) with Maxima computer algebra calculations (<code>&lt;cas-ref&gt;</code>), enabling students to explore verified mathematical invariants with interactive stepper controls (<code>[-] [value] [+]</code>).</li>
-          <li><b>2-Phase Staging &amp; Coordinated Promotion Sandbox:</b> Real-time authoring operates safely in client memory and a dedicated local staging sandbox (<code>savedSegs/</code>). Canonical files and databases remain untouched until an explicit promotion copies assets, regenerates SQL seeds, reseeds PostgreSQL, and re-bundles production artifacts.</li>
+          <li><b>2-Phase Staging &amp; Coordinated Promotion Sandbox:</b> Real-time authoring operates safely in client memory and a dedicated local staging sandbox (<code>stagedSegs/</code>). Canonical files and databases remain untouched until an explicit promotion copies assets, regenerates SQL seeds, reseeds PostgreSQL, and re-bundles production artifacts.</li>
           <li><b>One-Click Static Build Snapshot Engine:</b> With a single click (<code>[🚀 Build Page]</code>), the author''s live browser state is compiled into an isolated, zero-dependency standalone HTML file in <b>under 300 milliseconds</b> (writing to <code>app1/builds/&lt;custom_name&gt;.html</code>), ready for offline distribution or immediate classroom evaluation.</li>
         </ul>
       </div>
@@ -11642,7 +11909,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
 ', 'published'),
-  (51, 'dualAgentAcademicProposal', 50, '1. Abstract &amp; Research Problem', 'dual-agent-academic-proposal', '
+  (52, 'dualAgentAcademicProposal', 51, '1. Abstract &amp; Research Problem', 'dual-agent-academic-proposal', '
     <div class="card">
       <h1>Coupling Formal Verification with Conversational AI</h1>
       <h2>— A Multi-Service Grounded Dual-Layer Architecture &amp; Interactive Sandbox for Sound, Hallucination-Free Intelligent Tutoring Systems —</h2>
@@ -11744,7 +12011,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
   ', 'published'),
-  (52, 'minimalAxiomaticCoreProposal', 51, '1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation', 'minimal-axiomatic-core-proposal', '
+  (53, 'minimalAxiomaticCoreProposal', 52, '1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation', 'minimal-axiomatic-core-proposal', '
     <div class="card">
       <h1>The Inductive Continuum</h1>
       <h2>— A Minimal Constructive Scaffold for Middle Way Mathematics Within Educational Resource Hubs —</h2>
@@ -12083,38 +12350,39 @@ INSERT INTO curriculum_nav_items (
   (68, 'app1_nav_4', 1, NULL, 4, 'section', 'STEM Bridge: Applied Math & CAS', 'STEM Bridge', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (69, 'app1_nav_4_0', 1, 68, 0, 'html', 'Newtonian bridge: kinematics & conservation', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (70, 'app1_nav_4_1', 1, 68, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_5', 1, NULL, 5, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (72, 'app1_nav_5_0', 1, 71, 0, 'html', 'proposal 1: open educational service hubs', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_5_1', 1, 71, 1, 'html', 'academic paper: dual-agent tutor', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_5_2', 1, 71, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app2_nav_0', 2, NULL, 0, 'diagram', 'title', NULL, NULL, 'banner', NULL, NULL, '{}'::jsonb, TRUE),
-  (76, 'app2_nav_1', 2, NULL, 1, 'html', 'curriculum overview', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (77, 'app2_nav_2', 2, NULL, 2, 'section', 'course 1: linear algebra', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (78, 'app2_nav_2_0', 2, 77, 0, 'html', 'course overview: linear algebra', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app2_nav_2_1', 2, 77, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app2_nav_2_2', 2, 77, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app2_nav_2_3', 2, 77, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app2_nav_3', 2, NULL, 3, 'section', 'course 2: analysis 1D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (83, 'app2_nav_3_0', 2, 82, 0, 'html', 'course overview: analysis 1D', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app2_nav_3_1', 2, 82, 1, 'html', 'lecture 1: the infinitesimal microscope & continuity', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app2_nav_3_2', 2, 82, 2, 'html', 'lecture 2: algebraic derivatives & local linearity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (86, 'app2_nav_3_3', 2, 82, 3, 'html', 'lecture 3: accumulation & telescoping calculus', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (87, 'app2_nav_4', 2, NULL, 4, 'section', 'course 3: analysis 2D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (88, 'app2_nav_4_0', 2, 87, 0, 'html', 'course overview: analysis 2D', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (89, 'app2_nav_4_1', 2, 87, 1, 'html', 'lecture 1: the 2D complex grid & conformal maps', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (90, 'app2_nav_4_2', 2, 87, 2, 'html', 'lecture 2: discrete contour integrals & residues', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (91, 'app2_nav_4_3', 2, 87, 3, 'html', 'lecture 3: quantum state evolution & phase transitions', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (92, 'app2_nav_5', 2, NULL, 5, 'section', 'mini-seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (93, 'app2_nav_5_0', 2, 92, 0, 'html', 'mini-seminar 1: the Fourier duality', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (94, 'app2_nav_5_1', 2, 92, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (95, 'app2_nav_5_2', 2, 92, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (96, 'app2_nav_5_3', 2, 92, 3, 'html', 'mini-seminar 4: higher-successor definitions', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (97, 'app2_nav_6', 2, NULL, 6, 'section', 'satellite seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (98, 'app2_nav_6_0', 2, 97, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (99, 'app2_nav_6_1', 2, 97, 1, 'html', 'seminar 1: cosmology as information', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (100, 'app2_nav_6_2', 2, 97, 2, 'html', 'seminar 2: the logic of the particle zoo', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (101, 'app2_nav_6_3', 2, 97, 3, 'html', 'seminar 3: quantum entanglement & reality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (102, 'app2_nav_6_4', 2, 97, 4, 'html', 'seminar 4: algebraic geometry', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (71, 'app1_nav_4_2', 1, 68, 2, 'html', 'Trig Foundations', 'Trig', 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (72, 'app1_nav_5', 1, NULL, 5, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_5_0', 1, 72, 0, 'html', 'proposal 1: open educational service hubs', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_5_1', 1, 72, 1, 'html', 'academic paper: dual-agent tutor', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_5_2', 1, 72, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (76, 'app2_nav_0', 2, NULL, 0, 'diagram', 'title', NULL, NULL, 'banner', NULL, NULL, '{}'::jsonb, TRUE),
+  (77, 'app2_nav_1', 2, NULL, 1, 'html', 'curriculum overview', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (78, 'app2_nav_2', 2, NULL, 2, 'section', 'course 1: linear algebra', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app2_nav_2_0', 2, 78, 0, 'html', 'course overview: linear algebra', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app2_nav_2_1', 2, 78, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app2_nav_2_2', 2, 78, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app2_nav_2_3', 2, 78, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (83, 'app2_nav_3', 2, NULL, 3, 'section', 'course 2: analysis 1D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (84, 'app2_nav_3_0', 2, 83, 0, 'html', 'course overview: analysis 1D', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (85, 'app2_nav_3_1', 2, 83, 1, 'html', 'lecture 1: the infinitesimal microscope & continuity', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (86, 'app2_nav_3_2', 2, 83, 2, 'html', 'lecture 2: algebraic derivatives & local linearity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (87, 'app2_nav_3_3', 2, 83, 3, 'html', 'lecture 3: accumulation & telescoping calculus', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (88, 'app2_nav_4', 2, NULL, 4, 'section', 'course 3: analysis 2D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (89, 'app2_nav_4_0', 2, 88, 0, 'html', 'course overview: analysis 2D', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (90, 'app2_nav_4_1', 2, 88, 1, 'html', 'lecture 1: the 2D complex grid & conformal maps', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (91, 'app2_nav_4_2', 2, 88, 2, 'html', 'lecture 2: discrete contour integrals & residues', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (92, 'app2_nav_4_3', 2, 88, 3, 'html', 'lecture 3: quantum state evolution & phase transitions', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (93, 'app2_nav_5', 2, NULL, 5, 'section', 'mini-seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (94, 'app2_nav_5_0', 2, 93, 0, 'html', 'mini-seminar 1: the Fourier duality', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (95, 'app2_nav_5_1', 2, 93, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (96, 'app2_nav_5_2', 2, 93, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (97, 'app2_nav_5_3', 2, 93, 3, 'html', 'mini-seminar 4: higher-successor definitions', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (98, 'app2_nav_6', 2, NULL, 6, 'section', 'satellite seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (99, 'app2_nav_6_0', 2, 98, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (100, 'app2_nav_6_1', 2, 98, 1, 'html', 'seminar 1: cosmology as information', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (101, 'app2_nav_6_2', 2, 98, 2, 'html', 'seminar 2: the logic of the particle zoo', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (102, 'app2_nav_6_3', 2, 98, 3, 'html', 'seminar 3: quantum entanglement & reality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (103, 'app2_nav_6_4', 2, 98, 4, 'html', 'seminar 4: algebraic geometry', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,

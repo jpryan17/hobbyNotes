@@ -251,3 +251,16 @@ export async function syncDevStateToDbApi(appName = 'app1', outlineTree, segOver
         };
     }
 }
+export async function fetchConsolidatedSegmentsApi() {
+    try {
+        const response = await fetch(`${getApiBaseUrl()}/api/consolidated-segments`);
+        const json = await response.json();
+        if (response.ok && json.status === 'success' && Array.isArray(json.segments)) {
+            return json.segments;
+        }
+        return [];
+    }
+    catch {
+        return [];
+    }
+}

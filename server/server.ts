@@ -253,86 +253,66 @@ app.post('/api/publish', async (req: Request, res: Response) => {
 // 3c. Commit Dev State to PostgreSQL Database Endpoint
 // ---------------------------------------------------------------------
 
+// Helper to reseed PostgreSQL from db/seed_v2.sql
+async function reseedPostgresFromSeedFile(): Promise<void> {
+    const seedPath = resolve(process.cwd(), 'db/seed_v2.sql');
+    if (existsSync(seedPath)) {
+        const seedSql = readFileSync(seedPath, 'utf8');
+        await pool.query(seedSql);
+        console.log('[dbBridge] Reseeded PostgreSQL database from updated seed_v2.sql');
+    }
+}
+
 app.post('/api/sync-to-db', async (req: Request, res: Response) => {
     const { app: appName = 'app1', outlineTree, segOverrides } = req.body;
-    const client = await pool.connect();
 
     try {
-        await client.query('BEGIN');
+        let filesChanged = false;
 
-        // 1. Resolve app_id
-        const appRes = await client.query<{ id: string | number }>('SELECT id FROM apps WHERE app_code = $1;', [appName]);
-        if (appRes.rows.length === 0) {
-            throw new Error(`Application '${appName}' not found in database.`);
-        }
-        const appId = Number(appRes.rows[0].id);
-
-        // 2. Fetch segment key to ID map
-        const segRes = await client.query<{ id: string | number; seg_key: string }>('SELECT id, seg_key FROM segments;');
-        const segMap = new Map<string, number>();
-        for (const r of segRes.rows) {
-            segMap.set(r.seg_key, Number(r.id));
-        }
-
-        // 3. Synchronize curriculum_nav_items if outlineTree provided
+        // 1. Synchronize outline tree changes to indices.ts
         if (Array.isArray(outlineTree) && outlineTree.length > 0) {
-            // Remove existing navigation tree for this app
-            await client.query('DELETE FROM curriculum_nav_items WHERE app_id = $1;', [appId]);
-
-            let counter = 0;
-            const insertNodes = async (nodes: any[], parentId: number | null): Promise<void> => {
-                for (let i = 0; i < nodes.length; i++) {
-                    const node = nodes[i];
-                    const itemType = node.type === 'index' ? 'section' : (node.type || 'html');
-                    const segId = node.htmlSegmentId ? (segMap.get(node.htmlSegmentId) || null) : null;
-                    const navKey = `${appName}_${itemType}_${Date.now().toString(36)}_${++counter}`;
-
-                    const insRes = await client.query<{ id: string | number }>(`
-                        INSERT INTO curriculum_nav_items (
-                            nav_key, app_id, parent_id, sequence_order, item_type, topic, nav_topic, segment_id, diagram_key
-                        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-                        RETURNING id;
-                    `, [
-                        navKey,
-                        appId,
-                        parentId,
-                        i,
-                        itemType,
-                        node.topic,
-                        node.navTopic || null,
-                        segId,
-                        node.diagramKey || (itemType === 'diagram' ? 'diagram' : null)
-                    ]);
-
-                    const newId = Number(insRes.rows[0].id);
-
-                    if (Array.isArray(node.indexDesc) && node.indexDesc.length > 0) {
-                        await insertNodes(node.indexDesc, newId);
-                    }
-                }
-            };
-
-            await insertNodes(outlineTree, null);
+            const outlineModified = syncOutlineToIndicesTs(outlineTree, appName);
+            if (outlineModified) filesChanged = true;
         }
 
-        // 4. Synchronize any edited segments if segOverrides provided
+        // 2. Synchronize any edited segments back to source files
         if (segOverrides && typeof segOverrides === 'object') {
             for (const [segKey, newHtml] of Object.entries(segOverrides)) {
                 if (typeof newHtml === 'string' && newHtml.trim().length > 0) {
-                    await client.query(`
-                        UPDATE segments SET content_html = $1, updated_at = CURRENT_TIMESTAMP WHERE seg_key = $2;
-                    `, [newHtml, segKey]);
+                    const destPath = resolve(process.cwd(), `${appName}/segs/${segKey}.html`);
+                    let existingHtml: string | null = null;
+                    if (existsSync(destPath)) {
+                        existingHtml = readFileSync(destPath, 'utf8');
+                    }
+                    const formatted = formatSegmentFileHtml(existingHtml, newHtml, segKey);
+                    writeFileSync(destPath, formatted, 'utf8');
+                    console.log(`[dbBridge] Wrote updated segment to ${destPath}`);
+
+                    const consPath = resolve(process.cwd(), `consolidated_segs/${segKey}.html`);
+                    if (existsSync(resolve(process.cwd(), 'consolidated_segs'))) {
+                        writeFileSync(consPath, formatted, 'utf8');
+                    }
+                    filesChanged = true;
                 }
             }
         }
 
-        await client.query('COMMIT');
-        client.release();
-        console.log(`[dbBridge] Successfully synchronized Dev state to PostgreSQL for '${appName}'.`);
-        res.json({ status: 'success', message: `Successfully committed Dev state to database for ${appName}.` });
+        // 3. Regenerate segsFile.json & db/seed_v2.sql
+        console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
+        execSync(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+
+        console.log(`[dbBridge] Regenerating db/seed_v2.sql...`);
+        execSync('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
+
+        // 4. Reseed PostgreSQL from freshly generated seed_v2.sql
+        await reseedPostgresFromSeedFile();
+
+        console.log(`[dbBridge] Successfully committed Dev state: source files, seed_v2.sql, and PostgreSQL in 100% sync.`);
+        res.json({
+            status: 'success',
+            message: `Successfully synchronized Dev state to source files, updated seed_v2.sql, and reseeded PostgreSQL.`
+        });
     } catch (err: any) {
-        await client.query('ROLLBACK');
-        client.release();
         console.error('[dbBridge Error] Sync to DB failed:', err);
         res.status(500).json({ status: 'error', message: err.message || String(err) });
     }
@@ -386,7 +366,24 @@ ${newContent.trim()}
 </html>\n`;
 }
 
-// 1. Stage a segment draft to savedSegs/<segId>.html
+function getStagedDir(): string {
+    const staged = resolve(process.cwd(), 'stagedSegs');
+    if (existsSync(staged)) return staged;
+    const saved = resolve(process.cwd(), 'savedSegs');
+    if (existsSync(saved)) return saved;
+    return staged;
+}
+
+function getStagedFilePath(segId: string | string[]): string {
+    const id = Array.isArray(segId) ? segId[0] : segId;
+    const stagedPath = resolve(process.cwd(), `stagedSegs/${id}.html`);
+    if (existsSync(stagedPath)) return stagedPath;
+    const savedPath = resolve(process.cwd(), `savedSegs/${id}.html`);
+    if (existsSync(savedPath)) return savedPath;
+    return stagedPath;
+}
+
+// 1. Stage a segment draft to stagedSegs/<segId>.html
 app.post('/api/stage-segment', (req: Request, res: Response) => {
     const { app: appName = 'app1', segId, contentHtml } = req.body;
     if (!segId || typeof contentHtml !== 'string') {
@@ -394,9 +391,9 @@ app.post('/api/stage-segment', (req: Request, res: Response) => {
     }
 
     try {
-        const savedDir = resolve(process.cwd(), 'savedSegs');
-        if (!existsSync(savedDir)) {
-            mkdirSync(savedDir, { recursive: true });
+        const stagedDir = getStagedDir();
+        if (!existsSync(stagedDir)) {
+            mkdirSync(stagedDir, { recursive: true });
         }
 
         let existingHtml: string | null = null;
@@ -406,17 +403,17 @@ app.post('/api/stage-segment', (req: Request, res: Response) => {
         }
 
         const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, segId);
-        const targetPath = resolve(savedDir, `${segId}.html`);
+        const targetPath = resolve(stagedDir, `${segId}.html`);
         writeFileSync(targetPath, formattedHtml, 'utf8');
 
         console.log(`[dbBridge] Staged segment '${segId}' to ${targetPath} (${Buffer.byteLength(formattedHtml)} bytes)`);
         res.json({
             status: 'success',
             segId,
-            filePath: `savedSegs/${segId}.html`,
+            filePath: `stagedSegs/${segId}.html`,
             bytes: Buffer.byteLength(formattedHtml),
             stagedAt: new Date().toISOString(),
-            message: `Segment '${segId}' staged successfully to savedSegs/ directory.`
+            message: `Segment '${segId}' staged successfully to stagedSegs/ directory.`
         });
     } catch (err: any) {
         console.error('[dbBridge Error] Stage segment failed:', err);
@@ -424,17 +421,17 @@ app.post('/api/stage-segment', (req: Request, res: Response) => {
     }
 });
 
-// 2. List all staged segments in savedSegs/
+// 2. List all staged segments in stagedSegs/
 app.get('/api/staged-segments', (_req: Request, res: Response) => {
     try {
-        const savedDir = resolve(process.cwd(), 'savedSegs');
-        if (!existsSync(savedDir)) {
+        const stagedDir = getStagedDir();
+        if (!existsSync(stagedDir)) {
             return res.json({ status: 'success', staged: [] });
         }
 
-        const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+        const files = readdirSync(stagedDir).filter(f => f.endsWith('.html'));
         const staged = files.map(filename => {
-            const filePath = resolve(savedDir, filename);
+            const filePath = resolve(stagedDir, filename);
             const stats = statSync(filePath);
             const segId = filename.replace(/\.html$/, '');
             const content = readFileSync(filePath, 'utf8');
@@ -469,7 +466,7 @@ app.get('/api/staged-segments', (_req: Request, res: Response) => {
 app.get('/api/staged-segments/:segId', (req: Request, res: Response) => {
     const { segId } = req.params;
     try {
-        const filePath = resolve(process.cwd(), `savedSegs/${segId}.html`);
+        const filePath = getStagedFilePath(segId);
         if (!existsSync(filePath)) {
             return res.status(404).json({ status: 'error', message: `Staged segment '${segId}' not found.` });
         }
@@ -486,7 +483,7 @@ app.get('/api/staged-segments/:segId', (req: Request, res: Response) => {
 app.delete('/api/staged-segments/:segId', (req: Request, res: Response) => {
     const { segId } = req.params;
     try {
-        const filePath = resolve(process.cwd(), `savedSegs/${segId}.html`);
+        const filePath = getStagedFilePath(segId);
         if (existsSync(filePath)) {
             unlinkSync(filePath);
             console.log(`[dbBridge] Discarded staged segment: ${filePath}`);
@@ -502,11 +499,11 @@ app.delete('/api/staged-segments/:segId', (req: Request, res: Response) => {
 // 4. Discard all staged segments
 app.delete('/api/staged-segments', (_req: Request, res: Response) => {
     try {
-        const savedDir = resolve(process.cwd(), 'savedSegs');
-        if (existsSync(savedDir)) {
-            const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+        const stagedDir = getStagedDir();
+        if (existsSync(stagedDir)) {
+            const files = readdirSync(stagedDir).filter(f => f.endsWith('.html'));
             for (const f of files) {
-                unlinkSync(resolve(savedDir, f));
+                unlinkSync(resolve(stagedDir, f));
             }
         }
         res.json({ status: 'success', message: 'All staged segments cleared.' });
@@ -515,23 +512,180 @@ app.delete('/api/staged-segments', (_req: Request, res: Response) => {
     }
 });
 
-// 5. Promote all staged segments to source files, regenerate seed, reseed DB, and rebuild index
-app.post('/api/promote-staged-segments', async (req: Request, res: Response) => {
-    const { app: appName = 'app1' } = req.body;
-    const savedDir = resolve(process.cwd(), 'savedSegs');
-    if (!existsSync(savedDir)) {
-        return res.status(400).json({ status: 'error', message: 'No savedSegs/ directory found.' });
+// 4b. List all files in consolidated_segs (or app1/segs fallback) and stagedSegs
+app.get('/api/consolidated-segments', (_req: Request, res: Response) => {
+    try {
+        const segDir = existsSync(resolve(process.cwd(), 'consolidated_segs'))
+            ? resolve(process.cwd(), 'consolidated_segs')
+            : resolve(process.cwd(), 'app1/segs');
+
+        const stagedDir = getStagedDir();
+        const segMap = new Map<string, any>();
+
+        // 1. Existing consolidated / source segments
+        if (existsSync(segDir)) {
+            const files = readdirSync(segDir).filter(f => f.endsWith('.html'));
+            for (const filename of files) {
+                const filePath = resolve(segDir, filename);
+                const stats = statSync(filePath);
+                const segId = filename.replace(/\.html$/, '');
+                segMap.set(segId, {
+                    segId,
+                    filename,
+                    modifiedMs: stats.mtimeMs,
+                    modifiedAt: stats.mtime.toISOString(),
+                    size: stats.size,
+                    isStaged: false,
+                });
+            }
+        }
+
+        // 2. Staged segments (marked isStaged: true, can override or provide new drafts)
+        if (existsSync(stagedDir)) {
+            const stagedFiles = readdirSync(stagedDir).filter(f => f.endsWith('.html'));
+            for (const filename of stagedFiles) {
+                const filePath = resolve(stagedDir, filename);
+                const stats = statSync(filePath);
+                const segId = filename.replace(/\.html$/, '');
+                segMap.set(segId, {
+                    segId,
+                    filename,
+                    modifiedMs: stats.mtimeMs,
+                    modifiedAt: stats.mtime.toISOString(),
+                    size: stats.size,
+                    isStaged: true,
+                });
+            }
+        }
+
+        const segments = Array.from(segMap.values());
+        res.json({ status: 'success', count: segments.length, segments });
+    } catch (err: any) {
+        console.error('[dbBridge Error] Get consolidated segments failed:', err);
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+
+// 4c. Get single segment content on demand (searches app1/segs, consolidated_segs, stagedSegs, savedSegs)
+app.get('/api/segment-content/:segId', (req: Request, res: Response) => {
+    const { segId } = req.params;
+    const candidates = [
+        resolve(process.cwd(), `app1/segs/${segId}.html`),
+        resolve(process.cwd(), `consolidated_segs/${segId}.html`),
+        resolve(process.cwd(), `stagedSegs/${segId}.html`),
+        resolve(process.cwd(), `savedSegs/${segId}.html`),
+        resolve(process.cwd(), `app2/segs/${segId}.html`),
+    ];
+    for (const filePath of candidates) {
+        if (existsSync(filePath)) {
+            try {
+                const fullContent = readFileSync(filePath, 'utf8');
+                const bodyMatch = /(<body[^>]*>)([\s\S]*?)(<\/body>)/i.exec(fullContent);
+                const contentHtml = bodyMatch ? bodyMatch[2].trim() : fullContent;
+                return res.json({ status: 'success', segId, content: contentHtml, fullHtml: fullContent });
+            } catch (err: any) {
+                return res.status(500).json({ status: 'error', message: `Error reading segment file: ${err.message}` });
+            }
+        }
+    }
+    return res.status(404).json({ status: 'error', message: `Segment '${segId}' not found.` });
+});
+
+// Helper to synchronize outline tree state into indices.ts
+function syncOutlineToIndicesTs(outlineTree: any[], appName: string = 'app1'): boolean {
+    const indicesTsPath = resolve(process.cwd(), `${appName}/src/indices.ts`);
+    if (!existsSync(indicesTsPath)) return false;
+    let content = readFileSync(indicesTsPath, 'utf8');
+    let modified = false;
+
+    const activeSegIds = new Set<string>();
+    function collectActiveSegIds(nodes: any[]) {
+        for (const node of nodes) {
+            if (node.htmlSegmentId) activeSegIds.add(node.htmlSegmentId);
+            if (node.indexDesc && Array.isArray(node.indexDesc)) collectActiveSegIds(node.indexDesc);
+        }
+    }
+    collectActiveSegIds(outlineTree);
+
+    // 1. Remove unlinked entries from indices.ts that are no longer in the outline tree
+    const allSegIdMatches = Array.from(content.matchAll(/htmlSegmentId:\s*["']([^"']+)["']/g));
+    for (const match of allSegIdMatches) {
+        const existingSegId = match[1];
+        if (!activeSegIds.has(existingSegId)) {
+            console.log(`[dbBridge] Removing unlinked index entry '${existingSegId}' from indices.ts...`);
+            const removeRegex = new RegExp(`\\s*\\{[^}]*htmlSegmentId:\\s*["']${existingSegId}["'][^}]*\\},?`, 'g');
+            content = content.replace(removeRegex, '');
+            modified = true;
+        }
     }
 
-    const files = readdirSync(savedDir).filter(f => f.endsWith('.html'));
+    // 2. Add newly hooked outline nodes into indices.ts
+    function checkNodes(nodes: any[], parentSectionTitle: string = '') {
+        for (const node of nodes) {
+            if (node.type === 'index' && Array.isArray(node.indexDesc)) {
+                checkNodes(node.indexDesc, node.topic || parentSectionTitle);
+            } else if (node.type === 'html' && node.htmlSegmentId) {
+                const segId = node.htmlSegmentId;
+                if (!content.includes(`"${segId}"`) && !content.includes(`'${segId}'`)) {
+                    console.log(`[dbBridge] Attaching new index entry '${segId}' (${node.topic}) to indices.ts...`);
+                    const entryCode = `  {\n    type: "html",\n    topic: ${JSON.stringify(node.topic)},\n    navTopic: ${JSON.stringify(node.navTopic || node.topic)},\n    htmlSegmentId: ${JSON.stringify(segId)},\n  },\n];`;
+
+                    let targetArrayName = 'stemBridgeIndex';
+                    const pTitle = (parentSectionTitle || '').toLowerCase();
+                    if (pTitle.includes('foundation') || pTitle.includes('logic')) {
+                        targetArrayName = 'foundationIndex';
+                    } else if (pTitle.includes('seminar') || pTitle.includes('satellite')) {
+                        targetArrayName = 'satellitesIndex';
+                    } else if (pTitle.includes('proposal') || pTitle.includes('research')) {
+                        targetArrayName = 'proposalsIndex';
+                    }
+
+                    const arrayRegex = new RegExp(`(export const ${targetArrayName}[^=]*=\\s*\\[[\\s\\S]*?)(];)`);
+                    if (arrayRegex.test(content)) {
+                        content = content.replace(arrayRegex, `$1${entryCode}`);
+                        modified = true;
+                    } else {
+                        const mainIdxPos = content.indexOf('export const mainIndex');
+                        if (mainIdxPos !== -1) {
+                            content = content.slice(0, mainIdxPos) + entryCode + '\n' + content.slice(mainIdxPos);
+                            modified = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    checkNodes(outlineTree);
+    if (modified) {
+        writeFileSync(indicesTsPath, content, 'utf8');
+        console.log(`[dbBridge] Updated ${indicesTsPath} to reflect outline tree.`);
+        try {
+            execSync('npm run compile', { cwd: process.cwd() });
+        } catch (e) {
+            console.error('[dbBridge Error] Compiling indices.ts failed:', e);
+        }
+    }
+    return modified;
+}
+
+// 5. Promote all staged segments to source files, regenerate seed, reseed DB, and rebuild index
+app.post('/api/promote-staged-segments', async (req: Request, res: Response) => {
+    const { app: appName = 'app1', outlineTree } = req.body;
+    const stagedDir = getStagedDir();
+    if (!existsSync(stagedDir)) {
+        return res.status(400).json({ status: 'error', message: 'No stagedSegs/ directory found.' });
+    }
+
+    const files = readdirSync(stagedDir).filter(f => f.endsWith('.html'));
     if (files.length === 0) {
-        return res.status(400).json({ status: 'error', message: 'No staged segment files found in savedSegs/.' });
+        return res.status(400).json({ status: 'error', message: 'No staged segment files found in stagedSegs/.' });
     }
 
     const start = Date.now();
     try {
         for (const f of files) {
-            const src = resolve(savedDir, f);
+            const src = resolve(stagedDir, f);
             const dest = resolve(process.cwd(), `${appName}/segs/${f}`);
             copyFileSync(src, dest);
             console.log(`[dbBridge] Promoted ${f} -> ${dest}`);
@@ -541,22 +695,24 @@ app.post('/api/promote-staged-segments', async (req: Request, res: Response) => 
             }
         }
 
+        // Synchronize outline tree to indices.ts if provided
+        if (Array.isArray(outlineTree) && outlineTree.length > 0) {
+            syncOutlineToIndicesTs(outlineTree, appName);
+        }
+
         console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
         execSync(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
 
         console.log(`[dbBridge] Regenerating db/seed_v2.sql...`);
         execSync('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
 
-        const seedPath = resolve(process.cwd(), 'db/seed_v2.sql');
-        const seedSql = readFileSync(seedPath, 'utf8');
-        await pool.query(seedSql);
-        console.log(`[dbBridge] Reseeded PostgreSQL database from updated seed_v2.sql`);
+        await reseedPostgresFromSeedFile();
 
         console.log(`[dbBridge] Rebuilding ${appName}/dist/index.html...`);
         execSync(`node ./nodeUtils/public/indexBuild.js ${appName}`, { cwd: process.cwd() });
 
         for (const f of files) {
-            try { unlinkSync(resolve(savedDir, f)); } catch {}
+            try { unlinkSync(resolve(stagedDir, f)); } catch {}
         }
 
         const durationMs = Date.now() - start;

@@ -15,6 +15,8 @@ import {
     publishStaticSiteApi,
     syncDevStateToDbApi,
     fetchSegmentByIdOrKey,
+    fetchConsolidatedSegmentsApi,
+    ConsolidatedSegItem,
     DbCurriculumNavItem
 } from './db/clientQueries.js';
 import { getApiBaseUrl } from './db/api.js';
@@ -40,6 +42,8 @@ export class StudioOverlay {
 
     private static isBuilding: boolean = false;
     private static cachedSegments: { id: string | number; seg_key: string; title: string }[] = [];
+    public static cachedConsolidatedSegments: ConsolidatedSegItem[] = [];
+    public static segmentSortMode: 'name' | 'date' = 'name';
 
     // Initialize the Studio Overlay into Nav.devLineBlock
     public static init(navColors: NavColors): void {
@@ -111,8 +115,8 @@ export class StudioOverlay {
         StudioOverlay.buildWidget = createButton('[🚀 Build Page]', () => StudioOverlay.handleBuildPage());
         createSpacer();
 
-        // 5b. Update Established Segments & DB from savedSegs/
-        StudioOverlay.stagedWidget = createButton('[📦 savedSegs (0)]', () => StudioOverlay.openStagedReviewModal());
+        // 5b. Update Established Segments & DB from stagedSegs/
+        StudioOverlay.stagedWidget = createButton('[📦 stagedSegs (0)]', () => StudioOverlay.openStagedReviewModal());
         createSpacer();
 
         // 6. Commit Dev State to Database
@@ -151,7 +155,7 @@ export class StudioOverlay {
     }
 
     private static updateWidth(): void {
-        const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 savedSegs (0)]';
+        const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 stagedSegs (0)]';
         const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
         StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 130;
     }
@@ -505,9 +509,7 @@ export class StudioOverlay {
         modalOverlay.id = 'studio-outline-modal';
         modalOverlay.className = 'studio-modal-backdrop';
 
-        const segmentsOptions = StudioOverlay.cachedSegments
-            .map((s) => `<option value="${s.seg_key}" ${item.htmlSegmentId === s.seg_key ? 'selected' : ''}>${s.title} (${s.seg_key})</option>`)
-            .join('');
+        const renderedOptions = StudioOverlay.renderSegmentOptions(item.htmlSegmentId, StudioOverlay.segmentSortMode);
 
         modalOverlay.innerHTML = `
             <div class="studio-modal-dialog">
@@ -537,10 +539,19 @@ export class StudioOverlay {
                         </div>
 
                         <div class="studio-field-group flex-1" id="group-segment" style="${item.type === 'html' ? '' : 'display:none;'}">
-                            <label>Linked Segment:</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <label style="margin: 0;">Linked Segment:</label>
+                                <div style="display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #64748b;">
+                                    <span>Sort:</span>
+                                    <select id="outline-segment-sort" class="studio-select" style="padding: 1px 6px; font-size: 0.75rem; height: auto; width: auto; background: #fff;">
+                                        <option value="name" ${StudioOverlay.segmentSortMode === 'name' ? 'selected' : ''}>Name (A-Z)</option>
+                                        <option value="date" ${StudioOverlay.segmentSortMode === 'date' ? 'selected' : ''}>Date (Recent)</option>
+                                    </select>
+                                </div>
+                            </div>
                             <select id="outline-segment" class="studio-select">
                                 <option value="">-- Choose Segment --</option>
-                                ${segmentsOptions}
+                                ${renderedOptions}
                             </select>
                         </div>
                     </div>
@@ -563,6 +574,26 @@ export class StudioOverlay {
         const segmentGroup = document.getElementById('group-segment') as HTMLDivElement;
         typeSelect.addEventListener('change', () => {
             segmentGroup.style.display = typeSelect.value === 'html' ? 'block' : 'none';
+        });
+
+        // Event: Dynamic segment sort toggle
+        const sortSelect = document.getElementById('outline-segment-sort') as HTMLSelectElement;
+        const segmentSelect = document.getElementById('outline-segment') as HTMLSelectElement;
+        sortSelect?.addEventListener('change', () => {
+            StudioOverlay.segmentSortMode = sortSelect.value as 'name' | 'date';
+            const currentVal = segmentSelect.value || item.htmlSegmentId;
+            segmentSelect.innerHTML = `<option value="">-- Choose Segment --</option>` + StudioOverlay.renderSegmentOptions(currentVal, StudioOverlay.segmentSortMode);
+        });
+
+        // Always refresh catalog on modal open so newly staged segments in stagedSegs/ appear immediately
+        fetchConsolidatedSegmentsApi().then((list) => {
+            if (list && list.length > 0) {
+                StudioOverlay.cachedConsolidatedSegments = list;
+                if (segmentSelect) {
+                    const currentVal = segmentSelect.value || item.htmlSegmentId;
+                    segmentSelect.innerHTML = `<option value="">-- Choose Segment --</option>` + StudioOverlay.renderSegmentOptions(currentVal, StudioOverlay.segmentSortMode);
+                }
+            }
         });
 
         // Close handlers
@@ -683,7 +714,7 @@ export class StudioOverlay {
         // 1. Established canonical version (default truth)
         const establishedHtml = Nav.segMap.get(Nav.segId) || Nav.segDiv.elt.innerHTML || '';
 
-        // 2. Fetch all drafts in savedSegs/ to populate version dropdown
+        // 2. Fetch all drafts in stagedSegs/ to populate version dropdown
         let allStaged: any[] = [];
         let currentSegDraft: any = null;
         try {
@@ -700,11 +731,11 @@ export class StudioOverlay {
         // Construct version dropdown options
         let optionsHtml = `<option value="established" selected>📖 Established (Canonical Source)</option>`;
         if (currentSegDraft) {
-            optionsHtml += `<option value="staged:${currentSegDraft.segId}">📦 Draft: savedSegs/${currentSegDraft.filename} (${(currentSegDraft.bytes / 1024).toFixed(1)} KB)</option>`;
+            optionsHtml += `<option value="staged:${currentSegDraft.segId}">📦 Draft: stagedSegs/${currentSegDraft.filename} (${(currentSegDraft.bytes / 1024).toFixed(1)} KB)</option>`;
         }
         for (const s of allStaged) {
             if (s.segId !== Nav.segId) {
-                optionsHtml += `<option value="staged:${s.segId}">📦 Draft: savedSegs/${s.filename} (${(s.bytes / 1024).toFixed(1)} KB)</option>`;
+                optionsHtml += `<option value="staged:${s.segId}">📦 Draft: stagedSegs/${s.filename} (${(s.bytes / 1024).toFixed(1)} KB)</option>`;
             }
         }
 
@@ -804,8 +835,8 @@ export class StudioOverlay {
                         <span id="editor-char-count" class="studio-char-count">0 characters</span>
                         <div class="studio-btn-group" style="gap: 8px;">
                             <button class="studio-btn secondary" id="btn-cancel-content">Cancel</button>
-                            <button class="studio-btn secondary" id="btn-stage-content" style="color: #b45309; border-color: #fcd34d; font-weight: 600; background: #fffbeb;" title="Save draft to savedSegs/ on disk without modifying established source files">💾 Save to savedSegs</button>
-                            ${stagedCount > 0 ? `<button class="studio-btn emerald" id="btn-promote-from-editor" style="font-weight: 700; background: #059669; color: white;" title="Update established source files, reseed DB, and clear savedSegs/">🚀 Update Established &amp; DB (${stagedCount})</button>` : ''}
+                            <button class="studio-btn secondary" id="btn-stage-content" style="color: #b45309; border-color: #fcd34d; font-weight: 600; background: #fffbeb;" title="Save draft to stagedSegs/ on disk without modifying established source files">💾 Save to stagedSegs</button>
+                            ${stagedCount > 0 ? `<button class="studio-btn emerald" id="btn-promote-from-editor" style="font-weight: 700; background: #059669; color: white;" title="Update established source files, reseed DB, and clear stagedSegs/">🚀 Update Established &amp; DB (${stagedCount})</button>` : ''}
                             <button class="studio-btn primary" id="btn-save-content">✓ Apply to Dev Session</button>
                         </div>
                     </div>
@@ -1067,7 +1098,7 @@ export class StudioOverlay {
             if (e.target === modal) closeModal();
         });
 
-        // Version Dropdown Switcher (Established Canonical vs savedSegs Drafts)
+        // Version Dropdown Switcher (Established Canonical vs stagedSegs Drafts)
         const versionSelect = document.getElementById('editor-version-select') as HTMLSelectElement;
         versionSelect?.addEventListener('change', async () => {
             const val = versionSelect.value;
@@ -1099,12 +1130,12 @@ export class StudioOverlay {
                     if ((window as any).MathJax?.typesetPromise) {
                         (window as any).MathJax.typesetPromise([wysiwygDiv]).catch(() => {});
                     }
-                    StudioOverlay.showToast(`Displaying draft from savedSegs/${draftSegId}.html`);
+                    StudioOverlay.showToast(`Displaying draft from stagedSegs/${draftSegId}.html`);
                 }
             }
         });
 
-        // Action: Promote All savedSegs directly from editor footer
+        // Action: Promote All stagedSegs directly from editor footer
         document.getElementById('btn-promote-from-editor')?.addEventListener('click', async () => {
             const btn = document.getElementById('btn-promote-from-editor') as HTMLButtonElement;
             btn.disabled = true;
@@ -1131,7 +1162,7 @@ export class StudioOverlay {
             }
         });
 
-        // Action: Stage Draft to savedSegs/ directory on disk
+        // Action: Stage Draft to stagedSegs/ directory on disk
         document.getElementById('btn-stage-content')?.addEventListener('click', async () => {
             const btn = document.getElementById('btn-stage-content') as HTMLButtonElement;
             const originalText = btn.innerHTML;
@@ -1161,7 +1192,7 @@ export class StudioOverlay {
                     Nav.setSegPos();
 
                     closeModal();
-                    StudioOverlay.showToast(`✓ Staged '${Nav.segId}' to savedSegs/ (${data.filename || ''})`);
+                    StudioOverlay.showToast(`✓ Staged '${Nav.segId}' to stagedSegs/ (${data.filename || ''})`);
                     StudioOverlay.checkStagedCount();
                 } else {
                     throw new Error(data.error || 'Failed to stage segment');
@@ -1321,16 +1352,83 @@ export class StudioOverlay {
         }
     }
 
+    public static renderSegmentOptions(selectedSegId?: string, sortMode: 'name' | 'date' = 'name'): string {
+        let items: { segId: string; modifiedMs: number; modifiedAt?: string; isStaged?: boolean }[] = [];
+
+        if (StudioOverlay.cachedConsolidatedSegments && StudioOverlay.cachedConsolidatedSegments.length > 0) {
+            items = StudioOverlay.cachedConsolidatedSegments.map((s) => ({
+                segId: s.segId,
+                modifiedMs: s.modifiedMs || 0,
+                modifiedAt: s.modifiedAt,
+                isStaged: !!s.isStaged,
+            }));
+        } else if (StudioOverlay.cachedSegments && StudioOverlay.cachedSegments.length > 0) {
+            items = StudioOverlay.cachedSegments.map((s) => ({
+                segId: s.seg_key,
+                modifiedMs: 0,
+                isStaged: false,
+            }));
+        }
+
+        const stagedItems = items.filter(it => it.isStaged);
+        const canonicalItems = items.filter(it => !it.isStaged);
+
+        const sortFn = (a: any, b: any) => {
+            if (sortMode === 'date') {
+                return (b.modifiedMs || 0) - (a.modifiedMs || 0);
+            }
+            return a.segId.localeCompare(b.segId, undefined, { sensitivity: 'base' });
+        };
+        stagedItems.sort(sortFn);
+        canonicalItems.sort(sortFn);
+
+        const renderOption = (s: any) => {
+            const isSel = s.segId === selectedSegId ? 'selected' : '';
+            let dateLabel = '';
+            if (sortMode === 'date' && s.modifiedMs > 0) {
+                const d = new Date(s.modifiedMs);
+                const dateStr = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear().toString().slice(-2)}`;
+                dateLabel = ` (${dateStr})`;
+            }
+            const prefix = s.isStaged ? '📦 ' : '';
+            return `<option value="${StudioOverlay.escapeHtml(s.segId)}" ${isSel}>${prefix}${StudioOverlay.escapeHtml(s.segId)}${dateLabel}</option>`;
+        };
+
+        let html = '';
+        if (selectedSegId && !items.some((it) => it.segId === selectedSegId)) {
+            html += `<option value="${StudioOverlay.escapeHtml(selectedSegId)}" selected>${StudioOverlay.escapeHtml(selectedSegId)} (current)</option>`;
+        }
+
+        if (stagedItems.length > 0) {
+            html += `<optgroup label="📦 Staged Drafts (stagedSegs/)">` + stagedItems.map(renderOption).join('') + `</optgroup>`;
+        }
+        if (canonicalItems.length > 0) {
+            html += (stagedItems.length > 0 ? `<optgroup label="Canonical Segments">` : '') +
+                    canonicalItems.map(renderOption).join('') +
+                    (stagedItems.length > 0 ? `</optgroup>` : '');
+        }
+
+        return html;
+    }
+
     private static async loadSegmentCatalog(): Promise<void> {
         try {
-            const res = await fetchNavItems('app1');
-            StudioOverlay.cachedSegments = (res || [])
+            const [navRes, consRes] = await Promise.all([
+                fetchNavItems('app1').catch(() => []),
+                fetchConsolidatedSegmentsApi().catch(() => []),
+            ]);
+
+            StudioOverlay.cachedSegments = (navRes || [])
                 .filter((n) => n.segment_id && n.topic)
                 .map((n) => ({
                     id: n.segment_id as any,
                     seg_key: String(n.segment_id),
                     title: n.topic,
                 }));
+
+            if (consRes && consRes.length > 0) {
+                StudioOverlay.cachedConsolidatedSegments = consRes;
+            }
         } catch {
             // Ignore catalog lookup failures
         }
@@ -1405,7 +1503,7 @@ export class StudioOverlay {
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
                                 <div style="font-family: monospace; font-weight: 700; color: #d97706; min-width: 110px;">[📦 Staged]</div>
-                                <div><strong>2-Phase Staging & Promotion:</strong> Review drafts saved in <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">savedSegs/</code> before modifying source code. Promote drafts directly into canonical source files (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/segs/</code>), regenerate seeds, update PostgreSQL, and rebuild <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/dist/index.html</code> in one coordinated operation.</div>
+                                <div><strong>2-Phase Staging & Promotion:</strong> Review drafts saved in <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">stagedSegs/</code> before modifying source code. Promote drafts directly into canonical source files (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/segs/</code>), regenerate seeds, update PostgreSQL, and rebuild <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/dist/index.html</code> in one coordinated operation.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
@@ -1474,10 +1572,10 @@ export class StudioOverlay {
                 const count = data.staged.length;
                 if (StudioOverlay.stagedWidget) {
                     if (count > 0) {
-                        StudioOverlay.stagedWidget.setV(`[🚀 Update from savedSegs (${count})]`);
+                        StudioOverlay.stagedWidget.setV(`[🚀 Update from stagedSegs (${count})]`);
                         StudioOverlay.stagedWidget.setAA(['stroke', '#d97706', 'font-weight', 'bold']);
                     } else {
-                        StudioOverlay.stagedWidget.setV(`[📦 savedSegs (0)]`);
+                        StudioOverlay.stagedWidget.setV(`[📦 stagedSegs (0)]`);
                         StudioOverlay.stagedWidget.setAA(['stroke', '#64748b', 'font-weight', 'normal']);
                     }
                     StudioOverlay.updateWidth();
@@ -1505,8 +1603,8 @@ export class StudioOverlay {
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 1.4rem;">📦</span>
                         <div>
-                            <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;" id="staged-modal-title">Update Established Segments &amp; DB from savedSegs/</h3>
-                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Promote drafted chapters from savedSegs/ into canonical source files (app1/segs/) and PostgreSQL</div>
+                            <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;" id="staged-modal-title">Update Established Segments &amp; DB from stagedSegs/</h3>
+                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Promote drafted chapters from stagedSegs/ into canonical source files (app1/segs/) and PostgreSQL</div>
                         </div>
                     </div>
                     <button class="studio-close-btn" id="staged-close-btn">✕</button>
@@ -1514,7 +1612,7 @@ export class StudioOverlay {
                 <div class="studio-modal-body" style="gap: 16px;">
                     
                     <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #92400e;">
-                        <strong>2-Phase Staging Workflow:</strong> Drafts saved in <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">savedSegs/</code> allow you to draft, diff, and review edits without touching canonical source files. When ready, click <strong>Update Established Segments &amp; Reseed DB</strong> below to copy all savedSegs to <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/segs/</code>, regenerate <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">db/seed_v2.sql</code>, update PostgreSQL, rebuild <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">index.html</code>, and clear the saved directory.
+                        <strong>2-Phase Staging Workflow:</strong> Drafts saved in <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">stagedSegs/</code> allow you to draft, diff, and review edits without touching canonical source files. When ready, click <strong>Update Established Segments &amp; Reseed DB</strong> below to copy all stagedSegs to <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/segs/</code>, regenerate <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">db/seed_v2.sql</code>, update PostgreSQL, rebuild <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">index.html</code>, and clear the staged directory.
                     </div>
 
                     <div id="staged-list-container" class="studio-staged-list">
@@ -1530,7 +1628,7 @@ export class StudioOverlay {
                     </div>
                     <div class="studio-btn-group" style="gap: 10px;">
                         <button class="studio-btn secondary" id="btn-close-staged">Close</button>
-                        <button class="studio-btn emerald" id="btn-promote-all" style="display: none; font-weight: 700; padding: 10px 18px; font-size: 0.95rem;">🚀 Update Established Segments &amp; Reseed DB (Clears savedSegs/)</button>
+                        <button class="studio-btn emerald" id="btn-promote-all" style="display: none; font-weight: 700; padding: 10px 18px; font-size: 0.95rem;">🚀 Update Established Segments &amp; Reseed DB (Clears stagedSegs/)</button>
                     </div>
                 </div>
             </div>
@@ -1569,9 +1667,9 @@ export class StudioOverlay {
                     listContainer.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
                             <span style="font-size: 2.2rem; display: block; margin-bottom: 8px;">📭</span>
-                            <strong style="color: #475569; font-size: 1rem; display: block;">No Staged Segments in savedSegs/</strong>
+                            <strong style="color: #475569; font-size: 1rem; display: block;">No Staged Segments in stagedSegs/</strong>
                             <p style="color: #64748b; font-size: 0.85rem; margin: 6px 0 0 0;">
-                                To stage an edit, open any chapter in the Content Editor (<code style="background:#e2e8f0; padding:1px 4px; border-radius:3px;">[✏️ Content]</code>) and click <strong>💾 Save to savedSegs</strong>.
+                                To stage an edit, open any chapter in the Content Editor (<code style="background:#e2e8f0; padding:1px 4px; border-radius:3px;">[✏️ Content]</code>) and click <strong>💾 Save to stagedSegs</strong>.
                             </p>
                         </div>
                     `;
@@ -1584,8 +1682,33 @@ export class StudioOverlay {
                 btnPromoteAll.style.display = 'inline-block';
                 btnDiscardAll.style.display = 'inline-block';
 
+                const currentOutline = StudioOverlay.exportCurrentOutlineTree();
+                const findLinkPath = (segId: string, nodes: any[], path: string[] = []): string | null => {
+                    for (const node of nodes) {
+                        const currentPath = [...path, node.topic];
+                        if (node.htmlSegmentId === segId) {
+                            return currentPath.join(' › ');
+                        }
+                        if (node.indexDesc && Array.isArray(node.indexDesc)) {
+                            const res = findLinkPath(segId, node.indexDesc, currentPath);
+                            if (res) return res;
+                        }
+                    }
+                    return null;
+                };
+
+                let unlinkedCount = 0;
                 listContainer.innerHTML = '';
+
                 for (const item of staged) {
+                    const linkPath = findLinkPath(item.segId, currentOutline);
+                    const isLinked = !!linkPath;
+                    if (!isLinked) unlinkedCount++;
+
+                    const badgeHtml = isLinked
+                        ? `<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:4px; font-size:0.75rem; font-weight:600;">✓ Linked: ${StudioOverlay.escapeHtml(linkPath)}</span>`
+                        : `<span style="background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:4px; font-size:0.75rem; font-weight:600;">⚠️ Not yet linked in Outline</span>`;
+
                     const card = document.createElement('div');
                     card.className = 'studio-staged-card';
 
@@ -1594,12 +1717,13 @@ export class StudioOverlay {
 
                     card.innerHTML = `
                         <div class="studio-staged-info">
-                            <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                 <span class="studio-staged-name">${StudioOverlay.escapeHtml(item.segId)}.html</span>
                                 <span style="font-weight: 600; color: #1e293b; font-size: 0.9rem;">${StudioOverlay.escapeHtml(item.title)}</span>
+                                ${badgeHtml}
                             </div>
                             <div class="studio-staged-meta">
-                                <span>${kb} KB</span> • <span>Modified: ${modDate}</span> • <code>savedSegs/${StudioOverlay.escapeHtml(item.filename)}</code>
+                                <span>${kb} KB</span> • <span>Modified: ${modDate}</span> • <code>stagedSegs/${StudioOverlay.escapeHtml(item.filename)}</code>
                             </div>
                         </div>
                         <div class="studio-staged-actions">
@@ -1647,6 +1771,13 @@ export class StudioOverlay {
                     listContainer.appendChild(card);
                 }
 
+                if (unlinkedCount > 0) {
+                    const notice = document.createElement('div');
+                    notice.style.cssText = 'background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:0.84rem; color:#92400e; line-height:1.5;';
+                    notice.innerHTML = `<strong>⚠️ Action Required:</strong> ${unlinkedCount} staged segment(s) are not yet connected to the curriculum outline. Any staged segment must be hooked up to an index entry before being promoted. Switch to <strong>[✏️ Edit]</strong> mode and link them in the outline first.`;
+                    listContainer.prepend(notice);
+                }
+
                 StudioOverlay.checkStagedCount();
             } catch (err: any) {
                 listContainer.innerHTML = `
@@ -1659,7 +1790,7 @@ export class StudioOverlay {
 
         // Discard all handler
         btnDiscardAll.addEventListener('click', async () => {
-            if (!confirm('Are you sure you want to discard ALL staged drafts in savedSegs/? This cannot be undone.')) return;
+            if (!confirm('Are you sure you want to discard ALL staged drafts in stagedSegs/? This cannot be undone.')) return;
             try {
                 const res = await fetch(`${getApiBaseUrl()}/api/staged-segments`, { method: 'DELETE' });
                 const data = await res.json();
@@ -1677,13 +1808,40 @@ export class StudioOverlay {
 
         // Promote all handler
         btnPromoteAll.addEventListener('click', async () => {
+            const currentOutline = StudioOverlay.exportCurrentOutlineTree();
+            const findLink = (segId: string, nodes: any[]): boolean => {
+                for (const node of nodes) {
+                    if (node.htmlSegmentId === segId) return true;
+                    if (node.indexDesc && findLink(segId, node.indexDesc)) return true;
+                }
+                return false;
+            };
+
+            // Ensure all staged segments are connected to the outline before promoting
+            try {
+                const checkRes = await fetch(`${getApiBaseUrl()}/api/staged-segments`);
+                const checkData = await checkRes.json();
+                if (checkData?.staged && Array.isArray(checkData.staged)) {
+                    const unlinked = checkData.staged.filter((s: any) => !findLink(s.segId, currentOutline));
+                    if (unlinked.length > 0) {
+                        alert(`Cannot promote: All staged segments must be connected to an index entry first.\n\nPlease link the following segment(s) in Outline Edit mode:\n• ` + unlinked.map((u: any) => u.segId).join('\n• '));
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn('Pre-promotion check error:', err);
+            }
+
             btnPromoteAll.disabled = true;
             btnPromoteAll.textContent = '⏳ Promoting, Reseeding & Building...';
             try {
                 const res = await fetch(`${getApiBaseUrl()}/api/promote-staged-segments`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ app: 'app1' })
+                    body: JSON.stringify({ 
+                        app: 'app1',
+                        outlineTree: currentOutline
+                    })
                 });
                 const data = await res.json();
                 if (data.status === 'success') {
@@ -1699,7 +1857,7 @@ export class StudioOverlay {
                 console.error('Promotion error:', e);
                 StudioOverlay.showToast(`❌ Promotion failed: ${e.message}`, true);
                 btnPromoteAll.disabled = false;
-                btnPromoteAll.textContent = '🚀 Update Established Segments & Reseed DB (Clears savedSegs/)';
+                btnPromoteAll.textContent = '🚀 Update Established Segments & Reseed DB (Clears stagedSegs/)';
             }
         });
 

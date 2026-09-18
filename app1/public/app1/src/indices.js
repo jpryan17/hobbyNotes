@@ -371,6 +371,12 @@ export const stemBridgeIndex = [
         topic: "1D heat diffusion: Laplacian & Fourier",
         htmlSegmentId: "stemHeatDiffusion",
     },
+    {
+        type: "html",
+        topic: "Trig Foundations",
+        navTopic: "Trig",
+        htmlSegmentId: "stemTrigFoundations",
+    },
 ];
 export const mainIndex = [
     {

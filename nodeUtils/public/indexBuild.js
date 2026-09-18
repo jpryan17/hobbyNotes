@@ -51,8 +51,12 @@ async function buildIndex(app) {
                 const altApp = app === 'app1' ? 'app2' : 'app1';
                 const altFolder = (0, path_1.resolve)(__dirname, `../../${altApp}/segs`);
                 const altPath = (0, path_1.resolve)(altFolder, `${segId}.html`);
+                const consPath = (0, path_1.resolve)(__dirname, `../../consolidated_segs/${segId}.html`);
                 if ((0, fs_1.existsSync)(altPath)) {
                     filePath = altPath;
+                }
+                else if ((0, fs_1.existsSync)(consPath)) {
+                    filePath = consPath;
                 }
                 else {
                     console.error(`[indexBuild Error] Missing required segment file: ${filePath}`);

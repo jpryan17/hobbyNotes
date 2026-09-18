@@ -612,7 +612,7 @@ export class Nav {
         const label = choice.navTopic || choice.topic;
         Nav.loadIndex(label, indexDesc, choice.indexSelection);
     }
-    static loadSegment() {
+    static async loadSegment() {
         Nav.textSizeControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
         Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;');
         let seg = (Nav.editMode) ? Nav.segMap.get(Nav.segId)
@@ -620,8 +620,40 @@ export class Nav {
         if (!seg && Nav.editMode) {
             seg = Nav.embeddedSeg(Nav.segId);
         }
+        if (!seg) {
+            try {
+                const res = await fetch(`/api/segment-content/${Nav.segId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.content) {
+                        seg = data.content;
+                        Nav.segMap.set(Nav.segId, seg);
+                    }
+                }
+            }
+            catch (err) {
+                console.warn(`[Nav.loadSegment] Dynamic fetch for ${Nav.segId} failed:`, err);
+            }
+        }
         if (seg) {
             Nav.segDiv.elt.innerHTML = seg;
+            Nav.fo.removeChildren();
+            Nav.fo.append(Nav.segDiv);
+            initAnyDJSI();
+            if (window.MathJax?.typesetPromise) {
+                window.MathJax.typesetPromise([Nav.segDiv.elt]).catch((err) => console.log('MathJax typeset error:', err));
+            }
+        }
+        else {
+            Nav.segDiv.elt.innerHTML = `
+                <div style="padding: 40px 20px; text-align: center; color: #64748b; font-family: sans-serif;">
+                    <div style="font-size: 2.2rem; margin-bottom: 8px;">📄</div>
+                    <h3 style="color: #0f172a; margin-bottom: 6px;">Segment "${Nav.segId || 'Unknown'}" Not Loaded</h3>
+                    <p style="font-size: 0.92rem; max-width: 500px; margin: 0 auto 16px; line-height: 1.5;">
+                        The segment file <code>${Nav.segId}.html</code> was not found in active cache. Please verify that the file exists in <code>app1/segs/</code> or <code>consolidated_segs/</code>.
+                    </p>
+                </div>
+            `;
             Nav.fo.removeChildren();
             Nav.fo.append(Nav.segDiv);
         }

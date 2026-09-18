@@ -360,3 +360,29 @@ export async function syncDevStateToDbApi(
     }
 }
 
+// =====================================================================
+// CONSOLIDATED SEGMENTS DISCOVERY API
+// =====================================================================
+
+export interface ConsolidatedSegItem {
+    segId: string;
+    filename: string;
+    modifiedMs: number;
+    modifiedAt: string;
+    size: number;
+    isStaged?: boolean;
+}
+
+export async function fetchConsolidatedSegmentsApi(): Promise<ConsolidatedSegItem[]> {
+    try {
+        const response = await fetch(`${getApiBaseUrl()}/api/consolidated-segments`);
+        const json = await response.json();
+        if (response.ok && json.status === 'success' && Array.isArray(json.segments)) {
+            return json.segments;
+        }
+        return [];
+    } catch {
+        return [];
+    }
+}
+
