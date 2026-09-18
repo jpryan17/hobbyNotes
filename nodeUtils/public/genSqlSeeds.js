@@ -74,14 +74,29 @@ function escapeTextArray(arr) {
     const elements = arr.map(s => `'${s.replace(/'/g, "''")}'`).join(', ');
     return `ARRAY[${elements}]::text[]`;
 }
+function cleanTitle(raw) {
+    return raw
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim();
+}
 function extractTitleFromHtml(segId, html) {
+    const h1Match = /<h1[^>]*>(.*?)<\/h1>/i.exec(html);
+    if (h1Match && h1Match[1]) {
+        return cleanTitle(h1Match[1]);
+    }
     const hTitleMatch = /<font[^>]*size=["']?\+2["']?[^>]*>(?:<i>)?(?:<b>)?(.*?)(?:<\/b>)?(?:<\/i>)?<\/font>/i.exec(html);
     if (hTitleMatch && hTitleMatch[1]) {
-        return hTitleMatch[1].replace(/<[^>]*>/g, '').trim();
+        return cleanTitle(hTitleMatch[1]);
     }
     const h3Match = /<h3>(.*?)<\/h3>/i.exec(html);
     if (h3Match && h3Match[1]) {
-        return h3Match[1].replace(/<[^>]*>/g, '').trim();
+        return cleanTitle(h3Match[1]);
     }
     return segId.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
 }
@@ -422,6 +437,7 @@ async function generateSeedSql() {
     }
     // 9. Segment Prerequisites (Pedagogical Graph Sample)
     sql.push(`-- 9. Segment Prerequisites`);
+    sql.push(`DELETE FROM segment_prerequisites;\n`);
     const prereqSamples = [
         { from: 'stemNewtonianBridge', to: 'introduction', type: 'foundational' },
         { from: 'stemNewtonianBridge', to: 'editedNumbersLecture3V1', type: 'recommended' },

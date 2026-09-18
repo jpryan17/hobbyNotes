@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Historical Outline of the Concept of Angle</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --amber: #b45309;
+      --amber-light: #fef3c7;
+      --dark: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 16px 80px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 40px 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 28px;
+      margin-top: 0;
+      margin-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .intro-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 32px;
+      font-size: 15px;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 32px 0 40px;
+      padding-left: 28px;
+      border-left: 3px solid #93c5fd;
+    }
+
+    .era-card {
+      position: relative;
+      margin-bottom: 32px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 26px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .era-card:hover {
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .era-card::before {
+      content: "";
+      position: absolute;
+      left: -37.5px;
+      top: 24px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px #93c5fd;
+    }
+
+    .era-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .era-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .era-date {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f1f5f9;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-purple { background: #ede9fe; color: #6b21a8; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+    .badge-green { background: #dcfce7; color: #166534; }
+
+    .concept-tag {
+      display: inline-block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .formula-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13.5px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 12px 0;
+      color: #1e293b;
+    }
+
+    .key-takeaway {
+      font-size: 13.5px;
+      color: var(--muted);
+      border-top: 1px dashed #e2e8f0;
+      padding-top: 10px;
+      margin-top: 12px;
+    }
+
+    table.comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-size: 13.5px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    table.comparison-table th {
+      background: #1e3a8a;
+      color: #ffffff;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    table.comparison-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    table.comparison-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .footer-note {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>A Historical Outline of the Concept of Angle</h1>
+    <div class="subtitle">
+      From Architectural Slopes &amp; Star Chords to Pure Dimensionless Rotors and Binary Tree Coordinates
+    </div>
+
+    <div class="intro-box">
+      <b>The Core Intellectual Evolution:</b> How did mathematics transform the intuitive experience of "two lines opening up" from a physical construction slope into an astronomical chord length, then into a qualitative geometric relation, a dimensionless numerical ratio, and finally a recursive binary walk through dyadic numbers?
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline">
+
+      <!-- 1. ANCIENT PRE-GREEK -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-amber">Origins</span> 1. Slopes, Incline &amp; The Celestial Horizon</div>
+          <div class="era-date">c. 2000 BCE – 500 BCE</div>
+        </div>
+        <div class="concept-tag">Physical Inclination &amp; Calendar Divisions</div>
+        <p>
+          Before abstract angles existed, ancient builders and astronomers measured angularity purely through concrete operational quantities:
+        </p>
+        <ul>
+          <li><b>Ancient Egypt (The <i>Seked</i>):</b> Used in pyramid architecture (Rhind Mathematical Papyrus). The seked measured the horizontal run (in palms) per vertical rise of 1 cubit (7 palms). This was physically the precursor to the modern <b>cotangent</b>:
+            <div class="formula-box">seked = horizontal run / 1 cubit of rise</div>
+          </li>
+          <li><b>Ancient Babylon (Base-60 Sexagesimal System):</b> Babylonian astronomers divided the celestial circle into <b>360 equal parts</b>, inspired by their 360-day calendar year and sexagesimal arithmetic (base 60). This division birthed our modern degrees (°), minutes (′), and seconds (″).</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is not an abstract entity; it is a practical ratio of construction rods or a step of celestial calendar tracking.
+        </div>
+      </div>
+
+      <!-- 2. CLASSICAL GREECE -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-blue">Geometry</span> 2. The Greek Struggle: Quantity vs. Quality</div>
+          <div class="era-date">c. 300 BCE – 150 BCE</div>
+        </div>
+        <div class="concept-tag">Inclination of Lines &amp; The "Horn Angle" Debate</div>
+        <p>
+          Classical Greek mathematicians separated mathematics from physical rods, but struggled with what an angle actually <i>was</i>:
+        </p>
+        <ul>
+          <li><b>Euclid of Alexandria (<i>Elements</i>, Book I, Def. 8):</b> Defined a plane angle as <i>"the inclination to one another of two lines in a plane which meet one another and do not lie in a straight line."</i></li>
+          <li><b>Quantity vs. Quality (Aristotle vs. Eudemus):</b> Was an angle a <i>quantity</i> (something you can add, subtract, and multiply), a <i>quality</i> (the shape of the corner), or a <i>relation</i> (a mutual attitude between lines)?</li>
+          <li><b>The "Horn Angle" (Cornicular Angle):</b> Euclid and Proclus examined the angle between a circle's circumference and its tangent line. It is smaller than any rectilinear acute angle, yet non-zero—foreshadowing the concept of an <b>infinitesimal angle</b> centuries before calculus!</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is a static, geometric relationship between lines, compared via ruler-and-compass congruent overlap rather than assigned a standalone numeric value.
+        </div>
+      </div>
+
+      <!-- 3. ASTRONOMICAL CHORD ERA -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-purple">Trigonometry</span> 3. The Chord Era (Hipparchus to Ptolemy)</div>
+          <div class="era-date">c. 150 BCE – 150 CE</div>
+        </div>
+        <div class="concept-tag">The Chord Function: crd(θ)</div>
+        <p>
+          Astronomy demanded quantitative calculations of planetary tracks on spherical skies:
+        </p>
+        <ul>
+          <li><b>Hipparchus of Nicaea (c. 190–120 BCE):</b> Constructed the first known trigonometric table by measuring the straight-line <b>chord</b> subtended by a central angle in a circle of fixed radius.</li>
+          <li><b>Ptolemy’s <i>Almagest</i>:</b> Formalized the table of chords in half-degree increments using a circle with radius R = 60 units. The chord connects directly to modern sine by:
+            <div class="formula-box">crd(θ) = 2 · R · sin(θ / 2)</div>
+          </li>
+          <li><b>Angle Bisection Formulas:</b> Ptolemy proved half-angle chord formulas using geometric theorems, enabling recursive bisection of arc angles down to 1.5° and 0.75°.</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is identified with the straight geometric line segment (chord) connecting two points across a circle.
+        </div>
+      </div>
+
+      <!-- 4. INDIAN & ISLAMIC ADVANCES -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-green">Algebra</span> 4. The Shift to Half-Chords &amp; The Birth of Sine</div>
+          <div class="era-date">c. 450 CE – 1200 CE</div>
+        </div>
+        <div class="concept-tag">ardha-jya → jya → jiba → sinus</div>
+        <p>
+          Medieval Indian and Islamic scholars radically simplified trigonometry by discarding full chords in favor of the right triangle half-chord:
+        </p>
+        <ul>
+          <li><b>Aryabhata (476–550 CE, <i>Surya Siddhanta</i>):</b> Replaced the cumbersome full chord with <i>ardha-jya</i> (half-chord), later shortened to <i>jya</i>. Instead of cutting across both sides of the circle, the half-chord drops perpendicularly from the arc tip to the horizontal radius.</li>
+          <li><b>The Islamic Golden Age (al-Khwarizmi, al-Battani, al-Biruni):</b> Translated <i>jya</i> into Arabic as <i>jiba</i> (technical term), which was read as <i>jayb</i> (bay or fold) and later translated into Latin as <b>sinus</b> (modern sine).</li>
+          <li><b>Autonomy of Trigonometry:</b> Scholars like Nasir al-Din al-Tusi established trigonometry as an independent mathematical science distinct from astronomy, adding tangent, cotangent, secant, and cosecant.</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is the arc that controls the perpendicular and horizontal altitude lines of a right triangle inside a circle of radius R.
+        </div>
+      </div>
+
+      <!-- 5. ANALYTICAL EULER & RADIAN -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-blue">Analysis</span> 5. Euler’s Transformation &amp; The Radian</div>
+          <div class="era-date">c. 1700 – 1880 CE</div>
+        </div>
+        <div class="concept-tag">Pure Dimensionless Real Numbers: θ = s / r</div>
+        <p>
+          Before the 18th century, sines were still lengths of line segments tied to circles of specific radius R. The calculus revolution emancipated angle into pure number:
+        </p>
+        <ul>
+          <li><b>Leonhard Euler (1748, <i>Introductio in Analysin Infinitorum</i>):</b> Set radius R = 1 once and for all! Sine and cosine were redefined not as geometric line lengths, but as <b>pure, dimensionless analytical functions of a real number</b> defined by infinite power series:
+            <div class="formula-box">sin(x) = x - x³/3! + x⁵/5! - ... &nbsp;|&nbsp; e^(iθ) = cos(θ) + i·sin(θ)</div>
+          </li>
+          <li><b>The Radian (Roger Cotes, James Thomson):</b> Defined angle as the ratio of arc length to radius:
+            <div class="formula-box">θ = arc length / radius = s / r</div>
+            Because meters divided by meters cancel, the radian revealed that angle is fundamentally <b>dimensionless</b> (a pure scalar).
+          </li>
+        </ul>
+
+        <!-- Collapsible Calculus Bridge: Taylor Series, Logarithms, and Imaginary Angle (navFW hookable) -->
+        <details id="euler-calculus-bridge" style="margin: 18px 0; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 18px;">
+          <summary style="font-weight: 700; color: #1e40af; cursor: pointer; font-size: 14px; user-select: none;">
+            🔍 Deep Dive: The Calculus Bridge &mdash; Taylor Series, Logarithms &amp; Angle as an Imaginary Logarithm
+          </summary>
+          <div style="margin-top: 14px; font-size: 13.5px; line-height: 1.6; color: #1e293b; border-top: 1px dashed #bfdbfe; padding-top: 12px;">
+            <p>
+              How did angle transform from a geometric circular arc into the imaginary part of a natural logarithm? The unification unfolded in four historic breakthroughs:
+            </p>
+            <ol style="padding-left: 20px;">
+              <li>
+                <b>The Polynomial Engine (Madhava c. 1400, Newton &amp; Gregory 1660s):</b><br>
+                Long before Brook Taylor published his treatise in 1715, the Kerala school and early European calculus discovered that trigonometric curves could be calculated algebraically to arbitrary precision using infinite polynomials:
+                <div class="formula-box">
+                  sin(x) = x - x³/3! + x⁵/5! - x⁷/7! + ...<br>
+                  cos(x) = 1 - x²/2! + x⁴/4! - x⁶/6! + ...
+                </div>
+                For the first time, angle <i>x</i> became an arithmetic variable in a polynomial machine rather than a line drawn with a compass.
+              </li>
+              <br>
+              <li>
+                <b>The Logarithm Series &amp; Hyperbolic Area (Mercator 1668, Newton 1669):</b><br>
+                Originally invented by John Napier (1614) as a multiplier shortcut for astronomers, the natural logarithm was connected to the area under the hyperbola <code>y = 1/x</code> and expanded as a power series:
+                <div class="formula-box">ln(1 + x) = x - x²/2 + x³/3 - x⁴/4 + ...</div>
+                Its inverse, the exponential function <code>e^x = 1 + x + x²/2! + x³/3! + ...</code>, grew as the master function of continuous compounding.
+              </li>
+              <br>
+              <li>
+                <b>The Forgotten Spark (Roger Cotes, 1714):</b><br>
+                Computing surface areas of rotation, Roger Cotes proved what is effectively:
+                <div class="formula-box">i·θ = ln(cos θ + i·sin θ)</div>
+                Cotes died two years later at age 33, leaving Isaac Newton to famously observe: <i>"If Cotes had lived, we might have known something."</i>
+              </li>
+              <br>
+              <li>
+                <b>Euler’s Grand Synthesis (1748):</b><br>
+                Leonhard Euler took the exponential Taylor series and performed the fateful substitution <code>z = i·θ</code>:
+                <div class="formula-box">
+                  e^(i·θ) = 1 + (i·θ) + (i·θ)²/2! + (i·θ)³/3! + (i·θ)⁴/4! + ...<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (1 - θ²/2! + θ⁴/4! - ...) + i·(θ - θ³/3! + θ⁵/5! - ...)<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= cos(θ) + i·sin(θ)
+                </div>
+              </li>
+            </ol>
+
+            <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 6px; padding: 12px 16px; margin-top: 14px;">
+              <b style="color: #1e3a8a;">The Conceptual Climax: What is an Angle?</b><br>
+              Taking the complex logarithm of Euler's formula reveals that <b>angle is literally an imaginary logarithm</b>:
+              <div class="formula-box" style="background: #eff6ff; border-color: #93c5fd; font-weight: 600;">
+                ln(z) = ln(r · e^(i·θ)) = ln(r) + i·θ &nbsp;⇒&nbsp; θ = Im(ln z) = -i · ln(cos θ + i·sin θ)
+              </div>
+              <ul>
+                <li><b>Real part of the logarithm (ln r):</b> Measures <i>radial scaling / dilation</i> along hyperbolic rays.</li>
+                <li><b>Imaginary part of the logarithm (θ):</b> Measures <i>pure rotation / circulation</i> along circular arcs.</li>
+              </ul>
+              Angle is nothing other than continuous growth turned 90° into the imaginary plane!
+            </div>
+          </div>
+        </details>
+
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is no longer a geometric triangle figure; it is a point on the continuous real number line ℝ, wrapping seamlessly around the complex unit circle, and analytically defined as the imaginary part of the complex logarithm (θ = Im(ln z)).
+        </div>
+      </div>
+
+      <!-- 6. ROTORS, VECTORS & GROUPS -->
+      <div class="era-card">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-purple">Modern Algebra</span> 6. Vectors, Rotors &amp; Lie Groups</div>
+          <div class="era-date">c. 1850 – 1950 CE</div>
+        </div>
+        <div class="concept-tag">SO(2), Quaternions &amp; Bivectors</div>
+        <p>
+          Higher algebra elevated angle from a scalar parameter to an operator that transforms geometric space:
+        </p>
+        <ul>
+          <li><b>Complex Numbers &amp; Argand Planes:</b> Multiplying by a complex unit e^(iθ) acts as a rotational operator on 2D space.</li>
+          <li><b>Quaternions &amp; Clifford Geometric Algebra:</b> William Rowan Hamilton and William Kingdon Clifford generalized 2D planar angles into 3D and n-D spatial <b>rotors</b>. Angle is represented by an oriented <b>bivector</b>—a directed plane segment indicating both the angle magnitude and the plane of rotation.</li>
+          <li><b>Lie Group SO(2) and U(1):</b> The circle of angles is formalized as the continuous 1D Lie group of rotations, whose tangent space at the identity is the Lie algebra generated by the angular momentum operator.</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is an active rotational transformation of space (a group element or rotor), rather than just a passive static measurement.
+        </div>
+      </div>
+
+      <!-- 7. DISCRETE TREE & DYADIC HORIZON -->
+      <div class="era-card" style="border: 2px solid #3b82f6;">
+        <div class="era-header">
+          <div class="era-title"><span class="badge badge-blue">Tree Scaffolding</span> 7. Dyadic Bisections, CORDIC &amp; The ℂ_ω Continuum</div>
+          <div class="era-date">c. 1959 – Present</div>
+        </div>
+        <div class="concept-tag">The 2-Successor Tree: θ = 2π · (m / 2ⁿ) &amp; Day ω Horizon</div>
+        <p>
+          The contemporary computational and formal foundations bring the concept of angle full circle back to discrete arithmetic:
+        </p>
+        <ul>
+          <li><b>CORDIC Algorithm (Jack Volder, 1959):</b> Enabled space computers and pocket calculators to compute all trigonometric values without multipliers, using only <b>successive shifts and additions</b> of discrete bisection angles:
+            <div class="formula-box">θ = ∑ [ ± arctan(2⁻ᵏ) ]</div>
+          </li>
+          <li><b>The 2-Successor Tree &amp; Dyadic Rationals:</b> Mapping the unit interval [0, 1) to the circular period [0, 2π) reveals that descending or ascending the Conway binary tree generates every dyadic angle:
+            <div class="formula-box">θ_m,n = 2π · (m / 2ⁿ)</div>
+            The prototypical unit case (1 outward step to 1, followed by recursive inward bisections) builds the exact dyadic skeleton of the circle.
+          </li>
+          <li><b>The Day ω Canopy (dx = 1/ω):</b> At the transfinite limit birthday ω, the discrete dyadic grid becomes dense, and the infinitesimal angle dθ = 2π/ω furnishes the smooth differential basis for calculus and analysis on ℂ_ω.</li>
+        </ul>
+        <div class="key-takeaway">
+          <b>Key Paradigm:</b> Angle is simultaneously a discrete binary path (a sequence of left/right bisection choices) and a continuous horizon generated at the transfinite limit.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COMPARISON SUMMARY TABLE -->
+    <h2><span class="badge badge-blue">Overview</span> Summary: How the Definition of Angle Shifted</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Historical Era</th>
+          <th style="width: 25%;">What is an Angle?</th>
+          <th style="width: 25%;">Primary Tool / Metric</th>
+          <th style="width: 30%;">Conceptual Milestone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Egyptian &amp; Babylonian</b></td>
+          <td>Slope of stones; 1/360th of circular horizon</td>
+          <td>Seked (run/rise); sexagesimal degrees (360°)</td>
+          <td>Practical construction &amp; astronomy</td>
+        </tr>
+        <tr>
+          <td><b>Classical Greece</b></td>
+          <td>Geometric inclination of intersecting lines</td>
+          <td>Compass and straightedge; chord crd(θ)</td>
+          <td>Separation of qualitative angle from linear numbers</td>
+        </tr>
+        <tr>
+          <td><b>Medieval India &amp; Islam</b></td>
+          <td>Half-chord altitude on a reference circle</td>
+          <td>Sine (jya), cosine (kotijya), tangent (zill)</td>
+          <td>Trigonometry becomes an independent mathematical science</td>
+        </tr>
+        <tr>
+          <td><b>Euler &amp; Classical Analysis</b></td>
+          <td>Dimensionless scalar ratio of arc length to radius</td>
+          <td>Radians; power series; e^(iθ) = cos θ + i sin θ</td>
+          <td>Angle becomes a pure real number on the continuum ℝ</td>
+        </tr>
+        <tr>
+          <td><b>Modern Algebra</b></td>
+          <td>Rotational transformation operator / group element</td>
+          <td>SO(2), quaternions, bivector rotors</td>
+          <td>Angle as an active symmetry of space</td>
+        </tr>
+        <tr>
+          <td><b>Tree Scaffolding &amp; ℂ_ω</b></td>
+          <td>Discrete binary path on 2-successor tree</td>
+          <td>Dyadics m / 2ⁿ; CORDIC; infinitesimal dθ = 1/ω</td>
+          <td>Unification of discrete digital bisection and continuous calculus</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-note">
+      Document created for the <b>HobbyNotes STEM Foundations</b> curriculum &bull; Written in clean, LaTeX-free HTML with modern responsive typography.
+    </div>
+
+  </div>
+
+</body>
+</html>

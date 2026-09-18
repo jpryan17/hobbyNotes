@@ -560,5 +560,55 @@ axiom ivt_standard_root (f : R_w → R_w) (a b : R_w)
 def bisection_interval_len (a b : R_w) (k : Nat) : R_w :=
   (b - a) / ((2 : R_w) ^ k)
 
+-- ============================================================================
+-- 17. Trigonometry, Directed Pairs & Dyadic Angle Bisection on ℂ_ω
+-- ============================================================================
+
+-- The circle constant π on ℝ_ω
+axiom pi : R_w
+axiom pi_pos : 0 < pi
+
+-- Forward Directed Pair: (ℤ × Nat) → ℝ_ω (Dyadic Angle Generator)
+-- Maps tree address (numerator m, birthday depth n) to angle θ = 2π · m / 2ⁿ
+def dyadic_angle (m : Int) (n : Nat) : R_w :=
+  (2 : R_w) * pi * (ofInt m) / ((2 : R_w) ^ n)
+
+-- Elementary Trigonometric Projections on ℝ_ω:
+-- Directed Pair: ℝ_ω → ℝ_ω
+axiom cos_w : R_w → R_w
+axiom sin_w : R_w → R_w
+
+-- Pythagorean Circle Invariant: cos²(θ) + sin²(θ) = 1
+axiom pythagorean_identity (theta : R_w) :
+  (cos_w theta * cos_w theta) + (sin_w theta * sin_w theta) = 1
+
+-- Rotor / Coordinate Embedding:
+-- Directed Pair: ℝ_ω → ℂ_ω
+def angle_to_point (theta : R_w) : C_w :=
+  ⟨cos_w theta, sin_w theta⟩
+
+-- Half-Angle Bisection Cosine Recursion:
+-- Directed Pair: ℝ_ω → ℝ_ω  (c ↦ √[(1 + c) / 2])
+axiom cos_half_angle (c : R_w) : R_w
+axiom cos_bisection_rule (theta : R_w) :
+  cos_half_angle (cos_w theta) = cos_w (theta / 2)
+
+-- Polygonal Chord Transformation (Archimedean / Ptolemaic Chord):
+-- Directed Pair: ℝ_ω → ℝ_ω  (Δθ ↦ 2 · sin(Δθ / 2))
+axiom chord_length (delta_theta : R_w) : R_w
+
+-- Unit Rotor Group Structure on ℂ_ω
+structure UnitRotor where
+  val : C_w
+  unit_norm : C_w.norm_sq val = 1
+
+-- Rotor Action on ℂ_ω: U · z
+def rotate (U : UnitRotor) (z : C_w) : C_w :=
+  C_w.mul U.val z
+
+-- Binary Steering Choice (CORDIC / Conway Tree):
+-- Directed Pair: ℂ_ω × Nat → Int  (z, k ↦ ±1)
+axiom binary_steering_choice (target : C_w) (step : Nat) : Int
+
 end MiddleWay
 

@@ -436,10 +436,20 @@ app.get('/api/staged-segments', (_req: Request, res: Response) => {
             const stats = statSync(filePath);
             const segId = filename.replace(/\.html$/, '');
             const content = readFileSync(filePath, 'utf8');
+            const h1Match = /<h1[^>]*>(.*?)<\/h1>/i.exec(content);
             const hTitleMatch = /<font[^>]*size=["']?\+2["']?[^>]*>(?:<i>)?(?:<b>)?(.*?)(?:<\/b>)?(?:<\/i>)?<\/font>/i.exec(content);
-            const h3Match = /<h3>(.*?)<\/h3>/i.exec(content);
             const titleMatch = /<title>(.*?)<\/title>/i.exec(content);
-            const title = (hTitleMatch && hTitleMatch[1]) || (h3Match && h3Match[1]) || (titleMatch && titleMatch[1]) || segId;
+            const h3Match = /<h3>(.*?)<\/h3>/i.exec(content);
+            const rawTitle = (h1Match && h1Match[1]) || (hTitleMatch && hTitleMatch[1]) || (titleMatch && titleMatch[1]) || (h3Match && h3Match[1]) || segId;
+            const title = rawTitle
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+                .trim();
 
             const bodyMatch = /(<body[^>]*>)([\s\S]*?)(<\/body>)/i.exec(content);
             const contentHtml = bodyMatch ? bodyMatch[2].trim() : content;

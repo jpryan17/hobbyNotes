@@ -274,6 +274,32 @@ function harvestCurricularStencils() {
             scaffoldKey: 'discrete_ivt',
             expression: 'f(a)·f(b) < 0  ⇒  c = (a + b)/2',
             referencedInSegments: Array.from(scaffoldSegmentMap['discrete_ivt'] || ['analysis1DLecture2'])
+        },
+        // --- Trigonometry & Discrete Rotation Branch ---
+        {
+            id: 'fs_dyadic_angle_bisection',
+            type: 'math',
+            tier: 'theorem',
+            governingSeed: 'conway_cut',
+            title: 'Dyadic Angle Bisection & Unit Rotor Generation',
+            description: 'Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.',
+            scaffoldKey: 'dyadic_angle',
+            expression: 'θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1',
+            leanSignature: 'def dyadic_angle (m : Int) (n : Nat) : R_w',
+            referencedInSegments: Array.from(scaffoldSegmentMap['dyadic_angle'] || ['stemTrigFoundations'])
+        },
+        {
+            id: 'fs_polygonal_horn_chord',
+            parentId: 'fs_dyadic_angle_bisection',
+            type: 'math',
+            tier: 'scenario',
+            governingSeed: 'boundary_law',
+            title: 'Polygonal Horn Rim Chord & Inward Deflection',
+            description: 'Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.',
+            scaffoldKey: 'chord_length',
+            expression: 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]',
+            leanSignature: 'axiom chord_length (delta_theta : R_w) : R_w',
+            referencedInSegments: Array.from(scaffoldSegmentMap['chord_length'] || ['stemTrigFoundations'])
         }
     ];
     // 2. Define Directional Calculation Stencils (Inputs → Output Modes)
@@ -486,10 +512,63 @@ function harvestCurricularStencils() {
                 { name: 'a', symbol: 'Left Bound a', domain: 'ℝ_ω', defaultValue: 1.0, step: 0.5 },
                 { name: 'b', symbol: 'Right Bound b', domain: 'ℝ_ω', defaultValue: 2.0, step: 0.5 }
             ]
+        },
+        // 11. Dyadic Angle Bisection Mode
+        {
+            id: 'trig_dyadic_angle',
+            statementId: 'fs_dyadic_angle_bisection',
+            label: '(m, n) → θ',
+            targetSymbol: 'θ',
+            targetDomain: '[0, 2π)',
+            targetUnit: 'rad',
+            formulaDescription: 'θ = 2π · (m / 2ⁿ)',
+            formulaExpr: '2 * Math.PI * (m / (2 ** n))',
+            hasSimulation: true,
+            inputs: [
+                { name: 'm', symbol: 'Numerator m', domain: 'ℤ', defaultValue: 1, min: 0, max: 64, step: 1, description: 'Dyadic numerator' },
+                { name: 'n', symbol: 'Birthday n', domain: 'ℕ', defaultValue: 3, min: 0, max: 10, step: 1, description: 'Tree birthday / depth' }
+            ]
+        },
+        // 12. Polygonal Horn Chord Mode
+        {
+            id: 'trig_chord_length',
+            statementId: 'fs_polygonal_horn_chord',
+            label: '(Δθ, R) → Chord c',
+            targetSymbol: 'c',
+            targetDomain: 'ℝ_ω',
+            formulaDescription: 'c = 2 · R · sin(Δθ / 2)',
+            formulaExpr: '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)',
+            hasSimulation: true,
+            inputs: [
+                { name: 'dtheta', symbol: 'Central Turn Δθ', domain: 'ℝ_ω', unit: '°', defaultValue: 45.0, min: 0.1, max: 180.0, step: 1.0, description: 'Central turning angle in degrees' },
+                { name: 'R', symbol: 'Radius R', domain: 'ℝ_ω', defaultValue: 1.0, min: 0.1, max: 10.0, step: 0.5, description: 'Circle radius' }
+            ]
         }
     ];
     // 3. Define Verified Examples (Active Presets)
     const examples = [
+        {
+            id: 'ex_dyadic_45deg',
+            modeId: 'trig_dyadic_angle',
+            statementId: 'fs_dyadic_angle_bisection',
+            title: 'Day 3 Diagonal Bisection (π/4)',
+            values: { m: 1, n: 3 },
+            displayResult: '0.785 rad (45.0°)',
+            formattedFormula: 'θ = 2π · (1 / 2³) = π/4',
+            domainBadge: '∈ [0, 2π)',
+            notes: 'Generated on Day 3 of the Conway angle tree.'
+        },
+        {
+            id: 'ex_chord_square',
+            modeId: 'trig_chord_length',
+            statementId: 'fs_polygonal_horn_chord',
+            title: 'Quadrant Inscribed Chord (90°)',
+            values: { dtheta: 90.0, R: 1.0 },
+            displayResult: '1.414 (√2)',
+            formattedFormula: 'c = 2 · 1.0 · sin(45°) = √2',
+            domainBadge: '∈ ℝ_ω',
+            notes: 'First inward chord step across quadrant boundary.'
+        },
         {
             id: 'ex_earth_free_fall',
             modeId: 'ff_v_from_v0_g_t',

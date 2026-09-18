@@ -427,6 +427,46 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       signature: 'structure Field (F : Type) extends AbelianGroup F',
       snippet: '#check Field\n#check R_w_is_field',
       summary: 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'
+    },
+    {
+      key: 'dyadic_angle',
+      target: 'scaffold:dyadic_angle',
+      expression: 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)',
+      signature: 'def dyadic_angle (m : Int) (n : Nat) : R_w',
+      snippet: '#check dyadic_angle',
+      summary: 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'
+    },
+    {
+      key: 'angle_to_point',
+      target: 'scaffold:angle_to_point',
+      expression: 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω',
+      signature: 'def angle_to_point (theta : R_w) : C_w',
+      snippet: '#check angle_to_point\n#check pythagorean_identity',
+      summary: 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'
+    },
+    {
+      key: 'cos_half_angle',
+      target: 'scaffold:cos_half_angle',
+      expression: 'cos(θ / 2) = √[(1 + cos θ) / 2]',
+      signature: 'axiom cos_half_angle (c : R_w) : R_w',
+      snippet: '#check cos_half_angle\n#check cos_bisection_rule',
+      summary: 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'
+    },
+    {
+      key: 'chord_length',
+      target: 'scaffold:chord_length',
+      expression: 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]',
+      signature: 'axiom chord_length (delta_theta : R_w) : R_w',
+      snippet: '#check chord_length',
+      summary: 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'
+    },
+    {
+      key: 'UnitRotor',
+      target: 'scaffold:UnitRotor',
+      expression: 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1',
+      signature: 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1',
+      snippet: '#check UnitRotor\n#check rotate',
+      summary: 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'
     }
   ];
 

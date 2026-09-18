@@ -2,7 +2,7 @@
 -- HobbyNotes / Middle Way Mathematics
 -- Seed Data: Iteration 2 (Refined Conceptual Architecture)
 -- Normalized MWM-DB: Middle Way Math Single Source of Truth
--- Generated At: 2026-09-18T05:51:11.222Z
+-- Generated At: 2026-09-18T18:27:36.897Z
 -- =====================================================================
 
 -- 1. Applications (Curriculum Targets)
@@ -275,7 +275,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </p>
     </div>
   ', 'published'),
-  (3, 'conceptualHistoryInstructorGuide', 2, 'Instructor Guide: The Minimal Path &amp; Evolving Models of Physical Reality', 'conceptual-history-instructor-guide', '
+  (3, 'conceptualHistoryInstructorGuide', 2, 'Instructor Guide: The Minimal Path & Evolving Models of Physical Reality', 'conceptual-history-instructor-guide', '
     <div align="center">
       <font size="+2"><i><b>Instructor Guide: The Minimal Path &amp; Evolving Models of Physical Reality</b></i></font><br>
       <font size="+1"><i>Pedagogical Strategy, 0–12 Developmental Scaffolding &amp; The Space of Explanations</i></font>
@@ -499,7 +499,146 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Quantum Logic &amp; Quantum Bayes:</b> Upgrading real probability weights on the 1D transect to complex probability amplitudes on the 2D grid.</li>
     </ol>
   ', 'published'),
-  (5, 'editedPropLogicLectureV1', 4, 'Lecture: Propositional Logic', 'edited-prop-logic-lecture-v1', '
+  (5, 'propLogicIntro', 4, 'Introduction: Propositional Logic', 'prop-logic-intro', '
+    <div align="center">
+      <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
+      <font size="+1"><i>Deductive Certainty, Boolean Connectives &amp; The Truth Table Demo (TTD)</i></font>
+    </div>
+    <br>
+
+    <h3>1. The Goal: Grounding Formal Science on Familiar Terrain</h3>
+    <p>
+      As outlined in the curriculum introduction, the primary goal of <b>Propositional Logic</b> is to expose the student to the formal sciences on familiar, intuitive ground.
+    </p>
+    <p>
+      Propositional logic is the foundational game of <b>deductive certainty</b>. 
+      It begins with a single core supposition: a <b>proposition</b> is any declarative statement that can be judged definitively as either <b>True (1)</b> or <b>False (0)</b> within the binary Boolean set <code>𝔹 = {0, 1}</code>. 
+      There is no middle ground, vagueness, or ambiguity.
+    </p>
+    <p>
+      The formal system does not concern itself with empirical weather or physical facts; it cares exclusively about <b>deductive validity</b> ("being right" under assigned premises). 
+      Deductive proof is strictly <b>monotonic</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+    </div>
+    <p>
+      Once a mathematical theorem is proven from premises, discovering new facts can never overturn the proof.
+    </p>
+
+    <hr>
+
+    <h3>2. Atomic Variables &amp; The Boolean Connectives</h3>
+    <p>
+      To analyze complex arguments without writing long sentences, we represent atomic propositions with abstract variables: <code>p, q, r, s</code>.
+    </p>
+    <p>
+      These variables are combined into compound expressions using five standard logical connectives:
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+      <tr bgcolor="#f8fafc">
+        <th width="15%" align="left">Connective</th>
+        <th width="12%" align="center">Symbol</th>
+        <th width="28%" align="left">English Reading</th>
+        <th width="45%" align="left">Truth Condition</th>
+      </tr>
+      <tr>
+        <td><b>Negation</b></td>
+        <td align="center"><code>¬</code></td>
+        <td><i>"NOT p"</i> (<code>¬p</code>)</td>
+        <td>Inverts truth value: True if <code>p</code> is False; False if <code>p</code> is True.</td>
+      </tr>
+      <tr>
+        <td><b>Conjunction</b></td>
+        <td align="center"><code>∧</code></td>
+        <td><i>"p AND q"</i> (<code>p ∧ q</code>)</td>
+        <td>True <b>only if both</b> <code>p</code> and <code>q</code> are True.</td>
+      </tr>
+      <tr>
+        <td><b>Disjunction</b></td>
+        <td align="center"><code>∨</code></td>
+        <td><i>"p OR q"</i> (<code>p ∨ q</code>)</td>
+        <td>True if <b>at least one</b> of <code>p</code> or <code>q</code> is True.</td>
+      </tr>
+      <tr>
+        <td><b>Implication</b></td>
+        <td align="center"><code>→</code></td>
+        <td><i>"IF p THEN q"</i> (<code>p → q</code>)</td>
+        <td>Defined as <code>¬p ∨ q</code>. False only when <code>p</code> is True and <code>q</code> is False.</td>
+      </tr>
+      <tr>
+        <td><b>Equivalence</b></td>
+        <td align="center"><code>↔</code></td>
+        <td><i>"p IF AND ONLY IF q"</i> (<code>p ↔ q</code>)</td>
+        <td>True when <code>p</code> and <code>q</code> share the <b>exact same truth value</b>.</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h3>3. Overview of the Truth Table Demo (TTD)</h3>
+    <p>
+      The pedagogical centerpiece of this unit is the <b>Truth Table Demo (TTD)</b>. 
+      Rather than calculating truth tables manually by hand, TTD provides an immediate, interactive environment for composing and validating Boolean expressions:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13px; margin: 12px 0; line-height: 1.5;">
+      ┌────────────────────────────────────────────────────────────────────────┐<br>
+      │ Top Input Bar: Formula Editor with Live Grammar &amp; Syntax Checking     │<br>
+      │ Buttons: [ p ] [ q ] [ r ] [ s ] [ ¬ ] [ ∧ ] [ ∨ ] [ → ] [ ↔ ] [ ( ] [ ) ] │<br>
+      └───────────────────────────────────┬────────────────────────────────────┘<br>
+                                          │ Parses expression into AST<br>
+                                          ▼<br>
+      ┌────────────────────────────────────────────────────────────────────────┐<br>
+      │ Dynamic Truth Table: Evaluates Sub-Expressions Column-by-Column        │<br>
+      │ • Lists all 2ⁿ input rows for variables (p, q, ...)                    │<br>
+      │ • Computes inner bracketed expressions first                           │<br>
+      │ • Evaluates outermost connective column to determine full truth        │<br>
+      └────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <p>
+      Throughout these notes, clicking on any <span style="color:firebrick;font-weight:bold">highlighted red expression</span> instantly loads it into the live TTD tool for inspection!
+    </p>
+
+    <hr>
+
+    <h3>4. Tautologies, Contradictions &amp; Algebraic Laws</h3>
+    <p>
+      Compound expressions exhibit fundamental algebraic properties that can be verified live in TTD by clicking the red links below:
+    </p>
+    <ul>
+      <li>
+        <b>Tautology:</b> An expression that evaluates to <b>True under every possible truth assignment</b>. 
+        Tautologies express universal logical laws. For example:
+        <ul>
+          <li><b>Law of Excluded Middle:</b> <ttd-ref exp="ponp" style="color:firebrick;font-weight:bold">p ∨ ¬ p</ttd-ref> (every proposition is either True or False).</li>
+          <li><b>Implication Equivalence:</b> <ttd-ref exp="[npoq]e[piq]" style="color:firebrick;font-weight:bold">[ ¬ p ∨ q ] ↔ [ p → q ]</ttd-ref> (material conditional definition).</li>
+          <li><b>De Morgan''s Laws:</b> <ttd-ref exp="n[paq]e[nponq]" style="color:firebrick;font-weight:bold">¬ [ p ∧ q ] ↔ [ ¬ p ∨ ¬ q ]</ttd-ref> (distributing negation over conjunction).</li>
+        </ul>
+      </li>
+      <br>
+      <li>
+        <b>Contradiction:</b> An expression that evaluates to <b>False under all truth assignments</b>. 
+        For example: <ttd-ref exp="panp" style="color:firebrick;font-weight:bold">p ∧ ¬ p</ttd-ref> (the Law of Non-Contradiction states its negation <ttd-ref exp="n[panp]" style="color:firebrick;font-weight:bold">¬ [ p ∧ ¬ p ]</ttd-ref> is a tautology).
+      </li>
+      <br>
+      <li>
+        <b>Contingency:</b> An expression whose truth value depends on the specific inputs (e.g., <ttd-ref exp="paq" style="color:firebrick;font-weight:bold">p ∧ q</ttd-ref> or <ttd-ref exp="poq" style="color:firebrick;font-weight:bold">p ∨ q</ttd-ref>).
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>5. Moving Forward: From Propositions to Predicates</h3>
+    <p>
+      Propositional logic provides the indestructible logical skeleton. 
+      However, atomic propositions like <code>p</code> and <code>q</code> cannot describe the internal properties of objects or relationships between numbers. 
+      In the next module, <b>Formal Statements</b>, we expand this skeleton into full First-Order Predicate Logic by introducing sets, domain-typed relations, and quantifiers.
+    </p>
+  ', 'published'),
+  (6, 'editedPropLogicLectureV1', 5, 'Lecture: Propositional Logic', 'edited-prop-logic-lecture-v1', '
     <div align="center">
       <i><font size="+2">Lecture: Propositional Logic</font></i><br>
       <i><font size="+1">Truth, Tables, Operators &amp; The Rules of the Game</font></i>
@@ -782,7 +921,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In our next chapter, we will augment these connectives with <b>domain predicates</b> and <b>quantifiers</b> to build the language of sets and spatial matrices!”
     </p>
   ', 'published'),
-  (6, 'formalStatementsIntro', 5, 'Introduction: Formal Statements &amp; Predicates', 'formal-statements-intro', '
+  (7, 'formalStatementsIntro', 6, 'Introduction: Formal Statements & Predicates', 'formal-statements-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Formal Statements &amp; Predicates</b></i></font><br>
       <font size="+1"><i>Sets, Directed Pairs, Predicates as Functions &amp; The Formal Statement Demo (FSD)</i></font>
@@ -1056,7 +1195,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
     </p>
   ', 'published'),
-  (7, 'editedFormalStatementsLectureV2', 6, 'Lecture: Formal Statements &amp; Predicates', 'edited-formal-statements-lecture-v2', '
+  (8, 'editedFormalStatementsLectureV2', 7, 'Lecture: Formal Statements & Predicates', 'edited-formal-statements-lecture-v2', '
     <div align="center">
       <i><font size="+2">Lecture: Formal Statements &amp; Predicates</font></i><br>
       <i><font size="+1">Sets, Directed Pairs, Predicate Functions &amp; The 2D Truth Matrix</font></i>
@@ -1436,7 +1575,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In our next lecture, we lift these Boolean operations into the full <b>Algebra of Sets</b>: Unions, Intersections, Complements, and Bounded Domain Quantification!
     </p>
   ', 'published'),
-  (8, 'editedFormalStatementsLecture2V1', 7, 'Lecture 2: The Semantics of the Algebra of Sets', 'edited-formal-statements-lecture2-v1', '
+  (9, 'editedFormalStatementsLecture2V1', 8, 'Lecture 2: The Semantics of the Algebra of Sets', 'edited-formal-statements-lecture2-v1', '
     <div align="center">
       <i><font size="+2"><b>Lecture 2: The Semantics of the Algebra of Sets</b></font></i><br>
       <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
@@ -1684,7 +1823,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       Everything in advanced mathematics and physics—from continuous calculus to quantum state spaces—is built upon this exact foundation.”
     </p>
   ', 'published'),
-  (9, 'fsdTest', 8, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
+  (10, 'fsdTest', 9, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
     <div align="center">
       <font size="+2"><i><b>Formal Statements Demo (FSD) — Test Suite</b></i></font><br>
       <font size="+1"><i>Clutter-Free Verification of Quantified Predicates on ℕ</i></font>
@@ -1748,7 +1887,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Declarative Engine:</b> Predicates (including <code>EVEN</code>) are dynamically loaded and evaluated from <code>domainsAndPredicates.json</code>.</li>
     </ul>
   ', 'published'),
-  (10, 'numbersIntro', 9, 'Introduction: Numbers &amp; Graph Trees', 'numbers-intro', '
+  (11, 'numbersIntro', 10, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font><br>
       <font size="+1"><i>Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The Duality of Scale</i></font>
@@ -2235,7 +2374,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </ul>
     </div>
   ', 'published'),
-  (11, 'editedNumbersLecture1V1', 10, 'Numbers Lecture 1: Formal Definitions &amp; The Two Paths', 'edited-numbers-lecture1-v1', '
+  (12, 'editedNumbersLecture1V1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'edited-numbers-lecture1-v1', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
       <font size="+1"><i>The Classical Ascent vs. The Conway Inductive Revolution</i></font>
@@ -2680,7 +2819,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       This allows us to do calculus, Bayesian inference, and quantum wave mechanics using <b>exact algebraic arithmetic</b> without ever getting bogged down in limits. In our next lectures, we''ll explore the geometry of these trees and use them to power physics and computation!”
     </p>
   ', 'published'),
-  (12, 'editedNumbersLecture2V1', 11, 'Numbers Lecture 2: Binary Trees &amp; Labeled Paths', 'edited-numbers-lecture2-v1', '
+  (13, 'editedNumbersLecture2V1', 12, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'edited-numbers-lecture2-v1', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
       <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
@@ -3255,7 +3394,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
     </p>
   ', 'published'),
-  (13, 'editedNumbersLecture3V1', 12, 'STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces', 'edited-numbers-lecture3-v1', '
+  (14, 'editedNumbersLecture3V1', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'edited-numbers-lecture3-v1', '
     <div align="center">
       <h2>Numbers Lecture 3</h2>
       <h3>STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</h3>
@@ -3571,7 +3710,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
   ', 'published'),
-  (14, 'bayesianInferenceIntro', 13, 'Introduction: The Logic of Scientific Discovery', 'bayesian-inference-intro', '
+  (15, 'bayesianInferenceIntro', 14, 'Introduction: The Logic of Scientific Discovery', 'bayesian-inference-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: The Logic of Scientific Discovery</b></i></font><br>
       <font size="+1"><i>Hypotheses, Data Spaces &amp; Exact Belief Revision on the Hyperfinite Transect</i></font>
@@ -3792,7 +3931,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
     </p>
   ', 'published'),
-  (15, 'editedBayesianInferenceLecture1V1', 14, 'Bayesian Inference Lecture 1', 'edited-bayesian-inference-lecture1-v1', '
+  (16, 'editedBayesianInferenceLecture1V1', 15, 'Bayesian Inference Lecture 1', 'edited-bayesian-inference-lecture1-v1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
@@ -4088,7 +4227,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
     </div>
   ', 'published'),
-  (16, 'editedBayesianInferenceLecture2V1', 15, 'Bayesian Inference Lecture 2', 'edited-bayesian-inference-lecture2-v1', '
+  (17, 'editedBayesianInferenceLecture2V1', 16, 'Bayesian Inference Lecture 2', 'edited-bayesian-inference-lecture2-v1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
@@ -4379,7 +4518,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 3</b>, we''ll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
     </p>
   ', 'published'),
-  (17, 'editedBayesianInferenceLecture3V1', 16, 'Bayesian Inference Lecture 3', 'edited-bayesian-inference-lecture3-v1', '
+  (18, 'editedBayesianInferenceLecture3V1', 17, 'Bayesian Inference Lecture 3', 'edited-bayesian-inference-lecture3-v1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
       <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
@@ -4692,7 +4831,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   ', 'published'),
-  (18, 'editedBayesianInferenceLecture4V1', 17, 'Bayesian Inference Lecture 4', 'edited-bayesian-inference-lecture4-v1', '
+  (19, 'editedBayesianInferenceLecture4V1', 18, 'Bayesian Inference Lecture 4', 'edited-bayesian-inference-lecture4-v1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i><br>
       <i><font size="+1">State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone: Unifying Inference with Thermodynamics</font></i>
@@ -4997,7 +5136,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Where classical probabilities simply add, quantum amplitudes introduce <b>phase, interference, and non-commutative geometry</b>. See you in Quantum Logic!”
     </p>
   ', 'published'),
-  (19, 'quantumLogicIntro', 18, 'Introduction to Quantum Logic', 'quantum-logic-intro', '
+  (20, 'quantumLogicIntro', 19, 'Introduction to Quantum Logic', 'quantum-logic-intro', '
     <div align="center">
       <i><font size="+2"><b>Introduction to Quantum Logic</b></font></i><br>
       <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Phase &amp; Vector Geometry</font></i>
@@ -5111,7 +5250,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
   ', 'published'),
-  (20, 'editedQuantumLogicLecture1V1', 19, 'Quantum Logic Lecture 1', 'edited-quantum-logic-lecture1-v1', '
+  (21, 'editedQuantumLogicLecture1V1', 20, 'Quantum Logic Lecture 1', 'edited-quantum-logic-lecture1-v1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
       <i><font size="+1">The Three Polarizers &amp; The Quantum Breakdown of Venn Diagrams</font></i>
@@ -5321,7 +5460,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 2</b>, we will explore why nature uses <b>complex 2D amplitude arrows on <code>ℂ_ω</code></b> instead of plain 1D probabilities &mdash; and how the <b>Born Rule</b> turns complex waves into observable laboratory probabilities!”
     </p>
   ', 'published'),
-  (21, 'editedQuantumLogicLecture2V1', 20, 'Quantum Logic Lecture 2', 'edited-quantum-logic-lecture2-v1', '
+  (22, 'editedQuantumLogicLecture2V1', 21, 'Quantum Logic Lecture 2', 'edited-quantum-logic-lecture2-v1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 2</b></font></i><br>
       <i><font size="+1">The 4-Successor Quad-Tree, Complex Amplitudes &amp; Wave Interference</font></i>
@@ -5534,7 +5673,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 3</b>, we will see what happens when a laboratory measurement observes this state vector &mdash; and discover that <b>quantum measurement is simply vector projection</b>!”
     </p>
   ', 'published'),
-  (22, 'editedQuantumLogicLecture3V1', 21, 'Quantum Logic Lecture 3', 'edited-quantum-logic-lecture3-v1', '
+  (23, 'editedQuantumLogicLecture3V1', 22, 'Quantum Logic Lecture 3', 'edited-quantum-logic-lecture3-v1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
       <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
@@ -5762,7 +5901,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical ensembles and density matrices</b> to complete our grand tour of physical reality!”
     </p>
   ', 'published'),
-  (23, 'quantumBayesianInferenceIntro', 22, 'Introduction to Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
+  (24, 'quantumBayesianInferenceIntro', 23, 'Introduction to Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
     <div align="center">
       <i><font size="+2"><b>Introduction to Quantum Bayesian Inference</b></font></i><br>
       <i><font size="+1">The Final Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
@@ -5835,7 +5974,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
     </div>
   ', 'published'),
-  (24, 'editedQuantumBayesianInferenceLecture1V1', 23, 'Quantum Bayesian Inference Lecture 1', 'edited-quantum-bayesian-inference-lecture1-v1', '
+  (25, 'editedQuantumBayesianInferenceLecture1V1', 24, 'Quantum Bayesian Inference Lecture 1', 'edited-quantum-bayesian-inference-lecture1-v1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
@@ -6074,7 +6213,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In our final lecture,” Jack concluded, “we will direct this completed formalism to our modern understanding of physical reality itself: <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
   ', 'published'),
-  (25, 'editedQuantumBayesianInferenceLecture2V1', 24, 'Quantum Bayesian Inference Lecture 2', 'edited-quantum-bayesian-inference-lecture2-v1', '
+  (26, 'editedQuantumBayesianInferenceLecture2V1', 25, 'Quantum Bayesian Inference Lecture 2', 'edited-quantum-bayesian-inference-lecture2-v1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Grand Finale</font></i>
@@ -6258,7 +6397,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </div>
     -->
   ', 'published'),
-  (26, 'lamOverview', 25, 'Preface &amp; Pedagogical Mission: A Tertiary Extension for Formal Science', 'lam-overview', '
+  (27, 'lamOverview', 26, 'Preface & Pedagogical Mission: A Tertiary Extension for Formal Science', 'lam-overview', '
   <div align="center">
     <font size="+2"><i><b>Curriculum Architecture for Liberal Arts Mathematics:<br>
           Enforcing the Formal Foundations of Quantum Bayesian Inference</b></i></font><br>
@@ -6343,7 +6482,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </li>
   </ul>
 ', 'published'),
-  (27, 'vectorFoundationsIntro', 26, 'Course 1 Overview: Linear Algebra &amp; The Inference Space', 'vector-foundations-intro', '
+  (28, 'vectorFoundationsIntro', 27, 'Course 1 Overview: Linear Algebra & The Inference Space', 'vector-foundations-intro', '
   <div align="center">
     <i><font size="+2"><b>Course 1 Overview: Linear Algebra &amp; The Inference Space</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference</font></i>
@@ -6477,7 +6616,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
   </ul>
 ', 'published'),
-  (28, 'vectorsLecture1', 27, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (29, 'vectorsLecture1', 28, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -6679,7 +6818,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (29, 'vectorsLecture2', 28, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (30, 'vectorsLecture2', 29, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -6814,7 +6953,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (30, 'vectorsLecture3', 29, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (31, 'vectorsLecture3', 30, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -7106,7 +7245,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “We have completed the formal foundations of Course 1. Next, in <b>Course 2: Analysis 1D</b>, we will explore continuous rates of change and accumulation on the real continuum <code>ℝ_ω</code>!”
   </p>
 ', 'published'),
-  (31, 'analysis1DIntro', 30, 'Course 2 Overview: Analysis 1D &amp; The Real Continuum', 'analysis1-d-intro', '
+  (32, 'analysis1DIntro', 31, 'Course 2 Overview: Analysis 1D & The Real Continuum', 'analysis1-d-intro', '
   <div align="center">
     <i><font size="+2"><b>Course 2 Overview: Analysis 1D &amp; The Real Continuum</b></font></i><br>
     <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
@@ -7255,7 +7394,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
   </ul>
 ', 'published'),
-  (32, 'analysis1DLecture1', 31, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+  (33, 'analysis1DLecture1', 32, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
     <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
@@ -7454,7 +7593,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 ', 'published'),
-  (33, 'analysis1DLecture2', 32, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+  (34, 'analysis1DLecture2', 33, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
     <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
@@ -7709,7 +7848,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 ', 'published'),
-  (34, 'analysis1DLecture3', 33, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+  (35, 'analysis1DLecture3', 34, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
     <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
@@ -7850,7 +7989,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li>How continuous quantum state evolution <code>U(t) = e^(-iHt/ħ)</code> completes our description of <b>Quantum Bayesian Inference</b>!</li>
   </ul>
 ', 'published'),
-  (35, 'analysis2DIntro', 34, 'Course 3: Analysis 2D &amp; The Complex Continuum', 'analysis2-d-intro', '
+  (36, 'analysis2DIntro', 35, 'Course 3: Analysis 2D & The Complex Continuum', 'analysis2-d-intro', '
     <div align="center">
       <i><font size="+2"><b>Course 3: Analysis 2D &amp; The Complex Continuum</b></font></i><br>
       <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Quantum Inference —</font></i>
@@ -8006,7 +8145,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
     </ul>
   ', 'published'),
-  (36, 'analysis2DLecture1', 35, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+  (37, 'analysis2DLecture1', 36, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
     <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
@@ -8166,7 +8305,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
   </p>
 ', 'published'),
-  (37, 'analysis2DLecture2', 36, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+  (38, 'analysis2DLecture2', 37, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
     <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
@@ -8317,7 +8456,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Precisely!” Jane smiled. “And in our final lecture, we will use this exact root-counting mechanism to solve the great mystery of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and complete our description of <b>Quantum Bayesian Inference</b>!”
   </p>
 ', 'published'),
-  (38, 'analysis2DLecture3', 37, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+  (39, 'analysis2DLecture3', 38, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
     <i><font size="+1">— Quantum State Evolution &amp; Phase Transitions —</font></i>
@@ -8492,7 +8631,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
   </p>
 ', 'published'),
-  (39, 'fourierTransformSeminar', 38, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
+  (40, 'fourierTransformSeminar', 39, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
     <div align="center">
       <i><font size="+2"><b>Mini-Seminar 1: The Fourier Duality</b></font></i><br>
       <i><font size="+1">— Position vs. Frequency, Unitary Basis Rotations &amp; Quantum Geometry —</font></i>
@@ -8706,7 +8845,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       Jill and Jack joined the rest of the seminar room in giving Liam an enthusiastic round of applause.
     </p>
   ', 'published'),
-  (40, 'haloSoupSeminar', 39, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
+  (41, 'haloSoupSeminar', 40, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 2: From ω-Nodes to Halo Soup</b></font></i><br>
     <i><font size="+1">— A Physical Theory of Particles, Matrices &amp; Transfinite Halos —</font></i>
@@ -8913,7 +9052,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     The room erupted in enthusiastic applause as Jill and Jack nodded, thoroughly impressed by the intuitive bridge between hyperreal analysis and quantum measurement.
   </p>
 ', 'published'),
-  (41, 'holographicPrincipleSeminar', 40, 'Mini-Seminar 3: Holography &amp; Information Boundaries', 'holographic-principle-seminar', '
+  (42, 'holographicPrincipleSeminar', 41, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 3: Holography &amp; Information Boundaries</b></font></i><br>
     <i><font size="+1">— Edge Cancellations, Area Laws &amp; The Holographic Principle —</font></i>
@@ -9120,7 +9259,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     Jack smiled, looking down at his sketches of the 3D cell cancellations: “I’ll never look at an apple &mdash; or a volume of space &mdash; the same way again.”
   </p>
 ', 'published'),
-  (42, 'higherSuccessorsSeminar', 41, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
+  (43, 'higherSuccessorsSeminar', 42, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 4: Higher-Successor Inductive Definitions</b></font></i><br>
     <i><font size="+1">— 2, 4, 8, 16 Branchings, 3D Spatial Octrees &amp; 4D Spacetime Physics —</font></i>
@@ -9406,7 +9545,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     At Jane''s words, Jill, Jack, and the entire seminar room rose to their feet in a resounding standing ovation, honoring Liam, Maya, Tariq, and Chloe for an unforgettable journey across applied transfinite mathematics.
   </p>
 ', 'published'),
-  (43, 'satelliteSeminarsIntro', 42, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
+  (44, 'satelliteSeminarsIntro', 43, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
     <font size="+1"><i>— Exercising the Formal Apparatus in the Non-Monotonic Sphere —</i></font>
@@ -9513,7 +9652,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Let us now begin with our first seminar, which due to its deceptive simplicity and cosmic scope, sets the grand stage for all that follows: <b>Cosmology as Information</b>!”
   </p>
 ', 'published'),
-  (44, 'cosmologyAsInformation', 43, '1. The Law of Information Immutability', 'cosmology-as-information', '
+  (45, 'cosmologyAsInformation', 44, '1. The Law of Information Immutability', 'cosmology-as-information', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Cosmology as Information</b></i></font><br>
       <font size="+1"><i>— The Duality of Immutable Law &amp; Observed
@@ -9703,7 +9842,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         They are the grammar through which the cosmos computes itself.”</b>
     </div>
   ', 'published'),
-  (45, 'particleZooSeminar', 44, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
+  (46, 'particleZooSeminar', 45, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: The Logic of the Particle Zoo</b></i></font><br>
     <font size="+1"><i>— Why Local Symmetries Dictate the Fundamental Forces of Nature —</i></font>
@@ -9912,7 +10051,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <b>It is the magnificent, coherent geometry of symmetry, duality, and information.</b>”
   </p>
 ', 'published'),
-  (46, 'quantumEntanglementSeminar', 45, 'Satellite Seminar: Quantum Entanglement &amp; The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
+  (47, 'quantumEntanglementSeminar', 46, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: Quantum Entanglement &amp; The Relational Fabric of Reality</b></i></font><br>
     <font size="+1"><i>— Tensor Products, Non-Separability, Bell Inequalities &amp; Emergent Spacetime —</i></font>
@@ -10120,7 +10259,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <b>the universe is not an assembly of lonely particles in empty space. It is an unbroken, relational web of quantum information computing reality at every point.</b>”
   </p>
 ', 'published'),
-  (47, 'algebraicGeometrySeminar', 46, '1. Zero Loci &amp; Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
+  (48, 'algebraicGeometrySeminar', 47, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Algebraic Geometry &amp; The Infinitesimal Microscope</b></i></font><br>
       <font size="+1"><i>— Polynomial Varieties, Grothendieck Schemes,
@@ -10674,7 +10813,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       polynomial varieties, discrete number trees, and the frontiers
       of modern algebraic geometry. </p>
   ', 'published'),
-  (48, 'stemNewtonianBridge', 47, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
+  (49, 'stemNewtonianBridge', 48, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
   <div align="center">
     <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
     <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke''s Oscillator —</i></font>
@@ -10927,7 +11066,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
 ', 'published'),
-  (49, 'stemHeatDiffusion', 48, 'STEM Bridge: Applied Mathematics &amp; Computational CAS', 'stem-heat-diffusion', '
+  (50, 'stemHeatDiffusion', 49, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
     <div align="center">
       <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
       <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
@@ -11272,141 +11411,572 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
     </p>
   ', 'published'),
-  (50, 'stemTrigFoundations', 49, '1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)', 'stem-trig-foundations', '
+  (51, 'stemTrigFoundations', 50, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
     <div class="subtitle">
-      A Constructive STEM Perspective — From Discrete Dyadic Branching to Complex Continuum Rotation
+      A Constructive STEM Perspective — Grounded in 1-Successor Counting, 2-Successor Dyadic Bisection, and the 4-Successor Complex Continuum
     </div>
 
     <p>
-      The connection between John Conway’s number tree and trigonometry is both mathematically profound and computationally practical. When viewed through the lens of binary branching trees and the nonstandard complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometric identities, hardware algorithms, and complex analysis cease to be arbitrary formulas and reveal their natural inductive geometry.
+      The connection between our foundational descriptions of number trees and trigonometry is both mathematically profound and computationally practical. 
+      Across our curriculum—from the 1-successor natural trunk (<code>ℕ</code>), through the 2-successor binary dyadic tree (<code>ℝ_ω</code>), to the 4-successor quadtree (<code>ℂ_ω</code>)—balanced trees are not merely algebraic visualizations; they are the <b>inductive scaffolding of geometry and rotation</b>.
     </p>
 
     <div class="callout">
-      <strong>Core Conceptual Shift:</strong> Classical trigonometry builds on transcendental continuous functions and limits. The Conway approach reveals that circular rotation is the natural continuum shadow of simple binary choices (dyadic bisections) and hyperfinite perpendicular steps.
+      <strong>Core Insight:</strong> Classical trigonometry introduces sines, cosines, and angles through transcendental limits and geometric ratios. On our number trees, circular rotation emerges constructively:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>The 1-Successor Trunk (ℕ):</b> Counts discrete perimeter steps <code>k → k + 1</code> around the unit circle, driving discrete arc length accumulation and complex contour integration.</li>
+        <li><b>The 2-Successor Binary Tree (ℝ_ω):</b> Bisects angles at each birthday level, generating François Viète’s nested radicals, Walsh-Hadamard square waves, and the CORDIC hardware bit-shift algorithm.</li>
+        <li><b>The 4-Successor Quadtree (ℂ_ω):</b> Deploys the 4th roots of unity <code>{ +1, -1, +i, -i }</code> as two 180° polar fans, turning Euler’s formula into pure perpendicular stepping on an infinitesimal square grid.</li>
+      </ol>
     </div>
 
+    <!-- MAPPING TABLE -->
+    <div align="center" style="margin: 24px 0;">
+      <table style="max-width: 820px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Number Tree</th>
+            <th style="width: 26%;">Branching &amp; Basis</th>
+            <th style="width: 28%;">Spatial / Geometric Role</th>
+            <th style="width: 28%;">Trigonometric Expression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1-Successor</b><br><span style="color: #64748b; font-size: 0.85em;">(The Trunk ℕ_ω)</span></td>
+            <td>1 successor: <code>k → k + 1</code><br>Unique root <code>0</code></td>
+            <td>Linear counting ray; perimeter marcher along circle boundary</td>
+            <td>Perimeter sum: <code>Perimeter = ∑[k=1 to ω] ds = 2π</code><br>Contour winding: <code>∮ (1/z) dz = 2π i</code></td>
+          </tr>
+          <tr>
+            <td><b>2-Successor</b><br><span style="color: #2563eb; font-size: 0.85em;">(The Binary Tree ℝ_ω)</span></td>
+            <td>2 successors: <code>{ -, + }</code><br>Dyadics <code>m / 2ⁿ</code></td>
+            <td>180° polar fan; recursive interval bisection</td>
+            <td>Half-angle cosine: <code>cos(θ/2) = √[(1+cos θ)/2]</code><br>Viète nested radicals; CORDIC bit-shifts</td>
+          </tr>
+          <tr>
+            <td><b>4-Successor</b><br><span style="color: #7c3aed; font-size: 0.85em;">(The Quadtree ℂ_ω)</span></td>
+            <td>4 successors: <code>{ +1, -1, +i, -i }</code><br>4th roots of unity</td>
+            <td>Two 180° fans back-to-back (360° all space); 2D grid <code>dz = dx + i·dy</code></td>
+            <td>Euler’s formula via perpendicular steps: <code>z_(k+1) = z_k (1 + i·dθ)</code><br>Cauchy-Riemann conformal cell symmetry</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Collapsible Historical Foundations Section (navFW Return Control Integrated) -->
+    <a name="historyOfAngleAnchor" id="historyOfAngleAnchor"></a>
+    <details id="history-of-angle-section" style="margin: 24px auto; max-width: 840px; background-color: #f8fafc; border: 2px solid #2563eb; border-radius: 8px; padding: 14px 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+      <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.95em; padding: 4px 0; user-select: none;">
+        📜 Historical Foundations: The Evolution of the Concept of Angle (Click to Expand / Collapse)
+      </summary>
+      <div style="margin-top: 14px; border-top: 1px dashed #94a3b8; padding-top: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 16px; margin: 10px auto 20px; max-width: 740px; font-size: 13.5px; color: #475569;" align="center">
+          <b>Historical Context:</b> How did mathematics transform the intuitive experience of "two lines opening up" from an architectural slope ratio into an astronomical chord, a dimensionless analytical logarithm, and finally a recursive walk on a binary dyadic tree?
+        </div>
+
+        <div class="timeline">
+
+          <!-- 1. ANCIENT PRE-GREEK -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-amber">Origins</span> 1. Slopes, Incline &amp; The Celestial Horizon</div>
+              <div class="era-date">c. 2000 BCE – 500 BCE</div>
+            </div>
+            <div class="concept-tag">Physical Inclination &amp; Calendar Divisions</div>
+            <p>
+              Before abstract angles existed, ancient builders and astronomers measured angularity purely through operational physical ratios:
+            </p>
+            <ul>
+              <li><b>Ancient Egypt (The <i>Seked</i>):</b> Used in pyramid construction (Rhind Papyrus). The seked measured horizontal run per vertical rise of 1 cubit (7 palms)—the direct forebear of the modern <b>cotangent</b>:
+                <div class="formula-box">seked = horizontal run / 1 cubit of rise</div>
+              </li>
+              <li><b>Ancient Babylon (Base-60 Sexagesimal System):</b> Babylonian astronomers divided the celestial circle into <b>360 equal parts</b>, inspired by their 360-day calendar year and sexagesimal arithmetic, creating degrees (°), minutes (′), and seconds (″).</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is a concrete ratio of construction rods or a step along the celestial calendar horizon.
+            </div>
+          </div>
+
+          <!-- 2. CLASSICAL GREECE -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-blue">Geometry</span> 2. The Greek Struggle: Quantity vs. Quality</div>
+              <div class="era-date">c. 300 BCE – 150 BCE</div>
+            </div>
+            <div class="concept-tag">Inclination of Lines &amp; The "Horn Angle" Debate</div>
+            <p>
+              Classical Greek geometry separated angle from physical builders'' rods, but grappled with its ontological nature:
+            </p>
+            <ul>
+              <li><b>Euclid of Alexandria (<i>Elements</i>, Book I, Def. 8):</b> Defined a plane angle as <i>"the inclination to one another of two lines in a plane which meet one another and do not lie in a straight line."</i></li>
+              <li><b>Quantity vs. Quality (Aristotle vs. Eudemus):</b> Debated whether angle was an arithmetic <i>quantity</i> (subject to algebraic operations), a <i>quality</i> (corner shape), or a geometric <i>relation</i>.</li>
+              <li><b>The "Horn Angle" (Cornicular Angle):</b> Euclid and Proclus studied the angle between a circle''s circumference and its tangent line—strictly smaller than any rectilinear acute angle, yet non-zero, anticipating non-Archimedean <b>infinitesimals</b>.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is a static geometric relationship between intersecting lines, compared by congruent geometric superposition.
+            </div>
+          </div>
+
+          <!-- 3. ASTRONOMICAL CHORD ERA -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-purple">Trigonometry</span> 3. The Chord Era (Hipparchus to Ptolemy)</div>
+              <div class="era-date">c. 150 BCE – 150 CE</div>
+            </div>
+            <div class="concept-tag">The Chord Function: crd(θ)</div>
+            <p>
+              Spherical astronomy demanded quantitative numerical prediction of planetary paths:
+            </p>
+            <ul>
+              <li><b>Hipparchus of Nicaea (c. 190–120 BCE):</b> Tabulated straight-line <b>chords</b> subtended by central angles in a fixed reference circle.</li>
+              <li><b>Ptolemy’s <i>Almagest</i>:</b> Formalized chord tables in half-degree increments for a circle of radius R = 60. The chord maps to modern sine via:
+                <div class="formula-box">crd(θ) = 2 · R · sin(θ / 2)</div>
+              </li>
+              <li><b>Angle Bisection Formulas:</b> Ptolemy proved half-angle chord bisection theorems, recursively subdividing circular arcs down to 1.5° and 0.75°.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is identified with the straight geometric line segment (chord) cutting across a circle.
+            </div>
+          </div>
+
+          <!-- 4. INDIAN & ISLAMIC ADVANCES -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-green">Algebra</span> 4. The Shift to Half-Chords &amp; The Birth of Sine</div>
+              <div class="era-date">c. 450 CE – 1200 CE</div>
+            </div>
+            <div class="concept-tag">ardha-jya → jya → jiba → sinus</div>
+            <p>
+              Medieval Indian and Islamic scholars simplified circular calculations by replacing full chords with the right-triangle half-chord:
+            </p>
+            <ul>
+              <li><b>Aryabhata (476–550 CE, <i>Surya Siddhanta</i>):</b> Replaced the full chord with <i>ardha-jya</i> (half-chord), shortened to <i>jya</i>, dropping a perpendicular altitude from the arc tip to the horizontal radius.</li>
+              <li><b>The Islamic Golden Age (al-Khwarizmi, al-Battani, al-Biruni):</b> Translated <i>jya</i> into Arabic as <i>jiba</i>, read as <i>jayb</i> (fold/bay), and translated into Latin as <b>sinus</b> (modern sine).</li>
+              <li><b>Autonomy of Trigonometry:</b> Scholars like Nasir al-Din al-Tusi emancipated trigonometry from astronomy into an independent branch of mathematics, adding tangent, cotangent, secant, and cosecant.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is the arc controlling the perpendicular and horizontal altitude lines of a right triangle inside a circle of radius R.
+            </div>
+          </div>
+
+          <!-- 5. ANALYTICAL EULER & RADIAN -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-blue">Analysis</span> 5. Euler’s Transformation &amp; The Radian</div>
+              <div class="era-date">c. 1700 – 1880 CE</div>
+            </div>
+            <div class="concept-tag">Pure Dimensionless Real Numbers: θ = s / r</div>
+            <p>
+              The calculus revolution emancipated angle from circular line segments into pure real numbers:
+            </p>
+            <ul>
+              <li><b>Leonhard Euler (1748, <i>Introductio in Analysin Infinitorum</i>):</b> Set radius R = 1 once and for all! Sine and cosine were redefined as <b>pure, dimensionless analytical functions of a real variable</b> defined by infinite power series:
+                <div class="formula-box">sin(x) = x - x³/3! + x⁵/5! - ... &nbsp;|&nbsp; e^(iθ) = cos(θ) + i·sin(θ)</div>
+              </li>
+              <li><b>The Radian (Roger Cotes, James Thomson):</b> Defined angle as the dimensionless ratio of arc length to radius:
+                <div class="formula-box">θ = arc length / radius = s / r</div>
+                Because physical units cancel (meters / meters), angle was recognized as an absolute scalar.
+              </li>
+            </ul>
+
+            <!-- Nested Deep-Dive: Calculus Bridge -->
+            <details id="trig-calculus-bridge" style="margin: 16px 0; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
+              <summary style="font-weight: 700; color: #1e40af; cursor: pointer; font-size: 13.5px; user-select: none;">
+                🔍 Deep Dive: The Calculus Bridge — Taylor Series, Logarithms &amp; Angle as an Imaginary Logarithm
+              </summary>
+              <div style="margin-top: 12px; font-size: 13px; line-height: 1.6; color: #1e293b; border-top: 1px dashed #bfdbfe; padding-top: 10px;">
+                <ol style="padding-left: 18px;">
+                  <li><b>Polynomial Engine (Madhava c. 1400, Newton &amp; Gregory 1660s):</b> Trigonometric curves calculated algebraically via infinite polynomial series: <code>sin(x) = x - x³/3! + x⁵/5! - ...</code></li>
+                  <li><b>Logarithm Series (Mercator 1668, Newton 1669):</b> Logarithms linked to hyperbolic area: <code>ln(1 + x) = x - x²/2 + x³/3 - ...</code> and its inverse exponential <code>e^x = 1 + x + x²/2! + ...</code></li>
+                  <li><b>Roger Cotes (1714):</b> Proved the foundational spark: <code>i·θ = ln(cos θ + i·sin θ)</code></li>
+                  <li><b>Euler’s Grand Synthesis (1748):</b> Substituting <code>z = i·θ</code> into <code>e^z</code> cleanly splits into <code>cos(θ) + i·sin(θ)</code>!</li>
+                </ol>
+                <div style="background: #ffffff; border: 1px solid #93c5fd; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
+                  <b style="color: #1e3a8a;">What is an Angle?</b> Taking the complex logarithm reveals:
+                  <div class="formula-box" style="background: #eff6ff; font-weight: 600; padding: 8px 12px; margin: 8px 0;">
+                    ln(z) = ln(r) + i·θ &nbsp;⇒&nbsp; θ = Im(ln z) = -i · ln(cos θ + i·sin θ)
+                  </div>
+                  <b>Real part (ln r):</b> Radial scaling along hyperbolic rays.<br>
+                  <b>Imaginary part (θ):</b> Circulation along circular arcs. Angle is continuous growth turned 90° into the imaginary plane!
+                </div>
+              </div>
+            </details>
+
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is a point on the continuous real number line ℝ wrapping around the complex unit circle, analytically identified as the imaginary part of the complex logarithm (θ = Im(ln z)).
+            </div>
+          </div>
+
+          <!-- 6. ROTORS, VECTORS & GROUPS -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-purple">Modern Algebra</span> 6. Vectors, Rotors &amp; Lie Groups</div>
+              <div class="era-date">c. 1850 – 1950 CE</div>
+            </div>
+            <div class="concept-tag">SO(2), Quaternions &amp; Bivectors</div>
+            <p>
+              Higher algebra elevated angle from a static parameter to an operator that transforms geometric space:
+            </p>
+            <ul>
+              <li><b>Complex Numbers &amp; Argand Plane:</b> Multiplication by <code>e^(iθ)</code> acts as a rotational operator on 2D space.</li>
+              <li><b>Quaternions &amp; Clifford Geometric Algebra:</b> Generalized planar angles into 3D and n-D spatial <b>rotors</b>. Angle is represented by an oriented <b>bivector</b> indicating magnitude and plane of rotation.</li>
+              <li><b>Lie Group SO(2) and U(1):</b> The circle of angles is formalized as the continuous 1D Lie group of rotations generated by the angular momentum operator.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is an active rotational transformation of space (a group element or rotor), rather than just a passive static measurement.
+            </div>
+          </div>
+
+          <!-- 7. DISCRETE TREE & DYADIC HORIZON -->
+          <div class="era-card" style="border: 2px solid #3b82f6;">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-blue">Tree Scaffolding</span> 7. Dyadic Bisections, CORDIC &amp; The ℂ_ω Continuum</div>
+              <div class="era-date">c. 1959 – Present</div>
+            </div>
+            <div class="concept-tag">The 2-Successor Tree: θ = 2π · (m / 2ⁿ) &amp; Day ω Horizon</div>
+            <p>
+              Contemporary computer science and nonstandard analysis bring angle full circle back to constructive discrete arithmetic:
+            </p>
+            <ul>
+              <li><b>CORDIC Algorithm (Jack Volder, 1959):</b> Computing all trigonometric functions with zero multipliers using successive shifts and additions of discrete bisection angles:
+                <div class="formula-box">θ = ∑ [ ± arctan(2⁻ᵏ) ]</div>
+              </li>
+              <li><b>The 2-Successor Tree &amp; Dyadic Angles:</b> Mapping the normalized interval <code>[0, 1)</code> to the circular period <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 generates every dyadic angle:
+                <div class="formula-box">θ_m,n = 2π · (m / 2ⁿ)</div>
+                The prototypical unit case (1 outward step to 1, followed by recursive inward bisections) builds the exact dyadic skeleton of the circle.
+              </li>
+              <li><b>The Day ω Canopy (dx = 1/ω):</b> At the transfinite limit birthday ω, the discrete dyadic grid becomes dense, and the infinitesimal angle <code>dθ = 2π / ω</code> furnishes the smooth differential basis for calculus on ℂ_ω.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is simultaneously a discrete binary path (a sequence of left/right bisection choices) and a continuous horizon generated at the transfinite limit.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SUMMARY TABLE -->
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Historical Era</th>
+              <th style="width: 26%;">What is an Angle?</th>
+              <th style="width: 24%;">Primary Metric</th>
+              <th style="width: 28%;">Conceptual Milestone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Egyptian &amp; Babylonian</b></td>
+              <td>Slope of stones; 1/360th of circular horizon</td>
+              <td>Seked (run/rise); degrees (360°)</td>
+              <td>Practical architecture &amp; calendar astronomy</td>
+            </tr>
+            <tr>
+              <td><b>Classical Greece</b></td>
+              <td>Geometric inclination of intersecting lines</td>
+              <td>Straightedge &amp; compass; chord crd(θ)</td>
+              <td>Separation of qualitative angle from linear numbers</td>
+            </tr>
+            <tr>
+              <td><b>Medieval India &amp; Islam</b></td>
+              <td>Half-chord altitude on a reference circle</td>
+              <td>Sine (jya), cosine, tangent</td>
+              <td>Trigonometry becomes an independent mathematical science</td>
+            </tr>
+            <tr>
+              <td><b>Euler &amp; Analysis</b></td>
+              <td>Dimensionless scalar ratio of arc length to radius</td>
+              <td>Radians; power series; e^(iθ)</td>
+              <td>Angle becomes a pure real number on ℝ; θ = Im(ln z)</td>
+            </tr>
+            <tr>
+              <td><b>Modern Algebra</b></td>
+              <td>Rotational transformation operator / group element</td>
+              <td>SO(2), quaternions, bivector rotors</td>
+              <td>Angle as an active symmetry of space</td>
+            </tr>
+            <tr>
+              <td><b>Tree Scaffolding &amp; ℂ_ω</b></td>
+              <td>Discrete binary path on 2-successor tree</td>
+              <td>Dyadics m / 2ⁿ; CORDIC; dθ = 1/ω</td>
+              <td>Unification of digital bisection and continuous calculus</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </details>
+
+    <hr>
+
     <!-- PART 1 -->
-    <h2><span class="badge badge-blue">Part 1</span> The Real Conway Tree: Discrete Bisections &amp; Algorithms</h2>
+    <h2><span class="badge badge-blue">Part 1</span> The 2-Successor Binary Tree: Angle Bisections, Radicals &amp; CORDIC</h2>
 
     <h3>1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)</h3>
     <p>
-      At finite Conway birthdays <em>n</em>, the 2-successor tree generates the dense set of <b>dyadic rationals</b> <code>𝔻 = { m / 2ⁿ }</code>. Mapping the normalized interval <code>[0, 1)</code> to the circular domain <code>[0, 2π)</code> reveals that descending the tree corresponds precisely to <b>successive angle bisection</b>:
+      In our formal description of numbers, the 2-successor tree ascending through all finite birthdays <em>n &lt; ω</em> generates the dense set of <b>dyadic rationals</b> (while at any single cutoff birthday <em>n</em>, it forms a discrete uniform grid of mesh spacing <code>1 / 2ⁿ</code>):
+    </p>
+    <div class="formula-box">
+      𝔻 = { m / 2ⁿ | m ∈ ℤ, n ∈ ℕ₀ }
+    </div>
+    <p>
+      Mapping the normalized unit interval <code>[0, 1)</code> to the circular angle domain <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 toward the canopy corresponds precisely to <b>recursive angle bisection</b>:
     </p>
 
     <ul class="step-list">
-      <li><b>Day 0:</b> Root <code>0</code> (Angle <code>0</code>)</li>
-      <li><b>Day 1:</b> Semi-circle poles (Angles <code>0, π</code>)</li>
-      <li><b>Day 2:</b> Quadrant axis markers (Angles <code>π/2, 3π/2</code>)</li>
-      <li><b>Day 3:</b> The classical 45° diagonals (Angles <code>π/4, 3π/4, 5π/4, 7π/4</code>)</li>
-      <li><b>Day <em>n</em>:</b> Granular binary angles <code>θ_n = 2π / 2ⁿ</code></li>
+      <li><b>Day 0:</b> Root <code>0</code> → Angle <code>0</code> (Coordinate vector <code>(1, 0)</code>)</li>
+      <li><b>Day 1:</b> Semi-circle poles → Angles <code>0, π</code> (Points <code>(1, 0)</code> and <code>(-1, 0)</code>)</li>
+      <li><b>Day 2:</b> Quadrant axis markers → Angles <code>π/2, 3π/2</code> (Points <code>(0, 1)</code> and <code>(0, -1)</code>)</li>
+      <li><b>Day 3:</b> The classical 45° diagonals → Angles <code>π/4, 3π/4, 5π/4, 7π/4</code></li>
+      <li><b>Day 4:</b> 22.5° facets → Angles <code>π/8, 3π/8, 5π/8, 7π/8, ...</code></li>
+      <li><b>Day <em>n</em>:</b> Granular dyadic angles <code>θ_n = 2π / 2ⁿ</code></li>
     </ul>
 
     <p>
-      The geometric rule for stepping down along the positive branch is given by the half-angle cosine identity:
+      The algebraic rule for stepping down along the positive branch is given by the trigonometric half-angle identity:
     </p>
     <div class="formula-box">
       cos(θ / 2) = √[ (1 + cos θ) / 2 ]
     </div>
 
-    <p>Starting from <code>cos(π/2) = 0</code> and stepping recursively down the branches yields nested square roots of 2:</p>
+    <p>Starting from the Day 2 cardinal axis <code>cos(π/2) = 0</code> and stepping recursively down the branches generates François Viète’s sequence of <b>nested square roots of 2</b>:</p>
     <div class="formula-box">
       cos(π/4)  = √2 / 2<br>
       cos(π/8)  = √[ 2 + √2 ] / 2<br>
       cos(π/16) = √[ 2 + √(2 + √2) ] / 2<br>
-      cos(π/2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(n nested radicals)
+      cos(π / 2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(with n nested square roots)
     </div>
 
     <p>
-      Multiplying these branch cosines as we descend toward transfinite Day <code>ω</code> reproduces <b>François Viète’s famous 1593 infinite product for π</b>:
+      Descending the extreme branch of the tree all the way to transfinite Day <code>ω</code> yields <b>François Viète’s celebrated 1593 infinite product for π</b>:
     </p>
     <div class="formula-box">
       2 / π = (√2 / 2) · (√[2 + √2] / 2) · (√[2 + √(2 + √2)] / 2) · ...
     </div>
     <p>
-      On the Conway tree, this product is not an ad-hoc analytic trick: it is the exact cumulative projection of radial coordinates as you zoom in toward the origin.
+      In classical analysis, Viète''s product looks like an isolated analytical miracle. On our 2-successor number tree, it is simply the <b>cumulative radial projection along the tree’s principal spine</b> as birthday depth approaches <code>ω</code>.
     </p>
 
-    <h3>2. The CORDIC Algorithm: How Hardware Actually Computes Trig</h3>
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 410" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f1f5f9" rx="10"></rect>
+        <rect x="0" y="22" width="780" height="12" fill="#f1f5f9"></rect>
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 2-Successor Conway Angle Tree &amp; Unit Circle Dyadic Bisections</text>
+
+        <!-- Left Pane: Binary Angle Tree -->
+        <rect x="14" y="44" width="450" height="352" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CONWAY DYADIC ANGLE TREE (Birthdays 0 to 4)</text>
+
+        <!-- Birthday Labels on Far Left -->
+        <text x="24" y="94" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 0</text>
+        <text x="24" y="154" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 1</text>
+        <text x="24" y="214" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 2</text>
+        <text x="24" y="274" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 3</text>
+        <text x="24" y="334" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 4</text>
+        <text x="24" y="384" font-family="monospace" font-size="10.5" font-weight="bold" fill="#0284c7">Day ω</text>
+
+        <!-- Tree Edges -->
+        <!-- Root to Day 1 -->
+        <line x1="239" y1="92" x2="155" y2="150" stroke="#94a3b8" stroke-width="1.5"></line>
+        <line x1="239" y1="92" x2="323" y2="150" stroke="#2563eb" stroke-width="2.2"></line>
+
+        <!-- Day 1 to Day 2 -->
+        <line x1="323" y1="150" x2="270" y2="210" stroke="#94a3b8" stroke-width="1.5"></line>
+        <line x1="323" y1="150" x2="375" y2="210" stroke="#2563eb" stroke-width="2.2"></line>
+
+        <!-- Day 2 to Day 3 -->
+        <line x1="375" y1="210" x2="345" y2="270" stroke="#94a3b8" stroke-width="1.5"></line>
+        <line x1="375" y1="210" x2="410" y2="270" stroke="#2563eb" stroke-width="2.2"></line>
+
+        <!-- Day 3 to Day 4 -->
+        <line x1="410" y1="270" x2="392" y2="330" stroke="#94a3b8" stroke-width="1.5"></line>
+        <line x1="410" y1="270" x2="432" y2="330" stroke="#2563eb" stroke-width="2.2"></line>
+
+        <!-- Day 4 to Day ω dots -->
+        <line x1="432" y1="330" x2="442" y2="375" stroke="#0284c7" stroke-width="2" stroke-dasharray="3,3"></line>
+
+        <!-- Tree Nodes -->
+        <!-- Day 0 Root -->
+        <circle cx="239" cy="92" r="7" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="239" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Root: θ = 0 (cos = 1)</text>
+
+        <!-- Day 1 Nodes -->
+        <circle cx="155" cy="150" r="6" fill="#64748b"></circle>
+        <text x="145" y="154" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">0 (1)</text>
+        <circle cx="323" cy="150" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="335" y="148" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π (cos = -1)</text>
+
+        <!-- Day 2 Nodes -->
+        <circle cx="270" cy="210" r="5" fill="#94a3b8"></circle>
+        <text x="260" y="214" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">3π/2 (-i)</text>
+        <circle cx="375" cy="210" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="387" y="208" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/2 (cos = 0)</text>
+
+        <!-- Day 3 Nodes -->
+        <circle cx="345" cy="270" r="4.5" fill="#94a3b8"></circle>
+        <text x="338" y="274" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/4</text>
+        <circle cx="410" cy="270" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="422" y="268" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/4 (cos = √2/2)</text>
+
+        <!-- Day 4 Nodes -->
+        <circle cx="392" cy="330" r="4" fill="#94a3b8"></circle>
+        <text x="385" y="334" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/8</text>
+        <circle cx="432" cy="330" r="6.5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="444" y="328" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#0369a1">π/8 (cos = √[2+√2]/2)</text>
+
+        <!-- Viète Callout Box in Left Pane -->
+        <rect x="70" y="280" width="220" height="96" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"></rect>
+        <text x="180" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Viète''s Spine (n → ω):</text>
+        <text x="80" y="318" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/4)  = √2 / 2</text>
+        <text x="80" y="334" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/8)  = √[2 + √2] / 2</text>
+        <text x="80" y="350" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/16) = √[2+√(2+√2)] / 2</text>
+        <text x="180" y="367" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#2563eb">2/π = ∏ cos(π / 2ⁿ⁺¹)</text>
+
+        <!-- Right Pane: Unit Circle Bisections & CORDIC -->
+        <rect x="475" y="44" width="290" height="352" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CIRCULAR BISECTIONS &amp; CORDIC</text>
+
+        <!-- Coordinate Axes -->
+        <line x1="510" y1="210" x2="730" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
+        <line x1="620" y1="100" x2="620" y2="320" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
+
+        <!-- Unit Circle -->
+        <circle cx="620" cy="210" r="95" fill="none" stroke="#3b82f6" stroke-width="2"></circle>
+
+        <!-- Angle Rays -->
+        <!-- Day 1 Pole: π (180°) -->
+        <line x1="620" y1="210" x2="525" y2="210" stroke="#64748b" stroke-width="2"></line>
+        <!-- Day 2 Cardinal: π/2 (90°) -->
+        <line x1="620" y1="210" x2="620" y2="115" stroke="#2563eb" stroke-width="2"></line>
+        <!-- Day 3 Diagonal: π/4 (45°) -->
+        <line x1="620" y1="210" x2="687" y2="143" stroke="#0284c7" stroke-width="1.8"></line>
+        <!-- Day 4 Facet: π/8 (22.5°) -->
+        <line x1="620" y1="210" x2="708" y2="174" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2"></line>
+
+        <!-- Points on Circle -->
+        <circle cx="715" cy="210" r="4.5" fill="#1e3a8a"></circle>
+        <text x="722" y="206" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e3a8a">0</text>
+
+        <circle cx="525" cy="210" r="4.5" fill="#64748b"></circle>
+        <text x="512" y="206" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">π</text>
+
+        <circle cx="620" cy="115" r="4.5" fill="#2563eb"></circle>
+        <text x="620" y="107" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e40af">π/2</text>
+
+        <circle cx="687" cy="143" r="4.5" fill="#0284c7"></circle>
+        <text x="696" y="139" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#0369a1">π/4 (45°)</text>
+
+        <circle cx="708" cy="174" r="4.5" fill="#059669"></circle>
+        <text x="718" y="172" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#059669">π/8 (22.5°)</text>
+
+        <!-- Target Angle & CORDIC Steering Vector -->
+        <line x1="620" y1="210" x2="672" y2="129" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="672" cy="129" r="4" fill="#dc2626"></circle>
+        <text x="680" y="123" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626">Target θ</text>
+
+        <!-- CORDIC Note Box in Right Pane -->
+        <rect x="490" y="332" width="260" height="54" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"></rect>
+        <text x="620" y="348" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#991b1b">CORDIC Binary Tree Search:</text>
+        <text x="620" y="364" text-anchor="middle" font-family="monospace" font-size="9" fill="#7f1d1d">θ ≈ ∑ d_k · arctan(2⁻ᵏ), d_k ∈ {-1, +1}</text>
+        <text x="620" y="378" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" fill="#991b1b">Hardware walks Left/Right using pure bit-shifts</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: The 2-Successor Conway Angle Tree &amp; Circular Bisections — each birthday level bisects the circumference, generating Viète’s nested radicals and guiding CORDIC hardware rotations.
+      </div>
+    </div>
+
+    <h3>2. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
     <p>
-      Microprocessors, GPS receivers, and pocket calculators rarely compute sines and cosines with Taylor series, because multiplications and divisions consume excessive clock cycles and accumulate floating-point rounding errors.
+      In modern computing, microprocessors, DSP chips, and GPU graphics pipelines rarely evaluate trigonometric functions with Taylor polynomials or floating-point division. Division and multiplication require multiple clock cycles and accumulate rounding drift.
     </p>
     <p>
-      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), which is literally a <b>path traversal along a Conway sign sequence</b>:
+      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), invented by Jack Volder in 1959. CORDIC is literally a <b>path traversal down our 2-successor number tree</b>:
     </p>
 
     <ol>
       <li>
-        Any input angle <code>θ</code> is expressed as a sum of precomputed dyadic elementary angles:
+        Any arbitrary target angle <code>θ</code> is approximated by a finite sequence of binary steering choices:
         <div class="formula-box">
           θ ≈ ∑[k=0 to n] d_k · arctan(2⁻ᵏ), &nbsp;&nbsp;where d_k ∈ { -1, +1 }
         </div>
       </li>
       <li>
-        At each clock cycle <em>k</em>, the hardware evaluates a single binary question: <em>Am I clockwise or counterclockwise from the target?</em>
+        At each clock cycle <em>k</em>, the hardware examines the current angle accumulator:
         <ul>
-          <li>If counterclockwise (<code>d_k = +1</code>), rotate forwards.</li>
-          <li>If clockwise (<code>d_k = -1</code>), rotate backwards.</li>
+          <li>If counterclockwise from the target, set <code>d_k = +1</code> (branch Right).</li>
+          <li>If clockwise from the target, set <code>d_k = -1</code> (branch Left).</li>
         </ul>
       </li>
       <li>
-        Because the angular step factor is <code>2⁻ᵏ</code>, vector updates require <b>zero multiplications</b>—only bit-shifts (dividing by 2) and additions:
+        Because the angular step magnitude is <code>2⁻ᵏ</code>, the rotation matrix update requires <b>zero multiplications</b>—only binary bit-shifts (arithmetic right-shift by <em>k</em> bits) and additions:
         <div class="formula-box">
-          x_(k+1) = x_k - d_k · y_k · 2⁻ᵏ<br>
-          y_(k+1) = y_k + d_k · x_k · 2⁻ᵏ
+          x_(k+1) = x_k - d_k · (y_k &gt;&gt; k)<br>
+          y_(k+1) = y_k + d_k · (x_k &gt;&gt; k)
         </div>
       </li>
     </ol>
     <p>
-      Executing trigonometry in physical silicon is mathematically isomorphic to walking a path of Left and Right choices down a Conway tree of dyadic angles.
+      Executing trigonometry in silicon is mathematically identical to choosing Conway Left and Right sign steps <code>{ -, + }</code> down the dyadic angle tree!
     </p>
 
     <h3>3. Walsh Functions: The "Square-Wave Trig" of the Binary Tree</h3>
     <p>
-      In continuous space, smooth sines and cosines form an orthogonal basis for classical Fourier analysis. On a discrete binary tree, the exact counterparts to sinusoidal waves are <b>Walsh-Hadamard functions</b>.
+      On the smooth continuum, circular sine and cosine waves form the orthogonal basis for continuous Fourier analysis. On a discrete 2-successor binary tree, the exact trigonometric counterparts are <b>Walsh-Hadamard functions</b>.
     </p>
     <ul class="step-list">
-      <li>Rather than undulating continuously, Walsh waves are square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
-      <li>They are generated directly from the bit parity along Conway tree addresses (nim-addition / XOR operations).</li>
-      <li>This makes Walsh-Hadamard transforms the native trigonometric language of digital signal processing, CDMA telecommunications, and quantum gate operations.</li>
+      <li>Rather than undulating continuously, Walsh waves are rectangular square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
+      <li>They correspond to the parity of branch choices along Conway tree addresses (evaluated via bitwise XOR / nim-addition).</li>
+      <li>Just as continuous Fourier transforms decompose signals into sinusoids, the <b>Fast Walsh-Hadamard Transform (FWHT)</b> decomposes discrete tree signals with zero multiplications, forming the mathematical engine of CDMA telecommunications, error-correcting codes, and quantum Hadamard gates.</li>
     </ul>
 
     <hr>
 
     <!-- PART 2 -->
-    <h2><span class="badge badge-purple">Part 2</span> The Complex Continuum ℂ_ω: From Algebra to Physical Reality</h2>
+    <h2><span class="badge badge-purple">Part 2</span> The 4-Successor Quadtree &amp; The Complex Continuum ℂ_ω</h2>
 
     <p>
-      When we extend the Conway construction to transfinite Day <code>ω</code> and cross two real axes into the 2D complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the fundamental engine of geometry and physical conservation laws.
+      When we extend the number tree to transfinite limit ordinal Day <code>ω</code> and cross two real axes into the complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the indispensable geometry of 2D space and quantum mechanics.
     </p>
 
-    <h3>1. From Binary Tree to the 4-Successor Quadtree</h3>
+    <h3>1. From the Binary Tree to the 4-Successor Quadtree</h3>
     <p>
-      On <code>ℝ_ω</code>, Conway’s tree branches in two directions: <code>{ -1, +1 }</code>. In the complex domain <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, the tree branches in four directions:
+      On <code>ℝ_ω</code>, the tree branches in two directions: <code>{ -1, +1 }</code>. In our description of the complex continuum <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, each node has <b>4 successors</b>:
     </p>
     <div class="formula-box purple">
-      { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
+      Basis = { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
     </div>
     <p>
-      These are the <b>4th roots of unity</b>, identifying the four cardinal directions:
+      As highlighted in our introduction to graph trees, these 4 generators are the <b>4th roots of unity</b>:
     </p>
     <div class="formula-box purple">
-      e^(i · 0) = +1, &nbsp;&nbsp; e^(i · π/2) = +i, &nbsp;&nbsp; e^(i · π) = -1, &nbsp;&nbsp; e^(i · 3π/2) = -i
+      e^(i · 0) = +1 &nbsp;&nbsp;(East, 0°)<br>
+      e^(i · π/2) = +i &nbsp;&nbsp;(North, 90°)<br>
+      e^(i · π) = -1 &nbsp;&nbsp;(West, 180°)<br>
+      e^(i · 3π/2) = -i &nbsp;&nbsp;(South, 270°)
     </div>
     <p>
-      Descending the complex Conway tree tiles the 2D plane with self-similar square cells of infinitesimal grid width <code>dz = dx + i·dy</code>, where <code>dx = dy = 1/ω</code>.
+      Recall from <a href="javascript:void(0)" onclick="window.parent.postMessage({type:''NAV_SEGMENT'', segmentId:''numbersIntro''}, ''*'');" style="color: #2563eb; text-decoration: underline;">numbersIntro.html</a> that <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
     </p>
+    <ul>
+      <li><b>Fan 1 (Upper Half-Plane):</b> Sweeps angles <code>0° → 180°</code>.</li>
+      <li><b>Fan 2 (Lower Half-Plane):</b> Sweeps angles <code>180° → 360°</code>.</li>
+      <li>The imaginary unit <code>i</code> serves as the <b>90° perpendicular steering operator</b> that transitions between the two fans, covering all 360° space without blindspots.</li>
+    </ul>
 
-    <h3>2. The Unit Circle Becomes an Exact Hyperfinite ω-gon</h3>
+    <h3>2. The Unit Circle Becomes an Exact Hyperfinite regular ω-gon</h3>
     <p>
-      In classical analysis, the unit circle is an abstract continuous manifold whose perimeter requires transcendental limits. On <code>ℂ_ω</code>, the unit circle is an <b>exact regular ω-sided polygon</b>:
+      In standard calculus, the unit circle is an idealized curve whose circumference requires limits of inscribed polygons. On <code>ℂ_ω</code>, the unit circle is <b>literally a regular polygon with transfinite integer ω sides</b>:
     </p>
     <ul class="step-list">
-      <li><b>Number of vertices:</b> Transfinite integer <code>ω</code>.</li>
-      <li><b>Infinitesimal step angle:</b> <code>dθ = 2π / ω = 2π · dx</code>.</li>
+      <li><b>Vertex Count:</b> Exactly <code>ω</code> vertices indexed by the 1-successor trunk counter <code>k ∈ {0, 1, 2, ..., ω}</code>.</li>
+      <li><b>Infinitesimal Step Angle:</b> <code>dθ = 2π / ω = 2π · dx</code>, where <code>dx = 1/ω</code>.</li>
       <li>
-        <b>Vertex coordinates:</b>
+        <b>Vertex Coordinates:</b>
         <div class="formula-box purple">
           z_k = e^(i · 2πk / ω) = cos(2πk / ω) + i · sin(2πk / ω)
         </div>
@@ -11415,129 +11985,248 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Sine</b> is the vertical projection onto the imaginary tree <code>i · ℝ_ω</code>.</li>
     </ul>
 
-    <p>The circumference is evaluated as an elementary discrete sum without limits:</p>
+    <p>The circumference is computed as an exact discrete sum of chord lengths:</p>
     <div class="formula-box purple">
       Perimeter = ∑[k=1 to ω] |z_k - z_(k-1)| = ω · |e^(i · 2π/ω) - 1| ≈ ω · (2π / ω) = 2π
     </div>
     <p>
-      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with microscopic polygon chord errors vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
+      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with the microscopic difference between chords and arc vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
     </p>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f5f3ff" rx="10"></rect>
+        <rect x="0" y="22" width="780" height="12" fill="#f5f3ff"></rect>
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#6b21a8">Figure 2: The 4-Successor Quadtree &amp; Perpendicular Rotation on ℂ_ω</text>
+
+        <!-- Left Pane: 4-Successor Quadtree Root -->
+        <rect x="14" y="44" width="350" height="372" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"></rect>
+        <text x="189" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">4-SUCCESSOR BASIS (4th Roots of Unity)</text>
+
+        <!-- Compass Cardinal Axes from Root -->
+        <!-- Center root at (189, 185) -->
+        <line x1="189" y1="185" x2="305" y2="185" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="73" y2="185" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="189" y2="69" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="189" y2="301" stroke="#7c3aed" stroke-width="3"></line>
+
+        <!-- Sub-branches (Quadtree cell tiling) -->
+        <rect x="235" y="115" width="40" height="40" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="3,2"></rect>
+        <text x="255" y="139" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c3aed">cell dz</text>
+
+        <!-- Compass Nodes -->
+        <circle cx="189" cy="185" r="7.5" fill="#4c1d95" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="189" y="202" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4c1d95">Root (0)</text>
+
+        <!-- East: +1 -->
+        <circle cx="305" cy="185" r="6" fill="#7c3aed"></circle>
+        <text x="315" y="189" text-anchor="start" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+1 (0°)</text>
+
+        <!-- North: +i -->
+        <circle cx="189" cy="69" r="6" fill="#7c3aed"></circle>
+        <text x="189" y="99" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+i (90°)</text>
+
+        <!-- West: -1 -->
+        <circle cx="73" cy="185" r="6" fill="#7c3aed"></circle>
+        <text x="63" y="189" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
+
+        <!-- South: -i -->
+        <circle cx="189" cy="301" r="6" fill="#7c3aed"></circle>
+        <text x="189" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+
+        <!-- Note on Two Fans in Left Pane -->
+        <rect x="25" y="336" width="328" height="66" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1"></rect>
+        <text x="189" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#581c87">Two 180° Polar Fans Spanning 360°:</text>
+        <text x="35" y="368" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Upper Fan (0° → 180°): Spans Upper Half-Plane</text>
+        <text x="35" y="382" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Lower Fan (180° → 360°): Spans Lower Half-Plane</text>
+        <text x="35" y="396" font-family="system-ui, sans-serif" font-size="9" fill="#7c3aed">• Operator ''i'' rotates 90° into the perpendicular fan</text>
+
+        <!-- Right Pane: Perpendicular Stepping on ℂ_ω -->
+        <rect x="376" y="44" width="390" height="372" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="571" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">PERPENDICULAR STEPPING ON ℂ_ω GRID</text>
+
+        <!-- Grid Lines in Background -->
+        <g stroke="#f1f5f9" stroke-width="1.5">
+          <line x1="395" y1="100" x2="750" y2="100"></line>
+          <line x1="395" y1="140" x2="750" y2="140"></line>
+          <line x1="395" y1="180" x2="750" y2="180"></line>
+          <line x1="395" y1="220" x2="750" y2="220"></line>
+          <line x1="395" y1="260" x2="750" y2="260"></line>
+          <line x1="420" y1="80" x2="420" y2="300"></line>
+          <line x1="460" y1="80" x2="460" y2="300"></line>
+          <line x1="500" y1="80" x2="500" y2="300"></line>
+          <line x1="540" y1="80" x2="540" y2="300"></line>
+          <line x1="580" y1="80" x2="580" y2="300"></line>
+          <line x1="620" y1="80" x2="620" y2="300"></line>
+          <line x1="660" y1="80" x2="660" y2="300"></line>
+          <line x1="700" y1="80" x2="700" y2="300"></line>
+        </g>
+
+        <!-- Origin at (430, 270) -->
+        <circle cx="430" cy="270" r="4.5" fill="#475569"></circle>
+        <text x="420" y="284" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">Origin (0,0)</text>
+
+        <!-- Circular Arc (Polygon contour) -->
+        <path d="M 430 80 A 190 190 0 0 1 620 270" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-dasharray="4,4"></path>
+
+        <!-- Radial Vector z_k -->
+        <line x1="430" y1="270" x2="564" y2="136" stroke="#2563eb" stroke-width="2.2"></line>
+        <circle cx="564" cy="136" r="5" fill="#2563eb"></circle>
+        <text x="495" y="215" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#2563eb">Radius z_k (1)</text>
+        <text x="560" y="125" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Vertex z_k</text>
+
+        <!-- Perpendicular Tangent Vector + i · z_k · dθ -->
+        <line x1="564" y1="136" x2="520" y2="92" stroke="#7c3aed" stroke-width="2.5"></line>
+        <!-- Right Angle Symbol at (564, 136) -->
+        <path d="M 553 125 L 542 136 L 553 147" fill="none" stroke="#7c3aed" stroke-width="1.2"></path>
+        <text x="560" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">+ i · z_k · dθ</text>
+
+        <!-- Resulting Step to z_(k+1) -->
+        <line x1="430" y1="270" x2="520" y2="92" stroke="#059669" stroke-width="2" stroke-dasharray="3,2"></line>
+        <circle cx="520" cy="92" r="5" fill="#059669"></circle>
+        <text x="510" y="82" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertex z_(k+1)</text>
+
+        <!-- 1-Successor Perimeter Counter Label -->
+        <rect x="400" y="310" width="345" height="92" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"></rect>
+        <text x="572" y="328" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Euler’s Rotation &amp; Infinitesimal Elongation:</text>
+        <text x="410" y="348" font-family="monospace" font-size="9.5" fill="#334155">z_(k+1) = z_k · [ 1 + i · (θ / ω) ]</text>
+        <text x="410" y="366" font-family="monospace" font-size="9.5" fill="#6b21a8">|z_(k+1)|² = 1 + (θ/ω)² = 1 + θ² · dx²</text>
+        <text x="410" y="384" font-family="system-ui, sans-serif" font-size="9" fill="#059669">Compounding ω steps: |z_ω| = [1 + θ² dx²]^(ω/2) → st(|z|) = </text></svg><b>1</b>
+        <text x="410" y="398" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">The 1-Successor Counter (k → k+1) steps along the regular ω-gon!</text>
+      
+      <div class="diagram-caption">
+        Figure 2: The 4-Successor Quadtree &amp; Perpendicular Stepping on ℂ_ω — the 4 compass directions set the quadtree grid, and perpendicular steps <code>z_(k+1) = z_k (1 + i·dθ)</code> generate circular rotation with zero standard elongation.
+      </div>
+    </div>
 
     <h3>3. Euler’s Formula as Pure Perpendicular Stepping</h3>
     <p>
-      Multiplying by <code>i</code> rotates any vector on <code>ℂ_ω</code> counterclockwise by exactly 90°. To trace circular rotation:
+      Multiplying by the imaginary unit <code>i</code> rotates any vector in <code>ℂ_ω</code> counterclockwise by exactly 90°.
+      When we inspect this dynamic on our hyperfinite grid:
     </p>
     <ol>
       <li>
-        At point <code>z_k</code>, take an infinitesimal step perpendicular to the radius:
+        At any current vertex <code>z_k</code> on the unit circle, take a tiny step strictly perpendicular to the radial vector:
         <div class="formula-box purple">
           z_(k+1) = z_k + i · (θ / ω) · z_k = z_k · [ 1 + i · (θ / ω) ]
         </div>
       </li>
       <li>
-        Evaluate the change in radial length:
+        Evaluate the change in radial length using the Pythagorean theorem:
         <div class="formula-box purple">
           |1 + i · (θ / ω)|² = 1 + (θ / ω)² = 1 + θ² · dx²
         </div>
-        The radial elongation is purely second-order dust <code>O(dx²)</code>, which has <b>zero standard part</b>.
+        Because <code>dx = 1/ω</code> is infinitesimal, the radial elongation is purely second-order infinitesimal dust <code>O(dx²)</code>.
       </li>
       <li>
-        Compounding <code>ω</code> perpendicular steps produces the circular trajectory:
+        Compounding <code>ω</code> such perpendicular steps yields Euler’s formula:
         <div class="formula-box purple">
           z_ω = [ 1 + i · (θ / ω) ]^ω ≡ e^(i·θ) = cos θ + i · sin θ
+        </div>
+        Taking the standard part:
+        <div class="formula-box purple">
+          st( |z_ω| ) = st( [1 + θ² · dx²]^(ω/2) ) = 1 + 0 = 1
         </div>
       </li>
     </ol>
     <p>
-      Smooth circular rotation <code>(cos θ, sin θ)</code> is simply the macroscopic shadow of marching perpendicular steps along the square grid cells of <code>ℂ_ω</code>!
+      In standard calculus, Euler''s formula <code>e^(iθ) = cos θ + i·sin θ</code> is proved via infinite Taylor series. On <code>ℂ_ω</code>, it is simply the macroscopic shadow of <b>marching perpendicular steps along the square grid cells of the 4-successor quadtree</b>!
     </p>
 
-    <h3>4. Cauchy-Riemann Equations: The "No-Shear" Conformal Symmetry</h3>
+    <h3>4. Cauchy-Riemann Equations: Holomorphic "No-Shear" Conformal Symmetry</h3>
     <p>
-      A mapping <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is holomorphic if and only if it preserves the shape of the underlying Conway quadtree cells. The Cauchy-Riemann equations:
+      A complex function <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is differentiable (holomorphic) if and only if it preserves the intrinsic geometry of the underlying quadtree cells. 
+      The Cauchy-Riemann equations:
     </p>
     <div class="formula-box purple">
       ∂u/∂x = ∂v/∂y, &nbsp;&nbsp;&nbsp;&nbsp; ∂u/∂y = -∂v/∂x
     </div>
     <p>
-      are the exact algebraic condition ensuring that <b>every infinitesimal square cell maps to another square cell</b> (scaled and rotated by <code>e^(i·θ)</code>, with zero angle shear). Trigonometry is the intrinsic geometry of conformal invariance.
+      are the exact algebraic condition stating that <b>every infinitesimal square cell maps to another scaled, rotated square cell with zero angle distortion</b>. Holomorphic functions are conformal transformations: their local derivative <code>f''(z) = r · e^(i·θ)</code> acts as a pure scale and trigonometric rotation on every quadtree cell.
     </p>
 
     <h3>5. Why 2π i Appears in Contour Integrals</h3>
     <p>
-      The famous factor <code>2π i</code> in Cauchy’s Residue Theorem:
+      The ubiquitous factor <code>2π i</code> in Cauchy’s Residue Theorem:
     </p>
     <div class="formula-box purple">
       ∮ (1 / z) dz = 2π i
     </div>
     <p>
-      is immediately transparent on the <code>ℂ_ω</code> polygon. Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
+      is immediately transparent when viewed through our 1-successor perimeter counter marching around the <code>ℂ_ω</code> regular ω-gon. 
+      Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
     </p>
     <div class="formula-box purple">
       dz / z = [ i · e^(i·θ) dθ ] / e^(i·θ) = i · dθ<br><br>
-      ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
+      ∮ (1 / z) dz = ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
     </div>
     <p>
-      The residue factor <code>2π i</code> is literally the total winding angle (<code>2π</code>) multiplied by the imaginary 90° rotation operator (<code>i</code>).
+      The contour integral is simply the 1-successor discrete accumulation of <code>ω</code> identical elementary rotations, where <code>2π</code> is the full circumference angle and <code>i</code> is the 90° perpendicular turning operator.
     </p>
 
     <h3>6. Quantum Phase: Why Nature Uses ℂ_ω Instead of ℝ_ω</h3>
     <p>
-      In <b>Quantum Logic</b>, this geometric structure connects directly to physical reality:
+      In our <b>Quantum Logic</b> curriculum, this geometric distinction explains why physical universe amplitudes require <code>ℂ_ω</code> rather than classical real numbers <code>ℝ_ω</code>:
     </p>
     <ul class="step-list">
-      <li>Classical probabilities are non-negative real numbers in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂</code>).</li>
-      <li>Quantum states are complex amplitudes <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase.</li>
-      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel:
+      <li>Classical probabilities on the 1D real line <code>ℝ_ω</code> are non-negative weights in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂ ≥ p₁</code>).</li>
+      <li>Quantum wave amplitudes are complex numbers <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase angle on the 4-successor quadtree.</li>
+      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel each other out completely:
         <div class="formula-box purple">
           e^(i · 0) + e^(i · π) = 1 + (-1) = 0
         </div>
       </li>
       <li>
-        The Pythagorean identity on <code>ℂ_ω</code>:
+        The fundamental Pythagorean trigonometric identity:
         <div class="formula-box purple">
           cos²θ + sin²θ = 1
         </div>
-        is the fundamental law that guarantees <b>unitarity and the conservation of total probability</b> across all quantum state transformations.
+        is the physical conservation law guaranteeing that total quantum probability remains strictly <code>1.0</code> (unitarity) under all unitary time evolutions.
       </li>
     </ul>
 
     <hr>
 
-    <h2>Synthesis</h2>
+    <h2>Synthesis: The Three Number Trees in Trigonometry</h2>
     <table>
       <thead>
         <tr>
           <th>Regime</th>
-          <th>Domain</th>
-          <th>Trigonometric Interpretation</th>
-          <th>Key Insight / Application</th>
+          <th>Number Tree</th>
+          <th>Generators &amp; Step Size</th>
+          <th>Trigonometric Manifestation</th>
+          <th>Core STEM Application</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><b>Discrete / Finite</b></td>
-          <td>Conway Tree (Day <em>n</em>)</td>
-          <td>Angle bisection, dyadic rationals <code>m / 2ⁿ</code></td>
-          <td>CORDIC bit-shift algorithm; Viète’s nested radicals for π.</td>
+          <td><b>1-Successor</b></td>
+          <td><code>ℕ_ω</code> (The Trunk)</td>
+          <td><code>k → k + 1</code><br>Uniform arc <code>ds = 2π / ω</code></td>
+          <td>Discrete perimeter accumulation; circular step index</td>
+          <td>Contour integration residue <code>∮ (1/z) dz = 2π i</code>; discrete Riemann-Stieltjes sums.</td>
         </tr>
         <tr>
-          <td><b>Harmonic / Algebraic</b></td>
-          <td>Sign Sequences <code>{ -1, +1 }</code></td>
-          <td>Walsh-Hadamard square waves</td>
-          <td>Digital communications, CDMA, and discrete Walsh-Fourier series.</td>
+          <td><b>2-Successor</b></td>
+          <td><code>ℝ_ω</code> (Binary Tree)</td>
+          <td><code>{ -, + }</code><br>Dyadic step <code>2⁻ⁿ</code></td>
+          <td>Recursive angle bisections; nested square roots of 2</td>
+          <td>CORDIC multiplierless bit-shift hardware; Viète’s product for π; Walsh-Hadamard telecommunications.</td>
         </tr>
         <tr>
-          <td><b>Continuous / Complex</b></td>
-          <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></td>
-          <td>Exact regular <code>ω</code>-gon on hyperfinite grid</td>
-          <td>Euler’s formula as perpendicular steps; <code>2π i</code> residue winding; quantum phase cancellation.</td>
+          <td><b>4-Successor</b></td>
+          <td><code>ℂ_ω</code> (The Quadtree)</td>
+          <td><code>{ +1, -1, +i, -i }</code><br>Grid cell <code>dz = dx + i·dy</code></td>
+          <td>Hyperfinite regular ω-gon; perpendicular tangent rotation</td>
+          <td>Euler’s formula <code>e^(iθ)</code>; Cauchy-Riemann conformal grid invariance; quantum phase cancellation and unitarity.</td>
         </tr>
       </tbody>
     </table>
   </div>
 ', 'published'),
-  (51, 'lean4GenEdProposal', 50, '1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap', 'lean4-gen-ed-proposal', '
+  (52, 'lean4GenEdProposal', 51, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
       <h2>— Prototyping an Open Civic Infrastructure for Formal Proof, Symbolic Algebra, and Autonomous Curricula —</h2>
@@ -11907,7 +12596,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
 ', 'published'),
-  (52, 'dualAgentAcademicProposal', 51, '1. Abstract &amp; Research Problem', 'dual-agent-academic-proposal', '
+  (53, 'dualAgentAcademicProposal', 52, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
     <div class="card">
       <h1>Coupling Formal Verification with Conversational AI</h1>
       <h2>— A Multi-Service Grounded Dual-Layer Architecture &amp; Interactive Sandbox for Sound, Hallucination-Free Intelligent Tutoring Systems —</h2>
@@ -12009,7 +12698,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
   ', 'published'),
-  (53, 'minimalAxiomaticCoreProposal', 52, '1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation', 'minimal-axiomatic-core-proposal', '
+  (54, 'minimalAxiomaticCoreProposal', 53, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
     <div class="card">
       <h1>The Inductive Continuum</h1>
       <h2>— A Minimal Constructive Scaffold for Middle Way Mathematics Within Educational Resource Hubs —</h2>
@@ -12286,101 +12975,101 @@ INSERT INTO curriculum_nav_items (
   (6, 'app1_nav_2_1_0', 1, 5, 0, 'html', 'instructor guide: roadmap', NULL, 3, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (7, 'app1_nav_2_1_1', 1, 5, 1, 'html', 'student narrative: physical reality', NULL, 4, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (8, 'app1_nav_2_2', 1, 3, 2, 'section', 'propositional logic', 'prop logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (9, 'app1_nav_2_2_0', 1, 8, 0, 'html', 'introduction', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (10, 'app1_nav_2_2_1', 1, 8, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (9, 'app1_nav_2_2_0', 1, 8, 0, 'html', 'introduction', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (10, 'app1_nav_2_2_1', 1, 8, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (11, 'app1_nav_2_2_2', 1, 8, 2, 'diagram', 'truth table demo (TTD)', NULL, NULL, 'ttd', NULL, NULL, '{}'::jsonb, TRUE),
   (12, 'app1_nav_2_3', 1, 3, 3, 'section', 'formal statements', 'formal statements', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (13, 'app1_nav_2_3_0', 1, 12, 0, 'html', 'introduction', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (14, 'app1_nav_2_3_1', 1, 12, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (15, 'app1_nav_2_3_2', 1, 12, 2, 'html', 'lecture 2: algebra of sets', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (13, 'app1_nav_2_3_0', 1, 12, 0, 'html', 'introduction', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (14, 'app1_nav_2_3_1', 1, 12, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (15, 'app1_nav_2_3_2', 1, 12, 2, 'html', 'lecture 2: algebra of sets', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (16, 'app1_nav_2_3_3', 1, 12, 3, 'diagram', 'formal statement demo (FSD)', NULL, NULL, 'fsd', NULL, NULL, '{}'::jsonb, TRUE),
-  (17, 'app1_nav_2_4', 1, 3, 4, 'html', 'fsd test', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (17, 'app1_nav_2_4', 1, 3, 4, 'html', 'fsd test', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (18, 'app1_nav_2_5', 1, 3, 5, 'section', 'numbers & trees', 'numbers', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (19, 'app1_nav_2_5_0', 1, 18, 0, 'html', 'introduction', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (20, 'app1_nav_2_5_1', 1, 18, 1, 'html', 'lecture 1: definitions & counting', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (21, 'app1_nav_2_5_2', 1, 18, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (22, 'app1_nav_2_5_3', 1, 18, 3, 'html', 'lecture 3: STEM & spaces', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (19, 'app1_nav_2_5_0', 1, 18, 0, 'html', 'introduction', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (20, 'app1_nav_2_5_1', 1, 18, 1, 'html', 'lecture 1: definitions & counting', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (21, 'app1_nav_2_5_2', 1, 18, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (22, 'app1_nav_2_5_3', 1, 18, 3, 'html', 'lecture 3: STEM & spaces', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (23, 'app1_nav_2_5_4', 1, 18, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
   (24, 'app1_nav_2_6', 1, 3, 6, 'section', 'Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_2_6_0', 1, 24, 0, 'html', 'introduction', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_2_6_1', 1, 24, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_2_6_2', 1, 24, 2, 'html', 'lecture 2: sequential updating', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_2_6_3', 1, 24, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_2_6_4', 1, 24, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_2_6_0', 1, 24, 0, 'html', 'introduction', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_2_6_1', 1, 24, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_2_6_2', 1, 24, 2, 'html', 'lecture 2: sequential updating', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (28, 'app1_nav_2_6_3', 1, 24, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_2_6_4', 1, 24, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (30, 'app1_nav_2_6_5', 1, 24, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
   (31, 'app1_nav_2_7', 1, 3, 7, 'section', 'quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_2_7_0', 1, 31, 0, 'html', 'introduction', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_2_7_1', 1, 31, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_2_7_2', 1, 31, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_2_7_3', 1, 31, 3, 'html', 'lecture 3: measurement & projection', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_2_7_0', 1, 31, 0, 'html', 'introduction', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_2_7_1', 1, 31, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_2_7_2', 1, 31, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_2_7_3', 1, 31, 3, 'html', 'lecture 3: measurement & projection', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (36, 'app1_nav_2_8', 1, 3, 8, 'section', 'quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_2_8_0', 1, 36, 0, 'html', 'introduction', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_2_8_1', 1, 36, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_2_8_2', 1, 36, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_2_8_0', 1, 36, 0, 'html', 'introduction', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_2_8_1', 1, 36, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_2_8_2', 1, 36, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (40, 'app1_nav_3', 1, NULL, 3, 'section', 'Phase 2: analysis and seminars', 'Phase 2', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_3_0', 1, 40, 0, 'html', 'overview: continuous analysis & seminars', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_3_0', 1, 40, 0, 'html', 'overview: continuous analysis & seminars', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (42, 'app1_nav_3_1', 1, 40, 1, 'section', 'course 1: linear algebra', 'course 1', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_3_1_0', 1, 42, 0, 'html', 'overview: linear algebra', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_3_1_1', 1, 42, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_3_1_2', 1, 42, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (46, 'app1_nav_3_1_3', 1, 42, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_3_1_0', 1, 42, 0, 'html', 'overview: linear algebra', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_3_1_1', 1, 42, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_3_1_2', 1, 42, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (46, 'app1_nav_3_1_3', 1, 42, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (47, 'app1_nav_3_2', 1, 40, 2, 'section', 'course 2: analysis 1D', 'course 2', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (48, 'app1_nav_3_2_0', 1, 47, 0, 'html', 'overview: analysis 1D', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (49, 'app1_nav_3_2_1', 1, 47, 1, 'html', 'lecture 1: microscope & continuity', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (50, 'app1_nav_3_2_2', 1, 47, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (51, 'app1_nav_3_2_3', 1, 47, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (48, 'app1_nav_3_2_0', 1, 47, 0, 'html', 'overview: analysis 1D', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (49, 'app1_nav_3_2_1', 1, 47, 1, 'html', 'lecture 1: microscope & continuity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (50, 'app1_nav_3_2_2', 1, 47, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (51, 'app1_nav_3_2_3', 1, 47, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (52, 'app1_nav_3_3', 1, 40, 3, 'section', 'course 3: analysis 2D', 'course 3', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (53, 'app1_nav_3_3_0', 1, 52, 0, 'html', 'overview: analysis 2D', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_3_3_1', 1, 52, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_3_3_2', 1, 52, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_3_3_3', 1, 52, 3, 'html', 'lecture 3: state evolution & phase', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (53, 'app1_nav_3_3_0', 1, 52, 0, 'html', 'overview: analysis 2D', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_3_3_1', 1, 52, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_3_3_2', 1, 52, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_3_3_3', 1, 52, 3, 'html', 'lecture 3: state evolution & phase', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (57, 'app1_nav_3_4', 1, 40, 4, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (58, 'app1_nav_3_4_0', 1, 57, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (59, 'app1_nav_3_4_1', 1, 57, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (60, 'app1_nav_3_4_2', 1, 57, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (61, 'app1_nav_3_4_3', 1, 57, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (58, 'app1_nav_3_4_0', 1, 57, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (59, 'app1_nav_3_4_1', 1, 57, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (60, 'app1_nav_3_4_2', 1, 57, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (61, 'app1_nav_3_4_3', 1, 57, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (62, 'app1_nav_3_5', 1, 40, 5, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (63, 'app1_nav_3_5_0', 1, 62, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (64, 'app1_nav_3_5_1', 1, 62, 1, 'html', 'seminar 1: cosmology as information', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (65, 'app1_nav_3_5_2', 1, 62, 2, 'html', 'seminar 2: particle zoo logic', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (66, 'app1_nav_3_5_3', 1, 62, 3, 'html', 'seminar 3: entanglement & reality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (67, 'app1_nav_3_5_4', 1, 62, 4, 'html', 'seminar 4: algebraic geometry', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (63, 'app1_nav_3_5_0', 1, 62, 0, 'html', 'overview: satellite seminars', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (64, 'app1_nav_3_5_1', 1, 62, 1, 'html', 'seminar 1: cosmology as information', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (65, 'app1_nav_3_5_2', 1, 62, 2, 'html', 'seminar 2: particle zoo logic', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (66, 'app1_nav_3_5_3', 1, 62, 3, 'html', 'seminar 3: entanglement & reality', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (67, 'app1_nav_3_5_4', 1, 62, 4, 'html', 'seminar 4: algebraic geometry', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (68, 'app1_nav_4', 1, NULL, 4, 'section', 'STEM Bridge: Applied Math & CAS', 'STEM Bridge', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (69, 'app1_nav_4_0', 1, 68, 0, 'html', 'Newtonian bridge: kinematics & conservation', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (70, 'app1_nav_4_1', 1, 68, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_4_2', 1, 68, 2, 'html', 'Trig Foundations', 'Trig', 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (69, 'app1_nav_4_0', 1, 68, 0, 'html', 'Newtonian bridge: kinematics & conservation', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (70, 'app1_nav_4_1', 1, 68, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (71, 'app1_nav_4_2', 1, 68, 2, 'html', 'Trig Foundations', 'Trig', 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (72, 'app1_nav_5', 1, NULL, 5, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_5_0', 1, 72, 0, 'html', 'proposal 1: open educational service hubs', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_5_1', 1, 72, 1, 'html', 'academic paper: dual-agent tutor', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app1_nav_5_2', 1, 72, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_5_0', 1, 72, 0, 'html', 'proposal 1: open educational service hubs', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_5_1', 1, 72, 1, 'html', 'academic paper: dual-agent tutor', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_5_2', 1, 72, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (76, 'app2_nav_0', 2, NULL, 0, 'diagram', 'title', NULL, NULL, 'banner', NULL, NULL, '{}'::jsonb, TRUE),
   (77, 'app2_nav_1', 2, NULL, 1, 'html', 'curriculum overview', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (78, 'app2_nav_2', 2, NULL, 2, 'section', 'course 1: linear algebra', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app2_nav_2_0', 2, 78, 0, 'html', 'course overview: linear algebra', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app2_nav_2_1', 2, 78, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app2_nav_2_2', 2, 78, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app2_nav_2_3', 2, 78, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app2_nav_2_0', 2, 78, 0, 'html', 'course overview: linear algebra', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app2_nav_2_1', 2, 78, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app2_nav_2_2', 2, 78, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app2_nav_2_3', 2, 78, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (83, 'app2_nav_3', 2, NULL, 3, 'section', 'course 2: analysis 1D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app2_nav_3_0', 2, 83, 0, 'html', 'course overview: analysis 1D', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app2_nav_3_1', 2, 83, 1, 'html', 'lecture 1: the infinitesimal microscope & continuity', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (86, 'app2_nav_3_2', 2, 83, 2, 'html', 'lecture 2: algebraic derivatives & local linearity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (87, 'app2_nav_3_3', 2, 83, 3, 'html', 'lecture 3: accumulation & telescoping calculus', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (84, 'app2_nav_3_0', 2, 83, 0, 'html', 'course overview: analysis 1D', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (85, 'app2_nav_3_1', 2, 83, 1, 'html', 'lecture 1: the infinitesimal microscope & continuity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (86, 'app2_nav_3_2', 2, 83, 2, 'html', 'lecture 2: algebraic derivatives & local linearity', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (87, 'app2_nav_3_3', 2, 83, 3, 'html', 'lecture 3: accumulation & telescoping calculus', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (88, 'app2_nav_4', 2, NULL, 4, 'section', 'course 3: analysis 2D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (89, 'app2_nav_4_0', 2, 88, 0, 'html', 'course overview: analysis 2D', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (90, 'app2_nav_4_1', 2, 88, 1, 'html', 'lecture 1: the 2D complex grid & conformal maps', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (91, 'app2_nav_4_2', 2, 88, 2, 'html', 'lecture 2: discrete contour integrals & residues', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (92, 'app2_nav_4_3', 2, 88, 3, 'html', 'lecture 3: quantum state evolution & phase transitions', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (89, 'app2_nav_4_0', 2, 88, 0, 'html', 'course overview: analysis 2D', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (90, 'app2_nav_4_1', 2, 88, 1, 'html', 'lecture 1: the 2D complex grid & conformal maps', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (91, 'app2_nav_4_2', 2, 88, 2, 'html', 'lecture 2: discrete contour integrals & residues', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (92, 'app2_nav_4_3', 2, 88, 3, 'html', 'lecture 3: quantum state evolution & phase transitions', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (93, 'app2_nav_5', 2, NULL, 5, 'section', 'mini-seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (94, 'app2_nav_5_0', 2, 93, 0, 'html', 'mini-seminar 1: the Fourier duality', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (95, 'app2_nav_5_1', 2, 93, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (96, 'app2_nav_5_2', 2, 93, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (97, 'app2_nav_5_3', 2, 93, 3, 'html', 'mini-seminar 4: higher-successor definitions', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (94, 'app2_nav_5_0', 2, 93, 0, 'html', 'mini-seminar 1: the Fourier duality', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (95, 'app2_nav_5_1', 2, 93, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (96, 'app2_nav_5_2', 2, 93, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (97, 'app2_nav_5_3', 2, 93, 3, 'html', 'mini-seminar 4: higher-successor definitions', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (98, 'app2_nav_6', 2, NULL, 6, 'section', 'satellite seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (99, 'app2_nav_6_0', 2, 98, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (100, 'app2_nav_6_1', 2, 98, 1, 'html', 'seminar 1: cosmology as information', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (101, 'app2_nav_6_2', 2, 98, 2, 'html', 'seminar 2: the logic of the particle zoo', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (102, 'app2_nav_6_3', 2, 98, 3, 'html', 'seminar 3: quantum entanglement & reality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (103, 'app2_nav_6_4', 2, 98, 4, 'html', 'seminar 4: algebraic geometry', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (99, 'app2_nav_6_0', 2, 98, 0, 'html', 'overview: satellite seminars', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (100, 'app2_nav_6_1', 2, 98, 1, 'html', 'seminar 1: cosmology as information', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (101, 'app2_nav_6_2', 2, 98, 2, 'html', 'seminar 2: the logic of the particle zoo', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (102, 'app2_nav_6_3', 2, 98, 3, 'html', 'seminar 3: quantum entanglement & reality', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (103, 'app2_nav_6_4', 2, 98, 4, 'html', 'seminar 4: algebraic geometry', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,
@@ -12519,38 +13208,40 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 15, 14, 10, 5, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<cas-ref calc-id="cas_bayes_filter" expr="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</cas-ref>'),
-  (3, 29, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (4, 29, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (5, 29, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (6, 30, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (7, 30, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (8, 30, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (9, 30, 12, 9, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (10, 32, 16, NULL, NULL, 'proof', 0, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (11, 34, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (12, 34, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (13, 34, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (14, 34, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (15, 48, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (16, 48, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (17, 49, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (18, 49, 3, 7, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (19, 49, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (20, 49, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (21, 49, 3, 7, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (2, 16, 14, 10, 5, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<cas-ref calc-id="cas_bayes_filter" expr="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</cas-ref>'),
+  (3, 30, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (4, 30, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (5, 30, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (6, 31, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (7, 31, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (8, 31, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (9, 31, 12, 9, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (10, 33, 16, NULL, NULL, 'proof', 0, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (11, 35, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (12, 35, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (13, 35, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (14, 35, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (15, 49, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (16, 49, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (17, 50, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (18, 50, 3, 7, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (19, 50, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (20, 50, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (21, 50, 3, 7, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
+DELETE FROM segment_prerequisites;
+
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
-  (1, 48, 2, 'foundational'),
-  (2, 48, 13, 'recommended'),
-  (3, 49, 48, 'foundational'),
-  (4, 49, 34, 'foundational'),
-  (5, 32, 2, 'foundational'),
-  (6, 33, 32, 'foundational'),
-  (7, 34, 33, 'foundational'),
-  (8, 36, 34, 'foundational')
+  (1, 49, 2, 'foundational'),
+  (2, 49, 14, 'recommended'),
+  (3, 50, 49, 'foundational'),
+  (4, 50, 35, 'foundational'),
+  (5, 33, 2, 'foundational'),
+  (6, 34, 33, 'foundational'),
+  (7, 35, 34, 'foundational'),
+  (8, 37, 35, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
