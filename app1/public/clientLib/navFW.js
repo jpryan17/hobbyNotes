@@ -53,7 +53,8 @@ export class Nav {
     static arrowSize = 30;
     static textFontSize = 16;
     static getTextStyle() {
-        return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 5}px 50px ${Nav.foPadding + 5}px;font-size:${Nav.textFontSize}px;display:flow-root;`;
+        const bPad = Nav.editMode ? 95 : 50;
+        return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 5}px ${bPad}px ${Nav.foPadding + 5}px;font-size:${Nav.textFontSize}px;display:flow-root;`;
     }
     constructor(app, parent = null, editMode = false, cb = undefined, bgC = 'darkgoldenrod', lineC = 'beige', indexC = 'white', foC = 'aliceBlue') {
         const mainSlot = document.getElementById('main-slot');
@@ -61,9 +62,9 @@ export class Nav {
         Nav.app = app;
         Nav.parent = parent;
         Nav.cb = cb;
+        Nav.editMode = editMode;
         Nav.segDiv = new Elt('div');
         Nav.segDiv.setA('style', Nav.getTextStyle());
-        Nav.editMode = editMode;
         Nav.frame = new SVGElt('svg');
         Nav.line = new SVGElt('g');
         Nav.lineRect = new SVGElt('rect');
@@ -636,6 +637,7 @@ export class Nav {
             }
         }
         if (seg) {
+            Nav.segDiv.setA('style', Nav.getTextStyle());
             Nav.segDiv.elt.innerHTML = seg;
             Nav.fo.removeChildren();
             Nav.fo.append(Nav.segDiv);
