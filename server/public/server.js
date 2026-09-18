@@ -371,6 +371,7 @@ app.post('/api/stage-segment', (req, res) => {
         console.log(`[dbBridge] Staged segment '${segId}' to ${targetPath} (${Buffer.byteLength(formattedHtml)} bytes)`);
         res.json({
             status: 'success',
+            ok: true,
             segId,
             filePath: `stagedSegs/${segId}.html`,
             bytes: Buffer.byteLength(formattedHtml),

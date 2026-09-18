@@ -628,7 +628,23 @@ export class StudioOverlay {
         if (existing)
             existing.remove();
         // 1. Established canonical version (default truth)
-        const establishedHtml = Nav.segMap.get(Nav.segId) || Nav.segDiv.elt.innerHTML || '';
+        let establishedHtml = Nav.segMap.get(Nav.segId) || '';
+        if (!establishedHtml) {
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/segment-content/${Nav.segId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.content) {
+                        establishedHtml = data.content;
+                        Nav.segMap.set(Nav.segId, establishedHtml);
+                    }
+                }
+            }
+            catch { }
+        }
+        if (!establishedHtml) {
+            establishedHtml = Nav.segDiv.elt.innerHTML || '';
+        }
         // 2. Fetch all drafts in stagedSegs/ to populate version dropdown
         let allStaged = [];
         let currentSegDraft = null;
@@ -726,6 +742,143 @@ export class StudioOverlay {
                         <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
                         <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
                     </div>
+
+                    <div class="studio-tb-divider"></div>
+
+                    <!-- Unicode Math & Symbol Palette -->
+                    <div class="studio-tb-group" style="position: relative;">
+                        <!-- Quick Top Chips -->
+                        <div class="studio-symbol-chips">
+                            <button type="button" class="studio-sym-chip" data-sym="ω" title="Omega (U+03C9)">ω</button>
+                            <button type="button" class="studio-sym-chip" data-sym="ℝ" title="Real Numbers (U+211D)">ℝ</button>
+                            <button type="button" class="studio-sym-chip" data-sym="ℂ" title="Complex Numbers (U+2102)">ℂ</button>
+                            <button type="button" class="studio-sym-chip" data-sym="ℕ" title="Natural Numbers (U+2115)">ℕ</button>
+                            <button type="button" class="studio-sym-chip" data-sym="∈" title="Element of (U+2208)">∈</button>
+                            <button type="button" class="studio-sym-chip" data-sym="→" title="Right Arrow (U+2192)">→</button>
+                            <button type="button" class="studio-sym-chip" data-sym="·" title="Multiplication Dot (U+00B7)">·</button>
+                            <button type="button" class="studio-sym-chip" data-sym="⊗" title="Tensor Product (U+2297)">⊗</button>
+                        </div>
+                        <button type="button" id="tb-unicode-more" class="studio-tb-btn" style="color: #7c3aed; border-color: #ddd6fe; font-weight: 600;" title="Open Mathematical &amp; Logical Unicode Palette">Ω More ▾</button>
+
+                        <!-- Floating Popover Palette -->
+                        <div id="studio-unicode-popover" class="studio-unicode-popover" style="display: none;">
+                            <div class="studio-unicode-header">
+                                <span>Mathematical &amp; Logical Unicode Palette</span>
+                                <button type="button" id="studio-unicode-close" class="studio-unicode-close" title="Close">✕</button>
+                            </div>
+                            <div class="studio-unicode-categories">
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Number Sets &amp; Spaces</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="ℝ" title="Real Numbers (U+211D)">ℝ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ℂ" title="Complex Numbers (U+2102)">ℂ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ℕ" title="Natural Numbers (U+2115)">ℕ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ℤ" title="Integers (U+2124)">ℤ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ℚ" title="Rational Numbers (U+211A)">ℚ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="𝔹" title="Booleans (U+1D539)">𝔹</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="𝔻" title="Dyadic Rationals (U+1D53B)">𝔻</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∅" title="Empty Set (U+2205)">∅</button>
+                                    </div>
+                                </div>
+
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Greek Letters</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="ω" title="Omega lowercase (U+03C9)">ω</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="Ω" title="Omega uppercase (U+03A9)">Ω</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="π" title="Pi (U+03C0)">π</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="θ" title="Theta (U+03B8)">θ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ρ" title="Rho (U+03C1)">ρ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ψ" title="Psi (U+03C8)">ψ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="Δ" title="Delta (U+0394)">Δ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ε" title="Epsilon (U+03B5)">ε</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="μ" title="Mu (U+03BC)">μ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="β" title="Beta (U+03B2)">β</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="α" title="Alpha (U+03B1)">α</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="λ" title="Lambda (U+03BB)">λ</button>
+                                    </div>
+                                </div>
+
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Logic &amp; Set Relations</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="∈" title="Element of (U+2208)">∈</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∉" title="Not element of (U+2209)">∉</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⊆" title="Subset or equal (U+2286)">⊆</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⊂" title="Proper subset (U+2282)">⊂</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∀" title="For all (U+2200)">∀</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∃" title="There exists (U+2203)">∃</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="¬" title="Not (U+00AC)">¬</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∧" title="Logical AND (U+2227)">∧</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∨" title="Logical OR (U+2228)">∨</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="→" title="Implies / to (U+2192)">→</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⇒" title="Double implies (U+21D2)">⇒</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="↔" title="Equivalent / iff (U+2194)">↔</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⇔" title="Double equivalent (U+21D4)">⇔</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≡" title="Identical to (U+2261)">≡</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≈" title="Approximately equal (U+2248)">≈</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≠" title="Not equal (U+2260)">≠</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≤" title="Less than or equal (U+2264)">≤</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≥" title="Greater than or equal (U+2265)">≥</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="≺" title="Precedes in simplicity (U+227A)">≺</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⊥" title="Perpendicular / bottom (U+22A5)">⊥</button>
+                                    </div>
+                                </div>
+
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Operators &amp; Calculus</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="·" title="Middle dot / product (U+00B7)">·</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="×" title="Cross product (U+00D7)">×</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⊗" title="Tensor product (U+2297)">⊗</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⊕" title="Direct sum (U+2295)">⊕</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="±" title="Plus-minus (U+00B1)">±</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="√" title="Square root (U+221A)">√</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∑" title="Summation (U+2211)">∑</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∏" title="Product (U+220F)">∏</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∫" title="Integral (U+222B)">∫</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∂" title="Partial derivative (U+2202)">∂</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⋃" title="Union (U+22C3)">⋃</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⋂" title="Intersection (U+22C2)">⋂</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="∞" title="Infinity (U+221E)">∞</button>
+                                    </div>
+                                </div>
+
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Quantum, Brackets &amp; Scripts</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="⟨" title="Left angle bracket / Bra (U+27E8)">⟨</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⟩" title="Right angle bracket / Ket (U+27E9)">⟩</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="†" title="Dagger / Adjoint (U+2020)">†</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ℋ" title="Hilbert Space H (U+210B)">ℋ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="𝒮" title="State Space S (U+1D4AE)">𝒮</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="𝒫" title="Projection / Probability P (U+1D4AB)">𝒫</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="𝒯" title="Transformation T (U+1D4AF)">𝒯</button>
+                                    </div>
+                                </div>
+
+                                <div class="studio-unicode-section">
+                                    <div class="studio-unicode-cat-title">Subscripts &amp; Superscripts</div>
+                                    <div class="studio-unicode-grid">
+                                        <button type="button" class="studio-sym-cell" data-sym="₀" title="Subscript 0 (U+2080)">₀</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="₁" title="Subscript 1 (U+2081)">₁</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="₂" title="Subscript 2 (U+2082)">₂</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="₃" title="Subscript 3 (U+2083)">₃</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ᵢ" title="Subscript i (U+1D62)">ᵢ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ⱼ" title="Subscript j (U+2C7C)">ⱼ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ₖ" title="Subscript k (U+2096)">ₖ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ₙ" title="Subscript n (U+2099)">ₙ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="⁰" title="Superscript 0 (U+2070)">⁰</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="¹" title="Superscript 1 (U+00B9)">¹</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="²" title="Superscript 2 (U+00B2)">²</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="³" title="Superscript 3 (U+00B3)">³</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="ⁿ" title="Superscript n (U+207F)">ⁿ</button>
+                                        <button type="button" class="studio-sym-cell" data-sym="°" title="Degree sign (U+00B0)">°</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Editor Canvases (Panes) -->
@@ -778,13 +931,17 @@ export class StudioOverlay {
         const btnInsertMath = document.getElementById('tb-insert-math');
         const btnRenderMath = document.getElementById('tb-render-math');
         let currentMode = 'wysiwyg';
+        let isWysiwygDirty = false;
+        let isSourceDirty = false;
         const protectStencils = (root) => {
             root.querySelectorAll('fsd-ref, cas-ref').forEach((el) => {
                 el.setAttribute('contenteditable', 'false');
             });
         };
         const cleanWysiwygHtml = (html) => {
-            return html.replace(/\s+contenteditable="false"/gi, '');
+            return html
+                .replace(/\s+contenteditable="false"/gi, '')
+                .replace(/\s+spellcheck="false"/gi, '');
         };
         const updateStats = () => {
             const text = currentMode === 'source' ? textarea.value : (wysiwygDiv.innerText || '');
@@ -792,7 +949,7 @@ export class StudioOverlay {
             const words = text.trim() ? text.trim().split(/\s+/).length : 0;
             charCount.textContent = `${chars.toLocaleString()} chars • ${words.toLocaleString()} words`;
         };
-        // Initialize editor content
+        // Initialize editor content with pristine raw HTML
         wysiwygDiv.innerHTML = currentHtml;
         protectStencils(wysiwygDiv);
         textarea.value = currentHtml;
@@ -805,20 +962,41 @@ export class StudioOverlay {
         const setMode = (mode) => {
             if (mode === currentMode)
                 return;
-            // Synchronize contents across views before switching
+            // Synchronize contents across views before switching if modified
             if (currentMode === 'wysiwyg') {
-                textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                if (isWysiwygDirty) {
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    isWysiwygDirty = false;
+                }
             }
             else if (currentMode === 'source') {
-                wysiwygDiv.innerHTML = textarea.value;
-                protectStencils(wysiwygDiv);
+                if (isSourceDirty) {
+                    wysiwygDiv.innerHTML = textarea.value;
+                    protectStencils(wysiwygDiv);
+                    isSourceDirty = false;
+                }
+            }
+            else if (currentMode === 'split') {
+                if (isSourceDirty) {
+                    wysiwygDiv.innerHTML = textarea.value;
+                    protectStencils(wysiwygDiv);
+                    isSourceDirty = false;
+                    isWysiwygDirty = false;
+                }
+                else if (isWysiwygDirty) {
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    isWysiwygDirty = false;
+                }
             }
             currentMode = mode;
             panesContainer.className = `studio-editor-panes mode-${mode}`;
             pillWysiwyg.classList.toggle('active', mode === 'wysiwyg');
             pillSource.classList.toggle('active', mode === 'source');
             pillSplit.classList.toggle('active', mode === 'split');
-            if (mode === 'wysiwyg' || mode === 'split') {
+            if (mode === 'source') {
+                textarea.focus();
+            }
+            else if (mode === 'wysiwyg') {
                 wysiwygDiv.focus();
             }
             else {
@@ -958,25 +1136,64 @@ export class StudioOverlay {
             }
             btnRenderMath.innerHTML = '<span>🔄 Render Math</span>';
         });
+        // Unicode Symbol Insertion from Toolbar Chips & Palette Cells
+        modal.querySelectorAll('.studio-sym-chip, .studio-sym-cell').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const sym = btn.getAttribute('data-sym');
+                if (sym) {
+                    insertHtmlSnippet(sym);
+                }
+            });
+        });
+        // Toggle Unicode More Popover
+        const btnUnicodeMore = document.getElementById('tb-unicode-more');
+        const unicodePopover = document.getElementById('studio-unicode-popover');
+        btnUnicodeMore?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (unicodePopover) {
+                const isHidden = unicodePopover.style.display === 'none';
+                unicodePopover.style.display = isHidden ? 'flex' : 'none';
+            }
+        });
+        document.getElementById('studio-unicode-close')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (unicodePopover)
+                unicodePopover.style.display = 'none';
+        });
+        modal.addEventListener('click', (e) => {
+            if (unicodePopover && unicodePopover.style.display !== 'none') {
+                if (!unicodePopover.contains(e.target) && e.target !== btnUnicodeMore) {
+                    unicodePopover.style.display = 'none';
+                }
+            }
+        });
         // Split Mode Live Sync
         let wysiwygSyncTimer = null;
         wysiwygDiv.addEventListener('input', () => {
+            isWysiwygDirty = true;
             updateStats();
             if (currentMode === 'split') {
                 clearTimeout(wysiwygSyncTimer);
                 wysiwygSyncTimer = setTimeout(() => {
                     textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    isWysiwygDirty = false;
                 }, 300);
             }
         });
         let sourceSyncTimer = null;
         textarea.addEventListener('input', () => {
+            isSourceDirty = true;
             updateStats();
             if (currentMode === 'split') {
                 clearTimeout(sourceSyncTimer);
                 sourceSyncTimer = setTimeout(() => {
                     wysiwygDiv.innerHTML = textarea.value;
                     protectStencils(wysiwygDiv);
+                    isSourceDirty = false;
                 }, 400);
             }
         });
@@ -996,6 +1213,8 @@ export class StudioOverlay {
                 wysiwygDiv.innerHTML = establishedHtml;
                 protectStencils(wysiwygDiv);
                 textarea.value = establishedHtml;
+                isWysiwygDirty = false;
+                isSourceDirty = false;
                 updateStats();
                 if (window.MathJax?.typesetPromise) {
                     window.MathJax.typesetPromise([wysiwygDiv]).catch(() => { });
@@ -1018,6 +1237,8 @@ export class StudioOverlay {
                     wysiwygDiv.innerHTML = draftHtml;
                     protectStencils(wysiwygDiv);
                     textarea.value = draftHtml;
+                    isWysiwygDirty = false;
+                    isSourceDirty = false;
                     updateStats();
                     if (window.MathJax?.typesetPromise) {
                         window.MathJax.typesetPromise([wysiwygDiv]).catch(() => { });
@@ -1060,7 +1281,9 @@ export class StudioOverlay {
             const originalText = btn.innerHTML;
             btn.disabled = true;
             btn.textContent = '⏳ Staging...';
-            const finalHtml = currentMode === 'source' ? textarea.value : cleanWysiwygHtml(wysiwygDiv.innerHTML);
+            const finalHtml = (currentMode === 'source' || currentMode === 'split' || isSourceDirty)
+                ? textarea.value
+                : cleanWysiwygHtml(wysiwygDiv.innerHTML);
             try {
                 const res = await fetch(`${getApiBaseUrl()}/api/stage-segment`, {
                     method: 'POST',
@@ -1071,7 +1294,7 @@ export class StudioOverlay {
                     })
                 });
                 const data = await res.json();
-                if (data.ok) {
+                if (data.status === 'success' || data.ok) {
                     // Update in-memory session and DOM so the user sees their changes immediately
                     Nav.segMap.set(Nav.segId, finalHtml);
                     Nav.segDiv.elt.innerHTML = finalHtml;
@@ -1081,11 +1304,11 @@ export class StudioOverlay {
                     }
                     Nav.setSegPos();
                     closeModal();
-                    StudioOverlay.showToast(`✓ Staged '${Nav.segId}' to stagedSegs/ (${data.filename || ''})`);
+                    StudioOverlay.showToast(`✓ Staged '${Nav.segId}' to stagedSegs/ (${data.filePath || data.filename || ''})`);
                     StudioOverlay.checkStagedCount();
                 }
                 else {
-                    throw new Error(data.error || 'Failed to stage segment');
+                    throw new Error(data.message || data.error || 'Failed to stage segment');
                 }
             }
             catch (err) {
@@ -1097,7 +1320,9 @@ export class StudioOverlay {
         });
         // Action: Apply Changes to In-Memory Dev Session
         document.getElementById('btn-save-content')?.addEventListener('click', async () => {
-            const finalHtml = currentMode === 'source' ? textarea.value : cleanWysiwygHtml(wysiwygDiv.innerHTML);
+            const finalHtml = (currentMode === 'source' || currentMode === 'split' || isSourceDirty)
+                ? textarea.value
+                : cleanWysiwygHtml(wysiwygDiv.innerHTML);
             Nav.segMap.set(Nav.segId, finalHtml);
             Nav.segDiv.elt.innerHTML = finalHtml;
             initAnyDJSI();
@@ -1842,6 +2067,121 @@ export class StudioOverlay {
                 cursor: pointer;
                 outline: none;
             }
+            .studio-symbol-chips {
+                display: flex;
+                align-items: center;
+                gap: 2px;
+                background: #f8fafc;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                padding: 2px 4px;
+            }
+            .studio-sym-chip {
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                padding: 2px 6px;
+                font-family: 'Cambria Math', 'Times New Roman', serif, monospace;
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #1e293b;
+                cursor: pointer;
+                transition: all 0.12s;
+                line-height: 1.2;
+            }
+            .studio-sym-chip:hover {
+                background: #e2e8f0;
+                border-color: #94a3b8;
+                color: #1d4ed8;
+                transform: scale(1.08);
+            }
+            .studio-unicode-popover {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                margin-top: 6px;
+                width: 440px;
+                max-height: 400px;
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .studio-unicode-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px 12px;
+                background: #f8fafc;
+                border-bottom: 1px solid #e2e8f0;
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: #334155;
+            }
+            .studio-unicode-close {
+                background: transparent;
+                border: none;
+                font-size: 0.85rem;
+                cursor: pointer;
+                color: #64748b;
+                padding: 2px 6px;
+                border-radius: 4px;
+            }
+            .studio-unicode-close:hover {
+                background: #fee2e2;
+                color: #dc2626;
+            }
+            .studio-unicode-categories {
+                padding: 10px;
+                overflow-y: auto;
+                max-height: 350px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .studio-unicode-section {
+                display: flex;
+                flex-direction: column;
+            }
+            .studio-unicode-cat-title {
+                font-size: 0.72rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #64748b;
+                margin-bottom: 4px;
+            }
+            .studio-unicode-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .studio-sym-cell {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 4px;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Cambria Math', 'Times New Roman', serif, monospace;
+                font-size: 1.05rem;
+                font-weight: 600;
+                color: #0f172a;
+                cursor: pointer;
+                transition: all 0.12s;
+            }
+            .studio-sym-cell:hover {
+                background: #eff6ff;
+                border-color: #3b82f6;
+                color: #1d4ed8;
+                transform: scale(1.15);
+            }
             .studio-editor-panes {
                 display: flex;
                 flex: 1;
@@ -1850,33 +2190,53 @@ export class StudioOverlay {
                 position: relative;
             }
             .studio-editor-panes.mode-wysiwyg #pane-source {
-                display: none;
+                display: none !important;
             }
             .studio-editor-panes.mode-wysiwyg #pane-wysiwyg {
-                display: flex;
+                display: flex !important;
                 flex: 1;
+                min-width: 0;
+                min-height: 0;
+                height: 100%;
             }
             .studio-editor-panes.mode-source #pane-wysiwyg {
-                display: none;
+                display: none !important;
             }
             .studio-editor-panes.mode-source #pane-source {
-                display: flex;
+                display: flex !important;
                 flex: 1;
+                min-width: 0;
+                min-height: 0;
+                height: 100%;
             }
             .studio-editor-panes.mode-split #pane-wysiwyg {
-                display: flex;
-                flex: 1;
-                border-right: 2px solid #e2e8f0;
+                display: flex !important;
+                flex: 1 1 50%;
+                min-width: 0;
+                min-height: 0;
+                height: 100%;
+                border-right: 2px solid #cbd5e1;
             }
             .studio-editor-panes.mode-split #pane-source {
-                display: flex;
-                flex: 1;
+                display: flex !important;
+                flex: 1 1 50%;
+                min-width: 0;
+                min-height: 0;
+                height: 100%;
             }
             .studio-pane {
                 flex-direction: column;
                 min-width: 0;
+                min-height: 0;
                 height: 100%;
+                overflow: hidden;
+            }
+            #pane-source {
+                background: #0f172a;
+            }
+            #pane-wysiwyg {
                 overflow-y: auto;
+                background: #ffffff;
             }
             .studio-wysiwyg-editor {
                 flex: 1;
@@ -1923,19 +2283,26 @@ export class StudioOverlay {
                 color: #064e3b;
             }
             .studio-code-editor {
-                flex: 1;
+                flex: 1 1 100%;
                 width: 100%;
                 height: 100%;
-                font-family: Consolas, Monaco, monospace;
+                min-height: 0;
+                display: block;
+                font-family: 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
                 font-size: 0.9rem;
-                line-height: 1.45;
-                padding: 16px;
+                line-height: 1.5;
+                padding: 16px 20px;
                 border: none;
                 box-sizing: border-box;
                 resize: none;
-                background: #0f172a;
-                color: #f8fafc;
+                background: #0f172a !important;
+                color: #f8fafc !important;
+                tab-size: 2;
+                white-space: pre-wrap;
+                word-break: break-word;
+                overflow-y: auto;
                 outline: none;
+                caret-color: #38bdf8;
             }
             .studio-code-editor:focus {
                 outline: none;
@@ -2095,23 +2462,6 @@ export class StudioOverlay {
             .studio-btn.small {
                 padding: 4px 10px;
                 font-size: 0.8rem;
-            }
-            .studio-code-editor {
-                width: 100%;
-                height: 440px;
-                font-family: Consolas, Monaco, monospace;
-                font-size: 0.9rem;
-                line-height: 1.45;
-                padding: 12px;
-                border: 1px solid #cbd5e1;
-                border-radius: 6px;
-                box-sizing: border-box;
-                resize: vertical;
-                background: #fcfcfc;
-            }
-            .studio-code-editor:focus {
-                outline: none;
-                border-color: #2563eb;
             }
             .studio-hint {
                 font-size: 0.85rem;

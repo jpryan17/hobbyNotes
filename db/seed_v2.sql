@@ -2,7 +2,7 @@
 -- HobbyNotes / Middle Way Mathematics
 -- Seed Data: Iteration 2 (Refined Conceptual Architecture)
 -- Normalized MWM-DB: Middle Way Math Single Source of Truth
--- Generated At: 2026-09-18T04:31:58.645Z
+-- Generated At: 2026-09-18T05:51:11.222Z
 -- =====================================================================
 
 -- 1. Applications (Curriculum Targets)
@@ -11273,9 +11273,8 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
   ', 'published'),
   (50, 'stemTrigFoundations', 49, '1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)', 'stem-trig-foundations', '
-
-  <div class="container">
-    <h1>Trigonometry on the Conway Number Tree &amp; ℂ_ω</h1>
+<div class="container">
+    <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
     <div class="subtitle">
       A Constructive STEM Perspective — From Discrete Dyadic Branching to Complex Continuum Rotation
     </div>
@@ -11537,7 +11536,6 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </tbody>
     </table>
   </div>
-
 ', 'published'),
   (51, 'lean4GenEdProposal', 50, '1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap', 'lean4-gen-ed-proposal', '
 <div class="card">
