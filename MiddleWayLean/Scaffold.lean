@@ -10,6 +10,19 @@ noncomputable section
 namespace MiddleWay
 
 -- ============================================================================
+-- 0. Foundational Discrete Domains (𝔹, ℕ, ℤ)
+-- ============================================================================
+
+-- 1. Boolean truth value domain: 𝔹
+abbrev B_w := Bool
+
+-- 2. Natural numbers: ℕ (The 1-successor counting trunk)
+abbrev N_w := Nat
+
+-- 3. Integers: ℤ (The bilateral discrete step lattice)
+abbrev Z_w := Int
+
+-- ============================================================================
 -- 1. The Day ω Hyperfinite Continuum Structure (ℝ_ω)
 -- ============================================================================
 
@@ -56,6 +69,38 @@ def abs (x : R_w) : R_w := R_w_abs x
 -- Basic algebraic axioms needed for telescoping cancellation
 axiom sub_self (x : R_w) : x - x = 0
 axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
+
+-- ============================================================================
+-- 1.5. Foundational Number Trees & Domains (𝔻, ℝ_ω, ℂ_ω & Constrained Types)
+-- ============================================================================
+
+-- 4. Dyadic Rationals: 𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } born on finite days k < ω
+-- (The 2-successor binary tree nodes)
+def is_dyadic (x : R_w) : Prop :=
+  ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+
+-- The explicit Dyadic domain type 𝔻
+def D_w : Type := { x : R_w // is_dyadic x }
+
+-- Subtype constraint: 𝔻 : < 1 (Strictly bounded dyadic unit interval)
+def D_lt_one : Type := { d : D_w // d.val < 1 }
+
+-- Subtype constraint: ℝ_ω : > 0 (Strictly positive continuum)
+def R_w_pos : Type := { x : R_w // 0 < x }
+
+-- The circle constant π on ℝ_ω
+axiom pi : R_w
+axiom pi_pos : 0 < pi
+
+-- Periodic equivalence relation: x ~ y ↔ ∃ k ∈ ℤ, x - y = k · 2π
+def mod_2pi_rel (x y : R_w) : Prop :=
+  ∃ (k : Int), x - y = (ofInt k) * ((2 : R_w) * pi)
+
+-- Quotient Circle Domain: ℝ_ω : mod(2π) ≡ S¹_ω
+-- Formulated as the fundamental domain [0, 2π) with 0 ~ 2π
+structure R_w_circle where
+  val : R_w
+  in_range : 0 ≤ val ∧ val < (2 : R_w) * pi
 
 -- ============================================================================
 -- 2. The Scale Parameter ω and Infinitesimal dx
@@ -437,7 +482,7 @@ axiom st_add (x y : { x : R_w // is_finite x }) :
 -- 1> Hard Numbers: Dyadic rationals m / 2ᵏ born on finite days k < ω (zero halo dust)
 -- Practical test: It can be encoded with a finite string of binary bits without referencing ω.
 def is_hard (x : R_w) : Prop :=
-  ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+  is_dyadic x
 
 theorem is_hard_iff_dyadic (x : R_w) :
   is_hard x ↔ ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k) := by
@@ -564,17 +609,18 @@ def bisection_interval_len (a b : R_w) (k : Nat) : R_w :=
 -- 17. Trigonometry, Directed Pairs & Dyadic Angle Bisection on ℂ_ω
 -- ============================================================================
 
--- The circle constant π on ℝ_ω
-axiom pi : R_w
-axiom pi_pos : 0 < pi
-
--- Forward Directed Pair: (ℤ × Nat) → ℝ_ω (Dyadic Angle Generator)
--- Maps tree address (numerator m, birthday depth n) to angle θ = 2π · m / 2ⁿ
-def dyadic_angle (m : Int) (n : Nat) : R_w :=
+-- 1> Forward Directed Pair: (ℤ × ℕ) → ℝ_ω (Dyadic Angle Generator)
+-- Maps tree address (numerator m ∈ ℤ, birthday depth n ∈ ℕ) to continuous angle θ = 2π · m / 2ⁿ
+def dyadic_angle (m : Z_w) (n : N_w) : R_w :=
   (2 : R_w) * pi * (ofInt m) / ((2 : R_w) ^ n)
 
--- Elementary Trigonometric Projections on ℝ_ω:
--- Directed Pair: ℝ_ω → ℝ_ω
+-- 2> Directed Pair: 𝔻 → ℝ_ω (Dyadic Embedding onto Real Line)
+-- Unfolds the dyadic subtype into the full Day ω continuum
+def dyadic_to_real (d : D_w) : R_w :=
+  d.val
+
+-- 3> Elementary Trigonometric Projections on ℝ_ω:
+-- Directed Pairs: ℝ_ω → ℝ_ω
 axiom cos_w : R_w → R_w
 axiom sin_w : R_w → R_w
 
@@ -582,33 +628,53 @@ axiom sin_w : R_w → R_w
 axiom pythagorean_identity (theta : R_w) :
   (cos_w theta * cos_w theta) + (sin_w theta * sin_w theta) = 1
 
--- Rotor / Coordinate Embedding:
--- Directed Pair: ℝ_ω → ℂ_ω
+-- 4> Unit Rotor Group Structure on ℂ_ω: S¹_ω ⊂ ℂ_ω
+-- Subtype constraint: unit circle { U ∈ ℂ_ω // |U|² = 1 }
+structure UnitRotor where
+  val : C_w
+  unit_norm : C_w.norm_sq val = 1
+
+-- Rotor Action on ℂ_ω: UnitRotor → ℂ_ω → ℂ_ω (U · z)
+def rotate (U : UnitRotor) (z : C_w) : C_w :=
+  C_w.mul U.val z
+
+-- 5> Directed Pair: ℝ_ω → ℂ_ω (Cartesian Point Embedding)
 def angle_to_point (theta : R_w) : C_w :=
   ⟨cos_w theta, sin_w theta⟩
 
--- Half-Angle Bisection Cosine Recursion:
+-- 6> Directed Pair: ℝ_ω → UnitRotor (Rigid Unit Rotor Embedding)
+-- Directly returns a certified UnitRotor using the Pythagorean identity
+def angle_to_rotor (theta : R_w) : UnitRotor :=
+  ⟨⟨cos_w theta, sin_w theta⟩, pythagorean_identity theta⟩
+
+-- 7> Directed Pair: 𝔻 → UnitRotor (Dyadic Fraction to Circle Map)
+-- Maps dyadic turn d ∈ 𝔻 directly onto the unit rotor circle S¹_ω
+def dyadic_to_rotor (d : D_w) : UnitRotor :=
+  angle_to_rotor ((2 : R_w) * pi * d.val)
+
+-- 8> Directed Pair: ℝ_ω:mod(2π) → UnitRotor (Circle Quotient Isomorphism)
+-- Maps periodic circle coordinate [0, 2π) to its certified unit rotor
+def circle_to_rotor (c : R_w_circle) : UnitRotor :=
+  angle_to_rotor c.val
+
+-- 9> Half-Angle Bisection Cosine Recursion:
 -- Directed Pair: ℝ_ω → ℝ_ω  (c ↦ √[(1 + c) / 2])
 axiom cos_half_angle (c : R_w) : R_w
 axiom cos_bisection_rule (theta : R_w) :
   cos_half_angle (cos_w theta) = cos_w (theta / 2)
 
--- Polygonal Chord Transformation (Archimedean / Ptolemaic Chord):
+-- 10> Polygonal Chord Transformation (Archimedean / Ptolemaic Chord):
 -- Directed Pair: ℝ_ω → ℝ_ω  (Δθ ↦ 2 · sin(Δθ / 2))
 axiom chord_length (delta_theta : R_w) : R_w
 
--- Unit Rotor Group Structure on ℂ_ω
-structure UnitRotor where
-  val : C_w
-  unit_norm : C_w.norm_sq val = 1
+-- Directed Pair: ℝ_ω:mod(2π) → ℝ_ω (Chord length from circle angle)
+def circle_chord (c : R_w_circle) : R_w :=
+  chord_length c.val
 
--- Rotor Action on ℂ_ω: U · z
-def rotate (U : UnitRotor) (z : C_w) : C_w :=
-  C_w.mul U.val z
-
--- Binary Steering Choice (CORDIC / Conway Tree):
--- Directed Pair: ℂ_ω × Nat → Int  (z, k ↦ ±1)
-axiom binary_steering_choice (target : C_w) (step : Nat) : Int
+-- 11> Binary Steering Choice (CORDIC / Conway Tree):
+-- Directed Pair: (ℂ_ω × ℕ) → ℤ  (target, step ↦ ±1)
+axiom binary_steering_choice (target : C_w) (step : N_w) : Z_w
 
 end MiddleWay
+
 

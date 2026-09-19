@@ -427,9 +427,17 @@ function generateLeanCache(force = false) {
             key: 'dyadic_angle',
             target: 'scaffold:dyadic_angle',
             expression: 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)',
-            signature: 'def dyadic_angle (m : Int) (n : Nat) : R_w',
+            signature: 'def dyadic_angle (m : Z_w) (n : N_w) : R_w',
             snippet: '#check dyadic_angle',
             summary: 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'
+        },
+        {
+            key: 'dyadic_to_real',
+            target: 'scaffold:dyadic_to_real',
+            expression: 'd ↦ d.val ∈ ℝ_ω',
+            signature: 'def dyadic_to_real (d : D_w) : R_w',
+            snippet: '#check dyadic_to_real',
+            summary: 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'
         },
         {
             key: 'angle_to_point',
@@ -438,6 +446,22 @@ function generateLeanCache(force = false) {
             signature: 'def angle_to_point (theta : R_w) : C_w',
             snippet: '#check angle_to_point\n#check pythagorean_identity',
             summary: 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'
+        },
+        {
+            key: 'angle_to_rotor',
+            target: 'scaffold:angle_to_rotor',
+            expression: 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor',
+            signature: 'def angle_to_rotor (theta : R_w) : UnitRotor',
+            snippet: '#check angle_to_rotor',
+            summary: 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'
+        },
+        {
+            key: 'dyadic_to_rotor',
+            target: 'scaffold:dyadic_to_rotor',
+            expression: 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor',
+            signature: 'def dyadic_to_rotor (d : D_w) : UnitRotor',
+            snippet: '#check dyadic_to_rotor',
+            summary: 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'
         },
         {
             key: 'cos_half_angle',
@@ -462,6 +486,30 @@ function generateLeanCache(force = false) {
             signature: 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1',
             snippet: '#check UnitRotor\n#check rotate',
             summary: 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'
+        },
+        {
+            key: 'D_w',
+            target: 'scaffold:D_w',
+            expression: '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω',
+            signature: 'def D_w : Type := { x : R_w // is_dyadic x }',
+            snippet: '#check D_w\n#check is_dyadic',
+            summary: 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'
+        },
+        {
+            key: 'D_lt_one',
+            target: 'scaffold:D_lt_one',
+            expression: '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }',
+            signature: 'def D_lt_one : Type := { d : D_w // d.val < 1 }',
+            snippet: '#check D_lt_one',
+            summary: 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'
+        },
+        {
+            key: 'R_w_circle',
+            target: 'scaffold:R_w_circle',
+            expression: 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω',
+            signature: 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi',
+            snippet: '#check R_w_circle\n#check mod_2pi_rel',
+            summary: 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'
         }
     ];
     for (const item of tier3Items) {

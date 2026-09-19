@@ -873,33 +873,59 @@
     <h3 style="margin-top: 52px;">2. Directed Pairs &amp; Formal Statements: Function Signatures on the Tree Slots</h3>
     <p>
       In our foundational study of Formal Statements &amp; Predicates, we established that a <b>function</b> is strictly defined as a <b>directed pair <code>Domain → Codomain</code></b> along with an assignment rule. 
-      When we examine the angle tree and its circular geometry through this formal lens, each computational and geometric slot has an exact directed pair signature:
+      By using our newly introduced foundational domains (<code>ℕ</code>, <code>ℤ</code>, <code>𝔻</code>, <code>ℝ_ω</code>, <code>ℂ_ω</code>) and constrained subtypes (such as the unit interval <code>𝔻:&lt;1</code>, the quotient circle <code>ℝ_ω:mod(2π) ≅ S¹_ω</code>, and <code>UnitRotor ⊂ ℂ_ω</code>), each trigonometric and geometric slot receives a rigorous, tightened type signature:
     </p>
 
     <!-- Formal Statement 1: Dyadic Angle Generator -->
     <h4>Formal Statement (FS-TRIG-1.1): Dyadic Angle Generation via Directed Pair (ℤ × ℕ) → ℝ_ω</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
       • <b>Directed Pair Signature:</b> <code>dyadic_angle : ℤ × ℕ → ℝ_ω</code><br>
-      • <b>Assignment Rule:</b> Maps any discrete tree address <code>(m, n)</code> (numerator <code>m</code> and birthday level <code>n</code>) to the circular angle:
+      • <b>Assignment Rule:</b> Maps any discrete tree address <code>(m, n)</code> (numerator <code>m ∈ ℤ</code> and birthday level <code>n ∈ ℕ</code>) to the continuous angle:
       <div class="formula-box" style="margin: 8px 0;">
         θ_{m, n} = 2π · (m / 2ⁿ) &emsp; where &emsp; m ∈ ℤ, &nbsp; n ∈ ℕ
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator"><code>MiddleWay.dyadic_angle (m : Int) (n : Nat) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator"><code>MiddleWay.dyadic_angle (m : Z_w) (n : N_w) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
+    </div>
+
+    <!-- Formal Statement 1B: Dyadic Continuum Embedding -->
+    <h4>Formal Statement (FS-TRIG-1.2): Dyadic Embedding onto the Real Line via Directed Pair 𝔻 → ℝ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>dyadic_to_real : 𝔻 → ℝ_ω</code><br>
+      • <b>Assignment Rule:</b> Unfolds any discrete dyadic node <code>d ∈ 𝔻</code> into the continuous hyperfinite ordered field <code>ℝ_ω</code>:
+      <div class="formula-box" style="margin: 8px 0;">
+        d ↦ d.val &emsp; where &emsp; d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.
     </div>
 
     <!-- Formal Statement 2: Rotor & Coordinate Projection -->
-    <h4>Formal Statement (FS-TRIG-1.2): Unit Rotor &amp; Coordinate Projection via Directed Pair ℝ_ω → ℂ_ω</h4>
+    <h4>Formal Statement (FS-TRIG-1.3): Certified Unit Rotor &amp; Coordinate Projection via Directed Pairs ℝ_ω → ℂ_ω &amp; ℝ_ω → UnitRotor</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
-      • <b>Directed Pair Signature:</b> <code>angle_to_point : ℝ_ω → ℂ_ω</code><br>
-      • <b>Assignment Rule:</b> Embeds an angle <code>θ</code> as an active unitary rotor on the unit circle:
+      • <b>Directed Pair Signatures:</b> <code>angle_to_point : ℝ_ω → ℂ_ω</code> &emsp;and&emsp; <code>angle_to_rotor : ℝ_ω → UnitRotor</code><br>
+      • <b>Assignment Rule:</b> Embeds an angle <code>θ</code> as a complex point or a certified unitary rotor on the circle:
       <div class="formula-box" style="margin: 8px 0;">
         θ ↦ ⟨cos(θ), sin(θ)⟩ &emsp; with invariant &emsp; |U(θ)|² = cos²(θ) + sin²(θ) = 1
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_point" title="Rotor Coordinate Projection"><code>MiddleWay.angle_to_point (theta : R_w) : C_w</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:UnitRotor" title="Unit Rotor on ℂ_ω"><code>MiddleWay.UnitRotor</code></fsd-ref> enforce that angle rotation preserves 2D Euclidean distance and probability norm.
+      • <b>Circle Map from Dyadics:</b> The composite directed pair <code>dyadic_to_rotor : 𝔻 → UnitRotor</code> maps fractional turns directly to group rotations:
+      <div class="formula-box" style="margin: 8px 0;">
+        d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.
+    </div>
+
+    <!-- Formal Statement 2B: Circle Quotient Isomorphism -->
+    <h4>Formal Statement (FS-TRIG-1.4): Circle Quotient Isomorphism via Directed Pair ℝ_ω:mod(2π) → UnitRotor</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>circle_to_rotor : ℝ_ω:mod(2π) → UnitRotor</code><br>
+      • <b>Assignment Rule:</b> Takes an angle constrained to the fundamental domain <code>[0, 2π)</code> and outputs its certified rotor:
+      <div class="formula-box" style="margin: 8px 0;">
+        θ ∈ [0, 2π) ↦ ⟨⟨cos(θ), sin(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:R_w_circle" title="Quotient Circle S¹_ω"><code>MiddleWay.R_w_circle</code></fsd-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
     </div>
 
     <!-- Formal Statement 3: Ptolemaic Half-Angle Bisection -->
-    <h4>Formal Statement (FS-TRIG-1.3): Ptolemaic Half-Angle Bisection via Directed Pair ℝ_ω → ℝ_ω</h4>
+    <h4>Formal Statement (FS-TRIG-1.5): Ptolemaic Half-Angle Bisection via Directed Pair ℝ_ω → ℝ_ω</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
       • <b>Directed Pair Signature:</b> <code>cos_half_angle : ℝ_ω → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Maps the cosine of an existing angle to the cosine of the bisected daughter branch:
@@ -910,9 +936,9 @@
     </div>
 
     <!-- Formal Statement 4: Polygonal Horn Rim Chord -->
-    <h4>Formal Statement (FS-TRIG-1.4): Polygonal Horn Rim Chord via Directed Pair ℝ_ω → ℝ_ω</h4>
+    <h4>Formal Statement (FS-TRIG-1.6): Polygonal Horn Rim Chord via Directed Pair ℝ_ω → ℝ_ω</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 20px;">
-      • <b>Directed Pair Signature:</b> <code>chord_length : ℝ_ω → ℝ_ω</code><br>
+      • <b>Directed Pair Signature:</b> <code>chord_length : ℝ_ω → ℝ_ω</code> &emsp;and&emsp; <code>circle_chord : ℝ_ω:mod(2π) → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Maps the central turning angle <code>Δθ</code> to the Euclidean chord length connecting consecutive polygonal vertices:
       <div class="formula-box" style="margin: 8px 0;">
         c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ] &emsp; (for R = 1)
