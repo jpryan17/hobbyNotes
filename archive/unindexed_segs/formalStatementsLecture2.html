@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Formal Statements: Lecture 2</title>
+  </head>
+  <body>
+    <div align="center"><i><font size="+2">Lecture 2: The Semantics of the Algebra of Sets</font></i></div>
+    <br>
+    
+    <p>
+      To define the algebra of sets for a set 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math>, 
+      we first define the <b>powerset</b>, denoted 
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">𝒫(𝒮)</annotation></semantics></math>, 
+      which is the set of all possible subsets of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math>.
+    </p>
+    
+    <p>
+      Then for a base set <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math>, its <b>algebra of sets</b> is the algebraic system:
+    </p>
+    <div align="center">
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo>,</mo><mo>⋃</mo><mo>,</mo><mo>⋂</mo><msup><mo>,</mo><mo>−</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">(𝒫(𝒮), ⋃, ⋂, ^-)</annotation></semantics></math>
+    </div>
+    <br>
+    
+    <p>
+      Boolean logic will be used to define the operations. You remember Boolean logic—those and(s), or(s), and not(s) you used when building propositional expressions—right?
+    </p>
+
+    <hr>
+
+    <h3>1. Quantifier Domain Types &amp; The Membership Predicate</h3>
+    <p>
+      In our formal statement language, quantifiers are explicitly bound to their domain types:
+    </p>
+    <ul>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>:</mo><mi>𝒮</mi></mrow><annotation encoding="TeX">x : 𝒮</annotation></semantics></math> indicates that <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="TeX">x</annotation></semantics></math> is an individual element of the base universe <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math> (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∊</mo><mi>𝒮</mi></mrow><annotation encoding="TeX">x ∈ 𝒮</annotation></semantics></math>).</li>
+      <li><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">A : 𝒫(𝒮)</annotation></semantics></math> (or <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">y : 𝒫(𝒮)</annotation></semantics></math>) indicates that <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="TeX">A</annotation></semantics></math> is a subset of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math> (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⊆</mo><mi>𝒮</mi></mrow><annotation encoding="TeX">A ⊆ 𝒮</annotation></semantics></math>).</li>
+    </ul>
+    <p>
+      The universal <b>membership predicate</b> is defined as the typed function:
+    </p>
+    <div align="center">
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∊</mo><mo>:</mo><mi>𝒮</mi><mo>×</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo stretchy="false">→</mo><mi>𝔹</mi></mrow><annotation encoding="TeX">∈ : 𝒮 × 𝒫(𝒮) → 𝔹</annotation></semantics></math>
+    </div>
+    <br>
+    <p>
+      where for any element <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>:</mo><mi>𝒮</mi></mrow><annotation encoding="TeX">x : 𝒮</annotation></semantics></math> and subset <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">y : 𝒫(𝒮)</annotation></semantics></math>, the atomic statement <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∊</mo><mi>y</mi></mrow><annotation encoding="TeX">x ∈ y</annotation></semantics></math> has the direct semantics:
+    </p>
+    <div align="center">
+      <b>“<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="TeX">x</annotation></semantics></math> is a member of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="TeX">y</annotation></semantics></math>”</b>
+    </div>
+    <p>
+      evaluating to <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext>true</mtext><annotation encoding="TeX">\text{true}</annotation></semantics></math> if <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="TeX">x</annotation></semantics></math> belongs to the subset <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="TeX">y</annotation></semantics></math>, and <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext>false</mtext><annotation encoding="TeX">\text{false}</annotation></semantics></math> otherwise.
+    </p>
+
+    <p>
+      For example, combining a typed existential quantifier with the membership predicate yields the formal statement:
+    </p>
+    <div align="center" style="margin: 10px 0;">
+      <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∃</mo><mi>x</mi><mo>:</mo><mi>𝒮</mi><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>x</mi><mo>∊</mo><mi>y</mi><mspace width="0.2778em"/><mo stretchy="false">]</mo><mspace width="1.5em"/><mo stretchy="false">(</mo><mtext>where </mtext><mi>y</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">∃x:𝒮 [ x ∈ y ] \quad (\text{where } y : 𝒫(𝒮))</annotation></semantics></math>
+    </div>
+    <p>
+      which has the direct semantics: <i>“There is an <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∊</mo><mi>𝒮</mi></mrow><annotation encoding="TeX">x ∈ 𝒮</annotation></semantics></math> such that <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="TeX">x</annotation></semantics></math> is a member of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="TeX">y</annotation></semantics></math>”</i> (formally asserting that the subset <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="TeX">y</annotation></semantics></math> is non-empty).
+    </p>
+
+    <hr>
+
+    <h3>2. Defining the Operations via Formal Statements</h3>
+    <p>
+      Each operation in the algebra of sets directly reflects a Boolean logical connective:
+    </p>
+    
+    <ul>
+      <li>
+        <b>Union (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⋃</mo><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo>×</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo stretchy="false">→</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">⋃ : 𝒫(𝒮) × 𝒫(𝒮) → 𝒫(𝒮)</annotation></semantics></math>):</b><br>
+        For any two subsets <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>B</mi><mo>∊</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">A, B ∈ 𝒫(𝒮)</annotation></semantics></math>, the union <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⋃</mo><mi>B</mi></mrow><annotation encoding="TeX">A ⋃ B</annotation></semantics></math> is defined by:
+        <div align="center" style="margin: 8px 0;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>B</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>x</mi><mo>:</mo><mi>𝒮</mi><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>x</mi><mo>∊</mo><mo stretchy="false">(</mo><mi>A</mi><mo>⋃</mo><mi>B</mi><mo stretchy="false">)</mo><mo stretchy="false">⇔</mo><mo stretchy="false">(</mo><mi>x</mi><mo>∊</mo><mi>A</mi><mo>∨</mo><mi>x</mi><mo>∊</mo><mi>B</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀A:𝒫(𝒮) ∀B:𝒫(𝒮) ∀x:𝒮 [ x ∈ (A ⋃ B) ⇔ (x ∈ A ∨ x ∈ B) ]</annotation></semantics></math>
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Intersection (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⋂</mo><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo>×</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo stretchy="false">→</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">⋂ : 𝒫(𝒮) × 𝒫(𝒮) → 𝒫(𝒮)</annotation></semantics></math>):</b><br>
+        For any two subsets <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>,</mo><mi>B</mi><mo>∊</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">A, B ∈ 𝒫(𝒮)</annotation></semantics></math>, the intersection <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⋂</mo><mi>B</mi></mrow><annotation encoding="TeX">A ⋂ B</annotation></semantics></math> is defined by:
+        <div align="center" style="margin: 8px 0;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>B</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>x</mi><mo>:</mo><mi>𝒮</mi><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>x</mi><mo>∊</mo><mo stretchy="false">(</mo><mi>A</mi><mo>⋂</mo><mi>B</mi><mo stretchy="false">)</mo><mo stretchy="false">⇔</mo><mo stretchy="false">(</mo><mi>x</mi><mo>∊</mo><mi>A</mi><mo>∧</mo><mi>x</mi><mo>∊</mo><mi>B</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀A:𝒫(𝒮) ∀B:𝒫(𝒮) ∀x:𝒮 [ x ∈ (A ⋂ B) ⇔ (x ∈ A ∧ x ∈ B) ]</annotation></semantics></math>
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Relative Complement (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mo>−</mo></msup><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mo stretchy="false">→</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">^- : 𝒫(𝒮) → 𝒫(𝒮)</annotation></semantics></math>):</b><br>
+        For any subset <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∊</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo></mrow><annotation encoding="TeX">A ∈ 𝒫(𝒮)</annotation></semantics></math>, its complement <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>A</mi><mo>−</mo></msup><annotation encoding="TeX">A^-</annotation></semantics></math> relative to universe <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝒮</mi><annotation encoding="TeX">𝒮</annotation></semantics></math> is defined by:
+        <div align="center" style="margin: 8px 0;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>x</mi><mo>:</mo><mi>𝒮</mi><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>x</mi><mo>∊</mo><msup><mi>A</mi><mo>−</mo></msup><mo stretchy="false">⇔</mo><mo>¬</mo><mo stretchy="false">(</mo><mi>x</mi><mo>∊</mo><mi>A</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀A:𝒫(𝒮) ∀x:𝒮 [ x ∈ A^- ⇔ ¬(x ∈ A) ]</annotation></semantics></math>
+        </div>
+      </li>
+      <br>
+      <li>
+        <b>Subset Relation (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊆</mo><annotation encoding="TeX">⊆</annotation></semantics></math>) &amp; Extensional Equality (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="TeX">=</annotation></semantics></math>):</b><br>
+        <div align="center" style="margin: 8px 0;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>B</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>A</mi><mo>⊆</mo><mi>B</mi><mo stretchy="false">⇔</mo><mo>∀</mo><mi>x</mi><mo>:</mo><mi>𝒮</mi><mo stretchy="false">[</mo><mi>x</mi><mo>∊</mo><mi>A</mi><mo stretchy="false">⇒</mo><mi>x</mi><mo>∊</mo><mi>B</mi><mo stretchy="false">]</mo><mspace width="0.2778em"/><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀A:𝒫(𝒮) ∀B:𝒫(𝒮) [ A ⊆ B ⇔ ∀x:𝒮 [ x ∈ A ⇒ x ∈ B ] ]</annotation></semantics></math>
+        </div>
+        <div align="center" style="margin: 8px 0;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>A</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo>∀</mo><mi>B</mi><mo>:</mo><mi>𝒫</mi><mo stretchy="false">(</mo><mi>𝒮</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">[</mo><mspace width="0.2778em"/><mi>A</mi><mo>=</mo><mi>B</mi><mo stretchy="false">⇔</mo><mo stretchy="false">(</mo><mi>A</mi><mo>⊆</mo><mi>B</mi><mo>∧</mo><mi>B</mi><mo>⊆</mo><mi>A</mi><mo stretchy="false">)</mo><mspace width="0.2778em"/><mo stretchy="false">]</mo></mrow><annotation encoding="TeX">∀A:𝒫(𝒮) ∀B:𝒫(𝒮) [ A = B ⇔ (A ⊆ B ∧ B ⊆ A) ]</annotation></semantics></math>
+        </div>
+      </li>
+    </ul>
+
+    <p>
+      In future topics, this algebra provides the exact language required to define <b>intrinsic spaces</b> (topologies, measure spaces, and metrics) over base sets like <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℝ</mi><annotation encoding="TeX">ℝ</annotation></semantics></math> and <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℂ</mi><annotation encoding="TeX">ℂ</annotation></semantics></math>.
+    </p>
+  </body>
+</html>

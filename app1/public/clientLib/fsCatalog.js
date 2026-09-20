@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/harvestStencils.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-09-19T23:34:21.978Z",
+    "generatedAt": "2026-09-20T00:02:31.427Z",
     "version": "1.0.0",
     "formalStatements": [
         {
@@ -180,7 +180,7 @@ export const FS_CATALOG = {
             "scaffoldKey": "born_rule",
             "expression": "I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)",
             "referencedInSegments": [
-                "editedQuantumLogicLecture2V1",
+                "quantumLogicLecture2",
                 "vectorsLecture3"
             ]
         },

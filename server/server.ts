@@ -287,11 +287,6 @@ app.post('/api/sync-to-db', async (req: Request, res: Response) => {
                     const formatted = formatSegmentFileHtml(existingHtml, newHtml, segKey);
                     writeFileSync(destPath, formatted, 'utf8');
                     console.log(`[dbBridge] Wrote updated segment to ${destPath}`);
-
-                    const consPath = resolve(process.cwd(), `consolidated_segs/${segKey}.html`);
-                    if (existsSync(resolve(process.cwd(), 'consolidated_segs'))) {
-                        writeFileSync(consPath, formatted, 'utf8');
-                    }
                     filesChanged = true;
                 }
             }
@@ -523,12 +518,10 @@ app.delete('/api/staged-segments', (_req: Request, res: Response) => {
     }
 });
 
-// 4b. List all files in consolidated_segs (or app1/segs fallback) and stagedSegs
+// 4b. List all files in app1/segs and stagedSegs
 app.get('/api/consolidated-segments', (_req: Request, res: Response) => {
     try {
-        const segDir = existsSync(resolve(process.cwd(), 'consolidated_segs'))
-            ? resolve(process.cwd(), 'consolidated_segs')
-            : resolve(process.cwd(), 'app1/segs');
+        const segDir = resolve(process.cwd(), 'app1/segs');
 
         const stagedDir = getStagedDir();
         const segMap = new Map<string, any>();
@@ -582,10 +575,8 @@ app.get('/api/segment-content/:segId', (req: Request, res: Response) => {
     const { segId } = req.params;
     const candidates = [
         resolve(process.cwd(), `app1/segs/${segId}.html`),
-        resolve(process.cwd(), `consolidated_segs/${segId}.html`),
         resolve(process.cwd(), `stagedSegs/${segId}.html`),
         resolve(process.cwd(), `savedSegs/${segId}.html`),
-        resolve(process.cwd(), `app2/segs/${segId}.html`),
     ];
     for (const filePath of candidates) {
         if (existsSync(filePath)) {
@@ -701,9 +692,7 @@ app.post('/api/promote-staged-segments', async (req: Request, res: Response) => 
             copyFileSync(src, dest);
             console.log(`[dbBridge] Promoted ${f} -> ${dest}`);
 
-            if (existsSync(resolve(process.cwd(), 'consolidated_segs'))) {
-                copyFileSync(src, resolve(process.cwd(), `consolidated_segs/${f}`));
-            }
+
         }
 
         // Synchronize outline tree to indices.ts if provided

@@ -18,21 +18,9 @@ async function processSegFolder(app) {
         for (const segId of segIds) {
             let filePath = (0, path_1.resolve)(segFolder, `${segId}.html`);
             if (!(0, fs_1.existsSync)(filePath)) {
-                const altApp = app === 'app1' ? 'app2' : 'app1';
-                const altFolder = (0, path_1.resolve)(__dirname, `../../${altApp}/segs`);
-                const altPath = (0, path_1.resolve)(altFolder, `${segId}.html`);
-                const consPath = (0, path_1.resolve)(__dirname, `../../consolidated_segs/${segId}.html`);
-                if ((0, fs_1.existsSync)(altPath)) {
-                    filePath = altPath;
-                }
-                else if ((0, fs_1.existsSync)(consPath)) {
-                    filePath = consPath;
-                }
-                else {
-                    console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
-                    missingCount++;
-                    continue;
-                }
+                console.error(`[genSegsFiles Error] Missing required segment file: ${filePath}`);
+                missingCount++;
+                continue;
             }
             try {
                 // Pre-process TTD, FSD, BTD, BID, and CAS reference tags in tandem

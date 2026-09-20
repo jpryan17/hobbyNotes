@@ -15,7 +15,7 @@ export const propLogicIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture: truth tables & paradoxes",
-    htmlSegmentId: "editedPropLogicLectureV1",
+    htmlSegmentId: "propLogicLecture",
   },
   {
     type: "diagram",
@@ -33,12 +33,12 @@ export const formalStatementsIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: sets, tuples & constructors",
-    htmlSegmentId: "editedFormalStatementsLectureV2",
+    htmlSegmentId: "formalStatementsLecture1",
   },
   {
     type: "html",
     topic: "lecture 2: algebra of sets",
-    htmlSegmentId: "editedFormalStatementsLecture2V1",
+    htmlSegmentId: "formalStatementsLecture2",
   },
   {
     type: "diagram",
@@ -56,17 +56,17 @@ export const numbersIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: definitions & counting",
-    htmlSegmentId: "editedNumbersLecture1V1",
+    htmlSegmentId: "numbersLecture1",
   },
   {
     type: "html",
     topic: "lecture 2: 2-successor trees & growth",
-    htmlSegmentId: "editedNumbersLecture2V1",
+    htmlSegmentId: "numbersLecture2",
   },
   {
     type: "html",
     topic: "lecture 3: STEM & spaces",
-    htmlSegmentId: "editedNumbersLecture3V1",
+    htmlSegmentId: "numbersLecture3",
   },
   {
     type: "diagram",
@@ -84,22 +84,22 @@ export const bayesianInferenceIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: hyperfinite probability",
-    htmlSegmentId: "editedBayesianInferenceLecture1V1",
+    htmlSegmentId: "bayesianInferenceLecture1",
   },
   {
     type: "html",
     topic: "lecture 2: sequential updating",
-    htmlSegmentId: "editedBayesianInferenceLecture2V1",
+    htmlSegmentId: "bayesianInferenceLecture2",
   },
   {
     type: "html",
     topic: "lecture 3: standard vs nonstandard prob",
-    htmlSegmentId: "editedBayesianInferenceLecture3V1",
+    htmlSegmentId: "bayesianInferenceLecture3",
   },
   {
     type: "html",
     topic: "lecture 4: state spaces & entropy",
-    htmlSegmentId: "editedBayesianInferenceLecture4V1",
+    htmlSegmentId: "bayesianInferenceLecture4",
   },
   {
     type: "diagram",
@@ -117,17 +117,17 @@ export const quantumLogicIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: 3 polarizers & Venn failure",
-    htmlSegmentId: "editedQuantumLogicLecture1V1",
+    htmlSegmentId: "quantumLogicLecture1",
   },
   {
     type: "html",
     topic: "lecture 2: complex amplitudes on ℂ_ω",
-    htmlSegmentId: "editedQuantumLogicLecture2V1",
+    htmlSegmentId: "quantumLogicLecture2",
   },
   {
     type: "html",
     topic: "lecture 3: measurement & projection",
-    htmlSegmentId: "editedQuantumLogicLecture3V1",
+    htmlSegmentId: "quantumLogicLecture3",
   },
 ];
 export const quantumBayesianInferenceIndex: IndexItemDesc[] = [
@@ -139,12 +139,12 @@ export const quantumBayesianInferenceIndex: IndexItemDesc[] = [
   {
     type: "html",
     topic: "lecture 1: density ops & quantum Bayes",
-    htmlSegmentId: "editedQuantumBayesianInferenceLecture1V1",
+    htmlSegmentId: "quantumBayesianInferenceLecture1",
   },
   {
     type: "html",
     topic: "lecture 2: reality as an ensemble",
-    htmlSegmentId: "editedQuantumBayesianInferenceLecture2V1",
+    htmlSegmentId: "quantumBayesianInferenceLecture2",
   },
 ];
 

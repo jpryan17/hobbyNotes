@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div align="center">
+      <font size="+2"><i><b>Lecture 2: The 4-Successor Grid &amp; Probability Amplitudes</b></i></font><br>
+      <font size="+1"><i>From Real Numbers on a Line to Complex Arrows on ℂ_ω</i></font>
+    </div>
+    <br>
+
+    <h3>1. Why 1D Numbers Are Not Enough</h3>
+    <p>
+      In classical probability (the 2-successor tree <code>{-, +}</code>), every possibility is assigned a positive real number <code>p ≥ 0</code> on the 1-dimensional transect <code>ℝ_ω</code>. 
+      Probabilities simply add up: if there are two mutually exclusive ways for an event to happen, the total probability is:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; padding: 6px;">
+      P_total = P_1 + P_2  (Classical Addition)
+    </div>
+    <p>
+      Yet at the atomic scale, light and electrons behave like <b>waves</b>. Waves have peaks and troughs, meaning two waves can collide and <b>cancel each other out completely</b> (destructive interference)!
+    </p>
+    <p>
+      If two positive probabilities always add together, how can two physical pathways cancel to zero? 
+      <b>Answer: Nature does not keep track of probabilities directly; nature keeps track of 2-dimensional amplitude arrows on our complex grid <code>ℂ_ω</code>.</b>
+    </p>
+
+    <hr>
+
+    <h3>2. The 4-Successor Quad-Tree &amp; The Complex Grid (ℂ_ω)</h3>
+    <p>
+      To allow numbers to rotate and cancel, we upgrade from the 2-successor tree to the <b>4-successor quad-tree</b>:
+    </p>
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; font-family: monospace; font-size: 15px;">
+      Quad-Tree Basis = { +1, -1, +i, -i }  (The 4 Compass Directions / Clock Angles)
+    </div>
+    <br>
+    <p>
+      Every node on this 2D grid is a <b>complex number (an arrow)</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 16px;">
+      z = x + i y = r · e^{i θ}
+    </div>
+    <ul>
+      <li><code>r = |z| = √(x² + y²)</code> is the <b>magnitude / length</b> of the arrow.</li>
+      <li><code>θ</code> is the <b>phase angle</b> (clock direction) of the wave.</li>
+    </ul>
+
+    <hr>
+
+    <h3>3. The Born Rule: From Complex Arrows to Real Probabilities</h3>
+    <p>
+      In 1926, physicist Max Born discovered the foundational rule connecting quantum complex amplitudes to observable probabilities:
+    </p>
+    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; padding: 12px; border-radius: 4px;">
+      <b>The Born Rule:</b><br>
+      The probability <code>P</code> of observing a state with amplitude <code>z = x + iy</code> is the <b>squared length</b> of the amplitude arrow:
+      <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 6px;">
+        P = |z|² = x² + y² = z · z*
+      </div>
+    </div>
+    <p>
+      Because squared lengths are always real and non-negative (<code>|z|² ≥ 0</code>), this guarantees that every calculated probability is a valid positive number!
+    </p>
+
+    <hr>
+
+    <h3>4. Wave Interference: Why Waves Can Cancel</h3>
+    <p>
+      In quantum mechanics, when multiple pathways lead to the same outcome, <b>amplitudes add as 2D vectors first</b>, and only then do we square the result:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; padding: 6px;">
+      z_total = z_1 + z_2  ⇒  P_total = |z_1 + z_2|²
+    </div>
+
+    <h4>Case A: Destructive Interference (Cancellation)</h4>
+    <p>
+      Suppose Path 1 has amplitude <code>z_1 = +0.5</code> (pointing East) and Path 2 has amplitude <code>z_2 = -0.5</code> (pointing West, out of phase by 180°):
+    </p>
+    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; padding: 8px; font-family: monospace;">
+      z_total = (+0.5) + (-0.5) = 0  ⇒  P_total = |0|² = <b>0% Probability! (Darkness / Zero Detections)</b>
+    </div>
+
+    <h4>Case B: Constructive Interference (Reinforcement)</h4>
+    <p>
+      Suppose both paths are in phase: <code>z_1 = +0.5</code> and <code>z_2 = +0.5</code>:
+    </p>
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 8px; font-family: monospace;">
+      z_total = (+0.5) + (+0.5) = 1.0  ⇒  P_total = |1.0|² = <b>100% Probability! (Full Signal)</b>
+    </div>
+
+    <hr>
+
+    <h3>5. The Quantum State Vector</h3>
+    <p>
+      On our hyperfinite complex grid <code>ℂ_ω</code>, a complete quantum state is simply a <b>unit vector of amplitude arrows</b>:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 16px; padding: 6px;">
+      |ψ⟩ = ( z_0, z_1, z_2, ..., z_{ω-1} )^T
+    </div>
+    <p>
+      The sum of all squared lengths equals 1.000 (total probability is 100%):
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px;">
+      ∑_{k=0}^{ω-1} |z_k|² = 1.000
+    </div>
+
+    <p>
+      In Lecture 3, we see how measuring a quantum state vector is simply <b>projecting an arrow onto a detector axis</b>—the quantum upgrade of the Bayesian filter!
+    </p>
+  </body>
+</html>

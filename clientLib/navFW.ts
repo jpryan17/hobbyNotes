@@ -657,7 +657,7 @@ export class Nav {
                     <div style="font-size: 2.2rem; margin-bottom: 8px;">📄</div>
                     <h3 style="color: #0f172a; margin-bottom: 6px;">Segment "${Nav.segId || 'Unknown'}" Not Loaded</h3>
                     <p style="font-size: 0.92rem; max-width: 500px; margin: 0 auto 16px; line-height: 1.5;">
-                        The segment file <code>${Nav.segId}.html</code> was not found in active cache. Please verify that the file exists in <code>app1/segs/</code> or <code>consolidated_segs/</code>.
+                        The segment file <code>${Nav.segId}.html</code> was not found in active cache. Please verify that the file exists in <code>app1/segs/</code>.
                     </p>
                 </div>
             `;
