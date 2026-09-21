@@ -392,6 +392,12 @@ export const stemBridgeIndex: IndexItemDesc[] = [
     navTopic: "Trig",
     htmlSegmentId: "stemTrigFoundations",
   },
+  {
+    type: "html",
+    topic: "Trig derivatives & analysis bridge",
+    navTopic: "Trig Derivatives",
+    htmlSegmentId: "stemTrigDerivatives",
+  },
 ];
 
 export const mainIndex: IndexItemDesc[] = [

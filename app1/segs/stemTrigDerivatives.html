@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trigonometric Rates of Change &amp; Analysis Bridge</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --dark: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --success: #059669;
+      --success-light: #f0fdf4;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 16px 80px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 40px 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 0.95em;
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.35em;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      color: #1e40af;
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 1em;
+      color: #334155;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin: 12px 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #f1f5f9;
+      color: #0369a1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    .formula-box {
+      margin: 16px 0;
+      padding: 14px 20px;
+      background: #f8fafc;
+      border-left: 4px solid var(--secondary);
+      border-radius: 0 8px 8px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 1em;
+      color: #0f172a;
+      overflow-x: auto;
+    }
+
+    .formula-box.purple {
+      border-left-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .formula-box.danger {
+      border-left-color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    .formula-box.success {
+      border-left-color: var(--success);
+      background: var(--success-light);
+    }
+
+    .callout {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+
+    .callout strong {
+      color: var(--primary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-purple {
+      background: #ede9fe;
+      color: #6b21a8;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-red {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92em;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 36px 0;
+    }
+
+    .diagram-container {
+      margin: 28px 0;
+      text-align: center;
+    }
+
+    .diagram-caption {
+      font-size: 0.88em;
+      color: var(--muted);
+      margin-top: 10px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Trigonometric Rates of Change &amp; Analysis Bridge</h1>
+    <div class="subtitle">
+      The 90° Turning Wheel, Infinitesimal Tangent Triangles, Energy Conservation, and Resolving the Circular Limit Trap
+    </div>
+
+    <!-- OPENING PERSPECTIVE -->
+    <p>
+      In introductory calculus, students are taught to memorize two fundamental formulas for circular rates of change:
+    </p>
+
+    <div class="formula-box">
+      d/dθ [ sin θ ] = +cos θ<br>
+      d/dθ [ cos θ ] = -sin θ
+    </div>
+
+    <p>
+      Almost immediately, a natural question arises: <b>Why does one derivative get a plus sign while the other gets a minus sign?</b> 
+      Is this an arbitrary algebraic quirk, or does it reflect an intrinsic geometric law? 
+      Furthermore, how does this pair of derivatives connect across undergraduate and graduate <b>Mathematical Analysis</b>?
+    </p>
+
+    <div class="callout">
+      <strong>Core Discovery:</strong> The minus sign is not an arbitrary rule. It is the direct consequence of four interlocking perspectives:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>The Complex 90° Turning Wheel:</b> Velocity on a circle of constant radius is strictly perpendicular to position. In the complex plane <code>ℂ_ω</code>, turning 90° is multiplying by <code>i</code>, and the minus sign is literally the algebraic fact that <b><code>i² = -1</code></b>.</li>
+        <li><b>Where You Are vs. Where You Are Going:</b> Your horizontal velocity depends on your vertical height (moving left when high), while your vertical velocity depends on your horizontal distance (moving up when to the right).</li>
+        <li><b>The Infinitesimal Tangent Triangle:</b> Stepping forward along the circular arc forces horizontal displacement <code>dx</code> to point leftward (negative) while vertical displacement <code>dy</code> points upward (positive).</li>
+        <li><b>Harmonic Oscillation (a = -x):</b> Differentiating twice flips direction 180° back toward the center, creating Hooke's Law and simple harmonic vibration.</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 1: THE COMPLEX 90° TURNING WHEEL -->
+    <h2><span class="badge badge-purple">Perspective 1</span> The Complex 90° Turning Wheel (i² = -1)</h2>
+
+    <p>
+      On our 4-successor complex grid <code>ℂ_ω</code>, any point on the unit circle at angle <code>θ</code> is represented as a single complex number:
+    </p>
+    <div class="formula-box purple">
+      z(θ) = cos θ + i · sin θ
+    </div>
+
+    <p>
+      Now imagine a particle traveling counterclockwise around the circle at unit speed. The <b>velocity vector</b> is the rate of change with respect to angle <code>θ</code>.
+      Because motion is confined to a circle of fixed radius 1, the velocity vector must be <b>strictly perpendicular (tangent)</b> to the radial position vector <code>z(θ)</code>.
+    </p>
+
+    <p>
+      How do you rotate any vector in the complex plane 90° counterclockwise? <b>You multiply by <code>i</code>!</b>
+    </p>
+    <div class="formula-box purple">
+      d/dθ [ z(θ) ] = i · z(θ)
+    </div>
+
+    <p>Now observe what multiplying by <code>i</code> does to the real and imaginary components:</p>
+    <div class="formula-box purple">
+      i · z(θ) = i · (cos θ + i · sin θ)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= i · cos θ + i² · sin θ
+    </div>
+
+    <p>
+      Because <b><code>i² = -1</code></b> by the foundational definition of imaginary numbers:
+    </p>
+    <div class="formula-box danger">
+      i · z(θ) = -sin θ + i · cos θ
+    </div>
+
+    <p>Matching the real (horizontal) and imaginary (vertical) components gives the derivatives instantly:</p>
+    <div class="formula-box">
+      Real Part (Horizontal velocity): &nbsp;&nbsp;&nbsp;d/dθ [ cos θ ] = -sin θ<br>
+      Imaginary Part (Vertical velocity): d/dθ [ sin θ ] = +cos θ
+    </div>
+
+    <p>
+      <b>The Big Takeaway:</b> The minus sign on <code>cos θ</code> is literally the geometric manifestation of <code>i² = -1</code>. Rotating the vertical component (<code>+i · sin θ</code>) by another 90° points it directly into the negative real axis (<code>-sin θ</code>).
+    </p>
+
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 390" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 90° Velocity Wheel — Multiplying Position by i</text>
+
+        <!-- Left Pane: The Circle & Vectors -->
+        <rect x="14" y="44" width="450" height="332" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">POSITION &amp; VELOCITY ON THE UNIT CIRCLE</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="210" x2="418" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="239" y1="80" x2="239" y2="340" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <text x="415" y="204" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Real (x)</text>
+        <text x="245" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Imag (y)</text>
+
+        <!-- Unit Circle -->
+        <circle cx="239" cy="210" r="105" fill="none" stroke="#94a3b8" stroke-width="1.8" />
+
+        <!-- Position Vector z(θ) at 35 degrees -->
+        <line x1="239" y1="210" x2="325" y2="150" stroke="#2563eb" stroke-width="2.5" />
+        <circle cx="325" cy="150" r="5" fill="#2563eb" />
+        <text x="290" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#2563eb">z(θ)</text>
+        <text x="333" y="145" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Point: (cos θ, sin θ)</text>
+
+        <!-- Velocity Vector: Tangent line at (325, 150), rotated 90 deg CCW -->
+        <line x1="325" y1="150" x2="279" y2="85" stroke="#dc2626" stroke-width="2.5" />
+        <circle cx="279" cy="85" r="4" fill="#dc2626" />
+        <!-- Right Angle Marker -->
+        <path d="M 317 138 L 306 145 L 314 157" fill="none" stroke="#7c3aed" stroke-width="1.5" />
+        <text x="270" y="78" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#dc2626">Velocity: i · z(θ)</text>
+        <text x="268" y="93" text-anchor="end" font-family="monospace" font-size="9.5" fill="#991b1b">(-sin θ, +cos θ)</text>
+
+        <!-- Angle Arc θ -->
+        <path d="M 274 210 A 35 35 0 0 0 268 185" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="282" y="198" font-family="system-ui, sans-serif" font-size="10" fill="#2563eb">θ</text>
+
+        <!-- Component Projections of Velocity -->
+        <line x1="325" y1="150" x2="279" y2="150" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2" />
+        <text x="302" y="164" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#dc2626">dx = -sin θ</text>
+        <line x1="279" y1="150" x2="279" y2="85" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2" />
+        <text x="272" y="122" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#059669">dy = +cos θ</text>
+
+        <!-- Right Pane: Algebraic Breakdown -->
+        <rect x="474" y="44" width="292" height="332" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">ALGEBRAIC DERIVATION (i² = -1)</text>
+
+        <rect x="488" y="85" width="264" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="105" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">1. Position Vector:</text>
+        <text x="510" y="128" font-family="monospace" font-size="12" fill="#1e40af">z = cos θ + i · sin θ</text>
+
+        <rect x="488" y="155" width="264" height="66" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="175" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">2. 90° Turn (Multiply by i):</text>
+        <text x="510" y="198" font-family="monospace" font-size="12" fill="#7c3aed">dz/dθ = i · (cos θ + i · sin θ)</text>
+
+        <rect x="488" y="231" width="264" height="82" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1" />
+        <text x="500" y="251" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#991b1b">3. The Negative Sign Emerges:</text>
+        <text x="510" y="274" font-family="monospace" font-size="11.5" fill="#991b1b">dz/dθ = i · cos θ + i² · sin θ</text>
+        <text x="510" y="296" font-family="monospace" font-size="12" font-weight="bold" fill="#dc2626">= -sin θ + i · cos θ</text>
+
+        <text x="620" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Horizontal: d/dθ(cos θ) = -sin θ</text>
+        <text x="620" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertical:   d/dθ(sin θ) = +cos θ</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: The Complex Velocity Wheel &mdash; multiplying position by <code>i</code> turns the vector 90° counterclockwise into the tangent velocity direction. The minus sign is created by <code>i² = -1</code>.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 2: PHYSICAL CLOCK INTUITION -->
+    <h2><span class="badge badge-blue">Perspective 2</span> Physical Clock Intuition: Where You Are vs. Where You Are Going</h2>
+
+    <p>
+      Imagine walking counterclockwise around a circular running track. At any instant, ask two simple physical questions:
+    </p>
+    <ol>
+      <li><b>Where are you currently located?</b> (Your position coordinates <code>x = cos θ</code> and <code>y = sin θ</code>).</li>
+      <li><b>In which direction are you heading?</b> (Your velocities <code>dx/dθ</code> and <code>dy/dθ</code>).</li>
+    </ol>
+
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 24%;">Clock Position</th>
+            <th style="width: 22%;">Current Location (x, y)</th>
+            <th style="width: 26%;">Heading Direction</th>
+            <th style="width: 28%;">Resulting Derivatives</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>3 o'clock</b><br>(Angle <code>θ = 0</code>)</td>
+            <td><code>x = +1</code> (far East)<br><code>y = 0</code> (at equator)</td>
+            <td>Heading straight <b>North</b> (upward).<br>No left-or-right motion.</td>
+            <td><code>d/dθ(sin 0) = cos 0 = +1</code><br><code>d/dθ(cos 0) = -sin 0 = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>12 o'clock</b><br>(Angle <code>θ = π/2</code>)</td>
+            <td><code>x = 0</code> (on prime meridian)<br><code>y = +1</code> (North Pole)</td>
+            <td>Heading straight <b>West</b> (leftward).<br>Vertical height is flat.</td>
+            <td><code>d/dθ(cos π/2) = -sin(π/2) = -1</code><br><code>d/dθ(sin π/2) = cos(π/2) = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>9 o'clock</b><br>(Angle <code>θ = π</code>)</td>
+            <td><code>x = -1</code> (far West)<br><code>y = 0</code> (at equator)</td>
+            <td>Heading straight <b>South</b> (downward).<br>No left-or-right motion.</td>
+            <td><code>d/dθ(sin π) = cos π = -1</code><br><code>d/dθ(cos π) = -sin π = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>6 o'clock</b><br>(Angle <code>θ = 3π/2</code>)</td>
+            <td><code>x = 0</code> (on prime meridian)<br><code>y = -1</code> (South Pole)</td>
+            <td>Heading straight <b>East</b> (rightward).<br>Vertical height is flat.</td>
+            <td><code>d/dθ(cos 3π/2) = -sin(3π/2) = +1</code><br><code>d/dθ(sin 3π/2) = cos(3π/2) = 0</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Notice the profound cross-coupling between the two coordinates:
+    </p>
+    <ul>
+      <li><b>Your vertical velocity depends on your horizontal position:</b> <code>d(sin θ)/dθ = +cos θ</code>.<br>
+        The further to the right you are (higher <code>cos θ</code>), the faster you are moving upward (positive <code>sin</code> rate).
+      </li>
+      <li><b>Your horizontal velocity depends on your vertical height:</b> <code>d(cos θ)/dθ = -sin θ</code>.<br>
+        The higher above the equator you are (higher <code>sin θ</code>), the faster you are rushing to the left into quadrant 2 (negative <code>cos</code> rate).
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 3: INFINITESIMAL TANGENT TRIANGLE -->
+    <h2><span class="badge badge-blue">Perspective 3</span> The Infinitesimal Tangent Triangle</h2>
+
+    <p>
+      Consider stepping an infinitesimal angle <code>dθ = 1/ω</code> along the circumference of the unit circle from vertex <code>z_k</code> to vertex <code>z_(k+1)</code>:
+    </p>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 2: The Infinitesimal Tangent Triangle (dx and dy Steps)</text>
+
+        <!-- Left Diagram: Arc Zoom -->
+        <circle cx="120" cy="260" r="4.5" fill="#475569" />
+        <text x="110" y="275" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#475569">Origin (0,0)</text>
+
+        <!-- Radial rays to z_k and z_(k+1) -->
+        <line x1="120" y1="260" x2="310" y2="130" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="120" y1="260" x2="280" y2="90" stroke="#94a3b8" stroke-width="1.5" />
+        <path d="M 170 260 A 50 50 0 0 0 162 230" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="178" y="244" font-family="system-ui, sans-serif" font-size="10" fill="#2563eb">θ</text>
+
+        <!-- Arc curve -->
+        <path d="M 310 130 A 230 230 0 0 0 280 90" fill="none" stroke="#0284c7" stroke-width="2.5" />
+        <text x="312" y="105" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#0284c7">Arc = dθ</text>
+
+        <!-- Right Zoom: Tangent Triangle -->
+        <rect x="380" y="55" width="370" height="240" rx="8" fill="#f8fafc" stroke="#bfdbfe" stroke-width="1.2" />
+        <text x="565" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">ZOOM: INFINITESIMAL STEP DISPLACEMENT</text>
+
+        <!-- Enlarged Triangle -->
+        <line x1="620" y1="220" x2="500" y2="110" stroke="#0284c7" stroke-width="3" />
+        <text x="575" y="155" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#0284c7">Hypotenuse: ds = dθ</text>
+
+        <!-- Horizontal leg dx (pointing left) -->
+        <line x1="620" y1="220" x2="500" y2="220" stroke="#dc2626" stroke-width="2.5" />
+        <polygon points="500,220 512,215 512,225" fill="#dc2626" />
+        <text x="560" y="242" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#dc2626">dx = -sin θ · dθ (LEFT)</text>
+
+        <!-- Vertical leg dy (pointing up) -->
+        <line x1="500" y1="220" x2="500" y2="110" stroke="#059669" stroke-width="2.5" />
+        <polygon points="500,110 495,122 505,122" fill="#059669" />
+        <text x="488" y="170" text-anchor="end" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#059669">dy = +cos θ · dθ (UP)</text>
+
+        <!-- Angle θ in Triangle -->
+        <path d="M 500 140 A 30 30 0 0 0 521 129" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="522" y="148" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#2563eb">θ</text>
+
+        <circle cx="620" cy="220" r="5" fill="#2563eb" />
+        <text x="630" y="224" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Start: z_k</text>
+
+        <circle cx="500" cy="110" r="5" fill="#059669" />
+        <text x="490" y="105" text-anchor="end" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#059669">End: z_(k+1)</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 2: The Infinitesimal Tangent Triangle &mdash; traveling along the circle arc <code>dθ</code> decomposes into an upward step <code>dy = +cos θ · dθ</code> and a leftward step <code>dx = -sin θ · dθ</code>.
+      </div>
+    </div>
+
+    <p>
+      In this right-angle tangent triangle:
+    </p>
+    <ul>
+      <li>The hypotenuse has length equal to arc length <code>dθ</code>.</li>
+      <li>Because the tangent line is perpendicular to the radial angle <code>θ</code>, the angle at the top vertex of the triangle is exactly <code>θ</code>.</li>
+      <li>The <b>vertical leg</b> (adjacent to angle <code>θ</code>) points upward:
+        <div class="formula-box">
+          dy = cos θ · dθ &nbsp;&nbsp;&rarr;&nbsp;&nbsp; dy/dθ = +cos θ
+        </div>
+      </li>
+      <li>The <b>horizontal leg</b> (opposite to angle <code>θ</code>) points leftward into the negative x direction:
+        <div class="formula-box danger">
+          dx = -sin θ · dθ &nbsp;&nbsp;&rarr;&nbsp;&nbsp; dx/dθ = -sin θ
+        </div>
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 4: THE COLLEGIATE ANALYSIS BRIDGE -->
+    <h2><span class="badge badge-green">Curriculum Bridge</span> Connecting to Collegiate Mathematical Analysis</h2>
+
+    <p>
+      How does this geometric, complex turning perspective connect to undergraduate and graduate courses in <b>Mathematical Analysis</b>? 
+      When examined closely across curriculum tracks, this constructive perspective exposes and cleanly resolves one of the most famous hidden "circular traps" in standard pedagogy.
+    </p>
+
+    <!-- 1. Real Analysis -->
+    <h3>1. Real Analysis: Resolving the Circular Reasoning Trap</h3>
+    <p>
+      In standard freshman calculus, textbooks "prove" the derivatives of sine and cosine using the angle-addition formula and the fundamental limit:
+    </p>
+    <div class="formula-box">
+      lim[h &rarr; 0] (sin h / h) = 1
+    </div>
+    <p>
+      To evaluate that limit, standard textbooks draw a circular sector and apply the Squeeze Theorem:
+      <code>sin h &lt; h &lt; tan h</code>, where <code>h</code> is taken to be the <b>arc length of the circular wedge</b>.
+    </p>
+
+    <div class="callout" style="background: #fef2f2; border-color: #fca5a5;">
+      <strong style="color: #991b1b;">The Scandal of Circular Reasoning:</strong><br>
+      As <b>Walter Rudin</b> famously pointed out in Chapter 8 of <i>Principles of Mathematical Analysis</i>, this elementary argument is completely circular:
+      <ul style="margin-top: 6px;">
+        <li>How does standard analysis define the "arc length" of a curve?</li>
+        <li>Arc length is defined by the integral:
+          <div class="formula-box" style="background: #ffffff; margin: 8px 0;">
+            Length = ∫ √[ 1 + (dy/dx)² ] dx
+          </div>
+        </li>
+        <li>Evaluating that integral for a circular arc requires you to <b>already know the derivative</b> of the trigonometric functions!</li>
+        <li>Therefore, standard courses use the derivative to define arc length, and then use arc length to prove the derivative.</li>
+      </ul>
+    </div>
+
+    <p>
+      <b>How our Number Tree Framework Resolves This:</b><br>
+      On the hyperfinite grid <code>ℂ_ω</code>, the unit circle is an <b>explicit regular ω-gon with discrete chord steps</b>:
+    </p>
+    <div class="formula-box purple">
+      ds = |z_(k+1) - z_k| = |i · z_k · dθ| = dθ
+    </div>
+    <p>
+      Arc length is not an abstract limit of integrals—it is an elementary discrete sum of chord lengths whose standard part is <code>2π</code>. 
+      The derivative <code>dz/dθ = i · z</code> emerges directly from the local geometry of the quadtree grid without any circular reasoning or transcendental power series.
+    </p>
+
+    <!-- 2. Complex Analysis -->
+    <h3>2. Complex Analysis: The 2×2 Rotation Matrix Collapses to i</h3>
+    <p>
+      In Complex Analysis, the unit circle path is the complex exponential function <code>f(θ) = e^(i·θ)</code>.
+      Differentiating with respect to real angle <code>θ</code> yields:
+    </p>
+    <div class="formula-box purple">
+      d/dθ [ e^(i·θ) ] = i · e^(i·θ)
+    </div>
+    <p>
+      Notice the extraordinary economy of complex numbers:
+    </p>
+    <ul>
+      <li>In real 2D vector analysis, rotating a vector 90° requires multiplying by a 2 × 2 matrix:
+        <div class="formula-box">
+          J = [ [ 0, -1 ], [ 1, 0 ] ]
+        </div>
+      </li>
+      <li>In Complex Analysis, that entire matrix collapses into <b>the single imaginary unit <code>i</code></b>!</li>
+    </ul>
+    <p>
+      Writing <code>e^(i·θ) = u(θ) + i · v(θ)</code> where <code>u = cos θ</code> and <code>v = sin θ</code>:
+    </p>
+    <div class="formula-box purple">
+      du/dθ + i · (dv/dθ) = i · (u + i · v) = -v + i · u
+    </div>
+    <p>
+      Equating the real and imaginary parts reproduces the Cauchy-Riemann conformal condition: complex differentiability forces the tangent velocity to be a pure 90° turn, preserving square grid cells with zero angular shear.
+    </p>
+
+    <!-- 3. Differential Equations -->
+    <h3>3. Differential Equations (ODEs): Pure Imaginary Eigenvalues &amp; Energy Conservation</h3>
+    <p>
+      In Ordinary Differential Equations, sine and cosine are the unique solution to the coupled first-order linear system:
+    </p>
+    <div class="formula-box">
+      dx/dθ = -y<br>
+      dy/dθ = +x
+    </div>
+    <p>Two essential properties follow directly:</p>
+    <ul>
+      <li><b>Pure Imaginary Eigenvalues (Stable Center):</b>
+        The characteristic equation <code>det(A - λI) = λ² + 1 = 0</code> gives <code>λ = ±i</code>. 
+        Because the real part of the eigenvalue is strictly zero (<code>Re(λ) = 0</code>), there is zero damping and zero exponential growth: trajectories are eternal periodic circles.
+      </li>
+      <li><b>Conservation of Radius (Hamiltonian Energy):</b>
+        Evaluate the rate of change of radial distance squared (<code>r² = x² + y²</code>):
+        <div class="formula-box success">
+          d/dθ [ (x² + y²) / 2 ] = x · (dx/dθ) + y · (dy/dθ) = x · (-y) + y · (+x) = -x·y + x·y = 0
+        </div>
+        The minus sign on <code>d/dθ(cos θ) = -sin θ</code> is the <b>exact algebraic requirement that preserves radius and energy</b>!
+      </li>
+    </ul>
+
+    <!-- 4. Differential Geometry -->
+    <h3>4. Differential Geometry: The Moving Frenet-Serret Frame</h3>
+    <p>
+      In Differential Geometry, circular motion generates the canonical orthonormal moving frame:
+    </p>
+    <ol>
+      <li><b>Position Vector:</b> <code>r(θ) = cos θ · e₁ + sin θ · e₂</code></li>
+      <li><b>Unit Tangent Vector (Velocity):</b> <code>T(θ) = dr/dθ = -sin θ · e₁ + cos θ · e₂</code> (with <code>T · r = 0</code>).</li>
+      <li><b>Unit Normal Vector (Centripetal Acceleration):</b> <code>N(θ) = dT/dθ = -cos θ · e₁ - sin θ · e₂ = -r(θ)</code> (pointing directly inward).</li>
+      <li><b>Constant Curvature:</b> <code>κ = |dT/dθ| = √[cos²θ + sin²θ] = 1</code>.</li>
+    </ol>
+    <p>
+      Every successive derivative advances the coordinate frame by another 90° turn.
+    </p>
+
+    <!-- PEDAGOGICAL PLACEMENT MAP -->
+    <h3>Pedagogical Placement Map Across University Courses</h3>
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Course Level</th>
+            <th style="width: 35%;">Traditional Pain Point</th>
+            <th style="width: 40%;">How This Presentation Elevates It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Calculus I / Pre-Analysis</b></td>
+            <td>Students blindly memorize the minus sign and struggle with the Squeeze Theorem.</td>
+            <td>Gives immediate visual/physical clock intuition ("where you are vs. where you are heading").</td>
+          </tr>
+          <tr>
+            <td><b>Real Analysis</b></td>
+            <td>Circular definitions of circular arc length vs. non-intuitive power series definitions.</td>
+            <td>Shows how discrete regular ω-gons define arc length and derivatives constructively without circular traps.</td>
+          </tr>
+          <tr>
+            <td><b>Complex Analysis</b></td>
+            <td>Connecting 2D vector calculus matrices to complex scalar multiplication.</td>
+            <td>Proves that multiplication by <code>i</code> rotates the tangent vector by 90°, directly unlocking Cauchy-Riemann.</td>
+          </tr>
+          <tr>
+            <td><b>Differential Equations</b></td>
+            <td>Treating coupled systems and harmonic oscillation as purely algebraic matrix exercises.</td>
+            <td>Connects the derivatives directly to energy conservation (<code>d(r²)/dt = 0</code>) and imaginary eigenvalues (<code>λ = ±i</code>).</td>
+          </tr>
+          <tr>
+            <td><b>Differential Geometry</b></td>
+            <td>Abstract definitions of the Frenet-Serret apparatus and geodesic curvature.</td>
+            <td>Provides the primary benchmark of constant curvature (<code>κ = 1</code>) with inward acceleration (<code>a = -x</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 5: LEAN 4 FORMALIZATION -->
+    <h2><span class="badge badge-purple">Lean 4 Scaffolding</span> The Differential Operator &amp; C² State Space</h2>
+
+    <p>
+      In our formal verification scaffolding, differentiability and the harmonic property are not external limit puzzles. 
+      They are typed directly as algebraic properties of the directed pair constructor:
+    </p>
+
+    <div class="formula-box purple">
+      -- 1> The Planar Tangent Turning Operator:<br>
+      def D_turn (v : R_w × R_w) : R_w × R_w := (-v.2, v.1)<br><br>
+      -- Proved by definition (no limits required!):<br>
+      theorem D_turn_squared (v : R_w × R_w) :<br>
+      &nbsp;&nbsp;D_turn (D_turn v) = (-v.1, -v.2) := by rfl<br><br>
+      -- 2> The Complex Tangent Operator (z ↦ i · z):<br>
+      def D_complex (z : C_w) : C_w := ⟨-z.im, z.re⟩<br><br>
+      theorem D_complex_squared (z : C_w) :<br>
+      &nbsp;&nbsp;D_complex (D_complex z) = ⟨-z.re, -z.im⟩ := by rfl
+    </div>
+
+    <p>
+      To guarantee that functions carry their differentiability inherently rather than as afterthoughts, we package functions into a certified <b>C² bundle</b> containing both the function and its verified derivative shadows:
+    </p>
+
+    <div class="formula-box purple">
+      structure C2_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d2 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)<br>
+      &nbsp;&nbsp;h_d2 : ∀ x : R_w, has_derivative_at d1 x (d2 x)<br><br>
+      -- Certified harmonic property verified by definitional reflection:<br>
+      theorem sin_harmonic_property (θ : R_w) :<br>
+      &nbsp;&nbsp;sin_c2_bundle.d2 θ = -sin_w θ := by rfl
+    </div>
+
+    <hr>
+
+    <!-- SYNTHESIS TABLE -->
+    <h2>Synthesis: The 4-Step Cyclic Orbit of Derivatives</h2>
+    <p>
+      Applying the differential operator repeatedly cycles through the four cardinal directions on the complex plane, 
+      mirroring powers of the imaginary unit <code>i^n</code>:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Physical Meaning</th>
+          <th>Vector Expression</th>
+          <th>Complex Operator</th>
+          <th>Geometric Direction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>0th</b></td>
+          <td>Position <code>z(θ)</code></td>
+          <td><code>(cos θ, &nbsp;sin θ)</code></td>
+          <td><code>1 · z(θ)</code></td>
+          <td>Points radially outward from origin (Angle <code>θ</code>)</td>
+        </tr>
+        <tr>
+          <td><b>1st</b></td>
+          <td>Velocity <code>dz/dθ</code></td>
+          <td><code>(-sin θ, &nbsp;+cos θ)</code></td>
+          <td><code>i · z(θ)</code></td>
+          <td>Points tangent to circle, rotated <b>+90°</b> (Angle <code>θ + π/2</code>)</td>
+        </tr>
+        <tr>
+          <td><b>2nd</b></td>
+          <td>Acceleration <code>d²z/dθ²</code></td>
+          <td><code>(-cos θ, &nbsp;-sin θ)</code></td>
+          <td><code>i² · z(θ) = -z(θ)</code></td>
+          <td>Points radially inward toward center, rotated <b>+180°</b> (Angle <code>θ + π</code>)</td>
+        </tr>
+        <tr>
+          <td><b>3rd</b></td>
+          <td>Jerk <code>d³z/dθ³</code></td>
+          <td><code>(+sin θ, &nbsp;-cos θ)</code></td>
+          <td><code>i³ · z(θ) = -i · z(θ)</code></td>
+          <td>Points backward along tangent, rotated <b>+270°</b> (Angle <code>θ + 3π/2</code>)</td>
+        </tr>
+        <tr>
+          <td><b>4th</b></td>
+          <td>Snap <code>d⁴z/dθ⁴</code></td>
+          <td><code>(cos θ, &nbsp;sin θ)</code></td>
+          <td><code>i⁴ · z(θ) = +z(θ)</code></td>
+          <td>Full <b>360°</b> rotation back to initial position!</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</body>
+</html>

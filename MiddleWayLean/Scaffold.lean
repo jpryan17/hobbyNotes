@@ -88,6 +88,9 @@ def D_lt_one : Type := { d : D_w // d.val < 1 }
 -- Subtype constraint: ℝ_ω : > 0 (Strictly positive continuum)
 def R_w_pos : Type := { x : R_w // 0 < x }
 
+-- Subtype constraint: ℝ_ω : [-1, 1] (Closed unit range of trigonometric projections)
+def R_w_cc_unit : Type := { y : R_w // (-1 : R_w) ≤ y ∧ y ≤ 1 }
+
 -- The circle constant π on ℝ_ω
 axiom pi : R_w
 axiom pi_pos : 0 < pi
@@ -620,9 +623,35 @@ def dyadic_to_real (d : D_w) : R_w :=
   d.val
 
 -- 3> Elementary Trigonometric Projections on ℝ_ω:
--- Directed Pairs: ℝ_ω → ℝ_ω
+-- Base Projections: ℝ_ω → ℝ_ω
 axiom cos_w : R_w → R_w
 axiom sin_w : R_w → R_w
+
+-- Range bounds: sin(θ), cos(θ) ∈ [-1, 1]
+axiom cos_w_bound (theta : R_w) : (-1 : R_w) ≤ cos_w theta ∧ cos_w theta ≤ 1
+axiom sin_w_bound (theta : R_w) : (-1 : R_w) ≤ sin_w theta ∧ sin_w theta ≤ 1
+
+-- Periodic invariance modulo 2π:
+axiom cos_mod_2pi (x y : R_w) (h : mod_2pi_rel x y) : cos_w x = cos_w y
+axiom sin_mod_2pi (x y : R_w) (h : mod_2pi_rel x y) : sin_w x = sin_w y
+
+-- Typed Trigonometric Projection Functions:
+-- (a) Range-Constrained Projections: ℝ_ω → [-1, 1]
+def cos_fn (theta : R_w) : R_w_cc_unit := ⟨cos_w theta, cos_w_bound theta⟩
+def sin_fn (theta : R_w) : R_w_cc_unit := ⟨sin_w theta, sin_w_bound theta⟩
+
+-- (b) Circle-Domain Projections: S¹_ω → [-1, 1] (Typing: ℝ_ω:mod(2π) → [-1, 1])
+def cos_circle (c : R_w_circle) : R_w_cc_unit := cos_fn c.val
+def sin_circle (c : R_w_circle) : R_w_cc_unit := sin_fn c.val
+
+-- (c) Dyadic-Tree Projections: 𝔻 → [-1, 1] (Typing: 𝔻 → [-1, 1])
+def cos_dyadic (d : D_w) : R_w_cc_unit := cos_fn ((2 : R_w) * pi * d.val)
+def sin_dyadic (d : D_w) : R_w_cc_unit := sin_fn ((2 : R_w) * pi * d.val)
+
+-- Explicit Function Space Types:
+def RealTrigMap   : Type := R_w → R_w_cc_unit          -- ℝ_ω → [-1, 1]
+def CircleTrigMap : Type := R_w_circle → R_w_cc_unit   -- ℝ_ω:mod(2π) → [-1, 1]
+def DyadicTrigMap : Type := D_w → R_w_cc_unit          -- 𝔻 → [-1, 1]
 
 -- Pythagorean Circle Invariant: cos²(θ) + sin²(θ) = 1
 axiom pythagorean_identity (theta : R_w) :
@@ -674,6 +703,88 @@ def circle_chord (c : R_w_circle) : R_w :=
 -- 11> Binary Steering Choice (CORDIC / Conway Tree):
 -- Directed Pair: (ℂ_ω × ℕ) → ℤ  (target, step ↦ ±1)
 axiom binary_steering_choice (target : C_w) (step : N_w) : Z_w
+
+-- ============================================================================
+-- 18. The Differential Operator as a Directed Morphism & C² Invariance
+-- ============================================================================
+
+-- 1> The Function Space Differential Operator on ℝ_ω:
+-- Directed Pair: (ℝ_ω → ℝ_ω) → (ℝ_ω → ℝ_ω)
+-- Nonstandard Difference Quotient Operator evaluated at infinitesimal step dx
+def DiffOp (f : R_w → R_w) : R_w → R_w :=
+  fun x => (f (x + dx) - f x) / dx
+
+-- 2> The Planar Tangent Velocity Operator (The 90° Turning Wheel):
+-- Directed Pair: (ℝ_ω × ℝ_ω) → (ℝ_ω × ℝ_ω)
+-- Kinematic/dynamical tangent velocity: (x, y) ↦ (-y, x)
+def D_turn (v : R_w × R_w) : R_w × R_w :=
+  (-v.2, v.1)
+
+-- Inherent Harmonic / C² Invariant: D² = -I (Two successive turns invert direction)
+-- An algebraic identity of the directed pair, requiring no limits:
+theorem D_turn_squared (v : R_w × R_w) :
+    D_turn (D_turn v) = (-v.1, -v.2) := by
+  rfl
+
+-- 3> The Complex Tangent Operator on ℂ_ω:
+-- Directed Pair: ℂ_ω → ℂ_ω  (z ↦ i · z)
+-- The 2×2 rotation matrix collapses into complex multiplication by i
+def D_complex (z : C_w) : C_w :=
+  ⟨-z.im, z.re⟩
+
+-- Inherent Complex C² Invariant: D_complex² = -I (Direct reflection of i² = -1)
+theorem D_complex_squared (z : C_w) :
+    D_complex (D_complex z) = ⟨-z.re, -z.im⟩ := by
+  rfl
+
+-- Inherent Norm & Energy Conservation: |D_complex(z)|² = |z|²
+-- Radial distance r² is structurally invariant under the differential operator
+axiom D_complex_preserves_norm (z : C_w) :
+    C_w.norm_sq (D_complex z) = C_w.norm_sq z
+
+-- 4> Action of DiffOp on Typed Trigonometric Projections:
+-- The 4-step cyclic orbit: sin ↦ cos ↦ -sin ↦ -cos ↦ sin
+axiom diff_sin : ∀ theta : R_w, has_derivative_at sin_w theta (cos_w theta)
+axiom diff_cos : ∀ theta : R_w, has_derivative_at cos_w theta (-sin_w theta)
+
+-- Inherent Twice-Differentiability (C²):
+-- d²[sin θ]/dθ² = -sin θ and d²[cos θ]/dθ² = -cos θ
+axiom diff2_sin : ∀ theta : R_w, has_derivative_at cos_w theta (-sin_w theta)
+axiom diff2_cos : ∀ theta : R_w, has_derivative_at (fun t => -sin_w t) theta (-cos_w theta)
+
+-- 5> Certified C² Function Type on the Continuum:
+-- Differentiability and derivative shadows bundled directly into the directed pair:
+structure C2_Map where
+  f    : R_w → R_w
+  d1   : R_w → R_w
+  d2   : R_w → R_w
+  h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)
+  h_d2 : ∀ x : R_w, has_derivative_at d1 x (d2 x)
+
+-- The Certified Harmonic C² Bundles for Sine and Cosine:
+def sin_c2_bundle : C2_Map where
+  f    := sin_w
+  d1   := cos_w
+  d2   := fun t => -sin_w t
+  h_d1 := diff_sin
+  h_d2 := diff2_sin
+
+def cos_c2_bundle : C2_Map where
+  f    := cos_w
+  d1   := fun t => -sin_w t
+  d2   := fun t => -cos_w t
+  h_d1 := diff_cos
+  h_d2 := diff2_cos
+
+-- Inherent Harmonic Oscillator Property: D² f = -f
+-- Holds identically on the circle S¹_ω without limit machinery:
+theorem sin_harmonic_property (theta : R_w) :
+    sin_c2_bundle.d2 theta = -sin_w theta := by
+  rfl
+
+theorem cos_harmonic_property (theta : R_w) :
+    cos_c2_bundle.d2 theta = -cos_w theta := by
+  rfl
 
 end MiddleWay
 
