@@ -384,6 +384,12 @@ export const stemBridgeIndex = [
         navTopic: "Trig Derivatives",
         htmlSegmentId: "stemTrigDerivatives",
     },
+    {
+        type: "html",
+        topic: "Exp & log foundations",
+        navTopic: "Exp & Log",
+        htmlSegmentId: "stemExpLogFoundations",
+    },
 ];
 export const mainIndex = [
     {

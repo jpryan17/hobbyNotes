@@ -973,7 +973,8 @@
       <div class="formula-box" style="margin: 8px 0;">
         d ↦ d.val &emsp; where &emsp; d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
+      • <b>Interactive Dyadic Sine Stencil:</b> <fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
     </div>
 
     <!-- Formal Statement 2: Rotor & Coordinate Projection -->
@@ -988,7 +989,8 @@
       <div class="formula-box" style="margin: 8px 0;">
         d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
+      • <b>Interactive Rotor Projection Stencil:</b> <fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
     </div>
 
     <!-- Formal Statement 2B: Circle Quotient Isomorphism -->

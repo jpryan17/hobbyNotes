@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exponential &amp; Logarithmic Foundations on the Trees</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --dark: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --success: #059669;
+      --success-light: #f0fdf4;
+      --amber: #d97706;
+      --amber-light: #fffbeb;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 16px 80px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 40px 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 0.95em;
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.35em;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      color: #1e40af;
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 1em;
+      color: #334155;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin: 12px 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #f1f5f9;
+      color: #0369a1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    .formula-box {
+      margin: 16px 0;
+      padding: 14px 20px;
+      background: #f8fafc;
+      border-left: 4px solid var(--secondary);
+      border-radius: 0 8px 8px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 1em;
+      color: #0f172a;
+      overflow-x: auto;
+    }
+
+    .formula-box.purple {
+      border-left-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .formula-box.amber {
+      border-left-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    .formula-box.success {
+      border-left-color: var(--success);
+      background: var(--success-light);
+    }
+
+    .formula-box.danger {
+      border-left-color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    .callout {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+
+    .callout strong {
+      color: var(--primary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-purple {
+      background: #ede9fe;
+      color: #6b21a8;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92em;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 36px 0;
+    }
+
+    .diagram-container {
+      margin: 28px 0;
+      text-align: center;
+    }
+
+    .diagram-caption {
+      font-size: 0.88em;
+      color: var(--muted);
+      margin-top: 10px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
+    <div class="subtitle">
+      Hyperfinite Compounding, Napier's Kinematic Logarithm, the Fixed-Point Eigenfunction, and Complex Conformal Spirals
+    </div>
+
+    <!-- MOTIF: THE PHENOMENON VS THE MATHEMATICAL MODEL -->
+    <div style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); border: 1.5px solid #93c5fd; border-radius: 10px; padding: 22px 26px; margin: 24px 0 28px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #bfdbfe; padding-bottom: 8px;">
+        <span class="badge badge-blue" style="font-size: 0.8em; padding: 3px 9px;">Foundational Motif</span>
+        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">The Phenomenon vs. The Mathematical Model: Growth, Perception &amp; Information</h3>
+      </div>
+      <p style="margin-top: 0; margin-bottom: 12px; font-size: 0.95em; line-height: 1.65; color: #1e293b;">
+        Just as angularity existed as a physical experience long before trigonometry, the <b>exponential and logarithmic phenomena</b> were experienced long before Euler or Napier wrote formulas:
+      </p>
+      <ul style="margin: 10px 0 14px; padding-left: 22px; font-size: 0.92em; color: #334155; line-height: 1.6;">
+        <li><b>Self-Proportional Growth:</b> A breeding herd, a compound-interest balance, or a cooling cup of tea changes at a rate strictly proportional to its current quantity: <code>dy/dt = k · y</code>. Growth feeds on its own magnitude.</li>
+        <li><b>Logarithmic Sensory Perception:</b> Human hearing, sight, and touch operate on ratio scales, not linear differences (the Weber-Fechner Law). An octave in musical pitch is a doubling of frequency; a 10 dB loudness increase is a tenfold increase in acoustic energy; stellar magnitudes gauge brightness multiplicatively.</li>
+        <li><b>Information &amp; Decision Trees:</b> To locate a single leaf among <code>N</code> possibilities requires <code>log₂(N)</code> binary yes/no choices. The logarithm is literally the depth of a search tree.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 0.92em; line-height: 1.65; color: #1e293b;">
+        <b>The Structural Complement:</b> If circular trigonometry governs <b>pure rotation on the unit circle</b> ($S^1 \subset \mathbb{C}_\omega$), 
+        the exponential governs <b>pure radial scaling across the continuum</b> ($\mathbb{R}^+$). 
+        Together, they unite on $\mathbb{C}_\omega$ into the master constructor of all conformal geometry: the <b>logarithmic spiral</b>.
+      </p>
+    </div>
+
+    <!-- CORE CALLOUT -->
+    <div class="callout">
+      <strong>Core Discovery:</strong> The exponential and logarithm are not arbitrary transcendental functions defined by limits. They emerge naturally across our three number trees:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>1-Successor ($\mathbb{N}$ — The Trunk):</b> Repeated discrete multiplication <code>aⁿ = a · a ··· a</code> and the arithmetic-geometric ledger.</li>
+        <li><b>2-Successor ($\mathbb{R}_\omega$ — The Binary Tree):</b> Binary tree depth <code>log₂(2ᵏ) = k</code>, Napier's kinematic deceleration, and Euler's hyperfinite compounding: <code>exp(x) = (1 + x · dx)^ω</code>.</li>
+        <li><b>4-Successor ($\mathbb{C}_\omega$ — The Quadtree Continuum):</b> Conformal polar decomposition <code>exp(x + i·y) = exp(x) · (cos y + i·sin y)</code>, unifying radial dilation with the 90° turning rotor.</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 1: EULER'S HYPERFINITE COMPOUNDING -->
+    <h2><span class="badge badge-amber">Perspective 1</span> Euler’s Hyperfinite Compounding: Continuous Growth Without Limits</h2>
+
+    <p>
+      In standard textbooks, the base of the natural exponential <code>e</code> is defined through an abstract limit of compound interest:
+    </p>
+    <div class="formula-box">
+      e = lim[n &rarr; &infin;] (1 + 1/n)ⁿ &asymp; 2.7182818...
+    </div>
+
+    <p>
+      In our hyperfinite framework on Day <code>&omega;</code>, continuous compounding is not an unreachable limit; it is an <b>elementary algebraic power</b> evaluated across <code>&omega;</code> infinitesimal ticks of duration <code>dx = 1/&omega;</code>:
+    </p>
+    <div class="formula-box amber">
+      exp(x) = st[ (1 + x · dx)^&omega; ] = st[ (1 + x / &omega;)^&omega; ]
+    </div>
+
+    <p>
+      Consider an account earning an annual rate <code>x</code>. If interest is compounded once per year, the multiplier is <code>(1 + x)</code>. 
+      If compounded semi-annually, it is <code>(1 + x/2)²</code>. 
+      When compounded over the hyperfinite grid of Day <code>&omega;</code>, each microscopic step increments the balance by an infinitesimal slice <code>(1 + x · dx)</code>:
+    </p>
+
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: Hyperfinite Compounding — Compounding Over ω Infinitesimal Steps</text>
+
+        <!-- Left Pane: Compounding Curve -->
+        <rect x="14" y="44" width="460" height="282" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="244" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">DISCRETE TICKS VS. CONTINUOUS ENVELOPE</text>
+
+        <!-- Coordinate Axes -->
+        <line x1="50" y1="280" x2="440" y2="280" stroke="#cbd5e1" stroke-width="1.5" />
+        <line x1="70" y1="295" x2="70" y2="80" stroke="#cbd5e1" stroke-width="1.5" />
+        <text x="440" y="295" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Time (t)</text>
+        <text x="75" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Value y(t)</text>
+
+        <!-- Grid Lines -->
+        <line x1="70" y1="230" x2="440" y2="230" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+        <line x1="70" y1="180" x2="440" y2="180" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+        <line x1="70" y1="130" x2="440" y2="130" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+
+        <!-- 1 Step: (1+x) linear chord -->
+        <line x1="70" y1="230" x2="390" y2="145" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4,4" />
+        <text x="395" y="150" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Annual: (1 + x)¹ = 2.00</text>
+
+        <!-- 2 Steps: (1+x/2)^2 piecewise -->
+        <line x1="70" y1="230" x2="230" y2="175" stroke="#0284c7" stroke-width="1.8" />
+        <line x1="230" y1="175" x2="390" y2="115" stroke="#0284c7" stroke-width="1.8" />
+        <circle cx="230" cy="175" r="3.5" fill="#0284c7" />
+        <circle cx="390" cy="115" r="3.5" fill="#0284c7" />
+        <text x="395" y="118" font-family="system-ui, sans-serif" font-size="9.5" fill="#0284c7">Semi-Annual: (1 + x/2)² = 2.25</text>
+
+        <!-- Smooth Hyperfinite Continuous Envelope: e^x -->
+        <path d="M 70 230 C 150 226, 230 190, 310 140 S 370 95, 390 85" fill="none" stroke="#dc2626" stroke-width="2.5" />
+        <circle cx="390" cy="85" r="4.5" fill="#dc2626" />
+        <text x="395" y="88" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#dc2626">Hyperfinite: (1 + dx)^ω = e = 2.718...</text>
+
+        <!-- Step Ticks dx -->
+        <line x1="130" y1="277" x2="130" y2="283" stroke="#64748b" stroke-width="1" />
+        <line x1="150" y1="277" x2="150" y2="283" stroke="#64748b" stroke-width="1" />
+        <line x1="170" y1="277" x2="170" y2="283" stroke="#64748b" stroke-width="1" />
+        <text x="150" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">dx = 1/ω</text>
+
+        <!-- Right Pane: Algebraic Binomial Ledger -->
+        <rect x="484" y="44" width="282" height="282" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1" />
+        <text x="625" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#92400e">EULER'S BINOMIAL EXPANSION</text>
+
+        <rect x="498" y="80" width="254" height="64" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="510" y="98" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#475569">Hyperfinite Binomial Expansion:</text>
+        <text x="510" y="118" font-family="monospace" font-size="11" fill="#1e40af">(1 + x/ω)^ω = ∑ [ (ω choose k) (x/ω)ᵏ ]</text>
+        <text x="510" y="134" font-family="monospace" font-size="10" fill="#64748b">= 1 + x + x²/2! + x³/3! + ...</text>
+
+        <rect x="498" y="152" width="254" height="74" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="510" y="170" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#475569">Why Binomial Coefficients Collapse:</text>
+        <text x="510" y="190" font-family="monospace" font-size="10" fill="#0284c7">ω(ω-1)···(ω-k+1) / (k! · ωᵏ)</text>
+        <text x="510" y="210" font-family="monospace" font-size="11" font-weight="bold" fill="#059669">= 1/k! · [1 - O(dx)] &asymp; 1/k!</text>
+
+        <rect x="498" y="234" width="254" height="74" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1" />
+        <text x="510" y="252" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#991b1b">Fundamental Morphism Identity:</text>
+        <text x="510" y="274" font-family="monospace" font-size="11.5" font-weight="bold" fill="#dc2626">exp(a + b) = exp(a) · exp(b)</text>
+        <text x="510" y="294" font-family="monospace" font-size="9.5" fill="#475569">Turns addition into multiplication!</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: Hyperfinite Compounding &mdash; compounding across <code>&omega;</code> infinitesimal intervals of size <code>dx</code> builds the exact exponential envelope <code>exp(x) = (1 + x·dx)^&omega;</code>.
+      </div>
+    </div>
+
+    <p>
+      In 1748, Leonhard Euler proved in his <i>Introductio in Analysin Infinitorum</i> that expanding <code>(1 + x/&omega;)^&omega;</code> with the binomial theorem yields the famous power series:
+    </p>
+    <div class="formula-box">
+      (1 + x/&omega;)^&omega; = 1 + &omega; · (x/&omega;) + [&omega;(&omega; - 1) / 2!] · (x/&omega;)² + ... = 1 + x + x²/2! + x³/3! + ...
+    </div>
+    <p>
+      Because <code>(&omega; - 1)/&omega; = 1 - dx &asymp; 1</code>, all finite factor ratios collapse to 1 with only second-order infinitesimal residue. 
+      The infinite series is literally the standard shadow of the hyperfinite binomial expansion!
+    </p>
+
+    <hr>
+
+    <!-- SECTION 2: NAPIER'S KINEMATIC LOGARITHM & BINARY TREE DEPTH -->
+    <h2><span class="badge badge-blue">Perspective 2</span> Napier’s Kinematic Bridge &amp; Binary Tree Depth</h2>
+
+    <h3>1. John Napier’s 1614 Kinematic Definition</h3>
+    <p>
+      Decades before calculus or Cartesian coordinate graphs were invented, the Scottish baron <b>John Napier</b> conceived the logarithm through a stunning physical thought experiment involving <b>two moving particles</b>:
+    </p>
+    <ul>
+      <li><b>Particle 1 (Arithmetic Clock):</b> Moves along an infinite line at <i>constant uniform velocity</i>: <code>dx/dt = v₀</code>. Its position measures elapsed clock time linearly: <code>x(t) = v₀ · t</code>.</li>
+      <li><b>Particle 2 (Geometric Deceleration):</b> Moves along a finite segment toward a target with <i>velocity proportional to remaining distance</i>: <code>dy/dt = -y</code>. As it gets closer, it slows down proportionally.</li>
+    </ul>
+
+    <p>
+      Napier defined the <b>logarithm</b> of remaining distance <code>y</code> to be the distance <code>x</code> covered by the uniform particle:
+    </p>
+    <div class="formula-box purple">
+      Napier's Logarithm: &nbsp;&nbsp;x = -ln(y / y₀)
+    </div>
+    <p>
+      Napier realized that equal time intervals add up arithmetically on Particle 1 while multiplying geometrically on Particle 2. 
+      <b>The logarithm is the dictionary that translates multiplication into addition:</b>
+    </p>
+    <div class="formula-box purple">
+      log(a · b) = log(a) + log(b)
+    </div>
+
+    <h3>2. Binary Tree Depth on 𝔻 (2-Successor)</h3>
+    <p>
+      On our 2-successor binary number tree <code>𝔻</code>, the binary logarithm <code>log₂(x)</code> has an immediate physical meaning:
+      <b>It is the generation index (depth) of a node on the tree.</b>
+    </p>
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Tree Generation (k)</th>
+            <th style="width: 25%;">Number of Leaves (2ᵏ)</th>
+            <th style="width: 25%;">Node Scale (2⁻ᵏ)</th>
+            <th style="width: 25%;">Binary Logarithm log₂(·)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Day 0 (Root)</td>
+            <td><code>1</code></td>
+            <td><code>1.0</code></td>
+            <td><code>log₂(1) = 0</code></td>
+          </tr>
+          <tr>
+            <td>Day 1</td>
+            <td><code>2</code></td>
+            <td><code>1/2 = 0.5</code></td>
+            <td><code>log₂(2) = 1, &nbsp;log₂(1/2) = -1</code></td>
+          </tr>
+          <tr>
+            <td>Day 2</td>
+            <td><code>4</code></td>
+            <td><code>1/4 = 0.25</code></td>
+            <td><code>log₂(4) = 2, &nbsp;log₂(1/4) = -2</code></td>
+          </tr>
+          <tr>
+            <td>Day 3</td>
+            <td><code>8</code></td>
+            <td><code>1/8 = 0.125</code></td>
+            <td><code>log₂(8) = 3, &nbsp;log₂(1/8) = -3</code></td>
+          </tr>
+          <tr>
+            <td>Day k</td>
+            <td><code>2ᵏ</code></td>
+            <td><code>2⁻ᵏ</code></td>
+            <td><code>log₂(2ᵏ) = k, &nbsp;log₂(2⁻ᵏ) = -k</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 3: THE SELF-REPLICATING EIGENFUNCTION -->
+    <h2><span class="badge badge-green">Perspective 3</span> The Differential Operator: The Self-Replicating Fixed Point</h2>
+
+    <p>
+      In our previous exploration of circular trigonometry, we discovered that the differential operator <code>DiffOp</code> acts as a 90° turning wheel whose square inverts direction:
+    </p>
+    <div class="formula-box">
+      D_turn² = -I &nbsp;&nbsp;&rArr;&nbsp;&nbsp; d²[sin θ]/dθ² = -sin θ &nbsp;&nbsp;(Eigenvalues: λ = ±i)
+    </div>
+
+    <p>
+      The exponential function is the <b>unique non-trivial eigenfunction of the differential operator with eigenvalue λ = +1</b>:
+    </p>
+    <div class="formula-box success">
+      D [ exp(x) ] = exp(x) &nbsp;&nbsp;(Eigenvalue: λ = +1)
+    </div>
+
+    <p>
+      Because growth is proportional to current value, differentiating the exponential does not rotate it, scale it, or shift its phase—it reproduces the function identically:
+    </p>
+    <ul>
+      <li><b>The Exponential Fixed Point:</b> <code>dⁿ/dxⁿ [ eˣ ] = eˣ</code> for every order <code>n ∈ ℕ</code>.</li>
+      <li><b>The Logarithm Derivative (Area Under the Hyperbola):</b> 
+        Differentiating the inverse map yields the reciprocal coordinate:
+        <div class="formula-box">
+          d/dx [ ln(x) ] = 1 / x
+        </div>
+        Historically discovered by <b>Grégoire de Saint-Vincent</b> in 1647, the natural logarithm is the exact area under the hyperbola <code>y = 1/t</code> from <code>t = 1</code> to <code>t = x</code>.
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 4: THE COMPLEX CONFORMAL SPIRAL -->
+    <h2><span class="badge badge-purple">Perspective 4</span> Conformal Spirals on ℂ_ω: Unifying Scaling &amp; Turning</h2>
+
+    <p>
+      On our 4-successor complex continuum <code>ℂ_ω</code>, the exponential function achieves its ultimate unification:
+      <b>It marries 1D radial dilation with circular rotation into a single conformal map:</b>
+    </p>
+    <div class="formula-box purple">
+      exp(x + i · y) = exp(x) · (cos y + i · sin y)
+    </div>
+
+    <p>
+      Every complex number <code>z = x + i·y</code> has two independent components, and the exponential acts on each with complete geometric independence:
+    </p>
+    <ul>
+      <li><b>Real Part <code>x</code> (Radial Dilation):</b> Scales the distance from the origin by factor <code>r = eˣ</code>. If <code>x &gt; 0</code>, it expands outward; if <code>x &lt; 0</code>, it contracts inward.</li>
+      <li><b>Imaginary Part <code>y</code> (Angular Rotor):</b> Turns the direction around the unit circle by angle <code>θ = y</code>. When <code>x = 0</code>, it reproduces Euler's unit rotor <code>UnitRotor</code>!</li>
+    </ul>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 2: The Complex Exponential Spiral on ℂ_ω</text>
+
+        <!-- Left Pane: Cartesian Grid to Logarithmic Spiral -->
+        <rect x="14" y="44" width="450" height="322" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">EQUIANGULAR LOGARITHMIC SPIRAL: z(t) = exp[(a + i·b)t]</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="205" x2="418" y2="205" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="239" y1="80" x2="239" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <text x="415" y="198" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Re(z)</text>
+        <text x="245" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Im(z)</text>
+
+        <!-- Unit Circle for reference -->
+        <circle cx="239" cy="205" r="70" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,4" />
+        <text x="315" y="200" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">r = 1 (Pure Rotor)</text>
+
+        <!-- Logarithmic Spiral Curve: r = e^(0.15 * theta) -->
+        <!-- Center (239, 205). Spiral points calculated: theta from 0 to 4.5 pi -->
+        <path d="M 274 205 
+                 C 274 186, 260 170, 239 165
+                 C 212 165, 185 185, 185 205
+                 C 185 235, 215 260, 239 265
+                 C 275 265, 315 235, 320 205
+                 C 320 155, 275 115, 239 110
+                 C 185 110, 130 160, 125 205
+                 C 125 270, 185 330, 239 335
+                 C 310 335, 385 270, 390 205" 
+              fill="none" stroke="#7c3aed" stroke-width="2.5" />
+
+        <!-- Velocity Vector on Spiral at a point -->
+        <!-- Point at theta = pi/2: (239, 110) approx -->
+        <circle cx="239" cy="110" r="4.5" fill="#dc2626" />
+        <line x1="239" y1="110" x2="160" y2="90" stroke="#dc2626" stroke-width="2" />
+        <!-- Tangent Arrowhead -->
+        <polygon points="160,90 172,87 169,97" fill="#dc2626" />
+        <text x="155" y="82" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#dc2626">v = (a + i·b) · z</text>
+
+        <!-- Right Pane: Multi-Branched Logarithm & Riemann Surface -->
+        <rect x="474" y="44" width="292" height="322" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">THE MULTI-BRANCHED LOGARITHM</text>
+
+        <rect x="488" y="85" width="264" height="64" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="105" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">Polar Form Decomposition:</text>
+        <text x="510" y="128" font-family="monospace" font-size="12" fill="#1e40af">Ln(z) = ln|z| + i · Arg(z)</text>
+
+        <rect x="488" y="158" width="264" height="74" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="178" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">The Periodic Winding Phase:</text>
+        <text x="510" y="198" font-family="monospace" font-size="11" fill="#7c3aed">Arg(z) ∈ S¹_ω ≡ ℝ_ω : mod(2π)</text>
+        <text x="510" y="218" font-family="monospace" font-size="9.5" fill="#64748b">Each 2π turn ascends one sheet!</text>
+
+        <rect x="488" y="242" width="264" height="74" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1" />
+        <text x="500" y="262" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Riemann Surface Spiral Ramp:</text>
+        <text x="510" y="284" font-family="monospace" font-size="11" font-weight="bold" fill="#7c3aed">Ln(z) = ln|z| + i·(θ + 2kπ)</text>
+        <text x="510" y="302" font-family="monospace" font-size="9.5" fill="#475569">k ∈ ℤ is the discrete winding index</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 2: Conformal Spirals on <code>ℂ_ω</code> &mdash; combining real expansion with imaginary rotation produces the equiangular logarithmic spiral. Its inverse, the complex logarithm <code>Ln(z) = ln|z| + i·Arg(z)</code>, unrolls the plane onto an infinite Riemann surface helical ramp.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 5: LEAN 4 FORMALIZATION -->
+    <h2><span class="badge badge-purple">Lean 4 Scaffolding</span> Typed Exponential &amp; Logarithmic Morphisms</h2>
+
+    <p>
+      In Section 19 of our formal verification scaffolding, the exponential and logarithm are typed as exact directed group morphisms:
+    </p>
+
+    <div class="formula-box purple">
+      -- 1> The Real Exponential Map into Positive Reals:<br>
+      def exp_fn (x : R_w) : R_w_pos := ⟨exp_w x, exp_w_pos x⟩<br><br>
+      -- Group Homomorphism Laws: (ℝ, +) → (ℝ⁺, ·)<br>
+      axiom exp_zero : exp_w 0 = 1<br>
+      axiom exp_add (a b : R_w) : exp_w (a + b) = exp_w a * exp_w b<br><br>
+      -- 2> The Real Logarithm Map &amp; Mutual Inversion:<br>
+      def log_fn (y : R_w_pos) : R_w := log_w y.val<br><br>
+      axiom log_exp (x : R_w) : log_w (exp_w x) = x<br>
+      axiom exp_log (x : R_w) (hx : 0 &lt; x) : exp_w (log_w x) = x<br>
+      axiom log_mul (a b : R_w) (ha : 0 &lt; a) (hb : 0 &lt; b) :<br>
+      &nbsp;&nbsp;log_w (a * b) = log_w a + log_w b
+    </div>
+
+    <p>
+      The fixed-point property of the derivative is bundled into a certified <code>C1_Map</code>, where the identity <code>D(exp) = exp</code> is verified definitionally by reflection:
+    </p>
+
+    <div class="formula-box purple">
+      structure C1_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)<br><br>
+      def exp_c1_bundle : C1_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;:= exp_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;:= exp_w<br>
+      &nbsp;&nbsp;h_d1 := diff_exp<br><br>
+      -- Inherent Eigenfunction Identity (λ = 1):<br>
+      theorem exp_eigen_property (x : R_w) :<br>
+      &nbsp;&nbsp;exp_c1_bundle.d1 x = exp_w x := by rfl
+    </div>
+
+    <hr>
+
+    <!-- SYNTHESIS TABLE -->
+    <h2>Synthesis: Exponential &amp; Logarithmic Functions Across the Trees</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Regime</th>
+          <th>Number Tree</th>
+          <th>Exponential Manifestation</th>
+          <th>Logarithmic Manifestation</th>
+          <th>Core STEM Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1-Successor</b></td>
+          <td><code>ℕ_ω</code> (The Trunk)</td>
+          <td>Discrete powers <code>aⁿ = a · a ··· a</code></td>
+          <td>Discrete digit counting; order of magnitude</td>
+          <td>Slide rules; Stifel ledgers; Archimedean sand reckoner.</td>
+        </tr>
+        <tr>
+          <td><b>2-Successor</b></td>
+          <td><code>ℝ_ω</code> (The Binary Tree)</td>
+          <td>Continuous compounding <code>(1 + x·dx)^ω</code></td>
+          <td>Tree depth <code>log₂(2ᵏ) = k</code>; Napier's deceleration</td>
+          <td>Shannon entropy; binary search trees; RC circuits; radiocarbon dating.</td>
+        </tr>
+        <tr>
+          <td><b>4-Successor</b></td>
+          <td><code>ℂ_ω</code> (The Quadtree)</td>
+          <td>Conformal polar dilation-rotation <code>eˣ · e^(i·y)</code></td>
+          <td>Multi-branched polar form <code>ln|z| + i·Arg(z)</code></td>
+          <td>Logarithmic spirals in fluid dynamics; damping in electrical RLC circuits; Riemann surfaces in complex analysis.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</body>
+</html>

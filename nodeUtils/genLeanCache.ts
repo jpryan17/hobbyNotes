@@ -493,6 +493,22 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       summary: 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'
     },
     {
+      key: 'sin_dyadic_fn',
+      target: 'scaffold:sin_dyadic_fn',
+      expression: 'sin_dyadic_fn : 𝔻 → [-1, 1]',
+      signature: 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic',
+      snippet: '#check sin_dyadic_fn\n#check sin_dyadic',
+      summary: 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'
+    },
+    {
+      key: 'sin_rotor_fn',
+      target: 'scaffold:sin_rotor_fn',
+      expression: 'sin_rotor_fn : UnitRotor → [-1, 1]',
+      signature: 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule',
+      snippet: '#check sin_rotor_fn\n#check sin_rotor_rule',
+      summary: 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'
+    },
+    {
       key: 'D_w',
       target: 'scaffold:D_w',
       expression: '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω',

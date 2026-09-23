@@ -1993,6 +1993,60 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
     });
   }
 
+  // 17. Dyadic Sine & Rotor Sine Calculations
+  if (allText.includes("sin_dyadic") || allText.includes("dyadic sine") || allText.includes("dyadic tree sine") || (allText.includes("sin") && allText.includes("2ⁿ"))) {
+    modes.push({
+      id: "trig_sin_dyadic_eval",
+      label: "(m, n) → sin(θ)",
+      targetSymbol: "sin(θ)",
+      targetDomain: "[-1, 1]",
+      formulaDescription: "sin(θ) = sin(2π · m / 2ⁿ)",
+      inputs: [
+        { name: "m", symbol: "Numerator m", domain: "ℤ", defaultValue: 1, step: 1, min: 0, max: 64, description: "Dyadic numerator" },
+        { name: "n", symbol: "Birthday n", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 12, description: "Tree depth / birthday (2ⁿ bisections)" }
+      ],
+      evaluate: (vals) => {
+        const m = Math.round(vals.m);
+        const n = Math.max(0, Math.round(vals.n));
+        const angleRad = 2 * Math.PI * (m / Math.pow(2, n));
+        const angleDeg = (360 * m) / Math.pow(2, n);
+        const sinVal = Math.sin(angleRad);
+        return {
+          resultValue: sinVal,
+          formattedFormula: `sin(2π · ${m} / 2^${n}) = sin(${angleDeg.toFixed(1)}°) = ${sinVal.toFixed(4)}`,
+          displayResult: `${sinVal.toFixed(4)}`,
+          domainBadge: "∈ [-1, 1]",
+          notes: `Angle θ = ${angleDeg.toFixed(2)}° (${angleRad.toFixed(3)} rad). Evaluated down 2-successor tree at depth n = ${n}.`
+        };
+      }
+    });
+  }
+
+  if (allText.includes("sin_rotor") || allText.includes("unitrotor") || allText.includes("rotor sine") || (allText.includes("rotor") && allText.includes("sin"))) {
+    modes.push({
+      id: "trig_sin_rotor_eval",
+      label: "(θ) → (cos θ, sin θ)",
+      targetSymbol: "sin(U)",
+      targetDomain: "[-1, 1]",
+      formulaDescription: "sin(U) = Im(U) = sin(θ) ∈ [-1, 1]",
+      inputs: [
+        { name: "theta", symbol: "Rotor Angle θ", domain: "ℝ_ω", unit: "°", defaultValue: 45.0, step: 1.0, min: 0.0, max: 360.0, description: "Rotor orientation angle" }
+      ],
+      evaluate: (vals) => {
+        const rad = (vals.theta * Math.PI) / 180;
+        const cosVal = Math.cos(rad);
+        const sinVal = Math.sin(rad);
+        return {
+          resultValue: sinVal,
+          formattedFormula: `U(θ) = ⟨${cosVal.toFixed(4)}, ${sinVal.toFixed(4)}⟩ ⟹ sin(U) = Im(U) = ${sinVal.toFixed(4)}`,
+          displayResult: `${sinVal.toFixed(4)}`,
+          domainBadge: "∈ [-1, 1]",
+          notes: `Unit norm check: |U|² = (${cosVal.toFixed(4)})² + (${sinVal.toFixed(4)})² = ${(cosVal * cosVal + sinVal * sinVal).toFixed(4)} = 1.0 ✓`
+        };
+      }
+    });
+  }
+
   // Return empty if no established, non-trivial calculation modes were matched.
   // This suppresses the calculator button on statements that are purely axiomatic or lack algebraic degrees of freedom.
   return modes;

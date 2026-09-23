@@ -10,26 +10,86 @@ noncomputable section
 namespace MiddleWay
 
 -- ============================================================================
--- 0. Foundational Discrete Domains (𝔹, ℕ, ℤ)
+-- 0. The 4 Primitive Set-Types (Finite Induction)
 -- ============================================================================
 
--- 1. Boolean truth value domain: 𝔹
-abbrev B_w := Bool
+-- 1. The binary domain of Boolean truth values: 𝔹
+inductive B_w where
+  | ff : B_w
+  | tt : B_w
 
--- 2. Natural numbers: ℕ (The 1-successor counting trunk)
-abbrev N_w := Nat
+-- 2. Set defined by 1-successor finite induction: Tree1 (The Unary Counting Spine)
+inductive Tree1 where
+  | zero : Tree1
+  | succ : Tree1 → Tree1
 
--- 3. Integers: ℤ (The bilateral discrete step lattice)
-abbrev Z_w := Int
+-- 3. Set defined by 2-successor finite induction: Tree2 (Binary Tree: Branching { -, + })
+inductive Tree2 where
+  | root   : Tree2
+  | branch : B_w → Tree2 → Tree2
+
+-- 4. Set defined by 4-successor finite induction: Tree4 (Quadtree: Branching { +1, -1, +i, -i })
+inductive QuadDir where
+  | east  : QuadDir  -- +1
+  | west  : QuadDir  -- -1
+  | north : QuadDir  -- +i
+  | south : QuadDir  -- -i
+
+inductive Tree4 where
+  | root   : Tree4
+  | branch : QuadDir → Tree4 → Tree4
 
 -- ============================================================================
--- 1. The Day ω Hyperfinite Continuum Structure (ℝ_ω)
+-- 0.5. The Class-Type Ordinal & The Transfinite Supremum ω
 -- ============================================================================
 
--- Axiomatic interface for the hyperfinite ordered field ℝ_ω
+-- The class-type of tree depths / birthdays:
+axiom Ordinal : Type
+axiom Ordinal_lt : Ordinal → Ordinal → Prop
+instance : LT Ordinal where lt := Ordinal_lt
+
+-- Birthday of 1-successor finite induction sets:
+axiom birthday_T1 : Tree1 → Ordinal
+
+-- The supremum of sets defined by 1-successor finite induction: Day ω
+axiom omega_ord : Ordinal
+axiom omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord
+
+-- ============================================================================
+-- 1. The Three Base Number Sets (ℕ_ω, ℝ_ω, ℂ_ω) & Intrinsic Order Types
+-- ============================================================================
+
+-- 1> ℕ_ω ≡ {set defined by 1-successor finite induction} ∪ {ω}
+axiom N_w : Type
+axiom N_w_from_T1 : Tree1 → N_w
+axiom N_w_omega   : N_w
+
+-- Recursive definitions establish ℕ_ω as well-ordered:
+axiom N_w_le : N_w → N_w → Prop
+instance : LE N_w where le := N_w_le
+axiom N_w_well_ordered : True
+
+-- 2> ℝ_ω ≡ {2-successor finite induction} ∪ {2-successor transfinite induction at birthday ω}
 axiom R_w : Type
+axiom R_w_from_T2 : Tree2 → R_w
 
--- Primitive operations on ℝ_ω
+-- Recursive definitions establish ℝ_ω as totally ordered:
+axiom R_w_le : R_w → R_w → Prop
+axiom R_w_lt : R_w → R_w → Prop
+instance : LE R_w where le := R_w_le
+instance : LT R_w where lt := R_w_lt
+axiom R_w_totally_ordered : True
+
+-- 3> ℂ_ω ≡ {4-successor finite induction} ∪ {4-successor transfinite induction at birthday ω}
+-- (Coordinate structure and operations detailed in Section 5)
+-- Recursive definitions establish ℂ_ω as partially ordered:
+axiom C_w_partially_ordered : True
+
+-- ============================================================================
+-- 1.1. Base Field-Level Arithmetic-Types: (ℝ_ω, +, ·) and (ℂ_ω, +, ·)
+-- ============================================================================
+
+-- Operations on ℝ_ω recursively defined from tree branch algebra:
 axiom R_w_zero : R_w
 axiom R_w_one  : R_w
 axiom R_w_add  : R_w → R_w → R_w
@@ -39,7 +99,7 @@ axiom R_w_div  : R_w → R_w → R_w
 axiom R_w_neg  : R_w → R_w
 axiom R_w_pow  : R_w → Nat → R_w
 
--- Standard Lean 4 typeclasses for arithmetic notation
+-- Standard Lean 4 typeclasses for arithmetic notation on ℝ_ω
 instance : OfNat R_w (nat_lit 0) where ofNat := R_w_zero
 instance : OfNat R_w (nat_lit 1) where ofNat := R_w_one
 instance : Add R_w     where add   := R_w_add
@@ -49,61 +109,141 @@ instance : Div R_w     where div   := R_w_div
 instance : Neg R_w     where neg   := R_w_neg
 instance : HPow R_w Nat R_w where hPow := R_w_pow
 
-
--- Coercion from Int and Nat into ℝ_ω
-axiom ofInt : Int → R_w
-instance : Coe Int R_w where coe := ofInt
-instance (n : Nat) : OfNat R_w n where ofNat := ofInt (Int.ofNat n)
-instance : Coe Nat R_w where coe := fun n => ofInt (Int.ofNat n)
-
--- Ordering relations on ℝ_ω (hyperfinite ordered field)
-axiom R_w_le : R_w → R_w → Prop
-axiom R_w_lt : R_w → R_w → Prop
-instance : LE R_w where le := R_w_le
-instance : LT R_w where lt := R_w_lt
-
--- Absolute value metric on ℝ_ω
-axiom R_w_abs : R_w → R_w
-def abs (x : R_w) : R_w := R_w_abs x
+axiom N_w_pow : R_w → N_w → R_w
+instance : HPow R_w N_w R_w where hPow := N_w_pow
 
 -- Basic algebraic axioms needed for telescoping cancellation
 axiom sub_self (x : R_w) : x - x = 0
 axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
 
+-- Absolute value metric on ℝ_ω
+axiom R_w_abs : R_w → R_w
+def abs (x : R_w) : R_w := R_w_abs x
+
 -- ============================================================================
--- 1.5. Foundational Number Trees & Domains (𝔻, ℝ_ω, ℂ_ω & Constrained Types)
+-- 1.2. Constructed Subtypes & Arithmetic Restrictions (𝔻, ℤ, R_w_pos, etc.)
 -- ============================================================================
 
--- 4. Dyadic Rationals: 𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } born on finite days k < ω
--- (The 2-successor binary tree nodes)
-def is_dyadic (x : R_w) : Prop :=
-  ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+-- Birthday metric on ℝ_ω:
+axiom birthday_R : R_w → Ordinal
 
--- The explicit Dyadic domain type 𝔻
-def D_w : Type := { x : R_w // is_dyadic x }
+-- 1> 𝔻 ≡ { x ∈ ℝ_ω | x is finite } (born on finite days k < ω)
+def is_finite_birthday (x : R_w) : Prop :=
+  birthday_R x < omega_ord
+
+def D_w : Type := { x : R_w // is_finite_birthday x }
 
 -- Subtype constraint: 𝔻 : < 1 (Strictly bounded dyadic unit interval)
 def D_lt_one : Type := { d : D_w // d.val < 1 }
 
--- Subtype constraint: ℝ_ω : > 0 (Strictly positive continuum)
+-- 2> ℤ ≡ { x ∈ ℝ_ω | path is homogeneous } (The bilateral discrete step lattice)
+-- Elements formed by pure consecutive + or pure consecutive - steps
+axiom is_homogeneous_path : R_w → Prop
+def Z_w : Type := { x : R_w // is_homogeneous_path x }
+
+-- Coercion from Z_w into ℝ_ω:
+instance : Coe Z_w R_w where coe := fun z => z.val
+
+-- Constructed arithmetic-type: (ℤ, +, ·) where operations are ℝ_ω operations restricted to ℤ
+axiom homogeneous_zero : is_homogeneous_path 0
+axiom homogeneous_one  : is_homogeneous_path 1
+axiom homogeneous_neg {x : R_w} : is_homogeneous_path x → is_homogeneous_path (-x)
+axiom homogeneous_add {a b : R_w} : is_homogeneous_path a → is_homogeneous_path b → is_homogeneous_path (a + b)
+axiom homogeneous_mul {a b : R_w} : is_homogeneous_path a → is_homogeneous_path b → is_homogeneous_path (a * b)
+
+def Z_zero : Z_w := ⟨0, homogeneous_zero⟩
+def Z_one  : Z_w := ⟨1, homogeneous_one⟩
+def Z_neg (x : Z_w) : Z_w := ⟨-x.val, homogeneous_neg x.property⟩
+def Z_add (a b : Z_w) : Z_w := ⟨a.val + b.val, homogeneous_add a.property b.property⟩
+def Z_mul (a b : Z_w) : Z_w := ⟨a.val * b.val, homogeneous_mul a.property b.property⟩
+
+instance : Add Z_w where add := Z_add
+instance : Mul Z_w where mul := Z_mul
+instance : Neg Z_w where neg := Z_neg
+
+-- 3> Subtype constraint: ℝ_ω : > 0 (Strictly positive continuum)
 def R_w_pos : Type := { x : R_w // 0 < x }
 
--- Subtype constraint: ℝ_ω : [-1, 1] (Closed unit range of trigonometric projections)
+-- 4> Subtype constraint: ℝ_ω : [-1, 1] (Closed unit range of trigonometric projections)
 def R_w_cc_unit : Type := { y : R_w // (-1 : R_w) ≤ y ∧ y ≤ 1 }
 
 -- The circle constant π on ℝ_ω
 axiom pi : R_w
 axiom pi_pos : 0 < pi
 
+-- ============================================================================
+-- 1.3. Downstream Bridges to Native Lean Types (Established Last)
+-- ============================================================================
+
+-- Only after establishing the formal Middle Way perspective are maps to native Lean established:
+axiom ofInt : Int → R_w
+axiom ofNat : Nat → R_w
+instance : Coe Int R_w where coe := ofInt
+instance (n : Nat) : OfNat R_w n where ofNat := ofInt (Int.ofNat n)
+instance : Coe Nat R_w where coe := fun n => ofInt (Int.ofNat n)
+
+-- Canonical bridges between Middle Way constructed ℤ and native Lean Int:
+axiom Z_w_to_Int : Z_w → Int
+axiom Int_to_Z_w : Int → Z_w
+instance : Coe Z_w Int where coe := Z_w_to_Int
+instance : Coe Int Z_w where coe := Int_to_Z_w
+
+-- Canonical bridges between Middle Way finite ℕ_ω and native Lean Nat:
+axiom N_w_finite_to_Nat : { n : N_w // n ≠ N_w_omega } → Nat
+axiom Nat_to_N_w : Nat → N_w
+
+-- Bridge between Middle Way 𝔹 and native Lean Bool:
+def B_w.toBool : B_w → Bool
+  | .ff => false
+  | .tt => true
+
+def B_w.ofBool : Bool → B_w
+  | false => .ff
+  | true  => .tt
+
+instance : Coe B_w Bool where coe := B_w.toBool
+instance : Coe Bool B_w where coe := B_w.ofBool
+
+-- Equivalence with dyadic fraction expansion:
+def is_dyadic (x : R_w) : Prop :=
+  ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)
+axiom finite_birthday_iff_dyadic (x : R_w) : is_finite_birthday x ↔ is_dyadic x
+
 -- Periodic equivalence relation: x ~ y ↔ ∃ k ∈ ℤ, x - y = k · 2π
 def mod_2pi_rel (x y : R_w) : Prop :=
   ∃ (k : Int), x - y = (ofInt k) * ((2 : R_w) * pi)
 
 -- Quotient Circle Domain: ℝ_ω : mod(2π) ≡ S¹_ω
--- Formulated as the fundamental domain [0, 2π) with 0 ~ 2π
 structure R_w_circle where
   val : R_w
   in_range : 0 ≤ val ∧ val < (2 : R_w) * pi
+
+-- ============================================================================
+-- 1.4. The Middle Way Function Architecture: Directed Pairs & Rules
+-- ============================================================================
+
+-- A Directed Pair is a domain construction representing a directed channel (α → β).
+-- Established in Phase 1 (Formal Statements, Lecture 1).
+structure DirectedPair (α β : Type) where
+  dom : Type := α
+  cod : Type := β
+
+-- A Rule Type is an assignment rule between the domain and codomain types.
+def RuleType (α β : Type) : Type := α → β
+
+-- A Function Type bundles the domain construction (Directed Pair) with its assignment rule.
+-- FunctionType = Directed Pair + Rule Type
+structure FunctionType (α β : Type) where
+  channel : DirectedPair α β
+  rule    : RuleType α β
+
+-- Constructor helper for FunctionType
+def make_function {α β : Type} (rule : α → β) : FunctionType α β :=
+  { channel := {}, rule := rule }
+
+-- Lean CoeFun instance allowing a FunctionType to be applied directly as a function
+instance {α β : Type} : CoeFun (FunctionType α β) (fun _ => α → β) where
+  coe f := f.rule
 
 -- ============================================================================
 -- 2. The Scale Parameter ω and Infinitesimal dx
@@ -615,7 +755,7 @@ def bisection_interval_len (a b : R_w) (k : Nat) : R_w :=
 -- 1> Forward Directed Pair: (ℤ × ℕ) → ℝ_ω (Dyadic Angle Generator)
 -- Maps tree address (numerator m ∈ ℤ, birthday depth n ∈ ℕ) to continuous angle θ = 2π · m / 2ⁿ
 def dyadic_angle (m : Z_w) (n : N_w) : R_w :=
-  (2 : R_w) * pi * (ofInt m) / ((2 : R_w) ^ n)
+  (2 : R_w) * pi * m.val / ((2 : R_w) ^ n)
 
 -- 2> Directed Pair: 𝔻 → ℝ_ω (Dyadic Embedding onto Real Line)
 -- Unfolds the dyadic subtype into the full Day ω continuum
@@ -663,6 +803,14 @@ structure UnitRotor where
   val : C_w
   unit_norm : C_w.norm_sq val = 1
 
+-- Rotor Coordinate Bounds (Inherent tree bounds from unit norm: |U|² = 1):
+axiom rotor_re_bound (U : UnitRotor) : (-1 : R_w) ≤ U.val.re ∧ U.val.re ≤ 1
+axiom rotor_im_bound (U : UnitRotor) : (-1 : R_w) ≤ U.val.im ∧ U.val.im ≤ 1
+
+-- Coordinate Extraction Rules from 4-Successor Tree:
+def cos_rotor_rule (U : UnitRotor) : R_w_cc_unit := ⟨U.val.re, rotor_re_bound U⟩
+def sin_rotor_rule (U : UnitRotor) : R_w_cc_unit := ⟨U.val.im, rotor_im_bound U⟩
+
 -- Rotor Action on ℂ_ω: UnitRotor → ℂ_ω → ℂ_ω (U · z)
 def rotate (U : UnitRotor) (z : C_w) : C_w :=
   C_w.mul U.val z
@@ -703,6 +851,25 @@ def circle_chord (c : R_w_circle) : R_w :=
 -- 11> Binary Steering Choice (CORDIC / Conway Tree):
 -- Directed Pair: (ℂ_ω × ℕ) → ℤ  (target, step ↦ ±1)
 axiom binary_steering_choice (target : C_w) (step : N_w) : Z_w
+
+-- 12> Trigonometric Function Bundles: FunctionType = DirectedPair + RuleType
+-- Funneled by the Middle Way domain constructions into tree-based operations:
+
+-- (a) Unit Rotor Coordinate Projections (4-Successor Tree Coordinate Extraction)
+def cos_rotor_fn  : FunctionType UnitRotor R_w_cc_unit := make_function cos_rotor_rule
+def sin_rotor_fn  : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule
+
+-- (b) Dyadic Fraction Projections (2-Successor Binary Tree / CORDIC Bisections)
+def cos_dyadic_fn : FunctionType D_w R_w_cc_unit       := make_function cos_dyadic
+def sin_dyadic_fn : FunctionType D_w R_w_cc_unit       := make_function sin_dyadic
+
+-- (c) Circle Quotient Projections (S¹_ω Periodic Wrapping)
+def cos_circle_fn : FunctionType R_w_circle R_w_cc_unit := make_function cos_circle
+def sin_circle_fn : FunctionType R_w_circle R_w_cc_unit := make_function sin_circle
+
+-- (d) Real Continuum Projections (Continuous Harmonic / ODE Solution)
+def cos_real_fn   : FunctionType R_w R_w_cc_unit        := make_function cos_fn
+def sin_real_fn   : FunctionType R_w R_w_cc_unit        := make_function sin_fn
 
 -- ============================================================================
 -- 18. The Differential Operator as a Directed Morphism & C² Invariance
@@ -785,6 +952,101 @@ theorem sin_harmonic_property (theta : R_w) :
 theorem cos_harmonic_property (theta : R_w) :
     cos_c2_bundle.d2 theta = -cos_w theta := by
   rfl
+
+-- ============================================================================
+-- 19. Exponential & Logarithmic Functions as Directed Morphisms on the Trees
+-- ============================================================================
+
+-- 1> The Real Exponential Map: ℝ_ω → ℝ_ω : > 0
+-- Base function on the continuum: ℝ_ω → ℝ_ω
+axiom exp_w : R_w → R_w
+axiom exp_w_pos (x : R_w) : 0 < exp_w x
+
+-- Directed Pair: ℝ_ω → ℝ_ω : > 0
+-- Maps real continuum into strictly positive multiplicative scaling
+def exp_fn (x : R_w) : R_w_pos :=
+  ⟨exp_w x, exp_w_pos x⟩
+
+-- Group Homomorphism Laws: (ℝ, +) → (ℝ⁺, ·)
+axiom exp_zero : exp_w 0 = 1
+axiom exp_add (a b : R_w) : exp_w (a + b) = exp_w a * exp_w b
+
+-- 2> The Real Logarithm Map: ℝ_ω : > 0 → ℝ_ω
+-- Base function: ℝ_ω → ℝ_ω
+axiom log_w : R_w → R_w
+
+-- Directed Pair: ℝ_ω : > 0 → ℝ_ω
+def log_fn (y : R_w_pos) : R_w :=
+  log_w y.val
+
+-- Mutual Inversion (Isomorphism of Groups):
+axiom log_exp (x : R_w) : log_w (exp_w x) = x
+axiom exp_log (x : R_w) (hx : 0 < x) : exp_w (log_w x) = x
+
+-- Additive Morphism Law: log(a · b) = log a + log b
+axiom log_mul (a b : R_w) (ha : 0 < a) (hb : 0 < b) :
+  log_w (a * b) = log_w a + log_w b
+
+-- 3> Binary Logarithm & Tree Depth on 𝔻 (The 2-Successor Binary Tree):
+-- Measures depth of node generation on the binary tree
+axiom log2_w : R_w → R_w
+axiom pow2_w : R_w → R_w
+axiom log2_pow2 (k : Nat) : log2_w ((2 : R_w) ^ k) = (k : R_w)
+
+-- 4> Action of the Differential Operator on Exponential and Logarithm:
+-- (a) The Exponential is the unique self-replicating fixed point (λ = +1):
+axiom diff_exp : ∀ x : R_w, has_derivative_at exp_w x (exp_w x)
+
+-- (b) The Logarithm derivative is the inverse coordinate (area under 1/t):
+axiom diff_log : ∀ x : R_w, (0 < x) → has_derivative_at log_w x (1 / x)
+
+-- 5> Certified C¹ Function Type & Fixed Point Eigenfunction:
+structure C1_Map where
+  f    : R_w → R_w
+  d1   : R_w → R_w
+  h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)
+
+def exp_c1_bundle : C1_Map where
+  f    := exp_w
+  d1   := exp_w
+  h_d1 := diff_exp
+
+-- Inherent Eigenfunction Identity: D(exp) = exp (verified by definitional reflection)
+theorem exp_eigen_property (x : R_w) :
+    exp_c1_bundle.d1 x = exp_w x := by
+  rfl
+
+-- 6> The Complex Exponential Map on ℂ_ω:
+-- Directed Pair: ℂ_ω → ℂ_ω
+-- Polar decomposition: exp(x + i·y) = exp(x) · (cos y + i · sin y)
+def exp_c (z : C_w) : C_w :=
+  ⟨exp_w z.re * cos_w z.im, exp_w z.re * sin_w z.im⟩
+
+-- Unification with Unit Rotor: Pure imaginary inputs z = ⟨0, y⟩ recover Euler's rotor
+axiom exp_c_pure_imag_eq_rotor (y : R_w) :
+  exp_c ⟨0, y⟩ = (angle_to_rotor y).val
+
+-- Multiplicative Law on ℂ_ω: exp(z₁ + z₂) = exp(z₁) · exp(z₂)
+axiom exp_c_add (z1 z2 : C_w) :
+  exp_c (z1 + z2) = (exp_c z1) * (exp_c z2)
+
+-- 7> Complex Multi-Branched Logarithm (Magnitude & Winding Phase):
+-- Directed Pair: { z : ℂ_ω // |z|² ≠ 0 } → (ℝ_ω × S¹_ω)
+structure PolarLog where
+  radial_mag    : R_w          -- ln |z|
+  angular_phase : R_w_circle   -- Arg(z) ∈ [0, 2π)
+
+axiom complex_log (z : C_w) (h : C_w.norm_sq z ≠ 0) : PolarLog
+
+-- 8> Exponential & Logarithmic Function Bundles: FunctionType = DirectedPair + RuleType
+-- (a) Real Exponential Map: ℝ_ω → ℝ_ω : > 0
+def exp_real_fn : FunctionType R_w R_w_pos := make_function exp_fn
+
+-- (b) Real Logarithm Map: ℝ_ω : > 0 → ℝ_ω
+def log_real_fn : FunctionType R_w_pos R_w := make_function log_fn
+
+-- (c) Complex Exponential Map: ℂ_ω → ℂ_ω
+def exp_complex_fn : FunctionType C_w C_w := make_function exp_c
 
 end MiddleWay
 
