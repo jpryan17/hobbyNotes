@@ -109,6 +109,77 @@
     </div>
     </fsd-ref>
 
+    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
+      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
+        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
+      </summary>
+      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
+        <p>
+          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy's Integral Theorem</b>, <b>Cauchy's Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green's Theorem</b> &mdash; opens with the exact same condition: 
+          <i>“Let γ be a simple closed curve in the plane...”</i>
+        </p>
+        <p>
+          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
+        </p>
+        <ul>
+          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
+          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
+          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
+        </ul>
+        <p>
+          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
+        </p>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
+        <ol style="margin-left: 18px;">
+          <li style="margin-bottom: 8px;">
+            <b>Cauchy's Integral Formula as an Analytic Inside/Outside Detector:</b><br>
+            Consider Cauchy's integral formula with test function <code>f(z) = 1</code>:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
+            </div>
+            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
+            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>Green's Theorem &amp; Telescoping Cell Sums:</b><br>
+            Green's theorem converts a 2D surface integral into a 1D perimeter circulation:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
+            </div>
+            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
+          </li>
+        </ol>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
+        <p>
+          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
+        </p>
+        <ul>
+          <li><b>The Quadtree Horizon Escape:</b> 
+            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
+          </li>
+          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
+            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
+            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
+              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
+            </div>
+            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
+          </li>
+          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
+            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy's integral formula.
+          </li>
+        </ul>
+      </div>
+    </details>
+
     <hr>
     <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp; Phase Transitions</h3>
     <p>
