@@ -416,6 +416,88 @@
               <li><b>Quantity vs. Quality (Aristotle vs. Eudemus):</b> Debated whether angle was an arithmetic <i>quantity</i> (subject to algebraic operations), a <i>quality</i> (corner shape), or a geometric <i>relation</i>.</li>
               <li><b>The "Horn Angle" (Cornicular Angle):</b> Euclid and Proclus studied the angle between a circle's circumference and its tangent line—strictly smaller than any rectilinear acute angle, yet non-zero, anticipating non-Archimedean <b>infinitesimals</b>.</li>
             </ul>
+            <!-- Nested Deep-Dive: Euclid & Hilbert's Ray Congruence vs. The Middle Way Tree & Rotor Foil -->
+            <details id="euclid-hilbert-foil" style="margin: 16px 0; background: #fffaf0; border: 1.5px solid #fed7aa; border-radius: 8px; padding: 12px 16px;">
+              <summary style="font-weight: 700; color: #9a3412; cursor: pointer; font-size: 0.9em; user-select: none;">
+                🔍 Deep Dive: Euclid's Right Angle &amp; Hilbert's Ray Congruence — The Static Foil to Tree Trigonometry &amp; Rotors
+              </summary>
+              <div style="margin-top: 12px; font-size: 0.88em; line-height: 1.65; color: #1e293b; border-top: 1px dashed #fed7aa; padding-top: 10px;">
+                <p>
+                  To understand why Middle Way trigonometry departs so decisively from classical textbook geometry, we must examine how <b>Euclid</b> originally defined equal and right angles, how <b>David Hilbert</b> attempted to axiomatize it in 1899, and why this static paradigm serves as the primary foil to our dynamic number tree approach:
+                </p>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">1. Euclid’s Right Angle: Bilateral Supplementary Symmetry (Not 90°)</h5>
+                <p>
+                  Euclid possessed neither protractors nor degree metrics. In <i>Elements</i> (Book I, Definition 10), he defined a right angle purely through <b>bilateral equality of adjacent supplements</b>:
+                </p>
+                <div class="formula-box" style="background: #ffffff; border-left-color: #ea580c; margin: 6px 0;">
+                  <i>"When a straight line set up on a straight line makes the adjacent angles equal to one another, each of the equal angles is <b>right</b>, and the straight line standing on the other is called a <b>perpendicular</b>."</i>
+                </div>
+                <p>
+                  Because Euclid had no universal angular coordinate, he could not prove that two right angles drawn in different cities were the same size! He was forced to postulate it axiomatically in <b>Postulate 4</b>: <i>"That all right angles are equal to one another."</i> Furthermore, "equality" of angles was asserted through unformalized physical <i>superposition</i> (mentally sliding one rigid corner on top of another).
+                </p>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">2. Hilbert’s Modernization (1899): Angle as an Inert Ray Pair</h5>
+                <p>
+                  In <i>Grundlagen der Geometrie</i> (1899), David Hilbert eliminated Euclid’s physical superposition by formalizing <b>Group III: Congruence Axioms</b>:
+                </p>
+                <ul>
+                  <li><b>Angle as a Ray Pair:</b> An angle is defined statically as an unordered pair of rays <code>(h, k)</code> meeting at vertex <code>O</code>.</li>
+                  <li><b>Congruence as an Undefined Primitive:</b> Angle congruence <code>∠(h, k) ≡ ∠(h', k')</code> is declared as an abstract, undefined equivalence relation governed by transport axioms (Axiom III.4).</li>
+                  <li><b>Postulate 4 Proven as a Theorem:</b> Hilbert proved that all right angles are congruent, completing Euclid’s classical programme.</li>
+                </ul>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">3. Why the Euclid-Hilbert Paradigm Fails Modern Science (The Foil)</h5>
+                <p>
+                  Despite its logical rigor, Hilbert’s system trapped angle in a static geometric dead-end:
+                </p>
+                <ul style="padding-left: 20px;">
+                  <li><b>Inert Shape vs. Dynamic Action:</b> A Hilbert angle is a frozen corner. It does not rotate, turn, or act on space.</li>
+                  <li><b>No Orientation or Parity:</b> <code>∠(h, k)</code> is identical to <code>∠(k, h)</code>. There is no concept of counterclockwise vs. clockwise.</li>
+                  <li><b>Strictly Bounded (&lt; 180°):</b> If the two rays open into a straight line, they cease to be an angle. Angles greater than 180°, full 360° revolutions, and winding numbers are syntactically impossible.</li>
+                  <li><b>No Multiplication:</b> Angles cannot be multiplied or added as group elements; one can only juxtapose rays.</li>
+                </ul>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">4. The Middle Way Synthesis: The Tree &amp; Rotor Paradigm</h5>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin: 10px 0; background: #ffffff;" border="1" cellpadding="6">
+                  <thead>
+                    <tr style="background: #9a3412; color: #ffffff;">
+                      <th>Concept</th>
+                      <th>Euclid / Hilbert (Static Ray Paradigm)</th>
+                      <th>Middle Way (Dynamic Tree &amp; Rotor Paradigm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><b>What is an Angle?</b></td>
+                      <td>Static pair of rays <code>(h, k)</code></td>
+                      <td><b>Active Directed Morphism:</b> Unit rotor <code>U ∈ UnitRotor</code> or binary tree path <code>d ∈ 𝔻</code></td>
+                    </tr>
+                    <tr style="background: #fffaf0;">
+                      <td><b>Angle Equality</b></td>
+                      <td>Undefined primitive congruence relation (<code>≡</code>)</td>
+                      <td><b>Algebraic Group Identity:</b> <code>U₁ = U₂ ⇔ U₁ · U₂⁻¹ = 1</code> or identical Conway tree address <code>(m, n)</code></td>
+                    </tr>
+                    <tr>
+                      <td><b>The Right Angle</b></td>
+                      <td>Symmetric balance of adjacent supplementary rays</td>
+                      <td><b>The 4-Successor Quadtree Generator:</b> <code>i = ⟨0, 1⟩</code> (cyclic step <code>north</code> on <code>Tree4</code>)</td>
+                    </tr>
+                    <tr style="background: #fffaf0;">
+                      <td><b>Action of Right Angle</b></td>
+                      <td>Static perpendicularity (<code>h ⊥ k</code>)</td>
+                      <td><b>Planar Turning Velocity Operator:</b> <code>D_turn(x, y) = (-y, x)</code> with <code>D_turn² = -I</code></td>
+                    </tr>
+                    <tr>
+                      <td><b>Domain Scope</b></td>
+                      <td>Strictly <code>0° &lt; θ &lt; 180°</code>, unsigned</td>
+                      <td><b>Circle Quotient:</b> <code>S¹_ω ≡ ℝ_ω / (2πℤ)</code>, signed parity (<code>±</code>), and full winding</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
             <div class="key-takeaway">
               <b>Key Paradigm:</b> Angle is a static geometric relationship between intersecting lines, compared by congruent geometric superposition.
             </div>
@@ -953,6 +1035,18 @@
       In our foundational study of Formal Statements &amp; Predicates, we established that a <b>function</b> is strictly defined as a <b>directed pair <code>Domain → Codomain</code></b> along with an assignment rule. 
       By using our newly introduced foundational domains (<code>ℕ</code>, <code>ℤ</code>, <code>𝔻</code>, <code>ℝ_ω</code>, <code>ℂ_ω</code>) and constrained subtypes (such as the unit interval <code>𝔻:&lt;1</code>, the quotient circle <code>ℝ_ω:mod(2π) ≅ S¹_ω</code>, and <code>UnitRotor ⊂ ℂ_ω</code>), each trigonometric and geometric slot receives a rigorous, tightened type signature:
     </p>
+
+    <div style="background-color: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 0.92em; line-height: 1.6; color: #166534;">
+      <b>Architectural Principle: Why Our Formal Statements Exclusively Target the Tree-Based Approach:</b><br>
+      Notice that none of our formal statements below adopt Hilbert’s static ray congruence (<code>∠A ≡ ∠B</code>). 
+      Instead, every trigonometric statement is formulated <b>exclusively as a tree-based directed morphism</b>:
+      <ol style="margin: 8px 0 0 0; padding-left: 20px;">
+        <li><b>The 1-Successor Spine (ℕ_ω):</b> Governs discrete arc steps, recursive counts, and integer winding numbers.</li>
+        <li><b>The 2-Successor Binary Tree (𝔻 = Tree2):</b> Governs recursive angle bisection, CORDIC inward sign steering, and dyadic address coordinates <code>(m, n) ↦ 2π · m / 2ⁿ</code>.</li>
+        <li><b>The 4-Successor Quadtree (ℂ_ω = Tree4):</b> Governs planar coordinate projections and unitary rotations via <code>UnitRotor</code>, where the right angle is the algebraic turning operator <code>i</code> (<code>D_turn² = -I</code>).</li>
+      </ol>
+      This tree-based funneling replaces abstract axiomatic congruence with <b>constructive, verifiable algorithmic operations</b> that execute cleanly in Lean 4 and compute directly in silicon hardware.
+    </div>
 
     <!-- Formal Statement 1: Dyadic Angle Generator -->
     <h4>Formal Statement (FS-TRIG-1.1): Dyadic Angle Generation via Directed Pair (ℤ × ℕ) → ℝ_ω</h4>
