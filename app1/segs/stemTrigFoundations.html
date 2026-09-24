@@ -503,138 +503,44 @@
             </div>
           </div>
 
-          <!-- 3. ASTRONOMICAL CHORD ERA -->
+          <!-- 3. CHORDS TO SINE: ASTRONOMICAL ROOTS TO ALGEBRA -->
           <div class="era-card">
             <div class="era-header">
-              <div class="era-title"><span class="badge badge-purple">Trigonometry</span> 3. The Chord Era (Hipparchus to Ptolemy)</div>
-              <div class="era-date">c. 150 BCE – 150 CE</div>
+              <div class="era-title"><span class="badge badge-purple">Chords to Sine</span> 3. From Astronomical Chords to the Half-Chord (Sine)</div>
+              <div class="era-date">c. 150 BCE – 1200 CE</div>
             </div>
-            <div class="concept-tag">The Chord Function: crd(θ)</div>
+            <div class="concept-tag">crd(θ) → ardha-jya → sinus</div>
             <p>
-              Spherical astronomy demanded quantitative numerical prediction of planetary paths:
+              Early quantitative trigonometry arose from spherical astronomy:
             </p>
             <ul>
-              <li><b>Hipparchus of Nicaea (c. 190–120 BCE):</b> Tabulated straight-line <b>chords</b> subtended by central angles in a fixed reference circle.</li>
-              <li><b>Ptolemy’s <i>Almagest</i>:</b> Formalized chord tables in half-degree increments for a circle of radius R = 60. The chord maps to modern sine via:
-                <div class="formula-box">crd(θ) = 2 · R · sin(θ / 2)</div>
-              </li>
-              <li><b>Angle Bisection Formulas:</b> Ptolemy proved half-angle chord bisection theorems, recursively subdividing circular arcs down to 1.5° and 0.75°.</li>
+              <li><b>Hipparchus &amp; Ptolemy:</b> Tabulated straight geometric <b>chords</b> cutting across a reference circle (<code>crd(θ) = 2R · sin(θ/2)</code>), using recursive half-angle chord bisections.</li>
+              <li><b>Aryabhata &amp; Indian Mathematics:</b> Replaced the full chord with the right-triangle <b>half-chord</b> (<i>ardha-jya</i>, shortened to <i>jya</i>), dropping a vertical altitude from the circular arc tip to the horizontal radius.</li>
+              <li><b>The Islamic Golden Age:</b> Translated <i>jya</i> into Arabic <i>jiba</i> (read as <i>jayb</i>, bay/fold) and thence into Latin as <b>sinus</b> (modern sine), establishing trigonometry as an autonomous mathematical discipline.</li>
             </ul>
             <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is identified with the straight geometric line segment (chord) cutting across a circle.
+              <b>Key Paradigm:</b> Angle controls the perpendicular and horizontal altitude lines of a right triangle inscribed in a reference circle.
             </div>
           </div>
 
-          <!-- 4. INDIAN & ISLAMIC ADVANCES -->
+          <!-- 4. ANALYTICAL EULER, THE RADIAN & ROTORS -->
           <div class="era-card">
             <div class="era-header">
-              <div class="era-title"><span class="badge badge-green">Algebra</span> 4. The Shift to Half-Chords &amp; The Birth of Sine</div>
-              <div class="era-date">c. 450 CE – 1200 CE</div>
+              <div class="era-title"><span class="badge badge-blue">Analysis &amp; Algebra</span> 4. Euler’s Radian, Active Rotors &amp; The Modern Tree Turn</div>
+              <div class="era-date">c. 1700 – Present</div>
             </div>
-            <div class="concept-tag">ardha-jya → jya → jiba → sinus</div>
+            <div class="concept-tag">θ = s / r, &nbsp; e^(iθ) = cos θ + i·sin θ, &nbsp; UnitRotors</div>
             <p>
-              Medieval Indian and Islamic scholars simplified circular calculations by replacing full chords with the right-triangle half-chord:
+              The calculus revolution and modern algebra emancipated angle into a dimensionless scalar and an active spatial transformation:
             </p>
             <ul>
-              <li><b>Aryabhata (476–550 CE, <i>Surya Siddhanta</i>):</b> Replaced the full chord with <i>ardha-jya</i> (half-chord), shortened to <i>jya</i>, dropping a perpendicular altitude from the arc tip to the horizontal radius.</li>
-              <li><b>The Islamic Golden Age (al-Khwarizmi, al-Battani, al-Biruni):</b> Translated <i>jya</i> into Arabic as <i>jiba</i>, read as <i>jayb</i> (fold/bay), and translated into Latin as <b>sinus</b> (modern sine).</li>
-              <li><b>Autonomy of Trigonometry:</b> Scholars like Nasir al-Din al-Tusi emancipated trigonometry from astronomy into an independent branch of mathematics, adding tangent, cotangent, secant, and cosecant.</li>
+              <li><b>Euler (1748):</b> Set radius <code>R = 1</code> once and for all! Sine and cosine became pure analytical functions defined by infinite series, unified via <code>e^(iθ) = cos(θ) + i·sin(θ)</code>.</li>
+              <li><b>The Radian:</b> Defined angle as the dimensionless ratio of arc length to radius (<code>θ = arc length / radius = c / 1</code>), rendering angle an absolute, unit-free scalar.</li>
+              <li><b>Clifford Rotors &amp; Lie Groups:</b> Elevated angle from a static corner into an <b>active rotational operator</b> on space (<code>v' = U · v</code>).</li>
+              <li><b>The Tree &amp; CORDIC Turn:</b> Computer science (Volder 1959) and nonstandard analysis bring angle back to constructive discrete arithmetic: angle as a sequence of binary bisection steering choices on a 2-successor tree.</li>
             </ul>
             <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is the arc controlling the perpendicular and horizontal altitude lines of a right triangle inside a circle of radius R.
-            </div>
-          </div>
-
-          <!-- 5. ANALYTICAL EULER & RADIAN -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-blue">Analysis</span> 5. Euler’s Transformation &amp; The Radian</div>
-              <div class="era-date">c. 1700 – 1880 CE</div>
-            </div>
-            <div class="concept-tag">Pure Dimensionless Real Numbers: θ = s / r</div>
-            <p>
-              The calculus revolution emancipated angle from circular line segments into pure real numbers:
-            </p>
-            <ul>
-              <li><b>Leonhard Euler (1748, <i>Introductio in Analysin Infinitorum</i>):</b> Set radius R = 1 once and for all! Sine and cosine were redefined as <b>pure, dimensionless analytical functions of a real variable</b> defined by infinite power series:
-                <div class="formula-box">sin(x) = x - x³/3! + x⁵/5! - ... &nbsp;|&nbsp; e^(iθ) = cos(θ) + i·sin(θ)</div>
-              </li>
-              <li><b>The Radian (Roger Cotes, James Thomson):</b> Defined angle as the dimensionless ratio of arc length to radius:
-                <div class="formula-box">θ = arc length / radius = s / r</div>
-                Because physical units cancel (meters / meters), angle was recognized as an absolute scalar.
-              </li>
-            </ul>
-
-            <!-- Nested Deep-Dive: Calculus Bridge -->
-            <details id="trig-calculus-bridge" style="margin: 16px 0; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
-              <summary style="font-weight: 700; color: #1e40af; cursor: pointer; font-size: 0.9em; user-select: none;">
-                🔍 Deep Dive: The Calculus Bridge — Taylor Series, Logarithms &amp; Angle as an Imaginary Logarithm
-              </summary>
-              <div style="margin-top: 12px; font-size: 0.88em; line-height: 1.6; color: #1e293b; border-top: 1px dashed #bfdbfe; padding-top: 10px;">
-                <ol style="padding-left: 18px;">
-                  <li><b>Polynomial Engine (Madhava c. 1400, Newton &amp; Gregory 1660s):</b> Trigonometric curves calculated algebraically via infinite polynomial series: <code>sin(x) = x - x³/3! + x⁵/5! - ...</code></li>
-                  <li><b>Logarithm Series (Mercator 1668, Newton 1669):</b> Logarithms linked to hyperbolic area: <code>ln(1 + x) = x - x²/2 + x³/3 - ...</code> and its inverse exponential <code>e^x = 1 + x + x²/2! + ...</code></li>
-                  <li><b>Roger Cotes (1714):</b> Proved the foundational spark: <code>i·θ = ln(cos θ + i·sin θ)</code></li>
-                  <li><b>Euler’s Grand Synthesis (1748):</b> Substituting <code>z = i·θ</code> into <code>e^z</code> cleanly splits into <code>cos(θ) + i·sin(θ)</code>!</li>
-                </ol>
-                <div style="background: #ffffff; border: 1px solid #93c5fd; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
-                  <b style="color: #1e3a8a;">What is an Angle?</b> Taking the complex logarithm reveals:
-                  <div class="formula-box" style="background: #eff6ff; font-weight: 600; padding: 8px 12px; margin: 8px 0;">
-                    ln(z) = ln(r) + i·θ &nbsp;⇒&nbsp; θ = Im(ln z) = -i · ln(cos θ + i·sin θ)
-                  </div>
-                  <b>Real part (ln r):</b> Radial scaling along hyperbolic rays.<br>
-                  <b>Imaginary part (θ):</b> Circulation along circular arcs. Angle is continuous growth turned 90° into the imaginary plane!
-                </div>
-              </div>
-            </details>
-
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is a point on the continuous real number line ℝ wrapping around the complex unit circle, analytically identified as the imaginary part of the complex logarithm (θ = Im(ln z)).
-            </div>
-          </div>
-
-          <!-- 6. ROTORS, VECTORS & GROUPS -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-purple">Modern Algebra</span> 6. Vectors, Rotors &amp; Lie Groups</div>
-              <div class="era-date">c. 1850 – 1950 CE</div>
-            </div>
-            <div class="concept-tag">SO(2), Quaternions &amp; Bivectors</div>
-            <p>
-              Higher algebra elevated angle from a static parameter to an operator that transforms geometric space:
-            </p>
-            <ul>
-              <li><b>Complex Numbers &amp; Argand Plane:</b> Multiplication by <code>e^(iθ)</code> acts as a rotational operator on 2D space.</li>
-              <li><b>Quaternions &amp; Clifford Geometric Algebra:</b> Generalized planar angles into 3D and n-D spatial <b>rotors</b>. Angle is represented by an oriented <b>bivector</b> indicating magnitude and plane of rotation.</li>
-              <li><b>Lie Group SO(2) and U(1):</b> The circle of angles is formalized as the continuous 1D Lie group of rotations generated by the angular momentum operator.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is an active rotational transformation of space (a group element or rotor), rather than just a passive static measurement.
-            </div>
-          </div>
-
-          <!-- 7. DISCRETE TREE & DYADIC HORIZON -->
-          <div class="era-card" style="border: 2px solid #3b82f6;">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-blue">Tree Scaffolding</span> 7. Dyadic Bisections, CORDIC &amp; The ℂ_ω Continuum</div>
-              <div class="era-date">c. 1959 – Present</div>
-            </div>
-            <div class="concept-tag">The 2-Successor Tree: θ = 2π · (m / 2ⁿ) &amp; Day ω Horizon</div>
-            <p>
-              Contemporary computer science and nonstandard analysis bring angle full circle back to constructive discrete arithmetic:
-            </p>
-            <ul>
-              <li><b>CORDIC Algorithm (Jack Volder, 1959):</b> Computing all trigonometric functions with zero multipliers using successive shifts and additions of discrete bisection angles:
-                <div class="formula-box">θ = ∑ [ ± arctan(2⁻ᵏ) ]</div>
-              </li>
-              <li><b>The 2-Successor Tree &amp; Dyadic Angles:</b> Mapping the normalized interval <code>[0, 1)</code> to the circular period <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 generates every dyadic angle:
-                <div class="formula-box">θ_m,n = 2π · (m / 2ⁿ)</div>
-                The prototypical unit case (1 outward step to 1, followed by recursive inward bisections) builds the exact dyadic skeleton of the circle.
-              </li>
-              <li><b>The Day ω Canopy (dx = 1/ω):</b> At the transfinite limit birthday ω, the discrete dyadic grid becomes dense, and the infinitesimal angle <code>dθ = 2π / ω</code> furnishes the smooth differential basis for calculus on ℂ_ω.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is simultaneously a discrete binary path (a sequence of left/right bisection choices) and a continuous horizon generated at the transfinite limit.
+              <b>Key Paradigm:</b> Angle is both a dimensionless arc length on the real line and an active unitary rotor transforming space.
             </div>
           </div>
 
@@ -693,6 +599,180 @@
       </div>
     </details>
     </div>
+
+    <!-- SECTION 1: THE PEDAGOGICAL BRIDGE -->
+    <a name="pedagogicalBridgeAnchor" id="pedagogicalBridgeAnchor"></a>
+    <h2><span class="badge badge-blue">Section 1</span> The Pedagogical Bridge: How Trigonometry is Currently Presented (And Its Hidden Cracks)</h2>
+
+    <p>
+      Before we explore how trigonometry is generated on balanced number trees, we must examine the <b>standard pedagogical model</b> taught in modern secondary and collegiate education. 
+      Every modern student is introduced to trigonometry through a two-phase progression: moving from <b>ratios inside a right triangle</b> to <b>points on the unit circle</b>.
+    </p>
+
+    <!-- THE MODERN DIAGRAM MATCHING USER'S SKETCH -->
+    <div style="display: flex; justify-content: center; margin: 26px 0;">
+      <div style="width: 100%; max-width: 500px; text-align: center; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 20px 16px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 480" style="width: 100%; height: auto;">
+          <!-- Graph paper grid pattern -->
+          <defs>
+            <pattern id="graph-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="460" height="410" fill="url(#graph-grid)" rx="6"/>
+
+          <!-- Unit Circle: Center (230, 200), Radius R = 150 -->
+          <circle cx="230" cy="200" r="150" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+          <!-- Total Circumference label at bottom: 2π -->
+          <text x="230" y="385" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif" font-size="24" font-weight="bold" fill="#0f172a">2π</text>
+
+          <!-- Calculations for theta ≈ 42°:
+               cos(42°) ≈ 0.74314, sin(42°) ≈ 0.66913
+               X_apex = 230 + 150 * 0.74314 = 341.47
+               Y_apex = 200 - 150 * 0.66913 = 99.63
+               Horizontal base point: (341.5, 200)
+               Circle right-most point (1, 0): (380, 200)
+          -->
+
+          <!-- Right Angle Marker at (341.5, 200) -->
+          <path d="M 329.5 200 L 329.5 188 L 341.5 188" fill="none" stroke="#64748b" stroke-width="1.5"/>
+
+          <!-- Horizontal base leg: s -->
+          <line x1="230" y1="200" x2="341.5" y2="200" stroke="#0f172a" stroke-width="2"/>
+          <text x="286" y="224" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">s</text>
+
+          <!-- Vertical perpendicular leg: p -->
+          <line x1="341.5" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <text x="326" y="155" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">p</text>
+
+          <!-- Hypotenuse: h -->
+          <line x1="230" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <text x="278" y="142" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">h</text>
+
+          <!-- Angle Arc for theta at origin (230, 200) -->
+          <path d="M 265 200 A 35 35 0 0 0 256 176.6" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="216" y="206" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#0f172a">θ</text>
+
+          <!-- Straight Dotted Chord from apex (341.5, 99.6) to (380, 200) -->
+          <line x1="341.5" y1="99.6" x2="380" y2="200" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="3,6" stroke-linecap="round"/>
+
+          <!-- Curved Arc along circle circumference from (380, 200) to (341.5, 99.6) -->
+          <path d="M 380 200 A 150 150 0 0 0 341.5 99.6" fill="none" stroke="#2563eb" stroke-width="3"/>
+          <text x="374" y="122" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">c</text>
+
+          <!-- Governing Identity Formula -->
+          <text x="230" y="455" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#0f172a">
+            θ = sin⁻¹(p / h) = cos⁻¹(s / h) = c / 1
+          </text>
+        </svg>
+        <div style="font-size: 0.88em; color: #475569; margin-top: 10px; line-height: 1.5;">
+          <b>The Modern Unit Circle Diagram:</b> An acute right triangle with sides <i>s</i>, <i>p</i>, and hypotenuse <i>h = 1</i> inscribed in a unit circle of circumference <i>2π</i>. The central angle <i>θ</i> simultaneously controls the trigonometric ratios and subtends a curved arc <i>c</i>, contrasted with the straight chord (dotted).
+        </div>
+      </div>
+    </div>
+
+    <h3>1. The Two-Stage Modern Progression</h3>
+    <p>
+      In standard high school and undergraduate curricula, trigonometry is introduced in two distinct phases:
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 16px 0;">
+      <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px;">
+        <h4 style="color: #1e3a8a; margin-top: 0; margin-bottom: 8px;">Phase 1: Right-Triangle Ratios (SOH CAH TOA)</h4>
+        <p style="font-size: 0.92em; margin-bottom: 8px;">
+          For an acute angle <code>θ</code> inside a Euclidean right triangle with hypotenuse <code>h</code>, perpendicular (opposite) side <code>p</code>, and adjacent base <code>s</code>:
+        </p>
+        <div class="formula-box" style="margin: 6px 0; font-size: 0.95em;">
+          sin(θ) = p / h &emsp;|&emsp; cos(θ) = s / h &emsp;|&emsp; tan(θ) = p / s
+        </div>
+        <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
+          Inverting these ratios recovers the angle: <code>θ = sin⁻¹(p / h) = cos⁻¹(s / h)</code>. 
+          Here, angle is strictly an <b>interior opening</b> bounded between <code>0°</code> and <code>90°</code>.
+        </p>
+      </div>
+
+      <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 14px 18px;">
+        <h4 style="color: #1d4ed8; margin-top: 0; margin-bottom: 8px;">Phase 2: The Unit Circle &amp; The Radian Definition</h4>
+        <p style="font-size: 0.92em; margin-bottom: 8px;">
+          To liberate <code>θ</code> from the confines of an acute triangle, we set radius <code>h = 1</code> and inscribe the triangle inside a circle of radius 1 centered at the origin:
+        </p>
+        <div class="formula-box" style="margin: 6px 0; font-size: 0.95em; background: #ffffff; border-left-color: #2563eb;">
+          θ = arc length / radius = c / 1 = c &emsp; (Circumference = 2π)
+        </div>
+        <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
+          The apex coordinates on the circle are <code>(x, y) = (s, p) = (cos θ, sin θ)</code>, yielding the grand unifying identity:
+          <br><b><code>θ = sin⁻¹(p / h) = cos⁻¹(s / h) = c / 1</code></b>.
+        </p>
+      </div>
+    </div>
+
+    <h3>2. The Three Hidden Cracks in the Standard Presentation</h3>
+    <p>
+      While this presentation appears complete on paper, it hides <b>three severe conceptual and computational frictions</b> that leave students and applied practitioners stranded:
+    </p>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #dc2626; margin-top: 0; margin-bottom: 6px;">Crack 1: The Curved Arc (c) vs. The Straight Chord (The Dotted Line)</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        Notice the <b>dotted straight line</b> cutting across the circle in the diagram! 
+        In physical geometry, all measurement instruments—rulers, calipers, and Euclidean straightedges—only measure <b>straight line segments</b> (chords).
+        Yet the formula <code>θ = c / 1</code> defines angle as the length of a <b>curved arc</b> <code>c</code>!
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        How can one determine the length of a curve using straight measuring rods? You cannot bend a Euclidean ruler along an arc. In classical geometry, you must approximate the curved arc <code>c</code> with straight chords. To make the chord length match the arc, you must <b>recursively bisect the angle</b>!
+      </p>
+    </div>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #ea580c; margin-top: 0; margin-bottom: 6px;">Crack 2: The "Calculator Black Box"</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        Once modern textbooks establish <code>sin(θ) = p / h</code> and <code>θ = sin⁻¹(p / h)</code>, instruction abruptly halts. 
+        If a student asks: <i>“How do I actually evaluate sin(35°) or cos⁻¹(0.74) without a computer?”</i>, standard curricula have no answer except: <b>“Press the button on your calculator.”</b>
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        The actual computational engine—whether Taylor series, continued fractions, or CORDIC bit-shifts—is treated as an opaque technological secret. Trigonometry becomes an exercise in pushing mystery buttons rather than an accessible branch of arithmetic.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #7c3aed; margin-top: 0; margin-bottom: 6px;">Crack 3: The Static Euclidean Legacy &amp; Quadrant Patchwork</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        As explored in our Euclidean foundations above, Euclid (Def. 10) and David Hilbert (Group III axioms) conceived angle as a <b>static, unoriented pair of rays</b> strictly bounded between <code>0°</code> and <code>180°</code>.
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        Because modern textbooks inherit this static Euclidean DNA, they struggle to turn <code>sin(θ)</code> and <code>cos(θ)</code> into continuous periodic functions across all real numbers <code>ℝ</code>. 
+        Textbooks are forced to stitch four separate quadrants together with artificial mnemonics (<i>“All Students Take Calculus”</i>: ASTC) and reference angles, rather than treating angle as an <b>active, continuous turning operator</b> on space.
+      </p>
+    </div>
+
+    <h3>3. The Natural Bridge to Tree-Based Calculation</h3>
+    <p>
+      On our transfinite number trees, all three cracks disappear into a unified, transparent computational pipeline:
+    </p>
+
+    <ul>
+      <li>
+        <b>Bisection is the 2-Successor Binary Tree (Tree2):</b> 
+        How do we bridge the straight chord to the curved arc <code>c</code> and compute <code>(s, p)</code> without a black box? 
+        By <b>recursive half-angle bisection</b>:
+        <div class="formula-box" style="margin: 6px 0;">
+          cos(θ / 2) = √[ (1 + cos θ) / 2 ] &emsp;|&emsp; sin(θ / 2) = √[ (1 - cos θ) / 2 ]
+        </div>
+        Every bisection is a direct inward step on the binary tree <code>ℝ_ω</code>. This tree descent generates François Viète’s nested radicals and the <b>CORDIC hardware algorithm</b> (<code>binary_steering_choice</code>), allowing any student or microprocessor to compute trigonometric coordinates with exact integer shifts!
+      </li>
+      <li>
+        <b>Active Rotation is the 4-Successor Quadtree (Tree4):</b> 
+        On the complex continuum <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, the right angle is not an unprovable postulate (Euclid Postulate 4) or an inert ray pair (Hilbert); it is the <b>discrete 90° rotation generator</b> <code>i = ⟨0, 1⟩</code> (cyclic step <code>north</code> on <code>Tree4</code>).
+        The apex point is the complex unit rotor:
+        <div class="formula-box" style="margin: 6px 0;">
+          U = s + i · p = cos(θ) + i · sin(θ) &emsp; with &emsp; s² + p² = h² = 1
+        </div>
+        Multiplying by <code>i</code> rotates <code>(s, p) → (-p, s)</code>, driving smooth continuous circulation <code>dz = z · i dθ</code> across all four quadrants with zero artificial stitching.
+      </li>
+    </ul>
+
+    <hr>
 
     <p>
       The connection between our foundational descriptions of number trees and trigonometry is both mathematically profound and computationally practical. 
