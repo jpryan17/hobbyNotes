@@ -732,6 +732,10 @@ function __integrate(f, a, b, n = 200) {
  */
 function extractFreeVariables(expr) {
     let s = (expr || "").trim();
+    // If top-level expression is a FunctionSpace operator D(...) or I(...), inner variables are bound function parameters
+    if (/^(?:D|I)\s*\((.+)\)$/i.test(s)) {
+        return [];
+    }
     const boundVars = new Set();
     // Find dummy integration variables in int(expr, dummy, ...) or integrate(expr, dummy, ...)
     const intMatches = [...s.matchAll(/\b(int|integrate)\s*\(/g)];
@@ -981,6 +985,114 @@ function computeHaloDust(expr, vals, isHalo) {
     return { dustStr, isHard, dustVal: roundedDeriv };
 }
 /**
+ * Rigorous criteria for determining the target codomain of an equation:
+ * - Higher-order operators (D, I) map to FunctionSpace: ℝ_ω → ℝ_ω
+ * - Standard part operator st(...) maps to standard real nucleus: ℝ
+ * - Relations / predicates map to Boolean truth value: 𝔹
+ * - Imaginary unit i maps to Complex: ℂ_ω or ℂ
+ * - Default continuous evaluations map to Hyperreal: ℝ_ω
+ */
+export function inferEquationCodomain(formula) {
+    const s = (formula || "").trim();
+    // 1. Higher-order operators on FunctionSpace: D(...), I(...)
+    if (/^\s*(?:D|I)\s*\(/i.test(s)) {
+        return "ℝ_ω → ℝ_ω";
+    }
+    // 2. Boolean Relations (predicates, equalities, inequalities)
+    if (/[<>≤≥]/.test(s)) {
+        return "𝔹";
+    }
+    // 3. Standard Part Operator: st(...) drops all halo dust -> ℝ
+    if (/^\s*st\s*\(/.test(s)) {
+        return "ℝ";
+    }
+    // 4. Complex Numbers
+    if (/\b[iI]\b/.test(s) && !/\bsin\b|\bmin\b|\bmax\b/.test(s)) {
+        return "ℂ_ω";
+    }
+    // 5. Default continuous real/hyperreal domain
+    return "ℝ_ω";
+}
+/**
+ * Differentiates an algebraic or polynomial expression symbolically.
+ * Handles constants, linear terms, powers, and sums/differences (e.g. x^2 + 1 -> 2·x).
+ */
+export function differentiateExpression(expr, varName = "x") {
+    let s = expr.trim();
+    if (s.startsWith("(") && s.endsWith(")")) {
+        let depth = 0;
+        let balanced = true;
+        for (let i = 0; i < s.length - 1; i++) {
+            if (s[i] === "(")
+                depth++;
+            else if (s[i] === ")")
+                depth--;
+            if (depth === 0) {
+                balanced = false;
+                break;
+            }
+        }
+        if (balanced)
+            s = s.slice(1, -1).trim();
+    }
+    // Tokenize into additive terms: split on + or -, preserving sign
+    const rawTerms = s.match(/[+-]?\s*[^+-]+/g) || [s];
+    const diffTerms = [];
+    for (const raw of rawTerms) {
+        let t = raw.trim();
+        if (!t)
+            continue;
+        let isNeg = false;
+        if (t.startsWith("+")) {
+            t = t.slice(1).trim();
+        }
+        else if (t.startsWith("-")) {
+            isNeg = true;
+            t = t.slice(1).trim();
+        }
+        // Pure constant term (no variable inside): derivative is 0
+        if (!new RegExp(`\\b${varName}\\b`).test(t)) {
+            continue;
+        }
+        // Pattern 1: Monomial / Power rule: [c *] x [^ n]
+        const powMatch = t.match(new RegExp(`^(?:(\\d+(?:\\.\\d+)?)\\s*[*·]?\\s*)?${varName}(?:\\^(\\d+))?$`));
+        if (powMatch) {
+            const coef = powMatch[1] ? parseFloat(powMatch[1]) : 1;
+            const exp = powMatch[2] ? parseInt(powMatch[2]) : 1;
+            const newCoef = coef * exp;
+            const newExp = exp - 1;
+            let termStr = "";
+            if (newExp === 0) {
+                termStr = `${newCoef}`;
+            }
+            else if (newExp === 1) {
+                termStr = newCoef === 1 ? varName : `${newCoef}·${varName}`;
+            }
+            else {
+                termStr = newCoef === 1 ? `${varName}^${newExp}` : `${newCoef}·${varName}^${newExp}`;
+            }
+            diffTerms.push(isNeg ? `-${termStr}` : (diffTerms.length > 0 ? `+ ${termStr}` : termStr));
+            continue;
+        }
+        // Pattern 2: Elementary function check: sin(x), cos(x), exp(x), ln(x), etc.
+        let foundFn = false;
+        for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
+            if (new RegExp(`^${fnKey}\\s*\\(\\s*${varName}\\s*\\)$`, "i").test(t)) {
+                const fnDeriv = rule.derivativeFormula.replace(/x₀/g, varName);
+                diffTerms.push(isNeg ? `-${fnDeriv}` : (diffTerms.length > 0 ? `+ ${fnDeriv}` : fnDeriv));
+                foundFn = true;
+                break;
+            }
+        }
+        if (foundFn)
+            continue;
+        // Fallback for compound sub-expression
+        const fallbackTerm = `d/d${varName}(${t})`;
+        diffTerms.push(isNeg ? `-${fallbackTerm}` : (diffTerms.length > 0 ? `+ ${fallbackTerm}` : fallbackTerm));
+    }
+    return diffTerms.length > 0 ? diffTerms.join(" ") : "0";
+}
+/**
  * Detects all nonstandard functions and calculus operators present in a given formula string.
  */
 export function detectUsedFunctionsAndOperators(formula) {
@@ -993,7 +1105,13 @@ export function detectUsedFunctionsAndOperators(formula) {
         }
     }
     for (const [key, rule] of Object.entries(CALCULUS_OPERATOR_REGISTRY)) {
-        if (key === "diff_x" && (/\bd\/dx\b/.test(formula) || /\bdiff\s*\([^,]+,\s*x/.test(formula))) {
+        if (key === "op_D" && /\bD\s*\(/.test(formula)) {
+            ops.push(rule);
+        }
+        else if (key === "op_I" && /\bI\s*\(/.test(formula)) {
+            ops.push(rule);
+        }
+        else if (key === "diff_x" && (/\bd\/dx\b/.test(formula) || /\bdiff\s*\([^,]+,\s*x/.test(formula))) {
             ops.push(rule);
         }
         else if (key === "diff_t" && (/\bd\/dt\b/.test(formula) || /\bdiff\s*\([^,]+,\s*t/.test(formula))) {
@@ -1019,7 +1137,7 @@ export function detectUsedFunctionsAndOperators(formula) {
  */
 export function resolveSymbolicRule(formula) {
     const s = (formula || "").trim();
-    // Higher-order operator D: D(sin), D(cos), D(sin(x)), etc.
+    // Higher-order operator D: D(sin), D(cos), D(sin(x)), D(x^2+1), etc.
     const dOpMatch = s.match(/^D\s*\((.+)\)$/i);
     if (dOpMatch) {
         let inner = dOpMatch[1].trim();
@@ -1043,6 +1161,17 @@ export function resolveSymbolicRule(formula) {
                 };
             }
         }
+        // Symbolic polynomial & algebraic differentiation
+        const polyDeriv = differentiateExpression(inner, varName);
+        return {
+            hasOperator: true,
+            operatorType: "derivative",
+            operatorSymbol: "D",
+            sourceFunction: inner,
+            symbolicFunction: polyDeriv,
+            governingTheorem: "diff_poly",
+            stencilFormula: `D(${inner}) = ${polyDeriv}`
+        };
     }
     // Higher-order operator I: I(cos), I(sin), I(exp)
     const iOpMatch = s.match(/^I\s*\((.+)\)$/i);
@@ -1313,12 +1442,13 @@ export class EquationEvaluator extends Elt {
         this.render();
     }
     rebuildCustomSpec() {
-        const freeVars = extractFreeVariables(this.customFormula);
+        const inferredCodomain = inferEquationCodomain(this.customFormula);
         const symbolicRes = resolveSymbolicRule(this.customFormula);
-        const isFunctionSpace = this.customRhsDomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
-        if (symbolicRes.hasOperator && this.customRhsDomain !== "ℝ_ω → ℝ_ω") {
+        const isFunctionSpace = inferredCodomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
+        if (isFunctionSpace) {
             this.customRhsDomain = "ℝ_ω → ℝ_ω";
         }
+        const freeVars = extractFreeVariables(this.customFormula);
         const inputs = freeVars.length > 0
             ? freeVars.map(v => ({
                 name: v,
@@ -1789,6 +1919,10 @@ export class EquationEvaluator extends Elt {
                         this.customTitle = titleIn.value.trim() || "Custom Formal Equation";
                         this.customFormula = sanitizeFormula(formIn.value) || "x";
                         this.customRhsSymbol = symIn.value.trim() || "y";
+                        const inferred = inferEquationCodomain(this.customFormula);
+                        if (inferred === "ℝ_ω → ℝ_ω") {
+                            this.customRhsDomain = "ℝ_ω → ℝ_ω";
+                        }
                         this.rebuildCustomSpec();
                     };
                     titleIn.addEventListener("change", onChg);
@@ -1847,17 +1981,19 @@ export class EquationEvaluator extends Elt {
         const { functions: usedFuncs } = detectUsedFunctionsAndOperators(this.spec.lhsFormula);
         const funcsWithConditions = usedFuncs.filter(f => f.domainConditionDesc);
         const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
-        if (symbolicRes.hasOperator && this.spec.rhsDomain !== "ℝ_ω → ℝ_ω") {
+        const inferredCodomain = inferEquationCodomain(this.spec.lhsFormula);
+        const isFunctionSpace = inferredCodomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
+        if (isFunctionSpace && this.spec.rhsDomain !== "ℝ_ω → ℝ_ω") {
             this.spec.rhsDomain = "ℝ_ω → ℝ_ω";
             this.customRhsDomain = "ℝ_ω → ℝ_ω";
         }
         const typeInferenceCard = document.createElement("div");
         typeInferenceCard.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px;";
         let operatorConstraintBanner = "";
-        if (symbolicRes.hasOperator) {
+        if (isFunctionSpace || symbolicRes.hasOperator) {
             operatorConstraintBanner = `
         <div style="margin-top: 8px; padding: 6px 10px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 4px; font-size: 12px; color: #166534; display: flex; align-items: center; justify-content: space-between;">
-          <span>⚡ <strong>Operator Constraint:</strong> Selected operator <code>${symbolicRes.operatorSymbol}</code> acts on FunctionSpace. Codomain is typed as <strong>ℝ_ω → ℝ_ω</strong>.</span>
+          <span>⚡ <strong>Operator Constraint:</strong> Selected operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> acts on FunctionSpace. Codomain is typed as <strong>ℝ_ω → ℝ_ω</strong>.</span>
           <span style="font-weight: bold; background: #dcfce7; padding: 2px 6px; border-radius: 3px;">Auto-Constrained</span>
         </div>
       `;
