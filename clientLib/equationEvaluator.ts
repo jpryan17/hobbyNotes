@@ -852,8 +852,9 @@ function extractFreeVariables(expr: string): string[] {
   const tokens = s.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
   const reserved = new Set([
     "Math", "PI", "E", "pi", "e", "dx", "dt", "st", "i", "log", "ln",
-    "diff", "int", "integrate", "d", "Δ", "Delta", "sum",
+    "diff", "int", "integrate", "d", "D", "I", "Δ", "Delta", "sum",
     ...Object.keys(NONSTANDARD_FUNCTION_REGISTRY),
+    ...Object.keys(CALCULUS_OPERATOR_REGISTRY),
     ...Object.keys(EQUATION_PRESETS),
     ...boundVars
   ]);
@@ -1133,12 +1134,16 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
   const dOpMatch = s.match(/^D\s*\((.+)\)$/i);
   if (dOpMatch) {
     let inner = dOpMatch[1].trim();
-    const varName = inner.includes("(") ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
+    const hasArg = inner.includes("(");
+    const varName = hasArg ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
     const baseFn = inner.replace(/\(.*\)/, "").trim().toLowerCase();
 
     for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
       if (baseFn === fnKey.toLowerCase()) {
-        const derivSym = rule.derivativeFormula.replace(/x₀/g, varName);
+        const derivSym = hasArg
+          ? rule.derivativeFormula.replace(/x₀/g, varName)
+          : rule.derivativeFormula.replace(/\(x₀\)/g, "");
+        const lhsSym = hasArg ? `${fnKey}(${varName})` : fnKey;
         return {
           hasOperator: true,
           operatorType: "derivative",
@@ -1146,7 +1151,7 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
           sourceFunction: fnKey,
           symbolicFunction: derivSym,
           governingTheorem: rule.governingTheorem,
-          stencilFormula: `D(${fnKey}) = ${derivSym}`
+          stencilFormula: `D(${lhsSym}) = ${derivSym}`
         };
       }
     }
@@ -1156,8 +1161,11 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
   const iOpMatch = s.match(/^I\s*\((.+)\)$/i);
   if (iOpMatch) {
     let inner = iOpMatch[1].trim();
-    const varName = inner.includes("(") ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
+    const hasArg = inner.includes("(");
+    const varName = hasArg ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
     const baseFn = inner.replace(/\(.*\)/, "").trim().toLowerCase();
+    const argStr = hasArg ? `(${varName})` : "";
+    const lhsSym = hasArg ? `${baseFn}(${varName})` : baseFn;
 
     if (baseFn === "cos") {
       return {
@@ -1165,9 +1173,9 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         operatorType: "integral",
         operatorSymbol: "I",
         sourceFunction: "cos",
-        symbolicFunction: `sin(${varName})`,
+        symbolicFunction: `sin${argStr}`,
         governingTheorem: "integral_cos",
-        stencilFormula: "I(cos) = sin"
+        stencilFormula: `I(${lhsSym}) = sin${argStr}`
       };
     } else if (baseFn === "sin") {
       return {
@@ -1175,9 +1183,9 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         operatorType: "integral",
         operatorSymbol: "I",
         sourceFunction: "sin",
-        symbolicFunction: `-cos(${varName})`,
+        symbolicFunction: `-cos${argStr}`,
         governingTheorem: "integral_sin",
-        stencilFormula: "I(sin) = -cos"
+        stencilFormula: `I(${lhsSym}) = -cos${argStr}`
       };
     } else if (baseFn === "exp") {
       return {
@@ -1185,9 +1193,9 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         operatorType: "integral",
         operatorSymbol: "I",
         sourceFunction: "exp",
-        symbolicFunction: `exp(${varName})`,
+        symbolicFunction: `exp${argStr}`,
         governingTheorem: "exp_integral",
-        stencilFormula: "I(exp) = exp"
+        stencilFormula: `I(${lhsSym}) = exp${argStr}`
       };
     }
   }
@@ -1429,6 +1437,13 @@ export class EquationEvaluator extends Elt {
 
   private rebuildCustomSpec() {
     const freeVars = extractFreeVariables(this.customFormula);
+    const symbolicRes = resolveSymbolicRule(this.customFormula);
+    const isFunctionSpace = this.customRhsDomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
+
+    if (symbolicRes.hasOperator && this.customRhsDomain !== "ℝ_ω → ℝ_ω") {
+      this.customRhsDomain = "ℝ_ω → ℝ_ω";
+    }
+
     const inputs: EquationSlot[] = freeVars.length > 0
       ? freeVars.map(v => ({
           name: v,
@@ -1440,7 +1455,9 @@ export class EquationEvaluator extends Elt {
           max: 100,
           description: `Instantiated variable ${v}`
         }))
-      : [{ name: "x", symbol: "x", domain: "ℝ", defaultValue: 1.0, step: 0.5, min: -100, max: 100, description: "Variable x" }];
+      : (isFunctionSpace
+          ? []
+          : [{ name: "x", symbol: "x", domain: "ℝ", defaultValue: 1.0, step: 0.5, min: -100, max: 100, description: "Variable x" }]);
 
     this.spec = {
       id: "custom_equation",
@@ -1452,15 +1469,15 @@ export class EquationEvaluator extends Elt {
       description: "User-constructed equation statement evaluated on the Middle Way canvas.",
       inputs,
       evaluate: (vals) => {
-        const isFunctionSpace = this.customRhsDomain === "ℝ_ω → ℝ_ω";
         const val = safeEvalExpression(this.customFormula, vals);
         const isHalo = this.customRhsDomain === "ℝ_ω" || this.customRhsDomain === "ℂ_ω";
         const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
         const { dustStr, isHard } = computeHaloDust(this.customFormula, vals, isHalo);
-        const symbolicRes = resolveSymbolicRule(this.customFormula);
 
         if (isFunctionSpace) {
           const funcRule = symbolicRes.symbolicFunction ?? this.customFormula;
+          const probeVal = Object.keys(vals).length > 0 ? safeEvalExpression(this.customFormula, vals) : null;
+          const probeStr = probeVal !== null ? (Number.isInteger(probeVal) ? probeVal.toString() : probeVal.toFixed(4)) : null;
           return {
             displayValue: funcRule,
             hardPart: funcRule,
@@ -1468,7 +1485,7 @@ export class EquationEvaluator extends Elt {
             isHard: true,
             details: [
               `Target Function Space: ${this.customRhsSymbol} = ${funcRule} ∈ (ℝ_ω → ℝ_ω)`,
-              `Operating Point Probe: ${this.customRhsSymbol}(${Object.entries(vals).map(([k, v]) => `${k} = ${v}`).join(", ")}) = ${valStr}`,
+              ...(probeStr !== null ? [`Operating Point Probe: ${this.customRhsSymbol}(${Object.entries(vals).map(([k, v]) => `${k} = ${v}`).join(", ")}) = ${probeStr}`] : []),
               `Calculus Invariant: ${symbolicRes.stencilFormula ?? this.customFormula}`
             ]
           };
@@ -2054,46 +2071,68 @@ export class EquationEvaluator extends Elt {
     // 1. LHS Input Slots Grid
     const slotsCard = document.createElement("div");
     slotsCard.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
-    slotsCard.innerHTML = `<div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 10px;">LHS Input Variable Slots</div>`;
 
-    const grid = document.createElement("div");
-    grid.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
-
-    this.spec.inputs.forEach((slot, idx) => {
-      const row = document.createElement("div");
-      row.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 10px;";
-
-      row.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-family: monospace; font-size: 14px; font-weight: bold; background: #0284c7; color: white; padding: 2px 8px; border-radius: 4px;">${slot.symbol}</span>
-          <span style="font-size: 12.5px; color: #334155;">Slot ${idx + 1}: <strong>${slot.description || slot.name}</strong></span>
+    if (this.spec.inputs.length === 0) {
+      slotsCard.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #166534; margin-bottom: 8px;">
+          LHS Input Function Space Slot
+        </div>
+        <div style="padding: 12px 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-weight: 700; color: #166534; font-size: 13px;">
+              ⚡ Pure Function Space Operator Mapping: <code>${symbolicRes.stencilFormula ?? this.spec.lhsFormula}</code>
+            </div>
+            <div style="font-size: 12px; color: #334155; margin-top: 3px;">
+              The operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> acts directly on function space. No scalar variable slots are required on the LHS.
+            </div>
+          </div>
+          <span style="background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 3px 8px; border-radius: 4px; font-size: 11.5px; font-weight: bold; font-family: monospace;">
+            Input: ${symbolicRes.sourceFunction ?? 'f'} ∈ (ℝ_ω → ℝ_ω)
+          </span>
         </div>
       `;
+    } else {
+      slotsCard.innerHTML = `<div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 10px;">LHS Input Variable Slots</div>`;
 
-      const domainSelect = document.createElement("select");
-      domainSelect.style.cssText = "padding: 4px 8px; font-size: 12px; font-weight: 600; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff;";
-      const domOptions = ["ℝ", "ℝ_ω", "ℂ", "ℂ_ω", "ℤ", "ℕ", "𝔹"];
-      const matchedFn = funcsWithConditions.find(f => f.domainConditionDesc);
-      if (matchedFn && matchedFn.domainConditionDesc) {
-        const restricted = `[ℝ | ${matchedFn.domainConditionDesc}]`;
-        domOptions.unshift(restricted);
-        if (slot.domain === "ℝ") slot.domain = restricted;
-      }
-      domOptions.forEach(d => {
-        const opt = document.createElement("option");
-        opt.value = d;
-        opt.textContent = `Domain: ${d}`;
-        if (slot.domain === d) opt.selected = true;
-        domainSelect.appendChild(opt);
-      });
-      domainSelect.addEventListener("change", () => {
-        slot.domain = domainSelect.value;
-      });
-      row.appendChild(domainSelect);
-      grid.appendChild(row);
-    });
+      const grid = document.createElement("div");
+      grid.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
 
-    slotsCard.appendChild(grid);
+      this.spec.inputs.forEach((slot, idx) => {
+        const row = document.createElement("div");
+        row.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 10px;";
+
+        row.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-family: monospace; font-size: 14px; font-weight: bold; background: #0284c7; color: white; padding: 2px 8px; border-radius: 4px;">${slot.symbol}</span>
+            <span style="font-size: 12.5px; color: #334155;">Slot ${idx + 1}: <strong>${slot.description || slot.name}</strong></span>
+          </div>
+        `;
+
+        const domainSelect = document.createElement("select");
+        domainSelect.style.cssText = "padding: 4px 8px; font-size: 12px; font-weight: 600; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff;";
+        const domOptions = ["ℝ", "ℝ_ω", "ℂ", "ℂ_ω", "ℤ", "ℕ", "𝔹"];
+        const matchedFn = funcsWithConditions.find(f => f.domainConditionDesc);
+        if (matchedFn && matchedFn.domainConditionDesc) {
+          const restricted = `[ℝ | ${matchedFn.domainConditionDesc}]`;
+          domOptions.unshift(restricted);
+          if (slot.domain === "ℝ") slot.domain = restricted;
+        }
+        domOptions.forEach(d => {
+          const opt = document.createElement("option");
+          opt.value = d;
+          opt.textContent = `Domain: ${d}`;
+          if (slot.domain === d) opt.selected = true;
+          domainSelect.appendChild(opt);
+        });
+        domainSelect.addEventListener("change", () => {
+          slot.domain = domainSelect.value;
+        });
+        row.appendChild(domainSelect);
+        grid.appendChild(row);
+      });
+
+      slotsCard.appendChild(grid);
+    }
     card.appendChild(slotsCard);
 
     // 2. RHS Target Codomain Selector
@@ -2141,8 +2180,13 @@ export class EquationEvaluator extends Elt {
 
     const nextBtn = document.createElement("button");
     nextBtn.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; background: #0284c7; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;";
-    nextBtn.textContent = "Step 3: Calculator Template Configuration →";
-    nextBtn.addEventListener("click", () => this.setStage(3));
+    if (this.spec.inputs.length === 0) {
+      nextBtn.textContent = `Display Evaluated Function: ${symbolicRes.symbolicFunction ?? 'Result'} →`;
+      nextBtn.addEventListener("click", () => this.setStage(4));
+    } else {
+      nextBtn.textContent = "Step 3: Calculator Template Configuration →";
+      nextBtn.addEventListener("click", () => this.setStage(3));
+    }
     actionsRow.appendChild(nextBtn);
 
     card.appendChild(actionsRow);
@@ -2153,8 +2197,31 @@ export class EquationEvaluator extends Elt {
   // STAGE 3: Calculator Template Configuration (Defaults, Steppers, Bounds)
   // =========================================================================
   private renderStage3(wrap: HTMLElement) {
+    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
     const card = document.createElement("div");
     card.style.cssText = "background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px;";
+
+    if (this.spec.inputs.length === 0) {
+      card.innerHTML = `
+        <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;">
+          Stage 3: Calculator Template Configuration
+        </div>
+        <div style="padding: 24px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; text-align: center; margin-bottom: 16px;">
+          <div style="font-size: 18px; font-weight: bold; color: #166534; margin-bottom: 8px;">
+            📜 Function Space Mapping — No Variable Steppers Required
+          </div>
+          <p style="font-size: 13.5px; color: #334155; max-width: 600px; margin: 0 auto 18px auto; line-height: 1.5;">
+            The equation <code>${this.spec.rhsSymbol} = ${this.spec.lhsFormula}</code> evaluates directly to the function space element <strong>${symbolicRes.symbolicFunction ?? 'cos'}</strong>. Since there are no scalar coordinates to instantiate, numeric stepper configuration is bypassed.
+          </p>
+          <button id="eeTmplProceed" style="padding: 9px 20px; font-size: 13px; font-weight: bold; background: #0284c7; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;">
+            Proceed to Evaluated Function Target (${symbolicRes.symbolicFunction ?? 'cos'}) →
+          </button>
+        </div>
+      `;
+      card.querySelector("#eeTmplProceed")?.addEventListener("click", () => this.setStage(4));
+      wrap.appendChild(card);
+      return;
+    }
 
     card.innerHTML = `
       <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;">
@@ -2330,124 +2397,229 @@ export class EquationEvaluator extends Elt {
 
     wrap.appendChild(contractBar);
 
-    // 2. LHS Instantiation Slots Panel
-    const inputsCard = document.createElement("div");
-    inputsCard.style.cssText = "background: #ffffff; border: 1px solid #bae6fd; border-radius: 6px; padding: 16px; margin-bottom: 16px;";
+    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
 
-    const inputsTitle = document.createElement("div");
-    inputsTitle.style.cssText = "font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;";
-    inputsTitle.innerHTML = `<span>⚙️ LHS Instantiation Slots</span> <span style="font-size:11px; font-weight:normal; text-transform:none; color:#64748b;">(Instantiate all free variables to produce single RHS target)</span>`;
-    inputsCard.appendChild(inputsTitle);
+    if (this.spec.inputs.length === 0) {
+      // 2. Pure Function Space Target Card
+      const funcCard = document.createElement("div");
+      funcCard.style.cssText = "background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px; padding: 20px; margin-bottom: 16px;";
+      funcCard.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 24px;">📜</span>
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
+                Evaluated Target Function Space Result
+              </div>
+              <div style="font-family: monospace; font-size: 22px; font-weight: bold; color: #0f172a;">
+                ${this.spec.rhsSymbol} = <span style="color: #0284c7;">${symbolicRes.symbolicFunction ?? this.spec.lhsFormula}</span>
+              </div>
+            </div>
+          </div>
+          <span style="background: #dcfce7; color: #166534; border: 1.5px solid #86efac; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">
+            Codomain: ℝ_ω → ℝ_ω
+          </span>
+        </div>
 
-    const controlsGrid = document.createElement("div");
-    controlsGrid.style.cssText = "display: flex; flex-direction: column; gap: 10px;";
+        <div style="font-size: 13px; color: #334155; line-height: 1.5; margin-bottom: 14px; background: #ffffff; padding: 10px 14px; border-radius: 6px; border: 1px solid #bbf7d0;">
+          <div>↳ <strong>Calculus Stencil Identity:</strong> <code>${symbolicRes.stencilFormula ?? `${this.spec.lhsFormula} = ${symbolicRes.symbolicFunction ?? 'cos'}`}</code></div>
+          <div>↳ <strong>Functional Codomain:</strong> The operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> mapped <code>${symbolicRes.sourceFunction ?? 'sin'}</code> into the derived function <strong>${symbolicRes.symbolicFunction ?? 'cos'}</strong>.</div>
+        </div>
 
-    for (const slot of this.spec.inputs) {
-      const row = document.createElement("div");
-      row.style.cssText = "display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;";
+        ${symbolicRes.governingTheorem ? `
+          <div style="background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 12px; color: #166534; font-weight: 600;">Lean 4 Machine Verification:</span>
+            <button class="ee-thm-link" data-thm="${symbolicRes.governingTheorem}" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 4px; font-size: 11.5px; font-family: monospace; color: #166534; padding: 3px 10px; cursor: pointer; font-weight: 700;">
+              📜 MiddleWay.${symbolicRes.governingTheorem}
+            </button>
+          </div>` : ''}
+      `;
 
-      // Left: symbol & domain badge
-      const infoDiv = document.createElement("div");
-      infoDiv.style.cssText = "display: flex; align-items: center; gap: 8px;";
-
-      const symBadge = document.createElement("span");
-      symBadge.style.cssText = "background: #0284c7; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;";
-      symBadge.textContent = slot.symbol;
-      infoDiv.appendChild(symBadge);
-
-      const domainBadge = document.createElement("span");
-      domainBadge.style.cssText = "font-size: 11px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px;";
-      domainBadge.textContent = `∈ ${slot.domain}`;
-      infoDiv.appendChild(domainBadge);
-
-      if (slot.description) {
-        const descSpan = document.createElement("span");
-        descSpan.style.cssText = "font-size: 12px; color: #475569;";
-        descSpan.textContent = slot.description;
-        infoDiv.appendChild(descSpan);
-      }
-      row.appendChild(infoDiv);
-
-      // Right: Stepper [-] [Input] [+]
-      const ctrlDiv = document.createElement("div");
-      ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 4px;";
-
-      const step = slot.step ?? 1;
-
-      const decBtn = document.createElement("button");
-      decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
-      decBtn.textContent = "-";
-      decBtn.title = `Decrement by ${step}`;
-      decBtn.setAttribute("aria-label", `Decrement by ${step}`);
-
-      const numInput = document.createElement("input");
-      numInput.type = "number";
-      numInput.className = "ee-num-input";
-      numInput.value = (this.curValues[slot.name] ?? slot.defaultValue).toString();
-      numInput.step = step.toString();
-      if (slot.min !== undefined) numInput.min = slot.min.toString();
-      if (slot.max !== undefined) numInput.max = slot.max.toString();
-      numInput.style.cssText = "width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px; background: #ffffff; color: #0f172a; outline: none; transition: border-color 0.15s ease;";
-
-      const incBtn = document.createElement("button");
-      incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
-      incBtn.textContent = "+";
-      incBtn.title = `Increment by ${step}`;
-      incBtn.setAttribute("aria-label", `Increment by ${step}`);
-
-      decBtn.addEventListener("mouseenter", () => { decBtn.style.background = "#f0f9ff"; decBtn.style.borderColor = "#0284c7"; });
-      decBtn.addEventListener("mouseleave", () => { decBtn.style.background = "#ffffff"; decBtn.style.borderColor = "#cbd5e1"; });
-      incBtn.addEventListener("mouseenter", () => { incBtn.style.background = "#f0f9ff"; incBtn.style.borderColor = "#0284c7"; });
-      incBtn.addEventListener("mouseleave", () => { incBtn.style.background = "#ffffff"; incBtn.style.borderColor = "#cbd5e1"; });
-      numInput.addEventListener("focus", () => { numInput.style.borderColor = "#0284c7"; });
-      numInput.addEventListener("blur", () => { numInput.style.borderColor = "#cbd5e1"; });
-
-      decBtn.addEventListener("click", () => {
-        let cur = Number(numInput.value);
-        cur = Math.round((cur - step) * 1000) / 1000;
-        if (slot.min !== undefined && cur < slot.min) cur = slot.min;
-        this.curValues[slot.name] = cur;
-        numInput.value = cur.toString();
-        this.updateOutput();
+      funcCard.querySelectorAll(".ee-thm-link").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          const thm = (e.currentTarget as HTMLElement).getAttribute("data-thm");
+          if (thm) {
+            const { FSDRef } = await import("./fsdRef.js");
+            FSDRef.openScaffoldCard(thm, `MiddleWay.${thm}`);
+          }
+        });
       });
 
-      incBtn.addEventListener("click", () => {
-        let cur = Number(numInput.value);
-        cur = Math.round((cur + step) * 1000) / 1000;
-        if (slot.max !== undefined && cur > slot.max) cur = slot.max;
-        this.curValues[slot.name] = cur;
-        numInput.value = cur.toString();
-        this.updateOutput();
-      });
+      wrap.appendChild(funcCard);
 
-      numInput.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowUp") {
-          e.preventDefault();
-          incBtn.click();
-        } else if (e.key === "ArrowDown") {
-          e.preventDefault();
-          decBtn.click();
+      // Optional Pointwise Probe Section
+      const probeCard = document.createElement("div");
+      probeCard.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
+      probeCard.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+          <span style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase;">
+            🔍 Optional Pointwise Evaluation Probe
+          </span>
+          <span style="font-size: 11px; color: #64748b;">(Test ${this.spec.rhsSymbol}(x₀) at specific domain points)</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: #475569; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">x₀</span>
+            <span style="font-size: 12.5px; color: #334155;">Test Coordinate ∈ ℝ</span>
+          </div>
+          <div class="ee-probe-stepper" style="display: flex; align-items: center; gap: 4px;">
+            <button class="ee-probe-dec" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">-</button>
+            <input class="ee-probe-input ee-num-input" type="number" value="${this.curValues["x"] ?? 0}" step="0.5" style="width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px;" />
+            <button class="ee-probe-inc" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">+</button>
+            <span class="ee-probe-result" style="margin-left: 12px; font-family: monospace; font-size: 14px; font-weight: bold; color: #0284c7;"></span>
+          </div>
+        </div>
+      `;
+
+      const pIn = probeCard.querySelector(".ee-probe-input") as HTMLInputElement;
+      const pDec = probeCard.querySelector(".ee-probe-dec") as HTMLButtonElement;
+      const pInc = probeCard.querySelector(".ee-probe-inc") as HTMLButtonElement;
+      const pRes = probeCard.querySelector(".ee-probe-result") as HTMLSpanElement;
+
+      const updateProbe = () => {
+        const xVal = parseFloat(pIn.value) || 0;
+        this.curValues["x"] = xVal;
+        const calcVal = safeEvalExpression(this.spec.lhsFormula, { x: xVal });
+        const calcStr = Number.isInteger(calcVal) ? calcVal.toString() : calcVal.toFixed(4);
+        pRes.innerHTML = `↳ ${this.spec.rhsSymbol}(${xVal}) = <strong>${calcStr}</strong>`;
+        this.updateOutput();
+      };
+
+      pDec.addEventListener("click", () => {
+        let v = (parseFloat(pIn.value) || 0) - 0.5;
+        pIn.value = (Math.round(v * 10) / 10).toString();
+        updateProbe();
+      });
+      pInc.addEventListener("click", () => {
+        let v = (parseFloat(pIn.value) || 0) + 0.5;
+        pIn.value = (Math.round(v * 10) / 10).toString();
+        updateProbe();
+      });
+      pIn.addEventListener("input", updateProbe);
+      updateProbe();
+
+      wrap.appendChild(probeCard);
+    } else {
+      // 2. LHS Instantiation Slots Panel
+      const inputsCard = document.createElement("div");
+      inputsCard.style.cssText = "background: #ffffff; border: 1px solid #bae6fd; border-radius: 6px; padding: 16px; margin-bottom: 16px;";
+
+      const inputsTitle = document.createElement("div");
+      inputsTitle.style.cssText = "font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;";
+      inputsTitle.innerHTML = `<span>⚙️ LHS Instantiation Slots</span> <span style="font-size:11px; font-weight:normal; text-transform:none; color:#64748b;">(Instantiate all free variables to produce single RHS target)</span>`;
+      inputsCard.appendChild(inputsTitle);
+
+      const controlsGrid = document.createElement("div");
+      controlsGrid.style.cssText = "display: flex; flex-direction: column; gap: 10px;";
+
+      for (const slot of this.spec.inputs) {
+        const row = document.createElement("div");
+        row.style.cssText = "display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;";
+
+        // Left: symbol & domain badge
+        const infoDiv = document.createElement("div");
+        infoDiv.style.cssText = "display: flex; align-items: center; gap: 8px;";
+
+        const symBadge = document.createElement("span");
+        symBadge.style.cssText = "background: #0284c7; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;";
+        symBadge.textContent = slot.symbol;
+        infoDiv.appendChild(symBadge);
+
+        const domainBadge = document.createElement("span");
+        domainBadge.style.cssText = "font-size: 11px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px;";
+        domainBadge.textContent = `∈ ${slot.domain}`;
+        infoDiv.appendChild(domainBadge);
+
+        if (slot.description) {
+          const descSpan = document.createElement("span");
+          descSpan.style.cssText = "font-size: 12px; color: #475569;";
+          descSpan.textContent = slot.description;
+          infoDiv.appendChild(descSpan);
         }
-      });
+        row.appendChild(infoDiv);
 
-      numInput.addEventListener("input", () => {
-        const val = parseFloat(numInput.value);
-        if (!isNaN(val)) {
-          this.curValues[slot.name] = val;
+        // Right: Stepper [-] [Input] [+]
+        const ctrlDiv = document.createElement("div");
+        ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 4px;";
+
+        const step = slot.step ?? 1;
+
+        const decBtn = document.createElement("button");
+        decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
+        decBtn.textContent = "-";
+        decBtn.title = `Decrement by ${step}`;
+        decBtn.setAttribute("aria-label", `Decrement by ${step}`);
+
+        const numInput = document.createElement("input");
+        numInput.type = "number";
+        numInput.className = "ee-num-input";
+        numInput.value = (this.curValues[slot.name] ?? slot.defaultValue).toString();
+        numInput.step = step.toString();
+        if (slot.min !== undefined) numInput.min = slot.min.toString();
+        if (slot.max !== undefined) numInput.max = slot.max.toString();
+        numInput.style.cssText = "width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px; background: #ffffff; color: #0f172a; outline: none; transition: border-color 0.15s ease;";
+
+        const incBtn = document.createElement("button");
+        incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
+        incBtn.textContent = "+";
+        incBtn.title = `Increment by ${step}`;
+        incBtn.setAttribute("aria-label", `Increment by ${step}`);
+
+        decBtn.addEventListener("mouseenter", () => { decBtn.style.background = "#f0f9ff"; decBtn.style.borderColor = "#0284c7"; });
+        decBtn.addEventListener("mouseleave", () => { decBtn.style.background = "#ffffff"; decBtn.style.borderColor = "#cbd5e1"; });
+        incBtn.addEventListener("mouseenter", () => { incBtn.style.background = "#f0f9ff"; incBtn.style.borderColor = "#0284c7"; });
+        incBtn.addEventListener("mouseleave", () => { incBtn.style.background = "#ffffff"; incBtn.style.borderColor = "#cbd5e1"; });
+        numInput.addEventListener("focus", () => { numInput.style.borderColor = "#0284c7"; });
+        numInput.addEventListener("blur", () => { numInput.style.borderColor = "#cbd5e1"; });
+
+        decBtn.addEventListener("click", () => {
+          let cur = Number(numInput.value);
+          cur = Math.round((cur - step) * 1000) / 1000;
+          if (slot.min !== undefined && cur < slot.min) cur = slot.min;
+          this.curValues[slot.name] = cur;
+          numInput.value = cur.toString();
           this.updateOutput();
-        }
-      });
+        });
 
-      ctrlDiv.appendChild(decBtn);
-      ctrlDiv.appendChild(numInput);
-      ctrlDiv.appendChild(incBtn);
-      row.appendChild(ctrlDiv);
+        incBtn.addEventListener("click", () => {
+          let cur = Number(numInput.value);
+          cur = Math.round((cur + step) * 1000) / 1000;
+          if (slot.max !== undefined && cur > slot.max) cur = slot.max;
+          this.curValues[slot.name] = cur;
+          numInput.value = cur.toString();
+          this.updateOutput();
+        });
 
-      controlsGrid.appendChild(row);
+        numInput.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowUp") {
+            e.preventDefault();
+            incBtn.click();
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            decBtn.click();
+          }
+        });
+
+        numInput.addEventListener("input", () => {
+          const val = parseFloat(numInput.value);
+          if (!isNaN(val)) {
+            this.curValues[slot.name] = val;
+            this.updateOutput();
+          }
+        });
+
+        ctrlDiv.appendChild(decBtn);
+        ctrlDiv.appendChild(numInput);
+        ctrlDiv.appendChild(incBtn);
+        row.appendChild(ctrlDiv);
+
+        controlsGrid.appendChild(row);
+      }
+
+      inputsCard.appendChild(controlsGrid);
+      wrap.appendChild(inputsCard);
     }
-
-    inputsCard.appendChild(controlsGrid);
-    wrap.appendChild(inputsCard);
 
     // 3. RHS Single Target Output Slot
     this.outBox = document.createElement("div");
