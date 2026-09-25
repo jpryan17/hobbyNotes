@@ -10,22 +10,22 @@ export class EqDemo extends Elt {
     constructor() {
         super('div', 'eq-demo-stage', 'H');
         this.elt.setAttribute('style', 'box-sizing: border-box; width: 100%; min-height: 100%; padding: 16px 20px 80px 20px; background: transparent; font-family: system-ui, -apple-system, sans-serif;');
-        this.evaluator = new EquationEvaluator('nucleus_halo_1d');
+        this.evaluator = new EquationEvaluator({ initialStage: 1, presetId: 'nucleus_halo_1d' });
         this.elt.appendChild(this.evaluator.elt);
     }
     loadEquation(presetId, formula, domain) {
         if (presetId && EQUATION_PRESETS[presetId]) {
-            this.evaluator.selectPreset(presetId);
+            this.evaluator.selectPreset(presetId, 4);
         }
         else if (formula) {
-            this.evaluator.switchToCustom(formula, domain);
+            this.evaluator.switchToCustom(formula, domain, 4);
         }
         else {
-            this.evaluator.switchToCustom('2*x + 3', domain || 'ℝ');
+            this.evaluator.switchToCustom('2*x + 3', domain || 'ℝ', 4);
         }
     }
     resetToBuilder() {
-        this.evaluator.switchToCustom('x0 + k*dx', 'ℝ_ω');
+        this.evaluator.switchToCustom('x0 + k*dx', 'ℝ_ω', 1);
     }
     layout() {
         // Optional relayout hook
