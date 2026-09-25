@@ -5,7 +5,6 @@ import { PXE, PXEParent, TreeNode } from "./pxe.js";
 import { ttd } from "./ttd.js";
 import { PredicateRegistry, PredicateDef } from "./predicateRegistry.js";
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
-import { PREMINED_MAXIMA_TRACES } from "./maximaMinerCatalog.js";
 
 export type DomainType = string;
 
@@ -1800,8 +1799,7 @@ export class FSD extends PXEParent {
             expanded: "x₁ + 1",
             simplified: `${v1} = ${v0} + 1`,
             slots: { [v0]: v0, [v1]: `${v0} + 1` }
-          },
-          miningTrace: PREMINED_MAXIMA_TRACES['tree_add']
+          }
         };
       }
     }
@@ -1856,8 +1854,7 @@ export class FSD extends PXEParent {
           expanded: "st(x + dx) - x",
           simplified: "0",
           slots: { "x₁": "x₁", "x₂": "x₁ + dx", "dx": "1/ω" }
-        },
-        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
+        }
       };
     }
 

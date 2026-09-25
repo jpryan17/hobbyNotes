@@ -5,7 +5,7 @@ import { Pool, PoolClient } from 'pg';
 import { randomUUID } from 'crypto';
 import http from 'http';
 import https from 'https';
-import { execSync, spawn, spawnSync } from 'child_process';
+import { execSync, spawn } from 'child_process';
 import { writeFileSync, readFileSync, statSync, existsSync, readdirSync, unlinkSync, copyFileSync, mkdirSync } from 'fs';
 import { resolve } from 'path';
 import { pathToFileURL } from 'url';
@@ -731,7 +731,7 @@ app.post('/api/promote-staged-segments', async (req: Request, res: Response) => 
 });
 
 // ---------------------------------------------------------------------
-// 4. Legacy Editor & Maxima Endpoints (Preserved for compatibility)
+// 4. Legacy Editor Endpoints (Preserved for compatibility)
 // ---------------------------------------------------------------------
 
 app.get('/startEditor/:app/:segment', (req: Request, res: Response) => {
@@ -806,51 +806,6 @@ app.post('/svgPost/:app/:svgName', (req: Request, res: Response) => {
         res.send('ok');
     } catch (err) {
         res.status(500).send(`error writing ${fp} ${err}`);
-    }
-});
-
-app.post('/evalMaxima', (req: Request, res: Response) => {
-    try {
-        const payload = req.body || {};
-        const expr = (payload.expression || '').trim();
-        const variable = (payload.variable || 'x').trim();
-        const operation = payload.operation || 'integrate';
-
-        if (!expr) {
-            return res.status(400).json({ success: false, error: 'Expression cannot be empty.' });
-        }
-
-        let maximaCmd = '';
-        const isPureInt = operation === 'integrate' && !expr.startsWith('diff') && !expr.startsWith('ratsimp') && !expr.startsWith('integrate');
-        if (isPureInt) {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); integrate(${expr}, ${variable});`;
-        } else if (expr.startsWith('integrate')) {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr};`;
-        } else {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr.endsWith(';') || expr.endsWith('$') ? expr : expr + ';'}`;
-        }
-
-        const maximaPath = existsSync('C:\\maxima-5.46.0\\bin\\maxima.bat')
-            ? 'C:\\maxima-5.46.0\\bin\\maxima.bat'
-            : (process.platform === 'win32' ? 'maxima.bat' : 'maxima');
-
-        console.log(`[server] Running Maxima command: ${maximaCmd}`);
-        const spawnRes = spawnSync(maximaPath, ['--very-quiet', `--batch-string=${maximaCmd}`], {
-            encoding: 'utf8',
-            timeout: 10000,
-        });
-
-        const rawStdout = (spawnRes.stdout || '') + (spawnRes.stderr ? `\n${spawnRes.stderr}` : '');
-        res.json({
-            success: true,
-            rawOutput: rawStdout,
-            command: maximaCmd,
-            expression: expr,
-            variable,
-        });
-    } catch (err: any) {
-        console.error('[server] evalMaxima error:', err);
-        res.status(500).json({ success: false, error: String(err) });
     }
 });
 

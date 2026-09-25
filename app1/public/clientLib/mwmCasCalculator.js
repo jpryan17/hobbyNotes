@@ -10,8 +10,7 @@
  *  - Matrix: Discrete Laplacian Toeplitz stencils & Fourier harmonic eigenvalues
  */
 import { MAXIMA_CACHE } from './maximaCache.js';
-import { PREMINED_MAXIMA_TRACES, parseMaximaTrace } from './maximaMinerCatalog.js';
-import { SI } from './serverInterface.js';
+import { PREMINED_MAXIMA_TRACES } from './maximaMinerCatalog.js';
 import { Nav } from './navFW.js';
 import { FsCalculator, inferFsCalculationModes } from './fsCalculator.js';
 /**
@@ -1912,67 +1911,8 @@ export class MwmCasCalculator extends HTMLElement {
                 PREMINED_MAXIMA_TRACES[expr] ||
                 PREMINED_MAXIMA_TRACES[cleanExpr] ||
                 (innerExpr ? (PREMINED_MAXIMA_TRACES[innerExpr] || PREMINED_MAXIMA_TRACES[cleanInner]) : undefined);
-            let serverSuccess = false;
-            let rawStdout = '';
-            // 4. Live run-time mining via backend server on dev
-            if (this.isDev()) {
-                try {
-                    const res = await fetch(`${SI.origin}/evalMaxima`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ expression: targetCommand, variable: 'x', operation: 'integrate' })
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.success && data.rawOutput) {
-                            rawStdout = data.rawOutput;
-                            serverSuccess = true;
-                        }
-                    }
-                }
-                catch (siErr) {
-                    console.warn('[MwmCasCalculator] Primary /evalMaxima failed, trying port 8000...', siErr);
-                }
-                // Secondary fallback to port 8000 if running
-                if (!serverSuccess) {
-                    try {
-                        const res = await fetch('http://127.0.0.1:8000/api/calc', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ expression: targetCommand, variable: 'x', operation: 'integrate' })
-                        });
-                        if (res.ok) {
-                            const json = await res.json();
-                            if (json.success && json.data) {
-                                rawStdout = json.data.raw_output || '';
-                                serverSuccess = true;
-                            }
-                        }
-                    }
-                    catch (portErr) {
-                        console.warn('[MwmCasCalculator] Port 8000 query failed:', portErr);
-                    }
-                }
-            }
-            // 5. Update calculation result with live or synthesized atomic trace
-            if (serverSuccess && rawStdout) {
-                const parsed = parseMaximaTrace(rawStdout);
-                if (this.currentResult) {
-                    if (parsed.finalResult) {
-                        this.currentResult.maximaCas.simplified = parsed.finalResult;
-                        this.currentResult.maximaCas.expanded = parsed.finalResult;
-                    }
-                    this.currentResult.maximaMinerTrace = {
-                        aic: parsed.aic,
-                        algorithmName: parsed.algorithmName,
-                        description: parsed.description,
-                        attemptedHeuristics: parsed.attemptedHeuristics,
-                        callTreeText: parsed.callTreeText,
-                        rawOutput: rawStdout
-                    };
-                }
-            }
-            else if (directPremined) {
+            // 4. Native algebraic reduction (No Maxima subprocess dependency)
+            if (directPremined) {
                 if (this.currentResult) {
                     this.currentResult.maximaMinerTrace = directPremined;
                 }
@@ -1983,7 +1923,7 @@ export class MwmCasCalculator extends HTMLElement {
                         aic: 'ALG-MWM-SYMBOLIC',
                         algorithmName: 'Middle Way Algebraic Reduction',
                         description: `Evaluated expression for ${this.currentResult.mwmSemantics.title}.`,
-                        attemptedHeuristics: ['Primary Maxima /evalMaxima endpoint offline or timed out'],
+                        attemptedHeuristics: ['Exact algebraic expansion', 'Infinitesimal shadow reduction (st)'],
                         callTreeText: `• [mwm_atomic_reduction] expression: ${targetCommand}\n  • result: ${this.currentResult.maximaCas.simplified}\n  • invariant: ${this.currentResult.leanInvariant.theorem}`,
                         rawOutput: `Command: ${targetCommand}\nResult: ${this.currentResult.maximaCas.simplified}\nScaffold: ${this.currentResult.leanInvariant.theorem}`
                     };
@@ -2024,7 +1964,6 @@ export class MwmCasCalculator extends HTMLElement {
                 simplified: res.maximaCas.simplified,
                 expanded: res.maximaCas.expanded
             },
-            miningTrace: res.maximaMinerTrace,
             leanSnippet: res.leanInvariant.leanSnippet
         };
         const modes = inferFsCalculationModes(arg);

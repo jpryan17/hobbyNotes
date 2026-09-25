@@ -1,4 +1,3 @@
-import { PREMINED_MAXIMA_TRACES } from "./maximaMinerCatalog.js";
 export const SCAFFOLD_REGISTRY = {
     telescoping_ftc: {
         title: "Constitutional Scaffold: Telescoping Fundamental Theorem of Calculus",
@@ -87,8 +86,7 @@ axiom hard_st_eq (x : R_w) (h : is_hard x) :
             expanded: "(v₀ - g·t) - (1/2)·g·dt",
             simplified: "v₀ - g·t",
             slots: { "dt": "1/ω", "halo": "μ(0)", "st(x)": "r" }
-        },
-        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
+        }
     },
     nucleus_halo_decomposition: {
         title: "Constitutional Scaffold: Nucleus-Halo Decomposition Theorem",
@@ -280,8 +278,7 @@ theorem free_fall_accel (v0 g : R_w) (t dt : R_w) (hdt : dt ≠ 0) :
             expanded: "[ (v₀(t-dt) - (1/2)g(t-dt)²) - 2(v₀t - (1/2)gt²) + (v₀(t+dt) - (1/2)g(t+dt)²) ] / dt²",
             simplified: "-g",
             slots: { "v₀": "20 m/s", "g": "9.8 m/s²", "t": "t", "dt": "1/ω" }
-        },
-        miningTrace: PREMINED_MAXIMA_TRACES['newton_free_fall']
+        }
     },
     work_energy: {
         title: "Newtonian Bridge: Telescoping Work-Energy Theorem",
@@ -302,8 +299,7 @@ theorem free_fall_accel (v0 g : R_w) (t dt : R_w) (hdt : dt ≠ 0) :
             expanded: "∑_{k=0}^{n-1} m · v_k · Δv_k",
             simplified: "(1/2)·m·v_n² - (1/2)·m·v₀² ≡ Δ(KE)",
             slots: { "F": "m·a = -m·g", "dx": "v·dt", "m": "m", "v": "v(t)" }
-        },
-        miningTrace: PREMINED_MAXIMA_TRACES['newton_work_energy']
+        }
     },
     heat_flux: {
         title: "STEM Bridge: Discrete Heat Diffusion & Tridiagonal Contact Stencil",
@@ -325,8 +321,7 @@ theorem thermal_flux_conservation (q : Nat → R_w) (N : Nat) :
             expanded: "(α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]",
             simplified: "d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]",
             slots: { "α": "1.0", "Δx": "0.1", "stencil": "[1, -2, 1]", "boundary_flux": "q_N - q_0 ≡ 0" }
-        },
-        miningTrace: PREMINED_MAXIMA_TRACES['heat_slice_flux']
+        }
     },
     bayes_filter: {
         title: "Foundations: The 3-Stage Bayesian Filter & Normalization Invariant",
@@ -943,8 +938,7 @@ export function getScaffoldReflection(scaffoldId, fallbackTitle) {
             conflictOrSupport: entry.conflictOrSupport,
             conclusion: entry.conclusion,
             leanSnippet: entry.leanSnippet,
-            casCalculation: entry.casCalculation,
-            miningTrace: entry.miningTrace
+            casCalculation: entry.casCalculation
         };
     }
     // Fallback for custom or unmapped scaffold identifiers
@@ -961,7 +955,6 @@ export function getScaffoldReflection(scaffoldId, fallbackTitle) {
         ],
         conflictOrSupport: "Anchored in constitutional Middle Way Lean 4 scaffold.",
         conclusion: `Formally certified by Lean 4 in MiddleWayLean/Scaffold.lean (${scaffoldId}).`,
-        leanSnippet: `-- Constitutional Scaffold Theorem\n#check MiddleWay.${scaffoldId}`,
-        miningTrace: PREMINED_MAXIMA_TRACES[scaffoldId]
+        leanSnippet: `-- Constitutional Scaffold Theorem\n#check MiddleWay.${scaffoldId}`
     };
 }

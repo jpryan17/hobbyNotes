@@ -259,10 +259,6 @@ app.post('/api/sync-to-db', async (req, res) => {
                     const formatted = formatSegmentFileHtml(existingHtml, newHtml, segKey);
                     (0, fs_1.writeFileSync)(destPath, formatted, 'utf8');
                     console.log(`[dbBridge] Wrote updated segment to ${destPath}`);
-                    const consPath = (0, path_1.resolve)(process.cwd(), `consolidated_segs/${segKey}.html`);
-                    if ((0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), 'consolidated_segs'))) {
-                        (0, fs_1.writeFileSync)(consPath, formatted, 'utf8');
-                    }
                     filesChanged = true;
                 }
             }
@@ -482,12 +478,10 @@ app.delete('/api/staged-segments', (_req, res) => {
         res.status(500).json({ status: 'error', message: err.message || String(err) });
     }
 });
-// 4b. List all files in consolidated_segs (or app1/segs fallback) and stagedSegs
+// 4b. List all files in app1/segs and stagedSegs
 app.get('/api/consolidated-segments', (_req, res) => {
     try {
-        const segDir = (0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), 'consolidated_segs'))
-            ? (0, path_1.resolve)(process.cwd(), 'consolidated_segs')
-            : (0, path_1.resolve)(process.cwd(), 'app1/segs');
+        const segDir = (0, path_1.resolve)(process.cwd(), 'app1/segs');
         const stagedDir = getStagedDir();
         const segMap = new Map();
         // 1. Existing consolidated / source segments
@@ -537,10 +531,8 @@ app.get('/api/segment-content/:segId', (req, res) => {
     const { segId } = req.params;
     const candidates = [
         (0, path_1.resolve)(process.cwd(), `app1/segs/${segId}.html`),
-        (0, path_1.resolve)(process.cwd(), `consolidated_segs/${segId}.html`),
         (0, path_1.resolve)(process.cwd(), `stagedSegs/${segId}.html`),
         (0, path_1.resolve)(process.cwd(), `savedSegs/${segId}.html`),
-        (0, path_1.resolve)(process.cwd(), `app2/segs/${segId}.html`),
     ];
     for (const filePath of candidates) {
         if ((0, fs_1.existsSync)(filePath)) {
@@ -654,9 +646,6 @@ app.post('/api/promote-staged-segments', async (req, res) => {
             const dest = (0, path_1.resolve)(process.cwd(), `${appName}/segs/${f}`);
             (0, fs_1.copyFileSync)(src, dest);
             console.log(`[dbBridge] Promoted ${f} -> ${dest}`);
-            if ((0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), 'consolidated_segs'))) {
-                (0, fs_1.copyFileSync)(src, (0, path_1.resolve)(process.cwd(), `consolidated_segs/${f}`));
-            }
         }
         // Synchronize outline tree to indices.ts if provided
         if (Array.isArray(outlineTree) && outlineTree.length > 0) {
@@ -690,7 +679,7 @@ app.post('/api/promote-staged-segments', async (req, res) => {
     }
 });
 // ---------------------------------------------------------------------
-// 4. Legacy Editor & Maxima Endpoints (Preserved for compatibility)
+// 4. Legacy Editor Endpoints (Preserved for compatibility)
 // ---------------------------------------------------------------------
 app.get('/startEditor/:app/:segment', (req, res) => {
     const { app: appName, segment } = req.params;
@@ -765,48 +754,6 @@ app.post('/svgPost/:app/:svgName', (req, res) => {
     }
     catch (err) {
         res.status(500).send(`error writing ${fp} ${err}`);
-    }
-});
-app.post('/evalMaxima', (req, res) => {
-    try {
-        const payload = req.body || {};
-        const expr = (payload.expression || '').trim();
-        const variable = (payload.variable || 'x').trim();
-        const operation = payload.operation || 'integrate';
-        if (!expr) {
-            return res.status(400).json({ success: false, error: 'Expression cannot be empty.' });
-        }
-        let maximaCmd = '';
-        const isPureInt = operation === 'integrate' && !expr.startsWith('diff') && !expr.startsWith('ratsimp') && !expr.startsWith('integrate');
-        if (isPureInt) {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); integrate(${expr}, ${variable});`;
-        }
-        else if (expr.startsWith('integrate')) {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr};`;
-        }
-        else {
-            maximaCmd = `display2d: false; trace(?sinint, ?integrator, ?diffdiv, ?ratint, ?trigint, ?rischint); ${expr.endsWith(';') || expr.endsWith('$') ? expr : expr + ';'}`;
-        }
-        const maximaPath = (0, fs_1.existsSync)('C:\\maxima-5.46.0\\bin\\maxima.bat')
-            ? 'C:\\maxima-5.46.0\\bin\\maxima.bat'
-            : (process.platform === 'win32' ? 'maxima.bat' : 'maxima');
-        console.log(`[server] Running Maxima command: ${maximaCmd}`);
-        const spawnRes = (0, child_process_1.spawnSync)(maximaPath, ['--very-quiet', `--batch-string=${maximaCmd}`], {
-            encoding: 'utf8',
-            timeout: 10000,
-        });
-        const rawStdout = (spawnRes.stdout || '') + (spawnRes.stderr ? `\n${spawnRes.stderr}` : '');
-        res.json({
-            success: true,
-            rawOutput: rawStdout,
-            command: maximaCmd,
-            expression: expr,
-            variable,
-        });
-    }
-    catch (err) {
-        console.error('[server] evalMaxima error:', err);
-        res.status(500).json({ success: false, error: String(err) });
     }
 });
 // ---------------------------------------------------------------------

@@ -1,7 +1,6 @@
 import { Elt } from "./elt.js";
 import { LEAN_CACHE, LeanCacheEntry } from "./leanCache.js";
 import { Nav } from "./navFW.js";
-import { MaximaMinerTrace } from "./maximaMinerCatalog.js";
 import { FsCalculator, inferFsCalculationModes } from "./fsCalculator.js";
 
 export interface ArgumentCheck {
@@ -29,7 +28,6 @@ export interface FormalArgument {
     simplified: string;
     slots?: Record<string, string>;
   };
-  miningTrace?: MaximaMinerTrace;
 }
 
 export interface ArgumentCardOptions {
@@ -232,8 +230,8 @@ export class ArgumentCard extends Elt {
       body.append(codeWrap);
     }
 
-    // Collapsible CAS Calculation & MaximaMiner Mining Trace (NavFW Compatible)
-    if (arg.casCalculation || arg.miningTrace) {
+    // Collapsible Algebraic Reduction & Invariant Evaluation (NavFW Compatible)
+    if (arg.casCalculation) {
       const casWrap = new Elt("details");
       casWrap.setA(
         "style",
@@ -247,7 +245,7 @@ export class ArgumentCard extends Elt {
       );
       const summaryLeft = new Elt("span");
       summaryLeft.setA("style", "display: inline-flex; align-items: center; gap: 6px;");
-      summaryLeft.setV("<span>⚡</span> <b>CAS Calculation &amp; MaximaMiner Trace</b>");
+      summaryLeft.setV("<span>⚡</span> <b>Algebraic Reduction &amp; Invariant Evaluation</b>");
       const summaryPrompt = new Elt("span");
       summaryPrompt.setA("style", "font-size: 11px; font-weight: normal; color: #0284c7; opacity: 0.85;");
       summaryPrompt.setV("(Click to Expand / Collapse)");
@@ -259,7 +257,7 @@ export class ArgumentCard extends Elt {
       content.setA("style", "margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 12.5px; color: #334155;");
 
       // 1. Attached Slots / Parameters
-      if (arg.casCalculation?.slots && Object.keys(arg.casCalculation.slots).length > 0) {
+      if (arg.casCalculation.slots && Object.keys(arg.casCalculation.slots).length > 0) {
         const slotsRow = new Elt("div");
         slotsRow.setA("style", "margin-bottom: 10px;");
         const slotsHeader = new Elt("div");
@@ -278,107 +276,33 @@ export class ArgumentCard extends Elt {
         content.append(slotsRow);
       }
 
-      // 2. Symbolic CAS Evaluation
-      if (arg.casCalculation) {
-        const calcRow = new Elt("div");
-        calcRow.setA("style", "margin-bottom: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;");
+      // 2. Symbolic Reduction & Shadow
+      const calcRow = new Elt("div");
+      calcRow.setA("style", "margin-bottom: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;");
 
-        const cmdHeader = new Elt("div");
-        cmdHeader.setA("style", "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 4px;");
-        cmdHeader.setV("Maxima CAS Command &amp; Reduction:");
-        calcRow.append(cmdHeader);
+      const cmdHeader = new Elt("div");
+      cmdHeader.setA("style", "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 4px;");
+      cmdHeader.setV("Algebraic Expression &amp; Reduction:");
+      calcRow.append(cmdHeader);
 
-        const cmdPre = new Elt("div");
-        cmdPre.setA("style", "background: #f1f5f9; padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #0f172a; margin-bottom: 6px; word-break: break-all;");
-        cmdPre.setV(arg.casCalculation.command);
-        calcRow.append(cmdPre);
+      const cmdPre = new Elt("div");
+      cmdPre.setA("style", "background: #f1f5f9; padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #0f172a; margin-bottom: 6px; word-break: break-all;");
+      cmdPre.setV(arg.casCalculation.command);
+      calcRow.append(cmdPre);
 
-        if (arg.casCalculation.expanded) {
-          const expDiv = new Elt("div");
-          expDiv.setA("style", "font-size: 12px; margin-bottom: 6px;");
-          expDiv.setV(`<b>Expanded:</b> <code style="background:#f8fafc; padding:2px 4px; border-radius:3px;">${arg.casCalculation.expanded}</code>`);
-          calcRow.append(expDiv);
-        }
-
-        const resDiv = new Elt("div");
-        resDiv.setA("style", "font-size: 12px; color: #166534; font-weight: 700;");
-        resDiv.setV(`<b>Simplified Invariant:</b> <span style="background: #dcfce7; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${arg.casCalculation.simplified}</span>`);
-        calcRow.append(resDiv);
-
-        content.append(calcRow);
+      if (arg.casCalculation.expanded) {
+        const expDiv = new Elt("div");
+        expDiv.setA("style", "font-size: 12px; margin-bottom: 6px;");
+        expDiv.setV(`<b>Expanded:</b> <code style="background:#f8fafc; padding:2px 4px; border-radius:3px;">${arg.casCalculation.expanded}</code>`);
+        calcRow.append(expDiv);
       }
 
-      // 3. MaximaMiner Mining Trace
-      if (arg.miningTrace) {
-        const trace = arg.miningTrace;
-        const minerRow = new Elt("div");
-        minerRow.setA("style", "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;");
+      const resDiv = new Elt("div");
+      resDiv.setA("style", "font-size: 12px; color: #166534; font-weight: 700;");
+      resDiv.setV(`<b>Simplified Invariant:</b> <span style="background: #dcfce7; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${arg.casCalculation.simplified}</span>`);
+      calcRow.append(resDiv);
 
-        // Algorithm Identification Code (AIC) Header
-        const minerHeader = new Elt("div");
-        minerHeader.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;");
-
-        const aicBadge = new Elt("span");
-        aicBadge.setA("style", "background: #0284c7; color: #ffffff; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 11px; font-weight: 700;");
-        aicBadge.setV(trace.aic || "ALG-MWM-SYMBOLIC");
-
-        const algName = new Elt("span");
-        algName.setA("style", "font-weight: 700; color: #1e293b; font-size: 12px;");
-        algName.setV(trace.algorithmName || "Symbolic Reduction Engine");
-
-        minerHeader.append(aicBadge);
-        minerHeader.append(algName);
-        minerRow.append(minerHeader);
-
-        if (trace.description) {
-          const descDiv = new Elt("div");
-          descDiv.setA("style", "font-size: 11.5px; color: #475569; margin-bottom: 8px; line-height: 1.4;");
-          descDiv.setV(trace.description);
-          minerRow.append(descDiv);
-        }
-
-        // Attempted Heuristics
-        if (trace.attemptedHeuristics && trace.attemptedHeuristics.length > 0) {
-          const heurDiv = new Elt("div");
-          heurDiv.setA("style", "margin-bottom: 8px; font-size: 11.5px;");
-          heurDiv.setV(`<b>Heuristic Cascade:</b> <span style="color:#64748b;">${trace.attemptedHeuristics.join(" → ")}</span>`);
-          minerRow.append(heurDiv);
-        }
-
-        // Common Lisp Call Tree
-        if (trace.callTreeText) {
-          const treeLabel = new Elt("div");
-          treeLabel.setA("style", "font-size: 11px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 4px;");
-          treeLabel.setV("Common Lisp Mining Call Tree:");
-          minerRow.append(treeLabel);
-
-          const treePre = new Elt("pre");
-          treePre.setA("style", "margin: 0 0 8px 0; padding: 8px; background: #0f172a; color: #38bdf8; border-radius: 4px; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 11.5px; line-height: 1.45; overflow-x: auto;");
-          treePre.setV(trace.callTreeText);
-          minerRow.append(treePre);
-        }
-
-        // Raw Lisp Output (Nested Collapsible)
-        if (trace.rawOutput) {
-          const rawDetails = new Elt("details");
-          rawDetails.setA("style", "margin-top: 6px; font-size: 11px;");
-          const rawSummary = new Elt("summary");
-          rawSummary.setA("style", "cursor: pointer; color: #64748b; font-weight: 600;");
-          rawSummary.setV("🔍 View Raw Common Lisp Execution Frames (Enter / Exit)");
-          const rawPre = new Elt("pre");
-          rawPre.setA("style", "margin: 4px 0 0 0; padding: 6px 8px; background: #1e293b; color: #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 10.5px; max-height: 140px; overflow-y: auto;");
-          rawPre.setV(trace.rawOutput);
-          rawDetails.append(rawSummary);
-          rawDetails.append(rawPre);
-          rawDetails.elt.addEventListener("toggle", () => {
-            Nav.updateReturnControlVisibility();
-          });
-          minerRow.append(rawDetails);
-        }
-
-        content.append(minerRow);
-      }
-
+      content.append(calcRow);
       casWrap.append(content);
 
       // NavFW integration: notify return control on toggle

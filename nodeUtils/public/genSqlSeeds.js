@@ -108,7 +108,7 @@ async function generateSeedSql() {
     const segsFilePath = path.join(rootDir, 'app1', 'segs', 'segsFile.json');
     const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
     const leanCache = JSON.parse(fs.readFileSync(leanCachePath, 'utf8'));
-    const maximaCache = JSON.parse(fs.readFileSync(maximaCachePath, 'utf8'));
+    const maximaCache = fs.existsSync(maximaCachePath) ? JSON.parse(fs.readFileSync(maximaCachePath, 'utf8')) : {};
     const segsList = JSON.parse(fs.readFileSync(segsFilePath, 'utf8'));
     const sql = [];
     sql.push(`-- =====================================================================`);
