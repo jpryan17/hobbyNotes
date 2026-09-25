@@ -904,10 +904,10 @@ function sanitizeFormula(expr: string): string {
  * Prepares raw user math expression into a runnable JavaScript string,
  * resolving derivatives, integrals, powers, and nonstandard functions.
  */
-function prepareJsExpr(rawExpr: string): string {
+function prepareJsExpr(rawExpr: string, diffVar: string = "x"): string {
   let s = sanitizeFormula(rawExpr);
 
-  // Convert D(f) or D(f(x)) to diff(f(x), x)
+  // Convert D(f) or D(f(x)) to diff(f, diffVar)
   const dOpRegex = /\bD\s*\(/;
   let match: RegExpExecArray | null;
   while ((match = dOpRegex.exec(s)) !== null) {
@@ -919,8 +919,8 @@ function prepareJsExpr(rawExpr: string): string {
       i++;
     }
     let inner = s.slice(match.index + match[0].length, i - 1).trim();
-    if (!inner.includes("(") && !inner.includes(")")) inner = `${inner}(x)`;
-    s = s.slice(0, match.index) + "diff(" + inner + ", x)" + s.slice(i);
+    if (!inner.includes("(") && !inner.includes(")")) inner = `${inner}(${diffVar})`;
+    s = s.slice(0, match.index) + "diff(" + inner + ", " + diffVar + ")" + s.slice(i);
   }
 
   // Convert I(f) or I(f(x)) to int(f(x), x)
@@ -938,10 +938,10 @@ function prepareJsExpr(rawExpr: string): string {
     s = s.slice(0, match.index) + "int(" + inner + ", x)" + s.slice(i);
   }
 
-  // Convert d/d<var>( ... ) to diff(..., var)
-  const dRegex = /\bd\/d([a-zA-Z_]\w*)\s*\(/;
+  // Convert d/d<var>( ... ) or ∂/∂<var>( ... ) to diff(..., var)
+  const dRegex = /(?:\bd\/d([a-zA-Z_]\w*)|∂\/∂([a-zA-Z_]\w*))\s*\(/;
   while ((match = dRegex.exec(s)) !== null) {
-    const varName = match[1];
+    const varName = match[1] || match[2];
     let depth = 1;
     let i = match.index + match[0].length;
     while (i < s.length && depth > 0) {
@@ -1043,9 +1043,9 @@ function prepareJsExpr(rawExpr: string): string {
  * Safely evaluates a mathematical expression string for given variable numbers,
  * exposing calculus operations (__diff, __integrate) and nonstandard stencils in the execution scope.
  */
-function safeEvalExpression(expr: string, vals: Record<string, number>): number {
+function safeEvalExpression(expr: string, vals: Record<string, number>, diffVar: string = "x"): number {
   try {
-    const jsExpr = prepareJsExpr(expr);
+    const jsExpr = prepareJsExpr(expr, diffVar);
     const varNames = Object.keys(vals);
     const varValues = varNames.map(k => vals[k]);
     const fn = new Function("__diff", "__integrate", ...varNames, `return (${jsExpr});`);
@@ -1085,18 +1085,37 @@ function computeHaloDust(expr: string, vals: Record<string, number>, isHalo: boo
 }
 
 /**
+ * Converts integer numbers to clean unicode superscript (e.g. 2 -> ², 3 -> ³).
+ */
+export function toSuperscript(n: number): string {
+  const sups: Record<string, string> = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+  return String(n).split("").map(c => sups[c] || c).join("");
+}
+
+/**
  * Rigorous criteria for determining the target codomain of an equation:
- * - Higher-order operators (D, I) map to FunctionSpace: ℝ_ω → ℝ_ω
+ * - Higher-order operators (D, I) map to FunctionSpace: ℝ_ω → ℝ_ω, (ℝ_ω)ⁿ → (ℝ_ω)ⁿ, or DifferentialForm
  * - Standard part operator st(...) maps to standard real nucleus: ℝ
  * - Relations / predicates map to Boolean truth value: 𝔹
  * - Imaginary unit i maps to Complex: ℂ_ω or ℂ
  * - Default continuous evaluations map to Hyperreal: ℝ_ω
  */
-export function inferEquationCodomain(formula: string): string {
+export function inferEquationCodomain(
+  formula: string,
+  options?: { diffMode?: "partial" | "total" | "gradient"; varCount?: number }
+): string {
   const s = (formula || "").trim();
 
   // 1. Higher-order operators on FunctionSpace: D(...), I(...)
   if (/^\s*(?:D|I)\s*\(/i.test(s)) {
+    if (options?.diffMode === "gradient") {
+      const sup = options.varCount && options.varCount > 1 ? toSuperscript(options.varCount) : "²";
+      return `(ℝ_ω)${sup} → (ℝ_ω)${sup}`;
+    }
+    if (options?.diffMode === "total") {
+      const sup = options.varCount && options.varCount > 1 ? toSuperscript(options.varCount) : "²";
+      return `DifferentialForm((ℝ_ω)${sup})`;
+    }
     return "ℝ_ω → ℝ_ω";
   }
 
@@ -1178,7 +1197,46 @@ export function differentiateExpression(expr: string, varName: string = "x"): st
       continue;
     }
 
-    // Pattern 2: Elementary function check: sin(x), cos(x), exp(x), ln(x), etc.
+    // Pattern 2: Product of constant factors / other variables and a power of varName (e.g. 2*x*y, x*y^2)
+    const factors = t.split(/[*·]/).map(f => f.trim()).filter(Boolean);
+    const varFactors = factors.filter(f => varRegex.test(f));
+    const constFactors = factors.filter(f => !varRegex.test(f));
+    if (varFactors.length === 1) {
+      const vFactor = varFactors[0];
+      const vPowMatch = vFactor.match(new RegExp(`^(?:(\\d+(?:\\.\\d+)?)\\s*)?${varName}(?:\\^(\\d+))?$`));
+      if (vPowMatch) {
+        let numCoef = vPowMatch[1] ? parseFloat(vPowMatch[1]) : 1;
+        const exp = vPowMatch[2] ? parseInt(vPowMatch[2]) : 1;
+        const remainingConsts: string[] = [];
+        for (const cf of constFactors) {
+          if (!isNaN(Number(cf))) {
+            numCoef *= parseFloat(cf);
+          } else {
+            remainingConsts.push(cf);
+          }
+        }
+        const newCoef = numCoef * exp;
+        const newExp = exp - 1;
+        const parts: string[] = [];
+        if (newExp === 0) {
+          if (remainingConsts.length > 0) {
+            if (newCoef !== 1) parts.push(`${newCoef}`);
+            parts.push(...remainingConsts);
+          } else {
+            parts.push(`${newCoef}`);
+          }
+        } else {
+          if (newCoef !== 1) parts.push(`${newCoef}`);
+          parts.push(newExp === 1 ? varName : `${varName}^${newExp}`);
+          parts.push(...remainingConsts);
+        }
+        const termStr = parts.join("·");
+        diffTerms.push(isNeg ? (diffTerms.length > 0 ? `- ${termStr}` : `-${termStr}`) : (diffTerms.length > 0 ? `+ ${termStr}` : termStr));
+        continue;
+      }
+    }
+
+    // Pattern 3: Elementary function check: sin(x), cos(x), exp(x), ln(x), etc.
     let foundFn = false;
     for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
       if (new RegExp(`^${fnKey}\\s*\\(\\s*${varName}\\s*\\)$`, "i").test(t)) {
@@ -1246,24 +1304,37 @@ export interface SymbolicResolution {
   symbolicFunction?: string;
   governingTheorem?: string;
   stencilFormula?: string;
+  // Multivariable calculus extensions
+  isMultivariable?: boolean;
+  variables?: string[];
+  diffMode?: "partial" | "total" | "gradient";
+  targetVar?: string;
+  gradientVector?: string[];
+  totalDifferential?: string;
+  codomainStr?: string;
+  leanSignature?: string;
 }
 
 /**
  * Resolves high-level symbolic derivative and integral operator mappings on function spaces.
+ * Supports single-variable and multivariable partial derivatives, total differentials, and gradient vector fields.
  */
-export function resolveSymbolicRule(formula: string): SymbolicResolution {
+export function resolveSymbolicRule(
+  formula: string,
+  options?: { diffMode?: "partial" | "total" | "gradient"; targetVar?: string }
+): SymbolicResolution {
   const s = (formula || "").trim();
 
-  // Higher-order operator D: D(sin), D(cos), D(sin(x)), D(x^2+1), etc.
+  // Higher-order operator D: D(sin), D(cos), D(sin(x)), D(x^2+1), D(x^2 + y^2), etc.
   const dOpMatch = s.match(/^D\s*\((.+)\)$/i);
   if (dOpMatch) {
     let inner = dOpMatch[1].trim();
     const hasArg = inner.includes("(");
-    const varName = hasArg ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
     const baseFn = inner.replace(/\(.*\)/, "").trim().toLowerCase();
 
     for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
       if (baseFn === fnKey.toLowerCase()) {
+        const varName = hasArg ? (inner.match(/\(\s*([a-zA-Z_]\w*)\s*\)/) || [])[1] || "x" : "x";
         const derivSym = hasArg
           ? rule.derivativeFormula.replace(/x₀/g, varName)
           : rule.derivativeFormula.replace(/\(x₀\)/g, "");
@@ -1275,22 +1346,102 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
           sourceFunction: fnKey,
           symbolicFunction: derivSym,
           governingTheorem: rule.governingTheorem,
-          stencilFormula: `D(${lhsSym}) = ${derivSym}`
+          stencilFormula: `D(${lhsSym}) = ${derivSym}`,
+          isMultivariable: false,
+          variables: [varName],
+          codomainStr: "ℝ_ω → ℝ_ω",
+          leanSignature: `#check MiddleWay.${rule.governingTheorem}`
         };
       }
     }
 
-    // Symbolic polynomial & algebraic differentiation
-    const polyDeriv = differentiateExpression(inner, varName);
-    return {
-      hasOperator: true,
-      operatorType: "derivative",
-      operatorSymbol: "D",
-      sourceFunction: inner,
-      symbolicFunction: polyDeriv,
-      governingTheorem: "diff_poly",
-      stencilFormula: `D(${inner}) = ${polyDeriv}`
-    };
+    // Extract all candidate variable identifiers inside inner expression
+    const tokens = inner.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
+    const reserved = new Set([
+      "Math", "PI", "E", "pi", "e", "dx", "dy", "dt", "st", "i", "log", "ln",
+      "diff", "int", "integrate", "d", "D", "I", "Δ", "Delta", "sum",
+      ...Object.keys(NONSTANDARD_FUNCTION_REGISTRY),
+      ...Object.keys(CALCULUS_OPERATOR_REGISTRY)
+    ]);
+    const foundVars = Array.from(new Set(tokens.filter(t => !reserved.has(t) && isNaN(Number(t)))));
+    const vars = foundVars.length > 0 ? foundVars : ["x"];
+    const isMultivar = vars.length > 1;
+
+    const diffMode = options?.diffMode || "partial";
+    const targetVar = options?.targetVar && vars.includes(options.targetVar) ? options.targetVar : vars[0];
+
+    // Compute partial derivatives for each variable
+    const partials: Record<string, string> = {};
+    for (const v of vars) {
+      partials[v] = differentiateExpression(inner, v);
+    }
+
+    const gradTerms = vars.map(v => partials[v]);
+    const totalDiff = vars.map(v => `(${partials[v]})·d${v}`).join(" + ");
+    const dimSup = toSuperscript(vars.length);
+
+    if (diffMode === "gradient") {
+      const gradStr = `[ ${gradTerms.join(", ")} ]`;
+      return {
+        hasOperator: true,
+        operatorType: "derivative",
+        operatorSymbol: "∇",
+        sourceFunction: inner,
+        symbolicFunction: gradStr,
+        governingTheorem: "gradient_vector_field",
+        stencilFormula: `∇(${inner}) = ${gradStr}`,
+        isMultivariable: isMultivar,
+        variables: vars,
+        diffMode: "gradient",
+        targetVar,
+        gradientVector: gradTerms,
+        totalDifferential: totalDiff,
+        codomainStr: `(ℝ_ω)${dimSup} → (ℝ_ω)${dimSup}`,
+        leanSignature: `theorem gradient_vector_field : (∇ : (R_w^${vars.length} → R_w) → (R_w^${vars.length} → R_w^${vars.length}))`
+      };
+    } else if (diffMode === "total") {
+      return {
+        hasOperator: true,
+        operatorType: "derivative",
+        operatorSymbol: "df",
+        sourceFunction: inner,
+        symbolicFunction: totalDiff,
+        governingTheorem: "total_differential",
+        stencilFormula: `df = ${totalDiff}`,
+        isMultivariable: isMultivar,
+        variables: vars,
+        diffMode: "total",
+        targetVar,
+        gradientVector: gradTerms,
+        totalDifferential: totalDiff,
+        codomainStr: `DifferentialForm((ℝ_ω)${dimSup})`,
+        leanSignature: `theorem total_differential : (d : (R_w^${vars.length} → R_w) → DifferentialForm R_w^${vars.length})`
+      };
+    } else {
+      // Partial derivative w.r.t targetVar
+      const partialRes = partials[targetVar];
+      const opSym = isMultivar ? `∂/∂${targetVar}` : "D";
+      const stencil = isMultivar ? `∂/∂${targetVar}(${inner}) = ${partialRes}` : `D(${inner}) = ${partialRes}`;
+      return {
+        hasOperator: true,
+        operatorType: "derivative",
+        operatorSymbol: opSym,
+        sourceFunction: inner,
+        symbolicFunction: partialRes,
+        governingTheorem: isMultivar ? "partial_derivative" : "diff_poly",
+        stencilFormula: stencil,
+        isMultivariable: isMultivar,
+        variables: vars,
+        diffMode: "partial",
+        targetVar,
+        gradientVector: gradTerms,
+        totalDifferential: totalDiff,
+        codomainStr: "ℝ_ω → ℝ_ω",
+        leanSignature: isMultivar
+          ? `theorem partial_deriv_${targetVar} : (∂/∂${targetVar} : (R_w^${vars.length} → R_w) → (R_w → R_w))`
+          : `theorem diff_poly : (D : (R_w → R_w) → (R_w → R_w))`
+      };
+    }
   }
 
   // Higher-order operator I: I(cos), I(sin), I(exp)
@@ -1311,7 +1462,10 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: "cos",
         symbolicFunction: `sin${argStr}`,
         governingTheorem: "integral_cos",
-        stencilFormula: `I(${lhsSym}) = sin${argStr}`
+        stencilFormula: `I(${lhsSym}) = sin${argStr}`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     } else if (baseFn === "sin") {
       return {
@@ -1321,7 +1475,10 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: "sin",
         symbolicFunction: `-cos${argStr}`,
         governingTheorem: "integral_sin",
-        stencilFormula: `I(${lhsSym}) = -cos${argStr}`
+        stencilFormula: `I(${lhsSym}) = -cos${argStr}`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     } else if (baseFn === "exp") {
       return {
@@ -1331,18 +1488,23 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: "exp",
         symbolicFunction: `exp${argStr}`,
         governingTheorem: "exp_integral",
-        stencilFormula: `I(${lhsSym}) = exp${argStr}`
+        stencilFormula: `I(${lhsSym}) = exp${argStr}`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     }
   }
 
-  // Derivative match: d/dx(...) or diff(..., x)
-  const derivMatch = s.match(/^d\/d([a-zA-Z_]\w*)\s*\((.+)\)$/) || s.match(/^diff\s*\((.+),\s*([a-zA-Z_]\w*)\)$/);
+  // Derivative match: d/dx(...) or ∂/∂x(...) or diff(..., x)
+  const derivMatch = s.match(/^(?:d\/d([a-zA-Z_]\w*)|∂\/∂([a-zA-Z_]\w*))\s*\((.+)\)$/) || s.match(/^diff\s*\((.+),\s*([a-zA-Z_]\w*)\)$/);
   if (derivMatch) {
-    const varName = s.startsWith("diff") ? derivMatch[2].trim() : derivMatch[1].trim();
-    const inner = (s.startsWith("diff") ? derivMatch[1] : derivMatch[2]).trim();
+    const isDiffFn = s.startsWith("diff");
+    const varName = isDiffFn ? derivMatch[2].trim() : (derivMatch[1] || derivMatch[2]).trim();
+    const inner = (isDiffFn ? derivMatch[1] : derivMatch[3]).trim();
+    const opSym = s.includes("∂") ? `∂/∂${varName}` : `d/d${varName}`;
 
-    // Check against elementary functions: sin, cos, tan, exp, ln, sqrt, etc.
+    // Elementary function check:
     for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
       const fnRegex = new RegExp(`^${fnKey}\\s*\\(\\s*${varName}\\s*\\)$`, "i");
       if (fnRegex.test(inner)) {
@@ -1350,42 +1512,31 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         return {
           hasOperator: true,
           operatorType: "derivative",
-          operatorSymbol: `d/d${varName}`,
+          operatorSymbol: opSym,
           sourceFunction: `${fnKey}(${varName})`,
           symbolicFunction: derivSym,
           governingTheorem: rule.governingTheorem,
-          stencilFormula: `d/d${varName}[${fnKey}(${varName})] = ${derivSym}`
+          stencilFormula: `${opSym}[${fnKey}(${varName})] = ${derivSym}`,
+          isMultivariable: false,
+          variables: [varName],
+          codomainStr: "ℝ_ω → ℝ_ω"
         };
       }
     }
 
-    // Power rule check: x^2, x^3, etc.
-    const powMatch = inner.match(new RegExp(`^${varName}\\^(\\d+)$`));
-    if (powMatch) {
-      const p = parseInt(powMatch[1]);
-      const derivPow = p === 2 ? `2·${varName}` : `${p}·${varName}^${p - 1}`;
-      return {
-        hasOperator: true,
-        operatorType: "derivative",
-        operatorSymbol: `d/d${varName}`,
-        sourceFunction: inner,
-        symbolicFunction: derivPow,
-        governingTheorem: "diff_pow",
-        stencilFormula: `d/d${varName}[${varName}^${p}] = ${derivPow}`
-      };
-    }
-
-    if (inner === varName) {
-      return {
-        hasOperator: true,
-        operatorType: "derivative",
-        operatorSymbol: `d/d${varName}`,
-        sourceFunction: varName,
-        symbolicFunction: "1",
-        governingTheorem: "deriv_at",
-        stencilFormula: `d/d${varName}[${varName}] = 1`
-      };
-    }
+    const derivRes = differentiateExpression(inner, varName);
+    return {
+      hasOperator: true,
+      operatorType: "derivative",
+      operatorSymbol: opSym,
+      sourceFunction: inner,
+      symbolicFunction: derivRes,
+      governingTheorem: "deriv_at",
+      stencilFormula: `${opSym}[${inner}] = ${derivRes}`,
+      isMultivariable: false,
+      variables: [varName],
+      codomainStr: "ℝ_ω → ℝ_ω"
+    };
   }
 
   // Integral match: int(...) or ∫(...) dx
@@ -1402,7 +1553,10 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: `cos(${varName})`,
         symbolicFunction: `sin(${varName})`,
         governingTheorem: "integral_cos",
-        stencilFormula: `∫ cos(${varName}) d${varName} = sin(${varName})`
+        stencilFormula: `∫ cos(${varName}) d${varName} = sin(${varName})`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     } else if (/^sin\s*\(/i.test(inner)) {
       return {
@@ -1412,7 +1566,10 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: `sin(${varName})`,
         symbolicFunction: `-cos(${varName})`,
         governingTheorem: "integral_sin",
-        stencilFormula: `∫ sin(${varName}) d${varName} = -cos(${varName})`
+        stencilFormula: `∫ sin(${varName}) d${varName} = -cos(${varName})`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     } else if (/^exp\s*\(/i.test(inner)) {
       return {
@@ -1422,7 +1579,10 @@ export function resolveSymbolicRule(formula: string): SymbolicResolution {
         sourceFunction: `exp(${varName})`,
         symbolicFunction: `exp(${varName})`,
         governingTheorem: "exp_integral",
-        stencilFormula: `∫ exp(${varName}) d${varName} = exp(${varName})`
+        stencilFormula: `∫ exp(${varName}) d${varName} = exp(${varName})`,
+        isMultivariable: false,
+        variables: [varName],
+        codomainStr: "ℝ_ω → ℝ_ω"
       };
     }
   }
@@ -1509,8 +1669,18 @@ export class EquationEvaluator extends Elt {
   private customRhsSymbol: string = "y";
   private customRhsDomain: string = "ℝ";
 
+  private multivarDiffMode: "partial" | "total" | "gradient" = "partial";
+  private multivarTargetVar: string = "x";
+
   private curValues: Record<string, number> = {};
   private outBox!: HTMLDivElement;
+
+  private getSymbolicResolution(): SymbolicResolution {
+    return resolveSymbolicRule(this.spec.lhsFormula, {
+      diffMode: this.multivarDiffMode,
+      targetVar: this.multivarTargetVar
+    });
+  }
 
   constructor(options?: string | EquationEvaluatorOptions | EquationSpec) {
     super("div");
@@ -1572,12 +1742,24 @@ export class EquationEvaluator extends Elt {
   }
 
   private rebuildCustomSpec() {
-    const inferredCodomain = inferEquationCodomain(this.customFormula);
-    const symbolicRes = resolveSymbolicRule(this.customFormula);
-    const isFunctionSpace = inferredCodomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
+    const symbolicRes = resolveSymbolicRule(this.customFormula, {
+      diffMode: this.multivarDiffMode,
+      targetVar: this.multivarTargetVar
+    });
+    if (symbolicRes.variables && symbolicRes.variables.length > 0) {
+      if (!symbolicRes.variables.includes(this.multivarTargetVar)) {
+        this.multivarTargetVar = symbolicRes.variables[0];
+      }
+    }
+
+    const inferredCodomain = inferEquationCodomain(this.customFormula, {
+      diffMode: this.multivarDiffMode,
+      varCount: symbolicRes.variables?.length
+    });
+    const isFunctionSpace = inferredCodomain.includes("→") || inferredCodomain.includes("DifferentialForm") || symbolicRes.hasOperator;
 
     if (isFunctionSpace) {
-      this.customRhsDomain = "ℝ_ω → ℝ_ω";
+      this.customRhsDomain = symbolicRes.codomainStr || inferredCodomain;
     }
 
     const freeVars = extractFreeVariables(this.customFormula);
@@ -1605,15 +1787,17 @@ export class EquationEvaluator extends Elt {
       rhsDomain: this.customRhsDomain,
       description: "User-constructed equation statement evaluated on the Middle Way canvas.",
       inputs,
+      leanSignature: symbolicRes.leanSignature,
+      governingTheorem: symbolicRes.governingTheorem,
       evaluate: (vals) => {
-        const val = safeEvalExpression(this.customFormula, vals);
+        const val = safeEvalExpression(this.customFormula, vals, this.multivarTargetVar);
         const isHalo = this.customRhsDomain === "ℝ_ω" || this.customRhsDomain === "ℂ_ω";
         const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
         const { dustStr, isHard } = computeHaloDust(this.customFormula, vals, isHalo);
 
         if (isFunctionSpace) {
           const funcRule = symbolicRes.symbolicFunction ?? this.customFormula;
-          const probeVal = Object.keys(vals).length > 0 ? safeEvalExpression(this.customFormula, vals) : null;
+          const probeVal = Object.keys(vals).length > 0 ? safeEvalExpression(this.customFormula, vals, this.multivarTargetVar) : null;
           const probeStr = probeVal !== null ? (Number.isInteger(probeVal) ? probeVal.toString() : probeVal.toFixed(4)) : null;
           return {
             displayValue: funcRule,
@@ -1621,7 +1805,7 @@ export class EquationEvaluator extends Elt {
             dustPart: "0",
             isHard: true,
             details: [
-              `Target Function Space: ${this.customRhsSymbol} = ${funcRule} ∈ (ℝ_ω → ℝ_ω)`,
+              `Target Function Space: ${this.customRhsSymbol} = ${funcRule} ∈ (${this.customRhsDomain})`,
               ...(probeStr !== null ? [`Operating Point Probe: ${this.customRhsSymbol}(${Object.entries(vals).map(([k, v]) => `${k} = ${v}`).join(", ")}) = ${probeStr}`] : []),
               `Calculus Invariant: ${symbolicRes.stencilFormula ?? this.customFormula}`
             ]
@@ -1643,6 +1827,92 @@ export class EquationEvaluator extends Elt {
     };
 
     this.initValues();
+  }
+
+  private renderMultivarSelector(container: HTMLElement, symbolicRes: SymbolicResolution) {
+    if (!symbolicRes.isMultivariable || !symbolicRes.variables || symbolicRes.variables.length <= 1) {
+      return;
+    }
+
+    const vars = symbolicRes.variables;
+    const bar = document.createElement("div");
+    bar.className = "ee-multivar-bar";
+    bar.style.cssText = "background: #f0f9ff; border: 1.5px solid #7dd3fc; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;";
+
+    const info = document.createElement("div");
+    info.style.cssText = "display: flex; align-items: center; gap: 8px;";
+    info.innerHTML = `
+      <span style="font-size: 18px;">🧭</span>
+      <div>
+        <div style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">
+          Multivariable Coordinate Prompt
+        </div>
+        <div style="font-size: 12px; color: #334155;">
+          Multiple variables detected inside <code>D(...)</code>: <strong>${vars.join(", ")}</strong>. Choose evaluation mode or coordinate:
+        </div>
+      </div>
+    `;
+    bar.appendChild(info);
+
+    const btnGroup = document.createElement("div");
+    btnGroup.style.cssText = "display: flex; align-items: center; gap: 6px; flex-wrap: wrap;";
+
+    // 1. Partial buttons for each variable
+    vars.forEach(v => {
+      const isSelected = this.multivarDiffMode === "partial" && this.multivarTargetVar === v;
+      const btn = document.createElement("button");
+      btn.style.cssText = `padding: 5px 11px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; ${
+        isSelected
+          ? "background: #0284c7; color: #ffffff; border: 1.5px solid #0284c7; box-shadow: 0 1px 3px rgba(2,132,199,0.3);"
+          : "background: #ffffff; color: #0369a1; border: 1.5px solid #bae6fd;"
+      }`;
+      btn.innerHTML = `∂/∂${v}`;
+      btn.title = `Compute partial derivative with respect to ${v}`;
+      btn.addEventListener("click", () => {
+        this.multivarDiffMode = "partial";
+        this.multivarTargetVar = v;
+        this.rebuildCustomSpec();
+        this.render();
+      });
+      btnGroup.appendChild(btn);
+    });
+
+    // 2. Total Differential Button (df)
+    const isTotalSelected = this.multivarDiffMode === "total";
+    const totalBtn = document.createElement("button");
+    totalBtn.style.cssText = `padding: 5px 11px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; ${
+      isTotalSelected
+        ? "background: #0284c7; color: #ffffff; border: 1.5px solid #0284c7; box-shadow: 0 1px 3px rgba(2,132,199,0.3);"
+        : "background: #ffffff; color: #0369a1; border: 1.5px solid #bae6fd;"
+    }`;
+    totalBtn.innerHTML = `df <span style="font-size: 10px; font-weight: normal; opacity: 0.85;">(Total)</span>`;
+    totalBtn.title = "Compute full total differential df = ∑ (∂f/∂x_i)·dx_i";
+    totalBtn.addEventListener("click", () => {
+      this.multivarDiffMode = "total";
+      this.rebuildCustomSpec();
+      this.render();
+    });
+    btnGroup.appendChild(totalBtn);
+
+    // 3. Gradient Vector Button (∇f)
+    const isGradSelected = this.multivarDiffMode === "gradient";
+    const gradBtn = document.createElement("button");
+    gradBtn.style.cssText = `padding: 5px 11px; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; ${
+      isGradSelected
+        ? "background: #0284c7; color: #ffffff; border: 1.5px solid #0284c7; box-shadow: 0 1px 3px rgba(2,132,199,0.3);"
+        : "background: #ffffff; color: #0369a1; border: 1.5px solid #bae6fd;"
+    }`;
+    gradBtn.innerHTML = `∇f <span style="font-size: 10px; font-weight: normal; opacity: 0.85;">(Gradient)</span>`;
+    gradBtn.title = "Compute full gradient vector ∇f = [ ∂f/∂x_1, ..., ∂f/∂x_n ]";
+    gradBtn.addEventListener("click", () => {
+      this.multivarDiffMode = "gradient";
+      this.rebuildCustomSpec();
+      this.render();
+    });
+    btnGroup.appendChild(gradBtn);
+
+    bar.appendChild(btnGroup);
+    container.appendChild(bar);
   }
 
   public render() {
@@ -1775,7 +2045,8 @@ export class EquationEvaluator extends Elt {
     }
 
     // General Mathematical Law & Stencil Card (Visible immediately in Stage 1 without navigating to an instance)
-    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
+    const symbolicRes = this.getSymbolicResolution();
+    this.renderMultivarSelector(card, symbolicRes);
     const { functions: usedFuncs } = detectUsedFunctionsAndOperators(this.spec.lhsFormula);
 
     const generalLawBox = document.createElement("div");
@@ -1800,7 +2071,7 @@ export class EquationEvaluator extends Elt {
             General Identity: <span style="color: #0284c7;">${symbolicRes.stencilFormula}</span>
           </div>
           <span style="font-size: 11.5px; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 4px; font-weight: 600;">
-            Codomain: ℝ_ω → ℝ_ω (Function Space)
+            Codomain: ${symbolicRes.codomainStr || "ℝ_ω → ℝ_ω"} (Function Space)
           </span>
         </div>
         <div style="font-size: 12px; color: #475569; margin-top: 6px; line-height: 1.4;">
@@ -2153,15 +2424,20 @@ export class EquationEvaluator extends Elt {
     `;
 
     // 0. Inferred Function Typing & Domain Restrictions Card
+    const symbolicRes = this.getSymbolicResolution();
+    this.renderMultivarSelector(card, symbolicRes);
     const { functions: usedFuncs } = detectUsedFunctionsAndOperators(this.spec.lhsFormula);
     const funcsWithConditions = usedFuncs.filter(f => f.domainConditionDesc);
-    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
-    const inferredCodomain = inferEquationCodomain(this.spec.lhsFormula);
-    const isFunctionSpace = inferredCodomain === "ℝ_ω → ℝ_ω" || symbolicRes.hasOperator;
+    const inferredCodomain = inferEquationCodomain(this.spec.lhsFormula, {
+      diffMode: this.multivarDiffMode,
+      varCount: symbolicRes.variables?.length
+    });
+    const isFunctionSpace = inferredCodomain.includes("→") || inferredCodomain.includes("DifferentialForm") || symbolicRes.hasOperator;
+    const targetDomain = symbolicRes.codomainStr || inferredCodomain || "ℝ_ω → ℝ_ω";
 
-    if (isFunctionSpace && this.spec.rhsDomain !== "ℝ_ω → ℝ_ω") {
-      this.spec.rhsDomain = "ℝ_ω → ℝ_ω";
-      this.customRhsDomain = "ℝ_ω → ℝ_ω";
+    if (isFunctionSpace && this.spec.rhsDomain !== targetDomain) {
+      this.spec.rhsDomain = targetDomain;
+      this.customRhsDomain = targetDomain;
     }
 
     const typeInferenceCard = document.createElement("div");
@@ -2171,7 +2447,7 @@ export class EquationEvaluator extends Elt {
     if (isFunctionSpace || symbolicRes.hasOperator) {
       operatorConstraintBanner = `
         <div style="margin-top: 8px; padding: 6px 10px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 4px; font-size: 12px; color: #166534; display: flex; align-items: center; justify-content: space-between;">
-          <span>⚡ <strong>Operator Constraint:</strong> Selected operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> acts on FunctionSpace. Codomain is typed as <strong>ℝ_ω → ℝ_ω</strong>.</span>
+          <span>⚡ <strong>Operator Constraint:</strong> Selected operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> acts on FunctionSpace. Codomain is typed as <strong>${symbolicRes.codomainStr || 'ℝ_ω → ℝ_ω'}</strong>.</span>
           <span style="font-weight: bold; background: #dcfce7; padding: 2px 6px; border-radius: 3px;">Auto-Constrained</span>
         </div>
       `;
@@ -2292,6 +2568,8 @@ export class EquationEvaluator extends Elt {
           <option value="ℝ" ${this.spec.rhsDomain === 'ℝ' ? 'selected' : ''}>ℝ (Standard Real Nucleus)</option>
           <option value="ℝ_ω" ${this.spec.rhsDomain === 'ℝ_ω' ? 'selected' : ''}>ℝ_ω (Hyperreal: Nucleus + Halo Dust)</option>
           <option value="ℝ_ω → ℝ_ω" ${this.spec.rhsDomain === 'ℝ_ω → ℝ_ω' ? 'selected' : ''}>ℝ_ω → ℝ_ω (Function Space: Derived / Integral Operator Mapping)</option>
+          ${symbolicRes.diffMode === "gradient" && symbolicRes.codomainStr ? `<option value="${symbolicRes.codomainStr}" selected>${symbolicRes.codomainStr} (Multivariable Vector Field)</option>` : ''}
+          ${symbolicRes.diffMode === "total" && symbolicRes.codomainStr ? `<option value="${symbolicRes.codomainStr}" selected>${symbolicRes.codomainStr} (Total Differential Form)</option>` : ''}
           <option value="ℂ" ${this.spec.rhsDomain === 'ℂ' ? 'selected' : ''}>ℂ (Standard Complex)</option>
           <option value="ℂ_ω" ${this.spec.rhsDomain === 'ℂ_ω' ? 'selected' : ''}>ℂ_ω (Hypercomplex: Nucleus + Halo Soup)</option>
           <option value="ℕ" ${this.spec.rhsDomain === 'ℕ' ? 'selected' : ''}>ℕ (Natural Counting)</option>
@@ -2340,7 +2618,7 @@ export class EquationEvaluator extends Elt {
   // STAGE 3: Calculator Template Configuration (Defaults, Steppers, Bounds)
   // =========================================================================
   private renderStage3(wrap: HTMLElement) {
-    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
+    const symbolicRes = this.getSymbolicResolution();
     const card = document.createElement("div");
     card.style.cssText = "background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px;";
 
@@ -2540,7 +2818,8 @@ export class EquationEvaluator extends Elt {
 
     wrap.appendChild(contractBar);
 
-    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
+    const symbolicRes = this.getSymbolicResolution();
+    this.renderMultivarSelector(wrap, symbolicRes);
 
     if (this.spec.inputs.length === 0) {
       // 2. Pure Function Space Target Card
@@ -2560,13 +2839,13 @@ export class EquationEvaluator extends Elt {
             </div>
           </div>
           <span style="background: #dcfce7; color: #166534; border: 1.5px solid #86efac; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;">
-            Codomain: ℝ_ω → ℝ_ω
+            Codomain: ${symbolicRes.codomainStr || this.spec.rhsDomain}
           </span>
         </div>
 
         <div style="font-size: 13px; color: #334155; line-height: 1.5; margin-bottom: 14px; background: #ffffff; padding: 10px 14px; border-radius: 6px; border: 1px solid #bbf7d0;">
           <div>↳ <strong>Calculus Stencil Identity:</strong> <code>${symbolicRes.stencilFormula ?? `${this.spec.lhsFormula} = ${symbolicRes.symbolicFunction ?? 'cos'}`}</code></div>
-          <div>↳ <strong>Functional Codomain:</strong> The operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> mapped <code>${symbolicRes.sourceFunction ?? 'sin'}</code> into the derived function <strong>${symbolicRes.symbolicFunction ?? 'cos'}</strong>.</div>
+          <div>↳ <strong>Functional Codomain:</strong> The operator <code>${symbolicRes.operatorSymbol ?? 'D'}</code> mapped <code>${symbolicRes.sourceFunction ?? 'f'}</code> into <strong>${symbolicRes.symbolicFunction ?? 'f\''}</strong>.</div>
         </div>
 
         ${symbolicRes.governingTheorem ? `
@@ -2594,55 +2873,148 @@ export class EquationEvaluator extends Elt {
       // Optional Pointwise Probe Section
       const probeCard = document.createElement("div");
       probeCard.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
-      probeCard.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
-          <span style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase;">
-            🔍 Optional Pointwise Evaluation Probe
-          </span>
-          <span style="font-size: 11px; color: #64748b;">(Test ${this.spec.rhsSymbol}(x₀) at specific domain points)</span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="background: #475569; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">x₀</span>
-            <span style="font-size: 12.5px; color: #334155;">Test Coordinate ∈ ℝ</span>
+
+      if (symbolicRes.isMultivariable && symbolicRes.variables && symbolicRes.variables.length > 1) {
+        const vars = symbolicRes.variables;
+        vars.forEach(v => {
+          if (this.curValues[v] === undefined) {
+            this.curValues[v] = 1.0;
+          }
+        });
+
+        probeCard.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+            <span style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase;">
+              🔍 Optional Pointwise Evaluation Probe (${this.multivarDiffMode.toUpperCase()})
+            </span>
+            <span style="font-size: 11px; color: #64748b;">(Test ${this.spec.rhsSymbol}(${vars.map(v => `${v}₀`).join(", ")}) at specific domain coordinates)</span>
           </div>
-          <div class="ee-probe-stepper" style="display: flex; align-items: center; gap: 4px;">
-            <button class="ee-probe-dec" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">-</button>
-            <input class="ee-probe-input ee-num-input" type="number" value="${this.curValues["x"] ?? 0}" step="0.5" style="width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px;" />
-            <button class="ee-probe-inc" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">+</button>
-            <span class="ee-probe-result" style="margin-left: 12px; font-family: monospace; font-size: 14px; font-weight: bold; color: #0284c7;"></span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${vars.map(v => `
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="background: #475569; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">${v}₀</span>
+                  <span style="font-size: 12px; color: #334155;">Coordinate ${v} ∈ ℝ</span>
+                </div>
+                <div class="ee-probe-stepper-${v}" style="display: flex; align-items: center; gap: 4px;">
+                  <button class="ee-probe-dec" data-var="${v}" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">-</button>
+                  <input class="ee-probe-input-${v} ee-num-input" type="number" value="${this.curValues[v] ?? 1}" step="0.5" style="width: 75px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px;" />
+                  <button class="ee-probe-inc" data-var="${v}" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">+</button>
+                </div>
+              </div>
+            `).join("")}
+            <div style="padding: 10px 14px; background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 700; color: #0369a1;">Evaluation Result:</span>
+              <span class="ee-probe-result-multivar" style="font-family: monospace; font-size: 14px; font-weight: bold; color: #0284c7;"></span>
+            </div>
           </div>
-        </div>
-      `;
+        `;
 
-      const pIn = probeCard.querySelector(".ee-probe-input") as HTMLInputElement;
-      const pDec = probeCard.querySelector(".ee-probe-dec") as HTMLButtonElement;
-      const pInc = probeCard.querySelector(".ee-probe-inc") as HTMLButtonElement;
-      const pRes = probeCard.querySelector(".ee-probe-result") as HTMLSpanElement;
+        const pRes = probeCard.querySelector(".ee-probe-result-multivar") as HTMLSpanElement;
 
-      const updateProbe = () => {
-        const xVal = parseFloat(pIn.value) || 0;
-        this.curValues["x"] = xVal;
-        const calcVal = safeEvalExpression(this.spec.lhsFormula, { x: xVal });
-        const calcStr = Number.isInteger(calcVal) ? calcVal.toString() : calcVal.toFixed(4);
-        pRes.innerHTML = `↳ ${this.spec.rhsSymbol}(${xVal}) = <strong>${calcStr}</strong>`;
-        this.updateOutput();
-      };
+        const updateMultivarProbe = () => {
+          vars.forEach(v => {
+            const inp = probeCard.querySelector(`.ee-probe-input-${v}`) as HTMLInputElement;
+            if (inp) {
+              this.curValues[v] = parseFloat(inp.value) || 0;
+            }
+          });
 
-      pDec.addEventListener("click", () => {
-        let v = (parseFloat(pIn.value) || 0) - 0.5;
-        pIn.value = (Math.round(v * 10) / 10).toString();
+          const coordsStr = vars.map(v => `${v}₀=${this.curValues[v]}`).join(", ");
+
+          if (this.multivarDiffMode === "gradient") {
+            const evaluatedVals = vars.map(v => {
+              const val = safeEvalExpression(this.spec.lhsFormula, this.curValues, v);
+              return Number.isInteger(val) ? val.toString() : val.toFixed(4);
+            });
+            pRes.innerHTML = `↳ ∇f(${coordsStr}) = <strong>[ ${evaluatedVals.join(", ")} ]</strong>`;
+          } else if (this.multivarDiffMode === "total") {
+            const evaluatedTerms = vars.map(v => {
+              const val = safeEvalExpression(this.spec.lhsFormula, this.curValues, v);
+              const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+              return `(${valStr})·d${v}`;
+            });
+            pRes.innerHTML = `↳ df(${coordsStr}) = <strong>${evaluatedTerms.join(" + ")}</strong>`;
+          } else {
+            // partial
+            const val = safeEvalExpression(this.spec.lhsFormula, this.curValues, this.multivarTargetVar);
+            const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+            pRes.innerHTML = `↳ ∂f/∂${this.multivarTargetVar}(${coordsStr}) = <strong>${valStr}</strong>`;
+          }
+          this.updateOutput();
+        };
+
+        vars.forEach(v => {
+          const decBtn = probeCard.querySelector(`.ee-probe-dec[data-var="${v}"]`) as HTMLButtonElement;
+          const incBtn = probeCard.querySelector(`.ee-probe-inc[data-var="${v}"]`) as HTMLButtonElement;
+          const inp = probeCard.querySelector(`.ee-probe-input-${v}`) as HTMLInputElement;
+
+          decBtn?.addEventListener("click", () => {
+            let val = (parseFloat(inp.value) || 0) - 0.5;
+            inp.value = (Math.round(val * 10) / 10).toString();
+            updateMultivarProbe();
+          });
+          incBtn?.addEventListener("click", () => {
+            let val = (parseFloat(inp.value) || 0) + 0.5;
+            inp.value = (Math.round(val * 10) / 10).toString();
+            updateMultivarProbe();
+          });
+          inp?.addEventListener("input", updateMultivarProbe);
+        });
+
+        updateMultivarProbe();
+        wrap.appendChild(probeCard);
+      } else {
+        probeCard.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+            <span style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase;">
+              🔍 Optional Pointwise Evaluation Probe
+            </span>
+            <span style="font-size: 11px; color: #64748b;">(Test ${this.spec.rhsSymbol}(x₀) at specific domain points)</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="background: #475569; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">x₀</span>
+              <span style="font-size: 12.5px; color: #334155;">Test Coordinate ∈ ℝ</span>
+            </div>
+            <div class="ee-probe-stepper" style="display: flex; align-items: center; gap: 4px;">
+              <button class="ee-probe-dec" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">-</button>
+              <input class="ee-probe-input ee-num-input" type="number" value="${this.curValues["x"] ?? 0}" step="0.5" style="width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px;" />
+              <button class="ee-probe-inc" style="width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;">+</button>
+              <span class="ee-probe-result" style="margin-left: 12px; font-family: monospace; font-size: 14px; font-weight: bold; color: #0284c7;"></span>
+            </div>
+          </div>
+        `;
+
+        const pIn = probeCard.querySelector(".ee-probe-input") as HTMLInputElement;
+        const pDec = probeCard.querySelector(".ee-probe-dec") as HTMLButtonElement;
+        const pInc = probeCard.querySelector(".ee-probe-inc") as HTMLButtonElement;
+        const pRes = probeCard.querySelector(".ee-probe-result") as HTMLSpanElement;
+
+        const updateProbe = () => {
+          const xVal = parseFloat(pIn.value) || 0;
+          this.curValues["x"] = xVal;
+          const calcVal = safeEvalExpression(this.spec.lhsFormula, { x: xVal }, this.multivarTargetVar);
+          const calcStr = Number.isInteger(calcVal) ? calcVal.toString() : calcVal.toFixed(4);
+          pRes.innerHTML = `↳ ${this.spec.rhsSymbol}(${xVal}) = <strong>${calcStr}</strong>`;
+          this.updateOutput();
+        };
+
+        pDec.addEventListener("click", () => {
+          let v = (parseFloat(pIn.value) || 0) - 0.5;
+          pIn.value = (Math.round(v * 10) / 10).toString();
+          updateProbe();
+        });
+        pInc.addEventListener("click", () => {
+          let v = (parseFloat(pIn.value) || 0) + 0.5;
+          pIn.value = (Math.round(v * 10) / 10).toString();
+          updateProbe();
+        });
+        pIn.addEventListener("input", updateProbe);
         updateProbe();
-      });
-      pInc.addEventListener("click", () => {
-        let v = (parseFloat(pIn.value) || 0) + 0.5;
-        pIn.value = (Math.round(v * 10) / 10).toString();
-        updateProbe();
-      });
-      pIn.addEventListener("input", updateProbe);
-      updateProbe();
 
-      wrap.appendChild(probeCard);
+        wrap.appendChild(probeCard);
+      }
     } else {
       // 2. LHS Instantiation Slots Panel
       const inputsCard = document.createElement("div");
@@ -2862,7 +3234,7 @@ export class EquationEvaluator extends Elt {
       `;
     }
 
-    const symbolicRes = resolveSymbolicRule(this.spec.lhsFormula);
+    const symbolicRes = this.getSymbolicResolution();
 
     let activeStencilBlock = "";
     if (symbolicRes.hasOperator && symbolicRes.symbolicFunction) {
@@ -2876,7 +3248,7 @@ export class EquationEvaluator extends Elt {
               </span>
             </div>
             <span style="background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #bbf7d0;">
-              ${symbolicRes.operatorSymbol} : (ℝ_ω → ℝ_ω) × ℝ_ω → ℝ_ω
+              ${symbolicRes.operatorSymbol} : ${symbolicRes.codomainStr || "(ℝ_ω → ℝ_ω) × ℝ_ω → ℝ_ω"}
             </span>
           </div>
 
