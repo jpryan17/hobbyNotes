@@ -1151,12 +1151,13 @@ export function differentiateExpression(expr: string, varName: string = "x"): st
       t = t.slice(1).trim();
     }
 
-    // Pure constant term (no variable inside): derivative is 0
-    if (!new RegExp(`\\b${varName}\\b`).test(t)) {
-      continue;
+    // Check if term contains variable as an identifier (not part of another word like 'exp' or 'max')
+    const varRegex = new RegExp(`(?:^|[^a-zA-Z_])${varName}(?:[^a-zA-Z0-9_]|$)`);
+    if (!varRegex.test(t)) {
+      continue; // Pure constant term: derivative is 0
     }
 
-    // Pattern 1: Monomial / Power rule: [c *] x [^ n]
+    // Pattern 1: Monomial / Power rule: [c *] x [^ n] or [c]x[^n]
     const powMatch = t.match(new RegExp(`^(?:(\\d+(?:\\.\\d+)?)\\s*[*·]?\\s*)?${varName}(?:\\^(\\d+))?$`));
     if (powMatch) {
       const coef = powMatch[1] ? parseFloat(powMatch[1]) : 1;
@@ -1173,7 +1174,7 @@ export function differentiateExpression(expr: string, varName: string = "x"): st
         termStr = newCoef === 1 ? `${varName}^${newExp}` : `${newCoef}·${varName}^${newExp}`;
       }
 
-      diffTerms.push(isNeg ? `-${termStr}` : (diffTerms.length > 0 ? `+ ${termStr}` : termStr));
+      diffTerms.push(isNeg ? (diffTerms.length > 0 ? `- ${termStr}` : `-${termStr}`) : (diffTerms.length > 0 ? `+ ${termStr}` : termStr));
       continue;
     }
 
@@ -1182,7 +1183,7 @@ export function differentiateExpression(expr: string, varName: string = "x"): st
     for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
       if (new RegExp(`^${fnKey}\\s*\\(\\s*${varName}\\s*\\)$`, "i").test(t)) {
         const fnDeriv = rule.derivativeFormula.replace(/x₀/g, varName);
-        diffTerms.push(isNeg ? `-${fnDeriv}` : (diffTerms.length > 0 ? `+ ${fnDeriv}` : fnDeriv));
+        diffTerms.push(isNeg ? (diffTerms.length > 0 ? `- ${fnDeriv}` : `-${fnDeriv}`) : (diffTerms.length > 0 ? `+ ${fnDeriv}` : fnDeriv));
         foundFn = true;
         break;
       }
@@ -1191,7 +1192,7 @@ export function differentiateExpression(expr: string, varName: string = "x"): st
 
     // Fallback for compound sub-expression
     const fallbackTerm = `d/d${varName}(${t})`;
-    diffTerms.push(isNeg ? `-${fallbackTerm}` : (diffTerms.length > 0 ? `+ ${fallbackTerm}` : fallbackTerm));
+    diffTerms.push(isNeg ? (diffTerms.length > 0 ? `- ${fallbackTerm}` : `-${fallbackTerm}`) : (diffTerms.length > 0 ? `+ ${fallbackTerm}` : fallbackTerm));
   }
 
   return diffTerms.length > 0 ? diffTerms.join(" ") : "0";
