@@ -17,6 +17,15 @@ function extractHtmlSegmentIds(items, segmentIds = new Set()) {
     return segmentIds;
 }
 async function loadAppMainIndex(app) {
+    if (typeof globalThis.HTMLElement === 'undefined') {
+        globalThis.HTMLElement = class {
+        };
+        globalThis.customElements = { get: () => undefined, define: () => { } };
+        globalThis.document = {
+            createElement: () => ({ setAttribute: () => { }, appendChild: () => { }, style: {} }),
+            addEventListener: () => { }
+        };
+    }
     const indexPath = (0, path_1.resolve)(__dirname, `../../${app}/public/${app}/src/indices.js`);
     const module = await import((0, url_1.pathToFileURL)(indexPath).href);
     if (!module.mainIndex) {

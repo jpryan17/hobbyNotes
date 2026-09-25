@@ -414,12 +414,12 @@ async function generateSeedSql() {
                 refInserts.push(`  (${refCounter++}, ${segId}, ${stId}, ${mId !== null ? mId : 'NULL'}, NULL, '${focus}', ${occurrence++}, ${escapeSql(anchor)}, ${escapeSql(match[0])})`);
             }
         }
-        // Scan for cas-ref tags (computational emphasis: initial_focus = 'calculator')
-        const casRegex = /<cas-ref\s+([^>]*?)>(.*?)<\/cas-ref>/gi;
-        while ((match = casRegex.exec(html)) !== null) {
+        // Scan for eq-ref tags (computational emphasis: initial_focus = 'calculator')
+        const eqRegex = /<(?:cas-ref|eq-ref)\s+([^>]*?)>(.*?)<\/(?:cas-ref|eq-ref)>/gi;
+        while ((match = eqRegex.exec(html)) !== null) {
             const attrs = match[1];
             const anchor = match[2].replace(/<[^>]*>/g, '').trim();
-            const calcMatch = /calc-id=["']([^"']+)["']/i.exec(attrs);
+            const calcMatch = /(?:calc-id|eq-id)=["']([^"']+)["']/i.exec(attrs);
             const calcId = calcMatch ? calcMatch[1] : null;
             let stId = null;
             let mId = null;

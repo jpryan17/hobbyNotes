@@ -25,6 +25,14 @@ export function extractHtmlSegmentIds(items: IndexItemDesc[], segmentIds: Set<st
 }
 
 export async function loadAppMainIndex(app: string): Promise<IndexItemDesc[]> {
+    if (typeof (globalThis as any).HTMLElement === 'undefined') {
+        (globalThis as any).HTMLElement = class {};
+        (globalThis as any).customElements = { get: () => undefined, define: () => {} };
+        (globalThis as any).document = {
+            createElement: () => ({ setAttribute: () => {}, appendChild: () => {}, style: {} }),
+            addEventListener: () => {}
+        };
+    }
     const indexPath = resolve(__dirname, `../../${app}/public/${app}/src/indices.js`);
     const module = await import(pathToFileURL(indexPath).href);
     if (!module.mainIndex) {

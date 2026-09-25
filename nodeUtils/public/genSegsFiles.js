@@ -7,7 +7,7 @@ const genTTDRefs_js_1 = require("./genTTDRefs.js");
 const genFSDRefs_js_1 = require("./genFSDRefs.js");
 const genBTDRefs_js_1 = require("./genBTDRefs.js");
 const genBIDRefs_js_1 = require("./genBIDRefs.js");
-const genCASRefs_js_1 = require("./genCASRefs.js");
+const genEqRefs_js_1 = require("./genEqRefs.js");
 async function processSegFolder(app) {
     const segFolder = (0, path_1.resolve)(__dirname, `../../${app}/segs`);
     const segArray = [];
@@ -23,12 +23,12 @@ async function processSegFolder(app) {
                 continue;
             }
             try {
-                // Pre-process TTD, FSD, BTD, BID, and CAS reference tags in tandem
+                // Pre-process TTD, FSD, BTD, BID, and EQ reference tags in tandem
                 (0, genTTDRefs_js_1.processTTDRefFile)(filePath);
                 (0, genFSDRefs_js_1.processFSDRefFile)(filePath);
                 (0, genBTDRefs_js_1.processBTDRefFile)(filePath);
                 (0, genBIDRefs_js_1.processBIDRefFile)(filePath);
-                (0, genCASRefs_js_1.processCASRefFile)(filePath);
+                (0, genEqRefs_js_1.processEqRefFile)(filePath);
                 const body = (0, fs_1.readFileSync)(filePath, 'utf8');
                 const startMatch = /<body[^>]*>/i.exec(body);
                 const endMatch = /<\/body>/i.exec(body);

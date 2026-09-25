@@ -123,7 +123,8 @@
     • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
     • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
     • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.
+    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>.
   </div>
 
   <hr>
@@ -179,7 +180,7 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
     • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">f(x) = x² Halo Expansion &amp; Preservation</cas-ref>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
   </div>
 
   <hr>
@@ -220,7 +221,7 @@
     • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
     • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
     • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_ivt_bisection" expr="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</cas-ref>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</eq-ref>
   </div>
 
   <hr>

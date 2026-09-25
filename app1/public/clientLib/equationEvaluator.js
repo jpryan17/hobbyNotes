@@ -1,5 +1,4 @@
 import { Elt } from "./elt.js";
-import { FSDRef } from "./fsdRef.js";
 export const EQUATION_PRESETS = {
     nucleus_halo_1d: {
         id: "nucleus_halo_1d",
@@ -109,48 +108,248 @@ export const EQUATION_PRESETS = {
                 ]
             };
         }
+    },
+    telescoping_sum: {
+        id: "telescoping_sum",
+        title: "Discrete FTC Telescoping Sum",
+        lhsFormula: "∑_{k=0}^{n-1} ΔF(k)  [ F(k) = c · k² ]",
+        rhsSymbol: "Total",
+        rhsDomain: "ℝ",
+        description: "Evaluates pairwise cancellation across n steps on the discrete tree.",
+        governingTheorem: "telescoping_ftc",
+        inputs: [
+            { name: "n", symbol: "n", domain: "ℕ", defaultValue: 5, step: 1, min: 1, max: 50, description: "Number of discrete slices" },
+            { name: "c", symbol: "c", domain: "ℝ", defaultValue: 1.0, step: 0.5, min: -10, max: 10, description: "Quadratic coefficient" }
+        ],
+        evaluate: (vals) => {
+            const n = Math.max(1, Math.round(vals["n"] ?? 5));
+            const c = vals["c"] ?? 1.0;
+            const f0 = 0;
+            const fn = c * n * n;
+            const total = fn - f0;
+            return {
+                displayValue: `${total}`,
+                hardPart: `${total}`,
+                dustPart: "0",
+                isHard: true,
+                details: [
+                    `Boundary Values: F(0) = ${f0}, F(${n}) = ${fn}`,
+                    `Telescoping Guarantee: F(n) - F(0) = ${total}`,
+                    `All intermediate internal differences ΔF(1)...ΔF(${n - 1}) cancel pairwise.`
+                ]
+            };
+        }
+    },
+    bayes_filter: {
+        id: "bayes_filter",
+        title: "3-Stage Bayesian Filter",
+        lhsFormula: "(P(D|H) · P(H)) / (P(D|H)·P(H) + P(D|¬H)·P(¬H))",
+        rhsSymbol: "P(H|D)",
+        rhsDomain: "ℝ",
+        description: "Evaluates normalized posterior probability given prior belief and evidence likelihood.",
+        governingTheorem: "bayes_filter_normalization",
+        inputs: [
+            { name: "prior", symbol: "P(H)", domain: "ℝ", defaultValue: 0.01, step: 0.01, min: 0.001, max: 0.999, description: "Prior base rate" },
+            { name: "sens", symbol: "P(D|H)", domain: "ℝ", defaultValue: 0.95, step: 0.05, min: 0.01, max: 1.0, description: "Sensitivity / true positive rate" },
+            { name: "fpr", symbol: "P(D|¬H)", domain: "ℝ", defaultValue: 0.05, step: 0.01, min: 0.001, max: 0.999, description: "False positive rate" }
+        ],
+        evaluate: (vals) => {
+            const prior = vals["prior"] ?? 0.01;
+            const sens = vals["sens"] ?? 0.95;
+            const fpr = vals["fpr"] ?? 0.05;
+            const numerator = sens * prior;
+            const denominator = numerator + fpr * (1.0 - prior);
+            const posterior = denominator > 0 ? numerator / denominator : 0;
+            return {
+                displayValue: posterior.toFixed(4),
+                hardPart: posterior.toFixed(4),
+                dustPart: "0",
+                isHard: true,
+                details: [
+                    `Joint Evidence Weight: P(D ∧ H) = ${numerator.toFixed(5)}`,
+                    `Marginal Likelihood: P(D) = ${denominator.toFixed(5)}`,
+                    `Posterior Probability: ${(posterior * 100).toFixed(2)}%`
+                ]
+            };
+        }
     }
 };
 /**
- * Skeletal Equation Evaluator Component.
- * Implements a clean, single-slot RHS equation evaluation: LHS(x₁, x₂, ...) = y
+ * Parses free variable identifiers from a mathematical expression string.
+ */
+function extractFreeVariables(expr) {
+    const tokens = expr.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
+    const reserved = new Set(["sin", "cos", "tan", "exp", "log", "sqrt", "abs", "Math", "PI", "E", "dx", "st", "dt", "i"]);
+    const vars = new Set();
+    for (const t of tokens) {
+        if (!reserved.has(t)) {
+            vars.add(t);
+        }
+    }
+    return Array.from(vars);
+}
+/**
+ * Safely evaluates a mathematical expression string for given variable numbers.
+ */
+function safeEvalExpression(expr, vals) {
+    try {
+        // Replace standard math functions with Math.*
+        let jsExpr = expr
+            .replace(/\^/g, "**")
+            .replace(/\bsin\b/g, "Math.sin")
+            .replace(/\bcos\b/g, "Math.cos")
+            .replace(/\btan\b/g, "Math.tan")
+            .replace(/\bexp\b/g, "Math.exp")
+            .replace(/\blog\b/g, "Math.log")
+            .replace(/\bsqrt\b/g, "Math.sqrt")
+            .replace(/\babs\b/g, "Math.abs")
+            .replace(/\bpi\b/gi, "Math.PI");
+        const varNames = Object.keys(vals);
+        const varValues = varNames.map(k => vals[k]);
+        const fn = new Function(...varNames, `return (${jsExpr});`);
+        const res = fn(...varValues);
+        return typeof res === "number" && !isNaN(res) ? res : 0;
+    }
+    catch {
+        return 0;
+    }
+}
+/**
+ * Skeletal Equation Evaluator Component & Interactive Builder.
+ * Implements clean, single-slot RHS equation evaluation: LHS(x₁, x₂, ...) = y
  * Customizes display breakdown dynamically according to the RHS codomain.
  */
 export class EquationEvaluator extends Elt {
     spec;
+    isCustomMode = false;
+    customFormula = "2*x + 3";
+    customDomain = "ℝ";
+    customRhsSymbol = "y";
     curValues = {};
     outBox;
-    constructor(spec) {
+    controlsGrid;
+    contentContainer;
+    constructor(initialPresetOrSpec) {
         super("div");
-        this.spec = spec;
-        for (const input of spec.inputs) {
-            this.curValues[input.name] = Number(input.defaultValue) || 0;
+        if (typeof initialPresetOrSpec === "string" && EQUATION_PRESETS[initialPresetOrSpec]) {
+            this.spec = EQUATION_PRESETS[initialPresetOrSpec];
         }
+        else if (typeof initialPresetOrSpec === "object" && initialPresetOrSpec !== null) {
+            this.spec = initialPresetOrSpec;
+        }
+        else {
+            this.spec = EQUATION_PRESETS["nucleus_halo_1d"];
+        }
+        this.initValues();
         this.render();
     }
+    initValues() {
+        this.curValues = {};
+        for (const input of this.spec.inputs) {
+            this.curValues[input.name] = Number(input.defaultValue) || 0;
+        }
+    }
+    selectPreset(presetId) {
+        if (EQUATION_PRESETS[presetId]) {
+            this.isCustomMode = false;
+            this.spec = EQUATION_PRESETS[presetId];
+            this.initValues();
+            this.render();
+        }
+    }
+    switchToCustom(formula, domain) {
+        this.isCustomMode = true;
+        if (formula)
+            this.customFormula = formula;
+        if (domain)
+            this.customDomain = domain;
+        this.rebuildCustomSpec();
+        this.render();
+    }
+    rebuildCustomSpec() {
+        const freeVars = extractFreeVariables(this.customFormula);
+        const inputs = freeVars.length > 0
+            ? freeVars.map(v => ({
+                name: v,
+                symbol: v,
+                domain: this.customDomain === "ℂ_ω" || this.customDomain === "ℂ" ? "ℂ" : "ℝ",
+                defaultValue: 2.0,
+                step: 0.5,
+                min: -100,
+                max: 100,
+                description: `User instantiated variable ${v}`
+            }))
+            : [{ name: "x", symbol: "x", domain: "ℝ", defaultValue: 1.0, step: 0.5, min: -100, max: 100, description: "Variable x" }];
+        this.spec = {
+            id: "custom_equation",
+            title: "Interactive Custom Equation Builder",
+            lhsFormula: this.customFormula,
+            rhsSymbol: this.customRhsSymbol,
+            rhsDomain: this.customDomain,
+            description: "Direct user-built equation evaluation on the Middle Way canvas.",
+            inputs,
+            evaluate: (vals) => {
+                const val = safeEvalExpression(this.customFormula, vals);
+                const isHalo = this.customDomain === "ℝ_ω" || this.customDomain === "ℂ_ω";
+                const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(3);
+                return {
+                    displayValue: isHalo ? `${valStr} + 0·dx` : valStr,
+                    hardPart: valStr,
+                    dustPart: isHalo ? "0·dx" : "0",
+                    isHard: true,
+                    details: [
+                        `Evaluated via JavaScript arithmetic engine: LHS = ${valStr}`,
+                        `Domain Target: ${this.customRhsSymbol} ∈ ${this.customDomain}`
+                    ]
+                };
+            }
+        };
+        this.initValues();
+    }
     render() {
-        const box = document.createElement("div");
-        box.style.cssText = "max-width: 860px; margin: 0 auto; border: 1.5px solid #0284c7; border-radius: 8px; background: #f0f9ff; padding: 20px 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif;";
-        // 1. Header Row
-        const headerRow = document.createElement("div");
-        headerRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1.5px solid #bae6fd; padding-bottom: 12px; margin-bottom: 16px;";
-        const titleGroup = document.createElement("div");
-        titleGroup.style.cssText = "display: flex; align-items: center; gap: 10px; flex-wrap: wrap;";
-        const titleText = document.createElement("span");
-        titleText.style.cssText = "font-weight: 800; font-size: 16px; color: #0369a1;";
-        titleText.textContent = `🎯 ${this.spec.title}`;
-        titleGroup.appendChild(titleText);
-        // RHS Codomain Badge
-        const domainBadge = document.createElement("span");
-        domainBadge.style.cssText = "font-size: 11px; font-weight: 700; background: #e0f2fe; color: #0284c7; padding: 3px 8px; border-radius: 4px; border: 1px solid #bae6fd;";
-        domainBadge.textContent = `RHS Slot: ${this.spec.rhsSymbol} ∈ ${this.spec.rhsDomain}`;
-        titleGroup.appendChild(domainBadge);
-        headerRow.appendChild(titleGroup);
-        // Link button to governing theorem if provided
-        if (this.spec.governingTheorem) {
+        this.elt.innerHTML = "";
+        const wrap = document.createElement("div");
+        wrap.style.cssText = "max-width: 900px; margin: 0 auto; border: 1.5px solid #0284c7; border-radius: 8px; background: #f0f9ff; padding: 20px 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif;";
+        // 1. Preset Selector & Mode Toolbar
+        const toolbar = document.createElement("div");
+        toolbar.style.cssText = "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1.5px solid #bae6fd;";
+        const selectorGroup = document.createElement("div");
+        selectorGroup.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;";
+        const selLabel = document.createElement("span");
+        selLabel.style.cssText = "font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase;";
+        selLabel.textContent = "Equation Preset:";
+        selectorGroup.appendChild(selLabel);
+        const select = document.createElement("select");
+        select.style.cssText = "padding: 5px 10px; font-size: 13px; font-weight: 600; color: #0f172a; border: 1px solid #0284c7; border-radius: 4px; background: #ffffff; cursor: pointer;";
+        for (const [key, preset] of Object.entries(EQUATION_PRESETS)) {
+            const opt = document.createElement("option");
+            opt.value = key;
+            opt.textContent = `${preset.title} (${preset.rhsSymbol} ∈ ${preset.rhsDomain})`;
+            if (!this.isCustomMode && this.spec.id === key)
+                opt.selected = true;
+            select.appendChild(opt);
+        }
+        const customOpt = document.createElement("option");
+        customOpt.value = "custom";
+        customOpt.textContent = "✏️ [Custom Equation Builder...]";
+        if (this.isCustomMode)
+            customOpt.selected = true;
+        select.appendChild(customOpt);
+        select.addEventListener("change", () => {
+            if (select.value === "custom") {
+                this.switchToCustom();
+            }
+            else {
+                this.selectPreset(select.value);
+            }
+        });
+        selectorGroup.appendChild(select);
+        toolbar.appendChild(selectorGroup);
+        // Link button to governing theorem if in preset mode
+        if (!this.isCustomMode && this.spec.governingTheorem) {
             const thmBtn = document.createElement("button");
             thmBtn.style.cssText = "background: #ffffff; border: 1px solid #0284c7; color: #0284c7; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;";
-            thmBtn.textContent = `📜 Governing Theorem: MiddleWay.${this.spec.governingTheorem}`;
+            thmBtn.textContent = `📜 Scaffold: MiddleWay.${this.spec.governingTheorem}`;
             thmBtn.addEventListener("mouseover", () => {
                 thmBtn.style.background = "#0284c7";
                 thmBtn.style.color = "#ffffff";
@@ -159,14 +358,67 @@ export class EquationEvaluator extends Elt {
                 thmBtn.style.background = "#ffffff";
                 thmBtn.style.color = "#0284c7";
             });
-            thmBtn.addEventListener("click", (e) => {
+            thmBtn.addEventListener("click", async (e) => {
                 e.stopPropagation();
+                const { FSDRef } = await import("./fsdRef.js");
                 FSDRef.openScaffoldCard(this.spec.governingTheorem, `MiddleWay.${this.spec.governingTheorem}`);
             });
-            headerRow.appendChild(thmBtn);
+            toolbar.appendChild(thmBtn);
         }
-        box.appendChild(headerRow);
-        // 2. Equation Contract Specification Box
+        wrap.appendChild(toolbar);
+        // 2. Custom Expression Builder Panel (if in custom mode)
+        if (this.isCustomMode) {
+            const builderPanel = document.createElement("div");
+            builderPanel.style.cssText = "background: #ffffff; border: 1.5px solid #0284c7; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
+            builderPanel.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 10px;">
+          🛠️ Custom Equation Definition (LHS ⟹ Single RHS Slot)
+        </div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end; flex-wrap: wrap;">
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">LHS Expression Formula</label>
+            <input id="eeCustomLhsInput" type="text" value="${this.customFormula}" style="width: 100%; box-sizing: border-box; padding: 6px 10px; font-family: monospace; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" placeholder="e.g. 2*x + 3" />
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">Codomain</label>
+            <select id="eeCustomDomainSelect" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;">
+              <option value="ℝ" ${this.customDomain === 'ℝ' ? 'selected' : ''}>ℝ (Standard Real)</option>
+              <option value="ℝ_ω" ${this.customDomain === 'ℝ_ω' ? 'selected' : ''}>ℝ_ω (Hyperreal Halo)</option>
+              <option value="ℂ" ${this.customDomain === 'ℂ' ? 'selected' : ''}>ℂ (Standard Complex)</option>
+              <option value="ℂ_ω" ${this.customDomain === 'ℂ_ω' ? 'selected' : ''}>ℂ_ω (Complex Halo)</option>
+              <option value="ℕ" ${this.customDomain === 'ℕ' ? 'selected' : ''}>ℕ (Natural)</option>
+              <option value="𝔹" ${this.customDomain === '𝔹' ? 'selected' : ''}>𝔹 (Boolean)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">RHS Symbol</label>
+            <input id="eeCustomRhsSymbol" type="text" value="${this.customRhsSymbol}" style="width: 100%; box-sizing: border-box; padding: 6px 10px; font-family: monospace; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+          </div>
+          <div>
+            <button id="eeCustomApplyBtn" style="padding: 7px 16px; background: #0284c7; color: #ffffff; font-size: 12px; font-weight: 700; border: none; border-radius: 4px; cursor: pointer;">
+              ⚡ Build &amp; Slot
+            </button>
+          </div>
+        </div>
+      `;
+            wrap.appendChild(builderPanel);
+            setTimeout(() => {
+                const applyBtn = builderPanel.querySelector("#eeCustomApplyBtn");
+                const lhsIn = builderPanel.querySelector("#eeCustomLhsInput");
+                const domSel = builderPanel.querySelector("#eeCustomDomainSelect");
+                const rhsIn = builderPanel.querySelector("#eeCustomRhsSymbol");
+                if (applyBtn && lhsIn && domSel && rhsIn) {
+                    applyBtn.addEventListener("click", () => {
+                        this.customFormula = lhsIn.value.trim() || "x";
+                        this.customDomain = domSel.value;
+                        this.customRhsSymbol = rhsIn.value.trim() || "y";
+                        this.rebuildCustomSpec();
+                        this.render();
+                    });
+                }
+            }, 0);
+        }
+        // 3. Equation Contract Specification Header
         const specBox = document.createElement("div");
         specBox.style.cssText = "background: #ffffff; border: 1px solid #e0f2fe; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; color: #334155;";
         specBox.innerHTML = `
@@ -174,54 +426,59 @@ export class EquationEvaluator extends Elt {
       <div><strong>Evaluated Identity:</strong> <code style="background:#f1f5f9; padding:2px 8px; border-radius:4px; font-family:monospace; font-size:14px; font-weight:bold; color:#0f172a;">${this.spec.lhsFormula} &nbsp;= &nbsp;${this.spec.rhsSymbol}</code></div>
       <div style="margin-top: 4px; color: #475569; font-style: italic;">${this.spec.description}</div>
     `;
-        box.appendChild(specBox);
-        // 3. LHS Input Slots Panel
+        wrap.appendChild(specBox);
+        // 4. LHS Input Slots Panel
         const inputsCard = document.createElement("div");
         inputsCard.style.cssText = "background: #ffffff; border: 1px solid #bae6fd; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
         const inputsTitle = document.createElement("div");
         inputsTitle.style.cssText = "font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;";
-        inputsTitle.innerHTML = `<span>⚙️ LHS Instantiation Slots</span> <span style="font-size:11px; font-weight:normal; text-transform:none; color:#64748b;">(Instantiate each variable)</span>`;
+        inputsTitle.innerHTML = `<span>⚙️ LHS Instantiation Slots</span> <span style="font-size:11px; font-weight:normal; text-transform:none; color:#64748b;">(Instantiate all free variables to produce RHS output)</span>`;
         inputsCard.appendChild(inputsTitle);
-        const controlsGrid = document.createElement("div");
-        controlsGrid.style.cssText = "display: flex; flex-direction: column; gap: 10px;";
+        this.controlsGrid = document.createElement("div");
+        this.controlsGrid.style.cssText = "display: flex; flex-direction: column; gap: 10px;";
         for (const slot of this.spec.inputs) {
             const row = document.createElement("div");
-            row.style.cssText = "display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 6px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;";
-            // Left info
+            row.style.cssText = "display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;";
+            // Left: symbol & domain badge
             const infoDiv = document.createElement("div");
             infoDiv.style.cssText = "display: flex; align-items: center; gap: 8px;";
             const symBadge = document.createElement("span");
-            symBadge.style.cssText = "font-family: monospace; font-size: 14px; font-weight: bold; color: #0f172a; min-width: 24px;";
+            symBadge.style.cssText = "background: #0284c7; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;";
             symBadge.textContent = slot.symbol;
             infoDiv.appendChild(symBadge);
-            const dPill = document.createElement("span");
-            dPill.style.cssText = "font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 1px 6px; border-radius: 3px;";
-            dPill.textContent = `∈ ${slot.domain}`;
-            infoDiv.appendChild(dPill);
+            const domainBadge = document.createElement("span");
+            domainBadge.style.cssText = "font-size: 11px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px;";
+            domainBadge.textContent = `∈ ${slot.domain}`;
+            infoDiv.appendChild(domainBadge);
             if (slot.description) {
-                const descEl = document.createElement("span");
-                descEl.style.cssText = "font-size: 12px; color: #64748b;";
-                descEl.textContent = slot.description;
-                infoDiv.appendChild(descEl);
+                const descSpan = document.createElement("span");
+                descSpan.style.cssText = "font-size: 12px; color: #475569;";
+                descSpan.textContent = slot.description;
+                infoDiv.appendChild(descSpan);
             }
             row.appendChild(infoDiv);
-            // Right controls
+            // Right: Stepper [-] [Input] [+]
             const ctrlDiv = document.createElement("div");
-            ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 6px;";
-            const step = slot.step ?? 1;
+            ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 4px;";
             const decBtn = document.createElement("button");
+            decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;";
             decBtn.textContent = "-";
-            decBtn.style.cssText = "width: 28px; height: 28px; font-size: 14px; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff; cursor: pointer;";
             const numInput = document.createElement("input");
             numInput.type = "number";
             numInput.value = (this.curValues[slot.name] ?? slot.defaultValue).toString();
-            numInput.style.cssText = "width: 65px; height: 26px; padding: 0 4px; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: bold;";
+            numInput.step = (slot.step ?? 1).toString();
+            if (slot.min !== undefined)
+                numInput.min = slot.min.toString();
+            if (slot.max !== undefined)
+                numInput.max = slot.max.toString();
+            numInput.style.cssText = "width: 70px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 4px;";
             const incBtn = document.createElement("button");
+            incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;";
             incBtn.textContent = "+";
-            incBtn.style.cssText = "width: 28px; height: 28px; font-size: 14px; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff; cursor: pointer;";
+            const step = slot.step ?? 1;
             decBtn.addEventListener("click", () => {
-                let cur = this.curValues[slot.name];
-                cur = parseFloat((cur - step).toFixed(2));
+                let cur = Number(numInput.value);
+                cur = Math.round((cur - step) * 1000) / 1000;
                 if (slot.min !== undefined && cur < slot.min)
                     cur = slot.min;
                 this.curValues[slot.name] = cur;
@@ -229,8 +486,8 @@ export class EquationEvaluator extends Elt {
                 this.updateOutput();
             });
             incBtn.addEventListener("click", () => {
-                let cur = this.curValues[slot.name];
-                cur = parseFloat((cur + step).toFixed(2));
+                let cur = Number(numInput.value);
+                cur = Math.round((cur + step) * 1000) / 1000;
                 if (slot.max !== undefined && cur > slot.max)
                     cur = slot.max;
                 this.curValues[slot.name] = cur;
@@ -248,18 +505,20 @@ export class EquationEvaluator extends Elt {
             ctrlDiv.appendChild(numInput);
             ctrlDiv.appendChild(incBtn);
             row.appendChild(ctrlDiv);
-            controlsGrid.appendChild(row);
+            this.controlsGrid.appendChild(row);
         }
-        inputsCard.appendChild(controlsGrid);
-        box.appendChild(inputsCard);
-        // 4. RHS Single Target Output Slot
+        inputsCard.appendChild(this.controlsGrid);
+        wrap.appendChild(inputsCard);
+        // 5. RHS Single Target Output Slot
         this.outBox = document.createElement("div");
         this.outBox.style.cssText = "background: #ffffff; border: 1.5px solid #0284c7; border-radius: 6px; padding: 16px; font-family: monospace; font-size: 13px; color: #0f172a;";
-        box.appendChild(this.outBox);
-        this.elt.appendChild(box);
+        wrap.appendChild(this.outBox);
+        this.elt.appendChild(wrap);
         this.updateOutput();
     }
     updateOutput() {
+        if (!this.outBox)
+            return;
         const res = this.spec.evaluate(this.curValues);
         const domain = this.spec.rhsDomain;
         const sym = this.spec.rhsSymbol;

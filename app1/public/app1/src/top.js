@@ -4,13 +4,13 @@ import { FSDRef } from '../../clientLib/fsdRef.js';
 import { BTDRef } from '../../clientLib/btdRef.js';
 import { BIDRef } from '../../clientLib/bidRef.js';
 import { StemCard } from '../../clientLib/stemCard.js';
-import { CasRef } from '../../clientLib/casRef.js';
-import { MwmCasCalculator } from '../../clientLib/mwmCasCalculator.js';
+import { EqRef } from '../../clientLib/eqRef.js';
 import { mainIndex, hydrateDiagramCallbacks } from './indices.js';
 import { setTTD } from '../../clientLib/ttd.js';
 import { setFSD } from '../../clientLib/fsd.js';
 import { setBTD } from '../../clientLib/btd.js';
 import { setBID } from '../../clientLib/bid.js';
+import { setEqDemo } from '../../clientLib/eqDemo.js';
 export function top(edit = false) {
     new Nav('app1', null, edit);
     if (!customElements.get('ttd-ref'))
@@ -23,14 +23,13 @@ export function top(edit = false) {
         customElements.define('bid-ref', BIDRef);
     if (!customElements.get('stem-card'))
         customElements.define('stem-card', StemCard);
-    if (!customElements.get('cas-ref'))
-        customElements.define('cas-ref', CasRef);
-    if (!customElements.get('mwm-cas-calculator'))
-        customElements.define('mwm-cas-calculator', MwmCasCalculator);
+    if (!customElements.get('eq-ref'))
+        customElements.define('eq-ref', EqRef);
     setTTD();
     setFSD();
     setBTD();
     setBID();
+    setEqDemo();
     Nav.clearNavLine();
     const activeIndex = (typeof window !== 'undefined' && window.__MWM_DEV_INDEX__)
         ? hydrateDiagramCallbacks(window.__MWM_DEV_INDEX__)

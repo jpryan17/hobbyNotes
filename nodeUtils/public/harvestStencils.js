@@ -3,7 +3,7 @@
  * Page Harvester & Algebraic Stencil Generator
  *
  * Crawls through the 52 curricular segments, extracts Formal Statements (<fsd-ref>),
- * Scaffolds (SCAFFOLD_REGISTRY), and Presets (<cas-ref>), and emits a normalized
+ * Scaffolds (SCAFFOLD_REGISTRY), and Presets (<eq-ref>), and emits a normalized
  * relational catalog (fsCatalog.json and fsCatalog.ts) with pure Formal Statements,
  * FS hierarchies (parentId), type classification (math/physics/information),
  * directional calculation stencils, and verified example presets.
@@ -66,9 +66,9 @@ function harvestCurricularStencils() {
             }
             scaffoldSegmentMap[key].add(segId);
         }
-        // Extract cas-ref preset attributes
-        const casRegex = /<cas-ref[^>]*\bpreset=["']([^"']+)["'][^>]*>/gi;
-        while ((match = casRegex.exec(content)) !== null) {
+        // Extract eq-ref preset/eq-id attributes
+        const eqRegex = /<(?:cas-ref|eq-ref)[^>]*\b(?:preset|eq-id)=["']([^"']+)["'][^>]*>/gi;
+        while ((match = eqRegex.exec(content)) !== null) {
             casOccurrences.push({ segId, preset: match[1] });
         }
     }

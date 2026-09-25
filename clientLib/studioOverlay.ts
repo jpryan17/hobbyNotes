@@ -1048,7 +1048,7 @@ export class StudioOverlay {
         wysiwygDiv.addEventListener('mouseup', saveWysiwygRange);
 
         const protectStencils = (root: HTMLElement) => {
-            root.querySelectorAll('fsd-ref, cas-ref, ttd-ref').forEach((el) => {
+            root.querySelectorAll('fsd-ref, eq-ref, ttd-ref').forEach((el) => {
                 el.setAttribute('contenteditable', 'false');
                 if (el.tagName.toLowerCase() === 'ttd-ref' && !el.querySelector('.ttd-chip-del')) {
                     const delBtn = document.createElement('span');
@@ -2230,7 +2230,7 @@ export class StudioOverlay {
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
                                 <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[+ Stencil]</div>
-                                <div><strong>Interactive Stencil Picker:</strong> Search and insert reusable mathematical scaffolds directly into content: Lean 4 formal statements (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;fsd-ref&gt;</code>), CAS Maxima calculation calculators (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;cas-ref&gt;</code>), and STEM cards.</div>
+                                <div><strong>Interactive Stencil Picker:</strong> Search and insert reusable mathematical scaffolds directly into content: Lean 4 formal statements (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;fsd-ref&gt;</code>), equation evaluators (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;eq-ref&gt;</code>), and STEM cards.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
@@ -2929,7 +2929,7 @@ export class StudioOverlay {
             .studio-wysiwyg-editor th { background: #1e3a8a; color: white; padding: 8px 12px; text-align: left; }
             .studio-wysiwyg-editor td { border-bottom: 1px solid #e2e8f0; padding: 8px 12px; }
             /* Atomic Stencil Chips in WYSIWYG */
-            .studio-wysiwyg-editor fsd-ref, .studio-wysiwyg-editor cas-ref {
+            .studio-wysiwyg-editor fsd-ref, .studio-wysiwyg-editor eq-ref {
                 display: inline-block;
                 background: #eff6ff;
                 border: 1.5px solid #3b82f6;
@@ -2941,7 +2941,7 @@ export class StudioOverlay {
                 cursor: pointer;
                 user-select: all;
             }
-            .studio-wysiwyg-editor cas-ref {
+            .studio-wysiwyg-editor eq-ref {
                 background: #ecfdf5;
                 border-color: #10b981;
                 color: #064e3b;
