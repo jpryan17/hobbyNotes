@@ -117,6 +117,22 @@ async function generateSeedSql() {
     sql.push(`-- Normalized MWM-DB: Middle Way Math Single Source of Truth`);
     sql.push(`-- Generated At: ${new Date().toISOString()}`);
     sql.push(`-- =====================================================================\n`);
+    // 0. Clean Table Reset for Idempotent Seeding
+    sql.push(`-- 0. Clean Table Reset for Idempotent Seeding`);
+    sql.push(`TRUNCATE TABLE`);
+    sql.push(`  segment_references,`);
+    sql.push(`  segment_prerequisites,`);
+    sql.push(`  curriculum_nav_items,`);
+    sql.push(`  verified_presets,`);
+    sql.push(`  mode_slots,`);
+    sql.push(`  calculation_modes,`);
+    sql.push(`  parameter_mining_jobs,`);
+    sql.push(`  lean_verifications,`);
+    sql.push(`  maxima_verifications,`);
+    sql.push(`  formal_statements,`);
+    sql.push(`  segments,`);
+    sql.push(`  apps`);
+    sql.push(`RESTART IDENTITY CASCADE;\n`);
     // Key-to-ID Maps
     const appKeyToId = { app1: 1, app2: 2 };
     const segKeyToId = {};

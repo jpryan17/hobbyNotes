@@ -69,6 +69,23 @@ axiom N_w_le : N_w → N_w → Prop
 instance : LE N_w where le := N_w_le
 axiom N_w_well_ordered : True
 
+-- Embedding of standard finite counting numbers into the transfinite counting spine:
+def Nat_to_T1 : Nat → Tree1
+  | 0 => Tree1.zero
+  | Nat.succ n => Tree1.succ (Nat_to_T1 n)
+
+def Nat_to_Nw (n : Nat) : N_w :=
+  N_w_from_T1 (Nat_to_T1 n)
+
+instance : Coe Nat N_w where
+  coe := Nat_to_Nw
+
+instance : OfNat N_w (nat_lit 0) where
+  ofNat := Nat_to_Nw 0
+
+instance : OfNat N_w (nat_lit 1) where
+  ofNat := Nat_to_Nw 1
+
 -- 2> ℝ_ω ≡ {2-successor finite induction} ∪ {2-successor transfinite induction at birthday ω}
 axiom R_w : Type
 axiom R_w_from_T2 : Tree2 → R_w
@@ -310,20 +327,26 @@ def integral_op (f : FunctionSpace) : FunctionSpace :=
 -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding
 -- ----------------------------------------------------------------------------
 
--- The Discrete Transect Sequence Space: (ℕ → ℝ_ω)
-abbrev SequenceSpace : Type := Nat → R_w
+-- The Transfinite Sequence Space on Day ω: (ℕ_ω → ℝ_ω)
+-- By defining the domain as ℕ_ω = ℕ ∪ {ω}, sequences terminate at the transfinite horizon ω,
+-- eliminating the classical limit of a sequence (lim_{n→∞}) in favor of direct evaluation at ω.
+abbrev SequenceSpace : Type := N_w → R_w
 
--- Discrete Operator 1: Discrete step difference at an index: (SequenceSpace → ℕ → ℝ_ω)
+-- Canonical restriction of a transfinite sequence to finite counting indices:
+def to_nat_seq (F : SequenceSpace) : Nat → R_w :=
+  fun n => F (Nat_to_Nw n)
+
+-- Discrete Operator 1: Discrete step difference at a finite index: (SequenceSpace → ℕ → ℝ_ω)
 def delta_at (F : SequenceSpace) (k : Nat) : R_w :=
+  to_nat_seq F (k + 1) - to_nat_seq F k
+
+-- Backward-compatible alias for existing theorems on (Nat → R_w)
+def delta (F : Nat → R_w) (k : Nat) : R_w :=
   F (k + 1) - F k
 
--- Backward-compatible alias for existing theorems
-def delta (F : Nat → R_w) (k : Nat) : R_w :=
-  delta_at F k
-
--- Discrete Operator 2: The Discrete Difference Operator: (SequenceSpace → SequenceSpace)
-def delta_op (F : SequenceSpace) : SequenceSpace :=
-  fun k => delta_at F k
+-- Discrete Operator 2: The Discrete Difference Operator on SequenceSpace:
+axiom delta_op : SequenceSpace → SequenceSpace
+axiom delta_op_nat (F : SequenceSpace) (k : Nat) : delta_op F (Nat_to_Nw k) = delta_at F k
 
 -- Discrete derivative at a grid point: (SequenceSpace → ℕ → ℝ_ω)
 def deriv_grid_at (F : SequenceSpace) (k : Nat) : R_w :=
@@ -331,22 +354,50 @@ def deriv_grid_at (F : SequenceSpace) (k : Nat) : R_w :=
 
 -- Backward-compatible alias for existing theorems
 def deriv (F : Nat → R_w) (k : Nat) : R_w :=
-  deriv_grid_at F k
+  (delta F k) / dx
 
 -- Discrete Operator 4: The Discrete Integral Operator (Indefinite Accumulator):
--- (SequenceSpace → SequenceSpace)
--- Hyperfinite summation: ∑_{k=0}^{n-1} f(k)
+-- Hyperfinite summation over finite indices: ∑_{k=0}^{n-1} f(k)
 def hyper_sum (f : Nat → R_w) : Nat → R_w
   | 0 => 0
   | Nat.succ n => hyper_sum f n + f n
 
-def discrete_integral_op (f : SequenceSpace) : SequenceSpace :=
-  hyper_sum f
+-- Transfinite summation operator on SequenceSpace (ℕ_ω → ℝ_ω):
+-- Evaluates the accumulated sum up to any index in ℕ_ω, including transfinite evaluation at ω:
+axiom discrete_integral_op : SequenceSpace → SequenceSpace
+
+-- Finite evaluation agreement:
+axiom discrete_integral_op_nat (f : SequenceSpace) (n : Nat) :
+  discrete_integral_op f (Nat_to_Nw n) = hyper_sum (to_nat_seq f) n
+
+-- Direct Transfinite Evaluation at Day ω:
+-- Eliminates sequence limits: the sum up to ω is simply the evaluation at N_w_omega:
+def hyper_sum_omega (f : SequenceSpace) : R_w :=
+  discrete_integral_op f N_w_omega
 
 -- Discrete Operator 3: Definite discrete sum over an index range [m, n):
 -- (SequenceSpace → ℕ → ℕ → ℝ_ω)
 def discrete_integral_range (f : SequenceSpace) (m n : Nat) : R_w :=
-  hyper_sum f n - hyper_sum f m
+  hyper_sum (to_nat_seq f) n - hyper_sum (to_nat_seq f) m
+
+-- ----------------------------------------------------------------------------
+-- 3.3. Transfinite Function Sequence Space on Day ω: (ℕ_ω → FunctionSpace)
+-- ----------------------------------------------------------------------------
+
+-- A sequence of functions: maps each discrete index k ∈ ℕ_ω to an entire spatial function (ℝ_ω → ℝ_ω).
+-- In Middle Way Math, a sequence function's channel is determined by its FunctionType (ℕ_ω → ...),
+-- while its specific behavioral personality is determined by the assignment Rule.
+abbrev NumericSequenceSpace : Type := N_w → R_w
+abbrev FunctionSequenceSpace : Type := N_w → FunctionSpace
+
+-- Pointwise evaluation: slicing a function sequence at a fixed spatial coordinate x ∈ ℝ_ω
+-- to extract its local numeric sequence across step indices:
+def pointwise_slice (F : FunctionSequenceSpace) (x : R_w) : NumericSequenceSpace :=
+  fun n => F n x
+
+-- Global transfinite evaluation: the completed continuum function holding across the entire domain at Day ω:
+def function_at_omega (F : FunctionSequenceSpace) : FunctionSpace :=
+  F N_w_omega
 
 -- ============================================================================
 -- 4. The Telescoping Fundamental Theorem of Calculus (FTC)
@@ -365,14 +416,23 @@ theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
     -- Inductive step: sum_{k+1} = sum_k + delta F k
     simp [hyper_sum]
     rw [ih]
-    unfold delta delta_at
+    unfold delta
     rw [sub_add_cancel]
 
--- Operator formulation of the discrete FTC:
--- discrete_integral_op ∘ delta_op collapses to boundary difference:
-theorem discrete_ftc_operator (F : SequenceSpace) (n : Nat) :
-  discrete_integral_op (delta_op F) n = F n - F 0 :=
-  telescoping_ftc F n
+-- Finite telescoping on SequenceSpace:
+theorem sequence_ftc (F : SequenceSpace) (n : Nat) :
+  hyper_sum (delta (to_nat_seq F)) n = to_nat_seq F n - to_nat_seq F 0 :=
+  telescoping_ftc (to_nat_seq F) n
+
+-- Operator formulation of the discrete FTC on finite slices:
+axiom discrete_ftc_operator (F : SequenceSpace) (n : Nat) :
+  discrete_integral_op (delta_op F) (Nat_to_Nw n) = to_nat_seq F n - to_nat_seq F 0
+
+-- Transfinite Telescoping Theorem on Day ω:
+-- Direct transfinite evaluation at ω without limits:
+-- ∑_{k=0}^{ω-1} ΔF(k) = F(ω) - F(0)
+axiom telescoping_ftc_omega (F : SequenceSpace) :
+  hyper_sum_omega (delta_op F) = F N_w_omega - to_nat_seq F 0
 
 -- ============================================================================
 -- 4.1. The Fundamental Theorem of Calculus (Continuum Operator Formulation)

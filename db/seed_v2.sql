@@ -2,8 +2,24 @@
 -- HobbyNotes / Middle Way Mathematics
 -- Seed Data: Iteration 2 (Refined Conceptual Architecture)
 -- Normalized MWM-DB: Middle Way Math Single Source of Truth
--- Generated At: 2026-09-18T18:27:36.897Z
+-- Generated At: 2026-09-25T04:26:16.384Z
 -- =====================================================================
+
+-- 0. Clean Table Reset for Idempotent Seeding
+TRUNCATE TABLE
+  segment_references,
+  segment_prerequisites,
+  curriculum_nav_items,
+  verified_presets,
+  mode_slots,
+  calculation_modes,
+  parameter_mining_jobs,
+  lean_verifications,
+  maxima_verifications,
+  formal_statements,
+  segments,
+  apps
+RESTART IDENTITY CASCADE;
 
 -- 1. Applications (Curriculum Targets)
 INSERT INTO apps (id, app_code, name, domain, description, is_active) OVERRIDING SYSTEM VALUE VALUES
@@ -37,6 +53,11 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <div style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;" align="center">
       <b>A Realistic 0–12 Basic Education Architecture:</b><br>
       Rather than treating quantum mechanics as an exclusive university seminar, the curriculum unfolds along a <b>natural developmental progression across Grades 0–12</b>: laying the bedrock in elementary logic, crossing the transfinite bridge in middle school, and reaching quantum statistical mechanics in high school.
+    </div>
+
+    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 18px; margin: 16px 0; font-size: 13.5px; line-height: 1.6;">
+      <b style="color: #0f172a;">🧭 The Epistemological Compass: Lived Phenomena vs. Mathematical Models</b><br>
+      We maintain a firm distinction throughout: <b>the physical universe is fixed and objective (the territory)</b>, experienced through direct phenomena (solidity, shadows, heat, light). <b>Mathematical formalisms (the map)</b>—from Euclidean geometry to quantum density operators—are human tools crafted to reason about those phenomena under uncertainty. We never mistake the map for the territory: our journey begins with lived phenomena and builds the leanest formal model to explain them.
     </div>
 
     <!-- Collapsible Technical Overview: Lean 4 Infrastructure & 2-Tier Formal Architecture -->
@@ -249,7 +270,37 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <hr>
 
-    <h3>4. Interactive Exploration Prototypes</h3>
+    <h3>4. Epistemological Compass: Lived Phenomena vs. Mathematical Models</h3>
+    <p>
+      Throughout this curriculum, we maintain a clear and essential epistemological attitude: <b>the rigorous distinction between physical phenomena and mathematical models</b>.
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px 20px; margin: 16px auto; width: 90%;">
+      <table width="100%" cellpadding="6" style="border-collapse: collapse; font-size: 14px;">
+        <tr>
+          <td width="48%" valign="top" style="padding-right: 15px; border-right: 1px solid #e2e8f0;">
+            <font size="+1" color="#1e3a8a"><b>Physical Reality &amp; Phenomena (The Territory)</b></font><br><br>
+            • <b>Fixed and Objective:</b> The physical universe exists and unfolds independently of human observers or symbolic representations.<br><br>
+            • <b>Direct Experience:</b> Tangible, lived phenomena—the turning of a shadow, the solidity of a wooden desk, heat diffusing through a metal bar, or light passing through polarizers—are the primary empirical touchstones of science.<br><br>
+            • <b>Non-Monotonic Discovery:</b> In the natural world, we never possess complete axioms. Empirical inquiry is always open to surprise; a single new experimental observation can revise or overturn a prevailing hypothesis.
+          </td>
+          <td width="48%" valign="top" style="padding-left: 15px;">
+            <font size="+1" color="#1e3a8a"><b>Mathematical Formalisms &amp; Models (The Map)</b></font><br><br>
+            • <b>Human Inventions:</b> Scientific theories—from Euclidean geometry and Newtonian kinematics to Boltzmann ensembles and Quantum Density Operators (<code>ρ</code>)—are formal tools crafted by human minds.<br><br>
+            • <b>Deductive Precision:</b> Mathematical logic is strictly monotonic. Once a theorem is deduced from axioms, it remains permanently valid within its formal domain.<br><br>
+            • <b>Reasoning Under Uncertainty:</b> Our models do not dictate how nature "must" behave; rather, they serve as rigorous, evolving lenses to organize observations, quantify ignorance, and update beliefs rationally.
+          </td>
+        </tr>
+      </table>
+      <div align="center" style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #cbd5e1; font-weight: bold; color: #0f172a; font-size: 13.5px;">
+        <b>The Core Epistemological Attitude:</b><br>
+        We do not mistake the map for the territory. We begin with raw phenomenological intuition, and then construct the leanest, most direct mathematical formalisms needed to faithfully capture physical reality without measure-theoretic clutter.
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>5. Interactive Exploration Prototypes</h3>
     <p>
       To provide visual intuition, this application includes interactive demonstration suites embedded directly across the modules:
     </p>
@@ -262,7 +313,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <hr>
 
-    <h3>5. Methodological Epilogue: Human-AI Collaborative Discovery</h3>
+    <h3>6. Methodological Epilogue: Human-AI Collaborative Discovery</h3>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 16px; border-radius: 6px; margin: 15px 0;">
       <h4 style="margin-top: 0; color: #1e293b;">The Collaborative Dynamic</h4>
       <p>
@@ -638,7 +689,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In the next module, <b>Formal Statements</b>, we expand this skeleton into full First-Order Predicate Logic by introducing sets, domain-typed relations, and quantifiers.
     </p>
   ', 'published'),
-  (6, 'editedPropLogicLectureV1', 5, 'Lecture: Propositional Logic', 'edited-prop-logic-lecture-v1', '
+  (6, 'propLogicLecture', 5, 'Lecture: Propositional Logic', 'prop-logic-lecture', '
     <div align="center">
       <i><font size="+2">Lecture: Propositional Logic</font></i><br>
       <i><font size="+1">Truth, Tables, Operators &amp; The Rules of the Game</font></i>
@@ -1195,7 +1246,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
     </p>
   ', 'published'),
-  (8, 'editedFormalStatementsLectureV2', 7, 'Lecture: Formal Statements & Predicates', 'edited-formal-statements-lecture-v2', '
+  (8, 'formalStatementsLecture1', 7, 'Lecture: Formal Statements & Predicates', 'formal-statements-lecture1', '
     <div align="center">
       <i><font size="+2">Lecture: Formal Statements &amp; Predicates</font></i><br>
       <i><font size="+1">Sets, Directed Pairs, Predicate Functions &amp; The 2D Truth Matrix</font></i>
@@ -1575,7 +1626,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In our next lecture, we lift these Boolean operations into the full <b>Algebra of Sets</b>: Unions, Intersections, Complements, and Bounded Domain Quantification!
     </p>
   ', 'published'),
-  (9, 'editedFormalStatementsLecture2V1', 8, 'Lecture 2: The Semantics of the Algebra of Sets', 'edited-formal-statements-lecture2-v1', '
+  (9, 'formalStatementsLecture2', 8, 'Lecture 2: The Semantics of the Algebra of Sets', 'formal-statements-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Lecture 2: The Semantics of the Algebra of Sets</b></font></i><br>
       <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
@@ -2374,7 +2425,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </ul>
     </div>
   ', 'published'),
-  (12, 'editedNumbersLecture1V1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'edited-numbers-lecture1-v1', '
+  (12, 'numbersLecture1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
       <font size="+1"><i>The Classical Ascent vs. The Conway Inductive Revolution</i></font>
@@ -2819,7 +2870,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       This allows us to do calculus, Bayesian inference, and quantum wave mechanics using <b>exact algebraic arithmetic</b> without ever getting bogged down in limits. In our next lectures, we''ll explore the geometry of these trees and use them to power physics and computation!”
     </p>
   ', 'published'),
-  (13, 'editedNumbersLecture2V1', 12, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'edited-numbers-lecture2-v1', '
+  (13, 'numbersLecture2', 12, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
       <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
@@ -3394,7 +3445,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
     </p>
   ', 'published'),
-  (14, 'editedNumbersLecture3V1', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'edited-numbers-lecture3-v1', '
+  (14, 'numbersLecture3', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
     <div align="center">
       <h2>Numbers Lecture 3</h2>
       <h3>STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</h3>
@@ -3931,7 +3982,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
     </p>
   ', 'published'),
-  (16, 'editedBayesianInferenceLecture1V1', 15, 'Bayesian Inference Lecture 1', 'edited-bayesian-inference-lecture1-v1', '
+  (16, 'bayesianInferenceLecture1', 15, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
@@ -4227,7 +4278,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
     </div>
   ', 'published'),
-  (17, 'editedBayesianInferenceLecture2V1', 16, 'Bayesian Inference Lecture 2', 'edited-bayesian-inference-lecture2-v1', '
+  (17, 'bayesianInferenceLecture2', 16, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
@@ -4518,7 +4569,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 3</b>, we''ll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
     </p>
   ', 'published'),
-  (18, 'editedBayesianInferenceLecture3V1', 17, 'Bayesian Inference Lecture 3', 'edited-bayesian-inference-lecture3-v1', '
+  (18, 'bayesianInferenceLecture3', 17, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
       <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
@@ -4831,7 +4882,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   ', 'published'),
-  (19, 'editedBayesianInferenceLecture4V1', 18, 'Bayesian Inference Lecture 4', 'edited-bayesian-inference-lecture4-v1', '
+  (19, 'bayesianInferenceLecture4', 18, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i><br>
       <i><font size="+1">State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone: Unifying Inference with Thermodynamics</font></i>
@@ -5250,7 +5301,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
   ', 'published'),
-  (21, 'editedQuantumLogicLecture1V1', 20, 'Quantum Logic Lecture 1', 'edited-quantum-logic-lecture1-v1', '
+  (21, 'quantumLogicLecture1', 20, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
       <i><font size="+1">The Three Polarizers &amp; The Quantum Breakdown of Venn Diagrams</font></i>
@@ -5460,7 +5511,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 2</b>, we will explore why nature uses <b>complex 2D amplitude arrows on <code>ℂ_ω</code></b> instead of plain 1D probabilities &mdash; and how the <b>Born Rule</b> turns complex waves into observable laboratory probabilities!”
     </p>
   ', 'published'),
-  (22, 'editedQuantumLogicLecture2V1', 21, 'Quantum Logic Lecture 2', 'edited-quantum-logic-lecture2-v1', '
+  (22, 'quantumLogicLecture2', 21, 'Quantum Logic Lecture 2', 'quantum-logic-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 2</b></font></i><br>
       <i><font size="+1">The 4-Successor Quad-Tree, Complex Amplitudes &amp; Wave Interference</font></i>
@@ -5673,7 +5724,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In <b>Lecture 3</b>, we will see what happens when a laboratory measurement observes this state vector &mdash; and discover that <b>quantum measurement is simply vector projection</b>!”
     </p>
   ', 'published'),
-  (23, 'editedQuantumLogicLecture3V1', 22, 'Quantum Logic Lecture 3', 'edited-quantum-logic-lecture3-v1', '
+  (23, 'quantumLogicLecture3', 22, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
       <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
@@ -5974,7 +6025,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
     </div>
   ', 'published'),
-  (25, 'editedQuantumBayesianInferenceLecture1V1', 24, 'Quantum Bayesian Inference Lecture 1', 'edited-quantum-bayesian-inference-lecture1-v1', '
+  (25, 'quantumBayesianInferenceLecture1', 24, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
@@ -6213,7 +6264,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In our final lecture,” Jack concluded, “we will direct this completed formalism to our modern understanding of physical reality itself: <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
   ', 'published'),
-  (26, 'editedQuantumBayesianInferenceLecture2V1', 25, 'Quantum Bayesian Inference Lecture 2', 'edited-quantum-bayesian-inference-lecture2-v1', '
+  (26, 'quantumBayesianInferenceLecture2', 25, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Grand Finale</font></i>
@@ -6397,92 +6448,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </div>
     -->
   ', 'published'),
-  (27, 'lamOverview', 26, 'Preface & Pedagogical Mission: A Tertiary Extension for Formal Science', 'lam-overview', '
-  <div align="center">
-    <font size="+2"><i><b>Curriculum Architecture for Liberal Arts Mathematics:<br>
-          Enforcing the Formal Foundations of Quantum Bayesian Inference</b></i></font><br>
-    <font size="+1"><i>— A 3-Course Tertiary Extension with Minimal Formality —</i></font>
-  </div>
-  <br>
-
-  <h3>Preface &amp; Pedagogical Mission: A Tertiary Extension for Formal Science</h3>
-  <p>
-    Mathematics in higher education has long suffered from a sharp divide. On one side are the heavy calculational
-    workhorses designed for practicing engineers and physicists; on the other are survey courses that all too often
-    retreat into disjointed topics and mechanical algebraic drills.
-  </p>
-  <p>
-    This curriculum &mdash; designed specifically for <b>Liberal Arts Mathematics (LAM)</b> &mdash; serves as a direct
-    <b>tertiary extension of our general formal science foundation</b>. Having established the core principles of formal logic,
-    statements, recursive number trees, and finite inference in our foundational curriculum, LAM has a single, razor-sharp mission:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Enforcing the rigorous formal foundations of Quantum Bayesian Inference<br>
-    through direct algebra and the nonstandard continuum.</b>
-  </div>
-  <p>
-    We hold immense respect and gratitude for our colleagues in STEM disciplines. To support the vast array of
-    continuous calculation tools used across industry and engineering, standard textbooks must construct the
-    mathematical universe using metric topologies, epsilon-delta limit towers, Lebesgue measure spaces, and Riemann
-    spheres. That apparatus provides the rigorous bedrock necessary for professional practitioners.
-  </p>
-  <p>
-    It is simply that for non-practitioners &mdash; <b>unburdened of the requirement to service continuous calculation
-      engines</b> &mdash; there is an amazingly simpler, cleaner, and more direct path to the exact same underlying
-    mathematical structures: <b>Nonstandard Analysis &amp; Emergent Algebraic Structures</b>.
-  </p>
-
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;">
-    <b>Jane''s Note on Applied Mini-Seminars:</b><br>
-    Alongside our 3 core courses, we feature a series of applied <b>Mini-Seminars</b> designed to flesh out the practical and physical implications of Liberal Arts Mathematics for the reader. These mini-seminars connect our linear algebra and nonstandard continuum directly to signal processing (<i>The Fourier Duality</i>), physical quantum theory (<i>Standard ω-Nodes to Halo Soup</i>), theoretical physics (<i>Holography &amp; Information Boundaries</i>), and higher-dimensional branching (<i>Higher-Successor Definitions: 2, 4, 8, 16 &amp; Beyond</i>)!
-  </div>
-
-  <hr>
-
-  <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
-  <p>
-    To understand why nonstandard analysis is so empowering, one must examine how mathematics historically struggled to tame continuous change:
-  </p>
-
-  <ul>
-    <li>
-      <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash; <i>Leibniz, Newton, Euler</i>:</b><br>
-      Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code>) &mdash; quantities strictly greater than zero, yet smaller than any positive standard real number. With infinitesimals, derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>). Mathematicians solved celestial orbits, fluid mechanics, and wave equations with breathtaking speed, but critics (like Bishop Berkeley) argued that infinitesimals were logically unsound "ghosts of departed quantities."
-    </li>
-    <br>
-    <li>
-      <b>Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash; <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
-      Fearing foundational inconsistency, 19th-century mathematicians banished infinitesimals. They replaced intuitive algebraic ratios with the real continuum <code>ℝ</code> and dense <b>epsilon-delta (ε-δ) limit definitions</b>:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
-      </div>
-      While logically watertight, this reform erected a massive cognitive barrier, turning intuitive geometric concepts into nested quantifier gymnastics.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
-      As physics expanded into quantum mechanics and relativity, mathematicians sought to escape the clumsiness of metric <code>ε-δ</code> limits by ascending into <b>pure set-theoretic topology and measure theory</b>:
-      <ul>
-        <li><i>Topological Continuity:</i> <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The preimage of every open set is an open set).</li>
-        <li><i>Lebesgue Integration:</i> Integrated functions by measuring preimage sizes on <code>σ-algebras</code> rather than taking limits of partition meshes.</li>
-      </ul>
-      This abstraction was immensely powerful for functional analysis, but it severely detached continuous mathematics from physical and geometric intuition.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 4: The Nonstandard Synthesis &mdash; <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
-      Leibniz''s intuitive infinitesimals were given complete, rigorous mathematical foundations through model theory and <b>John Conway''s recursive number tree</b>.
-      By observing the continuum scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the transfinite tree:
-      <ul>
-        <li><b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers born on Day <code>ω</code> of the recursive tree: <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.</li>
-        <li><b>Continuity</b> is halo preservation: <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing by transfinite branches stay infinitesimally close).</li>
-        <li><b>Differentiation</b> is pure algebraic division: <code>f''(x) = st(Δy / dx)</code>.</li>
-        <li><b>Integration</b> is genuine discrete addition: <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.</li>
-      </ul>
-    </li>
-  </ul>
-', 'published'),
-  (28, 'vectorFoundationsIntro', 27, 'Course 1 Overview: Linear Algebra & The Inference Space', 'vector-foundations-intro', '
+  (27, 'vectorFoundationsIntro', 26, 'Course 1 Overview: Linear Algebra & The Inference Space', 'vector-foundations-intro', '
   <div align="center">
     <i><font size="+2"><b>Course 1 Overview: Linear Algebra &amp; The Inference Space</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference</font></i>
@@ -6616,7 +6582,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
   </ul>
 ', 'published'),
-  (29, 'vectorsLecture1', 28, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (28, 'vectorsLecture1', 27, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -6818,7 +6784,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (30, 'vectorsLecture2', 29, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (29, 'vectorsLecture2', 28, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -6953,7 +6919,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (31, 'vectorsLecture3', 30, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (30, 'vectorsLecture3', 29, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -7245,7 +7211,1503 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “We have completed the formal foundations of Course 1. Next, in <b>Course 2: Analysis 1D</b>, we will explore continuous rates of change and accumulation on the real continuum <code>ℝ_ω</code>!”
   </p>
 ', 'published'),
-  (32, 'analysis1DIntro', 31, 'Course 2 Overview: Analysis 1D & The Real Continuum', 'analysis1-d-intro', '
+  (31, 'stemTrigFoundations', 30, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
+<div class="container">
+    <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
+    <div class="subtitle">
+      A Constructive STEM Perspective — Grounded in 1-Successor Counting, 2-Successor Dyadic Bisection, and the 4-Successor Complex Continuum
+    </div>
+
+    <!-- OPENING MOTIF: THE PHENOMENON VS THE MATHEMATICAL MODEL -->
+    <div style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); border: 1.5px solid #93c5fd; border-radius: 10px; padding: 22px 26px; margin: 24px 0 28px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #bfdbfe; padding-bottom: 8px;">
+        <span class="badge badge-blue" style="font-size: 0.8em; padding: 3px 9px;">Foundational Motif</span>
+        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">The Phenomenon vs. The Mathematical Model: What is an Angle?</h3>
+      </div>
+      <p style="margin-top: 0; margin-bottom: 12px; font-size: 0.95em; line-height: 1.65; color: #1e293b;">
+        Long before degrees, sines, radians, or coordinate axes were invented, human beings directly experienced the <b>raw phenomenon of angularity</b>:
+      </p>
+      <ul style="margin: 10px 0 14px; padding-left: 22px; font-size: 0.92em; color: #334155; line-height: 1.6;">
+        <li><b>Aperture of Sight:</b> Standing on a hilltop looking at two mountain peaks, our two lines of sight diverge from a single vantage point.</li>
+        <li><b>Operational Turn:</b> Navigating across a landscape or observing celestial bodies, an angle is not an object; it is an active kinematic instruction: <i>“turn this much.”</i></li>
+        <li><b>Scale-Invariance:</b> The corner of a postage stamp and a galactic quadrant subtend the exact same visual opening—angle is strictly scale-free and dimensionless.</li>
+      </ul>
+      <p style="margin-bottom: 12px; font-size: 0.92em; line-height: 1.65; color: #1e293b;">
+        <b>The Map vs. Territory Paradigm:</b> An angle in itself is the <b>relative mutual inclination of two directions in space</b>. 
+        For thousands of years, mathematics confused this lived phenomenon with whatever computational tool was used to represent it:
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 12px 0 14px;">
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #92400e;">1. Slope Model (Egypt/Babylon):</b><br>
+          Angle modeled as a physical ratio of stonebuilder''s rods (run / rise) or 360-day calendar steps.
+        </div>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #6b21a8;">2. Chord Model (Ptolemy):</b><br>
+          Angle modeled as a straight geometric line segment cutting across a reference circle.
+        </div>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #166534;">3. Altitude Model (India/Islam):</b><br>
+          Angle modeled as the right-triangle half-chord (sine) dropping onto the horizontal radius.
+        </div>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #1e40af;">4. Analytical Model (Euler):</b><br>
+          Angle modeled as a continuous real number on ℝ and an imaginary logarithm (θ = Im(ln z)).
+        </div>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #475569;">5. Rotor Model (Clifford):</b><br>
+          Angle modeled as an active unitary rotation operator on space: v = U · u.
+        </div>
+        <div style="background: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
+          <b style="color: #1d4ed8;">6. The Tree Model (Middle Way):</b><br>
+          Angle modeled constructively as a <b>discrete binary path on a 2-successor tree</b>—a sequence of inward steering choices culminating at Day ω in the continuous complex plane ℂ_ω.
+        </div>
+      </div>
+    <!-- Collapsible Historical Foundations Section (navFW Return Control Integrated) -->
+    <a name="historyOfAngleAnchor" id="historyOfAngleAnchor"></a>
+    <details id="history-of-angle-section" style="margin-top: 18px; background-color: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(30, 58, 138, 0.04);">
+      <summary style="font-weight: 600; color: #1e3a8a; cursor: pointer; font-size: 0.95em; padding: 4px 0; user-select: none;">
+        📜 Historical Foundations: The Evolution of the Concept of Angle (Click to Expand / Collapse)
+      </summary>
+      <div style="margin-top: 14px; border-top: 1px dashed #94a3b8; padding-top: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 16px; margin: 10px auto 20px; max-width: 740px; font-size: 0.9em; color: #475569;" align="center">
+          <b>Historical Context:</b> How did mathematics transform the intuitive experience of "two lines opening up" from an architectural slope ratio into an astronomical chord, a dimensionless analytical logarithm, and finally a recursive walk on a binary dyadic tree?
+        </div>
+
+        <div class="timeline">
+
+          <!-- 1. ANCIENT PRE-GREEK -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-amber">Origins</span> 1. Slopes, Incline &amp; The Celestial Horizon</div>
+              <div class="era-date">c. 2000 BCE – 500 BCE</div>
+            </div>
+            <div class="concept-tag">Physical Inclination &amp; Calendar Divisions</div>
+            <p>
+              Before abstract angles existed, ancient builders and astronomers measured angularity purely through operational physical ratios:
+            </p>
+            <ul>
+              <li><b>Ancient Egypt (The <i>Seked</i>):</b> Used in pyramid construction (Rhind Papyrus). The seked measured horizontal run per vertical rise of 1 cubit (7 palms)—the direct forebear of the modern <b>cotangent</b>:
+                <div class="formula-box">seked = horizontal run / 1 cubit of rise</div>
+              </li>
+              <li><b>Ancient Babylon (Base-60 Sexagesimal System):</b> Babylonian astronomers divided the celestial circle into <b>360 equal parts</b>, inspired by their 360-day calendar year and sexagesimal arithmetic, creating degrees (°), minutes (′), and seconds (″).</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is a concrete ratio of construction rods or a step along the celestial calendar horizon.
+            </div>
+          </div>
+
+          <!-- 2. CLASSICAL GREECE -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-blue">Geometry</span> 2. The Greek Struggle: Quantity vs. Quality</div>
+              <div class="era-date">c. 300 BCE – 150 BCE</div>
+            </div>
+            <div class="concept-tag">Inclination of Lines &amp; The "Horn Angle" Debate</div>
+            <p>
+              Classical Greek geometry separated angle from physical builders'' rods, but grappled with its ontological nature:
+            </p>
+            <ul>
+              <li><b>Euclid of Alexandria (<i>Elements</i>, Book I, Def. 8):</b> Defined a plane angle as <i>"the inclination to one another of two lines in a plane which meet one another and do not lie in a straight line."</i></li>
+              <li><b>Quantity vs. Quality (Aristotle vs. Eudemus):</b> Debated whether angle was an arithmetic <i>quantity</i> (subject to algebraic operations), a <i>quality</i> (corner shape), or a geometric <i>relation</i>.</li>
+              <li><b>The "Horn Angle" (Cornicular Angle):</b> Euclid and Proclus studied the angle between a circle''s circumference and its tangent line—strictly smaller than any rectilinear acute angle, yet non-zero, anticipating non-Archimedean <b>infinitesimals</b>.</li>
+            </ul>
+            <!-- Nested Deep-Dive: Euclid & Hilbert''s Ray Congruence vs. The Middle Way Tree & Rotor Foil -->
+            <details id="euclid-hilbert-foil" style="margin: 16px 0; background: #fffaf0; border: 1.5px solid #fed7aa; border-radius: 8px; padding: 12px 16px;">
+              <summary style="font-weight: 700; color: #9a3412; cursor: pointer; font-size: 0.9em; user-select: none;">
+                🔍 Deep Dive: Euclid''s Right Angle &amp; Hilbert''s Ray Congruence — The Static Foil to Tree Trigonometry &amp; Rotors
+              </summary>
+              <div style="margin-top: 12px; font-size: 0.88em; line-height: 1.65; color: #1e293b; border-top: 1px dashed #fed7aa; padding-top: 10px;">
+                <p>
+                  To understand why Middle Way trigonometry departs so decisively from classical textbook geometry, we must examine how <b>Euclid</b> originally defined equal and right angles, how <b>David Hilbert</b> attempted to axiomatize it in 1899, and why this static paradigm serves as the primary foil to our dynamic number tree approach:
+                </p>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">1. Euclid’s Right Angle: Bilateral Supplementary Symmetry (Not 90°)</h5>
+                <p>
+                  Euclid possessed neither protractors nor degree metrics. In <i>Elements</i> (Book I, Definition 10), he defined a right angle purely through <b>bilateral equality of adjacent supplements</b>:
+                </p>
+                <div class="formula-box" style="background: #ffffff; border-left-color: #ea580c; margin: 6px 0;">
+                  <i>"When a straight line set up on a straight line makes the adjacent angles equal to one another, each of the equal angles is <b>right</b>, and the straight line standing on the other is called a <b>perpendicular</b>."</i>
+                </div>
+                <p>
+                  Because Euclid had no universal angular coordinate, he could not prove that two right angles drawn in different cities were the same size! He was forced to postulate it axiomatically in <b>Postulate 4</b>: <i>"That all right angles are equal to one another."</i> Furthermore, "equality" of angles was asserted through unformalized physical <i>superposition</i> (mentally sliding one rigid corner on top of another).
+                </p>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">2. Hilbert’s Modernization (1899): Angle as an Inert Ray Pair</h5>
+                <p>
+                  In <i>Grundlagen der Geometrie</i> (1899), David Hilbert eliminated Euclid’s physical superposition by formalizing <b>Group III: Congruence Axioms</b>:
+                </p>
+                <ul>
+                  <li><b>Angle as a Ray Pair:</b> An angle is defined statically as an unordered pair of rays <code>(h, k)</code> meeting at vertex <code>O</code>.</li>
+                  <li><b>Congruence as an Undefined Primitive:</b> Angle congruence <code>∠(h, k) ≡ ∠(h'', k'')</code> is declared as an abstract, undefined equivalence relation governed by transport axioms (Axiom III.4).</li>
+                  <li><b>Postulate 4 Proven as a Theorem:</b> Hilbert proved that all right angles are congruent, completing Euclid’s classical programme.</li>
+                </ul>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">3. Why the Euclid-Hilbert Paradigm Fails Modern Science (The Foil)</h5>
+                <p>
+                  Despite its logical rigor, Hilbert’s system trapped angle in a static geometric dead-end:
+                </p>
+                <ul style="padding-left: 20px;">
+                  <li><b>Inert Shape vs. Dynamic Action:</b> A Hilbert angle is a frozen corner. It does not rotate, turn, or act on space.</li>
+                  <li><b>No Orientation or Parity:</b> <code>∠(h, k)</code> is identical to <code>∠(k, h)</code>. There is no concept of counterclockwise vs. clockwise.</li>
+                  <li><b>Strictly Bounded (&lt; 180°):</b> If the two rays open into a straight line, they cease to be an angle. Angles greater than 180°, full 360° revolutions, and winding numbers are syntactically impossible.</li>
+                  <li><b>No Multiplication:</b> Angles cannot be multiplied or added as group elements; one can only juxtapose rays.</li>
+                </ul>
+
+                <h5 style="color: #9a3412; margin: 10px 0 4px 0; font-size: 0.95em;">4. The Middle Way Synthesis: The Tree &amp; Rotor Paradigm</h5>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; margin: 10px 0; background: #ffffff;" border="1" cellpadding="6">
+                  <thead>
+                    <tr style="background: #9a3412; color: #ffffff;">
+                      <th>Concept</th>
+                      <th>Euclid / Hilbert (Static Ray Paradigm)</th>
+                      <th>Middle Way (Dynamic Tree &amp; Rotor Paradigm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><b>What is an Angle?</b></td>
+                      <td>Static pair of rays <code>(h, k)</code></td>
+                      <td><b>Active Directed Morphism:</b> Unit rotor <code>U ∈ UnitRotor</code> or binary tree path <code>d ∈ 𝔻</code></td>
+                    </tr>
+                    <tr style="background: #fffaf0;">
+                      <td><b>Angle Equality</b></td>
+                      <td>Undefined primitive congruence relation (<code>≡</code>)</td>
+                      <td><b>Algebraic Group Identity:</b> <code>U₁ = U₂ ⇔ U₁ · U₂⁻¹ = 1</code> or identical Conway tree address <code>(m, n)</code></td>
+                    </tr>
+                    <tr>
+                      <td><b>The Right Angle</b></td>
+                      <td>Symmetric balance of adjacent supplementary rays</td>
+                      <td><b>The 4-Successor Quadtree Generator:</b> <code>i = ⟨0, 1⟩</code> (cyclic step <code>north</code> on <code>Tree4</code>)</td>
+                    </tr>
+                    <tr style="background: #fffaf0;">
+                      <td><b>Action of Right Angle</b></td>
+                      <td>Static perpendicularity (<code>h ⊥ k</code>)</td>
+                      <td><b>Planar Turning Velocity Operator:</b> <code>D_turn(x, y) = (-y, x)</code> with <code>D_turn² = -I</code></td>
+                    </tr>
+                    <tr>
+                      <td><b>Domain Scope</b></td>
+                      <td>Strictly <code>0° &lt; θ &lt; 180°</code>, unsigned</td>
+                      <td><b>Circle Quotient:</b> <code>S¹_ω ≡ ℝ_ω / (2πℤ)</code>, signed parity (<code>±</code>), and full winding</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is a static geometric relationship between intersecting lines, compared by congruent geometric superposition.
+            </div>
+          </div>
+
+          <!-- 3. CHORDS TO SINE: ASTRONOMICAL ROOTS TO ALGEBRA -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-purple">Chords to Sine</span> 3. From Astronomical Chords to the Half-Chord (Sine)</div>
+              <div class="era-date">c. 150 BCE – 1200 CE</div>
+            </div>
+            <div class="concept-tag">crd(θ) → ardha-jya → sinus</div>
+            <p>
+              Early quantitative trigonometry arose from spherical astronomy:
+            </p>
+            <ul>
+              <li><b>Hipparchus &amp; Ptolemy:</b> Tabulated straight geometric <b>chords</b> cutting across a reference circle (<code>crd(θ) = 2R · sin(θ/2)</code>), using recursive half-angle chord bisections.</li>
+              <li><b>Aryabhata &amp; Indian Mathematics:</b> Replaced the full chord with the right-triangle <b>half-chord</b> (<i>ardha-jya</i>, shortened to <i>jya</i>), dropping a vertical altitude from the circular arc tip to the horizontal radius.</li>
+              <li><b>The Islamic Golden Age:</b> Translated <i>jya</i> into Arabic <i>jiba</i> (read as <i>jayb</i>, bay/fold) and thence into Latin as <b>sinus</b> (modern sine), establishing trigonometry as an autonomous mathematical discipline.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle controls the perpendicular and horizontal altitude lines of a right triangle inscribed in a reference circle.
+            </div>
+          </div>
+
+          <!-- 4. ANALYTICAL EULER, THE RADIAN & ROTORS -->
+          <div class="era-card">
+            <div class="era-header">
+              <div class="era-title"><span class="badge badge-blue">Analysis &amp; Algebra</span> 4. Euler’s Radian, Active Rotors &amp; The Modern Tree Turn</div>
+              <div class="era-date">c. 1700 – Present</div>
+            </div>
+            <div class="concept-tag">θ = s / r, &nbsp; e^(iθ) = cos θ + i·sin θ, &nbsp; UnitRotors</div>
+            <p>
+              The calculus revolution and modern algebra emancipated angle into a dimensionless scalar and an active spatial transformation:
+            </p>
+            <ul>
+              <li><b>Euler (1748):</b> Set radius <code>R = 1</code> once and for all! Sine and cosine became pure analytical functions defined by infinite series, unified via <code>e^(iθ) = cos(θ) + i·sin(θ)</code>.</li>
+              <li><b>The Radian:</b> Defined angle as the dimensionless ratio of arc length to radius (<code>θ = arc length / radius = c / 1</code>), rendering angle an absolute, unit-free scalar.</li>
+              <li><b>Clifford Rotors &amp; Lie Groups:</b> Elevated angle from a static corner into an <b>active rotational operator</b> on space (<code>v'' = U · v</code>).</li>
+              <li><b>The Tree &amp; CORDIC Turn:</b> Computer science (Volder 1959) and nonstandard analysis bring angle back to constructive discrete arithmetic: angle as a sequence of binary bisection steering choices on a 2-successor tree.</li>
+            </ul>
+            <div class="key-takeaway">
+              <b>Key Paradigm:</b> Angle is both a dimensionless arc length on the real line and an active unitary rotor transforming space.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SUMMARY TABLE -->
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Historical Era</th>
+              <th style="width: 26%;">What is an Angle?</th>
+              <th style="width: 24%;">Primary Metric</th>
+              <th style="width: 28%;">Conceptual Milestone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Egyptian &amp; Babylonian</b></td>
+              <td>Slope of stones; 1/360th of circular horizon</td>
+              <td>Seked (run/rise); degrees (360°)</td>
+              <td>Practical architecture &amp; calendar astronomy</td>
+            </tr>
+            <tr>
+              <td><b>Classical Greece</b></td>
+              <td>Geometric inclination of intersecting lines</td>
+              <td>Straightedge &amp; compass; chord crd(θ)</td>
+              <td>Separation of qualitative angle from linear numbers</td>
+            </tr>
+            <tr>
+              <td><b>Medieval India &amp; Islam</b></td>
+              <td>Half-chord altitude on a reference circle</td>
+              <td>Sine (jya), cosine, tangent</td>
+              <td>Trigonometry becomes an independent mathematical science</td>
+            </tr>
+            <tr>
+              <td><b>Euler &amp; Analysis</b></td>
+              <td>Dimensionless scalar ratio of arc length to radius</td>
+              <td>Radians; power series; e^(iθ)</td>
+              <td>Angle becomes a pure real number on ℝ; θ = Im(ln z)</td>
+            </tr>
+            <tr>
+              <td><b>Modern Algebra</b></td>
+              <td>Rotational transformation operator / group element</td>
+              <td>SO(2), quaternions, bivector rotors</td>
+              <td>Angle as an active symmetry of space</td>
+            </tr>
+            <tr>
+              <td><b>Tree Scaffolding &amp; ℂ_ω</b></td>
+              <td>Discrete binary path on 2-successor tree</td>
+              <td>Dyadics m / 2ⁿ; CORDIC; dθ = 1/ω</td>
+              <td>Unification of digital bisection and continuous calculus</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </details>
+    </div>
+
+    <!-- SECTION 1: THE PEDAGOGICAL BRIDGE -->
+    <a name="pedagogicalBridgeAnchor" id="pedagogicalBridgeAnchor"></a>
+    <h2><span class="badge badge-blue">Section 1</span> The Pedagogical Bridge: How Trigonometry is Currently Presented (And Its Hidden Cracks)</h2>
+
+    <p>
+      Before we explore how trigonometry is generated on balanced number trees, we must examine the <b>standard pedagogical model</b> taught in modern secondary and collegiate education. 
+      Every modern student is introduced to trigonometry through a two-phase progression: moving from <b>ratios inside a right triangle</b> to <b>points on the unit circle</b>.
+    </p>
+
+    <!-- THE MODERN DIAGRAM MATCHING USER''S SKETCH -->
+    <div style="display: flex; justify-content: center; margin: 26px 0;">
+      <div style="width: 100%; max-width: 500px; text-align: center; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 20px 16px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 480" style="width: 100%; height: auto;">
+          <!-- Graph paper grid pattern -->
+          <defs>
+            <pattern id="graph-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="460" height="410" fill="url(#graph-grid)" rx="6"/>
+
+          <!-- Unit Circle: Center (230, 200), Radius R = 150 -->
+          <circle cx="230" cy="200" r="150" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+          <!-- Total Circumference label at bottom: 2π -->
+          <text x="230" y="385" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, serif" font-size="24" font-weight="bold" fill="#0f172a">2π</text>
+
+          <!-- Calculations for theta ≈ 42°:
+               cos(42°) ≈ 0.74314, sin(42°) ≈ 0.66913
+               X_apex = 230 + 150 * 0.74314 = 341.47
+               Y_apex = 200 - 150 * 0.66913 = 99.63
+               Horizontal base point: (341.5, 200)
+               Circle right-most point (1, 0): (380, 200)
+          -->
+
+          <!-- Right Angle Marker at (341.5, 200) -->
+          <path d="M 329.5 200 L 329.5 188 L 341.5 188" fill="none" stroke="#64748b" stroke-width="1.5"/>
+
+          <!-- Horizontal base leg: s -->
+          <line x1="230" y1="200" x2="341.5" y2="200" stroke="#0f172a" stroke-width="2"/>
+          <text x="286" y="224" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">s</text>
+
+          <!-- Vertical perpendicular leg: p -->
+          <line x1="341.5" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <text x="326" y="155" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">p</text>
+
+          <!-- Hypotenuse: h -->
+          <line x1="230" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <text x="278" y="142" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">h</text>
+
+          <!-- Angle Arc for theta at origin (230, 200) -->
+          <path d="M 265 200 A 35 35 0 0 0 256 176.6" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <text x="216" y="206" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#0f172a">θ</text>
+
+          <!-- Straight Dotted Chord from apex (341.5, 99.6) to (380, 200) -->
+          <line x1="341.5" y1="99.6" x2="380" y2="200" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="3,6" stroke-linecap="round"/>
+
+          <!-- Curved Arc along circle circumference from (380, 200) to (341.5, 99.6) -->
+          <path d="M 380 200 A 150 150 0 0 0 341.5 99.6" fill="none" stroke="#2563eb" stroke-width="3"/>
+          <text x="374" y="122" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">c</text>
+
+          <!-- Governing Identity Formula -->
+          <text x="230" y="455" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#0f172a">
+            θ = sin⁻¹(p / h) = cos⁻¹(s / h) = c / 1
+          </text>
+        </svg>
+        <div style="font-size: 0.88em; color: #475569; margin-top: 10px; line-height: 1.5;">
+          <b>The Modern Unit Circle Diagram:</b> An acute right triangle with sides <i>s</i>, <i>p</i>, and hypotenuse <i>h = 1</i> inscribed in a unit circle of circumference <i>2π</i>. The central angle <i>θ</i> simultaneously controls the trigonometric ratios and subtends a curved arc <i>c</i>, contrasted with the straight chord (dotted).
+        </div>
+      </div>
+    </div>
+
+    <h3>1. The Two-Stage Modern Progression</h3>
+    <p>
+      In standard high school and undergraduate curricula, trigonometry is introduced in two distinct phases:
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 16px 0;">
+      <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px;">
+        <h4 style="color: #1e3a8a; margin-top: 0; margin-bottom: 8px;">Phase 1: Right-Triangle Ratios (SOH CAH TOA)</h4>
+        <p style="font-size: 0.92em; margin-bottom: 8px;">
+          For an acute angle <code>θ</code> inside a Euclidean right triangle with hypotenuse <code>h</code>, perpendicular (opposite) side <code>p</code>, and adjacent base <code>s</code>:
+        </p>
+        <div class="formula-box" style="margin: 6px 0; font-size: 0.95em;">
+          sin(θ) = p / h &emsp;|&emsp; cos(θ) = s / h &emsp;|&emsp; tan(θ) = p / s
+        </div>
+        <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
+          Inverting these ratios recovers the angle: <code>θ = sin⁻¹(p / h) = cos⁻¹(s / h)</code>. 
+          Here, angle is strictly an <b>interior opening</b> bounded between <code>0°</code> and <code>90°</code>.
+        </p>
+      </div>
+
+      <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 14px 18px;">
+        <h4 style="color: #1d4ed8; margin-top: 0; margin-bottom: 8px;">Phase 2: The Unit Circle &amp; The Radian Definition</h4>
+        <p style="font-size: 0.92em; margin-bottom: 8px;">
+          To liberate <code>θ</code> from the confines of an acute triangle, we set radius <code>h = 1</code> and inscribe the triangle inside a circle of radius 1 centered at the origin:
+        </p>
+        <div class="formula-box" style="margin: 6px 0; font-size: 0.95em; background: #ffffff; border-left-color: #2563eb;">
+          θ = arc length / radius = c / 1 = c &emsp; (Circumference = 2π)
+        </div>
+        <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
+          The apex coordinates on the circle are <code>(x, y) = (s, p) = (cos θ, sin θ)</code>, yielding the grand unifying identity:
+          <br><b><code>θ = sin⁻¹(p / h) = cos⁻¹(s / h) = c / 1</code></b>.
+        </p>
+      </div>
+    </div>
+
+    <h3>2. Three Natural Questions Raised by the Standard Presentation</h3>
+    <p>
+      This classic presentation is elegant and historically enduring. At the same time, it naturally raises <b>three thoughtful questions</b> for students and educators seeking deeper foundational understanding:
+    </p>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #0369a1; margin-top: 0; margin-bottom: 6px;">Question 1: Measuring the Curved Arc (c) vs. The Straight Chord (The Dotted Line)</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        Notice the <b>dotted straight line</b> cutting across the circle in the diagram.
+        In classical Euclidean geometry, physical measuring instruments—rulers, straightedges, and calipers—only measure <b>straight line segments</b> (chords).
+        Yet the radian definition <code>θ = c / 1</code> defines angle as the length of a <b>curved arc</b> <code>c</code>!
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        How does one determine the length of a curved arc using straight measuring rods? One cannot bend a rigid Euclidean straightedge along a curve. In classical geometry, one approximates the curved arc <code>c</code> with straight chords, making the approximation increasingly exact through <b>recursive angle bisection</b>.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #0369a1; margin-top: 0; margin-bottom: 6px;">Question 2: The Computational Engine (Looking Ahead to Taylor Series &amp; Exponentials)</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        Once an introductory textbook defines <code>sin(θ) = p / h</code> and <code>θ = sin⁻¹(p / h)</code>, how does one actually evaluate <code>sin(35°)</code> or <code>cos⁻¹(0.74)</code>?
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        Introductory courses understandably rely on modern handheld calculators (or in earlier generations, numerical table lookups with linear interpolation at the back of the book). The actual computational mechanics—such as <b>Taylor series</b>, continued fractions, or polynomial approximations—are naturally postponed to advanced calculus courses. In fact, one of the greatest conceptual rewards lying ahead in higher analysis is the discovery of the profound, unified relationship between <b>exponential growth and trigonometric circulation</b> (<code>e^(iθ) = cos θ + i·sin θ</code>).
+      </p>
+    </div>
+
+    <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+      <h4 style="color: #0369a1; margin-top: 0; margin-bottom: 6px;">Question 3: Static Geometric Corners vs. Dynamic Continuous Turning</h4>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        In classical Euclidean geometry (and Hilbert’s formal ray axioms), an angle is defined as a <b>static geometric corner</b> formed by two intersecting lines, traditionally bounded between <code>0°</code> and <code>180°</code>.
+      </p>
+      <p style="font-size: 0.92em; margin-bottom: 0; color: #475569;">
+        To extend these static triangle ratios into periodic continuous functions across the entire real number line (<code>θ ∈ ℝ</code>), modern curricula guide students through reference angles and four-quadrant sign conventions (such as <i>“All Students Take Calculus”</i>: ASTC). Complementing this with a <b>dynamic, active rotation operator</b> perspective makes continuous turning across all quadrants feel natural and unified from the outset.
+      </p>
+    </div>
+
+    <h3>3. The Natural Bridge to Tree-Based Calculation</h3>
+    <p>
+      On our transfinite number trees, these three pedagogical questions find natural, constructive answers:
+    </p>
+
+    <ul>
+      <li>
+        <b>Bisection is the 2-Successor Binary Tree (Tree2):</b> 
+        How do we bridge the straight chord to the curved arc <code>c</code> and compute <code>(s, p)</code> without a black box? 
+        By <b>recursive half-angle bisection</b>:
+        <div class="formula-box" style="margin: 6px 0;">
+          cos(θ / 2) = √[ (1 + cos θ) / 2 ] &emsp;|&emsp; sin(θ / 2) = √[ (1 - cos θ) / 2 ]
+        </div>
+        Every bisection is a direct step on the binary tree <code>ℝ_ω</code>. Ascending the tree through successive birthday bisections generates François Viète’s nested radicals and the <b>CORDIC hardware algorithm</b> (<code>binary_steering_choice</code>), allowing any student or microprocessor to compute trigonometric coordinates with exact integer shifts!
+      </li>
+      <li>
+        <b>Active Rotation is the 4-Successor Quadtree (Tree4):</b> 
+        On the complex continuum <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, the right angle is not an unprovable postulate (Euclid Postulate 4) or an inert ray pair (Hilbert); it is the <b>discrete 90° rotation generator</b> <code>i = ⟨0, 1⟩</code> (cyclic step <code>north</code> on <code>Tree4</code>).
+        The apex point is the complex unit rotor:
+        <div class="formula-box" style="margin: 6px 0;">
+          U = s + i · p = cos(θ) + i · sin(θ) &emsp; with &emsp; s² + p² = h² = 1
+        </div>
+        Multiplying by <code>i</code> rotates <code>(s, p) → (-p, s)</code>, driving smooth continuous circulation <code>dz = z · i dθ</code> across all four quadrants with zero artificial stitching.
+      </li>
+    </ul>
+
+    <hr>
+
+    <p>
+      The connection between our foundational descriptions of number trees and trigonometry is both mathematically profound and computationally practical. 
+      From the 1-successor natural trunk (<code>ℕ</code>), through the 2-successor binary dyadic tree (<code>ℝ_ω</code>), to the 4-successor quadtree (<code>ℂ_ω</code>)—balanced trees are not merely algebraic visualizations; they are the <b>inductive scaffolding of geometry and rotation</b>.
+    </p>
+
+    <div class="callout">
+      <strong>Core Insight:</strong> Classical trigonometry introduces sines, cosines, and angles through transcendental limits and geometric ratios. On our number trees, circular rotation emerges constructively:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>The 1-Successor Trunk (ℕ):</b> Counts discrete perimeter steps <code>k → k + 1</code> around the unit circle, driving discrete arc length accumulation and complex contour integration.</li>
+        <li><b>The 2-Successor Binary Tree (ℝ_ω):</b> Bisects angles at each birthday level, generating François Viète’s nested radicals, Walsh-Hadamard square waves, and the CORDIC hardware bit-shift algorithm.</li>
+        <li><b>The 4-Successor Quadtree (ℂ_ω):</b> Deploys the 4th roots of unity <code>{ +1, -1, +i, -i }</code> as two 180° polar fans, turning Euler’s formula into pure perpendicular stepping on an infinitesimal square grid.</li>
+      </ol>
+    </div>
+
+    <!-- MAPPING TABLE -->
+    <div align="center" style="margin: 24px 0;">
+      <table style="max-width: 820px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Number Tree</th>
+            <th style="width: 26%;">Branching &amp; Basis</th>
+            <th style="width: 28%;">Spatial / Geometric Role</th>
+            <th style="width: 28%;">Trigonometric Expression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1-Successor</b><br><span style="color: #64748b; font-size: 0.85em;">(The Trunk ℕ_ω)</span></td>
+            <td>1 successor: <code>k → k + 1</code><br>Unique root <code>0</code></td>
+            <td>Linear counting ray; perimeter marcher along circle boundary</td>
+            <td>Perimeter sum: <code>Perimeter = ∑[k=1 to ω] ds = 2π</code><br>Contour winding: <code>∮ (1/z) dz = 2π i</code></td>
+          </tr>
+          <tr>
+            <td><b>2-Successor</b><br><span style="color: #2563eb; font-size: 0.85em;">(The Binary Tree ℝ_ω)</span></td>
+            <td>2 successors: <code>{ -, + }</code><br>Dyadics <code>m / 2ⁿ</code></td>
+            <td>180° polar fan; recursive interval bisection</td>
+            <td>Half-angle cosine: <code>cos(θ/2) = √[(1+cos θ)/2]</code><br>Viète nested radicals; CORDIC bit-shifts</td>
+          </tr>
+          <tr>
+            <td><b>4-Successor</b><br><span style="color: #7c3aed; font-size: 0.85em;">(The Quadtree ℂ_ω)</span></td>
+            <td>4 successors: <code>{ +1, -1, +i, -i }</code><br>4th roots of unity</td>
+            <td>Two 180° fans back-to-back (360° all space); 2D grid <code>dz = dx + i·dy</code></td>
+            <td>Euler’s formula via perpendicular steps: <code>z_(k+1) = z_k (1 + i·dθ)</code><br>Cauchy-Riemann conformal cell symmetry</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- PART 1 -->
+    <h2><span class="badge badge-green">Part 1</span> The 1-Successor Trunk: Counting Steps, Perimeter Winding &amp; Loop Circulation</h2>
+
+    <h3>1. The Linear Counting Ray (ℕ → ℕ_ω)</h3>
+    <p>
+      The simplest tree in our foundation is an unbranched trunk. Starting from the unique Conway root <code>0 = { | }</code>, a single successor rule:
+    </p>
+    <div class="formula-box">
+      S(k) = k + 1, &nbsp;&nbsp; with unique root 0
+    </div>
+    <p>
+      inductively generates the well-ordered sequence of Naturals <code>ℕ = { 0, 1, 2, 3, ... }</code>. 
+      At the transfinite horizon (Day <code>ω</code>), adjoining the first limit arrival yields the bounded counting ray:
+    </p>
+    <div class="formula-box">
+      ℕ_ω ≡ ℕ ∪ { ω }
+    </div>
+    <p>
+      Unlike branching trees, the 1-successor trunk offers <b>no directional choices</b>. At each stage, you can only step forward: <code>k → k + 1</code>. 
+      In geometry and trigonometry, this linear sequence is the primary engine of <b>progression, counting, and accumulation</b>.
+    </p>
+
+    <h3>2. Wrapping Counting Steps into the Circular Perimeter</h3>
+    <p>
+      How does a straight counting ray relate to circular rotation? By <b>wrapping discrete steps around a closed perimeter</b>.
+    </p>
+    <p>
+      Consider a unit circle of radius <code>R = 1</code>. If we divide the circular perimeter into <code>N</code> equal discrete steps, each application of the successor rule <code>k → k + 1</code> advances by a constant arc increment:
+    </p>
+    <div class="formula-box">
+      ds = Δθ = 2π / N
+    </div>
+    <p>
+      On the hyperfinite trunk at Day <code>ω</code>, choosing <code>N = ω</code> steps yields an infinitesimal arc step <code>ds = 2π / ω = dθ</code>. 
+      The total circumference of the circle is then computed not by transcendental limit integrals, but by an exact discrete telescoping sum:
+    </p>
+    <div class="formula-box">
+      Perimeter = ∑[k=1 to ω] ds = ∑[k=1 to ω] (2π / ω) = ω · (2π / ω) = 2π
+    </div>
+    <p>
+      By Lean''s fundamental theorem of calculus scaffold (<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>), total accumulation along the 1-successor path is exact discrete algebra: <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code>. 
+      The 1-successor trunk thus parameterizes the boundary of the unit circle <code>S¹_ω ≡ ℝ_ω / (2π ℤ)</code> as a uniform march of <code>ω</code> infinitesimal steps.
+    </p>
+
+    <p>
+      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>
+    </p>
+
+    <h3>3. Complex Loop Circulation &amp; The Cauchy Winding Integral</h3>
+    <p>
+      When this 1-successor march is viewed in the 2D complex plane <code>ℂ_ω</code>, each step <code>k → k + 1</code> advances by a complex increment:
+    </p>
+    <div class="formula-box">
+      z_(k+1) = z_k + dz_k, &nbsp;&nbsp; where &nbsp; dz_k = i · z_k · dθ
+    </div>
+    <p>
+      Because each step <code>dz_k</code> is directed perpendicular to the radial vector <code>z_k</code> (multiplication by <code>i</code>), the 1-successor count walks precisely along the circular rim. 
+      Evaluating the discrete circulation of <code>1 / z</code> around this closed contour gives:
+    </p>
+    <div class="formula-box purple">
+      ∮_{S¹} (1 / z) dz = ∑[k=1 to ω] (1 / z_k) · dz_k = ∑[k=1 to ω] (1 / z_k) · (i · z_k · dθ) = i · ∑[k=1 to ω] dθ = 2π i
+    </div>
+    <p>
+      The factor of <code>2π i</code> in complex analysis is thus completely demystified:
+    </p>
+    <ul class="step-list">
+      <li><b>The 2π factor:</b> The completed 1-successor count of perimeter steps: <code>∑[k=1 to ω] (2π / ω) = 2π</code>.</li>
+      <li><b>The i factor:</b> The perpendicular geometric rotation of each displacement step relative to the radial line.</li>
+    </ul>
+
+    <h3>4. The Structural Boundary: Why We Need Branching</h3>
+    <p>
+      While the 1-successor trunk successfully counts arc length and drives circular integration, it has an insurmountable structural limitation:
+    </p>
+    <div class="callout" style="background-color: #fefce8; border-color: #fef08a;">
+      <b style="color: #854d0e;">The Boundary of 1-Successor Math:</b><br>
+      An unbranched trunk can only march <i>along</i> a predetermined path step by step (<code>k → k + 1</code>). 
+      It cannot <b>bisect</b>, <b>steer</b>, or <b>navigate inward</b> toward an arbitrary angle. 
+      To locate an angle like <code>θ = π / 4</code> or <code>θ = 3π / 8</code> without exhaustively counting millions of tiny perimeter ticks, we need a tree that can make <b>branching decisions</b>.
+    </div>
+    <p>
+      This brings us to <b>Part 2</b>: introducing a second successor function <code>{ -, + }</code> to create the binary dyadic tree, transforming linear marching into logarithmic angle bisection.
+    </p>
+
+    <hr>
+
+    <!-- PART 2 -->
+    <h2><span class="badge badge-blue">Part 2</span> The 2-Successor Binary Tree: Angle Bisections, Radicals &amp; CORDIC</h2>
+
+    <h3>1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)</h3>
+    <p>
+      In our formal description of numbers, the 2-successor tree ascending through all finite birthdays <em>n &lt; ω</em> generates the dense set of <b>dyadic rationals</b> (while at any single cutoff birthday <em>n</em>, it forms a discrete uniform grid of mesh spacing <code>1 / 2ⁿ</code>):
+    </p>
+    <div class="formula-box">
+      𝔻 = { m / 2ⁿ | m ∈ ℤ, n ∈ ℕ₀ }
+    </div>
+    <p>
+      Mapping the normalized unit interval <code>[0, 1)</code> to the circular angle domain <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 toward the canopy corresponds precisely to <b>recursive angle bisection</b>:
+    </p>
+
+    <ul class="step-list">
+      <li><b>Day 0:</b> Root <code>0</code> → Angle <code>0</code> (Coordinate vector <code>(1, 0)</code>)</li>
+      <li><b>Day 1:</b> Semi-circle poles → Angles <code>0, π</code> (Points <code>(1, 0)</code> and <code>(-1, 0)</code>)</li>
+      <li><b>Day 2:</b> Quadrant axis markers → Angles <code>π/2, 3π/2</code> (Points <code>(0, 1)</code> and <code>(0, -1)</code>)</li>
+      <li><b>Day 3:</b> The classical 45° diagonals → Angles <code>π/4, 3π/4, 5π/4, 7π/4</code></li>
+      <li><b>Day 4:</b> 22.5° facets → Angles <code>π/8, 3π/8, 5π/8, 7π/8, ...</code></li>
+      <li><b>Day <em>n</em>:</b> Granular dyadic angles <code>θ_n = 2π / 2ⁿ</code></li>
+    </ul>
+
+    <p>
+      The algebraic rule for stepping down along the positive branch is given by the trigonometric half-angle identity:
+    </p>
+    <div class="formula-box">
+      cos(θ / 2) = √[ (1 + cos θ) / 2 ]
+    </div>
+
+    <p>Starting from the Day 2 cardinal axis <code>cos(π/2) = 0</code> and stepping recursively down the branches generates François Viète’s sequence of <b>nested square roots of 2</b>:</p>
+    <div class="formula-box">
+      cos(π/4)  = √2 / 2<br>
+      cos(π/8)  = √[ 2 + √2 ] / 2<br>
+      cos(π/16) = √[ 2 + √(2 + √2) ] / 2<br>
+      cos(π / 2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(with n nested square roots)
+    </div>
+
+    <p>
+      In classical analysis, Viète''s product looks like an isolated analytical miracle. On our 2-successor number tree, it is simply the <b>cumulative radial projection along the tree’s principal spine</b> as birthday depth approaches <code>ω</code>.
+    </p>
+
+    <p>
+      <b>Inward Turning vs. Outward Horizon:</b> A straight march along a tree branch often suggests fleeing outward toward an infinite horizon (<code>r → ∞</code>). But circular rotation is the exact opposite of an outward flight: the radius <code>R = 1</code> is held strictly constant by continuous centripetal deflection. Climbing our tree through successive birthdays does <i>not</i> travel farther into space; it <b>refines the resolution of the inward turn</b>:
+    </p>
+    <ul>
+      <li>Each higher birthday level cuts the angular step in half: <code>Δθ_n = π / 2ⁿ</code>.</li>
+      <li>To locate any target angle, the tree operates as an <b>alternating binary steering compass</b>. As illustrated in <b>Figure 1</b>, approximating any arbitrary target (such as <code>θ ≈ 53.1°</code>) is a sequence of Left and Right inward nudges that oscillate and squeeze tighter with each generation until locking onto the circular target.</li>
+    </ul>
+
+    <!-- FIGURE 1: SVG DIAGRAM (6-LEVEL INWARD STEERING PATH) -->
+    <div class="diagram-container" style="margin: 44px 0 65px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 420" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f1f5f9" rx="10"></rect>
+        <rect x="0" y="22" width="780" height="12" fill="#f1f5f9"></rect>
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 6-Level Conway Angle Tree &amp; Inward Steering Search</text>
+
+        <!-- Left Pane: 6-Level Binary Angle Tree -->
+        <rect x="14" y="44" width="445" height="364" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="236" y="64" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#1e40af">6-LEVEL CONWAY ANGLE TREE: INWARD STEERING PATH</text>
+
+        <!-- Birthday Labels on Far Left (Bottom to Top) -->
+        <text x="24" y="80" font-family="monospace" font-size="10" font-weight="bold" fill="#0284c7">Day ω</text>
+        <text x="24" y="112" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 5</text>
+        <text x="24" y="164" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 4</text>
+        <text x="24" y="216" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 3</text>
+        <text x="24" y="268" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 2</text>
+        <text x="24" y="320" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 1</text>
+        <text x="24" y="372" font-family="monospace" font-size="10" font-weight="bold" fill="#64748b">Day 0</text>
+
+        <!-- Inward Steering Sequence Callout Box (Upper Left Quadrant) -->
+        <rect x="36" y="78" width="166" height="116" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"></rect>
+        <text x="119" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#1e40af">Inward Steering Sequence:</text>
+        <text x="46" y="113" font-family="monospace" font-size="8" fill="#1e3a8a">0. Day 0: 0° (Base Vector)</text>
+        <text x="46" y="127" font-family="monospace" font-size="8" fill="#b91c1c">1. Day 1: +90.0° [Turn R]</text>
+        <text x="46" y="141" font-family="monospace" font-size="8" fill="#b91c1c">2. Day 2: -45.0° → 45.0° [L]</text>
+        <text x="46" y="155" font-family="monospace" font-size="8" fill="#b91c1c">3. Day 3: +22.5° → 67.5° [R]</text>
+        <text x="46" y="169" font-family="monospace" font-size="8" fill="#b91c1c">4. Day 4: -11.3° → 56.3° [L]</text>
+        <text x="46" y="183" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0284c7">5. Day 5: -5.6° → 50.6° ≈ θ</text>
+
+        <!-- Ground Reference Line -->
+        <line x1="45" y1="388" x2="435" y2="388" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"></line>
+        <text x="210" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-style="italic" fill="#94a3b8">Ground / Root Level (Day 0: θ = 0°, cos = 1)</text>
+
+        <!-- TREE EDGES (SKELETON IN SLATE, ACTIVE PATH IN CRIMSON) -->
+        <!-- Day 0 to Day 1 -->
+        <line x1="210" y1="370" x2="120" y2="318" stroke="#cbd5e1" stroke-width="1.3"></line>
+        <line x1="210" y1="370" x2="295" y2="318" stroke="#dc2626" stroke-width="2.8"></line>
+
+        <!-- Day 1 to Day 2 -->
+        <line x1="295" y1="318" x2="235" y2="266" stroke="#dc2626" stroke-width="2.8"></line>
+        <line x1="295" y1="318" x2="355" y2="266" stroke="#cbd5e1" stroke-width="1.3"></line>
+
+        <!-- Day 2 to Day 3 -->
+        <line x1="235" y1="266" x2="195" y2="214" stroke="#cbd5e1" stroke-width="1.3"></line>
+        <line x1="235" y1="266" x2="275" y2="214" stroke="#dc2626" stroke-width="2.8"></line>
+
+        <!-- Day 3 to Day 4 -->
+        <line x1="275" y1="214" x2="245" y2="162" stroke="#dc2626" stroke-width="2.8"></line>
+        <line x1="275" y1="214" x2="305" y2="162" stroke="#cbd5e1" stroke-width="1.3"></line>
+
+        <!-- Day 4 to Day 5 -->
+        <line x1="245" y1="162" x2="230" y2="110" stroke="#dc2626" stroke-width="2.8"></line>
+        <line x1="245" y1="162" x2="260" y2="110" stroke="#cbd5e1" stroke-width="1.3"></line>
+
+        <!-- Day 5 to Day ω Convergence -->
+        <line x1="230" y1="110" x2="237" y2="78" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="3,2"></line>
+
+        <!-- TREE NODES -->
+        <!-- Day 0 Root (Ground) -->
+        <circle cx="210" cy="370" r="7" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="210" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e3a8a">Start: 0°</text>
+
+        <!-- Day 1 Nodes -->
+        <circle cx="120" cy="318" r="5" fill="#94a3b8"></circle>
+        <text x="110" y="322" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">0° (1)</text>
+        <circle cx="295" cy="318" r="6.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="306" y="322" text-anchor="start" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#b91c1c">+90° (Turn R)</text>
+
+        <!-- Day 2 Nodes -->
+        <circle cx="355" cy="266" r="4.5" fill="#94a3b8"></circle>
+        <text x="365" y="270" text-anchor="start" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">135°</text>
+        <circle cx="235" cy="266" r="6.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="245" y="270" text-anchor="start" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#b91c1c">45° (-45° Turn L)</text>
+
+        <!-- Day 3 Nodes -->
+        <circle cx="195" cy="214" r="4" fill="#94a3b8"></circle>
+        <text x="187" y="218" text-anchor="end" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">22.5°</text>
+        <circle cx="275" cy="214" r="6.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="286" y="218" text-anchor="start" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#b91c1c">67.5° (+22.5° Turn R)</text>
+
+        <!-- Day 4 Nodes -->
+        <circle cx="305" cy="162" r="3.5" fill="#94a3b8"></circle>
+        <text x="314" y="166" text-anchor="start" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">78.8°</text>
+        <circle cx="245" cy="162" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="255" y="166" text-anchor="start" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#b91c1c">56.3° (-11.3° Turn L)</text>
+
+        <!-- Day 5 Nodes -->
+        <circle cx="260" cy="110" r="3.5" fill="#94a3b8"></circle>
+        <text x="268" y="114" text-anchor="start" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">61.9°</text>
+        <circle cx="230" cy="110" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="238" y="114" text-anchor="start" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#b91c1c">50.6° (-5.6° Turn L)</text>
+
+        <!-- Day ω Target Node -->
+        <circle cx="237" cy="78" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="248" y="81" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#0284c7">Target θ ≈ 53.1° (Convergence)</text>
+
+        <!-- Right Pane: Circular Inward Steering & CORDIC -->
+        <rect x="468" y="44" width="298" height="364" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="617" y="64" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#1e40af">CIRCULAR INWARD STEERING &amp; CORDIC</text>
+
+        <!-- Coordinate Axes -->
+        <line x1="517" y1="195" x2="717" y2="195" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
+        <line x1="617" y1="95" x2="617" y2="295" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
+
+        <!-- Unit Circle Base (R = 85) -->
+        <circle cx="617" cy="195" r="85" fill="none" stroke="#93c5fd" stroke-width="1.8"></circle>
+
+        <!-- Steer 1: 0° to 90° Arc (Counterclockwise +90°) -->
+        <path d="M 702 195 A 85 85 0 0 0 617 110" fill="none" stroke="#2563eb" stroke-width="2.8"></path>
+        <circle cx="617" cy="110" r="4.5" fill="#2563eb"></circle>
+        <text x="617" y="102" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e40af">1. +90°</text>
+
+        <!-- Steer 2: 90° to 45° Arc (Clockwise -45°) -->
+        <path d="M 617 110 A 85 85 0 0 1 677 135" fill="none" stroke="#7c3aed" stroke-width="2.8"></path>
+        <circle cx="677" cy="135" r="4.5" fill="#7c3aed"></circle>
+        <text x="686" y="145" text-anchor="start" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#6b21a8">2. 45°</text>
+
+        <!-- Steer 3: 45° to 67.5° Arc (Counterclockwise +22.5°) -->
+        <path d="M 677 135 A 85 85 0 0 0 650 116" fill="none" stroke="#0284c7" stroke-width="2.8"></path>
+        <circle cx="650" cy="116" r="4" fill="#0284c7"></circle>
+        <text x="650" y="108" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#0369a1">3. 67.5°</text>
+
+        <!-- Steer 4: 67.5° to 56.3° Arc (Clockwise -11.3°) -->
+        <path d="M 650 116 A 85 85 0 0 1 664 124" fill="none" stroke="#d97706" stroke-width="3"></path>
+
+        <!-- Steer 5: 56.3° to 50.6° Arc (Clockwise -5.6°) -->
+        <path d="M 664 124 A 85 85 0 0 1 671 129" fill="none" stroke="#ea580c" stroke-width="3.2"></path>
+
+        <!-- Target Angle Vector (Red Ray, θ ≈ 53.13°) -->
+        <line x1="617" y1="195" x2="668" y2="127" stroke="#dc2626" stroke-width="2.5"></line>
+        <circle cx="668" cy="127" r="5" fill="#dc2626" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="676" y="122" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626">Target θ ≈ 53.1°</text>
+
+        <!-- Points on Axes -->
+        <circle cx="702" cy="195" r="4" fill="#1e3a8a"></circle>
+        <text x="708" y="192" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#1e3a8a">0°</text>
+
+        <circle cx="532" cy="195" r="4" fill="#64748b"></circle>
+        <text x="522" y="192" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">180° (π)</text>
+
+        <!-- CORDIC Note Box in Right Pane -->
+        <rect x="478" y="318" width="278" height="80" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"></rect>
+        <text x="617" y="335" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#991b1b">Inward Curvature, Not Outward Horizon:</text>
+        <text x="488" y="352" font-family="system-ui, sans-serif" font-size="8.5" fill="#7f1d1d">• Higher birthdays cut turn angle in half: Δθ_n = π / 2ⁿ</text>
+        <text x="488" y="367" font-family="system-ui, sans-serif" font-size="8.5" fill="#7f1d1d">• Vector stays on circle (R = 1) via inward centripetal bend</text>
+        <text x="488" y="382" font-family="system-ui, sans-serif" font-size="8.5" fill="#7f1d1d">• CORDIC scales by K = ∏ cos(θ_k) ≈ 0.607 to cancel tangent drift</text>
+      </svg>
+      <div class="diagram-caption" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; font-size: 0.88em; color: #475569; margin-top: 18px; margin-bottom: 40px; font-style: italic; line-height: 1.55; max-width: 820px; margin-left: auto; margin-right: auto;">
+        Figure 1: The Conway Angle Tree as an Inward Binary Steering Search (Birthdays 0 to 5) — climbing the tree does not escape to an outward horizon; each birthday level halves the angular step (Δθ_n = π/2ⁿ), executing an alternating binary squeeze of Left/Right inward turns that locks onto the target angle.
+      </div>
+    </div>
+
+    <h3 style="margin-top: 52px;">2. Directed Pairs &amp; Formal Statements: Function Signatures on the Tree Slots</h3>
+    <p>
+      In our foundational study of Formal Statements &amp; Predicates, we established that a <b>function</b> is strictly defined as a <b>directed pair <code>Domain → Codomain</code></b> along with an assignment rule. 
+      By using our newly introduced foundational domains (<code>ℕ</code>, <code>ℤ</code>, <code>𝔻</code>, <code>ℝ_ω</code>, <code>ℂ_ω</code>) and constrained subtypes (such as the unit interval <code>𝔻:&lt;1</code>, the quotient circle <code>ℝ_ω:mod(2π) ≅ S¹_ω</code>, and <code>UnitRotor ⊂ ℂ_ω</code>), each trigonometric and geometric slot receives a rigorous, tightened type signature:
+    </p>
+
+    <div style="background-color: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 0.92em; line-height: 1.6; color: #166534;">
+      <b>Architectural Principle: Why Our Formal Statements Exclusively Target the Tree-Based Approach:</b><br>
+      Notice that none of our formal statements below adopt Hilbert’s static ray congruence (<code>∠A ≡ ∠B</code>). 
+      Instead, every trigonometric statement is formulated <b>exclusively as a tree-based directed morphism</b>:
+      <ol style="margin: 8px 0 0 0; padding-left: 20px;">
+        <li><b>The 1-Successor Spine (ℕ_ω):</b> Governs discrete arc steps, recursive counts, and integer winding numbers.</li>
+        <li><b>The 2-Successor Binary Tree (𝔻 = Tree2):</b> Governs recursive angle bisection, CORDIC inward sign steering, and dyadic address coordinates <code>(m, n) ↦ 2π · m / 2ⁿ</code>.</li>
+        <li><b>The 4-Successor Quadtree (ℂ_ω = Tree4):</b> Governs planar coordinate projections and unitary rotations via <code>UnitRotor</code>, where the right angle is the algebraic turning operator <code>i</code> (<code>D_turn² = -I</code>).</li>
+      </ol>
+      This tree-based funneling replaces abstract axiomatic congruence with <b>constructive, verifiable algorithmic operations</b> that execute cleanly in Lean 4 and compute directly in silicon hardware.
+    </div>
+
+    <!-- Formal Statement 1: Dyadic Angle Generator -->
+    <h4>Formal Statement (FS-TRIG-1.1): Dyadic Angle Generation via Directed Pair (ℤ × ℕ) → ℝ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>dyadic_angle : ℤ × ℕ → ℝ_ω</code><br>
+      • <b>Assignment Rule:</b> Maps any discrete tree address <code>(m, n)</code> (numerator <code>m ∈ ℤ</code> and birthday level <code>n ∈ ℕ</code>) to the continuous angle:
+      <div class="formula-box" style="margin: 8px 0;">
+        θ_{m, n} = 2π · (m / 2ⁿ) &emsp; where &emsp; m ∈ ℤ, &nbsp; n ∈ ℕ
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator"><code>MiddleWay.dyadic_angle (m : Z_w) (n : N_w) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
+    </div>
+
+    <!-- Formal Statement 1B: Dyadic Continuum Embedding -->
+    <h4>Formal Statement (FS-TRIG-1.2): Dyadic Embedding onto the Real Line via Directed Pair 𝔻 → ℝ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>dyadic_to_real : 𝔻 → ℝ_ω</code><br>
+      • <b>Assignment Rule:</b> Unfolds any discrete dyadic node <code>d ∈ 𝔻</code> into the continuous hyperfinite ordered field <code>ℝ_ω</code>:
+      <div class="formula-box" style="margin: 8px 0;">
+        d ↦ d.val &emsp; where &emsp; d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
+      • <b>Interactive Dyadic Sine Stencil:</b> <fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+    </div>
+
+    <!-- Formal Statement 2: Rotor & Coordinate Projection -->
+    <h4>Formal Statement (FS-TRIG-1.3): Certified Unit Rotor &amp; Coordinate Projection via Directed Pairs ℝ_ω → ℂ_ω &amp; ℝ_ω → UnitRotor</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signatures:</b> <code>angle_to_point : ℝ_ω → ℂ_ω</code> &emsp;and&emsp; <code>angle_to_rotor : ℝ_ω → UnitRotor</code><br>
+      • <b>Assignment Rule:</b> Embeds an angle <code>θ</code> as a complex point or a certified unitary rotor on the circle:
+      <div class="formula-box" style="margin: 8px 0;">
+        θ ↦ ⟨cos(θ), sin(θ)⟩ &emsp; with invariant &emsp; |U(θ)|² = cos²(θ) + sin²(θ) = 1
+      </div>
+      • <b>Circle Map from Dyadics:</b> The composite directed pair <code>dyadic_to_rotor : 𝔻 → UnitRotor</code> maps fractional turns directly to group rotations:
+      <div class="formula-box" style="margin: 8px 0;">
+        d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
+      • <b>Interactive Rotor Projection Stencil:</b> <fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+    </div>
+
+    <!-- Formal Statement 2B: Circle Quotient Isomorphism -->
+    <h4>Formal Statement (FS-TRIG-1.4): Circle Quotient Isomorphism via Directed Pair ℝ_ω:mod(2π) → UnitRotor</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>circle_to_rotor : ℝ_ω:mod(2π) → UnitRotor</code><br>
+      • <b>Assignment Rule:</b> Takes an angle constrained to the fundamental domain <code>[0, 2π)</code> and outputs its certified rotor:
+      <div class="formula-box" style="margin: 8px 0;">
+        θ ∈ [0, 2π) ↦ ⟨⟨cos(θ), sin(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:R_w_circle" title="Quotient Circle S¹_ω"><code>MiddleWay.R_w_circle</code></fsd-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
+    </div>
+
+    <!-- Formal Statement 3: Ptolemaic Half-Angle Bisection -->
+    <h4>Formal Statement (FS-TRIG-1.5): Ptolemaic Half-Angle Bisection via Directed Pair ℝ_ω → ℝ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>cos_half_angle : ℝ_ω → ℝ_ω</code><br>
+      • <b>Assignment Rule:</b> Maps the cosine of an existing angle to the cosine of the bisected daughter branch:
+      <div class="formula-box" style="margin: 8px 0;">
+        c ↦ √[ (1 + c) / 2 ] &emsp; satisfying &emsp; cos_half_angle(cos θ) = cos(θ / 2)
+      </div>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:cos_half_angle" title="Ptolemaic Half-Angle Bisection"><code>MiddleWay.cos_half_angle (c : R_w) : R_w</code></fsd-ref> governs recursive Viète radical propagation down the positive spine.
+    </div>
+
+    <!-- Formal Statement 4: Polygonal Horn Rim Chord -->
+    <h4>Formal Statement (FS-TRIG-1.6): Polygonal Horn Rim Chord via Directed Pair ℝ_ω → ℝ_ω</h4>
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
+      • <b>Directed Pair Signature:</b> <code>chord_length : ℝ_ω → ℝ_ω</code> &emsp;and&emsp; <code>circle_chord : ℝ_ω:mod(2π) → ℝ_ω</code><br>
+      • <b>Assignment Rule:</b> Maps the central turning angle <code>Δθ</code> to the Euclidean chord length connecting consecutive polygonal vertices:
+      <div class="formula-box" style="margin: 8px 0;">
+        c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ] &emsp; (for R = 1)
+      </div>
+      • <b>Polygonal Horn Curvature:</b> While the radial position vectors <code>(O → p_k)</code> are unturning rays fanning out from the root to frame the upper half-plane, each rim chord <code>(p_k → p_k+1)</code> undergoes an <b>inward angular deflection</b> of <code>Δθ</code> at every vertex, causing the polygonal boundary to curve tightly and wrap around the origin into a polygonal horn.<br>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:chord_length" title="Polygonal Rim Chord"><code>MiddleWay.chord_length (delta_theta : R_w) : R_w</code></fsd-ref> grounds the Ptolemaic and Archimedean chord transformations.
+    </div>
+
+    <h3 style="margin-top: 36px;">3. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
+    <p>
+      In modern computing, microprocessors, DSP chips, and GPU graphics pipelines rarely evaluate trigonometric functions with Taylor polynomials or floating-point division. Division and multiplication require multiple clock cycles and accumulate rounding drift.
+    </p>
+    <p>
+      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), invented by Jack Volder in 1959. CORDIC is literally a <b>path traversal down our 2-successor number tree</b>:
+    </p>
+
+    <ol>
+      <li>
+        Any arbitrary target angle <code>θ</code> is approximated by a finite sequence of binary steering choices:
+        <div class="formula-box">
+          θ ≈ ∑[k=0 to n] d_k · arctan(2⁻ᵏ), &nbsp;&nbsp;where d_k ∈ { -1, +1 }
+        </div>
+      </li>
+      <li>
+        At each clock cycle <em>k</em>, the hardware examines the current angle accumulator:
+        <ul>
+          <li>If counterclockwise from the target, set <code>d_k = +1</code> (branch Right).</li>
+          <li>If clockwise from the target, set <code>d_k = -1</code> (branch Left).</li>
+        </ul>
+      </li>
+      <li>
+        Because the angular step magnitude is <code>2⁻ᵏ</code>, the rotation matrix update requires <b>zero multiplications</b>—only binary bit-shifts (arithmetic right-shift by <em>k</em> bits) and additions:
+        <div class="formula-box">
+          x_(k+1) = x_k - d_k · (y_k &gt;&gt; k)<br>
+          y_(k+1) = y_k + d_k · (x_k &gt;&gt; k)
+        </div>
+      </li>
+    </ol>
+    <p>
+      Executing trigonometry in silicon is mathematically identical to choosing Conway Left and Right sign steps <code>{ -, + }</code> down the dyadic angle tree!
+    </p>
+
+    <h3>4. Walsh Functions: The "Square-Wave Trig" of the Binary Tree</h3>
+    <p>
+      On the smooth continuum, circular sine and cosine waves form the orthogonal basis for continuous Fourier analysis. On a discrete 2-successor binary tree, the exact trigonometric counterparts are <b>Walsh-Hadamard functions</b>.
+    </p>
+    <ul class="step-list">
+      <li>Rather than undulating continuously, Walsh waves are rectangular square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
+      <li>They correspond to the parity of branch choices along Conway tree addresses (evaluated via bitwise XOR / nim-addition).</li>
+      <li>Just as continuous Fourier transforms decompose signals into sinusoids, the <b>Fast Walsh-Hadamard Transform (FWHT)</b> decomposes discrete tree signals with zero multiplications, forming the mathematical engine of CDMA telecommunications, error-correcting codes, and quantum Hadamard gates.</li>
+    </ul>
+
+    <hr>
+
+    <!-- PART 3 -->
+    <h2><span class="badge badge-purple">Part 3</span> The 4-Successor Quadtree &amp; The Complex Continuum ℂ_ω</h2>
+
+    <p>
+      When we extend the number tree to transfinite limit ordinal Day <code>ω</code> and cross two real axes into the complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the indispensable geometry of 2D space and quantum mechanics.
+    </p>
+
+    <h3>1. From the Binary Tree to the 4-Successor Quadtree</h3>
+    <p>
+      On <code>ℝ_ω</code>, the tree branches in two directions: <code>{ -1, +1 }</code>. In our description of the complex continuum <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, each node has <b>4 successors</b>:
+    </p>
+    <div class="formula-box purple">
+      Basis = { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
+    </div>
+    <p>
+      As highlighted in our introduction to graph trees, these 4 generators are the <b>4th roots of unity</b>:
+    </p>
+    <div class="formula-box purple">
+      e^(i · 0) = +1 &nbsp;&nbsp;(East, 0°)<br>
+      e^(i · π/2) = +i &nbsp;&nbsp;(North, 90°)<br>
+      e^(i · π) = -1 &nbsp;&nbsp;(West, 180°)<br>
+      e^(i · 3π/2) = -i &nbsp;&nbsp;(South, 270°)
+    </div>
+    <p>
+      As explored in our foundational discussion of Numbers & Trees, <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
+    </p>
+    <ul>
+      <li><b>Fan 1 (Upper Half-Plane):</b> Sweeps angles <code>0° → 180°</code>.</li>
+      <li><b>Fan 2 (Lower Half-Plane):</b> Sweeps angles <code>180° → 360°</code>.</li>
+      <li>The imaginary unit <code>i</code> serves as the <b>90° perpendicular steering operator</b> that transitions between the two fans, covering all 360° space without blindspots.</li>
+    </ul>
+
+    <h3>2. The Unit Circle Becomes an Exact Hyperfinite regular ω-gon</h3>
+    <p>
+      In standard calculus, the unit circle is an idealized curve whose circumference requires limits of inscribed polygons. On <code>ℂ_ω</code>, the unit circle is <b>literally a regular polygon with transfinite integer ω sides</b>:
+    </p>
+    <ul class="step-list">
+      <li><b>Vertex Count:</b> Exactly <code>ω</code> vertices indexed by the 1-successor trunk counter <code>k ∈ {0, 1, 2, ..., ω}</code>.</li>
+      <li><b>Infinitesimal Step Angle:</b> <code>dθ = 2π / ω = 2π · dx</code>, where <code>dx = 1/ω</code>.</li>
+      <li>
+        <b>Vertex Coordinates:</b>
+        <div class="formula-box purple">
+          z_k = e^(i · 2πk / ω) = cos(2πk / ω) + i · sin(2πk / ω)
+        </div>
+      </li>
+      <li><b>Cosine</b> is the horizontal projection onto the real tree <code>ℝ_ω</code>.</li>
+      <li><b>Sine</b> is the vertical projection onto the imaginary tree <code>i · ℝ_ω</code>.</li>
+    </ul>
+
+    <p>The circumference is computed as an exact discrete sum of chord lengths:</p>
+    <div class="formula-box purple">
+      Perimeter = ∑[k=1 to ω] |z_k - z_(k-1)| = ω · |e^(i · 2π/ω) - 1| ≈ ω · (2π / ω) = 2π
+    </div>
+    <p>
+      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with the microscopic difference between chords and arc vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
+    </p>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f5f3ff" rx="10"></rect>
+        <rect x="0" y="22" width="780" height="12" fill="#f5f3ff"></rect>
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#6b21a8">Figure 2: The 4-Successor Quadtree &amp; Perpendicular Rotation on ℂ_ω</text>
+
+        <!-- Left Pane: 4-Successor Quadtree Root -->
+        <rect x="14" y="44" width="350" height="372" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"></rect>
+        <text x="189" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">4-SUCCESSOR BASIS (4th Roots of Unity)</text>
+
+        <!-- Compass Cardinal Axes from Root -->
+        <!-- Center root at (189, 185) -->
+        <line x1="189" y1="185" x2="305" y2="185" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="73" y2="185" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="189" y2="69" stroke="#7c3aed" stroke-width="3"></line>
+        <line x1="189" y1="185" x2="189" y2="301" stroke="#7c3aed" stroke-width="3"></line>
+
+        <!-- Sub-branches (Quadtree cell tiling) -->
+        <rect x="235" y="115" width="40" height="40" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="3,2"></rect>
+        <text x="255" y="139" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c3aed">cell dz</text>
+
+        <!-- Compass Nodes -->
+        <circle cx="189" cy="185" r="7.5" fill="#4c1d95" stroke="#ffffff" stroke-width="1.5"></circle>
+        <text x="189" y="202" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4c1d95">Root (0)</text>
+
+        <!-- East: +1 -->
+        <circle cx="305" cy="185" r="6" fill="#7c3aed"></circle>
+        <text x="315" y="189" text-anchor="start" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+1 (0°)</text>
+
+        <!-- North: +i -->
+        <circle cx="189" cy="69" r="6" fill="#7c3aed"></circle>
+        <text x="189" y="99" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+i (90°)</text>
+
+        <!-- West: -1 -->
+        <circle cx="73" cy="185" r="6" fill="#7c3aed"></circle>
+        <text x="63" y="189" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
+
+        <!-- South: -i -->
+        <circle cx="189" cy="301" r="6" fill="#7c3aed"></circle>
+        <text x="189" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+
+        <!-- Note on Two Fans in Left Pane -->
+        <rect x="25" y="336" width="328" height="66" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1"></rect>
+        <text x="189" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#581c87">Two 180° Polar Fans Spanning 360°:</text>
+        <text x="35" y="368" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Upper Fan (0° → 180°): Spans Upper Half-Plane</text>
+        <text x="35" y="382" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Lower Fan (180° → 360°): Spans Lower Half-Plane</text>
+        <text x="35" y="396" font-family="system-ui, sans-serif" font-size="9" fill="#7c3aed">• Operator ''i'' rotates 90° into the perpendicular fan</text>
+
+        <!-- Right Pane: Perpendicular Stepping on ℂ_ω -->
+        <rect x="376" y="44" width="390" height="372" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
+        <text x="571" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">PERPENDICULAR STEPPING ON ℂ_ω GRID</text>
+
+        <!-- Grid Lines in Background -->
+        <g stroke="#f1f5f9" stroke-width="1.5">
+          <line x1="395" y1="100" x2="750" y2="100"></line>
+          <line x1="395" y1="140" x2="750" y2="140"></line>
+          <line x1="395" y1="180" x2="750" y2="180"></line>
+          <line x1="395" y1="220" x2="750" y2="220"></line>
+          <line x1="395" y1="260" x2="750" y2="260"></line>
+          <line x1="420" y1="80" x2="420" y2="300"></line>
+          <line x1="460" y1="80" x2="460" y2="300"></line>
+          <line x1="500" y1="80" x2="500" y2="300"></line>
+          <line x1="540" y1="80" x2="540" y2="300"></line>
+          <line x1="580" y1="80" x2="580" y2="300"></line>
+          <line x1="620" y1="80" x2="620" y2="300"></line>
+          <line x1="660" y1="80" x2="660" y2="300"></line>
+          <line x1="700" y1="80" x2="700" y2="300"></line>
+        </g>
+
+        <!-- Origin at (430, 270) -->
+        <circle cx="430" cy="270" r="4.5" fill="#475569"></circle>
+        <text x="420" y="284" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">Origin (0,0)</text>
+
+        <!-- Circular Arc (Polygon contour) -->
+        <path d="M 430 80 A 190 190 0 0 1 620 270" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-dasharray="4,4"></path>
+
+        <!-- Radial Vector z_k -->
+        <line x1="430" y1="270" x2="564" y2="136" stroke="#2563eb" stroke-width="2.2"></line>
+        <circle cx="564" cy="136" r="5" fill="#2563eb"></circle>
+        <text x="495" y="215" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#2563eb">Radius z_k (1)</text>
+        <text x="560" y="125" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Vertex z_k</text>
+
+        <!-- Perpendicular Tangent Vector + i · z_k · dθ -->
+        <line x1="564" y1="136" x2="520" y2="92" stroke="#7c3aed" stroke-width="2.5"></line>
+        <!-- Right Angle Symbol at (564, 136) -->
+        <path d="M 553 125 L 542 136 L 553 147" fill="none" stroke="#7c3aed" stroke-width="1.2"></path>
+        <text x="560" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">+ i · z_k · dθ</text>
+
+        <!-- Resulting Step to z_(k+1) -->
+        <line x1="430" y1="270" x2="520" y2="92" stroke="#059669" stroke-width="2" stroke-dasharray="3,2"></line>
+        <circle cx="520" cy="92" r="5" fill="#059669"></circle>
+        <text x="510" y="82" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertex z_(k+1)</text>
+
+        <!-- 1-Successor Perimeter Counter Label -->
+        <rect x="400" y="310" width="345" height="92" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"></rect>
+        <text x="572" y="328" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Euler’s Rotation &amp; Infinitesimal Elongation:</text>
+        <text x="410" y="348" font-family="monospace" font-size="9.5" fill="#334155">z_(k+1) = z_k · [ 1 + i · (θ / ω) ]</text>
+        <text x="410" y="366" font-family="monospace" font-size="9.5" fill="#6b21a8">|z_(k+1)|² = 1 + (θ/ω)² = 1 + θ² · dx²</text>
+        <text x="410" y="384" font-family="system-ui, sans-serif" font-size="9" fill="#059669">Compounding ω steps: |z_ω| = [1 + θ² dx²]^(ω/2) → st(|z|) = 1</text>
+        <text x="410" y="398" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">The 1-Successor Counter (k → k+1) steps along the regular ω-gon!</text>
+      </svg>
+      <div class="diagram-caption" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; font-size: 0.88em; color: #475569; margin-top: 18px; margin-bottom: 40px; font-style: italic; line-height: 1.55; max-width: 820px; margin-left: auto; margin-right: auto;">
+        Figure 2: The 4-Successor Quadtree &amp; Perpendicular Stepping on ℂ_ω — the 4 compass directions set the quadtree grid, and perpendicular steps <code>z_(k+1) = z_k (1 + i·dθ)</code> generate circular rotation with zero standard elongation.
+      </div>
+    </div>
+
+    <h3 style="margin-top: 52px;">3. Euler’s Formula as Pure Perpendicular Stepping</h3>
+    <p>
+      Multiplying by the imaginary unit <code>i</code> rotates any vector in <code>ℂ_ω</code> counterclockwise by exactly 90°.
+      When we inspect this dynamic on our hyperfinite grid:
+    </p>
+    <ol>
+      <li>
+        At any current vertex <code>z_k</code> on the unit circle, take a tiny step strictly perpendicular to the radial vector:
+        <div class="formula-box purple">
+          z_(k+1) = z_k + i · (θ / ω) · z_k = z_k · [ 1 + i · (θ / ω) ]
+        </div>
+      </li>
+      <li>
+        Evaluate the change in radial length using the Pythagorean theorem:
+        <div class="formula-box purple">
+          |1 + i · (θ / ω)|² = 1 + (θ / ω)² = 1 + θ² · dx²
+        </div>
+        Because <code>dx = 1/ω</code> is infinitesimal, the radial elongation is purely second-order infinitesimal dust <code>O(dx²)</code>.
+      </li>
+      <li>
+        Compounding <code>ω</code> such perpendicular steps yields Euler’s formula:
+        <div class="formula-box purple">
+          z_ω = [ 1 + i · (θ / ω) ]^ω ≡ e^(i·θ) = cos θ + i · sin θ
+        </div>
+        Taking the standard part:
+        <div class="formula-box purple">
+          st( |z_ω| ) = st( [1 + θ² · dx²]^(ω/2) ) = 1 + 0 = 1
+        </div>
+      </li>
+    </ol>
+    <p>
+      In standard calculus, Euler''s formula <code>e^(iθ) = cos θ + i·sin θ</code> is proved via infinite Taylor series. On <code>ℂ_ω</code>, it is simply the macroscopic shadow of <b>marching perpendicular steps along the square grid cells of the 4-successor quadtree</b>!
+    </p>
+
+    <h3>4. Cauchy-Riemann Equations: Holomorphic "No-Shear" Conformal Symmetry</h3>
+    <p>
+      A complex function <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is differentiable (holomorphic) if and only if it preserves the intrinsic geometry of the underlying quadtree cells. 
+      The Cauchy-Riemann equations:
+    </p>
+    <div class="formula-box purple">
+      ∂u/∂x = ∂v/∂y, &nbsp;&nbsp;&nbsp;&nbsp; ∂u/∂y = -∂v/∂x
+    </div>
+    <p>
+      are the exact algebraic condition stating that <b>every infinitesimal square cell maps to another scaled, rotated square cell with zero angle distortion</b>. Holomorphic functions are conformal transformations: their local derivative <code>f''(z) = r · e^(i·θ)</code> acts as a pure scale and trigonometric rotation on every quadtree cell.
+    </p>
+
+    <h3>5. Why 2π i Appears in Contour Integrals</h3>
+    <p>
+      The ubiquitous factor <code>2π i</code> in Cauchy’s Residue Theorem:
+    </p>
+    <div class="formula-box purple">
+      ∮ (1 / z) dz = 2π i
+    </div>
+    <p>
+      is immediately transparent when viewed through our 1-successor perimeter counter marching around the <code>ℂ_ω</code> regular ω-gon. 
+      Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
+    </p>
+    <div class="formula-box purple">
+      dz / z = [ i · e^(i·θ) dθ ] / e^(i·θ) = i · dθ<br><br>
+      ∮ (1 / z) dz = ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
+    </div>
+    <p>
+      The contour integral is simply the 1-successor discrete accumulation of <code>ω</code> identical elementary rotations, where <code>2π</code> is the full circumference angle and <code>i</code> is the 90° perpendicular turning operator.
+    </p>
+
+    <h3>6. Quantum Phase: Why Nature Uses ℂ_ω Instead of ℝ_ω</h3>
+    <p>
+      In our <b>Quantum Logic</b> curriculum, this geometric distinction explains why physical universe amplitudes require <code>ℂ_ω</code> rather than classical real numbers <code>ℝ_ω</code>:
+    </p>
+    <ul class="step-list">
+      <li>Classical probabilities on the 1D real line <code>ℝ_ω</code> are non-negative weights in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂ ≥ p₁</code>).</li>
+      <li>Quantum wave amplitudes are complex numbers <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase angle on the 4-successor quadtree.</li>
+      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel each other out completely:
+        <div class="formula-box purple">
+          e^(i · 0) + e^(i · π) = 1 + (-1) = 0
+        </div>
+      </li>
+      <li>
+        The fundamental Pythagorean trigonometric identity:
+        <div class="formula-box purple">
+          cos²θ + sin²θ = 1
+        </div>
+        is the physical conservation law guaranteeing that total quantum probability remains strictly <code>1.0</code> (unitarity) under all unitary time evolutions.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h2>Synthesis: The Three Number Trees in Trigonometry</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Regime</th>
+          <th>Number Tree</th>
+          <th>Generators &amp; Step Size</th>
+          <th>Trigonometric Manifestation</th>
+          <th>Core STEM Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1-Successor</b></td>
+          <td><code>ℕ_ω</code> (The Trunk)</td>
+          <td><code>k → k + 1</code><br>Uniform arc <code>ds = 2π / ω</code></td>
+          <td>Discrete perimeter accumulation; circular step index</td>
+          <td>Contour integration residue <code>∮ (1/z) dz = 2π i</code>; discrete Riemann-Stieltjes sums.</td>
+        </tr>
+        <tr>
+          <td><b>2-Successor</b></td>
+          <td><code>ℝ_ω</code> (Binary Tree)</td>
+          <td><code>{ -, + }</code><br>Dyadic step <code>2⁻ⁿ</code></td>
+          <td>Recursive angle bisections; nested square roots of 2</td>
+          <td>CORDIC multiplierless bit-shift hardware; Viète’s product for π; Walsh-Hadamard telecommunications.</td>
+        </tr>
+        <tr>
+          <td><b>4-Successor</b></td>
+          <td><code>ℂ_ω</code> (The Quadtree)</td>
+          <td><code>{ +1, -1, +i, -i }</code><br>Grid cell <code>dz = dx + i·dy</code></td>
+          <td>Hyperfinite regular ω-gon; perpendicular tangent rotation</td>
+          <td>Euler’s formula <code>e^(iθ)</code>; Cauchy-Riemann conformal grid invariance; quantum phase cancellation and unitarity.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- FORWARD BRIDGE CALLOUT -->
+    <div style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 22px 26px; margin: 32px 0 16px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <span class="badge badge-purple" style="font-size: 0.8em; padding: 3px 9px;">Forward Bridge</span>
+        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">From Circular Statics to Dynamic Rates of Change</h3>
+      </div>
+      <p style="margin-top: 6px; margin-bottom: 10px; font-size: 0.95em; line-height: 1.65; color: #1e293b;">
+        Now that circular coordinates and rotor states are constructed on <code>ℂ_ω</code>, a dynamic question immediately arises: 
+        <b>What happens when a point moves along the circle?</b>
+      </p>
+      <p style="margin-bottom: 0; font-size: 0.92em; line-height: 1.6; color: #334155;">
+        In our applied STEM bridge on <b>Trigonometric Rates of Change &amp; Analysis</b>, we explore the 
+        <b>90° Turning Wheel</b>: why the velocity vector is obtained by multiplying position by <code>i</code>, 
+        how the minus sign in <code>d(cos θ)/dθ = -sin θ</code> emerges as the geometric manifestation of <code>i² = -1</code>, 
+        and how this constructive vantage resolves the famous circular limit traps in collegiate analysis.
+      </p>
+    </div>
+
+  </div>
+', 'published'),
+  (32, 'lamOverview', 31, 'Preface & Pedagogical Mission: A Tertiary Extension for Formal Science', 'lam-overview', '
+  <div align="center">
+    <font size="+2"><i><b>Curriculum Architecture for Liberal Arts Mathematics:<br>
+          Enforcing the Formal Foundations of Quantum Bayesian Inference</b></i></font><br>
+    <font size="+1"><i>— A 3-Course Tertiary Extension with Minimal Formality —</i></font>
+  </div>
+  <br>
+
+  <h3>Preface &amp; Pedagogical Mission: A Tertiary Extension for Formal Science</h3>
+  <p>
+    Mathematics in higher education has long suffered from a sharp divide. On one side are the heavy calculational
+    workhorses designed for practicing engineers and physicists; on the other are survey courses that all too often
+    retreat into disjointed topics and mechanical algebraic drills.
+  </p>
+  <p>
+    This curriculum &mdash; designed specifically for <b>Liberal Arts Mathematics (LAM)</b> &mdash; serves as a direct
+    <b>tertiary extension of our general formal science foundation</b>. Having established the core principles of formal logic,
+    statements, recursive number trees, and finite inference in our foundational curriculum, LAM has a single, razor-sharp mission:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Enforcing the rigorous formal foundations of Quantum Bayesian Inference<br>
+    through direct algebra and the nonstandard continuum.</b>
+  </div>
+  <p>
+    We hold immense respect and gratitude for our colleagues in STEM disciplines. To support the vast array of
+    continuous calculation tools used across industry and engineering, standard textbooks must construct the
+    mathematical universe using metric topologies, epsilon-delta limit towers, Lebesgue measure spaces, and Riemann
+    spheres. That apparatus provides the rigorous bedrock necessary for professional practitioners.
+  </p>
+  <p>
+    It is simply that for non-practitioners &mdash; <b>unburdened of the requirement to service continuous calculation
+      engines</b> &mdash; there is an amazingly simpler, cleaner, and more direct path to the exact same underlying
+    mathematical structures: <b>Nonstandard Analysis &amp; Emergent Algebraic Structures</b>.
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;">
+    <b>Jane''s Note on Applied Mini-Seminars:</b><br>
+    Alongside our 3 core courses, we feature a series of applied <b>Mini-Seminars</b> designed to flesh out the practical and physical implications of Liberal Arts Mathematics for the reader. These mini-seminars connect our linear algebra and nonstandard continuum directly to signal processing (<i>The Fourier Duality</i>), physical quantum theory (<i>Standard ω-Nodes to Halo Soup</i>), theoretical physics (<i>Holography &amp; Information Boundaries</i>), and higher-dimensional branching (<i>Higher-Successor Definitions: 2, 4, 8, 16 &amp; Beyond</i>)!
+  </div>
+
+  <hr>
+
+  <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
+  <p>
+    To understand why nonstandard analysis is so empowering, one must examine how mathematics historically struggled to tame continuous change:
+  </p>
+
+  <ul>
+    <li>
+      <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash; <i>Leibniz, Newton, Euler</i>:</b><br>
+      Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code>) &mdash; quantities strictly greater than zero, yet smaller than any positive standard real number. With infinitesimals, derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>). Mathematicians solved celestial orbits, fluid mechanics, and wave equations with breathtaking speed, but critics (like Bishop Berkeley) argued that infinitesimals were logically unsound "ghosts of departed quantities."
+    </li>
+    <br>
+    <li>
+      <b>Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash; <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
+      Fearing foundational inconsistency, 19th-century mathematicians banished infinitesimals. They replaced intuitive algebraic ratios with the real continuum <code>ℝ</code> and dense <b>epsilon-delta (ε-δ) limit definitions</b>:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
+      </div>
+      While logically watertight, this reform erected a massive cognitive barrier, turning intuitive geometric concepts into nested quantifier gymnastics.
+    </li>
+    <br>
+    <li>
+      <b>Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
+      As physics expanded into quantum mechanics and relativity, mathematicians sought to escape the clumsiness of metric <code>ε-δ</code> limits by ascending into <b>pure set-theoretic topology and measure theory</b>:
+      <ul>
+        <li><i>Topological Continuity:</i> <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The preimage of every open set is an open set).</li>
+        <li><i>Lebesgue Integration:</i> Integrated functions by measuring preimage sizes on <code>σ-algebras</code> rather than taking limits of partition meshes.</li>
+      </ul>
+      This abstraction was immensely powerful for functional analysis, but it severely detached continuous mathematics from physical and geometric intuition.
+    </li>
+    <br>
+    <li>
+      <b>Epoch 4: The Nonstandard Synthesis &mdash; <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
+      Leibniz''s intuitive infinitesimals were given complete, rigorous mathematical foundations through model theory and <b>John Conway''s recursive number tree</b>.
+      By observing the continuum scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the transfinite tree:
+      <ul>
+        <li><b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers born on Day <code>ω</code> of the recursive tree: <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.</li>
+        <li><b>Continuity</b> is halo preservation: <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing by transfinite branches stay infinitesimally close).</li>
+        <li><b>Differentiation</b> is pure algebraic division: <code>f''(x) = st(Δy / dx)</code>.</li>
+        <li><b>Integration</b> is genuine discrete addition: <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.</li>
+      </ul>
+    </li>
+  </ul>
+', 'published'),
+  (33, 'sequencesAndSums', 32, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
+<div class="container">
+    <h1>Sequences, Sums &amp; Progressions</h1>
+    <p style="font-size: 1.05em; color: var(--muted); margin-bottom: 24px;">
+      The doorway to continuous analysis: from the discrete stepping of trees to the algebra of ladders, musical scales, and telescoping sums.
+    </p>
+
+    <div class="highlight-card">
+      <h3 style="margin-top: 0; color: var(--primary);">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
+      <p style="margin-bottom: 0;">
+        In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
+        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> and accumulating its differences.
+      </p><p style="margin-bottom: 0;"><br></p><div class="callout" style="background: rgb(248, 250, 252); border-color: rgb(203, 213, 225) rgb(203, 213, 225) rgb(203, 213, 225) rgb(30, 41, 59); border-left-width: 2.72727px; border-left-style: none;"><h3 style="color: rgb(30, 41, 59); margin-top: 0px;">Demystifying F: The Sequence as a Function-Type</h3><p>In casual speech, we often speak of a "sequence" as if it were a static list of numbers. But in the formal architecture of Middle Way Math (and Lean 4), every sequence <code>F</code> is a <b>FunctionType</b>:</p><div class="formula-box">FunctionType = Directed Pair (The Channel) + Rule Type (The Assignment Rule)</div><ul><li><b>The Channel (Function-Type):</b> For sequences, the channel is <code>ℕ_ω → ℝ_ω</code>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the hyperreal continuum <code>ℝ_ω</code>. This channel guarantees that quantities advance step-by-step up to the horizon <code>ω</code>.</li><li><b>The Rule (The Function''s Personality):</b> What gives meat to that mysterious <code>F</code>? Its assignment rule <code>k ↦ F(k)</code> is almost always determined by a <b>function from a specified domain</b>:<ul><li><b>From Polynomial Functions:</b> Taking <code>f(x) = c · x³</code> from the continuum function domain and evaluating it on step indices yields the cubic sequence rule <code>F(k) = c · k³</code>.</li><li><b>From Exponential Functions:</b> Taking <code>f(x) = a · r^x</code> yields the geometric progression rule <code>F(k) = a · r^k</code>.</li><li><b>From Physical Energy Functions:</b> Taking <code>f(v) = ½ · m · v²</code> evaluated at velocity steps <code>v_k = k · Δv</code> yields the telescoping work-energy ladder.</li></ul></li></ul><p style="margin: 8px 0px 0px;">In short: the sequence function''s <b>type</b> provides the stepping channel; its <b>rule</b> inherits its shape directly from a function!</p><div><br></div></div>
+    </div>
+
+    <h2>1. The Two Fundamental Ladders of the Trees</h2>
+    <p>
+      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of progression:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tree Structure</th>
+          <th>Progression Type</th>
+          <th>Step Law</th>
+          <th>Formula</th>
+          <th>Characteristic Property</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Tree 1 (Unary Spine)</b><br>1-successor count</td>
+          <td><b>Arithmetic Progression</b></td>
+          <td>Constant additive step: <code>+ d</code></td>
+          <td><code>F(k) = a + k · d</code></td>
+          <td>Uniform linear march; constant difference <code>ΔF(k) = d</code>.</td>
+        </tr>
+        <tr>
+          <td><b>Tree 2 (Binary Branching)</b><br>2-successor branching</td>
+          <td><b>Geometric Progression</b></td>
+          <td>Constant multiplicative ratio: <code>× r</code></td>
+          <td><code>F(k) = a · r^k</code></td>
+          <td>Exponential growth; difference proportional to term: <code>ΔF(k) = a · r^k · (r - 1)</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="background: #f8fafc; border-color: #cbd5e1; border-left: 4px solid var(--primary);">
+      <h3 style="margin-top: 0; color: var(--primary);"><span style="color: rgb(30, 58, 138); font-size: 1.35rem; background-color: rgb(255, 255, 255);">2. Musical Scales: The Human Ear as a Geometric Processor</span></h3></div>
+    <p>
+      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
+    </p>
+    <p>
+      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
+    </p>
+
+    <div class="callout">
+      <h3 style="margin-top: 0; color: var(--accent);">The 12-Tone Equal Temperament Ladder</h3>
+      <p>
+        An <b>octave</b> is a pure frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio:
+      </p>
+      <div class="formula-box">
+        r = 2^(1/12) ≈ 1.059463...
+      </div>
+      <p>
+        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
+      </p>
+      <div class="formula-box">
+        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
+      </div>
+      <p>
+        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
+      </p>
+    </div>
+
+    <h3>The Cochlear Frequency Sorter</h3>
+    <p>
+      Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex. 
+      Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human ear''s sensor corresponds to equal pitch intervals—a living geometric progression analyzer.
+    </p>
+
+    <h2>3. The Sum of a Progression &amp; The High School Trick</h2>
+    <p>
+      How do we sum a geometric progression? In secondary school algebra, students are introduced to the celebrated "shift-and-subtract" method:
+    </p>
+    <div class="formula-box">
+      S_n = a + a·r + a·r^2 + ... + a·r^(n-1)<br>
+      r · S_n =    a·r + a·r^2 + ... + a·r^(n-1) + a·r^n
+    </div>
+    <p>
+      Subtracting the second equation from the first collapses every single interior power:
+    </p>
+    <div class="formula-box">
+      (1 - r) · S_n = a - a · r^n &nbsp;⇒&nbsp; S_n = a · (1 - r^n) / (1 - r)
+    </div>
+    <p>
+      Notice what made this miraculous calculation work: <b>all intermediate terms cancelled pairwise</b>. Only the initial boundary term <code>a</code> and the outer boundary term <code>a · r^n</code> survived.
+    </p>
+
+    <h2>4. Telescoping Sums: A Nod Toward the Fundamental Theorem</h2>
+    <p>
+      The shift-and-subtract trick for geometric series is not an isolated algebraic accident. It is a specific instance of a universal <b>telescoping identity</b>—an algebraic cancellation pattern that will soon serve as our bridge to continuous analysis.
+    </p>
+
+    <div class="highlight-card">
+      <h3 style="margin-top: 0; color: var(--primary);">The Universal Telescoping Cancellation</h3>
+      <p>
+        For <i>any</i> sequence function <code>F : ℕ_ω → ℝ_ω</code>—regardless of which algebraic rule <code>F</code> adopts—if we define the forward step difference:
+      </p>
+      <div class="formula-box">
+        ΔF(k) = F(k + 1) - F(k)
+      </div>
+      <p>
+        Then the sum of differences collapses identically to the net boundary difference:
+      </p>
+      <div class="formula-box">
+        ∑_{k=0}^{n-1} ΔF(k) = [ F(1) - F(0) ] + [ F(2) - F(1) ] + ... + [ F(n) - F(n-1) ] = F(n) - F(0)
+      </div>
+      <p>
+        Because the theorem quantifies universally over <code>∀ (F : ℕ_ω → ℝ_ω)</code>, it holds for <b>every possible rule</b>! 
+        Whether we plug in the cubic rule <code>F(k) = c · k³</code>, the odd-sum rule <code>F(k) = k²</code>, or the work-energy rule <code>F(k) = ½ m v_k²</code>, the interior terms must vanish identically.
+      </p>
+      <p style="margin-bottom: 0;">
+        This finite algebraic identity—which in the analysis lectures ahead will blossom into the Fundamental Theorem of Calculus (FTC)—is machine-verified in Lean 4 as <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>.
+      </p>
+    </div>
+
+    <p>
+      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>
+    </p>
+
+    <h3>Numeric Sequences vs. Function Sequences</h3>
+    <p>
+      Here we observe an important architectural distinction that will recur throughout advanced analysis:
+    </p>
+    <ul>
+      <li><b>Numeric Sequence (<code>ℕ_ω → ℝ_ω</code>):</b> At each step index <code>k</code>, the sequence outputs a single numerical scalar (a ladder rung, a partial sum, or a particle position).</li>
+      <li><b>Function Sequence (<code>ℕ_ω → FunctionSpace ≡ ℕ_ω → (ℝ_ω → ℝ_ω)</code>):</b> At each step index <code>k</code>, the sequence outputs an <i>entire spatial function</i> <code>F_k(x)</code> holding across the full continuum domain (such as progressive Taylor polynomial curves, Fourier wave sums, or heat diffusion time slices across a spatial bar).</li>
+    </ul>
+    <p>
+      Both share the discrete stepping channel on <code>ℕ_ω</code>, but a function sequence carries an entire spatial profile forward at every step.
+    </p>
+
+    <h2>5. From Step Index k to Continuum Transect x</h2>
+    <p>
+      Once we recognize that summation is boundary cancellation, continuous calculus requires only one conceptual refinement:
+    </p>
+    <ol>
+      <li>Replace the integer step index <code>k</code> with grid nodes <code>x_k = a + k · dx</code>, where <code>dx</code> is an infinitesimal step.</li>
+      <li>The difference quotient becomes the derivative rate: <code>f(x_k) = ΔF(k) / dx</code>.</li>
+      <li>The telescoping sum becomes the definite Riemann-hyperfinite integral:
+        <div class="formula-box">
+          ∫_a^b f(x) dx = ∑_{k=0}^{N-1} f(x_k) dx = ∑_{k=0}^{N-1} ΔF(k) = F(b) - F(a)
+        </div>
+      </li>
+    </ol>
+    <p>
+      Calculus is not an esoteric regime detached from elementary mathematics; it is the exact same pairwise boundary cancellation students learn in high school algebra, operating across an infinitesimal grid.
+    </p>
+
+    <div class="callout" style="background: #f0fdf4; border-color: #bbf7d0;">
+      <h3 style="margin-top: 0; color: #166534;">Up Next in Analysis</h3>
+      <p style="margin-bottom: 0; color: #166534;">
+        Having established the behavior of discrete progressions, we next examine continuous exponential growth, the natural logarithm, and the differential rates of 1D analysis.
+      </p>
+    </div>
+  </div>
+', 'published'),
+  (34, 'analysis1DIntro', 33, 'Course 2 Overview: Analysis 1D & The Real Continuum', 'analysis1-d-intro', '
   <div align="center">
     <i><font size="+2"><b>Course 2 Overview: Analysis 1D &amp; The Real Continuum</b></font></i><br>
     <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
@@ -7394,7 +8856,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
   </ul>
 ', 'published'),
-  (33, 'analysis1DLecture1', 32, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+  (35, 'analysis1DLecture1', 34, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
     <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
@@ -7593,7 +9055,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 ', 'published'),
-  (34, 'analysis1DLecture2', 33, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+  (36, 'analysis1DLecture2', 35, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
     <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
@@ -7848,7 +9310,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 ', 'published'),
-  (35, 'analysis1DLecture3', 34, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+  (37, 'analysis1DLecture3', 36, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
     <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
@@ -7989,7 +9451,988 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li>How continuous quantum state evolution <code>U(t) = e^(-iHt/ħ)</code> completes our description of <b>Quantum Bayesian Inference</b>!</li>
   </ul>
 ', 'published'),
-  (36, 'analysis2DIntro', 35, 'Course 3: Analysis 2D & The Complex Continuum', 'analysis2-d-intro', '
+  (38, 'stemTrigDerivatives', 37, 'Trigonometric Rates of Change & Analysis Bridge', 'stem-trig-derivatives', '
+
+  <div class="container">
+    <h1>Trigonometric Rates of Change &amp; Analysis Bridge</h1>
+    <div class="subtitle">
+      The 90° Turning Wheel, Infinitesimal Tangent Triangles, Energy Conservation, and Resolving the Circular Limit Trap
+    </div>
+
+    <!-- OPENING PERSPECTIVE -->
+    <p>
+      In introductory calculus, students are taught to memorize two fundamental formulas for circular rates of change:
+    </p>
+
+    <div class="formula-box">
+      d/dθ [ sin θ ] = +cos θ<br>
+      d/dθ [ cos θ ] = -sin θ
+    </div>
+
+    <p>
+      Almost immediately, a natural question arises: <b>Why does one derivative get a plus sign while the other gets a minus sign?</b> 
+      Is this an arbitrary algebraic quirk, or does it reflect an intrinsic geometric law? 
+      Furthermore, how does this pair of derivatives connect across undergraduate and graduate <b>Mathematical Analysis</b>?
+    </p>
+
+    <div class="callout">
+      <strong>Core Discovery:</strong> The minus sign is not an arbitrary rule. It is the direct consequence of four interlocking perspectives:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>The Complex 90° Turning Wheel:</b> Velocity on a circle of constant radius is strictly perpendicular to position. In the complex plane <code>ℂ_ω</code>, turning 90° is multiplying by <code>i</code>, and the minus sign is literally the algebraic fact that <b><code>i² = -1</code></b>.</li>
+        <li><b>Where You Are vs. Where You Are Going:</b> Your horizontal velocity depends on your vertical height (moving left when high), while your vertical velocity depends on your horizontal distance (moving up when to the right).</li>
+        <li><b>The Infinitesimal Tangent Triangle:</b> Stepping forward along the circular arc forces horizontal displacement <code>dx</code> to point leftward (negative) while vertical displacement <code>dy</code> points upward (positive).</li>
+        <li><b>Harmonic Oscillation (a = -x):</b> Differentiating twice flips direction 180° back toward the center, creating Hooke''s Law and simple harmonic vibration.</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 1: THE COMPLEX 90° TURNING WHEEL -->
+    <h2><span class="badge badge-purple">Perspective 1</span> The Complex 90° Turning Wheel (i² = -1)</h2>
+
+    <p>
+      On our 4-successor complex grid <code>ℂ_ω</code>, any point on the unit circle at angle <code>θ</code> is represented as a single complex number:
+    </p>
+    <div class="formula-box purple">
+      z(θ) = cos θ + i · sin θ
+    </div>
+
+    <p>
+      Now imagine a particle traveling counterclockwise around the circle at unit speed. The <b>velocity vector</b> is the rate of change with respect to angle <code>θ</code>.
+      Because motion is confined to a circle of fixed radius 1, the velocity vector must be <b>strictly perpendicular (tangent)</b> to the radial position vector <code>z(θ)</code>.
+    </p>
+
+    <p>
+      How do you rotate any vector in the complex plane 90° counterclockwise? <b>You multiply by <code>i</code>!</b>
+    </p>
+    <div class="formula-box purple">
+      d/dθ [ z(θ) ] = i · z(θ)
+    </div>
+
+    <p>Now observe what multiplying by <code>i</code> does to the real and imaginary components:</p>
+    <div class="formula-box purple">
+      i · z(θ) = i · (cos θ + i · sin θ)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= i · cos θ + i² · sin θ
+    </div>
+
+    <p>
+      Because <b><code>i² = -1</code></b> by the foundational definition of imaginary numbers:
+    </p>
+    <div class="formula-box danger">
+      i · z(θ) = -sin θ + i · cos θ
+    </div>
+
+    <p>Matching the real (horizontal) and imaginary (vertical) components gives the derivatives instantly:</p>
+    <div class="formula-box">
+      Real Part (Horizontal velocity): &nbsp;&nbsp;&nbsp;d/dθ [ cos θ ] = -sin θ<br>
+      Imaginary Part (Vertical velocity): d/dθ [ sin θ ] = +cos θ
+    </div>
+
+    <p>
+      <b>The Big Takeaway:</b> The minus sign on <code>cos θ</code> is literally the geometric manifestation of <code>i² = -1</code>. Rotating the vertical component (<code>+i · sin θ</code>) by another 90° points it directly into the negative real axis (<code>-sin θ</code>).
+    </p>
+
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 390" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 90° Velocity Wheel — Multiplying Position by i</text>
+
+        <!-- Left Pane: The Circle & Vectors -->
+        <rect x="14" y="44" width="450" height="332" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">POSITION &amp; VELOCITY ON THE UNIT CIRCLE</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="210" x2="418" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="239" y1="80" x2="239" y2="340" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <text x="415" y="204" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Real (x)</text>
+        <text x="245" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Imag (y)</text>
+
+        <!-- Unit Circle -->
+        <circle cx="239" cy="210" r="105" fill="none" stroke="#94a3b8" stroke-width="1.8" />
+
+        <!-- Position Vector z(θ) at 35 degrees -->
+        <line x1="239" y1="210" x2="325" y2="150" stroke="#2563eb" stroke-width="2.5" />
+        <circle cx="325" cy="150" r="5" fill="#2563eb" />
+        <text x="290" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#2563eb">z(θ)</text>
+        <text x="333" y="145" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Point: (cos θ, sin θ)</text>
+
+        <!-- Velocity Vector: Tangent line at (325, 150), rotated 90 deg CCW -->
+        <line x1="325" y1="150" x2="279" y2="85" stroke="#dc2626" stroke-width="2.5" />
+        <circle cx="279" cy="85" r="4" fill="#dc2626" />
+        <!-- Right Angle Marker -->
+        <path d="M 317 138 L 306 145 L 314 157" fill="none" stroke="#7c3aed" stroke-width="1.5" />
+        <text x="270" y="78" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#dc2626">Velocity: i · z(θ)</text>
+        <text x="268" y="93" text-anchor="end" font-family="monospace" font-size="9.5" fill="#991b1b">(-sin θ, +cos θ)</text>
+
+        <!-- Angle Arc θ -->
+        <path d="M 274 210 A 35 35 0 0 0 268 185" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="282" y="198" font-family="system-ui, sans-serif" font-size="10" fill="#2563eb">θ</text>
+
+        <!-- Component Projections of Velocity -->
+        <line x1="325" y1="150" x2="279" y2="150" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2" />
+        <text x="302" y="164" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#dc2626">dx = -sin θ</text>
+        <line x1="279" y1="150" x2="279" y2="85" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2" />
+        <text x="272" y="122" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#059669">dy = +cos θ</text>
+
+        <!-- Right Pane: Algebraic Breakdown -->
+        <rect x="474" y="44" width="292" height="332" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">ALGEBRAIC DERIVATION (i² = -1)</text>
+
+        <rect x="488" y="85" width="264" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="105" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">1. Position Vector:</text>
+        <text x="510" y="128" font-family="monospace" font-size="12" fill="#1e40af">z = cos θ + i · sin θ</text>
+
+        <rect x="488" y="155" width="264" height="66" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="175" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">2. 90° Turn (Multiply by i):</text>
+        <text x="510" y="198" font-family="monospace" font-size="12" fill="#7c3aed">dz/dθ = i · (cos θ + i · sin θ)</text>
+
+        <rect x="488" y="231" width="264" height="82" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1" />
+        <text x="500" y="251" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#991b1b">3. The Negative Sign Emerges:</text>
+        <text x="510" y="274" font-family="monospace" font-size="11.5" fill="#991b1b">dz/dθ = i · cos θ + i² · sin θ</text>
+        <text x="510" y="296" font-family="monospace" font-size="12" font-weight="bold" fill="#dc2626">= -sin θ + i · cos θ</text>
+
+        <text x="620" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Horizontal: d/dθ(cos θ) = -sin θ</text>
+        <text x="620" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertical:   d/dθ(sin θ) = +cos θ</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: The Complex Velocity Wheel &mdash; multiplying position by <code>i</code> turns the vector 90° counterclockwise into the tangent velocity direction. The minus sign is created by <code>i² = -1</code>.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 2: PHYSICAL CLOCK INTUITION -->
+    <h2><span class="badge badge-blue">Perspective 2</span> Physical Clock Intuition: Where You Are vs. Where You Are Going</h2>
+
+    <p>
+      Imagine walking counterclockwise around a circular running track. At any instant, ask two simple physical questions:
+    </p>
+    <ol>
+      <li><b>Where are you currently located?</b> (Your position coordinates <code>x = cos θ</code> and <code>y = sin θ</code>).</li>
+      <li><b>In which direction are you heading?</b> (Your velocities <code>dx/dθ</code> and <code>dy/dθ</code>).</li>
+    </ol>
+
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 24%;">Clock Position</th>
+            <th style="width: 22%;">Current Location (x, y)</th>
+            <th style="width: 26%;">Heading Direction</th>
+            <th style="width: 28%;">Resulting Derivatives</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>3 o''clock</b><br>(Angle <code>θ = 0</code>)</td>
+            <td><code>x = +1</code> (far East)<br><code>y = 0</code> (at equator)</td>
+            <td>Heading straight <b>North</b> (upward).<br>No left-or-right motion.</td>
+            <td><code>d/dθ(sin 0) = cos 0 = +1</code><br><code>d/dθ(cos 0) = -sin 0 = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>12 o''clock</b><br>(Angle <code>θ = π/2</code>)</td>
+            <td><code>x = 0</code> (on prime meridian)<br><code>y = +1</code> (North Pole)</td>
+            <td>Heading straight <b>West</b> (leftward).<br>Vertical height is flat.</td>
+            <td><code>d/dθ(cos π/2) = -sin(π/2) = -1</code><br><code>d/dθ(sin π/2) = cos(π/2) = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>9 o''clock</b><br>(Angle <code>θ = π</code>)</td>
+            <td><code>x = -1</code> (far West)<br><code>y = 0</code> (at equator)</td>
+            <td>Heading straight <b>South</b> (downward).<br>No left-or-right motion.</td>
+            <td><code>d/dθ(sin π) = cos π = -1</code><br><code>d/dθ(cos π) = -sin π = 0</code></td>
+          </tr>
+          <tr>
+            <td><b>6 o''clock</b><br>(Angle <code>θ = 3π/2</code>)</td>
+            <td><code>x = 0</code> (on prime meridian)<br><code>y = -1</code> (South Pole)</td>
+            <td>Heading straight <b>East</b> (rightward).<br>Vertical height is flat.</td>
+            <td><code>d/dθ(cos 3π/2) = -sin(3π/2) = +1</code><br><code>d/dθ(sin 3π/2) = cos(3π/2) = 0</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Notice the profound cross-coupling between the two coordinates:
+    </p>
+    <ul>
+      <li><b>Your vertical velocity depends on your horizontal position:</b> <code>d(sin θ)/dθ = +cos θ</code>.<br>
+        The further to the right you are (higher <code>cos θ</code>), the faster you are moving upward (positive <code>sin</code> rate).
+      </li>
+      <li><b>Your horizontal velocity depends on your vertical height:</b> <code>d(cos θ)/dθ = -sin θ</code>.<br>
+        The higher above the equator you are (higher <code>sin θ</code>), the faster you are rushing to the left into quadrant 2 (negative <code>cos</code> rate).
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 3: INFINITESIMAL TANGENT TRIANGLE -->
+    <h2><span class="badge badge-blue">Perspective 3</span> The Infinitesimal Tangent Triangle</h2>
+
+    <p>
+      Consider stepping an infinitesimal angle <code>dθ = 1/ω</code> along the circumference of the unit circle from vertex <code>z_k</code> to vertex <code>z_(k+1)</code>:
+    </p>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 2: The Infinitesimal Tangent Triangle (dx and dy Steps)</text>
+
+        <!-- Left Diagram: Arc Zoom -->
+        <circle cx="120" cy="260" r="4.5" fill="#475569" />
+        <text x="110" y="275" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#475569">Origin (0,0)</text>
+
+        <!-- Radial rays to z_k and z_(k+1) -->
+        <line x1="120" y1="260" x2="310" y2="130" stroke="#94a3b8" stroke-width="1.5" />
+        <line x1="120" y1="260" x2="280" y2="90" stroke="#94a3b8" stroke-width="1.5" />
+        <path d="M 170 260 A 50 50 0 0 0 162 230" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="178" y="244" font-family="system-ui, sans-serif" font-size="10" fill="#2563eb">θ</text>
+
+        <!-- Arc curve -->
+        <path d="M 310 130 A 230 230 0 0 0 280 90" fill="none" stroke="#0284c7" stroke-width="2.5" />
+        <text x="312" y="105" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#0284c7">Arc = dθ</text>
+
+        <!-- Right Zoom: Tangent Triangle -->
+        <rect x="380" y="55" width="370" height="240" rx="8" fill="#f8fafc" stroke="#bfdbfe" stroke-width="1.2" />
+        <text x="565" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">ZOOM: INFINITESIMAL STEP DISPLACEMENT</text>
+
+        <!-- Enlarged Triangle -->
+        <line x1="620" y1="220" x2="500" y2="110" stroke="#0284c7" stroke-width="3" />
+        <text x="575" y="155" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#0284c7">Hypotenuse: ds = dθ</text>
+
+        <!-- Horizontal leg dx (pointing left) -->
+        <line x1="620" y1="220" x2="500" y2="220" stroke="#dc2626" stroke-width="2.5" />
+        <polygon points="500,220 512,215 512,225" fill="#dc2626" />
+        <text x="560" y="242" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#dc2626">dx = -sin θ · dθ (LEFT)</text>
+
+        <!-- Vertical leg dy (pointing up) -->
+        <line x1="500" y1="220" x2="500" y2="110" stroke="#059669" stroke-width="2.5" />
+        <polygon points="500,110 495,122 505,122" fill="#059669" />
+        <text x="488" y="170" text-anchor="end" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#059669">dy = +cos θ · dθ (UP)</text>
+
+        <!-- Angle θ in Triangle -->
+        <path d="M 500 140 A 30 30 0 0 0 521 129" fill="none" stroke="#2563eb" stroke-width="1.5" />
+        <text x="522" y="148" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#2563eb">θ</text>
+
+        <circle cx="620" cy="220" r="5" fill="#2563eb" />
+        <text x="630" y="224" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Start: z_k</text>
+
+        <circle cx="500" cy="110" r="5" fill="#059669" />
+        <text x="490" y="105" text-anchor="end" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#059669">End: z_(k+1)</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 2: The Infinitesimal Tangent Triangle &mdash; traveling along the circle arc <code>dθ</code> decomposes into an upward step <code>dy = +cos θ · dθ</code> and a leftward step <code>dx = -sin θ · dθ</code>.
+      </div>
+    </div>
+
+    <p>
+      In this right-angle tangent triangle:
+    </p>
+    <ul>
+      <li>The hypotenuse has length equal to arc length <code>dθ</code>.</li>
+      <li>Because the tangent line is perpendicular to the radial angle <code>θ</code>, the angle at the top vertex of the triangle is exactly <code>θ</code>.</li>
+      <li>The <b>vertical leg</b> (adjacent to angle <code>θ</code>) points upward:
+        <div class="formula-box">
+          dy = cos θ · dθ &nbsp;&nbsp;&rarr;&nbsp;&nbsp; dy/dθ = +cos θ
+        </div>
+      </li>
+      <li>The <b>horizontal leg</b> (opposite to angle <code>θ</code>) points leftward into the negative x direction:
+        <div class="formula-box danger">
+          dx = -sin θ · dθ &nbsp;&nbsp;&rarr;&nbsp;&nbsp; dx/dθ = -sin θ
+        </div>
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 4: THE COLLEGIATE ANALYSIS BRIDGE -->
+    <h2><span class="badge badge-green">Curriculum Bridge</span> Connecting to Collegiate Mathematical Analysis</h2>
+
+    <p>
+      How does this geometric, complex turning perspective connect to undergraduate and graduate courses in <b>Mathematical Analysis</b>? 
+      When examined closely across curriculum tracks, this constructive perspective exposes and cleanly resolves one of the most famous hidden "circular traps" in standard pedagogy.
+    </p>
+
+    <!-- 1. Real Analysis -->
+    <h3>1. Real Analysis: Resolving the Circular Reasoning Trap</h3>
+    <p>
+      In standard freshman calculus, textbooks "prove" the derivatives of sine and cosine using the angle-addition formula and the fundamental limit:
+    </p>
+    <div class="formula-box">
+      lim[h &rarr; 0] (sin h / h) = 1
+    </div>
+    <p>
+      To evaluate that limit, standard textbooks draw a circular sector and apply the Squeeze Theorem:
+      <code>sin h &lt; h &lt; tan h</code>, where <code>h</code> is taken to be the <b>arc length of the circular wedge</b>.
+    </p>
+
+    <div class="callout" style="background: #fef2f2; border-color: #fca5a5;">
+      <strong style="color: #991b1b;">The Scandal of Circular Reasoning:</strong><br>
+      As <b>Walter Rudin</b> famously pointed out in Chapter 8 of <i>Principles of Mathematical Analysis</i>, this elementary argument is completely circular:
+      <ul style="margin-top: 6px;">
+        <li>How does standard analysis define the "arc length" of a curve?</li>
+        <li>Arc length is defined by the integral:
+          <div class="formula-box" style="background: #ffffff; margin: 8px 0;">
+            Length = ∫ √[ 1 + (dy/dx)² ] dx
+          </div>
+        </li>
+        <li>Evaluating that integral for a circular arc requires you to <b>already know the derivative</b> of the trigonometric functions!</li>
+        <li>Therefore, standard courses use the derivative to define arc length, and then use arc length to prove the derivative.</li>
+      </ul>
+    </div>
+
+    <p>
+      <b>How our Number Tree Framework Resolves This:</b><br>
+      On the hyperfinite grid <code>ℂ_ω</code>, the unit circle is an <b>explicit regular ω-gon with discrete chord steps</b>:
+    </p>
+    <div class="formula-box purple">
+      ds = |z_(k+1) - z_k| = |i · z_k · dθ| = dθ
+    </div>
+    <p>
+      Arc length is not an abstract limit of integrals—it is an elementary discrete sum of chord lengths whose standard part is <code>2π</code>. 
+      The derivative <code>dz/dθ = i · z</code> emerges directly from the local geometry of the quadtree grid without any circular reasoning or transcendental power series.
+    </p>
+
+    <!-- 2. Complex Analysis -->
+    <h3>2. Complex Analysis: The 2×2 Rotation Matrix Collapses to i</h3>
+    <p>
+      In Complex Analysis, the unit circle path is the complex exponential function <code>f(θ) = e^(i·θ)</code>.
+      Differentiating with respect to real angle <code>θ</code> yields:
+    </p>
+    <div class="formula-box purple">
+      d/dθ [ e^(i·θ) ] = i · e^(i·θ)
+    </div>
+    <p>
+      Notice the extraordinary economy of complex numbers:
+    </p>
+    <ul>
+      <li>In real 2D vector analysis, rotating a vector 90° requires multiplying by a 2 × 2 matrix:
+        <div class="formula-box">
+          J = [ [ 0, -1 ], [ 1, 0 ] ]
+        </div>
+      </li>
+      <li>In Complex Analysis, that entire matrix collapses into <b>the single imaginary unit <code>i</code></b>!</li>
+    </ul>
+    <p>
+      Writing <code>e^(i·θ) = u(θ) + i · v(θ)</code> where <code>u = cos θ</code> and <code>v = sin θ</code>:
+    </p>
+    <div class="formula-box purple">
+      du/dθ + i · (dv/dθ) = i · (u + i · v) = -v + i · u
+    </div>
+    <p>
+      Equating the real and imaginary parts reproduces the Cauchy-Riemann conformal condition: complex differentiability forces the tangent velocity to be a pure 90° turn, preserving square grid cells with zero angular shear.
+    </p>
+
+    <!-- 3. Differential Equations -->
+    <h3>3. Differential Equations (ODEs): Pure Imaginary Eigenvalues &amp; Energy Conservation</h3>
+    <p>
+      In Ordinary Differential Equations, sine and cosine are the unique solution to the coupled first-order linear system:
+    </p>
+    <div class="formula-box">
+      dx/dθ = -y<br>
+      dy/dθ = +x
+    </div>
+    <p>Two essential properties follow directly:</p>
+    <ul>
+      <li><b>Pure Imaginary Eigenvalues (Stable Center):</b>
+        The characteristic equation <code>det(A - λI) = λ² + 1 = 0</code> gives <code>λ = ±i</code>. 
+        Because the real part of the eigenvalue is strictly zero (<code>Re(λ) = 0</code>), there is zero damping and zero exponential growth: trajectories are eternal periodic circles.
+      </li>
+      <li><b>Conservation of Radius (Hamiltonian Energy):</b>
+        Evaluate the rate of change of radial distance squared (<code>r² = x² + y²</code>):
+        <div class="formula-box success">
+          d/dθ [ (x² + y²) / 2 ] = x · (dx/dθ) + y · (dy/dθ) = x · (-y) + y · (+x) = -x·y + x·y = 0
+        </div>
+        The minus sign on <code>d/dθ(cos θ) = -sin θ</code> is the <b>exact algebraic requirement that preserves radius and energy</b>!
+      </li>
+    </ul>
+
+    <!-- 4. Differential Geometry -->
+    <h3>4. Differential Geometry: The Moving Frenet-Serret Frame</h3>
+    <p>
+      In Differential Geometry, circular motion generates the canonical orthonormal moving frame:
+    </p>
+    <ol>
+      <li><b>Position Vector:</b> <code>r(θ) = cos θ · e₁ + sin θ · e₂</code></li>
+      <li><b>Unit Tangent Vector (Velocity):</b> <code>T(θ) = dr/dθ = -sin θ · e₁ + cos θ · e₂</code> (with <code>T · r = 0</code>).</li>
+      <li><b>Unit Normal Vector (Centripetal Acceleration):</b> <code>N(θ) = dT/dθ = -cos θ · e₁ - sin θ · e₂ = -r(θ)</code> (pointing directly inward).</li>
+      <li><b>Constant Curvature:</b> <code>κ = |dT/dθ| = √[cos²θ + sin²θ] = 1</code>.</li>
+    </ol>
+    <p>
+      Every successive derivative advances the coordinate frame by another 90° turn.
+    </p>
+
+    <!-- PEDAGOGICAL PLACEMENT MAP -->
+    <h3>Pedagogical Placement Map Across University Courses</h3>
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Course Level</th>
+            <th style="width: 35%;">Traditional Pain Point</th>
+            <th style="width: 40%;">How This Presentation Elevates It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Calculus I / Pre-Analysis</b></td>
+            <td>Students blindly memorize the minus sign and struggle with the Squeeze Theorem.</td>
+            <td>Gives immediate visual/physical clock intuition ("where you are vs. where you are heading").</td>
+          </tr>
+          <tr>
+            <td><b>Real Analysis</b></td>
+            <td>Circular definitions of circular arc length vs. non-intuitive power series definitions.</td>
+            <td>Shows how discrete regular ω-gons define arc length and derivatives constructively without circular traps.</td>
+          </tr>
+          <tr>
+            <td><b>Complex Analysis</b></td>
+            <td>Connecting 2D vector calculus matrices to complex scalar multiplication.</td>
+            <td>Proves that multiplication by <code>i</code> rotates the tangent vector by 90°, directly unlocking Cauchy-Riemann.</td>
+          </tr>
+          <tr>
+            <td><b>Differential Equations</b></td>
+            <td>Treating coupled systems and harmonic oscillation as purely algebraic matrix exercises.</td>
+            <td>Connects the derivatives directly to energy conservation (<code>d(r²)/dt = 0</code>) and imaginary eigenvalues (<code>λ = ±i</code>).</td>
+          </tr>
+          <tr>
+            <td><b>Differential Geometry</b></td>
+            <td>Abstract definitions of the Frenet-Serret apparatus and geodesic curvature.</td>
+            <td>Provides the primary benchmark of constant curvature (<code>κ = 1</code>) with inward acceleration (<code>a = -x</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 5: LEAN 4 FORMALIZATION -->
+    <h2><span class="badge badge-purple">Lean 4 Scaffolding</span> The Differential Operator &amp; C² State Space</h2>
+
+    <p>
+      In our formal verification scaffolding, differentiability and the harmonic property are not external limit puzzles. 
+      They are typed directly as algebraic properties of the directed pair constructor:
+    </p>
+
+    <div class="formula-box purple">
+      -- 1> The Planar Tangent Turning Operator:<br>
+      def D_turn (v : R_w × R_w) : R_w × R_w := (-v.2, v.1)<br><br>
+      -- Proved by definition (no limits required!):<br>
+      theorem D_turn_squared (v : R_w × R_w) :<br>
+      &nbsp;&nbsp;D_turn (D_turn v) = (-v.1, -v.2) := by rfl<br><br>
+      -- 2> The Complex Tangent Operator (z ↦ i · z):<br>
+      def D_complex (z : C_w) : C_w := ⟨-z.im, z.re⟩<br><br>
+      theorem D_complex_squared (z : C_w) :<br>
+      &nbsp;&nbsp;D_complex (D_complex z) = ⟨-z.re, -z.im⟩ := by rfl
+    </div>
+
+    <p>
+      To guarantee that functions carry their differentiability inherently rather than as afterthoughts, we package functions into a certified <b>C² bundle</b> containing both the function and its verified derivative shadows:
+    </p>
+
+    <div class="formula-box purple">
+      structure C2_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d2 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)<br>
+      &nbsp;&nbsp;h_d2 : ∀ x : R_w, has_derivative_at d1 x (d2 x)<br><br>
+      -- Certified harmonic property verified by definitional reflection:<br>
+      theorem sin_harmonic_property (θ : R_w) :<br>
+      &nbsp;&nbsp;sin_c2_bundle.d2 θ = -sin_w θ := by rfl
+    </div>
+
+    <hr>
+
+    <!-- SYNTHESIS TABLE -->
+    <h2>Synthesis: The 4-Step Cyclic Orbit of Derivatives</h2>
+    <p>
+      Applying the differential operator repeatedly cycles through the four cardinal directions on the complex plane, 
+      mirroring powers of the imaginary unit <code>i^n</code>:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Physical Meaning</th>
+          <th>Vector Expression</th>
+          <th>Complex Operator</th>
+          <th>Geometric Direction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>0th</b></td>
+          <td>Position <code>z(θ)</code></td>
+          <td><code>(cos θ, &nbsp;sin θ)</code></td>
+          <td><code>1 · z(θ)</code></td>
+          <td>Points radially outward from origin (Angle <code>θ</code>)</td>
+        </tr>
+        <tr>
+          <td><b>1st</b></td>
+          <td>Velocity <code>dz/dθ</code></td>
+          <td><code>(-sin θ, &nbsp;+cos θ)</code></td>
+          <td><code>i · z(θ)</code></td>
+          <td>Points tangent to circle, rotated <b>+90°</b> (Angle <code>θ + π/2</code>)</td>
+        </tr>
+        <tr>
+          <td><b>2nd</b></td>
+          <td>Acceleration <code>d²z/dθ²</code></td>
+          <td><code>(-cos θ, &nbsp;-sin θ)</code></td>
+          <td><code>i² · z(θ) = -z(θ)</code></td>
+          <td>Points radially inward toward center, rotated <b>+180°</b> (Angle <code>θ + π</code>)</td>
+        </tr>
+        <tr>
+          <td><b>3rd</b></td>
+          <td>Jerk <code>d³z/dθ³</code></td>
+          <td><code>(+sin θ, &nbsp;-cos θ)</code></td>
+          <td><code>i³ · z(θ) = -i · z(θ)</code></td>
+          <td>Points backward along tangent, rotated <b>+270°</b> (Angle <code>θ + 3π/2</code>)</td>
+        </tr>
+        <tr>
+          <td><b>4th</b></td>
+          <td>Snap <code>d⁴z/dθ⁴</code></td>
+          <td><code>(cos θ, &nbsp;sin θ)</code></td>
+          <td><code>i⁴ · z(θ) = +z(θ)</code></td>
+          <td>Full <b>360°</b> rotation back to initial position!</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+', 'published'),
+  (39, 'stemExpLogFoundations', 38, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
+
+  <div class="container">
+    <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
+    <div class="subtitle">
+      Hyperfinite Compounding, Napier''s Kinematic Logarithm, the Fixed-Point Eigenfunction, and Complex Conformal Spirals
+    </div>
+
+    <!-- MOTIF: THE PHENOMENON VS THE MATHEMATICAL MODEL -->
+    <div style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); border: 1.5px solid #93c5fd; border-radius: 10px; padding: 22px 26px; margin: 24px 0 28px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #bfdbfe; padding-bottom: 8px;">
+        <span class="badge badge-blue" style="font-size: 0.8em; padding: 3px 9px;">Foundational Motif</span>
+        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">The Phenomenon vs. The Mathematical Model: Growth, Perception &amp; Information</h3>
+      </div>
+      <p style="margin-top: 0; margin-bottom: 12px; font-size: 0.95em; line-height: 1.65; color: #1e293b;">
+        Just as angularity existed as a physical experience long before trigonometry, the <b>exponential and logarithmic phenomena</b> were experienced long before Euler or Napier wrote formulas:
+      </p>
+      <ul style="margin: 10px 0 14px; padding-left: 22px; font-size: 0.92em; color: #334155; line-height: 1.6;">
+        <li><b>Self-Proportional Growth:</b> A breeding herd, a compound-interest balance, or a cooling cup of tea changes at a rate strictly proportional to its current quantity: <code>dy/dt = k · y</code>. Growth feeds on its own magnitude.</li>
+        <li><b>Logarithmic Sensory Perception:</b> Human hearing, sight, and touch operate on ratio scales, not linear differences (the Weber-Fechner Law). An octave in musical pitch is a doubling of frequency; a 10 dB loudness increase is a tenfold increase in acoustic energy; stellar magnitudes gauge brightness multiplicatively.</li>
+        <li><b>Information &amp; Decision Trees:</b> To locate a single leaf among <code>N</code> possibilities requires <code>log₂(N)</code> binary yes/no choices. The logarithm is literally the depth of a search tree.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 0.92em; line-height: 1.65; color: #1e293b;">
+        <b>The Structural Complement:</b> If circular trigonometry governs <b>pure rotation on the unit circle</b> ($S^1 \subset \mathbb{C}_\omega$), 
+        the exponential governs <b>pure radial scaling across the continuum</b> ($\mathbb{R}^+$). 
+        Together, they unite on $\mathbb{C}_\omega$ into the master constructor of all conformal geometry: the <b>logarithmic spiral</b>.
+      </p>
+    </div>
+
+    <!-- CORE CALLOUT -->
+    <div class="callout">
+      <strong>Core Discovery:</strong> The exponential and logarithm are not arbitrary transcendental functions defined by limits. They emerge naturally across our three number trees:
+      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+        <li><b>1-Successor ($\mathbb{N}$ — The Trunk):</b> Repeated discrete multiplication <code>aⁿ = a · a ··· a</code> and the arithmetic-geometric ledger.</li>
+        <li><b>2-Successor ($\mathbb{R}_\omega$ — The Binary Tree):</b> Binary tree depth <code>log₂(2ᵏ) = k</code>, Napier''s kinematic deceleration, and Euler''s hyperfinite compounding: <code>exp(x) = (1 + x · dx)^ω</code>.</li>
+        <li><b>4-Successor ($\mathbb{C}_\omega$ — The Quadtree Continuum):</b> Conformal polar decomposition <code>exp(x + i·y) = exp(x) · (cos y + i·sin y)</code>, unifying radial dilation with the 90° turning rotor.</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 1: EULER''S HYPERFINITE COMPOUNDING -->
+    <h2><span class="badge badge-amber">Perspective 1</span> Euler’s Hyperfinite Compounding: Continuous Growth Without Limits</h2>
+
+    <p>
+      In standard textbooks, the base of the natural exponential <code>e</code> is defined through an abstract limit of compound interest:
+    </p>
+    <div class="formula-box">
+      e = lim[n &rarr; &infin;] (1 + 1/n)ⁿ &asymp; 2.7182818...
+    </div>
+
+    <p>
+      In our hyperfinite framework on Day <code>&omega;</code>, continuous compounding is not an unreachable limit; it is an <b>elementary algebraic power</b> evaluated across <code>&omega;</code> infinitesimal ticks of duration <code>dx = 1/&omega;</code>:
+    </p>
+    <div class="formula-box amber">
+      exp(x) = st[ (1 + x · dx)^&omega; ] = st[ (1 + x / &omega;)^&omega; ]
+    </div>
+
+    <p>
+      Consider an account earning an annual rate <code>x</code>. If interest is compounded once per year, the multiplier is <code>(1 + x)</code>. 
+      If compounded semi-annually, it is <code>(1 + x/2)²</code>. 
+      When compounded over the hyperfinite grid of Day <code>&omega;</code>, each microscopic step increments the balance by an infinitesimal slice <code>(1 + x · dx)</code>:
+    </p>
+
+    <!-- FIGURE 1: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: Hyperfinite Compounding — Compounding Over ω Infinitesimal Steps</text>
+
+        <!-- Left Pane: Compounding Curve -->
+        <rect x="14" y="44" width="460" height="282" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="244" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">DISCRETE TICKS VS. CONTINUOUS ENVELOPE</text>
+
+        <!-- Coordinate Axes -->
+        <line x1="50" y1="280" x2="440" y2="280" stroke="#cbd5e1" stroke-width="1.5" />
+        <line x1="70" y1="295" x2="70" y2="80" stroke="#cbd5e1" stroke-width="1.5" />
+        <text x="440" y="295" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Time (t)</text>
+        <text x="75" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Value y(t)</text>
+
+        <!-- Grid Lines -->
+        <line x1="70" y1="230" x2="440" y2="230" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+        <line x1="70" y1="180" x2="440" y2="180" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+        <line x1="70" y1="130" x2="440" y2="130" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2" />
+
+        <!-- 1 Step: (1+x) linear chord -->
+        <line x1="70" y1="230" x2="390" y2="145" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4,4" />
+        <text x="395" y="150" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Annual: (1 + x)¹ = 2.00</text>
+
+        <!-- 2 Steps: (1+x/2)^2 piecewise -->
+        <line x1="70" y1="230" x2="230" y2="175" stroke="#0284c7" stroke-width="1.8" />
+        <line x1="230" y1="175" x2="390" y2="115" stroke="#0284c7" stroke-width="1.8" />
+        <circle cx="230" cy="175" r="3.5" fill="#0284c7" />
+        <circle cx="390" cy="115" r="3.5" fill="#0284c7" />
+        <text x="395" y="118" font-family="system-ui, sans-serif" font-size="9.5" fill="#0284c7">Semi-Annual: (1 + x/2)² = 2.25</text>
+
+        <!-- Smooth Hyperfinite Continuous Envelope: e^x -->
+        <path d="M 70 230 C 150 226, 230 190, 310 140 S 370 95, 390 85" fill="none" stroke="#dc2626" stroke-width="2.5" />
+        <circle cx="390" cy="85" r="4.5" fill="#dc2626" />
+        <text x="395" y="88" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#dc2626">Hyperfinite: (1 + dx)^ω = e = 2.718...</text>
+
+        <!-- Step Ticks dx -->
+        <line x1="130" y1="277" x2="130" y2="283" stroke="#64748b" stroke-width="1" />
+        <line x1="150" y1="277" x2="150" y2="283" stroke="#64748b" stroke-width="1" />
+        <line x1="170" y1="277" x2="170" y2="283" stroke="#64748b" stroke-width="1" />
+        <text x="150" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">dx = 1/ω</text>
+
+        <!-- Right Pane: Algebraic Binomial Ledger -->
+        <rect x="484" y="44" width="282" height="282" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1" />
+        <text x="625" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#92400e">EULER''S BINOMIAL EXPANSION</text>
+
+        <rect x="498" y="80" width="254" height="64" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="510" y="98" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#475569">Hyperfinite Binomial Expansion:</text>
+        <text x="510" y="118" font-family="monospace" font-size="11" fill="#1e40af">(1 + x/ω)^ω = ∑ [ (ω choose k) (x/ω)ᵏ ]</text>
+        <text x="510" y="134" font-family="monospace" font-size="10" fill="#64748b">= 1 + x + x²/2! + x³/3! + ...</text>
+
+        <rect x="498" y="152" width="254" height="74" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="510" y="170" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#475569">Why Binomial Coefficients Collapse:</text>
+        <text x="510" y="190" font-family="monospace" font-size="10" fill="#0284c7">ω(ω-1)···(ω-k+1) / (k! · ωᵏ)</text>
+        <text x="510" y="210" font-family="monospace" font-size="11" font-weight="bold" fill="#059669">= 1/k! · [1 - O(dx)] &asymp; 1/k!</text>
+
+        <rect x="498" y="234" width="254" height="74" rx="6" fill="#ffffff" stroke="#fca5a5" stroke-width="1" />
+        <text x="510" y="252" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#991b1b">Fundamental Morphism Identity:</text>
+        <text x="510" y="274" font-family="monospace" font-size="11.5" font-weight="bold" fill="#dc2626">exp(a + b) = exp(a) · exp(b)</text>
+        <text x="510" y="294" font-family="monospace" font-size="9.5" fill="#475569">Turns addition into multiplication!</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 1: Hyperfinite Compounding &mdash; compounding across <code>&omega;</code> infinitesimal intervals of size <code>dx</code> builds the exact exponential envelope <code>exp(x) = (1 + x·dx)^&omega;</code>.
+      </div>
+    </div>
+
+    <p>
+      In 1748, Leonhard Euler proved in his <i>Introductio in Analysin Infinitorum</i> that expanding <code>(1 + x/&omega;)^&omega;</code> with the binomial theorem yields the famous power series:
+    </p>
+    <div class="formula-box">
+      (1 + x/&omega;)^&omega; = 1 + &omega; · (x/&omega;) + [&omega;(&omega; - 1) / 2!] · (x/&omega;)² + ... = 1 + x + x²/2! + x³/3! + ...
+    </div>
+    <p>
+      Because <code>(&omega; - 1)/&omega; = 1 - dx &asymp; 1</code>, all finite factor ratios collapse to 1 with only second-order infinitesimal residue. 
+      The infinite series is literally the standard shadow of the hyperfinite binomial expansion!
+    </p>
+
+    <hr>
+
+    <!-- SECTION 2: NAPIER''S KINEMATIC LOGARITHM & BINARY TREE DEPTH -->
+    <h2><span class="badge badge-blue">Perspective 2</span> Napier’s Kinematic Bridge &amp; Binary Tree Depth</h2>
+
+    <h3>1. John Napier’s 1614 Kinematic Definition</h3>
+    <p>
+      Decades before calculus or Cartesian coordinate graphs were invented, the Scottish baron <b>John Napier</b> conceived the logarithm through a stunning physical thought experiment involving <b>two moving particles</b>:
+    </p>
+    <ul>
+      <li><b>Particle 1 (Arithmetic Clock):</b> Moves along an infinite line at <i>constant uniform velocity</i>: <code>dx/dt = v₀</code>. Its position measures elapsed clock time linearly: <code>x(t) = v₀ · t</code>.</li>
+      <li><b>Particle 2 (Geometric Deceleration):</b> Moves along a finite segment toward a target with <i>velocity proportional to remaining distance</i>: <code>dy/dt = -y</code>. As it gets closer, it slows down proportionally.</li>
+    </ul>
+
+    <p>
+      Napier defined the <b>logarithm</b> of remaining distance <code>y</code> to be the distance <code>x</code> covered by the uniform particle:
+    </p>
+    <div class="formula-box purple">
+      Napier''s Logarithm: &nbsp;&nbsp;x = -ln(y / y₀)
+    </div>
+    <p>
+      Napier realized that equal time intervals add up arithmetically on Particle 1 while multiplying geometrically on Particle 2. 
+      <b>The logarithm is the dictionary that translates multiplication into addition:</b>
+    </p>
+    <div class="formula-box purple">
+      log(a · b) = log(a) + log(b)
+    </div>
+
+    <h3>2. Binary Tree Depth on 𝔻 (2-Successor)</h3>
+    <p>
+      On our 2-successor binary number tree <code>𝔻</code>, the binary logarithm <code>log₂(x)</code> has an immediate physical meaning:
+      <b>It is the generation index (depth) of a node on the tree.</b>
+    </p>
+    <div align="center" style="margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Tree Generation (k)</th>
+            <th style="width: 25%;">Number of Leaves (2ᵏ)</th>
+            <th style="width: 25%;">Node Scale (2⁻ᵏ)</th>
+            <th style="width: 25%;">Binary Logarithm log₂(·)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Day 0 (Root)</td>
+            <td><code>1</code></td>
+            <td><code>1.0</code></td>
+            <td><code>log₂(1) = 0</code></td>
+          </tr>
+          <tr>
+            <td>Day 1</td>
+            <td><code>2</code></td>
+            <td><code>1/2 = 0.5</code></td>
+            <td><code>log₂(2) = 1, &nbsp;log₂(1/2) = -1</code></td>
+          </tr>
+          <tr>
+            <td>Day 2</td>
+            <td><code>4</code></td>
+            <td><code>1/4 = 0.25</code></td>
+            <td><code>log₂(4) = 2, &nbsp;log₂(1/4) = -2</code></td>
+          </tr>
+          <tr>
+            <td>Day 3</td>
+            <td><code>8</code></td>
+            <td><code>1/8 = 0.125</code></td>
+            <td><code>log₂(8) = 3, &nbsp;log₂(1/8) = -3</code></td>
+          </tr>
+          <tr>
+            <td>Day k</td>
+            <td><code>2ᵏ</code></td>
+            <td><code>2⁻ᵏ</code></td>
+            <td><code>log₂(2ᵏ) = k, &nbsp;log₂(2⁻ᵏ) = -k</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 3: THE SELF-REPLICATING EIGENFUNCTION -->
+    <h2><span class="badge badge-green">Perspective 3</span> The Differential Operator: The Self-Replicating Fixed Point</h2>
+
+    <p>
+      In our previous exploration of circular trigonometry, we discovered that the differential operator <code>DiffOp</code> acts as a 90° turning wheel whose square inverts direction:
+    </p>
+    <div class="formula-box">
+      D_turn² = -I &nbsp;&nbsp;&rArr;&nbsp;&nbsp; d²[sin θ]/dθ² = -sin θ &nbsp;&nbsp;(Eigenvalues: λ = ±i)
+    </div>
+
+    <p>
+      The exponential function is the <b>unique non-trivial eigenfunction of the differential operator with eigenvalue λ = +1</b>:
+    </p>
+    <div class="formula-box success">
+      D [ exp(x) ] = exp(x) &nbsp;&nbsp;(Eigenvalue: λ = +1)
+    </div>
+
+    <p>
+      Because growth is proportional to current value, differentiating the exponential does not rotate it, scale it, or shift its phase—it reproduces the function identically:
+    </p>
+    <ul>
+      <li><b>The Exponential Fixed Point:</b> <code>dⁿ/dxⁿ [ eˣ ] = eˣ</code> for every order <code>n ∈ ℕ</code>.</li>
+      <li><b>The Logarithm Derivative (Area Under the Hyperbola):</b> 
+        Differentiating the inverse map yields the reciprocal coordinate:
+        <div class="formula-box">
+          d/dx [ ln(x) ] = 1 / x
+        </div>
+        Historically discovered by <b>Grégoire de Saint-Vincent</b> in 1647, the natural logarithm is the exact area under the hyperbola <code>y = 1/t</code> from <code>t = 1</code> to <code>t = x</code>.
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- SECTION 4: THE COMPLEX CONFORMAL SPIRAL -->
+    <h2><span class="badge badge-purple">Perspective 4</span> Conformal Spirals on ℂ_ω: Unifying Scaling &amp; Turning</h2>
+
+    <p>
+      On our 4-successor complex continuum <code>ℂ_ω</code>, the exponential function achieves its ultimate unification:
+      <b>It marries 1D radial dilation with circular rotation into a single conformal map:</b>
+    </p>
+    <div class="formula-box purple">
+      exp(x + i · y) = exp(x) · (cos y + i · sin y)
+    </div>
+
+    <p>
+      Every complex number <code>z = x + i·y</code> has two independent components, and the exponential acts on each with complete geometric independence:
+    </p>
+    <ul>
+      <li><b>Real Part <code>x</code> (Radial Dilation):</b> Scales the distance from the origin by factor <code>r = eˣ</code>. If <code>x &gt; 0</code>, it expands outward; if <code>x &lt; 0</code>, it contracts inward.</li>
+      <li><b>Imaginary Part <code>y</code> (Angular Rotor):</b> Turns the direction around the unit circle by angle <code>θ = y</code>. When <code>x = 0</code>, it reproduces Euler''s unit rotor <code>UnitRotor</code>!</li>
+    </ul>
+
+    <!-- FIGURE 2: SVG DIAGRAM -->
+    <div class="diagram-container">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 380" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
+        <!-- Title Bar -->
+        <rect x="0" y="0" width="780" height="34" fill="#f8fafc" rx="10" />
+        <rect x="0" y="22" width="780" height="12" fill="#f8fafc" />
+        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 2: The Complex Exponential Spiral on ℂ_ω</text>
+
+        <!-- Left Pane: Cartesian Grid to Logarithmic Spiral -->
+        <rect x="14" y="44" width="450" height="322" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">EQUIANGULAR LOGARITHMIC SPIRAL: z(t) = exp[(a + i·b)t]</text>
+
+        <!-- Axes -->
+        <line x1="60" y1="205" x2="418" y2="205" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="239" y1="80" x2="239" y2="330" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3" />
+        <text x="415" y="198" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Re(z)</text>
+        <text x="245" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Im(z)</text>
+
+        <!-- Unit Circle for reference -->
+        <circle cx="239" cy="205" r="70" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,4" />
+        <text x="315" y="200" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">r = 1 (Pure Rotor)</text>
+
+        <!-- Logarithmic Spiral Curve: r = e^(0.15 * theta) -->
+        <!-- Center (239, 205). Spiral points calculated: theta from 0 to 4.5 pi -->
+        <path d="M 274 205 
+                 C 274 186, 260 170, 239 165
+                 C 212 165, 185 185, 185 205
+                 C 185 235, 215 260, 239 265
+                 C 275 265, 315 235, 320 205
+                 C 320 155, 275 115, 239 110
+                 C 185 110, 130 160, 125 205
+                 C 125 270, 185 330, 239 335
+                 C 310 335, 385 270, 390 205" 
+              fill="none" stroke="#7c3aed" stroke-width="2.5" />
+
+        <!-- Velocity Vector on Spiral at a point -->
+        <!-- Point at theta = pi/2: (239, 110) approx -->
+        <circle cx="239" cy="110" r="4.5" fill="#dc2626" />
+        <line x1="239" y1="110" x2="160" y2="90" stroke="#dc2626" stroke-width="2" />
+        <!-- Tangent Arrowhead -->
+        <polygon points="160,90 172,87 169,97" fill="#dc2626" />
+        <text x="155" y="82" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#dc2626">v = (a + i·b) · z</text>
+
+        <!-- Right Pane: Multi-Branched Logarithm & Riemann Surface -->
+        <rect x="474" y="44" width="292" height="322" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">THE MULTI-BRANCHED LOGARITHM</text>
+
+        <rect x="488" y="85" width="264" height="64" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="105" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">Polar Form Decomposition:</text>
+        <text x="510" y="128" font-family="monospace" font-size="12" fill="#1e40af">Ln(z) = ln|z| + i · Arg(z)</text>
+
+        <rect x="488" y="158" width="264" height="74" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+        <text x="500" y="178" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569">The Periodic Winding Phase:</text>
+        <text x="510" y="198" font-family="monospace" font-size="11" fill="#7c3aed">Arg(z) ∈ S¹_ω ≡ ℝ_ω : mod(2π)</text>
+        <text x="510" y="218" font-family="monospace" font-size="9.5" fill="#64748b">Each 2π turn ascends one sheet!</text>
+
+        <rect x="488" y="242" width="264" height="74" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1" />
+        <text x="500" y="262" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Riemann Surface Spiral Ramp:</text>
+        <text x="510" y="284" font-family="monospace" font-size="11" font-weight="bold" fill="#7c3aed">Ln(z) = ln|z| + i·(θ + 2kπ)</text>
+        <text x="510" y="302" font-family="monospace" font-size="9.5" fill="#475569">k ∈ ℤ is the discrete winding index</text>
+      </svg>
+      <div class="diagram-caption">
+        Figure 2: Conformal Spirals on <code>ℂ_ω</code> &mdash; combining real expansion with imaginary rotation produces the equiangular logarithmic spiral. Its inverse, the complex logarithm <code>Ln(z) = ln|z| + i·Arg(z)</code>, unrolls the plane onto an infinite Riemann surface helical ramp.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 5: LEAN 4 FORMALIZATION -->
+    <h2><span class="badge badge-purple">Lean 4 Scaffolding</span> Typed Exponential &amp; Logarithmic Morphisms</h2>
+
+    <p>
+      In Section 19 of our formal verification scaffolding, the exponential and logarithm are typed as exact directed group morphisms:
+    </p>
+
+    <div class="formula-box purple">
+      -- 1> The Real Exponential Map into Positive Reals:<br>
+      def exp_fn (x : R_w) : R_w_pos := ⟨exp_w x, exp_w_pos x⟩<br><br>
+      -- Group Homomorphism Laws: (ℝ, +) → (ℝ⁺, ·)<br>
+      axiom exp_zero : exp_w 0 = 1<br>
+      axiom exp_add (a b : R_w) : exp_w (a + b) = exp_w a * exp_w b<br><br>
+      -- 2> The Real Logarithm Map &amp; Mutual Inversion:<br>
+      def log_fn (y : R_w_pos) : R_w := log_w y.val<br><br>
+      axiom log_exp (x : R_w) : log_w (exp_w x) = x<br>
+      axiom exp_log (x : R_w) (hx : 0 &lt; x) : exp_w (log_w x) = x<br>
+      axiom log_mul (a b : R_w) (ha : 0 &lt; a) (hb : 0 &lt; b) :<br>
+      &nbsp;&nbsp;log_w (a * b) = log_w a + log_w b
+    </div>
+
+    <p>
+      The fixed-point property of the derivative is bundled into a certified <code>C1_Map</code>, where the identity <code>D(exp) = exp</code> is verified definitionally by reflection:
+    </p>
+
+    <div class="formula-box purple">
+      structure C1_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;: R_w → R_w<br>
+      &nbsp;&nbsp;h_d1 : ∀ x : R_w, has_derivative_at f x (d1 x)<br><br>
+      def exp_c1_bundle : C1_Map where<br>
+      &nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;:= exp_w<br>
+      &nbsp;&nbsp;d1 &nbsp;&nbsp;:= exp_w<br>
+      &nbsp;&nbsp;h_d1 := diff_exp<br><br>
+      -- Inherent Eigenfunction Identity (λ = 1):<br>
+      theorem exp_eigen_property (x : R_w) :<br>
+      &nbsp;&nbsp;exp_c1_bundle.d1 x = exp_w x := by rfl
+    </div>
+
+    <hr>
+
+    <!-- SYNTHESIS TABLE -->
+    <h2>Synthesis: Exponential &amp; Logarithmic Functions Across the Trees</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Regime</th>
+          <th>Number Tree</th>
+          <th>Exponential Manifestation</th>
+          <th>Logarithmic Manifestation</th>
+          <th>Core STEM Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1-Successor</b></td>
+          <td><code>ℕ_ω</code> (The Trunk)</td>
+          <td>Discrete powers <code>aⁿ = a · a ··· a</code></td>
+          <td>Discrete digit counting; order of magnitude</td>
+          <td>Slide rules; Stifel ledgers; Archimedean sand reckoner.</td>
+        </tr>
+        <tr>
+          <td><b>2-Successor</b></td>
+          <td><code>ℝ_ω</code> (The Binary Tree)</td>
+          <td>Continuous compounding <code>(1 + x·dx)^ω</code></td>
+          <td>Tree depth <code>log₂(2ᵏ) = k</code>; Napier''s deceleration</td>
+          <td>Shannon entropy; binary search trees; RC circuits; radiocarbon dating.</td>
+        </tr>
+        <tr>
+          <td><b>4-Successor</b></td>
+          <td><code>ℂ_ω</code> (The Quadtree)</td>
+          <td>Conformal polar dilation-rotation <code>eˣ · e^(i·y)</code></td>
+          <td>Multi-branched polar form <code>ln|z| + i·Arg(z)</code></td>
+          <td>Logarithmic spirals in fluid dynamics; damping in electrical RLC circuits; Riemann surfaces in complex analysis.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+', 'published'),
+  (40, 'analysis2DIntro', 39, 'Course 3: Analysis 2D & The Complex Continuum', 'analysis2-d-intro', '
     <div align="center">
       <i><font size="+2"><b>Course 3: Analysis 2D &amp; The Complex Continuum</b></font></i><br>
       <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Quantum Inference —</font></i>
@@ -8094,6 +10537,77 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </div>
     </fsd-ref>
 
+    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
+      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
+        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
+      </summary>
+      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
+        <p>
+          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy''s Integral Theorem</b>, <b>Cauchy''s Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green''s Theorem</b> &mdash; opens with the exact same condition: 
+          <i>“Let γ be a simple closed curve in the plane...”</i>
+        </p>
+        <p>
+          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
+        </p>
+        <ul>
+          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
+          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
+          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
+        </ul>
+        <p>
+          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
+        </p>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
+        <ol style="margin-left: 18px;">
+          <li style="margin-bottom: 8px;">
+            <b>Cauchy''s Integral Formula as an Analytic Inside/Outside Detector:</b><br>
+            Consider Cauchy''s integral formula with test function <code>f(z) = 1</code>:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
+            </div>
+            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
+            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>Green''s Theorem &amp; Telescoping Cell Sums:</b><br>
+            Green''s theorem converts a 2D surface integral into a 1D perimeter circulation:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
+            </div>
+            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
+          </li>
+        </ol>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
+        <p>
+          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
+        </p>
+        <ul>
+          <li><b>The Quadtree Horizon Escape:</b> 
+            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
+          </li>
+          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
+            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
+            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
+              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
+            </div>
+            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
+          </li>
+          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
+            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy''s integral formula.
+          </li>
+        </ul>
+      </div>
+    </details>
+
     <hr>
     <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp; Phase Transitions</h3>
     <p>
@@ -8145,7 +10659,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
     </ul>
   ', 'published'),
-  (37, 'analysis2DLecture1', 36, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+  (41, 'analysis2DLecture1', 40, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
     <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
@@ -8305,7 +10819,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
   </p>
 ', 'published'),
-  (38, 'analysis2DLecture2', 37, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+  (42, 'analysis2DLecture2', 41, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
     <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
@@ -8456,7 +10970,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Precisely!” Jane smiled. “And in our final lecture, we will use this exact root-counting mechanism to solve the great mystery of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and complete our description of <b>Quantum Bayesian Inference</b>!”
   </p>
 ', 'published'),
-  (39, 'analysis2DLecture3', 38, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+  (43, 'analysis2DLecture3', 42, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
     <i><font size="+1">— Quantum State Evolution &amp; Phase Transitions —</font></i>
@@ -8631,7 +11145,712 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
   </p>
 ', 'published'),
-  (40, 'fourierTransformSeminar', 39, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
+  (44, 'satelliteSeminarsIntro', 43, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
+  <div align="center">
+    <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
+    <font size="+1"><i>— Exercising the Formal Apparatus in the Non-Monotonic Sphere —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Following the conclusion of Course 3, Jane gathered Jill and the graduating students in the seminar room to introduce the visiting masterclasses:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 15px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; max-width: 600px;">
+    <b>“You have mastered the core grammar of Liberal Arts Mathematics.<br>
+    Now, let us see how that grammar is exercised on the frontiers of theoretical physics.”</b>
+  </div>
+
+  <p>
+    “Throughout our three courses,” Jane began, “we built a lean, rigorous, constructive mathematical foundation: 
+    recursive number trees on <code>ℝ_ω</code> and <code>ℂ_ω</code>, vector/covector duality, infinitesimal telescoping calculus, and complex phase transitions. 
+    Every step was proved from the root upward.”
+  </p>
+
+  <p>
+    “To celebrate your graduation, we have invited distinguished visiting theoretical physicists to deliver a series of special <b>Satellite Masterclasses</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. Why These Seminars Were Chosen</h3>
+
+  <p>
+    “In our core curriculum,” Jane emphasized, “we anchored all our physical examples to our primary, battle-tested physical framework: <b>Quantum Statistical Mechanics and Bayesian Inference</b> &mdash; from density operators and MaxEnt ensembles to continuous state evolution and Lee-Yang phase transitions.”
+  </p>
+
+  <p>
+    “These masterclass satellite seminars,” Jane explained with a smile, “are offered <b>in addition to our go-to foundation of quantum statistical mechanics</b>. I selected these specific visiting topics because their theoretical formulations <b>rigorously exercise the exact formal apparatus you have established in this curriculum</b>:”
+  </p>
+
+  <ul>
+    <li>
+      <b>Seminar 1: Cosmology as Information (Dr. Julian Vance)</b><br>
+      Exercises our constructive starting point (the Conway root <code>0 = { | }</code> as an immutable algorithmic seed) and explores the conservation of quantum information (unitarity <code>U† U = I</code>) across the full arc of cosmological time.
+    </li>
+    <br>
+    <li>
+      <b>Seminar 2: The Logic of the Particle Zoo (Dr. Aris Thorne)</b><br>
+      Exercises our study of continuous group homomorphisms and complex phases (<code>e^(iθ)</code>) to show how demanding local phase freedom mathematically forces the existence of fundamental forces and gauge fields (<code>D_μ = &part;_μ - i·q·A_μ</code>).
+    </li>
+    <br>
+    <li>
+      <b>Seminar 3: Quantum Entanglement &amp; The Relational Fabric of Reality (Dr. Evelyn Thorne)</b><br>
+      Exercises our linear tensor spaces (<code>H_A &otimes; H_B</code>), vector/covector contractions, and non-commutative Bayesian inference to explore how quantum entanglement physically generates the geometric fabric of spacetime.
+    </li>
+    <br>
+    <li>
+      <b>Seminar 4: Algebraic Geometry &amp; The Infinitesimal Microscope (Dr. Clara Alexander)</b><br>
+      Building directly upon our study of higher-successor branching trees (<i>Mini-Seminar 4: Higher-Successor Definitions</i>), this masterclass exercises polynomial zero loci <code>V(P)</code> on Conway''s complex tree <code>ℂ_ω</code>—transforming Grothendieck''s abstract scheme neighborhoods (<code>ε² = 0</code>) into concrete halos <code>μ(z)</code> of radius <code>dx = 1/ω</code>, and parameterizing physical moduli spaces (<code>SU(3)</code>, <code>SO(10)</code>).
+      <i>Includes Dr. Alexander''s embedded Masterclass Monograph on Grothendieck Sheaves, Stalks, and the 7 Historical Epochs of Geometric Space.</i>
+    </li>
+  </ul>
+
+  <hr>
+
+  <h3>2. An Important Epistemological Caveat: Non-Monotonic Reasoning</h3>
+
+  <p>
+    Jane paused and looked seriously at the class:
+  </p>
+
+  <div align="center" style="background-color: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 14px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #78350f;">
+    <b>A Vital Warning on Scientific Hypotheses:</b><br>
+    “Remember: as we move from pure mathematical theorems into theoretical cosmology and fundamental physics, <b>we cross the threshold into the sphere of non-monotonic reasoning</b>.<br><br>
+    As grounded, compelling, and mathematically structured as the ideas in these seminars are, <b>they represent only some of the many competing scientific hypotheses striving to explain our observed universe under incomplete information</b>.<br><br>
+    In non-monotonic inference, new experimental evidence can revise previous models. Treat these seminars not as rigid dogma, but as magnificent exploratory applications of your mathematical toolset!”
+  </div>
+
+  <hr>
+
+  <h3>3. The Elephant in the Room: The Unsolved Puzzle of Gravity</h3>
+
+  <p>
+    Before inviting the first speaker to the podium, Jane addressed one final, crucial mystery:
+  </p>
+
+  <p>
+    “As you listen to these seminars, you will notice a striking elephant in the room of modern physics: <b>Gravity</b>.”
+  </p>
+
+  <p>
+    “The three non-gravitational forces &mdash; electromagnetism, the weak force, and the strong force &mdash; all fit into quantum field theory as gauge fields acting on a fixed spacetime backdrop. But Einstein''s General Relativity tells us that <b>gravity is not a field living inside space; gravity is the geometric curvature of spacetime itself (<code>G_μν = 8πG T_μν</code>)</b>.”
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #1e3a8a;">
+    <b>The Great Clash of Modern Physics:</b><br><br>
+    • <b>Background Independence:</b> Quantum field theory requires a fixed stage to define unitary time evolution. General relativity makes the stage itself dynamic and flexible.<br>
+    • <b>The Planck Scale Wall:</b> Attempting to quantize general relativity with standard point-particle field methods produces non-renormalizable infinities at the Planck length (<code>&ell;_P &approx; 1.6 &times; 10⁻³⁵ m</code>).<br>
+    • <b>The Emergent Hint:</b> Modern theoretical frontiers (Holography, Loop Quantum Gravity, and Entropic Gravity) increasingly suggest that <b>gravity and smooth spacetime are not fundamental &mdash; they are macroscopic thermodynamic phenomena emerging from quantum entanglement and information!</b>
+  </div>
+
+  <p>
+    “So as we explore these masterclasses,” Jane concluded with an inspiring smile, “remember that you are witnessing physics in its most vibrant era: <b>the search for the unified theory of Quantum Gravity</b>.”
+  </p>
+
+  <p>
+    “Let us now begin with our first seminar, which due to its deceptive simplicity and cosmic scope, sets the grand stage for all that follows: <b>Cosmology as Information</b>!”
+  </p>
+', 'published'),
+  (45, 'stemNewtonianBridge', 44, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
+  <div align="center">
+    <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
+    <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke''s Oscillator —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Before starting the multi-node thermal conduction experiment in the applied engineering laboratory, 
+    Professor James gathered Jill, Marcus, and their lab team around the demonstration bench.
+  </p>
+
+  <hr>
+
+  <h3>1. Tracing Historical Calculation: From Galileo’s Odd-Number Tables to Leibniz &amp; Euler</h3>
+
+  <p>
+    “Before we turn on thermal imaging cameras and model continuous heat diffusion across an N-node rod,” 
+    Professor James said, leaning against the bench, 
+    “we need to examine how mathematical physics actually computes. 
+    Marcus, in your applied mechanics work, how did natural philosophers first calculate motion before nineteenth-century limit formalisms?”
+  </p>
+
+  <p>
+    Marcus, an applied physics student known across the lab for his sharp computational intuition, set down his tablet: 
+    “Natural philosophers didn’t start with limits of indeterminate ratios. They started with <b>discrete difference ledgers</b>. 
+    In 1638, when Galileo investigated accelerated motion in his <i>Two New Sciences</i>, he didn''t write differential equations. 
+    He rolled polished bronze balls down grooved inclined planes, timed them with water clocks over equal ticks <code>Δt</code>, 
+    and recorded the spatial displacements.”
+  </p>
+
+  <p>
+    “And what did Galileo’s difference table reveal?” James asked.
+  </p>
+
+  <p>
+    “Galileo discovered the <b>odd-number rule</b>,” Marcus replied. 
+    “Over successive equal time intervals, the incremental distances fallen were proportional to consecutive odd integers: 
+    <code>1, 3, 5, 7, 9, ...</code>, or <code>Δs_k ∝ (2k - 1)</code>. 
+    When you sum consecutive odd numbers, you get perfect squares: 
+    <code>∑_{k=1}^n (2k - 1) = n²</code>. 
+    The total distance grew as the square of time: <code>s(t) ∝ t²</code>. 
+    The first difference was linear in time—velocity. And the second difference was strictly constant—acceleration.”
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 14px auto; max-width: 680px; line-height: 1.8;">
+    <b>Galileo’s Tabular Difference Ledger (Equal Time Ticks Δt):</b><br>
+    Interval Index (k): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp; ... &nbsp;&nbsp; k<br>
+    Incremental Step (Δs): &nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp;&nbsp; 7 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; ... &nbsp;&nbsp; 2k - 1 &nbsp; (Velocity)<br>
+    Total Position (s): &nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; 16 &nbsp;&nbsp; 25 &nbsp;&nbsp; ... &nbsp;&nbsp; k² &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quadratic Position)<br>
+    Second Difference (Δ²s): &nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp; ... &nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Constant Acceleration)
+  </div>
+
+  <p>
+    “Exactly,” James nodded. 
+    “This was the very intuition Leibniz championed when establishing his calculus: 
+    differentiation is fundamentally the <b>algebra of differences</b> across an infinitesimal step <code>dt</code>, 
+    and integration is the <b>summation of those differences</b>. 
+    In 1755, when Euler published his landmark <i>Foundations of Differential Calculus</i> (<i>Institutiones Calculi Differentialis</i>), 
+    he opened not with epsilon-delta definitions, but with the <b>calculus of finite differences</b>. 
+    Euler treated the differential calculus as the systematic algebra of differences.”
+  </p>
+
+  <p>
+    Jill smiled: 
+    “In Jack’s formal science class, we built our foundations on honest discrete ledgers—truth tables, number trees, and dyadic coordinates. 
+    And in Jane’s university calculus, we learned that on <code>ℝ_ω</code>, with a hyperfinite tick <code>dt = 1/ω</code>, 
+    these difference ledgers are not approximations. They are <b>exact algebraic identities</b>.”
+  </p>
+
+  <p>
+    “Precisely,” James said. “And in modern scientific computing, our computer algebra systems (CAS) and symplectic numerical integrators 
+    execute these exact difference structures. Let’s exercise our symbolic calculator on the classical Newtonian problems!”
+  </p>
+
+  <hr>
+
+  <h3>2. Exercising the Calculator: Free Fall Trajectory, Velocity &amp; Acceleration</h3>
+
+  <p>
+    “Consider a particle launched upward with initial velocity <code>v₀</code> under constant downward gravitational acceleration <code>g</code>,” 
+    James said, writing the position polynomial on the board:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 24px; font-family: monospace; font-size: 15px; margin: 14px auto; width: fit-content; max-width: 90%; color: #1e3a8a;">
+    s(t) = v₀·t - (1/2)·g·t²
+  </div>
+
+  <p>
+    “On our hyperfinite scaffold <code>ℝ_ω</code>,” James continued, “time advances by step <code>dt = 1/ω</code>. 
+    What is the displacement over a single tick?”
+  </p>
+
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap;">
+    s(t + dt) - s(t) &nbsp;=&nbsp; [ v₀·(t + dt) - (1/2)·g·(t + dt)² ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; [ v₀·t + v₀·dt - (1/2)·g·(t² + 2t·dt + dt²) ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>(v₀ - g·t)·dt &nbsp;-&nbsp; (1/2)·g·dt²</b>
+  </div>
+
+  <p>
+    “Now divide by <code>dt</code>,” Marcus noted. “Because <code>dt</code> is a genuine non-zero hyperreal element on <code>ℝ_ω</code>, 
+    the quotient is standard algebra:”
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="free_fall_accel" title="Free Fall Velocity & Acceleration Invariance">
+      v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect formal invariance proof in Lean 4 or explore with <fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>)</i>
+  </p>
+
+  <p>
+    Taking the standard shadow <code>st(·)</code> discards the infinitesimal term <code>(1/2)·g·dt</code>, 
+    leaving the exact velocity <code>v(t) = v₀ - g·t</code>.
+  </p>
+
+  <p>
+    “And what about acceleration?” Jill asked. “We use Jane’s symmetric 3-point stencil <code>[1, -2, 1]</code>!”
+  </p>
+
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap; text-align: center;">
+    s(t - dt) - 2·s(t) + s(t + dt) &nbsp;=&nbsp; <b>-g · dt²</b><br><br>
+    a(t) &nbsp;=&nbsp; st( [ s(t - dt) - 2·s(t) + s(t + dt) ] / dt² ) &nbsp;=&nbsp; st( -g·dt² / dt² ) &nbsp;=&nbsp; <b>-g</b>
+  </div>
+
+  <p>
+    All the terms in <code>t</code> and <code>v₀</code> cancel identically. 
+    Acceleration is an <b>exact constant <code>-g</code></b> with strictly zero residual error. 
+    Newton’s Second Law for constant gravity is the statement that the discrete temporal curvature of position is invariant.
+  </p>
+
+  <hr>
+
+  <h3>3. The Work-Energy Theorem: Exact Telescoping Summation</h3>
+
+  <p>
+    “Next,” James continued, “let’s examine the <b>Work-Kinetic Energy Theorem</b>. 
+    In classical mechanics, work is defined as force integrated over distance: <code>W = ∫ F dx</code>. 
+    Marcus, how does our discrete ledger compute work over a succession of discrete steps?”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>, displacement is a sequence of discrete steps <code>Δx_k</code>,” Marcus explained. 
+    “At each step, force is mass times acceleration: <code>F_k = m · (Δv_k / Δt)</code>. 
+    The incremental work done during step <code>k</code> is:
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
+    W_k &nbsp;=&nbsp; F_k · Δx_k &nbsp;=&nbsp; [ m · (Δv_k / Δt) ] · [ v_k · Δt ] &nbsp;=&nbsp; <b>m · v_k · Δv_k</b>
+  </div>
+
+  <p>
+    Now apply the fundamental algebraic identity:
+    <br>
+    <code>v_k · Δv_k &nbsp;=&nbsp; (1/2)·[ (v_k + Δv_k)² - v_k² - (Δv_k)² ]</code>.
+  </p>
+
+  <p>
+    “The second term is of order <code>O(dt²)</code>. Summing over all <code>n</code> time steps from initial state to final state:”
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="work_energy" title="Telescoping Work-Energy Theorem">
+      ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect telescoping sum in Lean 4 or explore with <fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>)</i>
+  </p>
+
+  <p>
+    “It’s a <b>telescoping sum</b>,” Marcus observed. 
+    “Every intermediate velocity square <code>v_k²</code> cancels against <code>-v_k²</code> of the adjacent step. 
+    This is the discrete Fundamental Theorem of Calculus: total work done equals the net change in kinetic energy.”
+  </p>
+
+  <p>
+    “And for conservative fields where work is the negative difference of potential energy <code>-Δ(PE)</code>,” James added, 
+    “we immediately get <code>Δ(KE) + Δ(PE) = 0</code>, or <code>KE + PE = E_{total} = \text{constant}</code>. 
+    Energy conservation is an algebraic property of telescoping difference ledgers.”
+  </p>
+
+  <hr>
+
+  <h3>4. Exercising the Leapfrog Stencil: Hooke’s Law &amp; Unitary Phase Roots</h3>
+
+  <p>
+    “Finally,” James said, “what happens when the force is non-constant and position-dependent, 
+    such as a restoring spring <code>F = -k·x</code>?”
+  </p>
+
+  <p>
+    Applying Newton’s Second Law with Jane’s symmetric 3-point temporal stencil gives:
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
+    m · [ x(t - dt) - 2·x(t) + x(t + dt) ] / dt² &nbsp;=&nbsp; -k · x(t)
+  </div>
+
+  <p>
+    Rearranging to solve explicitly for the next future time step <code>x(t + dt)</code>:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="Hooke''s Law Leapfrog & Unitary Phase Invariance">
+      x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <fsd-ref tier="3" scaffold="unitary_preservation" auto-calc title="Harmonic Leapfrog Stencil &amp; Unitary Phase Roots">Harmonic Leapfrog Stencil &amp; Unitary Phase Roots</fsd-ref>)</i>
+  </p>
+
+  <p>
+    Marcus examined the recurrence:
+  </p>
+  <ul>
+    <li><b>Explicit and Symplectic:</b> This is the classic <i>Verlet leapfrog integrator</i> widely used in celestial mechanics and molecular dynamics. It requires no matrix inversion and is exactly time-reversible.</li>
+    <li><b>Unitary Phase Roots:</b> The characteristic equation is <code>λ² - (2 - ω₀²·dt²)·λ + 1 = 0</code>. 
+      For any stable time step <code>dt &lt; 2/ω₀</code>, the discriminant is negative, and the roots on <code>ℂ_ω</code> are complex conjugates with <b>exact unit modulus</b>: 
+      <code>|λ| = 1</code>, representing pure phase rotations <code>λ = e^{\pm i·ω₀·dt}</code>.</li>
+    <li><b>Exact Stability:</b> Because <code>|λ| = 1</code>, the discrete numerical oscillation neither dampens nor blows up over time. 
+      Lean 4 validates this invariant through <code>Scaffold.unitary_preservation</code>.</li>
+  </ul>
+
+  <hr>
+
+  <h3>5. Scaling From 1-Particle Time Stencils to N-Node Spatial Diffusion</h3>
+
+  <p>
+    Professor James turned from the chalkboard back to the laboratory bench:
+  </p>
+
+  <p>
+    “In these three classical calculations, we tracked a <b>single particle</b> through time:
+    its velocity was a first temporal difference, its acceleration was Jane’s <code>[1, -2, 1]</code> stencil in time, 
+    and its energy conservation was a telescoping sum.
+  </p>
+
+  <p>
+    Now, look at the steel rod on our bench. 
+    It is not a single particle; it is an arrangement of <b>N coupled control slices</b> along space. 
+    How do neighboring slices transfer thermal energy? By direct thermal contact—Jack’s <code>NEAR</code> adjacency relation! 
+    The exact same <code>[1, -2, 1]</code> stencil that computed acceleration in time for one particle will now compute 
+    <b>spatial thermal curvature and diffusion across all N slices simultaneously</b>.”
+  </p>
+
+  <p>
+    “Let’s heat the rod and run the multi-node solver,” Marcus said, opening the thermal data monitor.
+  </p>
+
+', 'published'),
+  (46, 'stemHeatDiffusion', 45, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
+    <div align="center">
+      <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
+      <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
+    </div>
+    <br>
+
+    <p>
+      Professor James set a long, gleaming steel rod across two insulated support blocks on the laboratory demonstration bench. 
+      Beside it, an infrared thermal imaging camera pointed directly at the rod, feeding a live display onto the large overhead monitor. 
+      A small electric heating element clamped near the one-third mark glowed dull orange. On the monitor, a vivid false-color heat map showed a sharp, brilliant peak of thermal color where the clamp sat, flanked by cool blues and purples along the rest of the bar.
+    </p>
+
+    <p>
+      Sitting in the front row was Jill, notebook open alongside Liam. 
+      Jack had been her teacher throughout all of 0–12 formal science, instilling in her the foundational discipline of propositional logic, set theory, binary trees, and Conway games. 
+      At the tertiary level, Jane had been her instructor for Liberal Arts Mathematics, guiding her through continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code>. 
+      Now, stepping across the quad into Professor James''s applied engineering laboratory, she watched the glowing monitor with keen interest, eager to see how that lifelong mathematical arc connected to physical matter.
+    </p>
+
+    <p>
+      Professor James switched off the electric heater and turned to the class, gesturing toward the bench:
+      <br>
+      <b>“Before we write down any formulas or touch a computer: How are we going to model this rod?”</b>
+    </p>
+
+    <p>
+      The room was quiet for a moment. James caught Jill''s eye and smiled: 
+      “Jill, you’ve spent your university years with Jane studying continuous structures, built on Jack''s formal science foundation from school. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical training tell you to do?”
+    </p>
+
+    <p>
+      Jill looked up at the overhead monitor:
+      “On the screen, the temperature looks like a continuous curve—a function <code>T(x)</code> giving the temperature at every point from <code>x = 0</code> to <code>x = L</code>. In Professor Jane’s class, we learned that we can think of continuous curves on <code>ℝ_ω</code> as smooth progressions through an ultra-dense transect of points.”
+    </p>
+
+    <p>
+      “That is the classical mathematician''s continuum view,” James nodded approvingly. 
+      “A continuous function <code>T(x, t)</code>. But now look at the monitor as time passes. What is actually happening to that sharp thermal peak?”
+    </p>
+
+    <p>
+      Jill watched the live display: 
+      “The orange peak is sinking. The hot spot is cooling down, while the cooler metal immediately next to it is warming up. The heat is spreading outward and flattening.”
+    </p>
+
+    <p>
+      “Why?” James asked. “Can an engineer track every one of the <code>10²⁴</code> vibrating iron atoms inside that bar? Or can our computers calculate values at an uncountably infinite number of points?”
+    </p>
+
+    <p>
+      “No,” Jill laughed. “The thermal camera itself has a finite grid of sensor pixels. And our computers only have finite floating-point memory.”
+    </p>
+
+    <p>
+      “Exactly,” said James. “To model this rod physically and computationally, we need to choose our fundamental building blocks. We don''t track individual atoms, nor do we drown in uncomputable infinites. How should we represent the rod?”
+    </p>
+
+    <p>
+      Jill considered the setup: 
+      “We divide the length of the rod into small finite slices—little segments or control volumes of width <code>Δx</code>.”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; line-height: 1.6; overflow-x: auto; white-space: nowrap;">
+      Slice: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N - 1 ]<br>
+      Temp: &nbsp; &nbsp; &nbsp;u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{N-1}(t)
+    </div>
+
+    <hr>
+
+    <h3>1. Isolating a Single Slice: Contact Physics &amp; Energy Conservation</h3>
+    <p>
+      James stepped to the blackboard: 
+      “Let''s slow down and look at just <b>one single slice</b>—slice <code>i</code> at temperature <code>u_i(t)</code>. 
+      What determines whether the temperature inside slice <code>i</code> rises or falls?”
+    </p>
+
+    <p>
+      Jill answered from first principles: 
+      “Energy conservation. Heat is thermal energy. Energy cannot be created or destroyed. 
+      The only way the heat energy inside slice <code>i</code> can change is if thermal energy flows in or out across its physical boundaries.”
+    </p>
+
+    <p>
+      “And who does slice <code>i</code> touch?” James asked.
+    </p>
+
+    <p>
+      “Only its immediate neighbors,” Jill replied. “Slice <code>i-1</code> on its left, and slice <code>i+1</code> on its right. 
+      In Jack''s 0–12 formal science classes, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
+      Heat cannot teleport across space; it can only cross boundaries through direct physical contact with adjacent slices.”
+    </p>
+
+    <p>
+      “And which way does it flow across those boundaries?” James asked.
+    </p>
+
+    <p>
+      “From hotter to colder,” Jill said. “If slice <code>i-1</code> is hotter than slice <code>i</code>, thermal energy flows into slice <code>i</code> from the left. 
+      If slice <code>i</code> is hotter than slice <code>i+1</code>, thermal energy flows out to the right.”
+    </p>
+
+    <p>
+      “That is <b>Fourier''s Law of Thermal Conduction</b>,” James explained. 
+      “The rate of heat flux across a boundary is proportional to the temperature difference divided by the slice width <code>Δx</code>, scaled by the material''s thermal conductivity <code>k</code>. 
+      When we account for the steel''s density <code>ρ</code> and specific heat capacity <code>c</code>, they bundle into a single material constant: the <b>thermal diffusivity</b> <code>α = k / (ρ · c)</code> (with units of <code>length² / time</code>).”
+    </p>
+
+    <p>
+      “Now,” James continued, “let''s write the energy ledger for slice <code>i</code>. 
+      The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
+    </p>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 22px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto; white-space: nowrap;">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Thermal Flux Balance & Discrete Laplacian Stencil">
+        du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
+      </fsd-ref>
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Click the formula above to inspect the formal stencil proof in Lean 4)</i>
+    </p>
+
+    <p>
+      Jill stared at the right-hand side, a smile breaking across her face: 
+      “Wait! Look at that algebraic grouping: <code>u_{i-1} - 2u_i + u_{i+1}</code>. 
+      That is the <b>second discrete difference <code>Δ²u</code></b> from Jane''s analysis course! 
+      It measures curvature—whether <code>u_i</code> sits above or below the average of its neighbors!”
+    </p>
+
+    <p>
+      “Spot on!” James beamed. 
+      “If slice <code>i</code> is hotter than the average of its neighbors—a local peak—then <code>Δ²u &lt; 0</code>, so it cools down. 
+      If it is colder than its neighbors—a local valley—then <code>Δ²u &gt; 0</code>, so it warms up. 
+      Nature is computing a discrete second difference at every slice on the rod to smooth out thermal curvature!”
+    </p>
+
+    <hr>
+
+    <h3>2. Assembling All Slices: How the Matrix Emerges</h3>
+    <p>
+      “Now,” James said, “what happens when we step back and look at the entire rod? 
+      We don''t have just one slice; we have <code>N</code> slices along the rod, from slice <code>0</code> to slice <code>N-1</code>.”
+    </p>
+
+    <p>
+      He wrote out the balance for each slice on the board:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; margin: 14px auto; width: fit-content; max-width: 95%; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a; overflow-x: auto; white-space: nowrap;">
+      For slice 1: &nbsp; du₁/dt = (α / Δx²) · [ &nbsp;1·u₀ - 2·u₁ + 1·u₂ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 2: &nbsp; du₂/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; 1·u₁ - 2·u₂ + 1·u₃ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 3: &nbsp; du₃/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1·u₂ - 2·u₃ + 1·u₄ &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+      For slice i: &nbsp; du_i/dt = (α / Δx²) · [ ... &nbsp;1·u_{i-1} - 2·u_i + 1·u_{i+1} ... ]
+    </div>
+
+    <p>
+      “If we have 50 or 500 slices,” James said, “writing 500 separate equations would drown us in paperwork. 
+      How can we package the temperatures of all <code>N</code> slices together?”
+    </p>
+
+    <p>
+      “With linear algebra,” Jill suggested. 
+      “We stack all <code>N</code> temperatures into a single state vector 
+      <code>u(t) = [ u₀(t), u₁(t), ... , u_{N-1}(t) ]^T ∈ ℝ^N</code>, 
+      and collect all the coefficients into a single matrix <code><b>A</b></code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0; color: #0f172a; font-weight: bold;">
+      d<b>u</b>/dt = <b>A</b> · <b>u</b>
+    </div>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Toeplitz Laplacian Matrix Assembly">
+        <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
+      </fsd-ref><br><br>
+      [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
+      [ ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Inspect verified Toeplitz structure in Lean 4 or explore with <fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>)</i>
+    </p>
+
+    <p>
+      James stepped back and tapped the board:
+      “In applied mathematics and computational engineering, you will see this matrix given a formal name: 
+      the <b>tridiagonal Toeplitz discrete Laplacian</b>.”
+    </p>
+
+    <p>
+      “When students see those words on an exam without physical context, they panic. But look at what each word actually means from the model we just built together:
+    </p>
+
+    <ul>
+      <li><b>''Discrete Laplacian'':</b> It is simply the discrete counterpart of the spatial second derivative <code>∂²u / ∂x²</code> (the Laplacian operator <code>∇²</code>)—measuring local curvature across space.</li>
+      <li><b>''Tridiagonal'' is Locality:</b> There are only three non-zero bands: the main diagonal (<code>-2</code>) and the two immediate neighbor bands (<code>+1</code>). Why? Because physical contact is strictly local! A slice only touches its immediate left and right neighbors. Slices farther away have zeros because heat cannot jump across space without passing through the slices in between.</li>
+      <li><b>''Toeplitz'' is Uniformity:</b> In linear algebra, a matrix where every diagonal contains identical constant entries is named after Otto Toeplitz. Why is it constant here? Because <b>the steel rod is uniform</b>! The material diffusivity <code>α</code> is identical everywhere, and we sliced the rod into equal widths <code>Δx</code>.</li>
+    </ul>
+
+    <p>
+      Jill smiled: “So ''tridiagonal Toeplitz'' isn''t some arbitrary academic puzzle—it''s just the exact mathematical fingerprint of local contact physics on a uniform bar!”
+    </p>
+
+    <p>
+      “Precisely,” James affirmed. “Physics dictates the geometry of the matrix.”
+    </p>
+
+    <hr>
+
+    <h3>3. The Engineering Dilemma: The Curse of Coupling</h3>
+    <p>
+      James paused, leaning forward: 
+      “Now, Jill—here is the central problem of applied engineering. 
+      Look at <code>d<b>u</b>/dt = <b>A</b> · <b>u</b></code>. Can we just solve each node''s temperature independently?”
+    </p>
+
+    <p>
+      Jill shook her head: 
+      “No! They are all tangled together. To compute <code>u₁</code>, you need <code>u₂</code>. But to compute <code>u₂</code>, you need <code>u₁</code> and <code>u₃</code>. If you touch one spot on the rod, ripples spread through every single node.”
+    </p>
+
+    <p>
+      “Exactly—<b>the physical system is coupled</b>!” James affirmed. 
+      “In pure mathematics, you can write the formal solution <code>u(t) = exp(A · t) · u₀</code> and declare the proof complete. 
+      In applied engineering, computing a matrix exponential of thousands of coupled nodes is brutal. 
+      How do we untangle them?”
+    </p>
+
+    <p>
+      Liam raised his hand from his laptop: 
+      “In Mini-Seminar 1 with Jane, we saw that whenever a linear system is shift-invariant and coupled across spatial neighbors, you can <b>rotate coordinates into the Fourier basis</b>!”
+    </p>
+
+    <p>
+      “That is the master stroke!” James beamed. 
+      “Because matrix <code><b>A</b></code> is tridiagonal and Toeplitz, its eigenvectors are none other than <b>pure Fourier sine waves</b>: 
+      <code>v_k = [sin(k·π·x_i / L)]</code>. 
+      When we rotate into the Fourier basis via unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0; color: #166534;">
+      F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
+    </div>
+
+    <p>
+      “In Fourier mode coordinates, all <code>N</code> nodes uncouple into independent exponential decays: 
+      <code>û_k(t) = û_k(0) · exp(-λ_k · t)</code>! 
+      The hardest problem in continuum physics is solved by choosing the right coordinate basis.”
+    </p>
+
+    <hr>
+
+    <h3>4. Interactive STEM Card: Maxima CAS Derivation &amp; Live Simulation</h3>
+    <p>
+      James turned to Liam’s laptop: “Let''s test this directly. We''ll have <b>Maxima CAS</b> derive the exact eigensystem and compute the transient simulation, while <b>Lean 4</b> verifies that no energy is lost.”
+    </p>
+
+    <!-- Embedded STEM Card -->
+    <stem-card entry-id="heat_diffusion_1d"></stem-card>
+
+    <hr>
+
+    <h3>5. The Fundamental Conservation Law: Machine-Verified in Lean 4</h3>
+    <p>
+      While individual temperatures drop and flatten, what happens to the <b>total thermal energy</b> across the rod?
+    </p>
+    <p>
+      Under insulated boundary conditions (zero flux at the rod ends: <code>q₀ = q_N = 0</code>), the rate of total energy change is:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      d/dt [ ∑_{i=1}^{N} u_i(t) · Δx ] = ∑_{i=1}^{N} [ q_{i - 1/2} - q_{i + 1/2} ]
+    </div>
+
+    <p>
+      Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Boundary Flux Cancellation">
+        (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
+      </fsd-ref>
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
+      <i>(View machine-verified boundary cancellation in Lean 4 or explore with <fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>)</i>
+    </p>
+
+    <p>
+      This is the physical manifestation of our core formal theorem in <b>MiddleWayLean</b>:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-family: monospace; font-weight: bold; color: #1e3a8a; font-size: 13.5px;">
+          MiddleWayLean / Scaffold.lean: telescoping_ftc
+        </span>
+        <span style="background: #22c55e; color: #ffffff; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px;">
+          ✓ Machine-Verified
+        </span>
+      </div>
+      <div style="font-family: monospace; font-size: 12.5px; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; color: #334155; margin-bottom: 8px;">
+        theorem telescoping_ftc (F : Int → R_w) (n : Nat) :<br>
+        &nbsp;&nbsp;hyper_sum (fun i =&gt; F (i + 1) - F i) 0 n = F (n : Int) - F (0 : Int)
+      </div>
+      <p style="margin: 0; font-size: 12.5px; color: #475569; line-height: 1.5;">
+        <b>The Structural Invariance:</b> The computer algebra system (Maxima) provides the exact numbers and time curves, but Lean 4 guarantees that no numerical discretization or thermal dissipation can ever violate the fundamental conservation of energy.
+      </p>
+    </div>
+
+    <hr>
+
+    <h3>6. Middle Way Mathematics (MWM) CAS Interactivity</h3>
+    <p>
+      Professor James motioned toward the lab console: 
+      “Rather than forcing our thinking into the limit machinery of standard textbooks, we use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
+    </p>
+    <p>
+      Explore these concrete heat diffusion models directly in the CAS workbench:
+    </p>
+    <ul>
+      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref> &mdash; Inflow minus outflow simplifies to the discrete second difference Δ²u.</li>
+      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref> &mdash; Demonstrates negative real eigenvalues and asymptotic thermal stability.</li>
+      <li><fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref> &mdash; Proves zero heat loss under insulated boundaries without integral approximations.</li>
+    </ul>
+
+    <hr>
+
+    <h3>7. Summary &amp; Looking Forward</h3>
+    <p>
+      By connecting the Middle Way discrete transect <code>ℝ_ω</code> with Maxima CAS and Lean 4, we have shown:
+    </p>
+    <ul>
+      <li><b>Computational Engineering is not an Approximation:</b> The discrete mesh and difference operators are mathematically exact structures on <code>ℝ_ω</code>.</li>
+      <li><b>Fourier Duality is an Engineering Tool:</b> Rotating coordinates diagonalizes the discrete Laplacian, turning coupled spatial heat diffusion into independent harmonic decays.</li>
+      <li><b>CAS and Proof Engines are Natural Partners:</b> Maxima handles symbolic calculation, while Lean 4 proves foundational conservation.</li>
+    </ul>
+    <p>
+      “Jack spent our 0–12 school years showing us that logical structure and truth never change,” Jill reflected to Liam and her lab peers. “Then Jane showed us at university how continuous change blossoms from hyperfinite halos on ℝ_ω. And here in Professor James''s engineering lab, we see how computational algebra (Maxima) and foundational proof (Lean 4) drive real-world physical modeling.”
+    </p>
+    <p>
+      “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
+    </p>
+  ', 'published'),
+  (47, 'fourierTransformSeminar', 46, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
     <div align="center">
       <i><font size="+2"><b>Mini-Seminar 1: The Fourier Duality</b></font></i><br>
       <i><font size="+1">— Position vs. Frequency, Unitary Basis Rotations &amp; Quantum Geometry —</font></i>
@@ -8845,7 +12064,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       Jill and Jack joined the rest of the seminar room in giving Liam an enthusiastic round of applause.
     </p>
   ', 'published'),
-  (41, 'haloSoupSeminar', 40, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
+  (48, 'haloSoupSeminar', 47, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 2: From ω-Nodes to Halo Soup</b></font></i><br>
     <i><font size="+1">— A Physical Theory of Particles, Matrices &amp; Transfinite Halos —</font></i>
@@ -9052,7 +12271,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     The room erupted in enthusiastic applause as Jill and Jack nodded, thoroughly impressed by the intuitive bridge between hyperreal analysis and quantum measurement.
   </p>
 ', 'published'),
-  (42, 'holographicPrincipleSeminar', 41, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
+  (49, 'holographicPrincipleSeminar', 48, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 3: Holography &amp; Information Boundaries</b></font></i><br>
     <i><font size="+1">— Edge Cancellations, Area Laws &amp; The Holographic Principle —</font></i>
@@ -9259,7 +12478,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     Jack smiled, looking down at his sketches of the 3D cell cancellations: “I’ll never look at an apple &mdash; or a volume of space &mdash; the same way again.”
   </p>
 ', 'published'),
-  (43, 'higherSuccessorsSeminar', 42, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
+  (50, 'higherSuccessorsSeminar', 49, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 4: Higher-Successor Inductive Definitions</b></font></i><br>
     <i><font size="+1">— 2, 4, 8, 16 Branchings, 3D Spatial Octrees &amp; 4D Spacetime Physics —</font></i>
@@ -9545,114 +12764,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     At Jane''s words, Jill, Jack, and the entire seminar room rose to their feet in a resounding standing ovation, honoring Liam, Maya, Tariq, and Chloe for an unforgettable journey across applied transfinite mathematics.
   </p>
 ', 'published'),
-  (44, 'satelliteSeminarsIntro', 43, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
-  <div align="center">
-    <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
-    <font size="+1"><i>— Exercising the Formal Apparatus in the Non-Monotonic Sphere —</i></font>
-  </div>
-  <br>
-
-  <p>
-    Following the conclusion of Course 3, Jane gathered Jill and the graduating students in the seminar room to introduce the visiting masterclasses:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 15px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; max-width: 600px;">
-    <b>“You have mastered the core grammar of Liberal Arts Mathematics.<br>
-    Now, let us see how that grammar is exercised on the frontiers of theoretical physics.”</b>
-  </div>
-
-  <p>
-    “Throughout our three courses,” Jane began, “we built a lean, rigorous, constructive mathematical foundation: 
-    recursive number trees on <code>ℝ_ω</code> and <code>ℂ_ω</code>, vector/covector duality, infinitesimal telescoping calculus, and complex phase transitions. 
-    Every step was proved from the root upward.”
-  </p>
-
-  <p>
-    “To celebrate your graduation, we have invited distinguished visiting theoretical physicists to deliver a series of special <b>Satellite Masterclasses</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. Why These Seminars Were Chosen</h3>
-
-  <p>
-    “In our core curriculum,” Jane emphasized, “we anchored all our physical examples to our primary, battle-tested physical framework: <b>Quantum Statistical Mechanics and Bayesian Inference</b> &mdash; from density operators and MaxEnt ensembles to continuous state evolution and Lee-Yang phase transitions.”
-  </p>
-
-  <p>
-    “These masterclass satellite seminars,” Jane explained with a smile, “are offered <b>in addition to our go-to foundation of quantum statistical mechanics</b>. I selected these specific visiting topics because their theoretical formulations <b>rigorously exercise the exact formal apparatus you have established in this curriculum</b>:”
-  </p>
-
-  <ul>
-    <li>
-      <b>Seminar 1: Cosmology as Information (Dr. Julian Vance)</b><br>
-      Exercises our constructive starting point (the Conway root <code>0 = { | }</code> as an immutable algorithmic seed) and explores the conservation of quantum information (unitarity <code>U† U = I</code>) across the full arc of cosmological time.
-    </li>
-    <br>
-    <li>
-      <b>Seminar 2: The Logic of the Particle Zoo (Dr. Aris Thorne)</b><br>
-      Exercises our study of continuous group homomorphisms and complex phases (<code>e^(iθ)</code>) to show how demanding local phase freedom mathematically forces the existence of fundamental forces and gauge fields (<code>D_μ = &part;_μ - i·q·A_μ</code>).
-    </li>
-    <br>
-    <li>
-      <b>Seminar 3: Quantum Entanglement &amp; The Relational Fabric of Reality (Dr. Evelyn Thorne)</b><br>
-      Exercises our linear tensor spaces (<code>H_A &otimes; H_B</code>), vector/covector contractions, and non-commutative Bayesian inference to explore how quantum entanglement physically generates the geometric fabric of spacetime.
-    </li>
-    <br>
-    <li>
-      <b>Seminar 4: Algebraic Geometry &amp; The Infinitesimal Microscope (Dr. Clara Alexander)</b><br>
-      Building directly upon our study of higher-successor branching trees (<i>Mini-Seminar 4: Higher-Successor Definitions</i>), this masterclass exercises polynomial zero loci <code>V(P)</code> on Conway''s complex tree <code>ℂ_ω</code>—transforming Grothendieck''s abstract scheme neighborhoods (<code>ε² = 0</code>) into concrete halos <code>μ(z)</code> of radius <code>dx = 1/ω</code>, and parameterizing physical moduli spaces (<code>SU(3)</code>, <code>SO(10)</code>).
-      <i>Includes Dr. Alexander''s embedded Masterclass Monograph on Grothendieck Sheaves, Stalks, and the 7 Historical Epochs of Geometric Space.</i>
-    </li>
-  </ul>
-
-  <hr>
-
-  <h3>2. An Important Epistemological Caveat: Non-Monotonic Reasoning</h3>
-
-  <p>
-    Jane paused and looked seriously at the class:
-  </p>
-
-  <div align="center" style="background-color: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 14px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #78350f;">
-    <b>A Vital Warning on Scientific Hypotheses:</b><br>
-    “Remember: as we move from pure mathematical theorems into theoretical cosmology and fundamental physics, <b>we cross the threshold into the sphere of non-monotonic reasoning</b>.<br><br>
-    As grounded, compelling, and mathematically structured as the ideas in these seminars are, <b>they represent only some of the many competing scientific hypotheses striving to explain our observed universe under incomplete information</b>.<br><br>
-    In non-monotonic inference, new experimental evidence can revise previous models. Treat these seminars not as rigid dogma, but as magnificent exploratory applications of your mathematical toolset!”
-  </div>
-
-  <hr>
-
-  <h3>3. The Elephant in the Room: The Unsolved Puzzle of Gravity</h3>
-
-  <p>
-    Before inviting the first speaker to the podium, Jane addressed one final, crucial mystery:
-  </p>
-
-  <p>
-    “As you listen to these seminars, you will notice a striking elephant in the room of modern physics: <b>Gravity</b>.”
-  </p>
-
-  <p>
-    “The three non-gravitational forces &mdash; electromagnetism, the weak force, and the strong force &mdash; all fit into quantum field theory as gauge fields acting on a fixed spacetime backdrop. But Einstein''s General Relativity tells us that <b>gravity is not a field living inside space; gravity is the geometric curvature of spacetime itself (<code>G_μν = 8πG T_μν</code>)</b>.”
-  </p>
-
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 18px; margin: 15px auto; max-width: 620px; font-size: 13.5px; line-height: 1.6; color: #1e3a8a;">
-    <b>The Great Clash of Modern Physics:</b><br><br>
-    • <b>Background Independence:</b> Quantum field theory requires a fixed stage to define unitary time evolution. General relativity makes the stage itself dynamic and flexible.<br>
-    • <b>The Planck Scale Wall:</b> Attempting to quantize general relativity with standard point-particle field methods produces non-renormalizable infinities at the Planck length (<code>&ell;_P &approx; 1.6 &times; 10⁻³⁵ m</code>).<br>
-    • <b>The Emergent Hint:</b> Modern theoretical frontiers (Holography, Loop Quantum Gravity, and Entropic Gravity) increasingly suggest that <b>gravity and smooth spacetime are not fundamental &mdash; they are macroscopic thermodynamic phenomena emerging from quantum entanglement and information!</b>
-  </div>
-
-  <p>
-    “So as we explore these masterclasses,” Jane concluded with an inspiring smile, “remember that you are witnessing physics in its most vibrant era: <b>the search for the unified theory of Quantum Gravity</b>.”
-  </p>
-
-  <p>
-    “Let us now begin with our first seminar, which due to its deceptive simplicity and cosmic scope, sets the grand stage for all that follows: <b>Cosmology as Information</b>!”
-  </p>
-', 'published'),
-  (45, 'cosmologyAsInformation', 44, '1. The Law of Information Immutability', 'cosmology-as-information', '
+  (51, 'cosmologyAsInformation', 50, '1. The Law of Information Immutability', 'cosmology-as-information', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Cosmology as Information</b></i></font><br>
       <font size="+1"><i>— The Duality of Immutable Law &amp; Observed
@@ -9842,7 +12954,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         They are the grammar through which the cosmos computes itself.”</b>
     </div>
   ', 'published'),
-  (46, 'particleZooSeminar', 45, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
+  (52, 'particleZooSeminar', 51, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: The Logic of the Particle Zoo</b></i></font><br>
     <font size="+1"><i>— Why Local Symmetries Dictate the Fundamental Forces of Nature —</i></font>
@@ -10051,7 +13163,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <b>It is the magnificent, coherent geometry of symmetry, duality, and information.</b>”
   </p>
 ', 'published'),
-  (47, 'quantumEntanglementSeminar', 46, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
+  (53, 'quantumEntanglementSeminar', 52, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: Quantum Entanglement &amp; The Relational Fabric of Reality</b></i></font><br>
     <font size="+1"><i>— Tensor Products, Non-Separability, Bell Inequalities &amp; Emergent Spacetime —</i></font>
@@ -10259,7 +13371,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <b>the universe is not an assembly of lonely particles in empty space. It is an unbroken, relational web of quantum information computing reality at every point.</b>”
   </p>
 ', 'published'),
-  (48, 'algebraicGeometrySeminar', 47, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
+  (54, 'algebraicGeometrySeminar', 53, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Algebraic Geometry &amp; The Infinitesimal Microscope</b></i></font><br>
       <font size="+1"><i>— Polynomial Varieties, Grothendieck Schemes,
@@ -10813,1420 +13925,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       polynomial varieties, discrete number trees, and the frontiers
       of modern algebraic geometry. </p>
   ', 'published'),
-  (49, 'stemNewtonianBridge', 48, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
-  <div align="center">
-    <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
-    <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke''s Oscillator —</i></font>
-  </div>
-  <br>
-
-  <p>
-    Before starting the multi-node thermal conduction experiment in the applied engineering laboratory, 
-    Professor James gathered Jill, Marcus, and their lab team around the demonstration bench.
-  </p>
-
-  <hr>
-
-  <h3>1. Tracing Historical Calculation: From Galileo’s Odd-Number Tables to Leibniz &amp; Euler</h3>
-
-  <p>
-    “Before we turn on thermal imaging cameras and model continuous heat diffusion across an N-node rod,” 
-    Professor James said, leaning against the bench, 
-    “we need to examine how mathematical physics actually computes. 
-    Marcus, in your applied mechanics work, how did natural philosophers first calculate motion before nineteenth-century limit formalisms?”
-  </p>
-
-  <p>
-    Marcus, an applied physics student known across the lab for his sharp computational intuition, set down his tablet: 
-    “Natural philosophers didn’t start with limits of indeterminate ratios. They started with <b>discrete difference ledgers</b>. 
-    In 1638, when Galileo investigated accelerated motion in his <i>Two New Sciences</i>, he didn''t write differential equations. 
-    He rolled polished bronze balls down grooved inclined planes, timed them with water clocks over equal ticks <code>Δt</code>, 
-    and recorded the spatial displacements.”
-  </p>
-
-  <p>
-    “And what did Galileo’s difference table reveal?” James asked.
-  </p>
-
-  <p>
-    “Galileo discovered the <b>odd-number rule</b>,” Marcus replied. 
-    “Over successive equal time intervals, the incremental distances fallen were proportional to consecutive odd integers: 
-    <code>1, 3, 5, 7, 9, ...</code>, or <code>Δs_k ∝ (2k - 1)</code>. 
-    When you sum consecutive odd numbers, you get perfect squares: 
-    <code>∑_{k=1}^n (2k - 1) = n²</code>. 
-    The total distance grew as the square of time: <code>s(t) ∝ t²</code>. 
-    The first difference was linear in time—velocity. And the second difference was strictly constant—acceleration.”
-  </p>
-
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 14px auto; max-width: 680px; line-height: 1.8;">
-    <b>Galileo’s Tabular Difference Ledger (Equal Time Ticks Δt):</b><br>
-    Interval Index (k): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp; ... &nbsp;&nbsp; k<br>
-    Incremental Step (Δs): &nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp;&nbsp; 7 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; ... &nbsp;&nbsp; 2k - 1 &nbsp; (Velocity)<br>
-    Total Position (s): &nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; 16 &nbsp;&nbsp; 25 &nbsp;&nbsp; ... &nbsp;&nbsp; k² &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quadratic Position)<br>
-    Second Difference (Δ²s): &nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp; ... &nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Constant Acceleration)
-  </div>
-
-  <p>
-    “Exactly,” James nodded. 
-    “This was the very intuition Leibniz championed when establishing his calculus: 
-    differentiation is fundamentally the <b>algebra of differences</b> across an infinitesimal step <code>dt</code>, 
-    and integration is the <b>summation of those differences</b>. 
-    In 1755, when Euler published his landmark <i>Foundations of Differential Calculus</i> (<i>Institutiones Calculi Differentialis</i>), 
-    he opened not with epsilon-delta definitions, but with the <b>calculus of finite differences</b>. 
-    Euler treated the differential calculus as the systematic algebra of differences.”
-  </p>
-
-  <p>
-    Jill smiled: 
-    “In Jack’s formal science class, we built our foundations on honest discrete ledgers—truth tables, number trees, and dyadic coordinates. 
-    And in Jane’s university calculus, we learned that on <code>ℝ_ω</code>, with a hyperfinite tick <code>dt = 1/ω</code>, 
-    these difference ledgers are not approximations. They are <b>exact algebraic identities</b>.”
-  </p>
-
-  <p>
-    “Precisely,” James said. “And in modern scientific computing, our computer algebra systems (CAS) and symplectic numerical integrators 
-    execute these exact difference structures. Let’s exercise our symbolic calculator on the classical Newtonian problems!”
-  </p>
-
-  <hr>
-
-  <h3>2. Exercising the Calculator: Free Fall Trajectory, Velocity &amp; Acceleration</h3>
-
-  <p>
-    “Consider a particle launched upward with initial velocity <code>v₀</code> under constant downward gravitational acceleration <code>g</code>,” 
-    James said, writing the position polynomial on the board:
-  </p>
-
-  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 24px; font-family: monospace; font-size: 15px; margin: 14px auto; width: fit-content; max-width: 90%; color: #1e3a8a;">
-    s(t) = v₀·t - (1/2)·g·t²
-  </div>
-
-  <p>
-    “On our hyperfinite scaffold <code>ℝ_ω</code>,” James continued, “time advances by step <code>dt = 1/ω</code>. 
-    What is the displacement over a single tick?”
-  </p>
-
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap;">
-    s(t + dt) - s(t) &nbsp;=&nbsp; [ v₀·(t + dt) - (1/2)·g·(t + dt)² ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; [ v₀·t + v₀·dt - (1/2)·g·(t² + 2t·dt + dt²) ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>(v₀ - g·t)·dt &nbsp;-&nbsp; (1/2)·g·dt²</b>
-  </div>
-
-  <p>
-    “Now divide by <code>dt</code>,” Marcus noted. “Because <code>dt</code> is a genuine non-zero hyperreal element on <code>ℝ_ω</code>, 
-    the quotient is standard algebra:”
-  </p>
-
-  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="free_fall_accel" title="Free Fall Velocity & Acceleration Invariance">
-      v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
-    </fsd-ref>
-  </div>
-  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect formal invariance proof in Lean 4 or explore with <fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>)</i>
-  </p>
-
-  <p>
-    Taking the standard shadow <code>st(·)</code> discards the infinitesimal term <code>(1/2)·g·dt</code>, 
-    leaving the exact velocity <code>v(t) = v₀ - g·t</code>.
-  </p>
-
-  <p>
-    “And what about acceleration?” Jill asked. “We use Jane’s symmetric 3-point stencil <code>[1, -2, 1]</code>!”
-  </p>
-
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap; text-align: center;">
-    s(t - dt) - 2·s(t) + s(t + dt) &nbsp;=&nbsp; <b>-g · dt²</b><br><br>
-    a(t) &nbsp;=&nbsp; st( [ s(t - dt) - 2·s(t) + s(t + dt) ] / dt² ) &nbsp;=&nbsp; st( -g·dt² / dt² ) &nbsp;=&nbsp; <b>-g</b>
-  </div>
-
-  <p>
-    All the terms in <code>t</code> and <code>v₀</code> cancel identically. 
-    Acceleration is an <b>exact constant <code>-g</code></b> with strictly zero residual error. 
-    Newton’s Second Law for constant gravity is the statement that the discrete temporal curvature of position is invariant.
-  </p>
-
-  <hr>
-
-  <h3>3. The Work-Energy Theorem: Exact Telescoping Summation</h3>
-
-  <p>
-    “Next,” James continued, “let’s examine the <b>Work-Kinetic Energy Theorem</b>. 
-    In classical mechanics, work is defined as force integrated over distance: <code>W = ∫ F dx</code>. 
-    Marcus, how does our discrete ledger compute work over a succession of discrete steps?”
-  </p>
-
-  <p>
-    “On <code>ℝ_ω</code>, displacement is a sequence of discrete steps <code>Δx_k</code>,” Marcus explained. 
-    “At each step, force is mass times acceleration: <code>F_k = m · (Δv_k / Δt)</code>. 
-    The incremental work done during step <code>k</code> is:
-  </p>
-
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
-    W_k &nbsp;=&nbsp; F_k · Δx_k &nbsp;=&nbsp; [ m · (Δv_k / Δt) ] · [ v_k · Δt ] &nbsp;=&nbsp; <b>m · v_k · Δv_k</b>
-  </div>
-
-  <p>
-    Now apply the fundamental algebraic identity:
-    <br>
-    <code>v_k · Δv_k &nbsp;=&nbsp; (1/2)·[ (v_k + Δv_k)² - v_k² - (Δv_k)² ]</code>.
-  </p>
-
-  <p>
-    “The second term is of order <code>O(dt²)</code>. Summing over all <code>n</code> time steps from initial state to final state:”
-  </p>
-
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="work_energy" title="Telescoping Work-Energy Theorem">
-      ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
-    </fsd-ref>
-  </div>
-  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect telescoping sum in Lean 4 or explore with <fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>)</i>
-  </p>
-
-  <p>
-    “It’s a <b>telescoping sum</b>,” Marcus observed. 
-    “Every intermediate velocity square <code>v_k²</code> cancels against <code>-v_k²</code> of the adjacent step. 
-    This is the discrete Fundamental Theorem of Calculus: total work done equals the net change in kinetic energy.”
-  </p>
-
-  <p>
-    “And for conservative fields where work is the negative difference of potential energy <code>-Δ(PE)</code>,” James added, 
-    “we immediately get <code>Δ(KE) + Δ(PE) = 0</code>, or <code>KE + PE = E_{total} = \text{constant}</code>. 
-    Energy conservation is an algebraic property of telescoping difference ledgers.”
-  </p>
-
-  <hr>
-
-  <h3>4. Exercising the Leapfrog Stencil: Hooke’s Law &amp; Unitary Phase Roots</h3>
-
-  <p>
-    “Finally,” James said, “what happens when the force is non-constant and position-dependent, 
-    such as a restoring spring <code>F = -k·x</code>?”
-  </p>
-
-  <p>
-    Applying Newton’s Second Law with Jane’s symmetric 3-point temporal stencil gives:
-  </p>
-
-  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
-    m · [ x(t - dt) - 2·x(t) + x(t + dt) ] / dt² &nbsp;=&nbsp; -k · x(t)
-  </div>
-
-  <p>
-    Rearranging to solve explicitly for the next future time step <code>x(t + dt)</code>:
-  </p>
-
-  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="unitary_preservation" title="Hooke''s Law Leapfrog & Unitary Phase Invariance">
-      x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
-    </fsd-ref>
-  </div>
-  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <fsd-ref tier="3" scaffold="unitary_preservation" auto-calc title="Harmonic Leapfrog Stencil &amp; Unitary Phase Roots">Harmonic Leapfrog Stencil &amp; Unitary Phase Roots</fsd-ref>)</i>
-  </p>
-
-  <p>
-    Marcus examined the recurrence:
-  </p>
-  <ul>
-    <li><b>Explicit and Symplectic:</b> This is the classic <i>Verlet leapfrog integrator</i> widely used in celestial mechanics and molecular dynamics. It requires no matrix inversion and is exactly time-reversible.</li>
-    <li><b>Unitary Phase Roots:</b> The characteristic equation is <code>λ² - (2 - ω₀²·dt²)·λ + 1 = 0</code>. 
-      For any stable time step <code>dt &lt; 2/ω₀</code>, the discriminant is negative, and the roots on <code>ℂ_ω</code> are complex conjugates with <b>exact unit modulus</b>: 
-      <code>|λ| = 1</code>, representing pure phase rotations <code>λ = e^{\pm i·ω₀·dt}</code>.</li>
-    <li><b>Exact Stability:</b> Because <code>|λ| = 1</code>, the discrete numerical oscillation neither dampens nor blows up over time. 
-      Lean 4 validates this invariant through <code>Scaffold.unitary_preservation</code>.</li>
-  </ul>
-
-  <hr>
-
-  <h3>5. Scaling From 1-Particle Time Stencils to N-Node Spatial Diffusion</h3>
-
-  <p>
-    Professor James turned from the chalkboard back to the laboratory bench:
-  </p>
-
-  <p>
-    “In these three classical calculations, we tracked a <b>single particle</b> through time:
-    its velocity was a first temporal difference, its acceleration was Jane’s <code>[1, -2, 1]</code> stencil in time, 
-    and its energy conservation was a telescoping sum.
-  </p>
-
-  <p>
-    Now, look at the steel rod on our bench. 
-    It is not a single particle; it is an arrangement of <b>N coupled control slices</b> along space. 
-    How do neighboring slices transfer thermal energy? By direct thermal contact—Jack’s <code>NEAR</code> adjacency relation! 
-    The exact same <code>[1, -2, 1]</code> stencil that computed acceleration in time for one particle will now compute 
-    <b>spatial thermal curvature and diffusion across all N slices simultaneously</b>.”
-  </p>
-
-  <p>
-    “Let’s heat the rod and run the multi-node solver,” Marcus said, opening the thermal data monitor.
-  </p>
-
-', 'published'),
-  (50, 'stemHeatDiffusion', 49, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
-    <div align="center">
-      <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
-      <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
-    </div>
-    <br>
-
-    <p>
-      Professor James set a long, gleaming steel rod across two insulated support blocks on the laboratory demonstration bench. 
-      Beside it, an infrared thermal imaging camera pointed directly at the rod, feeding a live display onto the large overhead monitor. 
-      A small electric heating element clamped near the one-third mark glowed dull orange. On the monitor, a vivid false-color heat map showed a sharp, brilliant peak of thermal color where the clamp sat, flanked by cool blues and purples along the rest of the bar.
-    </p>
-
-    <p>
-      Sitting in the front row was Jill, notebook open alongside Liam. 
-      Jack had been her teacher throughout all of 0–12 formal science, instilling in her the foundational discipline of propositional logic, set theory, binary trees, and Conway games. 
-      At the tertiary level, Jane had been her instructor for Liberal Arts Mathematics, guiding her through continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code>. 
-      Now, stepping across the quad into Professor James''s applied engineering laboratory, she watched the glowing monitor with keen interest, eager to see how that lifelong mathematical arc connected to physical matter.
-    </p>
-
-    <p>
-      Professor James switched off the electric heater and turned to the class, gesturing toward the bench:
-      <br>
-      <b>“Before we write down any formulas or touch a computer: How are we going to model this rod?”</b>
-    </p>
-
-    <p>
-      The room was quiet for a moment. James caught Jill''s eye and smiled: 
-      “Jill, you’ve spent your university years with Jane studying continuous structures, built on Jack''s formal science foundation from school. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical training tell you to do?”
-    </p>
-
-    <p>
-      Jill looked up at the overhead monitor:
-      “On the screen, the temperature looks like a continuous curve—a function <code>T(x)</code> giving the temperature at every point from <code>x = 0</code> to <code>x = L</code>. In Professor Jane’s class, we learned that we can think of continuous curves on <code>ℝ_ω</code> as smooth progressions through an ultra-dense transect of points.”
-    </p>
-
-    <p>
-      “That is the classical mathematician''s continuum view,” James nodded approvingly. 
-      “A continuous function <code>T(x, t)</code>. But now look at the monitor as time passes. What is actually happening to that sharp thermal peak?”
-    </p>
-
-    <p>
-      Jill watched the live display: 
-      “The orange peak is sinking. The hot spot is cooling down, while the cooler metal immediately next to it is warming up. The heat is spreading outward and flattening.”
-    </p>
-
-    <p>
-      “Why?” James asked. “Can an engineer track every one of the <code>10²⁴</code> vibrating iron atoms inside that bar? Or can our computers calculate values at an uncountably infinite number of points?”
-    </p>
-
-    <p>
-      “No,” Jill laughed. “The thermal camera itself has a finite grid of sensor pixels. And our computers only have finite floating-point memory.”
-    </p>
-
-    <p>
-      “Exactly,” said James. “To model this rod physically and computationally, we need to choose our fundamental building blocks. We don''t track individual atoms, nor do we drown in uncomputable infinites. How should we represent the rod?”
-    </p>
-
-    <p>
-      Jill considered the setup: 
-      “We divide the length of the rod into small finite slices—little segments or control volumes of width <code>Δx</code>.”
-    </p>
-
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; line-height: 1.6; overflow-x: auto; white-space: nowrap;">
-      Slice: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N - 1 ]<br>
-      Temp: &nbsp; &nbsp; &nbsp;u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{N-1}(t)
-    </div>
-
-    <hr>
-
-    <h3>1. Isolating a Single Slice: Contact Physics &amp; Energy Conservation</h3>
-    <p>
-      James stepped to the blackboard: 
-      “Let''s slow down and look at just <b>one single slice</b>—slice <code>i</code> at temperature <code>u_i(t)</code>. 
-      What determines whether the temperature inside slice <code>i</code> rises or falls?”
-    </p>
-
-    <p>
-      Jill answered from first principles: 
-      “Energy conservation. Heat is thermal energy. Energy cannot be created or destroyed. 
-      The only way the heat energy inside slice <code>i</code> can change is if thermal energy flows in or out across its physical boundaries.”
-    </p>
-
-    <p>
-      “And who does slice <code>i</code> touch?” James asked.
-    </p>
-
-    <p>
-      “Only its immediate neighbors,” Jill replied. “Slice <code>i-1</code> on its left, and slice <code>i+1</code> on its right. 
-      In Jack''s 0–12 formal science classes, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
-      Heat cannot teleport across space; it can only cross boundaries through direct physical contact with adjacent slices.”
-    </p>
-
-    <p>
-      “And which way does it flow across those boundaries?” James asked.
-    </p>
-
-    <p>
-      “From hotter to colder,” Jill said. “If slice <code>i-1</code> is hotter than slice <code>i</code>, thermal energy flows into slice <code>i</code> from the left. 
-      If slice <code>i</code> is hotter than slice <code>i+1</code>, thermal energy flows out to the right.”
-    </p>
-
-    <p>
-      “That is <b>Fourier''s Law of Thermal Conduction</b>,” James explained. 
-      “The rate of heat flux across a boundary is proportional to the temperature difference divided by the slice width <code>Δx</code>, scaled by the material''s thermal conductivity <code>k</code>. 
-      When we account for the steel''s density <code>ρ</code> and specific heat capacity <code>c</code>, they bundle into a single material constant: the <b>thermal diffusivity</b> <code>α = k / (ρ · c)</code> (with units of <code>length² / time</code>).”
-    </p>
-
-    <p>
-      “Now,” James continued, “let''s write the energy ledger for slice <code>i</code>. 
-      The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
-    </p>
-
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 22px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto; white-space: nowrap;">
-      <fsd-ref tier="3" scaffold="heat_flux" title="Thermal Flux Balance & Discrete Laplacian Stencil">
-        du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
-      </fsd-ref>
-    </div>
-    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Click the formula above to inspect the formal stencil proof in Lean 4)</i>
-    </p>
-
-    <p>
-      Jill stared at the right-hand side, a smile breaking across her face: 
-      “Wait! Look at that algebraic grouping: <code>u_{i-1} - 2u_i + u_{i+1}</code>. 
-      That is the <b>second discrete difference <code>Δ²u</code></b> from Jane''s analysis course! 
-      It measures curvature—whether <code>u_i</code> sits above or below the average of its neighbors!”
-    </p>
-
-    <p>
-      “Spot on!” James beamed. 
-      “If slice <code>i</code> is hotter than the average of its neighbors—a local peak—then <code>Δ²u &lt; 0</code>, so it cools down. 
-      If it is colder than its neighbors—a local valley—then <code>Δ²u &gt; 0</code>, so it warms up. 
-      Nature is computing a discrete second difference at every slice on the rod to smooth out thermal curvature!”
-    </p>
-
-    <hr>
-
-    <h3>2. Assembling All Slices: How the Matrix Emerges</h3>
-    <p>
-      “Now,” James said, “what happens when we step back and look at the entire rod? 
-      We don''t have just one slice; we have <code>N</code> slices along the rod, from slice <code>0</code> to slice <code>N-1</code>.”
-    </p>
-
-    <p>
-      He wrote out the balance for each slice on the board:
-    </p>
-
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; margin: 14px auto; width: fit-content; max-width: 95%; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a; overflow-x: auto; white-space: nowrap;">
-      For slice 1: &nbsp; du₁/dt = (α / Δx²) · [ &nbsp;1·u₀ - 2·u₁ + 1·u₂ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
-      For slice 2: &nbsp; du₂/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; 1·u₁ - 2·u₂ + 1·u₃ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
-      For slice 3: &nbsp; du₃/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1·u₂ - 2·u₃ + 1·u₄ &nbsp; &nbsp; &nbsp; &nbsp;]<br>
-      ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
-      For slice i: &nbsp; du_i/dt = (α / Δx²) · [ ... &nbsp;1·u_{i-1} - 2·u_i + 1·u_{i+1} ... ]
-    </div>
-
-    <p>
-      “If we have 50 or 500 slices,” James said, “writing 500 separate equations would drown us in paperwork. 
-      How can we package the temperatures of all <code>N</code> slices together?”
-    </p>
-
-    <p>
-      “With linear algebra,” Jill suggested. 
-      “We stack all <code>N</code> temperatures into a single state vector 
-      <code>u(t) = [ u₀(t), u₁(t), ... , u_{N-1}(t) ]^T ∈ ℝ^N</code>, 
-      and collect all the coefficients into a single matrix <code><b>A</b></code>:”
-    </p>
-
-    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0; color: #0f172a; font-weight: bold;">
-      d<b>u</b>/dt = <b>A</b> · <b>u</b>
-    </div>
-
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
-      <fsd-ref tier="3" scaffold="heat_flux" title="Toeplitz Laplacian Matrix Assembly">
-        <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
-      </fsd-ref><br><br>
-      [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
-      [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
-      [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
-      [ ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]<br>
-      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 ]<br>
-      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
-    </div>
-    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-      <i>(Inspect verified Toeplitz structure in Lean 4 or explore with <fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>)</i>
-    </p>
-
-    <p>
-      James stepped back and tapped the board:
-      “In applied mathematics and computational engineering, you will see this matrix given a formal name: 
-      the <b>tridiagonal Toeplitz discrete Laplacian</b>.”
-    </p>
-
-    <p>
-      “When students see those words on an exam without physical context, they panic. But look at what each word actually means from the model we just built together:
-    </p>
-
-    <ul>
-      <li><b>''Discrete Laplacian'':</b> It is simply the discrete counterpart of the spatial second derivative <code>∂²u / ∂x²</code> (the Laplacian operator <code>∇²</code>)—measuring local curvature across space.</li>
-      <li><b>''Tridiagonal'' is Locality:</b> There are only three non-zero bands: the main diagonal (<code>-2</code>) and the two immediate neighbor bands (<code>+1</code>). Why? Because physical contact is strictly local! A slice only touches its immediate left and right neighbors. Slices farther away have zeros because heat cannot jump across space without passing through the slices in between.</li>
-      <li><b>''Toeplitz'' is Uniformity:</b> In linear algebra, a matrix where every diagonal contains identical constant entries is named after Otto Toeplitz. Why is it constant here? Because <b>the steel rod is uniform</b>! The material diffusivity <code>α</code> is identical everywhere, and we sliced the rod into equal widths <code>Δx</code>.</li>
-    </ul>
-
-    <p>
-      Jill smiled: “So ''tridiagonal Toeplitz'' isn''t some arbitrary academic puzzle—it''s just the exact mathematical fingerprint of local contact physics on a uniform bar!”
-    </p>
-
-    <p>
-      “Precisely,” James affirmed. “Physics dictates the geometry of the matrix.”
-    </p>
-
-    <hr>
-
-    <h3>3. The Engineering Dilemma: The Curse of Coupling</h3>
-    <p>
-      James paused, leaning forward: 
-      “Now, Jill—here is the central problem of applied engineering. 
-      Look at <code>d<b>u</b>/dt = <b>A</b> · <b>u</b></code>. Can we just solve each node''s temperature independently?”
-    </p>
-
-    <p>
-      Jill shook her head: 
-      “No! They are all tangled together. To compute <code>u₁</code>, you need <code>u₂</code>. But to compute <code>u₂</code>, you need <code>u₁</code> and <code>u₃</code>. If you touch one spot on the rod, ripples spread through every single node.”
-    </p>
-
-    <p>
-      “Exactly—<b>the physical system is coupled</b>!” James affirmed. 
-      “In pure mathematics, you can write the formal solution <code>u(t) = exp(A · t) · u₀</code> and declare the proof complete. 
-      In applied engineering, computing a matrix exponential of thousands of coupled nodes is brutal. 
-      How do we untangle them?”
-    </p>
-
-    <p>
-      Liam raised his hand from his laptop: 
-      “In Mini-Seminar 1 with Jane, we saw that whenever a linear system is shift-invariant and coupled across spatial neighbors, you can <b>rotate coordinates into the Fourier basis</b>!”
-    </p>
-
-    <p>
-      “That is the master stroke!” James beamed. 
-      “Because matrix <code><b>A</b></code> is tridiagonal and Toeplitz, its eigenvectors are none other than <b>pure Fourier sine waves</b>: 
-      <code>v_k = [sin(k·π·x_i / L)]</code>. 
-      When we rotate into the Fourier basis via unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:
-    </p>
-
-    <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0; color: #166534;">
-      F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
-    </div>
-
-    <p>
-      “In Fourier mode coordinates, all <code>N</code> nodes uncouple into independent exponential decays: 
-      <code>û_k(t) = û_k(0) · exp(-λ_k · t)</code>! 
-      The hardest problem in continuum physics is solved by choosing the right coordinate basis.”
-    </p>
-
-    <hr>
-
-    <h3>4. Interactive STEM Card: Maxima CAS Derivation &amp; Live Simulation</h3>
-    <p>
-      James turned to Liam’s laptop: “Let''s test this directly. We''ll have <b>Maxima CAS</b> derive the exact eigensystem and compute the transient simulation, while <b>Lean 4</b> verifies that no energy is lost.”
-    </p>
-
-    <!-- Embedded STEM Card -->
-    <stem-card entry-id="heat_diffusion_1d"></stem-card>
-
-    <hr>
-
-    <h3>5. The Fundamental Conservation Law: Machine-Verified in Lean 4</h3>
-    <p>
-      While individual temperatures drop and flatten, what happens to the <b>total thermal energy</b> across the rod?
-    </p>
-    <p>
-      Under insulated boundary conditions (zero flux at the rod ends: <code>q₀ = q_N = 0</code>), the rate of total energy change is:
-    </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
-      d/dt [ ∑_{i=1}^{N} u_i(t) · Δx ] = ∑_{i=1}^{N} [ q_{i - 1/2} - q_{i + 1/2} ]
-    </div>
-
-    <p>
-      Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
-    </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
-      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Boundary Flux Cancellation">
-        (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
-      </fsd-ref>
-    </div>
-    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
-      <i>(View machine-verified boundary cancellation in Lean 4 or explore with <fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>)</i>
-    </p>
-
-    <p>
-      This is the physical manifestation of our core formal theorem in <b>MiddleWayLean</b>:
-    </p>
-
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span style="font-family: monospace; font-weight: bold; color: #1e3a8a; font-size: 13.5px;">
-          MiddleWayLean / Scaffold.lean: telescoping_ftc
-        </span>
-        <span style="background: #22c55e; color: #ffffff; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px;">
-          ✓ Machine-Verified
-        </span>
-      </div>
-      <div style="font-family: monospace; font-size: 12.5px; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; color: #334155; margin-bottom: 8px;">
-        theorem telescoping_ftc (F : Int → R_w) (n : Nat) :<br>
-        &nbsp;&nbsp;hyper_sum (fun i =&gt; F (i + 1) - F i) 0 n = F (n : Int) - F (0 : Int)
-      </div>
-      <p style="margin: 0; font-size: 12.5px; color: #475569; line-height: 1.5;">
-        <b>The Structural Invariance:</b> The computer algebra system (Maxima) provides the exact numbers and time curves, but Lean 4 guarantees that no numerical discretization or thermal dissipation can ever violate the fundamental conservation of energy.
-      </p>
-    </div>
-
-    <hr>
-
-    <h3>6. Middle Way Mathematics (MWM) CAS Interactivity</h3>
-    <p>
-      Professor James motioned toward the lab console: 
-      “Rather than forcing our thinking into the limit machinery of standard textbooks, we use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
-    </p>
-    <p>
-      Explore these concrete heat diffusion models directly in the CAS workbench:
-    </p>
-    <ul>
-      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref> &mdash; Inflow minus outflow simplifies to the discrete second difference Δ²u.</li>
-      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref> &mdash; Demonstrates negative real eigenvalues and asymptotic thermal stability.</li>
-      <li><fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref> &mdash; Proves zero heat loss under insulated boundaries without integral approximations.</li>
-    </ul>
-
-    <hr>
-
-    <h3>7. Summary &amp; Looking Forward</h3>
-    <p>
-      By connecting the Middle Way discrete transect <code>ℝ_ω</code> with Maxima CAS and Lean 4, we have shown:
-    </p>
-    <ul>
-      <li><b>Computational Engineering is not an Approximation:</b> The discrete mesh and difference operators are mathematically exact structures on <code>ℝ_ω</code>.</li>
-      <li><b>Fourier Duality is an Engineering Tool:</b> Rotating coordinates diagonalizes the discrete Laplacian, turning coupled spatial heat diffusion into independent harmonic decays.</li>
-      <li><b>CAS and Proof Engines are Natural Partners:</b> Maxima handles symbolic calculation, while Lean 4 proves foundational conservation.</li>
-    </ul>
-    <p>
-      “Jack spent our 0–12 school years showing us that logical structure and truth never change,” Jill reflected to Liam and her lab peers. “Then Jane showed us at university how continuous change blossoms from hyperfinite halos on ℝ_ω. And here in Professor James''s engineering lab, we see how computational algebra (Maxima) and foundational proof (Lean 4) drive real-world physical modeling.”
-    </p>
-    <p>
-      “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
-    </p>
-  ', 'published'),
-  (51, 'stemTrigFoundations', 50, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
-<div class="container">
-    <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
-    <div class="subtitle">
-      A Constructive STEM Perspective — Grounded in 1-Successor Counting, 2-Successor Dyadic Bisection, and the 4-Successor Complex Continuum
-    </div>
-
-    <p>
-      The connection between our foundational descriptions of number trees and trigonometry is both mathematically profound and computationally practical. 
-      Across our curriculum—from the 1-successor natural trunk (<code>ℕ</code>), through the 2-successor binary dyadic tree (<code>ℝ_ω</code>), to the 4-successor quadtree (<code>ℂ_ω</code>)—balanced trees are not merely algebraic visualizations; they are the <b>inductive scaffolding of geometry and rotation</b>.
-    </p>
-
-    <div class="callout">
-      <strong>Core Insight:</strong> Classical trigonometry introduces sines, cosines, and angles through transcendental limits and geometric ratios. On our number trees, circular rotation emerges constructively:
-      <ol style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
-        <li><b>The 1-Successor Trunk (ℕ):</b> Counts discrete perimeter steps <code>k → k + 1</code> around the unit circle, driving discrete arc length accumulation and complex contour integration.</li>
-        <li><b>The 2-Successor Binary Tree (ℝ_ω):</b> Bisects angles at each birthday level, generating François Viète’s nested radicals, Walsh-Hadamard square waves, and the CORDIC hardware bit-shift algorithm.</li>
-        <li><b>The 4-Successor Quadtree (ℂ_ω):</b> Deploys the 4th roots of unity <code>{ +1, -1, +i, -i }</code> as two 180° polar fans, turning Euler’s formula into pure perpendicular stepping on an infinitesimal square grid.</li>
-      </ol>
-    </div>
-
-    <!-- MAPPING TABLE -->
-    <div align="center" style="margin: 24px 0;">
-      <table style="max-width: 820px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-        <thead>
-          <tr>
-            <th style="width: 18%;">Number Tree</th>
-            <th style="width: 26%;">Branching &amp; Basis</th>
-            <th style="width: 28%;">Spatial / Geometric Role</th>
-            <th style="width: 28%;">Trigonometric Expression</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>1-Successor</b><br><span style="color: #64748b; font-size: 0.85em;">(The Trunk ℕ_ω)</span></td>
-            <td>1 successor: <code>k → k + 1</code><br>Unique root <code>0</code></td>
-            <td>Linear counting ray; perimeter marcher along circle boundary</td>
-            <td>Perimeter sum: <code>Perimeter = ∑[k=1 to ω] ds = 2π</code><br>Contour winding: <code>∮ (1/z) dz = 2π i</code></td>
-          </tr>
-          <tr>
-            <td><b>2-Successor</b><br><span style="color: #2563eb; font-size: 0.85em;">(The Binary Tree ℝ_ω)</span></td>
-            <td>2 successors: <code>{ -, + }</code><br>Dyadics <code>m / 2ⁿ</code></td>
-            <td>180° polar fan; recursive interval bisection</td>
-            <td>Half-angle cosine: <code>cos(θ/2) = √[(1+cos θ)/2]</code><br>Viète nested radicals; CORDIC bit-shifts</td>
-          </tr>
-          <tr>
-            <td><b>4-Successor</b><br><span style="color: #7c3aed; font-size: 0.85em;">(The Quadtree ℂ_ω)</span></td>
-            <td>4 successors: <code>{ +1, -1, +i, -i }</code><br>4th roots of unity</td>
-            <td>Two 180° fans back-to-back (360° all space); 2D grid <code>dz = dx + i·dy</code></td>
-            <td>Euler’s formula via perpendicular steps: <code>z_(k+1) = z_k (1 + i·dθ)</code><br>Cauchy-Riemann conformal cell symmetry</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Collapsible Historical Foundations Section (navFW Return Control Integrated) -->
-    <a name="historyOfAngleAnchor" id="historyOfAngleAnchor"></a>
-    <details id="history-of-angle-section" style="margin: 24px auto; max-width: 840px; background-color: #f8fafc; border: 2px solid #2563eb; border-radius: 8px; padding: 14px 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-      <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.95em; padding: 4px 0; user-select: none;">
-        📜 Historical Foundations: The Evolution of the Concept of Angle (Click to Expand / Collapse)
-      </summary>
-      <div style="margin-top: 14px; border-top: 1px dashed #94a3b8; padding-top: 14px;">
-        <div style="background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 16px; margin: 10px auto 20px; max-width: 740px; font-size: 13.5px; color: #475569;" align="center">
-          <b>Historical Context:</b> How did mathematics transform the intuitive experience of "two lines opening up" from an architectural slope ratio into an astronomical chord, a dimensionless analytical logarithm, and finally a recursive walk on a binary dyadic tree?
-        </div>
-
-        <div class="timeline">
-
-          <!-- 1. ANCIENT PRE-GREEK -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-amber">Origins</span> 1. Slopes, Incline &amp; The Celestial Horizon</div>
-              <div class="era-date">c. 2000 BCE – 500 BCE</div>
-            </div>
-            <div class="concept-tag">Physical Inclination &amp; Calendar Divisions</div>
-            <p>
-              Before abstract angles existed, ancient builders and astronomers measured angularity purely through operational physical ratios:
-            </p>
-            <ul>
-              <li><b>Ancient Egypt (The <i>Seked</i>):</b> Used in pyramid construction (Rhind Papyrus). The seked measured horizontal run per vertical rise of 1 cubit (7 palms)—the direct forebear of the modern <b>cotangent</b>:
-                <div class="formula-box">seked = horizontal run / 1 cubit of rise</div>
-              </li>
-              <li><b>Ancient Babylon (Base-60 Sexagesimal System):</b> Babylonian astronomers divided the celestial circle into <b>360 equal parts</b>, inspired by their 360-day calendar year and sexagesimal arithmetic, creating degrees (°), minutes (′), and seconds (″).</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is a concrete ratio of construction rods or a step along the celestial calendar horizon.
-            </div>
-          </div>
-
-          <!-- 2. CLASSICAL GREECE -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-blue">Geometry</span> 2. The Greek Struggle: Quantity vs. Quality</div>
-              <div class="era-date">c. 300 BCE – 150 BCE</div>
-            </div>
-            <div class="concept-tag">Inclination of Lines &amp; The "Horn Angle" Debate</div>
-            <p>
-              Classical Greek geometry separated angle from physical builders'' rods, but grappled with its ontological nature:
-            </p>
-            <ul>
-              <li><b>Euclid of Alexandria (<i>Elements</i>, Book I, Def. 8):</b> Defined a plane angle as <i>"the inclination to one another of two lines in a plane which meet one another and do not lie in a straight line."</i></li>
-              <li><b>Quantity vs. Quality (Aristotle vs. Eudemus):</b> Debated whether angle was an arithmetic <i>quantity</i> (subject to algebraic operations), a <i>quality</i> (corner shape), or a geometric <i>relation</i>.</li>
-              <li><b>The "Horn Angle" (Cornicular Angle):</b> Euclid and Proclus studied the angle between a circle''s circumference and its tangent line—strictly smaller than any rectilinear acute angle, yet non-zero, anticipating non-Archimedean <b>infinitesimals</b>.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is a static geometric relationship between intersecting lines, compared by congruent geometric superposition.
-            </div>
-          </div>
-
-          <!-- 3. ASTRONOMICAL CHORD ERA -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-purple">Trigonometry</span> 3. The Chord Era (Hipparchus to Ptolemy)</div>
-              <div class="era-date">c. 150 BCE – 150 CE</div>
-            </div>
-            <div class="concept-tag">The Chord Function: crd(θ)</div>
-            <p>
-              Spherical astronomy demanded quantitative numerical prediction of planetary paths:
-            </p>
-            <ul>
-              <li><b>Hipparchus of Nicaea (c. 190–120 BCE):</b> Tabulated straight-line <b>chords</b> subtended by central angles in a fixed reference circle.</li>
-              <li><b>Ptolemy’s <i>Almagest</i>:</b> Formalized chord tables in half-degree increments for a circle of radius R = 60. The chord maps to modern sine via:
-                <div class="formula-box">crd(θ) = 2 · R · sin(θ / 2)</div>
-              </li>
-              <li><b>Angle Bisection Formulas:</b> Ptolemy proved half-angle chord bisection theorems, recursively subdividing circular arcs down to 1.5° and 0.75°.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is identified with the straight geometric line segment (chord) cutting across a circle.
-            </div>
-          </div>
-
-          <!-- 4. INDIAN & ISLAMIC ADVANCES -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-green">Algebra</span> 4. The Shift to Half-Chords &amp; The Birth of Sine</div>
-              <div class="era-date">c. 450 CE – 1200 CE</div>
-            </div>
-            <div class="concept-tag">ardha-jya → jya → jiba → sinus</div>
-            <p>
-              Medieval Indian and Islamic scholars simplified circular calculations by replacing full chords with the right-triangle half-chord:
-            </p>
-            <ul>
-              <li><b>Aryabhata (476–550 CE, <i>Surya Siddhanta</i>):</b> Replaced the full chord with <i>ardha-jya</i> (half-chord), shortened to <i>jya</i>, dropping a perpendicular altitude from the arc tip to the horizontal radius.</li>
-              <li><b>The Islamic Golden Age (al-Khwarizmi, al-Battani, al-Biruni):</b> Translated <i>jya</i> into Arabic as <i>jiba</i>, read as <i>jayb</i> (fold/bay), and translated into Latin as <b>sinus</b> (modern sine).</li>
-              <li><b>Autonomy of Trigonometry:</b> Scholars like Nasir al-Din al-Tusi emancipated trigonometry from astronomy into an independent branch of mathematics, adding tangent, cotangent, secant, and cosecant.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is the arc controlling the perpendicular and horizontal altitude lines of a right triangle inside a circle of radius R.
-            </div>
-          </div>
-
-          <!-- 5. ANALYTICAL EULER & RADIAN -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-blue">Analysis</span> 5. Euler’s Transformation &amp; The Radian</div>
-              <div class="era-date">c. 1700 – 1880 CE</div>
-            </div>
-            <div class="concept-tag">Pure Dimensionless Real Numbers: θ = s / r</div>
-            <p>
-              The calculus revolution emancipated angle from circular line segments into pure real numbers:
-            </p>
-            <ul>
-              <li><b>Leonhard Euler (1748, <i>Introductio in Analysin Infinitorum</i>):</b> Set radius R = 1 once and for all! Sine and cosine were redefined as <b>pure, dimensionless analytical functions of a real variable</b> defined by infinite power series:
-                <div class="formula-box">sin(x) = x - x³/3! + x⁵/5! - ... &nbsp;|&nbsp; e^(iθ) = cos(θ) + i·sin(θ)</div>
-              </li>
-              <li><b>The Radian (Roger Cotes, James Thomson):</b> Defined angle as the dimensionless ratio of arc length to radius:
-                <div class="formula-box">θ = arc length / radius = s / r</div>
-                Because physical units cancel (meters / meters), angle was recognized as an absolute scalar.
-              </li>
-            </ul>
-
-            <!-- Nested Deep-Dive: Calculus Bridge -->
-            <details id="trig-calculus-bridge" style="margin: 16px 0; background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 12px 16px;">
-              <summary style="font-weight: 700; color: #1e40af; cursor: pointer; font-size: 13.5px; user-select: none;">
-                🔍 Deep Dive: The Calculus Bridge — Taylor Series, Logarithms &amp; Angle as an Imaginary Logarithm
-              </summary>
-              <div style="margin-top: 12px; font-size: 13px; line-height: 1.6; color: #1e293b; border-top: 1px dashed #bfdbfe; padding-top: 10px;">
-                <ol style="padding-left: 18px;">
-                  <li><b>Polynomial Engine (Madhava c. 1400, Newton &amp; Gregory 1660s):</b> Trigonometric curves calculated algebraically via infinite polynomial series: <code>sin(x) = x - x³/3! + x⁵/5! - ...</code></li>
-                  <li><b>Logarithm Series (Mercator 1668, Newton 1669):</b> Logarithms linked to hyperbolic area: <code>ln(1 + x) = x - x²/2 + x³/3 - ...</code> and its inverse exponential <code>e^x = 1 + x + x²/2! + ...</code></li>
-                  <li><b>Roger Cotes (1714):</b> Proved the foundational spark: <code>i·θ = ln(cos θ + i·sin θ)</code></li>
-                  <li><b>Euler’s Grand Synthesis (1748):</b> Substituting <code>z = i·θ</code> into <code>e^z</code> cleanly splits into <code>cos(θ) + i·sin(θ)</code>!</li>
-                </ol>
-                <div style="background: #ffffff; border: 1px solid #93c5fd; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
-                  <b style="color: #1e3a8a;">What is an Angle?</b> Taking the complex logarithm reveals:
-                  <div class="formula-box" style="background: #eff6ff; font-weight: 600; padding: 8px 12px; margin: 8px 0;">
-                    ln(z) = ln(r) + i·θ &nbsp;⇒&nbsp; θ = Im(ln z) = -i · ln(cos θ + i·sin θ)
-                  </div>
-                  <b>Real part (ln r):</b> Radial scaling along hyperbolic rays.<br>
-                  <b>Imaginary part (θ):</b> Circulation along circular arcs. Angle is continuous growth turned 90° into the imaginary plane!
-                </div>
-              </div>
-            </details>
-
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is a point on the continuous real number line ℝ wrapping around the complex unit circle, analytically identified as the imaginary part of the complex logarithm (θ = Im(ln z)).
-            </div>
-          </div>
-
-          <!-- 6. ROTORS, VECTORS & GROUPS -->
-          <div class="era-card">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-purple">Modern Algebra</span> 6. Vectors, Rotors &amp; Lie Groups</div>
-              <div class="era-date">c. 1850 – 1950 CE</div>
-            </div>
-            <div class="concept-tag">SO(2), Quaternions &amp; Bivectors</div>
-            <p>
-              Higher algebra elevated angle from a static parameter to an operator that transforms geometric space:
-            </p>
-            <ul>
-              <li><b>Complex Numbers &amp; Argand Plane:</b> Multiplication by <code>e^(iθ)</code> acts as a rotational operator on 2D space.</li>
-              <li><b>Quaternions &amp; Clifford Geometric Algebra:</b> Generalized planar angles into 3D and n-D spatial <b>rotors</b>. Angle is represented by an oriented <b>bivector</b> indicating magnitude and plane of rotation.</li>
-              <li><b>Lie Group SO(2) and U(1):</b> The circle of angles is formalized as the continuous 1D Lie group of rotations generated by the angular momentum operator.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is an active rotational transformation of space (a group element or rotor), rather than just a passive static measurement.
-            </div>
-          </div>
-
-          <!-- 7. DISCRETE TREE & DYADIC HORIZON -->
-          <div class="era-card" style="border: 2px solid #3b82f6;">
-            <div class="era-header">
-              <div class="era-title"><span class="badge badge-blue">Tree Scaffolding</span> 7. Dyadic Bisections, CORDIC &amp; The ℂ_ω Continuum</div>
-              <div class="era-date">c. 1959 – Present</div>
-            </div>
-            <div class="concept-tag">The 2-Successor Tree: θ = 2π · (m / 2ⁿ) &amp; Day ω Horizon</div>
-            <p>
-              Contemporary computer science and nonstandard analysis bring angle full circle back to constructive discrete arithmetic:
-            </p>
-            <ul>
-              <li><b>CORDIC Algorithm (Jack Volder, 1959):</b> Computing all trigonometric functions with zero multipliers using successive shifts and additions of discrete bisection angles:
-                <div class="formula-box">θ = ∑ [ ± arctan(2⁻ᵏ) ]</div>
-              </li>
-              <li><b>The 2-Successor Tree &amp; Dyadic Angles:</b> Mapping the normalized interval <code>[0, 1)</code> to the circular period <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 generates every dyadic angle:
-                <div class="formula-box">θ_m,n = 2π · (m / 2ⁿ)</div>
-                The prototypical unit case (1 outward step to 1, followed by recursive inward bisections) builds the exact dyadic skeleton of the circle.
-              </li>
-              <li><b>The Day ω Canopy (dx = 1/ω):</b> At the transfinite limit birthday ω, the discrete dyadic grid becomes dense, and the infinitesimal angle <code>dθ = 2π / ω</code> furnishes the smooth differential basis for calculus on ℂ_ω.</li>
-            </ul>
-            <div class="key-takeaway">
-              <b>Key Paradigm:</b> Angle is simultaneously a discrete binary path (a sequence of left/right bisection choices) and a continuous horizon generated at the transfinite limit.
-            </div>
-          </div>
-
-        </div>
-
-        <!-- SUMMARY TABLE -->
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th style="width: 22%;">Historical Era</th>
-              <th style="width: 26%;">What is an Angle?</th>
-              <th style="width: 24%;">Primary Metric</th>
-              <th style="width: 28%;">Conceptual Milestone</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Egyptian &amp; Babylonian</b></td>
-              <td>Slope of stones; 1/360th of circular horizon</td>
-              <td>Seked (run/rise); degrees (360°)</td>
-              <td>Practical architecture &amp; calendar astronomy</td>
-            </tr>
-            <tr>
-              <td><b>Classical Greece</b></td>
-              <td>Geometric inclination of intersecting lines</td>
-              <td>Straightedge &amp; compass; chord crd(θ)</td>
-              <td>Separation of qualitative angle from linear numbers</td>
-            </tr>
-            <tr>
-              <td><b>Medieval India &amp; Islam</b></td>
-              <td>Half-chord altitude on a reference circle</td>
-              <td>Sine (jya), cosine, tangent</td>
-              <td>Trigonometry becomes an independent mathematical science</td>
-            </tr>
-            <tr>
-              <td><b>Euler &amp; Analysis</b></td>
-              <td>Dimensionless scalar ratio of arc length to radius</td>
-              <td>Radians; power series; e^(iθ)</td>
-              <td>Angle becomes a pure real number on ℝ; θ = Im(ln z)</td>
-            </tr>
-            <tr>
-              <td><b>Modern Algebra</b></td>
-              <td>Rotational transformation operator / group element</td>
-              <td>SO(2), quaternions, bivector rotors</td>
-              <td>Angle as an active symmetry of space</td>
-            </tr>
-            <tr>
-              <td><b>Tree Scaffolding &amp; ℂ_ω</b></td>
-              <td>Discrete binary path on 2-successor tree</td>
-              <td>Dyadics m / 2ⁿ; CORDIC; dθ = 1/ω</td>
-              <td>Unification of digital bisection and continuous calculus</td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-    </details>
-
-    <hr>
-
-    <!-- PART 1 -->
-    <h2><span class="badge badge-blue">Part 1</span> The 2-Successor Binary Tree: Angle Bisections, Radicals &amp; CORDIC</h2>
-
-    <h3>1. Angle Bisection &amp; Nested Radicals (Viète’s Formula)</h3>
-    <p>
-      In our formal description of numbers, the 2-successor tree ascending through all finite birthdays <em>n &lt; ω</em> generates the dense set of <b>dyadic rationals</b> (while at any single cutoff birthday <em>n</em>, it forms a discrete uniform grid of mesh spacing <code>1 / 2ⁿ</code>):
-    </p>
-    <div class="formula-box">
-      𝔻 = { m / 2ⁿ | m ∈ ℤ, n ∈ ℕ₀ }
-    </div>
-    <p>
-      Mapping the normalized unit interval <code>[0, 1)</code> to the circular angle domain <code>[0, 2π)</code> reveals that ascending the Conway tree from Root 0 toward the canopy corresponds precisely to <b>recursive angle bisection</b>:
-    </p>
-
-    <ul class="step-list">
-      <li><b>Day 0:</b> Root <code>0</code> → Angle <code>0</code> (Coordinate vector <code>(1, 0)</code>)</li>
-      <li><b>Day 1:</b> Semi-circle poles → Angles <code>0, π</code> (Points <code>(1, 0)</code> and <code>(-1, 0)</code>)</li>
-      <li><b>Day 2:</b> Quadrant axis markers → Angles <code>π/2, 3π/2</code> (Points <code>(0, 1)</code> and <code>(0, -1)</code>)</li>
-      <li><b>Day 3:</b> The classical 45° diagonals → Angles <code>π/4, 3π/4, 5π/4, 7π/4</code></li>
-      <li><b>Day 4:</b> 22.5° facets → Angles <code>π/8, 3π/8, 5π/8, 7π/8, ...</code></li>
-      <li><b>Day <em>n</em>:</b> Granular dyadic angles <code>θ_n = 2π / 2ⁿ</code></li>
-    </ul>
-
-    <p>
-      The algebraic rule for stepping down along the positive branch is given by the trigonometric half-angle identity:
-    </p>
-    <div class="formula-box">
-      cos(θ / 2) = √[ (1 + cos θ) / 2 ]
-    </div>
-
-    <p>Starting from the Day 2 cardinal axis <code>cos(π/2) = 0</code> and stepping recursively down the branches generates François Viète’s sequence of <b>nested square roots of 2</b>:</p>
-    <div class="formula-box">
-      cos(π/4)  = √2 / 2<br>
-      cos(π/8)  = √[ 2 + √2 ] / 2<br>
-      cos(π/16) = √[ 2 + √(2 + √2) ] / 2<br>
-      cos(π / 2ⁿ⁺¹) = √[ 2 + √(2 + ... + √2) ] / 2 &nbsp;&nbsp;(with n nested square roots)
-    </div>
-
-    <p>
-      Descending the extreme branch of the tree all the way to transfinite Day <code>ω</code> yields <b>François Viète’s celebrated 1593 infinite product for π</b>:
-    </p>
-    <div class="formula-box">
-      2 / π = (√2 / 2) · (√[2 + √2] / 2) · (√[2 + √(2 + √2)] / 2) · ...
-    </div>
-    <p>
-      In classical analysis, Viète''s product looks like an isolated analytical miracle. On our 2-successor number tree, it is simply the <b>cumulative radial projection along the tree’s principal spine</b> as birthday depth approaches <code>ω</code>.
-    </p>
-
-    <!-- FIGURE 1: SVG DIAGRAM -->
-    <div class="diagram-container">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 410" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
-        <!-- Title Bar -->
-        <rect x="0" y="0" width="780" height="34" fill="#f1f5f9" rx="10"></rect>
-        <rect x="0" y="22" width="780" height="12" fill="#f1f5f9"></rect>
-        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">Figure 1: The 2-Successor Conway Angle Tree &amp; Unit Circle Dyadic Bisections</text>
-
-        <!-- Left Pane: Binary Angle Tree -->
-        <rect x="14" y="44" width="450" height="352" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"></rect>
-        <text x="239" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CONWAY DYADIC ANGLE TREE (Birthdays 0 to 4)</text>
-
-        <!-- Birthday Labels on Far Left -->
-        <text x="24" y="94" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 0</text>
-        <text x="24" y="154" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 1</text>
-        <text x="24" y="214" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 2</text>
-        <text x="24" y="274" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 3</text>
-        <text x="24" y="334" font-family="monospace" font-size="10.5" font-weight="bold" fill="#64748b">Day 4</text>
-        <text x="24" y="384" font-family="monospace" font-size="10.5" font-weight="bold" fill="#0284c7">Day ω</text>
-
-        <!-- Tree Edges -->
-        <!-- Root to Day 1 -->
-        <line x1="239" y1="92" x2="155" y2="150" stroke="#94a3b8" stroke-width="1.5"></line>
-        <line x1="239" y1="92" x2="323" y2="150" stroke="#2563eb" stroke-width="2.2"></line>
-
-        <!-- Day 1 to Day 2 -->
-        <line x1="323" y1="150" x2="270" y2="210" stroke="#94a3b8" stroke-width="1.5"></line>
-        <line x1="323" y1="150" x2="375" y2="210" stroke="#2563eb" stroke-width="2.2"></line>
-
-        <!-- Day 2 to Day 3 -->
-        <line x1="375" y1="210" x2="345" y2="270" stroke="#94a3b8" stroke-width="1.5"></line>
-        <line x1="375" y1="210" x2="410" y2="270" stroke="#2563eb" stroke-width="2.2"></line>
-
-        <!-- Day 3 to Day 4 -->
-        <line x1="410" y1="270" x2="392" y2="330" stroke="#94a3b8" stroke-width="1.5"></line>
-        <line x1="410" y1="270" x2="432" y2="330" stroke="#2563eb" stroke-width="2.2"></line>
-
-        <!-- Day 4 to Day ω dots -->
-        <line x1="432" y1="330" x2="442" y2="375" stroke="#0284c7" stroke-width="2" stroke-dasharray="3,3"></line>
-
-        <!-- Tree Nodes -->
-        <!-- Day 0 Root -->
-        <circle cx="239" cy="92" r="7" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="239" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Root: θ = 0 (cos = 1)</text>
-
-        <!-- Day 1 Nodes -->
-        <circle cx="155" cy="150" r="6" fill="#64748b"></circle>
-        <text x="145" y="154" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">0 (1)</text>
-        <circle cx="323" cy="150" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="335" y="148" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π (cos = -1)</text>
-
-        <!-- Day 2 Nodes -->
-        <circle cx="270" cy="210" r="5" fill="#94a3b8"></circle>
-        <text x="260" y="214" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">3π/2 (-i)</text>
-        <circle cx="375" cy="210" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="387" y="208" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/2 (cos = 0)</text>
-
-        <!-- Day 3 Nodes -->
-        <circle cx="345" cy="270" r="4.5" fill="#94a3b8"></circle>
-        <text x="338" y="274" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/4</text>
-        <circle cx="410" cy="270" r="6.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="422" y="268" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">π/4 (cos = √2/2)</text>
-
-        <!-- Day 4 Nodes -->
-        <circle cx="392" cy="330" r="4" fill="#94a3b8"></circle>
-        <text x="385" y="334" text-anchor="end" font-family="system-ui, sans-serif" font-size="8.5" fill="#475569">3π/8</text>
-        <circle cx="432" cy="330" r="6.5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="444" y="328" text-anchor="start" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#0369a1">π/8 (cos = √[2+√2]/2)</text>
-
-        <!-- Viète Callout Box in Left Pane -->
-        <rect x="70" y="280" width="220" height="96" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"></rect>
-        <text x="180" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Viète''s Spine (n → ω):</text>
-        <text x="80" y="318" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/4)  = √2 / 2</text>
-        <text x="80" y="334" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/8)  = √[2 + √2] / 2</text>
-        <text x="80" y="350" font-family="monospace" font-size="9" fill="#1e3a8a">cos(π/16) = √[2+√(2+√2)] / 2</text>
-        <text x="180" y="367" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#2563eb">2/π = ∏ cos(π / 2ⁿ⁺¹)</text>
-
-        <!-- Right Pane: Unit Circle Bisections & CORDIC -->
-        <rect x="475" y="44" width="290" height="352" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
-        <text x="620" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#1e40af">CIRCULAR BISECTIONS &amp; CORDIC</text>
-
-        <!-- Coordinate Axes -->
-        <line x1="510" y1="210" x2="730" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
-        <line x1="620" y1="100" x2="620" y2="320" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3,3"></line>
-
-        <!-- Unit Circle -->
-        <circle cx="620" cy="210" r="95" fill="none" stroke="#3b82f6" stroke-width="2"></circle>
-
-        <!-- Angle Rays -->
-        <!-- Day 1 Pole: π (180°) -->
-        <line x1="620" y1="210" x2="525" y2="210" stroke="#64748b" stroke-width="2"></line>
-        <!-- Day 2 Cardinal: π/2 (90°) -->
-        <line x1="620" y1="210" x2="620" y2="115" stroke="#2563eb" stroke-width="2"></line>
-        <!-- Day 3 Diagonal: π/4 (45°) -->
-        <line x1="620" y1="210" x2="687" y2="143" stroke="#0284c7" stroke-width="1.8"></line>
-        <!-- Day 4 Facet: π/8 (22.5°) -->
-        <line x1="620" y1="210" x2="708" y2="174" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2"></line>
-
-        <!-- Points on Circle -->
-        <circle cx="715" cy="210" r="4.5" fill="#1e3a8a"></circle>
-        <text x="722" y="206" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e3a8a">0</text>
-
-        <circle cx="525" cy="210" r="4.5" fill="#64748b"></circle>
-        <text x="512" y="206" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#475569">π</text>
-
-        <circle cx="620" cy="115" r="4.5" fill="#2563eb"></circle>
-        <text x="620" y="107" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#1e40af">π/2</text>
-
-        <circle cx="687" cy="143" r="4.5" fill="#0284c7"></circle>
-        <text x="696" y="139" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#0369a1">π/4 (45°)</text>
-
-        <circle cx="708" cy="174" r="4.5" fill="#059669"></circle>
-        <text x="718" y="172" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#059669">π/8 (22.5°)</text>
-
-        <!-- Target Angle & CORDIC Steering Vector -->
-        <line x1="620" y1="210" x2="672" y2="129" stroke="#dc2626" stroke-width="2.5"></line>
-        <circle cx="672" cy="129" r="4" fill="#dc2626"></circle>
-        <text x="680" y="123" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626">Target θ</text>
-
-        <!-- CORDIC Note Box in Right Pane -->
-        <rect x="490" y="332" width="260" height="54" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"></rect>
-        <text x="620" y="348" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#991b1b">CORDIC Binary Tree Search:</text>
-        <text x="620" y="364" text-anchor="middle" font-family="monospace" font-size="9" fill="#7f1d1d">θ ≈ ∑ d_k · arctan(2⁻ᵏ), d_k ∈ {-1, +1}</text>
-        <text x="620" y="378" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" fill="#991b1b">Hardware walks Left/Right using pure bit-shifts</text>
-      </svg>
-      <div class="diagram-caption">
-        Figure 1: The 2-Successor Conway Angle Tree &amp; Circular Bisections — each birthday level bisects the circumference, generating Viète’s nested radicals and guiding CORDIC hardware rotations.
-      </div>
-    </div>
-
-    <h3>2. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
-    <p>
-      In modern computing, microprocessors, DSP chips, and GPU graphics pipelines rarely evaluate trigonometric functions with Taylor polynomials or floating-point division. Division and multiplication require multiple clock cycles and accumulate rounding drift.
-    </p>
-    <p>
-      Instead, modern hardware implements the <b>CORDIC algorithm</b> (Coordinate Rotation Digital Computer), invented by Jack Volder in 1959. CORDIC is literally a <b>path traversal down our 2-successor number tree</b>:
-    </p>
-
-    <ol>
-      <li>
-        Any arbitrary target angle <code>θ</code> is approximated by a finite sequence of binary steering choices:
-        <div class="formula-box">
-          θ ≈ ∑[k=0 to n] d_k · arctan(2⁻ᵏ), &nbsp;&nbsp;where d_k ∈ { -1, +1 }
-        </div>
-      </li>
-      <li>
-        At each clock cycle <em>k</em>, the hardware examines the current angle accumulator:
-        <ul>
-          <li>If counterclockwise from the target, set <code>d_k = +1</code> (branch Right).</li>
-          <li>If clockwise from the target, set <code>d_k = -1</code> (branch Left).</li>
-        </ul>
-      </li>
-      <li>
-        Because the angular step magnitude is <code>2⁻ᵏ</code>, the rotation matrix update requires <b>zero multiplications</b>—only binary bit-shifts (arithmetic right-shift by <em>k</em> bits) and additions:
-        <div class="formula-box">
-          x_(k+1) = x_k - d_k · (y_k &gt;&gt; k)<br>
-          y_(k+1) = y_k + d_k · (x_k &gt;&gt; k)
-        </div>
-      </li>
-    </ol>
-    <p>
-      Executing trigonometry in silicon is mathematically identical to choosing Conway Left and Right sign steps <code>{ -, + }</code> down the dyadic angle tree!
-    </p>
-
-    <h3>3. Walsh Functions: The "Square-Wave Trig" of the Binary Tree</h3>
-    <p>
-      On the smooth continuum, circular sine and cosine waves form the orthogonal basis for continuous Fourier analysis. On a discrete 2-successor binary tree, the exact trigonometric counterparts are <b>Walsh-Hadamard functions</b>.
-    </p>
-    <ul class="step-list">
-      <li>Rather than undulating continuously, Walsh waves are rectangular square pulses taking values strictly in <code>{ -1, +1 }</code>.</li>
-      <li>They correspond to the parity of branch choices along Conway tree addresses (evaluated via bitwise XOR / nim-addition).</li>
-      <li>Just as continuous Fourier transforms decompose signals into sinusoids, the <b>Fast Walsh-Hadamard Transform (FWHT)</b> decomposes discrete tree signals with zero multiplications, forming the mathematical engine of CDMA telecommunications, error-correcting codes, and quantum Hadamard gates.</li>
-    </ul>
-
-    <hr>
-
-    <!-- PART 2 -->
-    <h2><span class="badge badge-purple">Part 2</span> The 4-Successor Quadtree &amp; The Complex Continuum ℂ_ω</h2>
-
-    <p>
-      When we extend the number tree to transfinite limit ordinal Day <code>ω</code> and cross two real axes into the complex plane <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, trigonometry becomes the indispensable geometry of 2D space and quantum mechanics.
-    </p>
-
-    <h3>1. From the Binary Tree to the 4-Successor Quadtree</h3>
-    <p>
-      On <code>ℝ_ω</code>, the tree branches in two directions: <code>{ -1, +1 }</code>. In our description of the complex continuum <code>ℂ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code>, each node has <b>4 successors</b>:
-    </p>
-    <div class="formula-box purple">
-      Basis = { +1, &nbsp; -1, &nbsp; +i, &nbsp; -i }
-    </div>
-    <p>
-      As highlighted in our introduction to graph trees, these 4 generators are the <b>4th roots of unity</b>:
-    </p>
-    <div class="formula-box purple">
-      e^(i · 0) = +1 &nbsp;&nbsp;(East, 0°)<br>
-      e^(i · π/2) = +i &nbsp;&nbsp;(North, 90°)<br>
-      e^(i · π) = -1 &nbsp;&nbsp;(West, 180°)<br>
-      e^(i · 3π/2) = -i &nbsp;&nbsp;(South, 270°)
-    </div>
-    <p>
-      Recall from <a href="javascript:void(0)" onclick="window.parent.postMessage({type:''NAV_SEGMENT'', segmentId:''numbersIntro''}, ''*'');" style="color: #2563eb; text-decoration: underline;">numbersIntro.html</a> that <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
-    </p>
-    <ul>
-      <li><b>Fan 1 (Upper Half-Plane):</b> Sweeps angles <code>0° → 180°</code>.</li>
-      <li><b>Fan 2 (Lower Half-Plane):</b> Sweeps angles <code>180° → 360°</code>.</li>
-      <li>The imaginary unit <code>i</code> serves as the <b>90° perpendicular steering operator</b> that transitions between the two fans, covering all 360° space without blindspots.</li>
-    </ul>
-
-    <h3>2. The Unit Circle Becomes an Exact Hyperfinite regular ω-gon</h3>
-    <p>
-      In standard calculus, the unit circle is an idealized curve whose circumference requires limits of inscribed polygons. On <code>ℂ_ω</code>, the unit circle is <b>literally a regular polygon with transfinite integer ω sides</b>:
-    </p>
-    <ul class="step-list">
-      <li><b>Vertex Count:</b> Exactly <code>ω</code> vertices indexed by the 1-successor trunk counter <code>k ∈ {0, 1, 2, ..., ω}</code>.</li>
-      <li><b>Infinitesimal Step Angle:</b> <code>dθ = 2π / ω = 2π · dx</code>, where <code>dx = 1/ω</code>.</li>
-      <li>
-        <b>Vertex Coordinates:</b>
-        <div class="formula-box purple">
-          z_k = e^(i · 2πk / ω) = cos(2πk / ω) + i · sin(2πk / ω)
-        </div>
-      </li>
-      <li><b>Cosine</b> is the horizontal projection onto the real tree <code>ℝ_ω</code>.</li>
-      <li><b>Sine</b> is the vertical projection onto the imaginary tree <code>i · ℝ_ω</code>.</li>
-    </ul>
-
-    <p>The circumference is computed as an exact discrete sum of chord lengths:</p>
-    <div class="formula-box purple">
-      Perimeter = ∑[k=1 to ω] |z_k - z_(k-1)| = ω · |e^(i · 2π/ω) - 1| ≈ ω · (2π / ω) = 2π
-    </div>
-    <p>
-      Taking the standard part <code>st(·)</code> yields <b>exactly 2π</b>, with the microscopic difference between chords and arc vanishing as second-order infinitesimal dust <code>O(1/ω²)</code>.
-    </p>
-
-    <!-- FIGURE 2: SVG DIAGRAM -->
-    <div class="diagram-container">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" style="width: 100%; height: auto; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.06);">
-        <!-- Title Bar -->
-        <rect x="0" y="0" width="780" height="34" fill="#f5f3ff" rx="10"></rect>
-        <rect x="0" y="22" width="780" height="12" fill="#f5f3ff"></rect>
-        <text x="390" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#6b21a8">Figure 2: The 4-Successor Quadtree &amp; Perpendicular Rotation on ℂ_ω</text>
-
-        <!-- Left Pane: 4-Successor Quadtree Root -->
-        <rect x="14" y="44" width="350" height="372" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"></rect>
-        <text x="189" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">4-SUCCESSOR BASIS (4th Roots of Unity)</text>
-
-        <!-- Compass Cardinal Axes from Root -->
-        <!-- Center root at (189, 185) -->
-        <line x1="189" y1="185" x2="305" y2="185" stroke="#7c3aed" stroke-width="3"></line>
-        <line x1="189" y1="185" x2="73" y2="185" stroke="#7c3aed" stroke-width="3"></line>
-        <line x1="189" y1="185" x2="189" y2="69" stroke="#7c3aed" stroke-width="3"></line>
-        <line x1="189" y1="185" x2="189" y2="301" stroke="#7c3aed" stroke-width="3"></line>
-
-        <!-- Sub-branches (Quadtree cell tiling) -->
-        <rect x="235" y="115" width="40" height="40" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="3,2"></rect>
-        <text x="255" y="139" text-anchor="middle" font-family="monospace" font-size="9" fill="#7c3aed">cell dz</text>
-
-        <!-- Compass Nodes -->
-        <circle cx="189" cy="185" r="7.5" fill="#4c1d95" stroke="#ffffff" stroke-width="1.5"></circle>
-        <text x="189" y="202" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4c1d95">Root (0)</text>
-
-        <!-- East: +1 -->
-        <circle cx="305" cy="185" r="6" fill="#7c3aed"></circle>
-        <text x="315" y="189" text-anchor="start" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+1 (0°)</text>
-
-        <!-- North: +i -->
-        <circle cx="189" cy="69" r="6" fill="#7c3aed"></circle>
-        <text x="189" y="99" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">+i (90°)</text>
-
-        <!-- West: -1 -->
-        <circle cx="73" cy="185" r="6" fill="#7c3aed"></circle>
-        <text x="63" y="189" text-anchor="end" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
-
-        <!-- South: -i -->
-        <circle cx="189" cy="301" r="6" fill="#7c3aed"></circle>
-        <text x="189" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#6b21a8">-i (270°)</text>
-
-        <!-- Note on Two Fans in Left Pane -->
-        <rect x="25" y="336" width="328" height="66" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1"></rect>
-        <text x="189" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#581c87">Two 180° Polar Fans Spanning 360°:</text>
-        <text x="35" y="368" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Upper Fan (0° → 180°): Spans Upper Half-Plane</text>
-        <text x="35" y="382" font-family="system-ui, sans-serif" font-size="9" fill="#4c1d95">• Lower Fan (180° → 360°): Spans Lower Half-Plane</text>
-        <text x="35" y="396" font-family="system-ui, sans-serif" font-size="9" fill="#7c3aed">• Operator ''i'' rotates 90° into the perpendicular fan</text>
-
-        <!-- Right Pane: Perpendicular Stepping on ℂ_ω -->
-        <rect x="376" y="44" width="390" height="372" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"></rect>
-        <text x="571" y="65" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">PERPENDICULAR STEPPING ON ℂ_ω GRID</text>
-
-        <!-- Grid Lines in Background -->
-        <g stroke="#f1f5f9" stroke-width="1.5">
-          <line x1="395" y1="100" x2="750" y2="100"></line>
-          <line x1="395" y1="140" x2="750" y2="140"></line>
-          <line x1="395" y1="180" x2="750" y2="180"></line>
-          <line x1="395" y1="220" x2="750" y2="220"></line>
-          <line x1="395" y1="260" x2="750" y2="260"></line>
-          <line x1="420" y1="80" x2="420" y2="300"></line>
-          <line x1="460" y1="80" x2="460" y2="300"></line>
-          <line x1="500" y1="80" x2="500" y2="300"></line>
-          <line x1="540" y1="80" x2="540" y2="300"></line>
-          <line x1="580" y1="80" x2="580" y2="300"></line>
-          <line x1="620" y1="80" x2="620" y2="300"></line>
-          <line x1="660" y1="80" x2="660" y2="300"></line>
-          <line x1="700" y1="80" x2="700" y2="300"></line>
-        </g>
-
-        <!-- Origin at (430, 270) -->
-        <circle cx="430" cy="270" r="4.5" fill="#475569"></circle>
-        <text x="420" y="284" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#475569">Origin (0,0)</text>
-
-        <!-- Circular Arc (Polygon contour) -->
-        <path d="M 430 80 A 190 190 0 0 1 620 270" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-dasharray="4,4"></path>
-
-        <!-- Radial Vector z_k -->
-        <line x1="430" y1="270" x2="564" y2="136" stroke="#2563eb" stroke-width="2.2"></line>
-        <circle cx="564" cy="136" r="5" fill="#2563eb"></circle>
-        <text x="495" y="215" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#2563eb">Radius z_k (1)</text>
-        <text x="560" y="125" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e40af">Vertex z_k</text>
-
-        <!-- Perpendicular Tangent Vector + i · z_k · dθ -->
-        <line x1="564" y1="136" x2="520" y2="92" stroke="#7c3aed" stroke-width="2.5"></line>
-        <!-- Right Angle Symbol at (564, 136) -->
-        <path d="M 553 125 L 542 136 L 553 147" fill="none" stroke="#7c3aed" stroke-width="1.2"></path>
-        <text x="560" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#7c3aed">+ i · z_k · dθ</text>
-
-        <!-- Resulting Step to z_(k+1) -->
-        <line x1="430" y1="270" x2="520" y2="92" stroke="#059669" stroke-width="2" stroke-dasharray="3,2"></line>
-        <circle cx="520" cy="92" r="5" fill="#059669"></circle>
-        <text x="510" y="82" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#059669">Vertex z_(k+1)</text>
-
-        <!-- 1-Successor Perimeter Counter Label -->
-        <rect x="400" y="310" width="345" height="92" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"></rect>
-        <text x="572" y="328" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Euler’s Rotation &amp; Infinitesimal Elongation:</text>
-        <text x="410" y="348" font-family="monospace" font-size="9.5" fill="#334155">z_(k+1) = z_k · [ 1 + i · (θ / ω) ]</text>
-        <text x="410" y="366" font-family="monospace" font-size="9.5" fill="#6b21a8">|z_(k+1)|² = 1 + (θ/ω)² = 1 + θ² · dx²</text>
-        <text x="410" y="384" font-family="system-ui, sans-serif" font-size="9" fill="#059669">Compounding ω steps: |z_ω| = [1 + θ² dx²]^(ω/2) → st(|z|) = </text></svg><b>1</b>
-        <text x="410" y="398" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">The 1-Successor Counter (k → k+1) steps along the regular ω-gon!</text>
-      
-      <div class="diagram-caption">
-        Figure 2: The 4-Successor Quadtree &amp; Perpendicular Stepping on ℂ_ω — the 4 compass directions set the quadtree grid, and perpendicular steps <code>z_(k+1) = z_k (1 + i·dθ)</code> generate circular rotation with zero standard elongation.
-      </div>
-    </div>
-
-    <h3>3. Euler’s Formula as Pure Perpendicular Stepping</h3>
-    <p>
-      Multiplying by the imaginary unit <code>i</code> rotates any vector in <code>ℂ_ω</code> counterclockwise by exactly 90°.
-      When we inspect this dynamic on our hyperfinite grid:
-    </p>
-    <ol>
-      <li>
-        At any current vertex <code>z_k</code> on the unit circle, take a tiny step strictly perpendicular to the radial vector:
-        <div class="formula-box purple">
-          z_(k+1) = z_k + i · (θ / ω) · z_k = z_k · [ 1 + i · (θ / ω) ]
-        </div>
-      </li>
-      <li>
-        Evaluate the change in radial length using the Pythagorean theorem:
-        <div class="formula-box purple">
-          |1 + i · (θ / ω)|² = 1 + (θ / ω)² = 1 + θ² · dx²
-        </div>
-        Because <code>dx = 1/ω</code> is infinitesimal, the radial elongation is purely second-order infinitesimal dust <code>O(dx²)</code>.
-      </li>
-      <li>
-        Compounding <code>ω</code> such perpendicular steps yields Euler’s formula:
-        <div class="formula-box purple">
-          z_ω = [ 1 + i · (θ / ω) ]^ω ≡ e^(i·θ) = cos θ + i · sin θ
-        </div>
-        Taking the standard part:
-        <div class="formula-box purple">
-          st( |z_ω| ) = st( [1 + θ² · dx²]^(ω/2) ) = 1 + 0 = 1
-        </div>
-      </li>
-    </ol>
-    <p>
-      In standard calculus, Euler''s formula <code>e^(iθ) = cos θ + i·sin θ</code> is proved via infinite Taylor series. On <code>ℂ_ω</code>, it is simply the macroscopic shadow of <b>marching perpendicular steps along the square grid cells of the 4-successor quadtree</b>!
-    </p>
-
-    <h3>4. Cauchy-Riemann Equations: Holomorphic "No-Shear" Conformal Symmetry</h3>
-    <p>
-      A complex function <code>f(z) = u(x, y) + i · v(x, y)</code> on <code>ℂ_ω</code> is differentiable (holomorphic) if and only if it preserves the intrinsic geometry of the underlying quadtree cells. 
-      The Cauchy-Riemann equations:
-    </p>
-    <div class="formula-box purple">
-      ∂u/∂x = ∂v/∂y, &nbsp;&nbsp;&nbsp;&nbsp; ∂u/∂y = -∂v/∂x
-    </div>
-    <p>
-      are the exact algebraic condition stating that <b>every infinitesimal square cell maps to another scaled, rotated square cell with zero angle distortion</b>. Holomorphic functions are conformal transformations: their local derivative <code>f''(z) = r · e^(i·θ)</code> acts as a pure scale and trigonometric rotation on every quadtree cell.
-    </p>
-
-    <h3>5. Why 2π i Appears in Contour Integrals</h3>
-    <p>
-      The ubiquitous factor <code>2π i</code> in Cauchy’s Residue Theorem:
-    </p>
-    <div class="formula-box purple">
-      ∮ (1 / z) dz = 2π i
-    </div>
-    <p>
-      is immediately transparent when viewed through our 1-successor perimeter counter marching around the <code>ℂ_ω</code> regular ω-gon. 
-      Around the unit circle, <code>z = e^(i·θ)</code> and <code>dz = i · e^(i·θ) dθ</code>. Therefore:
-    </p>
-    <div class="formula-box purple">
-      dz / z = [ i · e^(i·θ) dθ ] / e^(i·θ) = i · dθ<br><br>
-      ∮ (1 / z) dz = ∑[k=1 to ω] (dz / z) = ∑[k=1 to ω] i · (2π / ω) = i · 2π = 2π i
-    </div>
-    <p>
-      The contour integral is simply the 1-successor discrete accumulation of <code>ω</code> identical elementary rotations, where <code>2π</code> is the full circumference angle and <code>i</code> is the 90° perpendicular turning operator.
-    </p>
-
-    <h3>6. Quantum Phase: Why Nature Uses ℂ_ω Instead of ℝ_ω</h3>
-    <p>
-      In our <b>Quantum Logic</b> curriculum, this geometric distinction explains why physical universe amplitudes require <code>ℂ_ω</code> rather than classical real numbers <code>ℝ_ω</code>:
-    </p>
-    <ul class="step-list">
-      <li>Classical probabilities on the 1D real line <code>ℝ_ω</code> are non-negative weights in <code>[0, 1]</code>. They can only add constructively (<code>p₁ + p₂ ≥ p₁</code>).</li>
-      <li>Quantum wave amplitudes are complex numbers <code>ψ = r · e^(i·θ) ∈ ℂ_ω</code> carrying a trigonometric phase angle on the 4-successor quadtree.</li>
-      <li>Because phases can point in opposite directions on <code>ℂ_ω</code>, two non-zero physical paths can destructively cancel each other out completely:
-        <div class="formula-box purple">
-          e^(i · 0) + e^(i · π) = 1 + (-1) = 0
-        </div>
-      </li>
-      <li>
-        The fundamental Pythagorean trigonometric identity:
-        <div class="formula-box purple">
-          cos²θ + sin²θ = 1
-        </div>
-        is the physical conservation law guaranteeing that total quantum probability remains strictly <code>1.0</code> (unitarity) under all unitary time evolutions.
-      </li>
-    </ul>
-
-    <hr>
-
-    <h2>Synthesis: The Three Number Trees in Trigonometry</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Regime</th>
-          <th>Number Tree</th>
-          <th>Generators &amp; Step Size</th>
-          <th>Trigonometric Manifestation</th>
-          <th>Core STEM Application</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><b>1-Successor</b></td>
-          <td><code>ℕ_ω</code> (The Trunk)</td>
-          <td><code>k → k + 1</code><br>Uniform arc <code>ds = 2π / ω</code></td>
-          <td>Discrete perimeter accumulation; circular step index</td>
-          <td>Contour integration residue <code>∮ (1/z) dz = 2π i</code>; discrete Riemann-Stieltjes sums.</td>
-        </tr>
-        <tr>
-          <td><b>2-Successor</b></td>
-          <td><code>ℝ_ω</code> (Binary Tree)</td>
-          <td><code>{ -, + }</code><br>Dyadic step <code>2⁻ⁿ</code></td>
-          <td>Recursive angle bisections; nested square roots of 2</td>
-          <td>CORDIC multiplierless bit-shift hardware; Viète’s product for π; Walsh-Hadamard telecommunications.</td>
-        </tr>
-        <tr>
-          <td><b>4-Successor</b></td>
-          <td><code>ℂ_ω</code> (The Quadtree)</td>
-          <td><code>{ +1, -1, +i, -i }</code><br>Grid cell <code>dz = dx + i·dy</code></td>
-          <td>Hyperfinite regular ω-gon; perpendicular tangent rotation</td>
-          <td>Euler’s formula <code>e^(iθ)</code>; Cauchy-Riemann conformal grid invariance; quantum phase cancellation and unitarity.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-', 'published'),
-  (52, 'lean4GenEdProposal', 51, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
+  (55, 'lean4GenEdProposal', 54, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
       <h2>— Prototyping an Open Civic Infrastructure for Formal Proof, Symbolic Algebra, and Autonomous Curricula —</h2>
@@ -12596,7 +14295,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
 ', 'published'),
-  (53, 'dualAgentAcademicProposal', 52, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
+  (56, 'dualAgentAcademicProposal', 55, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
     <div class="card">
       <h1>Coupling Formal Verification with Conversational AI</h1>
       <h2>— A Multi-Service Grounded Dual-Layer Architecture &amp; Interactive Sandbox for Sound, Hallucination-Free Intelligent Tutoring Systems —</h2>
@@ -12698,7 +14397,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </div>
     </div>
   ', 'published'),
-  (54, 'minimalAxiomaticCoreProposal', 53, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
+  (57, 'minimalAxiomaticCoreProposal', 56, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
     <div class="card">
       <h1>The Inductive Continuum</h1>
       <h2>— A Minimal Constructive Scaffold for Middle Way Mathematics Within Educational Resource Hubs —</h2>
@@ -12707,7 +14406,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         <b>Executive Summary:</b><br>
         In modern science education, learning pathways are increasingly delivered through <b>open educational resource hubs</b> that offer diverse, complementary curriculum trajectories—from traditional epsilon-delta analysis and applied numerical computing to modern constructive logic.<br><br>
         Within this ecosystem, <i>Middle Way Mathematics (MWM)</i> finds its distinctive niche: offering an accessible, constructive bridge between students'' intuitive familiarity with discrete computation (algorithms, registers, difference equations) and continuous mathematical analysis (derivatives, integrals, differential equations). Rather than treating the continuum as an uncomputable or non-constructive abstraction, MWM models continuous calculus as the <b>natural transfinite completion of discrete inductive trees</b>, brought into human observation by the standard shadow map <code>st(·)</code>.<br><br>
-        While MWM''s active curriculum utilizes ~40 operational "constitutional scaffolds" across its introductory courses to provide students with immediate algebraic tools, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. This minimal core provides educators with a clear theoretical backing and makes formal verification in proof assistants like <b>Lean 4</b> accessible without requiring heavy topological machinery.
+        While MWM''s active curriculum utilizes an operational suite of formal scaffolds across its courses, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. Recently verified across <b>171 Lean 4 cache keys with zero epsilon-delta filters</b>, this architecture also establishes an explicit <b>Constructive Function Engine</b> (<code>DirectedPair + RuleType</code>) that translates machine-checked proofs directly into interactive Computer Algebra System (CAS) calculators.
       </div>
 
       <h3>1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation</h3>
@@ -12738,10 +14437,11 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <!-- Left: Discrete Seed -->
           <rect x="20" y="30" width="210" height="150" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
           <text x="125" y="55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">1. Conway Tree Cut</text>
-          <text x="125" y="80" text-anchor="middle" font-family="monospace" font-size="12" fill="#2563eb">x = { X_L | X_R }</text>
-          <text x="125" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#334155">Finite Days: Dyadics m/2ᵏ</text>
-          <text x="125" y="130" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#334155">Day ω: Horizon ω &amp; dx=1/ω</text>
-          <text x="125" y="160" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#1d4ed8">Generates the Numbers</text>
+          <text x="125" y="78" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#2563eb">x = { X_L | X_R }</text>
+          <text x="125" y="102" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#334155">2ⁿ-Trees: 1D (Tree2), 2D (Tree4)</text>
+          <text x="125" y="122" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#334155">Day ω: Horizon ω &amp; dx=1/ω</text>
+          <text x="125" y="142" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#334155">Functions: Pair + RuleType</text>
+          <text x="125" y="165" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#1d4ed8">Generates Space &amp; Operations</text>
 
           <!-- Middle: Shadow Map -->
           <rect x="275" y="30" width="210" height="150" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" />
@@ -12774,7 +14474,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         To provide instructors with theoretical clarity and ensure the curriculum rests on firm mathematical ground, Middle Way Mathematics demonstrates that its operational scaffolds can be generated from <b>three fundamental inductive seeds</b>:
       </p>
 
-      <h4>Seed 1: The Conway Game-Tree Cut (The Birthday Ontology)</h4>
+      <h4>Seed 1: The Conway Game-Tree Cut &amp; Multi-Successor Dimensions (The Birthday Ontology)</h4>
       <p>
         In John Conway’s <i>On Numbers and Games</i> (1976), numbers emerge through a simple, constructive inductive definition:
       </p>
@@ -12790,6 +14490,34 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         <li><b>Finite Days n:</b> All dyadic rational numbers <code>m / 2^k</code> are born. These correspond directly to finite binary floating-point and fixed-point computer registers.</li>
         <li><b>Day ω:</b> The first transfinite limit ordinal <code>ω = { 0, 1, 2, ... | ∅ }</code> is born, creating the scale horizon. Simultaneously, its reciprocal infinitesimal step <code>dx = 1/ω = { 0 | 1, 1/2, 1/4, ... }</code> is born.</li>
       </ul>
+      <p>
+        <b>Multi-Successor Spatial Scaling (2ⁿ-Trees):</b> Rather than treating spatial dimension as an arbitrary geometric axiom, dimension is simply the <b>branching factor of the induction</b>:
+      </p>
+      <ul>
+        <li><b>1D Continuum (Tree2):</b> 2-successor binary bisection tree generating the real line <code>ℝ_ω</code>.</li>
+        <li><b>2D Complex Plane (Tree4):</b> 4-successor quadtree generating the complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, where the right angle is the discrete 90° rotation generator (<code>i² = -1</code>).</li>
+        <li><b>3D Volume (Tree8):</b> 8-successor octree recursively tiling 3D space with zero gaps.</li>
+      </ul>
+
+      <div class="box-blue" style="margin: 16px 0;">
+        <b>The Constructive Function Architecture: Directed Pair + Rule Type</b><br>
+        In classical set theory, a function is defined non-constructively as an arbitrary, static set of ordered pairs <code>R ⊆ X × Y</code> (an uncomputable graph). In Middle Way Mathematics, every operation is an <b>active computational engine</b> formalized as:
+        <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
+          <b>Function Type &nbsp;=&nbsp; Directed Pair (Constructed Domain &amp; Codomain) &nbsp;+&nbsp; Rule Type</b>
+        </div>
+        <ul>
+          <li><b>DirectedPair α β:</b> Specifies verified constructive source and target types (e.g., dyadic tree coordinates, unit rotors, or hyperfinite grids).</li>
+          <li><b>RuleType:</b> Explicitly classifies the computational mechanism:
+            <code>algebraic</code> (closed ring formulas), 
+            <code>polynomial</code> (finite difference stencils), 
+            <code>piecewise</code> (bisection tree search / CORDIC steering), 
+            <code>series</code> (hyperfinite sums), or 
+            <code>cas_oracle</code> (algebraic engine verification).
+          </li>
+        </ul>
+        This ensures that every function taught in the curriculum—such as dyadic sine bisection (<code>sin_dyadic_fn</code>) or rotor coordinate projection (<code>sin_rotor_fn</code>)—can be directly evaluated on hardware, verified in Lean 4 via <code>CoeFun</code>, and calculated in real-time by interactive CAS engines.
+      </div>
+
       <p>
         <b>Pedagogical Insight:</b> In proof assistants like Lean 4, arithmetic and order are defined by structural recursion on tree depth. Group associativity, commutativity, additive inverses, and field distributivity become <b>theorems proven by structural induction on tree birthdays</b> rather than unmotivated axiomatic postulates.
       </p>
@@ -12826,6 +14554,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
             <b>∮_γ f(z) dz = ∑_{k} ∮_{∂□_k} f(z) dz = 0</b>
           </div>
         </li>
+        <li><b>In Spatial Topology (Jordan-Brouwer Separation &amp; Cell Parity):</b> Every closed codimension-1 boundary <code>γ = ∂(Inside)</code> divides the space into exactly one bounded interior and one unbounded exterior. Rather than requiring dense topological homology, this reduces constructively to the <b>1-successor ray-crossing parity rule (<code>k mod 2 ∈ 𝔹</code>)</b>: shooting a ray to the transfinite horizon (offset by <code>dy/2</code> to eliminate vertex degeneracies) flips the Boolean inside/outside bit on every boundary crossing. Cauchy''s integral formula:
+          <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0;">
+            <b>χ_Inside(z₀) = (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz = { 1 if z₀ ∈ Inside, 0 if z₀ ∈ Outside }</b>
+          </div>
+          acts as an exact analytic point-in-polygon detector!
+        </li>
         <li><b>In Physics (Continuous Unitary Dynamics):</b> The time evolution operator <code>U(t) = e^{-iHt/ħ}</code> satisfies <code>U† · U = I</code>, guaranteeing that total probability across the boundary of state space is strictly conserved over time.
         </li>
       </ul>
@@ -12860,6 +14594,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
             <td>Field distributivity <code>a·(b+c) = a·b + a·c</code> is proven by transfinite induction. Zero annihilation <code>0·x = 0</code> follows as an elementary 2-line group theorem from distributivity.</td>
           </tr>
           <tr>
+            <td><b>Constructive Functions</b><br><code>DirectedPair</code><br><code>RuleType</code><br><code>FunctionType</code><br><code>sin_dyadic_fn</code><br><code>sin_rotor_fn</code></td>
+            <td>Typed computational bundles: <code>FunctionType α β</code> with <code>CoeFun</code></td>
+            <td><span class="table-badge badge-seed1">Seed 1: Conway Cut</span></td>
+            <td>Functions are not opaque set-theoretic graphs; they are directed pairs over constructive tree domains paired with explicit rule types (algebraic, piecewise dyadic bisection, series, or CAS oracles). Verified in Lean 4 and auto-harvested into interactive Maxima calculators.</td>
+          </tr>
+          <tr>
             <td><b>Infinitesimals &amp; Shadow</b><br><code>omega</code>, <code>dx</code><br><code>is_finite</code>, <code>st</code><br><code>hard_st_eq</code></td>
             <td>Axiomatic declarations of <code>omega</code>, <code>dx</code>, and <code>st : {x // is_finite x} → R_w</code></td>
             <td><span class="table-badge badge-seed2">Seed 2: Shadow Map</span></td>
@@ -12879,9 +14619,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           </tr>
           <tr>
             <td><b>2D Complex Analysis</b><br><code>C_w</code><br><code>Holomorphic</code><br><code>cauchy_edge_cancel</code><br><code>cauchy_integral_theorem</code><br><code>residue_theorem</code></td>
-            <td>Separate axioms for 2D cell edge cancellation, loop circulation, and residue vortex formulas</td>
+            <td>2D cell edge cancellation, loop circulation, and residue vortex formulas</td>
             <td><span class="table-badge badge-seed1">Seed 1</span> + <span class="table-badge badge-seed3">Seed 3</span></td>
-            <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> is an orthogonal tensor pair. <code>cauchy_edge_cancel</code> is proven by vector group identity <code>(z₂ - z₁) + (z₁ - z₂) = 0</code>. Cauchy''s theorem follows directly from <code>∂² = 0</code> applied to the 2D cell chain complex. Residues represent topological punctures where cell cancellation cannot close.</td>
+            <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> is an orthogonal 4-successor quadtree (<code>Tree4</code>). <code>cauchy_edge_cancel</code> is proven by vector group identity <code>(z₂ - z₁) + (z₁ - z₂) = 0</code>. Cauchy''s theorem follows directly from <code>∂² = 0</code> applied to the 2D cell chain complex. Inside vs. outside reduces to the 1-successor ray-crossing parity rule. Residues count enclosed topological punctures.</td>
           </tr>
           <tr>
             <td><b>Quantum Mechanics</b><br><code>unitary_preservation</code><br><code>born_rule</code><br><code>lee_yang_zero_pinch</code></td>
@@ -12899,25 +14639,29 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         Interactive theorem provers like <b>Lean 4</b> are transforming contemporary mathematical practice. In research mathematics, formal libraries such as Mathlib formalize classical analysis using topological filters (<code>Filter.Tendsto</code>) and uniform spaces. While mathematically comprehensive, this machinery requires substantial specialized training before students can verify even elementary calculus identities.
       </p>
       <p>
-        Because proof assistants are fundamentally founded on the <b>Calculus of Inductive Constructions (CIC)</b>, they are exceptionally well-suited for structural recursion and induction over inductive datatypes. By formulating continuous calculus through Conway tree cuts and finite difference sequences, introductory proofs in Lean 4 become direct inductions over <code>ℕ</code>:
+        Because proof assistants are fundamentally founded on the <b>Calculus of Inductive Constructions (CIC)</b>, they are exceptionally well-suited for structural recursion and induction over inductive datatypes. By formulating continuous calculus through Conway tree cuts and finite difference sequences, our codebase verifies <b>171 Lean 4 cache keys with zero topological filters</b>:
       </p>
 
       <div class="box-purple">
-        <b>Key Lean 4 Architectural Insight:</b><br>
-        In Middle Way Mathematics, the Fundamental Theorem of Calculus is proven in Lean 4 with <b>zero topological filters</b>:
-        <pre style="margin: 8px 0; color: #38bdf8; background: #0f172a; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 12.5px;">
+        <b>Key Lean 4 Architectural Insight: Constructive Proofs &amp; Direct CAS Harvest</b><br>
+        In Middle Way Mathematics, both fundamental accumulation and function execution are proven constructively in Lean 4:
+        <pre style="margin: 8px 0; color: #38bdf8; background: #0f172a; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 12px; line-height: 1.45;">
+-- 1. The Fundamental Theorem of Calculus (Proven in 5 Lines)
 theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
   hyper_sum (delta F) n = F n - F 0 := by
   induction n with
-  | zero =>
-    simp [hyper_sum]
-    exact (sub_self (F 0)).symm
-  | succ k ih =>
-    simp [hyper_sum]
-    rw [ih]
-    unfold delta
-    rw [sub_add_cancel]</pre>
-        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel, enabling beginners to experience genuine formal verification early in their education.
+  | zero => simp [hyper_sum]; exact (sub_self (F 0)).symm
+  | succ k ih => simp [hyper_sum]; rw [ih]; unfold delta; rw [sub_add_cancel]
+
+-- 2. Constructive Function Engine (Verified Typed Bundles)
+structure FunctionType (α β : Type) where
+  domain : DirectedPair α β
+  rule   : RuleType
+  eval   : α → β
+
+instance : CoeFun (FunctionType α β) (fun _ => α → β) where
+  coe f := f.eval</pre>
+        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel. Furthermore, our automated build pipeline harvests these verified <code>FunctionType</code> bundles into the client-side <code>SCAFFOLD_REGISTRY</code>, instantly generating interactive, browser-based Maxima CAS calculators for students!
       </div>
 
       <hr>
@@ -13006,70 +14750,49 @@ INSERT INTO curriculum_nav_items (
   (37, 'app1_nav_2_8_0', 1, 36, 0, 'html', 'introduction', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (38, 'app1_nav_2_8_1', 1, 36, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (39, 'app1_nav_2_8_2', 1, 36, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_3', 1, NULL, 3, 'section', 'Phase 2: analysis and seminars', 'Phase 2', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_3_0', 1, 40, 0, 'html', 'overview: continuous analysis & seminars', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_3_1', 1, 40, 1, 'section', 'course 1: linear algebra', 'course 1', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_3_1_0', 1, 42, 0, 'html', 'overview: linear algebra', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_3_1_1', 1, 42, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_3_1_2', 1, 42, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (46, 'app1_nav_3_1_3', 1, 42, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (47, 'app1_nav_3_2', 1, 40, 2, 'section', 'course 2: analysis 1D', 'course 2', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (48, 'app1_nav_3_2_0', 1, 47, 0, 'html', 'overview: analysis 1D', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (49, 'app1_nav_3_2_1', 1, 47, 1, 'html', 'lecture 1: microscope & continuity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (50, 'app1_nav_3_2_2', 1, 47, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (51, 'app1_nav_3_2_3', 1, 47, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (52, 'app1_nav_3_3', 1, 40, 3, 'section', 'course 3: analysis 2D', 'course 3', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (53, 'app1_nav_3_3_0', 1, 52, 0, 'html', 'overview: analysis 2D', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_3_3_1', 1, 52, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_3_3_2', 1, 52, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_3_3_3', 1, 52, 3, 'html', 'lecture 3: state evolution & phase', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (57, 'app1_nav_3_4', 1, 40, 4, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (58, 'app1_nav_3_4_0', 1, 57, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (59, 'app1_nav_3_4_1', 1, 57, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (60, 'app1_nav_3_4_2', 1, 57, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (61, 'app1_nav_3_4_3', 1, 57, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (62, 'app1_nav_3_5', 1, 40, 5, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (63, 'app1_nav_3_5_0', 1, 62, 0, 'html', 'overview: satellite seminars', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (64, 'app1_nav_3_5_1', 1, 62, 1, 'html', 'seminar 1: cosmology as information', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (65, 'app1_nav_3_5_2', 1, 62, 2, 'html', 'seminar 2: particle zoo logic', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (66, 'app1_nav_3_5_3', 1, 62, 3, 'html', 'seminar 3: entanglement & reality', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (67, 'app1_nav_3_5_4', 1, 62, 4, 'html', 'seminar 4: algebraic geometry', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (68, 'app1_nav_4', 1, NULL, 4, 'section', 'STEM Bridge: Applied Math & CAS', 'STEM Bridge', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (69, 'app1_nav_4_0', 1, 68, 0, 'html', 'Newtonian bridge: kinematics & conservation', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (70, 'app1_nav_4_1', 1, 68, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_4_2', 1, 68, 2, 'html', 'Trig Foundations', 'Trig', 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (72, 'app1_nav_5', 1, NULL, 5, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_5_0', 1, 72, 0, 'html', 'proposal 1: open educational service hubs', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_5_1', 1, 72, 1, 'html', 'academic paper: dual-agent tutor', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app1_nav_5_2', 1, 72, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (76, 'app2_nav_0', 2, NULL, 0, 'diagram', 'title', NULL, NULL, 'banner', NULL, NULL, '{}'::jsonb, TRUE),
-  (77, 'app2_nav_1', 2, NULL, 1, 'html', 'curriculum overview', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (78, 'app2_nav_2', 2, NULL, 2, 'section', 'course 1: linear algebra', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app2_nav_2_0', 2, 78, 0, 'html', 'course overview: linear algebra', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app2_nav_2_1', 2, 78, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app2_nav_2_2', 2, 78, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app2_nav_2_3', 2, 78, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (83, 'app2_nav_3', 2, NULL, 3, 'section', 'course 2: analysis 1D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app2_nav_3_0', 2, 83, 0, 'html', 'course overview: analysis 1D', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app2_nav_3_1', 2, 83, 1, 'html', 'lecture 1: the infinitesimal microscope & continuity', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (86, 'app2_nav_3_2', 2, 83, 2, 'html', 'lecture 2: algebraic derivatives & local linearity', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (87, 'app2_nav_3_3', 2, 83, 3, 'html', 'lecture 3: accumulation & telescoping calculus', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (88, 'app2_nav_4', 2, NULL, 4, 'section', 'course 3: analysis 2D', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (89, 'app2_nav_4_0', 2, 88, 0, 'html', 'course overview: analysis 2D', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (90, 'app2_nav_4_1', 2, 88, 1, 'html', 'lecture 1: the 2D complex grid & conformal maps', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (91, 'app2_nav_4_2', 2, 88, 2, 'html', 'lecture 2: discrete contour integrals & residues', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (92, 'app2_nav_4_3', 2, 88, 3, 'html', 'lecture 3: quantum state evolution & phase transitions', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (93, 'app2_nav_5', 2, NULL, 5, 'section', 'mini-seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (94, 'app2_nav_5_0', 2, 93, 0, 'html', 'mini-seminar 1: the Fourier duality', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (95, 'app2_nav_5_1', 2, 93, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (96, 'app2_nav_5_2', 2, 93, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (97, 'app2_nav_5_3', 2, 93, 3, 'html', 'mini-seminar 4: higher-successor definitions', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (98, 'app2_nav_6', 2, NULL, 6, 'section', 'satellite seminars', NULL, NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (99, 'app2_nav_6_0', 2, 98, 0, 'html', 'overview: satellite seminars', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (100, 'app2_nav_6_1', 2, 98, 1, 'html', 'seminar 1: cosmology as information', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (101, 'app2_nav_6_2', 2, 98, 2, 'html', 'seminar 2: the logic of the particle zoo', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (102, 'app2_nav_6_3', 2, 98, 3, 'html', 'seminar 3: quantum entanglement & reality', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (103, 'app2_nav_6_4', 2, 98, 4, 'html', 'seminar 4: algebraic geometry', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (40, 'app1_nav_3', 1, NULL, 3, 'section', 'Phase 2A: Geometry', 'Phase 2A', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_3_0', 1, 40, 0, 'html', 'overview: linear algebra & geometry', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_3_1', 1, 40, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_3_1_0', 1, 42, 0, 'html', 'overview: linear algebra', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_3_1_1', 1, 42, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_3_1_2', 1, 42, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (46, 'app1_nav_3_1_3', 1, 42, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (47, 'app1_nav_3_2', 1, 40, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (48, 'app1_nav_4', 1, NULL, 4, 'section', 'Phase 2B: Analysis', 'Phase 2B', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (49, 'app1_nav_4_0', 1, 48, 0, 'html', 'overview: continuous analysis', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (50, 'app1_nav_4_1', 1, 48, 1, 'html', 'sequences, sums & progressions', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (51, 'app1_nav_4_2', 1, 48, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (52, 'app1_nav_4_2_0', 1, 51, 0, 'html', 'overview: analysis 1D', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (53, 'app1_nav_4_2_1', 1, 51, 1, 'html', 'lecture 1: microscope & continuity', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_4_2_2', 1, 51, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_4_2_3', 1, 51, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_4_2_4', 1, 51, 4, 'html', 'lecture 4: trig derivatives & circular motion', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (57, 'app1_nav_4_2_5', 1, 51, 5, 'html', 'lecture 5: exponential & logarithmic foundations', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (58, 'app1_nav_4_3', 1, 48, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (59, 'app1_nav_4_3_0', 1, 58, 0, 'html', 'overview: analysis 2D', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (60, 'app1_nav_4_3_1', 1, 58, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (61, 'app1_nav_4_3_2', 1, 58, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (62, 'app1_nav_4_3_3', 1, 58, 3, 'html', 'lecture 3: state evolution & phase', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (63, 'app1_nav_5', 1, NULL, 5, 'section', 'Seminars & Applications', 'Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (64, 'app1_nav_5_0', 1, 63, 0, 'html', 'overview: seminars & applications', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (65, 'app1_nav_5_1', 1, 63, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (66, 'app1_nav_5_1_0', 1, 65, 0, 'html', 'Newtonian kinematics & conservation', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (67, 'app1_nav_5_1_1', 1, 65, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (68, 'app1_nav_5_2', 1, 63, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (69, 'app1_nav_5_2_0', 1, 68, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (70, 'app1_nav_5_2_1', 1, 68, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (71, 'app1_nav_5_2_2', 1, 68, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (72, 'app1_nav_5_2_3', 1, 68, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_5_3', 1, 63, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_5_3_0', 1, 73, 0, 'html', 'overview: satellite seminars', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_5_3_1', 1, 73, 1, 'html', 'seminar 1: cosmology as information', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (76, 'app1_nav_5_3_2', 1, 73, 2, 'html', 'seminar 2: particle zoo logic', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (77, 'app1_nav_5_3_3', 1, 73, 3, 'html', 'seminar 3: entanglement & reality', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (78, 'app1_nav_5_3_4', 1, 73, 4, 'html', 'seminar 4: algebraic geometry', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app1_nav_6', 1, NULL, 6, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app1_nav_6_0', 1, 79, 0, 'html', 'proposal 1: open educational service hubs', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app1_nav_6_1', 1, 79, 1, 'html', 'academic paper: dual-agent tutor', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app1_nav_6_2', 1, 79, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 57, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,
@@ -13086,7 +14809,7 @@ INSERT INTO formal_statements (
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 'fs_newtonian_mechanics', 'newtonian_mechanics', 'kinematics_and_dynamics', NULL, 'physics', 'law', 'boundary_law', 'Newtonian Dynamics & Boundary Acceleration', 'Foundational relation between force, inertia, and momentum conservation on ℝ_ω.', 'F = m · a  ∧  p = m · v', NULL, NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
   (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 1, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'middlewayIntro', 'stemHeatDiffusion']::text[]),
+  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'middlewayIntro', 'sequencesAndSums', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
   (4, 'fs_work_energy', 'work_energy', 'kinematics_and_dynamics', 3, 'physics', 'law', 'boundary_law', 'Telescoping Work-Energy Principle', 'Exact cancellation of interior work increments yielding net kinetic energy change.', 'Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k', 'theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
   (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 3, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
   (6, 'fs_quartic_diff', 'r_quartic', 'discrete_analysis', 3, 'math', 'corollary', 'shadow_map', 'Hyperfinite Quartic Derivative', 'Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.', 'diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²', NULL, NULL, 'published', ARRAY['analysis1DLecture2']::text[]),
@@ -13095,11 +14818,15 @@ INSERT INTO formal_statements (
   (9, 'fs_residue_integral', 'residue_theorem', 'discrete_analysis', 7, 'math', 'theorem', 'boundary_law', 'Residue Theorem & Vortex Circulation', 'Punctured closed loop integral evaluating to integer vortex winding residues.', '∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)', NULL, NULL, 'published', ARRAY['analysis2DIntro', 'analysis2DLecture2']::text[]),
   (10, 'fs_lee_yang', 'lee_yang', 'kinematics_and_dynamics', 7, 'physics', 'theorem', 'conway_cut', 'Lee-Yang Zero Circle & Critical Phase Transition', 'Partition function zeros on complex unit circle pinching real axis at Day ω.', 'dist(z*, ℝ) = |T - T_c| + 1 / √N', NULL, NULL, 'published', ARRAY['stemHeatDiffusion', 'cosmologyAsInformation']::text[]),
   (11, 'fs_unitary_isometry', 'unitary_isometry', 'kinematics_and_dynamics', NULL, 'physics', 'law', 'boundary_law', 'Unitary Evolution & Norm Isometry', 'Norm-preserving probability evolution under self-adjoint operators U† · U = I.', '⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩  ∧  ∥U ψ∥ = ∥ψ∥ = 1', 'axiom unitary_isometry (U : C_w) : norm_sq U = 1', NULL, 'published', ARRAY['vectorsLecture2', 'vectorsLecture3']::text[]),
-  (12, 'fs_three_polarizer', 'born_rule', 'kinematics_and_dynamics', 11, 'physics', 'scenario', 'boundary_law', 'Three-Polarizer Sequential Projection', 'Quantum state projection through non-commuting measurement operators via Born rule.', 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', NULL, NULL, 'published', ARRAY['editedQuantumLogicLecture2V1', 'vectorsLecture3']::text[]),
+  (12, 'fs_three_polarizer', 'born_rule', 'kinematics_and_dynamics', 11, 'physics', 'scenario', 'boundary_law', 'Three-Polarizer Sequential Projection', 'Quantum state projection through non-commuting measurement operators via Born rule.', 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', NULL, NULL, 'published', ARRAY['quantumLogicLecture2', 'vectorsLecture3']::text[]),
   (13, 'fs_probability_foundations', 'discrete_probability', 'discrete_analysis', NULL, 'math', 'axiom', 'shadow_map', 'Discrete Probability Measure & Conditioning', 'Non-negative measure on finite state spaces with unit total mass.', 'P(A ∩ B) = P(A|B) · P(B)', NULL, NULL, 'published', ARRAY['bayesianInferenceIntro']::text[]),
   (14, 'fs_bayes_updating', 'bayes_rule', 'information_and_signals', 13, 'information', 'theorem', 'shadow_map', 'Bayesian Posterior Updating (P(H|D))', 'Prior belief update under sensory observation with probability normalization.', 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]', NULL, NULL, 'published', ARRAY['editedBayesianInferenceLecture1V1']::text[]),
   (15, 'fs_scale_reciprocity', 'omega_inv', 'discrete_analysis', NULL, 'math', 'constitutional', 'conway_cut', 'Scale Horizon & Infinitesimal Reciprocity', 'Fundamental scale axiom: Day ω cosmic horizon and grid step dx are mutual inverses ω · dx = 1.', 'ω · dx = 1  ∧  dx = 1/ω', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
-  (16, 'fs_discrete_ivt', 'discrete_ivt', 'discrete_analysis', 15, 'math', 'theorem', 'conway_cut', 'Discrete Intermediate Value Theorem Bisection', 'Constructive root isolation through dyadic interval halving on sign change.', 'f(a)·f(b) < 0  ⇒  c = (a + b)/2', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[])
+  (16, 'fs_discrete_ivt', 'discrete_ivt', 'discrete_analysis', 15, 'math', 'theorem', 'conway_cut', 'Discrete Intermediate Value Theorem Bisection', 'Constructive root isolation through dyadic interval halving on sign change.', 'f(a)·f(b) < 0  ⇒  c = (a + b)/2', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
+  (17, 'fs_dyadic_angle_bisection', 'dyadic_angle', 'discrete_analysis', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Angle Bisection & Unit Rotor Generation', 'Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.', 'θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1', 'def dyadic_angle (m : Int) (n : Nat) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (18, 'fs_polygonal_horn_chord', 'chord_length', 'discrete_analysis', 17, 'math', 'scenario', 'boundary_law', 'Polygonal Horn Rim Chord & Inward Deflection', 'Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (19, 'fs_sin_dyadic_bisection', 'sin_dyadic_fn', 'discrete_analysis', 17, 'math', 'theorem', 'conway_cut', 'Dyadic Tree Sine Function & CORDIC Bisection', 'Directed pair 𝔻 → [-1, 1] mapping Conway binary angle tree nodes to standard sine coordinates.', 'sin_dyadic_fn(d) = sin(2π · d.val) ∈ [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (20, 'fs_sin_rotor_projection', 'sin_rotor_fn', 'discrete_analysis', NULL, 'math', 'axiom', 'conway_cut', 'Unit Rotor Group Sine Projection', 'Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.', 'sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', NULL, 'published', ARRAY['stemTrigFoundations']::text[])
 ON CONFLICT (id) DO UPDATE SET
   statement_key = EXCLUDED.statement_key,
   scaffold_key = EXCLUDED.scaffold_key,
@@ -13122,13 +14849,16 @@ INSERT INTO calculation_modes (
   (4, 'we_ke_from_m_v', 4, '(m, v) → KE', 'KE', 'ℝ_ω', 'J', 'KE = (1/2) · m · v²', '0.5 * m * (v ** 2)', TRUE),
   (5, 'we_v_from_ke_m', 4, '(KE, m) → v', 'v', 'ℝ_ω', 'm/s', 'v = √(2 · KE / m)', 'Math.sqrt((2 * KE) / m)', TRUE),
   (6, 'diff_heat_step', 5, '(α, Δt, Δx, u_L, u_C, u_R) → u_new', 'u_new', 'ℝ_ω', '°C', 'u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)', 'u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)', TRUE),
-  (7, 'ftc_sum_eval', 3, '(F₀, F_n) → ΔF_net', 'ΔF_net', 'ℝ_ω', NULL, '∑ ΔF(k) = F(n) - F(0)', 'F_n - F_0', TRUE),
-  (8, 'complex_mult_eval', 7, '(x₁, y₁, x₂, y₂) → z₁ · z₂', 'z₁ · z₂', 'ℂ_ω', NULL, 'z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)', '[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]', TRUE),
-  (9, 'polarizer_transmission', 12, '(θ₁, θ₂, I₀) → I_final', 'I_final', 'ℝ_ω', NULL, 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', 'I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)', TRUE),
-  (10, 'bayes_posterior', 14, '(P(H), P(D|H), P(D|¬H)) → P(H|D)', 'P(H|D)', '[0, 1]', NULL, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', TRUE),
-  (11, 'scale_reciprocity_eval', 15, '(ω, dx) → Balance Product ω · dx', 'ω · dx', 'ℝ_ω', NULL, 'ω · dx = 1.0', 'omega * dx', TRUE),
-  (12, 'diff_x4_st', 6, '(x, dx) → st(Δ(x⁴)/dx) = 4x³', 'f''(x)', 'ℝ_ω', NULL, 'st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³', '4 * (x ** 3)', TRUE),
-  (13, 'ivt_root_bisection', 16, '(a, b) → Midpoint c = (a + b)/2', 'c', 'ℝ_ω', NULL, 'c = (a + b) / 2', '(a + b) / 2', TRUE)
+  (7, 'complex_mult_eval', 7, '(x₁, y₁, x₂, y₂) → z₁ · z₂', 'z₁ · z₂', 'ℂ_ω', NULL, 'z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)', '[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]', TRUE),
+  (8, 'polarizer_transmission', 12, '(θ₁, θ₂, I₀) → I_final', 'I_final', 'ℝ_ω', NULL, 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', 'I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)', TRUE),
+  (9, 'bayes_posterior', 14, '(P(H), P(D|H), P(D|¬H)) → P(H|D)', 'P(H|D)', '[0, 1]', NULL, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', TRUE),
+  (10, 'scale_reciprocity_eval', 15, '(ω, dx) → Balance Product ω · dx', 'ω · dx', 'ℝ_ω', NULL, 'ω · dx = 1.0', 'omega * dx', TRUE),
+  (11, 'diff_x4_st', 6, '(x, dx) → st(Δ(x⁴)/dx) = 4x³', 'f''(x)', 'ℝ_ω', NULL, 'st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³', '4 * (x ** 3)', TRUE),
+  (12, 'ivt_root_bisection', 16, '(a, b) → Midpoint c = (a + b)/2', 'c', 'ℝ_ω', NULL, 'c = (a + b) / 2', '(a + b) / 2', TRUE),
+  (13, 'trig_dyadic_angle', 17, '(m, n) → θ', 'θ', '[0, 2π)', 'rad', 'θ = 2π · (m / 2ⁿ)', '2 * Math.PI * (m / (2 ** n))', TRUE),
+  (14, 'trig_chord_length', 18, '(Δθ, R) → Chord c', 'c', 'ℝ_ω', NULL, 'c = 2 · R · sin(Δθ / 2)', '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)', TRUE),
+  (15, 'trig_sin_dyadic_eval', 19, '(m, n) → sin(θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(θ) = sin(2π · m / 2ⁿ)', 'Math.sin(2 * Math.PI * (m / (2 ** n)))', TRUE),
+  (16, 'trig_sin_rotor_eval', 20, '(θ) → (cos θ, sin θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(U) = Im(U) = sin(θ) ∈ [-1, 1]', 'Math.sin(theta * Math.PI / 180)', TRUE)
 ON CONFLICT (id) DO UPDATE SET
   mode_key = EXCLUDED.mode_key,
   label = EXCLUDED.label,
@@ -13164,35 +14894,44 @@ INSERT INTO mode_slots (
   (17, 6, 3, 'u_L', 'u_{i-1}', 'ℝ_ω', '°C', 100, -50, 300, 5, 'Left neighbor'),
   (18, 6, 4, 'u_C', 'u_i', 'ℝ_ω', '°C', 50, -50, 300, 5, 'Center node'),
   (19, 6, 5, 'u_R', 'u_{i+1}', 'ℝ_ω', '°C', 20, -50, 300, 5, 'Right neighbor'),
-  (20, 7, 0, 'F_0', 'F(0)', 'ℝ_ω', NULL, 3, -100, 100, 1, 'Starting boundary value'),
-  (21, 7, 1, 'F_n', 'F(n)', 'ℝ_ω', NULL, 28, -100, 200, 1, 'Ending boundary value'),
-  (22, 8, 0, 'x1', 'x₁', 'ℝ_ω', NULL, 1, NULL, NULL, 0.5, NULL),
-  (23, 8, 1, 'y1', 'y₁', 'ℝ_ω', NULL, 2, NULL, NULL, 0.5, NULL),
-  (24, 8, 2, 'x2', 'x₂', 'ℝ_ω', NULL, 3, NULL, NULL, 0.5, NULL),
-  (25, 8, 3, 'y2', 'y₂', 'ℝ_ω', NULL, 4, NULL, NULL, 0.5, NULL),
-  (26, 9, 0, 'theta1', 'θ₁', 'ℝ_ω', '°', 30, 0, 90, 5, 'First filter angle'),
-  (27, 9, 1, 'theta2', 'θ₂', 'ℝ_ω', '°', 60, 0, 90, 5, 'Second filter angle'),
-  (28, 9, 2, 'I0', 'I₀', 'ℝ_ω', NULL, 1, 0, 100, 0.1, 'Initial beam intensity'),
-  (29, 10, 0, 'pH', 'P(H)', '[0, 1]', NULL, 0.1, 0.001, 0.999, 0.01, 'Prior probability'),
-  (30, 10, 1, 'pD_H', 'P(D|H)', '[0, 1]', NULL, 0.9, 0.001, 1, 0.01, 'Sensitivity / True positive'),
-  (31, 10, 2, 'pD_notH', 'P(D|¬H)', '[0, 1]', NULL, 0.05, 0, 0.999, 0.01, 'False positive rate'),
-  (32, 11, 0, 'omega', 'Scale Horizon ω', 'ℝ_ω', NULL, 1000, 10, 100000, 100, NULL),
-  (33, 11, 1, 'dx', 'Infinitesimal Step dx', 'ℝ_ω', NULL, 0.001, 0.00001, 0.1, 0.0001, NULL),
-  (34, 12, 0, 'x', 'Point x', 'ℝ_ω', NULL, 2, -10, 10, 0.5, NULL),
-  (35, 12, 1, 'dx', 'Step dx', 'ℝ_ω', NULL, 0.001, 0.0001, 0.05, 0.0005, NULL),
-  (36, 13, 0, 'a', 'Left Bound a', 'ℝ_ω', NULL, 1, NULL, NULL, 0.5, NULL),
-  (37, 13, 1, 'b', 'Right Bound b', 'ℝ_ω', NULL, 2, NULL, NULL, 0.5, NULL)
+  (20, 7, 0, 'x1', 'x₁', 'ℝ_ω', NULL, 1, NULL, NULL, 0.5, NULL),
+  (21, 7, 1, 'y1', 'y₁', 'ℝ_ω', NULL, 2, NULL, NULL, 0.5, NULL),
+  (22, 7, 2, 'x2', 'x₂', 'ℝ_ω', NULL, 3, NULL, NULL, 0.5, NULL),
+  (23, 7, 3, 'y2', 'y₂', 'ℝ_ω', NULL, 4, NULL, NULL, 0.5, NULL),
+  (24, 8, 0, 'theta1', 'θ₁', 'ℝ_ω', '°', 30, 0, 90, 5, 'First filter angle'),
+  (25, 8, 1, 'theta2', 'θ₂', 'ℝ_ω', '°', 60, 0, 90, 5, 'Second filter angle'),
+  (26, 8, 2, 'I0', 'I₀', 'ℝ_ω', NULL, 1, 0, 100, 0.1, 'Initial beam intensity'),
+  (27, 9, 0, 'pH', 'P(H)', '[0, 1]', NULL, 0.1, 0.001, 0.999, 0.01, 'Prior probability'),
+  (28, 9, 1, 'pD_H', 'P(D|H)', '[0, 1]', NULL, 0.9, 0.001, 1, 0.01, 'Sensitivity / True positive'),
+  (29, 9, 2, 'pD_notH', 'P(D|¬H)', '[0, 1]', NULL, 0.05, 0, 0.999, 0.01, 'False positive rate'),
+  (30, 10, 0, 'omega', 'Scale Horizon ω', 'ℝ_ω', NULL, 1000, 10, 100000, 100, NULL),
+  (31, 10, 1, 'dx', 'Infinitesimal Step dx', 'ℝ_ω', NULL, 0.001, 0.00001, 0.1, 0.0001, NULL),
+  (32, 11, 0, 'x', 'Point x', 'ℝ_ω', NULL, 2, -10, 10, 0.5, NULL),
+  (33, 11, 1, 'dx', 'Step dx', 'ℝ_ω', NULL, 0.001, 0.0001, 0.05, 0.0005, NULL),
+  (34, 12, 0, 'a', 'Left Bound a', 'ℝ_ω', NULL, 1, NULL, NULL, 0.5, NULL),
+  (35, 12, 1, 'b', 'Right Bound b', 'ℝ_ω', NULL, 2, NULL, NULL, 0.5, NULL),
+  (36, 13, 0, 'm', 'Numerator m', 'ℤ', NULL, 1, 0, 64, 1, 'Dyadic numerator'),
+  (37, 13, 1, 'n', 'Birthday n', 'ℕ', NULL, 3, 0, 10, 1, 'Tree birthday / depth'),
+  (38, 14, 0, 'dtheta', 'Central Turn Δθ', 'ℝ_ω', '°', 45, 0.1, 180, 1, 'Central turning angle in degrees'),
+  (39, 14, 1, 'R', 'Radius R', 'ℝ_ω', NULL, 1, 0.1, 10, 0.5, 'Circle radius'),
+  (40, 15, 0, 'm', 'Numerator m', 'ℤ', NULL, 1, 0, 64, 1, 'Dyadic numerator'),
+  (41, 15, 1, 'n', 'Birthday n', 'ℕ', NULL, 3, 0, 12, 1, 'Tree depth / birthday (2ⁿ bisections)'),
+  (42, 16, 0, 'theta', 'Rotor Angle θ', 'ℝ_ω', '°', 45, 0, 360, 1, 'Rotor orientation angle')
 ;
 
 -- 7. Verified Presets
 INSERT INTO verified_presets (
   id, preset_key, mode_id, title, input_values, display_result, formatted_formula, domain_badge, notes
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'ex_earth_free_fall', 1, 'Earth Surface Free Fall Apex Transit', '{"v0":20,"g":9.8,"t":1.5}'::jsonb, '5.300 m/s', 'v = (20.00) - (9.80) · (1.50)', '∈ ℝ_ω', 'v > 0 indicates particle is still climbing toward apex.'),
-  (2, 'ex_mars_free_fall', 1, 'Mars Rover Descent Stage', '{"v0":15,"g":3.71,"t":3}'::jsonb, '3.870 m/s', 'v = (15.00) - (3.71) · (3.00)', '∈ ℝ_ω', NULL),
-  (3, 'ex_cart_braking', 4, 'Laboratory Cart Kinetic Energy', '{"m":2,"v":10}'::jsonb, '100.000 J', 'KE = 0.5 · (2.00) · (10.00)²', '∈ ℝ_ω', 'Matches exact work integral: W = ∫ F dx = 100 J.'),
-  (4, 'ex_thermal_slab', 6, 'Interior Thermal Slab Conduction', '{"alpha":0.15,"dt":0.02,"dx":0.1,"u_L":100,"u_C":50,"u_R":20}'::jsonb, '56.000 °C', 'u_new = (50.0) + (0.15)·(0.02 / 0.01)·[(100.0) - 2·(50.0) + (20.0)]', '∈ ℝ_ω', 'Positive net curvature (100 - 100 + 20 = 20) drives net warming.'),
-  (5, 'ex_medical_test', 10, 'Medical Diagnostic Screen Update', '{"pH":0.05,"pD_H":0.95,"pD_notH":0.1}'::jsonb, '0.333', 'P(H|D) = (0.95 · 0.05) / [ (0.95 · 0.05) + (0.10 · 0.95) ]', '∈ [0, 1]', 'Low prior prevalence dampens positive predictive value.')
+  (1, 'ex_dyadic_45deg', 13, 'Day 3 Diagonal Bisection (π/4)', '{"m":1,"n":3}'::jsonb, '0.785 rad (45.0°)', 'θ = 2π · (1 / 2³) = π/4', '∈ [0, 2π)', 'Generated on Day 3 of the Conway angle tree.'),
+  (2, 'ex_chord_square', 14, 'Quadrant Inscribed Chord (90°)', '{"dtheta":90,"R":1}'::jsonb, '1.414 (√2)', 'c = 2 · 1.0 · sin(45°) = √2', '∈ ℝ_ω', 'First inward chord step across quadrant boundary.'),
+  (3, 'ex_dyadic_sin_45', 15, 'Day 3 Dyadic Sine (π/4 = 45°)', '{"m":1,"n":3}'::jsonb, '0.7071 (1/√2)', 'sin(2π · 1/2³) = sin(π/4) = 1/√2', '∈ [-1, 1]', 'Generated by 3 Conway bisections down the angle tree.'),
+  (4, 'ex_rotor_sin_90', 16, 'Unit Rotor North Pole (90° = π/2)', '{"theta":90}'::jsonb, '1.0000 (Top Pole)', 'sin(⟨0, 1⟩) = 1.0', '∈ [-1, 1]', 'Rotor lies directly on imaginary axis (U = ⟨0, 1⟩ = i).'),
+  (5, 'ex_earth_free_fall', 1, 'Earth Surface Free Fall Apex Transit', '{"v0":20,"g":9.8,"t":1.5}'::jsonb, '5.300 m/s', 'v = (20.00) - (9.80) · (1.50)', '∈ ℝ_ω', 'v > 0 indicates particle is still climbing toward apex.'),
+  (6, 'ex_mars_free_fall', 1, 'Mars Rover Descent Stage', '{"v0":15,"g":3.71,"t":3}'::jsonb, '3.870 m/s', 'v = (15.00) - (3.71) · (3.00)', '∈ ℝ_ω', NULL),
+  (7, 'ex_cart_braking', 4, 'Laboratory Cart Kinetic Energy', '{"m":2,"v":10}'::jsonb, '100.000 J', 'KE = 0.5 · (2.00) · (10.00)²', '∈ ℝ_ω', 'Matches exact work integral: W = ∫ F dx = 100 J.'),
+  (8, 'ex_thermal_slab', 6, 'Interior Thermal Slab Conduction', '{"alpha":0.15,"dt":0.02,"dx":0.1,"u_L":100,"u_C":50,"u_R":20}'::jsonb, '56.000 °C', 'u_new = (50.0) + (0.15)·(0.02 / 0.01)·[(100.0) - 2·(50.0) + (20.0)]', '∈ ℝ_ω', 'Positive net curvature (100 - 100 + 20 = 20) drives net warming.'),
+  (9, 'ex_medical_test', 9, 'Medical Diagnostic Screen Update', '{"pH":0.05,"pD_H":0.95,"pD_notH":0.1}'::jsonb, '0.333', 'P(H|D) = (0.95 · 0.05) / [ (0.95 · 0.05) + (0.10 · 0.95) ]', '∈ [0, 1]', 'Low prior prevalence dampens positive predictive value.')
 ON CONFLICT (id) DO UPDATE SET
   preset_key = EXCLUDED.preset_key,
   mode_id = EXCLUDED.mode_id,
@@ -13208,247 +14947,312 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 16, 14, 10, 5, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<cas-ref calc-id="cas_bayes_filter" expr="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</cas-ref>'),
-  (3, 30, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (4, 30, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (5, 30, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (6, 31, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (7, 31, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (8, 31, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (9, 31, 12, 9, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (10, 33, 16, NULL, NULL, 'proof', 0, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (11, 35, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (12, 35, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (13, 35, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (14, 35, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (15, 49, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (16, 49, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (17, 50, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (18, 50, 3, 7, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (19, 50, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (20, 50, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (21, 50, 3, 7, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (2, 16, 14, 9, 9, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<cas-ref calc-id="cas_bayes_filter" expr="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</cas-ref>'),
+  (3, 29, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (4, 29, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (5, 29, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (6, 30, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (7, 30, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (8, 30, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (9, 30, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (10, 31, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (11, 31, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (12, 31, 19, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (13, 31, 20, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (14, 33, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (15, 33, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
+  (16, 35, 16, NULL, NULL, 'proof', 0, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (17, 37, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (18, 37, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (19, 37, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (20, 37, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (21, 45, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (22, 45, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (23, 46, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (24, 46, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (25, 46, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (26, 46, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (27, 46, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
 DELETE FROM segment_prerequisites;
 
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
-  (1, 49, 2, 'foundational'),
-  (2, 49, 14, 'recommended'),
-  (3, 50, 49, 'foundational'),
-  (4, 50, 35, 'foundational'),
-  (5, 33, 2, 'foundational'),
-  (6, 34, 33, 'foundational'),
-  (7, 35, 34, 'foundational'),
-  (8, 37, 35, 'foundational')
+  (1, 45, 2, 'foundational'),
+  (2, 46, 45, 'foundational'),
+  (3, 46, 37, 'foundational'),
+  (4, 35, 2, 'foundational'),
+  (5, 36, 35, 'foundational'),
+  (6, 37, 36, 'foundational'),
+  (7, 41, 37, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
 INSERT INTO lean_verifications (
   key, statement_id, target, expression, signature, verdict, qed, time_ms, engine, verified_at, lean_snippet, summary
 ) VALUES
-  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1492, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1492, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1492, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 1849, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 1849, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 1849, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2038, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2038, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2038, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 1712, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check C_w
+  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2156, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2156, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2156, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2369, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2369, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2369, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2243, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 1712, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check C_w
+  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2243, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 1712, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check C_w
+  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2243, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 1832, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 1832, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 1832, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 1640, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 1640, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 1640, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2077, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2077, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2077, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 1608, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 1608, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 1608, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2047, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2047, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2047, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2113, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st
+  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2166, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2166, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2166, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2149, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2149, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2149, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 1920, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 1920, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 1920, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2020, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2020, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2020, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2155, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2155, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2155, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2107, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2107, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2107, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2154, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2113, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st
+  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2154, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2113, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check st
+  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2154, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1725, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1725, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1725, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1783, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta
+  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1884, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1783, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta
+  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1884, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1783, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta
+  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 1884, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1804, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1804, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1804, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2039, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2039, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2039, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1758, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1758, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1758, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1913, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1913, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1913, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2157, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2157, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2157, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1795, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1795, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1795, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1805, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1805, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1805, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2099, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearMap
+  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1799, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1799, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1799, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1886, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1886, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1886, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2042, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2042, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2042, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1981, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1904, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2099, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearMap
+  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1904, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2099, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearMap
+  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1904, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2213, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2213, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2213, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1971, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check VectorSpace
+  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1867, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1867, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1867, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1971, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check VectorSpace
+  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1971, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check VectorSpace
+  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 1909, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearFunctional
+  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 1909, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearFunctional
+  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 1909, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check LinearFunctional
+  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2074, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_infinitesimal
+  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2452, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2074, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_infinitesimal
+  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2452, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2074, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_infinitesimal
+  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2452, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1740, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check diff_quotient
+  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2229, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1740, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check diff_quotient
+  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2229, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1740, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check diff_quotient
+  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2229, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1791, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check product_rule_shadow
+  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1791, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check product_rule_shadow
+  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1791, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check product_rule_shadow
+  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1840, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check differential_form
+  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2207, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1840, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check differential_form
+  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2207, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1840, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check differential_form
+  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2207, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta2
+  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2089, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta2
+  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2089, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check delta2
+  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2089, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1538, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_continuous
+  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1989, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1538, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_continuous
+  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1989, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1538, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check is_continuous
+  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1989, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1803, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1803, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1803, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1701, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1701, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1701, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check AbelianGroup
+  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2073, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2073, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2073, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2202, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2202, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2202, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1954, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1954, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1954, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check AbelianGroup
+  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check AbelianGroup
+  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Field
+  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2059, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Field
+  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2059, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', '#check Field
+  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2059, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1103, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def paq_witness : Nat := 6
+  ('dyadic_angle', 17, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('scaffold:dyadic_angle', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('scaffold:dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('d ↦ d.val ∈ ℝ_ω', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2079, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_point
+#check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
+  ('scaffold:angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2079, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_point
+#check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
+  ('θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2079, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_point
+#check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
+  ('angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2068, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('scaffold:angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2068, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2068, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2424, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('scaffold:dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2424, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2424, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cos_half_angle
+#check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
+  ('scaffold:cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cos_half_angle
+#check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
+  ('cos(θ / 2) = √[(1 + cos θ) / 2]', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check cos_half_angle
+#check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
+  ('chord_length', 18, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2198, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('scaffold:chord_length', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2198, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2198, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check UnitRotor
+#check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
+  ('scaffold:UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check UnitRotor
+#check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
+  ('U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2102, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check UnitRotor
+#check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
+  ('sin_dyadic_fn', 19, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2173, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_dyadic_fn
+#check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
+  ('scaffold:sin_dyadic_fn', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2173, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_dyadic_fn
+#check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
+  ('sin_dyadic_fn : 𝔻 → [-1, 1]', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2173, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_dyadic_fn
+#check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
+  ('sin_rotor_fn', 20, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_rotor_fn
+#check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
+  ('scaffold:sin_rotor_fn', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_rotor_fn
+#check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
+  ('sin_rotor_fn : UnitRotor → [-1, 1]', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 1894, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check sin_rotor_fn
+#check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
+  ('D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 1972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_w
+#check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
+  ('scaffold:D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 1972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_w
+#check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
+  ('𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 1972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_w
+#check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
+  ('D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2144, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('scaffold:D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2144, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2144, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2004, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check R_w_circle
+#check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
+  ('scaffold:R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2004, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check R_w_circle
+#check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
+  ('ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2004, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', '#check R_w_circle
+#check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
+  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1103, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def paq_witness : Nat := 6
+  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1103, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def paq_witness : Nat := 6
+  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1032, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1032, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1032, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1030, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def mam_witness : Nat := 7
+  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 998, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 998, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 998, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 964, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1030, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def mam_witness : Nat := 7
+  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1030, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'def mam_witness : Nat := 7
+  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1063, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1235, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1235, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1235, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-11T23:38:44.941Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
+  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 972, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T04:04:20.472Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
 ON CONFLICT (key) DO UPDATE SET
   statement_id = EXCLUDED.statement_id,
   verdict = EXCLUDED.verdict,

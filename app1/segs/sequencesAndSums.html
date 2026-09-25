@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequences, Sums &amp; Progressions</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --dark: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --success: #059669;
+      --success-light: #f0fdf4;
+      --amber: #d97706;
+      --amber-light: #fffbeb;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 16px 80px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 40px 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.4em;
+      margin-top: 36px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      color: var(--secondary);
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    p, li {
+      font-size: 15px;
+      color: var(--dark);
+    }
+
+    code {
+      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--secondary);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+      font-size: 14.5px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .highlight-card {
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+
+    .callout {
+      background: var(--accent-light);
+      border: 1px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin: 12px 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+    <h1>Sequences, Sums &amp; Progressions</h1>
+    <p style="font-size: 1.05em; color: var(--muted); margin-bottom: 24px;">
+      The doorway to continuous analysis: from the discrete stepping of trees to the algebra of ladders, musical scales, and telescoping sums.
+    </p>
+
+    <div class="highlight-card">
+      <h3 style="margin-top: 0; color: var(--primary);">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
+      <p style="margin-bottom: 0;">
+        In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
+        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> and accumulating its differences.
+      </p><p style="margin-bottom: 0;"><br></p><div class="callout" style="background: rgb(248, 250, 252); border-color: rgb(203, 213, 225) rgb(203, 213, 225) rgb(203, 213, 225) rgb(30, 41, 59); border-left-width: 2.72727px; border-left-style: none;"><h3 style="color: rgb(30, 41, 59); margin-top: 0px;">Demystifying F: The Sequence as a Function-Type</h3><p>In casual speech, we often speak of a "sequence" as if it were a static list of numbers. But in the formal architecture of Middle Way Math (and Lean 4), every sequence <code>F</code> is a <b>FunctionType</b>:</p><div class="formula-box">FunctionType = Directed Pair (The Channel) + Rule Type (The Assignment Rule)</div><ul><li><b>The Channel (Function-Type):</b> For sequences, the channel is <code>ℕ_ω → ℝ_ω</code>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the hyperreal continuum <code>ℝ_ω</code>. This channel guarantees that quantities advance step-by-step up to the horizon <code>ω</code>.</li><li><b>The Rule (The Function's Personality):</b> What gives meat to that mysterious <code>F</code>? Its assignment rule <code>k ↦ F(k)</code> is almost always determined by a <b>function from a specified domain</b>:<ul><li><b>From Polynomial Functions:</b> Taking <code>f(x) = c · x³</code> from the continuum function domain and evaluating it on step indices yields the cubic sequence rule <code>F(k) = c · k³</code>.</li><li><b>From Exponential Functions:</b> Taking <code>f(x) = a · r^x</code> yields the geometric progression rule <code>F(k) = a · r^k</code>.</li><li><b>From Physical Energy Functions:</b> Taking <code>f(v) = ½ · m · v²</code> evaluated at velocity steps <code>v_k = k · Δv</code> yields the telescoping work-energy ladder.</li></ul></li></ul><p style="margin: 8px 0px 0px;">In short: the sequence function's <b>type</b> provides the stepping channel; its <b>rule</b> inherits its shape directly from a function!</p><div><br></div></div>
+    </div>
+
+    <h2>1. The Two Fundamental Ladders of the Trees</h2>
+    <p>
+      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of progression:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tree Structure</th>
+          <th>Progression Type</th>
+          <th>Step Law</th>
+          <th>Formula</th>
+          <th>Characteristic Property</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Tree 1 (Unary Spine)</b><br>1-successor count</td>
+          <td><b>Arithmetic Progression</b></td>
+          <td>Constant additive step: <code>+ d</code></td>
+          <td><code>F(k) = a + k · d</code></td>
+          <td>Uniform linear march; constant difference <code>ΔF(k) = d</code>.</td>
+        </tr>
+        <tr>
+          <td><b>Tree 2 (Binary Branching)</b><br>2-successor branching</td>
+          <td><b>Geometric Progression</b></td>
+          <td>Constant multiplicative ratio: <code>× r</code></td>
+          <td><code>F(k) = a · r^k</code></td>
+          <td>Exponential growth; difference proportional to term: <code>ΔF(k) = a · r^k · (r - 1)</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="background: #f8fafc; border-color: #cbd5e1; border-left: 4px solid var(--primary);">
+      <h3 style="margin-top: 0; color: var(--primary);"><span style="color: rgb(30, 58, 138); font-size: 1.35rem; background-color: rgb(255, 255, 255);">2. Musical Scales: The Human Ear as a Geometric Processor</span></h3></div>
+    <p>
+      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
+    </p>
+    <p>
+      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
+    </p>
+
+    <div class="callout">
+      <h3 style="margin-top: 0; color: var(--accent);">The 12-Tone Equal Temperament Ladder</h3>
+      <p>
+        An <b>octave</b> is a pure frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio:
+      </p>
+      <div class="formula-box">
+        r = 2^(1/12) ≈ 1.059463...
+      </div>
+      <p>
+        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
+      </p>
+      <div class="formula-box">
+        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
+      </div>
+      <p>
+        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
+      </p>
+    </div>
+
+    <h3>The Cochlear Frequency Sorter</h3>
+    <p>
+      Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex. 
+      Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human ear's sensor corresponds to equal pitch intervals—a living geometric progression analyzer.
+    </p>
+
+    <h2>3. The Sum of a Progression &amp; The High School Trick</h2>
+    <p>
+      How do we sum a geometric progression? In secondary school algebra, students are introduced to the celebrated "shift-and-subtract" method:
+    </p>
+    <div class="formula-box">
+      S_n = a + a·r + a·r^2 + ... + a·r^(n-1)<br>
+      r · S_n =    a·r + a·r^2 + ... + a·r^(n-1) + a·r^n
+    </div>
+    <p>
+      Subtracting the second equation from the first collapses every single interior power:
+    </p>
+    <div class="formula-box">
+      (1 - r) · S_n = a - a · r^n &nbsp;⇒&nbsp; S_n = a · (1 - r^n) / (1 - r)
+    </div>
+    <p>
+      Notice what made this miraculous calculation work: <b>all intermediate terms cancelled pairwise</b>. Only the initial boundary term <code>a</code> and the outer boundary term <code>a · r^n</code> survived.
+    </p>
+
+    <h2>4. Telescoping Sums: A Nod Toward the Fundamental Theorem</h2>
+    <p>
+      The shift-and-subtract trick for geometric series is not an isolated algebraic accident. It is a specific instance of a universal <b>telescoping identity</b>—an algebraic cancellation pattern that will soon serve as our bridge to continuous analysis.
+    </p>
+
+    <div class="highlight-card">
+      <h3 style="margin-top: 0; color: var(--primary);">The Universal Telescoping Cancellation</h3>
+      <p>
+        For <i>any</i> sequence function <code>F : ℕ_ω → ℝ_ω</code>—regardless of which algebraic rule <code>F</code> adopts—if we define the forward step difference:
+      </p>
+      <div class="formula-box">
+        ΔF(k) = F(k + 1) - F(k)
+      </div>
+      <p>
+        Then the sum of differences collapses identically to the net boundary difference:
+      </p>
+      <div class="formula-box">
+        ∑_{k=0}^{n-1} ΔF(k) = [ F(1) - F(0) ] + [ F(2) - F(1) ] + ... + [ F(n) - F(n-1) ] = F(n) - F(0)
+      </div>
+      <p>
+        Because the theorem quantifies universally over <code>∀ (F : ℕ_ω → ℝ_ω)</code>, it holds for <b>every possible rule</b>! 
+        Whether we plug in the cubic rule <code>F(k) = c · k³</code>, the odd-sum rule <code>F(k) = k²</code>, or the work-energy rule <code>F(k) = ½ m v_k²</code>, the interior terms must vanish identically.
+      </p>
+      <p style="margin-bottom: 0;">
+        This finite algebraic identity—which in the analysis lectures ahead will blossom into the Fundamental Theorem of Calculus (FTC)—is machine-verified in Lean 4 as <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>.
+      </p>
+    </div>
+
+    <p>
+      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>
+    </p>
+
+    <h3>Numeric Sequences vs. Function Sequences</h3>
+    <p>
+      Here we observe an important architectural distinction that will recur throughout advanced analysis:
+    </p>
+    <ul>
+      <li><b>Numeric Sequence (<code>ℕ_ω → ℝ_ω</code>):</b> At each step index <code>k</code>, the sequence outputs a single numerical scalar (a ladder rung, a partial sum, or a particle position).</li>
+      <li><b>Function Sequence (<code>ℕ_ω → FunctionSpace ≡ ℕ_ω → (ℝ_ω → ℝ_ω)</code>):</b> At each step index <code>k</code>, the sequence outputs an <i>entire spatial function</i> <code>F_k(x)</code> holding across the full continuum domain (such as progressive Taylor polynomial curves, Fourier wave sums, or heat diffusion time slices across a spatial bar).</li>
+    </ul>
+    <p>
+      Both share the discrete stepping channel on <code>ℕ_ω</code>, but a function sequence carries an entire spatial profile forward at every step.
+    </p>
+
+    <h2>5. From Step Index k to Continuum Transect x</h2>
+    <p>
+      Once we recognize that summation is boundary cancellation, continuous calculus requires only one conceptual refinement:
+    </p>
+    <ol>
+      <li>Replace the integer step index <code>k</code> with grid nodes <code>x_k = a + k · dx</code>, where <code>dx</code> is an infinitesimal step.</li>
+      <li>The difference quotient becomes the derivative rate: <code>f(x_k) = ΔF(k) / dx</code>.</li>
+      <li>The telescoping sum becomes the definite Riemann-hyperfinite integral:
+        <div class="formula-box">
+          ∫_a^b f(x) dx = ∑_{k=0}^{N-1} f(x_k) dx = ∑_{k=0}^{N-1} ΔF(k) = F(b) - F(a)
+        </div>
+      </li>
+    </ol>
+    <p>
+      Calculus is not an esoteric regime detached from elementary mathematics; it is the exact same pairwise boundary cancellation students learn in high school algebra, operating across an infinitesimal grid.
+    </p>
+
+    <div class="callout" style="background: #f0fdf4; border-color: #bbf7d0;">
+      <h3 style="margin-top: 0; color: #166534;">Up Next in Analysis</h3>
+      <p style="margin-bottom: 0; color: #166534;">
+        Having established the behavior of discrete progressions, we next examine continuous exponential growth, the natural logarithm, and the differential rates of 1D analysis.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

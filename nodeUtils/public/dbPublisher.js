@@ -209,7 +209,8 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
 if (require.main === module) {
     const targetApp = process.argv[2] || 'app1';
     const targetPage = process.argv[3];
-    publishStaticSite(targetApp, undefined, { pageName: targetPage }).then(res => {
+    const targetOutDir = process.argv[4];
+    publishStaticSite(targetApp, undefined, { pageName: targetPage, outDir: targetOutDir }).then(res => {
         if (!res.success) {
             process.exit(1);
         }

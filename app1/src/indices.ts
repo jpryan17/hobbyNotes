@@ -192,6 +192,16 @@ export const course2Index: IndexItemDesc[] = [
     topic: "lecture 3: accumulation & calculus",
     htmlSegmentId: "analysis1DLecture3",
   },
+  {
+    type: "html",
+    topic: "lecture 4: trig derivatives & circular motion",
+    htmlSegmentId: "stemTrigDerivatives",
+  },
+  {
+    type: "html",
+    topic: "lecture 5: exponential & logarithmic foundations",
+    htmlSegmentId: "stemExpLogFoundations",
+  },
 ];
 
 export const course3Index: IndexItemDesc[] = [
@@ -335,29 +345,82 @@ export const proposalsIndex: IndexItemDesc[] = [
   },
 ];
 
-export const analysisAndSeminarsIndex: IndexItemDesc[] = [
+export const trigGeometryIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "overview: continuous analysis & seminars",
-    htmlSegmentId: "lamOverview",
+    topic: "trigonometric foundations & rotor geometry",
+    htmlSegmentId: "stemTrigFoundations",
+  },
+];
+
+export const phase2AGeometryIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: linear algebra & geometry",
+    htmlSegmentId: "vectorFoundationsIntro",
   },
   {
     type: "index",
     topic: "course 1: linear algebra",
-    navTopic: "course 1",
+    navTopic: "linear algebra",
     indexDesc: course1Index,
   },
   {
+    type: "html",
+    topic: "course 2: trigonometry & rotor geometry",
+    htmlSegmentId: "stemTrigFoundations",
+  },
+];
+
+export const phase2BAnalysisIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: continuous analysis",
+    htmlSegmentId: "lamOverview",
+  },
+  {
+    type: "html",
+    topic: "sequences, sums & progressions",
+    htmlSegmentId: "sequencesAndSums",
+  },
+  {
     type: "index",
-    topic: "course 2: analysis 1D",
-    navTopic: "course 2",
+    topic: "course 1: analysis 1D",
+    navTopic: "analysis 1D",
     indexDesc: course2Index,
   },
   {
     type: "index",
-    topic: "course 3: analysis 2D",
-    navTopic: "course 3",
+    topic: "course 2: analysis 2D",
+    navTopic: "analysis 2D",
     indexDesc: course3Index,
+  },
+];
+
+export const appliedPhysicsSeminarsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "Newtonian kinematics & conservation",
+    htmlSegmentId: "stemNewtonianBridge",
+  },
+  {
+    type: "html",
+    topic: "1D heat diffusion: Laplacian & Fourier",
+    htmlSegmentId: "stemHeatDiffusion",
+  },
+];
+
+export const seminarsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: seminars & applications",
+    htmlSegmentId: "satelliteSeminarsIntro",
+  },
+  {
+    type: "index",
+    topic: "applied physics seminars",
+    navTopic: "applied physics",
+    indexDesc: appliedPhysicsSeminarsIndex,
   },
   {
     type: "index",
@@ -373,38 +436,10 @@ export const analysisAndSeminarsIndex: IndexItemDesc[] = [
   },
 ];
 
-export const lamIndex = analysisAndSeminarsIndex;
-
-export const stemBridgeIndex: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "Newtonian bridge: kinematics & conservation",
-    htmlSegmentId: "stemNewtonianBridge",
-  },
-  {
-    type: "html",
-    topic: "1D heat diffusion: Laplacian & Fourier",
-    htmlSegmentId: "stemHeatDiffusion",
-  },
-  {
-    type: "html",
-    topic: "Trig Foundations",
-    navTopic: "Trig",
-    htmlSegmentId: "stemTrigFoundations",
-  },
-  {
-    type: "html",
-    topic: "Trig derivatives & analysis bridge",
-    navTopic: "Trig Derivatives",
-    htmlSegmentId: "stemTrigDerivatives",
-  },
-  {
-    type: "html",
-    topic: "Exp & log foundations",
-    navTopic: "Exp & Log",
-    htmlSegmentId: "stemExpLogFoundations",
-  },
-];
+// Backwards-compatible aliases
+export const analysisAndSeminarsIndex = phase2BAnalysisIndex;
+export const lamIndex = phase2BAnalysisIndex;
+export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
 
 export const mainIndex: IndexItemDesc[] = [
   {
@@ -426,15 +461,21 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "index",
-    topic: "Phase 2: analysis and seminars",
-    navTopic: "Phase 2",
-    indexDesc: analysisAndSeminarsIndex,
+    topic: "Phase 2A: Geometry",
+    navTopic: "Phase 2A",
+    indexDesc: phase2AGeometryIndex,
   },
   {
     type: "index",
-    topic: "STEM Bridge: Applied Math & CAS",
-    navTopic: "STEM Bridge",
-    indexDesc: stemBridgeIndex,
+    topic: "Phase 2B: Analysis",
+    navTopic: "Phase 2B",
+    indexDesc: phase2BAnalysisIndex,
+  },
+  {
+    type: "index",
+    topic: "Seminars & Applications",
+    navTopic: "Seminars",
+    indexDesc: seminarsIndex,
   },
   {
     type: "index",

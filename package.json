@@ -23,6 +23,7 @@
     "index": "node ./nodeUtils/public/indexBuild.js",
     "db:seed": "npm run utilsC && node ./nodeUtils/public/genSqlSeeds.js",
     "publish:db": "npm run utilsC && node ./nodeUtils/public/dbPublisher.js app1",
+    "publish:db:dist": "npm run utilsC && node ./nodeUtils/public/dbPublisher.js app1 index.html dist",
     "dist": "cd ./app1/dist && live-server"
   },
   "dependencies": {
