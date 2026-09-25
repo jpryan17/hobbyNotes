@@ -266,15 +266,23 @@ export class FSDRef extends HTMLElement {
     const cleanKey = instanceKey.trim().toLowerCase();
     const effectiveTitle = titleAttr || "Theorem Instance Derivation";
 
+    const isHaloMember =
+      scaffold === "nucleus_halo_decomposition" ||
+      cleanKey.startsWith("point_") ||
+      cleanKey.includes("halo") ||
+      cleanKey === "point_4_plus_3dx";
+
     // Default configuration for unit_circle_rim
-    let initialN = 8;
-    let initialScale = 1.0;
-    let domainMemberMath = "F(k) = k · (2π / N) · R";
-    let differenceLabel = "ΔF(k) = (2π / N) · R ≡ ds = R · dθ";
-    let derivationDesc = "Parameterizes the unit circle rim S¹_ω as a uniform march of N infinitesimal steps.";
-    let unit = " rad";
-    let scaleLabel = "Radius R";
-    let isTrigRim = true;
+    let initialN = isHaloMember ? 3 : 8;
+    let initialScale = isHaloMember ? 4.0 : 1.0;
+    let domainMemberMath = isHaloMember ? "x = x₀ + k · dx = 4 + 3·dx" : "F(k) = k · (2π / N) · R";
+    let differenceLabel = isHaloMember ? "ε = x - st(x) = k · dx ∈ μ(0)" : "ΔF(k) = (2π / N) · R ≡ ds = R · dθ";
+    let derivationDesc = isHaloMember
+      ? "Decomposes a specific hyperreal number into its standard real nucleus and infinitesimal Day ω halo perturbation."
+      : "Parameterizes the unit circle rim S¹_ω as a uniform march of N infinitesimal steps.";
+    let unit = isHaloMember ? "" : " rad";
+    let scaleLabel = isHaloMember ? "Nucleus x₀" : "Radius R";
+    let isTrigRim = !isHaloMember;
 
     if (cleanKey === "cubic_sum" || cleanKey === "cubic") {
       initialN = 4;
@@ -320,7 +328,7 @@ export class FSDRef extends HTMLElement {
 
     const domainBadge = document.createElement("span");
     domainBadge.style.cssText = "font-size: 11px; font-weight: 700; background: #e0f2fe; color: #0284c7; padding: 3px 8px; border-radius: 4px; border: 1px solid #bae6fd;";
-    domainBadge.textContent = "Domain Member F ∈ (ℕ → ℝ_ω)";
+    domainBadge.textContent = isHaloMember ? "Domain Member x ∈ ℝ_ω" : "Domain Member F ∈ (ℕ → ℝ_ω)";
     titleGroup.appendChild(domainBadge);
 
     headerRow.appendChild(titleGroup);
@@ -348,11 +356,16 @@ export class FSDRef extends HTMLElement {
     // Mathematical Spec Box
     const specBox = document.createElement("div");
     specBox.style.cssText = "background: #ffffff; border: 1px solid #e0f2fe; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; color: #334155;";
+    const universalThmMath = isHaloMember
+      ? "∀ x ∈ ℝ_ω^{fin}, x = st(x) + ε  where  ε ∈ μ(0)"
+      : "∑_{k=0}^{N-1} ΔF(k) = F(N) - F(0)";
+    const dustOrIncLabel = isHaloMember ? "Microscopic Halo Dust:" : "Microscopic Increment:";
+
     specBox.innerHTML = `
       <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 6px; letter-spacing: 0.5px;">Applied Instance Specification</div>
-      <div><strong>Universal Theorem:</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#0f172a;">∑_{k=0}^{N-1} ΔF(k) = F(N) - F(0)</code></div>
+      <div><strong>Universal Theorem:</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#0f172a;">${universalThmMath}</code></div>
       <div><strong>Instantiated Member:</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#0f172a;">${domainMemberMath}</code></div>
-      <div><strong>Microscopic Increment:</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#0f172a;">${differenceLabel}</code></div>
+      <div><strong>${dustOrIncLabel}</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#0f172a;">${differenceLabel}</code></div>
       <div style="margin-top: 6px; color: #475569; font-style: italic;">${derivationDesc}</div>
     `;
     box.appendChild(specBox);
@@ -369,7 +382,7 @@ export class FSDRef extends HTMLElement {
     nGroup.style.cssText = "display: flex; align-items: center; gap: 8px;";
     const nLabel = document.createElement("span");
     nLabel.style.cssText = "font-size: 13px; font-weight: 600; color: #1e293b;";
-    nLabel.textContent = "Steps N:";
+    nLabel.textContent = isHaloMember ? "Halo Step k (dx):" : "Steps N:";
     nGroup.appendChild(nLabel);
 
     const nDec = document.createElement("button");
@@ -420,6 +433,45 @@ export class FSDRef extends HTMLElement {
     box.appendChild(outBox);
 
     const updateCalc = () => {
+      if (isHaloMember) {
+        const x0 = curScale;
+        const k = curN;
+        const signStr = k > 0 ? `+ ${k}·dx` : (k < 0 ? `- ${Math.abs(k)}·dx` : "");
+        const pointStr = k === 0 ? `${x0}` : `${x0} ${signStr}`;
+        const dustStr = k === 0 ? "0 (Zero Dust)" : (k > 0 ? `${k}·dx` : `-${Math.abs(k)}·dx`);
+
+        const isZeroDust = k === 0;
+        const statusNotice = isZeroDust
+          ? `<div style="font-family: system-ui, sans-serif; font-size: 12px; color: #059669; font-weight: 600; margin-top: 12px; padding: 8px 12px; background: #ecfdf5; border-radius: 4px; border: 1px solid #a7f3d0;">
+               ✓ Hard Dyadic Element: Born on finite days with zero halo dust (ε = 0, st(x) = x).
+             </div>`
+          : `<div style="font-family: system-ui, sans-serif; font-size: 12px; color: #059669; font-weight: 600; margin-top: 12px; padding: 8px 12px; background: #ecfdf5; border-radius: 4px; border: 1px solid #a7f3d0;">
+               ✓ Non-Zero Transfinite Halo Member: Point resides in the microscopic monad μ(${x0}). Microscopic distance |x - x₀| = ${Math.abs(k)}·dx &lt; 1/n for all standard n. Verified: x ≈ st(x) in Lean 4.
+             </div>`;
+
+        outBox.innerHTML = `
+          <div style="font-family: system-ui, sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 10px;">Live Nucleus-Halo Decomposition Derivation</div>
+          <div style="margin-bottom: 6px;"><strong>1. Instantiated Domain Point:</strong></div>
+          <div style="background: #f8fafc; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+            x = <span style="font-weight: 800; color: #0284c7;">${pointStr}</span> ∈ ℝ_ω
+          </div>
+          <div style="margin-bottom: 6px;"><strong>2. Standard Part Shadow Map:</strong></div>
+          <div style="background: #f8fafc; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+            st(x) = st(${pointStr}) = <span style="font-weight: 800; color: #0284c7;">${x0}</span> ∈ ℝ
+          </div>
+          <div style="margin-bottom: 6px;"><strong>3. Infinitesimal Halo Perturbation:</strong></div>
+          <div style="background: #f8fafc; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+            ε = x - st(x) = <span style="font-weight: 800; color: #0284c7;">${dustStr}</span> ∈ μ(0)
+          </div>
+          <div style="margin-bottom: 6px;"><strong>4. Exact Reconstruction:</strong></div>
+          <div style="background: #f8fafc; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+            x = st(x) + ε = (${x0}) + (${dustStr}) = <span style="font-weight: 800; color: #0284c7;">${pointStr}</span>
+          </div>
+          ${statusNotice}
+        `;
+        return;
+      }
+
       const n = Math.max(1, Math.min(64, curN));
       const c = curScale;
 
@@ -470,36 +522,40 @@ export class FSDRef extends HTMLElement {
 
     const stepN = isTrigRim ? 2 : 1;
     nDec.addEventListener("click", () => {
-      curN = Math.max(isTrigRim ? 2 : 1, curN - stepN);
+      curN = isHaloMember ? curN - 1 : Math.max(isTrigRim ? 2 : 1, curN - stepN);
       nInput.value = curN.toString();
       updateCalc();
     });
     nInc.addEventListener("click", () => {
-      curN = Math.min(64, curN + stepN);
+      curN = isHaloMember ? curN + 1 : Math.min(64, curN + stepN);
       nInput.value = curN.toString();
       updateCalc();
     });
     nInput.addEventListener("input", () => {
       const v = parseInt(nInput.value);
-      if (!isNaN(v) && v >= 1) {
+      if (!isNaN(v) && (isHaloMember || v >= 1)) {
         curN = v;
         updateCalc();
       }
     });
 
     sDec.addEventListener("click", () => {
-      curScale = Math.max(0.1, parseFloat((curScale - 0.5).toFixed(1)));
+      curScale = isHaloMember
+        ? parseFloat((curScale - 0.5).toFixed(1))
+        : Math.max(0.1, parseFloat((curScale - 0.5).toFixed(1)));
       sInput.value = curScale.toString();
       updateCalc();
     });
     sInc.addEventListener("click", () => {
-      curScale = Math.min(20.0, parseFloat((curScale + 0.5).toFixed(1)));
+      curScale = isHaloMember
+        ? parseFloat((curScale + 0.5).toFixed(1))
+        : Math.min(20.0, parseFloat((curScale + 0.5).toFixed(1)));
       sInput.value = curScale.toString();
       updateCalc();
     });
     sInput.addEventListener("input", () => {
       const v = parseFloat(sInput.value);
-      if (!isNaN(v) && v > 0) {
+      if (!isNaN(v) && (isHaloMember || v > 0)) {
         curScale = v;
         updateCalc();
       }

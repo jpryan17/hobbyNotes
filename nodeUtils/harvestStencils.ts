@@ -656,11 +656,38 @@ export function harvestCurricularStencils(): FsCatalog {
       inputs: [
         { name: 'theta', symbol: 'Rotor Angle θ', domain: 'ℝ_ω', unit: '°', defaultValue: 45.0, min: 0.0, max: 360.0, step: 1.0, description: 'Rotor orientation angle' }
       ]
+    },
+
+    // 15. Nucleus-Halo Decomposition Evaluation Mode
+    {
+      id: 'nucleus_halo_decomp_eval',
+      statementId: 'fs_nucleus_halo_decomposition',
+      label: '(x₀, k) → x = x₀ + k·dx',
+      targetSymbol: 'x',
+      targetDomain: 'ℝ_ω',
+      formulaDescription: 'x = st(x) + ε = x₀ + k · dx',
+      formulaExpr: 'x0 + k * dx',
+      inputs: [
+        { name: 'x0', symbol: 'x₀', domain: 'ℝ', defaultValue: 4.0, min: -100, max: 100, step: 0.5, description: 'Standard nucleus shadow' },
+        { name: 'k', symbol: 'k', domain: 'ℤ', defaultValue: 3, min: -50, max: 50, step: 1, description: 'Halo step multiplier (dx = 1/ω)' }
+      ]
     }
   ];
 
   // 3. Define Verified Examples (Active Presets)
   const examples: FsCatalogExample[] = [
+    {
+      id: 'ex_halo_point_4_plus_3dx',
+      modeId: 'nucleus_halo_decomp_eval',
+      statementId: 'fs_nucleus_halo_decomposition',
+      presetKey: 'point_4_plus_3dx',
+      title: 'Hyperreal Point Decomposition (x = 4 + 3·dx)',
+      values: { x0: 4.0, k: 3 },
+      displayResult: 'st(x) = 4, ε = 3·dx',
+      formattedFormula: 'x = 4 + 3·dx = st(x) + ε',
+      domainBadge: 'x ∈ ℝ_ω',
+      notes: 'Decomposes point into hard integer nucleus 4 and infinitesimal Day ω halo perturbation 3·dx.'
+    },
     {
       id: 'ex_dyadic_45deg',
       modeId: 'trig_dyadic_angle',
