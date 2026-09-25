@@ -76,7 +76,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-09-25T04:57:16.218Z",
+  "generatedAt": "2026-09-25T05:16:19.063Z",
   "version": "1.0.0",
   "formalStatements": [
     {
@@ -307,6 +307,21 @@ export const FS_CATALOG: FsCatalog = {
       "description": "Constructive root isolation through dyadic interval halving on sign change.",
       "scaffoldKey": "discrete_ivt",
       "expression": "f(a)·f(b) < 0  ⇒  c = (a + b)/2",
+      "referencedInSegments": [
+        "analysis1DLecture1"
+      ]
+    },
+    {
+      "id": "fs_nucleus_halo_decomposition",
+      "parentId": "fs_scale_reciprocity",
+      "type": "math",
+      "tier": "theorem",
+      "governingSeed": "shadow_map",
+      "title": "Nucleus-Halo Decomposition Theorem",
+      "description": "Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.",
+      "scaffoldKey": "nucleus_halo_decomposition",
+      "expression": "x = st(x) + ε  ∧  ε ∈ μ(0)",
+      "leanSignature": "axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε",
       "referencedInSegments": [
         "analysis1DLecture1"
       ]

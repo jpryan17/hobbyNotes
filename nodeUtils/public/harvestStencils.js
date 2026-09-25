@@ -275,6 +275,19 @@ function harvestCurricularStencils() {
             expression: 'f(a)·f(b) < 0  ⇒  c = (a + b)/2',
             referencedInSegments: Array.from(scaffoldSegmentMap['discrete_ivt'] || ['analysis1DLecture2'])
         },
+        {
+            id: 'fs_nucleus_halo_decomposition',
+            parentId: 'fs_scale_reciprocity',
+            type: 'math',
+            tier: 'theorem',
+            governingSeed: 'shadow_map',
+            title: 'Nucleus-Halo Decomposition Theorem',
+            description: 'Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.',
+            scaffoldKey: 'nucleus_halo_decomposition',
+            expression: 'x = st(x) + ε  ∧  ε ∈ μ(0)',
+            leanSignature: 'axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε',
+            referencedInSegments: Array.from(scaffoldSegmentMap['nucleus_halo_decomposition'] || ['analysis1DLecture1'])
+        },
         // --- Trigonometry & Discrete Rotation Branch ---
         {
             id: 'fs_dyadic_angle_bisection',

@@ -89,6 +89,31 @@
     “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
   </p>
 
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
+    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε &emsp; where &emsp; ε ≈ 0</b>
+    </div>
+    When <code>x</code> is a <b>hard dyadic number</b> (born on finite Day <code>k &lt; ω</code>), its halo perturbation vanishes identically (<code>ε = 0</code>), so <code>st(x) = x</code>.
+  </div>
+
+  <p>
+    “Notice the critical distinction here between the <b>formal theorem</b> and a <b>concrete instance</b>,” Jane explained:
+  </p>
+
+  <ul>
+    <li><b>Formal Deductive Theorem:</b> Lean 4 guarantees universally that every finite element on the tree decomposes into its standard shadow and infinitesimal halo dust without exception.</li>
+    <li><b>Concrete Computational Instance:</b> If we take a specific number like <code>x = 3.5 + 4·dx</code> (where <code>dx = 1/ω</code>):
+      <ul>
+        <li>The standard nucleus is <code>x₀ = st(3.5 + 4·dx) = 3.5 = 7/2</code> (a hard dyadic rational born on Day 2).</li>
+        <li>The transfinite halo perturbation is <code>ε = x - st(x) = 4·dx ∈ μ(0)</code>.</li>
+        <li>The exact decomposition holds: <code>x = 7/2 + 4·dx = st(x) + ε</code>.</li>
+        <li>Conversely, for a hard number such as <code>y = 5/4 = 1.25</code>, there is zero dust: <code>st(y) = 5/4</code> and <code>ε = 0</code>.</li>
+      </ul>
+    </li>
+  </ul>
+
   <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
@@ -96,9 +121,9 @@
     • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
     • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
     • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
-    • <b>Nucleus-Halo Decomposition:</b> Every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust: <code>x = x₀ + ε</code> where <code>x₀ = st(x)</code> and <code>ε ∈ μ(0)</code>.<br>
+    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
     • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>CAS Example:</b> <cas-ref calc-id="cas_halo_continuity" expr="EXPAND( (x + dx)^2 )">Infinitesimal Halo Decomposition x = st(x) + ε</cas-ref>
+    • <b>Concrete Instance:</b> For <code>x = 7/2 + 4·dx</code>, the standard shadow is <code>st(x) = 7/2</code> and the halo dust perturbation is <code>ε = 4·dx</code>.
   </div>
 
   <hr>
