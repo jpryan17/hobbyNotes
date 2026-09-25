@@ -294,8 +294,14 @@ export class ArgumentCard extends Elt {
         this.studioBtn.setV("🛠️ Studio");
         this.studioBtn.elt.addEventListener("click", () => this.launchStudio());
         devBtnGroup.append(this.studioBtn);
-        // Calculator Button (Available whenever meaningful calculation modes exist, in both static and dev modes)
-        const calcModes = inferFsCalculationModes(arg);
+        // Calculator Button (Available whenever meaningful calculation modes exist and not inhibited by theorem display)
+        const isTheoremOrScaffold = arg.target?.startsWith("scaffold:") ||
+            arg.title?.toLowerCase().includes("constitutional scaffold") ||
+            arg.title?.toLowerCase().includes("theorem") ||
+            arg.title?.toLowerCase().includes("axiom");
+        const shouldInhibitCalc = options?.disableCalculator ||
+            (!options?.activeModeId && !options?.presetKey && !arg.casCalculation?.command && isTheoremOrScaffold);
+        const calcModes = shouldInhibitCalc ? [] : inferFsCalculationModes(arg);
         if (calcModes.length > 0) {
             this.calcBtn = new Elt("button");
             this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");

@@ -68,8 +68,10 @@ export class FSDRef extends HTMLElement {
       );
 
       if (tier === "3" || catalogStmt || matchedMode || matchedExample) {
+        const isPureTheorem = !matchedMode && !matchedExample && (tier === "3" || catalogStmt?.tier === "theorem" || catalogStmt?.tier === "axiom" || catalogStmt?.tier === "constitutional");
         FSDRef.openScaffoldCard(scaffoldOrId, titleAttr, {
-          autoOpenCalc,
+          autoOpenCalc: isPureTheorem ? false : autoOpenCalc,
+          disableCalculator: isPureTheorem,
           presetKey: presetAttr,
           activeModeId: modeAttr
         });
@@ -148,7 +150,7 @@ export class FSDRef extends HTMLElement {
   public static openScaffoldCard(
     scaffoldOrId: string,
     titleAttr?: string,
-    options?: { autoOpenCalc?: boolean; presetKey?: string; activeModeId?: string }
+    options?: { autoOpenCalc?: boolean; presetKey?: string; activeModeId?: string; disableCalculator?: boolean }
   ) {
     const cleanId = scaffoldOrId.trim().toLowerCase();
     const matchedExample = FS_CATALOG.examples.find(
@@ -174,6 +176,14 @@ export class FSDRef extends HTMLElement {
       formalArg.expression = catalogStmt.expression;
     }
 
+    const isPureTheorem = options?.disableCalculator ?? (
+      !options?.activeModeId &&
+      !options?.presetKey &&
+      !matchedMode &&
+      !matchedExample &&
+      (catalogStmt?.tier === "theorem" || catalogStmt?.tier === "axiom" || catalogStmt?.tier === "constitutional" || effectiveScaffold.includes("scaffold") || effectiveScaffold.includes("telescoping_ftc"))
+    );
+
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -187,9 +197,10 @@ export class FSDRef extends HTMLElement {
     scrollWrap.setA("style", "width:100%;min-height:100%;box-sizing:border-box;display:flow-root;padding-bottom:60px;");
     scrollWrap.append(
       new ArgumentCard(formalArg, {
-        autoOpenCalculator: options?.autoOpenCalc || !!matchedMode || !!matchedExample,
+        autoOpenCalculator: isPureTheorem ? false : (options?.autoOpenCalc || !!matchedMode || !!matchedExample),
         presetKey: options?.presetKey || (matchedExample ? (matchedExample.presetKey || matchedExample.id) : undefined),
-        activeModeId: options?.activeModeId || (matchedMode ? matchedMode.id : undefined)
+        activeModeId: options?.activeModeId || (matchedMode ? matchedMode.id : undefined),
+        disableCalculator: isPureTheorem
       })
     );
     Nav.fo.append(scrollWrap);

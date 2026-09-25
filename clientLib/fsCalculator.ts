@@ -68,8 +68,17 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
   const title = (arg.title || "").toLowerCase();
   const allText = `${target} ${expr} ${simp} ${cmd} ${title}`;
 
-  // Pure constitutional scaffold cards without calculation or algebraic expression are foundational Lean 4 mathematical proofs, not numerical calculators
-  if (!arg.casCalculation?.command && !arg.expression && (target.startsWith("scaffold:") || title.includes("constitutional scaffold"))) {
+  // Pure constitutional scaffold / theorem cards are foundational Lean 4 mathematical proofs, not numerical calculators.
+  // Unless an explicit CAS calculation command is attached, inhibit calculation modes for theorems.
+  const isPureTheorem =
+    target.startsWith("scaffold:") ||
+    title.includes("constitutional scaffold") ||
+    title.includes("theorem") ||
+    title.includes("axiom") ||
+    target.includes("theorem") ||
+    target.includes("telescoping_ftc");
+
+  if (!arg.casCalculation?.command && isPureTheorem) {
     return [];
   }
 

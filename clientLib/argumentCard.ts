@@ -36,6 +36,7 @@ export interface ArgumentCardOptions {
   autoOpenCalculator?: boolean;
   presetKey?: string;
   activeModeId?: string;
+  disableCalculator?: boolean;
 }
 
 export class ArgumentCard extends Elt {
@@ -424,8 +425,18 @@ export class ArgumentCard extends Elt {
     this.studioBtn.elt.addEventListener("click", () => this.launchStudio());
     devBtnGroup.append(this.studioBtn);
 
-    // Calculator Button (Available whenever meaningful calculation modes exist, in both static and dev modes)
-    const calcModes = inferFsCalculationModes(arg);
+    // Calculator Button (Available whenever meaningful calculation modes exist and not inhibited by theorem display)
+    const isTheoremOrScaffold =
+      arg.target?.startsWith("scaffold:") ||
+      arg.title?.toLowerCase().includes("constitutional scaffold") ||
+      arg.title?.toLowerCase().includes("theorem") ||
+      arg.title?.toLowerCase().includes("axiom");
+
+    const shouldInhibitCalc =
+      options?.disableCalculator ||
+      (!options?.activeModeId && !options?.presetKey && !arg.casCalculation?.command && isTheoremOrScaffold);
+
+    const calcModes = shouldInhibitCalc ? [] : inferFsCalculationModes(arg);
     if (calcModes.length > 0) {
       this.calcBtn = new Elt("button");
       this.calcBtn.setA(
