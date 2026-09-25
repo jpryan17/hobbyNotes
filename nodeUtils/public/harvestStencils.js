@@ -429,21 +429,6 @@ function harvestCurricularStencils() {
                 { name: 'u_R', symbol: 'u_{i+1}', domain: 'ℝ_ω', unit: '°C', defaultValue: 20.0, min: -50, max: 300, step: 5.0, description: 'Right neighbor' }
             ]
         },
-        // 4. Telescoping FTC Mode
-        {
-            id: 'ftc_sum_eval',
-            statementId: 'fs_telescoping_ftc',
-            label: '(F₀, F_n) → ΔF_net',
-            targetSymbol: 'ΔF_net',
-            targetDomain: 'ℝ_ω',
-            formulaDescription: '∑ ΔF(k) = F(n) - F(0)',
-            formulaExpr: 'F_n - F_0',
-            hasSimulation: true,
-            inputs: [
-                { name: 'F_0', symbol: 'F(0)', domain: 'ℝ_ω', defaultValue: 3.0, min: -100, max: 100, step: 1.0, description: 'Starting boundary value' },
-                { name: 'F_n', symbol: 'F(n)', domain: 'ℝ_ω', defaultValue: 28.0, min: -100, max: 200, step: 1.0, description: 'Ending boundary value' }
-            ]
-        },
         // 5. Complex Product Mode
         {
             id: 'complex_mult_eval',
@@ -747,6 +732,12 @@ export interface FsCatalogStatement {
   referencedInSegments: string[];
 }
 
+export interface FsCatalogSlotOption {
+  value: number;
+  label: string;
+  description?: string;
+}
+
 export interface FsCatalogSlot {
   name: string;
   symbol: string;
@@ -757,6 +748,7 @@ export interface FsCatalogSlot {
   max?: number;
   step?: number;
   description?: string;
+  options?: FsCatalogSlotOption[];
 }
 
 export interface FsCatalogMode {

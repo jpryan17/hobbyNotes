@@ -22,6 +22,12 @@ export interface FsCatalogStatement {
   referencedInSegments: string[];
 }
 
+export interface FsCatalogSlotOption {
+  value: number;
+  label: string;
+  description?: string;
+}
+
 export interface FsCatalogSlot {
   name: string;
   symbol: string;
@@ -32,6 +38,7 @@ export interface FsCatalogSlot {
   max?: number;
   step?: number;
   description?: string;
+  options?: FsCatalogSlotOption[];
 }
 
 export interface FsCatalogMode {
@@ -69,7 +76,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-09-24T06:15:04.937Z",
+  "generatedAt": "2026-09-25T00:27:51.293Z",
   "version": "1.0.0",
   "formalStatements": [
     {
@@ -647,38 +654,6 @@ export const FS_CATALOG: FsCatalog = {
           "max": 300,
           "step": 5,
           "description": "Right neighbor"
-        }
-      ]
-    },
-    {
-      "id": "ftc_sum_eval",
-      "statementId": "fs_telescoping_ftc",
-      "label": "(F₀, F_n) → ΔF_net",
-      "targetSymbol": "ΔF_net",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "∑ ΔF(k) = F(n) - F(0)",
-      "formulaExpr": "F_n - F_0",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "F_0",
-          "symbol": "F(0)",
-          "domain": "ℝ_ω",
-          "defaultValue": 3,
-          "min": -100,
-          "max": 100,
-          "step": 1,
-          "description": "Starting boundary value"
-        },
-        {
-          "name": "F_n",
-          "symbol": "F(n)",
-          "domain": "ℝ_ω",
-          "defaultValue": 28,
-          "min": -100,
-          "max": 200,
-          "step": 1,
-          "description": "Ending boundary value"
         }
       ]
     },

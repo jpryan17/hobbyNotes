@@ -297,10 +297,13 @@ export class NumericRunnerRegistry {
       return this.runDiscreteIVTBisection(slots);
     }
 
+    if (text.includes("telescoping") || text.includes("ftc_sum_eval")) {
+      return this.runTelescopingFtc(slots);
+    }
+
     if (
       text.includes("hyper_sum") ||
       text.includes("riemann") ||
-      text.includes("telescoping_ftc") ||
       text.includes("accumulation")
     ) {
       return this.runRiemannAccumulation(slots);
@@ -948,6 +951,86 @@ export class NumericRunnerRegistry {
       domainSlots,
       currentTensorOutput: tensorOutput,
       invariantTheorem: "st( hyper_sum (x²) dx ) = 1/3  ∧  |Sum - 1/3| ≤ dx",
+      frames
+    };
+  }
+
+  /**
+   * 10b. Telescoping FTC Accumulation & Invariant Cancellation (Course 2 / Trig / STEM)
+   * Domain: ℝ_ω -> Output Tensor [Step k, ΔF(k), Running Sum, F(k) - F(0)]ᵀ
+   */
+  static runTelescopingFtc(slots: Record<string, string>): SimulationResult {
+    const fnId = parseInt(slots["fn_id"] || "1") || 1;
+    const n = Math.max(1, Math.min(20, parseInt(slots["n"] || "4") || 4));
+    const c = parseFloat(slots["scale"] || slots["c"] || "1.0") || 1.0;
+
+    let F: (k: number) => number;
+    let fnLabel = "k³";
+    if (fnId === 1) {
+      F = (k) => c * Math.pow(k, 3);
+      fnLabel = c === 1 ? "k³" : `${c}·k³`;
+    } else if (fnId === 2) {
+      F = (k) => c * Math.pow(k, 2);
+      fnLabel = c === 1 ? "k²" : `${c}·k²`;
+    } else if (fnId === 3) {
+      F = (k) => (k / n) * (2 * Math.PI);
+      fnLabel = "k·(2π/n)";
+    } else if (fnId === 4) {
+      const m = c;
+      F = (k) => 0.5 * m * Math.pow(k, 2);
+      fnLabel = `½·${m}·v_k²`;
+    } else {
+      F = (k) => c * k;
+      fnLabel = c === 1 ? "k" : `${c}·k`;
+    }
+
+    const domainSlots: DomainSlotDef[] = [
+      { name: "F(k)", label: "Antiderivative", domain: "R_w", min: 1, max: 5, step: 1, value: fnLabel },
+      { name: "n", label: "Steps", domain: "R_w", min: 1, max: 20, step: 1, value: n.toString() }
+    ];
+
+    const frames: SimulationFrame[] = [];
+    const f0 = F(0);
+    let runningSum = 0;
+
+    for (let k = 0; k < n; k++) {
+      const dF = F(k + 1) - F(k);
+      runningSum += dF;
+      const boundaryDiff = F(k + 1) - f0;
+      const isExact = Math.abs(runningSum - boundaryDiff) < 1e-9;
+
+      frames.push({
+        time: k + 1,
+        data: {
+          step: k + 1,
+          dF: parseFloat(dF.toFixed(4)),
+          runningSum: parseFloat(runningSum.toFixed(4)),
+          boundaryDiff: parseFloat(boundaryDiff.toFixed(4)),
+          netTarget: parseFloat((F(n) - f0).toFixed(4))
+        },
+        invariantPassed: isExact,
+        invariantMetric: `Step ${k + 1}/${n}: ΔF(${k})=${dF.toFixed(2)} | Sum=${runningSum.toFixed(2)} ≡ F(${k + 1})-F(0)=${boundaryDiff.toFixed(2)} ✓`
+      });
+    }
+
+    const finalSum = runningSum;
+    const finalDiff = F(n) - f0;
+
+    const tensorOutput: TensorOutput = {
+      label: "Telescoping FTC State Tensor ∈ ℝ_ω⁴",
+      domain: "R_w",
+      dimensions: [4],
+      bracketedDisplay: `[ Total Steps n      ]   [ ${n} ]\n[ Last Slice ΔF      ] = [ ${(F(n) - F(n - 1)).toFixed(2)} ]\n[ Accumulation ∑ ΔF  ]   [ ${finalSum.toFixed(2)} ]\n[ Boundary Difference ]   [ ${finalDiff.toFixed(2)} ]`,
+      raw: [n, F(n) - F(n - 1), finalSum, finalDiff]
+    };
+
+    return {
+      title: `Discrete Telescoping FTC Accumulation (${fnLabel})`,
+      variableLabels: { step: "Step Index k", dF: "Difference ΔF(k)", runningSum: "Running Sum ∑ ΔF", boundaryDiff: "Boundary F(k)-F(0)", netTarget: "Net F(n)-F(0)" },
+      initialConditions: { "Function F(k)": fnLabel, "Steps n": n.toString(), "Initial Boundary F(0)": f0.toFixed(2), "Final Boundary F(n)": F(n).toFixed(2) },
+      domainSlots,
+      currentTensorOutput: tensorOutput,
+      invariantTheorem: `∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)  [Identical Algebraic Telescoping]`,
       frames
     };
   }

@@ -263,21 +263,90 @@ def transect_coord (k : Int) : R_w :=
   (k : R_w) * dx
 
 -- ============================================================================
--- 3. Discrete Difference and Hyperfinite Summation
+-- 3. Analysis Operators on Function Spaces
 -- ============================================================================
 
--- Discrete step difference: ΔF(k) = F(k + 1) - F(k)
-def delta (F : Nat → R_w) (k : Nat) : R_w :=
+-- The 1D Continuum Function Space: (ℝ_ω → ℝ_ω)
+-- Established as the primary function space on the Day ω continuum transect.
+abbrev FunctionSpace : Type := R_w → R_w
+
+-- A closed 1D transect interval [a, b] ⊂ ℝ_ω
+structure Interval where
+  a : R_w
+  b : R_w
+
+-- ----------------------------------------------------------------------------
+-- 3.1. The Four Foundational Continuum Analysis Operators
+-- ----------------------------------------------------------------------------
+
+-- Operator 1: Derivation of a function at a point: (FunctionSpace → R_w → R_w)
+-- Evaluates the microscopic difference quotient across infinitesimal step dx:
+def deriv_at (f : FunctionSpace) (x : R_w) : R_w :=
+  (f (x + dx) - f x) / dx
+
+-- Operator 2: The Derivative Operator: (FunctionSpace → FunctionSpace)
+-- The global differential morphism mapping a function to its derived rate function:
+def deriv_op (f : FunctionSpace) : FunctionSpace :=
+  fun x => deriv_at f x
+
+-- Definite integral accumulation helper across interval slices:
+axiom integral_eval : FunctionSpace → Interval → R_w
+
+-- Operator 3: Definite Integral of a function over an interval:
+-- (FunctionSpace → Interval → R_w) or over explicit bounds [a, b]
+def integral_interval (f : FunctionSpace) (I : Interval) : R_w :=
+  integral_eval f I
+
+def integral_ab (f : FunctionSpace) (a b : R_w) : R_w :=
+  integral_interval f ⟨a, b⟩
+
+-- Operator 4: The Integral Operator (Antiderivative / Area Accumulation Operator):
+-- (FunctionSpace → FunctionSpace)
+-- Maps function f to its accumulated function F(x) = ∫_0^x f(t) dt:
+def integral_op (f : FunctionSpace) : FunctionSpace :=
+  fun x => integral_ab f 0 x
+
+-- ----------------------------------------------------------------------------
+-- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding
+-- ----------------------------------------------------------------------------
+
+-- The Discrete Transect Sequence Space: (ℕ → ℝ_ω)
+abbrev SequenceSpace : Type := Nat → R_w
+
+-- Discrete Operator 1: Discrete step difference at an index: (SequenceSpace → ℕ → ℝ_ω)
+def delta_at (F : SequenceSpace) (k : Nat) : R_w :=
   F (k + 1) - F k
 
--- Discrete derivative: dF/dx = ΔF / dx
-def deriv (F : Nat → R_w) (k : Nat) : R_w :=
-  (delta F k) / dx
+-- Backward-compatible alias for existing theorems
+def delta (F : Nat → R_w) (k : Nat) : R_w :=
+  delta_at F k
 
+-- Discrete Operator 2: The Discrete Difference Operator: (SequenceSpace → SequenceSpace)
+def delta_op (F : SequenceSpace) : SequenceSpace :=
+  fun k => delta_at F k
+
+-- Discrete derivative at a grid point: (SequenceSpace → ℕ → ℝ_ω)
+def deriv_grid_at (F : SequenceSpace) (k : Nat) : R_w :=
+  (delta_at F k) / dx
+
+-- Backward-compatible alias for existing theorems
+def deriv (F : Nat → R_w) (k : Nat) : R_w :=
+  deriv_grid_at F k
+
+-- Discrete Operator 4: The Discrete Integral Operator (Indefinite Accumulator):
+-- (SequenceSpace → SequenceSpace)
 -- Hyperfinite summation: ∑_{k=0}^{n-1} f(k)
 def hyper_sum (f : Nat → R_w) : Nat → R_w
   | 0 => 0
   | Nat.succ n => hyper_sum f n + f n
+
+def discrete_integral_op (f : SequenceSpace) : SequenceSpace :=
+  hyper_sum f
+
+-- Discrete Operator 3: Definite discrete sum over an index range [m, n):
+-- (SequenceSpace → ℕ → ℕ → ℝ_ω)
+def discrete_integral_range (f : SequenceSpace) (m n : Nat) : R_w :=
+  hyper_sum f n - hyper_sum f m
 
 -- ============================================================================
 -- 4. The Telescoping Fundamental Theorem of Calculus (FTC)
@@ -296,8 +365,28 @@ theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
     -- Inductive step: sum_{k+1} = sum_k + delta F k
     simp [hyper_sum]
     rw [ih]
-    unfold delta
+    unfold delta delta_at
     rw [sub_add_cancel]
+
+-- Operator formulation of the discrete FTC:
+-- discrete_integral_op ∘ delta_op collapses to boundary difference:
+theorem discrete_ftc_operator (F : SequenceSpace) (n : Nat) :
+  discrete_integral_op (delta_op F) n = F n - F 0 :=
+  telescoping_ftc F n
+
+-- ============================================================================
+-- 4.1. The Fundamental Theorem of Calculus (Continuum Operator Formulation)
+-- ============================================================================
+
+-- 1. Differentiation of Accumulation returns the integrand:
+-- (deriv_op ∘ integral_op)(f) = f
+axiom ftc_deriv_integral (f : FunctionSpace) (x : R_w) :
+  deriv_at (integral_op f) x = f x
+
+-- 2. Definite integral of derivative returns net boundary difference:
+-- ∫_a^b (deriv_op F) = F(b) - F(a)
+axiom ftc_integral_deriv (F : FunctionSpace) (a b : R_w) :
+  integral_ab (deriv_op F) a b = F b - F a
 
 -- ============================================================================
 -- 5. The 2D Hyperfinite Complex Grid (ℂ_ω)
@@ -879,7 +968,7 @@ def sin_real_fn   : FunctionType R_w R_w_cc_unit        := make_function sin_fn
 -- Directed Pair: (ℝ_ω → ℝ_ω) → (ℝ_ω → ℝ_ω)
 -- Nonstandard Difference Quotient Operator evaluated at infinitesimal step dx
 def DiffOp (f : R_w → R_w) : R_w → R_w :=
-  fun x => (f (x + dx) - f x) / dx
+  deriv_op f
 
 -- 2> The Planar Tangent Velocity Operator (The 90° Turning Wheel):
 -- Directed Pair: (ℝ_ω × ℝ_ω) → (ℝ_ω × ℝ_ω)
