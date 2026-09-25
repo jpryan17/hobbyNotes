@@ -1243,6 +1243,28 @@ export class EquationEvaluator extends Elt {
     const wrap = document.createElement("div");
     wrap.style.cssText = "max-width: 920px; margin: 0 auto; border: 1.5px solid #0284c7; border-radius: 8px; background: #ffffff; padding: 22px 26px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif;";
 
+    const spinSuppressStyle = document.createElement("style");
+    spinSuppressStyle.textContent = `
+      .ee-num-input::-webkit-outer-spin-button,
+      .ee-num-input::-webkit-inner-spin-button,
+      .ee-cfg-def::-webkit-outer-spin-button,
+      .ee-cfg-def::-webkit-inner-spin-button,
+      .ee-cfg-step::-webkit-outer-spin-button,
+      .ee-cfg-step::-webkit-inner-spin-button,
+      .ee-cfg-min::-webkit-outer-spin-button,
+      .ee-cfg-min::-webkit-inner-spin-button,
+      .ee-cfg-max::-webkit-outer-spin-button,
+      .ee-cfg-max::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+      }
+      .ee-num-input, .ee-cfg-def, .ee-cfg-step, .ee-cfg-min, .ee-cfg-max {
+        -moz-appearance: textfield !important;
+        appearance: textfield !important;
+      }
+    `;
+    wrap.appendChild(spinSuppressStyle);
+
     // 1. Stage Stepper Navigation Bar (FSD Model)
     const navBar = document.createElement("div");
     navBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;";
@@ -1963,23 +1985,35 @@ export class EquationEvaluator extends Elt {
       const ctrlDiv = document.createElement("div");
       ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 4px;";
 
+      const step = slot.step ?? 1;
+
       const decBtn = document.createElement("button");
-      decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;";
+      decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
       decBtn.textContent = "-";
+      decBtn.title = `Decrement by ${step}`;
+      decBtn.setAttribute("aria-label", `Decrement by ${step}`);
 
       const numInput = document.createElement("input");
       numInput.type = "number";
+      numInput.className = "ee-num-input";
       numInput.value = (this.curValues[slot.name] ?? slot.defaultValue).toString();
-      numInput.step = (slot.step ?? 1).toString();
+      numInput.step = step.toString();
       if (slot.min !== undefined) numInput.min = slot.min.toString();
       if (slot.max !== undefined) numInput.max = slot.max.toString();
-      numInput.style.cssText = "width: 75px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 4px;";
+      numInput.style.cssText = "width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px; background: #ffffff; color: #0f172a; outline: none; transition: border-color 0.15s ease;";
 
       const incBtn = document.createElement("button");
-      incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1;";
+      incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
       incBtn.textContent = "+";
+      incBtn.title = `Increment by ${step}`;
+      incBtn.setAttribute("aria-label", `Increment by ${step}`);
 
-      const step = slot.step ?? 1;
+      decBtn.addEventListener("mouseenter", () => { decBtn.style.background = "#f0f9ff"; decBtn.style.borderColor = "#0284c7"; });
+      decBtn.addEventListener("mouseleave", () => { decBtn.style.background = "#ffffff"; decBtn.style.borderColor = "#cbd5e1"; });
+      incBtn.addEventListener("mouseenter", () => { incBtn.style.background = "#f0f9ff"; incBtn.style.borderColor = "#0284c7"; });
+      incBtn.addEventListener("mouseleave", () => { incBtn.style.background = "#ffffff"; incBtn.style.borderColor = "#cbd5e1"; });
+      numInput.addEventListener("focus", () => { numInput.style.borderColor = "#0284c7"; });
+      numInput.addEventListener("blur", () => { numInput.style.borderColor = "#cbd5e1"; });
 
       decBtn.addEventListener("click", () => {
         let cur = Number(numInput.value);
@@ -1997,6 +2031,16 @@ export class EquationEvaluator extends Elt {
         this.curValues[slot.name] = cur;
         numInput.value = cur.toString();
         this.updateOutput();
+      });
+
+      numInput.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          incBtn.click();
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          decBtn.click();
+        }
       });
 
       numInput.addEventListener("input", () => {
