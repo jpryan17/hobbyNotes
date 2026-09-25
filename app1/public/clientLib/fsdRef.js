@@ -448,19 +448,6 @@ export class FSDRef extends HTMLElement {
             }
         });
         updateCalc();
-        // Bottom Navigation Bar
-        const bottomNav = document.createElement("div");
-        bottomNav.style.cssText = "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 14px; border-top: 1px solid #bae6fd;";
-        const backBtn = document.createElement("button");
-        backBtn.style.cssText = "background: #0284c7; color: #ffffff; border: none; font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 4px; cursor: pointer; transition: background 0.15s ease;";
-        backBtn.textContent = `⬅ Back to ${topicName || "Lecture"}`;
-        backBtn.addEventListener("mouseover", () => { backBtn.style.background = "#0369a1"; });
-        backBtn.addEventListener("mouseout", () => { backBtn.style.background = "#0284c7"; });
-        backBtn.addEventListener("click", () => {
-            Nav.backButtonSelectionHandler(new Event("click"));
-        });
-        bottomNav.appendChild(backBtn);
-        box.appendChild(bottomNav);
         return new Elt("div", undefined, "H", box);
     }
 }
