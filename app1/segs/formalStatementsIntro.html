@@ -217,7 +217,107 @@
 
     <hr>
 
-    <h3>6. Pedagogical Note: Classical Textbook Logic vs. Modern Bounded Domains</h3>
+    <h3>6. Functional Statements &amp; Equations: The Equation Evaluator Demo (EED)</h3>
+    <p>
+      In Section 3, we defined a function as a directed pair <code>Domain → Codomain</code> with an unambiguous evaluation rule, and a predicate as the special case where the codomain is the Boolean truth set <code>𝔹 = {0, 1}</code>.
+    </p>
+    <p>
+      An <b>equation</b> is simply a functional formal statement with a numerical or geometric codomain (such as <code>ℝ</code>, the hyperfinite transect <code>ℝ_ω</code>, or the complex plane <code>ℂ_ω</code>). 
+      Formally, specifying an equation asserts that for all typed variable inputs on the domain space, there exists a unique evaluation in the codomain:
+    </p>
+    <div align="center" style="background-color: #f0fdf4; border: 1.5px solid #86efac; border-radius: 6px; padding: 12px 18px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #166534; font-weight: bold;">
+      ∀ (x₁, x₂, ...) ∈ Domains, &nbsp; ∃! y ∈ Codomain &nbsp; [ y = LHS(x₁, x₂, ...) ]
+    </div>
+    <p>
+      While FSD analyzes 2D Boolean incidence matrices for logic and set inclusion, the companion <b>Equation Evaluator Demo (EED)</b> provides an interactive 4-stage pipeline for nonstandard algebraic equations:
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13px; margin: 12px 0; line-height: 1.5;">
+      [ Step 1: Formal Relation ] &nbsp; Inspect or formulate the governing equality and Lean 4 signature<br>
+                 │<br>
+                 ▼<br>
+      [ Step 2: Slot &amp; Domain Typing ] &nbsp; Configure input domains (ℝ, ℕ, ℤ) and codomain (ℝ, ℝ_ω, ℂ_ω)<br>
+                 │<br>
+                 ▼<br>
+      [ Step 3: Calculator Template ] &nbsp; Define default values, slider bounds, and step resolutions<br>
+                 │<br>
+                 ▼<br>
+      [ Step 4: Active Calculator ] &nbsp; Live reactive evaluation separating standard nucleus st(y) from halo dust ε
+    </div>
+
+    <p>
+      Equations are most pedagogically effective when encountered directly within their textual subject matter. 
+      Throughout our curriculum, clicking any <span style="color:#047857;font-weight:bold">highlighted green equation</span> launches the calculation directly into Stage 4 of the Equation Evaluator:
+    </p>
+
+    <ul>
+      <li>
+        <b>1D Nucleus-Halo Decomposition:</b>
+        <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Decomposes any finite hyperreal point into its standard real nucleus shadow <code>st(x) ∈ ℝ</code> and Day ω infinitesimal halo dust <code>k·dx ∈ μ(0)</code>.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Sine Function on Hyperreals &amp; Algebraic Derivative:</b>
+        <eq-ref eq-id="sin_halo">«Eq: y = sin(x₀ + k·dx)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Evaluates smooth nonstandard trigonometric expansion and automatically determines the algebraic halo derivative <code>d(sin x)/dx = cos(x₀)</code>.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>2D Complex Halo Decomposition:</b>
+        <eq-ref eq-id="complex_halo_2d">«Eq: z = (x₀ + k_x·dx) + i·(y₀ + k_y·dx)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Visualizes 2D Gaussian dyadic grid coordinates and complex infinitesimal halo soup on <code>ℂ_ω</code>.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Infinitesimal Increment &amp; Halo Preservation:</b>
+        <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Direct algebraic verification of continuity on parabolas: proving <code>st(Δf) = 0</code> under infinitesimal perturbations without ε-δ limits.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Discrete FTC Telescoping Sum:</b>
+        <eq-ref eq-id="telescoping_sum">«Eq: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Evaluates pairwise internal difference cancellation on the discrete 2-successor tree.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Newtonian Kinematic Acceleration Invariant:</b>
+        <eq-ref eq-id="newton_accel">«Eq: a = [s(t - dt) - 2s(t) + s(t + dt)] / dt²»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Evaluates the second discrete difference stencil on parabolic free fall to isolate the invariant acceleration <code>-g</code> with zero residual dust.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>3-Stage Classical Bayesian Filter:</b>
+        <eq-ref eq-id="bayes_filter">«Eq: P(H|D) = (P(D|H)·P(H)) / P(D)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Evaluates normalized posterior probability given prior belief base rate and evidence sensitivity.
+        </span>
+      </li>
+    </ul>
+
+    <p>
+      <b>Custom Equation Construction:</b><br>
+      In addition to these embedded presets, selecting <b>equation evaluator demo (EED)</b> from the navigation drawer opens a clean, blank custom equation builder. 
+      Students and instructors can input arbitrary expressions, incorporate our library of defined nonstandard functions (<code>sin</code>, <code>cos</code>, <code>tan</code>, <code>exp</code>, <code>sqrt</code>, <code>sqr</code>, <code>abs</code>), type input slots, and immediately interact with the resulting calculator.
+    </p>
+
+    <hr>
+
+    <h3>7. Pedagogical Note: Classical Textbook Logic vs. Modern Bounded Domains</h3>
     <p>
       For instructors and advanced readers, it is worth highlighting why our curriculum replaces classical un-typed first-order logic formulas with <b>typed bounded quantification</b>.
     </p>
@@ -272,7 +372,7 @@
 
     <hr>
 
-    <h3>7. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
+    <h3>8. Moving Forward: Constructing Number Lines &amp; State Spaces</h3>
     <p>
       Having established the language of formal statements, predicates, and Cartesian products, we possess the exact formal machinery needed to construct number systems. 
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.

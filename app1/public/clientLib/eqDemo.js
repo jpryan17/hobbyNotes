@@ -11,6 +11,7 @@ export class EqDemo extends Elt {
         super('div', 'eq-demo-stage', 'H');
         this.elt.setAttribute('style', 'box-sizing: border-box; width: 100%; min-height: 100%; padding: 16px 20px 80px 20px; background: transparent; font-family: system-ui, -apple-system, sans-serif;');
         this.evaluator = new EquationEvaluator({ initialStage: 1, presetId: 'nucleus_halo_1d' });
+        this.evaluator.switchToCustom('x0 + k*dx', 'ℝ_ω', 1);
         this.elt.appendChild(this.evaluator.elt);
     }
     loadEquation(presetId, formula, domain) {
@@ -40,6 +41,7 @@ export function setEqDemo() {
 }
 export function initEqDemo() {
     setEqDemo();
+    eqDemo.resetToBuilder();
     return eqDemo;
 }
 export function layoutEqDemo() {

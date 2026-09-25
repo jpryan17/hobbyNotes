@@ -27,6 +27,7 @@ export interface EquationSpec {
   governingTheorem?: string;
   leanSignature?: string;
   lhsFormula: string;
+  latexFormula?: string;
   rhsSymbol: string;
   rhsDomain: "ℝ" | "ℝ_ω" | "ℂ" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔹" | string;
   description: string;
@@ -40,6 +41,45 @@ export interface EquationEvaluatorOptions {
 }
 
 export const EQUATION_PRESETS: Record<string, EquationSpec> = {
+  sin_halo: {
+    id: "sin_halo",
+    title: "Nonstandard Sine & Halo Shadow",
+    formalStatementId: "FS-A1D-1.2",
+    governingTheorem: "infinitesimal_halo",
+    leanSignature: "theorem sin_halo_linear (x0 : R_w) (k : Z_w) : st (sin_w (x0 + k * dx)) = sin_w x0",
+    lhsFormula: "sin(x₀ + k · dx)",
+    latexFormula: "\\sin(x_0 + k \\cdot dx)",
+    rhsSymbol: "y",
+    rhsDomain: "ℝ_ω",
+    description: "Evaluates the hyperreal nonstandard sine calculation into its standard real nucleus sin(x₀) and first-order cosine halo dust k·cos(x₀)·dx.",
+    inputs: [
+      { name: "x0", symbol: "x₀", domain: "ℝ", defaultValue: 0.5236, step: 0.1, min: -10, max: 10, description: "Standard angle nucleus (radians)" },
+      { name: "k", symbol: "k", domain: "ℤ", defaultValue: 1, step: 1, min: -50, max: 50, description: "Infinitesimal halo step multiplier (dx = 1/ω)" }
+    ],
+    evaluate: (vals) => {
+      const x0 = vals["x0"] ?? 0.5236;
+      const k = Math.round(vals["k"] ?? 1);
+      const hardVal = Math.sin(x0);
+      const derivVal = Math.cos(x0);
+      const hardStr = hardVal.toFixed(4);
+      const dustMag = (k * derivVal);
+      const dustStr = k === 0 ? "0 (Zero Dust)" : `${dustMag >= 0 ? "+" : ""}${dustMag.toFixed(4)}·dx`;
+      const isHard = k === 0;
+
+      return {
+        displayValue: k === 0 ? hardStr : `${hardStr} + ${dustStr.replace(/^\+/, "")}`,
+        hardPart: hardStr,
+        dustPart: dustStr,
+        isHard,
+        details: [
+          `Standard Part: st(sin(x)) = sin(x₀) = ${hardStr} ∈ ℝ`,
+          `Halo Dust: ε = k · cos(x₀) · dx = ${dustStr} ∈ μ(0)`,
+          `Algebraic Derivative: d(sin x)/dx = st( [sin(x₀ + dx) - sin(x₀)] / dx ) = cos(x₀) = ${derivVal.toFixed(4)}`
+        ]
+      };
+    }
+  },
+
   nucleus_halo_1d: {
     id: "nucleus_halo_1d",
     title: "1D Nucleus-Halo Decomposition",
@@ -267,12 +307,93 @@ export const EQUATION_PRESETS: Record<string, EquationSpec> = {
   }
 };
 
+export interface NonstandardFunctionRule {
+  name: string;
+  latexDisplay: string;
+  description: string;
+  hardRuleDesc: string;
+  dustRuleDesc: string;
+  evalHard: (...args: number[]) => number;
+  evalDust?: (x0: number, k: number) => number;
+}
+
+export const NONSTANDARD_FUNCTION_REGISTRY: Record<string, NonstandardFunctionRule> = {
+  sin: {
+    name: "sin",
+    latexDisplay: "\\sin(x_0 + k \\cdot dx) = \\sin(x_0) + k \\cdot \\cos(x_0) \\cdot dx",
+    description: "Sine with first-order cosine halo dust",
+    hardRuleDesc: "st(sin(x)) = sin(x₀)",
+    dustRuleDesc: "ε = k · cos(x₀) · dx",
+    evalHard: (x) => Math.sin(x),
+    evalDust: (x0, k) => k * Math.cos(x0)
+  },
+  cos: {
+    name: "cos",
+    latexDisplay: "\\cos(x_0 + k \\cdot dx) = \\cos(x_0) - k \\cdot \\sin(x_0) \\cdot dx",
+    description: "Cosine with negative sine halo dust",
+    hardRuleDesc: "st(cos(x)) = cos(x₀)",
+    dustRuleDesc: "ε = -k · sin(x₀) · dx",
+    evalHard: (x) => Math.cos(x),
+    evalDust: (x0, k) => -k * Math.sin(x0)
+  },
+  tan: {
+    name: "tan",
+    latexDisplay: "\\tan(x_0 + k \\cdot dx) = \\tan(x_0) + k \\cdot \\sec^2(x_0) \\cdot dx",
+    description: "Tangent with secant-squared halo dust",
+    hardRuleDesc: "st(tan(x)) = tan(x₀)",
+    dustRuleDesc: "ε = k · sec²(x₀) · dx",
+    evalHard: (x) => Math.tan(x),
+    evalDust: (x0, k) => k / (Math.cos(x0) * Math.cos(x0))
+  },
+  exp: {
+    name: "exp",
+    latexDisplay: "\\exp(x_0 + k \\cdot dx) = \\exp(x_0) + k \\cdot \\exp(x_0) \\cdot dx",
+    description: "Exponential self-derivative growth stencil",
+    hardRuleDesc: "st(exp(x)) = exp(x₀)",
+    dustRuleDesc: "ε = k · exp(x₀) · dx",
+    evalHard: (x) => Math.exp(x),
+    evalDust: (x0, k) => k * Math.exp(x0)
+  },
+  sqrt: {
+    name: "sqrt",
+    latexDisplay: "\\sqrt{x_0 + k \\cdot dx} = \\sqrt{x_0} + \\frac{k}{2\\sqrt{x_0}} \\cdot dx",
+    description: "Square root nonstandard branch stencil",
+    hardRuleDesc: "st(sqrt(x)) = sqrt(x₀)",
+    dustRuleDesc: "ε = (k / 2√x₀) · dx",
+    evalHard: (x) => Math.sqrt(Math.max(0, x)),
+    evalDust: (x0, k) => x0 > 0 ? k / (2 * Math.sqrt(x0)) : 0
+  },
+  sqr: {
+    name: "sqr",
+    latexDisplay: "(x_0 + k \\cdot dx)^2 = x_0^2 + 2 x_0 k \\cdot dx",
+    description: "Square algebraic binomial stencil",
+    hardRuleDesc: "st(x²) = x₀²",
+    dustRuleDesc: "ε = 2 x₀ k · dx",
+    evalHard: (x) => x * x,
+    evalDust: (x0, k) => 2 * x0 * k
+  },
+  abs: {
+    name: "abs",
+    latexDisplay: "|x_0 + k \\cdot dx| = |x_0| + \\text{sgn}(x_0) k \\cdot dx",
+    description: "Absolute value piecewise sign stencil",
+    hardRuleDesc: "st(|x|) = |x₀|",
+    dustRuleDesc: "ε = sgn(x₀) k · dx",
+    evalHard: (x) => Math.abs(x),
+    evalDust: (x0, k) => Math.sign(x0) * k
+  }
+};
+
 /**
- * Parses free variable identifiers from a mathematical expression string.
+ * Parses free variable identifiers from a mathematical expression string,
+ * automatically excluding registered nonstandard functions and presets.
  */
 function extractFreeVariables(expr: string): string[] {
   const tokens = expr.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
-  const reserved = new Set(["sin", "cos", "tan", "exp", "log", "sqrt", "abs", "Math", "PI", "E", "dx", "st", "dt", "i"]);
+  const reserved = new Set([
+    "Math", "PI", "E", "dx", "st", "dt", "i", "log",
+    ...Object.keys(NONSTANDARD_FUNCTION_REGISTRY),
+    ...Object.keys(EQUATION_PRESETS)
+  ]);
   const vars = new Set<string>();
   for (const t of tokens) {
     if (!reserved.has(t)) {
@@ -283,12 +404,41 @@ function extractFreeVariables(expr: string): string[] {
 }
 
 /**
- * Safely evaluates a mathematical expression string for given variable numbers.
+ * Normalizes and sanitizes user mathematical expressions:
+ * - Trims leading pluses and duplicate consecutive operators (+ +, + -, etc.)
+ * - Handles conventional math notation like sin^2(x) -> sin(x)^2
+ * - Removes dangling trailing operators
+ */
+function sanitizeFormula(expr: string): string {
+  let s = (expr || "").trim();
+
+  // Strip leading plus operators: '+ sin(x)' -> 'sin(x)'
+  s = s.replace(/^\s*\++\s*/, "");
+
+  // Strip trailing operators that may be left from unfinished typing: 'sin(x) +' -> 'sin(x)'
+  s = s.replace(/\s*[+\-*/^]+\s*$/, "");
+
+  // Normalize duplicate plus/minus signs: '+ +' -> '+', '+ -' -> '-'
+  s = s.replace(/\+\s*\+/g, "+");
+  s = s.replace(/\+\s*-\s*\+/g, "-");
+  s = s.replace(/\+\s*-/g, "-");
+  s = s.replace(/-\s*\+/g, "-");
+
+  // Support standard mathematical notation: sin^2(x) -> sin(x)^2, cos^3(θ) -> cos(θ)^3
+  s = s.replace(/\b([a-zA-Z_]\w*)\^(\d+)\s*\(([^()]+)\)/g, "$1($3)^$2");
+
+  return s;
+}
+
+/**
+ * Safely evaluates a mathematical expression string for given variable numbers,
+ * exposing all registered nonstandard calculations in the execution scope.
  */
 function safeEvalExpression(expr: string, vals: Record<string, number>): number {
   try {
-    let jsExpr = expr
-      .replace(/\^/g, "**")
+    let clean = sanitizeFormula(expr);
+
+    let jsExpr = clean
       .replace(/\bsin\b/g, "Math.sin")
       .replace(/\bcos\b/g, "Math.cos")
       .replace(/\btan\b/g, "Math.tan")
@@ -296,16 +446,50 @@ function safeEvalExpression(expr: string, vals: Record<string, number>): number 
       .replace(/\blog\b/g, "Math.log")
       .replace(/\bsqrt\b/g, "Math.sqrt")
       .replace(/\babs\b/g, "Math.abs")
+      .replace(/\bsqr\b/g, "((x) => x * x)")
       .replace(/\bpi\b/gi, "Math.PI");
+
+    // Convert power expressions 'base ^ exp' into Math.pow(base, exp)
+    // This avoids JavaScript's unary operator SyntaxError before exponentiation (** operator)
+    const basePattern = /((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))\s*\^\s*((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))/;
+    let prev = "";
+    while (basePattern.test(jsExpr) && jsExpr !== prev) {
+      prev = jsExpr;
+      jsExpr = jsExpr.replace(basePattern, "Math.pow($1, $2)");
+    }
+    // Fallback: replace any remaining ^ with **
+    jsExpr = jsExpr.replace(/\^/g, "**");
 
     const varNames = Object.keys(vals);
     const varValues = varNames.map(k => vals[k]);
     const fn = new Function(...varNames, `return (${jsExpr});`);
     const res = fn(...varValues);
     return typeof res === "number" && !isNaN(res) ? res : 0;
-  } catch {
+  } catch (err) {
+    console.warn("[EquationEvaluator] safeEvalExpression warning:", err);
     return 0;
   }
+}
+
+/**
+ * Computes the infinitesimal halo dust for any custom equation evaluated on ℝ_ω.
+ */
+function computeHaloDust(expr: string, vals: Record<string, number>, isHalo: boolean): { dustStr: string; isHard: boolean; dustVal: number } {
+  if (!isHalo) return { dustStr: "0", isHard: true, dustVal: 0 };
+
+  const h = 1e-5;
+  let totalDerivative = 0;
+  for (const [varName, baseVal] of Object.entries(vals)) {
+    const valPlus = { ...vals, [varName]: baseVal + h };
+    const valMinus = { ...vals, [varName]: baseVal - h };
+    const df = (safeEvalExpression(expr, valPlus) - safeEvalExpression(expr, valMinus)) / (2 * h);
+    totalDerivative += df;
+  }
+
+  const roundedDeriv = Math.round(totalDerivative * 10000) / 10000;
+  const isHard = Math.abs(roundedDeriv) < 1e-6;
+  const dustStr = isHard ? "0 (Zero Dust)" : `${roundedDeriv >= 0 ? "" : "-"}${Math.abs(roundedDeriv)}·dx`;
+  return { dustStr, isHard, dustVal: roundedDeriv };
 }
 
 /**
@@ -406,6 +590,7 @@ export class EquationEvaluator extends Elt {
       id: "custom_equation",
       title: this.customTitle,
       lhsFormula: this.customFormula,
+      latexFormula: this.customFormula,
       rhsSymbol: this.customRhsSymbol,
       rhsDomain: this.customRhsDomain,
       description: "User-constructed equation statement evaluated on the Middle Way canvas.",
@@ -413,15 +598,17 @@ export class EquationEvaluator extends Elt {
       evaluate: (vals) => {
         const val = safeEvalExpression(this.customFormula, vals);
         const isHalo = this.customRhsDomain === "ℝ_ω" || this.customRhsDomain === "ℂ_ω";
-        const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(3);
+        const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+        const { dustStr, isHard } = computeHaloDust(this.customFormula, vals, isHalo);
 
         return {
-          displayValue: isHalo ? `${valStr} + 0·dx` : valStr,
+          displayValue: (isHalo && !isHard) ? `${valStr} + ${dustStr}` : valStr,
           hardPart: valStr,
-          dustPart: isHalo ? "0·dx" : "0",
-          isHard: true,
+          dustPart: dustStr,
+          isHard,
           details: [
-            `Evaluated via JavaScript arithmetic: LHS = ${valStr}`,
+            `Standard Nucleus Part: st(${this.customRhsSymbol}) = ${valStr}`,
+            `Infinitesimal Halo Dust: ε = ${dustStr}`,
             `Codomain Target: ${this.customRhsSymbol} ∈ ${this.customRhsDomain}`
           ]
         };
@@ -471,31 +658,13 @@ export class EquationEvaluator extends Elt {
 
     navBar.appendChild(chipsGroup);
 
-    // Preset Quick Switcher
-    const presetSelect = document.createElement("select");
-    presetSelect.style.cssText = "padding: 5px 10px; font-size: 12px; font-weight: 600; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff; cursor: pointer;";
-
-    for (const [key, preset] of Object.entries(EQUATION_PRESETS)) {
-      const opt = document.createElement("option");
-      opt.value = key;
-      opt.textContent = `${preset.title}`;
-      if (!this.isCustom && this.spec.id === key) opt.selected = true;
-      presetSelect.appendChild(opt);
-    }
-    const customOpt = document.createElement("option");
-    customOpt.value = "custom";
-    customOpt.textContent = "✏️ [Custom Equation...]";
-    if (this.isCustom) customOpt.selected = true;
-    presetSelect.appendChild(customOpt);
-
-    presetSelect.addEventListener("change", () => {
-      if (presetSelect.value === "custom") {
-        this.switchToCustom(undefined, undefined, this.stage);
-      } else {
-        this.selectPreset(presetSelect.value, this.stage);
-      }
-    });
-    navBar.appendChild(presetSelect);
+    // Equation Mode / Title Badge (Presets are linked directly in curricular text via <eq-ref>)
+    const modeBadge = document.createElement("div");
+    modeBadge.style.cssText = "display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; font-size: 11.5px; font-weight: 600; color: #475569; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px;";
+    modeBadge.innerHTML = this.isCustom
+      ? `<span>✏️</span> <span>Custom Equation Builder</span>`
+      : `<span>📜</span> <span>${this.spec.title}</span>`;
+    navBar.appendChild(modeBadge);
     wrap.appendChild(navBar);
 
     // 2. Render Current Stage Content
@@ -536,6 +705,7 @@ export class EquationEvaluator extends Elt {
         <div style="font-family: monospace; font-size: 17px; font-weight: bold; color: #0369a1;">
           ∀ (${this.spec.inputs.map(i => i.symbol).join(", ")}) ∈ Domains, &nbsp; ∃! ${this.spec.rhsSymbol} ∈ ${this.spec.rhsDomain} &nbsp; [ ${this.spec.rhsSymbol} = ${this.spec.lhsFormula} ]
         </div>
+        ${this.spec.latexFormula ? `<div style="font-size: 12px; color: #64748b; margin-top: 6px;"><code>LaTeX: ${this.spec.latexFormula}</code></div>` : ''}
       </div>
     `;
 
@@ -554,6 +724,49 @@ export class EquationEvaluator extends Elt {
       `;
       card.appendChild(leanBox);
     }
+
+    // Defined Nonstandard Functions Palette (LHS Callable)
+    const fnPalette = document.createElement("div");
+    fnPalette.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 6px; padding: 12px 14px; margin-bottom: 16px;";
+    fnPalette.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
+        <span style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase;">
+          📚 Defined Nonstandard Functions (LHS Callable)
+        </span>
+        <span style="font-size: 11px; color: #64748b;">(Click a chip to insert into the LHS formula)</span>
+      </div>
+      <div class="ee-fn-chips" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+    `;
+
+    const chipsContainer = fnPalette.querySelector(".ee-fn-chips") as HTMLDivElement;
+    for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
+      const btn = document.createElement("button");
+      btn.style.cssText = "display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;";
+      btn.title = `${rule.description}\n${rule.hardRuleDesc}\n${rule.dustRuleDesc}`;
+      btn.innerHTML = `<span>${fnKey}(x)</span>`;
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!this.isCustom) {
+          this.switchToCustom(`${fnKey}(x)`, "ℝ_ω", 1);
+        } else {
+          const formIn = card.querySelector("#eeEditFormula") as HTMLInputElement;
+          if (formIn) {
+            const currentVal = formIn.value.trim();
+            if (!currentVal || currentVal === "x" || currentVal === "2*x + 3" || currentVal === "x0 + k*dx") {
+              formIn.value = `${fnKey}(x)`;
+            } else if (/[+\-*/^]$/.test(currentVal)) {
+              formIn.value = `${currentVal} ${fnKey}(x)`;
+            } else {
+              formIn.value = `${currentVal} + ${fnKey}(x)`;
+            }
+            formIn.dispatchEvent(new Event("change"));
+          }
+        }
+      });
+      chipsContainer.appendChild(btn);
+    }
+    card.appendChild(fnPalette);
 
     // If Custom Mode, allow editing the relation
     if (this.isCustom) {
@@ -585,12 +798,16 @@ export class EquationEvaluator extends Elt {
         if (titleIn && formIn && symIn) {
           const onChg = () => {
             this.customTitle = titleIn.value.trim() || "Custom Formal Equation";
-            this.customFormula = formIn.value.trim() || "x";
+            this.customFormula = sanitizeFormula(formIn.value) || "x";
             this.customRhsSymbol = symIn.value.trim() || "y";
             this.rebuildCustomSpec();
           };
           titleIn.addEventListener("change", onChg);
           formIn.addEventListener("change", onChg);
+          formIn.addEventListener("blur", () => {
+            formIn.value = sanitizeFormula(formIn.value);
+            onChg();
+          });
           symIn.addEventListener("change", onChg);
         }
       }, 0);
@@ -598,7 +815,21 @@ export class EquationEvaluator extends Elt {
 
     // Navigation Action
     const actionsRow = document.createElement("div");
-    actionsRow.style.cssText = "display: flex; justify-content: flex-end; margin-top: 14px;";
+    actionsRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-top: 14px;";
+
+    if (!this.isCustom) {
+      const forkBtn = document.createElement("button");
+      forkBtn.style.cssText = "padding: 7px 13px; font-size: 12px; font-weight: 600; background: #ffffff; color: #0284c7; border: 1px solid #0284c7; border-radius: 5px; cursor: pointer; transition: all 0.15s ease;";
+      forkBtn.innerHTML = "<span>✏️</span> <span>Fork into Custom Equation</span>";
+      forkBtn.title = "Switch to custom builder with this formula to modify expression and slots";
+      forkBtn.addEventListener("click", () => {
+        this.switchToCustom(this.spec.lhsFormula, this.spec.rhsDomain, 1);
+      });
+      actionsRow.appendChild(forkBtn);
+    } else {
+      const spacer = document.createElement("div");
+      actionsRow.appendChild(spacer);
+    }
 
     const nextBtn = document.createElement("button");
     nextBtn.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; background: #0284c7; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;";

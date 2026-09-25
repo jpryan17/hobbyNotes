@@ -18,6 +18,7 @@ export class EqDemo extends Elt {
     );
 
     this.evaluator = new EquationEvaluator({ initialStage: 1, presetId: 'nucleus_halo_1d' });
+    this.evaluator.switchToCustom('x0 + k*dx', 'ℝ_ω', 1);
     this.elt.appendChild(this.evaluator.elt);
   }
 
@@ -51,6 +52,7 @@ export function setEqDemo(): EqDemo {
 
 export function initEqDemo(): EqDemo {
   setEqDemo();
+  eqDemo.resetToBuilder();
   return eqDemo;
 }
 
