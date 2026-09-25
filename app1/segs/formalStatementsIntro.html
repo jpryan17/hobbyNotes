@@ -300,6 +300,30 @@
         </span>
       </li>
       <li style="margin-top: 8px;">
+        <b>Pythagorean Trigonometric Invariant:</b>
+        <eq-ref eq-id="pythagorean_trig">«Eq: sin(x)² + cos(x)² = 1»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Verifies the fundamental trigonometric identity across all real angles with vanishing infinitesimal halo dust (<code>ε = 0</code>).
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Calculus Derivative Operator:</b>
+        <eq-ref eq-id="derivative_sine">«Eq: d/dx[sin(x)] = cos(x)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Calculates the instantaneous rate of change via hyperreal difference quotient <code>st([sin(x + dx) - sin(x)] / dx)</code>.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
+        <b>Calculus Accumulator &amp; Fundamental Theorem:</b>
+        <eq-ref eq-id="ftc_integral_sine">«Eq: ∫₀ˣ cos(t) dt = sin(x)»</eq-ref>
+        <br>
+        <span style="font-size: 0.9em; color: #475569;">
+          Evaluates continuous accumulation <code>∫₀ˣ cos(t) dt</code> via adaptive quadrature, verifying exact agreement with discrete telescoping sums.
+        </span>
+      </li>
+      <li style="margin-top: 8px;">
         <b>3-Stage Classical Bayesian Filter:</b>
         <eq-ref eq-id="bayes_filter">«Eq: P(H|D) = (P(D|H)·P(H)) / P(D)»</eq-ref>
         <br>
@@ -310,10 +334,15 @@
     </ul>
 
     <p>
-      <b>Custom Equation Construction:</b><br>
-      In addition to these embedded presets, selecting <b>equation evaluator demo (EED)</b> from the navigation drawer opens a clean, blank custom equation builder. 
-      Students and instructors can input arbitrary expressions, incorporate our library of defined nonstandard functions (<code>sin</code>, <code>cos</code>, <code>tan</code>, <code>exp</code>, <code>sqrt</code>, <code>sqr</code>, <code>abs</code>), type input slots, and immediately interact with the resulting calculator.
+      <b>Custom Equation Construction &amp; Interactive Operators Toolbar:</b><br>
+      Selecting <b>equation evaluator demo (EED)</b> from the navigation drawer opens our custom formal equation builder. 
+      Students and instructors can author arbitrary expressions using an integrated three-tier toolbar:
     </p>
+    <ul>
+      <li><b>Calculus &amp; Nonstandard Operators:</b> Instant buttons for derivatives (<code>d/dx( )</code>, <code>d/dt( )</code>), accumulator integrals (<code>∫(...) dx</code>), definite integrals (<code>∫ₐᵇ</code>), standard part (<code>st( )</code>), and forward differences (<code>Δ( )</code>). Highlighting any formula text automatically wraps it in the selected operator!</li>
+      <li><b>Callable Mathematical Functions:</b> Dedicated chips for trigonometric (<code>sin</code>, <code>cos</code>, <code>tan</code>), inverse trigonometric (<code>asin</code>, <code>acos</code>, <code>atan</code>), exponential &amp; logarithmic (<code>exp</code>, <code>ln</code>), and roots &amp; piecewise (<code>sqrt</code>, <code>cbrt</code>, <code>sqr</code>, <code>abs</code>).</li>
+      <li><b>Algebraic &amp; Symbol Keys:</b> Quick buttons for <code>+</code>, <code>−</code>, <code>×</code>, <code>÷</code>, <code>x²</code>, <code>xⁿ</code>, <code>( )</code>, <code>π</code>, <code>e</code>, and <code>dx</code>.</li>
+    </ul>
 
     <hr>
 

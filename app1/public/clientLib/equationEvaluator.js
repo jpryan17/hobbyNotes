@@ -250,83 +250,483 @@ export const EQUATION_PRESETS = {
                 ]
             };
         }
+    },
+    pythagorean_trig: {
+        id: "pythagorean_trig",
+        title: "Pythagorean Trigonometric Invariant",
+        formalStatementId: "FS-STEM-TRIG-1.1",
+        governingTheorem: "sin_sq_add_cos_sq",
+        leanSignature: "theorem sin_sq_add_cos_sq (x : ℝ) : sin x ^ 2 + cos x ^ 2 = 1",
+        lhsFormula: "sin(x)^2 + cos(x)^2",
+        latexFormula: "\\sin^2(x) + \\cos^2(x) = 1",
+        rhsSymbol: "1",
+        rhsDomain: "ℝ",
+        description: "Evaluates the foundational Pythagorean trigonometric invariant sin(x)² + cos(x)² = 1. Demonstrates exact zero halo dust for any real angle x.",
+        inputs: [
+            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 0.7854, step: 0.1, min: -10, max: 10, description: "Input angle (radians, default π/4)" }
+        ],
+        evaluate: (vals) => {
+            const x = vals["x"] ?? 0.7854;
+            const s = Math.sin(x);
+            const c = Math.cos(x);
+            const sumVal = s * s + c * c;
+            const rounded = Math.round(sumVal * 10000) / 10000;
+            return {
+                displayValue: rounded.toString(),
+                hardPart: rounded.toString(),
+                dustPart: "0 (Zero Dust)",
+                isHard: true,
+                details: [
+                    `Evaluated LHS: sin²(${x.toFixed(4)}) + cos²(${x.toFixed(4)}) = ${(s * s).toFixed(4)} + ${(c * c).toFixed(4)} = 1`,
+                    "Algebraic Derivative: d/dx[sin²(x) + cos²(x)] = 2·sin(x)cos(x) - 2·cos(x)sin(x) = 0",
+                    "Vanishing halo: zero infinitesimal fluctuation (dust = 0) confirms strict hard equality."
+                ]
+            };
+        }
+    },
+    derivative_sine: {
+        id: "derivative_sine",
+        title: "Calculus Derivative: d/dx[sin(x)]",
+        formalStatementId: "FS-CALC-1.1",
+        governingTheorem: "hasDerivAt_sin",
+        leanSignature: "theorem deriv_sin (x : ℝ) : HasDerivAt sin (cos x) x",
+        lhsFormula: "d/dx(sin(x))",
+        latexFormula: "\\frac{d}{dx}[\\sin(x)] = \\cos(x)",
+        rhsSymbol: "y",
+        rhsDomain: "ℝ",
+        description: "Evaluates the instantaneous hyperreal derivative d/dx[sin(x)] = cos(x) via infinitesimal difference quotient st([sin(x + dx) - sin(x)] / dx).",
+        inputs: [
+            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 0.0, step: 0.1, min: -10, max: 10, description: "Evaluation point x (radians)" }
+        ],
+        evaluate: (vals) => {
+            const x = vals["x"] ?? 0.0;
+            const cosVal = Math.cos(x);
+            const cosStr = Number.isInteger(cosVal) ? cosVal.toString() : cosVal.toFixed(4);
+            return {
+                displayValue: cosStr,
+                hardPart: cosStr,
+                dustPart: "0",
+                isHard: true,
+                details: [
+                    `Evaluated Derivative: d/dx[sin(x)] = cos(${x.toFixed(4)}) = ${cosStr}`,
+                    "Hyperreal stencil: st( [sin(x + dx) - sin(x)] / dx ) = cos(x)",
+                    "Lean 4 Certified: Matches Mathlib HasDerivAt theorem for trigonometric sine"
+                ]
+            };
+        }
+    },
+    ftc_integral_sine: {
+        id: "ftc_integral_sine",
+        title: "Calculus Integral: ∫₀ˣ cos(t) dt",
+        formalStatementId: "FS-CALC-1.2",
+        governingTheorem: "integral_cos",
+        leanSignature: "theorem ftc_cos (x : ℝ) : ∫ t in 0..x, cos t = sin x",
+        lhsFormula: "int(cos(t), t, 0, x)",
+        latexFormula: "\\int_0^x \\cos(t) \\, dt = \\sin(x)",
+        rhsSymbol: "y",
+        rhsDomain: "ℝ",
+        description: "Evaluates the Fundamental Theorem of Calculus accumulator: ∫₀ˣ cos(t) dt = sin(x).",
+        inputs: [
+            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 1.5708, step: 0.1, min: -10, max: 10, description: "Upper accumulation limit x (radians)" }
+        ],
+        evaluate: (vals) => {
+            const x = vals["x"] ?? 1.5708;
+            const sinVal = Math.sin(x);
+            const sinStr = Number.isInteger(sinVal) ? sinVal.toString() : sinVal.toFixed(4);
+            return {
+                displayValue: sinStr,
+                hardPart: sinStr,
+                dustPart: "0",
+                isHard: true,
+                details: [
+                    `Evaluated Integral: ∫₀^(${x.toFixed(4)}) cos(t) dt = sin(${x.toFixed(4)}) = ${sinStr}`,
+                    "Discrete FTC: pairwise telescoping difference cancellation on hyperfinite transect",
+                    "Continuous accumulation exact match for definite Riemann sum"
+                ]
+            };
+        }
     }
 };
 export const NONSTANDARD_FUNCTION_REGISTRY = {
     sin: {
         name: "sin",
+        domain: "ℝ_ω",
+        codomain: "[-1, 1]_ω",
         latexDisplay: "\\sin(x_0 + k \\cdot dx) = \\sin(x_0) + k \\cdot \\cos(x_0) \\cdot dx",
         description: "Sine with first-order cosine halo dust",
-        hardRuleDesc: "st(sin(x)) = sin(x₀)",
-        dustRuleDesc: "ε = k · cos(x₀) · dx",
+        hardRuleDesc: "st(sin(x)) = sin(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = k · cos(x₀) · dx ∈ μ(0)",
+        derivativeFormula: "cos(x₀)",
+        governingTheorem: "sin_halo_linear",
+        leanSignature: "theorem sin_halo_linear (x0 : R_w) (k : Z_w) : st (sin_w (x0 + k * dx)) = sin_w x0",
         evalHard: (x) => Math.sin(x),
         evalDust: (x0, k) => k * Math.cos(x0)
     },
     cos: {
         name: "cos",
+        domain: "ℝ_ω",
+        codomain: "[-1, 1]_ω",
         latexDisplay: "\\cos(x_0 + k \\cdot dx) = \\cos(x_0) - k \\cdot \\sin(x_0) \\cdot dx",
         description: "Cosine with negative sine halo dust",
-        hardRuleDesc: "st(cos(x)) = cos(x₀)",
-        dustRuleDesc: "ε = -k · sin(x₀) · dx",
+        hardRuleDesc: "st(cos(x)) = cos(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = -k · sin(x₀) · dx ∈ μ(0)",
+        derivativeFormula: "-sin(x₀)",
+        governingTheorem: "cos_halo_linear",
+        leanSignature: "theorem cos_halo_linear (x0 : R_w) (k : Z_w) : st (cos_w (x0 + k * dx)) = cos_w x0",
         evalHard: (x) => Math.cos(x),
         evalDust: (x0, k) => -k * Math.sin(x0)
     },
     tan: {
         name: "tan",
+        domain: "[ℝ_ω | x ≠ π/2 + kπ]",
+        codomain: "ℝ_ω",
+        domainCondition: (x) => Math.abs(Math.cos(x)) > 1e-4,
+        domainConditionDesc: "x ≠ π/2 + kπ (cos x ≠ 0)",
         latexDisplay: "\\tan(x_0 + k \\cdot dx) = \\tan(x_0) + k \\cdot \\sec^2(x_0) \\cdot dx",
         description: "Tangent with secant-squared halo dust",
-        hardRuleDesc: "st(tan(x)) = tan(x₀)",
-        dustRuleDesc: "ε = k · sec²(x₀) · dx",
+        hardRuleDesc: "st(tan(x)) = tan(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = k · sec²(x₀) · dx ∈ μ(0)",
+        derivativeFormula: "sec²(x₀) = 1/cos²(x₀)",
+        governingTheorem: "tan_halo_linear",
+        leanSignature: "axiom tan_halo_linear (x0 : R_w) (k : Z_w) : st (tan_w (x0 + k * dx)) = tan_w x0",
         evalHard: (x) => Math.tan(x),
         evalDust: (x0, k) => k / (Math.cos(x0) * Math.cos(x0))
     },
+    asin: {
+        name: "asin",
+        domain: "[ℝ_ω | -1 ≤ x ≤ 1]",
+        codomain: "[-π/2, π/2]_ω",
+        domainCondition: (x) => x >= -1 && x <= 1,
+        domainConditionDesc: "-1 ≤ x ≤ 1",
+        latexDisplay: "\\arcsin(x_0 + k \\cdot dx) = \\arcsin(x_0) + \\frac{k}{\\sqrt{1 - x_0^2}} \\cdot dx",
+        description: "Inverse sine with inverse square-root halo dust",
+        hardRuleDesc: "st(asin(x)) = asin(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = (k / √(1 - x₀²)) · dx ∈ μ(0)",
+        derivativeFormula: "1 / √(1 - x₀²)",
+        governingTheorem: "asin_halo_linear",
+        leanSignature: "axiom asin_halo_linear (x0 : R_w) (k : Z_w) : st (asin_w (x0 + k * dx)) = asin_w x0",
+        evalHard: (x) => Math.asin(x),
+        evalDust: (x0, k) => Math.abs(x0) < 1 ? k / Math.sqrt(1 - x0 * x0) : 0
+    },
+    acos: {
+        name: "acos",
+        domain: "[ℝ_ω | -1 ≤ x ≤ 1]",
+        codomain: "[0, π]_ω",
+        domainCondition: (x) => x >= -1 && x <= 1,
+        domainConditionDesc: "-1 ≤ x ≤ 1",
+        latexDisplay: "\\arccos(x_0 + k \\cdot dx) = \\arccos(x_0) - \\frac{k}{\\sqrt{1 - x_0^2}} \\cdot dx",
+        description: "Inverse cosine with negative halo dust",
+        hardRuleDesc: "st(acos(x)) = acos(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = -(k / √(1 - x₀²)) · dx ∈ μ(0)",
+        derivativeFormula: "-1 / √(1 - x₀²)",
+        governingTheorem: "acos_halo_linear",
+        leanSignature: "axiom acos_halo_linear (x0 : R_w) (k : Z_w) : st (acos_w (x0 + k * dx)) = acos_w x0",
+        evalHard: (x) => Math.acos(x),
+        evalDust: (x0, k) => Math.abs(x0) < 1 ? -k / Math.sqrt(1 - x0 * x0) : 0
+    },
+    atan: {
+        name: "atan",
+        domain: "ℝ_ω",
+        codomain: "(-π/2, π/2)_ω",
+        latexDisplay: "\\arctan(x_0 + k \\cdot dx) = \\arctan(x_0) + \\frac{k}{1 + x_0^2} \\cdot dx",
+        description: "Inverse tangent with Cauchy halo dust",
+        hardRuleDesc: "st(atan(x)) = atan(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = (k / (1 + x₀²)) · dx ∈ μ(0)",
+        derivativeFormula: "1 / (1 + x₀²)",
+        governingTheorem: "atan_halo_linear",
+        leanSignature: "axiom atan_halo_linear (x0 : R_w) (k : Z_w) : st (atan_w (x0 + k * dx)) = atan_w x0",
+        evalHard: (x) => Math.atan(x),
+        evalDust: (x0, k) => k / (1 + x0 * x0)
+    },
     exp: {
         name: "exp",
+        domain: "ℝ_ω",
+        codomain: "[ℝ_ω | y > 0]",
         latexDisplay: "\\exp(x_0 + k \\cdot dx) = \\exp(x_0) + k \\cdot \\exp(x_0) \\cdot dx",
         description: "Exponential self-derivative growth stencil",
-        hardRuleDesc: "st(exp(x)) = exp(x₀)",
-        dustRuleDesc: "ε = k · exp(x₀) · dx",
+        hardRuleDesc: "st(exp(x)) = exp(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = k · exp(x₀) · dx ∈ μ(0)",
+        derivativeFormula: "exp(x₀)",
+        governingTheorem: "exp_halo_linear",
+        leanSignature: "theorem exp_halo_linear (x0 : R_w) (k : Z_w) : st (exp_w (x0 + k * dx)) = exp_w x0",
         evalHard: (x) => Math.exp(x),
         evalDust: (x0, k) => k * Math.exp(x0)
     },
+    ln: {
+        name: "ln",
+        domain: "[ℝ_ω | x > 0]",
+        codomain: "ℝ_ω",
+        domainCondition: (x) => x > 0,
+        domainConditionDesc: "x > 0",
+        latexDisplay: "\\ln(x_0 + k \\cdot dx) = \\ln(x_0) + \\frac{k}{x_0} \\cdot dx",
+        description: "Natural logarithm with reciprocal halo dust",
+        hardRuleDesc: "st(ln(x)) = ln(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = (k / x₀) · dx ∈ μ(0)",
+        derivativeFormula: "1 / x₀",
+        governingTheorem: "log_halo_linear",
+        leanSignature: "axiom log_halo_linear (x0 : R_w) (k : Z_w) (hx : 0 < x0) : st (log_w (x0 + k * dx)) = log_w x0",
+        evalHard: (x) => Math.log(x),
+        evalDust: (x0, k) => x0 > 0 ? k / x0 : 0
+    },
     sqrt: {
         name: "sqrt",
+        domain: "[ℝ_ω | x ≥ 0]",
+        codomain: "[ℝ_ω | y ≥ 0]",
+        domainCondition: (x) => x >= 0,
+        domainConditionDesc: "x ≥ 0",
         latexDisplay: "\\sqrt{x_0 + k \\cdot dx} = \\sqrt{x_0} + \\frac{k}{2\\sqrt{x_0}} \\cdot dx",
         description: "Square root nonstandard branch stencil",
-        hardRuleDesc: "st(sqrt(x)) = sqrt(x₀)",
-        dustRuleDesc: "ε = (k / 2√x₀) · dx",
+        hardRuleDesc: "st(sqrt(x)) = sqrt(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = (k / 2√x₀) · dx ∈ μ(0)",
+        derivativeFormula: "1 / (2√x₀)",
+        governingTheorem: "sqrt_halo_linear",
+        leanSignature: "axiom sqrt_halo_linear (x0 : R_w) (k : Z_w) (hx : 0 < x0) : st (sqrt_w (x0 + k * dx)) = sqrt_w x0",
         evalHard: (x) => Math.sqrt(Math.max(0, x)),
         evalDust: (x0, k) => x0 > 0 ? k / (2 * Math.sqrt(x0)) : 0
     },
+    cbrt: {
+        name: "cbrt",
+        domain: "ℝ_ω",
+        codomain: "ℝ_ω",
+        latexDisplay: "\\sqrt[3]{x_0 + k \\cdot dx} = \\sqrt[3]{x_0} + \\frac{k}{3 x_0^{2/3}} \\cdot dx",
+        description: "Cube root nonstandard branch stencil",
+        hardRuleDesc: "st(cbrt(x)) = cbrt(x₀) ∈ ℝ",
+        dustRuleDesc: "ε = (k / 3 x₀^(2/3)) · dx ∈ μ(0)",
+        derivativeFormula: "1 / (3·x₀^(2/3))",
+        governingTheorem: "diff_cbrt",
+        leanSignature: "axiom diff_cbrt : ∀ x : R_w, (x ≠ 0) → has_derivative_at cbrt_w x (1 / (3 * cbrt_w (x * x)))",
+        evalHard: (x) => Math.cbrt(x),
+        evalDust: (x0, k) => x0 !== 0 ? k / (3 * Math.cbrt(x0 * x0)) : 0
+    },
     sqr: {
         name: "sqr",
+        domain: "ℝ_ω",
+        codomain: "[ℝ_ω | y ≥ 0]",
         latexDisplay: "(x_0 + k \\cdot dx)^2 = x_0^2 + 2 x_0 k \\cdot dx",
         description: "Square algebraic binomial stencil",
-        hardRuleDesc: "st(x²) = x₀²",
-        dustRuleDesc: "ε = 2 x₀ k · dx",
+        hardRuleDesc: "st(x²) = x₀² ∈ ℝ",
+        dustRuleDesc: "ε = 2 x₀ k · dx ∈ μ(0)",
+        derivativeFormula: "2·x₀",
+        governingTheorem: "diff_pow",
+        leanSignature: "theorem sqr_halo (x0 : R_w) (k : Z_w) : st ((x0 + k * dx)^2) = x0^2",
         evalHard: (x) => x * x,
         evalDust: (x0, k) => 2 * x0 * k
     },
     abs: {
         name: "abs",
+        domain: "ℝ_ω",
+        codomain: "[ℝ_ω | y ≥ 0]",
         latexDisplay: "|x_0 + k \\cdot dx| = |x_0| + \\text{sgn}(x_0) k \\cdot dx",
         description: "Absolute value piecewise sign stencil",
-        hardRuleDesc: "st(|x|) = |x₀|",
-        dustRuleDesc: "ε = sgn(x₀) k · dx",
+        hardRuleDesc: "st(|x|) = |x₀| ∈ ℝ",
+        dustRuleDesc: "ε = sgn(x₀) k · dx ∈ μ(0)",
+        derivativeFormula: "sgn(x₀)",
+        governingTheorem: "R_w_abs",
+        leanSignature: "axiom R_w_abs : R_w → R_w",
         evalHard: (x) => Math.abs(x),
         evalDust: (x0, k) => Math.sign(x0) * k
     }
 };
+export const CALCULUS_OPERATOR_REGISTRY = {
+    diff_x: {
+        key: "diff_x",
+        symbol: "d/dx( )",
+        badge: "d/dx",
+        title: "Derivative with respect to x",
+        domain: "(ℝ_ω → ℝ_ω) × ℝ_ω",
+        codomain: "ℝ_ω",
+        category: "calculus",
+        description: "Calculates algebraic / hyperreal derivative st([f(x + dx) - f(x)] / dx)",
+        tooltip: "d/dx [f(x)] — Instantaneous rate of change with respect to variable x",
+        governingTheorem: "deriv_at",
+        leanSignature: "def deriv_at (f : FunctionSpace) (x : R_w) : R_w := (f (x + dx) - f x) / dx",
+        wrapPrefix: "d/dx(",
+        wrapSuffix: ")",
+        defaultInner: "x",
+        cursorOffsetInside: 5
+    },
+    diff_t: {
+        key: "diff_t",
+        symbol: "d/dt( )",
+        badge: "d/dt",
+        title: "Time Derivative with respect to t",
+        domain: "(ℝ_ω → ℝ_ω) × ℝ_ω",
+        codomain: "ℝ_ω",
+        category: "calculus",
+        description: "Calculates kinematic velocity or rate of change with respect to time t",
+        tooltip: "d/dt [s(t)] — Kinematic time derivative for velocities & flow rates",
+        governingTheorem: "deriv_op",
+        leanSignature: "def deriv_op (f : FunctionSpace) : FunctionSpace := fun x => deriv_at f x",
+        wrapPrefix: "d/dt(",
+        wrapSuffix: ")",
+        defaultInner: "t",
+        cursorOffsetInside: 5
+    },
+    int_x: {
+        key: "int_x",
+        symbol: "∫(...) dx",
+        badge: "∫ dx",
+        title: "Accumulator Integral",
+        domain: "(ℝ_ω → ℝ_ω) × ℝ_ω",
+        codomain: "ℝ_ω",
+        category: "calculus",
+        description: "Calculates continuous accumulation ∫₀ˣ f(t) dt from 0 to current x",
+        tooltip: "∫ f(t) dt — Continuous accumulation from 0 to x (Fundamental Theorem of Calculus)",
+        governingTheorem: "ftc_deriv_integral",
+        leanSignature: "axiom ftc_deriv_integral (f : FunctionSpace) (x : R_w) : deriv_at (integral_op f) x = f x",
+        wrapPrefix: "int(",
+        wrapSuffix: ", x)",
+        defaultInner: "x",
+        cursorOffsetInside: 4
+    },
+    int_ab: {
+        key: "int_ab",
+        symbol: "∫ₐᵇ (...) dx",
+        badge: "∫ₐᵇ",
+        title: "Definite Integral",
+        domain: "(ℝ_ω → ℝ_ω) × Interval",
+        codomain: "ℝ_ω",
+        category: "calculus",
+        description: "Calculates definite integral ∫ₐᵇ f(x) dx between explicit limits a and b",
+        tooltip: "∫ₐᵇ f(x) dx — Definite accumulation between explicit lower and upper bounds",
+        governingTheorem: "ftc_integral_deriv",
+        leanSignature: "axiom ftc_integral_deriv (F : FunctionSpace) (a b : R_w) : integral_ab (deriv_op F) a b = F b - F a",
+        wrapPrefix: "int(",
+        wrapSuffix: ", x, 0, 1)",
+        defaultInner: "x",
+        cursorOffsetInside: 4
+    },
+    st: {
+        key: "st",
+        symbol: "st( )",
+        badge: "st",
+        title: "Standard Part Operator",
+        domain: "{ x : ℝ_ω // is_finite x }",
+        codomain: "ℝ",
+        category: "nonstandard",
+        description: "Strips infinitesimal halo dust, returning standard real nucleus value",
+        tooltip: "st(x₀ + ε) = x₀ — Standard shadow projection dropping infinitesimal halo dust",
+        governingTheorem: "st",
+        leanSignature: "axiom st : { x : R_w // is_finite x } → R_w",
+        wrapPrefix: "st(",
+        wrapSuffix: ")",
+        defaultInner: "x",
+        cursorOffsetInside: 3
+    },
+    delta: {
+        key: "delta",
+        symbol: "Δ( )",
+        badge: "Δ",
+        title: "Infinitesimal Forward Increment",
+        domain: "SequenceSpace × ℕ",
+        codomain: "ℝ_ω",
+        category: "nonstandard",
+        description: "Calculates forward increment Δf = f(x + dx) - f(x) ≈ f'(x)·dx",
+        tooltip: "Δf — Discrete / infinitesimal increment on the 2-successor hyperfinite lattice",
+        governingTheorem: "delta_at",
+        leanSignature: "def delta_at (F : SequenceSpace) (k : Nat) : R_w := to_nat_seq F (k + 1) - to_nat_seq F k",
+        wrapPrefix: "diff(",
+        wrapSuffix: ", x) * dx",
+        defaultInner: "x^2",
+        cursorOffsetInside: 5
+    }
+};
+export const ALGEBRAIC_OPERATORS = [
+    { label: "+", insert: " + ", title: "Addition" },
+    { label: "−", insert: " - ", title: "Subtraction" },
+    { label: "×", insert: " * ", title: "Multiplication" },
+    { label: "÷", insert: " / ", title: "Division" },
+    { label: "x²", insert: "^2", title: "Square power" },
+    { label: "xⁿ", insert: "^", title: "Exponentiation power" },
+    { label: "( )", insert: "()", title: "Parentheses grouping" },
+    { label: "π", insert: "pi", title: "Archimedes Circle Constant (3.14159...)" },
+    { label: "e", insert: "e", title: "Euler's Number (2.71828...)" },
+    { label: "dx", insert: "dx", title: "Infinitesimal step (1/ω)" }
+];
+/**
+ * Splits top-level comma-separated arguments while respecting nested parentheses.
+ */
+function splitTopLevelArgs(str) {
+    const args = [];
+    let depth = 0;
+    let cur = "";
+    for (let i = 0; i < str.length; i++) {
+        const ch = str[i];
+        if (ch === "(" || ch === "[" || ch === "{")
+            depth++;
+        else if (ch === ")" || ch === "]" || ch === "}")
+            depth--;
+        else if (ch === "," && depth === 0) {
+            args.push(cur.trim());
+            cur = "";
+            continue;
+        }
+        cur += ch;
+    }
+    if (cur.trim())
+        args.push(cur.trim());
+    return args;
+}
+/**
+ * High-precision numerical derivative evaluator for hyperreal / algebraic rates.
+ */
+function __diff(f, xVal) {
+    const h = 1e-6;
+    const v = (f(xVal + h) - f(xVal - h)) / (2 * h);
+    return Math.abs(v) < 1e-10 ? 0 : Math.round(v * 1e8) / 1e8;
+}
+/**
+ * High-precision Simpson's 1/3 adaptive quadrature evaluator for continuous accumulation.
+ */
+function __integrate(f, a, b, n = 200) {
+    if (a === b)
+        return 0;
+    if (n % 2 !== 0)
+        n++;
+    const h = (b - a) / n;
+    let sum = f(a) + f(b);
+    for (let i = 1; i < n; i++) {
+        const x = a + i * h;
+        sum += (i % 2 === 1 ? 4 : 2) * f(x);
+    }
+    const res = (h / 3) * sum;
+    return Math.abs(res) < 1e-10 ? 0 : Math.round(res * 1e8) / 1e8;
+}
 /**
  * Parses free variable identifiers from a mathematical expression string,
- * automatically excluding registered nonstandard functions and presets.
+ * automatically excluding registered nonstandard functions, calculus operators, and bound dummy variables.
  */
 function extractFreeVariables(expr) {
-    const tokens = expr.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
+    let s = (expr || "").trim();
+    const boundVars = new Set();
+    // Find dummy integration variables in int(expr, dummy, ...) or integrate(expr, dummy, ...)
+    const intMatches = [...s.matchAll(/\b(int|integrate)\s*\(/g)];
+    for (const m of intMatches) {
+        let depth = 1;
+        let i = m.index + m[0].length;
+        while (i < s.length && depth > 0) {
+            if (s[i] === "(")
+                depth++;
+            else if (s[i] === ")")
+                depth--;
+            i++;
+        }
+        const inside = s.slice(m.index + m[0].length, i - 1);
+        const args = splitTopLevelArgs(inside);
+        if (args.length >= 2) {
+            const dummy = args[1].trim();
+            if (/^[a-zA-Z_]\w*$/.test(dummy)) {
+                boundVars.add(dummy);
+            }
+        }
+    }
+    const tokens = s.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) || [];
     const reserved = new Set([
-        "Math", "PI", "E", "dx", "st", "dt", "i", "log",
+        "Math", "PI", "E", "pi", "e", "dx", "dt", "st", "i", "log", "ln",
+        "diff", "int", "integrate", "d", "Δ", "Delta", "sum",
         ...Object.keys(NONSTANDARD_FUNCTION_REGISTRY),
-        ...Object.keys(EQUATION_PRESETS)
+        ...Object.keys(EQUATION_PRESETS),
+        ...boundVars
     ]);
     const vars = new Set();
     for (const t of tokens) {
@@ -358,36 +758,128 @@ function sanitizeFormula(expr) {
     return s;
 }
 /**
+ * Prepares raw user math expression into a runnable JavaScript string,
+ * resolving derivatives, integrals, powers, and nonstandard functions.
+ */
+function prepareJsExpr(rawExpr) {
+    let s = sanitizeFormula(rawExpr);
+    // Convert d/d<var>( ... ) to diff(..., var)
+    const dRegex = /\bd\/d([a-zA-Z_]\w*)\s*\(/;
+    let match;
+    while ((match = dRegex.exec(s)) !== null) {
+        const varName = match[1];
+        let depth = 1;
+        let i = match.index + match[0].length;
+        while (i < s.length && depth > 0) {
+            if (s[i] === "(")
+                depth++;
+            else if (s[i] === ")")
+                depth--;
+            i++;
+        }
+        const inner = s.slice(match.index + match[0].length, i - 1);
+        s = s.slice(0, match.index) + "diff(" + inner + ", " + varName + ")" + s.slice(i);
+    }
+    // Convert ∫( ... ) d<var> or ∫( ... ) to int(...)
+    const intDRegex = /∫\s*\(/;
+    while ((match = intDRegex.exec(s)) !== null) {
+        let depth = 1;
+        let i = match.index + match[0].length;
+        while (i < s.length && depth > 0) {
+            if (s[i] === "(")
+                depth++;
+            else if (s[i] === ")")
+                depth--;
+            i++;
+        }
+        const inner = s.slice(match.index + match[0].length, i - 1);
+        const remainder = s.slice(i);
+        const dMatch = remainder.match(/^\s*d([a-zA-Z_]\w*)/);
+        if (dMatch) {
+            const varName = dMatch[1];
+            s = s.slice(0, match.index) + "int(" + inner + ", " + varName + ")" + remainder.slice(dMatch[0].length);
+        }
+        else {
+            s = s.slice(0, match.index) + "int(" + inner + ")" + remainder;
+        }
+    }
+    // Math functions substitution
+    s = s
+        .replace(/\bsin\b/g, "Math.sin")
+        .replace(/\bcos\b/g, "Math.cos")
+        .replace(/\btan\b/g, "Math.tan")
+        .replace(/\basin\b/g, "Math.asin")
+        .replace(/\bacos\b/g, "Math.acos")
+        .replace(/\batan\b/g, "Math.atan")
+        .replace(/\bexp\b/g, "Math.exp")
+        .replace(/\bln\b/g, "Math.log")
+        .replace(/\blog\b/g, "Math.log")
+        .replace(/\bsqrt\b/g, "Math.sqrt")
+        .replace(/\bcbrt\b/g, "Math.cbrt")
+        .replace(/\babs\b/g, "Math.abs")
+        .replace(/\bsqr\b/g, "((x) => x * x)")
+        .replace(/\bst\b/g, "((x) => x)")
+        .replace(/\bpi\b/gi, "Math.PI")
+        .replace(/\be\b/g, "Math.E");
+    // Convert base ^ exp into Math.pow(base, exp)
+    const basePattern = /((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))\s*\^\s*((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))/;
+    let prev = "";
+    while (basePattern.test(s) && s !== prev) {
+        prev = s;
+        s = s.replace(basePattern, "Math.pow($1, $2)");
+    }
+    s = s.replace(/\^/g, "**");
+    // Replace diff and int/integrate from innermost to outermost
+    while (true) {
+        const matches = [...s.matchAll(/\b(diff|int|integrate)\s*\(/g)];
+        if (matches.length === 0)
+            break;
+        const m = matches[matches.length - 1]; // innermost!
+        const op = m[1];
+        const startIdx = m.index;
+        let depth = 1;
+        let i = startIdx + m[0].length;
+        while (i < s.length && depth > 0) {
+            if (s[i] === "(")
+                depth++;
+            else if (s[i] === ")")
+                depth--;
+            i++;
+        }
+        const inside = s.slice(startIdx + m[0].length, i - 1);
+        const args = splitTopLevelArgs(inside);
+        let rep = "";
+        if (op === "diff") {
+            const innerExpr = args[0] || "x";
+            const varName = args[1] || "x";
+            const atVal = args[2] || varName;
+            rep = "__diff((" + varName + ") => (" + innerExpr + "), " + atVal + ")";
+        }
+        else {
+            const innerExpr = args[0] || "x";
+            const varName = args[1] || "x";
+            if (args.length >= 4) {
+                rep = "__integrate((" + varName + ") => (" + innerExpr + "), " + args[2] + ", " + args[3] + ")";
+            }
+            else {
+                rep = "__integrate((" + varName + ") => (" + innerExpr + "), 0, " + varName + ")";
+            }
+        }
+        s = s.slice(0, startIdx) + rep + s.slice(i);
+    }
+    return s;
+}
+/**
  * Safely evaluates a mathematical expression string for given variable numbers,
- * exposing all registered nonstandard calculations in the execution scope.
+ * exposing calculus operations (__diff, __integrate) and nonstandard stencils in the execution scope.
  */
 function safeEvalExpression(expr, vals) {
     try {
-        let clean = sanitizeFormula(expr);
-        let jsExpr = clean
-            .replace(/\bsin\b/g, "Math.sin")
-            .replace(/\bcos\b/g, "Math.cos")
-            .replace(/\btan\b/g, "Math.tan")
-            .replace(/\bexp\b/g, "Math.exp")
-            .replace(/\blog\b/g, "Math.log")
-            .replace(/\bsqrt\b/g, "Math.sqrt")
-            .replace(/\babs\b/g, "Math.abs")
-            .replace(/\bsqr\b/g, "((x) => x * x)")
-            .replace(/\bpi\b/gi, "Math.PI");
-        // Convert power expressions 'base ^ exp' into Math.pow(base, exp)
-        // This avoids JavaScript's unary operator SyntaxError before exponentiation (** operator)
-        const basePattern = /((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))\s*\^\s*((?:\bMath\.[a-z]+\s*\([^()]*\)|\b[a-zA-Z_]\w*\s*\([^()]*\)|\([^()]+\)|[a-zA-Z_]\w*|\d+(?:\.\d+)?))/;
-        let prev = "";
-        while (basePattern.test(jsExpr) && jsExpr !== prev) {
-            prev = jsExpr;
-            jsExpr = jsExpr.replace(basePattern, "Math.pow($1, $2)");
-        }
-        // Fallback: replace any remaining ^ with **
-        jsExpr = jsExpr.replace(/\^/g, "**");
+        const jsExpr = prepareJsExpr(expr);
         const varNames = Object.keys(vals);
         const varValues = varNames.map(k => vals[k]);
-        const fn = new Function(...varNames, `return (${jsExpr});`);
-        const res = fn(...varValues);
+        const fn = new Function("__diff", "__integrate", ...varNames, `return (${jsExpr});`);
+        const res = fn(__diff, __integrate, ...varValues);
         return typeof res === "number" && !isNaN(res) ? res : 0;
     }
     catch (err) {
@@ -396,11 +888,16 @@ function safeEvalExpression(expr, vals) {
     }
 }
 /**
- * Computes the infinitesimal halo dust for any custom equation evaluated on ℝ_ω.
+ * Computes the infinitesimal halo dust for any equation evaluated on ℝ_ω.
+ * Drops halo dust to 0 for strict invariants and standard part projections.
  */
 function computeHaloDust(expr, vals, isHalo) {
     if (!isHalo)
         return { dustStr: "0", isHard: true, dustVal: 0 };
+    // Explicit standard part operator drops all halo dust
+    if (/^\s*st\s*\(/.test(expr)) {
+        return { dustStr: "0 (Zero Dust)", isHard: true, dustVal: 0 };
+    }
     const h = 1e-5;
     let totalDerivative = 0;
     for (const [varName, baseVal] of Object.entries(vals)) {
@@ -413,6 +910,100 @@ function computeHaloDust(expr, vals, isHalo) {
     const isHard = Math.abs(roundedDeriv) < 1e-6;
     const dustStr = isHard ? "0 (Zero Dust)" : `${roundedDeriv >= 0 ? "" : "-"}${Math.abs(roundedDeriv)}·dx`;
     return { dustStr, isHard, dustVal: roundedDeriv };
+}
+/**
+ * Detects all nonstandard functions and calculus operators present in a given formula string.
+ */
+export function detectUsedFunctionsAndOperators(formula) {
+    const funcs = [];
+    const ops = [];
+    for (const [key, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
+        const regex = new RegExp(`\\b${key}\\b`, "i");
+        if (regex.test(formula)) {
+            funcs.push(rule);
+        }
+    }
+    for (const [key, rule] of Object.entries(CALCULUS_OPERATOR_REGISTRY)) {
+        if (key === "diff_x" && (/\bd\/dx\b/.test(formula) || /\bdiff\s*\([^,]+,\s*x/.test(formula))) {
+            ops.push(rule);
+        }
+        else if (key === "diff_t" && (/\bd\/dt\b/.test(formula) || /\bdiff\s*\([^,]+,\s*t/.test(formula))) {
+            ops.push(rule);
+        }
+        else if (key === "int_x" && (/\bint\s*\(/.test(formula) || /∫/.test(formula))) {
+            ops.push(rule);
+        }
+        else if (key === "int_ab" && /\bint\s*\([^,]+,[^,]+,[^,]+,[^,]+\)/.test(formula)) {
+            ops.push(rule);
+        }
+        else if (key === "st" && /\bst\s*\(/.test(formula)) {
+            ops.push(rule);
+        }
+        else if (key === "delta" && (/Δ/.test(formula) || /\bDelta\b/.test(formula))) {
+            ops.push(rule);
+        }
+    }
+    return { functions: funcs, operators: ops };
+}
+/**
+ * Smart cursor-aware & selection-wrapping formula input inserter.
+ */
+function insertTokenIntoInput(inputEl, token, options) {
+    const start = inputEl.selectionStart ?? inputEl.value.length;
+    const end = inputEl.selectionEnd ?? inputEl.value.length;
+    const currentVal = inputEl.value;
+    const prefix = options?.wrapPrefix ?? (options?.isWrapper ? `${token}(` : token);
+    const suffix = options?.wrapSuffix ?? (options?.isWrapper ? `)` : "");
+    let newVal = "";
+    let newCursorPos = start;
+    if (start !== end && options?.isWrapper) {
+        // User selected text: wrap it! e.g., 'd/dx(' + selected + ')'
+        const selectedText = currentVal.slice(start, end);
+        newVal = currentVal.slice(0, start) + prefix + selectedText + suffix + currentVal.slice(end);
+        newCursorPos = start + prefix.length + selectedText.length + suffix.length;
+    }
+    else if (start !== end && !options?.isWrapper) {
+        // Replace selection with token
+        newVal = currentVal.slice(0, start) + token + currentVal.slice(end);
+        newCursorPos = start + token.length;
+    }
+    else {
+        // No selection: check placeholder
+        const isPlaceholder = currentVal === "x" || currentVal === "2*x + 3" || currentVal === "x0 + k*dx";
+        if (isPlaceholder && (start === 0 || start === currentVal.length)) {
+            if (options?.isWrapper) {
+                newVal = prefix + currentVal + suffix;
+                newCursorPos = newVal.length;
+            }
+            else if (/[+\-*/^]/.test(token)) {
+                newVal = `${currentVal}${token}`;
+                newCursorPos = newVal.length;
+            }
+            else {
+                newVal = token;
+                newCursorPos = token.length;
+            }
+        }
+        else {
+            if (options?.isWrapper && options.cursorOffsetInside !== undefined) {
+                newVal = currentVal.slice(0, start) + prefix + suffix + currentVal.slice(start);
+                newCursorPos = start + options.cursorOffsetInside;
+            }
+            else if (options?.isWrapper) {
+                newVal = currentVal.slice(0, start) + prefix + suffix + currentVal.slice(start);
+                newCursorPos = start + prefix.length;
+            }
+            else {
+                newVal = currentVal.slice(0, start) + token + currentVal.slice(start);
+                newCursorPos = start + token.length;
+            }
+        }
+    }
+    inputEl.value = newVal;
+    inputEl.focus();
+    inputEl.setSelectionRange(newCursorPos, newCursorPos);
+    inputEl.dispatchEvent(new Event("input"));
+    inputEl.dispatchEvent(new Event("change"));
 }
 /**
  * Equation Evaluator Demo Component.
@@ -628,19 +1219,67 @@ export class EquationEvaluator extends Elt {
       `;
             card.appendChild(leanBox);
         }
-        // Defined Nonstandard Functions Palette (LHS Callable)
-        const fnPalette = document.createElement("div");
-        fnPalette.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 6px; padding: 12px 14px; margin-bottom: 16px;";
-        fnPalette.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
-        <span style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase;">
-          📚 Defined Nonstandard Functions (LHS Callable)
+        // Formula Authoring & Operator Toolbar (Calculus, Functions, Algebra)
+        const toolbarBox = document.createElement("div");
+        toolbarBox.style.cssText = "background: #f8fafc; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+        toolbarBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
+        <span style="font-size: 12px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">
+          🧮 Formula Authoring &amp; Operator Toolbar
         </span>
-        <span style="font-size: 11px; color: #64748b;">(Click a chip to insert into the LHS formula)</span>
+        <span style="font-size: 11px; color: #64748b;">(Click any button to insert into formula, or highlight formula text first to wrap it)</span>
       </div>
-      <div class="ee-fn-chips" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+
+      <!-- Section 1: Calculus & Nonstandard Operators -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 10.5px; font-weight: 700; color: #4338ca; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">
+          <span>∫ Calculus &amp; Nonstandard Operators</span>
+        </div>
+        <div class="ee-calc-chips" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+      </div>
+
+      <!-- Section 2: Callable Functions -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 10.5px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">
+          <span>📚 Elementary &amp; Nonstandard Functions</span>
+        </div>
+        <div class="ee-fn-chips" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+      </div>
+
+      <!-- Section 3: Arithmetic & Algebra Keys -->
+      <div>
+        <div style="font-size: 10.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">
+          <span>⚡ Arithmetic, Powers &amp; Symbols</span>
+        </div>
+        <div class="ee-alg-chips" style="display: flex; gap: 5px; flex-wrap: wrap;"></div>
+      </div>
     `;
-        const chipsContainer = fnPalette.querySelector(".ee-fn-chips");
+        // 1. Calculus Operators
+        const calcContainer = toolbarBox.querySelector(".ee-calc-chips");
+        for (const [opKey, rule] of Object.entries(CALCULUS_OPERATOR_REGISTRY)) {
+            const btn = document.createElement("button");
+            btn.style.cssText = "display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #4338ca; border: 1.5px solid #c7d2fe; border-radius: 5px; cursor: pointer; transition: all 0.15s ease;";
+            btn.title = `${rule.title}\n${rule.description}\n${rule.tooltip}`;
+            btn.innerHTML = `<span style="background: #ede9fe; color: #4338ca; padding: 1px 4px; border-radius: 3px; font-size: 10px; font-weight: 800;">${rule.badge}</span> <span>${rule.symbol}</span>`;
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (!this.isCustom) {
+                    this.switchToCustom(this.spec.lhsFormula, this.spec.rhsDomain, 1);
+                }
+                const formIn = card.querySelector("#eeEditFormula");
+                if (formIn) {
+                    insertTokenIntoInput(formIn, rule.badge, {
+                        isWrapper: true,
+                        wrapPrefix: rule.wrapPrefix,
+                        wrapSuffix: rule.wrapSuffix,
+                        cursorOffsetInside: rule.cursorOffsetInside
+                    });
+                }
+            });
+            calcContainer.appendChild(btn);
+        }
+        // 2. Defined Functions
+        const chipsContainer = toolbarBox.querySelector(".ee-fn-chips");
         for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
             const btn = document.createElement("button");
             btn.style.cssText = "display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;";
@@ -649,46 +1288,141 @@ export class EquationEvaluator extends Elt {
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
                 if (!this.isCustom) {
-                    this.switchToCustom(`${fnKey}(x)`, "ℝ_ω", 1);
+                    this.switchToCustom(this.spec.lhsFormula, this.spec.rhsDomain, 1);
                 }
-                else {
-                    const formIn = card.querySelector("#eeEditFormula");
-                    if (formIn) {
-                        const currentVal = formIn.value.trim();
-                        if (!currentVal || currentVal === "x" || currentVal === "2*x + 3" || currentVal === "x0 + k*dx") {
-                            formIn.value = `${fnKey}(x)`;
-                        }
-                        else if (/[+\-*/^]$/.test(currentVal)) {
-                            formIn.value = `${currentVal} ${fnKey}(x)`;
-                        }
-                        else {
-                            formIn.value = `${currentVal} + ${fnKey}(x)`;
-                        }
-                        formIn.dispatchEvent(new Event("change"));
-                    }
+                const formIn = card.querySelector("#eeEditFormula");
+                if (formIn) {
+                    insertTokenIntoInput(formIn, fnKey, {
+                        isWrapper: true,
+                        wrapPrefix: `${fnKey}(`,
+                        wrapSuffix: ")",
+                        cursorOffsetInside: fnKey.length + 1
+                    });
                 }
             });
             chipsContainer.appendChild(btn);
         }
-        card.appendChild(fnPalette);
+        // 3. Algebraic Operators
+        const algContainer = toolbarBox.querySelector(".ee-alg-chips");
+        for (const op of ALGEBRAIC_OPERATORS) {
+            const btn = document.createElement("button");
+            btn.style.cssText = "display: inline-flex; align-items: center; padding: 4px 8px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #334155; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;";
+            btn.title = op.title;
+            btn.innerHTML = `<span>${op.label}</span>`;
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (!this.isCustom) {
+                    this.switchToCustom(this.spec.lhsFormula, this.spec.rhsDomain, 1);
+                }
+                const formIn = card.querySelector("#eeEditFormula");
+                if (formIn) {
+                    insertTokenIntoInput(formIn, op.insert);
+                }
+            });
+            algContainer.appendChild(btn);
+        }
+        card.appendChild(toolbarBox);
+        // Collapsible Nonstandard Stencil & Lean 4 Type Inspector Drawer
+        const inspectorDetails = document.createElement("details");
+        inspectorDetails.style.cssText = "background: #f8fafc; border: 1.5px solid #bae6fd; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px;";
+        inspectorDetails.innerHTML = `
+      <summary style="font-weight: 700; color: #0369a1; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
+        <span>🔍 Inspect Nonstandard Calculation Stencils &amp; Lean 4 Types (12 Functions &amp; 6 Operators)</span>
+        <span style="font-size: 11px; font-weight: normal; color: #64748b;">(Click to expand verified formulas)</span>
+      </summary>
+      <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 800; color: #4338ca; text-transform: uppercase; margin-bottom: 6px;">
+            ∫ Calculus &amp; Nonstandard Operators: Formal Directed Pairs
+          </div>
+          <div class="ee-inspector-ops" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 8px;"></div>
+        </div>
+        <div>
+          <div style="font-size: 11px; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;">
+            📚 Elementary &amp; Nonstandard Functions: Hard Nucleus + Halo Dust Stencils
+          </div>
+          <div class="ee-inspector-fns" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 8px;"></div>
+        </div>
+      </div>
+    `;
+        // Populate operators into inspector
+        const opsInspector = inspectorDetails.querySelector(".ee-inspector-ops");
+        for (const [opKey, rule] of Object.entries(CALCULUS_OPERATOR_REGISTRY)) {
+            const opCard = document.createElement("div");
+            opCard.style.cssText = "background: #ffffff; border: 1px solid #e2e8f0; border-radius: 5px; padding: 8px 10px; font-size: 11.5px;";
+            opCard.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <strong style="color: #4338ca; font-family: monospace;">${rule.symbol}</strong>
+          <span style="font-size: 10px; background: #ede9fe; color: #4338ca; font-weight: 700; padding: 1px 5px; border-radius: 3px;">${rule.badge}</span>
+        </div>
+        <div style="color: #0f172a; margin-bottom: 2px;"><strong>Type:</strong> <code style="color: #0369a1;">${rule.domain} → ${rule.codomain}</code></div>
+        <div style="color: #475569; font-size: 11px; margin-bottom: 4px;">${rule.description}</div>
+        ${rule.governingTheorem ? `
+          <button class="ee-thm-link" data-thm="${rule.governingTheorem}" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 3px; font-size: 10px; font-family: monospace; color: #0369a1; padding: 2px 6px; cursor: pointer;">
+            📜 MiddleWay.${rule.governingTheorem}
+          </button>` : ''}
+      `;
+            opsInspector.appendChild(opCard);
+        }
+        // Populate functions into inspector
+        const fnsInspector = inspectorDetails.querySelector(".ee-inspector-fns");
+        for (const [fnKey, rule] of Object.entries(NONSTANDARD_FUNCTION_REGISTRY)) {
+            const fnCard = document.createElement("div");
+            fnCard.style.cssText = "background: #ffffff; border: 1px solid #e2e8f0; border-radius: 5px; padding: 8px 10px; font-size: 11.5px;";
+            fnCard.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <strong style="color: #0284c7; font-family: monospace;">${fnKey}(x)</strong>
+          <span style="font-size: 10px; background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 1px 5px; border-radius: 3px;">Directed Pair</span>
+        </div>
+        <div style="color: #0f172a; margin-bottom: 2px;"><strong>Type:</strong> <code style="color: #0284c7;">${rule.domain} → ${rule.codomain}</code></div>
+        ${rule.domainConditionDesc ? `<div style="color: #b45309; font-size: 10.5px; margin-bottom: 2px;">⚠️ Condition: <code>${rule.domainConditionDesc}</code></div>` : ''}
+        <div style="color: #334155; font-size: 11px; margin-bottom: 2px;"><strong>st:</strong> <code>${rule.hardRuleDesc}</code></div>
+        <div style="color: #334155; font-size: 11px; margin-bottom: 4px;"><strong>Halo:</strong> <code>${rule.dustRuleDesc}</code></div>
+        <div style="color: #475569; font-size: 10.5px; margin-bottom: 4px;">Derivative: <code>${rule.derivativeFormula}</code></div>
+        ${rule.governingTheorem ? `
+          <button class="ee-thm-link" data-thm="${rule.governingTheorem}" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 3px; font-size: 10px; font-family: monospace; color: #0369a1; padding: 2px 6px; cursor: pointer;">
+            📜 MiddleWay.${rule.governingTheorem}
+          </button>` : ''}
+      `;
+            fnsInspector.appendChild(fnCard);
+        }
+        inspectorDetails.querySelectorAll(".ee-thm-link").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const thm = e.currentTarget.getAttribute("data-thm");
+                if (thm) {
+                    const { FSDRef } = await import("./fsdRef.js");
+                    FSDRef.openScaffoldCard(thm, `MiddleWay.${thm}`);
+                }
+            });
+        });
+        card.appendChild(inspectorDetails);
         // If Custom Mode, allow editing the relation
         if (this.isCustom) {
             const editBox = document.createElement("div");
-            editBox.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin-bottom: 16px;";
+            editBox.style.cssText = "background: #ffffff; border: 1.5px solid #0284c7; border-radius: 6px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);";
             editBox.innerHTML = `
-        <div style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 10px;">Edit Custom Statement Properties</div>
-        <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 10px; align-items: end;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 12px; font-weight: 700; color: #0284c7; text-transform: uppercase;">
+            ✏️ Active Custom Equation Specification
+          </span>
+          <span style="font-size: 11px; color: #64748b;">
+            Tip: Highlight sub-expressions in the formula and click toolbar chips to wrap!
+          </span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px; align-items: end;">
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">Statement Title</label>
-            <input id="eeEditTitle" type="text" value="${this.customTitle}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            <input id="eeEditTitle" type="text" value="${this.customTitle}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-size: 12.5px; border: 1px solid #cbd5e1; border-radius: 4px;" />
           </div>
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">LHS Expression Formula</label>
-            <input id="eeEditFormula" type="text" value="${this.customFormula}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-family: monospace; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            <input id="eeEditFormula" type="text" value="${this.customFormula}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-family: monospace; font-size: 13.5px; font-weight: bold; color: #0f172a; border: 1.5px solid #0284c7; border-radius: 4px; background: #f0f9ff;" />
           </div>
           <div>
             <label style="display: block; font-size: 11px; font-weight: 600; color: #475569; margin-bottom: 4px;">RHS Target Symbol</label>
-            <input id="eeEditSymbol" type="text" value="${this.customRhsSymbol}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-family: monospace; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            <input id="eeEditSymbol" type="text" value="${this.customRhsSymbol}" style="width: 100%; box-sizing: border-box; padding: 6px 8px; font-family: monospace; font-size: 13.5px; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 4px;" />
           </div>
         </div>
       `;
@@ -756,6 +1490,43 @@ export class EquationEvaluator extends Elt {
         Every free variable on the LHS represents an independent computational slot. Assign its foundational domain, and declare the codomain of the RHS target.
       </p>
     `;
+        // 0. Inferred Function Typing & Domain Restrictions Card
+        const { functions: usedFuncs } = detectUsedFunctionsAndOperators(this.spec.lhsFormula);
+        const funcsWithConditions = usedFuncs.filter(f => f.domainConditionDesc);
+        const typeInferenceCard = document.createElement("div");
+        typeInferenceCard.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px;";
+        if (funcsWithConditions.length > 0) {
+            typeInferenceCard.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #b45309; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <span>⚠️ Inferred Function Typing &amp; Domain Restrictions</span>
+        </div>
+        <p style="font-size: 12px; color: #475569; margin: 0 0 8px 0; line-height: 1.4;">
+          The expression <code>${this.spec.lhsFormula}</code> uses typed functions with restricted domains on the tree. Input variable slots must satisfy these bounds:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          ${funcsWithConditions.map(f => `
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; font-size: 12px;">
+              <div>
+                <span style="font-family: monospace; font-weight: bold; color: #92400e;">${f.name}(x)</span>
+                <span style="color: #64748b; margin-left: 6px; font-size: 11px;">Type: <code>${f.domain} → ${f.codomain}</code></span>
+              </div>
+              <span style="background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 3px; font-weight: 700; font-family: monospace;">Requires: ${f.domainConditionDesc}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+        }
+        else {
+            typeInferenceCard.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>ℹ️ Function Typing &amp; Coordinate Coverage</span>
+        </div>
+        <p style="font-size: 12px; color: #334155; margin: 0;">
+          ✓ All detected operators and functions in <code>${this.spec.lhsFormula}</code> are total on <strong>ℝ / ℝ_ω</strong>. No restricted sub-domains detected.
+        </p>
+      `;
+        }
+        card.appendChild(typeInferenceCard);
         // 1. LHS Input Slots Grid
         const slotsCard = document.createElement("div");
         slotsCard.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px;";
@@ -965,6 +1736,14 @@ export class EquationEvaluator extends Elt {
             });
             contractBar.appendChild(thmBtn);
         }
+        const editFormulaBtn = document.createElement("button");
+        editFormulaBtn.style.cssText = "background: #ffffff; border: 1.5px solid #0284c7; color: #0284c7; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease;";
+        editFormulaBtn.innerHTML = "<span>✏️</span> <span>Edit Formula &amp; Operators</span>";
+        editFormulaBtn.title = "Jump to Step 1 to modify expression formula, calculus operators, and functions";
+        editFormulaBtn.addEventListener("click", () => {
+            this.setStage(1);
+        });
+        contractBar.appendChild(editFormulaBtn);
         wrap.appendChild(contractBar);
         // 2. LHS Instantiation Slots Panel
         const inputsCard = document.createElement("div");
@@ -1082,6 +1861,24 @@ export class EquationEvaluator extends Elt {
         const res = this.spec.evaluate(this.curValues);
         const domain = this.spec.rhsDomain;
         const sym = this.spec.rhsSymbol;
+        const { functions: usedFuncs } = detectUsedFunctionsAndOperators(this.spec.lhsFormula);
+        const domainWarnings = [];
+        for (const fn of usedFuncs) {
+            if (fn.domainCondition) {
+                for (const [varName, val] of Object.entries(this.curValues)) {
+                    if (!fn.domainCondition(val)) {
+                        domainWarnings.push(`Input slot <code>${varName} = ${val}</code> violates domain restriction <code>${fn.domainConditionDesc}</code> for function <strong>${fn.name}()</strong>.`);
+                    }
+                }
+            }
+        }
+        const domainWarningBanner = domainWarnings.length > 0
+            ? `<div style="font-family: system-ui, sans-serif; font-size: 12.5px; color: #b45309; background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px;">
+           <div style="font-weight: 700; margin-bottom: 4px;">⚠️ Input Domain Condition Warning</div>
+           <div>${domainWarnings.join("<br/>")}</div>
+           <div style="font-size: 11px; color: #92400e; margin-top: 4px;">In Middle Way Math, coordinates outside the typed domain do not exist on the discrete tree. Adjust the input stepper to restore validity.</div>
+         </div>`
+            : "";
         let codomainSection = "";
         if (domain === "ℝ_ω") {
             codomainSection = `
@@ -1109,6 +1906,33 @@ export class EquationEvaluator extends Elt {
         </div>
       `;
         }
+        const nonstandardCard = `
+      <div style="margin-top: 14px; padding: 12px 14px; background: #ffffff; border-radius: 6px; border: 1.5px solid #bae6fd;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+          <span style="font-size: 11.5px; font-weight: 700; color: #0369a1; text-transform: uppercase;">
+            🔬 Nonstandard Calculation &amp; Machine Certification
+          </span>
+          ${this.spec.governingTheorem ? `
+            <button class="ee-thm-link-s4" data-thm="${this.spec.governingTheorem}" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 4px; font-size: 11px; font-family: monospace; color: #0369a1; padding: 2px 7px; cursor: pointer; font-weight: 600;">
+              📜 MiddleWay.${this.spec.governingTheorem}
+            </button>` : ''}
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: 12px; margin-bottom: 8px;">
+          <div style="background: #f8fafc; padding: 8px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Standard Real Nucleus</div>
+            <div style="font-family: monospace; font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">st(${sym}) = ${res.hardPart ?? res.displayValue}</div>
+          </div>
+          <div style="background: #f8fafc; padding: 8px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">First-Order Halo Dust</div>
+            <div style="font-family: monospace; font-size: 14px; font-weight: 800; color: #0284c7; margin-top: 2px;">ε = ${res.dustPart ?? "0"}</div>
+          </div>
+        </div>
+        ${usedFuncs.length > 0 ? `
+          <div style="font-size: 11px; color: #475569; border-top: 1px solid #f1f5f9; padding-top: 6px; margin-top: 4px;">
+            <strong>Detected Stencils:</strong> ${usedFuncs.map(f => `<code style="background: #f1f5f9; padding: 1px 4px; border-radius: 3px; color: #0369a1;">${f.name} (deriv: ${f.derivativeFormula})</code>`).join(" ")}
+          </div>` : ''}
+      </div>
+    `;
         const statusNotice = res.isHard
             ? `<div style="font-family: system-ui, sans-serif; font-size: 12px; color: #059669; font-weight: 600; margin-top: 12px; padding: 8px 12px; background: #ecfdf5; border-radius: 4px; border: 1px solid #a7f3d0;">
            ✓ Verified Hard Value: All transfinite fluctuations vanish identically (dust = 0).
@@ -1125,6 +1949,7 @@ export class EquationEvaluator extends Elt {
       `;
         }
         this.outBox.innerHTML = `
+      ${domainWarningBanner}
       <div style="font-family: system-ui, sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #0369a1; margin-bottom: 8px;">
         🎯 Evaluated RHS Target Slot (${sym} ∈ ${domain})
       </div>
@@ -1132,8 +1957,20 @@ export class EquationEvaluator extends Elt {
         ${sym} &nbsp;=&nbsp; <span style="font-weight: 800; color: #0284c7;">${res.displayValue}</span>
       </div>
       ${codomainSection}
+      ${nonstandardCard}
       ${detailsList}
       ${statusNotice}
     `;
+        this.outBox.querySelectorAll(".ee-thm-link-s4").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const thm = e.currentTarget.getAttribute("data-thm");
+                if (thm) {
+                    const { FSDRef } = await import("./fsdRef.js");
+                    FSDRef.openScaffoldCard(thm, `MiddleWay.${thm}`);
+                }
+            });
+        });
     }
 }

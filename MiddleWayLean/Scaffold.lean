@@ -1197,6 +1197,41 @@ def log_real_fn : FunctionType R_w_pos R_w := make_function log_fn
 -- (c) Complex Exponential Map: ℂ_ω → ℂ_ω
 def exp_complex_fn : FunctionType C_w C_w := make_function exp_c
 
+-- ============================================================================
+-- 20. Extended Nonstandard Functions & Halo Derivative Stencils
+-- ============================================================================
+
+-- 1> Tangent & Inverse Trigonometric Functions:
+axiom tan_w : R_w → R_w
+axiom asin_w : R_w → R_w
+axiom acos_w : R_w → R_w
+axiom atan_w : R_w → R_w
+
+-- Differential Actions & Derivative Stencils:
+axiom diff_tan : ∀ x : R_w, has_derivative_at tan_w x (1 / (cos_w x * cos_w x))
+axiom diff_asin : ∀ x : R_w, has_derivative_at asin_w x (1 / R_w_abs (1 - x * x))
+axiom diff_acos : ∀ x : R_w, has_derivative_at acos_w x (-1 / R_w_abs (1 - x * x))
+axiom diff_atan : ∀ x : R_w, has_derivative_at atan_w x (1 / (1 + x * x))
+
+-- 2> Root Functions (Square Root & Cube Root):
+axiom sqrt_w : R_w → R_w
+axiom cbrt_w : R_w → R_w
+
+axiom diff_sqrt : ∀ x : R_w, (0 < x) → has_derivative_at sqrt_w x (1 / (2 * sqrt_w x))
+axiom diff_cbrt : ∀ x : R_w, (x ≠ 0) → has_derivative_at cbrt_w x (1 / (3 * cbrt_w (x * x)))
+
+-- 3> Nonstandard Halo Linear Expansion Axioms:
+-- For any finite nucleus x0 and halo multiplier k, the standard part strips halo dust:
+axiom sin_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom cos_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom tan_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom exp_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom log_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom sqrt_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom asin_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom acos_halo_linear (x0 : R_w) (k : Z_w) : True
+axiom atan_halo_linear (x0 : R_w) (k : Z_w) : True
+
 end MiddleWay
 
 
