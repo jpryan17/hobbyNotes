@@ -544,93 +544,15 @@ export class Nav {
         Nav.lineArrowButton.setV(v);
         Nav.display();
     }
-    static renderIndexHub(title, items) {
-        Nav.textSizeControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
-        if (Nav.editMode) {
-            Sed.setEditControlStatus(false);
-        }
-        Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;');
-        Nav.fo.removeChildren();
-        const cardItems = items.map((item, idx) => {
-            const icon = item.type === 'index' ? '▶' : (item.type === 'html' ? '■' : '●');
-            const typeLabel = item.type === 'index' ? 'Section (Multi-part)' : (item.type === 'html' ? 'Curricular Lecture' : 'Interactive Lab / Demo');
-            return `
-                <div class="mwm-hub-card" data-idx="${idx}" style="cursor:pointer; background:#ffffff; border:1px solid #cbd5e1; border-radius:10px; padding:1.25rem 1.5rem; box-shadow:0 1px 3px rgba(0,0,0,0.06); transition:transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;">
-                    <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#64748b; margin-bottom:0.4rem;">
-                        ${typeLabel}
-                    </div>
-                    <div style="font-size:1.15rem; font-weight:600; color:#1e3a8a; display:flex; align-items:center; gap:0.6rem; margin-bottom:0.4rem;">
-                        <span style="font-size:1rem; color:#3b82f6;">${icon}</span>
-                        <span>${item.topic}</span>
-                    </div>
-                    <div style="font-size:0.9rem; color:#475569; line-height:1.45;">
-                        Click to explore this topic or select it from the sidebar navigation.
-                    </div>
-                </div>
-            `;
-        }).join('');
-        const hubHtml = `
-            <div style="max-width:920px; margin:0 auto; padding:2rem 1.25rem;">
-                <div style="border-bottom:2px solid #e2e8f0; padding-bottom:1.25rem; margin-bottom:1.75rem;">
-                    <div style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#2563eb; margin-bottom:0.4rem;">
-                        Middle Way Math · Curricular Overview
-                    </div>
-                    <h1 style="font-size:2.2rem; font-weight:800; color:#0f172a; margin:0 0 0.5rem 0; line-height:1.2;">
-                        ${title}
-                    </h1>
-                    <p style="font-size:1.05rem; color:#475569; margin:0; line-height:1.5;">
-                        Select a topic below or from the sidebar menu to begin:
-                    </p>
-                </div>
-                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1.25rem;">
-                    ${cardItems}
-                </div>
-            </div>
-        `;
-        Nav.segDiv.setA('style', Nav.getTextStyle());
-        Nav.segDiv.elt.innerHTML = hubHtml;
-        Nav.fo.append(Nav.segDiv);
-        const cards = Nav.segDiv.elt.querySelectorAll('.mwm-hub-card');
-        cards.forEach((card) => {
-            const el = card;
-            el.addEventListener('mouseenter', () => {
-                el.style.borderColor = '#2563eb';
-                el.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.15)';
-                el.style.transform = 'translateY(-2px)';
-            });
-            el.addEventListener('mouseleave', () => {
-                el.style.borderColor = '#cbd5e1';
-                el.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)';
-                el.style.transform = 'translateY(0)';
-            });
-            el.addEventListener('click', () => {
-                const idxStr = el.getAttribute('data-idx');
-                const idx = idxStr ? parseInt(idxStr, 10) : 0;
-                const index = Nav.indices[Nav.currentIndex];
-                if (index && index.choices[idx]) {
-                    index.chosen = idx;
-                    index.setSelectedItem();
-                    Nav.processSelection();
-                }
-            });
-        });
-    }
     static loadIndex(header, indexDesc, initialSelection = 0) {
         let index = new Index(indexDesc, initialSelection);
         Nav.indices.push(index);
         Nav.currentIndex = Nav.indices.length - 1;
+        //if(header){
         Nav.addNavLineIndexItem(header);
-        const firstChoice = (initialSelection >= 0 && initialSelection < indexDesc.length) ? indexDesc[initialSelection] : null;
-        if (firstChoice && firstChoice.type === 'index') {
-            index.chosen = -1;
-            index.setSelectedItem();
-            Nav.renderIndexHub(header, indexDesc);
-            Nav.display();
-        }
-        else {
-            index.setSelectedItem();
-            Nav.processSelection();
-        }
+        //}
+        index.setSelectedItem();
+        Nav.processSelection();
     }
     //
     static processSelection() {
@@ -639,9 +561,6 @@ export class Nav {
             Sed.setEditControlStatus(false);
         }
         const index = Nav.indices[Nav.currentIndex];
-        if (!index || index.chosen < 0 || index.chosen >= index.choices.length) {
-            return;
-        }
         const selected = index.choices[index.chosen];
         const [c, w] = selected; //[IndexItemDesc,SVGTSpan]
         const lineElts = Nav.lineTopics.children();
@@ -683,9 +602,6 @@ export class Nav {
     }
     static setLastVisit() {
         const index = Nav.indices[Nav.currentIndex];
-        if (!index || index.chosen < 0 || index.chosen >= index.choices.length) {
-            return;
-        }
         const choice = index.choices[index.chosen][0];
         if (choice.type == 'html') {
             Nav.lastVisits.set(Nav.segId, Nav.fo.elt.scrollTop);
@@ -803,19 +719,9 @@ export class Nav {
         Nav.setLastVisit();
         Nav.showNavLine();
         const index = Nav.indices[Nav.currentIndex];
-        const firstChoice = index.choices[0]?.[0];
-        if (firstChoice && firstChoice.type === 'index') {
-            index.chosen = -1;
-            index.setSelectedItem();
-            const header = lineElts[widgetPos]?.getV() || 'Index';
-            Nav.renderIndexHub(header, index._rawIndexDesc);
-            Nav.display();
-        }
-        else {
-            index.chosen = 0;
-            index.setSelectedItem();
-            Nav.processSelection();
-        }
+        index.chosen = 0;
+        index.setSelectedItem();
+        Nav.processSelection();
     }
     static backButtonSelectionHandler(ev) {
         const lineElts = Nav.lineTopics.children();

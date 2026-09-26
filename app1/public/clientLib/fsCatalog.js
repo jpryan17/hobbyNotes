@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/harvestStencils.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-09-26T13:49:23.560Z",
+    "generatedAt": "2026-09-26T14:18:03.762Z",
     "version": "1.0.0",
     "formalStatements": [
         {

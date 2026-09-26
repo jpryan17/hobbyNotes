@@ -358,6 +358,11 @@ export const curriculumIntroIndex: IndexItemDesc[] = [
 
 export const level1Index: IndexItemDesc[] = [
   {
+    type: "html",
+    topic: "overview: logic & foundations",
+    htmlSegmentId: "introduction",
+  },
+  {
     type: "index",
     topic: "propositional logic",
     navTopic: "prop logic",
@@ -486,14 +491,19 @@ export const vectorsIndex: IndexItemDesc[] = [
 
 export const level3Index: IndexItemDesc[] = [
   {
+    type: "html",
+    topic: "overview: linear algebra & geometry",
+    htmlSegmentId: "vectorFoundationsIntro",
+  },
+  {
     type: "index",
-    topic: "linear algebra & vector spaces",
-    navTopic: "vectors",
+    topic: "course 1: linear algebra",
+    navTopic: "linear algebra",
     indexDesc: vectorsIndex,
   },
   {
     type: "html",
-    topic: "trigonometry & rotor geometry",
+    topic: "course 2: trigonometry & rotor geometry",
     htmlSegmentId: "stemTrigFoundations",
   },
 ];
@@ -526,6 +536,11 @@ export const level4Index: IndexItemDesc[] = [
 // =====================================================================
 
 export const level5Index: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: Bayesian inference & quantum logic",
+    htmlSegmentId: "bayesianInferenceIntro",
+  },
   {
     type: "index",
     topic: "Bayesian inference",
