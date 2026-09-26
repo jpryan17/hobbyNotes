@@ -40,7 +40,7 @@
   <body>
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
-      <h2>— Prototyping an Open Civic Infrastructure for Formal Proof, Symbolic Algebra, and Autonomous Curricula —</h2>
+      <h2>— Prototyping an Open Civic Infrastructure for Formal Verification, Machine-Checked Proof, and Autonomous Curricula —</h2>
 
       <!-- Core Proposal Statement Up Front -->
       <div class="box-blue" style="border-left: 5px solid #2563eb; padding: 18px 20px;">
@@ -48,46 +48,45 @@
           Core Proposal: Prototyping the Educational Resource Hub (ERH)
         </h3>
         <p style="margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">
-          We propose the prototyping and deployment of a publicly available, community-supported <b>Educational Resource Hub (ERH)</b> for foundational mathematical and computational science services. 
-          By treating mathematical verification and symbolic calculation as shared civic infrastructure rather than proprietary commodities, the Hub fulfills a fundamental <b>dual role</b>:
+          We propose the prototyping and deployment of a publicly available, community-supported <b>Educational Resource Hub (ERH)</b> for foundational formal science and mathematical verification services. 
+          By treating formal proof verification as shared civic infrastructure rather than a proprietary commodity, the Hub fulfills a fundamental <b>dual role</b>:
         </p>
         <ol style="margin: 0; padding-left: 22px; font-size: 14.5px; line-height: 1.6;">
-          <li><b>Generic Public-Domain Compute APIs:</b> Hosting high-performance, stateless microservice endpoints for formal theorem proving (<b>Lean 4</b>), computer algebra systems (<b>Maxima CAS</b>), and extensible community verification engines—freely queryable by any client application across the internet.</li>
+          <li><b>Generic Public-Domain Verification APIs:</b> Hosting high-performance, stateless microservice endpoints for formal theorem proving and type verification (<b>Lean 4</b>)—freely queryable by any educational client application across the internet.</li>
           <li><b>Federated Curricular Storage via a Single DBMS:</b> Providing managed database and storage resources within a single, centralized DBMS (such as PostgreSQL), where recognized <b>"Schools of Thought"</b> are allocated dedicated database schemas to curate and maintain their respective <b>Pedagogic Databases (PDBs)</b> without the burden of database server administration.</li>
         </ol>
       </div>
 
       <h3>1. The Problem: The DevOps Friction Wall &amp; The Conflation Trap</h3>
       <p>
-        The open-source community has produced astonishing tools that represent the summit of mathematical rigor and computational power:
+        The open-source formal science community has produced astonishing tools that represent the summit of mathematical rigor:
       </p>
       <ul>
-        <li><b>Lean 4:</b> An interactive theorem prover offering absolute, machine-checked certainty for formal mathematical claims.</li>
-        <li><b>Maxima CAS:</b> A venerable, battle-tested computer algebra system capable of exact symbolic integration, series expansions, and invariant derivations.</li>
+        <li><b>Lean 4:</b> An interactive theorem prover and programming language offering absolute, machine-checked certainty for formal mathematical claims and verified computational definitions.</li>
       </ul>
       <p>
-        Yet these tools remain almost entirely absent from secondary and general undergraduate classrooms. The barrier is not that students cannot grasp the ideas; the barrier is <b>operational friction</b> caused by the conflation of <i>mathematical computation</i> with <i>curriculum delivery</i>:
+        Yet formal theorem provers remain almost entirely absent from general education classrooms. The barrier is not that students cannot grasp formal logic and constructive reasoning; the barrier is <b>operational friction</b> caused by the conflation of <i>formal proof execution</i> with <i>curriculum delivery</i>:
       </p>
       <ol>
-        <li><b>Local Install Pain:</b> Installing Lean 4, Git, Elan, VS Code extensions, or Common Lisp runtimes on diverse student laptops (or locked-down school Chromebooks) is a logistical nightmare for teachers.</li>
-        <li><b>The Personal Cloud Bill:</b> To offer these tools via the web, an independent curriculum creator or school department must manage container clusters, configure reverse proxies, monitor security, and pay monthly cloud hosting bills out of their own pocket.</li>
-        <li><b>The Commercial Trap:</b> In the absence of open infrastructure, schools fall prey to proprietary SaaS platforms that lock curricula behind expensive per-seat licensing fees and opaque software stacks.</li>
+        <li><b>Local Install Pain:</b> Installing Lean 4, Git, Elan, and specialized VS Code extensions on diverse student laptops (or locked-down school Chromebooks) is an insurmountable logistical burden for educators.</li>
+        <li><b>The Personal Cloud Bill:</b> To offer live interactive proof checking via the web, an independent curriculum creator or department must manage container clusters, configure reverse proxies, monitor security, and pay monthly cloud hosting bills out of their own pocket.</li>
+        <li><b>The Commercial Trap:</b> In the absence of open civic infrastructure, educational institutions fall prey to proprietary SaaS platforms that lock learning behind expensive per-seat licensing fees and opaque software stacks.</li>
       </ol>
 
       <div class="box-amber">
         <b>The Blue-Collar Reality:</b><br>
-        A carpentry teacher isn't asked to smelt their own steel for hand saws, and a chemistry teacher isn't asked to build a water treatment plant to get clean tap water for lab beakers. Why do we expect STEM teachers and curriculum authors to run their own cloud server farms just to give students access to a theorem checker or computer algebra system?
+        A carpentry teacher isn't asked to smelt their own steel for hand saws, and a chemistry teacher isn't asked to build a municipal water treatment plant to get clean tap water for lab beakers. Why do we expect formal science teachers and curriculum authors to run their own cloud server clusters just to give students access to a verified theorem checker?
       </div>
 
-      <h3>2. The Solution: Decoupling Generic Compute from Curricular Content</h3>
+      <h3>2. The Solution: Decoupling Generic Verification from Curricular Content</h3>
       <p>
         The most cost-effective and democratic intervention open-science foundations (such as the NSF, Sloan, or university consortia) can make is <b>patronage of shared public educational service hubs</b>:
       </p>
       <ul>
-        <li><b>Centrally Hosted, Publicly Available:</b> Secure, containerized server clusters running stateless Lean 4 verification and Maxima CAS evaluation workers, managed by open-source infrastructure administrators.</li>
-        <li><b>Simple, Open Microservice APIs:</b> Standard HTTP/JSON and WebSocket endpoints where any client application can send a formal logic snippet or algebraic expression and receive a structured certificate of validity or symbolic reduction.</li>
-        <li><b>Universal Client Access:</b> Any independent educational project, hobbyist web app, high school science lab, or student portal can freely query the hub as a public utility—just like querying an open NTP time server or public DNS.</li>
-        <li><b>Curricular Decoupling:</b> The Hub itself has zero editorial bias or curricular gatekeeping. It provides computational horsepower and database housing, while independent academic communities curate their own pedagogic structures.</li>
+        <li><b>Centrally Hosted, Publicly Available:</b> Secure, containerized server clusters running stateless Lean 4 verification workers, managed by open-source infrastructure administrators.</li>
+        <li><b>Simple, Open Microservice APIs:</b> Standard HTTP/JSON and WebSocket endpoints where any client application can send a formal statement or proof snippet and receive a structured certificate of validity (or proof state diagnostics).</li>
+        <li><b>Universal Client Access:</b> Any independent educational project, hobbyist web app, undergraduate seminar, or student portal can freely query the hub as a public utility—just like querying an open NTP time server or public DNS.</li>
+        <li><b>Curricular Decoupling:</b> The Hub itself has zero editorial bias or curricular gatekeeping. It provides formal verification horsepower and database housing, while independent academic communities curate their own pedagogic structures.</li>
       </ul>
 
       <h3>3. Federated Multi-Role Architecture: 4 Distinct Roles Across 2 Operational Planes</h3>
@@ -174,25 +173,17 @@
 
           <rect x="65" y="234" width="375" height="130" rx="14" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" />
 
-          <!-- Card: Formal Validation (Lean 4) -->
-          <rect x="80" y="244" width="140" height="110" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
-          <text x="150" y="266" text-anchor="middle" font-size="11" fill="#475569">formal validation</text>
-          <text x="150" y="282" text-anchor="middle" font-size="11" fill="#64748b">i.e.</text>
-          <text x="150" y="297" text-anchor="middle" font-size="11" fill="#475569">theorem prover</text>
-          <text x="150" y="313" text-anchor="middle" font-size="11" fill="#64748b">e.g.</text>
-          <text x="150" y="335" text-anchor="middle" font-weight="800" font-size="14" fill="#1e3a8a">Lean4</text>
-
-          <!-- Card: Symbolic Calculation (Maxima) -->
-          <rect x="235" y="244" width="140" height="110" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
-          <text x="305" y="266" text-anchor="middle" font-size="11" fill="#475569">symbolic calculation</text>
-          <text x="305" y="282" text-anchor="middle" font-size="11" fill="#64748b">i.e.</text>
-          <text x="305" y="297" text-anchor="middle" font-size="11" fill="#475569">CAS</text>
-          <text x="305" y="313" text-anchor="middle" font-size="11" fill="#64748b">e.g.</text>
-          <text x="305" y="335" text-anchor="middle" font-weight="800" font-size="14" fill="#047857">Maxima</text>
+          <!-- Card: Formal Verification (Lean 4) -->
+          <rect x="90" y="244" width="260" height="110" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+          <text x="220" y="266" text-anchor="middle" font-size="11" fill="#475569">formal verification</text>
+          <text x="220" y="282" text-anchor="middle" font-size="11" fill="#64748b">i.e.</text>
+          <text x="220" y="297" text-anchor="middle" font-size="11" fill="#475569">interactive theorem prover</text>
+          <text x="220" y="313" text-anchor="middle" font-size="11" fill="#64748b">e.g.</text>
+          <text x="220" y="335" text-anchor="middle" font-weight="800" font-size="15" fill="#1e3a8a">Lean 4</text>
 
           <!-- Extensibility Dots for Generic APIs -->
-          <circle cx="398" cy="299" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
-          <circle cx="418" cy="299" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+          <circle cx="380" cy="299" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
+          <circle cx="402" cy="299" r="4.5" fill="#ffffff" stroke="#64748b" stroke-width="2" />
 
           <!-- Right Half: Pedagogic Schemas in Single DBMS -->
           <text x="655" y="224" text-anchor="middle" font-weight="700" font-size="14" fill="#0f172a">pedagogic schemas (single DBMS)</text>
@@ -284,8 +275,8 @@
         <tbody>
           <tr>
             <td><b>1. Hub Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Infrastructure &amp; Generic Compute)</span></td>
-            <td><b>Pure platform utility: zero curriculum opinions.</b> Defines and maintains generic, public-domain microservice APIs (Lean 4 validation, Maxima CAS computation). Maintains the single, high-availability DBMS (PostgreSQL), managing server uptime, automated backups, and allocating isolated database schemas to recognized schools of thought.</td>
-            <td>Stateless cloud container pods; OpenAPI / JSON-RPC endpoints (<code>/eval</code>, <code>/calc</code>); centralized DBMS administration (user provisioning, schema-level RBAC). Unaware of specific course syllabi, problem sets, or pedagogical interpretations.</td>
+            <td><b>Pure platform utility: zero curriculum opinions.</b> Defines and maintains generic, public-domain microservice APIs (Lean 4 formal verification and type elaboration). Maintains the single, high-availability DBMS (PostgreSQL), managing server uptime, automated backups, and allocating isolated database schemas to recognized schools of thought.</td>
+            <td>Stateless cloud container pods; OpenAPI / JSON-RPC endpoints (<code>/verify</code>, <code>/check</code>); centralized DBMS administration (user provisioning, schema-level RBAC). Unaware of specific course syllabi, problem sets, or pedagogical interpretations.</td>
           </tr>
           <tr>
             <td><b>2. PDB Administrator</b><br><span style="font-size: 12px; color: #cbd5e1;">(Curricular Authority per School)</span></td>
@@ -311,7 +302,7 @@
           As highlighted by the extensibility markers (<code>○ ○</code>) in the architecture diagram, this model is inherently <b>federated and pluralistic</b>:
         </p>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-          <li><b>Generic Compute is Plural:</b> The hub starts with Lean 4 and Maxima, but naturally accommodates SMT solvers (Z3), alternative proof assistants (Coq, Isabelle), or symbolic CAS engines (SymPy, Julia).</li>
+          <li><b>Generic Verification is Plural:</b> The hub starts with Lean 4, but naturally accommodates SMT solvers (Z3), alternative proof assistants (Coq, Isabelle), or automated first-order theorem provers.</li>
           <li><b>Pedagogic Schemas are Plural:</b> Middle Way Mathematics is one schema (<code>schema middleway</code>). Other institutions can launch independent curricular schemas (e.g., constructive analysis, quantum mechanics, discrete mathematics) inside the hub's single DBMS—each maintaining full namespace sovereignty while drinking from the exact same publicly funded computational utility.</li>
           <li><b>Dual Delivery Pathways:</b> Students are not trapped in a monolithic portal. A self-studying reader across the globe receives the high-polish canonical edition directly from the PDB Admin; simultaneously, a university student in an honors mechanics track receives a custom-tuned edition generated directly by their professor.</li>
         </ul>
@@ -326,7 +317,7 @@
         <h4 style="margin: 0 0 8px 0; color: #065f46; font-size: 16px;">Working Feasibility Prototype Milestones</h4>
         <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
           <li><b>WYSIWYG Page-Mimic Authoring Studio:</b> An integrated, in-situ authoring overlay attached directly to the SVG navigation control bar (<code>Line 2 Dev Studio</code>). Authors can click any chapter in the outline to edit topic titles, restructure hierarchy, re-parent sections, and author lecture text with live MathJax typesetting in place—no external CMS or complex config files required.</li>
-          <li><b>Dual Formal Verification &amp; Symbolic CAS Stencils:</b> Seamlessly bridges Lean 4 machine-verified proof statements (<code>&lt;fsd-ref&gt;</code>) with Maxima computer algebra calculations (<code>&lt;cas-ref&gt;</code>), enabling students to explore verified mathematical invariants with interactive stepper controls (<code>[-] [value] [+]</code>).</li>
+          <li><b>Machine-Verified Formal Proof Stencils:</b> Seamlessly bridges Lean 4 machine-verified proof statements (<code>&lt;fsd-ref&gt;</code>) directly into interactive browser stencils, enabling students to explore verified mathematical invariants and inspect constitutional proof structures.</li>
           <li><b>2-Phase Staging &amp; Coordinated Promotion Sandbox:</b> Real-time authoring operates safely in client memory and a dedicated local staging sandbox (<code>stagedSegs/</code>). Canonical files and databases remain untouched until an explicit promotion copies assets, regenerates SQL seeds, reseeds PostgreSQL, and re-bundles production artifacts.</li>
           <li><b>One-Click Static Build Snapshot Engine:</b> With a single click (<code>[🚀 Build Page]</code>), the author's live browser state is compiled into an isolated, zero-dependency standalone HTML file in <b>under 300 milliseconds</b> (writing to <code>app1/builds/&lt;custom_name&gt;.html</code>), ready for offline distribution or immediate classroom evaluation.</li>
         </ul>
@@ -335,7 +326,7 @@
       <div class="box-amber" style="border-left: 5px solid #d97706; margin: 20px 0;">
         <h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 16px;">The "Invisibility Barrier": Why the Public Hub is the Essential Catalyst</h4>
         <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6;">
-          <b>The Local Scope of the Prototype:</b> This authoring workflow, live Lean 4 proof extraction, and Maxima CAS derivation currently runs in a <i>local development environment</i>. However, on the public static deployment on the open web, <b>this dynamic editing and on-demand verification is necessarily inactive</b>.
+          <b>The Local Scope of the Prototype:</b> This authoring workflow and live Lean 4 proof verification currently runs in a <i>local development environment</i>. However, on the public static deployment on the open web, <b>this dynamic editing and on-demand verification is necessarily inactive</b>.
         </p>
         <p style="margin: 0; font-size: 14px; line-height: 1.6;">
           To keep public delivery 100% free of cloud hosting fees and server maintenance vulnerabilities, reader deployments run as static assets with <code>editMode = false</code>, relying on pre-computed JSON caches. The local prototype demonstrates the feasibility of the workflow, the authoring studio, and the compile pipeline. <b>The public educational service hub is the bridge required to move beyond local demonstration</b>—transforming what is currently a local feasibility prototype into a shared public service where educators and students can author, verify, and explore live mathematics directly in their browsers.
@@ -346,7 +337,7 @@
       <h3>5. Recommended Action Plan: Educational Resource Hub Advisory Council</h3>
       <p>
         To transition this working prototype into an enduring public utility, we propose establishing an <b>Educational Resource Hub (ERH) Advisory Council</b> to administer a foundational prototype grant (estimated at <b>$100,000 to $175,000</b> in seed support). 
-        The Advisory Council—composed of representatives from the formal verification community, open computer algebra maintainers, participating schools of thought, and classroom educators—will execute across five structured tracks:
+        The Advisory Council—composed of representatives from the formal verification community, participating schools of thought, and classroom educators—will execute across five structured tracks:
       </p>
 
       <table>
@@ -370,7 +361,7 @@
           </tr>
           <tr>
             <td><b>3. Generic API Standards &amp; Review</b></td>
-            <td>Review, modify, and ratify open microservice API specifications (OpenAPI / JSON-RPC) for stateless theorem verification (<code>/verify</code>) and symbolic calculation (<code>/calc</code>).</td>
+            <td>Review, modify, and ratify open microservice API specifications (OpenAPI / JSON-RPC) for stateless theorem verification and proof checking (<code>/verify</code>, <code>/check</code>).</td>
             <td>Published, standardized public API endpoints and client SDKs.</td>
           </tr>
           <tr>
@@ -388,13 +379,13 @@
 
       <div class="box-emerald">
         <b>Radical Cost Efficiency:</b><br>
-        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 and Maxima worker pods alongside a single managed DBMS instance (housing dozens of school schemas) costs a tiny fraction of a typical foundation grant—roughly <b>$15,000 to $30,000 per year</b> in commodity cloud compute. That single hub can serve dozens of disciplinary schools of thought and thousands of independent classrooms worldwide with zero database server overhead for schools.
+        Unlike proprietary EdTech platforms that demand millions for custom closed-source ecosystems, running a pool of containerized, stateless Lean 4 verification worker pods alongside a single managed DBMS instance (housing dozens of school schemas) costs a tiny fraction of a typical foundation grant—roughly <b>$15,000 to $30,000 per year</b> in commodity cloud compute. That single hub can serve dozens of disciplinary schools of thought and thousands of independent classrooms worldwide with zero database server overhead for schools.
       </div>
 
       <h3>6. Conclusion: Fund the Civic Engines, Free the Teachers</h3>
       <p>
         The future of general science education does not belong to monolithic corporate platforms that rent access to proprietary math engines. 
-        It belongs to an open ecosystem where verified formal logic and symbolic mathematics are treated as <b>public utilities</b>—open to all, maintained for the common good, and accessible to anyone with an internet connection.
+        It belongs to an open ecosystem where verified formal logic and machine-checked proof are treated as <b>public utilities</b>—open to all, maintained for the common good, and accessible to anyone with an internet connection.
       </p>
       <p>
         By funding shared open-source educational service hubs through a structured Advisory Council, philanthropic patrons can remove the DevOps barrier once and for all: <b>empowering disciplinary schools to curate rigorous curricula, grassroots educators to choose their own examples, students to explore without fear of error, and ten thousand independent educational flowers to bloom.</b>
