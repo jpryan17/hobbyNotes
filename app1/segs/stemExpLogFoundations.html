@@ -258,39 +258,96 @@
     <!-- SECTION 1: EULER'S HYPERFINITE COMPOUNDING -->
     <h2><span class="badge badge-amber">Perspective 1</span> Euler’s Hyperfinite Compounding: Continuous Growth Without Limits</h2>
 
+    <h3>1. From Self-Proportional Growth to Multiplicative Slices</h3>
     <p>
-      In standard textbooks, the base of the natural exponential <code>e</code> is defined through an abstract limit of compound interest:
+      In the opening motif, we observed that natural growth phenomena feed on their own current magnitude:
+      the rate of increase <code>dy/dt</code> is strictly proportional to the current quantity <code>y(t)</code> with constant growth rate <code>k</code>:
     </p>
     <div class="formula-box">
-      e = lim[n &rarr; &infin;] (1 + 1/n)ⁿ &asymp; 2.7182818...
+      dy/dt = k · y(t)
     </div>
-
     <p>
-      In our hyperfinite framework on Day <code>&omega;</code>, continuous compounding is not an unreachable limit; it is an <b>elementary algebraic power</b> evaluated across <code>&omega;</code> infinitesimal ticks of duration <code>dx = 1/&omega;</code>:
+      Why does this elementary differential law inevitably give birth to compounding and the exponential function? 
+      Consider an elapsed time slice of duration <code>Δt</code>. Over this interval, the quantity added to the balance is:
+    </p>
+    <div class="formula-box">
+      Δy = (dy/dt) · Δt = k · y(t) · Δt
+    </div>
+    <p>
+      The new quantity at the end of the time slice <code>t + Δt</code> is therefore:
     </p>
     <div class="formula-box amber">
-      exp(x) = st[ (1 + x · dx)^&omega; ] = st[ (1 + x / &omega;)^&omega; ]
+      y(t + Δt) = y(t) + Δy = y(t) + k · y(t) · Δt = y(t) · (1 + k · Δt)
     </div>
-
     <p>
-      Consider an account earning an annual rate <code>x</code>. If interest is compounded once per year, the multiplier is <code>(1 + x)</code>. 
-      If compounded semi-annually, it is <code>(1 + x/2)²</code>. 
-      When compounded over the hyperfinite grid of Day <code>&omega;</code>, each microscopic step increments the balance by an infinitesimal slice <code>(1 + x · dx)</code>:
+      Here is the foundational leap: <b>addition has transformed into multiplication!</b>
+      Because change is self-proportional, the passage of each time interval does not add a fixed external sum; 
+      it <i>scales</i> the existing state by the growth factor <code>(1 + k · Δt)</code>.
     </p>
+
+    <h3>2. Compounding Across Discrete Intervals</h3>
+    <p>
+      If a unit duration of time (with growth rate <code>x</code>) is partitioned into <code>n</code> discrete intervals of size <code>Δt = 1/n</code>, 
+      the balance after <code>n</code> consecutive steps is simply <code>(1 + x/n)ⁿ</code>:
+    </p>
+    <ul>
+      <li><b>Compounded once per year (n = 1):</b> The multiplier is <code>(1 + x)¹</code>.</li>
+      <li><b>Compounded semi-annually (n = 2):</b> Each half-year scales by <code>(1 + x/2)</code>, yielding <code>(1 + x/2)²</code>.</li>
+      <li><b>Compounded monthly (n = 12):</b> Each month scales by <code>(1 + x/12)</code>, yielding <code>(1 + x/12)¹²</code>.</li>
+      <li><b>Compounded daily (n = 365):</b> Each day scales by <code>(1 + x/365)</code>, yielding <code>(1 + x/365)³⁶⁵</code>.</li>
+    </ul>
+    <p>
+      Standard textbook calculus attempts to bridge discrete compounding to the continuous world by asserting an infinite limit:
+    </p>
+    <div class="formula-box">
+      exp(x) = lim[n → ∞] (1 + x/n)ⁿ &nbsp;&nbsp;&nbsp;&nbsp;(for x = 1, e ≈ 2.7182818...)
+    </div>
+    <p>
+      This classical definition renders continuous growth an unreachable horizon beyond all finite numbers, requiring subtle epsilon-delta convergence proofs.
+    </p>
+
+    <h3>3. The Hyperfinite Power on Day ω &amp; The Conway Dyadic Tree</h3>
+    <p>
+      In our constructive framework on Day <code>ω</code>, continuous compounding is not an unreachable limit. 
+      It is an <b>elementary algebraic power</b> evaluated across <code>ω</code> microscopic ticks of duration <code>dx = 1/ω</code>:
+    </p>
+    <div class="formula-box amber">
+      exp(x) = st[ (1 + x · dx)^ω ] = st[ (1 + x / ω)^ω ]
+    </div>
+    <p>
+      When <code>ω</code> is chosen along our 2-successor Conway number tree as a hyperfinite power of two, 
+      <code>ω = 2^K</code> (for example, <code>K = 12</code>, partitioning the unit interval into <code>4096</code> microscopic slices of width <code>dx = 1/4096</code>), 
+      the evaluation of <code>(1 + x/2^K)^(2^K)</code> requires <b>zero calculus limits, zero infinite series, and zero floating-point library functions</b>.
+    </p>
+    <p>
+      It is calculated purely inside the ring <code>(𝔻, +, ·)</code> by:
+    </p>
+    <ol>
+      <li><b>Infinitesimal Shift:</b> A single dyadic right-shift by <code>K</code> bits to produce <code>x · dx = x / 2^K</code>.</li>
+      <li><b>Base Factor:</b> Adding <code>1</code> in <code>𝔻</code> to form the microscopic growth step <code>u₀ = 1 + x / 2^K</code>.</li>
+      <li><b>K Repeated Squarings:</b> Exactly <code>K</code> consecutive squarings in <code>(𝔻, ·)</code>: <code>u₁ = u₀²</code>, <code>u₂ = u₁²</code>, ..., <code>u_K = (u_{K-1})²</code>.</li>
+    </ol>
 
     <div align="center" style="margin: 20px 0;">
       <bid-ref mode="eulerCompounding">Interactive Demo: Euler Hyperfinite Compounding in BID</bid-ref>
     </div>
 
+    <h3>4. Euler's Binomial Expansion: The Power Series as a Standard Shadow</h3>
     <p>
-      In 1748, Leonhard Euler proved in his <i>Introductio in Analysin Infinitorum</i> that expanding <code>(1 + x/&omega;)^&omega;</code> with the binomial theorem yields the famous power series:
+      In 1748, Leonhard Euler proved in his <i>Introductio in Analysin Infinitorum</i> that expanding <code>(1 + x/ω)^ω</code> with the ordinary binomial theorem directly yields the power series:
     </p>
     <div class="formula-box">
-      (1 + x/&omega;)^&omega; = 1 + &omega; · (x/&omega;) + [&omega;(&omega; - 1) / 2!] · (x/&omega;)² + ... = 1 + x + x²/2! + x³/3! + ...
+      (1 + x/ω)^ω = ∑_{k=0}^ω [ (ω choose k) · (x/ω)ᵏ ] = 1 + x + x²/2! + x³/3! + ...
     </div>
     <p>
-      Because <code>(&omega; - 1)/&omega; = 1 - dx &asymp; 1</code>, all finite factor ratios collapse to 1 with only second-order infinitesimal residue. 
-      The infinite series is literally the standard shadow of the hyperfinite binomial expansion!
+      Why do the combinatorial factors collapse to <code>1/k!</code>? Because each binomial factor ratio is:
+    </p>
+    <div class="formula-box">
+      ω(ω - 1)(ω - 2)···(ω - k + 1) / (k! · ωᵏ) = (1/k!) · [1 · (1 - dx) · (1 - 2·dx) ···] ≈ 1/k!
+    </div>
+    <p>
+      Every finite factor ratio equals 1 with only second-order infinitesimal residue <code>O(dx)</code>. 
+      The classical infinite series is literally the standard shadow <code>st(·)</code> of Euler's hyperfinite binomial expansion!
     </p>
 
     <hr>
