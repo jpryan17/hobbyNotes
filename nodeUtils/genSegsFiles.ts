@@ -6,6 +6,7 @@ import { processFSDRefFile } from './genFSDRefs.js';
 import { processBTDRefFile } from './genBTDRefs.js';
 import { processBIDRefFile } from './genBIDRefs.js';
 import { processEqRefFile } from './genEqRefs.js';
+import { processPseudoRefFile } from './genPseudoRefs.js';
 
 async function processSegFolder(app: string) {
     const segFolder = resolve(__dirname, `../../${app}/segs`);
@@ -25,12 +26,13 @@ async function processSegFolder(app: string) {
             }
 
             try {
-                // Pre-process TTD, FSD, BTD, BID, and EQ reference tags in tandem
+                // Pre-process TTD, FSD, BTD, BID, EQ, and PSEUDO reference tags in tandem
                 processTTDRefFile(filePath);
                 processFSDRefFile(filePath);
                 processBTDRefFile(filePath);
                 processBIDRefFile(filePath);
                 processEqRefFile(filePath);
+                processPseudoRefFile(filePath);
 
                 const body = readFileSync(filePath, 'utf8');
                 const startMatch = /<body[^>]*>/i.exec(body);
