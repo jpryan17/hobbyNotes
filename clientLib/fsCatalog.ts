@@ -76,7 +76,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-09-26T15:19:04.857Z",
+  "generatedAt": "2026-09-26T15:27:22.225Z",
   "version": "1.0.0",
   "formalStatements": [
     {
@@ -119,6 +119,7 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
       "referencedInSegments": [
         "analysis1DLecture3",
+        "introduction",
         "middlewayIntro",
         "sequencesAndSums",
         "stemHeatDiffusion",

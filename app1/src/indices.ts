@@ -332,22 +332,12 @@ export const trigGeometryIndex: IndexItemDesc[] = [
 export const curriculumIntroIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "general science mission",
+    topic: "mission & curricular overview",
     htmlSegmentId: "introduction",
   },
   {
     type: "html",
-    topic: "curriculum overview",
-    htmlSegmentId: "middlewayIntro",
-  },
-  {
-    type: "html",
-    topic: "instructor roadmap",
-    htmlSegmentId: "conceptualHistoryInstructorGuide",
-  },
-  {
-    type: "html",
-    topic: "conceptual history & reality",
+    topic: "conceptual history & roadmap",
     htmlSegmentId: "conceptualHistoryIntro",
   },
 ];
