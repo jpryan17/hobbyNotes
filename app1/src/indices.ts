@@ -298,41 +298,6 @@ export const conceptualHistoryIndex: IndexItemDesc[] = [
   },
 ];
 
-export const foundationIndex: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "overview: general science mission",
-    htmlSegmentId: "introduction",
-  },
-  {
-    type: "index",
-    topic: "conceptual history",
-    navTopic: "history",
-    indexDesc: conceptualHistoryIndex,
-  },
-  { type: "index", topic: "propositional logic", navTopic: "prop logic", indexDesc: propLogicIndex },
-  {
-    type: "index",
-    topic: "formal statements",
-    navTopic: "formal statements",
-    indexDesc: formalStatementsIndex,
-  },
-  { type: "html", topic: "fsd test", htmlSegmentId: "fsdTest" },
-  { type: "index", topic: "numbers & trees", navTopic: "numbers", indexDesc: numbersIndex },
-  {
-    type: "index",
-    topic: "Bayesian inference",
-    navTopic: "Bayesian",
-    indexDesc: bayesianInferenceIndex,
-  },
-  { type: "index", topic: "quantum logic", navTopic: "quantum logic", indexDesc: quantumLogicIndex },
-  {
-    type: "index",
-    topic: "quantum Bayesian inference",
-    navTopic: "quantum Bayesian",
-    indexDesc: quantumBayesianInferenceIndex,
-  },
-];
 
 export const proposalsIndex: IndexItemDesc[] = [
   {
@@ -360,26 +325,93 @@ export const trigGeometryIndex: IndexItemDesc[] = [
   },
 ];
 
-export const phase2AGeometryIndex: IndexItemDesc[] = [
+// =====================================================================
+// Level 1: Logic & Number
+// =====================================================================
+
+export const level1Index: IndexItemDesc[] = [
   {
-    type: "html",
-    topic: "overview: linear algebra & geometry",
-    htmlSegmentId: "vectorFoundationsIntro",
+    type: "index",
+    topic: "conceptual history",
+    navTopic: "history",
+    indexDesc: conceptualHistoryIndex,
   },
   {
     type: "index",
-    topic: "course 1: linear algebra",
-    navTopic: "linear algebra",
-    indexDesc: course1Index,
+    topic: "propositional logic",
+    navTopic: "prop logic",
+    indexDesc: propLogicIndex,
+  },
+  {
+    type: "index",
+    topic: "formal statements",
+    navTopic: "formal statements",
+    indexDesc: formalStatementsIndex,
   },
   {
     type: "html",
-    topic: "course 2: trigonometry & rotor geometry",
-    htmlSegmentId: "stemTrigFoundations",
+    topic: "fsd test",
+    htmlSegmentId: "fsdTest",
+  },
+  {
+    type: "index",
+    topic: "numbers & trees",
+    navTopic: "numbers",
+    indexDesc: numbersIndex,
   },
 ];
 
-export const phase2BAnalysisIndex: IndexItemDesc[] = [
+// =====================================================================
+// Level 2: Continuum & Calculus
+// =====================================================================
+
+export const analysis1DIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: analysis 1D",
+    htmlSegmentId: "analysis1DIntro",
+  },
+  {
+    type: "html",
+    topic: "lecture 1: microscope & continuity",
+    htmlSegmentId: "analysis1DLecture1",
+  },
+  {
+    type: "html",
+    topic: "lecture 2: derivatives & linearity",
+    htmlSegmentId: "analysis1DLecture2",
+  },
+  {
+    type: "html",
+    topic: "lecture 3: accumulation & calculus",
+    htmlSegmentId: "analysis1DLecture3",
+  },
+];
+
+export const analysis2DIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: analysis 2D",
+    htmlSegmentId: "analysis2DIntro",
+  },
+  {
+    type: "html",
+    topic: "lecture 1: 2D grid & conformal maps",
+    htmlSegmentId: "analysis2DLecture1",
+  },
+  {
+    type: "html",
+    topic: "lecture 2: contour integrals & residues",
+    htmlSegmentId: "analysis2DLecture2",
+  },
+  {
+    type: "html",
+    topic: "lecture 3: state evolution & phase",
+    htmlSegmentId: "analysis2DLecture3",
+  },
+];
+
+export const level2Index: IndexItemDesc[] = [
   {
     type: "html",
     topic: "overview: continuous analysis",
@@ -394,15 +426,108 @@ export const phase2BAnalysisIndex: IndexItemDesc[] = [
     type: "index",
     topic: "course 1: analysis 1D",
     navTopic: "analysis 1D",
-    indexDesc: course2Index,
+    indexDesc: analysis1DIndex,
   },
   {
     type: "index",
     topic: "course 2: analysis 2D",
     navTopic: "analysis 2D",
-    indexDesc: course3Index,
+    indexDesc: analysis2DIndex,
   },
 ];
+
+// =====================================================================
+// Level 3: Space, Direction & Geometry
+// =====================================================================
+
+export const vectorsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: linear algebra",
+    htmlSegmentId: "vectorFoundationsIntro",
+  },
+  {
+    type: "html",
+    topic: "lecture 1: emergent groups & fields",
+    htmlSegmentId: "vectorsLecture1",
+  },
+  {
+    type: "html",
+    topic: "lecture 2: structure-preserving maps",
+    htmlSegmentId: "vectorsLecture2",
+  },
+  {
+    type: "html",
+    topic: "lecture 3: vector spaces & duality",
+    htmlSegmentId: "vectorsLecture3",
+  },
+];
+
+export const level3Index: IndexItemDesc[] = [
+  {
+    type: "index",
+    topic: "linear algebra & vector spaces",
+    navTopic: "vectors",
+    indexDesc: vectorsIndex,
+  },
+  {
+    type: "html",
+    topic: "trigonometry & rotor geometry",
+    htmlSegmentId: "stemTrigFoundations",
+  },
+];
+
+// =====================================================================
+// Level 4: The Transcendental Engine: Growth, Rotation & Logarithm
+// =====================================================================
+
+export const level4Index: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "exponential & logarithmic foundations",
+    htmlSegmentId: "stemExpLogFoundations",
+  },
+  {
+    type: "html",
+    topic: "circular dynamics & trigonometric derivatives",
+    htmlSegmentId: "stemTrigDerivatives",
+  },
+  {
+    type: "diagram",
+    topic: "Euler compounding demo (BID)",
+    initCB: initBID,
+    layoutCB: layoutBID,
+  },
+];
+
+// =====================================================================
+// Level 5: Probability, Information & Quantum Logic
+// =====================================================================
+
+export const level5Index: IndexItemDesc[] = [
+  {
+    type: "index",
+    topic: "Bayesian inference",
+    navTopic: "Bayesian",
+    indexDesc: bayesianInferenceIndex,
+  },
+  {
+    type: "index",
+    topic: "quantum logic",
+    navTopic: "quantum logic",
+    indexDesc: quantumLogicIndex,
+  },
+  {
+    type: "index",
+    topic: "quantum Bayesian inference",
+    navTopic: "quantum Bayesian",
+    indexDesc: quantumBayesianInferenceIndex,
+  },
+];
+
+// =====================================================================
+// Level 6: Applied Seminars & Horizons
+// =====================================================================
 
 export const appliedPhysicsSeminarsIndex: IndexItemDesc[] = [
   {
@@ -417,7 +542,7 @@ export const appliedPhysicsSeminarsIndex: IndexItemDesc[] = [
   },
 ];
 
-export const seminarsIndex: IndexItemDesc[] = [
+export const level6Index: IndexItemDesc[] = [
   {
     type: "html",
     topic: "overview: seminars & applications",
@@ -443,10 +568,21 @@ export const seminarsIndex: IndexItemDesc[] = [
   },
 ];
 
-// Backwards-compatible aliases
-export const analysisAndSeminarsIndex = phase2BAnalysisIndex;
-export const lamIndex = phase2BAnalysisIndex;
+// =====================================================================
+// Backwards-Compatible Aliases
+// =====================================================================
+
+export const foundationIndex = level1Index;
+export const phase2AGeometryIndex = level3Index;
+export const phase2BAnalysisIndex = level2Index;
+export const analysisAndSeminarsIndex = level2Index;
+export const lamIndex = level2Index;
 export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
+export const seminarsIndex = level6Index;
+
+// =====================================================================
+// Main Curriculum Index
+// =====================================================================
 
 export const mainIndex: IndexItemDesc[] = [
   {
@@ -457,32 +593,49 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "html",
+    topic: "general science mission",
+    htmlSegmentId: "introduction",
+  },
+  {
+    type: "html",
     topic: "curriculum overview",
     htmlSegmentId: "middlewayIntro",
   },
   {
     type: "index",
-    topic: "Phase 1: Foundation",
-    navTopic: "Phase 1",
-    indexDesc: foundationIndex,
+    topic: "Level 1: Logic & Number",
+    navTopic: "Level 1",
+    indexDesc: level1Index,
   },
   {
     type: "index",
-    topic: "Phase 2A: Geometry",
-    navTopic: "Phase 2A",
-    indexDesc: phase2AGeometryIndex,
+    topic: "Level 2: Continuum & Calculus",
+    navTopic: "Level 2",
+    indexDesc: level2Index,
   },
   {
     type: "index",
-    topic: "Phase 2B: Analysis",
-    navTopic: "Phase 2B",
-    indexDesc: phase2BAnalysisIndex,
+    topic: "Level 3: Space & Geometry",
+    navTopic: "Level 3",
+    indexDesc: level3Index,
   },
   {
     type: "index",
-    topic: "Seminars & Applications",
-    navTopic: "Seminars",
-    indexDesc: seminarsIndex,
+    topic: "Level 4: Growth & The Logarithm",
+    navTopic: "Level 4",
+    indexDesc: level4Index,
+  },
+  {
+    type: "index",
+    topic: "Level 5: Quantum & Information",
+    navTopic: "Level 5",
+    indexDesc: level5Index,
+  },
+  {
+    type: "index",
+    topic: "Level 6: Applied Seminars",
+    navTopic: "Level 6",
+    indexDesc: level6Index,
   },
   {
     type: "index",
