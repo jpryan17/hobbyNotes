@@ -554,7 +554,7 @@ export class EulerCompoundingController {
             ],
             [
                 [`exp(x) via ${this.currentK} squarings: `, '#1e3a8a'],
-                [`${resSign} ⇔ ${resFmt}`, resColor],
+                [`${resFmt}`, resColor],
                 [` ≈ ${resDec.toFixed(6)}`, '#059669'],
                 [` (Standard e^x ≈ ${expected.toFixed(6)}, diff: ${Math.abs(resDec - expected).toExponential(2)})`, '#64748b'],
             ],

@@ -169,7 +169,13 @@ export class BTreeDiagram extends SVGElt {
                 else if (this.config.labelType === 'dyadic') {
                     const exp = keyToExp(key);
                     const label = new DR(exp).format();
-                    const fSize = label.length > 3 ? 9.5 : this.fontSize;
+                    let fSize = this.fontSize;
+                    if (this.maxBD >= 5) {
+                        fSize = label.length > 5 ? 6.5 : (label.length > 3 ? 7.5 : 8.5);
+                    }
+                    else {
+                        fSize = label.length > 3 ? 9.5 : this.fontSize;
+                    }
                     this.renderNodeText(x, y, label, fSize);
                 }
             }
@@ -562,6 +568,8 @@ export class BTreeDiagram extends SVGElt {
             'preserve',
             'style',
             'white-space: pre;',
+            'font-size',
+            13.5,
         ]);
         lines.forEach((line, lineIdx) => {
             const lineY = startY + lineIdx * lineSpacing;
