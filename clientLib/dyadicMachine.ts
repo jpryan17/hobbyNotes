@@ -149,6 +149,29 @@ export interface IDyadicMachine {
   // Convenience power of two
   pow2(k: number): IDyadicNode;
 
+  // --- Min / Max Utilities ---
+  min(nodes: (IDyadicNode | DR | number)[]): IDyadicNode;
+  max(nodes: (IDyadicNode | DR | number)[]): IDyadicNode;
+
+  // --- Conway Tree-Inductive Arithmetic ---
+  simplerOptions(node: IDyadicNode | DR | number | string): {
+    leftOptions: IDyadicNode[];
+    rightOptions: IDyadicNode[];
+  };
+  cut(
+    leftBound: IDyadicNode | DR | number | null,
+    rightBound: IDyadicNode | DR | number | null
+  ): IDyadicNode;
+  conwayAdd(
+    x: IDyadicNode | DR | number | string,
+    y: IDyadicNode | DR | number | string
+  ): IDyadicNode;
+  conwayNeg(x: IDyadicNode | DR | number | string): IDyadicNode;
+  conwaySub(
+    x: IDyadicNode | DR | number | string,
+    y: IDyadicNode | DR | number | string
+  ): IDyadicNode;
+
   // --- Nonstandard Transcendental Engine (Euler Compounding) ---
   exp(x: IDyadicNode | DR | number | string, k?: number, precisionBits?: number): IDyadicNode;
   expWithTrace(x: IDyadicNode | DR | number | string, k?: number, precisionBits?: number): IEulerCompoundingTrace;
@@ -428,6 +451,147 @@ export class DyadicMachineClass implements IDyadicMachine {
     }
     const dr = new DR(undefined, sign, Number(absU), Math.max(0, finalPrec)).reduce();
     return this.fromDR(dr);
+  }
+
+  // --- Min / Max Utilities ---
+
+  min(nodes: (IDyadicNode | DR | number)[]): IDyadicNode {
+    if (nodes.length === 0) throw new Error('Cannot find minimum of empty node list');
+    let m = this.node(nodes[0]);
+    for (let i = 1; i < nodes.length; i++) {
+      const cand = this.node(nodes[i]);
+      if (this.lt(cand, m)) m = cand;
+    }
+    return m;
+  }
+
+  max(nodes: (IDyadicNode | DR | number)[]): IDyadicNode {
+    if (nodes.length === 0) throw new Error('Cannot find maximum of empty node list');
+    let m = this.node(nodes[0]);
+    for (let i = 1; i < nodes.length; i++) {
+      const cand = this.node(nodes[i]);
+      if (this.gt(cand, m)) m = cand;
+    }
+    return m;
+  }
+
+  // --- Conway Tree-Inductive Arithmetic ---
+
+  private conwayAddMemo = new Map<string, IDyadicNode>();
+
+  /**
+   * Decomposes a tree node into its simpler ancestral options:
+   * All proper prefixes of the sign path born on earlier days,
+   * partitioned into leftOptions (< node) and rightOptions (> node).
+   */
+  simplerOptions(nodeInput: IDyadicNode | DR | number | string): {
+    leftOptions: IDyadicNode[];
+    rightOptions: IDyadicNode[];
+  } {
+    const node = this.node(nodeInput);
+    const leftOptions: IDyadicNode[] = [];
+    const rightOptions: IDyadicNode[] = [];
+    const p = node.path;
+
+    for (let i = 0; i < p.length; i++) {
+      const prefix = this.fromPath(p.slice(0, i));
+      if (this.lt(prefix, node)) {
+        leftOptions.push(prefix);
+      } else if (this.gt(prefix, node)) {
+        rightOptions.push(prefix);
+      }
+    }
+
+    return { leftOptions, rightOptions };
+  }
+
+  /**
+   * The Conway Cut: Finds the earliest-born (shortest path) node strictly between bounds.
+   * Walks down the binary tree from root [] (0), branching right '+' when <= leftBound,
+   * or branching left '-' when >= rightBound.
+   */
+  cut(
+    leftBound: IDyadicNode | DR | number | null,
+    rightBound: IDyadicNode | DR | number | null
+  ): IDyadicNode {
+    const lNode = leftBound !== null && leftBound !== undefined ? this.node(leftBound) : null;
+    const rNode = rightBound !== null && rightBound !== undefined ? this.node(rightBound) : null;
+
+    let candidate = this.root();
+    let maxSteps = 128; // Safety ceiling
+
+    while (maxSteps-- > 0) {
+      if (lNode && this.compare(candidate, lNode) <= 0) {
+        candidate = this.right(candidate);
+      } else if (rNode && this.compare(candidate, rNode) >= 0) {
+        candidate = this.left(candidate);
+      } else {
+        break; // Strictly between bounds: lNode < candidate < rNode
+      }
+    }
+
+    return candidate;
+  }
+
+  /**
+   * Conway Inductive Addition directly on tree sign paths:
+   *   X + Y = { X^L + Y, X + Y^L | X^R + Y, X + Y^R }
+   * Evaluates the sum via recursive options reduction and the bounding Conway cut.
+   */
+  conwayAdd(
+    xInput: IDyadicNode | DR | number | string,
+    yInput: IDyadicNode | DR | number | string
+  ): IDyadicNode {
+    const X = this.node(xInput);
+    const Y = this.node(yInput);
+
+    const key = `${X.path}|${Y.path}`;
+    if (this.conwayAddMemo.has(key)) {
+      return this.conwayAddMemo.get(key)!;
+    }
+
+    const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
+    const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
+
+    const leftResults: IDyadicNode[] = [];
+    const rightResults: IDyadicNode[] = [];
+
+    // Cross-recursive option combinations
+    for (const xL of XL) leftResults.push(this.conwayAdd(xL, Y));
+    for (const yL of YL) leftResults.push(this.conwayAdd(X, yL));
+
+    for (const xR of XR) rightResults.push(this.conwayAdd(xR, Y));
+    for (const yR of YR) rightResults.push(this.conwayAdd(X, yR));
+
+    const maxLeft = leftResults.length > 0 ? this.max(leftResults) : null;
+    const minRight = rightResults.length > 0 ? this.min(rightResults) : null;
+
+    const result = this.cut(maxLeft, minRight);
+    this.conwayAddMemo.set(key, result);
+    return result;
+  }
+
+  /**
+   * Conway Negation: Inverts every sign character (+ <-> -),
+   * reflecting the node across the tree root.
+   */
+  conwayNeg(xInput: IDyadicNode | DR | number | string): IDyadicNode {
+    const X = this.node(xInput);
+    let invPath = '';
+    for (const ch of X.path) {
+      invPath += ch === '+' ? '-' : '+';
+    }
+    return this.fromPath(invPath);
+  }
+
+  /**
+   * Conway Subtraction: X - Y = X + (-Y).
+   */
+  conwaySub(
+    xInput: IDyadicNode | DR | number | string,
+    yInput: IDyadicNode | DR | number | string
+  ): IDyadicNode {
+    return this.conwayAdd(xInput, this.conwayNeg(yInput));
   }
 }
 
