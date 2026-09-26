@@ -15,6 +15,8 @@ export const diagramRegistry = [
     { seg: 'xaMultiplication', diagram: 'multiplication', mode: 'multiplication' },
     // xaDyadicRationals isomorphism diagram
     { seg: 'xaDyadicRationals', diagram: 'isomorphism', mode: 'isomorphism' },
+    // stemExpLogFoundations Euler hyperfinite compounding diagram
+    { seg: 'stemExpLogFoundations', diagram: 'eulerCompounding', mode: 'eulerCompounding' },
     // Static tree diagrams (replacing bulky pasted Draw.io SVGs)
     { seg: 'xaTreeRepresentation', diagram: 'staticTreeBirthday', mode: 'birthday' },
     { seg: 'xaTreeRepresentation', diagram: 'staticTreeLabeled', mode: 'labeled' },
@@ -126,6 +128,16 @@ export function initIsoTree(id = 'isomorphism') {
     return d;
 }
 export function displayIsoTree(id = 'isomorphism') {
+    const d = activeDiagrams.get(id);
+    if (d)
+        d.scaleToWidth(Nav.foWidth || 900);
+}
+export function initEulerTree(id = 'eulerCompounding') {
+    const d = createBTree(id, 'eulerCompounding');
+    activeDiagrams.set(id, d);
+    return d;
+}
+export function displayEulerTree(id = 'eulerCompounding') {
     const d = activeDiagrams.get(id);
     if (d)
         d.scaleToWidth(Nav.foWidth || 900);

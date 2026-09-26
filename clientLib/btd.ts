@@ -99,6 +99,7 @@ export class BTD extends SVGElt {
       ['multiplication', 'Surreal Mult'],
       ['isomorphism', 'Isomorphism'],
       ['omegaState', 'State / Ω'],
+      ['eulerCompounding', 'Euler Exp'],
     ];
 
     staticModes.forEach(([mode, label]) => {
@@ -177,7 +178,7 @@ export class BTD extends SVGElt {
     const usableWidth = totalWidth - 2 * padding;
 
     const labelWidth = 105;
-    const itemGap = 18;
+    const itemGap = 13;
     const lineSpacing = 28;
 
     let curY = 26;
@@ -235,6 +236,7 @@ export class BTD extends SVGElt {
       'multiplication',
       'isomorphism',
       'omegaState',
+      'eulerCompounding',
     ];
 
     interactiveOrder.forEach((mode) => {

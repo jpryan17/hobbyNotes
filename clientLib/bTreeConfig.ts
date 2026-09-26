@@ -14,7 +14,8 @@ export type BTreeInteractiveMode =
   | 'addition'
   | 'multiplication'
   | 'isomorphism'
-  | 'omegaState';
+  | 'omegaState'
+  | 'eulerCompounding';
 
 export type BTreeMode = BTreeStaticMode | BTreeInteractiveMode;
 
@@ -258,6 +259,19 @@ export const BTreePresets: Record<BTreeMode, Partial<BTreeConfig>> = {
     antenna: true,
     topRoom: 25,
     bottomRoom: 75,
+    arity: 1,
+  },
+  eulerCompounding: {
+    mode: 'eulerCompounding',
+    width: 900,
+    height: 440,
+    maxBD: 4,
+    nodeSize: 18,
+    fontSize: 10.5,
+    labelType: 'dyadic',
+    antenna: true,
+    topRoom: 35,
+    bottomRoom: 95,
     arity: 1,
   },
 };

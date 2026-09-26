@@ -12,6 +12,7 @@ import {
   BIDInteractiveMode,
   BIDPresets,
 } from './bidConfig.js';
+import { btd, setBTD } from './btd.js';
 
 export class BID extends SVGElt {
   controlsFrame: SVGElt;
@@ -144,6 +145,18 @@ export class BID extends SVGElt {
   }
 
   setMode(mode: BIDMode): void {
+    if (mode === ('eulerCompounding' as any)) {
+      if (!btd) setBTD();
+      btd.setMode('eulerCompounding');
+      Nav.fo.removeChildren();
+      Nav.fo.append(btd);
+      btd.layout();
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => btd.layout());
+      }
+      return;
+    }
+
     this.currentMode = mode;
     this.updateButtonStyles();
 

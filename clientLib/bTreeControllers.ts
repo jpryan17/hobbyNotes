@@ -10,6 +10,7 @@ import {
 import { DR } from './dyadicRationals.js';
 import { RsOps } from './rsOps.js';
 import { BTreeDiagram } from './bTreeDiagram.js';
+import { dyadicMachine } from './dyadicMachine.js';
 
 export interface IBTreeController {
   init(): void;
@@ -568,6 +569,87 @@ export class OmegaStateController implements IBTreeController {
   }
 
   onClear(): void {
+    this.init();
+  }
+}
+
+/**
+ * Euler Hyperfinite Compounding Controller (1-operand):
+ * Demonstrates the nonstandard dyadic calculation of exp(x) = (1 + x/2^k)^(2^k)
+ * on the 2-successor Conway number tree using pure dyadic shifts and squarings.
+ */
+export class EulerCompoundingController implements IBTreeController {
+  private currentK = 12; // 4096 slices
+  private selectedKey: string | null = null;
+
+  constructor(private diagram: BTreeDiagram) {}
+
+  init(): void {
+    const defaultKey = expToId('+');
+    this.onProcess([defaultKey]);
+  }
+
+  onProcess(visited: string[]): void {
+    if (visited.length === 0) return;
+    this.selectedKey = visited[visited.length - 1];
+    this.diagram.clearHighlights();
+
+    const exp = keyToExp(this.selectedKey);
+    const nodeColor = '#1e40af'; // royal blue for selected input
+    const baseColor = '#7c3aed'; // purple for base u0
+    const resColor = '#059669';  // emerald for result
+
+    // 1. Highlight selected input node
+    this.diagram.setNodeColor(this.selectedKey, nodeColor);
+
+    // 2. Evaluate hyperfinite compounding via dyadic machine
+    const trace = dyadicMachine.expWithTrace(exp, this.currentK, 32);
+
+    const inputFmt = trace.input.format();
+    const inputSign = trace.input.path.length > 0 ? `[${trace.input.path}]` : '[ ]';
+    const dxFmt = trace.stepSize.format();
+    const baseFmt = trace.base.format();
+    const resFmt = trace.result.format();
+    const resSign = trace.result.path.length > 0 ? `[${trace.result.path}]` : '[ ]';
+    const resDec = trace.result.value.numerator / Math.pow(2, trace.result.value.precision);
+    const expected = Math.exp(
+      (trace.input.value.sign === '-' ? -1 : 1) *
+      trace.input.value.numerator / Math.pow(2, trace.input.value.precision)
+    );
+
+    // 3. Highlight base u0 if within maxBD
+    if (trace.base.birthday <= this.diagram.maxBD) {
+      this.diagram.setNodeColor(expToId(trace.base.path), baseColor);
+    }
+
+    // 4. Highlight result node or antenna
+    if (trace.result.birthday <= this.diagram.maxBD) {
+      this.diagram.setNodeColor(expToId(trace.result.path), resColor);
+    } else {
+      this.diagram.setDirectionAntenna(trace.result.path, resColor);
+    }
+
+    // 5. Multi-line status ledger
+    this.diagram.setStatusLines([
+      [
+        ['Input x: ', '#334155'],
+        [`${inputSign} (${inputFmt})`, nodeColor],
+        ['  |  Slice dx: ', '#334155'],
+        [`1/2^${this.currentK} = ${dxFmt}`, '#0284c7'],
+        ['  |  Base u₀: ', '#334155'],
+        [`1 + x·dx = ${baseFmt}`, baseColor],
+      ],
+      [
+        [`exp(x) via ${this.currentK} squarings: `, '#1e3a8a'],
+        [`${resSign} ⇔ ${resFmt}`, resColor],
+        [` ≈ ${resDec.toFixed(6)}`, '#059669'],
+        [` (Standard e^x ≈ ${expected.toFixed(6)}, diff: ${Math.abs(resDec - expected).toExponential(2)})`, '#64748b'],
+      ],
+    ]);
+  }
+
+  onClear(): void {
+    this.selectedKey = null;
     this.init();
   }
 }

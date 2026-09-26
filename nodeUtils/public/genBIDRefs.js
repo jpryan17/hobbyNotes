@@ -11,10 +11,18 @@ function convertBIDRefContent(content) {
     let replacementsCount = 0;
     let updatedContent = content;
     // 1. Convert <<BID ...>>...<<\>> or <<BID ...>>...<</BID>>
-    const bidTagRegex = /<<BID\s+([^>]+?)>>([\s\S]*?)<<(?:\\|\/BID)>>/gi;
+    const bidTagRegex = /<<BID(?:\s+([^>]*?))?>>([\s\S]*?)<<(?:\\|\/BID)>>/gi;
     updatedContent = updatedContent.replace(bidTagRegex, (_match, attrs, innerText) => {
         replacementsCount++;
-        return `<bid-ref ${attrs.trim()}>${innerText.trim()}</bid-ref>`;
+        let cleanAttrs = (attrs || '').trim();
+        // Normalize ref="mode" to mode="mode"
+        cleanAttrs = cleanAttrs.replace(/\bref="([^"]+)"/i, 'mode="$1"');
+        // Remove standalone 'ref' keyword e.g. <<BID ref mode="..." >>
+        cleanAttrs = cleanAttrs.replace(/\bref\b/gi, '').trim();
+        if (!/mode=/i.test(cleanAttrs)) {
+            cleanAttrs = `mode="eulerCompounding" ${cleanAttrs}`.trim();
+        }
+        return `<bid-ref ${cleanAttrs}>${innerText.trim()}</bid-ref>`;
     });
     // 2. Convert \bid{mode}{displayText}
     const macroRegex = /\\bid\{([^}]+)\}\{([^}]+)\}/gi;

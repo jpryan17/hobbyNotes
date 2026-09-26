@@ -1,6 +1,8 @@
 import { Nav } from './navFW.js';
 import { bid, setBID } from './bid.js';
+import { btd, setBTD } from './btd.js';
 import { BIDMode } from './bidConfig.js';
+import { BTreeMode } from './bTreeConfig.js';
 
 export class BIDRef extends HTMLElement {
   static stdColor = '#0284c7';
@@ -31,15 +33,35 @@ export class BIDRef extends HTMLElement {
     });
 
     this.addEventListener('click', () => {
-      const mode = (this.getAttribute('mode') as BIDMode) || 'transect';
+      const rawMode = this.getAttribute('mode') || this.getAttribute('ref') || 'eulerCompounding';
+      const mode = rawMode as any;
 
       const index = Nav.indices[Nav.currentIndex];
       const choice = index.choices[index.chosen];
       const topicName = choice && choice[0] ? choice[0].topic : 'lecture';
       const buttonText = `back to ${topicName}`;
 
+      if (
+        mode === 'eulerCompounding' ||
+        ['plain', 'labeled', 'birthday', 'subtree', 'order', 'precision', 'dyadic', 'isomorphism', 'interactive'].includes(mode)
+      ) {
+        if (!btd) setBTD();
+        btd.setMode(mode as BTreeMode);
+
+        Nav.setLastVisit();
+        Nav.addNavLineBackButton(buttonText);
+        Nav.fo.removeChildren();
+        Nav.fo.append(btd);
+        Nav.display();
+        btd.layout();
+        if (typeof requestAnimationFrame !== 'undefined') {
+          requestAnimationFrame(() => btd.layout());
+        }
+        return;
+      }
+
       if (!bid) setBID();
-      bid.setMode(mode);
+      bid.setMode(mode as BIDMode);
 
       Nav.setLastVisit();
       Nav.addNavLineBackButton(buttonText);

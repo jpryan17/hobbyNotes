@@ -1,6 +1,7 @@
 import { SVGElt, SVGGrpElt, SVGSelectableText, SVGText, } from './svgElt.js';
 import { Nav } from './navFW.js';
 import { BIDDiagram } from './bidDiagram.js';
+import { btd, setBTD } from './btd.js';
 export class BID extends SVGElt {
     controlsFrame;
     diagramGroup;
@@ -107,6 +108,18 @@ export class BID extends SVGElt {
         });
     }
     setMode(mode) {
+        if (mode === 'eulerCompounding') {
+            if (!btd)
+                setBTD();
+            btd.setMode('eulerCompounding');
+            Nav.fo.removeChildren();
+            Nav.fo.append(btd);
+            btd.layout();
+            if (typeof requestAnimationFrame !== 'undefined') {
+                requestAnimationFrame(() => btd.layout());
+            }
+            return;
+        }
         this.currentMode = mode;
         this.updateButtonStyles();
         // Replace current diagram

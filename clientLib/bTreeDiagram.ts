@@ -30,6 +30,7 @@ import {
   OpController,
   IsoController,
   OmegaStateController,
+  EulerCompoundingController,
 } from './bTreeControllers.js';
 
 export class BTreeDiagram extends SVGElt {
@@ -462,6 +463,9 @@ export class BTreeDiagram extends SVGElt {
       case 'omegaState':
         this.controller = new OmegaStateController(this);
         break;
+      case 'eulerCompounding':
+        this.controller = new EulerCompoundingController(this);
+        break;
       default:
         break;
     }
@@ -659,6 +663,36 @@ export class BTreeDiagram extends SVGElt {
       const span = new SVGTSpan(this.statusLine);
       span.setV(txt);
       span.setAA(['fill', color, 'stroke', 'none']);
+    });
+  }
+
+  setStatusLines(lines: [string, string][][]): void {
+    this.statusLine.clear();
+    const lineSpacing = 18;
+    const startY = this.height - 12 - (lines.length - 1) * lineSpacing;
+    this.statusLine.setAA([
+      'x',
+      this.leftRoom + 5,
+      'y',
+      startY,
+      'xml:space',
+      'preserve',
+      'style',
+      'white-space: pre;',
+    ]);
+    lines.forEach((line, lineIdx) => {
+      const lineY = startY + lineIdx * lineSpacing;
+      line.forEach(([txt, color], segIdx) => {
+        const span = new SVGTSpan(this.statusLine);
+        span.setV(txt);
+        span.setAA([
+          'fill',
+          color,
+          'stroke',
+          'none',
+          ...(segIdx === 0 ? ['x', this.leftRoom + 5, 'y', lineY] : []),
+        ]);
+      });
     });
   }
 

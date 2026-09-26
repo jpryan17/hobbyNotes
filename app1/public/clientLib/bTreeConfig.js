@@ -192,4 +192,17 @@ export const BTreePresets = {
         bottomRoom: 75,
         arity: 1,
     },
+    eulerCompounding: {
+        mode: 'eulerCompounding',
+        width: 900,
+        height: 440,
+        maxBD: 4,
+        nodeSize: 18,
+        fontSize: 10.5,
+        labelType: 'dyadic',
+        antenna: true,
+        topRoom: 35,
+        bottomRoom: 95,
+        arity: 1,
+    },
 };

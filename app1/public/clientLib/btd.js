@@ -86,6 +86,7 @@ export class BTD extends SVGElt {
             ['multiplication', 'Surreal Mult'],
             ['isomorphism', 'Isomorphism'],
             ['omegaState', 'State / Ω'],
+            ['eulerCompounding', 'Euler Exp'],
         ];
         staticModes.forEach(([mode, label]) => {
             const btn = new SVGSelectableText(() => this.setMode(mode), label, true, `btn-${mode}`);
@@ -145,7 +146,7 @@ export class BTD extends SVGElt {
         const padding = 10;
         const usableWidth = totalWidth - 2 * padding;
         const labelWidth = 105;
-        const itemGap = 18;
+        const itemGap = 13;
         const lineSpacing = 28;
         let curY = 26;
         // Position Row 1: Static Views
@@ -197,6 +198,7 @@ export class BTD extends SVGElt {
             'multiplication',
             'isomorphism',
             'omegaState',
+            'eulerCompounding',
         ];
         interactiveOrder.forEach((mode) => {
             const btn = this.buttons.get(mode);
