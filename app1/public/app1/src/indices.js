@@ -313,15 +313,34 @@ export const trigGeometryIndex = [
     },
 ];
 // =====================================================================
+// Introduction & Conceptual Overview
+// =====================================================================
+export const curriculumIntroIndex = [
+    {
+        type: "html",
+        topic: "general science mission",
+        htmlSegmentId: "introduction",
+    },
+    {
+        type: "html",
+        topic: "curriculum overview",
+        htmlSegmentId: "middlewayIntro",
+    },
+    {
+        type: "html",
+        topic: "instructor roadmap",
+        htmlSegmentId: "conceptualHistoryInstructorGuide",
+    },
+    {
+        type: "html",
+        topic: "conceptual history & reality",
+        htmlSegmentId: "conceptualHistoryIntro",
+    },
+];
+// =====================================================================
 // Level 1: Logic & Number
 // =====================================================================
 export const level1Index = [
-    {
-        type: "index",
-        topic: "conceptual history",
-        navTopic: "history",
-        indexDesc: conceptualHistoryIndex,
-    },
     {
         type: "index",
         topic: "propositional logic",
@@ -560,49 +579,45 @@ export const mainIndex = [
         layoutCB: layoutOutlineBanner,
     },
     {
-        type: "html",
-        topic: "general science mission",
-        htmlSegmentId: "introduction",
-    },
-    {
-        type: "html",
-        topic: "curriculum overview",
-        htmlSegmentId: "middlewayIntro",
+        type: "index",
+        topic: "Introduction & Overview",
+        navTopic: "Introduction",
+        indexDesc: curriculumIntroIndex,
     },
     {
         type: "index",
         topic: "Level 1: Logic & Number",
-        navTopic: "Level 1",
+        navTopic: "Logic & Number",
         indexDesc: level1Index,
     },
     {
         type: "index",
         topic: "Level 2: Continuum & Calculus",
-        navTopic: "Level 2",
+        navTopic: "Continuum & Calculus",
         indexDesc: level2Index,
     },
     {
         type: "index",
         topic: "Level 3: Space & Geometry",
-        navTopic: "Level 3",
+        navTopic: "Space & Geometry",
         indexDesc: level3Index,
     },
     {
         type: "index",
         topic: "Level 4: Growth & The Logarithm",
-        navTopic: "Level 4",
+        navTopic: "Growth & Logarithm",
         indexDesc: level4Index,
     },
     {
         type: "index",
         topic: "Level 5: Quantum & Information",
-        navTopic: "Level 5",
+        navTopic: "Quantum & Information",
         indexDesc: level5Index,
     },
     {
         type: "index",
         topic: "Level 6: Applied Seminars",
-        navTopic: "Level 6",
+        navTopic: "Applied Seminars",
         indexDesc: level6Index,
     },
     {
