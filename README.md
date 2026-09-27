@@ -8,17 +8,17 @@ Open-Source Repository: **[https://github.com/jpryan17/hobbyNotes](https://githu
 
 > [!WARNING]
 > **Active Development Notice: Pre-Stable Project**  
-> *Mathematics and the Middle Way* and its in-situ authoring studio are undergoing active, continuous evolution. Core authoring tools (TTD, FSD, CAS stencils), curricular segments, and database schemas are being refined daily. Expect ongoing interface changes, experimental workflows, and non-finalized authoring tools until the v2.0 milestone stabilizes.
+> *Mathematics and the Middle Way* and its in-situ authoring studio are undergoing active, continuous evolution. Core authoring tools (TTD, FSD, stencils, pseudocode algorithms), curricular segments, and database schemas are being refined daily. Expect ongoing interface changes, experimental workflows, and non-finalized authoring tools until the v2.0 milestone stabilizes.
 
 ---
 
 ## 🌟 Overview & Mission
 
-**Mathematics and the Middle Way (MWM)** is an interactive, constructive textbook, formal science curriculum, and sovereign educational authoring framework. It is driven by a single conviction: **our theories of physical reality are among the supreme pinnacles of human culture**.
+Middle Way Mathematics is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that assumes that the infinitesimal 1/omega (where omega is the supremum of the natural numbers) is a number.
 
-Conventional STEM education builds the mathematical universe through continuous calculation tools designed for professional engineering—epsilon-delta limit towers, metric topologies, and measure theory. 
+This page is essentially a product of machine based agents. The 'author' merely provided the ambition. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in FOL. All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a 'calculation machine' independent of any access to runtime resources for mathematical calculation.
 
-This project presents a **Middle Way**—a direct, constructive path through formal logic, discrete number trees (`ℕ_ω, ℝ_ω, ℂ_ω`), and nonstandard analysis that reaches the exact same physical reality with total visual, computational, and algebraic transparency.
+This dual approach of verifying the conceptual description, and demonstrating its support for calculation, support the claim that this page is indeed a robust prototype providing PoC for its proposed curriculum.
 
 ---
 
@@ -41,7 +41,7 @@ Beyond a static curriculum, the repository features an integrated **in-situ auth
  │ • Rewrites narrative chapters │               │ • Curates the shared baseline │
  │ • Re-orders outline hierarchy │               │   (`seed.sql`)                │
  │ • Compiles self-contained     │               │ • Governs global Lean proofs  │
- │   course pages in < 300ms     │               │   and CAS calculation modes   │
+ │   course pages in < 300ms     │               │   and calculation modes       │
  │ • Zero committee approval     │               │ • Database Console (/console) │
  └───────────────────────────────┘               └───────────────────────────────┘
 ```
@@ -49,7 +49,7 @@ Beyond a static curriculum, the repository features an integrated **in-situ auth
 1. **SeaMonkey-Style WYSIWYG & HTML Source Editor (`[✏️ Content]`)**:
    - **Multi-View Modes**: Seamless switching between `[Normal (WYSIWYG)]` (HTML5 `contenteditable` styled with framework typography), `[HTML Source]` (precision code editor), and `[Split View]`.
    - **Structural MWM Element Palette**: One-click insertion of Note (`.box-blue`), Theorem (`.box-emerald`), Caution (`.box-amber`), and Card containers.
-   - **Atomic Stencil Tag Guards**: Interactive `<fsd-ref>` and `<cas-ref>` tags are protected with `contenteditable="false"`, allowing educators to format prose without corrupting stencil attributes.
+   - **Atomic Stencil Tag Guards**: Interactive `<fsd-ref>` tags are protected with `contenteditable="false"`, allowing educators to format prose without corrupting stencil attributes.
    - **Live MathJax Rendering**: On-demand formula typesetting directly in the visual editor.
 
 2. **In-Memory Dev Sandbox & Rapid Snapshot Engine (`[🚀 Build Page]`)**:
@@ -63,20 +63,21 @@ Beyond a static curriculum, the repository features an integrated **in-situ auth
 
 ---
 
-## 🛡️ The 3-Tier Multi-Service Architecture
+## 🛡️ Dual-Verification Architecture: Mathematical Consistency & Autonomous Calculation
 
-MWM unites formal axiomatic rigor, symbolic derivations, and real-time physical evaluation into a unified, three-tiered framework:
+MWM unites formal axiomatic rigor, algorithmic computation, and phenomenological grounding into a unified, robust framework:
 
-1. **Tier 3 (Constitutional Foundation in Lean 4)**:
+1. **Conceptual Consistency (Lean 4 Theorem Prover)**:
    - Machine-checked formal theorems in `MiddleWayLean/Scaffold.lean` certifying transfinite calculus (`ℝ_ω, ℂ_ω`), infinitesimal differentials (`dx = 1/ω`), discrete Fundamental Theorem of Calculus (FTC), Cauchy loop cancellation, and continuous unitary evolution.
-   - Dual-mode verification: build-time pre-computed kernel cache (`genLeanCache`, 132 certified theorem keys) for instantaneous `Q.E.D. ✓` certification on static web pages at zero cloud cost, plus an optional live local verification server (`npm run leanServer`).
+   - Dual-mode verification: build-time pre-computed kernel cache (`genLeanCache`, 171 certified theorem keys) for instantaneous `Q.E.D. ✓` certification on static web pages at zero cloud cost, plus an optional live local verification server (`npm run leanServer`).
 
-2. **Tier 2 (Symbolic & CAS Grounding in Maxima)**:
-   - Pre-mined symbolic derivations and reduction traces (`genMaximaCache`) providing intermediate algebraic expansions, polynomial simplifications, and exact telescoping cancellation traces on every Argument Card.
+2. **Autonomous Calculation Machine (The Discrete Machine & Pseudocode)**:
+   - Self-contained, zero-dependency pseudocode algorithms interpreted directly in client memory (`clientLib/pseudoInterpreter.ts`, `clientLib/dyadicMachine.ts`) independent of external symbolic CAS or cloud math engines.
+   - Concrete numerical test cases (`verified_presets`) continuously validating every calculation mode and function rule.
 
-3. **Tier 1 (Phenomenological Grounding & Algebraic Inversion)**:
+3. **Phenomenological Grounding & Algebraic Inversion**:
    - **Physical Bridge Simulations**: Client-side interactive simulations for Newtonian Kinematics, Work-Energy Conservation, Discrete Heat Diffusion, and Cauchy Complex Circulation.
-   - **Generic FS Calculator**: Zero-code algebraic inference engine that automatically derives directional sets `(inputs → output)` directly from any Formal Statement, enabling students to explore inverse problems and parameter sensitivities intuitively.
+   - **Generic FS Calculator**: Directional calculation stencils enabling students to explore inverse problems and parameter sensitivities intuitively.
 
 ---
 
