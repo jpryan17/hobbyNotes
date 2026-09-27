@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-27T19:49:25.858Z
+-- Generated At: 2026-09-27T20:35:20.836Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -41,10 +41,10 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <h3>Preface &amp; Pedagogical Vision</h3>
     <p>
-      <b>Middle Way Mathematics</b> is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that accepts that the infinitesimal <code>1/ω</code> (where <code>ω</code> is the supremum of the natural numbers) is a number.
+      This page was constructed by a machine based intelligent assistant in response to a series of prompts motivated by the goal of constructing a custom interactive textbook to assist in my acquisition of the mathematical knowledge required to better understand mathematical physics. At this juncture, it is difficult to separate the result from the process, but the effort has been successful: I understand mathematical physics better.
     </p>
     <p>
-      A machine based agent is responsible for much of the development of this page. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in First-Order Logic (FOL). All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a ''calculation machine'' independent of any access to runtime resources for mathematical calculation.
+      But as a machine based agent is responsible for much of the development of this page, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in First-Order Logic (FOL). All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a ''calculation machine'' independent of any access to runtime resources for mathematical calculation.
     </p>
     <p>
       This dual approach of verifying the conceptual description, and demonstrating its support for calculation, support the claim that this page is indeed a robust prototype providing proof of concept for its proposed curriculum.
@@ -8484,18 +8484,20 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </div>
 
 ', 'published'),
-  (30, 'bayesianInferenceIntro', 29, 'Introduction: The Logic of Scientific Discovery', 'bayesian-inference-intro', '
+  (30, 'bayesianInferenceIntro', 29, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
     <div align="center">
-      <font size="+2"><i><b>Introduction: The Logic of Scientific Discovery</b></i></font><br>
-      <font size="+1"><i>Hypotheses, Data Spaces &amp; Exact Belief Revision on the Hyperfinite Transect</i></font>
+      <i><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i><br>
+      <i><font size="+1">The Logic of Scientific Discovery: Hypotheses, State Spaces &amp; Exact Belief Revision</font></i>
     </div>
     <br>
 
-    <h3>1. From Deductive Logic to Scientific Inference</h3>
+    <h3>1. From Deductive Certainty to Scientific Inference</h3>
     <p>
-      In the preceding modules, we explored <b>Propositional Logic</b> and <b>Predicate Logic</b>. 
-      In that deductive world, every statement is definitively either <i>True</i> (1) or <i>False</i> (0). 
-      Deduction tells us what must follow if our premises are absolute.
+      Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces, duality, and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
+    </p>
+    <p>
+      In that deductive world, every proven statement is definitively either <i>True</i> (1) or <i>False</i> (0). 
+      Deduction tells us what must follow if our premises are absolute and complete.
     </p>
     <p>
       However, deductive logic possesses a rigid structural property: it is strictly <b>monotonic</b>. 
@@ -8668,11 +8670,11 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
     </p>
     <p>
-      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (generated by transfinite induction with birthday cutoff <code>ω</code> and infinitesimal step size <code>dx = 1/ω = ε &gt; 0</code>), we achieve two decisive simplifications:
+      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (which we developed in Level 2 with infinitesimal step size <code>dx = 1/ω &gt; 0</code>), continuous probability integrates seamlessly with our calculus:
     </p>
     <ol>
       <li><b>No Divide-by-Zero Singularities:</b> Because every non-empty event carries a strictly positive infinitesimal weight (<code>P(x_k) = p(x_k) · dx &gt; 0</code>), Bayes'' division is always well-defined. Impossible events are strictly those where <code>E = ∅</code> (inspect the point masses in the <bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>).</li>
-      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable integral; it is simply <b>proportional slicing and rescaling of discrete point masses</b> on the transect.</li>
+      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable limit of integrals; continuous probability accumulation <code>P(a ≤ X ≤ b) = ∫_a^b p(x) dx = st( ∑ p(x_k) · dx )</code> is simply the discrete telescoping addition mastered in Level 2!</li>
       <li><b>Macroscopic Readout:</b> Whenever a standard decimal value or laboratory probability is required, hyperfinite values seamlessly <b>"pop" to the nearest real number</b> via the standard part map (<code>st: ℝ_ω → ℝ</code>), dropping infinitesimal parts (<code>∼ 𝒪(1/ω)</code>). See this bridged directly via <bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>.</li>
     </ol>
 
@@ -8717,15 +8719,15 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      “Now that we have solid logic and number trees under our belt, we enter the real world of applied discovery: <b>how science learns from clues</b>.”
+      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the real world of applied discovery: <b>how science learns from clues</b>.”
     </p>
 
     <p>
-      Jill raised her hand immediately: “Wait Jack, in our logic and math lectures, once you prove something, it''s 100% true forever. Why can''t scientists just prove physics theories with pure deduction like mathematicians do?”
+      Jill raised her hand immediately: “Wait Jack, in our mathematics lectures, once you prove something, it''s 100% true forever. Why can''t scientists just prove physical reality with pure deduction like mathematicians do?”
     </p>
 
     <p>
-      “That is the fundamental difference between mathematics and the natural sciences!” Jack said.
+      “That is the fundamental difference between pure mathematical deduction and empirical scientific discovery!” Jack said.
     </p>
 
     <hr>
@@ -9096,7 +9098,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
 
     <p>
-      “Even more elegantly, when we take logarithms, multiplication becomes simple <b>addition of evidence bits</b> (decibans):”
+      “Even more elegantly, using the logarithmic bridge we mastered in Level 4 (<code>ln(a · b) = ln(a) + ln(b)</code>), multiplication becomes simple <b>addition of evidence bits</b> (decibans):”
     </p>
 
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
@@ -9395,7 +9397,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we studied in Tier B!”
+      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we explored in our foundational numbers curriculum!”
     </p>
 
     <p>
@@ -9646,7 +9648,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <ul>
       <li>
-        <b>Microstates (<code>s ∈ Ω</code>):</b> The ultra-detailed microscopic configurations &mdash; such as the exact quantum coordinates of every molecule, or the individual leaf paths of our Tier B dyadic tree at hyperfinite depth <code>ω</code>.
+        <b>Microstates (<code>s ∈ Ω</code>):</b> The ultra-detailed microscopic configurations &mdash; such as the exact physical coordinates of every particle, or the individual leaf paths of our recursive dyadic number tree at hyperfinite depth <code>ω</code>.
       </li>
       <br>
       <li>
@@ -9896,24 +9898,24 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      “In our upcoming chapter on <b>Quantum Logic</b>, we take the ultimate step:”
+      “In our upcoming chapter on <b>Quantum Logic</b>, we unite these probability measures with the 2D complex grid <code>ℂ_ω</code> (from Level 2) and the Hilbert space geometry <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code> (from Level 3):”
     </p>
 
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
       <font size="+1" color="#1e3a8a">
-        <b>From Real Probabilities <code>p_k ∈ *[0, 1]</code> on <code>ℝ_ω</code><br>
-        &nbsp;&nbsp;──► To Complex Probability Amplitudes <code>ψ_k ∈ ℂ_ω</code> on Hilbert Spaces!</b>
+        <b>From Real Probability Weights <code>p_k ∈ [0, 1]</code> on <code>ℝ_ω</code><br>
+        &nbsp;&nbsp;──► To Complex State Vectors <code>|ψ⟩ ∈ ℋ_ω</code> &amp; Non-Commutative Subspaces!</b>
       </font>
     </div>
 
     <p>
-      “Where classical probabilities simply add, quantum amplitudes introduce <b>phase, interference, and non-commutative geometry</b>. See you in Quantum Logic!”
+      “Where classical probabilities simply add as disjoint subsets, quantum states introduce <b>geometric phase, wave interference cross-terms, and projection operators</b>. See you in Quantum Logic!”
     </p>
   ', 'published'),
-  (35, 'quantumLogicIntro', 34, 'Introduction to Quantum Logic', 'quantum-logic-intro', '
+  (35, 'quantumLogicIntro', 34, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
     <div align="center">
-      <i><font size="+2"><b>Introduction to Quantum Logic</b></font></i><br>
-      <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Phase &amp; Vector Geometry</font></i>
+      <i><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i><br>
+      <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Projection &amp; Vector Geometry</font></i>
     </div>
     <br>
 
@@ -9933,33 +9935,33 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <hr>
 
-    <h3>2. From the 2-Successor Transect to the 4-Successor Grid</h3>
+    <h3>2. From Classical Sample Spaces to Complex Hilbert Spaces</h3>
     <p>
-      In the <i>Numbers</i> and <i>Bayesian Inference</i> modules, we constructed probability over the 1-dimensional <b>hyperfinite transect</b> <code>ℝ_ω</code> generated by the 2-successor dyadic tree <code>{-, +}</code>. 
-      While real numbers suffice for classical probability weights, quantum mechanics fundamentally requires phase rotations and wave interference.
+      In our study of <i>Bayesian Inference</i>, we constructed probability over the 1-dimensional <b>hyperfinite transect</b> <code>ℝ_ω</code> generated by the 2-successor dyadic tree. 
+      While real numbers suffice for classical scalar probability weights, quantum mechanics fundamentally requires complex phase rotations and wave interference.
     </p>
     <p>
-      Quantum logic operates on the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω</code>, generated by the 4-successor quad-tree:
+      As established in <b>Level 2 (Analysis 2D)</b> and <b>Level 3 (Vector Foundations)</b>, crossing two real axes yields the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree basis:
     </p>
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; font-family: monospace; font-size: 15px; border-radius: 6px; color: #1e3a8a; margin: 12px 0;">
       Quad-Tree Basis = { +1, -1, +i, -i } &nbsp;⇒&nbsp; Gaussian Dyadics &amp; Complex Grid ℂ_ω
     </div>
     <p>
-      On this complex grid, physical states are no longer simple points on a line; they are <b>directional state vectors and subspaces in a hyperfinite complex Hilbert space <code>ℋ_ω</code></b>.
+      On this complex grid, physical states are no longer simple points on a line; they are <b>directional state vectors and subspaces in a complex Hilbert space <code>ℋ_ω</code></b>.
     </p>
 
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 13.5px;">
-      <b>Epistemic Foundations: The Fork in the Road</b><br>
-      In Module 3, we observed that the discrete grid <code>ℂ_ω</code> on its own is not algebraically closed (e.g., dividing by 5 or normalizing diagonal waves by <code>√2</code> creates remainders that fall off the <code>ω</code>-depth grid). From this junction, there are <b>two coherent foundational pathways</b>:
+      <b>Epistemic Foundations: The Algebraic Safety Net</b><br>
+      In Level 3, we observed that while the working grid <code>ℂ_ω</code> supports all concrete physical operations, division or normalization by diagonal roots (like <code>√2</code>) generates remainders with transfinite birthdays beyond <code>ω</code>. From this junction, there are <b>two coherent foundational pathways</b>:
       <ul style="margin-top: 8px;">
         <li>
-          <b>Pathway A (The STEM / Classical Exit):</b> Apply the <b>standard part map</b> (<code>st : ℝ_ω → ℝ</code>) whenever an operation leaves <code>ℂ_ω</code>. This "pops" the calculation down to the nearest standard real number, allowing students to interface with standard university calculus and the machinery of <b>intrinsic spaces</b> (topologies, measure theory, and Lebesgue integration).
+          <b>Pathway A (The Standard Real Shadow):</b> Apply the <b>standard part map</b> (<code>st : ℝ_ω → ℝ</code>) whenever an operation leaves <code>ℂ_ω</code>. This "pops" the calculation down to the nearest standard real number, interfacing directly with standard laboratory calculus and intrinsic Hilbert spaces.
         </li>
         <li style="margin-top: 6px;">
-          <b>Pathway B (The Tree Continuation):</b> Refuse to collapse into unstructured point-soup, and let the tree continue branching down to its natural enveloping algebraic field <b><code>G = ℂ_{&lt;ε₀}</code></b> (the first Cantor epsilon horizon <code>ε₀ = ω^ω^...</code>). Here, every node remains an explicitly constructible set from <code>0 = { | }</code>, every address remains a <b>countable sequence of tree branch moves</b>, and recursive arithmetic is <b>100% algebraically closed</b> without leaking.
+          <b>Pathway B (The Tree Continuation):</b> Let the recursive tree continue branching down to its natural enveloping algebraic field <b><code>G = ℂ_{&lt;ε₀}</code></b> (the first Cantor epsilon horizon <code>ε₀ = ω^ω^...</code>). Here, every node remains an explicitly constructible set from <code>0 = { | }</code>, and recursive arithmetic is <b>100% algebraically closed</b> without leaking.
         </li>
       </ul>
-      <i>For our general science literacy curriculum, we maintain our workspace on <code>ℂ_ω</code>, utilizing the intuitive geometric notion of vectors while resting assured that the deeper tree <code>G</code> serves as an airtight algebraic safety net.</i>
+      <i>For our general science curriculum, we operate directly on <code>ℂ_ω</code> using the concrete geometry of vectors and projection operators, resting assured that the deeper transfinite tree <code>G</code> serves as an airtight algebraic safety net.</i>
     </div>
 
     <hr>
@@ -10040,7 +10042,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      “Better!” Jack laughed. “We are going to use three pieces of tinted plastic to break the classical laws of logic we learned in Module 1!”
+      “Better!” Jack laughed. “We are going to use three pieces of tinted plastic to test the limits of classical Boolean logic!”
     </p>
 
     <hr>
@@ -10278,7 +10280,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <h3>2. The 4-Successor Quad-Tree &amp; The Complex Grid (ℂ_ω)</h3>
 
     <p>
-      “In Module 3, we constructed the 1D real transect <code>ℝ_ω</code> using a 2-successor dyadic tree <code>{-, +}</code>,” Jack recalled.
+      “In our foundational studies, we constructed the 1D real transect <code>ℝ_ω</code> using a 2-successor dyadic tree <code>{-, +}</code>,” Jack recalled.
     </p>
 
     <p>
@@ -10463,32 +10465,19 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      Jill raised her hand with a suspicious grin: “Hold on a second, Jack! In your lecture title, you wrote <i>''Vector Projection''</i>. That word <b>''vector''</b> sounds suspiciously like one of those heavy algebraic structures from the university STEM track you told us we could safely bypass back in Numbers Lecture 1! Are we suddenly smuggling in abstract linear algebra through the back door?”
+      Jill raised her hand with an insightful smile: “Jack, in your lecture title, you wrote <i>''Vector Projection''</i>. Back in Level 3, we explored how vector spaces, duality pairings <code>⟨ϕ|ψ⟩</code>, and projection operators operate in abstract geometry. Are we now seeing the physical realization of that exact same geometry?”
     </p>
 
     <p>
-      Jack laughed: “Guilty as charged, Jill! That is a very sharp catch. We have indeed arrived at a foundational <b>fork in the road</b>.”
+      Jack beamed: “Spot on, Jill! That is one of the most stunning unifications in all of science. In quantum mechanics, an observable measurement isn''t an arbitrary interruption &mdash; it is literally dropping a perpendicular projection onto an observable subspace in Hilbert space <code>ℋ_ω</code>!”
     </p>
 
     <p>
-      “As you probably noticed back in Module 3, our simple working grid <code>ℂ_ω</code> isn''t algebraically closed on its own &mdash; multiplying infinitesimals <code>(1/ω) · (1/ω) = 1/ω²</code> or normalizing a 45° diagonal wave by <code>√2</code> creates numbers that fall off the <code>ω</code>-depth grid. To handle this, mathematicians have two paths:”
-    </p>
-
-    <ul>
-      <li>
-        <b>Choice A (The STEM Exit):</b> ''Pop'' down to standard continuous reals using the standard part map <code>st</code>, and haul in the machinery of <i>intrinsic topological spaces</i>.
-      </li>
-      <li>
-        <b>Choice B (The Tree Continuation):</b> Follow our tree further down to its enveloping algebraic field <b><code>G = ℂ_{&lt;ε₀}</code></b>, where every node is still an explicitly constructible set, every path is countable, and arithmetic is 100% closed.
-      </li>
-    </ul>
-
-    <p>
-      “Now, the good news for us,” Jack continued, “is that for our immediate journey, <b>you don''t need either of those heavy tracks!</b> We only need the <b>informal, geometric notion of a vector</b>: a plain 2D arrow on our complex canvas <code>ℂ_ω</code> that has a length and a clock angle, which we can add tip-to-tail and project onto detector axes!”
+      “As established in Level 3, our working grid <code>ℂ_ω</code> is supported by our transfinite tree cutoff (with Cantor''s epsilon horizon <code>ε₀</code> serving as the airtight algebraic safety net). We don''t need any detached, unconstructive axioms &mdash; we have the concrete geometry of directional state arrows and subspace projections!”
     </p>
 
     <p>
-      Jill smiled, satisfied: “Fair enough. As long as it''s just arrows on our canvas and not a surprise exam on abstract axioms, let''s see how these arrows project!”
+      Jill nodded: “So when a detector observes a particle, it doesn''t slice a set like a classical cookie cutter &mdash; it literally projects the state vector onto the detector''s axis!”
     </p>
 
     <hr>
@@ -10675,17 +10664,17 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical ensembles and density matrices</b> to complete our grand tour of physical reality!”
     </p>
   ', 'published'),
-  (39, 'quantumBayesianInferenceIntro', 38, 'Introduction to Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
+  (39, 'quantumBayesianInferenceIntro', 38, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
     <div align="center">
-      <i><font size="+2"><b>Introduction to Quantum Bayesian Inference</b></font></i><br>
-      <i><font size="+1">The Final Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
+      <i><font size="+2"><b>Level 5 Course 3: Quantum Bayesian Inference</b></font></i><br>
+      <i><font size="+1">The Capstone Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
     </div>
     <br>
 
     <h3>1. The Grand Capstone of the Minimal Path</h3>
     <p>
       We have arrived at the summit of our constructive curriculum. 
-      Every formal tool we have forged &mdash; from binary truth values and the Conway number tree, to discrete hyperfinite transects (<code>ℝ_ω</code>) and complex grids (<code>ℂ_ω</code>), to thermodynamic entropy and non-distributive quantum logic &mdash; converges into a single, breathtaking realization:
+      Every formal tool we have forged across five levels &mdash; from binary truth values and the Conway number tree (<b>Level 1</b>), to hyperfinite calculus on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), to vector spaces, duality, and linear maps (<b>Level 3</b>), the transcendental engine (<b>Level 4</b>), and probabilistic inference with quantum logic (<b>Level 5</b>) &mdash; converges into a single, breathtaking realization:
     </p>
 
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; font-weight: bold; border-radius: 6px; font-size: 15px; color: #1e3a8a; margin: 12px 0;">
@@ -10938,44 +10927,39 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <h3>4. The Grand Rosetta Stone of Formal Science</h3>
 
     <p>
-      “Look at the entire intellectual journey we have traveled across all six chapters,” Jack said, drawing the master summary table on the board:
+      “Look at the entire intellectual journey we have traveled across our five levels,” Jack said, drawing the master summary table on the board:
     </p>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
       <tr bgcolor="#f8fafc">
-        <th width="22%" align="left">Curriculum Module</th>
-        <th width="38%" align="left">Mathematical Formalism</th>
+        <th width="24%" align="left">Curriculum Level</th>
+        <th width="36%" align="left">Mathematical Formalism</th>
         <th width="40%" align="left">Epistemic &amp; Physical Meaning</th>
       </tr>
       <tr>
-        <td><b>1. Propositional Logic</b></td>
-        <td>Binary truth values <code>𝔹 = {0, 1}</code>, root <code>0 = { | }</code></td>
-        <td>Deductive certainty, monotonicity, and sound axiomatic rules.</td>
+        <td><b>Level 1: Logic &amp; Number</b></td>
+        <td>Binary truth <code>𝔹 = {0, 1}</code>, root <code>0 = { | }</code>, inductive Conway trees</td>
+        <td>Deductive certainty, syntactic consistency, and exact construction of numbers.</td>
       </tr>
       <tr>
-        <td><b>2. Formal Statements</b></td>
-        <td>Typed bounded quantification <code>∀x:[ℕ|P] [Q(x)]</code></td>
-        <td>Eliminating cognitive clutter; verified type-theoretic notation.</td>
+        <td><b>Level 2: Continuum &amp; Calculus</b></td>
+        <td>Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid <code>ℂ_ω</code>, telescoping FTC</td>
+        <td>Instantaneous change, continuous accumulation, conformal geometry, and continuous unitary time evolution.</td>
       </tr>
       <tr>
-        <td><b>3. Numbers &amp; Trees</b></td>
-        <td>Transect <code>ℝ_ω</code> &amp; Complex Grid <code>ℂ_ω</code></td>
-        <td>Exact discrete coordinates with hyperfinite step <code>dx = 1/ω</code>.</td>
+        <td><b>Level 3: Space &amp; Geometry</b></td>
+        <td>Vector spaces <code>V</code>, dual measurement spaces <code>V*</code>, Dirac bra-kets <code>⟨ϕ|ψ⟩</code></td>
+        <td>Geometric directions, linear transformations, canonical evaluation pairing, and unitary isometries.</td>
       </tr>
       <tr>
-        <td><b>4. Classical Bayes</b></td>
-        <td><code>P(H|E) = (P(E|H) · P(H)) / P(E)</code> on <code>ℝ_ω</code></td>
-        <td>Non-monotonic belief updating under streaming empirical clues.</td>
+        <td><b>Level 4: The Transcendental Engine</b></td>
+        <td>Continuous growth <code>e^x</code>, natural logarithm <code>ln x</code>, circular dynamics</td>
+        <td>The continuous engine powering probability decay, logarithmic surprisal, and information entropy.</td>
       </tr>
       <tr>
-        <td><b>5. Statistical Mechanics</b></td>
-        <td>Boltzmann Ensembles, MaxEnt: <code>S = -k_B ∑ p ln p</code></td>
-        <td>Thermodynamic entropy as honest macroscopic ignorance.</td>
-      </tr>
-      <tr>
-        <td><b>6. Quantum Bayes</b></td>
-        <td><code>ρ'' = (P_k ρ P_k) / Tr(ρ P_k)</code>, <code>S(ρ) = -k_B Tr(ρ ln ρ)</code></td>
-        <td><b>The Formal Capstone:</b> Non-commutative inference on complex Hilbert spaces.</td>
+        <td><b>Level 5: Probability &amp; Quantum Logic</b></td>
+        <td>Density operators <code>ρ</code>, Lüders rule <code>ρ'' = (P ρ P)/Tr(ρ P)</code>, von Neumann <code>S(ρ)</code></td>
+        <td><b>The Grand Capstone:</b> Non-commutative Bayesian inference and physical reality as a statistical ensemble.</td>
       </tr>
     </table>
 
@@ -10990,12 +10974,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   (41, 'quantumBayesianInferenceLecture2', 40, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
-      <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Grand Finale</font></i>
+      <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Capstone Ascent</font></i>
     </div>
     <br>
 
     <p>
-      “Welcome to the grand finale of our foundational curriculum!” Jack greeted the class with a warm, reflective smile.
+      “Welcome to the capstone lecture of our foundational curriculum!” Jack greeted the class with a warm, reflective smile.
     </p>
 
     <p>
@@ -11136,40 +11120,33 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <h3>5. The Complete Constructive Ascent</h3>
 
     <p>
-      “Think of the magnificent intellectual climb we have made together,” Jack said with a proud smile:
+      “Think of the magnificent intellectual climb we have made together across all five foundational levels,” Jack said with a proud smile:
     </p>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 16px; font-size: 14px; margin: 15px 0; line-height: 1.7;">
-      <b>The Constructive Ascent:</b><br>
-      <b>Nothing</b> (The Conway Root <code>0 = { | }</code>)<br>
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 16px; font-size: 14px; margin: 15px 0; line-height: 1.8;">
+      <b>The 5-Level Constructive Ascent:</b><br><br>
+      <b>Level 1: Logic &amp; Number</b> &mdash; From Conway''s root <code>0 = { | }</code> to dyadic branching trees and typed logic<br>
       &darr;<br>
-      <b>Inductive Branching Trees</b> (2-Successor <code>ℝ_ω</code> &amp; 4-Successor <code>ℂ_ω</code>)<br>
+      <b>Level 2: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates <code>dy/dx</code>, integral sums, and conformal geometry on <code>ℝ_ω</code> and <code>ℂ_ω</code><br>
       &darr;<br>
-      <b>Formal Statements &amp; Bounded Predicates</b> (Typed logic without cognitive clutter)<br>
+      <b>Level 3: Space, Direction &amp; Geometry</b> &mdash; Vector spaces, inner products, linear operators, and Dirac bra-ket duality<br>
       &darr;<br>
-      <b>Bayesian Evidence Filtering</b> (Prior &rarr; Likelihood &rarr; Posterior)<br>
+      <b>Level 4: The Transcendental Engine</b> &mdash; Continuous growth <code>e^x</code>, natural logarithms <code>ln x</code>, and circular rotor dynamics<br>
       &darr;<br>
-      <b>Thermodynamic Ensembles &amp; MaxEnt</b> (Statistical mechanics from information theory)<br>
-      &darr;<br>
-      <b>Quantum Logic &amp; Density Operators</b> (Vector projections and non-commutative Bayes)
+      <b>Level 5: Probability, Information &amp; Quantum Logic</b> &mdash; Bayesian updating, Jaynes MaxEnt, and non-commutative Density Operators <code>ρ</code>
     </div>
 
     <p>
-      “Formal deductive logic, number trees, Bayesian inference, and quantum statistical mechanics are not isolated silos,” Jack and Jill concluded together. 
+      “Formal deductive logic, hyperfinite calculus, linear algebra, transcendental dynamics, Bayesian inference, and quantum statistical mechanics are not isolated silos,” Jack and Jill concluded together. 
       “<b>They are the harmonious branches of a single, coherent, beautiful mathematical tree.</b>”
     </p>
 
-    <!--
-    <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; margin: 20px auto; max-width: 620px;">
-      <font size="+1" color="#1e40af"><b>Continue the Journey in Track 2: Liberal Arts Mathematics</b></font><br>
+    <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; margin: 20px auto; max-width: 640px;">
+      <font size="+1" color="#1e40af"><b>Next Horizons: Applied Seminars &amp; Specialized Explorations</b></font><br>
       <div style="font-size: 13.5px; color: #334155; margin: 8px 0;">
-        Explore the 3-course tertiary extension solidifying Linear Algebra, 1D Nonstandard Analysis, and 2D Complex Quantum Inference.
+        With the entire constructive foundation in place across Levels 1 through 5, you are fully equipped to explore the applied physics seminars, specialized satellite workshops, and computational frontiers in Level 6.
       </div>
-      <a href="#vectorFoundationsIntro" style="display: inline-block; background-color: #2563eb; color: #ffffff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; margin-top: 6px;">
-        Continue to Course 1: Linear Algebra &rarr;
-      </a>
     </div>
-    -->
   ', 'published'),
   (42, 'satelliteSeminarsIntro', 41, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
   <div align="center">
