@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-27T15:21:08.822Z
+-- Generated At: 2026-09-27T15:36:51.574Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -33,7 +33,7 @@ ON CONFLICT (id) DO UPDATE SET
 -- 2. Curricular Segments (52 Chapters)
 INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, status) OVERRIDING SYSTEM VALUE VALUES
   (1, 'introduction', 0, 'Toward a Theoretical Maximum:A Curriculum for General Education in General Science', 'introduction', '
-    <div align="center">
+<div align="center">
       <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
       <font size="+1"><i>— A Constructive Path from Logic to Quantum Reality —</i></font>
     </div>
@@ -41,7 +41,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <h3>Preface &amp; Pedagogical Vision</h3>
     <p>
-      <b>Middle Way Mathematics</b> is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that assumes that the infinitesimal <code>1/ω</code> (where <code>ω</code> is the supremum of the natural numbers) is a number.
+      <b>Middle Way Mathematics</b> is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that accepts that the infinitesimal <code>1/ω</code> (where <code>ω</code> is the supremum of the natural numbers) is a number.
     </p>
     <p>
       A machine based agent is responsible for much of the development of this page. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in First-Order Logic (FOL). All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a ''calculation machine'' independent of any access to runtime resources for mathematical calculation.
@@ -79,7 +79,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px 20px; margin: 16px auto; width: 90%;">
       <table width="100%" cellpadding="6" style="border-collapse: collapse; font-size: 14px;">
-        <tr>
+        <tbody><tr>
           <td width="48%" valign="top" style="padding-right: 15px; border-right: 1px solid #e2e8f0;">
             <font size="+1" color="#1e3a8a"><b>Physical Reality &amp; Phenomena (The Territory)</b></font><br><br>
             • <b>Fixed and Objective:</b> The physical universe exists and unfolds independently of human observers or symbolic representations.<br><br>
@@ -93,7 +93,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
             • <b>Reasoning Under Uncertainty:</b> Our models do not dictate how nature "must" behave; rather, they serve as rigorous, evolving lenses to organize observations, quantify ignorance, and update beliefs rationally.
           </td>
         </tr>
-      </table>
+      </tbody></table>
       <div align="center" style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #cbd5e1; font-weight: bold; color: #0f172a; font-size: 13.5px;">
         <b>The Core Epistemological Attitude:</b><br>
         We do not mistake the map for the territory. We begin with raw phenomenological intuition, and then construct the leanest, most direct mathematical formalisms needed to faithfully capture physical reality without measure-theoretic clutter.
@@ -169,12 +169,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
         <ul>
           <li>
-            <b>Tier 1 &mdash; Interactive Ground (Finite &amp; Discrete):</b><br>
+            <b>Tier 1 — Interactive Ground (Finite &amp; Discrete):</b><br>
             Evaluates live first-order statements in propositional logic, constructive set theory (<code>0 = { | }</code>), and bounded quantifiers (<code>∀x₁:ℕ</code>, <code>∃x₁:ℕ</code>). An in-browser semantic AST evaluator computes truth tables and searches for witnesses in sub-millisecond time, while dual Lean 4 arithmetic/inductive proofs guarantee formal type-theoretic correctness.
           </li>
           <br>
           <li>
-            <b>Tier 3 &mdash; Constitutional Scaffolds (Continuous &amp; Transfinite):</b><br>
+            <b>Tier 3 — Constitutional Scaffolds (Continuous &amp; Transfinite):</b><br>
             Higher-order foundational theorems—including the Day <code>ω</code> hyperfinite continuum (<code>ℝ_ω, ℂ_ω</code>), the telescoping Fundamental Theorem of Calculus, Cauchy closed loop circulation (<code>∮ f(z) dz = 0</code>), and unitary quantum state preservation—are anchored directly to machine-checked theorems in <code>MiddleWayLean/Scaffold.lean</code>.
           </li>
         </ul>
@@ -189,7 +189,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
         <p>
           <b>Live Demonstrator:</b> Test the verification engine right now by clicking this sample constitutional scaffold:<br>
-          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
+          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
         </p>
 
         <p style="margin-bottom: 0;">
@@ -259,7 +259,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         We present this curriculum for general education in general science as an open, working framework for educators, students, and independent thinkers who share the desire to understand the supreme elegance of modern physical reality.
       </p>
     </div>
-  ', 'published'),
+', 'published'),
   (2, 'conceptualHistoryIntro', 1, 'The Minimal Path: Conceptual History & Pedagogical Roadmap', 'conceptual-history-intro', '
     <div align="center">
       <font size="+2"><i><b>The Minimal Path: Conceptual History &amp; Pedagogical Roadmap</b></i></font><br>
@@ -15192,7 +15192,7 @@ DELETE FROM segment_references;
 INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
+  (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
   (2, 14, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
   (3, 14, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
   (4, 16, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),

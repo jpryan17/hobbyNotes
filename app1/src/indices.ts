@@ -288,11 +288,6 @@ export const miniSeminarsIndex: IndexItemDesc[] = [
 export const conceptualHistoryIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "instructor guide: roadmap",
-    htmlSegmentId: "conceptualHistoryInstructorGuide",
-  },
-  {
-    type: "html",
     topic: "student narrative: physical reality",
     htmlSegmentId: "conceptualHistoryIntro",
   },
