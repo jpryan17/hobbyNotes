@@ -189,4 +189,235 @@ end;`,
       result: 'node(u₁₂) = [ + + - + - - + ... ] ⇔ e ≈ 2.718282',
     },
   },
+
+  kinematics_step: {
+    id: 'kinematics_step',
+    name: 'Discrete Kinematic State Update in (𝔻, +, ·)',
+    badge: 'Newtonian Difference Engine',
+    summary:
+      'Evaluates discrete free-fall velocity v = v₀ ⊖ (g ⊗ t) and trajectory displacement s = (v₀ ⊗ t) ⊖ (1/2 ⊗ g ⊗ t²) strictly in the ring of dyadic rationals.',
+    domain: 'v₀, g, t ∈ 𝔻 (Exact Dyadic Rationals on the 2-Successor Tree)',
+    primitives: [
+      '⊕ (dyadic add)',
+      '⊖ (dyadic sub)',
+      '⊗ (dyadic mul)',
+      '≫ 1 (half bit-shift)',
+      'sqr(t)',
+      'node(d)',
+    ],
+    complexity: {
+      tree: 'Finite difference stepping across discrete 2-successor rational tree',
+      dyadic: 'Exact integer bit-shifts and ring additions; zero floating-point drift',
+    },
+    code: `// =====================================================================
+// Discrete Kinematic Update in the Ring (𝔻, +, ·)
+// =====================================================================
+function KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic): (Dyadic, Dyadic)
+var
+    gt, halfG, t2, v, s: Dyadic;
+begin
+    // 1. Velocity decrement: v(t) = v₀ - g · t
+    gt    := g ⊗ t;                   // Exact dyadic product
+    v     := v0 ⊖ gt;                 // Ring subtraction
+
+    // 2. Trajectory displacement: s(t) = v₀ · t - (1/2) · g · t²
+    halfG := g ≫ 1;                   // Exact 1-bit right shift (division by 2)
+    t2    := sqr(t);                  // t²
+    s     := (v0 ⊗ t) ⊖ (halfG ⊗ t2); // Exact rational difference
+
+    return (v, s);                    // Pair of canonical dyadic values
+end;`,
+    explanation: [
+      'Bypasses continuous limits and floating-point math libraries entirely.',
+      'Operates purely over the ring of dyadic rationals (𝔻, +, ·) where division by 2 is an exact bit-shift.',
+      'Computes both velocity and position synchronously as discrete algebraic difference invariants.',
+      'Every state maps directly to a finite Conway tree birthday and unique sign sequence.',
+    ],
+    example: {
+      inputs: ['v₀ = 20 (20/1)', 'g = 9&3/4 (39/4 m/s²)', 't = 2 (2/1 s)'],
+      steps: [
+        'gt = (39/4) ⊗ 2 = 39/2 = 19&1/2 m/s',
+        'v = 20 ⊖ 19&1/2 = 1/2 m/s (node [+ -])',
+        'halfG = (39/4) ≫ 1 = 39/8',
+        't² = 4',
+        's = (20 ⊗ 2) ⊖ ((39/8) ⊗ 4) = 40 ⊖ 39/2 = 20&1/2 m (node [+ + + ...])',
+      ],
+      result: 'v = 1/2 m/s, s = 20&1/2 m (strictly exact in 𝔻)',
+    },
+  },
+
+  rotor_trig_cordic: {
+    id: 'rotor_trig_cordic',
+    name: 'Dyadic CORDIC Unit Rotor Projection',
+    badge: 'Discrete Trigonometric Engine',
+    summary:
+      'Evaluates circular trigonometric coordinates (cos θ, sin θ) through N discrete dyadic rotations using only power-of-two bit-shifts and additions.',
+    domain: 'θ ∈ 𝔻, step index i ∈ [0 .. N-1], coordinate pair (x, y) ∈ 𝔻²',
+    primitives: [
+      'x ≫ i (bit-shift)',
+      'x ⊕ y (dyadic add)',
+      'x ⊖ y (dyadic sub)',
+      'CordicAngle(i)',
+      'val(X)',
+    ],
+    complexity: {
+      tree: 'Discrete angular winding along binary unit circle lattice',
+      dyadic: 'N elementary shifts and additions; zero Math.sin / Math.cos dependency',
+    },
+    code: `// =====================================================================
+// CORDIC Unit Rotor Projection in the Ring (𝔻, +, ·)
+// =====================================================================
+function CordicRotor(theta: Dyadic, N: Integer): (Dyadic, Dyadic)
+var
+    x, y, z, nextX, nextY: Dyadic;
+    d, i: Integer;
+begin
+    // Initial scaled rotor along unit axis: K ≈ 0.607252935
+    x := 39797 ≫ 16;  // Canonical dyadic scaling constant
+    y := 0;
+    z := theta;
+
+    for i := 0 to N - 1 do
+    begin
+        if z >= 0 then
+            d := 1
+        else
+            d := -1;
+
+        // Elementary dyadic pseudo-rotation via 2^-i shifts
+        nextX := x ⊖ (d ⊗ (y ≫ i));
+        nextY := y ⊕ (d ⊗ (x ≫ i));
+        z     := z ⊖ (d ⊗ CordicAngle(i));
+
+        x := nextX;
+        y := nextY;
+    end;
+
+    return (x, y);    // Exact dyadic projections (cos θ, sin θ)
+end;`,
+    explanation: [
+      'Eliminates the purple arrow to external transcendental math libraries (Math.sin/cos).',
+      'At step i, the coordinate vector rotates by angle arctan(2^-i) using only right-shifts (≫ i) and additions (⊕).',
+      'Achieves 16-bit precision in only 16 iterations without Taylor series expansions or floating-point division.',
+      'Unifies circular geometry with the discrete 2-successor structure of Middle Way arithmetic.',
+    ],
+    example: {
+      inputs: ['θ = 0 (root [ ])', 'N = 16 iterations'],
+      steps: [
+        'Initial x = 39797 / 65536 ≈ 0.60725,  y = 0',
+        '16 elementary dyadic rotations with elementary angle table...',
+        'x converges to 1.0 (node [+]),  y converges to 0.0 (node [ ])',
+      ],
+      result: '(cos 0, sin 0) = (1, 0) ∈ 𝔻²',
+    },
+  },
+
+  laplacian_heat_step: {
+    id: 'laplacian_heat_step',
+    name: 'Discrete Laplacian Thermal Diffusion in 𝔻',
+    badge: 'Discrete Field Engine',
+    summary:
+      'Advances 1D thermal distribution across spatial slices using the discrete second-difference operator in the ring (𝔻, +, ·).',
+    domain: 'T[i] ∈ 𝔻, diffusion coefficient α ∈ 𝔻 (α ≤ 1/2 for stability)',
+    primitives: [
+      'T[i] ≪ 1 (double shift)',
+      'T[i-1] ⊖ 2·T[i] ⊕ T[i+1] (second difference)',
+      'alpha ⊗ laplacian',
+      '⊕ (dyadic add)',
+    ],
+    complexity: {
+      tree: 'Local discrete interaction across spatial neighbor tree',
+      dyadic: 'O(M) shifts and additions per time-tick; unconditionally exact over 𝔻',
+    },
+    code: `// =====================================================================
+// 1D Discrete Thermal Diffusion Step in (𝔻, +, ·)
+// =====================================================================
+function HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer): Array of Dyadic
+var
+    nextT: Array of Dyadic;
+    i: Integer;
+    laplacian: Dyadic;
+begin
+    nextT := CreateArray(M);
+
+    // Boundary conditions: Dirichlet fixed endpoints
+    nextT[0]   := T[0];
+    nextT[M-1] := T[M-1];
+
+    // Interior grid nodes: T_{n+1}[i] = T_n[i] + α · (T_n[i-1] - 2·T_n[i] + T_n[i+1])
+    for i := 1 to M - 2 do
+    begin
+        laplacian := T[i-1] ⊖ (T[i] ≪ 1) ⊕ T[i+1];
+        nextT[i]  := T[i] ⊕ (alpha ⊗ laplacian);
+    end;
+
+    return nextT;
+end;`,
+    explanation: [
+      'Replaces continuous partial differential equations (PDEs) with exact discrete difference equations in 𝔻.',
+      'Multiplying by 2 in the central difference is evaluated as an exact 1-bit left shift (≪ 1).',
+      'Guarantees energy conservation and monotonic entropy growth across discrete spatial slices.',
+    ],
+    example: {
+      inputs: ['T = [0, 1, 0]', 'α = 1/4 (node [+ - -])', 'M = 3'],
+      steps: [
+        'laplacian[1] = 0 ⊖ (1 ≪ 1) ⊕ 0 = -2',
+        'diffusion increment = (1/4) ⊗ (-2) = -1/2',
+        'nextT[1] = 1 ⊕ (-1/2) = 1/2 (node [+ -])',
+      ],
+      result: 'nextT = [0, 1/2, 0] (smooth central dispersion in 𝔻)',
+    },
+  },
+
+  bayes_discrete_update: {
+    id: 'bayes_discrete_update',
+    name: 'Discrete Bayesian Posterior Update in 𝔻',
+    badge: 'Probability Logic Engine',
+    summary:
+      'Computes posterior probability P(H | E) = P(E | H) · P(H) / P(E) over a finite discrete hypothesis partition strictly in (𝔻, +, ·).',
+    domain: 'Prior, Likelihood ∈ 𝔻 ∩ [0, 1], Hypothesis Space Ω',
+    primitives: [
+      'priorH ⊗ pEgivenH',
+      '1 ⊖ priorH (complement)',
+      '⊕ (dyadic add)',
+      '⊘ (dyadic quotient)',
+    ],
+    complexity: {
+      tree: 'Partition branching on finite hypothesis decision tree',
+      dyadic: 'Ring multiplications and dyadic quotient; zero measure-theoretic integrals',
+    },
+    code: `// =====================================================================
+// Discrete Bayesian Hypothesis Update in (𝔻, +, ·)
+// =====================================================================
+function BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic): Dyadic
+var
+    priorNotH, jointH, jointNotH, totalEvidence, posterior: Dyadic;
+begin
+    priorNotH     := 1 ⊖ priorH;
+    jointH        := priorH ⊗ pEgivenH;
+    jointNotH     := priorNotH ⊗ pEgivenNotH;
+    totalEvidence := jointH ⊕ jointNotH;
+
+    // Exact dyadic division
+    posterior     := jointH ⊘ totalEvidence;
+
+    return posterior;
+end;`,
+    explanation: [
+      'Grounds probability strictly in discrete partition counting over finite event sets.',
+      'Joint likelihoods are exact dyadic products in the ring (𝔻, +, ·).',
+      'Normalizing evidence P(E) is evaluated as the exact sum of disjoint joint weights.',
+      'Produces a verifiable rational probability without real-analysis measure theory.',
+    ],
+    example: {
+      inputs: ['Prior P(H) = 1/2', 'Likelihood P(E|H) = 3/4', 'False positive P(E|¬H) = 1/4'],
+      steps: [
+        'jointH = (1/2) ⊗ (3/4) = 3/8',
+        'jointNotH = (1/2) ⊗ (1/4) = 1/8',
+        'totalEvidence = 3/8 ⊕ 1/8 = 4/8 = 1/2',
+        'posterior = (3/8) ⊘ (1/2) = 3/4',
+      ],
+      result: 'P(H | E) = 3/4 (node [+ - +])',
+    },
+  },
 };

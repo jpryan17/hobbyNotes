@@ -1,10 +1,10 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
--- PostgreSQL Relational Schema: Iteration 2 (Refined Conceptual Architecture)
--- Normalized MWM-DB: Middle Way Math Single Source of Truth
+-- PostgreSQL Relational Schema (Canonical MWM-DB Schema)
+-- Normalized Single Source of Truth
 -- =====================================================================
 
--- To create the database if not yet existing, run in DBeaver:
+-- To create the database if not yet existing, run in DBeaver / psql:
 -- CREATE DATABASE hobbynotes;
 
 -- ---------------------------------------------------------------------
@@ -13,7 +13,6 @@
 
 DROP TABLE IF EXISTS parameter_mining_jobs CASCADE;
 DROP TABLE IF EXISTS studio_workspaces CASCADE;
-DROP TABLE IF EXISTS maxima_verifications CASCADE;
 DROP TABLE IF EXISTS lean_verifications CASCADE;
 DROP TABLE IF EXISTS segment_prerequisites CASCADE;
 DROP TABLE IF EXISTS segment_references CASCADE;
@@ -22,12 +21,14 @@ DROP TABLE IF EXISTS verified_presets CASCADE;
 DROP TABLE IF EXISTS mode_slots CASCADE;
 DROP TABLE IF EXISTS calculation_modes CASCADE;
 DROP TABLE IF EXISTS formal_statements CASCADE;
+DROP TABLE IF EXISTS pseudocode_algorithms CASCADE;
 DROP TABLE IF EXISTS formalisms CASCADE;
 DROP TABLE IF EXISTS situations CASCADE;
 DROP TABLE IF EXISTS segments CASCADE;
 DROP TABLE IF EXISTS curriculum_tracks CASCADE;
 DROP TABLE IF EXISTS apps CASCADE;
 
+DROP TYPE IF EXISTS statement_kind CASCADE;
 DROP TYPE IF EXISTS statement_type CASCADE;
 DROP TYPE IF EXISTS statement_tier CASCADE;
 DROP TYPE IF EXISTS governing_seed CASCADE;
@@ -38,6 +39,7 @@ DROP TYPE IF EXISTS prerequisite_type CASCADE;
 -- 1. Custom Enumerations & Types
 -- ---------------------------------------------------------------------
 
+CREATE TYPE statement_kind AS ENUM ('theorem', 'directed_equality');
 CREATE TYPE statement_type AS ENUM ('math', 'physics', 'information');
 CREATE TYPE statement_tier AS ENUM ('constitutional', 'axiom', 'theorem', 'scenario', 'corollary', 'law');
 CREATE TYPE governing_seed AS ENUM ('conway_cut', 'shadow_map', 'boundary_law');
@@ -105,6 +107,27 @@ CREATE TABLE curriculum_nav_items (
 COMMENT ON TABLE curriculum_nav_items IS 'Hierarchical navigation outline tree for each app curriculum (canonical course hierarchy).';
 
 -- ---------------------------------------------------------------------
+-- 4b. Middle Way Pseudocode Algorithms (The Discrete Machine Library)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE pseudocode_algorithms (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    algo_key VARCHAR(64) UNIQUE NOT NULL,        -- e.g. 'conway_add', 'kinematics_step'
+    name VARCHAR(255) NOT NULL,
+    badge VARCHAR(64) NOT NULL,
+    summary TEXT,
+    domain VARCHAR(128) NOT NULL,
+    primitives TEXT[] NOT NULL DEFAULT '{}',
+    tree_complexity TEXT,
+    dyadic_complexity TEXT,
+    code TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE pseudocode_algorithms IS 'Middle Way structured pseudocode algorithms executable on the discrete dyadic machine.';
+
+-- ---------------------------------------------------------------------
 -- 5. Middle Way Math Formal Statements (The Axiomatic Engine)
 -- ---------------------------------------------------------------------
 
@@ -114,6 +137,8 @@ CREATE TABLE formal_statements (
     scaffold_key VARCHAR(64) NOT NULL,
     domain_category VARCHAR(64) NOT NULL DEFAULT 'discrete_analysis', -- e.g. 'logic', 'number_tree', 'discrete_analysis', 'complex_analysis', 'quantum_logic', 'kinematics'
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
+    statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'theorem' (Lean 4 proof) vs. 'directed_equality' (computational rule)
+    pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
     type statement_type NOT NULL DEFAULT 'math',
     tier statement_tier NOT NULL DEFAULT 'theorem',
     governing_seed governing_seed,
@@ -131,13 +156,16 @@ CREATE TABLE formal_statements (
 COMMENT ON TABLE formal_statements IS 'Middle Way Math formal axiomatic statements, definitions, theorems, and identities.';
 
 -- ---------------------------------------------------------------------
--- 6. Calculation Modes (Directional Inverted Stencils)
+-- 6. Calculation Modes / Function Rules (Directional Inverted Stencils)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE calculation_modes (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     mode_key VARCHAR(64) UNIQUE NOT NULL,         -- e.g. 'ff_v_from_v0_g_t'
     statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
+    pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
+    function_rule_name VARCHAR(128),              -- e.g. 'Kinematic Velocity Decrement'
+    function_signature VARCHAR(255),              -- e.g. '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ v: 𝔻'
     label VARCHAR(128) NOT NULL,                 -- e.g. '(v₀, g, t) → v'
     target_symbol VARCHAR(32) NOT NULL,          -- e.g. 'v'
     target_domain VARCHAR(32) NOT NULL,          -- e.g. 'ℝ_ω'
@@ -148,7 +176,7 @@ CREATE TABLE calculation_modes (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE calculation_modes IS 'Directional stencils and inverted calculation modes.';
+COMMENT ON TABLE calculation_modes IS 'Directional stencils and inverted calculation modes (computational function rules).';
 
 -- ---------------------------------------------------------------------
 -- 7. Mode Slots (Input Variable Parameter Specs)
@@ -167,7 +195,7 @@ CREATE TABLE mode_slots (
     max_val NUMERIC,
     step_val NUMERIC,
     description TEXT,
-    CONSTRAINT uq_v2_mode_slot_order UNIQUE(mode_id, slot_order)
+    CONSTRAINT uq_mode_slot_order UNIQUE(mode_id, slot_order)
 );
 
 COMMENT ON TABLE mode_slots IS 'Ordered input parameters with boundary ranges for calculation modes.';
@@ -219,7 +247,7 @@ CREATE TABLE segment_prerequisites (
     segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
     depends_on_segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
     prerequisite_type prerequisite_type NOT NULL DEFAULT 'foundational',
-    CONSTRAINT uq_v2_segment_prereq UNIQUE(segment_id, depends_on_segment_id),
+    CONSTRAINT uq_segment_prereq UNIQUE(segment_id, depends_on_segment_id),
     CONSTRAINT chk_no_self_prereq CHECK (segment_id <> depends_on_segment_id)
 );
 
@@ -247,23 +275,6 @@ CREATE TABLE lean_verifications (
 
 COMMENT ON TABLE lean_verifications IS 'Lean 4 kernel proof verification cache, relationally linked to formal statements.';
 
-CREATE TABLE maxima_verifications (
-    id VARCHAR(64) PRIMARY KEY,
-    mode_id BIGINT REFERENCES calculation_modes(id) ON DELETE SET NULL,
-    title VARCHAR(255) NOT NULL,
-    category VARCHAR(128) NOT NULL,
-    problem_statement TEXT NOT NULL,
-    domain VARCHAR(64) NOT NULL,
-    operators TEXT[] NOT NULL DEFAULT '{}',
-    scaffold_theorems TEXT[] NOT NULL DEFAULT '{}',
-    session_inputs TEXT[] NOT NULL DEFAULT '{}',
-    session_outputs TEXT[] NOT NULL DEFAULT '{}',
-    formatted_steps JSONB NOT NULL DEFAULT '[]'::jsonb,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-COMMENT ON TABLE maxima_verifications IS 'Maxima CAS symbolic reduction sessions, relationally linked to calculation modes.';
-
 -- ---------------------------------------------------------------------
 -- 12. Automated Parameter Mining
 -- ---------------------------------------------------------------------
@@ -287,34 +298,35 @@ COMMENT ON TABLE parameter_mining_jobs IS 'Automated parameter space exploration
 -- 13. Performance & Relational Indexes
 -- ---------------------------------------------------------------------
 
-CREATE INDEX idx_v2_segments_key ON segments(seg_key);
-CREATE INDEX idx_v2_segments_status ON segments(status);
+CREATE INDEX idx_segments_key ON segments(seg_key);
+CREATE INDEX idx_segments_status ON segments(status);
 
-CREATE INDEX idx_v2_nav_items_app ON curriculum_nav_items(app_id);
-CREATE INDEX idx_v2_nav_items_parent ON curriculum_nav_items(parent_id);
-CREATE INDEX idx_v2_nav_items_segment ON curriculum_nav_items(segment_id);
-CREATE INDEX idx_v2_nav_items_key ON curriculum_nav_items(nav_key);
+CREATE INDEX idx_nav_items_app ON curriculum_nav_items(app_id);
+CREATE INDEX idx_nav_items_parent ON curriculum_nav_items(parent_id);
+CREATE INDEX idx_nav_items_segment ON curriculum_nav_items(segment_id);
+CREATE INDEX idx_nav_items_key ON curriculum_nav_items(nav_key);
 
-CREATE INDEX idx_v2_formal_statements_parent ON formal_statements(parent_id);
-CREATE INDEX idx_v2_formal_statements_domain ON formal_statements(domain_category);
-CREATE INDEX idx_v2_formal_statements_key ON formal_statements(statement_key);
-CREATE INDEX idx_v2_formal_statements_scaffold ON formal_statements(scaffold_key);
+CREATE INDEX idx_formal_statements_parent ON formal_statements(parent_id);
+CREATE INDEX idx_formal_statements_domain ON formal_statements(domain_category);
+CREATE INDEX idx_formal_statements_key ON formal_statements(statement_key);
+CREATE INDEX idx_formal_statements_scaffold ON formal_statements(scaffold_key);
+CREATE INDEX idx_formal_statements_pseudo_algo ON formal_statements(pseudo_algo_id);
 
-CREATE INDEX idx_v2_calculation_modes_statement ON calculation_modes(statement_id);
-CREATE INDEX idx_v2_calculation_modes_key ON calculation_modes(mode_key);
+CREATE INDEX idx_calculation_modes_statement ON calculation_modes(statement_id);
+CREATE INDEX idx_calculation_modes_key ON calculation_modes(mode_key);
+CREATE INDEX idx_calculation_modes_pseudo_algo ON calculation_modes(pseudo_algo_id);
 
-CREATE INDEX idx_v2_mode_slots_mode ON mode_slots(mode_id);
+CREATE INDEX idx_mode_slots_mode ON mode_slots(mode_id);
 
-CREATE INDEX idx_v2_verified_presets_mode ON verified_presets(mode_id);
-CREATE INDEX idx_v2_verified_presets_key ON verified_presets(preset_key);
+CREATE INDEX idx_verified_presets_mode ON verified_presets(mode_id);
+CREATE INDEX idx_verified_presets_key ON verified_presets(preset_key);
 
-CREATE INDEX idx_v2_segment_refs_segment ON segment_references(segment_id);
-CREATE INDEX idx_v2_segment_refs_statement ON segment_references(statement_id);
-CREATE INDEX idx_v2_segment_refs_mode ON segment_references(mode_id);
-CREATE INDEX idx_v2_segment_refs_preset ON segment_references(preset_id);
+CREATE INDEX idx_segment_refs_segment ON segment_references(segment_id);
+CREATE INDEX idx_segment_refs_statement ON segment_references(statement_id);
+CREATE INDEX idx_segment_refs_mode ON segment_references(mode_id);
+CREATE INDEX idx_segment_refs_preset ON segment_references(preset_id);
 
-CREATE INDEX idx_v2_lean_verif_statement ON lean_verifications(statement_id);
-CREATE INDEX idx_v2_maxima_verif_mode ON maxima_verifications(mode_id);
+CREATE INDEX idx_lean_verif_statement ON lean_verifications(statement_id);
 
-CREATE INDEX idx_v2_presets_input_values ON verified_presets USING GIN (input_values);
-CREATE INDEX idx_v2_maxima_steps ON maxima_verifications USING GIN (formatted_steps);
+CREATE INDEX idx_presets_input_values ON verified_presets USING GIN (input_values);
+

@@ -39,7 +39,7 @@ Beyond a static curriculum, the repository features an integrated **in-situ auth
  │     (Pedagogical Freedom)     │               │      (Canonical Baseline)     │
  ├───────────────────────────────┤               ├───────────────────────────────┤
  │ • Rewrites narrative chapters │               │ • Curates the shared baseline │
- │ • Re-orders outline hierarchy │               │   (`seed_v2.sql`)             │
+ │ • Re-orders outline hierarchy │               │   (`seed.sql`)                │
  │ • Compiles self-contained     │               │ • Governs global Lean proofs  │
  │   course pages in < 300ms     │               │   and CAS calculation modes   │
  │ • Zero committee approval     │               │ • Database Console (/console) │
@@ -59,7 +59,7 @@ Beyond a static curriculum, the repository features an integrated **in-situ auth
 3. **PostgreSQL Bridge & Safety Valve**:
    - **`[💾 Update DB]`**: Explicit transactional synchronization of client outlines and segment overrides to PostgreSQL.
    - **Interactive SQL & Transaction Console (`/console`)**: Stateful transaction management (`BEGIN`, `COMMIT`, `ROLLBACK`) and template library.
-   - **`[🔄 Reset DB from Source]`**: Instant (< 300ms) restoration of the PostgreSQL database from the canonical Git baseline (`db/seed_v2.sql`).
+   - **`[🔄 Reset DB from Source]`**: Instant (< 300ms) restoration of the PostgreSQL database from the canonical Git baseline (`db/seed.sql`).
 
 ---
 

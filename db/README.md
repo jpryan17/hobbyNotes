@@ -10,9 +10,9 @@ The schema models the entire Middle Way Mathematics & HobbyNotes ecosystem acros
 
 1. **Curriculum & Narrative**: `apps`, `curriculum_tracks`, `segments` (52 chapters), `segment_references` (embedded `<fsd-ref>` and `<cas-ref>` links), `segment_prerequisites` (pedagogical progression DAG).
 2. **Subject Matter & Formalisms**: `situations` (invariant physical/mathematical phenomena), `formalisms` (`mwm`, `standard_analysis`, `discrete_symplectic`), `formal_statements` (the intersection with parent-child hierarchies and Lean signatures).
-3. **Computational Stencils & Presets**: `calculation_modes` (directional $Inputs \to Output$ stencils), `mode_slots` (parameter ranges, symbols, units), `verified_presets` (concrete grounding examples).
-4. **Verification Proof Caches**: `lean_verifications` (Lean 4 proof verdicts and summaries), `maxima_verifications` (CAS reduction sessions and matrix steps).
-5. **Automated Solvers & Parameter Exploration**: `parameter_mining_jobs` (automated Maxima search jobs for discovering clean presets).
+3. **Discrete Algorithms & Computational Stencils**: `pseudocode_algorithms` (the discrete machine library), `calculation_modes` (directional inputs → output stencils with function rule signatures), `mode_slots` (parameter ranges, symbols, units), `verified_presets` (concrete grounding examples).
+4. **Verification Proof Caches**: `lean_verifications` (Lean 4 machine-certified proof verdicts, kernel execution times, and summaries).
+5. **Automated Solvers & Parameter Exploration**: `parameter_mining_jobs` (automated search jobs for discovering clean presets).
 
 ---
 
@@ -30,8 +30,8 @@ CREATE DATABASE hobbynotes;
 Set your active connection/database in DBeaver to **`hobbynotes`**.
 
 ### Step C: Execute Schema & Seed
-1. Open and execute [`db/schema_v2.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/schema_v2.sql) (`Alt + X` or Execute Script).
-2. Open and execute [`db/seed_v2.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/seed_v2.sql).
+1. Open and execute [`db/schema.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/schema.sql) (`Alt + X` or Execute Script).
+2. Open and execute [`db/seed.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/seed.sql).
 
 ---
 
@@ -57,7 +57,7 @@ Whenever you update segments, `FS_CATALOG`, or proof caches in the repo, re-run:
 ```bash
 npm run db:seed
 ```
-This re-scans `app1/segs/segsFile.json`, `clientLib/fsCatalog.json`, and proof caches, and updates [`db/seed_v2.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/seed_v2.sql) automatically.
+This re-scans `app1/segs/segsFile.json`, `clientLib/fsCatalog.json`, and proof caches, and updates [`db/seed.sql`](file:///c:/Users/jprya/OneDrive/Documents/hobbyNotes/db/seed.sql) automatically.
 
 ---
 

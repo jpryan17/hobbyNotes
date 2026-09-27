@@ -104,17 +104,16 @@ async function generateSeedSql() {
     const rootDir = path.resolve(__dirname, '..', '..');
     const catalogPath = path.join(rootDir, 'clientLib', 'fsCatalog.json');
     const leanCachePath = path.join(rootDir, 'clientLib', 'leanCache.json');
-    const maximaCachePath = path.join(rootDir, 'clientLib', 'maximaCache.json');
+    const pseudoCatalogPath = path.join(rootDir, 'clientLib', 'pseudoCatalog.json');
     const segsFilePath = path.join(rootDir, 'app1', 'segs', 'segsFile.json');
     const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
     const leanCache = JSON.parse(fs.readFileSync(leanCachePath, 'utf8'));
-    const maximaCache = fs.existsSync(maximaCachePath) ? JSON.parse(fs.readFileSync(maximaCachePath, 'utf8')) : {};
+    const pseudoCatalog = fs.existsSync(pseudoCatalogPath) ? JSON.parse(fs.readFileSync(pseudoCatalogPath, 'utf8')) : {};
     const segsList = JSON.parse(fs.readFileSync(segsFilePath, 'utf8'));
     const sql = [];
     sql.push(`-- =====================================================================`);
     sql.push(`-- HobbyNotes / Middle Way Mathematics`);
-    sql.push(`-- Seed Data: Iteration 2 (Refined Conceptual Architecture)`);
-    sql.push(`-- Normalized MWM-DB: Middle Way Math Single Source of Truth`);
+    sql.push(`-- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)`);
     sql.push(`-- Generated At: ${new Date().toISOString()}`);
     sql.push(`-- =====================================================================\n`);
     // 0. Clean Table Reset for Idempotent Seeding
@@ -128,8 +127,8 @@ async function generateSeedSql() {
     sql.push(`  calculation_modes,`);
     sql.push(`  parameter_mining_jobs,`);
     sql.push(`  lean_verifications,`);
-    sql.push(`  maxima_verifications,`);
     sql.push(`  formal_statements,`);
+    sql.push(`  pseudocode_algorithms,`);
     sql.push(`  segments,`);
     sql.push(`  apps`);
     sql.push(`RESTART IDENTITY CASCADE;\n`);
@@ -137,6 +136,7 @@ async function generateSeedSql() {
     const appKeyToId = { app1: 1, app2: 2 };
     const segKeyToId = {};
     const navKeyToId = {};
+    const pseudoAlgoKeyToId = {};
     const statementKeyToId = {};
     const modeKeyToId = {};
     const presetKeyToId = {};
@@ -253,6 +253,36 @@ async function generateSeedSql() {
         sql.push(`  segment_id = EXCLUDED.segment_id,`);
         sql.push(`  diagram_key = EXCLUDED.diagram_key;\n`);
     }
+    // 3b. Middle Way Pseudocode Algorithms (The Discrete Machine Library)
+    sql.push(`-- 3b. Middle Way Pseudocode Algorithms (The Discrete Machine Library)`);
+    const pseudoAlgos = Object.values(pseudoCatalog);
+    pseudoAlgos.forEach((algo, idx) => {
+        pseudoAlgoKeyToId[algo.id] = idx + 1;
+    });
+    const pseudoInserts = [];
+    pseudoAlgos.forEach((algo, idx) => {
+        const pId = idx + 1;
+        pseudoInserts.push(`  (${pId}, ${escapeSql(algo.id)}, ${escapeSql(algo.name)}, ${escapeSql(algo.badge)}, ` +
+            `${escapeSql(algo.summary || null)}, ${escapeSql(algo.domain)}, ${escapeTextArray(algo.primitives)}, ` +
+            `${escapeSql(algo.complexity?.tree || null)}, ${escapeSql(algo.complexity?.dyadic || null)}, ` +
+            `${escapeSql(algo.code)})`);
+    });
+    if (pseudoInserts.length > 0) {
+        sql.push(`INSERT INTO pseudocode_algorithms (`);
+        sql.push(`  id, algo_key, name, badge, summary, domain, primitives, tree_complexity, dyadic_complexity, code`);
+        sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
+        sql.push(pseudoInserts.join(',\n'));
+        sql.push(`ON CONFLICT (id) DO UPDATE SET`);
+        sql.push(`  algo_key = EXCLUDED.algo_key,`);
+        sql.push(`  name = EXCLUDED.name,`);
+        sql.push(`  badge = EXCLUDED.badge,`);
+        sql.push(`  summary = EXCLUDED.summary,`);
+        sql.push(`  domain = EXCLUDED.domain,`);
+        sql.push(`  primitives = EXCLUDED.primitives,`);
+        sql.push(`  tree_complexity = EXCLUDED.tree_complexity,`);
+        sql.push(`  dyadic_complexity = EXCLUDED.dyadic_complexity,`);
+        sql.push(`  code = EXCLUDED.code;\n`);
+    }
     // 4. Formal Statements
     sql.push(`-- 4. Formal Statements (Axiomatic Engine)`);
     const orderedStatements = [];
@@ -278,15 +308,39 @@ async function generateSeedSql() {
         const parentId = stmt.parentId ? (statementKeyToId[stmt.parentId] || null) : null;
         const domainCategory = stmt.type === 'physics' ? 'kinematics_and_dynamics' :
             stmt.type === 'information' ? 'information_and_signals' : 'discrete_analysis';
+        const statementKind = stmt.statementKind || (stmt.type === 'physics' && (stmt.scaffoldKey?.includes('calc') || stmt.tier === 'law') ? 'directed_equality' : 'theorem');
+        let stmtPseudoKey = stmt.pseudoAlgoId || null;
+        if (!stmtPseudoKey) {
+            if (stmt.id.includes('free_fall') || stmt.id.includes('projectile') || stmt.id.includes('kinematic')) {
+                stmtPseudoKey = 'kinematics_step';
+            }
+            else if (stmt.id.includes('trig') || stmt.id.includes('cordic') || stmt.id.includes('rotor')) {
+                stmtPseudoKey = 'rotor_trig_cordic';
+            }
+            else if (stmt.id.includes('euler') || stmt.id.includes('exp')) {
+                stmtPseudoKey = 'euler_compounding';
+            }
+            else if (stmt.id.includes('heat') || stmt.id.includes('diffusion')) {
+                stmtPseudoKey = 'laplacian_heat_step';
+            }
+            else if (stmt.id.includes('bayes')) {
+                stmtPseudoKey = 'bayes_discrete_update';
+            }
+            else if (stmt.id.includes('conway_add') || stmt.id.includes('tree_add')) {
+                stmtPseudoKey = 'conway_add';
+            }
+        }
+        const pseudoAlgoId = stmtPseudoKey && pseudoAlgoKeyToId[stmtPseudoKey] ? pseudoAlgoKeyToId[stmtPseudoKey] : null;
         statementInserts.push(`  (${stId}, ${escapeSql(stmt.id)}, ${escapeSql(stmt.scaffoldKey)}, ${escapeSql(domainCategory)}, ` +
-            `${parentId !== null ? parentId : 'NULL'}, ${escapeSql(stmt.type)}, ${escapeSql(stmt.tier)}, ` +
+            `${parentId !== null ? parentId : 'NULL'}, '${statementKind}', ${pseudoAlgoId !== null ? pseudoAlgoId : 'NULL'}, ` +
+            `${escapeSql(stmt.type)}, ${escapeSql(stmt.tier)}, ` +
             `${escapeSql(stmt.governingSeed || null)}, ${escapeSql(stmt.title)}, ${escapeSql(stmt.description || null)}, ` +
             `${escapeSql(stmt.expression)}, ${escapeSql(stmt.leanSignature || null)}, ${escapeSql(stmt.leanSnippet || null)}, ` +
             `'published', ${escapeTextArray(stmt.referencedInSegments)})`);
     });
     if (statementInserts.length > 0) {
         sql.push(`INSERT INTO formal_statements (`);
-        sql.push(`  id, statement_key, scaffold_key, domain_category, parent_id, type, tier, governing_seed,`);
+        sql.push(`  id, statement_key, scaffold_key, domain_category, parent_id, statement_kind, pseudo_algo_id, type, tier, governing_seed,`);
         sql.push(`  title, description, expression, lean_signature, lean_snippet, status, referenced_segments`);
         sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
         sql.push(statementInserts.join(',\n'));
@@ -295,6 +349,8 @@ async function generateSeedSql() {
         sql.push(`  scaffold_key = EXCLUDED.scaffold_key,`);
         sql.push(`  domain_category = EXCLUDED.domain_category,`);
         sql.push(`  parent_id = EXCLUDED.parent_id,`);
+        sql.push(`  statement_kind = EXCLUDED.statement_kind,`);
+        sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
         sql.push(`  title = EXCLUDED.title,`);
         sql.push(`  description = EXCLUDED.description,`);
         sql.push(`  expression = EXCLUDED.expression,`);
@@ -302,8 +358,8 @@ async function generateSeedSql() {
         sql.push(`  lean_snippet = EXCLUDED.lean_snippet,`);
         sql.push(`  referenced_segments = EXCLUDED.referenced_segments;\n`);
     }
-    // 5. Calculation Modes
-    sql.push(`-- 5. Calculation Modes (Directional Stencils)`);
+    // 5. Calculation Modes (Directional Stencils / Function Rules)
+    sql.push(`-- 5. Calculation Modes (Directional Stencils / Function Rules)`);
     catalog.calculationModes.forEach((mode, idx) => {
         modeKeyToId[mode.id] = idx + 1;
     });
@@ -311,17 +367,53 @@ async function generateSeedSql() {
     catalog.calculationModes.forEach((mode, idx) => {
         const mId = idx + 1;
         const stmtId = statementKeyToId[mode.statementId] || 1;
-        modeInserts.push(`  (${mId}, ${escapeSql(mode.id)}, ${stmtId}, ${escapeSql(mode.label)}, ` +
+        let pseudoAlgoKey = mode.pseudoAlgoId || null;
+        let ruleName = mode.functionRuleName || null;
+        let ruleSig = mode.functionSignature || null;
+        if (!pseudoAlgoKey) {
+            if (mode.id.startsWith('ff_') || mode.id.includes('fall') || mode.id.includes('kinematic')) {
+                pseudoAlgoKey = 'kinematics_step';
+                ruleName = ruleName || `Kinematic Step ↦ ${mode.targetSymbol}`;
+                ruleSig = ruleSig || `(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ ${mode.targetSymbol}: 𝔻`;
+            }
+            else if (mode.id.includes('cordic') || mode.id.includes('trig') || mode.id.includes('angle') || mode.id.includes('rotor')) {
+                pseudoAlgoKey = 'rotor_trig_cordic';
+                ruleName = ruleName || `Dyadic Rotor Projection ↦ ${mode.targetSymbol}`;
+                ruleSig = ruleSig || `(θ: 𝔻, N: ℕ) ↦ ${mode.targetSymbol}: 𝔻`;
+            }
+            else if (mode.id.includes('heat') || mode.id.includes('diffusion')) {
+                pseudoAlgoKey = 'laplacian_heat_step';
+                ruleName = ruleName || `Discrete Thermal Diffusion ↦ ${mode.targetSymbol}`;
+                ruleSig = ruleSig || `(T: 𝔻[], α: 𝔻) ↦ ${mode.targetSymbol}: 𝔻[]`;
+            }
+            else if (mode.id.includes('bayes') || mode.id.includes('probability')) {
+                pseudoAlgoKey = 'bayes_discrete_update';
+                ruleName = ruleName || `Discrete Bayesian Update ↦ ${mode.targetSymbol}`;
+                ruleSig = ruleSig || `(P(H): 𝔻, P(E|H): 𝔻) ↦ ${mode.targetSymbol}: 𝔻`;
+            }
+            else if (mode.id.includes('exp') || mode.id.includes('euler') || mode.id.includes('growth')) {
+                pseudoAlgoKey = 'euler_compounding';
+                ruleName = ruleName || `Euler Compounding ↦ ${mode.targetSymbol}`;
+                ruleSig = ruleSig || `(x: 𝔻, K: ℕ) ↦ ${mode.targetSymbol}: 𝔻`;
+            }
+        }
+        const pseudoAlgoId = pseudoAlgoKey && pseudoAlgoKeyToId[pseudoAlgoKey] ? pseudoAlgoKeyToId[pseudoAlgoKey] : null;
+        modeInserts.push(`  (${mId}, ${escapeSql(mode.id)}, ${stmtId}, ${pseudoAlgoId !== null ? pseudoAlgoId : 'NULL'}, ` +
+            `${escapeSql(ruleName)}, ${escapeSql(ruleSig)}, ${escapeSql(mode.label)}, ` +
             `${escapeSql(mode.targetSymbol)}, ${escapeSql(mode.targetDomain)}, ${escapeSql(mode.targetUnit || null)}, ` +
             `${escapeSql(mode.formulaDescription)}, ${escapeSql(mode.formulaExpr)}, ${escapeSql(!!mode.hasSimulation)})`);
     });
     if (modeInserts.length > 0) {
         sql.push(`INSERT INTO calculation_modes (`);
-        sql.push(`  id, mode_key, statement_id, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation`);
+        sql.push(`  id, mode_key, statement_id, pseudo_algo_id, function_rule_name, function_signature, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation`);
         sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
         sql.push(modeInserts.join(',\n'));
         sql.push(`ON CONFLICT (id) DO UPDATE SET`);
         sql.push(`  mode_key = EXCLUDED.mode_key,`);
+        sql.push(`  statement_id = EXCLUDED.statement_id,`);
+        sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
+        sql.push(`  function_rule_name = EXCLUDED.function_rule_name,`);
+        sql.push(`  function_signature = EXCLUDED.function_signature,`);
         sql.push(`  label = EXCLUDED.label,`);
         sql.push(`  target_symbol = EXCLUDED.target_symbol,`);
         sql.push(`  target_domain = EXCLUDED.target_domain,`);
@@ -501,35 +593,8 @@ async function generateSeedSql() {
         sql.push(`  verified_at = EXCLUDED.verified_at,`);
         sql.push(`  summary = EXCLUDED.summary;\n`);
     }
-    // 11. Maxima CAS Verifications (Relationally Linked to calculation_modes)
-    sql.push(`-- 11. Maxima CAS Verifications`);
-    const maximaInserts = [];
-    for (const [id, session] of Object.entries(maximaCache)) {
-        if (!session || !session.id)
-            continue;
-        const middleWay = session.middleWayLink || {};
-        const matchedMode = catalog.calculationModes.find((m) => m.id === session.id);
-        const matchedExample = catalog.examples.find((ex) => ex.id === session.id || ex.presetKey === session.id);
-        const mId = matchedMode ? modeKeyToId[matchedMode.id] : (matchedExample ? modeKeyToId[matchedExample.modeId] : null);
-        maximaInserts.push(`  (${escapeSql(session.id)}, ${mId !== null ? mId : 'NULL'}, ${escapeSql(session.title)}, ${escapeSql(session.category)}, ` +
-            `${escapeSql(session.problemStatement)}, ${escapeSql(middleWay.domain || 'ℝ_ω')}, ` +
-            `${escapeTextArray(middleWay.operators)}, ${escapeTextArray(middleWay.scaffoldTheorems)}, ` +
-            `${escapeTextArray(session.maximaSession?.inputs)}, ${escapeTextArray(session.maximaSession?.outputs)}, ` +
-            `${escapeJson(session.maximaSession?.formattedSteps || [])})`);
-    }
-    if (maximaInserts.length > 0) {
-        sql.push(`INSERT INTO maxima_verifications (`);
-        sql.push(`  id, mode_id, title, category, problem_statement, domain, operators, scaffold_theorems, session_inputs, session_outputs, formatted_steps`);
-        sql.push(`) VALUES`);
-        sql.push(maximaInserts.join(',\n'));
-        sql.push(`ON CONFLICT (id) DO UPDATE SET`);
-        sql.push(`  mode_id = EXCLUDED.mode_id,`);
-        sql.push(`  category = EXCLUDED.category,`);
-        sql.push(`  problem_statement = EXCLUDED.problem_statement,`);
-        sql.push(`  formatted_steps = EXCLUDED.formatted_steps;\n`);
-    }
-    // 12. Automated Parameter Mining
-    sql.push(`-- 12. Automated Parameter Mining`);
+    // 11. Automated Parameter Mining
+    sql.push(`-- 11. Automated Parameter Mining`);
     const defaultStmtId = statementKeyToId['fs_free_fall_accel'] || 1;
     const defaultModeId = modeKeyToId['ff_v_from_v0_g_t'] || 1;
     sql.push(`INSERT INTO parameter_mining_jobs (id, job_key, statement_id, mode_id, target_symbol, parameter_grid, require_integer_outputs, status, discovered_candidates) OVERRIDING SYSTEM VALUE VALUES`);
@@ -538,12 +603,13 @@ async function generateSeedSql() {
     sql.push(`  job_key = EXCLUDED.job_key,`);
     sql.push(`  status = EXCLUDED.status,`);
     sql.push(`  discovered_candidates = EXCLUDED.discovered_candidates;\n`);
-    // 13. Sequence Synchronization
-    sql.push(`-- 13. Sequence Synchronization for System-Generated Identity Keys`);
+    // 12. Sequence Synchronization
+    sql.push(`-- 12. Sequence Synchronization for System-Generated Identity Keys`);
     const tablesWithIdentity = [
         'apps',
         'segments',
         'curriculum_nav_items',
+        'pseudocode_algorithms',
         'formal_statements',
         'calculation_modes',
         'mode_slots',
@@ -558,15 +624,15 @@ async function generateSeedSql() {
     sql.push('\n');
     return sql.join('\n');
 }
-// Write to db/seed_v2.sql
+// Write to db/seed.sql
 if (require.main === module) {
     const rootDir = path.resolve(__dirname, '..', '..');
-    const outPathV2 = path.join(rootDir, 'db', 'seed_v2.sql');
+    const outPath = path.join(rootDir, 'db', 'seed.sql');
     (async () => {
         try {
             const sqlContent = await generateSeedSql();
-            fs.writeFileSync(outPathV2, sqlContent, 'utf8');
-            console.log(`Successfully generated PostgreSQL seed v2 at: ${outPathV2} (${Buffer.byteLength(sqlContent)} bytes)`);
+            fs.writeFileSync(outPath, sqlContent, 'utf8');
+            console.log(`Successfully generated PostgreSQL seed at: ${outPath} (${Buffer.byteLength(sqlContent)} bytes)`);
         }
         catch (err) {
             console.error('Error generating seeds:', err);

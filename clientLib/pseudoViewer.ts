@@ -48,6 +48,50 @@ const ALGO_PRESETS: Record<string, IPresetConfig[]> = {
       args: [dyadicMachine.fromPath('+-'), 4],
     },
   ],
+  kinematics_step: [
+    {
+      id: 'kin_step_standard',
+      label: 'KinematicStep(v₀=20, g=9&3/4, t=2) ⟹ v=1/2, s=20&1/2',
+      funcName: 'KinematicStep',
+      args: [dyadicMachine.fromInt(20), dyadicMachine.fromFraction(39, 2), dyadicMachine.fromInt(2)],
+    },
+    {
+      id: 'kin_step_freefall',
+      label: 'KinematicStep(v₀=0, g=9&3/4, t=1) ⟹ Free Fall from Rest',
+      funcName: 'KinematicStep',
+      args: [dyadicMachine.root(), dyadicMachine.fromFraction(39, 2), dyadicMachine.fromInt(1)],
+    },
+  ],
+  rotor_trig_cordic: [
+    {
+      id: 'cordic_zero',
+      label: 'CordicRotor(θ=0, 16) ⟹ (1, 0) Pure Real Unit Vector',
+      funcName: 'CordicRotor',
+      args: [dyadicMachine.root(), 16],
+    },
+    {
+      id: 'cordic_quarter_pi',
+      label: 'CordicRotor(θ ≈ π/4, 16) ⟹ (0.7071, 0.7071)',
+      funcName: 'CordicRotor',
+      args: [dyadicMachine.fromFloat(0.785398), 16],
+    },
+  ],
+  laplacian_heat_step: [
+    {
+      id: 'heat_pulse',
+      label: 'HeatDiffusionStep([0, 1, 0], α=1/4, M=3) ⟹ Central Pulse Dispersion',
+      funcName: 'HeatDiffusionStep',
+      args: [[dyadicMachine.root(), dyadicMachine.fromInt(1), dyadicMachine.root()], dyadicMachine.fromFraction(1, 2), 3],
+    },
+  ],
+  bayes_discrete_update: [
+    {
+      id: 'bayes_update_demo',
+      label: 'BayesUpdate(Prior=1/2, P(E|H)=3/4, P(E|¬H)=1/4) ⟹ 3/4',
+      funcName: 'BayesUpdate',
+      args: [dyadicMachine.fromFraction(1, 1), dyadicMachine.fromFraction(3, 2), dyadicMachine.fromFraction(1, 2)],
+    },
+  ],
 };
 
 /**
@@ -91,7 +135,7 @@ function highlightPseudoCode(rawCode: string, activeLine: number = -1): string {
     );
 
     codePart = codePart.replace(
-      /\b(Node|Integer|Dyadic)\b/g,
+      /\b(Node|Integer|Dyadic|Array of Dyadic)\b/g,
       '<span style="color:#38bdf8;font-weight:600;">$1</span>'
     );
     codePart = codePart.replace(
@@ -100,12 +144,12 @@ function highlightPseudoCode(rawCode: string, activeLine: number = -1): string {
     );
 
     codePart = codePart.replace(
-      /\b(SimplerOptions|Cut|ConwayAdd|Insert|EmptySet|Maximum|Minimum|EulerExp|sqr|val|node|length)\b/g,
+      /\b(SimplerOptions|Cut|ConwayAdd|Insert|EmptySet|Maximum|Minimum|EulerExp|KinematicStep|CordicRotor|HeatDiffusionStep|BayesUpdate|sqr|val|node|length|CordicAngle|CreateArray)\b/g,
       '<span style="color:#4ade80;font-weight:600;">$1</span>'
     );
 
     codePart = codePart.replace(
-      /(:=|&gt;=|&lt;=|\+\+|≫|⊕)/g,
+      /(:=|&gt;=|&lt;=|\+\+|≫|≪|⊕|⊖|⊗|⊘)/g,
       '<span style="color:#fbbf24;font-weight:bold;">$1</span>'
     );
 

@@ -90,11 +90,25 @@ export class DyadicMachineClass {
         return this.fromDR(dr);
     }
     /**
+     * Constructs a node from an IEEE float/decimal with specified dyadic bit precision.
+     */
+    fromFloat(val, precisionBits = 16) {
+        if (val === 0 || isNaN(val))
+            return this.root();
+        const sign = val < 0 ? WU.minus : WU.plus;
+        const absVal = Math.abs(val);
+        const P = Math.min(Math.max(precisionBits, 0), 30);
+        const scale = Math.pow(2, P);
+        const num = Math.round(absVal * scale);
+        const dr = new DR(undefined, sign, num, P).reduce();
+        return this.fromDR(dr);
+    }
+    /**
      * Universal node resolver from string path, DR, number, or existing node.
      */
     node(input) {
         if (typeof input === 'number') {
-            return this.fromInt(input);
+            return Number.isInteger(input) ? this.fromInt(input) : this.fromFloat(input);
         }
         if (typeof input === 'string') {
             return this.fromPath(input);
@@ -106,7 +120,7 @@ export class DyadicMachineClass {
     }
     toDR(input) {
         if (typeof input === 'number') {
-            return this.fromInt(input).value;
+            return (Number.isInteger(input) ? this.fromInt(input) : this.fromFloat(input)).value;
         }
         if ('toDR' in input && typeof input.toDR === 'function') {
             return input.toDR();
@@ -159,6 +173,45 @@ export class DyadicMachineClass {
         const drA = this.toDR(a);
         const drB = this.toDR(b);
         return this.fromDR(DR.multiply(drA, drB));
+    }
+    div(a, b, precisionBits = 16) {
+        const drA = this.toDR(a);
+        const drB = this.toDR(b);
+        if (!drB.sign || drB.numerator === 0) {
+            throw new Error('Division by zero in dyadicMachine');
+        }
+        if (!drA.sign || drA.numerator === 0) {
+            return this.root();
+        }
+        const resultSign = drA.sign === drB.sign ? WU.plus : WU.minus;
+        const P = BigInt(Math.min(Math.max(precisionBits, 0), 40));
+        const bigNumA = BigInt(drA.numerator) << BigInt(drB.precision);
+        const bigNumB = BigInt(drB.numerator) << BigInt(drA.precision);
+        const quotient = (bigNumA << P) / bigNumB;
+        return this.fromBigIntFraction(resultSign === WU.minus ? -quotient : quotient, Number(P));
+    }
+    sqrt(a, precisionBits = 16) {
+        const drA = this.toDR(a);
+        if (!drA.sign || drA.numerator === 0)
+            return this.root();
+        if (drA.sign === WU.minus)
+            throw new Error('Square root of negative number in dyadicMachine');
+        const P = Math.min(Math.max(precisionBits, 0), 30);
+        const shift = 2 * P - drA.precision;
+        const scaledTarget = shift >= 0
+            ? BigInt(drA.numerator) << BigInt(shift)
+            : BigInt(drA.numerator) >> BigInt(-shift);
+        if (scaledTarget <= 0n)
+            return this.root();
+        let x0 = scaledTarget / 2n;
+        if (x0 === 0n)
+            x0 = 1n;
+        let x1 = (x0 + scaledTarget / x0) / 2n;
+        while (x1 < x0) {
+            x0 = x1;
+            x1 = (x0 + scaledTarget / x0) / 2n;
+        }
+        return this.fromBigIntFraction(x0, P);
     }
     shift(a, k) {
         const drA = this.toDR(a);
@@ -260,6 +313,79 @@ export class DyadicMachineClass {
             steps,
             result: resultNode,
         };
+    }
+    // Elementary rotation angles in radians for CORDIC: arctan(2^-i)
+    static CORDIC_ANGLES = [
+        0.7853981633974483, 0.4636476090008061, 0.24497866312686414, 0.12435499454676144,
+        0.06241880999595735, 0.031239833430268277, 0.015623728620476831, 0.007812116210182813,
+        0.0039062301319669718, 0.0019531225164788188, 0.0009765621895593195, 0.0004882812111948983,
+        0.00024414062014936177, 0.00012207031189367021, 0.00006103515617420877, 0.00003051757811552617
+    ];
+    /**
+     * Evaluates (cos θ, sin θ) via discrete CORDIC rotor rotation in (𝔻, +, ·).
+     * Operates purely via power-of-two dyadic bit-shifts and additions; no Math.cos / Math.sin.
+     */
+    cordicSinCos(thetaInput, iterations = 16) {
+        const dr = this.toDR(thetaInput);
+        let thetaVal = (dr.numerator / Math.pow(2, dr.precision)) * (dr.sign === WU.minus ? -1 : 1);
+        const PI = 3.141592653589793;
+        const TWO_PI = 6.283185307179586;
+        // Range reduction to [-PI, PI]
+        while (thetaVal > PI)
+            thetaVal -= TWO_PI;
+        while (thetaVal < -PI)
+            thetaVal += TWO_PI;
+        // Further reduce to [-PI/2, PI/2] by symmetry
+        let negate = false;
+        if (thetaVal > PI / 2) {
+            thetaVal -= PI;
+            negate = true;
+        }
+        else if (thetaVal < -PI / 2) {
+            thetaVal += PI;
+            negate = true;
+        }
+        // Fixed-point scaling with P = 16 bits
+        const P = 16;
+        // Initial x is CORDIC scale factor K ≈ 0.607252935 * 2^16 = 39797
+        let x = 39797;
+        let y = 0;
+        let z = Math.round(thetaVal * (1 << P));
+        const iters = Math.min(iterations, DyadicMachineClass.CORDIC_ANGLES.length);
+        for (let i = 0; i < iters; i++) {
+            const angleFixed = Math.round(DyadicMachineClass.CORDIC_ANGLES[i] * (1 << P));
+            const d = z >= 0 ? 1 : -1;
+            const nextX = x - d * (y >> i);
+            const nextY = y + d * (x >> i);
+            z = z - d * angleFixed;
+            x = nextX;
+            y = nextY;
+        }
+        if (negate) {
+            x = -x;
+            y = -y;
+        }
+        const cosNode = this.fromBigIntFraction(BigInt(x), P);
+        const sinNode = this.fromBigIntFraction(BigInt(y), P);
+        return { cos: cosNode, sin: sinNode };
+    }
+    /**
+     * Discrete kinematic update in the ring (𝔻, +, ·):
+     *   v = v₀ - g·t
+     *   s = v₀·t - (1/2)·g·t²
+     */
+    kinematicStep(v0, g, t) {
+        const v0Node = this.node(v0);
+        const gNode = this.node(g);
+        const tNode = this.node(t);
+        const gt = this.mul(gNode, tNode);
+        const v = this.sub(v0Node, gt);
+        const halfG = this.shift(gNode, -1);
+        const t2 = this.mul(tNode, tNode);
+        const v0t = this.mul(v0Node, tNode);
+        const halfGt2 = this.mul(halfG, t2);
+        const s = this.sub(v0t, halfGt2);
+        return { v, s };
     }
     fromBigIntFraction(uBig, P) {
         if (uBig === 0n)

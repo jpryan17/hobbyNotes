@@ -2,6 +2,10 @@ import { Elt } from "./elt.js";
 import { NumericRunnerRegistry } from "./numericRunner.js";
 import { NumericVisualizer } from "./numericVisualizer.js";
 import { FS_CATALOG } from "./fsCatalog.js";
+import { dyadicMachine } from "./dyadicMachine.js";
+import { PSEUDO_CATALOG } from "./pseudoCatalog.js";
+import { pseudoViewer, setPseudoViewer } from "./pseudoViewer.js";
+import { Nav } from "./navFW.js";
 export function getFsCatalogStatement(scaffoldKeyOrTarget) {
     if (!scaffoldKeyOrTarget)
         return undefined;
@@ -39,21 +43,28 @@ export function inferFsCalculationModes(arg) {
             id: "ff_v_from_v0_g_t",
             label: "(v₀, g, t) → v",
             targetSymbol: "v",
-            targetDomain: "ℝ_ω",
+            targetDomain: "𝔻 ⊂ ℝ_ω",
             targetUnit: "m/s",
-            formulaDescription: "v = v₀ - g · t",
+            formulaDescription: "v = v₀ ⊖ (g ⊗ t)",
+            pseudoAlgoId: "kinematics_step",
             inputs: [
-                { name: "v0", symbol: "v₀", domain: "ℝ_ω", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
-                { name: "g", symbol: "g", domain: "ℝ_ω", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
-                { name: "t", symbol: "t", domain: "ℝ_ω", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
+                { name: "v0", symbol: "v₀", domain: "𝔻", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
+                { name: "g", symbol: "g", domain: "𝔻", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
+                { name: "t", symbol: "t", domain: "𝔻", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
             ],
             evaluate: (vals) => {
-                const v = vals.v0 - vals.g * vals.t;
+                const step = dyadicMachine.kinematicStep(vals.v0, vals.g, vals.t);
+                const node = step.v;
+                const v = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: v,
-                    formattedFormula: `v = (${vals.v0.toFixed(2)}) - (${vals.g.toFixed(2)}) · (${vals.t.toFixed(2)})`,
+                    formattedFormula: `v = (${vals.v0.toFixed(2)}) ⊖ (${vals.g.toFixed(2)}) ⊗ (${vals.t.toFixed(2)})`,
                     displayResult: `${v.toFixed(3)} m/s`,
-                    domainBadge: "∈ ℝ_ω"
+                    domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+                    dyadicPath: node.path,
+                    dyadicBirthday: node.birthday,
+                    dyadicRational: node.format(),
+                    notes: `Middle Way Node: ${node.path === '' ? '[]' : '[' + node.path + ']'} (Birthday ${node.birthday})`
                 };
             }
         });
@@ -61,22 +72,28 @@ export function inferFsCalculationModes(arg) {
             id: "ff_t_from_v_v0_g",
             label: "(v, v₀, g) → t",
             targetSymbol: "t",
-            targetDomain: "ℝ_ω",
+            targetDomain: "𝔻 ⊂ ℝ_ω",
             targetUnit: "s",
-            formulaDescription: "t = (v₀ - v) / g",
+            formulaDescription: "t = (v₀ ⊖ v) ⊘ g",
+            pseudoAlgoId: "kinematics_step",
             inputs: [
-                { name: "v", symbol: "v", domain: "ℝ_ω", unit: "m/s", defaultValue: 0.0, step: 1.0, min: -100, max: 200, description: "Current velocity (0 = apex)" },
-                { name: "v0", symbol: "v₀", domain: "ℝ_ω", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
-                { name: "g", symbol: "g", domain: "ℝ_ω", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" }
+                { name: "v", symbol: "v", domain: "𝔻", unit: "m/s", defaultValue: 0.0, step: 1.0, min: -100, max: 200, description: "Current velocity (0 = apex)" },
+                { name: "v0", symbol: "v₀", domain: "𝔻", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
+                { name: "g", symbol: "g", domain: "𝔻", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" }
             ],
             evaluate: (vals) => {
                 const gVal = vals.g === 0 ? 0.0001 : vals.g;
-                const t = (vals.v0 - vals.v) / gVal;
+                const diff = dyadicMachine.sub(vals.v0, vals.v);
+                const tNode = dyadicMachine.div(diff, gVal, 16);
+                const t = (tNode.value.numerator / Math.pow(2, tNode.value.precision)) * (tNode.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: t,
-                    formattedFormula: `t = [ (${vals.v0.toFixed(2)}) - (${vals.v.toFixed(2)}) ] / (${vals.g.toFixed(2)})`,
+                    formattedFormula: `t = [ (${vals.v0.toFixed(2)}) ⊖ (${vals.v.toFixed(2)}) ] ⊘ (${vals.g.toFixed(2)})`,
                     displayResult: `${t.toFixed(3)} s`,
-                    domainBadge: "∈ ℝ_ω",
+                    domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+                    dyadicPath: tNode.path,
+                    dyadicBirthday: tNode.birthday,
+                    dyadicRational: tNode.format(),
                     notes: vals.v === 0 ? "Apex transit time" : undefined
                 };
             }
@@ -85,21 +102,27 @@ export function inferFsCalculationModes(arg) {
             id: "ff_v0_from_v_g_t",
             label: "(v, g, t) → v₀",
             targetSymbol: "v₀",
-            targetDomain: "ℝ_ω",
+            targetDomain: "𝔻 ⊂ ℝ_ω",
             targetUnit: "m/s",
-            formulaDescription: "v₀ = v + g · t",
+            formulaDescription: "v₀ = v ⊕ (g ⊗ t)",
+            pseudoAlgoId: "kinematics_step",
             inputs: [
-                { name: "v", symbol: "v", domain: "ℝ_ω", unit: "m/s", defaultValue: 5.3, step: 0.5, min: -100, max: 200, description: "Target velocity" },
-                { name: "g", symbol: "g", domain: "ℝ_ω", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
-                { name: "t", symbol: "t", domain: "ℝ_ω", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
+                { name: "v", symbol: "v", domain: "𝔻", unit: "m/s", defaultValue: 5.3, step: 0.5, min: -100, max: 200, description: "Target velocity" },
+                { name: "g", symbol: "g", domain: "𝔻", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
+                { name: "t", symbol: "t", domain: "𝔻", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
             ],
             evaluate: (vals) => {
-                const v0 = vals.v + vals.g * vals.t;
+                const gt = dyadicMachine.mul(vals.g, vals.t);
+                const v0Node = dyadicMachine.add(vals.v, gt);
+                const v0 = (v0Node.value.numerator / Math.pow(2, v0Node.value.precision)) * (v0Node.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: v0,
-                    formattedFormula: `v₀ = (${vals.v.toFixed(2)}) + (${vals.g.toFixed(2)}) · (${vals.t.toFixed(2)})`,
+                    formattedFormula: `v₀ = (${vals.v.toFixed(2)}) ⊕ (${vals.g.toFixed(2)}) ⊗ (${vals.t.toFixed(2)})`,
                     displayResult: `${v0.toFixed(3)} m/s`,
-                    domainBadge: "∈ ℝ_ω"
+                    domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+                    dyadicPath: v0Node.path,
+                    dyadicBirthday: v0Node.birthday,
+                    dyadicRational: v0Node.format()
                 };
             }
         });
@@ -107,21 +130,28 @@ export function inferFsCalculationModes(arg) {
             id: "ff_s_from_v0_g_t",
             label: "(v₀, g, t) → s",
             targetSymbol: "s",
-            targetDomain: "ℝ_ω",
+            targetDomain: "𝔻 ⊂ ℝ_ω",
             targetUnit: "m",
-            formulaDescription: "s = v₀ · t - (1/2) · g · t²",
+            formulaDescription: "s = (v₀ ⊗ t) ⊖ (1/2 ⊗ g ⊗ t²)",
+            pseudoAlgoId: "kinematics_step",
             inputs: [
-                { name: "v0", symbol: "v₀", domain: "ℝ_ω", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
-                { name: "g", symbol: "g", domain: "ℝ_ω", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
-                { name: "t", symbol: "t", domain: "ℝ_ω", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
+                { name: "v0", symbol: "v₀", domain: "𝔻", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
+                { name: "g", symbol: "g", domain: "𝔻", unit: "m/s²", defaultValue: 9.8, step: 0.1, min: 0.1, max: 50, description: "Gravitational acceleration" },
+                { name: "t", symbol: "t", domain: "𝔻", unit: "s", defaultValue: 1.5, step: 0.1, min: 0, max: 50, description: "Elapsed time" }
             ],
             evaluate: (vals) => {
-                const s = vals.v0 * vals.t - 0.5 * vals.g * Math.pow(vals.t, 2);
+                const step = dyadicMachine.kinematicStep(vals.v0, vals.g, vals.t);
+                const node = step.s;
+                const s = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: s,
-                    formattedFormula: `s = (${vals.v0.toFixed(2)})(${vals.t.toFixed(2)}) - 0.5 · (${vals.g.toFixed(2)})(${vals.t.toFixed(2)})²`,
+                    formattedFormula: `s = (${vals.v0.toFixed(2)}) ⊗ (${vals.t.toFixed(2)}) ⊖ (1/2 ⊗ ${vals.g.toFixed(2)} ⊗ (${vals.t.toFixed(2)})²)`,
                     displayResult: `${s.toFixed(3)} m`,
-                    domainBadge: "∈ ℝ_ω"
+                    domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+                    dyadicPath: node.path,
+                    dyadicBirthday: node.birthday,
+                    dyadicRational: node.format(),
+                    notes: `Middle Way Node: ${node.path === '' ? '[]' : '[' + node.path + ']'} (Birthday ${node.birthday})`
                 };
             }
         });
@@ -129,22 +159,30 @@ export function inferFsCalculationModes(arg) {
             id: "ff_g_from_s_v0_t",
             label: "(s, v₀, t) → g",
             targetSymbol: "g",
-            targetDomain: "ℝ_ω",
+            targetDomain: "𝔻 ⊂ ℝ_ω",
             targetUnit: "m/s²",
-            formulaDescription: "g = 2 · (v₀ · t - s) / t²",
+            formulaDescription: "g = 2 · (v₀ ⊗ t ⊖ s) ⊘ t²",
+            pseudoAlgoId: "kinematics_step",
             inputs: [
-                { name: "s", symbol: "s", domain: "ℝ_ω", unit: "m", defaultValue: 18.975, step: 0.5, min: -500, max: 500, description: "Position" },
-                { name: "v0", symbol: "v₀", domain: "ℝ_ω", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
-                { name: "t", symbol: "t", domain: "ℝ_ω", unit: "s", defaultValue: 1.5, step: 0.1, min: 0.1, max: 50, description: "Elapsed time" }
+                { name: "s", symbol: "s", domain: "𝔻", unit: "m", defaultValue: 18.975, step: 0.5, min: -500, max: 500, description: "Position" },
+                { name: "v0", symbol: "v₀", domain: "𝔻", unit: "m/s", defaultValue: 20.0, step: 1.0, min: -100, max: 200, description: "Initial velocity" },
+                { name: "t", symbol: "t", domain: "𝔻", unit: "s", defaultValue: 1.5, step: 0.1, min: 0.1, max: 50, description: "Elapsed time" }
             ],
             evaluate: (vals) => {
-                const t2 = Math.pow(vals.t, 2);
-                const g = (2 * (vals.v0 * vals.t - vals.s)) / (t2 === 0 ? 0.0001 : t2);
+                const t2 = vals.t * vals.t;
+                const v0t = dyadicMachine.mul(vals.v0, vals.t);
+                const diff = dyadicMachine.sub(v0t, vals.s);
+                const doubleDiff = dyadicMachine.shift(diff, 1);
+                const gNode = dyadicMachine.div(doubleDiff, t2 === 0 ? 0.0001 : t2, 16);
+                const g = (gNode.value.numerator / Math.pow(2, gNode.value.precision)) * (gNode.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: g,
-                    formattedFormula: `g = 2 · [ (${vals.v0.toFixed(2)})(${vals.t.toFixed(2)}) - (${vals.s.toFixed(2)}) ] / (${vals.t.toFixed(2)})²`,
+                    formattedFormula: `g = 2 · [ (${vals.v0.toFixed(2)}) ⊗ (${vals.t.toFixed(2)}) ⊖ (${vals.s.toFixed(2)}) ] ⊘ (${vals.t.toFixed(2)})²`,
                     displayResult: `${g.toFixed(3)} m/s²`,
-                    domainBadge: "∈ ℝ_ω"
+                    domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+                    dyadicPath: gNode.path,
+                    dyadicBirthday: gNode.birthday,
+                    dyadicRational: gNode.format()
                 };
             }
         });
@@ -1230,27 +1268,29 @@ export function inferFsCalculationModes(arg) {
             id: "unitary_2d_rotation",
             label: "(θ, v) → R(θ) · v",
             targetSymbol: "R(θ)·v",
-            targetDomain: "ℝ_ω²",
+            targetDomain: "𝔻² ⊂ ℝ_ω²",
             formulaDescription: "R(θ) · [x; y] = [x cos θ - y sin θ; x sin θ + y cos θ]",
+            pseudoAlgoId: "rotor_trig_cordic",
             inputs: [
-                { name: "theta_deg", symbol: "θ (°)", domain: "ℝ_ω", defaultValue: 45.0, step: 5.0, min: 0, max: 360 },
-                { name: "x", symbol: "v_x", domain: "ℝ_ω", defaultValue: 3.0, step: 0.5 },
-                { name: "y", symbol: "v_y", domain: "ℝ_ω", defaultValue: 4.0, step: 0.5 }
+                { name: "theta_deg", symbol: "θ (°)", domain: "𝔻", defaultValue: 45.0, step: 5.0, min: 0, max: 360 },
+                { name: "x", symbol: "v_x", domain: "𝔻", defaultValue: 3.0, step: 0.5 },
+                { name: "y", symbol: "v_y", domain: "𝔻", defaultValue: 4.0, step: 0.5 }
             ],
             evaluate: (vals) => {
-                const rad = (vals.theta_deg * Math.PI) / 180;
-                const cos = Math.cos(rad);
-                const sin = Math.sin(rad);
+                const rad = (vals.theta_deg * 3.141592653589793) / 180;
+                const rotor = dyadicMachine.cordicSinCos(rad, 16);
+                const cos = (rotor.cos.value.numerator / Math.pow(2, rotor.cos.value.precision)) * (rotor.cos.value.sign === '-' ? -1 : 1);
+                const sin = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
                 const rx = vals.x * cos - vals.y * sin;
                 const ry = vals.x * sin + vals.y * cos;
                 const origNorm = Math.hypot(vals.x, vals.y);
                 const rotNorm = Math.hypot(rx, ry);
                 return {
                     resultValue: [rx, ry],
-                    formattedFormula: `R(${vals.theta_deg}°) · [${vals.x}, ${vals.y}]ᵀ = [${rx.toFixed(2)}, ${ry.toFixed(2)}]ᵀ`,
+                    formattedFormula: `R_cordic(${vals.theta_deg}°) · [${vals.x}, ${vals.y}]ᵀ = [${rx.toFixed(2)}, ${ry.toFixed(2)}]ᵀ`,
                     displayResult: `[${rx.toFixed(2)}, ${ry.toFixed(2)}]ᵀ`,
-                    domainBadge: "∈ ℝ_ω²",
-                    notes: `∥v∥ = ${origNorm.toFixed(3)} → ∥R(θ)v∥ = ${rotNorm.toFixed(3)} (Norm Ratio = ${(rotNorm / origNorm).toFixed(5)})`
+                    domainBadge: "∈ 𝔻² ⊂ ℝ_ω²",
+                    notes: `Middle Way CORDIC Rotor: (cos, sin) = (${rotor.cos.format()}, ${rotor.sin.format()}) | Norm = ${rotNorm.toFixed(3)} ✓`
                 };
             }
         });
@@ -1784,6 +1824,7 @@ export function inferFsCalculationModes(arg) {
             targetSymbol: "x = {L | R}",
             targetDomain: "2^n Conway Tree",
             formulaDescription: "Find earliest-created dyadic rational in (L, R)",
+            pseudoAlgoId: "conway_add",
             inputs: [
                 { name: "L", symbol: "Left Bound L", domain: "ℝ_ω", defaultValue: 0.0, step: 0.25, min: -10, max: 10 },
                 { name: "R", symbol: "Right Bound R", domain: "ℝ_ω", defaultValue: 1.0, step: 0.25, min: -10, max: 10 }
@@ -1791,8 +1832,6 @@ export function inferFsCalculationModes(arg) {
             evaluate: (vals) => {
                 const L = vals.L;
                 const R = vals.R;
-                let res = 0;
-                let day = 0;
                 if (L >= R) {
                     return {
                         resultValue: 0,
@@ -1802,56 +1841,18 @@ export function inferFsCalculationModes(arg) {
                         notes: "Strict inequality L < R required for Conway number formation."
                     };
                 }
-                if (L < 0 && R > 0) {
-                    res = 0;
-                    day = 0;
-                }
-                else if (L >= 0) {
-                    const ceilL = Math.floor(L) + 1;
-                    if (ceilL < R) {
-                        res = ceilL;
-                        day = Math.abs(res);
-                    }
-                    else {
-                        let denom = 2;
-                        while (denom <= 1024) {
-                            const num = Math.floor(L * denom) + 1;
-                            const cand = num / denom;
-                            if (cand < R) {
-                                res = cand;
-                                day = Math.round(Math.log2(denom));
-                                break;
-                            }
-                            denom *= 2;
-                        }
-                    }
-                }
-                else {
-                    const floorR = Math.ceil(R) - 1;
-                    if (floorR > L) {
-                        res = floorR;
-                        day = Math.abs(res);
-                    }
-                    else {
-                        let denom = 2;
-                        while (denom <= 1024) {
-                            const num = Math.ceil(R * denom) - 1;
-                            const cand = num / denom;
-                            if (cand > L) {
-                                res = cand;
-                                day = Math.round(Math.log2(denom));
-                                break;
-                            }
-                            denom *= 2;
-                        }
-                    }
-                }
+                const node = dyadicMachine.cut(L, R);
+                const res = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
+                const day = node.birthday;
                 return {
                     resultValue: res,
-                    formattedFormula: `x = { ${L} | ${R} } = ${res}`,
-                    displayResult: `${res} (Born on Day ${day})`,
+                    formattedFormula: `x = Cut(${L}, ${R}) = ${node.format()}`,
+                    displayResult: `${node.format()} (Born on Day ${day})`,
                     domainBadge: "2^n Conway Tree",
-                    notes: "Conway Simplicity Rule: first number created that fits strictly between L and R."
+                    dyadicPath: node.path,
+                    dyadicBirthday: node.birthday,
+                    dyadicRational: node.format(),
+                    notes: `Conway Tree Node: ${node.path === '' ? '[]' : '[' + node.path + ']'}`
                 };
             }
         });
@@ -1864,6 +1865,7 @@ export function inferFsCalculationModes(arg) {
             targetSymbol: "sin(θ)",
             targetDomain: "[-1, 1]",
             formulaDescription: "sin(θ) = sin(2π · m / 2ⁿ)",
+            pseudoAlgoId: "rotor_trig_cordic",
             inputs: [
                 { name: "m", symbol: "Numerator m", domain: "ℤ", defaultValue: 1, step: 1, min: 0, max: 64, description: "Dyadic numerator" },
                 { name: "n", symbol: "Birthday n", domain: "ℕ", defaultValue: 3, step: 1, min: 0, max: 12, description: "Tree depth / birthday (2ⁿ bisections)" }
@@ -1873,13 +1875,17 @@ export function inferFsCalculationModes(arg) {
                 const n = Math.max(0, Math.round(vals.n));
                 const angleRad = 2 * Math.PI * (m / Math.pow(2, n));
                 const angleDeg = (360 * m) / Math.pow(2, n);
-                const sinVal = Math.sin(angleRad);
+                const rotor = dyadicMachine.cordicSinCos(angleRad, 16);
+                const sinVal = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: sinVal,
-                    formattedFormula: `sin(2π · ${m} / 2^${n}) = sin(${angleDeg.toFixed(1)}°) = ${sinVal.toFixed(4)}`,
+                    formattedFormula: `sin_cordic(2π · ${m} / 2^${n}) = sin(${angleDeg.toFixed(1)}°) = ${sinVal.toFixed(4)}`,
                     displayResult: `${sinVal.toFixed(4)}`,
-                    domainBadge: "∈ [-1, 1]",
-                    notes: `Angle θ = ${angleDeg.toFixed(2)}° (${angleRad.toFixed(3)} rad). Evaluated down 2-successor tree at depth n = ${n}.`
+                    domainBadge: "∈ 𝔻 ⊂ [-1, 1]",
+                    dyadicPath: rotor.sin.path,
+                    dyadicBirthday: rotor.sin.birthday,
+                    dyadicRational: rotor.sin.format(),
+                    notes: `Angle θ = ${angleDeg.toFixed(2)}° (${angleRad.toFixed(3)} rad). Evaluated via CORDIC dyadic rotor: sin = ${rotor.sin.format()}.`
                 };
             }
         });
@@ -1891,19 +1897,24 @@ export function inferFsCalculationModes(arg) {
             targetSymbol: "sin(U)",
             targetDomain: "[-1, 1]",
             formulaDescription: "sin(U) = Im(U) = sin(θ) ∈ [-1, 1]",
+            pseudoAlgoId: "rotor_trig_cordic",
             inputs: [
                 { name: "theta", symbol: "Rotor Angle θ", domain: "ℝ_ω", unit: "°", defaultValue: 45.0, step: 1.0, min: 0.0, max: 360.0, description: "Rotor orientation angle" }
             ],
             evaluate: (vals) => {
-                const rad = (vals.theta * Math.PI) / 180;
-                const cosVal = Math.cos(rad);
-                const sinVal = Math.sin(rad);
+                const rad = (vals.theta * 3.141592653589793) / 180;
+                const rotor = dyadicMachine.cordicSinCos(rad, 16);
+                const cosVal = (rotor.cos.value.numerator / Math.pow(2, rotor.cos.value.precision)) * (rotor.cos.value.sign === '-' ? -1 : 1);
+                const sinVal = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
                 return {
                     resultValue: sinVal,
                     formattedFormula: `U(θ) = ⟨${cosVal.toFixed(4)}, ${sinVal.toFixed(4)}⟩ ⟹ sin(U) = Im(U) = ${sinVal.toFixed(4)}`,
                     displayResult: `${sinVal.toFixed(4)}`,
-                    domainBadge: "∈ [-1, 1]",
-                    notes: `Unit norm check: |U|² = (${cosVal.toFixed(4)})² + (${sinVal.toFixed(4)})² = ${(cosVal * cosVal + sinVal * sinVal).toFixed(4)} = 1.0 ✓`
+                    domainBadge: "∈ 𝔻 ⊂ [-1, 1]",
+                    dyadicPath: rotor.sin.path,
+                    dyadicBirthday: rotor.sin.birthday,
+                    dyadicRational: rotor.sin.format(),
+                    notes: `Middle Way CORDIC Rotor: U = ⟨${rotor.cos.format()}, ${rotor.sin.format()}⟩ | Norm check: ${(cosVal * cosVal + sinVal * sinVal).toFixed(4)} ≈ 1.0 ✓`
                 };
             }
         });
@@ -2334,6 +2345,68 @@ export class FsCalculator extends Elt {
             noteBox.setV(`✓ ${res.notes}`);
             this.resultDisplayContainer.append(noteBox);
         }
+        // Middle Way Calculation Machine Status & Verification Strip
+        const mwmStrip = new Elt("div");
+        mwmStrip.setA("style", "margin-top: 10px; padding: 8px 10px; background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 6px; display: flex; flex-direction: column; gap: 4px;");
+        const mwmHeader = new Elt("div");
+        mwmHeader.setA("style", "display: flex; justify-content: space-between; align-items: center;");
+        const mwmTitle = new Elt("span");
+        mwmTitle.setA("style", "font-size: 10.5px; font-weight: 700; color: #7e22ce; display: flex; align-items: center; gap: 5px;");
+        mwmTitle.setV("⚙️ Middle Way Discrete Calculation Machine");
+        mwmHeader.append(mwmTitle);
+        const mwmBadge = new Elt("span");
+        mwmBadge.setA("style", "font-size: 10px; font-weight: 600; padding: 1px 6px; background: #f3e8ff; color: #6b21a8; border-radius: 4px; border: 1px solid #d8b4fe;");
+        mwmBadge.setV("Ring (𝔻, +, ·) Verified");
+        mwmHeader.append(mwmBadge);
+        mwmStrip.append(mwmHeader);
+        // If node path or rational is available, show tree node details
+        if (res.dyadicPath !== undefined || res.dyadicRational !== undefined) {
+            const nodeRow = new Elt("div");
+            nodeRow.setA("style", "font-family: monospace; font-size: 10.5px; color: #581c87; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px;");
+            const pathStr = res.dyadicPath === "" ? "[] (Root 0)" : `[${res.dyadicPath}]`;
+            nodeRow.setV(`Tree Node: ${pathStr} | Birthday: ${res.dyadicBirthday ?? 0} | Rational: ${res.dyadicRational ?? ""}`);
+            mwmStrip.append(nodeRow);
+        }
+        // Interactive Middle Way Pseudocode Stepper Button
+        const algoId = mode.pseudoAlgoId || (mode.id.startsWith("ff_") ? "kinematics_step" :
+            mode.id.includes("rotor") || mode.id.includes("sin") ? "rotor_trig_cordic" :
+                mode.id.includes("heat") || mode.id.includes("laplace") ? "laplacian_heat_step" :
+                    mode.id.includes("bayes") ? "bayes_discrete_update" :
+                        mode.id.includes("conway") ? "conway_add" :
+                            undefined);
+        if (algoId && PSEUDO_CATALOG[algoId]) {
+            const algo = PSEUDO_CATALOG[algoId];
+            const algoActionRow = new Elt("div");
+            algoActionRow.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #d8b4fe;");
+            const algoInfo = new Elt("span");
+            algoInfo.setA("style", "font-size: 10px; color: #6b21a8; font-weight: 600;");
+            algoInfo.setV(`📜 Algorithm: ${algo.badge}`);
+            algoActionRow.append(algoInfo);
+            const pseudoBtn = new Elt("button");
+            pseudoBtn.setA("style", "padding: 3px 8px; font-size: 10.5px; font-weight: 700; border-radius: 4px; border: 1px solid #a855f7; background: #9333ea; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.15s ease;");
+            pseudoBtn.setV("📜 Step Machine Trace");
+            pseudoBtn.elt.addEventListener("click", () => {
+                if (!pseudoViewer)
+                    setPseudoViewer();
+                pseudoViewer.showAlgorithm(algoId);
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                Nav.setLastVisit();
+                Nav.addNavLineBackButton("back to Calculator");
+                Nav.fo.removeChildren();
+                Nav.fo.elt.scrollTop = 0;
+                Nav.fo.append(pseudoViewer);
+                Nav.display();
+                pseudoViewer.layout();
+                if (typeof requestAnimationFrame !== "undefined") {
+                    requestAnimationFrame(() => pseudoViewer.layout());
+                }
+            });
+            algoActionRow.append(pseudoBtn);
+            mwmStrip.append(algoActionRow);
+        }
+        this.resultDisplayContainer.append(mwmStrip);
         // Established Simulation Control (Visible ONLY if simulation has been established for this mode)
         const simResult = getEstablishedSimulationForMode(mode, this.currentInputValues, this.arg);
         this.currentSimulationResult = simResult;

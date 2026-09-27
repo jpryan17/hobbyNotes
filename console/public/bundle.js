@@ -232,11 +232,22 @@ ORDER BY tier, id;`
   },
   {
     category: "Foundations & Stencils",
-    name: "Directional Calculation Modes",
-    description: "Computational stencils with target variable formulas",
-    sql: `SELECT cm.id, cm.mode_key, cm.statement_id, cm.label, cm.target_symbol, cm.target_domain, cm.formula_expr
+    name: "Directional Calculation Modes & Function Rules",
+    description: "Computational stencils with function rules and linked pseudocode modules",
+    sql: `SELECT cm.id, cm.mode_key, cm.function_rule_name, cm.function_signature, pa.algo_key AS pseudocode_module, cm.formula_expr
 FROM calculation_modes cm
+LEFT JOIN pseudocode_algorithms pa ON pa.id = cm.pseudo_algo_id
 ORDER BY cm.statement_id, cm.id;`
+  },
+  {
+    category: "Foundations & Stencils",
+    name: "Pseudocode Algorithms (Discrete Machine)",
+    description: "Discrete algorithmic function rules linked to calculation modes and formal statements",
+    sql: `SELECT pa.id, pa.algo_key, pa.title, pa.complexity, pa.pure_function, count(cm.id) AS linked_modes
+FROM pseudocode_algorithms pa
+LEFT JOIN calculation_modes cm ON cm.pseudo_algo_id = pa.id
+GROUP BY pa.id, pa.algo_key, pa.title, pa.complexity, pa.pure_function
+ORDER BY pa.id;`
   },
   {
     category: "Foundations & Stencils",
@@ -539,14 +550,14 @@ var DatabaseConsoleApp = class {
   }
   async handleReseedDb() {
     const confirmed = confirm(
-      "Are you sure you want to RESET the PostgreSQL database to the clean Git baseline (db/seed_v2.sql)?\n\nThis will re-initialize all curriculum navigation items, segments, formal statements, calculation modes, and verified presets from source control."
+      "Are you sure you want to RESET the PostgreSQL database to the clean Git baseline (db/seed.sql)?\n\nThis will re-initialize all curriculum navigation items, segments, formal statements, calculation modes, and verified presets from source control."
     );
     if (!confirmed) return;
     if (this.reseedBtn) {
       this.reseedBtn.disabled = true;
       this.reseedBtn.textContent = "\u23F3 Resetting...";
     }
-    this.executionStats.textContent = "Reseeding database from db/seed_v2.sql...";
+    this.executionStats.textContent = "Reseeding database from db/seed.sql...";
     try {
       const start = performance.now();
       const res = await fetch(`${getApiBaseUrl()}/api/reseed-db`, {
@@ -557,7 +568,7 @@ var DatabaseConsoleApp = class {
       const data = await res.json();
       if (res.ok && data.status === "success") {
         this.executionStats.textContent = `Database reset successfully in ${duration}ms from Git baseline.`;
-        alert(`Database successfully restored from db/seed_v2.sql in ${duration}ms!`);
+        alert(`Database successfully restored from db/seed.sql in ${duration}ms!`);
         this.sqlInput.value = `SELECT n.id, n.nav_key, n.sequence_order, n.item_type, n.topic, s.seg_key
 FROM curriculum_nav_items n
 JOIN apps a ON a.id = n.app_id

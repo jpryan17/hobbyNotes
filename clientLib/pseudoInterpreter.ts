@@ -72,7 +72,7 @@ export function tokenize(source: string): IToken[] {
       }
 
       // Single character operators & special Unicode math
-      if (['≫', '⊕', '+', '-', '*', '/', '<', '>', '='].includes(ch)) {
+      if (['≫', '≪', '⊕', '⊖', '⊗', '⊘', '+', '-', '*', '/', '<', '>', '='].includes(ch)) {
         tokens.push({ type: 'OPERATOR', value: ch, line: lineNum });
         col++;
         continue;
@@ -506,7 +506,7 @@ export class PseudoParser {
 
   private parseAdditive(): ASTExpr {
     let expr = this.parseMultiplicative();
-    while (['+', '-', '++', '⊕'].includes(this.peek().value)) {
+    while (['+', '-', '++', '⊕', '⊖'].includes(this.peek().value)) {
       const op = this.advance().value;
       const right = this.parseMultiplicative();
       expr = { type: 'BINARY', op, left: expr, right, line: expr.line };
@@ -516,7 +516,7 @@ export class PseudoParser {
 
   private parseMultiplicative(): ASTExpr {
     let expr = this.parsePrimary();
-    while (['*', '/', '≫'].includes(this.peek().value)) {
+    while (['*', '/', '≫', '≪', '⊗', '⊘'].includes(this.peek().value)) {
       const op = this.advance().value;
       const right = this.parsePrimary();
       expr = { type: 'BINARY', op, left: expr, right, line: expr.line };
@@ -939,11 +939,28 @@ export class PseudoInterpreter {
           return left + right;
         }
 
-        if (expr.op === '-') return left - right;
+        if (expr.op === '-') {
+          if (
+            left &&
+            right &&
+            typeof left === 'object' &&
+            typeof right === 'object' &&
+            'path' in left &&
+            'path' in right
+          ) {
+            return dyadicMachine.conwaySub(left, right);
+          }
+          return left - right;
+        }
+
+        if (expr.op === '⊖') return dyadicMachine.sub(left, right);
+        if (expr.op === '⊕') return dyadicMachine.add(left, right);
+        if (expr.op === '⊗') return dyadicMachine.mul(left, right);
+        if (expr.op === '⊘') return dyadicMachine.div(left, right);
         if (expr.op === '*') return left * right;
         if (expr.op === '/') return left / right;
         if (expr.op === '≫') return dyadicMachine.shift(left, -right);
-        if (expr.op === '⊕') return dyadicMachine.add(left, right);
+        if (expr.op === '≪') return dyadicMachine.shift(left, right);
 
         return null;
       }
@@ -991,6 +1008,38 @@ export class PseudoInterpreter {
         if (name === 'sqr') return dyadicMachine.mul(evaluatedArgs[0], evaluatedArgs[0]);
         if (name === 'val') return evaluatedArgs[0];
         if (name === 'node') return dyadicMachine.node(evaluatedArgs[0]);
+
+        if (name === 'CordicAngle') {
+          const idx = Number(evaluatedArgs[0]);
+          const angles = [
+            0.7853981633974483, 0.4636476090008061, 0.24497866312686414, 0.12435499454676144,
+            0.06241880999595735, 0.031239833430268277, 0.015623728620476831, 0.007812116210182813
+          ];
+          const val = angles[idx] ?? (0.785398 / Math.pow(2, idx));
+          return dyadicMachine.fromFloat(val);
+        }
+        if (name === 'CreateArray') {
+          const len = Number(evaluatedArgs[0]);
+          return new Array(len).fill(dyadicMachine.root());
+        }
+        if (name === 'KinematicStep') {
+          const res = dyadicMachine.kinematicStep(evaluatedArgs[0], evaluatedArgs[1], evaluatedArgs[2]);
+          return [res.v, res.s];
+        }
+        if (name === 'CordicRotor') {
+          const res = dyadicMachine.cordicSinCos(evaluatedArgs[0], Number(evaluatedArgs[1]));
+          return [res.cos, res.sin];
+        }
+        if (name === 'BayesUpdate') {
+          const priorH = dyadicMachine.node(evaluatedArgs[0]);
+          const pEgivenH = dyadicMachine.node(evaluatedArgs[1]);
+          const pEgivenNotH = dyadicMachine.node(evaluatedArgs[2]);
+          const priorNotH = dyadicMachine.sub(1, priorH);
+          const jointH = dyadicMachine.mul(priorH, pEgivenH);
+          const jointNotH = dyadicMachine.mul(priorNotH, pEgivenNotH);
+          const totalEvidence = dyadicMachine.add(jointH, jointNotH);
+          return dyadicMachine.div(jointH, totalEvidence);
+        }
 
         // Built-in fallback to dyadicMachine if not defined as AST function
         if (name === 'SimplerOptions') {

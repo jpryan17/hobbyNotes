@@ -228,13 +228,13 @@ app.post('/api/publish', async (req, res) => {
 // ---------------------------------------------------------------------
 // 3c. Commit Dev State to PostgreSQL Database Endpoint
 // ---------------------------------------------------------------------
-// Helper to reseed PostgreSQL from db/seed_v2.sql
+// Helper to reseed PostgreSQL from db/seed.sql
 async function reseedPostgresFromSeedFile() {
-    const seedPath = (0, path_1.resolve)(process.cwd(), 'db/seed_v2.sql');
+    const seedPath = (0, path_1.resolve)(process.cwd(), 'db/seed.sql');
     if ((0, fs_1.existsSync)(seedPath)) {
         const seedSql = (0, fs_1.readFileSync)(seedPath, 'utf8');
         await pool.query(seedSql);
-        console.log('[dbBridge] Reseeded PostgreSQL database from updated seed_v2.sql');
+        console.log('[dbBridge] Reseeded PostgreSQL database from updated seed.sql');
     }
 }
 app.post('/api/sync-to-db', async (req, res) => {
@@ -263,17 +263,17 @@ app.post('/api/sync-to-db', async (req, res) => {
                 }
             }
         }
-        // 3. Regenerate segsFile.json & db/seed_v2.sql
+        // 3. Regenerate segsFile.json & db/seed.sql
         console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
         (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-        console.log(`[dbBridge] Regenerating db/seed_v2.sql...`);
+        console.log(`[dbBridge] Regenerating db/seed.sql...`);
         (0, child_process_1.execSync)('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
-        // 4. Reseed PostgreSQL from freshly generated seed_v2.sql
+        // 4. Reseed PostgreSQL from freshly generated seed.sql
         await reseedPostgresFromSeedFile();
-        console.log(`[dbBridge] Successfully committed Dev state: source files, seed_v2.sql, and PostgreSQL in 100% sync.`);
+        console.log(`[dbBridge] Successfully committed Dev state: source files, seed.sql, and PostgreSQL in 100% sync.`);
         res.json({
             status: 'success',
-            message: `Successfully synchronized Dev state to source files, updated seed_v2.sql, and reseeded PostgreSQL.`
+            message: `Successfully synchronized Dev state to source files, updated seed.sql, and reseeded PostgreSQL.`
         });
     }
     catch (err) {
@@ -286,18 +286,18 @@ app.post('/api/sync-to-db', async (req, res) => {
 // ---------------------------------------------------------------------
 app.post('/api/reseed-db', async (_req, res) => {
     try {
-        const seedPath = (0, path_1.resolve)(process.cwd(), 'db/seed_v2.sql');
+        const seedPath = (0, path_1.resolve)(process.cwd(), 'db/seed.sql');
         if (!(0, fs_1.existsSync)(seedPath)) {
-            return res.status(404).json({ status: 'error', message: 'db/seed_v2.sql not found.' });
+            return res.status(404).json({ status: 'error', message: 'db/seed.sql not found.' });
         }
         const seedSql = (0, fs_1.readFileSync)(seedPath, 'utf8');
         const start = Date.now();
         await pool.query(seedSql);
         const durationMs = Date.now() - start;
-        console.log(`[dbBridge] Successfully reseeded database from db/seed_v2.sql in ${durationMs}ms`);
+        console.log(`[dbBridge] Successfully reseeded database from db/seed.sql in ${durationMs}ms`);
         res.json({
             status: 'success',
-            message: `Database successfully reseeded from clean Git baseline (seed_v2.sql) in ${durationMs}ms.`,
+            message: `Database successfully reseeded from clean Git baseline (seed.sql) in ${durationMs}ms.`,
             durationMs,
         });
     }
@@ -653,7 +653,7 @@ app.post('/api/promote-staged-segments', async (req, res) => {
         }
         console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
         (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-        console.log(`[dbBridge] Regenerating db/seed_v2.sql...`);
+        console.log(`[dbBridge] Regenerating db/seed.sql...`);
         (0, child_process_1.execSync)('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
         await reseedPostgresFromSeedFile();
         console.log(`[dbBridge] Rebuilding ${appName}/dist/index.html...`);
@@ -670,7 +670,7 @@ app.post('/api/promote-staged-segments', async (req, res) => {
             status: 'success',
             promotedCount: files.length,
             durationMs,
-            message: `Successfully promoted ${files.length} segment(s) to source files, updated seed_v2.sql, reseeded PostgreSQL, and rebuilt index.html in ${durationMs}ms.`
+            message: `Successfully promoted ${files.length} segment(s) to source files, updated seed.sql, reseeded PostgreSQL, and rebuilt index.html in ${durationMs}ms.`
         });
     }
     catch (err) {
