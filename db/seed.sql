@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-27T19:41:13.286Z
+-- Generated At: 2026-09-27T19:49:25.858Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -5509,10 +5509,10 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
   </p>
 ', 'published'),
-  (23, 'vectorFoundationsIntro', 22, 'Course 1 Overview: Linear Algebra & The Inference Space', 'vector-foundations-intro', '
+  (23, 'vectorFoundationsIntro', 22, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
   <div align="center">
-    <i><font size="+2"><b>Course 1 Overview: Linear Algebra &amp; The Inference Space</b></font></i><br>
-    <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Quantum Inference</font></i>
+    <i><font size="+2"><b>Level 3: Space, Direction &amp; Geometry</b></font></i><br>
+    <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric Transformations</font></i>
   </div>
   <br>
 
@@ -5624,9 +5624,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>5. The Concrete Realization: Quantum Bayesian Inference</h3>
+  <h3>5. Physical Realizations: Duality &amp; Quantum State Spaces</h3>
   <p>
-    With the mathematics established, the quantum realization falls right into place:
+    With the mathematical framework established, the physical realization of vector/covector duality in quantum and measurement theory falls directly into place (bridging forward to Level 5):
   </p>
   <ul>
     <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
@@ -5636,7 +5636,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>Course 1 Lecture Plan</h3>
+  <h3>Linear Algebra Lecture Plan</h3>
   <ul>
     <li><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b> Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>, why fields eject zero, and continuous transformation groups.</li>
     <li><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b> Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection, the exponential bridge, and embedding dimensions.</li>
@@ -6220,11 +6220,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   <h3>5. The Physical Realization: Dirac Bra-Ket Quantum Inference</h3>
 
   <p>
-    “Remember back in Course 1 when we first encountered Max Born’s rule in Quantum Logic?” Jane smiled. “Back then, we treated the wave function as a complex amplitude arrow <code>z = x + iy</code> whose squared length gave an observable probability.”
-  </p>
-
-  <p>
-    “Now look at what that really is through our mature vector lens!” Jane continued. “In modern quantum mechanics, that arrow isn''t just an isolated number — it is an authentic <b>vector evaluation pairing</b> in a complex Hilbert space <code>ℋ_ω</code>:”
+    “In classical mechanics, physical states are tracked by isolated scalar numbers,” Jane said. “In modern quantum theory, physical states live in vector spaces, and observable measurements emerge from <b>vector evaluation pairings</b> in a complex Hilbert space <code>ℋ_ω</code>:”
   </p>
 
   <ul>
@@ -6269,7 +6265,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
   <p>
-    “Exactly!” Jane concluded. “We have completed the formal foundations of Course 1. Next, in <b>Course 2: Analysis 1D</b>, we will explore continuous rates of change and accumulation on the real continuum <code>ℝ_ω</code>!”
+    “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
   </p>
 ', 'published'),
   (27, 'stemTrigFoundations', 26, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
