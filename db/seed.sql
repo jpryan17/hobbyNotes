@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-27T12:02:21.170Z
+-- Generated At: 2026-09-27T15:21:08.822Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -41,14 +41,13 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <h3>Preface &amp; Pedagogical Vision</h3>
     <p>
-      At its core, <b>Mathematics and the Middle Way</b> explores a vital question for modern society: <b>how can the supreme cultural achievements of modern science—from formal logic to quantum statistical mechanics—be made fully accessible as a coherent general education in general science?</b>
+      <b>Middle Way Mathematics</b> is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that assumes that the infinitesimal <code>1/ω</code> (where <code>ω</code> is the supremum of the natural numbers) is a number.
     </p>
     <p>
-      Our scientific models of physical reality are among the supreme cultural masterpieces of human civilization. Every citizen—and not merely STEM specialists—deserves the opportunity to understand and enjoy how modern science describes the physical universe.
+      A machine based agent is responsible for much of the development of this page. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in First-Order Logic (FOL). All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a ''calculation machine'' independent of any access to runtime resources for mathematical calculation.
     </p>
     <p>
-      Too often, the gateway to these ideas is guarded by heavy calculational machinery designed for specialized engineering—dense epsilon-delta limit towers, metric topologies, and measure-theoretic roadblocks. 
-      There is a <b>Middle Way</b>: a direct, constructive, and visual path grounded in formal logic, discrete number trees (<code>ℕ_ω, ℝ_ω, ℂ_ω</code>), and nonstandard analysis that reaches modern physical reality with total transparency.
+      This dual approach of verifying the conceptual description, and demonstrating its support for calculation, support the claim that this page is indeed a robust prototype providing proof of concept for its proposed curriculum.
     </p>
 
     <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #1e3a8a;">
