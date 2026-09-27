@@ -1,14 +1,13 @@
-# Mathematics and the Middle Way
+# Middle Way Mathematics
 
-> **Nonstandard Analysis, Emergent Structures & Multi-Service Grounded Science**  
-> *A Machine-Certified, Constructive Journey from Logic to Quantum Reality*
+*A Machine-Certified, Constructive Journey from Logic to Quantum Reality*
 
 Live Portal: **[https://middlewaymath.app](https://middlewaymath.app)**  
 Open-Source Repository: **[https://github.com/jpryan17/hobbyNotes](https://github.com/jpryan17/hobbyNotes)**
 
 > [!WARNING]
 > **Active Development Notice: Pre-Stable Project**  
-> *Mathematics and the Middle Way* and its in-situ authoring studio are undergoing active, continuous evolution. Core authoring tools (TTD, FSD, stencils, pseudocode algorithms), curricular segments, and database schemas are being refined daily. Expect ongoing interface changes, experimental workflows, and non-finalized authoring tools until the v2.0 milestone stabilizes.
+> *Middle Way Mathematics* and its in-situ authoring studio are undergoing active, continuous evolution. Core authoring tools (TTD, FSD, stencils, pseudocode algorithms), curricular segments, and database schemas are being refined daily. Expect ongoing interface changes, experimental workflows, and non-finalized authoring tools until the v2.0 milestone stabilizes.
 
 ---
 
@@ -16,7 +15,7 @@ Open-Source Repository: **[https://github.com/jpryan17/hobbyNotes](https://githu
 
 Middle Way Mathematics is an interactive textbook designed to be a robust proof of concept for a formal science curriculum that serves the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study. Our motivation is that current theories of physical reality rest among the pinnacles of human culture, and should be made as available as possible for all to share. In order to simplify the description of the mathematics required, the curriculum leverages the Conway number tree to ground a nonstandard description of mathematics that assumes that the infinitesimal 1/omega (where omega is the supremum of the natural numbers) is a number.
 
-A machine based agent isresponsible for much of the development of this page. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in FOL. All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a 'calculation machine' independent of any access to runtime resources for mathematical calculation.
+A machine based agent is responsible for much of the development of this page. As such, the chance that this page reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page includes formal statements. These statements are quantified predicate expressions, i.e. statements are encoded in FOL. All statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, any calculation is defined for a formal statement. A calculation is described by pseudo-code which is interpreted by a 'calculation machine' independent of any access to runtime resources for mathematical calculation.
 
 This dual approach of verifying the conceptual description, and demonstrating its support for calculation, support the claim that this page is indeed a robust prototype providing PoC for its proposed curriculum.
 
