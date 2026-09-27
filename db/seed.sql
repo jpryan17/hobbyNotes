@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-27T15:36:51.574Z
+-- Generated At: 2026-09-27T19:41:13.286Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -3782,45 +3782,35 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
   ', 'published'),
-  (13, 'lamOverview', 12, 'Preface & Pedagogical Mission: A Tertiary Extension for Formal Science', 'lam-overview', '
+  (13, 'lamOverview', 12, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
   <div align="center">
-    <font size="+2"><i><b>Curriculum Architecture for Liberal Arts Mathematics:<br>
-          Enforcing the Formal Foundations of Quantum Bayesian Inference</b></i></font><br>
-    <font size="+1"><i>— A 3-Course Tertiary Extension with Minimal Formality —</i></font>
+    <font size="+2"><i><b>Level 2: Continuum &amp; Calculus<br>
+          Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
+    <font size="+1"><i>— Bridging the Discrete Conway Tree to Continuous Analysis —</i></font>
   </div>
   <br>
 
-  <h3>Preface &amp; Pedagogical Mission: A Tertiary Extension for Formal Science</h3>
+  <h3>Continuous Change on the Hyperfinite Scaffold</h3>
   <p>
-    Mathematics in higher education has long suffered from a sharp divide. On one side are the heavy calculational
-    workhorses designed for practicing engineers and physicists; on the other are survey courses that all too often
-    retreat into disjointed topics and mechanical algebraic drills.
+    In our foundational study of numbers and discrete structures, we established how numbers emerge day by day from inductive trees. 
+    In <b>Level 2: Continuum &amp; Calculus</b>, we extend this discrete foundation into continuous change, instantaneous rates, and accumulation.
   </p>
   <p>
-    This curriculum &mdash; designed specifically for <b>Liberal Arts Mathematics (LAM)</b> &mdash; serves as a direct
-    <b>tertiary extension of our general formal science foundation</b>. Having established the core principles of formal logic,
-    statements, recursive number trees, and finite inference in our foundational curriculum, LAM has a single, razor-sharp mission:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Enforcing the rigorous formal foundations of Quantum Bayesian Inference<br>
-    through direct algebra and the nonstandard continuum.</b>
-  </div>
-  <p>
-    We hold immense respect and gratitude for our colleagues in STEM disciplines. To support the vast array of
-    continuous calculation tools used across industry and engineering, standard textbooks must construct the
-    mathematical universe using metric topologies, epsilon-delta limit towers, Lebesgue measure spaces, and Riemann
-    spheres. That apparatus provides the rigorous bedrock necessary for professional practitioners.
+    Standard real analysis constructs the continuum using metric topologies, epsilon-delta limit towers, and Dedekind cuts. 
+    While rigorous, this traditional apparatus often obscures the geometric intuition of continuous change beneath layers of nested quantifiers.
   </p>
   <p>
-    It is simply that for non-practitioners &mdash; <b>unburdened of the requirement to service continuous calculation
-      engines</b> &mdash; there is an amazingly simpler, cleaner, and more direct path to the exact same underlying
-    mathematical structures: <b>Nonstandard Analysis &amp; Emergent Algebraic Structures</b>.
+    By leveraging John Conway''s recursive number tree at Day <code>ω</code>, we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate number. 
+    This nonstandard perspective transforms continuous calculus into straightforward algebra: derivatives become simple difference ratios <code>dy / dx</code> followed by taking the standard part shadow, and integrals become genuine hyperfinite sums of microscopic tiles.
   </p>
-
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;">
-    <b>Jane''s Note on Applied Mini-Seminars:</b><br>
-    Alongside our 3 core courses, we feature a series of applied <b>Mini-Seminars</b> designed to flesh out the practical and physical implications of Liberal Arts Mathematics for the reader. These mini-seminars connect our linear algebra and nonstandard continuum directly to signal processing (<i>The Fourier Duality</i>), physical quantum theory (<i>Standard ω-Nodes to Halo Soup</i>), theoretical physics (<i>Holography &amp; Information Boundaries</i>), and higher-dimensional branching (<i>Higher-Successor Definitions: 2, 4, 8, 16 &amp; Beyond</i>)!
-  </div>
+  <p>
+    Level 2 develops this unified framework across:
+  </p>
+  <ul>
+    <li><b>Sequences, Sums &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code>, telescoping boundary cancellation, and the bridge to continuous integration.</li>
+    <li><b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity without epsilon-delta, and the fundamental theorem of calculus on <code>ℝ_ω</code>.</li>
+    <li><b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, conformal shape-preservation, Cauchy contour integration by 2D cell cancellation, and continuous phase dynamics.</li>
+  </ul>
 
   <hr>
 
@@ -4036,9 +4026,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </div>
   </div>
 ', 'published'),
-  (15, 'analysis1DIntro', 14, 'Course 2 Overview: Analysis 1D & The Real Continuum', 'analysis1-d-intro', '
+  (15, 'analysis1DIntro', 14, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
   <div align="center">
-    <i><font size="+2"><b>Course 2 Overview: Analysis 1D &amp; The Real Continuum</b></font></i><br>
+    <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
     <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
   </div>
   <br>
@@ -4178,7 +4168,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>Course 2 Lecture Plan</h3>
+  <h3>Analysis 1D Lecture Plan</h3>
   <ul>
     <li><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining continuity without <code>ε-δ</code>, and the Intermediate Value Theorem as a discrete grid march.</li>
     <li><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b> Calculating slopes via pure algebra, the product and chain rules, and local linear approximation <code>df = f''(x)·dx</code>.</li>
@@ -4792,29 +4782,29 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>3. Looking Forward to Course 3: Analysis 2D (ℂ_ω)</h3>
+  <h3>3. Looking Forward to Analysis 2D (ℂ_ω)</h3>
 
   <p>
     “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
   </p>
   <p>
-    “In <b>Course 3: Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
+    “In <b>Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
   </p>
   <ul>
     <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
     <li>How <b>Cauchy''s Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
-    <li>How continuous quantum state evolution <code>U(t) = e^(-iHt/ħ)</code> completes our description of <b>Quantum Bayesian Inference</b>!</li>
+    <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
   </ul>
 ', 'published'),
-  (19, 'analysis2DIntro', 18, 'Course 3: Analysis 2D & The Complex Continuum', 'analysis2-d-intro', '
+  (19, 'analysis2DIntro', 18, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
     <div align="center">
-      <i><font size="+2"><b>Course 3: Analysis 2D &amp; The Complex Continuum</b></font></i><br>
-      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Quantum Inference —</font></i>
+      <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
+      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
     </div>
     <br>
     <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
     <p>
-      If 1D Real Analysis (Course 2) is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
+      If 1D Real Analysis is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
     </p>
     <p>
       Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
@@ -4983,9 +4973,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </details>
 
     <hr>
-    <h3>4. The Grand Payoff: Continuous Quantum Bayesian Inference &amp; Phase Transitions</h3>
+    <h3>4. Looking Ahead: Continuous Unitary Evolution &amp; Phase Transitions</h3>
     <p>
-      Course 3 culminates in the ultimate unification of Linear Algebra, Analysis, and Inference:
+      Complex analysis provides the mathematical foundation for wave mechanics and continuous state evolution, bridging forward to spatial geometry and quantum theory:
     </p>
     <h4>A. Continuous Quantum State Evolution</h4>
     <p>
@@ -5023,7 +5013,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </fsd-ref>
 
     <hr>
-    <h3>Course 3 Lecture Plan</h3>
+    <h3>Analysis 2D Lecture Plan</h3>
     <ul>
       <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
         Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation (<b>FS-A2D-1.1, FS-A2D-1.2</b>).</li>
@@ -5341,30 +5331,30 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
   <p>
-    “Precisely!” Jane smiled. “And in our final lecture, we will use this exact root-counting mechanism to solve the great mystery of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and complete our description of <b>Quantum Bayesian Inference</b>!”
+    “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
   </p>
 ', 'published'),
   (22, 'analysis2DLecture3', 21, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
-    <i><font size="+1">— Quantum State Evolution &amp; Phase Transitions —</font></i>
+    <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
   </div>
   <br>
 
   <p>
-    Jane stood before the class to open the final lecture of the curriculum:
+    Jane stood before the class to open the concluding lecture of Analysis 2D:
   </p>
 
   <p>
-    “We have traveled a remarkable intellectual journey. In <b>Course 1</b>, we discovered emergent algebraic structures, linear spaces, and Dirac bra-ket duality. In <b>Course 2</b>, we tamed continuous 1D change through infinitesimals and the telescoping Fundamental Theorem. Today, in our grand finale, we unite these foundations to describe <b>Continuous Quantum Bayesian Inference and the deep geometry of Phase Transitions</b>.”
+    “Having explored 1D rates of change and 2D conformal geometry on the complex plane <code>ℂ_ω</code>, we now examine how complex numbers govern continuous physical systems. Today, we discover how continuous phase rotations drive unitary state evolution and uncover the geometric origins of <b>Phase Transitions</b>.”
   </p>
 
   <hr>
 
-  <h3>1. Continuous-Time Quantum Evolution &amp; Unitary Invariance</h3>
+  <h3>1. Continuous-Time Wave Evolution &amp; Unitary Invariance</h3>
 
   <p>
-    “In Course 1,” Jane reminded Jill, “we saw that a quantum state lives in a Hilbert space <code>(H, +, ·, ⟨·,·⟩)</code>. How does this state change continuously over time?”
+    “In physical systems and wave mechanics,” Jane explained to Jill, “a continuous state evolves over time driven by an energy Hamiltonian operator <code>H</code>. How does complex geometry govern this continuous change?”
   </p>
 
   <p>
@@ -5381,8 +5371,8 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     Jane pointed to the exponent: “Notice how the mathematical pieces we''ve built snap together:”
   </p>
   <ul>
-    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies (Course 1).</li>
-    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code> (Course 3).</li>
+    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies.</li>
+    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code>.</li>
     <li><b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign in the complex exponent:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
         <b>U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t / ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b>
@@ -5415,7 +5405,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
         </div>
       </li>
-      <li><b>Probability Conservation:</b> Continuous quantum state dynamics preserves total Bayesian prior probability without dissipation.</li>
+      <li><b>Probability Conservation:</b> Continuous state dynamics preserves total probability along the unit sphere without dissipation.</li>
       <li><b>CAS Example:</b> <eq-ref eq-id="cas_unitary_schrodinger" formula="SCHRODINGER_EXP(-i*H*t/hbar)">Unitary Time Evolution &amp; Probability Conservation</eq-ref></li>
     </ol>
   </div>
@@ -5423,10 +5413,10 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>2. Continuous Wavepackets &amp; Quantum Bayesian Inference</h3>
+  <h3>2. Continuous Wavepackets &amp; Spatial Normalization</h3>
 
   <p>
-    “When a quantum state is continuous across space,” Jane continued, “the wavefunction <code>ψ(x) = ⟨x | ψ⟩</code> is the covector projection onto position <code>x</code>.”
+    “When a physical wave or state is continuous across space,” Jane continued, “the spatial amplitude <code>ψ(x)</code> distributes across the continuum.”
   </p>
 
   <p>
@@ -5439,7 +5429,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </fsd-ref>
 
   <p>
-    “When a detector at position <code>x</code> registers the particle, the prior state <code>|ψ⟩</code> undergoes a <b>Bayesian likelihood update (state collapse)</b>, projecting into the detected state. The Born rule <code>P(x) = |ψ(x)|²</code> is the exact bridge between linear Hilbert geometry and observational Bayesian inference!”
+    “When an observation is made at position <code>x</code>, the continuous state localizes. Looking ahead to our later exploration of Quantum and Bayesian systems in Level 5, the Born rule <code>P(x) = |ψ(x)|²</code> serves as the profound bridge connecting continuous wave geometry to empirical observation and belief revision!”
   </p>
 
   <hr>
@@ -5516,7 +5506,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
   <p>
-    “Exactly!” Jane concluded. “From recursive tree roots to linear spaces, from infinitesimal halos to 2D complex residues, we have unified the mathematical universe into a transparent, direct conceptual foundation for <b>Liberal Arts Mathematics</b>.”
+    “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
   </p>
 ', 'published'),
   (23, 'vectorFoundationsIntro', 22, 'Course 1 Overview: Linear Algebra & The Inference Space', 'vector-foundations-intro', '
