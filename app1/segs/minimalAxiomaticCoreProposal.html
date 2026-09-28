@@ -52,7 +52,7 @@
         <b>Executive Summary:</b><br>
         In modern science education, learning pathways are increasingly delivered through <b>open educational resource hubs</b> that offer diverse, complementary curriculum trajectories—from traditional epsilon-delta analysis and applied numerical computing to modern constructive logic.<br><br>
         Within this ecosystem, <i>Middle Way Mathematics (MWM)</i> finds its distinctive niche: offering an accessible, constructive bridge between students' intuitive familiarity with discrete computation (algorithms, registers, difference equations) and continuous mathematical analysis (derivatives, integrals, differential equations). Rather than treating the continuum as an uncomputable or non-constructive abstraction, MWM models continuous calculus as the <b>natural transfinite completion of discrete inductive trees</b>, brought into human observation by the standard shadow map <code>st(·)</code>.<br><br>
-        While MWM's active curriculum utilizes an operational suite of formal scaffolds across its courses, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. Recently verified across <b>171 Lean 4 cache keys with zero epsilon-delta filters</b>, this architecture also establishes an explicit <b>Constructive Function Engine</b> (<code>DirectedPair + RuleType</code>) that translates machine-checked proofs directly into interactive Computer Algebra System (CAS) calculators.
+        While MWM's active curriculum utilizes an operational suite of formal scaffolds across its courses, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. Verified across <b>171 Lean 4 cache keys with zero epsilon-delta filters</b>, this architecture establishes an explicit <b>Constructive Function Engine</b> (<code>DirectedPair + RuleType</code>) and a native <b>Virtual Machine in (𝔻, +, ·)</b> that translate machine-checked proofs into interactive, step-by-step physical calculations without external library oracles.
       </div>
 
       <h3>1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation</h3>
@@ -146,10 +146,10 @@
       </ul>
 
       <div class="box-blue" style="margin: 16px 0;">
-        <b>The Constructive Function Architecture: Directed Pair + Rule Type</b><br>
+        <b>The Constructive Function Architecture: Directed Pair + Rule Type + VM Stepper</b><br>
         In classical set theory, a function is defined non-constructively as an arbitrary, static set of ordered pairs <code>R ⊆ X × Y</code> (an uncomputable graph). In Middle Way Mathematics, every operation is an <b>active computational engine</b> formalized as:
         <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
-          <b>Function Type &nbsp;=&nbsp; Directed Pair (Constructed Domain &amp; Codomain) &nbsp;+&nbsp; Rule Type</b>
+          <b>Function Type &nbsp;=&nbsp; Directed Pair (Constructed Domain &amp; Codomain) &nbsp;+&nbsp; Rule Type &nbsp;+&nbsp; VM Stepper</b>
         </div>
         <ul>
           <li><b>DirectedPair α β:</b> Specifies verified constructive source and target types (e.g., dyadic tree coordinates, unit rotors, or hyperfinite grids).</li>
@@ -157,11 +157,15 @@
             <code>algebraic</code> (closed ring formulas), 
             <code>polynomial</code> (finite difference stencils), 
             <code>piecewise</code> (bisection tree search / CORDIC steering), 
-            <code>series</code> (hyperfinite sums), or 
+            <code>series</code> (hyperfinite compounding), or 
             <code>cas_oracle</code> (algebraic engine verification).
           </li>
+          <li><b>Native Calculation Machine in (𝔻, +, ·):</b> Rather than outsourcing calculations to black-box floating-point libraries, all physical and trigonometric modes evaluate via exact power-of-two dyadic arithmetic (<code>dyadicMachine</code>) and provide interactive step-by-step virtual machine traces (<code>pseudoInterpreter</code>).</li>
         </ul>
-        This ensures that every function taught in the curriculum—such as dyadic sine bisection (<code>sin_dyadic_fn</code>) or rotor coordinate projection (<code>sin_rotor_fn</code>)—can be directly evaluated on hardware, verified in Lean 4 via <code>CoeFun</code>, and calculated in real-time by interactive CAS engines.
+        This guarantees that every concept adheres to MWM's <b>6-Stage Presentation Standard</b>:
+        <div align="center" style="font-family: monospace; font-size: 12px; margin: 6px 0; color: #1e40af;">
+          Text &nbsp;→&nbsp; Interactive Visuals &nbsp;→&nbsp; Lean Formal Statements &nbsp;→&nbsp; Calculators &nbsp;→&nbsp; Explicit Function Rules &nbsp;→&nbsp; Virtual Machine Execution
+        </div>
       </div>
 
       <p>
@@ -270,10 +274,16 @@
             <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> is an orthogonal 4-successor quadtree (<code>Tree4</code>). <code>cauchy_edge_cancel</code> is proven by vector group identity <code>(z₂ - z₁) + (z₁ - z₂) = 0</code>. Cauchy's theorem follows directly from <code>∂² = 0</code> applied to the 2D cell chain complex. Inside vs. outside reduces to the 1-successor ray-crossing parity rule. Residues count enclosed topological punctures.</td>
           </tr>
           <tr>
-            <td><b>Quantum Mechanics</b><br><code>unitary_preservation</code><br><code>born_rule</code><br><code>lee_yang_zero_pinch</code></td>
-            <td>Axiomatic assertion of norm preservation and Lee-Yang zero accumulation</td>
+            <td><b>Statistical Inference &amp; Information</b><br><code>bayes_filter</code><br><code>bayes_sequential_update</code><br><code>hyperfinite_probability</code><br><code>shannon_entropy</code></td>
+            <td>Axiomatic assertion of discrete Bayesian filtering, probability conservation, and entropy bounds</td>
+            <td><span class="table-badge badge-seed1">Seed 1: Conway Cut</span> + <span class="table-badge badge-seed2">Seed 2: Shadow Map</span></td>
+            <td>Sample space <code>Ω</code> is a hyperfinite microstate partition of the Conway transect <code>ℝ_ω</code>. Every individual microstate carries strictly positive infinitesimal weight <code>dx = 1/ω > 0</code>, resolving the classical null-set paradox (<code>P(E) = 0 ⟺ E = ∅</code>). Sequential belief revision (<i>"Today's posterior is tomorrow's prior"</i>) emerges from associative rational arithmetic on <code>(𝔻, +, ·)</code>, and Shannon entropy <code>H(P) = -∑ p_k ln p_k</code> measures macroscopic partition uncertainty.</td>
+          </tr>
+          <tr>
+            <td><b>Quantum Mechanics &amp; Non-Boolean Logic</b><br><code>polarizer_projection</code><br><code>luders_update</code><br><code>density_operator</code><br><code>quantum_bayes</code><br><code>von_neumann_entropy</code><br><code>quantum_gibbs_state</code><br><code>unitary_preservation</code><br><code>born_rule</code><br><code>lee_yang_zero_pinch</code></td>
+            <td>Axiomatic assertion of non-Boolean subspace lattices, density operator trace conservation, and unitary evolution</td>
             <td><span class="table-badge badge-seed2">Seed 2</span> + <span class="table-badge badge-seed3">Seed 3</span></td>
-            <td>Unitary evolution <code>U(t) = e^{-iHt/ħ}</code> is an exact norm-preserving group isometry because <code>H = H†</code>. The Born rule <code>P = |⟨x|ψ⟩|²</code> is covector projection onto the standard shadow. Lee-Yang zeros represent complex roots of the partition function that pinch the real axis at Day <code>ω</code>, creating non-analytic kinks in free energy.</td>
+            <td>In quantum systems, non-commuting observables (<code>A·B ≠ B·A</code>) cause classical Venn distributivity to fail, forming an orthomodular subspace lattice. The Born rule <code>P = |⟨x|ψ⟩|²</code> is covector projection onto the standard shadow. Mixed ensembles are governed by density matrices <code>Tr(ρ) = 1</code>, with non-commutative Lüders updating. Thermal equilibrium emerges constructively via Jaynes' MaxEnt principle as the unique Gibbs state <code>ρ_eq = Z⁻¹ e^{-β Ĥ}</code> minimizing free energy.</td>
           </tr>
         </tbody>
       </table>
@@ -307,7 +317,7 @@ structure FunctionType (α β : Type) where
 
 instance : CoeFun (FunctionType α β) (fun _ => α → β) where
   coe f := f.eval</pre>
-        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel. Furthermore, our automated build pipeline harvests these verified <code>FunctionType</code> bundles into the client-side <code>SCAFFOLD_REGISTRY</code>, instantly generating interactive, browser-based Maxima CAS calculators for students!
+        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel. Furthermore, our automated build pipeline harvests these verified <code>FunctionType</code> bundles into the client-side <code>SCAFFOLD_REGISTRY</code>, directly wiring machine-checked formal statements to our native <b>(𝔻, +, ·) Calculation Machine</b> and interactive algorithm steppers!
       </div>
 
       <hr>
@@ -341,9 +351,22 @@ instance : CoeFun (FunctionType α β) (fun _ => α → β) where
         As educational hubs incorporate AI-assisted tutoring, the inductive grounding of MWM provides an essential pedagogical safeguard. Because MWM's core identities (such as telescoping sums and discrete cell cancellations) are fully decidable and machine-checkable in Lean 4, AI pair-learning assistants can verify student work with deterministic accuracy, avoiding the subtle hallucinations that often arise in conversational discussions of non-constructive limits.
       </p>
 
+      <h4>4. The 6-Stage Concept Presentation Standard</h4>
+      <p>
+        To maintain pedagogical clarity while preventing formal drift, every mathematical concept across the curriculum adheres to an invariant six-stage presentation pipeline:
+      </p>
+      <ol>
+        <li><b>Conversational Intuition:</b> Plain-language motivational framing introducing physical, geometric, or algorithmic stakes without dense notation.</li>
+        <li><b>Rigorous Axiomatic Definition:</b> Precise mathematical formulation anchored strictly in the three inductive seeds.</li>
+        <li><b>Mathematical Walkthrough:</b> Step-by-step constructive derivations, complete with visual diagrams and discrete step tables.</li>
+        <li><b>Machine-Verified First-Order Statement:</b> First-order logical specification formalizing domain constraints, preconditions, hypotheses, and conclusions with zero hidden assumptions.</li>
+        <li><b>Verified Formal Proof (Lean 4):</b> Kernel-checked constructive certificate harvested directly into the client reflection registry.</li>
+        <li><b>Interactive Computation &amp; Algorithms:</b> Live execution on the native (𝔻, +, ·) Calculation Machine and animated bytecode steppers, turning static theorems into interactive discovery tools.</li>
+      </ol>
+
       <div class="box-amber">
         <b>Conclusion:</b><br>
-        Middle Way Mathematics finds its purpose not by standing in opposition to traditional mathematics, but by enriching the broader educational commons. By anchoring continuous concepts in a minimal core of Three Inductive Seeds—The Conway Cut, The Shadow Map, and The Boundary Invariant—MWM provides educators and students with a clear, constructive, and computationally grounded pathway within the modern educational landscape.
+        Middle Way Mathematics finds its purpose not by standing in opposition to traditional mathematics, but by enriching the broader educational commons. By anchoring continuous concepts in a minimal core of Three Inductive Seeds—The Conway Cut, The Shadow Map, and The Boundary Invariant—and executing them through a rigorous 6-Stage Presentation Standard backed by Lean 4 verification and the native (𝔻, +, ·) Calculation Machine, MWM provides educators and students with a clear, constructive, and computationally grounded pathway within the modern educational landscape.
       </div>
     </div>
   </body>
