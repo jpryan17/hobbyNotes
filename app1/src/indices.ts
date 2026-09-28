@@ -327,12 +327,17 @@ export const trigGeometryIndex: IndexItemDesc[] = [
 export const curriculumIntroIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "mission & curricular overview",
+    topic: "part 1: mission & epistemology",
     htmlSegmentId: "introduction",
   },
   {
     type: "html",
-    topic: "conceptual history & roadmap",
+    topic: "part 2: the three models",
+    htmlSegmentId: "modelsOverview",
+  },
+  {
+    type: "html",
+    topic: "part 3: conceptual history & analysis",
     htmlSegmentId: "conceptualHistoryIntro",
   },
 ];

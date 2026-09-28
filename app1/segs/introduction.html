@@ -7,7 +7,7 @@
   <body>
 <div align="center">
       <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
-      <font size="+1"><i>— A Constructive Path from Logic to Quantum Reality —</i></font></div>
+      <font size="+1"><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font></div>
     <p><br></p><p>Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.&nbsp;</p><p>Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.</p><p>The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a 'calculation machine' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating its support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.</p>
 
     <hr>
@@ -16,13 +16,9 @@
     <p>A robust curriculum in general science serves two complementary goals:
     </p>
     <ol>
-      <li><b>General Scientific Literacy:</b> Provide all students with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
-      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners the prerequisites for future studiers.</li>
+      <li><b>General Scientific Literacy:</b> Provide all students—especially the ~75% not bound for STEM careers—with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
+      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners with an intuitive, constructive foundation that accelerates their subsequent study of advanced physics and higher mathematics.</li>
     </ol>
-    <p>In order to simplify the description of mathematics, the curriculum leverages the Conway number tree to
- ground a nonstandard constructive description of numbers that accepts that the 
-infinitesimal 1/omega (where omega is the supremum of the natural 
-numbers) is a number. Doing so eliminates the need for limit theory. In addition, the fact that numbers are associated with tree addresses allows topology and measure to be described without introducing any additional intrinsic topological and measure spaces. The simplified mechanics allows mathematical concepts to be described more simply, and although STEM oriented students will probably need additional courses in preparation for studies in standard analysis and use of the calculation toolset based on standard analytic techniques. However, these students too will benefit from a direct, constructive path through formal science that target current theories of physical reality.</p>
 
     <hr>
 
@@ -159,35 +155,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>5. Conceptual History: The Four Epochs of Analysis</h3>
-    <p>
-      To understand why nonstandard analysis is so empowering for general scientific literacy, one must examine how mathematics historically struggled to tame continuous change:
-    </p>
-    <ul>
-      <li>
-        <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) — <i>Leibniz, Newton, Euler</i>:</b><br>
-        Calculus was invented using <b>infinitesimals</b> (<code>dx, dy</code>)—quantities strictly greater than zero yet smaller than any positive standard real number. Derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>).
-      </li>
-      <br>
-      <li>
-        <b>Epoch 2: The Epsilon-Delta Purge (19th Century) — <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
-        19th-century mathematicians banished infinitesimals, replacing intuitive ratios with dense <b>epsilon-delta (ε-δ) limit definitions</b>. While watertight, this reform erected a massive cognitive barrier that alienated non-specialists from calculus.
-      </li>
-      <br>
-      <li>
-        <b>Epoch 3: The Topological Escape (Early–Mid 20th Century) — <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
-        Mathematicians ascended into abstract point-set topology and Lebesgue measure theory. This abstraction was powerful for functional analysis, but it severely detached continuous mathematics from intuitive spatial geometry.
-      </li>
-      <br>
-      <li>
-        <b>Epoch 4: The Nonstandard Synthesis — <i>Abraham Robinson &amp; John Conway's Number Tree</i>:</b><br>
-        Infinitesimals were given complete, rigorous mathematical foundations through model theory and Conway's recursive number tree. Infinitesimals (<code>dx = 1/ω</code>) are legitimate numbers born on transfinite Day <code>ω</code>, restoring differentiation to pure algebraic division <code>f'(x) = st(Δy / dx)</code> and integration to discrete sums <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
-      </li>
-    </ul>
-
-    <hr>
-
-    <h3>6. Interactive Exploration Prototypes</h3>
+    <h3>5. Interactive Exploration Prototypes</h3>
     <p>
       To provide visual intuition, this application includes interactive demonstration suites embedded directly across the modules:
     </p>
@@ -197,10 +165,5 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <li><b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees, transfinite Day <code>ω</code>, and dyadic paths.</li>
       <li><b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space trees (<code>Ω</code>), likelihood comparisons, and dynamic belief revision.</li>
     </ul>
-
-    <hr>
-
-    <h3><br></h3><div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 16px; border-radius: 6px; margin: 15px 0;">
-    </div>
 </body>
 </html>
