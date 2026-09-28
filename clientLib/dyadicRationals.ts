@@ -27,6 +27,12 @@ export class DR{
             this.precision = prec as number
         }
     }
+    toFloat(): number {
+        if (!this.sign || this.numerator === 0) return 0;
+        const s = (this.sign === '-' || this.sign === WU.minus) ? -1 : 1;
+        const denom = Math.pow(2, this.precision);
+        return s * (this.numerator / denom);
+    }
     show(){
         let display = (this.sign == '-')? '-' : ''
 

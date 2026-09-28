@@ -108,7 +108,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const step = dyadicMachine.kinematicStep(vals.v0, vals.g, vals.t);
         const node = step.v;
-        const v = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
+        const v = node.toFloat();
         return {
           resultValue: v,
           formattedFormula: `v = (${vals.v0.toFixed(2)}) ⊖ (${vals.g.toFixed(2)}) ⊗ (${vals.t.toFixed(2)})`,
@@ -139,7 +139,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
         const gVal = vals.g === 0 ? 0.0001 : vals.g;
         const diff = dyadicMachine.sub(vals.v0, vals.v);
         const tNode = dyadicMachine.div(diff, gVal, 16);
-        const t = (tNode.value.numerator / Math.pow(2, tNode.value.precision)) * (tNode.value.sign === '-' ? -1 : 1);
+        const t = tNode.toFloat();
         return {
           resultValue: t,
           formattedFormula: `t = [ (${vals.v0.toFixed(2)}) ⊖ (${vals.v.toFixed(2)}) ] ⊘ (${vals.g.toFixed(2)})`,
@@ -169,7 +169,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const gt = dyadicMachine.mul(vals.g, vals.t);
         const v0Node = dyadicMachine.add(vals.v, gt);
-        const v0 = (v0Node.value.numerator / Math.pow(2, v0Node.value.precision)) * (v0Node.value.sign === '-' ? -1 : 1);
+        const v0 = v0Node.toFloat();
         return {
           resultValue: v0,
           formattedFormula: `v₀ = (${vals.v.toFixed(2)}) ⊕ (${vals.g.toFixed(2)}) ⊗ (${vals.t.toFixed(2)})`,
@@ -198,7 +198,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const step = dyadicMachine.kinematicStep(vals.v0, vals.g, vals.t);
         const node = step.s;
-        const s = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
+        const s = node.toFloat();
         return {
           resultValue: s,
           formattedFormula: `s = (${vals.v0.toFixed(2)}) ⊗ (${vals.t.toFixed(2)}) ⊖ (1/2 ⊗ ${vals.g.toFixed(2)} ⊗ (${vals.t.toFixed(2)})²)`,
@@ -231,7 +231,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
         const diff = dyadicMachine.sub(v0t, vals.s);
         const doubleDiff = dyadicMachine.shift(diff, 1);
         const gNode = dyadicMachine.div(doubleDiff, t2 === 0 ? 0.0001 : t2, 16);
-        const g = (gNode.value.numerator / Math.pow(2, gNode.value.precision)) * (gNode.value.sign === '-' ? -1 : 1);
+        const g = gNode.toFloat();
         return {
           resultValue: g,
           formattedFormula: `g = 2 · [ (${vals.v0.toFixed(2)}) ⊗ (${vals.t.toFixed(2)}) ⊖ (${vals.s.toFixed(2)}) ] ⊘ (${vals.t.toFixed(2)})²`,
@@ -1147,21 +1147,28 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       id: "born_angle_calc",
       label: "(θ in degrees) → P = cos²(θ)",
       targetSymbol: "P",
-      targetDomain: "ℝ_ω",
+      targetDomain: "𝔻 ⊂ ℝ_ω",
       formulaDescription: "P = cos²(θ)  [ Born transition probability ]",
+      pseudoAlgoId: "rotor_trig_cordic",
       inputs: [
         { name: "thetaDeg", symbol: "θ", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 180, description: "Filter angle" }
       ],
       evaluate: (vals) => {
         const rad = (vals.thetaDeg * Math.PI) / 180;
-        const cosVal = Math.cos(rad);
+        const rotor = dyadicMachine.cordicSinCos(rad, 16);
+        const cosVal = rotor.cos.toFloat();
         const p = cosVal * cosVal;
         return {
           resultValue: p,
           formattedFormula: `P = cos²(${vals.thetaDeg}°) = (${cosVal.toFixed(3)})²`,
           displayResult: `${(p * 100).toFixed(1)}% (${p.toFixed(4)})`,
-          domainBadge: "∈ ℝ_ω",
-          notes: vals.thetaDeg === 45 ? "Midway diagonal: exact 50% coin-toss transmission" : undefined
+          domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+          dyadicPath: rotor.cos.path,
+          dyadicBirthday: rotor.cos.birthday,
+          dyadicRational: rotor.cos.format(),
+          notes: vals.thetaDeg === 45
+            ? `Midway diagonal: exact 50% coin-toss transmission | CORDIC cos(θ) = ${rotor.cos.format()}`
+            : `Middle Way CORDIC Rotor cos(θ) = ${rotor.cos.format()}`
         };
       }
     });
@@ -1194,8 +1201,9 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       id: "wave_interference_calc",
       label: "(|z₁|, |z₂|, Δθ) → P_quantum vs P_classical",
       targetSymbol: "P_quantum",
-      targetDomain: "ℝ_ω",
+      targetDomain: "𝔻 ⊂ ℝ_ω",
       formulaDescription: "P = |z₁|² + |z₂|² + 2·|z₁|·|z₂|·cos(Δθ)",
+      pseudoAlgoId: "rotor_trig_cordic",
       inputs: [
         { name: "r1", symbol: "|z₁|", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.0, max: 1.0, description: "Amplitude 1" },
         { name: "r2", symbol: "|z₂|", domain: "ℝ_ω", defaultValue: 0.5, step: 0.05, min: 0.0, max: 1.0, description: "Amplitude 2" },
@@ -1203,7 +1211,8 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       ],
       evaluate: (vals) => {
         const rad = (vals.dThetaDeg * Math.PI) / 180;
-        const cosTerm = Math.cos(rad);
+        const rotor = dyadicMachine.cordicSinCos(rad, 16);
+        const cosTerm = rotor.cos.toFloat();
         const pClass = vals.r1 * vals.r1 + vals.r2 * vals.r2;
         const cross = 2 * vals.r1 * vals.r2 * cosTerm;
         const pQuant = Math.max(0, pClass + cross);
@@ -1211,8 +1220,15 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
           resultValue: pQuant,
           formattedFormula: `P = (${vals.r1}² + ${vals.r2}²) + 2·(${vals.r1})·(${vals.r2})·cos(${vals.dThetaDeg}°) = ${pClass.toFixed(3)} + (${cross.toFixed(3)})`,
           displayResult: `P_quantum = ${(pQuant * 100).toFixed(1)}% (Classical: ${(pClass * 100).toFixed(1)}%)`,
-          domainBadge: "∈ ℝ_ω",
-          notes: vals.dThetaDeg === 180 ? "Destructive interference: total wave cancellation to 0!" : vals.dThetaDeg === 0 ? "Constructive interference maximum" : undefined
+          domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+          dyadicPath: rotor.cos.path,
+          dyadicBirthday: rotor.cos.birthday,
+          dyadicRational: rotor.cos.format(),
+          notes: vals.dThetaDeg === 180
+            ? "Destructive interference: total wave cancellation to 0!"
+            : vals.dThetaDeg === 0
+              ? "Constructive interference maximum"
+              : `Middle Way CORDIC Rotor cos(Δθ) = ${rotor.cos.format()}`
         };
       }
     });
@@ -1224,8 +1240,9 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       id: "three_polarizer_chain_calc",
       label: "(θ₁: Filter A→C, θ₂: Filter C→B) → Transmission",
       targetSymbol: "P_total",
-      targetDomain: "ℝ_ω",
+      targetDomain: "𝔻 ⊂ ℝ_ω",
       formulaDescription: "P_total = cos²(θ₁) · cos²(θ₂)",
+      pseudoAlgoId: "rotor_trig_cordic",
       inputs: [
         { name: "th1", symbol: "θ₁ (A→C)", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 90 },
         { name: "th2", symbol: "θ₂ (C→B)", domain: "ℝ_ω", unit: "°", defaultValue: 45, step: 5, min: 0, max: 90 }
@@ -1233,15 +1250,22 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const r1 = (vals.th1 * Math.PI) / 180;
         const r2 = (vals.th2 * Math.PI) / 180;
-        const p1 = Math.cos(r1) * Math.cos(r1);
-        const p2 = Math.cos(r2) * Math.cos(r2);
+        const rot1 = dyadicMachine.cordicSinCos(r1, 16);
+        const rot2 = dyadicMachine.cordicSinCos(r2, 16);
+        const p1 = rot1.cos.toFloat() * rot1.cos.toFloat();
+        const p2 = rot2.cos.toFloat() * rot2.cos.toFloat();
         const pTot = p1 * p2;
         return {
           resultValue: pTot,
           formattedFormula: `P_total = cos²(${vals.th1}°) · cos²(${vals.th2}°) = (${p1.toFixed(3)}) · (${p2.toFixed(3)})`,
           displayResult: `${(pTot * 100).toFixed(1)}% Light Transmission`,
-          domainBadge: "∈ ℝ_ω",
-          notes: vals.th1 === 45 && vals.th2 === 45 ? "Experiment 2: 25% light output restored by inserting 45° diagonal filter!" : undefined
+          domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+          dyadicPath: rot1.cos.path,
+          dyadicBirthday: rot1.cos.birthday,
+          dyadicRational: rot1.cos.format(),
+          notes: vals.th1 === 45 && vals.th2 === 45
+            ? `Experiment 2: 25% light output restored by inserting 45° diagonal filter! (cos θ₁ = ${rot1.cos.format()})`
+            : `Middle Way CORDIC Rotors: cos(θ₁) = ${rot1.cos.format()}, cos(θ₂) = ${rot2.cos.format()}`
         };
       }
     });
@@ -1376,8 +1400,8 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const rad = (vals.theta_deg * 3.141592653589793) / 180;
         const rotor = dyadicMachine.cordicSinCos(rad, 16);
-        const cos = (rotor.cos.value.numerator / Math.pow(2, rotor.cos.value.precision)) * (rotor.cos.value.sign === '-' ? -1 : 1);
-        const sin = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
+        const cos = rotor.cos.toFloat();
+        const sin = rotor.sin.toFloat();
         const rx = vals.x * cos - vals.y * sin;
         const ry = vals.x * sin + vals.y * cos;
         const origNorm = Math.hypot(vals.x, vals.y);
@@ -1907,8 +1931,9 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       id: "fourier_eigenvalue_calc",
       label: "(k, N, dx) → Eigenvalue λ_k = 4/dx² · sin²(πk / (2N))",
       targetSymbol: "λ_k",
-      targetDomain: "ℝ_ω",
+      targetDomain: "𝔻 ⊂ ℝ_ω",
       formulaDescription: "λ_k = (4 / dx²) · sin²(π · k / (2N))",
+      pseudoAlgoId: "rotor_trig_cordic",
       inputs: [
         { name: "k", symbol: "Harmonic Mode k", domain: "ℕ", defaultValue: 1, step: 1, min: 1, max: 10 },
         { name: "N", symbol: "Grid Points N", domain: "ℕ", defaultValue: 16, step: 4, min: 4, max: 64 },
@@ -1919,14 +1944,18 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
         const N = Math.round(vals.N);
         const dx = vals.dx;
         const argVal = (Math.PI * k) / (2 * N);
-        const s = Math.sin(argVal);
+        const rotor = dyadicMachine.cordicSinCos(argVal, 16);
+        const s = rotor.sin.toFloat();
         const lambda = (4 / (dx * dx)) * s * s;
         return {
           resultValue: lambda,
           formattedFormula: `λ_${k} = [4 / (${dx})²] · sin²(π·${k} / 2·${N}) = ${lambda.toFixed(4)}`,
           displayResult: `${lambda.toFixed(4)}`,
-          domainBadge: "∈ ℝ_ω",
-          notes: `Eigenmode ${k} on ${N}-point grid. Continuum limit λ ≈ (π·k / L)².`
+          domainBadge: "∈ 𝔻 ⊂ ℝ_ω",
+          dyadicPath: rotor.sin.path,
+          dyadicBirthday: rotor.sin.birthday,
+          dyadicRational: rotor.sin.format(),
+          notes: `Eigenmode ${k} on ${N}-point grid. CORDIC rotor sin = ${rotor.sin.format()}. Continuum limit λ ≈ (π·k / L)².`
         };
       }
     });
@@ -1958,7 +1987,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
           };
         }
         const node = dyadicMachine.cut(L, R);
-        const res = (node.value.numerator / Math.pow(2, node.value.precision)) * (node.value.sign === '-' ? -1 : 1);
+        const res = node.toFloat();
         const day = node.birthday;
         return {
           resultValue: res,
@@ -1993,7 +2022,7 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
         const angleRad = 2 * Math.PI * (m / Math.pow(2, n));
         const angleDeg = (360 * m) / Math.pow(2, n);
         const rotor = dyadicMachine.cordicSinCos(angleRad, 16);
-        const sinVal = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
+        const sinVal = rotor.sin.toFloat();
         return {
           resultValue: sinVal,
           formattedFormula: `sin_cordic(2π · ${m} / 2^${n}) = sin(${angleDeg.toFixed(1)}°) = ${sinVal.toFixed(4)}`,
@@ -2022,8 +2051,8 @@ export function inferFsCalculationModes(arg: FormalArgument): FsCalculationMode[
       evaluate: (vals) => {
         const rad = (vals.theta * 3.141592653589793) / 180;
         const rotor = dyadicMachine.cordicSinCos(rad, 16);
-        const cosVal = (rotor.cos.value.numerator / Math.pow(2, rotor.cos.value.precision)) * (rotor.cos.value.sign === '-' ? -1 : 1);
-        const sinVal = (rotor.sin.value.numerator / Math.pow(2, rotor.sin.value.precision)) * (rotor.sin.value.sign === '-' ? -1 : 1);
+        const cosVal = rotor.cos.toFloat();
+        const sinVal = rotor.sin.toFloat();
         return {
           resultValue: sinVal,
           formattedFormula: `U(θ) = ⟨${cosVal.toFixed(4)}, ${sinVal.toFixed(4)}⟩ ⟹ sin(U) = Im(U) = ${sinVal.toFixed(4)}`,

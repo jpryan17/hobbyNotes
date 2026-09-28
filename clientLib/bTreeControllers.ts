@@ -611,11 +611,8 @@ export class EulerCompoundingController implements IBTreeController {
     const baseFmt = trace.base.format();
     const resFmt = trace.result.format();
     const resSign = trace.result.path.length > 0 ? `[${trace.result.path}]` : '[ ]';
-    const resDec = trace.result.value.numerator / Math.pow(2, trace.result.value.precision);
-    const expected = Math.exp(
-      (trace.input.value.sign === '-' ? -1 : 1) *
-      trace.input.value.numerator / Math.pow(2, trace.input.value.precision)
-    );
+    const resDec = trace.result.toFloat();
+    const expected = Math.exp(trace.input.toFloat());
 
     // 3. Highlight base u0 if within maxBD
     if (trace.base.birthday <= this.diagram.maxBD) {

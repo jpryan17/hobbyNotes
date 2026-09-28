@@ -341,11 +341,20 @@ export class BIDDiagram extends SVGElt {
         // Dyadic Node / Birthday identity
         const pEBiasedPath = pEgivenBiased.path ? `[${pEgivenBiased.path}]` : '[]';
         this.addText(g, `Likelihood Node: ${pEBiasedPath} (Bday ${pEgivenBiased.birthday})`, stripX + 8, calcY + 50, 9.5, '#6b21a8', 'start');
-        // Step Machine button
         const btnW = 104;
         const btnH = 20;
         const btnX = stripX + stripW - btnW - 6;
         const btnY = calcY + stripH - btnH - 6;
+        this.createStepMachineButton(g, btnX, btnY, btnW, btnH, '📜 Step Machine', 'bayes_discrete_update', `BayesUpdate(State [${outcome || 'Root'}], Biased=75%, Fair=50%)`, 'BayesUpdate', [
+            dyadicMachine.fromFraction(1, 1),
+            pEgivenBiased,
+            pEgivenFair,
+        ]);
+    }
+    /**
+     * Helper to render an interactive purple Step Machine button that opens PseudoViewer.
+     */
+    createStepMachineButton(g, btnX, btnY, btnW, btnH, label, algoId, stepLabel, funcName, args) {
         const pseudoBtn = new SVGGrpElt();
         pseudoBtn.setAA(['cursor', 'pointer']);
         const btnBg = new SVGElt('rect');
@@ -363,13 +372,13 @@ export class BIDDiagram extends SVGElt {
         const btnTxt = new SVGText();
         btnTxt.setAA([
             'x', btnX + btnW / 2,
-            'y', btnY + 14,
+            'y', btnY + Math.round(btnH * 0.7),
             'font-size', 9.5,
             'font-weight', 'bold',
             'fill', '#ffffff',
             'text-anchor', 'middle',
         ]);
-        btnTxt.setV('📜 Step Machine');
+        btnTxt.setV(label);
         pseudoBtn.append(btnTxt);
         pseudoBtn.elt.addEventListener('mouseenter', () => {
             btnBg.setAA(['fill', '#7e22ce']);
@@ -385,11 +394,7 @@ export class BIDDiagram extends SVGElt {
             const buttonText = `back to ${topicName}`;
             if (!pseudoViewer)
                 setPseudoViewer();
-            pseudoViewer.showAlgorithmWithArgs('bayes_discrete_update', `BayesUpdate(State [${outcome || 'Root'}], Biased=75%, Fair=50%)`, 'BayesUpdate', [
-                dyadicMachine.fromFraction(1, 1),
-                pEgivenBiased,
-                pEgivenFair,
-            ]);
+            pseudoViewer.showAlgorithmWithArgs(algoId, stepLabel, funcName, args);
             window.scrollTo(0, 0);
             document.documentElement.scrollTop = 0;
             document.body.scrollTop = 0;
@@ -678,23 +683,44 @@ export class BIDDiagram extends SVGElt {
         g.append(btnReset);
         // History Pipeline
         const history = this.seqController.history;
-        const rowH = 45;
+        const rowH = 36;
         const startY = ty + 30;
-        history.forEach((rec, stepIdx) => {
-            const curY = startY + stepIdx * (rowH + 15);
-            if (curY > 380)
-                return; // Limit visual overflow
-            this.addText(g, rec.eventName, tx, curY - 5, 11, '#1e293b', 'start', true);
+        // Show up to 4 recent records to leave clean space for the machine strip
+        const displayHistory = history.length <= 4 ? history : history.slice(-4);
+        displayHistory.forEach((rec, stepIdx) => {
+            const curY = startY + stepIdx * (rowH + 12);
+            this.addText(g, rec.eventName, tx, curY - 4, 11, '#1e293b', 'start', true);
             let curX = tx;
             rec.hypotheses.forEach((h) => {
                 const w = h.prior * tWidth;
-                this.drawRect(g, curX, curY, w, rowH - 12, h.color, '#ffffff', 0.9, 4);
+                this.drawRect(g, curX, curY, w, rowH - 10, h.color, '#ffffff', 0.9, 4);
                 if (w > 50) {
-                    this.addText(g, `${h.name}: ${(h.prior * 100).toFixed(1)}%`, curX + w / 2, curY + 21, 11, '#ffffff', 'middle', true);
+                    this.addText(g, `${h.name}: ${(h.prior * 100).toFixed(1)}%`, curX + w / 2, curY + 17, 10.5, '#ffffff', 'middle', true);
                 }
                 curX += w;
             });
         });
+        // 4. Middle Way Discrete Calculation Strip for Sequential Update
+        const latestRec = history[history.length - 1];
+        const prevRec = history.length > 1 ? history[history.length - 2] : null;
+        const h1Latest = latestRec.hypotheses[0];
+        const h1Prev = prevRec ? prevRec.hypotheses[0] : h1Latest;
+        const priorH1 = h1Prev.prior;
+        const likH1 = h1Latest.likelihood;
+        const postH1 = h1Latest.prior;
+        const calcY = 320;
+        const stripH = 75;
+        this.drawRect(g, tx, calcY, tWidth, stripH, '#faf5ff', '#d8b4fe', 1, 6);
+        this.addText(g, '⚙️ Middle Way Machine (𝔻, +, ·) — Sequential Recursive Bayes', tx + 14, calcY + 18, 11, '#7e22ce', 'start', true);
+        this.drawRect(g, tx + 430, calcY + 6, 75, 16, '#f3e8ff', '#d8b4fe', 1, 3);
+        this.addText(g, 'BayesUpdate', tx + 467, calcY + 18, 8.5, '#6b21a8', 'middle', true);
+        const stepNum = history.length - 1;
+        this.addText(g, `Step ${stepNum}: Prior P(Target) = ${(priorH1 * 100).toFixed(1)}%  →  Observed Evidence  →  Posterior P(Target | E) = ${(postH1 * 100).toFixed(1)}%`, tx + 14, calcY + 38, 11, '#1e40af', 'start');
+        this.addText(g, "Recursive Invariant: Today's posterior distribution serves as tomorrow's prior without real-analysis measure limits.", tx + 14, calcY + 56, 9.5, '#6b21a8', 'start');
+        const priorNode = dyadicMachine.fromFloat(priorH1, 10);
+        const likNode = dyadicMachine.fromFloat(likH1, 10);
+        const likCompNode = dyadicMachine.fromFloat(1 - likH1, 10);
+        this.createStepMachineButton(g, tx + tWidth - 120, calcY + 44, 110, 22, '📜 Step Machine', 'bayes_discrete_update', `Sequential BayesUpdate (Step ${stepNum})`, 'BayesUpdate', [priorNode, likNode, likCompNode]);
     }
     // =========================================================================
     // 6. ODDS & BAYES FACTOR BALANCE VIEW
@@ -709,7 +735,7 @@ export class BIDDiagram extends SVGElt {
         const postProb = postOdds / (1 + postOdds);
         // Visual Balance Lever
         const fulcrumX = centerX;
-        const fulcrumY = 220;
+        const fulcrumY = 215;
         const leverLen = 420;
         // Angle of tilt based on log posterior odds
         const logOdds = Math.log10(postOdds);
@@ -740,11 +766,23 @@ export class BIDDiagram extends SVGElt {
             btn.setAA(['x', 80 + idx * 80, 'y', cY + 25, 'font-size', 11, 'cursor', 'pointer']);
             g.append(btn);
         });
-        // Equation Card
-        const eqY = 320;
-        this.drawRect(g, 80, eqY, 740, 80, '#f8fafc', '#cbd5e1', 1, 6);
-        this.addText(g, `Prior Odds: ${(priorOdds).toFixed(3)}  |  Bayes Factor: ${bf.toFixed(2)}x  |  Posterior Odds: ${(postOdds).toFixed(3)}`, 450, eqY + 30, 13, '#1e40af', 'middle', true);
-        this.addText(g, `Posterior Probability P(H1 | E) = ${(postProb * 100).toFixed(1)}%`, 450, eqY + 55, 13, '#059669', 'middle', true);
+        // Equation Card with Middle Way Machine Integration
+        const eqY = 295;
+        const eqH = 92;
+        this.drawRect(g, 80, eqY, 740, eqH, '#faf5ff', '#d8b4fe', 1, 6);
+        this.addText(g, '⚙️ Middle Way Machine (𝔻, +, ·) — Odds & Power-of-Two Scaling', 96, eqY + 20, 11.5, '#7e22ce', 'start', true);
+        this.drawRect(g, 550, eqY + 8, 75, 16, '#f3e8ff', '#d8b4fe', 1, 3);
+        this.addText(g, 'BayesUpdate', 587, eqY + 20, 8.5, '#6b21a8', 'middle', true);
+        const log2BF = Math.round(Math.log2(bf));
+        this.addText(g, `Prior Odds: ${(priorOdds).toFixed(3)}  ×  Bayes Factor: ${bf.toFixed(2)}× (2^${log2BF} Bit Shift)  =  Posterior Odds: ${(postOdds).toFixed(3)}`, 96, eqY + 42, 12, '#1e40af', 'start');
+        this.addText(g, `Posterior Probability P(Loaded | E) = ${(postProb * 100).toFixed(1)}%  |  Odds form converts Bayesian update into exact dyadic scaling`, 96, eqY + 64, 11, '#059669', 'start', true);
+        const priorProbVal = priorOdds / (1 + priorOdds);
+        const likRatioProb = bf / (1 + bf);
+        this.createStepMachineButton(g, 80 + 740 - 124, eqY + 52, 114, 24, '📜 Step Machine', 'bayes_discrete_update', `OddsForm(PriorOdds=${priorOdds.toFixed(2)}, BF=${bf}x)`, 'BayesUpdate', [
+            dyadicMachine.fromFloat(priorProbVal, 10),
+            dyadicMachine.fromFloat(likRatioProb, 10),
+            dyadicMachine.fromFloat(1 - likRatioProb, 10),
+        ]);
     }
     // =========================================================================
     // 7. CONTINUOUS BETA-BINOMIAL VIEW
@@ -864,10 +902,16 @@ export class BIDDiagram extends SVGElt {
         this.drawRect(g, tx + postW, y3, tWidth - postW, 32, '#f59e0b', '#b45309', 0.85);
         this.addText(g, `P(Disease | +) = ${(posterior * 100).toFixed(1)}%`, tx + postW / 2, y3 + 20, 11, '#ffffff', 'middle', true);
         this.addText(g, `P(False Alarm | +) = ${((1 - posterior) * 100).toFixed(1)}%`, tx + postW + (tWidth - postW) / 2, y3 + 20, 11, '#ffffff', 'middle', true);
-        // Takeaway Box
-        const boxY = y3 + 48;
-        this.drawRect(g, tx, boxY, tWidth, 48, '#fef2f2', '#fecaca', 1, 6);
-        this.addText(g, `Key Insight: Even with 95% test accuracy, if the base rate is ${(prev * 100).toFixed(1)}%, a positive test result only gives a ${(posterior * 100).toFixed(1)}% chance of disease!`, tx + 20, boxY + 28, 12, '#991b1b', 'start', true);
+        // Takeaway Box with Middle Way Machine Button
+        const boxY = y3 + 42;
+        const boxH = 56;
+        this.drawRect(g, tx, boxY, tWidth, boxH, '#faf5ff', '#d8b4fe', 1, 6);
+        this.addText(g, `⚙️ Middle Way Machine (𝔻, +, ·) — Rare Condition Screening: Base Rate ${(prev * 100).toFixed(1)}%`, tx + 16, boxY + 20, 11, '#7e22ce', 'start', true);
+        this.addText(g, `True Pos (${(truePos * 100).toFixed(2)}%) vs False Pos (${(falsePos * 100).toFixed(2)}%) ⟹ P(Condition | +) = ${(posterior * 100).toFixed(1)}%`, tx + 16, boxY + 38, 11, '#991b1b', 'start', true);
+        const priorBase = dyadicMachine.fromFloat(prev, 12);
+        const likSens = dyadicMachine.fromFloat(sens, 12);
+        const likFPR = dyadicMachine.fromFloat(fpr, 12);
+        this.createStepMachineButton(g, tx + tWidth - 124, boxY + 16, 114, 24, '📜 Step Machine', 'bayes_discrete_update', `BaseRateScreening(Prev=${(prev * 100).toFixed(1)}%, Sens=${(sens * 100).toFixed(0)}%, FPR=${(fpr * 100).toFixed(0)}%)`, 'BayesUpdate', [priorBase, likSens, likFPR]);
     }
     // =========================================================================
     // HELPER DRAWING METHODS

@@ -32,6 +32,9 @@ export class DyadicNode {
     format() {
         return this.toDR().format();
     }
+    toFloat() {
+        return this.toDR().toFloat();
+    }
     toString() {
         const pStr = this.path === '' ? '[]' : `[${this.path}]`;
         return `Node(${pStr} ⇔ ${this.format()}, Day ${this.birthday})`;
@@ -327,7 +330,7 @@ export class DyadicMachineClass {
      */
     cordicSinCos(thetaInput, iterations = 16) {
         const dr = this.toDR(thetaInput);
-        let thetaVal = (dr.numerator / Math.pow(2, dr.precision)) * (dr.sign === WU.minus ? -1 : 1);
+        let thetaVal = dr.toFloat();
         const PI = 3.141592653589793;
         const TWO_PI = 6.283185307179586;
         // Range reduction to [-PI, PI]
