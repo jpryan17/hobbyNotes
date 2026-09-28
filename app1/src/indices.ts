@@ -343,6 +343,11 @@ export const curriculumIntroIndex: IndexItemDesc[] = [
 
 export const level1Index: IndexItemDesc[] = [
   {
+    type: "html",
+    topic: "overview: logic & number",
+    htmlSegmentId: "level1Overview",
+  },
+  {
     type: "index",
     topic: "propositional logic",
     navTopic: "prop logic",

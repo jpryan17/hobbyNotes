@@ -279,22 +279,12 @@ JOIN formal_statements fs ON fs.id = lv.statement_id
 ORDER BY lv.id;`
   },
   {
-    category: "Verification & Solvers",
-    name: "Parameter Mining Jobs",
-    description: "Automated parameter exploration finding clean integers for stencils",
-    sql: `SELECT pmj.id, pmj.job_key, fs.statement_key, cm.mode_key, pmj.target_symbol, pmj.status, pmj.require_integer_outputs
-FROM parameter_mining_jobs pmj
-JOIN formal_statements fs ON fs.id = pmj.statement_id
-JOIN calculation_modes cm ON cm.id = pmj.mode_id
-ORDER BY pmj.id;`
-  },
-  {
     category: "Transaction Test",
-    name: "Parameter Mining Insert / Rollback Test",
+    name: "Preset Insert / Rollback Test",
     description: "Ideal for testing Begin -> Execute -> Rollback vs Commit",
-    sql: `INSERT INTO parameter_mining_jobs (job_key, statement_id, mode_id, target_symbol, status)
-VALUES ('tx_test_' || floor(random() * 10000)::text, 1, 1, 'v', 'pending')
-RETURNING id, job_key, statement_id, mode_id, target_symbol, status, created_at;`
+    sql: `INSERT INTO verified_presets (preset_key, mode_id, title, display_result, domain_badge, input_values)
+VALUES ('tx_test_' || floor(random() * 10000)::text, 1, 'Transaction Rollback Test', 'v = 0', 'test', '{"t": 0}'::jsonb)
+RETURNING id, preset_key, mode_id, title, created_at;`
   }
 ];
 var DatabaseConsoleApp = class {

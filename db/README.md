@@ -12,7 +12,6 @@ The schema models the entire Middle Way Mathematics & HobbyNotes ecosystem acros
 2. **Subject Matter & Formalisms**: `situations` (invariant physical/mathematical phenomena), `formalisms` (`mwm`, `standard_analysis`, `discrete_symplectic`), `formal_statements` (the intersection with parent-child hierarchies and Lean signatures).
 3. **Discrete Algorithms & Computational Stencils**: `pseudocode_algorithms` (the discrete machine library), `calculation_modes` (directional inputs → output stencils with function rule signatures), `mode_slots` (parameter ranges, symbols, units), `verified_presets` (concrete grounding examples).
 4. **Verification Proof Caches**: `lean_verifications` (Lean 4 machine-certified proof verdicts, kernel execution times, and summaries).
-5. **Automated Solvers & Parameter Exploration**: `parameter_mining_jobs` (automated search jobs for discovering clean presets).
 
 ---
 
@@ -121,19 +120,5 @@ FROM segment_prerequisites p
 JOIN segments s ON p.segment_id = s.id
 JOIN segments dep ON p.depends_on_segment_id = dep.id
 ORDER BY s.sequence_order;
-```
-
-### E. Automated Parameter Mining & Lean Verifications
-```sql
-SELECT 
-    pmj.job_key,
-    fs.statement_key,
-    cm.mode_key,
-    pmj.target_symbol,
-    pmj.status,
-    pmj.require_integer_outputs
-FROM parameter_mining_jobs pmj
-JOIN formal_statements fs ON pmj.statement_id = fs.id
-JOIN calculation_modes cm ON pmj.mode_id = cm.id;
 ```
 

@@ -125,7 +125,6 @@ async function generateSeedSql() {
     sql.push(`  verified_presets,`);
     sql.push(`  mode_slots,`);
     sql.push(`  calculation_modes,`);
-    sql.push(`  parameter_mining_jobs,`);
     sql.push(`  lean_verifications,`);
     sql.push(`  formal_statements,`);
     sql.push(`  pseudocode_algorithms,`);
@@ -593,18 +592,8 @@ async function generateSeedSql() {
         sql.push(`  verified_at = EXCLUDED.verified_at,`);
         sql.push(`  summary = EXCLUDED.summary;\n`);
     }
-    // 11. Automated Parameter Mining
-    sql.push(`-- 11. Automated Parameter Mining`);
-    const defaultStmtId = statementKeyToId['fs_free_fall_accel'] || 1;
-    const defaultModeId = modeKeyToId['ff_v_from_v0_g_t'] || 1;
-    sql.push(`INSERT INTO parameter_mining_jobs (id, job_key, statement_id, mode_id, target_symbol, parameter_grid, require_integer_outputs, status, discovered_candidates) OVERRIDING SYSTEM VALUE VALUES`);
-    sql.push(`  (1, 'job_free_fall_grid', ${defaultStmtId}, ${defaultModeId}, 'v', '{"v0": [0, 50], "g": [9.8, 9.8], "t": [0, 10]}'::jsonb, FALSE, 'completed', '[{"v0": 20, "g": 9.8, "t": 1.5, "v": 5.3}, {"v0": 49, "g": 9.8, "t": 5, "v": 0}]'::jsonb)`);
-    sql.push(`ON CONFLICT (id) DO UPDATE SET`);
-    sql.push(`  job_key = EXCLUDED.job_key,`);
-    sql.push(`  status = EXCLUDED.status,`);
-    sql.push(`  discovered_candidates = EXCLUDED.discovered_candidates;\n`);
-    // 12. Sequence Synchronization
-    sql.push(`-- 12. Sequence Synchronization for System-Generated Identity Keys`);
+    // 11. Sequence Synchronization
+    sql.push(`-- 11. Sequence Synchronization for System-Generated Identity Keys`);
     const tablesWithIdentity = [
         'apps',
         'segments',
@@ -615,8 +604,7 @@ async function generateSeedSql() {
         'mode_slots',
         'verified_presets',
         'segment_references',
-        'segment_prerequisites',
-        'parameter_mining_jobs'
+        'segment_prerequisites'
     ];
     for (const t of tablesWithIdentity) {
         sql.push(`SELECT setval(pg_get_serial_sequence('${t}', 'id'), coalesce(max(id), 1)) FROM ${t};`);

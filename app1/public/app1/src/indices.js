@@ -327,6 +327,11 @@ export const curriculumIntroIndex = [
 // =====================================================================
 export const level1Index = [
     {
+        type: "html",
+        topic: "overview: logic & number",
+        htmlSegmentId: "level1Overview",
+    },
+    {
         type: "index",
         topic: "propositional logic",
         navTopic: "prop logic",

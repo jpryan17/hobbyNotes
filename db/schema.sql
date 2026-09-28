@@ -276,26 +276,7 @@ CREATE TABLE lean_verifications (
 COMMENT ON TABLE lean_verifications IS 'Lean 4 kernel proof verification cache, relationally linked to formal statements.';
 
 -- ---------------------------------------------------------------------
--- 12. Automated Parameter Mining
--- ---------------------------------------------------------------------
-
-CREATE TABLE parameter_mining_jobs (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    job_key VARCHAR(64) UNIQUE NOT NULL,         -- e.g. 'job_free_fall_grid'
-    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
-    mode_id BIGINT NOT NULL REFERENCES calculation_modes(id) ON DELETE CASCADE,
-    target_symbol VARCHAR(32) NOT NULL,
-    parameter_grid JSONB NOT NULL DEFAULT '{}'::jsonb,
-    require_integer_outputs BOOLEAN NOT NULL DEFAULT FALSE,
-    status VARCHAR(32) NOT NULL DEFAULT 'pending',
-    discovered_candidates JSONB NOT NULL DEFAULT '[]'::jsonb,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-COMMENT ON TABLE parameter_mining_jobs IS 'Automated parameter space exploration jobs finding clean integers for stencils.';
-
--- ---------------------------------------------------------------------
--- 13. Performance & Relational Indexes
+-- 12. Performance & Relational Indexes
 -- ---------------------------------------------------------------------
 
 CREATE INDEX idx_segments_key ON segments(seg_key);

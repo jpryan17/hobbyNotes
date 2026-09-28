@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-28T14:03:22.848Z
+-- Generated At: 2026-09-28T15:02:29.618Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -12,7 +12,6 @@ TRUNCATE TABLE
   verified_presets,
   mode_slots,
   calculation_modes,
-  parameter_mining_jobs,
   lean_verifications,
   formal_statements,
   pseudocode_algorithms,
@@ -404,7 +403,75 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </li>
     </ul>
   ', 'published'),
-  (3, 'propLogicIntro', 2, 'Introduction: Propositional Logic', 'prop-logic-intro', '
+  (3, 'level1Overview', 2, 'Constructing the Formal Foundation', 'level1-overview', '
+  <div align="center">
+    <font size="+2"><i><b>Level 1: Logic &amp; Number<br>
+          The Foundational Bedrock: Deductive Certainty, Predicates &amp; The Conway Tree</b></i></font><br>
+    <font size="+1"><i>— From the Empty Root to Formal Statements &amp; Inductive Continua —</i></font>
+  </div>
+  <br>
+
+  <h3>Constructing the Formal Foundation</h3>
+  <p>
+    Every tower of thought requires an unshakeable foundation. In <b>Level 1: Logic &amp; Number</b>, we construct the formal grammar and foundational number scaffolds that empower all subsequent levels of our curriculum.
+  </p>
+  <p>
+    Rather than accepting real numbers or logical rules as unexamined postulates from authority, we build from first principles:
+    starting with binary truth values in propositional logic, elevating to quantified predicates over sets and tuples, and growing numbers Day by Day from John Conway''s inductive root <code>0 = { | }</code>.
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;">
+    <b>The Level 1 Architectural Progression:</b><br>
+    <b>Propositional Logic</b> (Deductive Certainty &amp; Truth Tables)<br>
+    &darr;<br>
+    <b>Formal Statements</b> (Predicates, Sets, Tuples &amp; 2D Boolean Matrices)<br>
+    &darr;<br>
+    <b>Numbers &amp; Trees</b> (Conway Inductive Birthdays, Transfinite Day <code>ω</code> &amp; Infinitesimal <code>dx = 1/ω</code>)
+  </div>
+
+  <hr>
+
+  <h3>The Three Pillars of Level 1</h3>
+
+  <h4>1. Propositional Logic: Deductive Certainty</h4>
+  <p>
+    Formal science begins on familiar intuitive ground: the Boolean domain <code>𝔹 = {0, 1}</code>. 
+    A proposition is any statement that evaluates unequivocally to True or False. Using the five standard connectives (<code>¬, ∧, ∨, →, ↔</code>), we evaluate compound claims via systematic truth tables and celebrate the strict monotonicity of deductive proof: once a theorem is proven from premises, discovering new facts cannot overturn it.
+  </p>
+  <ul>
+    <li><b>Interactive Suite:</b> The <b>Truth Table Demo (TTD)</b> enables interactive formula construction, evaluation, and truth table verification.</li>
+  </ul>
+
+  <h4>2. Formal Statements: Predicate Logic &amp; Relational Geometry</h4>
+  <p>
+    Moving beyond atomic variables, we introduce typed domains, sets, tuples, and predicates as functions mapping candidate objects into <code>𝔹</code>. 
+    By visualizing binary predicates on the <b>2D Boolean Relation Matrix</b>, logic gains geometric spatial clarity.
+  </p>
+  <ul>
+    <li><b>Formal Statement Demo (FSD):</b> Parses quantified first-order predicate structures and syntax trees.</li>
+    <li><b>Equation Evaluator Demo (EED):</b> Interprets predicate calculations directly via an independent execution engine.</li>
+    <li><b>Machine Verification:</b> Formal statements are verified with the Lean theorem prover to ensure internal consistency.</li>
+  </ul>
+
+  <h4>3. Numbers &amp; Trees: The Conway Number Generator</h4>
+  <p>
+    With logic established, we construct numbers constructively. Starting from nothing &mdash; Conway''s root <code>0 = { | }</code> &mdash; numbers are born across inductive Days:
+  </p>
+  <ul>
+    <li><b>Day 0:</b> The empty cut creates <code>0 = { | }</code>.</li>
+    <li><b>Finite Days:</b> The integers <code>ℤ</code> and dyadic rationals <code>ℚ_2</code> populate the branching tree.</li>
+    <li><b>Transfinite Day <code>ω</code>:</b> The supremum limit ordinal yields infinite numbers (<code>ω</code>) and reciprocal infinitesimals (<code>dx = 1/ω</code>).</li>
+    <li><b>Continua &amp; Rotors:</b> 2-successor dyadic branching generates the 1D real continuum <code>ℝ_ω</code>, while 4-successor quad-trees generate the 2D complex plane <code>ℂ_ω</code>.</li>
+    <li><b>Binary Tree Demo (BTD):</b> Renders and traverses the recursive Conway birthday tree interactively.</li>
+  </ul>
+
+  <hr>
+
+  <p>
+    With deductive certainty, predicate language, and the Conway number tree in hand, we are fully prepared to cross the threshold into <b>Level 2: Continuum &amp; Calculus</b>.
+  </p>
+', 'published'),
+  (4, 'propLogicIntro', 3, 'Introduction: Propositional Logic', 'prop-logic-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
       <font size="+1"><i>Deductive Certainty, Boolean Connectives &amp; The Truth Table Demo (TTD)</i></font>
@@ -543,7 +610,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the next module, <b>Formal Statements</b>, we expand this skeleton into full First-Order Predicate Logic by introducing sets, domain-typed relations, and quantifiers.
     </p>
   ', 'published'),
-  (4, 'propLogicLecture', 3, 'Lecture: Propositional Logic', 'prop-logic-lecture', '
+  (5, 'propLogicLecture', 4, 'Lecture: Propositional Logic', 'prop-logic-lecture', '
     <div align="center">
       <i><font size="+2">Lecture: Propositional Logic</font></i><br>
       <i><font size="+1">Truth, Tables, Operators &amp; The Rules of the Game</font></i>
@@ -826,7 +893,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In our next chapter, we will augment these connectives with <b>domain predicates</b> and <b>quantifiers</b> to build the language of sets and spatial matrices!”
     </p>
   ', 'published'),
-  (5, 'formalStatementsIntro', 4, 'Introduction: Formal Statements & Predicates', 'formal-statements-intro', '
+  (6, 'formalStatementsIntro', 5, 'Introduction: Formal Statements & Predicates', 'formal-statements-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Formal Statements &amp; Predicates</b></i></font><br>
       <font size="+1"><i>Sets, Directed Pairs, Predicates as Functions &amp; The Formal Statement Demo (FSD)</i></font>
@@ -1229,7 +1296,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
     </p>
   ', 'published'),
-  (6, 'formalStatementsLecture1', 5, 'Lecture: Formal Statements & Predicates', 'formal-statements-lecture1', '
+  (7, 'formalStatementsLecture1', 6, 'Lecture: Formal Statements & Predicates', 'formal-statements-lecture1', '
     <div align="center">
       <i><font size="+2">Lecture: Formal Statements &amp; Predicates</font></i><br>
       <i><font size="+1">Sets, Directed Pairs, Predicate Functions &amp; The 2D Truth Matrix</font></i>
@@ -1609,7 +1676,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In our next lecture, we lift these Boolean operations into the full <b>Algebra of Sets</b>: Unions, Intersections, Complements, and Bounded Domain Quantification!
     </p>
   ', 'published'),
-  (7, 'formalStatementsLecture2', 6, 'Lecture 2: The Semantics of the Algebra of Sets', 'formal-statements-lecture2', '
+  (8, 'formalStatementsLecture2', 7, 'Lecture 2: The Semantics of the Algebra of Sets', 'formal-statements-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Lecture 2: The Semantics of the Algebra of Sets</b></font></i><br>
       <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
@@ -1857,7 +1924,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       Everything in advanced mathematics and physics—from continuous calculus to quantum state spaces—is built upon this exact foundation.”
     </p>
   ', 'published'),
-  (8, 'fsdTest', 7, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
+  (9, 'fsdTest', 8, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
     <div align="center">
       <font size="+2"><i><b>Formal Statements Demo (FSD) — Test Suite</b></i></font><br>
       <font size="+1"><i>Clutter-Free Verification of Quantified Predicates on ℕ</i></font>
@@ -1921,7 +1988,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <li><b>Declarative Engine:</b> Predicates (including <code>EVEN</code>) are dynamically loaded and evaluated from <code>domainsAndPredicates.json</code>.</li>
     </ul>
   ', 'published'),
-  (9, 'numbersIntro', 8, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
+  (10, 'numbersIntro', 9, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font><br>
       <font size="+1"><i>Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The Duality of Scale</i></font>
@@ -2408,7 +2475,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </ul>
     </div>
   ', 'published'),
-  (10, 'numbersLecture1', 9, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
+  (11, 'numbersLecture1', 10, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
       <font size="+1"><i>The Classical Ascent vs. The Conway Inductive Revolution</i></font>
@@ -2853,7 +2920,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       This allows us to do calculus, Bayesian inference, and quantum wave mechanics using <b>exact algebraic arithmetic</b> without ever getting bogged down in limits. In our next lectures, we''ll explore the geometry of these trees and use them to power physics and computation!”
     </p>
   ', 'published'),
-  (11, 'numbersLecture2', 10, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
+  (12, 'numbersLecture2', 11, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
       <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
@@ -3433,7 +3500,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
     </p>
   ', 'published'),
-  (12, 'numbersLecture3', 11, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
+  (13, 'numbersLecture3', 12, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
     <div align="center">
       <h2>Numbers Lecture 3</h2>
       <h3>STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</h3>
@@ -3749,7 +3816,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
   ', 'published'),
-  (13, 'lamOverview', 12, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
+  (14, 'lamOverview', 13, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
   <div align="center">
     <font size="+2"><i><b>Level 2: Continuum &amp; Calculus<br>
           Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
@@ -3824,7 +3891,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     </li>
   </ul>
 ', 'published'),
-  (14, 'sequencesAndSums', 13, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
+  (15, 'sequencesAndSums', 14, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
 <div class="container">
     <h1>Sequences, Sums &amp; Progressions</h1>
     <p style="font-size: 1.05em; color: var(--muted); margin-bottom: 24px;">
@@ -3993,7 +4060,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     </div>
   </div>
 ', 'published'),
-  (15, 'analysis1DIntro', 14, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
+  (16, 'analysis1DIntro', 15, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
     <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
@@ -4142,7 +4209,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
   </ul>
 ', 'published'),
-  (16, 'analysis1DLecture1', 15, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+  (17, 'analysis1DLecture1', 16, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
     <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
@@ -4367,7 +4434,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 ', 'published'),
-  (17, 'analysis1DLecture2', 16, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+  (18, 'analysis1DLecture2', 17, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
     <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
@@ -4622,7 +4689,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 ', 'published'),
-  (18, 'analysis1DLecture3', 17, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+  (19, 'analysis1DLecture3', 18, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
     <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
@@ -4763,7 +4830,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
   </ul>
 ', 'published'),
-  (19, 'analysis2DIntro', 18, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
+  (20, 'analysis2DIntro', 19, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
     <div align="center">
       <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
       <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
@@ -4990,7 +5057,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
         Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
     </ul>
   ', 'published'),
-  (20, 'analysis2DLecture1', 19, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+  (21, 'analysis2DLecture1', 20, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
     <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
@@ -5150,7 +5217,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
   </p>
 ', 'published'),
-  (21, 'analysis2DLecture2', 20, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+  (22, 'analysis2DLecture2', 21, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
     <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
@@ -5301,7 +5368,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
   </p>
 ', 'published'),
-  (22, 'analysis2DLecture3', 21, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+  (23, 'analysis2DLecture3', 22, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
     <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
@@ -5476,7 +5543,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
   </p>
 ', 'published'),
-  (23, 'vectorFoundationsIntro', 22, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
+  (24, 'vectorFoundationsIntro', 23, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
   <div align="center">
     <i><font size="+2"><b>Level 3: Space, Direction &amp; Geometry</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric Transformations</font></i>
@@ -5610,7 +5677,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
   </ul>
 ', 'published'),
-  (24, 'vectorsLecture1', 23, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (25, 'vectorsLecture1', 24, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -5812,7 +5879,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (25, 'vectorsLecture2', 24, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (26, 'vectorsLecture2', 25, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -5947,7 +6014,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (26, 'vectorsLecture3', 25, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (27, 'vectorsLecture3', 26, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -6235,7 +6302,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
   </p>
 ', 'published'),
-  (27, 'stemTrigFoundations', 26, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
+  (28, 'stemTrigFoundations', 27, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
     <div class="subtitle">
@@ -7477,7 +7544,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
   </div>
 ', 'published'),
-  (28, 'stemExpLogFoundations', 27, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
+  (29, 'stemExpLogFoundations', 28, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
 
   <div class="container">
     <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
@@ -7895,7 +7962,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </div>
 
 ', 'published'),
-  (29, 'stemTrigDerivatives', 28, 'Trigonometric Rates of Change & Analysis Bridge', 'stem-trig-derivatives', '
+  (30, 'stemTrigDerivatives', 29, 'Trigonometric Rates of Change & Analysis Bridge', 'stem-trig-derivatives', '
 
   <div class="container">
     <h1>Trigonometric Rates of Change &amp; Analysis Bridge</h1>
@@ -8451,7 +8518,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </div>
 
 ', 'published'),
-  (30, 'bayesianInferenceIntro', 29, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
+  (31, 'bayesianInferenceIntro', 30, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i><br>
       <i><font size="+1">The Logic of Scientific Discovery: Hypotheses, State Spaces &amp; Exact Belief Revision</font></i>
@@ -8674,7 +8741,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
     </p>
   ', 'published'),
-  (31, 'bayesianInferenceLecture1', 30, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
+  (32, 'bayesianInferenceLecture1', 31, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
@@ -8970,7 +9037,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
     </div>
   ', 'published'),
-  (32, 'bayesianInferenceLecture2', 31, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
+  (33, 'bayesianInferenceLecture2', 32, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
@@ -9261,7 +9328,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 3</b>, we''ll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
     </p>
   ', 'published'),
-  (33, 'bayesianInferenceLecture3', 32, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
+  (34, 'bayesianInferenceLecture3', 33, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
       <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
@@ -9574,7 +9641,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   ', 'published'),
-  (34, 'bayesianInferenceLecture4', 33, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
+  (35, 'bayesianInferenceLecture4', 34, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i><br>
       <i><font size="+1">State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone: Unifying Inference with Thermodynamics</font></i>
@@ -9879,7 +9946,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Where classical probabilities simply add as disjoint subsets, quantum states introduce <b>geometric phase, wave interference cross-terms, and projection operators</b>. See you in Quantum Logic!”
     </p>
   ', 'published'),
-  (35, 'quantumLogicIntro', 34, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
+  (36, 'quantumLogicIntro', 35, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i><br>
       <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Projection &amp; Vector Geometry</font></i>
@@ -9993,7 +10060,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
   ', 'published'),
-  (36, 'quantumLogicLecture1', 35, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
+  (37, 'quantumLogicLecture1', 36, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
       <i><font size="+1">The Three Polarizers &amp; The Quantum Breakdown of Venn Diagrams</font></i>
@@ -10203,7 +10270,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 2</b>, we will explore why nature uses <b>complex 2D amplitude arrows on <code>ℂ_ω</code></b> instead of plain 1D probabilities &mdash; and how the <b>Born Rule</b> turns complex waves into observable laboratory probabilities!”
     </p>
   ', 'published'),
-  (37, 'quantumLogicLecture2', 36, 'Quantum Logic Lecture 2', 'quantum-logic-lecture2', '
+  (38, 'quantumLogicLecture2', 37, 'Quantum Logic Lecture 2', 'quantum-logic-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 2</b></font></i><br>
       <i><font size="+1">The 4-Successor Quad-Tree, Complex Amplitudes &amp; Wave Interference</font></i>
@@ -10416,7 +10483,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 3</b>, we will see what happens when a laboratory measurement observes this state vector &mdash; and discover that <b>quantum measurement is simply vector projection</b>!”
     </p>
   ', 'published'),
-  (38, 'quantumLogicLecture3', 37, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
+  (39, 'quantumLogicLecture3', 38, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
       <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
@@ -10631,7 +10698,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical ensembles and density matrices</b> to complete our grand tour of physical reality!”
     </p>
   ', 'published'),
-  (39, 'quantumBayesianInferenceIntro', 38, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
+  (40, 'quantumBayesianInferenceIntro', 39, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 3: Quantum Bayesian Inference</b></font></i><br>
       <i><font size="+1">The Capstone Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
@@ -10704,7 +10771,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
     </div>
   ', 'published'),
-  (40, 'quantumBayesianInferenceLecture1', 39, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
+  (41, 'quantumBayesianInferenceLecture1', 40, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
@@ -10938,7 +11005,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In our final lecture,” Jack concluded, “we will direct this completed formalism to our modern understanding of physical reality itself: <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
   ', 'published'),
-  (41, 'quantumBayesianInferenceLecture2', 40, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
+  (42, 'quantumBayesianInferenceLecture2', 41, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Capstone Ascent</font></i>
@@ -11115,7 +11182,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
   ', 'published'),
-  (42, 'satelliteSeminarsIntro', 41, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
+  (43, 'satelliteSeminarsIntro', 42, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
     <font size="+1"><i>— Exercising the Formal Apparatus in the Non-Monotonic Sphere —</i></font>
@@ -11222,7 +11289,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Let us now begin with our first seminar, which due to its deceptive simplicity and cosmic scope, sets the grand stage for all that follows: <b>Cosmology as Information</b>!”
   </p>
 ', 'published'),
-  (43, 'stemNewtonianBridge', 42, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
+  (44, 'stemNewtonianBridge', 43, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
   <div align="center">
     <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
     <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke''s Oscillator —</i></font>
@@ -11475,7 +11542,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </p>
 
 ', 'published'),
-  (44, 'stemHeatDiffusion', 43, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
+  (45, 'stemHeatDiffusion', 44, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
     <div align="center">
       <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
       <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
@@ -11820,7 +11887,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
     </p>
   ', 'published'),
-  (45, 'fourierTransformSeminar', 44, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
+  (46, 'fourierTransformSeminar', 45, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
     <div align="center">
       <i><font size="+2"><b>Mini-Seminar 1: The Fourier Duality</b></font></i><br>
       <i><font size="+1">— Position vs. Frequency, Unitary Basis Rotations &amp; Quantum Geometry —</font></i>
@@ -12034,7 +12101,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       Jill and Jack joined the rest of the seminar room in giving Liam an enthusiastic round of applause.
     </p>
   ', 'published'),
-  (46, 'haloSoupSeminar', 45, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
+  (47, 'haloSoupSeminar', 46, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 2: From ω-Nodes to Halo Soup</b></font></i><br>
     <i><font size="+1">— A Physical Theory of Particles, Matrices &amp; Transfinite Halos —</font></i>
@@ -12241,7 +12308,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     The room erupted in enthusiastic applause as Jill and Jack nodded, thoroughly impressed by the intuitive bridge between hyperreal analysis and quantum measurement.
   </p>
 ', 'published'),
-  (47, 'holographicPrincipleSeminar', 46, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
+  (48, 'holographicPrincipleSeminar', 47, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 3: Holography &amp; Information Boundaries</b></font></i><br>
     <i><font size="+1">— Edge Cancellations, Area Laws &amp; The Holographic Principle —</font></i>
@@ -12448,7 +12515,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     Jack smiled, looking down at his sketches of the 3D cell cancellations: “I’ll never look at an apple &mdash; or a volume of space &mdash; the same way again.”
   </p>
 ', 'published'),
-  (48, 'higherSuccessorsSeminar', 47, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
+  (49, 'higherSuccessorsSeminar', 48, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 4: Higher-Successor Inductive Definitions</b></font></i><br>
     <i><font size="+1">— 2, 4, 8, 16 Branchings, 3D Spatial Octrees &amp; 4D Spacetime Physics —</font></i>
@@ -12734,7 +12801,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     At Jane''s words, Jill, Jack, and the entire seminar room rose to their feet in a resounding standing ovation, honoring Liam, Maya, Tariq, and Chloe for an unforgettable journey across applied transfinite mathematics.
   </p>
 ', 'published'),
-  (49, 'cosmologyAsInformation', 48, '1. The Law of Information Immutability', 'cosmology-as-information', '
+  (50, 'cosmologyAsInformation', 49, '1. The Law of Information Immutability', 'cosmology-as-information', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Cosmology as Information</b></i></font><br>
       <font size="+1"><i>— The Duality of Immutable Law &amp; Observed
@@ -12924,7 +12991,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
         They are the grammar through which the cosmos computes itself.”</b>
     </div>
   ', 'published'),
-  (50, 'particleZooSeminar', 49, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
+  (51, 'particleZooSeminar', 50, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: The Logic of the Particle Zoo</b></i></font><br>
     <font size="+1"><i>— Why Local Symmetries Dictate the Fundamental Forces of Nature —</i></font>
@@ -13133,7 +13200,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <b>It is the magnificent, coherent geometry of symmetry, duality, and information.</b>”
   </p>
 ', 'published'),
-  (51, 'quantumEntanglementSeminar', 50, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
+  (52, 'quantumEntanglementSeminar', 51, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: Quantum Entanglement &amp; The Relational Fabric of Reality</b></i></font><br>
     <font size="+1"><i>— Tensor Products, Non-Separability, Bell Inequalities &amp; Emergent Spacetime —</i></font>
@@ -13341,7 +13408,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <b>the universe is not an assembly of lonely particles in empty space. It is an unbroken, relational web of quantum information computing reality at every point.</b>”
   </p>
 ', 'published'),
-  (52, 'algebraicGeometrySeminar', 51, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
+  (53, 'algebraicGeometrySeminar', 52, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Algebraic Geometry &amp; The Infinitesimal Microscope</b></i></font><br>
       <font size="+1"><i>— Polynomial Varieties, Grothendieck Schemes,
@@ -13895,7 +13962,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       polynomial varieties, discrete number trees, and the frontiers
       of modern algebraic geometry. </p>
   ', 'published'),
-  (53, 'lean4GenEdProposal', 52, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
+  (54, 'lean4GenEdProposal', 53, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
       <h2>— Prototyping an Open Civic Infrastructure for Formal Verification, Machine-Checked Proof, and Autonomous Curricula —</h2>
@@ -14256,7 +14323,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
 ', 'published'),
-  (54, 'dualAgentAcademicProposal', 53, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
+  (55, 'dualAgentAcademicProposal', 54, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
     <div class="card">
       <h1>Coupling Formal Verification with Conversational AI</h1>
       <h2>— A Multi-Service Grounded Dual-Layer Architecture &amp; Interactive Sandbox for Sound, Hallucination-Free Intelligent Tutoring Systems —</h2>
@@ -14358,7 +14425,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
   ', 'published'),
-  (55, 'minimalAxiomaticCoreProposal', 54, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
+  (56, 'minimalAxiomaticCoreProposal', 55, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
     <div class="card">
       <h1>The Inductive Continuum</h1>
       <h2>— A Minimal Constructive Scaffold for Middle Way Mathematics Within Educational Resource Hubs —</h2>
@@ -14677,86 +14744,87 @@ INSERT INTO curriculum_nav_items (
   (3, 'app1_nav_1_0', 1, 2, 0, 'html', 'mission & curricular overview', NULL, 1, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (4, 'app1_nav_1_1', 1, 2, 1, 'html', 'conceptual history & roadmap', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (5, 'app1_nav_2', 1, NULL, 2, 'section', 'Level 1: Logic & Number', 'Logic & Number', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (6, 'app1_nav_2_0', 1, 5, 0, 'section', 'propositional logic', 'prop logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (7, 'app1_nav_2_0_0', 1, 6, 0, 'html', 'introduction', NULL, 3, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (8, 'app1_nav_2_0_1', 1, 6, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 4, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (9, 'app1_nav_2_0_2', 1, 6, 2, 'diagram', 'truth table demo (TTD)', NULL, NULL, 'ttd', NULL, NULL, '{}'::jsonb, TRUE),
-  (10, 'app1_nav_2_1', 1, 5, 1, 'section', 'formal statements', 'formal statements', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (11, 'app1_nav_2_1_0', 1, 10, 0, 'html', 'introduction', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (12, 'app1_nav_2_1_1', 1, 10, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (13, 'app1_nav_2_1_2', 1, 10, 2, 'html', 'lecture 2: algebra of sets', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (14, 'app1_nav_2_1_3', 1, 10, 3, 'diagram', 'formal statement demo (FSD)', NULL, NULL, 'fsd', NULL, NULL, '{}'::jsonb, TRUE),
-  (15, 'app1_nav_2_1_4', 1, 10, 4, 'diagram', 'equation evaluator demo (EED)', NULL, NULL, 'diagram', NULL, NULL, '{}'::jsonb, TRUE),
-  (16, 'app1_nav_2_2', 1, 5, 2, 'html', 'fsd test', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (17, 'app1_nav_2_3', 1, 5, 3, 'section', 'numbers & trees', 'numbers', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (18, 'app1_nav_2_3_0', 1, 17, 0, 'html', 'introduction', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (19, 'app1_nav_2_3_1', 1, 17, 1, 'html', 'lecture 1: definitions & counting', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (20, 'app1_nav_2_3_2', 1, 17, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (21, 'app1_nav_2_3_3', 1, 17, 3, 'html', 'lecture 3: STEM & spaces', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (22, 'app1_nav_2_3_4', 1, 17, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
-  (23, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (24, 'app1_nav_3_0', 1, 23, 0, 'html', 'overview: continuous analysis', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_3_1', 1, 23, 1, 'html', 'sequences, sums & progressions', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_3_2', 1, 23, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_3_2_0', 1, 26, 0, 'html', 'overview: analysis 1D', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_3_2_1', 1, 26, 1, 'html', 'lecture 1: microscope & continuity', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_3_2_2', 1, 26, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (30, 'app1_nav_3_2_3', 1, 26, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (31, 'app1_nav_3_3', 1, 23, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_3_3_0', 1, 31, 0, 'html', 'overview: analysis 2D', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_3_3_1', 1, 31, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_3_3_2', 1, 31, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_3_3_3', 1, 31, 3, 'html', 'lecture 3: state evolution & phase', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (36, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_4_0', 1, 36, 0, 'html', 'overview: linear algebra & geometry', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_4_1', 1, 36, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_4_1_0', 1, 38, 0, 'html', 'overview: linear algebra', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_4_1_1', 1, 38, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_4_1_2', 1, 38, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_4_1_3', 1, 38, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_4_2', 1, 36, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_5_0', 1, 44, 0, 'html', 'exponential & logarithmic foundations', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (46, 'app1_nav_5_1', 1, 44, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (47, 'app1_nav_5_2', 1, 44, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (48, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (49, 'app1_nav_6_0', 1, 48, 0, 'html', 'overview: Bayesian inference & quantum logic', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (50, 'app1_nav_6_1', 1, 48, 1, 'section', 'Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (51, 'app1_nav_6_1_0', 1, 50, 0, 'html', 'introduction', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (52, 'app1_nav_6_1_1', 1, 50, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (53, 'app1_nav_6_1_2', 1, 50, 2, 'html', 'lecture 2: sequential updating', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_6_1_3', 1, 50, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_6_1_4', 1, 50, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_6_1_5', 1, 50, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (57, 'app1_nav_6_2', 1, 48, 2, 'section', 'quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (58, 'app1_nav_6_2_0', 1, 57, 0, 'html', 'introduction', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (59, 'app1_nav_6_2_1', 1, 57, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (60, 'app1_nav_6_2_2', 1, 57, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (61, 'app1_nav_6_2_3', 1, 57, 3, 'html', 'lecture 3: measurement & projection', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (62, 'app1_nav_6_3', 1, 48, 3, 'section', 'quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (63, 'app1_nav_6_3_0', 1, 62, 0, 'html', 'introduction', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (64, 'app1_nav_6_3_1', 1, 62, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (65, 'app1_nav_6_3_2', 1, 62, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (66, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (67, 'app1_nav_7_0', 1, 66, 0, 'html', 'overview: seminars & applications', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (68, 'app1_nav_7_1', 1, 66, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (69, 'app1_nav_7_1_0', 1, 68, 0, 'html', 'Newtonian kinematics & conservation', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (70, 'app1_nav_7_1_1', 1, 68, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_7_2', 1, 66, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (72, 'app1_nav_7_2_0', 1, 71, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_7_2_1', 1, 71, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_7_2_2', 1, 71, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app1_nav_7_2_3', 1, 71, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (76, 'app1_nav_7_3', 1, 66, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (77, 'app1_nav_7_3_0', 1, 76, 0, 'html', 'overview: satellite seminars', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (78, 'app1_nav_7_3_1', 1, 76, 1, 'html', 'seminar 1: cosmology as information', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app1_nav_7_3_2', 1, 76, 2, 'html', 'seminar 2: particle zoo logic', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app1_nav_7_3_3', 1, 76, 3, 'html', 'seminar 3: entanglement & reality', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app1_nav_7_3_4', 1, 76, 4, 'html', 'seminar 4: algebraic geometry', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (83, 'app1_nav_8_0', 1, 82, 0, 'html', 'proposal 1: open educational service hubs', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app1_nav_8_1', 1, 82, 1, 'html', 'academic paper: dual-agent tutor', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app1_nav_8_2', 1, 82, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (6, 'app1_nav_2_0', 1, 5, 0, 'html', 'overview: logic & number', NULL, 3, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (7, 'app1_nav_2_1', 1, 5, 1, 'section', 'propositional logic', 'prop logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (8, 'app1_nav_2_1_0', 1, 7, 0, 'html', 'introduction', NULL, 4, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (9, 'app1_nav_2_1_1', 1, 7, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (10, 'app1_nav_2_1_2', 1, 7, 2, 'diagram', 'truth table demo (TTD)', NULL, NULL, 'ttd', NULL, NULL, '{}'::jsonb, TRUE),
+  (11, 'app1_nav_2_2', 1, 5, 2, 'section', 'formal statements', 'formal statements', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (12, 'app1_nav_2_2_0', 1, 11, 0, 'html', 'introduction', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (13, 'app1_nav_2_2_1', 1, 11, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (14, 'app1_nav_2_2_2', 1, 11, 2, 'html', 'lecture 2: algebra of sets', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (15, 'app1_nav_2_2_3', 1, 11, 3, 'diagram', 'formal statement demo (FSD)', NULL, NULL, 'fsd', NULL, NULL, '{}'::jsonb, TRUE),
+  (16, 'app1_nav_2_2_4', 1, 11, 4, 'diagram', 'equation evaluator demo (EED)', NULL, NULL, 'diagram', NULL, NULL, '{}'::jsonb, TRUE),
+  (17, 'app1_nav_2_3', 1, 5, 3, 'html', 'fsd test', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (18, 'app1_nav_2_4', 1, 5, 4, 'section', 'numbers & trees', 'numbers', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (19, 'app1_nav_2_4_0', 1, 18, 0, 'html', 'introduction', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (20, 'app1_nav_2_4_1', 1, 18, 1, 'html', 'lecture 1: definitions & counting', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (21, 'app1_nav_2_4_2', 1, 18, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (22, 'app1_nav_2_4_3', 1, 18, 3, 'html', 'lecture 3: STEM & spaces', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (23, 'app1_nav_2_4_4', 1, 18, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
+  (24, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_3_0', 1, 24, 0, 'html', 'overview: continuous analysis', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_3_1', 1, 24, 1, 'html', 'sequences, sums & progressions', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_3_2', 1, 24, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (28, 'app1_nav_3_2_0', 1, 27, 0, 'html', 'overview: analysis 1D', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_3_2_1', 1, 27, 1, 'html', 'lecture 1: microscope & continuity', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (30, 'app1_nav_3_2_2', 1, 27, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (31, 'app1_nav_3_2_3', 1, 27, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_3_3', 1, 24, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_3_3_0', 1, 32, 0, 'html', 'overview: analysis 2D', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_3_3_1', 1, 32, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_3_3_2', 1, 32, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (36, 'app1_nav_3_3_3', 1, 32, 3, 'html', 'lecture 3: state evolution & phase', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_4_0', 1, 37, 0, 'html', 'overview: linear algebra & geometry', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_4_1', 1, 37, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (40, 'app1_nav_4_1_0', 1, 39, 0, 'html', 'overview: linear algebra', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_4_1_1', 1, 39, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_4_1_2', 1, 39, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_4_1_3', 1, 39, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_4_2', 1, 37, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (46, 'app1_nav_5_0', 1, 45, 0, 'html', 'exponential & logarithmic foundations', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (47, 'app1_nav_5_1', 1, 45, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (48, 'app1_nav_5_2', 1, 45, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (49, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (50, 'app1_nav_6_0', 1, 49, 0, 'html', 'overview: Bayesian inference & quantum logic', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (51, 'app1_nav_6_1', 1, 49, 1, 'section', 'Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (52, 'app1_nav_6_1_0', 1, 51, 0, 'html', 'introduction', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (53, 'app1_nav_6_1_1', 1, 51, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_6_1_2', 1, 51, 2, 'html', 'lecture 2: sequential updating', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_6_1_3', 1, 51, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_6_1_4', 1, 51, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (57, 'app1_nav_6_1_5', 1, 51, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (58, 'app1_nav_6_2', 1, 49, 2, 'section', 'quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (59, 'app1_nav_6_2_0', 1, 58, 0, 'html', 'introduction', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (60, 'app1_nav_6_2_1', 1, 58, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (61, 'app1_nav_6_2_2', 1, 58, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (62, 'app1_nav_6_2_3', 1, 58, 3, 'html', 'lecture 3: measurement & projection', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (63, 'app1_nav_6_3', 1, 49, 3, 'section', 'quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (64, 'app1_nav_6_3_0', 1, 63, 0, 'html', 'introduction', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (65, 'app1_nav_6_3_1', 1, 63, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (66, 'app1_nav_6_3_2', 1, 63, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (67, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (68, 'app1_nav_7_0', 1, 67, 0, 'html', 'overview: seminars & applications', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (69, 'app1_nav_7_1', 1, 67, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (70, 'app1_nav_7_1_0', 1, 69, 0, 'html', 'Newtonian kinematics & conservation', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (71, 'app1_nav_7_1_1', 1, 69, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (72, 'app1_nav_7_2', 1, 67, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_7_2_0', 1, 72, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_7_2_1', 1, 72, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_7_2_2', 1, 72, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (76, 'app1_nav_7_2_3', 1, 72, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (77, 'app1_nav_7_3', 1, 67, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (78, 'app1_nav_7_3_0', 1, 77, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app1_nav_7_3_1', 1, 77, 1, 'html', 'seminar 1: cosmology as information', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app1_nav_7_3_2', 1, 77, 2, 'html', 'seminar 2: particle zoo logic', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app1_nav_7_3_3', 1, 77, 3, 'html', 'seminar 3: entanglement & reality', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app1_nav_7_3_4', 1, 77, 4, 'html', 'seminar 4: algebraic geometry', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (83, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (84, 'app1_nav_8_0', 1, 83, 0, 'html', 'proposal 1: open educational service hubs', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (85, 'app1_nav_8_1', 1, 83, 1, 'html', 'academic paper: dual-agent tutor', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (86, 'app1_nav_8_2', 1, 83, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,
@@ -15122,47 +15190,47 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 14, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (3, 14, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
-  (4, 16, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (5, 16, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (6, 16, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (7, 18, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (8, 18, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (9, 18, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (10, 18, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (11, 25, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (12, 25, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (13, 25, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (14, 26, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (15, 26, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (16, 26, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (17, 26, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (18, 27, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (19, 27, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (20, 27, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (21, 27, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (22, 31, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
-  (23, 43, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (24, 43, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (25, 44, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (26, 44, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (27, 44, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (28, 44, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (29, 44, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (2, 15, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (3, 15, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
+  (4, 17, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (5, 17, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (6, 17, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (7, 19, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (8, 19, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (9, 19, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (10, 19, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (11, 26, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (12, 26, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (13, 26, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (14, 27, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (15, 27, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (16, 27, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (17, 27, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (18, 28, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (19, 28, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (20, 28, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (21, 28, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (22, 32, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (23, 44, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (24, 44, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (25, 45, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (26, 45, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (27, 45, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (28, 45, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (29, 45, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
 DELETE FROM segment_prerequisites;
 
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
-  (1, 43, 1, 'foundational'),
-  (2, 44, 43, 'foundational'),
-  (3, 44, 18, 'foundational'),
-  (4, 16, 1, 'foundational'),
-  (5, 17, 16, 'foundational'),
-  (6, 18, 17, 'foundational'),
-  (7, 20, 18, 'foundational')
+  (1, 44, 1, 'foundational'),
+  (2, 45, 44, 'foundational'),
+  (3, 45, 19, 'foundational'),
+  (4, 17, 1, 'foundational'),
+  (5, 18, 17, 'foundational'),
+  (6, 19, 18, 'foundational'),
+  (7, 21, 19, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
@@ -15438,15 +15506,7 @@ ON CONFLICT (key) DO UPDATE SET
   verified_at = EXCLUDED.verified_at,
   summary = EXCLUDED.summary;
 
--- 11. Automated Parameter Mining
-INSERT INTO parameter_mining_jobs (id, job_key, statement_id, mode_id, target_symbol, parameter_grid, require_integer_outputs, status, discovered_candidates) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'job_free_fall_grid', 2, 1, 'v', '{"v0": [0, 50], "g": [9.8, 9.8], "t": [0, 10]}'::jsonb, FALSE, 'completed', '[{"v0": 20, "g": 9.8, "t": 1.5, "v": 5.3}, {"v0": 49, "g": 9.8, "t": 5, "v": 0}]'::jsonb)
-ON CONFLICT (id) DO UPDATE SET
-  job_key = EXCLUDED.job_key,
-  status = EXCLUDED.status,
-  discovered_candidates = EXCLUDED.discovered_candidates;
-
--- 12. Sequence Synchronization for System-Generated Identity Keys
+-- 11. Sequence Synchronization for System-Generated Identity Keys
 SELECT setval(pg_get_serial_sequence('apps', 'id'), coalesce(max(id), 1)) FROM apps;
 SELECT setval(pg_get_serial_sequence('segments', 'id'), coalesce(max(id), 1)) FROM segments;
 SELECT setval(pg_get_serial_sequence('curriculum_nav_items', 'id'), coalesce(max(id), 1)) FROM curriculum_nav_items;
@@ -15457,5 +15517,4 @@ SELECT setval(pg_get_serial_sequence('mode_slots', 'id'), coalesce(max(id), 1)) 
 SELECT setval(pg_get_serial_sequence('verified_presets', 'id'), coalesce(max(id), 1)) FROM verified_presets;
 SELECT setval(pg_get_serial_sequence('segment_references', 'id'), coalesce(max(id), 1)) FROM segment_references;
 SELECT setval(pg_get_serial_sequence('segment_prerequisites', 'id'), coalesce(max(id), 1)) FROM segment_prerequisites;
-SELECT setval(pg_get_serial_sequence('parameter_mining_jobs', 'id'), coalesce(max(id), 1)) FROM parameter_mining_jobs;
 
