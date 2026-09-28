@@ -198,6 +198,30 @@ export class PseudoViewer extends Elt {
     this.render();
   }
 
+  public showAlgorithmWithArgs(id: string, label: string, funcName: string, args: any[]): void {
+    if (PSEUDO_CATALOG[id]) {
+      this.currentAlgorithmId = id;
+      if (!ALGO_PRESETS[id]) ALGO_PRESETS[id] = [];
+      const dynamicPreset: IPresetConfig = {
+        id: 'dynamic_custom',
+        label,
+        funcName,
+        args,
+      };
+      const existingIdx = ALGO_PRESETS[id].findIndex((p) => p.id === 'dynamic_custom');
+      if (existingIdx >= 0) {
+        ALGO_PRESETS[id][existingIdx] = dynamicPreset;
+        this.currentPresetIndex = existingIdx;
+      } else {
+        ALGO_PRESETS[id].unshift(dynamicPreset);
+        this.currentPresetIndex = 0;
+      }
+      this.stopAutoRun();
+      this.initInterpreter();
+    }
+    this.render();
+  }
+
   public layout(): void {
     // Stage relayout hook if needed
   }

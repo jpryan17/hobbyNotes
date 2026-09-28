@@ -18,6 +18,9 @@ import {
   SequentialEvidenceController,
   BetaBinomialController,
 } from './bidControllers.js';
+import { Nav } from './navFW.js';
+import { dyadicMachine, IDyadicNode } from './dyadicMachine.js';
+import { pseudoViewer, setPseudoViewer } from './pseudoViewer.js';
 
 export class BIDDiagram extends SVGElt {
   config: BIDConfig;
@@ -262,7 +265,7 @@ export class BIDDiagram extends SVGElt {
     const cardX = 540;
     const cardY = 65;
     const cardW = 335;
-    const cardH = 355;
+    const cardH = 365;
 
     this.drawRect(g, cardX, cardY, cardW, cardH, '#ffffff', '#cbd5e1', 1, 10);
 
@@ -270,113 +273,264 @@ export class BIDDiagram extends SVGElt {
     const numH = (outcome.match(/H/g) || []).length;
     const numT = (outcome.match(/T/g) || []).length;
 
-    // Hypothesis Likelihoods:
-    // Fair: P(H)=0.5 -> P(state) = 0.5^selD
-    // Biased: P(H)=0.75 -> P(state) = 0.75^numH * 0.25^numT
+    // Discrete calculation machine representation in Ring (𝔻, +, ·):
+    // Biased coin (75% Heads): Likelihood = 3^numH / 4^selD = 3^numH / 2^(2*selD)
+    const pEgivenBiased = dyadicMachine.fromFraction(3 ** numH, 2 * selD);
+    // Fair coin (50% Heads): Likelihood = 1 / 2^selD
+    const pEgivenFair = dyadicMachine.fromFraction(1, selD);
+
+    const postBiasedNum = 3 ** numH;
+    const postFairNum = 2 ** selD;
+    const postTotal = postBiasedNum + postFairNum;
+    const postBiased = postBiasedNum / postTotal;
+    const postFair = postFairNum / postTotal;
+
     const pHFair = Math.pow(0.5, selD);
     const pHBiased = Math.pow(0.75, numH) * Math.pow(0.25, numT);
     const bayesFactor = pHFair > 0 ? pHBiased / pHFair : 1;
 
-    // Prior 50/50 -> Posterior
-    const priorFair = 0.5;
-    const priorBiased = 0.5;
-    const postBiased = (pHBiased * priorBiased) / (pHBiased * priorBiased + pHFair * priorFair);
-    const postFair = 1 - postBiased;
-
     if (isTopLeaf) {
       // --- Top State Leaf Panel ---
-      this.drawRect(g, cardX + 16, cardY + 16, cardW - 32, 28, '#eff6ff', '#bfdbfe', 1, 6);
-      this.addText(g, 'State Observation in Ω', cardX + cardW / 2, cardY + 34, 12, '#1e40af', 'middle', true);
+      this.drawRect(g, cardX + 16, cardY + 12, cardW - 32, 24, '#eff6ff', '#bfdbfe', 1, 6);
+      this.addText(g, 'State Observation in Ω', cardX + cardW / 2, cardY + 28, 11.5, '#1e40af', 'middle', true);
 
       // Outcome Pill & Descriptive Narrative
       const outcomeBadge = outcome.split('').join(' - ');
-      this.addText(g, `Outcome: [ ${outcomeBadge} ]`, cardX + 20, cardY + 74, 15, '#1e293b', 'start', true);
-      this.addText(g, `Physical result: ${numH} Heads, ${numT} Tails in 4 coin tosses`, cardX + 20, cardY + 94, 11.5, '#64748b');
+      this.addText(g, `Outcome: [ ${outcomeBadge} ]`, cardX + 20, cardY + 54, 13.5, '#1e293b', 'start', true);
+      this.addText(g, `Physical result: ${numH} Heads, ${numT} Tails in 4 coin tosses`, cardX + 20, cardY + 70, 11, '#64748b');
 
       // Model Likelihoods Section
-      this.addText(g, '1. Likelihood of this State under Competing Theories:', cardX + 20, cardY + 128, 12, '#0f172a', 'start', true);
+      this.addText(g, '1. Likelihood of this State under Competing Theories:', cardX + 20, cardY + 98, 11.5, '#0f172a', 'start', true);
 
       // Fair Model Bar
-      this.addText(g, 'Fair Coin (50% Heads):', cardX + 24, cardY + 148, 11, '#10b981', 'start', true);
-      this.addText(g, `${(pHFair * 100).toFixed(2)}%`, cardX + cardW - 24, cardY + 148, 11, '#10b981', 'end', true);
-      this.drawRect(g, cardX + 24, cardY + 154, cardW - 48, 10, '#f1f5f9', '#e2e8f0', 1, 3);
-      this.drawRect(g, cardX + 24, cardY + 154, Math.max(4, (cardW - 48) * (pHFair / 0.35)), 10, '#10b981', '#059669', 1, 3);
+      this.addText(g, 'Fair Coin (50% Heads):', cardX + 24, cardY + 114, 10.5, '#10b981', 'start', true);
+      this.addText(g, `${(pHFair * 100).toFixed(2)}%`, cardX + cardW - 24, cardY + 114, 10.5, '#10b981', 'end', true);
+      this.drawRect(g, cardX + 24, cardY + 119, cardW - 48, 7, '#f1f5f9', '#e2e8f0', 1, 3);
+      this.drawRect(g, cardX + 24, cardY + 119, Math.max(4, (cardW - 48) * (pHFair / 0.35)), 7, '#10b981', '#059669', 1, 3);
 
       // Biased Model Bar
-      this.addText(g, 'Biased Coin (75% Heads):', cardX + 24, cardY + 184, 11, '#8b5cf6', 'start', true);
-      this.addText(g, `${(pHBiased * 100).toFixed(2)}%`, cardX + cardW - 24, cardY + 184, 11, '#8b5cf6', 'end', true);
-      this.drawRect(g, cardX + 24, cardY + 190, cardW - 48, 10, '#f1f5f9', '#e2e8f0', 1, 3);
-      this.drawRect(g, cardX + 24, cardY + 190, Math.max(4, (cardW - 48) * (pHBiased / 0.35)), 10, '#8b5cf6', '#7c3aed', 1, 3);
+      this.addText(g, 'Biased Coin (75% Heads):', cardX + 24, cardY + 138, 10.5, '#8b5cf6', 'start', true);
+      this.addText(g, `${(pHBiased * 100).toFixed(2)}%`, cardX + cardW - 24, cardY + 138, 10.5, '#8b5cf6', 'end', true);
+      this.drawRect(g, cardX + 24, cardY + 143, cardW - 48, 7, '#f1f5f9', '#e2e8f0', 1, 3);
+      this.drawRect(g, cardX + 24, cardY + 143, Math.max(4, (cardW - 48) * (pHBiased / 0.35)), 7, '#8b5cf6', '#7c3aed', 1, 3);
 
       // Evidence Impact & Bayes Factor
       const favoredModel = bayesFactor >= 1 ? 'Biased Model' : 'Fair Model';
       const bfVal = bayesFactor >= 1 ? bayesFactor : 1 / bayesFactor;
-      this.drawRect(g, cardX + 16, cardY + 215, cardW - 32, 42, '#fffbeb', '#fef3c7', 1, 6);
-      this.addText(g, `Evidence Multiplier (Bayes Factor): ${bfVal.toFixed(2)}×`, cardX + 24, cardY + 233, 11.5, '#b45309', 'start', true);
-      this.addText(g, `This state is ${bfVal.toFixed(1)}× more consistent with the ${favoredModel}.`, cardX + 24, cardY + 248, 10.5, '#92400e');
+      this.drawRect(g, cardX + 16, cardY + 160, cardW - 32, 34, '#fffbeb', '#fef3c7', 1, 5);
+      this.addText(g, `Evidence Multiplier (Bayes Factor): ${bfVal.toFixed(2)}×`, cardX + 24, cardY + 175, 11, '#b45309', 'start', true);
+      this.addText(g, `This state is ${bfVal.toFixed(1)}× more consistent with the ${favoredModel}.`, cardX + 24, cardY + 188, 10, '#92400e');
 
       // Updated Beliefs (Prior -> Posterior)
-      this.addText(g, '2. Updated Belief Distribution (Prior 50/50 → Posterior):', cardX + 20, cardY + 280, 11.5, '#0f172a', 'start', true);
+      this.addText(g, '2. Updated Belief Distribution (Prior 50/50 → Posterior):', cardX + 20, cardY + 215, 11, '#0f172a', 'start', true);
 
       // Stacked Bar
-      const barY = cardY + 294;
+      const barY = cardY + 225;
       const barW = cardW - 48;
       const fairW = barW * postFair;
       const biasedW = barW * postBiased;
-      this.drawRect(g, cardX + 24, barY, fairW, 22, '#10b981', '#059669', 1, 4);
-      this.drawRect(g, cardX + 24 + fairW, barY, biasedW, 22, '#8b5cf6', '#7c3aed', 1, 4);
+      this.drawRect(g, cardX + 24, barY, fairW, 18, '#10b981', '#059669', 1, 3);
+      this.drawRect(g, cardX + 24 + fairW, barY, biasedW, 18, '#8b5cf6', '#7c3aed', 1, 3);
 
-      if (fairW > 35) this.addText(g, `Fair ${(postFair * 100).toFixed(0)}%`, cardX + 24 + fairW / 2, barY + 15, 10.5, '#ffffff', 'middle', true);
-      if (biasedW > 35) this.addText(g, `Biased ${(postBiased * 100).toFixed(0)}%`, cardX + 24 + fairW + biasedW / 2, barY + 15, 10.5, '#ffffff', 'middle', true);
+      if (fairW > 35) this.addText(g, `Fair ${(postFair * 100).toFixed(0)}%`, cardX + 24 + fairW / 2, barY + 13, 10, '#ffffff', 'middle', true);
+      if (biasedW > 35) this.addText(g, `Biased ${(postBiased * 100).toFixed(0)}%`, cardX + 24 + fairW + biasedW / 2, barY + 13, 10, '#ffffff', 'middle', true);
 
-      this.addText(g, 'Click any other leaf or branch node to explore!', cardX + cardW / 2, cardY + cardH - 12, 10.5, '#94a3b8', 'middle');
+      // 3. Middle Way Discrete Calculation Strip
+      this.renderDiscreteCalculationStrip(
+        g,
+        cardX,
+        cardY + 252,
+        cardW,
+        outcome,
+        selD,
+        numH,
+        pEgivenBiased,
+        pEgivenFair,
+        postBiasedNum,
+        postFairNum,
+        postTotal
+      );
+
+      this.addText(g, 'Click any other leaf or branch node to explore!', cardX + cardW / 2, cardY + cardH - 8, 10, '#94a3b8', 'middle');
 
     } else {
       // --- Composite Subtree Event Panel ---
-      this.drawRect(g, cardX + 16, cardY + 16, cardW - 32, 28, '#ecfdf5', '#a7f3d0', 1, 6);
-      this.addText(g, 'Composite Event in Ω (Subtree)', cardX + cardW / 2, cardY + 34, 12, '#065f46', 'middle', true);
+      this.drawRect(g, cardX + 16, cardY + 12, cardW - 32, 24, '#ecfdf5', '#a7f3d0', 1, 6);
+      this.addText(g, 'Composite Event in Ω (Subtree)', cardX + cardW / 2, cardY + 28, 11.5, '#065f46', 'middle', true);
 
       const spanStates = Math.pow(2, maxD - selD);
       const prefixBadge = outcome.length > 0 ? outcome.split('').join(' - ') + ' - *' : 'All States (Root)';
-      this.addText(g, `Event: [ ${prefixBadge} ]`, cardX + 20, cardY + 74, 15, '#1e293b', 'start', true);
-      this.addText(g, `Subtree covers ${spanStates} possible states in Ω (green cone)`, cardX + 20, cardY + 94, 11.5, '#059669', 'start', true);
+      this.addText(g, `Event: [ ${prefixBadge} ]`, cardX + 20, cardY + 54, 13.5, '#1e293b', 'start', true);
+      this.addText(g, `Subtree covers ${spanStates} possible states in Ω (green cone)`, cardX + 20, cardY + 70, 11, '#059669', 'start', true);
 
       // Event Likelihood Section
-      this.addText(g, '1. Total Event Probability P(Event | Theory):', cardX + 20, cardY + 128, 12, '#0f172a', 'start', true);
+      this.addText(g, '1. Total Event Probability P(Event | Theory):', cardX + 20, cardY + 98, 11.5, '#0f172a', 'start', true);
 
       // Fair Model Event Bar
-      this.addText(g, 'Fair Coin (50% Heads):', cardX + 24, cardY + 148, 11, '#10b981', 'start', true);
-      this.addText(g, `${(pHFair * 100).toFixed(1)}%`, cardX + cardW - 24, cardY + 148, 11, '#10b981', 'end', true);
-      this.drawRect(g, cardX + 24, cardY + 154, cardW - 48, 10, '#f1f5f9', '#e2e8f0', 1, 3);
-      this.drawRect(g, cardX + 24, cardY + 154, Math.max(4, (cardW - 48) * pHFair), 10, '#10b981', '#059669', 1, 3);
+      this.addText(g, 'Fair Coin (50% Heads):', cardX + 24, cardY + 114, 10.5, '#10b981', 'start', true);
+      this.addText(g, `${(pHFair * 100).toFixed(1)}%`, cardX + cardW - 24, cardY + 114, 10.5, '#10b981', 'end', true);
+      this.drawRect(g, cardX + 24, cardY + 119, cardW - 48, 7, '#f1f5f9', '#e2e8f0', 1, 3);
+      this.drawRect(g, cardX + 24, cardY + 119, Math.max(4, (cardW - 48) * pHFair), 7, '#10b981', '#059669', 1, 3);
 
       // Biased Model Event Bar
-      this.addText(g, 'Biased Coin (75% Heads):', cardX + 24, cardY + 184, 11, '#8b5cf6', 'start', true);
-      this.addText(g, `${(pHBiased * 100).toFixed(1)}%`, cardX + cardW - 24, cardY + 184, 11, '#8b5cf6', 'end', true);
-      this.drawRect(g, cardX + 24, cardY + 190, cardW - 48, 10, '#f1f5f9', '#e2e8f0', 1, 3);
-      this.drawRect(g, cardX + 24, cardY + 190, Math.max(4, (cardW - 48) * pHBiased), 10, '#8b5cf6', '#7c3aed', 1, 3);
+      this.addText(g, 'Biased Coin (75% Heads):', cardX + 24, cardY + 138, 10.5, '#8b5cf6', 'start', true);
+      this.addText(g, `${(pHBiased * 100).toFixed(1)}%`, cardX + cardW - 24, cardY + 138, 10.5, '#8b5cf6', 'end', true);
+      this.drawRect(g, cardX + 24, cardY + 143, cardW - 48, 7, '#f1f5f9', '#e2e8f0', 1, 3);
+      this.drawRect(g, cardX + 24, cardY + 143, Math.max(4, (cardW - 48) * pHBiased), 7, '#8b5cf6', '#7c3aed', 1, 3);
 
       // Event Bayes Factor
       const favoredModel = bayesFactor >= 1 ? 'Biased Model' : 'Fair Model';
       const bfVal = bayesFactor >= 1 ? bayesFactor : 1 / bayesFactor;
-      this.drawRect(g, cardX + 16, cardY + 215, cardW - 32, 42, '#f0fdf4', '#dcfce7', 1, 6);
-      this.addText(g, `Event Bayes Factor: ${bfVal.toFixed(2)}×`, cardX + 24, cardY + 233, 11.5, '#166534', 'start', true);
-      this.addText(g, `Observing this event gives ${bfVal.toFixed(1)}× support for ${favoredModel}.`, cardX + 24, cardY + 248, 10.5, '#15803d');
+      this.drawRect(g, cardX + 16, cardY + 160, cardW - 32, 34, '#f0fdf4', '#dcfce7', 1, 5);
+      this.addText(g, `Event Bayes Factor: ${bfVal.toFixed(2)}×`, cardX + 24, cardY + 175, 11, '#166534', 'start', true);
+      this.addText(g, `Observing this event gives ${bfVal.toFixed(1)}× support for ${favoredModel}.`, cardX + 24, cardY + 188, 10, '#15803d');
 
       // Updated Beliefs
-      this.addText(g, '2. Updated Belief Distribution (Prior 50/50 → Posterior):', cardX + 20, cardY + 280, 11.5, '#0f172a', 'start', true);
-      const barY = cardY + 294;
+      this.addText(g, '2. Updated Belief Distribution (Prior 50/50 → Posterior):', cardX + 20, cardY + 215, 11, '#0f172a', 'start', true);
+      const barY = cardY + 225;
       const barW = cardW - 48;
       const fairW = barW * postFair;
       const biasedW = barW * postBiased;
-      this.drawRect(g, cardX + 24, barY, fairW, 22, '#10b981', '#059669', 1, 4);
-      this.drawRect(g, cardX + 24 + fairW, barY, biasedW, 22, '#8b5cf6', '#7c3aed', 1, 4);
+      this.drawRect(g, cardX + 24, barY, fairW, 18, '#10b981', '#059669', 1, 3);
+      this.drawRect(g, cardX + 24 + fairW, barY, biasedW, 18, '#8b5cf6', '#7c3aed', 1, 3);
 
-      if (fairW > 35) this.addText(g, `Fair ${(postFair * 100).toFixed(0)}%`, cardX + 24 + fairW / 2, barY + 15, 10.5, '#ffffff', 'middle', true);
-      if (biasedW > 35) this.addText(g, `Biased ${(postBiased * 100).toFixed(0)}%`, cardX + 24 + fairW + biasedW / 2, barY + 15, 10.5, '#ffffff', 'middle', true);
+      if (fairW > 35) this.addText(g, `Fair ${(postFair * 100).toFixed(0)}%`, cardX + 24 + fairW / 2, barY + 13, 10, '#ffffff', 'middle', true);
+      if (biasedW > 35) this.addText(g, `Biased ${(postBiased * 100).toFixed(0)}%`, cardX + 24 + fairW + biasedW / 2, barY + 13, 10, '#ffffff', 'middle', true);
 
-      this.addText(g, 'Click an individual leaf above to inspect a single state!', cardX + cardW / 2, cardY + cardH - 12, 10.5, '#94a3b8', 'middle');
+      // 3. Middle Way Discrete Calculation Strip
+      this.renderDiscreteCalculationStrip(
+        g,
+        cardX,
+        cardY + 252,
+        cardW,
+        outcome,
+        selD,
+        numH,
+        pEgivenBiased,
+        pEgivenFair,
+        postBiasedNum,
+        postFairNum,
+        postTotal
+      );
+
+      this.addText(g, 'Click an individual leaf above to inspect a single state!', cardX + cardW / 2, cardY + cardH - 8, 10, '#94a3b8', 'middle');
     }
+  }
+
+  /**
+   * Renders the Middle Way Calculation Machine status strip and interactive Step button.
+   */
+  private renderDiscreteCalculationStrip(
+    g: SVGGrpElt,
+    cardX: number,
+    calcY: number,
+    cardW: number,
+    outcome: string,
+    selD: number,
+    numH: number,
+    pEgivenBiased: IDyadicNode,
+    pEgivenFair: IDyadicNode,
+    postBiasedNum: number,
+    postFairNum: number,
+    postTotal: number
+  ) {
+    const stripX = cardX + 16;
+    const stripW = cardW - 32;
+    const stripH = 76;
+
+    // Background box
+    this.drawRect(g, stripX, calcY, stripW, stripH, '#faf5ff', '#e9d5ff', 1, 6);
+
+    // Title row with machine badge
+    this.addText(g, '⚙️ Middle Way Machine (𝔻, +, ·)', stripX + 8, calcY + 16, 10.5, '#7e22ce', 'start', true);
+    this.drawRect(g, stripX + stripW - 74, calcY + 6, 66, 15, '#f3e8ff', '#d8b4fe', 1, 3);
+    this.addText(g, 'BayesUpdate', stripX + stripW - 41, calcY + 17, 8.5, '#6b21a8', 'middle', true);
+
+    // Discrete fraction identity
+    const fracStr = `${postBiasedNum} / (${postBiasedNum} + ${postFairNum}) = ${postBiasedNum}/${postTotal}`;
+    const pctStr = `${((postBiasedNum / postTotal) * 100).toFixed(1)}%`;
+    this.addText(g, `Exact: P(Biased | E) = ${fracStr} ≡ ${pctStr}`, stripX + 8, calcY + 34, 10, '#581c87', 'start');
+
+    // Dyadic Node / Birthday identity
+    const pEBiasedPath = pEgivenBiased.path ? `[${pEgivenBiased.path}]` : '[]';
+    this.addText(g, `Likelihood Node: ${pEBiasedPath} (Bday ${pEgivenBiased.birthday})`, stripX + 8, calcY + 50, 9.5, '#6b21a8', 'start');
+
+    // Step Machine button
+    const btnW = 104;
+    const btnH = 20;
+    const btnX = stripX + stripW - btnW - 6;
+    const btnY = calcY + stripH - btnH - 6;
+
+    const pseudoBtn = new SVGGrpElt();
+    pseudoBtn.setAA(['cursor', 'pointer']);
+
+    const btnBg = new SVGElt('rect');
+    btnBg.setAA([
+      'x', btnX,
+      'y', btnY,
+      'width', btnW,
+      'height', btnH,
+      'rx', 4,
+      'fill', '#9333ea',
+      'stroke', '#7e22ce',
+      'stroke-width', 1,
+    ]);
+    pseudoBtn.append(btnBg);
+
+    const btnTxt = new SVGText();
+    btnTxt.setAA([
+      'x', btnX + btnW / 2,
+      'y', btnY + 14,
+      'font-size', 9.5,
+      'font-weight', 'bold',
+      'fill', '#ffffff',
+      'text-anchor', 'middle',
+    ]);
+    btnTxt.setV('📜 Step Machine');
+    pseudoBtn.append(btnTxt);
+
+    pseudoBtn.elt.addEventListener('mouseenter', () => {
+      btnBg.setAA(['fill', '#7e22ce']);
+    });
+    pseudoBtn.elt.addEventListener('mouseleave', () => {
+      btnBg.setAA(['fill', '#9333ea']);
+    });
+
+    pseudoBtn.elt.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation();
+      const index = Nav.indices[Nav.currentIndex];
+      const choice = index ? index.choices[index.chosen] : null;
+      const topicName = choice && choice[0] ? choice[0].topic : 'BID';
+      const buttonText = `back to ${topicName}`;
+
+      if (!pseudoViewer) setPseudoViewer();
+      pseudoViewer.showAlgorithmWithArgs(
+        'bayes_discrete_update',
+        `BayesUpdate(State [${outcome || 'Root'}], Biased=75%, Fair=50%)`,
+        'BayesUpdate',
+        [
+          dyadicMachine.fromFraction(1, 1),
+          pEgivenBiased,
+          pEgivenFair,
+        ]
+      );
+
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      Nav.setLastVisit();
+      Nav.addNavLineBackButton(buttonText);
+      Nav.fo.removeChildren();
+      Nav.fo.elt.scrollTop = 0;
+      Nav.fo.append(pseudoViewer);
+      Nav.display();
+      pseudoViewer.layout();
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => pseudoViewer.layout());
+      }
+    });
+
+    g.append(pseudoBtn);
   }
 
   // =========================================================================
