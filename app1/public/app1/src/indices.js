@@ -501,24 +501,24 @@ export const level4Index = [
 export const level5Index = [
     {
         type: "html",
-        topic: "overview: Bayesian inference & quantum logic",
-        htmlSegmentId: "bayesianInferenceIntro",
+        topic: "overview: probability & quantum logic",
+        htmlSegmentId: "level5Overview",
     },
     {
         type: "index",
-        topic: "Bayesian inference",
+        topic: "course 1: Bayesian inference",
         navTopic: "Bayesian",
         indexDesc: bayesianInferenceIndex,
     },
     {
         type: "index",
-        topic: "quantum logic",
+        topic: "course 2: quantum logic",
         navTopic: "quantum logic",
         indexDesc: quantumLogicIndex,
     },
     {
         type: "index",
-        topic: "quantum Bayesian inference",
+        topic: "course 3: quantum Bayesian inference",
         navTopic: "quantum Bayesian",
         indexDesc: quantumBayesianInferenceIndex,
     },
