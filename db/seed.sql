@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-28T16:39:56.881Z
+-- Generated At: 2026-09-28T22:39:40.218Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -34,8 +34,8 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   (1, 'introduction', 0, 'Toward a Theoretical Maximum:A Curriculum for General Education in General Science', 'introduction', '
 <div align="center">
       <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
-      <font size="+1"><i>— A Constructive Path from Logic to Quantum Reality —</i></font></div>
-    <p><br></p><p>Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.&nbsp;</p><p>Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.</p><p>The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating its support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.</p>
+      <font size="+1"><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font></div>
+    <p><br></p><p>Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.&nbsp;</p><p>Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.</p><p>The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.</p>
 
     <hr>
 
@@ -43,13 +43,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <p>A robust curriculum in general science serves two complementary goals:
     </p>
     <ol>
-      <li><b>General Scientific Literacy:</b> Provide all students with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
-      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners the prerequisites for future studiers.</li>
+      <li><b>General Scientific Literacy:</b> Provide all students—especially the ~75% not bound for STEM careers—with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
+      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners with an intuitive, constructive foundation that accelerates their subsequent study of advanced physics and higher mathematics.</li>
     </ol>
-    <p>In order to simplify the description of mathematics, the curriculum leverages the Conway number tree to
- ground a nonstandard constructive description of numbers that accepts that the 
-infinitesimal 1/omega (where omega is the supremum of the natural 
-numbers) is a number. Doing so eliminates the need for limit theory. In addition, the fact that numbers are associated with tree addresses allows topology and measure to be described without introducing any additional intrinsic topological and measure spaces. The simplified mechanics allows mathematical concepts to be described more simply, and although STEM oriented students will probably need additional courses in preparation for studies in standard analysis and use of the calculation toolset based on standard analytic techniques. However, these students too will benefit from a direct, constructive path through formal science that target current theories of physical reality.</p>
 
     <hr>
 
@@ -77,9 +73,49 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </tbody></table>
     </div>
 
-    But epistimological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more effficacious than it''s standard construction. In many ways, improvement to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by out model. We make no claims as to the foundational nature of our model. But we do claim it''s logical consistency, and it seems to serve it''s purpose well.<br><hr>
+    <p>
+      But epistemological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more efficacious than its standard construction. In many ways, improvements to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by our model. We make no claims as to the foundational nature of our model. But we do claim its logical consistency, and it seems to serve its purpose well.
+    </p>
 
-    <h3>3. Choosing the Summit: Quantum Statistical Mechanics</h3>
+    <hr>
+
+    <h3>3. Concept Presentation Standards: The Learning Workflow</h3>
+    <p>
+      To ensure consistent pedagogical quality, intellectual transparency, and cognitive accessibility across all modules, every mathematical concept in Middle Way Mathematics is presented according to a rigorous six-stage pipeline:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 24px; margin: 16px auto; width: 92%;">
+      <ol style="margin: 0; padding-left: 20px; line-height: 1.7; font-size: 14px;">
+        <li style="margin-bottom: 12px;">
+          <b>Introduce the Concept in Text:</b><br>
+          Every topic begins with plain-language prose, physical motivation, or historical context. We ground the concept in tangible phenomena and intuitive analogies before introducing any formal notation.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <b>Reinforce with Interactive Visuals:</b><br>
+          Where possible, the text is immediately backed by visual and manipulative tools—Truth Table Demos (TTD), 2D Boolean Relation Matrices (FSD), Conway binary tree explorers (BTD), state-space probability trees (BID), or vector rotors. Learners manipulate parameters and observe immediate geometric feedback to build operational intuition.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <b>Describe the Concept with Verified Formal Statements:</b><br>
+          We translate the intuitive idea into an exact formal statement in First-Order Logic using sets, predicates, and quantifiers (<code>∀, ∃, ∈, =</code>). Every statement is machine-checked by the Lean 4 interactive theorem prover, guaranteeing syntactic correctness, logical consistency, and eliminating AI/human hallucination.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <b>Set Up Calculators for Functions:</b><br>
+          Mathematical functions and operators are not left as abstract declarations. We explicitly define their domain and codomain over our foundational sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) and constructed product sets (<code>A → B</code>), staging them as concrete computational devices ready to receive inputs.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <b>Display Function Rules (Auditable Pseudo-Code):</b><br>
+          Rather than relying on opaque, black-box runtime libraries, every function displays its explicit rule: clean, auditable pseudo-code showing each step, conditional branch, and assignment required to compute the result.
+        </li>
+        <li style="margin-bottom: 0;">
+          <b>Calculate!:</b><br>
+          Learners execute the calculation on our virtual, context-sensitive calculation machine. They observe the instruction pointer, examine register states, and inspect the resulting output, verifying that the formal theory translates directly into verifiable computation.
+        </li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <h3>4. Choosing the Summit: Quantum Statistical Mechanics</h3>
     <p>Our mission is to provide a mathematical foundation for understanding current theories of physical reality. Of course there are many such theories, so to sharpen the focus, we choose to formally describe <b>Quantum Statistical Mechanics and Inference</b>:
     </p>
     <ul>
@@ -90,7 +126,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>4. Curricular Levels: A Cumulative Single-Root Tree</h3>
+    <h3>5. Curricular Levels: A Cumulative Single-Root Tree</h3>
     <p>
       To reach this summit with minimal cognitive load, the curriculum functions as a cohesive single-root tree organized into progressive curricular levels:
     </p>
@@ -182,34 +218,6 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>5. Conceptual History: The Four Epochs of Analysis</h3>
-    <p>
-      To understand why nonstandard analysis is so empowering for general scientific literacy, one must examine how mathematics historically struggled to tame continuous change:
-    </p>
-    <ul>
-      <li>
-        <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) — <i>Leibniz, Newton, Euler</i>:</b><br>
-        Calculus was invented using <b>infinitesimals</b> (<code>dx, dy</code>)—quantities strictly greater than zero yet smaller than any positive standard real number. Derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>).
-      </li>
-      <br>
-      <li>
-        <b>Epoch 2: The Epsilon-Delta Purge (19th Century) — <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
-        19th-century mathematicians banished infinitesimals, replacing intuitive ratios with dense <b>epsilon-delta (ε-δ) limit definitions</b>. While watertight, this reform erected a massive cognitive barrier that alienated non-specialists from calculus.
-      </li>
-      <br>
-      <li>
-        <b>Epoch 3: The Topological Escape (Early–Mid 20th Century) — <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
-        Mathematicians ascended into abstract point-set topology and Lebesgue measure theory. This abstraction was powerful for functional analysis, but it severely detached continuous mathematics from intuitive spatial geometry.
-      </li>
-      <br>
-      <li>
-        <b>Epoch 4: The Nonstandard Synthesis — <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
-        Infinitesimals were given complete, rigorous mathematical foundations through model theory and Conway''s recursive number tree. Infinitesimals (<code>dx = 1/ω</code>) are legitimate numbers born on transfinite Day <code>ω</code>, restoring differentiation to pure algebraic division <code>f''(x) = st(Δy / dx)</code> and integration to discrete sums <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
-      </li>
-    </ul>
-
-    <hr>
-
     <h3>6. Interactive Exploration Prototypes</h3>
     <p>
       To provide visual intuition, this application includes interactive demonstration suites embedded directly across the modules:
@@ -220,16 +228,1909 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <li><b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees, transfinite Day <code>ω</code>, and dyadic paths.</li>
       <li><b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space trees (<code>Ω</code>), likelihood comparisons, and dynamic belief revision.</li>
     </ul>
+', 'published'),
+  (2, 'modelsOverview', 1, 'Part 2 — Conceptual Overview: The Three Architectural Models', 'models-overview', '
+    <div align="center">
+      <font size="+2"><i><b>Part 2 — Conceptual Overview: The Three Architectural Models</b></i></font><br>
+      <font size="+1"><i>— Logic &amp; Mathematics, Computation, and Persistence —</i></font>
+    </div>
+    <p>
+      To realize our <b>concept presentation standards</b>—moving seamlessly from intuitive prose and interactive visuals to machine-checked formal statements, explicit function rules, and transparent execution—Middle Way Mathematics grounds the curriculum in three interlocking architectural models:
+    </p>
+    <ol>
+      <li><b>The Logical &amp; Mathematical Model (Ontology):</b> Single-sorted predicate logic, ZF set theory, base sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>), set constructors, and function rules.</li>
+      <li><b>The Computational Model (Calculation Machine):</b> A virtual machine with transparent memory, instruction pointers, and step-by-step pseudo-code interpretation.</li>
+      <li><b>The Persistence Model (Relational Schema):</b> Relational database tables organizing formal statements, calculations, examples, and student work into scalable open service hubs.</li>
+    </ol>
+    <hr>
+
+    <h3>1. The Logical &amp; Mathematical Model (Ontology)</h3>
+    <p>Middle Way Mathematics depends upon a clean conceptual model that:</p>
+    <ul>
+      <li>is based on classical single-sorted predicate logic</li>
+      <li>is based on ZF set theory, with built-in membership (<code>∈</code>) and equality (<code>=</code>) predicates</li>
+      <li>has 4 base sets: Boolean truth values (<code>𝔹 = {0, 1}</code>), and 3 number sets (<code>ℕ, ℝ_ω, ℂ_ω</code>)</li>
+      <li>has two fundamental set constructors: product (<code>×</code>) and directed pair (<code>→</code>)</li>
+      <li>and executable function rules (pseudo-code targeting our context-sensitive calculation machine)</li>
+    </ul>
+    <p>The following diagram illustrates this foundational ontology:</p>
+    <div align="center" style="margin: 16px 0;">
+      <svg xmlns="http://www.w3.org/2000/svg"
+        style="cursor:pointer;max-width:100%;max-height:571px;"
+        xlink="http://www.w3.org/1999/xlink" version="1.1" width="551px"
+        viewBox="-0.5 -0.5 551 571" content="&lt;mxfile
+        host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT
+        10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+        draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0
+        Safari/537.36&quot; version=&quot;29.3.6&quot;&gt; &lt;diagram
+        name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;
+        &lt;mxGraphModel dx=&quot;861&quot; dy=&quot;643&quot;
+        grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot;
+        tooltips=&quot;1&quot; connect=&quot;1&quot;
+        arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot;
+        pageScale=&quot;1&quot; pageWidth=&quot;850&quot;
+        pageHeight=&quot;1100&quot; math=&quot;0&quot;
+        shadow=&quot;0&quot;&gt; &lt;root&gt; &lt;mxCell
+        id=&quot;0&quot; /&gt; &lt;mxCell id=&quot;1&quot;
+        parent=&quot;0&quot; /&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-1&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;proposition&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;278.1034482758621&quot; y=&quot;150&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-2&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;quantifiers&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;164.3148275862069&quot; y=&quot;349.99882352941177&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-3&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;predicate&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;401.3793103448276&quot; y=&quot;359.55882352941177&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-4&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;function&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;401.3793103448276&quot; y=&quot;451.7647058823529&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-5&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;directed-pair&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;344.48275862068965&quot; y=&quot;556.5441176470588&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-6&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;set&quot; vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;145.34482758620692&quot;
+        y=&quot;443.38235294117646&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell id=&quot;8fY0ih4KfIxNHs2CR79k-7&quot;
+        parent=&quot;1&quot;
+        style=&quot;shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=none;&quot;
+        value=&quot;set constructor&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;25.147058823529413&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;496.2068965517241&quot; y=&quot;619.4117647058824&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-8&quot; parent=&quot;1&quot;
+        style=&quot;shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=none;&quot;
+        value=&quot;rule&quot; vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        height=&quot;25.147058823529413&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;496.2068965517241&quot; y=&quot;564.9264705882354&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-11&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;formal statement&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;278.1034482758621&quot; y=&quot;233.8235294117647&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-12&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-11&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-1&quot;
+        value=&quot;isa&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; x=&quot;-0.4286&quot; y=&quot;-20&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;mxPoint x=&quot;591.0344827586207&quot;
+        y=&quot;585.8823529411765&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;742.7586206896552&quot;
+        y=&quot;585.8823529411765&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-16&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-11&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-2&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-1&quot;
+        y=&quot;3&quot; as=&quot;geometry&quot;&gt; &lt;Array
+        as=&quot;points&quot;&gt; &lt;mxPoint x=&quot;335&quot;
+        y=&quot;318&quot; /&gt; &lt;mxPoint x=&quot;210&quot;
+        y=&quot;318&quot; /&gt; &lt;/Array&gt; &lt;mxPoint
+        x=&quot;353.9655172413793&quot; y=&quot;334.4117647058823&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;505.6896551724138&quot; y=&quot;334.4117647058823&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-17&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-11&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-3&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-1&quot;
+        y=&quot;3&quot; as=&quot;geometry&quot;&gt; &lt;mxPoint
+        x=&quot;420.3448275862069&quot; y=&quot;309.2647058823529&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;572.0689655172414&quot; y=&quot;309.2647058823529&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-18&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-3&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-4&quot;
+        value=&quot;isa&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; x=&quot;-0.4286&quot; y=&quot;-20&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;mxPoint x=&quot;600.5172413793103&quot;
+        y=&quot;384.7058823529412&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;477.2413793103448&quot;
+        y=&quot;418.2352941176471&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-21&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-4&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-8&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-1&quot;
+        y=&quot;3&quot; as=&quot;geometry&quot;&gt; &lt;Array
+        as=&quot;points&quot;&gt; &lt;mxPoint
+        x=&quot;458.2758620689655&quot; y=&quot;523.0147058823529&quot;
+        /&gt; &lt;mxPoint x=&quot;553.1034482758621&quot;
+        y=&quot;523.0147058823529&quot; /&gt; &lt;mxPoint
+        x=&quot;553.1034482758621&quot; y=&quot;552.3529411764706&quot;
+        /&gt; &lt;/Array&gt; &lt;mxPoint x=&quot;458.2758620689655&quot;
+        y=&quot;527.205882352941&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;610&quot; y=&quot;569.1176470588236&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-22&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-4&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-5&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-1&quot;
+        y=&quot;3&quot; as=&quot;geometry&quot;&gt; &lt;Array
+        as=&quot;points&quot;&gt; &lt;mxPoint
+        x=&quot;458.2758620689655&quot; y=&quot;523.0147058823529&quot;
+        /&gt; &lt;mxPoint x=&quot;401.3793103448276&quot;
+        y=&quot;523.0147058823529&quot; /&gt; &lt;mxPoint
+        x=&quot;401.3793103448276&quot; y=&quot;552.3529411764706&quot;
+        /&gt; &lt;/Array&gt; &lt;mxPoint x=&quot;249.6551724137931&quot;
+        y=&quot;502.05882352941177&quot; as=&quot;sourcePoint&quot;
+        /&gt; &lt;mxPoint x=&quot;401.3793103448276&quot;
+        y=&quot;502.05882352941177&quot; as=&quot;targetPoint&quot;
+        /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-27&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;number set&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot; x=&quot;60&quot;
+        y=&quot;678.0882352941177&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-28&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-27&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-6&quot;
+        value=&quot;isa&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; x=&quot;0.491&quot; y=&quot;-35&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;Array as=&quot;points&quot; /&gt; &lt;mxPoint
+        x=&quot;173.79310344827587&quot; y=&quot;728.3823529411765&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;173.79310344827587&quot; y=&quot;778.6764705882354&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-29&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;constructed set&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot;
+        x=&quot;240.17241379310346&quot; y=&quot;678.0882352941177&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-30&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-5&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-29&quot;
+        value=&quot;isa&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; x=&quot;-0.4286&quot; y=&quot;-20&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;Array as=&quot;points&quot; /&gt; &lt;mxPoint
+        x=&quot;401.37590306751036&quot; y=&quot;577.4980465175121&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;505.6862478950966&quot; y=&quot;723.8913652471939&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-31&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-29&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-6&quot;
+        value=&quot;2&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        x=&quot;-0.7892&quot; y=&quot;25&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;mxPoint x=&quot;458.2758620689655&quot;
+        y=&quot;678.0882352941177&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;325.51724137931035&quot;
+        y=&quot;678.0882352941177&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-37&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-29&quot;
+        style=&quot;endArrow=classic;html=1;rounded=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-7&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry height=&quot;50&quot; relative=&quot;1&quot;
+        width=&quot;50&quot; as=&quot;geometry&quot;&gt; &lt;Array
+        as=&quot;points&quot;&gt; &lt;mxPoint
+        x=&quot;553.1034482758621&quot; y=&quot;699.0441176470588&quot;
+        /&gt; &lt;/Array&gt; &lt;mxPoint x=&quot;610&quot;
+        y=&quot;845.7352941176471&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;657.4137931034483&quot;
+        y=&quot;803.8235294117648&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-38&quot; parent=&quot;1&quot;
+        style=&quot;text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;&quot;
+        value=&quot;requires&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;16.764705882352942&quot;
+        width=&quot;56.89655172413793&quot;
+        x=&quot;486.7241379310345&quot; y=&quot;669.7058823529412&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-39&quot; parent=&quot;1&quot;
+        style=&quot;text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;&quot;
+        value=&quot;&amp;lt;font style=&amp;quot;font-size:
+        18px;&amp;quot;&amp;gt;*&amp;lt;/font&amp;gt;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        height=&quot;25.147058823529413&quot;
+        width=&quot;18.96551724137931&quot;
+        x=&quot;344.48275862068965&quot;
+        y=&quot;279.99764705882353&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-42&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;8fY0ih4KfIxNHs2CR79k-29&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.221;exitY=0.157;exitDx=0;exitDy=0;exitPerimeter=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-6&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; width=&quot;160&quot;
+        x=&quot;-0.4286&quot; y=&quot;-20&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;mxPoint x=&quot;240.17241379310346&quot;
+        y=&quot;746.8235294117648&quot; as=&quot;sourcePoint&quot; /&gt;
+        &lt;mxPoint x=&quot;297.0689655172414&quot;
+        y=&quot;552.3529411764706&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;8fY0ih4KfIxNHs2CR79k-45&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;Boolean values&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;41.911764705882355&quot;
+        width=&quot;113.79310344827586&quot; x=&quot;80&quot;
+        y=&quot;250&quot; as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt;
+        &lt;mxCell id=&quot;8fY0ih4KfIxNHs2CR79k-46&quot;
+        edge=&quot;1&quot; parent=&quot;1&quot;
+        source=&quot;8fY0ih4KfIxNHs2CR79k-45&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;8fY0ih4KfIxNHs2CR79k-6&quot;
+        value=&quot;isa&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; x=&quot;0.491&quot; y=&quot;-35&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;Array as=&quot;points&quot; /&gt; &lt;mxPoint
+        x=&quot;90&quot; y=&quot;629&quot; as=&quot;sourcePoint&quot;
+        /&gt; &lt;mxPoint x=&quot;134&quot; y=&quot;430&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;/root&gt; &lt;/mxGraphModel&gt;
+        &lt;/diagram&gt;
+        &lt;/mxfile&gt;
+        " onclick="(function(svg){var
+        src=window.event.target||window.event.srcElement;while
+        (src!=null&amp;&amp;src.nodeName.toLowerCase()!=''a''){src=src.parentNode;}if(src==null){if(svg.wnd!=null&amp;&amp;!svg.wnd.closed){svg.wnd.focus();}else{var
+r=function(evt){if(evt.data==''ready''&amp;&amp;evt.source==svg.wnd){svg.wnd.postMessage(decodeURIComponent(svg.getAttribute(''content'')),''*'');window.removeEventListener(''message'',r);}};window.addEventListener(''message'',r);svg.wnd=window.open(''https://viewer.diagrams.net/?client=1&amp;page=0&amp;edit=_blank'');}}})(this);"><defs></defs><g><g
+            data-cell-id="0"><g data-cell-id="1"><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="275"
+                    cy="20.96" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 21px;
+                          margin-left: 219px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">proposition</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="275" y="25"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">proposition</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="161.21"
+                    cy="220.95" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 221px;
+                          margin-left: 105px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">quantifiers</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="161" y="225"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">quantifiers</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="398.28"
+                    cy="230.51" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 231px;
+                          margin-left: 342px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">predicate</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="398" y="234"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">predicate</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="398.28"
+                    cy="322.72" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 323px;
+                          margin-left: 342px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">function</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="398" y="326"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">function</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="341.38"
+                    cy="427.5" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 428px;
+                          margin-left: 285px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">directed-pair</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="341" y="431"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">directed-pair</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="142.24"
+                    cy="314.34" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 314px;
+                          margin-left: 86px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">set</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="142" y="318"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">set</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g
+                  transform="translate(0.5,0.5)"><rect x="436.21"
+                    y="469.41" width="113.79" height="25.15" fill="none"
+                    stroke="#000000" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
+                    d="M 447.21 469.41 L 447.21 494.56 M 539 469.41 L
+                    539 494.56" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          89px; height: 1px; padding-top: 482px;
+                          margin-left: 448px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">set
+                              constructor</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="493" y="486"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">set constructor</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-8"><g
+                  transform="translate(0.5,0.5)"><rect x="436.21"
+                    y="414.93" width="113.79" height="25.15" fill="none"
+                    stroke="#000000" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
+                    d="M 447.21 414.93 L 447.21 440.07 M 539 414.93 L
+                    539 440.07" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          89px; height: 1px; padding-top: 428px;
+                          margin-left: 448px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">rule</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="493" y="431"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">rule</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-11"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="275"
+                    cy="104.78" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 105px;
+                          margin-left: 219px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">formal
+                              statement</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="275" y="108"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">formal statement</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-12"><g
+                  transform="translate(0.5,0.5)"><path d="M 275 83.82 L
+                    275 60.03" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 275 43.03 L 283.5
+                    60.03 L 266.5 60.03 Z" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          1px; height: 1px; padding-top: 72px;
+                          margin-left: 295px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">isa</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="295" y="75"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px"
+                        text-anchor="middle">isa</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-16"><g
+                  transform="translate(0.5,0.5)"><path d="M 275 141.72 L
+                    275 168 L 150 168 L 150 198.17" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 275 126.72 L 279.41 134.22 L 275 141.72 L
+                    270.59 134.22 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 143.5 186.29 L 150
+                    199.29 L 156.5 186.29" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-17"><g
+                  transform="translate(0.5,0.5)"><path d="M 275 141.72 L
+                    275 167.7 L 398.3 167.7 L 398.28 207.32" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 275 126.72 L 279.41 134.22 L 275 141.72 L
+                    270.59 134.22 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 391.78 195.44 L
+                    398.28 208.44 L 404.78 195.44" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-18"><g
+                  transform="translate(0.5,0.5)"><path d="M 398.28
+                    251.47 L 398.28 283.65" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 398.28 300.65 L
+                    389.78 283.65 L 406.78 283.65 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          1px; height: 1px; padding-top: 265px;
+                          margin-left: 378px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">isa</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="378" y="269"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px"
+                        text-anchor="middle">isa</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-21"><g
+                  transform="translate(0.5,0.5)"><path d="M 398.29
+                    359.66 L 398.3 373 L 493.1 373 L 493.1 402.4 L 493.1
+                    412.69" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 398.28 344.66 L
+                    402.69 352.16 L 398.29 359.66 L 393.87 352.17 Z"
+                    fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 486.6 400.81 L 493.1
+                    413.81 L 499.6 400.81" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-22"><g
+                  transform="translate(0.5,0.5)"><path d="M 398.29
+                    359.66 L 398.3 373 L 341.4 373 L 341.4 402.4 L
+                    341.39 404.31" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 398.28 344.66 L
+                    402.69 352.16 L 398.29 359.66 L 393.87 352.17 Z"
+                    fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 334.95 392.39 L
+                    341.38 405.43 L 347.95 392.46" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="56.9"
+                    cy="549.04" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 549px;
+                          margin-left: 1px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">number
+                              set</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="57" y="553"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">number set</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-28"><g
+                  transform="translate(0.5,0.5)"><path d="M 56.9 528.09
+                    L 97.44 346.61" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 101.15 330.02 L
+                    105.74 348.46 L 89.15 344.75 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          1px; height: 1px; padding-top: 387px;
+                          margin-left: 124px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">isa</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="124" y="391"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px"
+                        text-anchor="middle">isa</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-29"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="237.07"
+                    cy="549.04" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 549px;
+                          margin-left: 181px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">constructed
+                              set</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="237" y="553"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">constructed set</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-30"><g
+                  transform="translate(0.5,0.5)"><path d="M 341.38
+                    448.46 L 288.67 519.88" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 278.58 533.56 L
+                    281.83 514.83 L 295.51 524.92 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          1px; height: 1px; padding-top: 462px;
+                          margin-left: 307px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">isa</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="307" y="465"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px"
+                        text-anchor="middle">isa</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-31"><g
+                  transform="translate(0.5,0.5)"><path d="M 237.07 512.1
+                    L 237.1 314.3 L 201.37 314.34" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 237.07 527.1 L 232.66 519.6 L 237.07 512.1 L
+                    241.48 519.6 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 213.25 307.82 L
+                    200.26 314.34 L 213.26 320.82" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          flex-end; justify-content: unsafe flex-start;
+                          width: 1px; height: 1px; padding-top: 498px;
+                          margin-left: 214px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: left; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">2</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="214" y="498"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px">2</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-37"><g
+                  transform="translate(0.5,0.5)"><path d="M 293.97
+                    549.04 L 493.1 549.04 L 493.1 500.93" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    stroke-dasharray="3 3" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 493.1 495.68 L 496.6
+                    502.68 L 493.1 500.93 L 489.6 502.68 Z"
+                    fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g
+                  transform="translate(0.5,0.5)"><rect x="426.72"
+                    y="519.71" width="56.9" height="16.76" fill="none"
+                    stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          55px; height: 1px; padding-top: 528px;
+                          margin-left: 428px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">requires</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="455" y="532"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">requires</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-39"><g
+                  transform="translate(0.5,0.5)"><rect x="284.48"
+                    y="130" width="18.97" height="25.15" fill="none"
+                    stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          17px; height: 1px; padding-top: 143px;
+                          margin-left: 285px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; "><font
+                                style="font-size: 18px;">*</font></div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="294" y="146"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">*</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-42"><g
+                  transform="translate(0.5,0.5)"><path d="M 205.32
+                    534.67 L 147.71 352.57" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 142.58 336.36 L
+                    155.81 350 L 139.6 355.13 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g
+                  transform="translate(0.5,0.5)"><ellipse cx="76.9"
+                    cy="120.96" rx="56.89655172413793"
+                    ry="20.955882352941178" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          112px; height: 1px; padding-top: 121px;
+                          margin-left: 21px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">Boolean
+                              values</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="77" y="125"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">Boolean values</text></switch></g></g></g><g
+                data-cell-id="8fY0ih4KfIxNHs2CR79k-46"><g
+                  transform="translate(0.5,0.5)"><path d="M 76.9 141.91
+                    L 98.62 281.85" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 101.22 298.65 L 90.22
+                    283.15 L 107.02 280.54 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          1px; height: 1px; padding-top: 265px;
+                          margin-left: 61px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000;
+                            background-color: #ffffff; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              background-color: light-dark(#ffffff,
+                              var(--ge-dark-color, #121212));
+                              white-space: nowrap; ">isa</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="61" y="268"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px"
+                        text-anchor="middle">isa</text></switch></g></g></g></g></g></g><switch><g
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a
+            transform="translate(0,-5)"
+            xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems"
+            target="_blank"><text text-anchor="middle" font-size="10px"
+              x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg><br>
+      <br>
+      The conceptual model is complemented by the middle way math
+      computational model, as illustrated in the following diagram.<br>
+    </p>
+    <blockquote><svg xmlns="http://www.w3.org/2000/svg"
+        style="cursor:pointer;max-width:100%;max-height:686px;"
+        xlink="http://www.w3.org/1999/xlink" version="1.1" width="641px"
+        viewBox="-0.5 -0.5 641 686" content="&lt;mxfile
+        host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT
+        10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+        draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0
+        Safari/537.36&quot; version=&quot;29.3.6&quot;&gt; &lt;diagram
+        name=&quot;Page-1&quot; id=&quot;SI4uApYOj5CjeV5BbtYA&quot;&gt;
+        &lt;mxGraphModel dx=&quot;1013&quot; dy=&quot;756&quot;
+        grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot;
+        tooltips=&quot;1&quot; connect=&quot;1&quot;
+        arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot;
+        pageScale=&quot;1&quot; pageWidth=&quot;850&quot;
+        pageHeight=&quot;1100&quot; math=&quot;0&quot;
+        shadow=&quot;0&quot;&gt; &lt;root&gt; &lt;mxCell
+        id=&quot;0&quot; /&gt; &lt;mxCell id=&quot;1&quot;
+        parent=&quot;0&quot; /&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-7&quot; parent=&quot;1&quot;
+        style=&quot;swimlane;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;Formal Statement&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;60&quot; width=&quot;200&quot;
+        x=&quot;90&quot; y=&quot;150&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell id=&quot;ptby2ZPBaP-rPuBbrWYJ-8&quot;
+        parent=&quot;1&quot;
+        style=&quot;swimlane;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;Theorem&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;60&quot; width=&quot;200&quot;
+        x=&quot;90&quot; y=&quot;330&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-10&quot; parent=&quot;1&quot;
+        style=&quot;swimlane;whiteSpace=wrap;html=1;startSize=23;fillColor=none;&quot;
+        value=&quot;Theorem Instantiation&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;61&quot; width=&quot;200&quot;
+        x=&quot;90&quot; y=&quot;469&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-61&quot;
+        parent=&quot;ptby2ZPBaP-rPuBbrWYJ-10&quot;
+        style=&quot;text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;&quot;
+        value=&quot;(e.g. function)&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;30&quot; width=&quot;90&quot;
+        x=&quot;60&quot; y=&quot;31&quot; as=&quot;geometry&quot; /&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-11&quot; parent=&quot;1&quot;
+        style=&quot;swimlane;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;Directed Equality&amp;amp;nbsp;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;100&quot;
+        width=&quot;200&quot; x=&quot;430&quot; y=&quot;310&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-13&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-11&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        width=&quot;160&quot; as=&quot;geometry&quot;&gt; &lt;Array
+        as=&quot;points&quot;&gt; &lt;mxPoint x=&quot;530&quot;
+        y=&quot;260&quot; /&gt; &lt;mxPoint x=&quot;190&quot;
+        y=&quot;260&quot; /&gt; &lt;/Array&gt; &lt;mxPoint
+        x=&quot;240&quot; y=&quot;550&quot; as=&quot;sourcePoint&quot;
+        /&gt; &lt;mxPoint x=&quot;190&quot; y=&quot;210&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-15&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-8&quot;
+        style=&quot;endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-7&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; width=&quot;160&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;190&quot;
+        y=&quot;460&quot; as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;350&quot; y=&quot;460&quot; as=&quot;targetPoint&quot;
+        /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-23&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-10&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-11&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        x=&quot;-0.25&quot; y=&quot;30&quot; as=&quot;geometry&quot;&gt;
+        &lt;mxPoint as=&quot;offset&quot; /&gt; &lt;mxPoint
+        x=&quot;520&quot; y=&quot;480&quot; as=&quot;sourcePoint&quot;
+        /&gt; &lt;mxPoint x=&quot;680&quot; y=&quot;480&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-24&quot; connectable=&quot;0&quot;
+        parent=&quot;ptby2ZPBaP-rPuBbrWYJ-23&quot;
+        style=&quot;edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;&quot;
+        value=&quot;1&quot; vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        relative=&quot;1&quot; x=&quot;-1&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;20&quot;
+        as=&quot;offset&quot; /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt;
+        &lt;mxCell id=&quot;ptby2ZPBaP-rPuBbrWYJ-26&quot;
+        parent=&quot;1&quot;
+        style=&quot;swimlane;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;calculator template (stencil)&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;60&quot;
+        width=&quot;200&quot; x=&quot;380&quot; y=&quot;510&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-29&quot; parent=&quot;1&quot;
+        style=&quot;ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;Mathematical&amp;lt;div&amp;gt;Concept&amp;lt;/div&amp;gt;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;140&quot;
+        width=&quot;260&quot; x=&quot;390&quot; y=&quot;50&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-30&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-29&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.1;exitY=0.661;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitPerimeter=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-7&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-0.25&quot;
+        y=&quot;30&quot; as=&quot;geometry&quot;&gt; &lt;mxPoint
+        as=&quot;offset&quot; /&gt; &lt;mxPoint x=&quot;680&quot;
+        y=&quot;180&quot; as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;840&quot; y=&quot;180&quot; as=&quot;targetPoint&quot;
+        /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-31&quot; connectable=&quot;0&quot;
+        parent=&quot;ptby2ZPBaP-rPuBbrWYJ-30&quot;
+        style=&quot;edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;&quot;
+        value=&quot;1..*&quot; vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        relative=&quot;1&quot; x=&quot;-1&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;-36&quot;
+        as=&quot;offset&quot; /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt;
+        &lt;mxCell id=&quot;ptby2ZPBaP-rPuBbrWYJ-32&quot;
+        parent=&quot;1&quot;
+        style=&quot;shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=none;&quot;
+        value=&quot;middle
+        way&amp;lt;div&amp;gt;calculation&amp;lt;div&amp;gt;machine&amp;lt;span
+        style=&amp;quot;color: rgba(0, 0, 0, 0); font-family: monospace;
+        font-size: 0px; text-align: start; text-wrap-mode: nowrap;
+        background-color:
+        transparent;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;&amp;lt;span
+        style=&amp;quot;color: rgba(0, 0, 0, 0); font-family: monospace;
+        font-size: 0px; text-align: start; text-wrap-mode: nowrap;
+        background-color:
+        transparent;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;&amp;lt;span
+        style=&amp;quot;color: rgba(0, 0, 0, 0); font-family: monospace;
+        font-size: 0px; text-align: start; text-wrap-mode: nowrap;
+        background-color:
+        transparent;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;&amp;lt;span
+        style=&amp;quot;color: rgba(0, 0, 0, 0); font-family: monospace;
+        font-size: 0px; text-align: start; text-wrap-mode: nowrap;
+        background-color:
+        transparent;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;70&quot;
+        width=&quot;160&quot; x=&quot;130&quot; y=&quot;615&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-51&quot; parent=&quot;1&quot;
+        style=&quot;shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=none;&quot;
+        value=&quot;FS&amp;lt;div&amp;gt;calculator&amp;lt;/div&amp;gt;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;60&quot;
+        width=&quot;120&quot; x=&quot;420&quot; y=&quot;620&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-53&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-51&quot;
+        style=&quot;endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8
+        8;&quot; target=&quot;ptby2ZPBaP-rPuBbrWYJ-32&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry height=&quot;50&quot;
+        relative=&quot;1&quot; width=&quot;50&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;360&quot;
+        y=&quot;760&quot; as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;410&quot; y=&quot;710&quot; as=&quot;targetPoint&quot;
+        /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-55&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-26&quot;
+        style=&quot;endArrow=classic;html=1;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-51&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry height=&quot;50&quot;
+        relative=&quot;1&quot; width=&quot;50&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;720&quot;
+        y=&quot;480&quot; as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint
+        x=&quot;770&quot; y=&quot;430&quot; as=&quot;targetPoint&quot;
+        /&gt; &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-62&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-8&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-10&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        x=&quot;-0.25&quot; y=&quot;30&quot; as=&quot;geometry&quot;&gt;
+        &lt;mxPoint as=&quot;offset&quot; /&gt; &lt;mxPoint
+        x=&quot;200&quot; y=&quot;400&quot; as=&quot;sourcePoint&quot;
+        /&gt; &lt;mxPoint x=&quot;190&quot; y=&quot;420&quot;
+        as=&quot;targetPoint&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-63&quot; connectable=&quot;0&quot;
+        parent=&quot;ptby2ZPBaP-rPuBbrWYJ-62&quot;
+        style=&quot;edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;&quot;
+        value=&quot;0..*&quot; vertex=&quot;1&quot;&gt; &lt;mxGeometry
+        relative=&quot;1&quot; x=&quot;-1&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint x=&quot;5&quot;
+        y=&quot;10&quot; as=&quot;offset&quot; /&gt; &lt;/mxGeometry&gt;
+        &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;ptby2ZPBaP-rPuBbrWYJ-67&quot; parent=&quot;1&quot;
+        style=&quot;text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;&quot;
+        value=&quot;&amp;lt;font style=&amp;quot;font-size:
+        20px;&amp;quot;&amp;gt;middle way math computational
+        model&amp;lt;/font&amp;gt;&quot; vertex=&quot;1&quot;&gt;
+        &lt;mxGeometry height=&quot;40&quot; width=&quot;360&quot;
+        x=&quot;230&quot; as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt;
+        &lt;mxCell id=&quot;-qdD8BeOlldyrR-mFRZQ-4&quot;
+        parent=&quot;1&quot;
+        style=&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;&quot;
+        value=&quot;middle
+        way&amp;lt;div&amp;gt;pseudocode&amp;amp;nbsp;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;block&amp;lt;/div&amp;gt;&quot;
+        vertex=&quot;1&quot;&gt; &lt;mxGeometry height=&quot;60&quot;
+        width=&quot;120&quot; x=&quot;610&quot; y=&quot;510&quot;
+        as=&quot;geometry&quot; /&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;-qdD8BeOlldyrR-mFRZQ-6&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-11&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-26&quot;
+        value=&quot;1&quot;&gt; &lt;mxGeometry relative=&quot;1&quot;
+        x=&quot;-0.6923&quot; y=&quot;-20&quot;
+        as=&quot;geometry&quot;&gt; &lt;mxPoint as=&quot;offset&quot;
+        /&gt; &lt;mxPoint x=&quot;480&quot; y=&quot;430&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint x=&quot;810&quot;
+        y=&quot;649.5&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;-qdD8BeOlldyrR-mFRZQ-7&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;ptby2ZPBaP-rPuBbrWYJ-11&quot;
+        style=&quot;endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;&quot;
+        target=&quot;-qdD8BeOlldyrR-mFRZQ-4&quot; value=&quot;&quot;&gt;
+        &lt;mxGeometry relative=&quot;1&quot; x=&quot;-0.6923&quot;
+        y=&quot;-20&quot; as=&quot;geometry&quot;&gt; &lt;mxPoint
+        as=&quot;offset&quot; /&gt; &lt;Array as=&quot;points&quot;&gt;
+        &lt;mxPoint x=&quot;530&quot; y=&quot;460&quot; /&gt;
+        &lt;mxPoint x=&quot;670&quot; y=&quot;460&quot; /&gt;
+        &lt;/Array&gt; &lt;mxPoint x=&quot;750&quot; y=&quot;400&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint x=&quot;710&quot;
+        y=&quot;490&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;mxCell
+        id=&quot;-qdD8BeOlldyrR-mFRZQ-8&quot; edge=&quot;1&quot;
+        parent=&quot;1&quot; source=&quot;-qdD8BeOlldyrR-mFRZQ-4&quot;
+        style=&quot;endArrow=classic;html=1;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;&quot;
+        target=&quot;ptby2ZPBaP-rPuBbrWYJ-51&quot;
+        value=&quot;&quot;&gt; &lt;mxGeometry height=&quot;50&quot;
+        relative=&quot;1&quot; width=&quot;50&quot;
+        as=&quot;geometry&quot;&gt; &lt;Array as=&quot;points&quot;&gt;
+        &lt;mxPoint x=&quot;670&quot; y=&quot;650&quot; /&gt;
+        &lt;/Array&gt; &lt;mxPoint x=&quot;790&quot; y=&quot;660&quot;
+        as=&quot;sourcePoint&quot; /&gt; &lt;mxPoint x=&quot;790&quot;
+        y=&quot;710&quot; as=&quot;targetPoint&quot; /&gt;
+        &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;/root&gt;
+        &lt;/mxGraphModel&gt; &lt;/diagram&gt;
+        &lt;/mxfile&gt;
+        " onclick="(function(svg){var
+        src=window.event.target||window.event.srcElement;while
+        (src!=null&amp;&amp;src.nodeName.toLowerCase()!=''a''){src=src.parentNode;}if(src==null){if(svg.wnd!=null&amp;&amp;!svg.wnd.closed){svg.wnd.focus();}else{var
+r=function(evt){if(evt.data==''ready''&amp;&amp;evt.source==svg.wnd){svg.wnd.postMessage(decodeURIComponent(svg.getAttribute(''content'')),''*'');window.removeEventListener(''message'',r);}};window.addEventListener(''message'',r);svg.wnd=window.open(''https://viewer.diagrams.net/?client=1&amp;page=0&amp;edit=_blank'');}}})(this);"><defs></defs><g><g
+            data-cell-id="0"><g data-cell-id="1"><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-7"><g
+                  transform="translate(0.5,0.5)"><path d="M 0 173 L 0
+                    150 L 200 150 L 200 173" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 173 L 0 210 L 200 210 L 200 173" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 173 L 200 173" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="none"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          198px; height: 1px; padding-top: 162px;
+                          margin-left: 1px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              font-weight: bold; white-space: normal;
+                              word-wrap: normal; ">Formal Statement</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="100" y="165"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle" font-weight="bold">Formal
+                        Statement</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-8"><g
+                  transform="translate(0.5,0.5)"><path d="M 0 353 L 0
+                    330 L 200 330 L 200 353" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 353 L 0 390 L 200 390 L 200 353" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 353 L 200 353" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="none"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          198px; height: 1px; padding-top: 342px;
+                          margin-left: 1px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              font-weight: bold; white-space: normal;
+                              word-wrap: normal; ">Theorem</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="100" y="345"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle" font-weight="bold">Theorem</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-10"><g
+                  transform="translate(0.5,0.5)"><path d="M 0 492 L 0
+                    469 L 200 469 L 200 492" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 492 L 0 530 L 200 530 L 200 492" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 0 492 L 200 492" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="none"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          198px; height: 1px; padding-top: 481px;
+                          margin-left: 1px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              font-weight: bold; white-space: normal;
+                              word-wrap: normal; ">Theorem Instantiation</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="100" y="484"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle" font-weight="bold">Theorem
+                        Instantiation</text></switch></g></g><g
+                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-61"><g
+                    transform="translate(0.5,0.5)"><rect x="60" y="500"
+                      width="90" height="30" fill="none" stroke="none"
+                      pointer-events="all"></rect></g><g><g><switch><foreignObject
+                          style="overflow: visible; text-align: left;"
+                          pointer-events="none" width="100%"
+                          height="100%"
+                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml"
+                            style="display: flex; align-items: unsafe
+                            center; justify-content: unsafe center;
+                            width: 88px; height: 1px; padding-top:
+                            515px; margin-left: 61px;">
+                            <div style="box-sizing: border-box;
+                              font-size: 0; text-align: center; color:
+                              #000000; ">
+                              <div style="display: inline-block;
+                                font-size: 12px; font-family: Helvetica;
+                                color: light-dark(#000000, #ffffff);
+                                line-height: 1.2; pointer-events: all;
+                                white-space: normal; word-wrap: normal;
+                                ">(e.g. function)</div>
+                            </div>
+                          </div>
+                        </foreignObject><text x="105" y="519"
+                          fill="light-dark(#000000, #ffffff)"
+                          font-family="Helvetica" font-size="12px"
+                          text-anchor="middle">(e.g. function)</text></switch></g></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-11"><g
+                  transform="translate(0.5,0.5)"><path d="M 340 333 L
+                    340 310 L 540 310 L 540 333" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 340 333 L 340 410 L 540 410 L 540 333"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 340 333 L 540 333" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="none"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          198px; height: 1px; padding-top: 322px;
+                          margin-left: 341px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              font-weight: bold; white-space: normal;
+                              word-wrap: normal; ">Directed
+                              Equality&nbsp;</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="440" y="325"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle" font-weight="bold">Directed
+                        Equality&nbsp;</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-13"><g
+                  transform="translate(0.5,0.5)"><path d="M 440 310 L
+                    440 260 L 100 260 L 100 228.12" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 100 211.12 L 108.5 228.12 L 91.5 228.12 Z"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-15"><g
+                  transform="translate(0.5,0.5)"><path d="M 100 330 L
+                    100 228.12" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 100 211.12 L 108.5
+                    228.12 L 91.5 228.12 Z" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-23"><g
+                  transform="translate(0.5,0.5)"><path d="M 215.99
+                    499.51 L 270.06 499.53 L 270.06 360 L 337.76 360"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 200.99 499.5 L 208.49 495.09 L 215.99 499.51 L
+                    208.48 503.92 Z" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 325.88 366.5 L 338.88
+                    360 L 325.88 353.5" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g
+                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-24"><g><g><switch><foreignObject
+                          style="overflow: visible; text-align: left;"
+                          pointer-events="none" width="100%"
+                          height="100%"
+                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml"
+                            style="display: flex; align-items: unsafe
+                            flex-start; justify-content: unsafe
+                            flex-start; width: 1px; height: 1px;
+                            padding-top: 507px; margin-left: 222px;">
+                            <div style="box-sizing: border-box;
+                              font-size: 0; text-align: left; color:
+                              #000000; background-color: #ffffff; ">
+                              <div style="display: inline-block;
+                                font-size: 11px; font-family: Helvetica;
+                                color: light-dark(#000000, #ffffff);
+                                line-height: 1.2; pointer-events: all;
+                                background-color: light-dark(#ffffff,
+                                var(--ge-dark-color, #121212));
+                                white-space: nowrap; ">1</div>
+                            </div>
+                          </div>
+                        </foreignObject><text x="222" y="518"
+                          fill="light-dark(#000000, #ffffff)"
+                          font-family="Helvetica" font-size="11px">1</text></switch></g></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-26"><g
+                  transform="translate(0.5,0.5)"><path d="M 290 533 L
+                    290 510 L 490 510 L 490 533" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 290 533 L 290 570 L 490 570 L 490 533"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 290 533 L 490 533" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="none"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          198px; height: 1px; padding-top: 522px;
+                          margin-left: 291px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              font-weight: bold; white-space: normal;
+                              word-wrap: normal; ">calculator template
+                              (stencil)</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="390" y="525"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle" font-weight="bold">calculator
+                        template (stencil)</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-29"><g
+                  transform="translate(0.5,0.5)"><path d="M 365 85 C 313
+                    85 300 120 341.6 127 C 300 142.4 346.8 176 380.6 162
+                    C 404 190 482 190 508 162 C 560 162 560 134 527.5
+                    120 C 560 92 508 64 462.5 78 C 430 57 378 57 365 85
+                    Z" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          258px; height: 1px; padding-top: 120px;
+                          margin-left: 301px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">Mathematical
+                              <div>Concept</div>
+                            </div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="430" y="124"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">Mathematical...</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-30"><g
+                  transform="translate(0.5,0.5)"><path d="M 310.01
+                    142.53 L 250.06 142.47 L 250.06 180 L 202.24 180"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 325.01 142.54 L 317.51 146.94 L 310.01 142.53 L
+                    317.52 138.12 Z" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 214.12 173.5 L 201.12
+                    180 L 214.12 186.5" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g
+                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-31"><g><g><switch><foreignObject
+                          style="overflow: visible; text-align: left;"
+                          pointer-events="none" width="100%"
+                          height="100%"
+                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml"
+                            style="display: flex; align-items: unsafe
+                            flex-start; justify-content: unsafe
+                            flex-start; width: 1px; height: 1px;
+                            padding-top: 150px; margin-left: 292px;">
+                            <div style="box-sizing: border-box;
+                              font-size: 0; text-align: left; color:
+                              #000000; background-color: #ffffff; ">
+                              <div style="display: inline-block;
+                                font-size: 11px; font-family: Helvetica;
+                                color: light-dark(#000000, #ffffff);
+                                line-height: 1.2; pointer-events: all;
+                                background-color: light-dark(#ffffff,
+                                var(--ge-dark-color, #121212));
+                                white-space: nowrap; ">1..*</div>
+                            </div>
+                          </div>
+                        </foreignObject><text x="292" y="161"
+                          fill="light-dark(#000000, #ffffff)"
+                          font-family="Helvetica" font-size="11px">1..*</text></switch></g></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-32"><g
+                  transform="translate(0.5,0.5)"><rect x="40" y="615"
+                    width="160" height="70" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
+                    d="M 56 615 L 56 685 M 184 615 L 184 685"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          126px; height: 1px; padding-top: 650px;
+                          margin-left: 57px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">middle
+                              way
+                              <div>calculation
+                                <div>machine<span style="color: rgba(0,
+                                    0, 0, 0); font-family: monospace;
+                                    font-size: 0px; text-align: start;
+                                    text-wrap-mode: nowrap;
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
+                                    style="color: rgba(0, 0, 0, 0);
+                                    font-family: monospace; font-size:
+                                    0px; text-align: start;
+                                    text-wrap-mode: nowrap;
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
+                                    style="color: rgba(0, 0, 0, 0);
+                                    font-family: monospace; font-size:
+                                    0px; text-align: start;
+                                    text-wrap-mode: nowrap;
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
+                                    style="color: rgba(0, 0, 0, 0);
+                                    font-family: monospace; font-size:
+                                    0px; text-align: start;
+                                    text-wrap-mode: nowrap;
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="121" y="654"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">middle way...</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-51"><g
+                  transform="translate(0.5,0.5)"><rect x="330" y="620"
+                    width="120" height="60" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
+                    d="M 342 620 L 342 680 M 438 620 L 438 680"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          94px; height: 1px; padding-top: 650px;
+                          margin-left: 343px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">FS
+                              <div>calculator</div>
+                            </div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="390" y="654"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">FS...</text></switch></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-53"><g
+                  transform="translate(0.5,0.5)"><path d="M 330 650 L
+                    206.37 650" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" stroke-dasharray="8 8"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 201.12 650 L 208.12 646.5 L 206.37 650 L 208.12
+                    653.5 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-55"><g
+                  transform="translate(0.5,0.5)"><path d="M 390 570 L
+                    390 613.63" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" stroke-dasharray="3 3"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 390 618.88 L 386.5 611.88 L 390 613.63 L 393.5
+                    611.88 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-62"><g
+                  transform="translate(0.5,0.5)"><path d="M 100 405.99 L
+                    100 466.76" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="stroke"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 100 390.99 L 104.41
+                    398.49 L 100 405.99 L 95.59 398.49 Z" fill="none"
+                    stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 93.5 454.88 L 100 467.88 L 106.5 454.88"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g
+                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-63"><g><g><switch><foreignObject
+                          style="overflow: visible; text-align: left;"
+                          pointer-events="none" width="100%"
+                          height="100%"
+                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml"
+                            style="display: flex; align-items: unsafe
+                            flex-start; justify-content: unsafe
+                            flex-start; width: 1px; height: 1px;
+                            padding-top: 407px; margin-left: 107px;">
+                            <div style="box-sizing: border-box;
+                              font-size: 0; text-align: left; color:
+                              #000000; background-color: #ffffff; ">
+                              <div style="display: inline-block;
+                                font-size: 11px; font-family: Helvetica;
+                                color: light-dark(#000000, #ffffff);
+                                line-height: 1.2; pointer-events: all;
+                                background-color: light-dark(#ffffff,
+                                var(--ge-dark-color, #121212));
+                                white-space: nowrap; ">0..*</div>
+                            </div>
+                          </div>
+                        </foreignObject><text x="107" y="418"
+                          fill="light-dark(#000000, #ffffff)"
+                          font-family="Helvetica" font-size="11px">0..*</text></switch></g></g></g></g><g
+                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-67"><g
+                  transform="translate(0.5,0.5)"><rect x="140" y="0"
+                    width="360" height="40" fill="none" stroke="none"
+                    pointer-events="all"></rect></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          358px; height: 1px; padding-top: 20px;
+                          margin-left: 141px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; "><font
+                                style="font-size: 20px;">middle way math
+                                computational model</font></div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="320" y="24"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">middle way math
+                        computational model</text></switch></g></g></g><g
+                data-cell-id="-qdD8BeOlldyrR-mFRZQ-4"><g
+                  transform="translate(0.5,0.5)"><rect x="520" y="510"
+                    width="120" height="60" fill="none" stroke="#000000"
+                    pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          center; justify-content: unsafe center; width:
+                          118px; height: 1px; padding-top: 540px;
+                          margin-left: 521px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: center; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 12px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: normal; word-wrap: normal; ">middle
+                              way
+                              <div>pseudocode&nbsp;</div>
+                              <div>block</div>
+                            </div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="580" y="544"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="12px"
+                        text-anchor="middle">middle way...</text></switch></g></g></g><g
+                data-cell-id="-qdD8BeOlldyrR-mFRZQ-6"><g
+                  transform="translate(0.5,0.5)"><path d="M 440.02
+                    425.99 L 440.06 460 L 390.06 460 L 390 507.76"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
+                    435.6 418.49 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 383.52 495.87 L 390
+                    508.88 L 396.52 495.89" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject
+                        style="overflow: visible; text-align: left;"
+                        pointer-events="none" width="100%" height="100%"
+requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                          style="display: flex; align-items: unsafe
+                          flex-end; justify-content: unsafe flex-start;
+                          width: 1px; height: 1px; padding-top: 431px;
+                          margin-left: 422px;">
+                          <div style="box-sizing: border-box; font-size:
+                            0; text-align: left; color: #000000; ">
+                            <div style="display: inline-block;
+                              font-size: 11px; font-family: Helvetica;
+                              color: light-dark(#000000, #ffffff);
+                              line-height: 1.2; pointer-events: all;
+                              white-space: nowrap; ">1</div>
+                          </div>
+                        </div>
+                      </foreignObject><text x="422" y="431"
+                        fill="light-dark(#000000, #ffffff)"
+                        font-family="Helvetica" font-size="11px">1</text></switch></g></g></g><g
+                data-cell-id="-qdD8BeOlldyrR-mFRZQ-7"><g
+                  transform="translate(0.5,0.5)"><path d="M 440.02
+                    425.99 L 440.06 460 L 580.06 460 L 580 507.76"
+                    fill="none" stroke="#000000" stroke-miterlimit="10"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
+                    435.6 418.49 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path><path d="M 573.52 495.87 L 580
+                    508.88 L 586.52 495.89" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g
+                data-cell-id="-qdD8BeOlldyrR-mFRZQ-8"><g
+                  transform="translate(0.5,0.5)"><path d="M 580 570 L
+                    580 650 L 456.37 650" fill="none" stroke="#000000"
+                    stroke-miterlimit="10" stroke-dasharray="3 3"
+                    pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
+                    d="M 451.12 650 L 458.12 646.5 L 456.37 650 L 458.12
+                    653.5 Z" fill="#000000" stroke="#000000"
+                    stroke-miterlimit="10" pointer-events="all"
+                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g></g></g></g><switch><g
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a
+            transform="translate(0,-5)"
+            xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems"
+            target="_blank"><text text-anchor="middle" font-size="10px"
+              x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
+
+    <h3>2. The Computational Model &amp; Calculation Engine</h3>
+    <p>
+      The formal statement and the Middle Way pseudocode block (i.e. rule) appear in the conceptual mode. 
+      A directed equality is essentially a verified function adorned with a calculator template. 
+      A formal statement may not directly correspond to a calculation; for example, the derivative operator 
+      needs to be instantiated with a specific function. The pseudocode is interpreted by a self-contained 
+      calculation machine that executes all legal operations without relying on external arithmetic or math libraries.
+    </p>
 
     <hr>
 
-    <h3><br></h3><div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 16px; border-radius: 6px; margin: 15px 0;">
-    </div>
-', 'published'),
-  (2, 'conceptualHistoryIntro', 1, 'The Minimal Path: Conceptual History & Pedagogical Roadmap', 'conceptual-history-intro', '
+    <h3>3. The Persistence Model &amp; Educational Resource Hubs</h3>
+    <p>
+      Middle Way Math is an interactive prototype offering proof of concept (PoC) for a modern formal science curriculum. 
+      The curriculum includes a proposal for educational resource hubs that provide access to formal verification tools (such as Lean 4), 
+      static public web pages (such as this site), and in-situ editing tools (currently available in local development). 
+      To support PoC for such an educational hub, this platform is generated from a relational database (PostgreSQL), 
+      which serves as its persistent storage. The schema for the database is illustrated in the diagram below:
+    </p>
+    <div align="center" style="margin: 16px 0;">
+      <img
+src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQVR4nOzdf2xc533v+QdY7zVhbAH9sUCEAAH0VyAEKCBg0qw6ibcEWhhq0QYsssjKRHKXQXpPLLSOCThXENL6ToGbVEhgz5mYqbSWS4tq5KWybMFC2BxWTV2ShWLGuhRPKIkmo0OJYshw5BFG1JQTDsUffvaPhxzO7188Z86v9wvfP+zhzJxnjo6G56PnPN8jJAAAAADAVsLtAQAAAABA0BC0AAAAAMBmBC0AAAAAsBlBCwAAAABsRtACAAAAAJsRtAAAAADAZgQtAAAAALAZQQsAAAAAbEbQAgAAAACbEbQAAAAAwGYELQAAAACwGUELAAAAAGxG0AIAAAAAm/koaC1SDRcAAAAAN/kpaAndpOoWQQsAAABwHUEraEXQAgAAAFznv6Dl9lV53i2CFgAAAOARBK3gFEELAAAA8AiCVnCKoAUAAAB4BEErOEXQAgAAADyCoBWcImgBAAAAHkHQCk4RtAAAAACPIGgFpwhaAAAAgEcQtIJTBC0AAADAIwhawSmCFgAAAOARBK3gFEELAAAA8AiCVnCKoAUAAAB4BEErOEXQAgD4i5laf+m9JSll79iy0M2RhYzbIwIA2wQqaEXO/syWcj0yEbQAAGHQOWQJ3Rycezw49/jE8L3c1k4yu3nSeGCm1t0eGgAcFEGLoAUAQFsls5u9Y8tSyoXM04sz6cIfnb3xUOim+mkyu+nO+ADADgQtghYAAG3VdfW+0M3h+ScVfzo8/ySZ3cxt7Ry+cOfE8L02jw0A7ELQImgBANAOyezmmesr6j/OTz+q/eSFzNPOIUtNbQ3OPa6WygDAswhaBC0AANrhpPFArchq6lVqaqujb5orCQH4S9CCVt0YVjurELQAALDX6sb22RsPpZTJ7Kb6j2aZqXW1lEufSh29NDuxkrV5iADgAIIWQQsAAAepiaySphetOXN9RU1t5bZ2Ls6kc1s7B39PAHAIQYugBQCA/XJbO2ohVjK7+dJ7S3aFotWNbSnl4NxjoZtqxRcAeBNBq/mgZQ0ktEhU7IpqMcMq+KnRLYTQjEVpxbS9J0Wj3U0/Ry5axv5PRTSiGeMELQCAX/RcWxS6qU+lnHjzhczTnmuLamrr2OU5h7YCAAdB0Gr2OQOaEEJEtETMMAYSWkQIIaIxqyREad1REYlqu8+JCiFEt9HMc6xERKWvhDFgJGJaVEQTBC0AQHNU2hG6eezy3ELmaXs2qq4SXMg8fem9JTUB5ZyRhUxH37RqTjibzjm9OQBoHEGr6aCV0AasgkdUItKMohAlRCRRNoUltIGGnzOeiBbntwaKoAUAKKRS1pH+mRPD94RuHjp3a3RpzemNnrm+InQzNpF0ekN5yeymylfHLs/RnBCAdwQtaLnQ3t2KRUXBdJPRLUT57NN4IlowYVX/OQQtAMCB5FOWmsiKTSTVrwnnrrJTt7pKZjfVRX0ObaWa3NZObCLZc21RSjmykOkdWyZxAXBX0IKW8zNai1IuWsZAQuvWtEg0v8KqOGjtT3DtlaEVTGE18Bw1USai3Yl6S7MIWgCAEiUpSxmef3Lo3C2hmyeNB7ZfYqeCXGvd223XOWQJ3TRT61JK4hYAtxC0mnyONbDboCIaiWrdWiJmJLrLZ7QOHrSkXLSM7r0cF9ESA3VntwhaAABZJWUps+nc0UuzQjePXpqdTeds2Zy6HDGZ3ey6et+u9zyg1Y1tdVvk4fknHX3TtnSWB4BmEbSaeo66uq94bVWlSwerhKiiSwfrPGevrHy0yy/xImgBAKqokbKU1Y3trqv31ZItdbHfQehTKe9MZJUbnHt8+MIdNbV15vpK29qBAIAkaDX5nAGtPPCULLiqvP5qQCtsTtjIcyoEvNIMRtACABSqm7Ly8ku2Wu5akb8w7/iVuxMr2dbepG2G558I3ey6el9KyW2OAbQHQav5oFWUhXanm0qCVkko2u3V3sxzrOJ7alWc7CJoAQAKCd38xFu3G5y3yS/Z+l//79ux91eklGdvPOwcstSips4hS/VMH1nIdA5ZIwsZKeVJ40HnkCWlnFjJtrm14MFdnEmrT3Hs8lzX1fvELQBOI2g19xxDE3s9KgZ2V2dpFdZoRaMRtbDKMGJatPK9tmo+Z0DL30TLiKm7dUW5dBCoavf4p6gwl/qL8NJ7S43/zVHXEHa8+Yv/4/9bkHsTYiqnCd1UmeriTFroplrmdKR/RuimlHJ0ae3whTsqt/hLMrupgpaUcjada0O/ewChFbSg5Xx793FD3aRY9agwxqut0bIS1VtZ1H/OuLF7C+PdxhtaA70HC/YPEDb1vx8oKsCVP/5VEFJ9IOpq/DrD4FFNF1XOJGsBcEiggpYnqkqji6afc4BftG7/SQHt55PvB4pypvLH/8RKtqNvuqNvWi2gqiHMKStvdGlNTQCaqfVjl+dIXADsRdCyuwhagAt88v1AUc5U4fe/utLvSP9MjTtlkbJKnLm+InRT9WD04/WQALyJoGV3EbQAF/jk+4GinKmS7//eseX8CqtypKyK1B3AzNS62GtOCAAHRNCyuwhagAt88v1AUc5Uyfd/bmunc8gSuqnaBhYiZdU2m871XFtUU1u9Y8vc6RjAQRC07C6CFuACn3w/UJQzVf79n8xuHr5wp6QxBimrccnsptDNY5fn1H/TCx5ACwhawSmCFkKM7wcq1FXx+7+kMQYpq1kLmaf5XXf4wp26/UUAoARBKzhF0EKI8f1Ahbqqff+fn36kwhUp6yDOXF850j+T29oxU+uxiWSNLiMAUIigFZwiaCHE+H6gQl01vv9fem9J/ZSUdXDqvlv6VEpKycWEAOoiaAWnCFoIMb4fqFBXje//3NbO8St3SVm2SGY3z1xfyW3tJLObh87dik0k3R4RAE8jaAWnCFoIMb4fqFBX7e//ZHaTlGWvkYXMoXO31NTW4Nxjdi+AinwZtNR/UIVV9xctEGgELSrUxfd/+61ubKuprY6+6cMX7rg9HABe5Mug5fZIvIn9gzAjaFGhLr7/3ZLb2tGnUup2W71jyyeNB26PCICHELQCg/2DMKsftCJnf2ZLuX5KTVHlxfe/Fxw6d0voptujAOAhBK3AYP8gzAhaVKiL738A8CCCVmCwfxBm4QtaRrcQIpoYt/cNNcPtzxWkXdrG4vvfCyZWsqNLa26PAoCHELQCg/2DMCNo2fOGBC2CFlp2pH+GSwcBFCJoBcb+/um5tiil7Lm2KHRT9ZwVutk5ZEkpL86khW6qZbv5XwmjS2tCN1t7Ve/Ycv5VZmpdveropVkp5fD8kxPD99SDg3OP+Xc+OCl8Qcv2ImiVlZHojkZjltvDaKT4/egFJ40H6pcmACgErcBwc//MpnP6VGp1YzuZ3ewcslT6ik0khW4Ozz+RUh69NKu636p49tJ7S1LKszcexiaSqxvb6nEVyYCWNBS0av+0bogiaIWsxhNRIQhaAIBWEbQCw4v7J5ndVDnq7I2H6saOo0trx6/cjU0kpZSdQ5bQzWR2M5ndFLrZdfW+lDI2kTx+5a6a/tKnUupVKsK5+UngdQStAxdBq7QIWmiOPpVSv90AQCFoBYb/9k9+3fDqxnZsInn2xkMp5UvvLQndVI8XXoUodFOFrt6xZXVthnoV82CQUkpPBS1rQItGxJ6oNqDO1K1ERIhIwip6spWIFMab/P9aRndU7J7lV3ywci46wKZL3rCpl+wOTAghIrs/tQa0aH4YDWeV/BisWK2XWwMJLRLd/5gxY2+chibKhy3lgCaE0AYa3fru+xQpXLtlGd3R/c13G1aFN2l2n1jG/kcW0YhmjNcZLUHLe1ijBaAEQSswArh/8tcTmqn1E8P3RhYyUsqjl2arLS2bWMlKKTuHLBXJktnN0aU1psLCwTNBy+jePbdOxAxjIJHozp9SNxG0ErHdU+7CoFX8YIWgdbBNtx60tO5otDthDBgJFS0iCSMWVfnHiO0Gv7ohp/ANE7GoiBS9vGhaaUAr/Jha8RMqNrRocLKu4GmWNWCo5KM+mjGQT1NqJ+x/5GhxtGtpnxS/Z0yLNt2TI3jf/35E10EAJQhagRG6/bO6sa1PpdRvtbM3HnYOWepKRaGbJ4bvqQcLe3gcuzwnpVzIPI1NJNWrZtO50aW13NaOq58DtvBG0LJi0dJUUJJSGgpaQhRNaFR8sDQ8HHjTLQctIboNWfJIYU4YT5REkXpRp+TJanKpICYNJPZm6iqNakAr3Q9qAAWDbCBo7b+wZJfuPqfgD6Jki63sExuuUQzb9z8A+AJBKzDYP7sWMk9n0zkp5ejSWmwiqToonhi+p4KWugpRXaZ4YviearG4kHl6pH/mzPWVklep94EfeCJoVblurYnospupiud/Kj5YkgoOvumWg1bx3IuabipKNaWvqhd1Kn7SWjM8Vixa8ITSXVH807pbrx20DK1CIjK0go/cyj4haAUElw4CKEHQCgz2T0MKrye8OJM+aTyQUk6sZPNXIZ65vpK/CvHQuVtH+meklCMLmc4hS02O0arek7zQ3r3O6XJTa7RqxZsKqcCGTR9kjVadndB4m43KC88qJCXLGEho3ZoWya+V2n9CcdSp+EEa23r5ZxkoW7qVt7eJlvbJbpaOdieaXJqVL77/vYD27gBKELQCg/1jj9l07uJMenVjO7e1k29Vr0+l8lchHrs8p/7N0kytF7aqf+m9JTUPRqt6N3ghaJVftNZ02mk1aNmwad8ErXxLiWgkqnVriZhaB1V6Yd7uGJqZLGowaEVjhlq1VVxW1Y/Q0D4pap6RGGh2dovvfwDwIN8HrUh8Ml+Fj2/vfHzF/Oj/+n9mf+9vzed/aHZf/vCt93+9trGdf8KvVjcKX5uv39FvtukD2YxftM7Kt5gfWcioZhtmaj0/zdV19b66ClG1qlf/qKlPpQ6du5VvVa/a/q5ubDMh5gAvXDrIjFajoaJq1Q9alVZ8lU157Q++8esGK2y9atCqlYIOtk+sfIxssH3IXvH97wU0wwBQIphB62Mpe//JKg9Rf/rO7UxuSz2nWtAqCWz7DPXrL6olal0YYCX2/lFSMw76iZvDL1o35bZ2VF8N1XRe3ab54kw636r+0Llb6pbNg3OPhW6q0BWbSOZ7eMQmkup6RbTEC0GreK1OWVXMSyWdHloNWjZsuuLFbE29pNlQUaHqB61KjdrLl0XtvcRKRBpqg1F56+WfpYG+Gjbsk4a7dxQU3/9ewBotACV8H7SUkoD0L798rB55beT+4uNc+jeb/3jr0effnIrEJ98Y+1XFd9/5WL4++qtIfPLcz35d6ef7AUpEayUtghYqGl1aUzlKtapXSUzdsllKOZvOCd1UC8Z6x5bz8axzyFIPmqn14fkntKqvzhNBK9/LofKMh2oMWBgSrN2O7QcPWgffdOU2hk29pJVQUTelVApaJbNM6t/AiqatdoeRiDYzNVQxaFVqYlH6nlYscbB9YhXPHNaOzRWL738v4IbFAEoEM2h96+p8JD75X34893HBcy7eSEbik13v3C5/+cbWzn+9Oh+JT771fsWUJaVkRgsOUtcTqvSlprnUcq/8VYjnpx9VXCT20ntL6lXBa1U/spD5xFu31VFdWB1906ppZDFvBC25aOze1imiJQZKbma1d+IuCu+wFI3acumgDZuuEjOaeklDoaKZqLMbY8qaCu7d3kqNSitZo1WQiBrcbpWt7/WoiBlGbK9Nxe5uEdHuRGIgf1Osg+2TAS2/n42YujNYlEsHAcD/ghm0/vDCrUh88t+s1cLnmMtrkfjk831TJa99vL71tcHZSHzywsTKwUdJ0IK9ylvVnzQeHL00K/da1at/QFW3bF7IPM1t7Ry+cEf18FCvUp05JlayfpkQW93YVh9H6OZnYu9+4XSi65XXvvTNb3eejv/2a5eefeMDoZvHr9xVe2OPV4KWVF0N8hPgIhJNFJ4xj+/eYHc3KozbtEbLhk1XTggtvMTxroPjRn5U6t5iFRdi1byxWMNb398DRQNIdO/v5mjN+5s1tE/GDS1S9Q0bK77/vYCugwBKBDNofS5xMxKfXH6yUficf5hOReKTL/7ow5LXdr1zOxKf7P+5DSlLErTQRqpVvcobF2fSKnEls5uHL9zpunpf7l2FOLKQkVIe6Z9RreonVrL5Hh4XZ9IXZ9JemwdTKevQ90a7XnlNK/OVU6986jtXhW4euzxXMHIvdB2kKNeK738vYI0WgBLBDFrlcls7f/J3tyLxyXdvFl10dD+dU699/ofmf/vnhY/Wqv6Tv5G/f0pRgrIMbf8+LppB0IKHqOsJVze2pZQvvbekOtGrFh2qceLxK3eFbua2dtQiMXUnsfPTj04aD/Kt6tvcokNN0x363ujXv3GqPGXlfTo2mJ/Nk1JKgpZfyhq3KlcItu5k8f0PAB4UlqD13Z8+iMQnv9h/e32z6B/v1zd3vjY4+8X+2+od/ujtW+nfbFV8h0pBq6BDRj5raQQt+MbIQkZlFdWq/vz0I1l8FaKaOJJS6lOpjr5pNTl25vpKYat6dXGjXT7x1u1n9JsV57IK9Zx6+bnX33/2zV/s3bKsftCiPFDVb/jb1DV+vty6s8X3vxfQ3h1AiVAErb+ffBiJT/7uD26ay1W/AW8u/cf//kOzRlvC8qBVHrOKELTgWxMr2Xyr+vxFhkcvzZZchTi6tCZ0U60HU4sTktnNZHazc8hS/SouzqQ7hyyVhfIdFEcWMvlrF3vHltWShvyr1Lqs2ilL6TwdF7q51xiDoEWFuvj+9wIuHQRQIvhBa3Dqo8/GJz+XuPnTXz6uvYG/vb5crS2hrBC09h8Q0YRhSSmlZRRkL4IWAqqwVf2Z6ysqMqmrEFc3thcyT/NXIcYmkvlW9UI3VTxT1y6qObF8g/v8q4Ru/v63vt9I0PrSN78tdFOtRpMELSrcxfe/F9AMA0CJgAetd28+jDSWsqSU4/Or6skVf1oatPbns4ruq8UaLeAghG5++S9ONxK0NE17Rr+pwpskaFHhLr7/AcCDghy0Lv2Ph5H45PEf3Czp817NxIOMen7Fn1YPWsXNMQhawAEI3fzKqVcaDFrPvvHBoXO3pJSSoEWFu/j+9wJuWAygRGCD1jsfJNW6rPF7Tyq+3fN9U5H45Pj8fgbTx5ci8cmvvlva/11pcEarSnPCNuAXLYJA6OYLr55tJGW9+OevCt08MXxPSikJWlS4i+9/L2CNFoASwQxab/98JRKfjL459bOFTLW3++q7s5H45J/9eO6jtaeLqxvvfJD83xI3I/HJn3yYrvj8Wmu0NLVES1oFjxG0gBYI3Yz85duNBK0XXj0rdPPMdXUHPIIWFeri+98L6DoIoITvg5aKWIVV8cF8ff7NKfXC8fnVz5b99G/+tepvqfKpKqNqq2CCFtAioZvPvf5+z6mX6watT373J/nbMUuCFhXu4vsfADzI90GrbSpcE1ihv7uWYI0WcABnrq8I3fx0bLB2yvrC6YTQzYIGX/vHv/oPigpP8f3vEVw6CKAEQatRlRdfWYYW3U1W0WjCsGiGARxIbmvn6KVZoZvH/uqdr3/jVMWU1Xk6/ox+s6NveiHzdO91HP8IM45/T6C9O4ASBK3AYP8gIMzU+uELd4RuHvre6Auvns03Iew59fIf9/71p75zVehmR9/04FzhPRs4/hFmHP8A4EUErcBg/yA4Vje21c2LVT33+vu/9f1/z//v8St3Z9O54ldw/CPMOP49gWYYAEoQtAKD/YOgGVnInLm+0jlkdfRNC93sHLJ6x5YvzlTsC8rxjzDj+PcE1mgBKEHQCgz2D8KM4x9hxvHvCdywGEAJglZgsH8QZhz/CDOOfwDwIoJWYLB/EGYc/wgzjn9PoOsggBIErcBg/yDMOP4RZhz/nsAaLQAlCFqBwf5BmHH8I8w4/gHAiwhagcH+QZhx/CPMOP49gfbuAEoQtAKD/YMw4/hHmHH8ewKXDgIo4cuglb9vKZUvftEi3Dj+EWYc/55AMwwAJXwZtNweiTexfxBmHP8IM45/APAiglZgsH8QZhz/CDOOf0/ghsUAShC0AoP9gzDj+EeYcfx7Amu0AJQgaAUG+wdh5o3j39CiQggR1RK11mlYiahQNKNtQ0OgeeP4Dz26DgIoQdAKDPYPwqzW8R+JT6oqeXx75+Mr5ke/97fm8z80uy9/+Nb7v17b2FY/+tXqRv5VhfU7+s3qY9gPUCJaK2kRtGA3vv8BwIsIWoHB/kGYNR20Ppay95+skhz1p+/czuS2ZPWgVZ7WijCjBXfw/e8JXDoIoARBKzDYPwiz+sd/SUb6l18+VsFp8XEu/ZvNf7z16PNvTkXik2+M/ariy3c+lpH45Lmf/frgYyVowW58/3sC7d0BlPBp0KIqFL9oEWJNB60/vHArEp/8N2s1/4i5vBaJTz7fN1XywsfrW18bnK0zl9UMghbsxvc/AHiR/4IWVbv4RYtQai5ofSzl5xI3I/HJ5Scb+Qf/YToViU+++KMPi953daPrnduR+GT/z1fqDsLQRKUEZRladC9aRTWDoAXbEbQ8gWYYAEoQtIJW/KJFKDU9o1Uit7XzJ393KxKffPfmw/yD99O5Pzj/C3WF4fM/ND9a26w9iEpBq6BDRj5raQQt2Iug5Qms0QJQwk9Bi2q4gLA5aND67k8fROKTX+y/vb65k39wfXPnxR/NfG1w9ov9tyPxyT96+1b6N1s13qQ8aJXHrCIELdiDoOUJ3LAYQAkfBS0AqOZAQevvJx9G4pO/+4Ob5nLVy35uLv1HjVYZSlnQ2n9ARBOGJaWUllGQvQhasAdBCwC8iKAFIABaD1qDUx99Nj75ucTNn/7yce1tROKTXe/crvGE0qC1P59VdF8t1mjBbgQtT6DrIIASBC0AAdB60Io0lrLyz6zxhOpBq7g5BkELNiNoeQJrtACUIGgBCIBWgtY7HyQj8cnxe0/Kn/x831QkPjk+v1r4YCQ++dV3Pyx/cl6DM1pVmhMCLSNoAYAXEbQABEDTQevtn69E4pPRN0vvmqV89d3ZSHzyz348Zz1a/2jt6eLqhkplP/kwXWMQtdZoaWqJlrQKHiNowSYELU+gvTuAEgQtAAFQ60RT9WfPV8UH8/X5N6eklOPzq58t+9Hf/Guds9jyqarCVEXXQTiGoOUJXDoIoARBC0AA2By0pJT/PJf+8qWZ/OO1LxpUKlwTWKG/u5ZgjRZsRtDyBJphAChB0AIQAJ440ay8+MoytOhusopGE4ZFMwzYzhPHPwCgBEELQABwookw4/j3BG5YDKAEQQtAAHCiiTDj+PcE1mgBKEHQAhAAnGgizDj+PYGugwBKELQABAAnmggzjn/3JbObZmrd7VEA8BaCFoAA4EQTYcbx776uq/eFbh6+cMftgQDwEIIWgADgRBNhxvHvmp5ri8cuz0kpzdS6PpXKbe24PSIAHkLQAhAAnGgizDj+281MrU+sZKWUXVfvH+mfSWY33R4RAC8iaAEIAE40EWYc/201sZIVuqkmsohYAGogaAEIAE40EWYVjv+Rhcwn3rqtHi+sjr7pszceujhW/5pYyXZdva86XvRcWxyef+L2iAB4HUELQAAQtBBmRcf/6sZ2z7XdRz4Te/cLpxNdr7z2pW9+u/N0/Ldfu/TsGx8I3Tx+5e5C5qnbw/aN2XROSjk8/0To5pnrK24PB4BvELQABABBC2FWdPyrlHXoe6Ndr7ymlfnKqVc+9Z2r6so3Ojc0Qu1PNZGl1mUBQIMIWgACgKCFMNs//tWsy6HvjX79G6fKU1bep2ODQjdjE0m3R+5dw/NP1OTV8PyTziGLe2QBaAFBC0AA7J9oli9KoahgV+Hx/4m3bj+j36w4l1Wo59TLz73+/rNv/oL8UE71tzh2eU7oJhdYAjgIghaAAGBGC2FW9A8Nn4m9WztlKZ2n40I3aYxRKJndPNI/03X1vpRyYiVLCgVwQAQtAAFA0EKYFQWt3//W9xsJWl/65reFbqpQEXK5rR19KqVi1bHLcz3X+BoBYA+CFoAAIGghzIqC1pf/4nQjQUvTtP8pPvnJC3eklJ1D1knjgZRyZCHTOWRdnElLKXvHljuHLCllMrvZOWSpua+LM+n8gqWRhUww2mnoUykyJwAnELQABABBC2FWFLS+cuqVBoPWf3r9g//lh9NSSqGbR/pnpJQXZ9Jir0lG55AldFNKuZB5KnRTzfPEJpJCN0eX1iZWsh190+qmvT6lT6UOX7iTzG7mtnZeem+J5VgAbEfQAhAABC2EWVHQeuHVs42krBf//FWhmyeG77W2ydzWTu/Ysrppr7rNlF+sbmyPLGSklPpUqqNvmvsOA3AOQQtAABQGLYoKXRUGrchfvt1I0Hrh1bPCjtvvqqmt3rFlW/4mt8HRS7MdfdNqIks1GAQAhxC0AAQAXd0pajdoPff6+z2nXq4btD753Z8I3VRzOwdhptaP9M8Mzj2WUnp2ydbqxnbv2LJKlRdn0rGJ5OrGttuDAhB8BC0AAUDQoihTysUz11eEbn46Nlg7ZX3hdELopup1cXAqX02sZA9fuDO6tGbLe9olmd1c3djObe0cvnDnSP+MZ6MggEAiaAEIAPev3aIoL1Rua+fopVmhm8f+6p2vf+NUxZTVeTr+jH6zo2/a3vYPqpGGp5Y8jSxkhG6qyxrN1DopC0CbEbQA+MnIQuYTb90u/7f8jr5pbr0KSCnN1PrhC3eEbh763ugLr57NNyHsOfXyH/f+9ae+c1X9fVEX+9lLJbeJleyJ4XsuXptnptZ7ri2qVVjHr9xV3eoBoP0IWgD8YXVju+fa7iWCn4m9+4XTia5XXvvSN7/deTr+269devaND4RuHr9ylx7NQOFfFqGbz73+/m99/9/z/3v8yl1H+wSqTbsytaXSnbov1vnpR+0fAAAUImgB8Ad19nboe6Ndr7xWfjXUV069ov6p/tjlOS4QAqSUIwuZM9dXOoesjr5ptSKrd2y5PdM7KmJYn+AAACAASURBVGWZqXV9KtWGzSknhu8dvnAnt7WT29phFguAFxC0APjA8PwTlbKqLTtRPh0bFHu3WwXgotzWzrHLc0I3nW6PMbq0pnJd79jysctz/rqpF4BgI2gB8IFPvHX7Gf1mxbmsQj2nXn7u9fefffMXZmrd7SEDYbeQeapmtGbTOYfyTzK72dE3rSaynHh/ADgIghYAH1DrsmqnrHxHNaGbNMYAPCK3tXOkf0bdI9iu9zRT68cuz6kUd376kdd6ygOAQtAC4ANCN3//W99vJGh96ZvfFrrZdfW+20MGsGtw7rG6WbDqBHiQt7o4k85t7aiJrJfeW7JpgADgCIIWAB8QuvnlvzjdSNDSNO0Z/eaR/hm3hwygiLrH1/Erd1vOWrGJpNBNNZFl4/wYADiEoAXAB4Ru5m8HVNezb3xw6Nwtt4cMoMjqxnbX1fvq9sFNZa3z049UN9FkdrPn2iK3cADgFwQtAD4gdPOFV882krJe/PNXhW6eGL7n9pABVLa6sX2kf0ZdTFj7aRMrWSllz7XFjr5pFmIB8B2CFgAfELoZ+cu3GwlaL7x6Vuhm3XM4AG4xU+uHL9xRU1vVJLObh87dUu0EFzJPuVAQgB8RtAD4gNDN515/v+fUy3WD1ie/+xOhmyMLGbeHDKAq1RVjdWO7c8gqvBnD6sZ2bCKp/v6eNB70ji2vbmy7N0wAOBCCFgAfOHN9Rejmp2ODtVPWF04nhG52DllujxdAfYNzj4VuqqktNWdlptaFbh6/ctftoQGADQhaAHxA9SsTunnsr975+jdOVUxZnafjz+g3O/qmWSsP+MXo0lpua2c2nevomx6efyKlHJx7zIWCAIKBoAXAH9S6DqGbh743+sKrZ/NNCHtOvfzHvX/9qe9cFbrZ0Tc9OPfY7ZECaM6Z6yuHL9w5P/3I7YEAgJ0IWgB8Y3Vju+faotBNVc+9/v5vff/f8/97/Mrd2XTO7TECaFpua+eANzIGAA8iaAHwmZGFzH/+58Vjl+c6+qbViqzeseWLM2m3xwUAALCPoAUAAAAANiNoAfCfI/0zQjfdHgUAAEBVBC0A/kPQAgAAHkfQAgAAAACbEbQA+M/ESnZ0ac3tUQAAAFRF0ALgP1w6CAAAPI6gBcB/9KlUbCLp9igAAACqImgBAAAAgM0IWgD856TxoHPIcnsUAAAAVRG0APgPa7QAAIDHEbQAAAAAwGYELQAAAACwGUELgP9w6SAAAPA4ghYA/6EZBgAA8DiCFgAAAADYjKAFwH+4YTEAAPA4ghYA/2GNFgAA8DiClkMWKR8WfGNiJTu6tOb2KAAAAKoiaDlC6CblryJoeV9uayeZ3ZRSXpxJ0wkDAAB4HEHLEa7HBqrZImh5yurG9urGtpRSn0r1ji1LKYfnnwjdVOuyuq7eF7o5m865PEoAAIDqCFqO2Dtxp3xQBC0vyG3txCaSZ288lFLqUymhm4Nzj6WUxy7PCd3Mbe3MpnOdQ9bFmbSUcjadM1PrLo8YAACgJoKWIwhaPiqCVpsls5uxieTw/BMpZe/YstDNiZWslPLQuVuHL9yRUo4ureUzlZlaZ+YKAAD4EUHLEQQtHxVByzmrG9tnbzxUXSvU9X7J7ObqxrbQzeNX7kopB+cedw5ZIwsZSX8LAAAQLAQtRxC0fFQELVuoeSp1RV/nkNXRNy2lNFPrQjd7ri1KKXvHljuHLPWEwbnHahYLAAAgqAhajiBo+agIWs1ayDzVp1ILmadSyuNX7h69NCv3mlWoRVYnjQedQ5aavBqce8x6KgAAEEIELUcQtHxUBK0aZtO5szceqh6Axy7PnRi+J6U8e+NhYbMKdRGgSl+spwIAAFAIWo4gaPmoCFqKmVrP9/TrHLJUU/WX3lsqbFahgpaZWj8//UjNaAEAAKAigpYjCFo+qmpBa3VjW/VvELp5YvhebmvHlWPJCaNLa6rp3+jS2vErd/WplJTyxPA91awimd0UunnSeKCecPbGQ3WbYAAAADSOoOUIgpaPqmLQmk3njl6aFbrZOWSpWzn5MWvltnZGl9by/Sc6hyzV1u/opVnVrGJiJSt086X3lqSUw/NP1FWC7o4ZAAAgGAhajiBo+ajKg9bw/JND524J3VSXz6nlSd7PWvlbTulTqc4hS/13R9+0alYxOPc436zi4kw6NpEkUwEAADiHoOUIgpaPqiRonbm+InSzo29aNXtQvJa1JlayaonU2RsPO4es1Y1tdb1f19X7srhZRe/Ycmwi6fJwAQAAwoeg5QiClo8qH7RWN7Y7hyyhm0f6Z8o7kruVtWbTObVE6uyNh6oXhbrer7xZRc+1RbXaKpnd9EIaBAAACDOCliNqB63I2Z/ZWK4HFb+XClpm6v6R/hm1KKvaNXVOZ62FzFO16TPXV9RNfi/OpIVuljerODF8T01Y5V8CAAAATyFoOYKg5aNSQauj7xf5aaIa7MpaatJpdWM7NpFU66ZiE0mhm6oZYL5ZhZla77p6f2QhI6WcTefIVAAAAH5B0HIEQctHpYLW//zmL85PP2rkD7cwa/33nyc7hyx1nWHnkKVaoo8sZDqHLJWOeseWO4csKWUyu9k5ZKlM1XNtUeimepXQTdWsQr1KXQSYb2sBAAAAnyJoOYKg5aNSQev3/l+r8Rmq89OP1FKu//MnC0I3Vc909Yjcu95P3fxXLfqSUi5kngrdzF8QmO8KmG9rAQAAgCAhaDmCoOWjUkGr8asBJ1ayHX3THX3TavYJAAAAKEfQckQjQesgT2jqacErI9EdjcYsm95Npaxjl281krWS2U3VM0NNWAEAAAAVEbQcQdByssYTUSHsDlqrGw/qdrnIbe2oSwHr9swAAABAyBG0HEHQcrIcCVpSLtbtKNg7tqz6v3OXKgAAANRG0HKEF4KWZcS0qNgVjWjGePFPu6P7P+02rNIwYyS6934e0RLj0ugWQkQTe29idAshNGPRMgqeZixKuSitgfx2o1qFOFRr03tvK61YxTcxNFEiP6Tan7eRoCVrdm9XLS6O9M+o2wcDAAAANRC0HOF60LISESFENNqdMAaMREyLFmSk0p+q2BNJFAQelWcKnxCNRioELa17/zlCCBFJGLGoEFEtZhgxLRoRQghtoPrAyjat3jYRi4pI0ZvszV9Z1oChApV6B2NA5bTan7fxoCWrZC0aYAAAAKApBC1HuB20al5ctztrVJhDBrSCMFM6eZV/QlnQEqLbKH7b4heOJyrmqHqbrpj6dqfLKn+6A11MWBK0ZFnWogEGAAAAmkXQcoTb7d1rBQ9Dq/AjQ8unJpWOChJUxfRVNYwVvVBNNOUzUr1N7wWt4kmwsm05HrRkcdaiAQYAAACaRdByhNszWrsJR0S7E6VLlQbKVjnlqXmkAa086lQJWgWzTFXSTtHT6m664tsuSisWrRO0anzeFoOWLMhaNMAAAABAswhajnA9aElZ3KYiMbAXS3Yv1TPUAqfisvJPcC5o1dp060Gr+udtPWjJvaxFAwwAAAA0i6DlCC8Erd34ke8BuJuditdEVSjHg1atCHSAoFXl8x4oaEkpVze2zdR6m48fAAAA+B1ByxHeCVr7yaT2EqzaeSnf1u9AQavupm0IWo1uqOGgBQAAALSAoOUI14OWVXxfrMKGE7vLmUomfKxYYi/elGYquSityl0Hmwxa9TfdRNAq6bpR/fMStAAAANB+BC1HuB20BrT8TaWMWEKLCCGi+/FGBRUhot2JxED+XlUF8WYvVmmxhDGQSHRHhdC0g1862MCmGwpa+dYXMcOIJYzxep+XoAUAAIB2I2g5wvX27oYW2esMIUQ0opX24hvfu8Vw1SeouLLfys+GNVoNbLqxoFU4vGhivIHPS9ACAABAWxG0HFE7aPmyKkagQBRBCwAAALYjaDkieEHL0ArudhWsImgBAADAdgQtRwQtaFmxaN3O7L4tghYAAABsR9ByhL+DltEtohFNi6neEtruaqhGm/j5rghaAAAAsB1ByxH+DlrWQKKwt4SIRLWBQM5lqSJoAQAAwHYELUf4O2iFrAhaAAAAsB1ByxEELR8VQQsAAAC2I2g5gqDloyJoAQAAwHYELUcQtHxUBC0AAADYjqDlCIKWj4qgBQAAANsRtByhTtzVGTzl5SJoAQAAwAkELUdw4u4fBC0AAADYj6DlCE7c/YOgBQAAAPsRtBzBibt/ELQAAABgP4KWIzhx9w+CFgAAAOxH0HIEJ+7+QdACAACA/QhajuDE3T8IWgAAALAfQcsRnLj7B0ELAAAA9iNoOYITd/8gaAEAAMB+BC1HcOLuHwQtAAAA2I+g5QhO3P2DoAUAAAD7EbQcwYm7fxC0AAAAYD+CliM4cfcPghYAAADsR9ByBCfu/kHQAgAAgP0IWo7gxN0/9oPWxZm00M2LM2kpZeeQJXRTSjm6tCZ0s+faopSy59qi0M3RpTUppdDNziFLStnyq470z4wsZNz62AAAAHAUQcsR1YJWJD6pquTx7Z2Pr5gf/d7fms//0Oy+/OFb7/96bWNb/ehXqxv5VxXW7+g3Hf8YodDuGa3VjW0ppT6VyqevQ+duqfS1uveHDgAAAL8jaDmiqaD1sZS9/2SV5Kg/fed2Jrclqwet8rRWxNCiQggR1RJWjWdZiahQNKOVzxkELl86uJB5euzyXNfV+3IvfQ3PP1GPuzIeNGyRogJdAICDImg5ovaJe0lG+pdfPlbBafFxLv2bzX+89ejzb05F4pNvjP2q4st3PpaR+OS5n/26+vb3A5SI1kpaBC3pdtAqdPbGwyP9MwuZp7mtnY6+6eNX7kopk9nNZHbT7aGh3O6RQ1HBKy98HwJAABC0HFH7F1VJ0PrW1flIfPK//Hgu/8jFG8lIfLLrndvlr93Y2vmvV+ffer9GypJSMqPVOA8FrbxkdrPr6v3esWUpZWwiKfamuSZWsrmtHbdHB4WgRQW2PPV9CAD+RdByRO1fVCVB6w8v3IrEJ//NWs0/Yi6vReKTz/dNlbzw8frW1wZn61w02AyCljeDVqHBucedQ9bqxvbqxrbQzWOX56SUZmp9YiXr9tBCrvDIoaiAlMe/DwHAXwhajmg8aH0s5ecSNyPxyeUnG/kH/2E6FYlPvvijDwtftbi60fXO7Uh8sv/nK3aNk6DloxOLZHazd2z5/PQjWdzJ8Pz0o9l0zu3RhRBBiwpg+eX7EAB8gaDliKZmtErktnb+5O9uReKT7958mH/wfjr3B+d/oZZyPf9D86O1Oot2DE1USlCWoUX3olVUMwha0qcnFiMLmZ5ri7mtnYXMU6GbJ4bvSSlHl9YuzqRZ0NUuBC0qgOXH70MA8CyCliMOErS++9MHkfjkF/tvr2/ur8ZZ39x58UczXxuc/WL/7Uh88o/evpX+zVaNN6kUtAo6ZOSzlkbQ8veJxerG9vnpR2oFV9fV+0I3zdR6bmund2yZawsdRtCiAli+/j4EAK8haDmi5aD195MPI/HJ3/3BTXN5rdpzbi79R42ehEp50CqPWUUIWv4/sZhYycYmkrL4dsnnpx+dvfGQO3Q5gKBFBbAC830IAF5A0HJEa0FrcOqjz8YnP5e4+dNfPq79/tV6EuaVBa39B0Q0YVhSSmkZBdmLoBWgE4vc1s7w/BM1o9U5ZAndTGY3Vze2u67eH5yrc2ihYQQtKoAVvO9DAHARQcsRrQWtSGMpK//MGk8oDVr781lF99VijVbgTyyS2c2RhYyUcnj+idBNNeUVm0j2XFtkNdfBELSoAFawvw8BoM0IWo5oIWhd+h8Pj//gZmGT9xoi8cnjP2gtaBU3xyBohenEwkytq3B1pH+mo29a9dI4dnlOdTJEkwhaVAArPN+HANAGBC1HNBu03vkgGYlPjt97Uv7k5/umIvHJ8fmiABaJT3713Q/Ln5zX4IxWleaEoRLSEwt1YeHg3GOhm2dvPJRS9lxbVDfscntofkHQogJY4fw+BACHELQc0VTQevvnK5H4ZPTN0tsTK199dzYSn/yzH89Zj9Y/Wnu6uLqhUtlPPkzXGECtNVqaWqIlrYLHCFqhPbFQt0KWUh67PHfo3C0ppZlaP3zhjj6VcntoHkfQogJYIf8+BAB7EbQcUe0XlboRVr4qPpivz785JaUcn1/9bNmP/uZf6/wWLJ+qKkxVdB0swInFPpW4huefHL5w5+JMWkrZOWQdvTS7urGd29phsqtY/aAVOfszW8r1k28qPMX3IQDYiKDlCNd/UVW4JrBCf3ctwRotTixq6rp6/+ilWbnXS0NNc82mc26PywsIWlQAi+9DALARQcsRrv+iqrz4yjK06G6yikYThkUzDMmJRYNGFjLHLs+pOyOriwzVHJeZWnd7aG4haFEBLL4PAcBGBC1H8IvKPzixaNpL7y2dNB5IKS/OpPMt40eX1kLWL56gFaCyBrTdf3TqNlwfjKvF9yEA2Iig5Qh+UfkHJxatG1nIdF29rxoYHjp3S/XSWMg8HZ5/ktvacXt0TiNoBaYGNCGEiGiJgYQWI2jxfQgAdiFoOYJfVP7BiYUNcls7Z288VFNb+lRK6Ka6N9f56UejS2tuj84hDQWt2j+tG6JCHrSMRHc0GrMc3oqViAghNMP9z+uF4vsQAGxE0HIEv6j8gxMLm5mp9TPXVxYyT3NbOx1908cuz6kH9anUQuap26OzEUHL6RpPRIVoU9CKJCzXP68niu9DALARQcsR/KLyD04snJLb2rk4k1b9M3rHloVuqv+OTSRV73ifI2g5XQQtF4rvQwCwEUHLEfyi8g9OLNpBzWitbmwns5tCN49fuSulHF1a6x1b9m2zeK8ELcuIaflbN0QjmjFe/NPu6P5Pu43SODFuJLr3fh7REuPS6BZCRBN7b2J0q8vqLKPgaeoqu/0GEiKqVYhDtTa997bSilV8k/L7/u0Pqdp+2LsCcHeoBQmt6kiM7hpbqTH+VrbVwKfeL2tAi0b2R6UNFD6n9p9p7eOBoAUA7UTQcgS/qPyDE4t2G11aG1nISCl7ri0K3VSLuE4aD9RNulw0spD5xFu31fFQWB1902dvPCx7uieCljrjj0a7E8aAkYhp0eKoUPRTdXZeNHWj8kzhE6LRSIWgpXXvP0cIISIJIxYVIqrFDCO2Gwm0geoDK9u0ettELCoiRW+yl1gsa8BQgUG9gzFQFhGrBK1EbO8WFntvVWMk1rhhDCS0iOqEUbiV2uNvZVsNfOri+BfREjHDGEgkugvDWCMDq3Y8ELQAoM0IWo7gF5V/cGLhmtWNbdWfcCHzVOhm19X7Usrz04+6rt5v8+25Vje2VeoTuvmZ2LtfOJ3oeuW1L33z252n47/92qVn3/hAzcIVrzHzQtCqeXHd7vxJ4Xn2gFZ4Wl8yeZV/QlnQKmp6vjcLVPDC8UTFRFFv0xVTX0FTiuYuHVQZQ4jiOZy6I6l46WC9V7W4rUY+tRUrmSJr5s/Uhost+T4EABsRtBzBLyr/4MTCE5LZTRVjuq7eF7o5m87ltnaOXppVnQydplLWoe+Ndr3ymlbmK6de+dR3rgrdPHZ5rqBtvRfau9c6sTa0Cj8ytHxqUumo7LZRlS4drBTGil5Y0riv3qb3IkfxJFjZtloKWsXvWX8klYJW3Ve1uK0GPrWhlSaxpv9MCVoA4BkELUfwi8o/OLHwHDWdNZvOdfRN91xblFLGJpLHLs85NM01PP9Epayvf+NUecrK+3RsMH93Ziml9MSM1t4Zf7Q7UboUZ6BslVOeOo8f0MpP+svTTn5Z0f5zKp3NFz2t7qYrvu3uZM4Bg1bxezYwkgpBq/6rWtxW/U9d+yM3OrBKxwNBCwBcQNByhPpFVb7Yg/JacWLhcWqaSzUtXN3YXt3YFrr50ntLUsrVjW1bNvGJt24/o9+sOJdVqOfUy8+9/v6zb/5iL+95ImhJWdymIpHvmrB7RZmhFjgVl5V/gnNBq9am2xu0ao+kWtCq+aoWt1X/U5de1lghaNX9OJWPB4IWALiAoOUIflH5BycW/qBi1cRK9uil2TPXV6SUPdcWD1+4M5vOJbObnUOW6ldxcSbdOWSpLNQ5ZJ00HkgpRxYynUOW6infO7bcOWRJKfOvErr5mdi7tVOW0nk6LnRzrzGGV4LW7ul1vgfgbnaqfcrejqBV6xS/vUGr9jtUC1o1XtXitmyZ0Wpsh5QdD40W34cAYCOCliP4ReUfnFj4Ve/Y8pH+mXwvjfxFhmKvk6HQzSP9M1LKizNpsXfVX+eQJXRTSpl/ldDN3//W9xsJWl/65rfFXtMO6bGgtX+aXnsJVsmTy87ad9vWHSho1d1024JWAyOpELTqv6rFbTXwqUvWj1X/8232eGi0+D4EABsRtBzBLyr/4MQi7IRufvkvTjcStDRNe0a/qcKb9EbQsoq7JtRt2CCtWGLvRL80U8lFaVXuOthk0Kq/6SaCVsM5oVL4aWAklZphNLjrmt5WI596r2FGxXhZf2DVj4cGi+9DALARQcsR/KLyD04swk7o5ldOvdJg0Hr2jQ8OnbslpZSeCFoDWv6mSUYsoUWEENH9s3AVVISIdicSA/m7NhWc6O/FKi2WUPdrEkLTDn7pYAObbiho5Vs7xAwjVre7Q8Xw08BOqNTevd6rWtxWY5/a0NSn3r21V/F9tGpvovbxQNACgHYjaDmCX1T+wYlF2AndfOHVs42krBf//FWhmyeG70kpGwxaTrd3N7TIXucDIaLFt3VST0h0136COh3fPXc3xu1Yo9XAphuLHIXDq3vj3Srhp/5OqBS06ryqxW01+qkXLUPdiViJRBMDjW2i7vFA0AKAtiJoOYJfVP7BiUXYCd2M/OXbjQStF149K3RTteJoJGj5siqGASo0xfchANiIoOUIflH5BycWYSd087nX3+859XLdoPXJ7/5E6ObIQkZKKQMatGrfMNflssatyuX2wAJUfB8CgI0IWo4I3ulXgIsTi5A7c31F6OanY4O1U9YXTieEbqrW8FJKGcigZcWioolGf+2t6rfr9eiAfVl8HwKAjQhajnD9PrxUs8WJRWjltnaOXpoVunnsr975+jdOVUxZnafjz+g3O/qm1Q2UpZQyAEHL6BbRiKbFVO8EbXc1VHNN6qiAFd+HAGAjgpYjXI8NVLPFiUWYman1wxfuCN089L3RF149m29C2HPq5T/u/etPfeeq0M2OvunBuccFL/J/0LIGEoW9E0QkWqWrOBWe4vsQAGxE0HKI+78vqeYL4bW6sa1uXqzqudff/63v/3v+f49fuTubzhW/wv9Bi6LKiqAFADYiaKHUkf4ZoZvB2xZQ18hC5sz1lc4hq6NvWuhm55DVO7Z8cSZd6bkELSqARdACABsRtFBKn0rFJpLB2xZgK4IWFcAiaAGAjQhaANACghYVwCJoAYCNCFooddJ4UNDDOjjbAmxF0KICWAQtALARQQulWKMFNICgRQWwCFoAYCOCFgC0gKBFBbAIWgBgI4IWSk2sZEeX1oK3LcBW+6ekrt8FjqJsKYIWANiLoIVSXDoINIBTUgQPRzUA2ImghVK0dwcawCkpgoejGgDsRNACgBZwSorg4agGADsRtFCKGS2gAZySIng4qgHATgQtlGKNFtAATkkRPBzVAGAnghZK0XUQaACnpAgejmoAsBNBCwBawCkpgoejGgDsRNBCKS4dBBrAKSmCh6MaAOxE0EKpk8aDziEreNsCbMUpKYKHoxoA7ETQAoAWcEqK4OGoBgA7EbRQivbuQAM4JUXwcFQDgJ0IWijFGi2gAZySIng4qgHATgQtlGJGC2gAp6QIHo5qALATQQsAWsApKYKHoxoA7ETQQim6DgINqHVKGolPqip5fHvn4yvmR7/3t+bzPzS7L3/41vu/XtvYVj/61epG/lWF9Tv6Tcc/CrCLoAUAdiJooRRrtIAGNB20Ppay95+skhz1p+/czuS2ZPWgVZ7WihhaVAgholqi1j9YWImoUDSjlc+KsCBoAYCdCFoA0IL6p6QlGelffvlYBafFx7n0bzb/8dajz785FYlPvjH2q4ov3/lYRuKT53726+pj2A9QIloraRG00BiCFgDYiaCFUhMr2dGlteBtC7BV00HrDy/cisQn/81azT9iLq9F4pPP902VvPDx+tbXBmfrzGUpzGjBTgQtALATQQuluHQQaEBzQetjKT+XuBmJTy4/2cg/+A/TqUh88sUffVj0vqsbXe/cjsQn+3++YtdYCVpoDEELAOxE0EIp2rsDDWh6RqtEbmvnT/7uViQ++e7Nh/kH76dzf3D+F+oKw+d/aH60tmnLWAlaaAxBCwDsRNACgBYcNGh996cPIvHJL/bfXt/cyT+4vrnz4o9mvjY4+8X+25H45B+9fSv9m60ab2JoolKCsgwtuhetoppB0EKDCFoAYCeCFkoxowU04EBB6+8nH0bik7/7g5vmctU1ijeX/qNGqwylUtAq6JCRz1oaQQuNIGgBgJ0IWijFGi2gAa0HrcGpjz4bn/xc4uZPf/m49jYi8cmud27XeEJ50CqPWUUIWqiFoAUAdiJooRRdB4EGtB60Io2lrPwzazyhLGjtPyCiCcOSUkrLKMheBC3UQtACADsRtACgBa0ErXc+SEbik+P3npQ/+fm+qUh8cnx+tfDBSHzyq+9+WP7kvNKgtT+fVXRfLdZooTEELQCwE0ELpbh0EGhA00Hr7Z+vROKT0TdL75qlfPXd2Uh88s9+PGc9Wv9o7eni6oZKZT/5MF1jENWDVnFzDIIWGkLQAgA7EbRQ6qTxoHOo1s1PfbotwFa1TklVf/Z8VXwwX59/c0pKOT6/+tmyH/3Nv9Y5321wRqtKc0KgBEELAOxE0AKAFtgctKSU/zyX/vKlmfzjtS8aVGqt0dLUEi1pFTxG0EJNBC0AsBNBC6Vo7w40wBOnpOVTVYWpiq6DaJInjmoACAyCFoqYqXWhm0f6ZwK2LcBunjglrXBNYIX+7lqCNVpoiCeOagAIDIIWXeacGgAAIABJREFU9q1ubEspB+ceL2SeBmlbgAM8cUpaefGVZWjR3WQVjSYMi2YYaJAnjmoACAyCFnbFJpJH+mfaE3vauS3AGZySIng4qgHATgQt7CJoAc3glBTBw1ENAHYiaEHqUymVedTlfIHZFuAkTkkRPBzVAGAnglbYDc8/EbrZnptZtXNbgMM4JUXwcFQDgJ0IWpBnrq+07Sq+dm4LcBKnpAgejmoAsBNBCwBawCkpgoejGgDsRNAKuyP9M0I3g7ctwGGckiJ4OKoBwE4ErbA7aTxo26Kpdm4LcBinpAgejmoAsBNBCwBawCkpgoejGgDsRNAKO30qFZtIBm9bgMM4JUXwcFQDgJ0IWmHHGi2gJfunpOo/KMrvRdACAHsRtMJuYiU7urQWvG0BDuOUFMHDUQ0AdiJoAUALOCVF8HBUA4CdCFphx6WDQEs4JUXwcFQDgJ0IWmFH0AJawikpgoejGgDsRNACgBZwSorg4agGADsRtMKOZhhASzglRfBwVAOAnQhaYcelg0BLOCVF8HBUA4CdCFphxw2LgZYUnpJSVECKoAUANiJoAUALuE8xFdgiaAGALQhaYXfSeNA5ZAVvW4DDCFpUYIugBQC2IGiFHWu0gJa4f5UXRTlZAICDImgBQDCNLGQ+8dbt8vmKjr7pszceMrZ2CtvnBQBIghYABM/qxnbPtd2LGz8Te/cLpxNdr7z2pW9+u/N0/Ldfu/TsGx8I3Tx+5e5C5iljc1rYPi8AII+gFXZcOggEjzqzP/S90a5XXtPKfOXUK5/6zlWhm8cuz+W2dhibo8L2eQEAeQStsKMZBhAww/NP1Jn9179xqvzMPu/TsUGhm22+44KXx+aEsH1eAEAhglZ4tXPNAOsTgLb5xFu3n9FvVpw/KdRz6uXnXn//2Td/YabWGZtDwvZ5AQCFCFph1M41A6xPANpM/V2rfWavdJ6OC91s5z92eHlsTgjb5wUAFCJohVE71wywPgFoM6Gbv/+t7zdycv+lb35b6GbX1fuMzSFh+7wAgEIErdBp55oB1icA7Sd088t/cbqRk3tN057Rbx7pn2FsDgnb5wUAFCJohU471wywPgFoP6GbXzn1SoMn98++8cGhc7cYm0PC9nkBAIUIWqHTzjUDrE8A2k/o5guvnm3k792Lf/6q0M0Tw/cYm0PC9nkBAIUIWqHTzjUDrE8A2k/oZuQv327k790Lr54Vunnm+gpjc0jYPi8AoBBBK3TauWaA9QlA+wndfO7193tOvVz3L90nv/sToZsjCxnG5pCwfV4AQCGCVui0c80A6xOA9jtzfUXo5qdjg7X/xn3hdELoZpvvIe7lsTkhbJ8XAFCIoBU67VwzwPoEoP1yWztHL80K3Tz2V+9Ua/jZeTr+jH6zo2+6zbew8/LYnBC2zwsAKETQCp12rhlgfQLgCjO1fvjCHXVzhRdePZufWO459fIf9/61unldR9/04Nxjxua0sH1eAEAeQSt02rlmgPUJgFtWN7bV7cJVPff6+7/1/X/P/+/xK3dn0znG1h5h+7wAAIWgFTrtXDPA+gTAXSMLmTPXVzqHrP/05rT6W9Y7tnxxJu32uKT09ticMLKQ+c//vHjs8lxHXyg+LwCAoBU67VwzwPoEAAAAhBNBK4zauWaA9QmAFxzpnxG66fYoKvPy2OwVnk8KAJAErdBq55oB1icArvPyKb6Xx2av8HxSAIAkaIVcfo1EG9YMtHNbAAAAgLsIWgAQfBMr2dGlNbdHUZmXx2av8HxSAIBsY9BapCiqZgEO8vJFa14em73C80kBALKdQSu/JoeiqJIiaMFp+lQqNpF0exSVeXls9grPJwUASIIWRXmhCFoAAAAB0+6g5fbVWRTlrSJooT1OGg88e09wL4/NXuH5pAAASdCiKHeLoIX28PLqIC+PzV7h+aQAAEnQoih3i6AFAAAQSAQtinKzCFoAAACBRNCiKDeLoIX28PJFa14em73C80kBAJKgRVHuFkEL7eHlNgxeHpu9wvNJAQCSoEVR7hZBCwAAIJAIWhTlZhG00B5evlWul8dmr/B8UgCAJGhRlLtF0EJ7eHl1kJfHZq/wfFIAgCRoUZS7RdBCe0ysZEeX1tweRWVeHpu9wvNJAQCSoEVR7hZBC22wurF9cSbt9iggpZSDc48XMk/dHgUAoB0IWhTlZhG00AadQ5bQzeH5J24PpLIj/TNdV++7PYp2SGY3O/qmD1+44/ZAAADt4ImgFTn7M1vK9ZNmimq2CFpwzshC5sz1FSmlmVo/c31ldWPb7RFVkNvaOdI/E56m5+enH6nZxdhEMjaR9OYfCgDAFgQtinKzCFpwzrHLc0I3WRTkQSpeHr5wJ7e1s7qxndvacXtEAAD7EbQoys0iaMFeua2d3rFldSXebDo3spBxe0R1jCxkRhYyIZzYWd3YnljJSil7x5YPX7hjptbdHhEAwGYELSpYZXQLIaKJcTuf6WQRtGCjZHZTSnn8yt3DF+74pePCieF7Qjdn0zm3B+KaM9dXjvTP5LZ2cls7nl1HBwBoAUGLClYRtBBKC5mnxy7PqYmsZHbTRxNEIwsZ7uGrLh3sHVsWukl/SAAIDK8ErRpnoo2EKIKWlItGojsajVluD8O/5coOJGjhgGbTOTUdpIKWjyIWSpip9Z5ri2pq66TxgMV1AOB3BK3A1HgiKgRBy287kKCFg5hYyQrdVBNZfmyoMLKQOX7lLnM4Jc5PPxK62Tu2LP35xwoAUAhagSmCli93IEELrTk//Uitwuq6en9w7rHbw2mRShQsTCo3PP8kmd3Mbe0cvnDnpfeW3B4OAKAVoQtalhHTomJXNKIZ48U/7Y7u/7TbsErPxY1E997PI1pivHSdj9EthNCMRcsoeJqxKOWitAby241qFc7ma216722lFav4JoYmStRfelTxPYu3ayUiRR+nIITUGG1rryrfvdHEgFW8e61ERIhIovhV+c2Vfq66f+IFz6y9A2sPu/YRRdCCEy7OpPMTWQgwM7V+pH9GTW2NLq2pZicAAL8IV9BSJ+XRaHfCGDASMS1afD5d9FN1bl10Wq9OxwufEI1GKgQtrXv/OUIIEUkYsagQUS1mGDEtGhFCCG2g+sDKNq3eNhGLikjRm+xlGMsaMNTpvnoHY6Asw1QJWlr33nsOJLRIVAghuo2SDJOI7eaI/OZqjra1VzWye1sIWrX+xAueWWMHNvJhqx1RBC3Yy0ytd129r1Zknbm+EoDT7sG5x2HuN9ggdaOtwxfuHDp3iysJAcBHQhW0al4btnvaXXiWPKAVTshUaFI3oJXMfhjdojir7D1S+MLxRMUcVW/TFWNJwdRNk1e+VXrP3Qf3QqBKEUIUz9LUG21rr2pk9zYftBr5E6+5A+sM24arDQlaaJyayDpzfcXtgdgjmd0Uutk5ZLk9EB/Ibe2cvfFQtWe8OJPWp1IkLgDwPq8Erba0d691WmxoFX5kaPnUpNJRQYKqGA+qpoWiF5Zkg3qbLs0/VbbVStAqm34p+pi7kal4u3VH29KrGtq97Q9aDQ2boAWHXZxJH75wR81fef8GxI1b3diOTSTphNGsI/0zHX3TAZjPBIDA80rQqnEmavulgyLanShdSDNQtkgnT53ZD2jlUac8rpQtEKo5T9Lgpiu+7aK0YtEDB63S99xNEbvbLc0wjY22pVc1tHtbvnSw0p94I0Gr0Q9b+f0JWjgw1e7i/PSjjr5p/3a8gL2S2U3VPkSfSh27PDexknV7RACAysIVtKQsblORGNg7q969HsxQ63OKy8o/wbmgVWvT3gtaNUfb0qucClrV/8QbDlq1/2hqvD9BCwfTc22xo29aZa1ATl+cub7SdfU+l8C17Mz1lfwRQtwCAA8KXdDaPTnO9wDcPbkvXi9UoRwPWrVO0NsdtIouAqwYmWpspaVXORi0qvyJNxG0GtmlFd6/sSJoocTqxnZ+vuL4lbsB7hVxpH/m0Llbbo/C39T9qYfnnwRp8R4ABEZIg9b+iXXtNUIlTy47595tOnegoFV30w4GrbI1WhXaWlT4ODVH29KrGtq9ld65rClIlaBVYRj1g1YDfzQ13r+xImihxNFLs+FZgROSj+m00aW1E8P3VCbvHVs2U+tujwgAIGXYgpZVPBlSt4WDtGKJkkbhhcnEqtx1sMmgVX/TTQStxs/yyxskNhZsGtxRrb2qzu61YtGSN7F2m8hXXaNV/U+8ctCqtENqDbvG+zdWBC0oIwuZszceSikvzqRjE8nAX1CXzG5ytZvtRhYy3GANALwjVEFrQMvf8siIJbSIECK6fw6tzrOFiHYnEgP5e1UVnIjvnfdrsYQxkEh0R4XQtINfOtjAphsKWvnGDDHDiNXvzaBmtKIRtbKo/N5cskpkqjva1l5VuHuNart3700Kb1MWrbWvav6Jl6/mqrADaw+79hFF0EKjVje2D1+409E3Hfh8lRebSArdVBdJwkbD80/U1Naxy3PqTscAALd4JWi1p727sXtPXnXqXHyjJ/WERHftJ6iT6d0zb2PcjjVaDWy6saBVOLz6t83de08rUbWXQ5XIVGe0rb2qbPdGKuzeSn8Etdu71/oTr/iHVWEH1hh23SOKoIVaktnN3rFldTY8PP8kVDM8g3OPe64tqkYOsN1C5unhC3fU1NZsOqeWcgEA2swTQcvHVWtFkLfLFyOvvJAsUEXQCqfc1s7qxnZua+fwhTtH+mfcHg4CKLe1o5bAHbs8d+jcLbIWALQfQetAVdgM3XNljVuVa1FKgpZXiqAVQmZq/eilWTWRZabWw3O5YN7qxnbnkMWdwdogt7XTO7Z80nggpRxZyJyffuT2iAAgRAhaByjViaHxRn9treo321UDJmh5owhaoTKbzqm5rMMX7oR5/Yzq2UA78jY7dnlO6CY9CQGgbQhaDZfRLaIRTYupzgfa7mKe5lrMeagIWt4oglZ4DM49Frqp8hXXcSWzm/R2b7OFzFN9KiWlnFjJHrs8F6o1gQDgCoJWw2UNJAo7H4hIVBvw5FxWY0XQ8kYRtMLg/PSj3NZObmvn+JW79NmTYb1g0jteem8p3/IxwHfEBgDXEbQoys0iaAWe6mMem0i6PRAPUb3s3R5FqKkLCM3UOtdwAoBzCFoU5WYRtILKTK2fNB6oFVkvvbfEZXKFeseWX3pvye1RYPcaQjW1pU+lOEoBwF4ELYpyswhaQdU7tix0kyZv8AU1tXX8yl23BwIAgULQoig3i6AVMOenHx29NKtWZLEcq6Lz049eem+JWxV7Sm5rR59KjSxkpJQ91xZjE0kW0QHAwRG0KMrNImgFhkoOvWPLHX3T9HOroevqfaGb9GDwpmR289C5W8cuz6n/Jm4BwEG4ELTUf1AURdAKjBPD9w5fuKNWZLHQpbbc1s7o0prbo0BVqxvbKgZ3Xb1/pH+GSAwALXNlRguAwt8Lf1vd2FaZoXdsuXPIImLVldva4aJBv+i5tqimtmbTOa6DBYAWELQAF/H3wsdWN7YPX7ijJrLcHotvDM8/EXt3bYZfqKs9L86k3R4IAPgMQQtwEX8vfGl4/ok66YxNJGkb0JSJleyJ4XtcOugvZmq9d2w5t7WTzG6eGL6n7sEFAKiLoAW4iL8X/rOQedrRN334wh23BwK029kbD4Vu6lMpKeXqxrbbwwEAryNoAS7i74VvJLObvWPLaiLr4kyaf9RvzUnjgTpNh08Nzz9RU1sdfdOxiaTbwwEATyNoAS7i74UPqCsDZ9O5jr5p7uh6EMnsptDNziHL7YHgoEYWMocv3FGZ+f9n7/5jGzvvO98fIN5G8G1whd7tRgiQvbr/GHMDBBCgNDtV4q2ALIxp0QYqAgSTQbKrIF1mBqltAU4H0zQui9u4SrK2jmI5mmu5sjxbeTWG2qtCC1NRk6k0rWLGU41OqBEjZqgRR6FCypylKFaMSImin/vHo+FQ4m+KPOfwnPcLDwJHlqiH8jkPn885z/M9U2s73N0CgIIIWoCBOC/Mzh1KtI96r3oeCCHmgrtsxzoldyhBuXBrkE/llre2zlxbNbo7AGBGBC3AQJwX5iXzgBbZaxnyXFkIGd0dK6D8vfXEUodOd1guqe2/tcW6UADIRdACDMR5YVJXPQ8UVZvwbQviQf30TK+3DHn4e1pSMp2RRWLknS6juwMApkDQAgzEeWEuyXRGXptfjSbPXFudCcSN7pGlXLwRZJObhQXi+/KUcbrDHeM+CsYAAEELMBDnhblcvBHkwazAKZ133Ze3LpPpDM9MA2BnBC3AQJwXpqBF9i7eCGb/gRJqjTAX3HW6w9zlsAm5QFRdiiiqJmvJAIANEbQAA3FemELP9Lqialx6byinO6yo2tTajtEdgX6m1nbOTd2Tt7Yu3ggG4vtG9wgAdEXQAgzEeWGYZDrjdIfllqHVaJIA0Gjyj0wlDHuS1WX65jeN7ggA6MrgoNU5sJhtuV8/zLx/XXvvv/yP1d/5vvbkK9qF8Z+9+s4vd3PW8/wilsr92Wz7LfW2Tm8IqAOCljHk4sDuSX/r8DJX2QEdjHmj8tZW+6i3/9aW0d0BAD2YMWi9L0Tf3/vzQ9Qfvn4nnkzL7ykWtE4EtpNcji5FUZQux6C/xHf5B7sUyeGq/R0D5RG09BZOHJy9frd70i+ECMT3ucGij3DiQFE1uREOdqZF9tpGVuStLS2yRyF4ANZmiqWDJwLSP/x8W37l+Zn1je1k9FcHf7f84FMvL3UOLL40/4uCr555X7w494vOgcXhH/+yeB8eBSilq1TSImhBLwQt/YQTB/Lm1bmpe92Tfipe6MkdSpy9fpeVYxBCxFKHsdRhMp1pG1lpH/WStQBYmBmD1ten1zoHFv/rW773c75n7Fa4c2Cx5/U7+T+eSmf+ZHqtc2Dx1XdKpCwhBHe0YDYELZ2sRpMtQx55I4uJHWC4WOrwykLoykJICDHmjfJMBQCWZMag9bsjy50Di//oj+V+j7a52zmw+OTQ0omf3d5Lf3litXNgccQdqldfCVrQC0Gr4ca8UVlSvGd6vf/WFinLEMykUULbyErLkIfS/wCsx4xB65ODtzsHFjd3Urnf87eeSOfA4hf+5mcnfrbn9TudA4ujP6lbyhIELeiHoNVYM4G4omqytCAM1Day0jq8bHQvYFKB+L7M4VNrO92T/tVo0ugeAUB9mDFo5UumM3/w18udA4tv3j5Wqmg9mpQ/++Qr2p//IPDebpl97S6HUihB+V2OrofRqsvhImhBNwSthggnDnpnN+QFcqc7zLzNcHPBXZ5ai7L65jdbhjyyRA2nLQALaI6g9cIP73cOLH529M7ewbFlP3sHmS9PrH529I58hd97bTn6q3SJ1ykUtHIqZGSzloOgBX0QtBpiam1HUbXeWf6qQJORFWsmfNuKqlEFHkCza4Kg9d8XtzoHFn/7e7e1zd1i33M7+K//8RWtRFlCKT9o5cesYwhaaCyCVj1Nre20jazIG1kTvm22Y5mE0x1uH/W6QwmjO4KmMROIt4965bncf2uLxzAAaFJmD1oTS+99YmDxk4O3f/jz7dK/4PsLm8XKEmblBa1HX1C6Bl1+IYTwu3KyF0ELjUXQqg85D5M3sliiZjZOd7hlyMODoVEDeWurZ3rd6I4AQC1MHbTevL3VWVnKEkLcXIvJby7xPSeD1qP7Wceeq8UeLeiFoFUHffObiqrJi99c+QasJJnOqEsReXZ3T/qd7rDRPQKAKpg3aF37l63OgcWz37t9os57Me77cfn9Jb6neNA6XhyDoAWdELRqF0sdTq3tCCGm1nZYmWZasdShuhShsAFOaTWabB1elre2uJ4CoFmYNGi9/m5Y7su6eW+n4Ms9ObTUObB4c+1RBlNvBjsHFr/05sn677kqvKNVpDghUHcErdqdvX43eyMLpiUr7PfNbxrdETS9cOJALkA9e/1u+6iXTZgAzM+MQeu1n4Q6Bxa7Xl76cSBe7OW+9OZq58DiH73le293fyOWev3d8H8YvN05sPj2z0o9E7PUHi2H3KIl/DlfI2ihwQhaVXOHEnIX1kwg3je/GUsdGt0jlBJOHGSXfgGnl0xnemc35K0tdygxFyxaJQsADGdw0JIRK7cV/GK2ferlJfmDN9din8j7t3/1ozKz1fxbVbmpiqqD0B1BqzrJdKZtZEVRNZaiAegY9ymqRtYCYFqmuKOlmwJrAgvUd3cMskcLOjHFeWF+yXTmykLoykJICDETiM8Uv9cNs2kf9VIyDg3iDiVkeQwtstczvc6NUwBmY/ugJYTwuxxdR8mqq2vQ5acYBnRjivPC5JLpjLyR1TaywkLB5pJMZ9pHvd2T/vLfCpzCxRtBRdVkdRxGCQDmYa+gBZgM50Upgfh+x7hP1lGYC+4yfwJQjExZWmSvZcijLkWM7g4ACEHQAgzFeVFYIL4fThzIG1nnXfeN7g5qJNd5kpChm5lAvG1kRYauCd82xx4AYxG0AANxXhTgDiVahjzyRhYPzGlqPdPrVC6BzmTZdy2yp6gay1YBGIugBRiI8+KYMW9U3sjqGPeNeUs9qgFNYcK3LWsVADqLpQ6vLIRk4Zy++U3GEwCGIGgBBuK8eGTMG+XJtgDqK5w4aBnyyAcc84xjADojaAEG4rwQgfj+edd9eSOrd3YjEN83ukeoj5lA/Oz1u9xJgOEC8X13KCGEOO+63zHuY0EyAN0QtAADcV4IpzusqFr/rS2jO4I6u+p5kK24DRgumc6cm7rXMe4TQoQTBzx0C4AOCFqAgex7Xox5o/LScjKd4aaHVSXTGcq+wVTkAdk7u8FVAAA6IGgBBrLjeSEnOv23tlqGPEx0LGzCt029QZjT1NrOual7yXQmnDhgxTKAxiFoAQay3XnRO7vRNrISSx0m0xkmNxYWThxQXBvmJ5cu84BjAA1iQNCS/0Cj0ewTtGKpQ7kZ/cpCqGPcx+4IywvE953u8FXPA6M7ApRx1fNA3tpqG1khcQGoL+5oAQayxXmRTGfaR71tIytyR5bR3QGAk2YC8dbhZRm0tMgeIxWAuiBoAQay+HkxF9yVu7D6b2053WHqItjHlYVQz/Q6s1U0EbmkWT53SxYnBIBTImgBBrLyeRFLHbYMedpGVpht21Dr8HLr8LLRvQCqFk4cXLwRlLe21KUIBXsAnAZBCzCQBc+LWOqwb35Tbs5RlyJzwV2jewRjUHIQTS17qYgHHAOoGUELMJAFzwsW3iCcOJC1T4CmpkX2ZgJxIYS6FOmZXqdQKoBqEbQAA1nnvFiNJjvGfXK9zUwgznJBO5Mls1lzBcs477rfOrwsy/kQtwBUjqAFGMgK50Ugvp/dQX7xRtDo7sB4E75tHgILi5ELCNWliKJqE75to7sDoDkYErRoNNpRa/agNeaNtgx55I0sJtYArG1qbefMtVV5a+vKQojtWwBK0zto0Wi0/NaMQUte0w0nDtpHvVzfRVYsddg96eeQgLXJW1t985tGdwSAqRG0aDTjW9MFrSsLIUXV5I0sINdMIK4wAYXVJdMZdSkib22dubYq66wCwAn6BS0ajVayNYFAfL9vflPuyDrvus9aQRQUiO+zpAo2MRfcbRnyyCsLPNIAwAm6BS0ATa9nel1RtTFv1OiOwLy0yB41J2Er4cRBLHWYTGfaRlZ4sgWAXAQtAGVc9Tw4N3VPCBGI75OyUFrbyErr8LLRvQD0Fk4c9Eyvy1tbc8FdntUOQBC0AJQQSx0KIXqm11uGPMwbUIm++U02aMHO5K0tRdVYSQiAoAWgsHNT9zrGfXJHFltuAKBCc8FdpzsshJha2+mZXmc7K2BbBC0Ax8RSh/JCbM/0+tnrd5kioHJXPQ/65jc5ZgDp3NQ9RdW0yJ7gSYOALRG0ADwSSx22Di/L/dzcxUK1ZLkUVkwBWTOBuBBiam2nZcjDHlfAbghaAIQQYiYQl7uwzrvuO91hCsehBrHUIXv5gHwTvu22kRV5a+uq5wEDLGATBC0AIhDfV1SNwsQ4jWQ6w+IooLSptR1F1Xpnm+PZiQBOiaAFgKCFOiBoAWURtABbIWgB9hVLHfbNb8otBE532B1KGN0jNDE5g6S2O1BCOHHQN78p1xD2TK+zawuwNoIWYF9aZE9RNfkwYuCU3KHEual77NECKiGH3+5Jv6DyEGBdBC3AdtyhRMe4T06IJ3zbbMsGAP0F4vuyRGfHuO/s9bvELcB6CFqAjcgPcncooajalYWQ0d2BpfTNb6pLEaN7ATSZcOKge9J/9vpdIcRqNClXFQKwBoIWYBfqUkRRNbkjiycdob7CiYPsOigA1ZIrC+ST6NguC1gGQQuwPhmutMhe28iK/Geg7tyhBBu0gNOYWtuRBQm1yN7FG0EWEwLNjqAFWNx5131F1ZgBo6GYEQJ11Du7oaja1NqOeHizC0AzImgB1qRF9pzusBBiLrh73nWfBxyhoXqm11uGPMQtoC6S6Yys/K5F9lqHl6kCDzQpghZgQcl0pmPcx1p/6ObijaDczQ+gjsa80ZYhj7y1Jf8XQBMhaAHWkUxn1KWIfGLsXHCXT2UAaHbyRrF87lbP9LrR3QFQBYIWYBHJdEbeyGIFF3S2Gk063WFKWQKNE4jv985uyMtn6lKEskZAUyBoAU1PPoblvOu+EMIdSpCyoDOnO5zduA+goVajSUXV2kZWKJIBmB9BC2hi4cRBLHWYTGfOXFs9e/0un7swxGo0ObW2Q8IH9DEX3JV3tPrmN89N3ePUA0yLoAU0K3co0Tq8LG9k8UELAHZz9vpdbm0BZkbQApqPvHuQTGfOXr8ra7gDRgknDhRVu3gjaHRHADsKxPfDiYMrCyFqzAImRNACmsyEb5vaUzAPdyhx9vpdWesSgP6m1nYUVeud3TC6IwBOImgBzSGcOLh4IyhvZF28EeTiJQBAGvNGWUAImBBBC2gO6lKEBVowoTFvdMK3bXQvALsLJw6o/AmYDUELMLWptZ32Ua+sdXHV84B+3RYgAAAgAElEQVRrljCb1uHl1uFlo3sB2F37qJeHKAJmQ9ACTEp+XsobWVc9D4zuDlDYXHCX4xMw3Jg36nSHY6lDozsC4BGCFmBGffOb8tpkMp3RIntGdwcA0ATkkxWN7gWAIwQtwESS6Yx8DKW6FGkf9c4Fd43uEVCK0x1uH/VSmgUwg5lAvHV4WV2KGN0RAEcIWoCJnLm2ml1kz1VJmJ/THW4Z8gTi+0Z3BIAIJw7aRlYIWoB5ELQA42mRPVm3TV2K9M5usJsZAACg2RG0AIPFUoetw8tUi0LTiaUOr3oerEaTRncEwCNOd7h70m90LwAIQdACjJJMZ/pvbY15o0KICd+23JoFNJGZQFxRtb75TaM7AuCRnul1rtwBJkHQAowRThy0DHnaR73sxUKTCicO1KUIVTEBUwknDijyDpgEQQvQ1Wo0efb6XblZeS64y0VHAEB9JdMZLoIAZkDQAnQiH4oVThy0Di/3TK8b3R3gtM5cWz03dc/oXgA4acK3zbJewAwIWoAech9vwl0sWEAynWkf9bLnHjChZDpzZSHEZw1gOIIW0FgTvm15I6ttZOWq54HR3QEA2EIyneGp94CxCFpAA/Xf2lJUjcdHwnpmAvGZQJw994A5JdOZtpGV1uFl6i0BBiJoAfUXThz0zW/KG1nnXfd50BCsp2d6XVE1jm3AtJzucN/8JldDAAMRtID6u3gjqKgaCwVhYRO+bac7bHQvAAAwL4IWUDdTazsd4z55I0tdirBgAwBgoKm1nfZR79TajtEdAWyKoAXUgcxUvbMbiqqx+RiWNxOIn71+l9kbYHJaZK9lyNN/a8vojgA2RdACTqt3dqN91CtvZLFlBXZw1fNAUTWCFmB+7NECDETQAmqUTGdkrLp4I3jm2ioRC7aSTGeYwAHml0xnrnoe8PBiwBAELaAWsnJu28gK003Y0IRvmysLQLPoGPcpqsbziwH9EbSA6rhDCXcoIYTond2gci5sKJw4UFSte9JvdEcAVESL7JGyAEMQtIAqBOL7iqqdubZKRUHYViC+73SHeXoB0FzGvFHiFqAzghZQXjKdcbrDM4G4EKL/1pb8BwAAmoK6FFFUjfKDgM4IWkB5WmRPUbWz1+8a3RHAeFcWQr2zG9zUBZpILHXYO7uhRfaM7ghgLwQtoCgtspd9WNCYN8p2LEAI0Tq83Dq8bHQvANQiEN83uguAjRC0gALkQnZ5I4uquMAJlBwEmtGZa6vto16jewHYCEELOGnMG20dXpY3sphQArnCiQNZdRNA0znvun/edZ/VGYBuCFrAIzJcaZG91uHlMW/U6O4ApuN0hxVVk2cKAAAogaAFHLl4I5idQbLRHyhoam3nvOs+2zyAJjUX3D1zbXUuuGt0RwBbIGjB7sKJA3UpIoTQIns90+usFQQAWNVMIK6o2pWFkNEdAWyBoAW76570sxQKqEQ4cXBu6t6Eb9vojgCoHdcTAd0QtGBTY97oedd9IYQW2ZN3tACUNrW2Qx1OwAKm1naueh4Y3QvA+ghasKnuSX/LkIenNwJVCcT35cMPADSpZDrTNrLSMuThXAYajaAFG0mmM+dd93um14UQq9EkG/qBqmiRPerEABYwE4hznRHQAUELthBLHcpLd2ev3z1zbZXLeEAN2kZWWoeXje4FgPqYCcS5dAI0FEEL1heI77eNrJybuieEIGIBNbt4I8gGLcAa+m9tKarGFmWgoQhasDJ3KCHLK52bundlIcSlOwAAhBDhxMF5130WEAINRdCCZblDCUXV5I4sAKd01fPgykKInY2AxcRSh0Z3AbAsghasJpnOXFkIyat0vbMbM4G40T0CrKBnel1RNZ7AA1hGMp3pnvR3jPuM7ghgWQQtWM2Eb1tRtd7ZDaM7AliKO5SYC+4a3QsA9XTedb970m90LwDLImjBIuaCu2ev35U3svpvbbEWAgAAAAYiaKHpyUKCU2s7iqo53WGjuwNYU/uoV1E1o3sBoJ64Uw00FEELzU1dirQMeeSNLHcoYXR3AMtiiRFgPVxAARqKoIVmJWPVhG+7bWSFihcAAFRLXYqwEgRoHIIWmlL3pL9lyCMLoLEdC9ABEzIAAKpC0EIzWY0mx7xRIcSYN9ozvc4jfQDdsMQIsB6WBAMNRdBCM2kf9WZ3ZAHQE5vmAevhAgrQUAQtNAF1KdJ/a0sIMeHbvup5YHR3AAAAgDIIWjC7ZDrTNrLSOrzMXizAQCwxAqyHO9VAQxG0YFLhxEHP9PqVhZAQYi64y3YswFgsMQKsh/MaaCiCFkwqljpsG1npGPcZ3REAAKyJO9VAQxG0YEZyMYOs3g7ADFhiBABAVQhaMCMWMwBmw1kJWA/PxwMaiqAFM2LoB8yGsxKwHi6gAA1F0AIAALAjlgQDDUXQghmxPRcwG85KAACqQtCCGbGYATAbzkrAejivgYYiaMGMWMwAmMqEb1tRNUXVemc3jO4LgLrhTjXQUAQtAEApWmSvZcjTMuTpGPeRtQAAqBBBC2bEYgbAJGKpQ3k+fv+nD2KpQ7IWYCWsHwEaiqAFM2IxA2AS3ZN+RdX65jfl/yVrAVbCZU2goQhaAIDC+uY3FVU7cdWDrAVYBs/HAxqKoAUzYugHDDe1tqOoWvuoN5Y6PPGvyFoAAJRF0IIZsZgBMNZqNCkLYGiRvYLfQNYCLICF+kBDEbRgRmzPBQyULYAx4dsu/W1kLaCpcVkTaCiCFgDgmHNT93ILYJRA1gIAoBiCFsyIxQyAgfILYJRA1gKaF+tHgIYiaMGMWMwAGEhRtXNT95LpTCXfHEsdyhLwbSMrgfh+o/sGoI74tAUaiqAFADhG3qGqJGtpkT05UTt7/W44caBP9wDUC+tHgIYiaMF0nO6womqKql1ZCBndF8COsqsBS2etCd92y5BHUbWLN4IV3v4CADSdQHy/bWRFbtzNf+AHSiBowVxkyvrfv78sL5NPre0Y3SPAjspmLfks45Yhz1XPA/27B6AueGolSnO6w2PeqBBizBsNJw6S6UzbyMp5132j+9U0CFowEZmy2ke9gfi+O5SQj/FZjSaN7hdgR8WyVu6mLHcoYWAPAZwSe7RQQjhx0Dq83D7qzX4ErEaTHeM+eWtram2HSiplEbRgFrkpS35lzBuVX+E+NWCI/KzFpizASqg6iGLkZEyL7OVXOUqmM/LWVsuQhw+C0ghaMIX8lCXJ5Unnpu4Z1THA5nKz1pg3yqYsALA8pzvcMuSZCcRLfM9ccFcuHVeXIh3jPi2yp1fvmglBC8YrlrKEEMl0Ri5SojAGYJRs1mJTFmAxLB1EQTOB+JlrqxU+sePijaCiaoH4fjKdkRu6kEXQgsFKpCwpnDigMAZgLJm12JQFANbWf2ur9I2sguQUbsK3LZc8NKBfzYqgBSOVTVkShTEAw8VSh6zFBwALc4cSiqqdubZa2+LwQHy/d3ZDriE8N3VPXYrUu4PNh6AFw1SYsiQKYwAAAFvR88mi8lLahG+7whWDJWiRvZYhT8/0uhBiNZq088yNoAXDVJ6yJApjAAAAm8hej9ZhA4XTHW4dXq5jQYtw4kBO8DrGfa3Dy7ZdEEHQgmEUVesY91UetHpnN+SIY9vTFeVs0GhN0qAPw/9D02gVtpN0frLomDda1bXvCiXTGac73Du7IYSYCcT75jftNoUjaMEw5133FVVrHV6u5CEe2ZRV91EAFrIhl1jQaGZuBSdVaAzGBFoTtPwxQc8ni6pLEflbGv3QDllEWt40s0/cImjBSOpSRI4ypXdMkrJQGSZVtCZoBC0dMSbQmqCdGBP0fLLoXHBXUbXuSX8dX7OYWOpwwrcthJha27HPk0IIWjDYXHC3dXhZUbXzrvsFr6aQslCxjZwPLRrNdK3gpAqNxJhAM3XLHxP0fLKovK2UvaOlmwnfdtvIiry1pS5FrF1QmqAF4wXi+/JxqPlbtkhZqAaTKpqpG0FLd4wJNFO3E2OCnk8W7Z3dMHxyJavJd4z7DOxDoxG0YArJdCZ/yxYpC1ViUkUzdSNo6Y4xgWbqljsm6PxkUTMELSHEmDcqn4/cM71+buqe9fZuEbRgIrlbtkhZqB6TKpqpG0FLd4wJNFO37PGp55NFr3oeyB80T6pJpjMd4z55a2s1mqykRlqzIGjBXLJbtkhZqB6TKpqpG0FLd4wJNFO37PGpqNpv/r93qn2y6G9cvdM3vymEmAnEuyf98tbQedd9WdxCi+x1T/r7b20JIfpvbXVP+sOJg1jqUFE1+Shhs5HBr2d6XVE1y2QtghZMR27ZImWhekyqaKZuBC3dMSbQTN1yg1YNTxZ9fMjTdf3n4uE9rjFvVAghN3GJhxUF5TOs5PfL1zf5/GouuHvxRlAIoUX2OsZ9zZ64CFowo2Q6Y5472mgeTKpopm4ELd0xJtBM3bLHJ08WzSeXU8qyH/JmXTMiaAGwDCZVNFM3gpbuGBNopm65YwJPFs0nC34E4vumXe5YFkELgGUwqaKZuhG0dMeYQDN1OzEm8GTRgsKJg97ZDfmA4/5bW+pSpOAfx5yaNGgZf27QrNvQvJhU0UzdCFq6Y0ygmbrljwk8WbSEZDrTOrzcNrKSTGdiqcPaii7qrFmDljw0abT6ttzBDk2o/KSqs//HdWmGfzzTmrExzuiu1JjAaEAzvBUcE3iyaAnhxIH8m/TNb7YOL7tDCaN7VAZBi0Z71E4Mdmg2BC2aqRvjjO4IWjRTtxJjAk8WLe3KQujMtVVZO61vftO0FdSaO2gZfobQLNOYAFkCQYtm6sY4ozuCFs3UrfSYwJNFKyEfKSYriJhwMSFBi0bbEEyALMISQct1QVEUh8tkL+i6oChK1+BNw0/Vhv7ZG/0GGWd0Z46g5X/D0aUoiqIoF1yGH+pFDv56jjm0ilvZMYEni5YVSx1e9TyQt7ZahjxXFkJG9+gYghaNtiGYAFkEQathL0jQqkdjnNGdGYLWGw5FUZROx+Abgw4nQYuW2yoZE3iyaIXmgrvto97SxfH1R9Ci0TYEEyCLqCholf63ZadNdgharsELXV1Ov44noPGNoGVNZYJWif9Y9RoN/IOdZo8xdRpzahs3mm60qW+HGRPqTpYS6Z70G92RIwQtGm1DMNhZBEGrLi94c7BLUZpq6lOvvxJBy3JMErQ6B/1GH+HlDv5Tjzm1jRtNN9rUucOMCY3QPupVVM3oXhwhaNFoG4LBziIIWnV5waab+tTtr0TQshyCVqUHP0HLkA4zJlgeQYtG2xAMdhZhpqDlf8PR1ak81OV4w5/zrwYdnV2P/pXTlTsJKzjpKfJqBedwJ5cq5b9g8Q64HMoJR9mjUK/8rgtd2VdROh2DbxybfGR/xO98WAlA6XJUPEF5+ON+14Wu7K9wZf8apV6wTMfEhhA3XYM5Lzt4s2DQOvY6XRdcJ/7OrkfvS+nqdLhuln1TjDO6MzRouS4UPpsqOEqzZ/HR8S9n9jWfFDWMOUVawcO+6LhR22hT9uyr1+BQ5GWLDVklOlzDaMCY0DjuUCL7/DHDEbRotA3BYGcRpglaRxOsTseg0+V6Y3DwQs6ndXZnvNPlemPQ0akox6+P5k96ir9aTUGrVAf8/jdccsbQdWHQ9YbL9cbRRCSvV66jH7wwOCh/pMgbGXR2KZ1dDmfh7yn3N3Q4LnTJnhzlos5Bl7NLTteyL+h4I/cHy3fs4YTp0St3KV1dnSfneYOdJ74n9099/N86HV0V3Q1jnNGdoUHLf/PhKdbpGMw5myo4So/O4kHn0ew9N2hVfVJUP+YUacUO+6LjRm2jTbmzr+bBoaKXLT5kFetwbaMBY0LjsHTw9AhatDo3BjtLMEfQ8ju7lBJx4o1BR+FL10dfOTHpKflqtQWtMh0ouDbmxIvI+z8FJzHZGcbDfJjbPZlwKrp2fvTjOeWwH94fyJnE3BwsNFWqpGPHZ0JyOnjye45fln7D8eg/RI3LhxhndGfKpYMVHKXy/yrK8XsjtZ0U1Y45RVvpw77gvz3NaFPs7DvV4FDBy5YesvI7fKrFhIwJjaAuRZzusNG9OELQotE2BIOdRZiivLvLcfKjukzzO7sKTPErerUalw6W7kD5oCVnMPlPBDr+g3LWcnw2WcVWqKJx6NjvPf5mK+lYke85/utcjgIzJ5cj+4MErWZhfHn3vJO0otPnKGiVP33KnhQVnPINDFrlfnWhnyp39tX4d6jwZcv9zQlaqA5Bi0bbEAx2FmGGO1oVfej6XW8MOi44HJ3Z3QJFJj1lXq3moFWqA+WD1huO/OmI2BCFZi15m81OTLOKtwI/XpeOFfmeY9OpN/L2YmQd/bWP5sFdFwYr3owhGGcMYMI7WhWdPoXDUi0nRQWnfJVLB4sc9kUHqypHm/JnX+2DQ9UvW1EyrG00YExoHO5onR5Bi1bnxmBnCWYIWsfXouS37F7trs4uxwXHoFNuMCgy6SnzarUErbIdIGg9/LO75DaM4+3RLprcjfgF6m0wzpgBQavaMadMK37YF+pJLaNNBWdfzYND1S9b2Q3/mkYDxoTGYY/W6em3QKjSCmO0Jm8MdpZghqBVweqaE9Go1DKeut/RqqADBK2yaTn3r52dShb6vSca44zuCFrVjjkVtUKHfZE1dVWPNhWcfacIWlW+bKVBq/ifpUxjTGgEqg6eHkGLVufGYGcJZghax8PGyVZojnViD0CBPVrFXq3wbOzk7u2yUaT8JoTa92jpG7Qq3qOVf0H6WCmCYq9TrFX6/YwzujNh0Kpij1Y9glbVY07F7cQbKRKZatvyVPpsqufgUPplqwtalf6inMaYYHkELYIWbUMw2FmEKYJWdkd1oU/i/KuqR1dAi056Sr3aw5qEuVMZ/1E96FJBq3QHCk4UKq46WKYIR2ODVkUdO1mEUGwI/8mqg4VLEfidg9kXOX4XsXQezjbGGd2ZMGhVcZTWLWhVNeaUeC+lDvv8caPG0abs2Vfb4FDTyxYJWic6XNNoIBgTGoalg6dn3aBVsCTXowfwXXAV+566/CIbNwY7SzBH0Hr0kJyjh+fkPvnq6JGXOY9/6XKU2S9R4tUefuoruc+TkY+EKhZ4ynfg0d5up8vlPNreXaBXD18n90FAuZMYQ4JWJR3LFnN3OAfl31NRHI5CF9rzXid38nr0N3c55dOBulg6aEamDFoVHKV13KNVw5hTpJU57PPHjRpHmzJnX82DQw0vW2DIyutwjaMBY0LjnHfd7570G92LIwQt8wet7PP+3hh0OAlaDWoMdpZgivLusvldF7IlthSls2vw0U6Go+Akz2vXzUr2SxR/tQ0hbg5mX7DrwqDrZrk7S+U6cPw1j75etlddxx/4U+RHdAha5TtW6I9WaEi8+fBBqPmvc9Pl6CzyrxhnTMWE5d0rOkrrWnWwljGnUCt72OeNG7WNNmXOvtMMDtW+bMEh60SHaxwNGBNswuJB6zTfUNW3Na6VfyBGba35g5Zr8EJXrU+uyG8MdpZAPVKaqRvjjO4YE2imbowJjUB599OzW9Cq5uGnFbamD1qnekRgfmOwswQmVU3V/Df9hZvRHWtYY5zRHWNClc1+Z6WxjTGhEdijdXoErVM3gtbxxmBnCUyqmqgVf35o/c5rszXGGd0xJlTV7HhWGtsYExqBO1qnZ3zQcjmUQvnnZDHT44uwL7hyvj+7JvDoOXdyFMtdIiyrjeUOdJVuljj2i4TYOL4uudMxWHBDQpGW/XV+58OaHEpXJe+lgo75XY9es8Ai9SI/68r7KHhUK6zkCzLYWR2TKpqpG+OM7hgTaKZujAmWR9Aqcw4U/baCQaVQLdFH1cC6jmWzo3AyeFSLuUDQ8t90ud4YdHTKShgu1xtHSSMvaJX+ReJhMsn9BlmXrIqg5bjQpXR2OZyyS12Kklu9tPB7qewv8PDfOh1dBQr7FPxZv1/WC3pYy+jhX6b0CzLY2QCTKpqpG+OM7hgTaKZujAmNQNXB0zNB0CrwgIjjT1c4ikM3i/3IUYVQpUzRm2KP4MgrKVb0FxWvZFhF0CrYh+y9u5LvpVjHSq79K/umij3lsNblDQx2lsCkimbqxjijO8YEmqkbY0IjsEfr9ExR3v3k6sHjNUBdjgKT/tzH2BV+dl71QavcLyrykPIqlw7mfeexly34XirqWJFcVPavR9BCIUyqaKZujDO6Y0ygmboxJliexYPWab6h/LcdTyDHE1HxHaXZ9W+VPSWjXNAq+4tObhsr2PlSrcgTNnJzZqH3Uulf4OghNqK6ny0Yq4q/IIOdTTCpopm6Mc7ojjGBZurGmNAI7lBiLrhrdC+OELTKnAMlvy13rn9i3n+0zs0ldxAdb7lLB+sTtEr9IkODVsm/gBAPi2coityHVvlfr9j9qyIvyGBnE0yqaKZu+ePMTCDeNrIiv57bfu172pUf/tzAc8kqGBNopm7MPRqBpYOnZ5KglZOCTj47PH8HV8GfrVvQKv6LGhq0ji0dLBi0Kok6fv8bR6UCj/pZyc+WWiiY94LlG4OdJTCpopm65Y4zsdRh7+zRVz7mfPPTlwd7nn3+c898o/vywMefv/ZrL/5EUbX/63v/fOeXUaNPq6bGmEAzdWPu0QiUdz89swStbL7yD3Ye3wdVZGdUTqtT0Cr7i4rc+Rmsrupg3ncWKOxx/L2U/wsU6GfpfWUVvK+aO8BgZwlMqmimbrnjjExZv/HfbvY8+7wjzxcvPfvRb00rqvZvv/2juX/+sdFnVvNiTKCZujH3sDyCVplzoNy3HU33B7tO3jwpXOvC7xw8Xvz91EGr0l90LCn5a6g6eCyxnHjNgu+lfMeOP1OrfKWQnJ8tmKNKvCCDnT0wqaKZumWPz6m1HZmyvvLVS/kpK+sJ54Siar/1/Oi9e/eMPrmaFGMCzdSNuUcjcEfr9MwTtLKVzfMX18kkoChdFwYH5XOfOvMD0umDVtlf9KiYu8M56HpjcPBCl6I4HFVWHezKPs7r6PWPPZW44Hsp07E3HNlnXrmcg45ORVG6HiWrsm8qW/rC6XI5B103y70gg50dPPrvmL/phUYzSRNio21k5TH1dsF7Wbl6Lz39+IvvfGBg8T//6QvxeNzo86sZMSbQzNuYezQIe7ROzxTl3Y+a39lVdEPRTddgtjaDonQde8xU/YJWmV90lFscnQ//7YVB180a9mj5B4vWmSgStEp37Kbr6MHHRftc+ZvqGrxZwQsStCyP/44wtdzZ1cecb5ZOWVL35QFF1T75p1enp6e7J/3nXfeFEDOBePekf8wbFUL0zW/KR3OGEwfdk/7+W1tCiDFvtHvSr0X2hBB2+6njf3LGBJgZx2dDUHXw9FgMoGMrUgzDYi1/sCtWDaxlyCM/8mE+fGjB1HKD1me+/t1KgtbnnvmGomrt/8//Nzw8rKha+6hXCDHmjSqqJtfGdE/65bXbQHxfUbXe2Q0hhNMdVlRNTjXs9lPH/+SMCTAzjk/rI2jRNoT/pr9w2xDCjkGrdDWwloFbiqqdvX43EN83+kTACXxowdRyg9bn//hyJUHL4XB8YGDxQ9/9p76+PqO734wYE2BmHJ8NwdLB0yNo1bEVfzqwXA9pv6BVthrYv3/hfyqq1jHuS6YzRp8LyMWHFkwtN2h98dKzFQatX3vxJ7/24k++9rWvGd39ZsSYADPj+GyI8677eTe3DUPQopVrNgtaVVUDM09ZGz1lVz/HUocTvu2ptR0hxNTajtMdjqUOhRDdk365U0JuqJgJxEXOwKdF9rIbKvpvbXVP+sOJg5p/6jg+tGBquUHrqef6K0lZX/jac4qqffRb0y+99JLR3W9GjAkwM45P6yNo0co1mwWttpGVfzO4VEk1sA+p77YMeeS27CZVIjLJhZG54UdRNZlzzlxblTfl54K72b0T8jagO5QQQiiqJtOR3FAhfyp7K1/+lMyo8qfk76rtp47jQwumlhu0Ov/stUqC1lPP9Suq1vHN19966y2ju9+MGBNgZhyfDUF599MjaNHq3HInQFVVAzNJYYxsZEqmM1NrOwUjk6zQJSPTVc8DkbPdXIvsnYhMJ7aby7pe8i5T3/zmlYWQECIQ33e6w/J3rUaTc8FdeUfLOHxowdRyx5n/7SV376Wny44zH3nhbUXV/uBP+n/xi18Y3f1mxJgAM+P4bAj2aJ0eQYtW55Y7AaqqGljP9Hp9D24tspcfmeaCu5VEpmQ6k1uh68pCqFhkypZClpEpljo0WWSqDR9aMLXs8SnPzSecE6UHmU9fHlRU7SMvvP2jH/3I6L43KcYEmBnHZ0NwR+v0CFq0Orcaq4Gptz8ysiJqfQ7Medf93MiUW9Q4G5lkkMstatw2spIfmca8UblFKjcyBeL7TRuZasOHFkwte3wm0xm5BLfjm68X2w7afXngAwOLHxhY/Mvvjxrd8ebFmAAz4/i0PoIWjbYhjgetKqqBvfTur7/iEbU+B6Z91Ct/KrfSw4nIJL9ov8hUGz60YGq5x6cW2ZNP6vu3L/3zU8/1Z4ed3ktP/37fX3z0W9OKqj2m3v7W2/9idK+bGmMCzIzjsyGoOnh6BC1anVvN1cDOTd0z+nRAFh9aMLUTx2fuI/sUVfv1gZ986Lv/lP2///er/6L9MmZsh5sfYwLMjOOzIdijdXrHpsU02imbOEU1MLnHCebAhxZMreDxOROIX1kIdU/6W4Y8iqrJUp/yVjZOjTEBZsbxaX1NH7SM7gksIjdoPf7iO5VXA5OF+GAOjAwwNY5P3TEmwMw4PhsiW4fZDAhagBA5E6Av/52mVFwNrOM1tk+YCiMDTI3jU3eMCTAzjs+GYOng6XFoos6yR1QynfnNgQWlgmpgj6m3/dFfGd1x5Co1MnQOLMp24uuHmfeva+/9zve1J1/RLoz/7NV3frn7sOjIL2Kp7E/ltt9Sbzf8rcCK+OTSXeExIfd0zv26HA3+y/9YLTggCMYE1Bmz2YagvPvpcWiiznKPqJnl9cdffEdRtdbvzBWrBvaBgcVvz9W2CJgAACAASURBVJrlegkeqjpovS9E39/7T8yZ/vD1O/FkWhSfVOWntWNcji5FUZQux2Cpqkf+wS5Fcrhqea9oQnxy6a6KoFVwNMgdEEQNYwKjAUphNmt9BC1AiLwJ0N++PfuEcyJbLePxF9/JrQb27/7qB3/+yuvGdhiFlB8ZTsyH/uHn23KStLGdjP7q4O+WH3zq5aXOgcWX5n9R8Mcz74vOgcXhH/+yeB8eTZmUrlJzK6ZWNsQnl+7KX3zJ/t/saPD8zHrlA8KLc78oPiYwGqA0ZrMNwR2t0+PQRJ3lH1GapvVc+W7HN1//yAtvf2BgUVG1j7zw9sefv/aZP/3ej370IwO7iuKqDlq/O7LcObD4j/5HRbS1zd3OgcUnh5ZO/OD2XvrLE6tl7mVJXMNGEXxy6a6KoJU/GogKBoQRd8nCs4wGKIXZbEOwR+v0ODRRZwWPqHA4/NZbb33729+WSwf/8i//8s0337x3jwdnmVZ1Qet9IT45eLtzYHFzJ5X94t96Ip0Di1/4m58de91Yquf1O50Di6M/qVs1f6ZWNsQnl+6qCFr5o4EoMiAIIeo7IDAa2BWz2Yag6uDpcWiizjiiLKHqO1onJNOZP/jr5c6BxTdvb2W/uB5N/qerP5Vzsidf0d7bPahLX5la2RDjjO6qCFr5Cg4IQoj1aDI7IPz5DwKnHxMYDeyK2az1EbQAIZgAWcRpg9YLP7zfObD42dE7eweZ7Bf3DjJf+BvvlydWPzt6p3Ng8fdeW47+Kl3iRVwOpdCcye9ydD2cTHU5XEyt7IhxRnenCloFBwQhxN5BJjsglB4TGA1QErPZhmDp4OlxaKLOOKIs4VRB678vbnUOLP72925rm0WXHNwO/muJnfFSoalVzp747OzKwdTKdhhndFd70KpwQPiPr2glxgRGA5TEbLYhzrvud0+W2hWpJ4IWIAQTIIuoPWhNLL33iYHFTw7e/uHPt0v/js6BxZ7X75T4hvypVf7E6himVrbBOKO7GoNW5QPC9xc2S4wJjAYoidms9RG0ACGYAFlE7UGrs7JJVfY7S3xD3tTq0ReUrkGXXwgh/K6c2RZTK9tgnNFdLUHrzdtblQ8IN9diJcYERgOUxGy2ISjvfnocmqgzjihLqCVovf5uuHNg8ea9nfxvfnJoqXNg8ebasXLPnQOLX3rzZAmyXCenVo+uYB97kg67MmyIcUZ31QUtORr89vduFxwQRKExQb0ZLDEmMBqgJGazDcEerdPj0ESdcURZQtVB67WfhDoHFrtePvmQHOlLb652Diz+0Vs+/4O993b3N2IpOQ97+2fREp0oPrU6vh2eqZX9MM7oroqglR0NfhyIF3u57JiQHRD+w+DtEmMCowFKYjbbENzROr3yQ2f+devDzPvXtfd+5/vak69oF8Z/9uo7v9xNHcp/9YtYKvtTue231FILhGAlDHaWUNHIkDs+FDzxOwcWP/XykhDi5lrsE3n/6q9+VOYgqfAadpFyZLAyxhndFR4T8k/5gl88MSCI6scERgOURNCyPrsErfeF6Pt7/4nB8Q9fvxNPpkXxoFW68CtPfLcSBjtLqHPQEkL8wBf9/DVv9uulFw1KpXZlOOSmDOHP+Rojg30wzuiuzkFLHB8TvvTmz6ZX/leJX89ogJIIWg1B1cHTq3qB0D/8fFsOixvbyeivDv5u+cGnXl7qLF6SNfO+6BxYHP7xL4v3Iad0UFeppEXQagoMdpZgig+t/IvTufOoAhgZbMMMx6fNGDwmMBqgJFN8ZlkPe7ROr+qg9fXptc6Bxf/6li/7lbFb4c4iJVlT6cyfTK+9+k6JlCWE4I6WpTDYWYIpPrQKrAIqUNHZMcjIYD9mOD5txnRBi9EAOUzxmWUZgfh+7+yGuhQxuiPH2CVo/e7IcufA4j/6H1UK0jZ3OwcWnxw6uQl+ey/95YnVMosGq0HQagoMdpZgig+twtst/C5H19FQ0NU16PIzMtiRGY5PmzFf0BKMBsgyxWeWBaxGk0IILbKnqFrHuK/s9+vJFkHrfSE+OXi7c2BxcyeV/eLfeiKdA4tf+JtjOy42Yqme1+90DiyO/iRUr74ygDYFBjtL4EMLpsbxqTvGBJgZx2cd9N/aUlRtam1HCDG1tpNMZ4zu0TG2CFr5kunMH/z1cufA4pu3t7JfXI8m/9PVn8qtXE++or23e1C6E0XKBOVcqlK6HC6CVnNgsLMEPrRgahyfumNMgJlxfNZOi+z1zm4k0xktstc+6p0p/lQGY9k0aL3ww/udA4ufHb2zd/Ao+O4dZL7wN94vT6x+dvRO58Di7722HP1VusSLFApa+YuvuxwOglYTYLCzBD60YGocn7pjTICZFTg+ZwLxD796R349t7UMefpvbZV4LfuIpQ6FED3T64qqmTZfZdkxaP33xa3OgcXf/t5tbXO32PfcDv5riZqEUn7QKrDH9dh+V4KWefFhbAlMqmBqHJ+6Y0yAmR07PmOpw97Zo698zPnmpy8P9jz7/Oee+Ub35YGPP3/tgy+9q6ja2et3A/F9o7ttmGQ60z3pl7uwVqNJuVzQ5GwXtCaW3vvEwOInB2//8OfbpX9HsZqEWaWej9E1KB+Q4XflZC+ClonxYWwJTKpgahyfumNMgJkdOz5lymr9zlzPs8878nzx0rMf/da0LPZgtm1IOpha25kL7goheqbXuyf94USZ3T3mYbug1VlZysp+Z4lvqPCJ7+zRagp8GFsCkyqYGsen7hgTYGaPjs+ptR2Zsr7y1Uv5KSvrCeeEompOd9jonusqt5xg04VMewWta/+ydfZ7t3OLvJfQObB49nu1Ba3jxTEIWs2AD2NLYFIFU+P41B1jAszs0fH54VfvPKbeLngvK1fvpacff/GdD778Uy2yZ3TnG24uuNs+6pXrA/tvbTXpW7ZR0Hr93XDnwOLNewUWdD45tNQ5sHhz7VgA6xxY/NKbP8v/5qwK72gVKU4Ic+HD2BKYVMHUOD51x5gAM3t0fMp9WaVTltR9eUBRtWfmgkKI7kn/edd9IcRMIN496R/zRoUQffOb3ZN+IUQ4cdA96ZclNMa80e5Jv8wq7lDCzPeFkumMfCNzwV1F1Zq9BIhdgtZrPwl1Dix2vXzy8cTSl95c7RxY/KO3fP4He+/t7m/EUjKVvf2zaIlOlNqj5ZBbtIQ/52sELTPjw9gSmFTB1Dg+dceYADM7FrQ+8/XvVhK0PvfMNxRV+/Rbd4UQiqq1j3qFEGPeaHZJYfekX1E1IUQgvq+oWu/shhDC6Q4rqjYX3J0L7rYMeXqm1w1946Wcm7qXfS6WBSp/WDBoyQdhZVvBL2bbp15eEkLcXIt9Iu9f/dWPyozL+beqclMVVQebCx/GlsCkCqbG8ak7xgSY2bGg9fk/vlxJ0HI4HI+pt2W+qkEsdXj2+l2zVUVPpjNOd1hmwplAvG9+s4nKXZRmwaClmwJrAgvUd3cMskerGZjhiMKpHfvQotHM2RhndMSYQDNvO3F8fvHSsxUGrQ++9G7r8PIpz42ZQLxnet3wNYThxIG8bdUx7msdXrZMvsoiaNWu8OYrv8vRdZSsuroGXX6KYTQHMxxRODVTjAxAMRyfumNMgJkdC1pPPddfScr6wteeU1Tt3NS9U/7us9fvKkY/8FeL7GXXMa5Gk/JJxBZD0AKEYAJkEYwMMDWOT90xJsDMjgWtzj97rZKg9dRz/YqqXVkInfJ3x1KHRu2DCsT3e2c3ZGWOc1P31KWIzh3QE0ELEIIJkEUwMsDUOD51x5gAMzsWtB5/8Z3eS0+XDVofeeHtOt6J0iJ7rcPLcnOUDmSokw8Nu3gjqM8vNRZBCxCCCZBFMDLA1Dg+dceYADN7dHxeWQgpqvaEc6J0yvr05UFF1WT19rqIpQ47xn2ynHqjyfcob2RN+LZ1+I1mQNAChGACZBGMDDA1jk/dMSbAzB4dn8l05sy1VUXVOr75+le+eqlgyuq+PPCYertlyNOIxX6B+P7FG8FG1MbQInvyWVhTazsd4z53KFH3X2FmBC1ACCZAFsHIAFPj+NQdYwLM7NjxqUX22kZWFFVr/c7cU8/1Z4sQ9l56+vf7/uKj35pWVK1lyNOge0E90+uKqjXi1pYMkKvRZN1fuSkQtAAhmABZBCMDTI3jU3eMCTCzk8dnLHXYO/voUQSPv/jOh777T9n/e/b63cbFlVjq8KrngfyH09/XWo0muyf9ffObQoiptZ254G4duticCFqAEEyALCJ3ZKDRTNcYZ3THmEAzdSs4JswE4lcWQt2T/pYhj9yR1Te/qc82Krll69zUvZqz1tTaTjhxkExn2kZWzrvu17d7zYigBQhB0LIInklKa4LGOKMjxgRaEzTzjAkyaNVchHDMG1VUTd7IsuRDsWpA0AKEIGhZBJMqWhM0xhkdMSbQmqCZakyQASmWOuyb36zwvtbU2s6Za6vyRlb2AVmQCFqAEAQtizB+HQiNVlmDPgz/D02jVdjMRW4Vc7rDJb4nmc7IzVfqUkRRNbnFCyc0fdAy/DoEzQJNELSAyswE4h9+9U7+SdQy5JEFfAGb4xyRYqlDWchOUbXT7PmBIbJ3tEr8h+sY97UMeeSNrEZUnLeGpg9aRvcEFsERhcqdd92v4/Mim0VuOayPOd/89OXBnmef/9wz3+i+PPDx56998KV3FVU7e/0uH7ewLc6RrNVoUhb17rp+t2PcR9ZqUsl05tzUvdwtW+HEgdMdlpU5rnoeXLwRDCcOjOtgEyBoAUIQtFCN9lGvvBFqK3IG2fqduZ5nn89/kuYXLz0rH/PSMe5jOgV74hyRptZ2WoeXlZyiCGStJpVbhFDeuQonDlqGPO2jXqO71jQIWoAQBC1Uwx1K2O2pIFNrO3IG+ZWvXsqfQWY94ZxQyi3rByyJc0S6shBS8p6rS9ZqXvKxWuHEQdvIiroUEULMBOJUFKwcQQsQgqAFlPThV+88pt4ueJ0+V++lpx9/8Z0PvvxTqk7BbjhHYqnD7km/omrto978d0fWampOd7h1eFkGLVSFoAUIQdBCNWy4dFDuOSk9g5S6Lw8oqmarTf+AsP05okX25MDYPekvdruDrNW8YqlD7mLVhqAFCEHQQjVsWAxDUbXPfP27lUwiP/fMNxRV65leN7rLgK7sfI5M+LZbhjzZTVklkLVgNwQtQAiCFlCSomqf/+PLlUwiHQ7HY+pttkrDbux8juRvyiqBrAVbsUDQotHq0AhaqJy6FLHwXvaCFFX74qVnK5xEfvCld1uHl43uMqArO58jcsVg5anpqueB3MpFZXBYXnMHLRqtvo2ghUrYc4/WU8/1VzKD/MLXnlNU7dzUPaO7DOjKzudIVXeo3KFEy5CnZcjjDiV06BtgLIIWjfaoEbRQCRuWd1dUrfPPXqtkEvnUc/2Kql1ZCBndZUBXdj5HKl8NGE4cyAtV8om3gOU1a9Ci0RrWAJykqNrjL77Te+npspPIj7zwtqJqM4G40V0GdGXzc6SSrJVMZ2T997I1MwDLaNKgBQCGsWHVQfkQ0iecE6VnkJ++PKiomt3+OIDgHKkga/XNbypV7uYCmh1BCwCqY8M9Wsl05sy1VUXVOr75+le+eqngDLL78sBj6u2WIU8gvm90fwG9cY6IkllrzBtVKIAB+yFoAQDK0yJ7bSMriqq1fmfuqef6swXWei89/ft9f/HRb00r1ZR4BqyHc0QUyVoUwIBtEbQAoDo2LIYhxVKHvbOPahE9/uI7H/ruP2X/79nrd1ejSaP7CBiJc0TkZS0KYMDOCFoAUB0bLh3MNROI/+cfbHSM+1qGPHLHRd/8JlMoIItzJDdrUQADdkbQAoDq2PCBxQBQlWzWogAG7IygBQCojs3v6QFlcY4IIWKpw197+ae//oqHAhiwLYIWAFTHhuXdT2ASCZTGOSL9cONfX7vzv4zuBWAYghYAVIcpFAAAKIugBQDVsW3VwSz+AkBpnCMS9/9hcwQtAEB1uKcHlMY5IvF3gM0RtACgOkwdqLsIlMY5AkAQtACgWiyGAYBKsIQSNkfQAgBUh6gJlMY5InH/HzZH0AKA6rAoiMkTUBrniMRoCZsjaAFAdZhCAQCAsghaAFAddh0AQCVYQgmbI2gBAKrDPT2gNM4Rib8DbI6gBQDV4RotfwGgNM4Rifv/sDmCFgBUh2u0AACgLIIWAKA6VBIDSuMckbgsBZsjaAFAdVgMw+QJKI1zRGIJJWyOoAUA1WEKRdQESuMcASAIWgBQOS2yNxOIsyhICBFOHBjdBcCkZgLxvvlNo3thCoyWsDmCFgCUEojvO93hQHxfCNE6vNw+6jW6R8brv7XVMuSZCcSN7ghgFuHEwZWF0IRvWwhx3nVfUTUtsmd0p4x3buqeompTaztGdwQwBkELAE5KpjMXbwQv3ggKIa56Hiiqpi5FhBD9t7bkP9jc1NpO6/CynFMCdjYTiPfObiTTmdVoUlE1uR/JHUq4Qwmju2YKgfj+mDdqdC8AwxC0AECsRpNCiKueB63Dy3JnRfuot2XII4QIxPcnfNvyjhaykumM0V0AjBFLHfbf2rrqeSCE6J3dUFRN3t2d8G2zpLag1Wjy4o0ggwZsiKAFwI7CiQM5K4qlDhVV6xj3CSGm1nbaRlbkjRqW/ZQWSx1eWQjJm36AHcibV7HUYSx12DLkOXv9rni4b9PorpmdjKPcA4cNEbQA2EUyncmu/XO6w9mdA72zG72zG0b3rskk05m2kZW2kRWuUsPCkumMuhTpv7UlhLiyEFJUTS6Em1rb4S535WKpQ1IW7ImgBcDiZgLx7km/XByYrWYxF9zNlrhAbbTIXix1aHQvgPqbC+5evBEMxPeT6Ux20FiNJrl5dRqr0WTP9DqDBmyFoAXAUrTIXjKdiaUO20e9PdPrQgh1KZKtZjETiLMmsI7CiQOnO8y+FFiAvOMty7LnDhpzwV2O8Lrom99UVE3ubQNsgqAFoLnFUodzwd3sIkBF1bLVLM5N3ZPfwDypQeTMiUqMaF7uUKJ3dkNef5ElcJLpTCC+T9nAukumM9R5h90QtAA0pbngbt/8ZraahdyYPrW20zO9zgxJN+HEQf+tLdYCoen039qSpVwmfNuKqsmH6s4Fd1lO3Gir0eTZ63e5+AWbIGgBaBqx1GHP9LqcHuVWs1CXIlwoNZC8A2B0L4AytMjexRtBuc/qzLVVRdVkCUF2Xukpd1kmYHkELQAmFU4cyOm7LPYl1/bkVlWeC+5S8s5w4cRB6/CyrI8PmNBVzwNZVnQuuKuomvxndyjB1QGjyNXdgB0QtACYiBbZU5ci8g6JomrZahYd4z551Zm5kQn1zm70zW8SemEe7lDivOu+LCnePelXVE2WEGSKbxJyASGliWB5BC0ABgvE968shORKktxqFj3T6ywvAVC5q54HsgSOFtnLXqlZjSbZEWQ2U2s72a1xgIURtAAYo//WVse4L1vNonvSL4RwhxL9t7aYFTWdq54HbSMrXJ+G/lajyd7ZDVk0XF6pkcchRXFMjv9AsAOCFoCGy67YCcT320ZW5B4JufNKfn1qbYdw1dSm1nZahjxj3qjRHYFdXPU86J70x1KHcpmxvFITiO+zuriJrEaTZ66tUowEFkbQAtAQsdThmDeaXQSY3SORDVrUBLcY/oOi0cKJg4s3gnJFsXyGmyw3ys6rJuUOJVqGPPIh0YAlEbQA1NNVz4PzrvsnqllM+LYv3giuRpNG9w4NFEsd9t/a6r+1ZXRHYDUTvu1zU/fklZps3dFsVVI0NfkfkVI6sCqCFoDayfV+sn6UvCqZu0ei/9YWq/DtQ96ubB1eZs6E04ulDntnN3IfmidLCHK9xnrcocSZa6ssPIYlEbQAVEeL7MlrkOdd97NP/FRUTU6JAvF9KiLYljuUYK8dTmMmEM9W/W4dXm4f9QohYqlDjisLW40mWUAIqyJoAShvLrgrl4TlPvGzb36ze9IvQxf7c5A15o1yUwuVS6YzvbMb5133hRBj3qiiarKEIJds7EMG6WQ6w9ABiyFoAShMi+xdvBGUy3Vyq1mcd91njQeKkcUkeQAaypoL7nZP+mUdi/ZRr1x0KqsIGt01GECL7J25tnplIWR0R4B6ImgBOCLvSvXObrSNrIjjT/ycC+5O+La5bYWyZD5nroxiLt4IylFFPrJW3ipn5xXCiYNsTVrAMghagH2FEwfZ4siKqslLiTJoyYkyRZNRM7IWstyhRPekX94JP3v9buvwcix1mExnyFfIla1AyAJCWAZBC7CXcOKg/9aW3Pxw9vpdWc0inDjoGPdRmBt1EUsdto96O8Z9RncEBuub35Sl2N2hhKJqstoBCRwlBOL7Z66tcl8LlkHQAmyh/9ZWdhFgdsajLkWc7jALAlF33ZP+3tkNLkvbkBbZO3v9rtyk1zO93jq8LJMVZQNRiWQ6I4MWowesgaAFWJBckDO1ttM+6s3OeLLVLK56HlDOC0AdXVkItY965WrAbGFSwhVqIK/9ycooRvcFOC2CFmAFyXRmLrgr41P7qLdlyCMeVrOQCwID8X0mPdCTzPlEeguTTyp3usNCiIs3gi1DHnmJh8WBOCW5gLB70m90R4DTImgBTWzCty1vWMn6XXLG0ze/ed51n2uBMNZVz4NszoeV9N/aah/1hhMH4cRBtjAp13FQX2ev32UBISyAoAU0GXco0TO9LusBdoz7stUs+uY3KRII80imM9zZsIxw4qB70n/xRlAI4XSHW4eX5WjDBR00iIxYyXSGDI+mRtACTC2cOJBTmXNT99pHveJ4NYuptZ254C7X/GBa2ZuuaEb9t7baRlbkgsDW4WV584pwBX2EEwdnrq2evX6Xzzg0L4IWYDpaZG/Cty2EUJciiqpd9TwQQnRP+jvGfTx8Bk0knDhoGfK0DHmYmjeRWOrw7PW756buCSHUpUjLkEc+bY//iNBf7+wGCwjR1AhagClokT2nOyxX47SPeluHl4UQq9Fk96R/JhA3undAjSZ821wXaApj3mjbyIo7lBBCZB+DRriCGXB5Ec2LoAUYqXd2Q257yK1moS5FrnoecA0PljG1tsPxbELJdObc1D35TOExb7RlyCPvpZOvYB7yyVptIysclmhGBC1AJ8l0Rpa6nvBttw4vy9U4HeO+liGP3O874dtm1y+s5+KNoKJq7NQyD1l5X94q7xj3nbm2yjOLYGZOd/jijSAXa9CMCFpAA61GkxO+bfmY4JYhT7aaRevwstx5xXIIWJ4W2eud3eCBWsZKpjNnr9/NH4KAZpFMZ+TSVqCJELSA+lOXIvLxQbnVLC7eCMpSgYA9ccNWf1NrO20jK/J2YragjtGdAqqWTGc6xn2tw8sMI2guBC2gPqbWds5evytX42SrWQTi+053mKcJweayZZqN7ohd9EyvyyFIi+y1DHnk5k+gqalLkd7ZDa4UoLkQtIDaJdOZ9lFv96RfCDHmjWZvXs0E4iyUAnJ1jPu6J/3ssmicmUC8bWRFZqre2Y0z11a5xAPrSaYzcocz0BQIWsCpdIz75ANnYqlDrrQBxRCxGkTWGomlDgPx/ZYhz5WFkNE9Ahro7PW7LUMeNmuhWRC0AAB6mAnEuyf9FIA5DXk1xx1KtI2syD2fVxZCHeM+/qqwiam1HRYQookQtIDatY96FVUzuhdAc5C1YajzXgM5reyb31RULRDfj6UOs0ELsKFkOiOf+QaYHEELqN151325QQtAWVRnrooMV4H4ftvISu/shhDC6Q6fubbK3xDomV5XVE1WnwLMjKAFANDPTCDOE5xKkPnqykJIUTVZU6d91HvxRtDofgEm4g4lriyE2PkJ8yNoAbVTlyLUTQYqF04ctAx52kZWmCHlSqYzyXQmljrMVjG96nlw5toqF+yBEmKpQ5Yiw+QIWkDt2KMFVGvMG50L7hrdC1OQN6+ueh4oqib/Jmev3z3vum90v4DmcN51X1G1MW/U6I4ARRG0gNq5QwmmjEANbFslL5Y6lPev2kZWzlxbFUJMre10jPu4eQVUKxDfZwEhTI6gBQDQldyAZKunjspnB8vHmstqaT3T6+dd95kjAqcUSx063WFOJZgTQQuoHUsHgRpokb2z1+/a525w+6i3fdQrhHCHEmeurVKWGqgj+cxuNmvBnAhaQO0IWgDK6ple75le5xGrQCOEEwd985vc0YI5EbQAAHqzzzPo2MkJ6CCWOiRuwYQIWkDtmEIBtbHP3WD7vFPAQE53WFG1KwshozsCHEPQAmrHFApAaTxtD9BBMp2hAiFMiKAF1I4pFAAAJhFLHV68EQwnDozuCHCEoAUA0Jt97gZzOQbQjboUUVTt4o2g0R0BjhC0gNrZZ0M/UF/2OXfsEykBM1CXIiwghHkQtIDaMYUCUBolcwDAtghaAAC9saAOQCNwARSmQtACAOjNPpMh+7xTwAzssywZTYGgBdSOKRRQG/ssqGPaBwC2RdACascUCgAA82BZMkyFoAXUYiYQ//CrdxRVO9Fahjz9t7aM7h1gdva5G8y0D9CTfcYWNAWCFlCdWOqwd3ZDxqqPOd/89OXBnmef/9wz3+i+PPDx56998KV3FVU7e/1uIL5vdE8B87LPZMg+7xQwA/ssS0ZTIGgB1ZEpq/U7cz3PPu/I88VLz370W9OKqnWM+3iUBwDuaAGAbRG0gCpMre3IlPWVr17KT1lZTzgnFFVjdgUUw1VnAI3APWSYCkELqMKHX73zmHq74L2sXL2Xnn78xXc++PJPtcie0V0GzMg+kyFK5gB6ss/YgqZA0AKqIPdllU5ZUvflAUXVKIwBFGSfBXVM+wDAtghaQBUUVfvM179bSdD63DPfUFStZ3rd6C4DppMtJ9Mx7rNw2ZhY6rBnel2+03NT99i0CeiAZckwFYIWUAVF1T7/x5crCVoOh+Mx9Xb7qNfoLgPmIlPW/3H1zrmpe4qqtQ4vW3JWtBpNnrm2qqha1/W7HeM+shagD+4hx0NuOwAAHyRJREFUw1QIWkAVFFX74qVnKwxaH3zp3dbhZaO7DJiITFnto155I8vpDssbPupSxOiu1dPU2k7r8LKian3zm0KIWOqQrAXowz7LktEUCFpAFRRVe+q5/kpS1he+9pycVxndZcAsTqQsKZtJzrvux1KHBnavXq4shOSzyyd829kvkrUAwIYIWkAVFFXr/LPXKglaTz3Xr6jalYWQ0V0GTKFgypKyq+zOXFtdjSYN6V5dxFKH3ZN++TbzK46StQAdUOcTpkLQAqqgqNrjL77Te+npskHrIy+8rajaTCBudJcB45VIWVK2bkTr8PLU2o7O3asLLbInN4d0T/qL3ZojawGNxh4tmApBC6iCXBT0hHMiG6iM7hFgdmVTVlZ2y1bTbbGY8G23DHmym7JKIGsBgH0QtPSgFGd01xrCwu83mc7INU4d33z9K1+9JIOWhd8vcHoVpiwpu2WrZ3q9ibZs5W/KKoGsBQA2wURQD3abiFv7/WqRvbaRFUXVWr8z99Rz/cLq7xc4JUXVLt4IVv79cg1h5dnMDOSKwcpT01XPA/kew4mDhnYMsI+ZQFx+Op9oLUOe/ltbRvcONsVEUA92m4hb/v3GUofZJ64KG7xf4DTklokK7/ZUvs7QVKq6Q+UOJVqGPC1DHncooUPfAMvL/VD+mPPNT18e7Hn2+c89843uywMff/5ay8AtRdXOXr/bXKMKrIGJoB5KT8RL/NtmxPs98W8Bm8vmivxCfCc0acoS1awGDCcOZPIc80Z16x5gbXLo+I3/drPn2efza1N98dKz//6F/6moWse4j8W60BkTQT3YbSLO+7X2+wWqNeaNygRVYttV86YsqZKslUxnZP33sjUzAFRoam1Hpiy5cbqYJ5wTzVhoB82OiaAeytwPyVtP3NSN90vQAvL1zW8qqlbs+TbNnrKkslkr+0fgsjpQL20jK/9mcKngvaxcvZee/pD6biW31oE6YiKoB4KHnd8vAFHyZo41UpZUImtlb+tRAAOoI0XVPuZ8s+zDLR0OR/flAUXVKIwBPTER1APBw87vF4AUThzImmC5hTGslLKkglmLAhhAgyiq9pmvf7eSoPW5Z76hqFrP9LrRXYaNMBHUA8HDzu8XQNaJwhjWS1nSiaxFAQygcRRV+/wfX64kaDkcjsfU2+2jXqO7DBthImgGG9ZqvF8ARclHSP2fo16rpiwpN2tRAANoHEXVvnjp2QqD1gdferd1eNnoLsNGCFq6yr+lY3RIoJ22nfivyY0soKyLN4LylLFqypKyWUuhAAbQMIqqPfVcfyUp6wtfe05e+zC6y7ARZoS6ImhZrxG0gGol05mz1+9aO2VJMmtRAANoHEXVOv/stUqC1lPP9SuqdmUhZHSXYSPMCHVF0LJeI2gBNQgnDiyfsqRY6pBy0kDjKKr2+Ivv9F56umzQ+sgLbyuqNhOIG91l2AgzQl0RtKzXCFoAABjly3+nKar2hHOidMr69OVBRdU6XvsXo/sLe2FGqCuClvUaQQsAAKMk05nfHFhQVK3jm69/5auXCqas7ssDHxhYfEy97Y/+yuj+wl6YEeqKoGW9RtBqZsYfPzSaVRpgmJnl9cdffEdRtdbvzD31XH+2CGHvpad/v+8vPvqtaUXVPjCw+O1ZzeiewnaYEeqKoGW9RtBqZsf+89FotNqaEBtGn8uwu799e/YJ50T2mHz8xXc+9N1/yv7ff/dXP/jzV17//9u7ux65rfuO4wT6BnrVi7yHAgVopwldJS3aXLRAExsBWniBoAjQskgv0ly0qBPUnZvaRYBkTMuyG8exso7tOEFsNEgrxrCNJoNUfmgpbSxZkh3KD2tLtmRbkmVZD5a0y15whsOHw8MzQ+7hOZzvB/8bjWZnOUPy7P835CH7XkasIjpCrQhaw6vS2iRoWYWgRVEdVJJs9r0vr7L+/w4aUhsbT9182zd/75/3fuKOfb81jpy7Nj5xx77fvf2hP/568MwzP+l98VajUEZHqBVBa3hVWpsELatsshtSVJsiaBmAL4zm9dvf/MWnb9tz89/fnp46+MWvfmPXP939O3c+2fuCrUIxDgjREWpF0BpeldYmQcsqBC2KalU0WAYgaFFGFOOAEB2hVipBy/23/Z1U73+AV6RKa5OgZRWCFkW1KhosAzCOUT0X44AEHaFWKx20wjXHcbxgouG3+KHu8YWgZScaFIpqVTRYBmAco3ouxgEJOkKtCFoELZiEBoWiWhUNlgEYx6iei3FAgo5QK4KWmUErDNY8bxS3GF8IWnaiQaGoVkWDZQDGMarnYhyQoCPUiqBlZNCaBJ7jELRWEQ0KRbUqGiwDMI5RPRfjgAQdoVaKQUuyNauEKIIWQQtqaFAoqlXRYBmAcYzquRgHJOgItTIraM0ySRyueWk+cNxpRInX/dlDni9IIHG45s2e4DiuH6xXnjMJg9zLBhNh0Cq8jrcWxqp7dRyO/PkPun44Kb0pxaUNfackW8LaXyEaXwhadqJBoahWRYNlAMYxqudiHJCgI9TKxKDlr3neWhCuz3KRG4Qjz3E8fxSGI99zHcdx/PX8D4a+m+aiIFifP6d4RCgNMPNX9hzPc0tBKw7c0nMcxw0UslbxB0e+l3vZStCSL20cpw86Tvpq4Xoa9mS/QjS+ELTsRINCUa2KBssAjGNUz8U4IEFHqJWBQctx1sLyI/lQMQlK+Sc9MFWMXtNYUkw7xWSy7pdeeZqIKs9pPoVPeqZfKWipLK3gBRc4mZCgZTMaFIpqVTRYBmAco3ouxgEJOkKtDAxaojiUi16zWDKLLmnuKjxh/vg0mdQ8p/jrQl+QZEJf+OKS3yV+U4ssrfAFCVororlBGezFaSiqi6LBMgBBi+q5GAck6Ai1MjBoFacziQJG4WnrfuVMwrRyGanmOYWgtV6ZGzWfQ9V49mCa/RxvLajOm1p4acXvWvYrROMLQctOBC2KalU0WAYgaFE9F+OABB2hVopBS1Nj13vQ8kZhOi2qWCrHkQoX8MhfiqOjoCX7FaLxhaBlJ4JW8xCx41cKNW1JdN70XOV9ab8J+0JFg2UAghbVczEOSNARasURrVLQWu6K6lnF2dURs1/XXdCq/RWi8YWgZSeClrQIWia8L4IWGhC0qJ6LcUCCjlAr+4OW8hyt6gGiwiUo6l5niSq+VDdztKS/QjS+ELTsRNCSFkFLe4XBmicbgY0rGiwD6BvHLB7NqJ0sxgEJOkKt7A9asuv4Zc+pXNZvM4nLVx2cToIqHSaKR4FCPxEXJ3EVDk8tvrTCHCX7FaLxhaBlJ6UGRdP+aGARtHSXwghsWNFgGYCgRfVcjAMSdIRaDSFoZTf5Ld2ZqhBmZrHKHwXhehCseY7j+6VWKY035ddR6CfW/ewOV+Eo8N1ClFpmabNLX4zCcBSEk4ZfIRpfCFp2Img1DxEELY1F0MISzAhaZm+o3ZRwIMrmF6TfxmoYrMwZmWfFOCBBR6jVMIJWkl4oYnalCMdzfcGl+SZpPpmGnHAiGhoms7skS16nWpPQd2t/qvXSesGk4VeIxheClp3MCFrZRhuPZn+wHc9bC4uHVeNw/r/VbbK4kRd+Ng7c6sU8K8d1S/uj6wfCfbb4i+quExOvT7/RmH7hUniOwissviSVj0tW8XqQ28E9f1T4WdHA2P6TyT7w6VV20mE297vCypVYp68/3zzWc5uHeJkLl/AJs3Uxf6eVS/7INiqVosEyAEFLV9XeFMf1g/XAHxG0+t4XTERHqJVjVNCiuiiCls1MClr+mue4nj8KwywGzM9WnZ6Omx5lDUa+V/grW/zftN2fJyvFoJU2+vkX8bzyOcChP7vtQf74sOirGcdx/WAUpge0c/29yiuoLIn8LUsra4ymH3V5AWqOirf8ZKYfeDCa5ppK0Irj9AfTb6bWw3B9GqXS5wSj2eYh+tCyTShbSMdxHDcIR16aJEUH8+Ub1UIDYJJs9r0vrzKCVm8l+saq4xLM2zSvGAck6Ai1UgxaOzgU2lLxJBZX3wtWM74QtOxkUNAq54T0wWlbrHKT7knuwcJVPZWCVu03tbkH62c8zp8TjzynYVEbXkF5SSRvWVrrgS8+1lR88Y4/men5yY78CHztOQWlNZhmv9JCFuaRTh+pnq2dvc4Ct2WXFA2WAVSDVpsnND9tdYOW4lc8y1U3++lOF+OABB2hVipBi5Ldzti84YagZTODglblYEL+Gi2yv7WhL/iv/OVbFIJWzXU1CwumdA3P0JccWVK+ZmnDkjS/5cUqHnmCFNfxJyO+/I960BL9oEI6LV7jp7rSCVpDQNDqrQhaaTEOSNARakXQGl4RtGxmxuXdaxqUfGiZXa9lLSjPoqn/VqLws/KgpXzvu4a70sl7gk7vwid9y40Vh+uBv+b7bjarqiZodfXJ1JxipBy0yj8oC4eqL1W/US1QNFgGMDdoNUykVJwtmZ+8WplnKKyab3zKu2rT1FbZpMrsoHGmPKmy+E5rp63WfwjN8zbrPurq3Fe1D3PpSZuMAxJ0hFo5BK3BFUHLZtYErSQpXudg/kd0espcmM7qKZbyqYNdxQn5+Xsd3+5c8pZllV0cwnM9f80PRumMphUMWvUb1QJFg2UAQ4NW00RKtdmS8tmJdSU8TUD0RYN0aqtsUmUST2aL7fpBZVJlWP69NdNWZR9Cw7zNwjzSprmvCh9mm0mbjAMSdIRaEbSGVwQtmxl06mBN0CqfkBZnOWHa2TfPTRrmEa0lz6UpzVPaTBJ5aBl40KrZqBYoGiwDGBm0midSKs2WbJidWFvVUaJ4iq/S1FanaVKlaHQtPUc+bbXxQ2h3d9PSECH9MFudo8g4IEFHqBVBa3hF0LKZQUGr8t2hJE5Upm9J5yYJW3yVP7HFP9Xqc7TqFkZ5jtaSS6JSolAkmu/U+SdjctBq86nSYBnAxKC1zERK0VbdsLfWV/nsweKLq01tbZxU2Ry0pNNWFT6E5h1ZafxR+DAJWjuFjlArgtbwiqBlM4OClvC6BfNr1hX/Tjc3BPEoKH2lmn9CPD0fpnwWTb59iRe4tl75S2i/5iQ0hVdQWZLmt1xb1fg6PZhTF1q6+mQWCFqlnmnn5mjVb1TqRYNlAAMv7646kVJ5tmTNli+pYiQrJiLFqa2NO2xj0FJKL7IPoXlHVjqirvJhtpm0yTggQUeoFUFreEXQsplBQcvzsnP9q2fPr/vZqfPhKD2PP9fWp915+QT9Svvu5G+y5JWfMwsP/ihIZxE4ju+XvzyeTs4uzQQo/o2fzRaYzluo3Eer8RVUlqTxLdfWfAGyj8KXzNHq7JNZpG9LZ6CNpu3OTgUt+Ua12ACYJJt978urzNSgJZ9IudhsyZotX1aSQ+WKU1vbB62m85wbPwSNQStpMWmTcUCCjlArgtbwiqBlM4OClh9uxkHdH7lJmLsslehiUJNw/rPiJ0ynWc++sBS1EeXnCM/SKV6nS3xZqtL1r7xgfcFXUFmSxrdcV5Mwe/F0AoZKaGn9ySj2bfnfJb2IWfug1bhRKRUNlgEMPHWwcSLlorMla54jrXkKKv+U4tTWnT6ipfAh6A1a0ze1+KRNxgEJOkITKG3HlKkFexl91UHK3GKVzYoGywAGBq3GKX+Lzpac1SJBK3tyHLjFhVlyauuyc7TqfpHCh9DpHK1FPszFJm0yDkgQtHRw6iVJojReUOZW4/qFsQhaQ6x4Eours1+x8AT34RYNlgEMDFqNEykXni2ZvcICQWsWNgKvvCSN8zy7ClrSaasKH4LKvE3l2bMNc7RaTNpkHJCgEdRB3ojnzz2jrKvG9QuDNTcoOoqg1WXVT3Nf9oJa5Wq4XvNqVW4PQl9MDFqNEykXny25mSSLBq3sKu3VAbZh8ToLWtJpq80fgtq8zea5r80fZqtJm4wDEjSCOtCIDxvr11oELaqpwjXHc31/lPYf/nQC1XIXlx9g0WAZwMygtdk0kXKJ2ZILBy3p1yKyxeswaCWyaatNH0KyqThvs2Hua/OH2WrSJuOABI2gDjTiw8b6tRZBi2qqeD3I9x+O69VdvH4liwbLAGZcdZBa4WIckKAR1IFGfNhYv9YyI2hRlLVFg2WAVQ1aOz8bk1IsxgEJGkEdaMSHjfVrLYIWRbUqGiwDrOY4tvOzMSnlYhyQoBHUgUZ82Fi/1lrNBoWiOisaLAMwjlE9F+OABI2gDjTiw8b6tRYNCkW1KhosAzCOUT0X44AEjaAONOLDxvq1Fg0KRbUqGiwDMI5RPRfjgASNIICVNf/z0PsN2SjKuqLBMgNBi+q5GAckCFpaOZU7FPe9RGir3HZwIMsm/HkA2mAPMgFBi+q5GAck6Ai1ImgND0HLZvx5ANpgDzIBQYvquRgHJOgItSJoDQ9By2b8eQDaYA8yAUGL6rkYByToCLUiaA0PQctm/HkA2mAPMgFzTSkjinFAiI5QK4LW8JRGGYKWVWgTgTbYg0zAWkDP2AIl6Ai1ImgND0HLZjQoQBvsQSZgLaBnbIESdIRayYOWO46yyj9+fWv7Rxun/+qHxz5778auPRtrjxy9/9mTF65cz57w5rkr+Z/N6sa7Duh5X6uMoGUzGhSgDfYgE7AW0DO2QAk6Qq2WCFrbSfK1n8bVEHXL3sPnL19Ln1MXtEqBrSz0PcdxHM8PYsmz4sCb3nzXD5d+4wNG0LIZDQrQBnuQCVgL6BlboAQdoVYqpw6WAtJTr5xNH7n9569tnr185uLVJw69d9Pug+44+vYv3xT+lq3t5Fu/eNMdR/ftP1m/LPMA5XiypEXQkiNo2YwGBWiDPcgErAX0jC1Qgo5QqyWC1j/87Lg7jv7mxy9v557z/f99xx1HN+89XP3xK9e2/vFnx91xdP+zkpSVJAlHtLpB0LIZDQrQBnuQCVgL6BlboAQdoVZLBK0//e4hdxz9d3wu/5yNExfccbTrnoOlnz176dqXHzvmjqPvPvd2V8tM0JIjaNmMBgVogz3IBKwF9IwtUIKOUKslgtYngwPuODrxwZX8cx5/8V13HN368NHSz96897A7jh58vrOUlRC0mhC0bEaDArTBHmQC1gJ6xhYoQUeo1RJBq+ryta0//94hdxw9euBU/vHXzlxOf3bXno1/efL10xeuyhcm9B1RgopD35tFK88PCVoNCFo2o0EB2mAPMgFrAT1jC5SgI9Sqk6B1x9NvuOPo8w8evnR1K//4patbX37s2OcfPJy+wp89cOjMxWuS1xEFrdwVMrKs5RO0ZAhaNqNBAdpgDzIBawE9YwuUoCPUqn3Q+kF0yh1Hn777wMaJC3XPOfDWh5/ZsyG5LGGqGrSqMauAoCVC0LIZDQrQBnuQCVgL6BlboAQdoVYtg9ZjB0/fMI4+GRx4+pWz8l907/+cqLssYaYStOYPOF4QxkmSJHGYy14ELRGCls3MaFC4/idsZcYetOpYC+gZW6AEHaFWbYLWowdOuWopK0mSyfFz6ZMlzykHrXkfV7ivFu2dHEHLZrIGpe6u39e3tn+0cfqz927s2rOx9sjR+589eeHK9fS/6m4dfuNdkj2RO9rBXrT4JmAtoGdsgRJ0hFotHbQe+r9T7jj61N0HStd5r/PcG+fT50ueUx+0ihfHoL2TImjZbOGgtZ0kX/tpXMpRt+w9fP7ytaQ+aMlnXXJEC9aixTcBawE9YwuUoCPUarmgtfeFd9J5WZNXPxC+7K57DrrjaHJ8nsHumrzljqMvPVq+/nue4hGtmosTYoqgZbPmBqW0Mz71ytl0D908e/nMxatPHHrvpt0HJfMht7YTdxzdt7/p7uEKCFowDy2+CVgL6BlboAQdoVZLBK0Hnn/bHUfe7oP7Xz9f97JfevSYO47++scvn77w8ea5K3tfeOf3gwPuONp39IxkYWRztPx0ilYS5x6jvRMiaNls4aBVvYF4493Du1pWghbMQ4tvAiPWAgPUKjNhCzQWHaFW8qAlPN2o7kwkdxzdtHva202On7uh8r93PtOwxVcPVeVTlQCjpwhBy2aLBa1t0Q3EhXcP3zx3Rf3u4dzRDtYyosVfeYuthRc2P0ybhLpvbyVdh+RlGaBWGeOABB2hVipHtLQRtHeC67v7AaOnFEHLZgsf0SoR3j38tTOX/+Tff53dPXypW4dzRztYgaBlgsXWwu0/fz0dnb6x7zXhEwhaWBTjgAQdoVamB62k8DW65wVhzOjZgKBls7ZBS3j38EtXt259+Eh29/Albh3OHe1gCYKWCRZYCxevbv3BPQfT1OTtLp/wnIre+rBUT7z4rjuOvvL4bySvTKuwyhgHJOgItTIqaKETBC2btQpaincPX/zW4dzRDrYgaJlggbXwtz95xR1H48lb9+4/qTiDdN/RM+442v2rE/KnEbRWGeOABB2hVgSt4SFo2Wz5oKV+9/CFbx3OHe1gDYKWCVTXwtvnP77xrsgdR8dOXzz+/iV3HJ3MTTcV+vDK9c9950V3HOUP2gsJBqjCV0bZWBaHwXz6qeN52bW35l8m5Ye47EWktxlEvxgHJOgItSJoDQ9By2bLBy31u4e3uHU4d7SD4QhaJlBdC997/m13HH1x/aX0n3/5gyP3P9dwtZ47n9lsvhNgkiSCAapwHePqs/LSDCVMWtmD5CyTMQ5I0BFqRdAaHoKWzZYJWul97YQ3tave0S59Be5oh4EiaJlAdS3c8v2X3HH0wOxSqA++8M4X9h7env1v9YoXL73zUXoE7O+ekM3OSpWCVkPMSg9jzU+JTsc6yXxVcpbRGAck6Ai1ImgND0HLZgsHrey+dsInZ3e0i9+7lN3UjjvaYbgIWiZQWgsvvv2RO45uGEdvnZueLnjigyvuOMqmmJaC1tb29tojR91x9Km7D7xx9nLjQhSC1ny8ygek7NHaA1bl8wTJWZZgHJCgI9SKoDU8BC2byRoU4XWN5Te14452WDEELRMorYU7ZicBlupfn34jfcLJ8x+nlf7zhwdPp0+4p+kyGKlc0PKFMUt+NdXpM4tJi5xlC8YBCTpCrQhaw0PQslnHQStJkidfPvMXDx3JHpefNJjijnawFkHLBEpr4Y/u2xCOXX9478bH18oXunj3wtXP7NlI707ReBmMlChGFfOR9Auk2VML2Wr2E+Qs0zEOSNARakXQGh6Cls2MaBO5ox2sZcQetPKU1oI7jm77r1dLD37l8d+44+ir/1HIMftfP59mMJWpWZncADX/Ukh85qB0CMtexw/JWdZgHJCgI9SKoDU8BC2b0SYCbbAHmaB5LZy5eNUdR796rXwJn/888n56WdT3P7qaPfiFvYfToPXEofdKdy6WLEThm6BYdN+/4oOFy70HoeCFPM4btAbjgAQdoVYEreEhaNmMNhFogz3IBM1r4dEDpz73nV9f39ouPX7x4+ve7oPuOHokOpU9WHeCtPwi76VD7sKoVXvyYPEQV/Fp5CwLMA5I0BFqVQ1a1JCKoGUb2kSgDfYgEzSvhVsfPvLtX74p/K+v73vVHUe3Pnwke6SToLVY1CqdS8hFVm3DOCBBR6gVR7SGh6BlM9pEoA32IBMYsRYEk0jzUWt+XCo3/TQ9QdAP4/IxK+4aaBkTtkBj0RFqRdAaHoKWzYxoUABrsQeZYHBrgZxlm6FtgZ2iI9SKoDU8BC2bDa5BAbRiDzLBsNZCHM4PhJGzLDGoLbBrdIQAVtawGhRAN/YgEwxkLVTuxMVlMKwxjC1whxC0dBBO/hzwoQ/e77Df74AMpEEBesIeZIKBrIVS0CJmWWQYW+AOoRHUQd6I936tvG6L90vQssdAGhSgJ+xBJhjIWpgHLc/L3WcLFhjGFrhDaAR1IHis8vuFwQbSoAA9YQ8yAWsBPWMLlKAR1IHgscrvFwajQQHaYA8yAWsBPWMLlKAR1KEheAwL77f0vzAYDQrQBnuQCVgL6BlboASNoA5Lt+k24v2W/hcGmzcovR8apSjrihbfDKwF9IwtUIJGUIemRnxzWMX7JWjZggYFaIM9yASsBfSMLVCCRlCHVWvEeb/Dfr8DQoMCtMEeZALWAnrGFihBI6jDqjXivN9hv98BoUEB2mAPMgFrAT1jC5SgEQSwsmhQgDbYg0zAXFPKiGIcECJoAVhZtIlAG+xBJmAtoGdsgRIELQAriwYFaIM9yASsBfSMLVCCoAVgZXGmDUV1UDRYvSJooWdsgRIELQAri6BFUR0UDVavCFroGVugBEELwMrq/SZsFDWYQl8IWugZW6AEQQsAAMBS+aBFUT0UQUuCoAUAAGApToGmjCiClhBBCwAAwFIELcqIImgJEbQAAAAs1f+ZYxQ1K5QRtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgY/8PdDMQAYkPpQwAAAAASUVORK5CYII="
+        alt="" width="722" height="497"></p>
+    <p><br>
+    </p>
+  ', 'published'),
+  (3, 'conceptualHistoryIntro', 2, 'Toward a Theoretical Maximum: Conceptual History & Roadmap', 'conceptual-history-intro', '
     <div align="center">
-      <font size="+2"><i><b>The Minimal Path: Conceptual History &amp; Pedagogical Roadmap</b></i></font><br>
-      <font size="+1"><i>From Direct Physical Space to State Spaces &amp; Quantum Statistical Mechanics</i></font>
+      <font size="+2"><i><b>Toward a Theoretical Maximum: Conceptual History &amp; Roadmap</b></i></font><br>
+      <font size="+1"><i>— Part 3: State Spaces, The Four Epochs of Analysis &amp; The Minimal Path —</i></font>
     </div>
     <br>
 
@@ -289,7 +2190,42 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>3. The Inverted Tree of Concepts</h3>
+    <h3>3. The Evolution of Mathematical Analysis: The Four Epochs</h3>
+    <p>
+      Parallel to the evolution of physical state spaces, mathematics underwent its own struggle to formalize continuous change, geometric area, and the continuum. To understand why nonstandard analysis is so empowering for general scientific literacy, one must examine how mathematics historically struggled to tame continuous change:
+    </p>
+    <ul>
+      <li>
+        <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) — <i>Leibniz, Newton, Euler</i>:</b><br>
+        Calculus was invented using <b>infinitesimals</b> (<code>dx, dy</code>)—quantities strictly greater than zero yet smaller than any positive standard real number. Derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>).
+      </li>
+      <br>
+      <li>
+        <b>Epoch 2: The Epsilon-Delta Purge (19th Century) — <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
+        19th-century mathematicians banished infinitesimals, replacing intuitive ratios with dense <b>epsilon-delta (ε-δ) limit definitions</b>. While watertight, this reform erected a massive cognitive barrier that alienated non-specialists from calculus.
+      </li>
+      <br>
+      <li>
+        <b>Epoch 3: The Topological Escape (Early–Mid 20th Century) — <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
+        Mathematicians ascended into abstract point-set topology and Lebesgue measure theory. This abstraction was powerful for functional analysis, but it severely detached continuous mathematics from intuitive spatial geometry.
+      </li>
+      <br>
+      <li>
+        <b>Epoch 4: The Nonstandard Synthesis — <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
+        Infinitesimals were given complete, rigorous mathematical foundations through model theory and Conway''s recursive number tree. Infinitesimals (<code>dx = 1/ω</code>) are legitimate numbers born on transfinite Day <code>ω</code>, restoring differentiation to pure algebraic division <code>f''(x) = st(Δy / dx)</code> and integration to discrete sums <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
+      </li>
+    </ul>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 14px 0;">
+      <b>The Middle Way Resolution:</b>
+      <p style="margin-top: 8px; margin-bottom: 0;">
+        In order to simplify the description of mathematics, the curriculum leverages the Conway number tree to ground a nonstandard constructive description of numbers that accepts that the infinitesimal <code>1/ω</code> (where <code>ω</code> is the supremum of the natural numbers) is a legitimate number. Doing so eliminates the need for limit theory. In addition, the fact that numbers are associated with tree addresses allows topology and measure to be described without introducing any additional intrinsic topological and measure spaces. This simplified mechanics allows mathematical concepts to be grasped directly, while providing future STEM students with an intuitive, constructive foundation that accelerates their subsequent study of standard analysis.
+      </p>
+    </div>
+
+    <hr>
+
+    <h3>4. The Inverted Tree of Concepts</h3>
     <p>
       The minimal path is an <b>inverted single-root tree</b> where every module directly supports the summit:
     </p>
@@ -316,7 +2252,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>4. The Epistemic Bridge: Monotonic Deduction vs. Non-Monotonic Discovery</h3>
+    <h3>5. The Epistemic Bridge: Monotonic Deduction vs. Non-Monotonic Discovery</h3>
     <p>
       A central revelation of this conceptual history is clarifying why <b>mathematics</b> and <b>natural science</b> require two distinct, complementary modes of formal thought:
     </p>
@@ -347,7 +2283,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>5. Pedagogical Strategy &amp; Conceptual Progression</h3>
+    <h3>6. Pedagogical Strategy &amp; Conceptual Progression</h3>
     <p>
       To guide learners along this path without cognitive overload, the curriculum unfolds through three cohesive conceptual tiers:
     </p>
@@ -374,7 +2310,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
     <hr>
 
-    <h3>6. Key Pedagogical Insights &amp; Classroom Discussion Prompts</h3>
+    <h3>7. Key Pedagogical Insights &amp; Classroom Discussion Prompts</h3>
     <ul>
       <li>
         <b>Prompt 1 (Introducing Day ω Without Vague Analogies):</b><br>
@@ -403,7 +2339,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </li>
     </ul>
   ', 'published'),
-  (3, 'level1Overview', 2, 'Constructing the Formal Foundation', 'level1-overview', '
+  (4, 'level1Overview', 3, 'Constructing the Formal Foundation', 'level1-overview', '
   <div align="center">
     <font size="+2"><i><b>Level 1: Logic &amp; Number<br>
           The Foundational Bedrock: Deductive Certainty, Predicates &amp; The Conway Tree</b></i></font><br>
@@ -471,7 +2407,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     With deductive certainty, predicate language, and the Conway number tree in hand, we are fully prepared to cross the threshold into <b>Level 2: Continuum &amp; Calculus</b>.
   </p>
 ', 'published'),
-  (4, 'propLogicIntro', 3, 'Introduction: Propositional Logic', 'prop-logic-intro', '
+  (5, 'propLogicIntro', 4, 'Introduction: Propositional Logic', 'prop-logic-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
       <font size="+1"><i>Deductive Certainty, Boolean Connectives &amp; The Truth Table Demo (TTD)</i></font>
@@ -610,7 +2546,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the next module, <b>Formal Statements</b>, we expand this skeleton into full First-Order Predicate Logic by introducing sets, domain-typed relations, and quantifiers.
     </p>
   ', 'published'),
-  (5, 'propLogicLecture', 4, 'Lecture: Propositional Logic', 'prop-logic-lecture', '
+  (6, 'propLogicLecture', 5, 'Lecture: Propositional Logic', 'prop-logic-lecture', '
     <div align="center">
       <i><font size="+2">Lecture: Propositional Logic</font></i><br>
       <i><font size="+1">Truth, Tables, Operators &amp; The Rules of the Game</font></i>
@@ -893,7 +2829,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In our next chapter, we will augment these connectives with <b>domain predicates</b> and <b>quantifiers</b> to build the language of sets and spatial matrices!”
     </p>
   ', 'published'),
-  (6, 'formalStatementsIntro', 5, 'Introduction: Formal Statements & Predicates', 'formal-statements-intro', '
+  (7, 'formalStatementsIntro', 6, 'Introduction: Formal Statements & Predicates', 'formal-statements-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Formal Statements &amp; Predicates</b></i></font><br>
       <font size="+1"><i>Sets, Directed Pairs, Predicates as Functions &amp; The Formal Statement Demo (FSD)</i></font>
@@ -1296,7 +3232,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the next module, <b>Numbers</b>, we construct the 1D hyperfinite transect <code>ℝ_ω</code> and 2D complex grid <code>ℂ_ω</code> via 2-successor and 4-successor tree graphs, laying the foundation for Bayesian state spaces and quantum probability amplitudes.
     </p>
   ', 'published'),
-  (7, 'formalStatementsLecture1', 6, 'Lecture: Formal Statements & Predicates', 'formal-statements-lecture1', '
+  (8, 'formalStatementsLecture1', 7, 'Lecture: Formal Statements & Predicates', 'formal-statements-lecture1', '
     <div align="center">
       <i><font size="+2">Lecture: Formal Statements &amp; Predicates</font></i><br>
       <i><font size="+1">Sets, Directed Pairs, Predicate Functions &amp; The 2D Truth Matrix</font></i>
@@ -1676,7 +3612,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In our next lecture, we lift these Boolean operations into the full <b>Algebra of Sets</b>: Unions, Intersections, Complements, and Bounded Domain Quantification!
     </p>
   ', 'published'),
-  (8, 'formalStatementsLecture2', 7, 'Lecture 2: The Semantics of the Algebra of Sets', 'formal-statements-lecture2', '
+  (9, 'formalStatementsLecture2', 8, 'Lecture 2: The Semantics of the Algebra of Sets', 'formal-statements-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Lecture 2: The Semantics of the Algebra of Sets</b></font></i><br>
       <i><font size="+1">Boolean Logic Lifted to Collections &amp; Bounded Domains</font></i>
@@ -1924,7 +3860,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       Everything in advanced mathematics and physics—from continuous calculus to quantum state spaces—is built upon this exact foundation.”
     </p>
   ', 'published'),
-  (9, 'fsdTest', 8, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
+  (10, 'fsdTest', 9, 'Formal Statements Demo (FSD) — Test Suite', 'fsd-test', '
     <div align="center">
       <font size="+2"><i><b>Formal Statements Demo (FSD) — Test Suite</b></i></font><br>
       <font size="+1"><i>Clutter-Free Verification of Quantified Predicates on ℕ</i></font>
@@ -1988,7 +3924,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <li><b>Declarative Engine:</b> Predicates (including <code>EVEN</code>) are dynamically loaded and evaluated from <code>domainsAndPredicates.json</code>.</li>
     </ul>
   ', 'published'),
-  (10, 'numbersIntro', 9, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
+  (11, 'numbersIntro', 10, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
     <div align="center">
       <font size="+2"><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font><br>
       <font size="+1"><i>Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The Duality of Scale</i></font>
@@ -2475,7 +4411,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </ul>
     </div>
   ', 'published'),
-  (11, 'numbersLecture1', 10, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
+  (12, 'numbersLecture1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
       <font size="+1"><i>The Classical Ascent vs. The Conway Inductive Revolution</i></font>
@@ -2920,7 +4856,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       This allows us to do calculus, Bayesian inference, and quantum wave mechanics using <b>exact algebraic arithmetic</b> without ever getting bogged down in limits. In our next lectures, we''ll explore the geometry of these trees and use them to power physics and computation!”
     </p>
   ', 'published'),
-  (12, 'numbersLecture2', 11, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
+  (13, 'numbersLecture2', 12, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
     <div align="center">
       <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
       <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
@@ -3500,7 +5436,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
     </p>
   ', 'published'),
-  (13, 'numbersLecture3', 12, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
+  (14, 'numbersLecture3', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
     <div align="center">
       <h2>Numbers Lecture 3</h2>
       <h3>STEM Connections, Cardinality &amp; The Architecture of Intrinsic Spaces</h3>
@@ -3816,7 +5752,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
   ', 'published'),
-  (14, 'lamOverview', 13, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
+  (15, 'lamOverview', 14, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
   <div align="center">
     <font size="+2"><i><b>Level 2: Continuum &amp; Calculus<br>
           Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
@@ -3891,7 +5827,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     </li>
   </ul>
 ', 'published'),
-  (15, 'sequencesAndSums', 14, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
+  (16, 'sequencesAndSums', 15, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
 <div class="container">
     <h1>Sequences, Sums &amp; Progressions</h1>
     <p style="font-size: 1.05em; color: var(--muted); margin-bottom: 24px;">
@@ -4060,7 +5996,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     </div>
   </div>
 ', 'published'),
-  (16, 'analysis1DIntro', 15, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
+  (17, 'analysis1DIntro', 16, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
     <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
@@ -4209,7 +6145,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
   </ul>
 ', 'published'),
-  (17, 'analysis1DLecture1', 16, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+  (18, 'analysis1DLecture1', 17, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
     <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
@@ -4434,7 +6370,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 ', 'published'),
-  (18, 'analysis1DLecture2', 17, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+  (19, 'analysis1DLecture2', 18, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
     <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
@@ -4689,7 +6625,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 ', 'published'),
-  (19, 'analysis1DLecture3', 18, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+  (20, 'analysis1DLecture3', 19, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
     <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
@@ -4830,7 +6766,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
   </ul>
 ', 'published'),
-  (20, 'analysis2DIntro', 19, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
+  (21, 'analysis2DIntro', 20, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
     <div align="center">
       <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
       <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
@@ -5057,7 +6993,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
         Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
     </ul>
   ', 'published'),
-  (21, 'analysis2DLecture1', 20, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+  (22, 'analysis2DLecture1', 21, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
     <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
@@ -5217,7 +7153,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
   </p>
 ', 'published'),
-  (22, 'analysis2DLecture2', 21, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+  (23, 'analysis2DLecture2', 22, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
     <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
@@ -5368,7 +7304,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
   </p>
 ', 'published'),
-  (23, 'analysis2DLecture3', 22, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+  (24, 'analysis2DLecture3', 23, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
     <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
@@ -5543,7 +7479,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
   </p>
 ', 'published'),
-  (24, 'vectorFoundationsIntro', 23, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
+  (25, 'vectorFoundationsIntro', 24, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
   <div align="center">
     <i><font size="+2"><b>Level 3: Space, Direction &amp; Geometry</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric Transformations</font></i>
@@ -5677,7 +7613,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
   </ul>
 ', 'published'),
-  (25, 'vectorsLecture1', 24, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (26, 'vectorsLecture1', 25, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -5879,7 +7815,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (26, 'vectorsLecture2', 25, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (27, 'vectorsLecture2', 26, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -6014,7 +7950,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (27, 'vectorsLecture3', 26, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (28, 'vectorsLecture3', 27, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
   <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -6302,7 +8238,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
   </p>
 ', 'published'),
-  (28, 'stemTrigFoundations', 27, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
+  (29, 'stemTrigFoundations', 28, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
     <div class="subtitle">
@@ -7544,7 +9480,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
 
   </div>
 ', 'published'),
-  (29, 'stemExpLogFoundations', 28, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
+  (30, 'stemExpLogFoundations', 29, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
 
   <div class="container">
     <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
@@ -7962,7 +9898,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </div>
 
 ', 'published'),
-  (30, 'stemTrigDerivatives', 29, 'Trigonometric Rates of Change & Analysis Bridge', 'stem-trig-derivatives', '
+  (31, 'stemTrigDerivatives', 30, 'Trigonometric Rates of Change & Analysis Bridge', 'stem-trig-derivatives', '
 
   <div class="container">
     <h1>Trigonometric Rates of Change &amp; Analysis Bridge</h1>
@@ -8518,7 +10454,91 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </div>
 
 ', 'published'),
-  (31, 'bayesianInferenceIntro', 30, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
+  (32, 'level5Overview', 31, 'From Deductive Certainty to Empirical Inference', 'level5-overview', '
+  <div align="center">
+    <font size="+2"><i><b>Level 5: Probability, Information &amp; Quantum Logic<br>
+          The Architecture of Non-Monotonic Inference: From Classical Belief Revision to Quantum Lattices</b></i></font><br>
+    <font size="+1"><i>— Rational Inquiry under Uncertainty: State Spaces, Non-Boolean Geometries &amp; Density Operators —</i></font>
+  </div>
+  <br>
+
+  <h3>From Deductive Certainty to Empirical Inference</h3>
+  <p>
+    Across the first four levels of our curriculum, we explored the deductive architecture of mathematics:
+    first-order logic and inductive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and rotation (<b>Level 4</b>).
+  </p>
+  <p>
+    In that deductive domain, every proven proposition is unconditionally either <i>True</i> (1) or <i>False</i> (0).
+    Furthermore, deductive proof is strictly <b>monotonic</b>: once a conclusion is derived from premises, discovering new facts can never invalidate that proof:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+    If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+  </div>
+
+  <p>
+    However, natural science and empirical discovery operate in the opposite mode: they are fundamentally <b>non-monotonic</b>. 
+    Learning new experimental evidence constantly forces rational observers to retract, revise, or reallocate confidence across hypotheses. 
+    <b>Level 5</b> provides the formal mathematical scaffolding for reasoning under uncertainty, extending classical logic into probability, information theory, and the non-Boolean geometry of quantum mechanics.
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #6366f1; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 13.5px; color: #1e1b4b;">
+    <b>The Level 5 Three-Pillar Progression:</b><br><br>
+    <b>Course 1: Bayesian Inference</b> (Sample Space Ω, Non-Monotonic Revision &amp; Discrete Updating)<br>
+    &darr;<br>
+    <b>Course 2: Quantum Logic</b> (The 3-Polarizer Anomaly, Failure of Venn Distributivity &amp; Orthomodular Lattices)<br>
+    &darr;<br>
+    <b>Course 3: Quantum Bayesian Inference</b> (State Vectors, Density Operators ρ, Gleason''s Theorem &amp; Information Updating)
+  </div>
+
+  <hr>
+
+  <h3>The Three Pillars of Level 5</h3>
+
+  <h4>1. Course 1: Classical Bayesian Inference &amp; The Logic of Discovery</h4>
+  <p>
+    Classical probability begins by grounding all claims on a primary substrate: the <b>Sample Space / State Space (Ω)</b>. 
+    Theoretical models and empirical data both operate on this common ground: hypotheses and observations are formalized as subsets (events) in a field <code>ℱ ⊆ 𝒫(Ω)</code>.
+  </p>
+  <ul>
+    <li><b>Exact Dyadic Measures:</b> Normalization <code>P(Ω) = 1</code>, countable additivity on disjoint partitions, and exact likelihood conditioning.</li>
+    <li><b>Bayes'' Inversion:</b> Transforming model predictions <code>P(E | H)</code> into diagnostic posterior probabilities <code>P(H | E)</code> via Bayes'' theorem.</li>
+    <li><b>Sequential Updating:</b> Demonstrating how continuous evidence streams iteratively converge belief toward ground truth.</li>
+    <li><b>Interactive Suite:</b> The <b>Bayesian Inference Demo (BID)</b> provides live exploration of joint distributions, tree partitions, sequential probability updates, and log-odds gauges, all driven directly by the Middle Way Calculation Machine.</li>
+  </ul>
+
+  <h4>2. Course 2: Quantum Logic &amp; Non-Boolean Lattices</h4>
+  <p>
+    What happens when physical measurements interfere with one another? 
+    As demonstrated by the classical three-polarizer experiment, inserting an intermediate 45° filter between two crossed polarizers <i>restores</i> light transmission from 0% to 25%, defying classical set-theoretic intuition.
+  </p>
+  <ul>
+    <li><b>Failure of Venn Diagrams:</b> In quantum mechanics, observables do not generally commute (<code>A · B ≠ B · A</code>). Consequently, the classical Boolean distributive law <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> breaks down!</li>
+    <li><b>Birkhoff-von Neumann Lattices:</b> Replacing set subsets with closed linear subspaces of a Hilbert space. Propositions become projection operators, forming an <b>orthomodular lattice</b> rather than a Boolean algebra.</li>
+    <li><b>Complementarity:</b> Formalizing how measurement context fundamentally conditions the truth-value of physical propositions.</li>
+  </ul>
+
+  <h4>3. Course 3: Quantum Bayesian Inference &amp; Density Operators</h4>
+  <p>
+    In the final course of Level 5, we unite the probabilistic calculus of Course 1 with the operator algebra of Course 2:
+  </p>
+  <ul>
+    <li><b>State Vectors to Ensembles:</b> Advancing from pure rays <code>|ψ⟩</code> to statistical mixtures formalized by <b>density operators (ρ)</b> satisfying <code>Tr(ρ) = 1</code> and positive semi-definiteness.</li>
+    <li><b>Gleason''s Theorem:</b> Establishing why the Born probability rule <code>P = Tr(ρ · Π)</code> is the unique mathematically consistent measure on non-Boolean quantum lattices for dimensions <code>d ≥ 3</code>.</li>
+    <li><b>Entropy &amp; Information:</b> Quantifying statistical mixedness via von Neumann entropy <code>S(ρ) = -Tr(ρ · ln ρ)</code>, linking thermodynamics to quantum information.</li>
+    <li><b>Quantum State Revision (QBism):</b> Understanding wave-function collapse not as mechanical physical disruption, but as exact Bayesian conditioning of an observer''s information state.</li>
+  </ul>
+
+  <hr>
+
+  <h3>Computational &amp; Formal Grounding</h3>
+  <p>
+    Consistent with our curriculum presentation standard, all probabilistic calculations across Level 5 are executed explicitly on the 
+    <b>(𝔻, +, ·) Calculation Machine</b> (via <code>bayes_discrete_update</code> and <code>rotor_trig_cordic</code>), accompanied by interactive visual demonstrators and first-order formalizations in Lean 4.
+  </p>
+
+', 'published'),
+  (33, 'bayesianInferenceIntro', 32, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i><br>
       <i><font size="+1">The Logic of Scientific Discovery: Hypotheses, State Spaces &amp; Exact Belief Revision</font></i>
@@ -8741,7 +10761,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
     </p>
   ', 'published'),
-  (32, 'bayesianInferenceLecture1', 31, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
+  (34, 'bayesianInferenceLecture1', 33, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
@@ -9037,7 +11057,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
     </div>
   ', 'published'),
-  (33, 'bayesianInferenceLecture2', 32, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
+  (35, 'bayesianInferenceLecture2', 34, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
@@ -9087,7 +11107,15 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <h4>Formal Statement (FS) of the Update Operator:</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Updating Operator:</b> Let <code>𝒯_d : 𝒫(ℋ) → 𝒫(ℋ)</code> represent the Bayesian update operator conditioned on datum <code>d</code>.<br>
-      • <b>Sequential Invariant:</b> <code>𝒯_{d₂}(𝒯_{d₁}(P₀)) = 𝒯_{d₁ ⋂ d₂}(P₀) = 𝒯_{d₁}(𝒯_{d₂}(P₀))</code>.<br>
+      • <b>Sequential Invariant:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="bayes_sequential_update" title="Sequential Bayesian Updating &amp; Order Invariance">
+          𝒯_{d₂}(𝒯_{d₁}(P₀)) = 𝒯_{d₁ ⋂ d₂}(P₀) = 𝒯_{d₁}(𝒯_{d₂}(P₀)) &nbsp;&nbsp; ∧ &nbsp;&nbsp; Odds(H₁ : H₀ | D) = BF · Odds(H₁ : H₀)
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to inspect Lean 4 formalization, sequential invariance, and odds factorization)</i>
+      </p>
       • <b>Order Invariance:</b> The arrival sequence of conditionally independent clues does not affect the terminal posterior belief.
     </div>
 
@@ -9328,7 +11356,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 3</b>, we''ll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
     </p>
   ', 'published'),
-  (34, 'bayesianInferenceLecture3', 33, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
+  (36, 'bayesianInferenceLecture3', 35, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
       <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
@@ -9408,8 +11436,13 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
           P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
         </div>
         <i>The Clean Physical Law:</i>
-        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #065f46; font-size: 14px; font-weight: bold;">
-          P(E) = 0 &nbsp;⟺&nbsp; E = ∅ &nbsp;&nbsp; (Only the strictly impossible empty set has probability zero!)
+        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 80%; margin: 8px auto; color: #065f46; font-size: 14px;">
+          <fsd-ref tier="3" scaffold="hyperfinite_probability" title="Hyperfinite Probability Measure &amp; Strict Positivity">
+            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E) = 0 &nbsp;⟺&nbsp; E = ∅ ]
+          </fsd-ref>
+          <div style="font-size: 12px; color: #047857; margin-top: 4px; font-weight: normal;">
+            <i>(Only the strictly impossible empty set carries zero probability on ℝ_ω)</i>
+          </div>
         </div>
       </li>
     </ul>
@@ -9641,7 +11674,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   ', 'published'),
-  (35, 'bayesianInferenceLecture4', 34, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
+  (37, 'bayesianInferenceLecture4', 36, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i><br>
       <i><font size="+1">State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone: Unifying Inference with Thermodynamics</font></i>
@@ -9733,9 +11766,14 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “The expected average surprisal across the entire state space is called <b>Shannon Entropy</b> (formulated by Claude Shannon at Bell Labs in 1948):”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
-      H(P) ≡ -∑_{k=0}^{ω-1} p_k · ln(p_k)
+    <div align="center" style="margin: 10px 0;">
+      <fsd-ref tier="3" scaffold="shannon_entropy" title="Shannon Information Entropy H(P)">
+        H(P) = -∑_{k=0}^{ω-1} p_k · ln(p_k) &nbsp;&nbsp; where &nbsp;&nbsp; 0 ≤ H(P) ≤ ln(ω)
+      </fsd-ref>
     </div>
+    <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+      <i>(Click the formula above to inspect Lean 4 entropy bounds and CAS evaluation)</i>
+    </p>
 
     <p>
       “<code>H(P)</code> measures our total macroscopic uncertainty about which microscopic state the system actually occupies.”
@@ -9946,7 +11984,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Where classical probabilities simply add as disjoint subsets, quantum states introduce <b>geometric phase, wave interference cross-terms, and projection operators</b>. See you in Quantum Logic!”
     </p>
   ', 'published'),
-  (36, 'quantumLogicIntro', 35, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
+  (38, 'quantumLogicIntro', 37, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i><br>
       <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Projection &amp; Vector Geometry</font></i>
@@ -10060,7 +12098,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
   ', 'published'),
-  (37, 'quantumLogicLecture1', 36, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
+  (39, 'quantumLogicLecture1', 38, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
       <i><font size="+1">The Three Polarizers &amp; The Quantum Breakdown of Venn Diagrams</font></i>
@@ -10270,7 +12308,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 2</b>, we will explore why nature uses <b>complex 2D amplitude arrows on <code>ℂ_ω</code></b> instead of plain 1D probabilities &mdash; and how the <b>Born Rule</b> turns complex waves into observable laboratory probabilities!”
     </p>
   ', 'published'),
-  (38, 'quantumLogicLecture2', 37, 'Quantum Logic Lecture 2', 'quantum-logic-lecture2', '
+  (40, 'quantumLogicLecture2', 39, 'Quantum Logic Lecture 2', 'quantum-logic-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 2</b></font></i><br>
       <i><font size="+1">The 4-Successor Quad-Tree, Complex Amplitudes &amp; Wave Interference</font></i>
@@ -10483,7 +12521,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In <b>Lecture 3</b>, we will see what happens when a laboratory measurement observes this state vector &mdash; and discover that <b>quantum measurement is simply vector projection</b>!”
     </p>
   ', 'published'),
-  (39, 'quantumLogicLecture3', 38, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
+  (41, 'quantumLogicLecture3', 40, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
     <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
       <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
@@ -10698,7 +12736,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical ensembles and density matrices</b> to complete our grand tour of physical reality!”
     </p>
   ', 'published'),
-  (40, 'quantumBayesianInferenceIntro', 39, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
+  (42, 'quantumBayesianInferenceIntro', 41, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
     <div align="center">
       <i><font size="+2"><b>Level 5 Course 3: Quantum Bayesian Inference</b></font></i><br>
       <i><font size="+1">The Capstone Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
@@ -10771,7 +12809,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
     </div>
   ', 'published'),
-  (41, 'quantumBayesianInferenceLecture1', 40, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
+  (43, 'quantumBayesianInferenceLecture1', 42, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
       <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
@@ -11005,7 +13043,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “In our final lecture,” Jack concluded, “we will direct this completed formalism to our modern understanding of physical reality itself: <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
   ', 'published'),
-  (42, 'quantumBayesianInferenceLecture2', 41, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
+  (44, 'quantumBayesianInferenceLecture2', 43, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
     <div align="center">
       <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
       <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Capstone Ascent</font></i>
@@ -11096,7 +13134,15 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <h4>Formal Statement (FS-QBI-2.2): The Quantum Gibbs State &amp; Free Energy</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Variational Principle:</b> <code>ρ_eq = argmax_{ρ} { S(ρ) }</code> subject to <code>Tr(ρ) = 1</code> and <code>Tr(ρ Ĥ) = ⟨E⟩</code>.<br>
-      • <b>Gibbs Density Operator:</b> <code>ρ_eq = Z(β)⁻¹ · e^{-β Ĥ}</code> with <code>Z(β) = Tr(e^{-β Ĥ})</code>.<br>
+      • <b>Gibbs Density Operator:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="quantum_gibbs_state" title="The Quantum Gibbs State &amp; Maximum Entropy">
+          ρ_eq = Z(β)⁻¹ · e^{-β Ĥ} &nbsp;&nbsp; where &nbsp;&nbsp; Z(β) = Tr(e^{-β Ĥ}) &nbsp;&nbsp; ∧ &nbsp;&nbsp; F = -k_B T · ln Z
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to inspect Lean 4 variational principle and free energy minimization)</i>
+      </p>
       • <b>Helmholtz Free Energy:</b> <code>F = -k_B T · ln Z = ⟨Ĥ⟩ - T · S(ρ_eq)</code>.<br>
       • <b>Thermodynamic Isomorphism:</b> Thermal equilibrium physically minimizes Helmholtz free energy <code>F</code>, mathematically isomorphic to Bayesian model selection minimizing negative log evidence.
     </div>
@@ -11182,7 +13228,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
   ', 'published'),
-  (43, 'satelliteSeminarsIntro', 42, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
+  (45, 'satelliteSeminarsIntro', 44, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
     <font size="+1"><i>— Exercising the Formal Apparatus in the Non-Monotonic Sphere —</i></font>
@@ -11289,7 +13335,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     “Let us now begin with our first seminar, which due to its deceptive simplicity and cosmic scope, sets the grand stage for all that follows: <b>Cosmology as Information</b>!”
   </p>
 ', 'published'),
-  (44, 'stemNewtonianBridge', 43, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
+  (46, 'stemNewtonianBridge', 45, 'Applied STEM Bridge: The Newtonian Calculation Review', 'stem-newtonian-bridge', '
   <div align="center">
     <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
     <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke''s Oscillator —</i></font>
@@ -11542,7 +13588,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
   </p>
 
 ', 'published'),
-  (45, 'stemHeatDiffusion', 44, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
+  (47, 'stemHeatDiffusion', 46, 'STEM Bridge: Applied Mathematics & Computational CAS', 'stem-heat-diffusion', '
     <div align="center">
       <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
       <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
@@ -11887,7 +13933,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
     </p>
   ', 'published'),
-  (46, 'fourierTransformSeminar', 45, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
+  (48, 'fourierTransformSeminar', 47, 'Mini-Seminar 1: The Fourier Duality', 'fourier-transform-seminar', '
     <div align="center">
       <i><font size="+2"><b>Mini-Seminar 1: The Fourier Duality</b></font></i><br>
       <i><font size="+1">— Position vs. Frequency, Unitary Basis Rotations &amp; Quantum Geometry —</font></i>
@@ -12101,7 +14147,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       Jill and Jack joined the rest of the seminar room in giving Liam an enthusiastic round of applause.
     </p>
   ', 'published'),
-  (47, 'haloSoupSeminar', 46, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
+  (49, 'haloSoupSeminar', 48, 'Mini-Seminar 2: From ω-Nodes to Halo Soup', 'halo-soup-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 2: From ω-Nodes to Halo Soup</b></font></i><br>
     <i><font size="+1">— A Physical Theory of Particles, Matrices &amp; Transfinite Halos —</font></i>
@@ -12308,7 +14354,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     The room erupted in enthusiastic applause as Jill and Jack nodded, thoroughly impressed by the intuitive bridge between hyperreal analysis and quantum measurement.
   </p>
 ', 'published'),
-  (48, 'holographicPrincipleSeminar', 47, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
+  (50, 'holographicPrincipleSeminar', 49, 'Mini-Seminar 3: Holography & Information Boundaries', 'holographic-principle-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 3: Holography &amp; Information Boundaries</b></font></i><br>
     <i><font size="+1">— Edge Cancellations, Area Laws &amp; The Holographic Principle —</font></i>
@@ -12515,7 +14561,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     Jack smiled, looking down at his sketches of the 3D cell cancellations: “I’ll never look at an apple &mdash; or a volume of space &mdash; the same way again.”
   </p>
 ', 'published'),
-  (49, 'higherSuccessorsSeminar', 48, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
+  (51, 'higherSuccessorsSeminar', 50, 'Mini-Seminar 4: Higher-Successor Inductive Definitions', 'higher-successors-seminar', '
   <div align="center">
     <i><font size="+2"><b>Mini-Seminar 4: Higher-Successor Inductive Definitions</b></font></i><br>
     <i><font size="+1">— 2, 4, 8, 16 Branchings, 3D Spatial Octrees &amp; 4D Spacetime Physics —</font></i>
@@ -12801,7 +14847,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     At Jane''s words, Jill, Jack, and the entire seminar room rose to their feet in a resounding standing ovation, honoring Liam, Maya, Tariq, and Chloe for an unforgettable journey across applied transfinite mathematics.
   </p>
 ', 'published'),
-  (50, 'cosmologyAsInformation', 49, '1. The Law of Information Immutability', 'cosmology-as-information', '
+  (52, 'cosmologyAsInformation', 51, '1. The Law of Information Immutability', 'cosmology-as-information', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Cosmology as Information</b></i></font><br>
       <font size="+1"><i>— The Duality of Immutable Law &amp; Observed
@@ -12991,7 +15037,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
         They are the grammar through which the cosmos computes itself.”</b>
     </div>
   ', 'published'),
-  (51, 'particleZooSeminar', 50, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
+  (53, 'particleZooSeminar', 52, 'Satellite Seminar: The Logic of the Particle Zoo', 'particle-zoo-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: The Logic of the Particle Zoo</b></i></font><br>
     <font size="+1"><i>— Why Local Symmetries Dictate the Fundamental Forces of Nature —</i></font>
@@ -13200,7 +15246,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <b>It is the magnificent, coherent geometry of symmetry, duality, and information.</b>”
   </p>
 ', 'published'),
-  (52, 'quantumEntanglementSeminar', 51, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
+  (54, 'quantumEntanglementSeminar', 53, 'Satellite Seminar: Quantum Entanglement & The Relational Fabric of Reality', 'quantum-entanglement-seminar', '
   <div align="center">
     <font size="+2"><i><b>Satellite Seminar: Quantum Entanglement &amp; The Relational Fabric of Reality</b></i></font><br>
     <font size="+1"><i>— Tensor Products, Non-Separability, Bell Inequalities &amp; Emergent Spacetime —</i></font>
@@ -13408,7 +15454,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
     <b>the universe is not an assembly of lonely particles in empty space. It is an unbroken, relational web of quantum information computing reality at every point.</b>”
   </p>
 ', 'published'),
-  (53, 'algebraicGeometrySeminar', 52, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
+  (55, 'algebraicGeometrySeminar', 54, '1. Zero Loci & Polynomial Varieties on ℂ_ω', 'algebraic-geometry-seminar', '
     <div align="center"> <font size="+2"><i><b>Satellite Seminar:
             Algebraic Geometry &amp; The Infinitesimal Microscope</b></i></font><br>
       <font size="+1"><i>— Polynomial Varieties, Grothendieck Schemes,
@@ -13962,7 +16008,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       polynomial varieties, discrete number trees, and the frontiers
       of modern algebraic geometry. </p>
   ', 'published'),
-  (54, 'lean4GenEdProposal', 53, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
+  (56, 'lean4GenEdProposal', 55, 'The Public Utility Model for Formal Science', 'lean4-gen-ed-proposal', '
 <div class="card">
       <h1>The Public Utility Model for Formal Science</h1>
       <h2>— Prototyping an Open Civic Infrastructure for Formal Verification, Machine-Checked Proof, and Autonomous Curricula —</h2>
@@ -14323,7 +16369,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
 ', 'published'),
-  (55, 'dualAgentAcademicProposal', 54, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
+  (57, 'dualAgentAcademicProposal', 56, 'Coupling Formal Verification with Conversational AI', 'dual-agent-academic-proposal', '
     <div class="card">
       <h1>Coupling Formal Verification with Conversational AI</h1>
       <h2>— A Multi-Service Grounded Dual-Layer Architecture &amp; Interactive Sandbox for Sound, Hallucination-Free Intelligent Tutoring Systems —</h2>
@@ -14425,7 +16471,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </div>
     </div>
   ', 'published'),
-  (56, 'minimalAxiomaticCoreProposal', 55, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
+  (58, 'minimalAxiomaticCoreProposal', 57, 'The Inductive Continuum', 'minimal-axiomatic-core-proposal', '
     <div class="card">
       <h1>The Inductive Continuum</h1>
       <h2>— A Minimal Constructive Scaffold for Middle Way Mathematics Within Educational Resource Hubs —</h2>
@@ -14434,7 +16480,7 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
         <b>Executive Summary:</b><br>
         In modern science education, learning pathways are increasingly delivered through <b>open educational resource hubs</b> that offer diverse, complementary curriculum trajectories—from traditional epsilon-delta analysis and applied numerical computing to modern constructive logic.<br><br>
         Within this ecosystem, <i>Middle Way Mathematics (MWM)</i> finds its distinctive niche: offering an accessible, constructive bridge between students'' intuitive familiarity with discrete computation (algorithms, registers, difference equations) and continuous mathematical analysis (derivatives, integrals, differential equations). Rather than treating the continuum as an uncomputable or non-constructive abstraction, MWM models continuous calculus as the <b>natural transfinite completion of discrete inductive trees</b>, brought into human observation by the standard shadow map <code>st(·)</code>.<br><br>
-        While MWM''s active curriculum utilizes an operational suite of formal scaffolds across its courses, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. Recently verified across <b>171 Lean 4 cache keys with zero epsilon-delta filters</b>, this architecture also establishes an explicit <b>Constructive Function Engine</b> (<code>DirectedPair + RuleType</code>) that translates machine-checked proofs directly into interactive Computer Algebra System (CAS) calculators.
+        While MWM''s active curriculum utilizes an operational suite of formal scaffolds across its courses, this whitepaper articulates the foundational architecture behind them: demonstrating how these scaffolds gracefully reduce to an irreducible core of <b>Three Inductive Seeds</b>. Verified across <b>171 Lean 4 cache keys with zero epsilon-delta filters</b>, this architecture establishes an explicit <b>Constructive Function Engine</b> (<code>DirectedPair + RuleType</code>) and a native <b>Virtual Machine in (𝔻, +, ·)</b> that translate machine-checked proofs into interactive, step-by-step physical calculations without external library oracles.
       </div>
 
       <h3>1. Finding the Niche: Bridging Continuous Analysis and Discrete Computation</h3>
@@ -14528,10 +16574,10 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
       </ul>
 
       <div class="box-blue" style="margin: 16px 0;">
-        <b>The Constructive Function Architecture: Directed Pair + Rule Type</b><br>
+        <b>The Constructive Function Architecture: Directed Pair + Rule Type + VM Stepper</b><br>
         In classical set theory, a function is defined non-constructively as an arbitrary, static set of ordered pairs <code>R ⊆ X × Y</code> (an uncomputable graph). In Middle Way Mathematics, every operation is an <b>active computational engine</b> formalized as:
         <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
-          <b>Function Type &nbsp;=&nbsp; Directed Pair (Constructed Domain &amp; Codomain) &nbsp;+&nbsp; Rule Type</b>
+          <b>Function Type &nbsp;=&nbsp; Directed Pair (Constructed Domain &amp; Codomain) &nbsp;+&nbsp; Rule Type &nbsp;+&nbsp; VM Stepper</b>
         </div>
         <ul>
           <li><b>DirectedPair α β:</b> Specifies verified constructive source and target types (e.g., dyadic tree coordinates, unit rotors, or hyperfinite grids).</li>
@@ -14539,11 +16585,15 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
             <code>algebraic</code> (closed ring formulas), 
             <code>polynomial</code> (finite difference stencils), 
             <code>piecewise</code> (bisection tree search / CORDIC steering), 
-            <code>series</code> (hyperfinite sums), or 
+            <code>series</code> (hyperfinite compounding), or 
             <code>cas_oracle</code> (algebraic engine verification).
           </li>
+          <li><b>Native Calculation Machine in (𝔻, +, ·):</b> Rather than outsourcing calculations to black-box floating-point libraries, all physical and trigonometric modes evaluate via exact power-of-two dyadic arithmetic (<code>dyadicMachine</code>) and provide interactive step-by-step virtual machine traces (<code>pseudoInterpreter</code>).</li>
         </ul>
-        This ensures that every function taught in the curriculum—such as dyadic sine bisection (<code>sin_dyadic_fn</code>) or rotor coordinate projection (<code>sin_rotor_fn</code>)—can be directly evaluated on hardware, verified in Lean 4 via <code>CoeFun</code>, and calculated in real-time by interactive CAS engines.
+        This guarantees that every concept adheres to MWM''s <b>6-Stage Presentation Standard</b>:
+        <div align="center" style="font-family: monospace; font-size: 12px; margin: 6px 0; color: #1e40af;">
+          Text &nbsp;→&nbsp; Interactive Visuals &nbsp;→&nbsp; Lean Formal Statements &nbsp;→&nbsp; Calculators &nbsp;→&nbsp; Explicit Function Rules &nbsp;→&nbsp; Virtual Machine Execution
+        </div>
       </div>
 
       <p>
@@ -14652,10 +16702,16 @@ numbers) is a number. Doing so eliminates the need for limit theory. In addition
             <td><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> is an orthogonal 4-successor quadtree (<code>Tree4</code>). <code>cauchy_edge_cancel</code> is proven by vector group identity <code>(z₂ - z₁) + (z₁ - z₂) = 0</code>. Cauchy''s theorem follows directly from <code>∂² = 0</code> applied to the 2D cell chain complex. Inside vs. outside reduces to the 1-successor ray-crossing parity rule. Residues count enclosed topological punctures.</td>
           </tr>
           <tr>
-            <td><b>Quantum Mechanics</b><br><code>unitary_preservation</code><br><code>born_rule</code><br><code>lee_yang_zero_pinch</code></td>
-            <td>Axiomatic assertion of norm preservation and Lee-Yang zero accumulation</td>
+            <td><b>Statistical Inference &amp; Information</b><br><code>bayes_filter</code><br><code>bayes_sequential_update</code><br><code>hyperfinite_probability</code><br><code>shannon_entropy</code></td>
+            <td>Axiomatic assertion of discrete Bayesian filtering, probability conservation, and entropy bounds</td>
+            <td><span class="table-badge badge-seed1">Seed 1: Conway Cut</span> + <span class="table-badge badge-seed2">Seed 2: Shadow Map</span></td>
+            <td>Sample space <code>Ω</code> is a hyperfinite microstate partition of the Conway transect <code>ℝ_ω</code>. Every individual microstate carries strictly positive infinitesimal weight <code>dx = 1/ω > 0</code>, resolving the classical null-set paradox (<code>P(E) = 0 ⟺ E = ∅</code>). Sequential belief revision (<i>"Today''s posterior is tomorrow''s prior"</i>) emerges from associative rational arithmetic on <code>(𝔻, +, ·)</code>, and Shannon entropy <code>H(P) = -∑ p_k ln p_k</code> measures macroscopic partition uncertainty.</td>
+          </tr>
+          <tr>
+            <td><b>Quantum Mechanics &amp; Non-Boolean Logic</b><br><code>polarizer_projection</code><br><code>luders_update</code><br><code>density_operator</code><br><code>quantum_bayes</code><br><code>von_neumann_entropy</code><br><code>quantum_gibbs_state</code><br><code>unitary_preservation</code><br><code>born_rule</code><br><code>lee_yang_zero_pinch</code></td>
+            <td>Axiomatic assertion of non-Boolean subspace lattices, density operator trace conservation, and unitary evolution</td>
             <td><span class="table-badge badge-seed2">Seed 2</span> + <span class="table-badge badge-seed3">Seed 3</span></td>
-            <td>Unitary evolution <code>U(t) = e^{-iHt/ħ}</code> is an exact norm-preserving group isometry because <code>H = H†</code>. The Born rule <code>P = |⟨x|ψ⟩|²</code> is covector projection onto the standard shadow. Lee-Yang zeros represent complex roots of the partition function that pinch the real axis at Day <code>ω</code>, creating non-analytic kinks in free energy.</td>
+            <td>In quantum systems, non-commuting observables (<code>A·B ≠ B·A</code>) cause classical Venn distributivity to fail, forming an orthomodular subspace lattice. The Born rule <code>P = |⟨x|ψ⟩|²</code> is covector projection onto the standard shadow. Mixed ensembles are governed by density matrices <code>Tr(ρ) = 1</code>, with non-commutative Lüders updating. Thermal equilibrium emerges constructively via Jaynes'' MaxEnt principle as the unique Gibbs state <code>ρ_eq = Z⁻¹ e^{-β Ĥ}</code> minimizing free energy.</td>
           </tr>
         </tbody>
       </table>
@@ -14689,7 +16745,7 @@ structure FunctionType (α β : Type) where
 
 instance : CoeFun (FunctionType α β) (fun _ => α → β) where
   coe f := f.eval</pre>
-        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel. Furthermore, our automated build pipeline harvests these verified <code>FunctionType</code> bundles into the client-side <code>SCAFFOLD_REGISTRY</code>, instantly generating interactive, browser-based Maxima CAS calculators for students!
+        This proof is 100% constructive, elementary, and verified in milliseconds by the Lean 4 kernel. Furthermore, our automated build pipeline harvests these verified <code>FunctionType</code> bundles into the client-side <code>SCAFFOLD_REGISTRY</code>, directly wiring machine-checked formal statements to our native <b>(𝔻, +, ·) Calculation Machine</b> and interactive algorithm steppers!
       </div>
 
       <hr>
@@ -14723,9 +16779,22 @@ instance : CoeFun (FunctionType α β) (fun _ => α → β) where
         As educational hubs incorporate AI-assisted tutoring, the inductive grounding of MWM provides an essential pedagogical safeguard. Because MWM''s core identities (such as telescoping sums and discrete cell cancellations) are fully decidable and machine-checkable in Lean 4, AI pair-learning assistants can verify student work with deterministic accuracy, avoiding the subtle hallucinations that often arise in conversational discussions of non-constructive limits.
       </p>
 
+      <h4>4. The 6-Stage Concept Presentation Standard</h4>
+      <p>
+        To maintain pedagogical clarity while preventing formal drift, every mathematical concept across the curriculum adheres to an invariant six-stage presentation pipeline:
+      </p>
+      <ol>
+        <li><b>Conversational Intuition:</b> Plain-language motivational framing introducing physical, geometric, or algorithmic stakes without dense notation.</li>
+        <li><b>Rigorous Axiomatic Definition:</b> Precise mathematical formulation anchored strictly in the three inductive seeds.</li>
+        <li><b>Mathematical Walkthrough:</b> Step-by-step constructive derivations, complete with visual diagrams and discrete step tables.</li>
+        <li><b>Machine-Verified First-Order Statement:</b> First-order logical specification formalizing domain constraints, preconditions, hypotheses, and conclusions with zero hidden assumptions.</li>
+        <li><b>Verified Formal Proof (Lean 4):</b> Kernel-checked constructive certificate harvested directly into the client reflection registry.</li>
+        <li><b>Interactive Computation &amp; Algorithms:</b> Live execution on the native (𝔻, +, ·) Calculation Machine and animated bytecode steppers, turning static theorems into interactive discovery tools.</li>
+      </ol>
+
       <div class="box-amber">
         <b>Conclusion:</b><br>
-        Middle Way Mathematics finds its purpose not by standing in opposition to traditional mathematics, but by enriching the broader educational commons. By anchoring continuous concepts in a minimal core of Three Inductive Seeds—The Conway Cut, The Shadow Map, and The Boundary Invariant—MWM provides educators and students with a clear, constructive, and computationally grounded pathway within the modern educational landscape.
+        Middle Way Mathematics finds its purpose not by standing in opposition to traditional mathematics, but by enriching the broader educational commons. By anchoring continuous concepts in a minimal core of Three Inductive Seeds—The Conway Cut, The Shadow Map, and The Boundary Invariant—and executing them through a rigorous 6-Stage Presentation Standard backed by Lean 4 verification and the native (𝔻, +, ·) Calculation Machine, MWM provides educators and students with a clear, constructive, and computationally grounded pathway within the modern educational landscape.
       </div>
     </div>
   ', 'published')
@@ -14741,90 +16810,91 @@ INSERT INTO curriculum_nav_items (
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 'app1_nav_0', 1, NULL, 0, 'diagram', 'title', NULL, NULL, 'banner', NULL, NULL, '{}'::jsonb, TRUE),
   (2, 'app1_nav_1', 1, NULL, 1, 'section', 'Introduction & Overview', 'Introduction', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (3, 'app1_nav_1_0', 1, 2, 0, 'html', 'mission & curricular overview', NULL, 1, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (4, 'app1_nav_1_1', 1, 2, 1, 'html', 'conceptual history & roadmap', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (5, 'app1_nav_2', 1, NULL, 2, 'section', 'Level 1: Logic & Number', 'Logic & Number', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (6, 'app1_nav_2_0', 1, 5, 0, 'html', 'overview: logic & number', NULL, 3, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (7, 'app1_nav_2_1', 1, 5, 1, 'section', 'propositional logic', 'prop logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (8, 'app1_nav_2_1_0', 1, 7, 0, 'html', 'introduction', NULL, 4, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (9, 'app1_nav_2_1_1', 1, 7, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (10, 'app1_nav_2_1_2', 1, 7, 2, 'diagram', 'truth table demo (TTD)', NULL, NULL, 'ttd', NULL, NULL, '{}'::jsonb, TRUE),
-  (11, 'app1_nav_2_2', 1, 5, 2, 'section', 'formal statements', 'formal statements', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (12, 'app1_nav_2_2_0', 1, 11, 0, 'html', 'introduction', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (13, 'app1_nav_2_2_1', 1, 11, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (14, 'app1_nav_2_2_2', 1, 11, 2, 'html', 'lecture 2: algebra of sets', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (15, 'app1_nav_2_2_3', 1, 11, 3, 'diagram', 'formal statement demo (FSD)', NULL, NULL, 'fsd', NULL, NULL, '{}'::jsonb, TRUE),
-  (16, 'app1_nav_2_2_4', 1, 11, 4, 'diagram', 'equation evaluator demo (EED)', NULL, NULL, 'diagram', NULL, NULL, '{}'::jsonb, TRUE),
-  (17, 'app1_nav_2_3', 1, 5, 3, 'html', 'fsd test', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (18, 'app1_nav_2_4', 1, 5, 4, 'section', 'numbers & trees', 'numbers', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (19, 'app1_nav_2_4_0', 1, 18, 0, 'html', 'introduction', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (20, 'app1_nav_2_4_1', 1, 18, 1, 'html', 'lecture 1: definitions & counting', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (21, 'app1_nav_2_4_2', 1, 18, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (22, 'app1_nav_2_4_3', 1, 18, 3, 'html', 'lecture 3: STEM & spaces', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (23, 'app1_nav_2_4_4', 1, 18, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
-  (24, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_3_0', 1, 24, 0, 'html', 'overview: continuous analysis', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_3_1', 1, 24, 1, 'html', 'sequences, sums & progressions', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_3_2', 1, 24, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_3_2_0', 1, 27, 0, 'html', 'overview: analysis 1D', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_3_2_1', 1, 27, 1, 'html', 'lecture 1: microscope & continuity', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (30, 'app1_nav_3_2_2', 1, 27, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (31, 'app1_nav_3_2_3', 1, 27, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_3_3', 1, 24, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_3_3_0', 1, 32, 0, 'html', 'overview: analysis 2D', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_3_3_1', 1, 32, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_3_3_2', 1, 32, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (36, 'app1_nav_3_3_3', 1, 32, 3, 'html', 'lecture 3: state evolution & phase', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_4_0', 1, 37, 0, 'html', 'overview: linear algebra & geometry', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_4_1', 1, 37, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_4_1_0', 1, 39, 0, 'html', 'overview: linear algebra', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_4_1_1', 1, 39, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_4_1_2', 1, 39, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_4_1_3', 1, 39, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_4_2', 1, 37, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (46, 'app1_nav_5_0', 1, 45, 0, 'html', 'exponential & logarithmic foundations', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (47, 'app1_nav_5_1', 1, 45, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (48, 'app1_nav_5_2', 1, 45, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (49, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (50, 'app1_nav_6_0', 1, 49, 0, 'html', 'overview: Bayesian inference & quantum logic', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (51, 'app1_nav_6_1', 1, 49, 1, 'section', 'Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (52, 'app1_nav_6_1_0', 1, 51, 0, 'html', 'introduction', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (53, 'app1_nav_6_1_1', 1, 51, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_6_1_2', 1, 51, 2, 'html', 'lecture 2: sequential updating', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_6_1_3', 1, 51, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_6_1_4', 1, 51, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (57, 'app1_nav_6_1_5', 1, 51, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (58, 'app1_nav_6_2', 1, 49, 2, 'section', 'quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (59, 'app1_nav_6_2_0', 1, 58, 0, 'html', 'introduction', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (60, 'app1_nav_6_2_1', 1, 58, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (61, 'app1_nav_6_2_2', 1, 58, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (62, 'app1_nav_6_2_3', 1, 58, 3, 'html', 'lecture 3: measurement & projection', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (63, 'app1_nav_6_3', 1, 49, 3, 'section', 'quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (64, 'app1_nav_6_3_0', 1, 63, 0, 'html', 'introduction', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (65, 'app1_nav_6_3_1', 1, 63, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (66, 'app1_nav_6_3_2', 1, 63, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (67, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (68, 'app1_nav_7_0', 1, 67, 0, 'html', 'overview: seminars & applications', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (69, 'app1_nav_7_1', 1, 67, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (70, 'app1_nav_7_1_0', 1, 69, 0, 'html', 'Newtonian kinematics & conservation', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_7_1_1', 1, 69, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (72, 'app1_nav_7_2', 1, 67, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_7_2_0', 1, 72, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_7_2_1', 1, 72, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app1_nav_7_2_2', 1, 72, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (76, 'app1_nav_7_2_3', 1, 72, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (77, 'app1_nav_7_3', 1, 67, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (78, 'app1_nav_7_3_0', 1, 77, 0, 'html', 'overview: satellite seminars', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app1_nav_7_3_1', 1, 77, 1, 'html', 'seminar 1: cosmology as information', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app1_nav_7_3_2', 1, 77, 2, 'html', 'seminar 2: particle zoo logic', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app1_nav_7_3_3', 1, 77, 3, 'html', 'seminar 3: entanglement & reality', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app1_nav_7_3_4', 1, 77, 4, 'html', 'seminar 4: algebraic geometry', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (83, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app1_nav_8_0', 1, 83, 0, 'html', 'proposal 1: open educational service hubs', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app1_nav_8_1', 1, 83, 1, 'html', 'academic paper: dual-agent tutor', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (86, 'app1_nav_8_2', 1, 83, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (3, 'app1_nav_1_0', 1, 2, 0, 'html', 'part 1: mission & epistemology', NULL, 1, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (4, 'app1_nav_1_1', 1, 2, 1, 'html', 'part 2: the three models', NULL, 2, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (5, 'app1_nav_1_2', 1, 2, 2, 'html', 'part 3: conceptual history & analysis', NULL, 3, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (6, 'app1_nav_2', 1, NULL, 2, 'section', 'Level 1: Logic & Number', 'Logic & Number', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (7, 'app1_nav_2_0', 1, 6, 0, 'html', 'overview: logic & number', NULL, 4, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (8, 'app1_nav_2_1', 1, 6, 1, 'section', 'propositional logic', 'prop logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (9, 'app1_nav_2_1_0', 1, 8, 0, 'html', 'introduction', NULL, 5, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (10, 'app1_nav_2_1_1', 1, 8, 1, 'html', 'lecture: truth tables & paradoxes', NULL, 6, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (11, 'app1_nav_2_1_2', 1, 8, 2, 'diagram', 'truth table demo (TTD)', NULL, NULL, 'ttd', NULL, NULL, '{}'::jsonb, TRUE),
+  (12, 'app1_nav_2_2', 1, 6, 2, 'section', 'formal statements', 'formal statements', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (13, 'app1_nav_2_2_0', 1, 12, 0, 'html', 'introduction', NULL, 7, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (14, 'app1_nav_2_2_1', 1, 12, 1, 'html', 'lecture 1: sets, tuples & constructors', NULL, 8, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (15, 'app1_nav_2_2_2', 1, 12, 2, 'html', 'lecture 2: algebra of sets', NULL, 9, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (16, 'app1_nav_2_2_3', 1, 12, 3, 'diagram', 'formal statement demo (FSD)', NULL, NULL, 'fsd', NULL, NULL, '{}'::jsonb, TRUE),
+  (17, 'app1_nav_2_2_4', 1, 12, 4, 'diagram', 'equation evaluator demo (EED)', NULL, NULL, 'diagram', NULL, NULL, '{}'::jsonb, TRUE),
+  (18, 'app1_nav_2_3', 1, 6, 3, 'html', 'fsd test', NULL, 10, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (19, 'app1_nav_2_4', 1, 6, 4, 'section', 'numbers & trees', 'numbers', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (20, 'app1_nav_2_4_0', 1, 19, 0, 'html', 'introduction', NULL, 11, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (21, 'app1_nav_2_4_1', 1, 19, 1, 'html', 'lecture 1: definitions & counting', NULL, 12, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (22, 'app1_nav_2_4_2', 1, 19, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (23, 'app1_nav_2_4_3', 1, 19, 3, 'html', 'lecture 3: STEM & spaces', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (24, 'app1_nav_2_4_4', 1, 19, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: continuous analysis', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences, sums & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: analysis 1D', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: microscope & continuity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (31, 'app1_nav_3_2_2', 1, 28, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_3_2_3', 1, 28, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_3_3', 1, 25, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_3_3_0', 1, 33, 0, 'html', 'overview: analysis 2D', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_3_3_1', 1, 33, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (36, 'app1_nav_3_3_2', 1, 33, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_3_3_3', 1, 33, 3, 'html', 'lecture 3: state evolution & phase', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_4_0', 1, 38, 0, 'html', 'overview: linear algebra & geometry', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (40, 'app1_nav_4_1', 1, 38, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_4_1_0', 1, 40, 0, 'html', 'overview: linear algebra', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_4_1_1', 1, 40, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_4_1_2', 1, 40, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_4_1_3', 1, 40, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_4_2', 1, 38, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (46, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (47, 'app1_nav_5_0', 1, 46, 0, 'html', 'exponential & logarithmic foundations', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (48, 'app1_nav_5_1', 1, 46, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (49, 'app1_nav_5_2', 1, 46, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (50, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (51, 'app1_nav_6_0', 1, 50, 0, 'html', 'overview: probability & quantum logic', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (52, 'app1_nav_6_1', 1, 50, 1, 'section', 'course 1: Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (53, 'app1_nav_6_1_0', 1, 52, 0, 'html', 'introduction', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_6_1_1', 1, 52, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_6_1_2', 1, 52, 2, 'html', 'lecture 2: sequential updating', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_6_1_3', 1, 52, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (57, 'app1_nav_6_1_4', 1, 52, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (58, 'app1_nav_6_1_5', 1, 52, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (59, 'app1_nav_6_2', 1, 50, 2, 'section', 'course 2: quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (60, 'app1_nav_6_2_0', 1, 59, 0, 'html', 'introduction', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (61, 'app1_nav_6_2_1', 1, 59, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (62, 'app1_nav_6_2_2', 1, 59, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (63, 'app1_nav_6_2_3', 1, 59, 3, 'html', 'lecture 3: measurement & projection', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (64, 'app1_nav_6_3', 1, 50, 3, 'section', 'course 3: quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (65, 'app1_nav_6_3_0', 1, 64, 0, 'html', 'introduction', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (66, 'app1_nav_6_3_1', 1, 64, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (67, 'app1_nav_6_3_2', 1, 64, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (68, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (69, 'app1_nav_7_0', 1, 68, 0, 'html', 'overview: seminars & applications', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (70, 'app1_nav_7_1', 1, 68, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (71, 'app1_nav_7_1_0', 1, 70, 0, 'html', 'Newtonian kinematics & conservation', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (72, 'app1_nav_7_1_1', 1, 70, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_7_2', 1, 68, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_7_2_0', 1, 73, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_7_2_1', 1, 73, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (76, 'app1_nav_7_2_2', 1, 73, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (77, 'app1_nav_7_2_3', 1, 73, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (78, 'app1_nav_7_3', 1, 68, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app1_nav_7_3_0', 1, 78, 0, 'html', 'overview: satellite seminars', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app1_nav_7_3_1', 1, 78, 1, 'html', 'seminar 1: cosmology as information', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app1_nav_7_3_2', 1, 78, 2, 'html', 'seminar 2: particle zoo logic', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app1_nav_7_3_3', 1, 78, 3, 'html', 'seminar 3: entanglement & reality', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (83, 'app1_nav_7_3_4', 1, 78, 4, 'html', 'seminar 4: algebraic geometry', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (84, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (85, 'app1_nav_8_0', 1, 84, 0, 'html', 'proposal 1: open educational service hubs', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (86, 'app1_nav_8_1', 1, 84, 1, 'html', 'academic paper: dual-agent tutor', NULL, 57, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (87, 'app1_nav_8_2', 1, 84, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 58, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,
@@ -15190,314 +17260,314 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 15, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (3, 15, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
-  (4, 17, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (5, 17, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (6, 17, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (7, 19, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (8, 19, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (9, 19, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (10, 19, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (11, 26, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (12, 26, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (13, 26, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (14, 27, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (15, 27, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (16, 27, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (17, 27, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (18, 28, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (19, 28, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (20, 28, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (21, 28, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (22, 32, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
-  (23, 44, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (24, 44, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (25, 45, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (26, 45, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (27, 45, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (28, 45, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (29, 45, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (2, 16, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (3, 16, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
+  (4, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (5, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (6, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (7, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (8, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (9, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (10, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (11, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (12, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (13, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (14, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (15, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (16, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (17, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (18, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (19, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (20, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (21, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (22, 34, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (23, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (24, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (25, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (26, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (27, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (28, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (29, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
 DELETE FROM segment_prerequisites;
 
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
-  (1, 44, 1, 'foundational'),
-  (2, 45, 44, 'foundational'),
-  (3, 45, 19, 'foundational'),
-  (4, 17, 1, 'foundational'),
-  (5, 18, 17, 'foundational'),
-  (6, 19, 18, 'foundational'),
-  (7, 21, 19, 'foundational')
+  (1, 46, 1, 'foundational'),
+  (2, 47, 46, 'foundational'),
+  (3, 47, 20, 'foundational'),
+  (4, 18, 1, 'foundational'),
+  (5, 19, 18, 'foundational'),
+  (6, 20, 19, 'foundational'),
+  (7, 22, 20, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
 INSERT INTO lean_verifications (
   key, statement_id, target, expression, signature, verdict, qed, time_ms, engine, verified_at, lean_snippet, summary
 ) VALUES
-  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2681, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2681, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2681, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2348, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2348, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2348, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2936, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2936, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2936, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2142, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check C_w
+  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
+  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
+  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2142, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check C_w
+  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2142, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check C_w
+  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
 #check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2284, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2284, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2284, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2338, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2403, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2403, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2403, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2386, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2386, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2386, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2209, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2209, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2209, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2329, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2329, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2329, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2529, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st
+  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2529, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st
+  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2529, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check st
+  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2308, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2308, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2308, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2164, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta
+  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
+  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2164, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta
+  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2164, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta
+  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2146, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2146, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2146, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2323, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2323, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2323, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2524, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2524, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2524, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2278, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2278, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2278, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2404, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2404, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2404, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2233, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearMap
+  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2233, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearMap
+  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 2233, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearMap
+  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2072, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2072, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2072, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1958, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check VectorSpace
+  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1958, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check VectorSpace
+  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 1958, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check VectorSpace
+  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2333, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearFunctional
+  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2333, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearFunctional
+  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2333, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check LinearFunctional
+  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2498, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_infinitesimal
+  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2498, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_infinitesimal
+  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 2498, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_infinitesimal
+  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2091, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check diff_quotient
+  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2091, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check diff_quotient
+  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2091, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check diff_quotient
+  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 2330, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check product_rule_shadow
+  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 2330, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check product_rule_shadow
+  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 2330, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check product_rule_shadow
+  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2305, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check differential_form
+  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2305, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check differential_form
+  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2305, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check differential_form
+  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2264, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta2
+  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2264, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta2
+  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2264, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check delta2
+  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2206, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_continuous
+  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2206, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_continuous
+  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2206, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check is_continuous
+  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2060, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2060, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 2060, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 2477, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 2477, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 2477, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2429, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check AbelianGroup
+  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2429, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check AbelianGroup
+  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2429, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check AbelianGroup
+  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2713, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Field
+  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2713, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Field
+  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2713, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check Field
+  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('dyadic_angle', 18, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2180, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('scaffold:dyadic_angle', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2180, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 2180, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1976, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('scaffold:dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1976, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('d ↦ d.val ∈ ℝ_ω', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1976, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2506, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_point
+  ('dyadic_angle', 18, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('scaffold:dyadic_angle', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('scaffold:dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('d ↦ d.val ∈ ℝ_ω', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('scaffold:angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2506, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_point
+  ('scaffold:angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2506, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_point
+  ('θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('scaffold:angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2026, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2409, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('scaffold:dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2409, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2409, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cos_half_angle
+  ('angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('scaffold:angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('scaffold:dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('scaffold:cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cos_half_angle
+  ('scaffold:cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('cos(θ / 2) = √[(1 + cos θ) / 2]', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2352, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check cos_half_angle
+  ('cos(θ / 2) = √[(1 + cos θ) / 2]', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('chord_length', 19, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2736, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('scaffold:chord_length', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2736, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 2736, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2708, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check UnitRotor
+  ('chord_length', 19, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('scaffold:chord_length', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('scaffold:UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2708, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check UnitRotor
+  ('scaffold:UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2708, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check UnitRotor
+  ('U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('sin_dyadic_fn', 20, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2605, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_dyadic_fn
+  ('sin_dyadic_fn', 20, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('scaffold:sin_dyadic_fn', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2605, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_dyadic_fn
+  ('scaffold:sin_dyadic_fn', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('sin_dyadic_fn : 𝔻 → [-1, 1]', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 2605, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_dyadic_fn
+  ('sin_dyadic_fn : 𝔻 → [-1, 1]', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('sin_rotor_fn', 21, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_rotor_fn
+  ('sin_rotor_fn', 21, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('scaffold:sin_rotor_fn', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_rotor_fn
+  ('scaffold:sin_rotor_fn', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('sin_rotor_fn : UnitRotor → [-1, 1]', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check sin_rotor_fn
+  ('sin_rotor_fn : UnitRotor → [-1, 1]', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2343, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_w
+  ('D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('scaffold:D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2343, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_w
+  ('scaffold:D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2343, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_w
+  ('𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2216, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('scaffold:D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2216, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2216, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2383, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check R_w_circle
+  ('D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('scaffold:D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('scaffold:R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2383, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check R_w_circle
+  ('scaffold:R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2383, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', '#check R_w_circle
+  ('ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def paq_witness : Nat := 6
+  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def paq_witness : Nat := 6
+  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1271, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def paq_witness : Nat := 6
+  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1150, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1010, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1010, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1010, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def mam_witness : Nat := 7
+  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def mam_witness : Nat := 7
+  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1175, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'def mam_witness : Nat := 7
+  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1090, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1090, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1090, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1027, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1027, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 1027, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 988, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 988, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 988, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-25T10:21:11.413Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
+  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
 ON CONFLICT (key) DO UPDATE SET
   statement_id = EXCLUDED.statement_id,
   verdict = EXCLUDED.verdict,
