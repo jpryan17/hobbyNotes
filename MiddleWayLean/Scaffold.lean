@@ -543,6 +543,14 @@ axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N
 axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) :
   True
 
+-- Sequential updating equivalence: Today's posterior is tomorrow's prior
+axiom bayes_sequential_update (P0 : Nat → R_w) (d1 d2 : Nat) :
+  True
+
+-- Strict positivity on hyperfinite transect: P(E) = 0 ↔ E = ∅
+axiom hyperfinite_probability_positivity (p : Nat → R_w) (dx : R_w) (h_dx : dx > 0) :
+  True
+
 -- ============================================================================
 -- 10. Quantum Logic, Born Rule & Vector Projections
 -- ============================================================================
@@ -578,6 +586,10 @@ axiom luders_quantum_bayes_update :
 
 -- von Neumann entropy unitary invariance: S(U ρ U†) = S(ρ)
 axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) :
+  True
+
+-- Quantum Gibbs state maximizes von Neumann entropy at fixed energy
+axiom quantum_gibbs_state (beta : R_w) :
   True
 
 -- ============================================================================

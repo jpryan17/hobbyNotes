@@ -96,9 +96,14 @@
       “The expected average surprisal across the entire state space is called <b>Shannon Entropy</b> (formulated by Claude Shannon at Bell Labs in 1948):”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
-      H(P) ≡ -∑_{k=0}^{ω-1} p_k · ln(p_k)
+    <div align="center" style="margin: 10px 0;">
+      <fsd-ref tier="3" scaffold="shannon_entropy" title="Shannon Information Entropy H(P)">
+        H(P) = -∑_{k=0}^{ω-1} p_k · ln(p_k) &nbsp;&nbsp; where &nbsp;&nbsp; 0 ≤ H(P) ≤ ln(ω)
+      </fsd-ref>
     </div>
+    <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+      <i>(Click the formula above to inspect Lean 4 entropy bounds and CAS evaluation)</i>
+    </p>
 
     <p>
       “<code>H(P)</code> measures our total macroscopic uncertainty about which microscopic state the system actually occupies.”

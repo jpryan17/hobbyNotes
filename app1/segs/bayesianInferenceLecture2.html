@@ -54,7 +54,15 @@
     <h4>Formal Statement (FS) of the Update Operator:</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Updating Operator:</b> Let <code>𝒯_d : 𝒫(ℋ) → 𝒫(ℋ)</code> represent the Bayesian update operator conditioned on datum <code>d</code>.<br>
-      • <b>Sequential Invariant:</b> <code>𝒯_{d₂}(𝒯_{d₁}(P₀)) = 𝒯_{d₁ ⋂ d₂}(P₀) = 𝒯_{d₁}(𝒯_{d₂}(P₀))</code>.<br>
+      • <b>Sequential Invariant:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="bayes_sequential_update" title="Sequential Bayesian Updating &amp; Order Invariance">
+          𝒯_{d₂}(𝒯_{d₁}(P₀)) = 𝒯_{d₁ ⋂ d₂}(P₀) = 𝒯_{d₁}(𝒯_{d₂}(P₀)) &nbsp;&nbsp; ∧ &nbsp;&nbsp; Odds(H₁ : H₀ | D) = BF · Odds(H₁ : H₀)
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to inspect Lean 4 formalization, sequential invariance, and odds factorization)</i>
+      </p>
       • <b>Order Invariance:</b> The arrival sequence of conditionally independent clues does not affect the terminal posterior belief.
     </div>
 

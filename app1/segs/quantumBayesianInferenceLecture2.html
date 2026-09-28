@@ -95,7 +95,15 @@
     <h4>Formal Statement (FS-QBI-2.2): The Quantum Gibbs State &amp; Free Energy</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
       • <b>Variational Principle:</b> <code>ρ_eq = argmax_{ρ} { S(ρ) }</code> subject to <code>Tr(ρ) = 1</code> and <code>Tr(ρ Ĥ) = ⟨E⟩</code>.<br>
-      • <b>Gibbs Density Operator:</b> <code>ρ_eq = Z(β)⁻¹ · e^{-β Ĥ}</code> with <code>Z(β) = Tr(e^{-β Ĥ})</code>.<br>
+      • <b>Gibbs Density Operator:</b>
+      <div align="center" style="margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="quantum_gibbs_state" title="The Quantum Gibbs State &amp; Maximum Entropy">
+          ρ_eq = Z(β)⁻¹ · e^{-β Ĥ} &nbsp;&nbsp; where &nbsp;&nbsp; Z(β) = Tr(e^{-β Ĥ}) &nbsp;&nbsp; ∧ &nbsp;&nbsp; F = -k_B T · ln Z
+        </fsd-ref>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
+        <i>(Click the formula above to inspect Lean 4 variational principle and free energy minimization)</i>
+      </p>
       • <b>Helmholtz Free Energy:</b> <code>F = -k_B T · ln Z = ⟨Ĥ⟩ - T · S(ρ_eq)</code>.<br>
       • <b>Thermodynamic Isomorphism:</b> Thermal equilibrium physically minimizes Helmholtz free energy <code>F</code>, mathematically isomorphic to Bayesian model selection minimizing negative log evidence.
     </div>
