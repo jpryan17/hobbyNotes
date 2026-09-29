@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-28T22:39:40.218Z
+-- Generated At: 2026-09-29T13:21:25.094Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -35,7 +35,32 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 <div align="center">
       <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
       <font size="+1"><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font></div>
-    <p><br></p><p>Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.&nbsp;</p><p>Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.</p><p>The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.</p>
+    <p>
+      Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.
+    </p>
+
+    <p>
+      Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.
+    </p>
+
+    <p>
+      The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
+    </p>
+
+    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;" open="">
+      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Disclaimer by human collaborator</summary>
+      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+        <p style="margin: 0 0 10px 0;">
+          I think it is important to clarify the human collaborator''s relation to this page and it''s content, for full disclosure.
+        </p>
+        <p style="margin: 0 0 10px 0;">
+          The page is an artifact of a hobby-level project that, at the point of engaging with a machine based intelligent assistant, was geared toward developing an environment where I could make notes about mathematics. It soon became apparent that my programming-partner was considerably better at compiling notes than me, and the project goals drifted toward the compilation of a customized text book on mathematics for me to read and study.
+        </p>
+        <p style="margin: 0;">
+          In this sense, I am in the same position as most others readers would be. The text describes information about which I am still unaware and uncomprehending, But it is knowledge that I look forward, with effort,  to acquiring and comprehending.
+        </p>
+      </div>
+    </details>
 
     <hr>
 
@@ -2356,7 +2381,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     starting with binary truth values in propositional logic, elevating to quantified predicates over sets and tuples, and growing numbers Day by Day from John Conway''s inductive root <code>0 = { | }</code>.
   </p>
 
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #1e3a8a;">
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 0.92em; color: #1e3a8a;">
     <b>The Level 1 Architectural Progression:</b><br>
     <b>Propositional Logic</b> (Deductive Certainty &amp; Truth Tables)<br>
     &darr;<br>
@@ -10472,7 +10497,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     Furthermore, deductive proof is strictly <b>monotonic</b>: once a conclusion is derived from premises, discovering new facts can never invalidate that proof:
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+  <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 8px 0; color: #1e3a8a;">
     If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
   </div>
 
@@ -10482,7 +10507,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <b>Level 5</b> provides the formal mathematical scaffolding for reasoning under uncertainty, extending classical logic into probability, information theory, and the non-Boolean geometry of quantum mechanics.
   </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #6366f1; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 13.5px; color: #1e1b4b;">
+  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #6366f1; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 0.92em; color: #1e1b4b;">
     <b>The Level 5 Three-Pillar Progression:</b><br><br>
     <b>Course 1: Bayesian Inference</b> (Sample Space Ω, Non-Monotonic Revision &amp; Discrete Updating)<br>
     &darr;<br>
@@ -10557,7 +10582,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       However, deductive logic possesses a rigid structural property: it is strictly <b>monotonic</b>. 
       In deduction, once a conclusion is proven from a set of premises, learning new facts can <i>never</i> invalidate the proof:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
       If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
     </div>
     <p>
@@ -10621,7 +10646,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <br>
     <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 14px;">
-      <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
+      <div style="font-family: monospace; font-size: 0.88em; margin-bottom: 8px; line-height: 1.4;">
                      [ Hypotheses (Models in ℋ) ]<br>
                    (Candidate distributions on Ω)<br>
                                │<br>
@@ -10657,13 +10682,13 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <p>
       In formal logic, a <b>Predicate</b> is a typed function mapping domain objects to binary truth:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
       Predicate: P : Domain → { 0, 1 }
     </div>
     <p>
       We now define a <b>Hypothesis</b> as a natural continuous generalization: a rule that assigns likelihood weights to elemental outcomes in the <b>Sample Space <code>Ω</code></b> into the hyperfinite unit interval <code>[0, 1] ⊆ ℝ_ω</code>:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 6px 0;">
+    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
       Hypothesis Likelihood: h : Ω → [0, 1]_ω &nbsp; where &nbsp; h(p) = P(p | h)
     </div>
     <ul>
@@ -11995,7 +12020,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <p>
       In classical formal science, logic is governed by <b>Boolean algebra</b>: propositions are subsets of a universal set <code>𝒮</code>, statements are either True or False, and compound propositions obey the distributive laws:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 15px; padding: 10px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; margin: 10px 0;">
+    <div align="center" style="font-family: monospace; font-size: 0.95em; padding: 10px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; margin: 10px 0;">
       A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)
     </div>
     <p>
@@ -12015,14 +12040,14 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <p>
       As established in <b>Level 2 (Analysis 2D)</b> and <b>Level 3 (Vector Foundations)</b>, crossing two real axes yields the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree basis:
     </p>
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; font-family: monospace; font-size: 15px; border-radius: 6px; color: #1e3a8a; margin: 12px 0;">
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; font-family: monospace; font-size: 0.95em; border-radius: 6px; color: #1e3a8a; margin: 12px 0;">
       Quad-Tree Basis = { +1, -1, +i, -i } &nbsp;⇒&nbsp; Gaussian Dyadics &amp; Complex Grid ℂ_ω
     </div>
     <p>
       On this complex grid, physical states are no longer simple points on a line; they are <b>directional state vectors and subspaces in a complex Hilbert space <code>ℋ_ω</code></b>.
     </p>
 
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 13.5px;">
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 0.92em;">
       <b>Epistemic Foundations: The Algebraic Safety Net</b><br>
       In Level 3, we observed that while the working grid <code>ℂ_ω</code> supports all concrete physical operations, division or normalization by diagonal roots (like <code>√2</code>) generates remainders with transfinite birthdays beyond <code>ω</code>. From this junction, there are <b>two coherent foundational pathways</b>:
       <ul style="margin-top: 8px;">
@@ -12043,7 +12068,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       The essential conceptual shift of quantum logic is the direct translation from set theory to linear vector geometry:
     </p>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 0.9em; margin: 12px 0;">
       <tr bgcolor="#f8fafc">
         <th width="28%" align="left">Logical Concept</th>
         <th width="36%" align="left">Classical Boolean Logic</th>
@@ -12093,7 +12118,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       </li>
     </ul>
     <br>
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 12px; border-radius: 6px; font-size: 14px;">
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 12px; border-radius: 6px; font-size: 0.92em;">
       <b>The Bridge to the Capstone:</b><br>
       These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
@@ -12749,7 +12774,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       Every formal tool we have forged across five levels &mdash; from binary truth values and the Conway number tree (<b>Level 1</b>), to hyperfinite calculus on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), to vector spaces, duality, and linear maps (<b>Level 3</b>), the transcendental engine (<b>Level 4</b>), and probabilistic inference with quantum logic (<b>Level 5</b>) &mdash; converges into a single, breathtaking realization:
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; font-weight: bold; border-radius: 6px; font-size: 15px; color: #1e3a8a; margin: 12px 0;">
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; font-weight: bold; border-radius: 6px; font-size: 0.95em; color: #1e3a8a; margin: 12px 0;">
       The phenomenological world we experience is the statistical average of a quantum ensemble,<br>
       and physical state evolution under measurement unfolds in the EXACT same mathematical manner as the rational acquisition of knowledge.
     </div>
@@ -12766,7 +12791,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       Throughout the history of science, physicists progressively abstracted the concept of a "state space" to describe physical reality:
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 13.5px; line-height: 1.7; background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 6px; margin: 12px 0;">
+    <div align="center" style="font-family: monospace; font-size: 0.88em; line-height: 1.7; background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 6px; margin: 12px 0;">
       Newton (ℝ³ × ℝ) &nbsp;──►&nbsp; Lagrange (Q) &nbsp;──►&nbsp; Hamilton (P) &nbsp;──►&nbsp; Boltzmann Ensembles &nbsp;──►&nbsp; Density Operators (ρ)<br>
       (Direct Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Configuration) &nbsp;&nbsp; (Phase Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Classical Stats) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quantum Phase Space)
     </div>
@@ -12775,7 +12800,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       On our 4-successor hyperfinite complex grid <code>ℂ_ω</code>, the state of any physical system is represented by a <b>Density Operator <code>ρ : ℋ_ω → ℋ_ω</code></b> satisfying two foundational laws:
     </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 10px; font-family: monospace; font-size: 15px; border-radius: 6px; width: 65%; margin: 10px auto;">
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 10px; font-family: monospace; font-size: 0.95em; border-radius: 6px; width: 65%; margin: 10px auto;">
       ρ ≥ 0 &nbsp; (Positive Semi-Definite) &nbsp;&nbsp; and &nbsp;&nbsp; Tr(ρ) = 1 &nbsp; (Unit Trace Normalization)
     </div>
 
@@ -12783,7 +12808,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       Macroscopic physical properties (temperature, pressure, magnetization, energy) are not static classical labels attached to isolated particles; they are <b>statistical expectation values</b> calculated via the trace:
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 10px; font-family: monospace; font-size: 16px; border-radius: 6px; width: 45%; margin: 8px auto; color: #92400e; font-weight: bold;">
+    <div align="center" style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 10px; font-family: monospace; font-size: 1em; border-radius: 6px; width: 45%; margin: 8px auto; color: #92400e; font-weight: bold;">
       ⟨Â⟩ = Tr(ρ · Â)
     </div>
 
@@ -12804,7 +12829,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 14px; border-radius: 6px; font-size: 14px; margin: 15px 0;">
+    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 14px; border-radius: 6px; font-size: 0.92em; margin: 15px 0;">
       <b>Pedagogical Reflection:</b><br>
       By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
     </div>
