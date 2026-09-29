@@ -2,123 +2,189 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Bayesian Inference Lecture 1: How Science Learns from Clues</title>
+    <title>Bayesian Inference Lecture 1: Probability Basics &amp; The Hyperfinite Transect</title>
   </head>
   <body>
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
-      <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
+      <i><font size="+1">Raw Chance, Symmetry, Axioms &amp; The Null Set Paradox Resolved on ℝ_ω</font></i>
     </div>
     <br>
 
     <p>
-      “Welcome back, detectives!” Jack greeted the classroom with enthusiasm.
+      “Welcome to Course 1, everyone!” Jack greeted the classroom with enthusiasm.
     </p>
 
     <p>
-      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the real world of applied discovery: <b>how science learns from clues</b>.”
+      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the world of applied discovery: <b>probability and the logic of uncertainty</b>.”
     </p>
 
     <p>
-      Jill raised her hand immediately: “Wait Jack, in our mathematics lectures, once you prove something, it's 100% true forever. Why can't scientists just prove physical reality with pure deduction like mathematicians do?”
+      Jill raised her hand thoughtfully: “Jack, before we start updating beliefs and calculating conditional odds, what actually <i>is</i> probability? Today we often hear that probability is just our 'lack of knowledge' about a deterministic world. But didn't people have a direct, physical sense of chance long before clockwork physics was invented?”
     </p>
 
     <p>
-      “That is the fundamental difference between pure mathematical deduction and empirical scientific discovery!” Jack said.
+      “They certainly did!” Jack smiled. “And starting with that ancient, raw intuition is the best way to understand modern probability.”
     </p>
 
     <hr>
 
-    <h3>1. Math Deduction vs. Scientific Discovery</h3>
+    <h3>1. The Raw Intuition of Chance: Symmetry, Ratios &amp; Sample Space (Ω)</h3>
 
     <p>
-      “In pure mathematics, reasoning is <b>monotonic</b>: truth only ever accumulates,” Jack explained. “When you prove that <code>2 + 2 = 4</code> or that <code>√2</code> is irrational, no future discovery will ever un-prove it:”
-    </p>
-
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
-      Monotonic Deduction: &nbsp; Premises ⊢ Conclusion &nbsp; ⇒ &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
-    </div>
-
-    <p>
-      “Nature, however, doesn't come with an answer key at the back of the book. Scientists cannot peek behind the curtain of the cosmos to see absolute truth. Scientific reasoning is fundamentally <b>non-monotonic</b>:”
+      “Thousands of years before Pierre-Simon Laplace declared that the universe was a deterministic clockwork machine, humans engaged with chance through <b>physical symmetry</b>,” Jack explained.
     </p>
 
     <ul>
-      <li>You might observe 10,000 white swans across Europe and feel almost certain that <i>'all swans are white'</i>.</li>
-      <li>Then, on a voyage to Australia, you see a single black swan &mdash; and your 100% theory instantly collapses!</li>
+      <li><b>Casting Lots &amp; Games of Chance:</b> Ancient civilizations cast astragali (sheep knucklebones) and carved cubic dice to divide inheritances, make civic decisions, and play games.</li>
+      <li><b>Symmetry Dictates Balance:</b> Because a carved cubic die has six identical, interchangeable faces, no single face has a physical advantage over any other. The chance of rolling a three is simply one out of six.</li>
+      <li><b>The Classical Ratio:</b> In the 16th and 17th centuries, Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat codified this intuition into the fundamental definition of classical probability:</li>
+    </ul>
+
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 12px 0; font-family: monospace; font-size: 15px; color: #1e3a8a;">
+      P(E) = <sup>|E| (Number of favorable outcomes)</sup> / <sub>|Ω| (Total number of equally likely outcomes)</sub>
+    </div>
+
+    <p>
+      “This formulation introduces the primary arena for all probabilistic reasoning: the <b>Sample Space (Ω)</b>.”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px 0; font-size: 13.5px; line-height: 1.5;">
+      • <b>Sample Space (Ω):</b> The complete universe of all mutually exclusive and exhaustive possible elementary outcomes.<br>
+      • <b>Sample Point (ω ∈ Ω):</b> A single, indivisible elementary outcome (e.g., rolling a <code>4</code>, or a coin landing <code>Heads</code>).<br>
+      • <b>Event (E ⊆ Ω):</b> Any collection or subset of elementary outcomes (e.g., rolling an even number: <code>E = {2, 4, 6} ⊆ Ω</code>).
+    </div>
+
+    <hr>
+
+    <h3>2. Probability Axioms &amp; The Boolean Event Algebra</h3>
+
+    <p>
+      “In 1933, Andrey Kolmogorov established that every consistent system of probability satisfies three fundamental rules on the sample space <code>Ω</code>:”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left">Axiom</th>
+        <th width="35%" align="left">Mathematical Rule</th>
+        <th width="35%" align="left">Physical &amp; Intuitive Meaning</th>
+      </tr>
+      <tr>
+        <td><b>1. Positivity &amp; Boundedness</b></td>
+        <td><code>0 ≤ P(E) ≤ 1</code> &nbsp; for all <code>E ⊆ Ω</code></td>
+        <td>Belief and frequency cannot be negative or exceed 100%.</td>
+      </tr>
+      <tr>
+        <td><b>2. Normalization (Certainty)</b></td>
+        <td><code>P(Ω) = 1.000</code> &nbsp; and &nbsp; <code>P(∅) = 0.000</code></td>
+        <td><i>Something</i> in the universe of possibilities must occur; the empty set never occurs.</td>
+      </tr>
+      <tr>
+        <td><b>3. Additivity (Disjoint Events)</b></td>
+        <td>If <code>A ⋂ B = ∅</code>, then:<br><code>P(A ⋃ B) = P(A) + P(B)</code></td>
+        <td>Mutually exclusive possibilities simply sum their probability masses.</td>
+      </tr>
+    </table>
+
+    <p>
+      “From these three axioms flow the familiar laws of probability arithmetic:”
+    </p>
+
+    <ul>
+      <li><b>Complement Rule:</b> <code>P(A^c) = 1 - P(A)</code> (the probability of an event not happening).</li>
+      <li><b>General Inclusion-Exclusion:</b> <code>P(A ⋃ B) = P(A) + P(B) - P(A ⋂ B)</code> (subtracting the double-counted intersection).</li>
+      <li><b>Monotonicity:</b> If <code>A ⊆ B</code>, then <code>P(A) ≤ P(B)</code>.</li>
     </ul>
 
     <p>
-      “In the real world, rational thinkers must be able to <b>update their beliefs when new clues appear</b>. <b>Bayesian inference</b> is the unique, mathematically consistent formalization of non-monotonic belief revision: it tells us exactly how much our beliefs should reallocate as new evidence arrives.”
+      “For finite dice and coins, this arithmetic is straightforward,” Jack noted. “The trouble begins when we leave finite discrete games and attempt to assign probabilities to continuous space!”
     </p>
 
     <hr>
 
-    <h3>2. The Primary Arena: Sample Space (Ω) &amp; The Tree Bridge</h3>
+    <h3>3. Continuous Probability: The Null Set Paradox vs. Strict Positivity</h3>
 
     <p>
-      “To make scientific reasoning crystal clear, all of inference is anchored on a single playing field: the <b>Sample Space / State Space (Ω)</b>.”
+      Jill leaned forward: “Jack, that brings up the question I was wrestling with over the weekend. If you throw a precision dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
-      <tr bgcolor="#f8fafc">
-        <th width="30%" align="left"><font size="+1">1. The State Space (Ω)</font></th>
-        <th width="35%" align="left"><font size="+1">2. Hypotheses / Explanations (ℋ)</font></th>
-        <th width="35%" align="left"><font size="+1">3. Observations / Data (𝒟)</font></th>
-      </tr>
-      <tr>
-        <td valign="top">
-          <b>The Arena of Possibilities:</b><br>
-          • <b>Elements:</b> Individual outcomes <code>p ∈ Ω</code>.<br>
-          • <i>Example:</i> <code>p = Heads</code> or <code>p = Tails</code> (or detector pixels, particle coordinates).<br>
-          • <b>The Anchor:</b> The common ground where theories make predictions and real events land.
-        </td>
-        <td valign="top">
-          <b>The World of Explanations:</b><br>
-          • <b>Elements:</b> Candidate theories <code>h ∈ ℋ</code>.<br>
-          • <b>Role:</b> Proposes a probability distribution over <code>Ω</code>.<br>
-          • <i>Example:</i> <i>'The coin is fair'</i> (50/50) vs. <i>'The coin is biased'</i> (80/20).<br>
-          • <b>Action:</b> Predicts likelihoods <code>h(p) = P(p | h)</code>.
-        </td>
-        <td valign="top">
-          <b>The World of Realized Clues:</b><br>
-          • <b>Elements:</b> Concrete data points <code>d ∈ 𝒟</code>.<br>
-          • <b>Role:</b> Nature samples and delivers actual points from <code>Ω</code>.<br>
-          • <i>Example:</i> <i>'The coin landed Heads 4 times in a row'</i>.<br>
-          • <b>The Clue:</b> Concrete observations recorded by instruments.
-        </td>
-      </tr>
-    </table>
+    <p>
+      “In standard calculus,” Jack answered, “the integral over any single isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
+    </p>
 
-    <br>
+    <p>
+      “That's what's driving me crazy!” Jill exclaimed. “The dart <i>had</i> to hit somewhere! If every single individual point has a probability of exactly zero, how can an event with probability zero actually happen?! And if you add up zeroes, how do you ever get <code>1</code>?!”
+    </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 12px;">
-      <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
-                     [ Hypotheses (Explanations in ℋ) ]<br>
-                   (Candidate distributions over Ω)<br>
-                               │<br>
-                               │ Predicts: h(p) = P(p | h)<br>
-                               ▼<br>
-     ═════════════════════════════════════════════════════════<br>
-                SAMPLE SPACE / STATE SPACE (Ω)<br>
-                 The Arena of All Possibilities<br>
-     ═════════════════════════════════════════════════════════<br>
-                               ▲<br>
-                               │ Realizes: Sample points p ∈ Ω<br>
-                               │<br>
-                     [ Observations (Data 𝒟) ]<br>
-                  (Recorded occurrences from Ω)
-      </div>
-      <b>The Core Question of Scientific Inference:</b><br>
-      <i>“Given that nature just produced clue <code>d ∈ Ω</code>, which candidate explanation in <code>ℋ</code> gave that clue the highest probability?”</i>
+    <p>
+      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
+    </p>
+
+    <p>
+      “In modern mathematical science, there are two distinct paradigms for handling continuous probability:”
+    </p>
+
+    <ul>
+      <li>
+        <b>Standard Continuous Analysis (Kolmogorov, 1933):</b><br>
+        In standard measure theory, the probability of any exact real singleton is zero: <code>P({x}) = 0</code>. Because of this, standard mathematics is forced to adopt an unnatural semantic concession:
+        <div align="center" style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #991b1b; font-size: 13.5px;">
+          <b>Standard Concession:</b> <i>“An event having probability zero does NOT mean it cannot occur.”</i>
+        </div>
+        Real, physically observed point measurements occur constantly, yet measure theory assigns each of them a probability of zero!
+      </li>
+      <br>
+      <li>
+        <b>The Hyperfinite Transect (Robinson &amp; Conway):</b><br>
+        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed in Level 2), the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
+        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
+          P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
+        </div>
+        <i>The Clean Physical Law:</i>
+        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 80%; margin: 8px auto; color: #065f46; font-size: 14px;">
+          <fsd-ref tier="3" scaffold="hyperfinite_probability" title="Hyperfinite Probability Measure &amp; Strict Positivity">
+            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E) = 0 &nbsp;⟺&nbsp; E = ∅ ]
+          </fsd-ref>
+          <div style="font-size: 12px; color: #047857; margin-top: 4px; font-weight: normal;">
+            <i>(Only the strictly impossible empty set carries zero probability on ℝ_ω)</i>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <p>
+      “So on the transect,” Jill smiled in relief, “when the dart lands on a point, that point had an actual positive probability weight <code>dx</code>! We never have to tell a student that an event with probability zero actually occurred.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. Bridging Dyadic Trees to the Transect</h3>
+
+    <p>
+      “Where does the hyperfinite transect come from?” Jill asked. “Is it just an abstract postulate?”
+    </p>
+
+    <p>
+      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we explored in our foundational numbers curriculum!”
+    </p>
+
+    <p>
+      “Recall how sign sequences partition the unit interval <code>[0, 1)</code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
+      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0, 1)<br>
+      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br>
+      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2, 3/4), &nbsp; [++] = [3/4, 1)<br>
+      Depth k: 2^k dyadic leaves, each of uniform width Δx = 2^(-k)
     </div>
 
     <p>
-      Jill leaned forward: “Jack, is this Sample Space <code>Ω</code> directly related to the <b>2-successor binary trees</b> we built in our Numbers lectures?”
-    </p>
-
-    <p>
-      “It is the very same structure!” Jack beamed. “Each path of signs <code>[-]</code> and <code>[+]</code> through our graph tree represents an elemental sequence of trial outcomes. At depth <code>d</code>, the <code>2^d</code> leaves partition the continuous probability transect into exact dyadic intervals:”
+      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>. Discrete tree logic and continuous geometry become one and the same!”
     </p>
 
     <div align="center" style="margin: 14px 0; display: flex; justify-content: center; gap: 15px;">
@@ -128,177 +194,130 @@
 
     <hr>
 
-    <h3>3. Slicing the Probability Line: The 3-Stage Bayesian Filter</h3>
+    <h3>5. Measurability: σ-Algebras vs. Full Power Sets &amp; The Loeb Bridge</h3>
 
     <p>
-      “Imagine all 100% of our belief laid out along a unit line from <code>0</code> to <code>1</code> on our hyperfinite transect,” Jack said. “Bayesian updating works like a <b>3-stage filter</b>:”
+      “Now let's examine collections of events,” Jack said. “What subsets of numbers can we assign probabilities to?”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
       <tr bgcolor="#f8fafc">
-        <th width="33%" align="left">Stage 1: The Prior Slices</th>
-        <th width="34%" align="left">Stage 2: Likelihood Slicing</th>
-        <th width="33%" align="left">Stage 3: Normalization</th>
+        <th width="50%" align="left">Standard Continuous Analysis (Kolmogorov)</th>
+        <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
       </tr>
       <tr>
         <td valign="top">
-          <b>Initial Belief Cake:</b><br>
-          Competing explanations divide the unit line according to our starting belief:
-          <div align="center" style="font-family: monospace; margin: 6px 0;">∑ P(H_i) = 1.000</div>
+          <b>Restricted σ-Algebras:</b><br>
+          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a translation-invariant measure to every subset in the power set <code>𝒫([0, 1])</code>.
+          <br><br>
+          Standard math is forced to retreat to a restricted sub-collection of 'measurable sets' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>). Pathological non-measurable sets (Vitali sets, Banach-Tarski paradoxes) lurk just outside <code>ℱ</code>.
         </td>
         <td valign="top">
-          <b>Testing Compatibility:</b><br>
-          When clue <code>D</code> is seen, each slice is shaved down by its predictive accuracy:
-          <div align="center" style="font-family: monospace; margin: 6px 0;">Surviving = P(D | H) × P(H)</div>
-        </td>
-        <td valign="top">
-          <b>Rescaling to 100%:</b><br>
-          The total surviving mass has shrunk. We divide each survivor by the total remaining width to restore a full 100% belief:
-          <div align="center" style="font-family: monospace; margin: 6px 0;">Posterior = <sup>Surviving</sup> / <sub>Total P(D)</sub></div>
+          <b>Full Power Set Available:</b><br>
+          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of cardinality <code>|T| = ω</code>, <b>every single subset <code>E ⊆ T</code> is measurable</b>!
+          <br><br>
+          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is simply a hyperfinite counting sum:
+          <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px 0; color: #1e3a8a;">
+            P(E) = ∑_{x_k ∈ E} p(x_k) · dx
+          </div>
+          Non-measurable paradoxes cannot even be formulated.
         </td>
       </tr>
     </table>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="filter">Interactive Demo: The 3-Stage Bayesian Filter in BID</bid-ref>
+    <h4>Conditioning Without Singularities:</h4>
+    <p>
+      In Bayesian updating, when evidence <code>E</code> is observed, we compute the conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code>.
+    </p>
+    <p>
+      In standard continuous measure theory, conditioning on an exact measurement <code>X = x</code> forces division by <code>P(X = x) = 0</code> &mdash; a fatal divide-by-zero singularity requiring Radon-Nikodym derivatives and creating the Borel-Kolmogorov paradox.
+    </p>
+    <p>
+      On the hyperfinite transect, every non-empty event <code>E ≠ ∅</code> has <code>P(E) &gt; 0</code>. Conditioning is <b>always exact, non-singular rational arithmetic</b>!
+    </p>
+
+    <h4>The Bridge to Real Numbers: Peter Loeb's Theorem</h4>
+    <p>
+      “If we calculate probabilities on the hyperfinite transect, how do we bridge back to ordinary real numbers for laboratory engineering?” Jill asked.
+    </p>
+    <p>
+      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 12px 0;">
+      P_std(E) ≡ st( ∑_{x_k ∈ E} p(x_k) · dx ) = ∫_E f(x) dx
     </div>
 
-    <h4>Formal Statement (FS) Representation of the Filter:</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Hypothesis as a Typed Function:</b> <code>h : Ω → [0, 1]_ω</code> such that <code>∑_{p ∈ Ω} h(p) = 1.000</code>.<br>
-      • <b>Normalization Invariant:</b> <code>∑_{H ∈ ℋ} P(H | D) = 1.000</code>.<br>
-      • <b>The Exact Updating Rule:</b>
-      <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="bayes_filter" title="The 3-Stage Bayesian Filter &amp; Normalization Invariant">
-          P(H | D) = (P(D | H) · P(H)) / P(D) &nbsp;&nbsp; where &nbsp;&nbsp; P(D) = ∑_{i} P(D | H_i) · P(H_i)
-        </fsd-ref>
-      </div>
-      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
-        <i>(Click the formula above to verify in Lean 4, run the interactive Bayesian Calculator, or simulate evidence updates)</i>
-      </p>
-      • <b>CAS Example:</b> <eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>
+    <p>
+      “In 1975, Peter Loeb proved that every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous Lebesgue integration. You can do all your thinking with clean discrete sums, and round off infinitesimal parts at the very end!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="continuous">Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref>
     </div>
 
     <hr>
 
-    <h3>4. A Concrete Mission: The Mars Rover Optical Sensor</h3>
+    <h3>6. Summary Comparison Matrix &amp; Looking Ahead to Lecture 2</h3>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="22%" align="left">Dimension</th>
+        <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
+        <th width="39%" align="left">Hyperfinite Discrete Transect (Robinson &amp; Conway)</th>
+      </tr>
+      <tr>
+        <td><b>Sample Space (Ω)</b></td>
+        <td>Uncountable continuous continuum <code>Ω = [0, 1]</code></td>
+        <td>Discrete hyperfinite transect <code>T = ℝ_ω</code> of size <code>ω</code></td>
+      </tr>
+      <tr>
+        <td><b>Single-Point Weight</b></td>
+        <td><code>P({x}) = 0</code> (Null set paradox)</td>
+        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)</td>
+      </tr>
+      <tr>
+        <td><b>Impossibility Principle</b></td>
+        <td><code>P(E) = 0 ⇏ E = ∅</code> (Zero does not mean impossible)</td>
+        <td><code>P(E) = 0 ⟺ E = ∅</code> (Strict physical correspondence)</td>
+      </tr>
+      <tr>
+        <td><b>Measurable Sets</b></td>
+        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
+        <td>Full power set <code>𝒫(T)</code> (All subsets measurable)</td>
+      </tr>
+      <tr>
+        <td><b>Conditioning on Points</b></td>
+        <td><code>P(X = x) = 0</code> (Requires Radon-Nikodym derivative)</td>
+        <td><code>P(E) &gt; 0</code> (Direct exact fraction quotient)</td>
+      </tr>
+      <tr>
+        <td><b>Paradox Vulnerability</b></td>
+        <td>Borel-Kolmogorov, Vitali, Banach-Tarski paradoxes</td>
+        <td>Immune; geometric ratios remain coordinate-invariant</td>
+      </tr>
+      <tr>
+        <td><b>Integration Engine</b></td>
+        <td>Lebesgue integral <code>∫ f dμ</code> via supremum of limits</td>
+        <td>Exact hyperfinite summation <code>∑ p(x_k) · dx</code></td>
+      </tr>
+      <tr>
+        <td><b>Bridge to Real Numbers</b></td>
+        <td>Axiomatic foundation</td>
+        <td>Standard part map: <code>st(∑ p(x_k) · dx) = ∫ f(x) dx</code></td>
+      </tr>
+    </table>
 
     <p>
-      “Let's look at a real-world engineering problem,” Jack proposed.
+      “Now that we have established how probability arises from raw symmetry and exists without paradoxes on the hyperfinite transect,” Jack concluded, “we are ready to explore how evidence informs belief.”
     </p>
 
     <p>
-      “An autonomous rover is navigating the rocky surface of Mars in dim twilight. Its cameras spot a dark silhouette in its path. It must decide whether the silhouette is a real hazard or just flat ground:”
-    </p>
-
-    <ul>
-      <li><b>H_clear (Flat ground / safe):</b> Prior belief <code>P(H_clear) = 70% = 0.70</code></li>
-      <li><b>H_rock (Dangerous boulder):</b> Prior belief <code>P(H_rock) = 30% = 0.30</code></li>
-    </ul>
-
-    <p>
-      “The rover fires an active laser pulse at the silhouette. The optical sensor returns a bright reflection: <code>D = 'Flash'</code>.”
-    </p>
-
-    <p>
-      “We know the sensor's physical specs (the <b>Likelihoods</b>):”
-    </p>
-
-    <ul>
-      <li>If a real boulder is there, it reflects the laser <b>90%</b> of the time: <code>P(Flash | H_rock) = 0.90</code></li>
-      <li>If the ground is flat, dusty glare produces a false flash <b>15%</b> of the time: <code>P(Flash | H_clear) = 0.15</code></li>
-    </ul>
-
-    <br>
-
-    <h4>The Math in 3 Simple Steps:</h4>
-    <ol>
-      <li>
-        <b>Calculate the Surviving Slices:</b><br>
-        • Rock survivor: <code>0.90 × 0.30 = 0.270</code><br>
-        • Clear survivor: <code>0.15 × 0.70 = 0.105</code>
-      </li>
-      <br>
-      <li>
-        <b>Find the Total Surviving Width P(Flash):</b><br>
-        • <code>Total = 0.270 + 0.105 = 0.375</code> &nbsp;(37.5% total marginal chance of seeing a flash)
-      </li>
-      <br>
-      <li>
-        <b>Normalize Back to 100%:</b><br>
-        • Updated belief in Rock: <code><sup>0.270</sup> / <sub>0.375</sub> = <b>72.0%</b></code><br>
-        • Updated belief in Clear: <code><sup>0.105</sup> / <sub>0.375</sub> = <b>28.0%</b></code>
-      </li>
-    </ol>
-
-    <p>
-      Jill stared at the numbers: “Before the laser fired, the rover thought the rock was unlikely (only 30%). But because the rock hypothesis was six times better at predicting the flash, its slice jumped from 30% all the way to <b>72%</b>!”
-    </p>
-
-    <p>
-      “Exactly!” Jack nodded. “In fact, the ratio of likelihoods is called the <b>Bayes Factor</b>:”
-    </p>
-
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 14px;">
-      Bayes Factor = P(Flash | H_rock) / P(Flash | H_clear) = 0.90 / 0.15 = 6.0
-    </div>
-
-    <p>
-      “The clue provided a 6-to-1 evidence multiplier favoring the boulder over the clear ground!”
-    </p>
-
-    <div align="center" style="margin: 15px 0; display: flex; justify-content: center; gap: 15px;">
-      <bid-ref mode="mosaic">BID: 2D Joint Mosaic Grid</bid-ref>
-      <bid-ref mode="oddsGauge">BID: Odds &amp; Bayes Factor Balance</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>5. Exact Arithmetic on the Hyperfinite Transect</h3>
-
-    <p>
-      “Notice something extraordinary about this entire calculation,” Jack pointed out.
-    </p>
-
-    <p>
-      “We never had to do calculus integrals, and we never had to worry about dividing by zero.”
-    </p>
-
-    <p>
-      “Because our number line <code>ℝ_ω</code> has a discrete infinitesimal grid step <code>dx = 1/ω = ε &gt; 0</code>:
-    </p>
-    <ul>
-      <li>Every possible physical outcome carries an actual, positive sliver of probability mass (<code>P(p) &gt; 0</code>).</li>
-      <li>Only strictly impossible events (the empty set <code>∅</code>) have probability zero.</li>
-      <li>Bayesian updating is always pure, exact rational arithmetic on the line.</li>
-      <li>When decimal readouts are needed, the standard part map <code>st: ℝ_ω → ℝ</code> instantly drops infinitesimal parts (<code>∼ 𝒪(1/ω)</code>) to recover clean laboratory percentages.”</li>
-    </ul>
-
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>6. Summary &amp; Looking Ahead</h3>
-
-    <p>
-      “In today's lecture, we unlocked the core principle of scientific discovery:”
-    </p>
-    <ul>
-      <li>Science is non-monotonic: beliefs must update as clues arrive.</li>
-      <li>The 3-stage Bayesian filter (<b>Prior &rarr; Likelihood Slicing &rarr; Normalization</b>) determines the rational update.</li>
-      <li>The 2-successor dyadic tree directly generates the sample space <code>Ω</code> and projects down to transect intervals.</li>
-      <li>The hyperfinite transect <code>ℝ_ω</code> guarantees exact probability arithmetic without calculus clutter.</li>
-    </ul>
-
-    <p>
-      “In Lecture 2, we will see what happens when our rover collects a continuous stream of multiple clues over time: <i>Today's posterior becomes tomorrow's prior!</i>”
+      “In <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter</b>, we will explore monotonic deduction vs. non-monotonic discovery, likelihood functions, and how an autonomous Mars rover updates its confidence in real time!”
     </p>
 
     <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
+      <bid-ref mode="filter">Preview in BID: The 3-Stage Bayesian Filter</bid-ref>
     </div>
   </body>
 </html>
-

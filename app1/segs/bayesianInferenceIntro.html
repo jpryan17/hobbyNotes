@@ -11,7 +11,26 @@
     </div>
     <br>
 
-    <h3>1. From Deductive Certainty to Scientific Inference</h3>
+    <h3>1. The Raw Intuition of Chance: From Ancient Symmetry to the Clockwork Illusion</h3>
+    <p>
+      Long before the rise of classical mechanics and the expectation of a deterministic "clockwork universe," human intuition grappled constantly with raw chance. In antiquity and the Middle Ages, lived experience was saturated with genuine uncertainty: the casting of lots and knucklebones (astragali), the erratic fortune of maritime trade, the hazards of harvests and epidemics, and games of dice.
+    </p>
+    <p>
+      The earliest mathematical insight into probability (championed by Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat) arose from a simple, profound recognition of <b>symmetry and counting</b>: if a physical coin or six-sided die is balanced and symmetric, each elemental outcome possesses an equal claim on reality. Probability emerged not as a dense differential limit, but as an intuitive geometric ratio:
+    </p>
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px auto; width: 80%; font-family: monospace; font-size: 0.95em; color: #1e3a8a;">
+      Probability = (Number of Favorable Configurations) / (Total Number of Symmetric Possibilities)
+    </div>
+    <p>
+      <b>The Clockwork Detour:</b> With the triumph of Newtonian physics in the 18th century, science fell under the spell of total determinism. Pierre-Simon Laplace famously envisioned a supreme intellect ("Laplace's Demon") who, knowing the precise position and momentum of every particle in the cosmos, could calculate the entire past and future with certainty. In this clockwork paradigm, probability was demoted to a mere badge of human ignorance—a temporary crutch until complete mechanical coordinates could be collected.
+    </p>
+    <p>
+      <b>The Modern Restoration:</b> The 20th century permanently dismantled the clockwork illusion. In statistical mechanics (Boltzmann), macroscopic realities like temperature, pressure, and entropy were shown to be emergent statistical averages over microstates. In quantum mechanics (Birkhoff, von Neumann), uncertainty was discovered to be an intrinsic feature of nature itself. Probability is not a secondary concession to human limitation; it is the fundamental language of physical state spaces and the unique calculus of rational inquiry.
+    </p>
+
+    <hr>
+
+    <h3>2. From Deductive Certainty to Scientific Inference</h3>
     <p>
       Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces, duality, and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
     </p>
@@ -47,7 +66,7 @@
 
     <hr>
 
-    <h3>2. The Primary Ground: Sample Space (Ω) as the Arena of Reality</h3>
+    <h3>3. The Primary Ground: Sample Space (Ω) as the Arena of Reality</h3>
     <p>
       In both probability theory and physics, scientific reasoning is anchored on a single fundamental substrate: the <b>Sample Space / State Space (Ω)</b>.
     </p>
@@ -119,7 +138,7 @@
 
     <hr>
 
-    <h3>3. The Hypothesis as a Function: Generalizing the Predicate</h3>
+    <h3>4. The Hypothesis as a Function: Generalizing the Predicate</h3>
     <p>
       In formal logic, a <b>Predicate</b> is a typed function mapping domain objects to binary truth:
     </p>
@@ -140,7 +159,7 @@
 
     <hr>
 
-    <h3>4. The Anatomy of Bayes' Rule</h3>
+    <h3>5. The Anatomy of Bayes' Rule</h3>
     <p>
       Given an initial state of knowledge and a new empirical observation <code>D ∈ 𝒟</code>, <b>Bayes' Rule</b> calculates the updated belief for every competing hypothesis <code>H ∈ ℋ</code>:
     </p>
@@ -185,7 +204,7 @@
 
     <hr>
 
-    <h3>5. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
+    <h3>6. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
     <p>
       In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
     </p>
@@ -200,7 +219,35 @@
 
     <hr>
 
-    <h3>6. Interactive Demonstration Suite (BID)</h3>
+    <h3>7. Course Roadmap: The Four Lectures</h3>
+    <p>
+      Course 1 unfolds across four progressive lectures designed to ground probability from its primitive symmetries to modern information theory:
+    </p>
+    <ul>
+      <li>
+        <b>Lecture 1: Probability Basics &amp; The Hyperfinite Transect:</b><br>
+        Laying the foundational bedrock. Explores raw chance, symmetry, sample spaces <code>Ω</code>, event additivity, and contrasts standard Kolmogorov measure theory (and its Null Set Paradox) with the hyperfinite transect where every physical event has strictly positive mass.
+      </li>
+      <br>
+      <li>
+        <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter:</b><br>
+        Introducing the logic of clues. Analyzes monotonic vs. non-monotonic discovery, conditional probability <code>P(A | B)</code>, joint product grids, and executes Bayes' inversion mechanically via the 3-Stage Filter (Prior → Likelihood Slice → Posterior Normalization).
+      </li>
+      <br>
+      <li>
+        <b>Lecture 3: Sequential Updating &amp; Evidence Streams:</b><br>
+        Expanding to dynamic discovery. Formalizes the recursive invariant (<i>"today's posterior is tomorrow's prior"</i>), order invariance of evidence, Bayes factors, additive log-odds balances, and debunks the base-rate screening fallacy.
+      </li>
+      <br>
+      <li>
+        <b>Lecture 4: State Spaces, Information Dynamics &amp; Entropy:</b><br>
+        Bridging inference to statistical physics. Quantifies surprise and uncertainty via Shannon Entropy <code>H = -∑ p_i log₂(p_i)</code>, explores microstates vs. macrostates, and sets up the threshold to non-Boolean quantum logic.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>8. Interactive Demonstration Suite (BID)</h3>
     <p>
       To build visual and computational intuition, the <b>Bayesian Inference Demo (BID)</b> provides two complementary suites of executable models:
     </p>

@@ -87,17 +87,17 @@ export const bayesianInferenceIndex = [
     },
     {
         type: "html",
-        topic: "lecture 1: hyperfinite probability",
+        topic: "lecture 1: probability basics & hyperfinite transect",
         htmlSegmentId: "bayesianInferenceLecture1",
     },
     {
         type: "html",
-        topic: "lecture 2: sequential updating",
+        topic: "lecture 2: conditional probability & Bayes' filter",
         htmlSegmentId: "bayesianInferenceLecture2",
     },
     {
         type: "html",
-        topic: "lecture 3: standard vs nonstandard prob",
+        topic: "lecture 3: sequential updating & evidence streams",
         htmlSegmentId: "bayesianInferenceLecture3",
     },
     {
