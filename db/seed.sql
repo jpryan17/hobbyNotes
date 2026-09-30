@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-30T12:16:33.265Z
+-- Generated At: 2026-09-30T12:39:44.932Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -54,7 +54,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           I think it is important to clarify the human collaborator''s relation to this page and it''s content, for full disclosure.
         </p>
         <p style="margin: 0 0 10px 0;">
-          The page is an artifact of a hobby-level project that, at the point of engaging with a machine based intelligent assistant, was geared toward developing an environment where I could make notes about mathematics. It soon became apparent that my programming-partner was considerably better at compiling notes than me, and the project goals drifted toward the compilation of a customized text book on mathematics for me to read and study.
+          The page is an artifact of a hobby-level project that, at the point of engaging with a machine based intelligent assistant, was geared toward developing an environment where I could make notes about mathematics. It soon became apparent that my programming-partner was considerably better at compiling notes than me, and the project goal drifted toward the compilation of a customized text book on mathematics for me to read and study.
         </p>
         <p style="margin: 0;">
           In this sense, I am in the same position as most others readers would be. The text describes some mathematics which I will need to study before fully comprehending.</p>
