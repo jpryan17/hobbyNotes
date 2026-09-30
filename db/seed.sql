@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-09-29T14:11:39.706Z
+-- Generated At: 2026-09-30T12:16:33.265Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -44,7 +44,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that it merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
+      The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that the page merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
     </p>
 
     <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
@@ -10517,6 +10517,49 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
   <hr>
 
+  <h3>The Primacy of the Substrate: Why the Arena Precedes the Distribution</h3>
+  <p>
+    In applied statistics and data science, modern practice often fixates on the distribution—tuning priors, optimizing likelihoods, and updating posteriors. 
+    Yet the history of mathematical physics reveals a much deeper, foundational principle:
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 12px auto; width: 85%; font-weight: bold; font-size: 1.05em; color: #1e3a8a;">
+    The distribution describes what you believe; the substrate dictates what is physically and logically possible.
+  </div>
+
+  <p>
+    Whenever scientific revolutions resolved seemingly insurmountable paradoxes, they did so not by adjusting probability functions, but by <b>overhauling the underlying state space substrate</b>:
+  </p>
+
+  <ul>
+    <li>
+      <b>Boltzmann, Planck &amp; Phase Space (Classical Continuum &rarr; Quantized Cells):</b><br>
+      In Newtonian mechanics, phase space was treated as an unquantized, smooth continuum of positions and momenta <code>(q, p) ∈ ℝ^{6N}</code>. 
+      Under that continuous substrate, the number of microstates in any finite volume was infinite, rendering thermodynamic entropy <code>S = k · ln(W) = k · ln(∞)</code> completely undefined, while blackbody radiation suffered the infinite ultraviolet catastrophe. 
+      Only when Boltzmann and Planck pixelated the substrate into discrete cells of action volume <code>h³</code> did microstate counting and thermodynamic entropy become mathematically sound.
+    </li>
+    <br>
+    <li>
+      <b>Measure Theory vs. The Hyperfinite Transect (Point Dust &rarr; Discrete Lattices):</b><br>
+      In 1933, Andrey Kolmogorov attempted to lay continuous probability across the raw, unstructured real line <code>ℝ</code>. 
+      Because the real line is an uncountable point dust, Giuseppe Vitali proved that non-measurable sets inevitably arise, forcing measure theory to retreat to restricted <code>σ</code>-algebras and accept the unnatural Null Set Paradox (<code>P({x}) = 0</code>). 
+      By grounding Course 1 on the <b>hyperfinite transect <code>ℝ_ω</code></b> with uniform infinitesimal spacing <code>dx = 1/ω &gt; 0</code>, the entire power set <code>𝒫(T)</code> is measurable, every physical point carries strictly positive mass, and conditioning is always exact rational arithmetic.
+    </li>
+    <br>
+    <li>
+      <b>Classical Sets vs. Quantum Hilbert Spaces (Boolean Logic &rarr; Orthomodular Lattices):</b><br>
+      Classical inference universally assumes the substrate of events obeys Boolean set algebra (Venn diagrams). 
+      Yet in the three-polarizer experiment, non-commuting physical operations cause Boolean distributivity <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> to fail completely. 
+      In Course 2 and Course 3, we see physics abandon set subsets entirely, replacing them with closed linear subspaces and projection operators on a Hilbert space.
+    </li>
+  </ul>
+
+  <p>
+    Throughout Level 5, we keep the substrate front and center: first on the hyperfinite transect <code>ℝ_ω</code>, then on non-Boolean orthomodular lattices, and finally on density operators <code>ρ</code> across quantum state space.
+  </p>
+
+  <hr>
+
   <h3>The Three Pillars of Level 5</h3>
 
   <h4>1. Course 1: Classical Bayesian Inference &amp; The Logic of Discovery</h4>
@@ -10525,10 +10568,11 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     Theoretical models and empirical data both operate on this common ground: hypotheses and observations are formalized as subsets (events) in a field <code>ℱ ⊆ 𝒫(Ω)</code>.
   </p>
   <ul>
-    <li><b>Exact Dyadic Measures:</b> Normalization <code>P(Ω) = 1</code>, countable additivity on disjoint partitions, and exact likelihood conditioning.</li>
-    <li><b>Bayes'' Inversion:</b> Transforming model predictions <code>P(E | H)</code> into diagnostic posterior probabilities <code>P(H | E)</code> via Bayes'' theorem.</li>
-    <li><b>Sequential Updating:</b> Demonstrating how continuous evidence streams iteratively converge belief toward ground truth.</li>
-    <li><b>Interactive Suite:</b> The <b>Bayesian Inference Demo (BID)</b> provides live exploration of joint distributions, tree partitions, sequential probability updates, and log-odds gauges, all driven directly by the Middle Way Calculation Machine.</li>
+    <li><b>Probability Basics &amp; Hyperfinite Transect:</b> Grounding probability in ancient symmetry, sample spaces <code>Ω</code>, event additivity, and resolving the continuous Null Set Paradox via strict positivity on <code>ℝ_ω</code>.</li>
+    <li><b>Conditional Probability &amp; Bayes'' Filter:</b> Formalizing non-monotonic discovery, likelihood functions, and mechanical 3-stage belief updating (Prior → Likelihood Slice → Normalization).</li>
+    <li><b>Sequential Updating &amp; Evidence Streams:</b> Demonstrating how continuous evidence streams iteratively converge belief toward ground truth (<i>“today''s posterior is tomorrow''s prior”</i>), Bayes factors, and log-odds additivity.</li>
+    <li><b>State Spaces &amp; Entropy:</b> Bridging probability to information theory and thermodynamics via Shannon entropy and microstate counting.</li>
+    <li><b>Interactive Suite:</b> The <b>Bayesian Inference Demo (BID)</b> provides live exploration of transect point masses, tree projections, joint mosaic distributions, sequential streams, and log-odds gauges, all driven directly by the Middle Way Calculation Machine.</li>
   </ul>
 
   <h4>2. Course 2: Quantum Logic &amp; Non-Boolean Lattices</h4>
@@ -10569,7 +10613,26 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </div>
     <br>
 
-    <h3>1. From Deductive Certainty to Scientific Inference</h3>
+    <h3>1. The Raw Intuition of Chance: From Ancient Symmetry to the Clockwork Illusion</h3>
+    <p>
+      Long before the rise of classical mechanics and the expectation of a deterministic "clockwork universe," human intuition grappled constantly with raw chance. In antiquity and the Middle Ages, lived experience was saturated with genuine uncertainty: the casting of lots and knucklebones (astragali), the erratic fortune of maritime trade, the hazards of harvests and epidemics, and games of dice.
+    </p>
+    <p>
+      The earliest mathematical insight into probability (championed by Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat) arose from a simple, profound recognition of <b>symmetry and counting</b>: if a physical coin or six-sided die is balanced and symmetric, each elemental outcome possesses an equal claim on reality. Probability emerged not as a dense differential limit, but as an intuitive geometric ratio:
+    </p>
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px auto; width: 80%; font-family: monospace; font-size: 0.95em; color: #1e3a8a;">
+      Probability = (Number of Favorable Configurations) / (Total Number of Symmetric Possibilities)
+    </div>
+    <p>
+      <b>The Clockwork Detour:</b> With the triumph of Newtonian physics in the 18th century, science fell under the spell of total determinism. Pierre-Simon Laplace famously envisioned a supreme intellect ("Laplace''s Demon") who, knowing the precise position and momentum of every particle in the cosmos, could calculate the entire past and future with certainty. In this clockwork paradigm, probability was demoted to a mere badge of human ignorance—a temporary crutch until complete mechanical coordinates could be collected.
+    </p>
+    <p>
+      <b>The Modern Restoration:</b> The 20th century permanently dismantled the clockwork illusion. In statistical mechanics (Boltzmann), macroscopic realities like temperature, pressure, and entropy were shown to be emergent statistical averages over microstates. In quantum mechanics (Birkhoff, von Neumann), uncertainty was discovered to be an intrinsic feature of nature itself. Probability is not a secondary concession to human limitation; it is the fundamental language of physical state spaces and the unique calculus of rational inquiry.
+    </p>
+
+    <hr>
+
+    <h3>2. From Deductive Certainty to Scientific Inference</h3>
     <p>
       Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces, duality, and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
     </p>
@@ -10605,9 +10668,20 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>2. The Primary Ground: Sample Space (Ω) as the Arena of Reality</h3>
+    <h3>3. The Primacy of the Substrate: Sample Space (Ω) as the Arena of Reality</h3>
     <p>
       In both probability theory and physics, scientific reasoning is anchored on a single fundamental substrate: the <b>Sample Space / State Space (Ω)</b>.
+    </p>
+    <p>
+      <b>The Substrate Precedes the Distribution:</b> While applied textbooks often treat probability as a game of adjusting curves or tuning weights, the history of science demonstrates that <i>the choice of substrate is the true master key</i>:
+    </p>
+    <ul>
+      <li><b>The Distribution:</b> Describes what we currently believe, calculate, or predict given our evidence.</li>
+      <li><b>The Substrate:</b> Dictates what states can exist, what events can be measured, and what operations are logically and physically possible.</li>
+    </ul>
+    <p>
+      If the substrate is an unstructured continuous point dust, Boltzmann’s microstate count blows up to infinity (<code>W = ∞</code>), Planck’s blackbody radiation diverges into the ultraviolet catastrophe, and Kolmogorov’s real line generates non-measurable sets and divide-by-zero conditioning singularities. 
+      Only when the substrate is properly structured—whether as discrete combinatorial states, quantized Planck cells, or our <b>hyperfinite transect <code>ℝ_ω</code></b>—does probabilistic inference become exact, non-singular, and physically meaningful.
     </p>
     <p>
       Instead of treating theoretical models and empirical data as detached worlds, they both operate on this common ground:
@@ -10677,7 +10751,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>3. The Hypothesis as a Function: Generalizing the Predicate</h3>
+    <h3>4. The Hypothesis as a Function: Generalizing the Predicate</h3>
     <p>
       In formal logic, a <b>Predicate</b> is a typed function mapping domain objects to binary truth:
     </p>
@@ -10698,7 +10772,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>4. The Anatomy of Bayes'' Rule</h3>
+    <h3>5. The Anatomy of Bayes'' Rule</h3>
     <p>
       Given an initial state of knowledge and a new empirical observation <code>D ∈ 𝒟</code>, <b>Bayes'' Rule</b> calculates the updated belief for every competing hypothesis <code>H ∈ ℋ</code>:
     </p>
@@ -10743,7 +10817,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>5. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
+    <h3>6. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
     <p>
       In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
     </p>
@@ -10758,7 +10832,35 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>6. Interactive Demonstration Suite (BID)</h3>
+    <h3>7. Course Roadmap: The Four Lectures</h3>
+    <p>
+      Course 1 unfolds across four progressive lectures designed to ground probability from its primitive symmetries to modern information theory:
+    </p>
+    <ul>
+      <li>
+        <b>Lecture 1: Probability Basics &amp; The Hyperfinite Transect:</b><br>
+        Laying the foundational bedrock. Explores raw chance, symmetry, sample spaces <code>Ω</code>, event additivity, and contrasts standard Kolmogorov measure theory (and its Null Set Paradox) with the hyperfinite transect where every physical event has strictly positive mass.
+      </li>
+      <br>
+      <li>
+        <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter:</b><br>
+        Introducing the logic of clues. Analyzes monotonic vs. non-monotonic discovery, conditional probability <code>P(A | B)</code>, joint product grids, and executes Bayes'' inversion mechanically via the 3-Stage Filter (Prior → Likelihood Slice → Posterior Normalization).
+      </li>
+      <br>
+      <li>
+        <b>Lecture 3: Sequential Updating &amp; Evidence Streams:</b><br>
+        Expanding to dynamic discovery. Formalizes the recursive invariant (<i>"today''s posterior is tomorrow''s prior"</i>), order invariance of evidence, Bayes factors, additive log-odds balances, and debunks the base-rate screening fallacy.
+      </li>
+      <br>
+      <li>
+        <b>Lecture 4: State Spaces, Information Dynamics &amp; Entropy:</b><br>
+        Bridging inference to statistical physics. Quantifies surprise and uncertainty via Shannon Entropy <code>H = -∑ p_i log₂(p_i)</code>, explores microstates vs. macrostates, and sets up the threshold to non-Boolean quantum logic.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h3>8. Interactive Demonstration Suite (BID)</h3>
     <p>
       To build visual and computational intuition, the <b>Bayesian Inference Demo (BID)</b> provides two complementary suites of executable models:
     </p>
@@ -10788,7 +10890,331 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
   (34, 'bayesianInferenceLecture1', 33, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
     <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
-      <i><font size="+1">How Science Learns from Clues, The 3-Stage Filter &amp; Hyperfinite Probability</font></i>
+      <i><font size="+1">Raw Chance, Symmetry, Axioms &amp; The Null Set Paradox Resolved on ℝ_ω</font></i>
+    </div>
+    <br>
+
+    <p>
+      “Welcome to Course 1, everyone!” Jack greeted the classroom with enthusiasm.
+    </p>
+
+    <p>
+      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the world of applied discovery: <b>probability and the logic of uncertainty</b>.”
+    </p>
+
+    <p>
+      “Whenever modern textbooks introduce probability,” Jack began, setting a polished wooden cube on the front seminar table, “they often rush straight into complex calculus formulas, or dismiss probability as merely ''our subjective ignorance'' about a deterministic clockwork universe.”
+    </p>
+
+    <p>
+      “To truly master probability, we need to peel back that clockwork assumption and start where humanity first discovered chance: in <b>physical symmetry, counting, and the balance of possibilities</b>.”
+    </p>
+
+    <hr>
+
+    <h3>1. The Raw Intuition of Chance: Symmetry, Ratios &amp; Sample Space (Ω)</h3>
+
+    <p>
+      “Thousands of years before Pierre-Simon Laplace declared that the universe was a deterministic clockwork machine, humans engaged with chance through <b>physical symmetry</b>,” Jack explained.
+    </p>
+
+    <ul>
+      <li><b>Casting Lots &amp; Games of Chance:</b> Ancient civilizations cast astragali (sheep knucklebones) and carved cubic dice to divide inheritances, make civic decisions, and play games.</li>
+      <li><b>Symmetry Dictates Balance:</b> Because a carved cubic die has six identical, interchangeable faces, no single face has a physical advantage over any other. The chance of rolling a three is simply one out of six.</li>
+      <li><b>The Classical Ratio:</b> In the 16th and 17th centuries, Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat codified this intuition into the fundamental definition of classical probability:</li>
+    </ul>
+
+    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 12px 0; font-family: monospace; font-size: 15px; color: #1e3a8a;">
+      P(E) = <sup>|E| (Number of favorable outcomes)</sup> / <sub>|Ω| (Total number of equally likely outcomes)</sub>
+    </div>
+
+    <p>
+      Jill smiled: “Because the die is physically symmetric, every face has an identical claim on reality. One favorable outcome divided by six total possibilities gives <code>1/6</code>.”
+    </p>
+
+    <p>
+      “Exactly,” Jack agreed. “This formulation gives us the primary arena for all probabilistic reasoning: the <b>Sample Space (Ω)</b>.”
+    </p>
+
+    <p>
+      “And notice something crucial right at the outset,” Jack emphasized. “People often assume the main game in probability is choosing the right distribution. But before you can even talk about a distribution, <b>you have to choose the right substrate!</b> The distribution describes what you believe; the substrate dictates what is physically and logically possible. If your substrate is flawed, your probabilities will collapse into paradoxes.”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px 0; font-size: 13.5px; line-height: 1.5;">
+      • <b>Sample Space / Substrate (Ω):</b> The complete universe of all mutually exclusive and exhaustive possible elementary outcomes.<br>
+      • <b>Sample Point (ω ∈ Ω):</b> A single, indivisible elementary outcome (e.g., rolling a <code>4</code>, or a coin landing <code>Heads</code>).<br>
+      • <b>Event (E ⊆ Ω):</b> Any collection or subset of elementary outcomes (e.g., rolling an even number: <code>E = {2, 4, 6} ⊆ Ω</code>).
+    </div>
+
+    <hr>
+
+    <h3>2. Probability Axioms &amp; The Boolean Event Algebra</h3>
+
+    <p>
+      “In 1933, Andrey Kolmogorov established that every consistent system of probability satisfies three fundamental rules on the sample space <code>Ω</code>:”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="30%" align="left">Axiom</th>
+        <th width="35%" align="left">Mathematical Rule</th>
+        <th width="35%" align="left">Physical &amp; Intuitive Meaning</th>
+      </tr>
+      <tr>
+        <td><b>1. Positivity &amp; Boundedness</b></td>
+        <td><code>0 ≤ P(E) ≤ 1</code> &nbsp; for all <code>E ⊆ Ω</code></td>
+        <td>Belief and frequency cannot be negative or exceed 100%.</td>
+      </tr>
+      <tr>
+        <td><b>2. Normalization (Certainty)</b></td>
+        <td><code>P(Ω) = 1.000</code> &nbsp; and &nbsp; <code>P(∅) = 0.000</code></td>
+        <td><i>Something</i> in the universe of possibilities must occur; the empty set never occurs.</td>
+      </tr>
+      <tr>
+        <td><b>3. Additivity (Disjoint Events)</b></td>
+        <td>If <code>A ⋂ B = ∅</code>, then:<br><code>P(A ⋃ B) = P(A) + P(B)</code></td>
+        <td>Mutually exclusive possibilities simply sum their probability masses.</td>
+      </tr>
+    </table>
+
+    <p>
+      “From these three axioms flow the familiar laws of probability arithmetic:”
+    </p>
+
+    <ul>
+      <li><b>Complement Rule:</b> <code>P(A^c) = 1 - P(A)</code> (the probability of an event not happening).</li>
+      <li><b>General Inclusion-Exclusion:</b> <code>P(A ⋃ B) = P(A) + P(B) - P(A ⋂ B)</code> (subtracting the double-counted intersection).</li>
+      <li><b>Monotonicity:</b> If <code>A ⊆ B</code>, then <code>P(A) ≤ P(B)</code>.</li>
+    </ul>
+
+    <p>
+      “For finite dice and coins, this arithmetic is straightforward,” Jack noted. “The trouble begins when we leave finite discrete games and attempt to assign probabilities to continuous space!”
+    </p>
+
+    <hr>
+
+    <h3>3. Continuous Probability: The Null Set Paradox vs. Strict Positivity</h3>
+
+    <p>
+      Jill leaned forward: “Jack, that brings up the question I was wrestling with over the weekend. If you throw a precision dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
+    </p>
+
+    <p>
+      “In standard calculus,” Jack answered, “the integral over any single isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
+    </p>
+
+    <p>
+      “That''s what''s driving me crazy!” Jill exclaimed. “The dart <i>had</i> to hit somewhere! If every single individual point has a probability of exactly zero, how can an event with probability zero actually happen?! And if you add up zeroes, how do you ever get <code>1</code>?!”
+    </p>
+
+    <p>
+      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
+    </p>
+
+    <p>
+      “In modern mathematical science, there are two distinct paradigms for handling continuous probability:”
+    </p>
+
+    <ul>
+      <li>
+        <b>Standard Continuous Analysis (Kolmogorov, 1933):</b><br>
+        In standard measure theory, the probability of any exact real singleton is zero: <code>P({x}) = 0</code>. Because of this, standard mathematics is forced to adopt an unnatural semantic concession:
+        <div align="center" style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #991b1b; font-size: 13.5px;">
+          <b>Standard Concession:</b> <i>“An event having probability zero does NOT mean it cannot occur.”</i>
+        </div>
+        Real, physically observed point measurements occur constantly, yet measure theory assigns each of them a probability of zero!
+      </li>
+      <br>
+      <li>
+        <b>The Hyperfinite Transect (Robinson &amp; Conway):</b><br>
+        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed in Level 2), the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
+        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
+          P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
+        </div>
+        <i>The Clean Physical Law:</i>
+        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 80%; margin: 8px auto; color: #065f46; font-size: 14px;">
+          <fsd-ref tier="3" scaffold="hyperfinite_probability" title="Hyperfinite Probability Measure &amp; Strict Positivity">
+            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E) = 0 &nbsp;⟺&nbsp; E = ∅ ]
+          </fsd-ref>
+          <div style="font-size: 12px; color: #047857; margin-top: 4px; font-weight: normal;">
+            <i>(Only the strictly impossible empty set carries zero probability on ℝ_ω)</i>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <p>
+      “So on the transect,” Jill smiled in relief, “when the dart lands on a point, that point had an actual positive probability weight <code>dx</code>! We never have to tell a student that an event with probability zero actually occurred.”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>4. Bridging Dyadic Trees to the Transect</h3>
+
+    <p>
+      “Where does the hyperfinite transect come from?” Jill asked. “Is it just an abstract postulate?”
+    </p>
+
+    <p>
+      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we explored in our foundational numbers curriculum!”
+    </p>
+
+    <p>
+      “Recall how sign sequences partition the unit interval <code>[0, 1)</code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
+      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0, 1)<br>
+      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br>
+      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2, 3/4), &nbsp; [++] = [3/4, 1)<br>
+      Depth k: 2^k dyadic leaves, each of uniform width Δx = 2^(-k)
+    </div>
+
+    <p>
+      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>. Discrete tree logic and continuous geometry become one and the same!”
+    </p>
+
+    <div align="center" style="margin: 14px 0; display: flex; justify-content: center; gap: 15px;">
+      <bid-ref mode="stateTree">BID: Head/Tail State Space Tree (Ω)</bid-ref>
+      <bid-ref mode="treeProjection">BID: Tree-to-Transect Projection</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>5. Measurability: σ-Algebras vs. Full Power Sets &amp; The Loeb Bridge</h3>
+
+    <p>
+      “Now let''s examine collections of events,” Jack said. “What subsets of numbers can we assign probabilities to?”
+    </p>
+
+    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="50%" align="left">Standard Continuous Analysis (Kolmogorov)</th>
+        <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
+      </tr>
+      <tr>
+        <td valign="top">
+          <b>Restricted σ-Algebras:</b><br>
+          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a translation-invariant measure to every subset in the power set <code>𝒫([0, 1])</code>.
+          <br><br>
+          Standard math is forced to retreat to a restricted sub-collection of ''measurable sets'' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>). Pathological non-measurable sets (Vitali sets, Banach-Tarski paradoxes) lurk just outside <code>ℱ</code>.
+        </td>
+        <td valign="top">
+          <b>Full Power Set Available:</b><br>
+          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of cardinality <code>|T| = ω</code>, <b>every single subset <code>E ⊆ T</code> is measurable</b>!
+          <br><br>
+          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is simply a hyperfinite counting sum:
+          <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px 0; color: #1e3a8a;">
+            P(E) = ∑_{x_k ∈ E} p(x_k) · dx
+          </div>
+          Non-measurable paradoxes cannot even be formulated.
+        </td>
+      </tr>
+    </table>
+
+    <h4>Conditioning Without Singularities:</h4>
+    <p>
+      In Bayesian updating, when evidence <code>E</code> is observed, we compute the conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code>.
+    </p>
+    <p>
+      In standard continuous measure theory, conditioning on an exact measurement <code>X = x</code> forces division by <code>P(X = x) = 0</code> &mdash; a fatal divide-by-zero singularity requiring Radon-Nikodym derivatives and creating the Borel-Kolmogorov paradox.
+    </p>
+    <p>
+      On the hyperfinite transect, every non-empty event <code>E ≠ ∅</code> has <code>P(E) &gt; 0</code>. Conditioning is <b>always exact, non-singular rational arithmetic</b>!
+    </p>
+
+    <h4>The Bridge to Real Numbers: Peter Loeb''s Theorem</h4>
+    <p>
+      “If we calculate probabilities on the hyperfinite transect, how do we bridge back to ordinary real numbers for laboratory engineering?” Jill asked.
+    </p>
+    <p>
+      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 12px 0;">
+      P_std(E) ≡ st( ∑_{x_k ∈ E} p(x_k) · dx ) = ∫_E f(x) dx
+    </div>
+
+    <p>
+      “In 1975, Peter Loeb proved that every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous Lebesgue integration. You can do all your thinking with clean discrete sums, and round off infinitesimal parts at the very end!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="continuous">Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref>
+    </div>
+
+    <hr>
+
+    <h3>6. Summary Comparison Matrix &amp; Looking Ahead to Lecture 2</h3>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+      <tr bgcolor="#f8fafc">
+        <th width="22%" align="left">Dimension</th>
+        <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
+        <th width="39%" align="left">Hyperfinite Discrete Transect (Robinson &amp; Conway)</th>
+      </tr>
+      <tr>
+        <td><b>Sample Space (Ω)</b></td>
+        <td>Uncountable continuous continuum <code>Ω = [0, 1]</code></td>
+        <td>Discrete hyperfinite transect <code>T = ℝ_ω</code> of size <code>ω</code></td>
+      </tr>
+      <tr>
+        <td><b>Single-Point Weight</b></td>
+        <td><code>P({x}) = 0</code> (Null set paradox)</td>
+        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)</td>
+      </tr>
+      <tr>
+        <td><b>Impossibility Principle</b></td>
+        <td><code>P(E) = 0 ⇏ E = ∅</code> (Zero does not mean impossible)</td>
+        <td><code>P(E) = 0 ⟺ E = ∅</code> (Strict physical correspondence)</td>
+      </tr>
+      <tr>
+        <td><b>Measurable Sets</b></td>
+        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
+        <td>Full power set <code>𝒫(T)</code> (All subsets measurable)</td>
+      </tr>
+      <tr>
+        <td><b>Conditioning on Points</b></td>
+        <td><code>P(X = x) = 0</code> (Requires Radon-Nikodym derivative)</td>
+        <td><code>P(E) &gt; 0</code> (Direct exact fraction quotient)</td>
+      </tr>
+      <tr>
+        <td><b>Paradox Vulnerability</b></td>
+        <td>Borel-Kolmogorov, Vitali, Banach-Tarski paradoxes</td>
+        <td>Immune; geometric ratios remain coordinate-invariant</td>
+      </tr>
+      <tr>
+        <td><b>Integration Engine</b></td>
+        <td>Lebesgue integral <code>∫ f dμ</code> via supremum of limits</td>
+        <td>Exact hyperfinite summation <code>∑ p(x_k) · dx</code></td>
+      </tr>
+      <tr>
+        <td><b>Bridge to Real Numbers</b></td>
+        <td>Axiomatic foundation</td>
+        <td>Standard part map: <code>st(∑ p(x_k) · dx) = ∫ f(x) dx</code></td>
+      </tr>
+    </table>
+
+    <p>
+      “Now that we have established how probability arises from raw symmetry and exists without paradoxes on the hyperfinite transect,” Jack concluded, “we are ready to explore how evidence informs belief.”
+    </p>
+
+    <p>
+      “In <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter</b>, we will explore monotonic deduction vs. non-monotonic discovery, likelihood functions, and how an autonomous Mars rover updates its confidence in real time!”
+    </p>
+
+    <div align="center" style="margin: 15px 0;">
+      <bid-ref mode="filter">Preview in BID: The 3-Stage Bayesian Filter</bid-ref>
+    </div>
+  ', 'published'),
+  (35, 'bayesianInferenceLecture2', 34, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
+    <div align="center">
+      <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
+      <i><font size="+1">The Logic of Clues, Likelihood Functions &amp; The 3-Stage Filter</font></i>
     </div>
     <br>
 
@@ -10797,15 +11223,11 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the real world of applied discovery: <b>how science learns from clues</b>.”
+      Jill raised her hand right away: “In our first lecture, we established probability from raw symmetry, sample spaces <code>Ω</code>, and the hyperfinite transect <code>ℝ_ω</code>. But in pure mathematics, once you prove a theorem, it''s 100% true forever. Why can''t scientists just prove physical reality with pure deduction like mathematicians do?”
     </p>
 
     <p>
-      Jill raised her hand immediately: “Wait Jack, in our mathematics lectures, once you prove something, it''s 100% true forever. Why can''t scientists just prove physical reality with pure deduction like mathematicians do?”
-    </p>
-
-    <p>
-      “That is the fundamental difference between pure mathematical deduction and empirical scientific discovery!” Jack said.
+      “That is the fundamental difference between pure mathematical deduction and empirical scientific discovery!” Jack answered.
     </p>
 
     <hr>
@@ -10835,10 +11257,10 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>2. The Primary Arena: Sample Space (Ω) &amp; The Tree Bridge</h3>
+    <h3>2. The Arena of Clues: Sample Space (Ω) &amp; Likelihoods</h3>
 
     <p>
-      “To make scientific reasoning crystal clear, all of inference is anchored on a single playing field: the <b>Sample Space / State Space (Ω)</b>.”
+      “To make scientific reasoning crystal clear, all inference is anchored on the playing field we introduced in Lecture 1: the <b>Sample Space / State Space (Ω)</b>.”
     </p>
 
     <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px;">
@@ -10877,16 +11299,16 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       <div style="font-family: monospace; font-size: 13px; margin-bottom: 8px; line-height: 1.4;">
                      [ Hypotheses (Explanations in ℋ) ]<br>
                    (Candidate distributions over Ω)<br>
-                               │<br>
-                               │ Predicts: h(p) = P(p | h)<br>
-                               ▼<br>
+                                │<br>
+                                │ Predicts: h(p) = P(p | h)<br>
+                                ▼<br>
      ═════════════════════════════════════════════════════════<br>
                 SAMPLE SPACE / STATE SPACE (Ω)<br>
                  The Arena of All Possibilities<br>
      ═════════════════════════════════════════════════════════<br>
-                               ▲<br>
-                               │ Realizes: Sample points p ∈ Ω<br>
-                               │<br>
+                                ▲<br>
+                                │ Realizes: Sample points p ∈ Ω<br>
+                                │<br>
                      [ Observations (Data 𝒟) ]<br>
                   (Recorded occurrences from Ω)
       </div>
@@ -10895,16 +11317,12 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </div>
 
     <p>
-      Jill leaned forward: “Jack, is this Sample Space <code>Ω</code> directly related to the <b>2-successor binary trees</b> we built in our Numbers lectures?”
-    </p>
-
-    <p>
-      “It is the very same structure!” Jack beamed. “Each path of signs <code>[-]</code> and <code>[+]</code> through our graph tree represents an elemental sequence of trial outcomes. At depth <code>d</code>, the <code>2^d</code> leaves partition the continuous probability transect into exact dyadic intervals:”
+      Jill nodded: “And this connects directly to the joint probability spaces we saw earlier: the product <code>P(H ⋂ D) = P(D | H) · P(H)</code> slices out the intersection where both the theory holds and the observation appears!”
     </p>
 
     <div align="center" style="margin: 14px 0; display: flex; justify-content: center; gap: 15px;">
       <bid-ref mode="stateTree">BID: Head/Tail State Space Tree (Ω)</bid-ref>
-      <bid-ref mode="treeProjection">BID: Tree-to-Transect Projection</bid-ref>
+      <bid-ref mode="mosaic">BID: 2D Joint Mosaic Grid</bid-ref>
     </div>
 
     <hr>
@@ -11061,29 +11479,29 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>6. Summary &amp; Looking Ahead</h3>
+    <h3>6. Summary &amp; Looking Ahead to Lecture 3</h3>
 
     <p>
-      “In today''s lecture, we unlocked the core principle of scientific discovery:”
+      “In today''s lecture, we unlocked the core operational mechanism of scientific discovery:”
     </p>
     <ul>
       <li>Science is non-monotonic: beliefs must update as clues arrive.</li>
       <li>The 3-stage Bayesian filter (<b>Prior &rarr; Likelihood Slicing &rarr; Normalization</b>) determines the rational update.</li>
-      <li>The 2-successor dyadic tree directly generates the sample space <code>Ω</code> and projects down to transect intervals.</li>
-      <li>The hyperfinite transect <code>ℝ_ω</code> guarantees exact probability arithmetic without calculus clutter.</li>
+      <li>Likelihood ratios act as physical evidence multipliers (Bayes factors).</li>
+      <li>The hyperfinite transect <code>ℝ_ω</code> guarantees exact probability arithmetic without calculus singularities.</li>
     </ul>
 
     <p>
-      “In Lecture 2, we will see what happens when our rover collects a continuous stream of multiple clues over time: <i>Today''s posterior becomes tomorrow''s prior!</i>”
+      “In <b>Lecture 3: Sequential Updating &amp; Evidence Streams</b>, we will explore what happens when our rover collects a continuous stream of multiple clues over time: <i>Today''s posterior becomes tomorrow''s prior!</i>”
     </p>
 
     <div align="center" style="margin: 15px 0;">
       <bid-ref mode="sequential">Preview in BID: Sequential Evidence Stream</bid-ref>
     </div>
   ', 'published'),
-  (35, 'bayesianInferenceLecture2', 34, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
+  (36, 'bayesianInferenceLecture3', 35, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
     <div align="center">
-      <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
+      <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
       <i><font size="+1">Sequential Streams, Bayes Factors, Log-Odds &amp; The Base-Rate Fallacy</font></i>
     </div>
     <br>
@@ -11093,7 +11511,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      Jill raised her hand right away: “Jack, in our last lecture, the Mars rover fired a single laser pulse and made up its mind. But in real life, a rover''s sensors are streaming hundreds of readings every minute. Do we have to start our calculations completely over from scratch every time a new clue arrives?”
+      Jill raised her hand right away: “Jack, in our previous lecture on conditional probability and the 3-Stage Filter, the Mars rover fired a single laser pulse and made up its mind. But in real life, a rover''s sensors are streaming hundreds of readings every minute. Do we have to start our calculations completely over from scratch every time a new clue arrives?”
     </p>
 
     <p>
@@ -11330,7 +11748,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      “Each sequence of coin tosses &mdash; such as <code>[H, H, T, H]</code> &mdash; is a path down our <b>2-successor binary tree</b> from Tier B:”
+      “Each sequence of coin tosses &mdash; such as <code>[H, H, T, H]</code> &mdash; is a path down our <b>2-successor binary tree</b> from our foundational numbers lectures:”
     </p>
 
     <div align="center" style="margin: 14px 0;">
@@ -11364,7 +11782,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <hr>
 
-    <h3>5. Summary &amp; Next Steps</h3>
+    <h3>5. Summary &amp; Looking Ahead to Lecture 4</h3>
 
     <p>
       “Today we mastered the core dynamics of ongoing scientific evidence:”
@@ -11377,325 +11795,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </ul>
 
     <p>
-      “In <b>Lecture 3</b>, we''ll compare standard measure theory against our hyperfinite transect and explore how Bayesian updating physically reduces uncertainty (Entropy)!”
-    </p>
-  ', 'published'),
-  (36, 'bayesianInferenceLecture3', 35, 'Bayesian Inference Lecture 3', 'bayesian-inference-lecture3', '
-    <div align="center">
-      <i><font size="+2"><b>Bayesian Inference Lecture 3</b></font></i><br>
-      <i><font size="+1">Continuous Measure Theory vs. The Hyperfinite Transect: Null Sets, Measurability &amp; The Loeb Bridge</font></i>
-    </div>
-    <br>
-
-    <p>
-      “Welcome back, everyone!” Jack greeted the class.
-    </p>
-
-    <p>
-      Jill raised her hand with an animated, puzzled expression: “Jack, over the weekend I was thinking about continuous probability. If you throw a precision dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
-    </p>
-
-    <p>
-      “In standard calculus,” Jack answered, “the integral over any single isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
-    </p>
-
-    <p>
-      “That''s what''s driving me crazy!” Jill exclaimed. “The dart <i>had</i> to hit somewhere! If every single individual point has a probability of exactly zero, how can an event with probability zero actually happen?! And if you add up zeroes, how do you ever get <code>1</code>?!”
-    </p>
-
-    <p>
-      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
-    </p>
-
-    <hr>
-
-    <h3>1. The Two Paradigms of Probability</h3>
-
-    <p>
-      “In modern mathematical science,” Jack explained, “there are two distinct, complementary paradigms for handling continuous probability and statistical inference:”
-    </p>
-
-    <ol>
-      <li>
-        <b>Standard Continuous Analysis (Andrey Kolmogorov, 1933):</b><br>
-        Grounded in continuous point-set topology, <code>σ</code>-algebras, measure spaces <code>(Ω, ℱ, P)</code>, Lebesgue integration, and limit processes (<code>ε-δ</code>).
-      </li>
-      <br>
-      <li>
-        <b>Hyperfinite Discrete Analysis (Abraham Robinson, 1966 &amp; John Conway, 1976):</b><br>
-        Grounded in the discrete <b>hyperfinite transect <code>ℝ_ω</code></b> (and 2D grid <code>ℂ_ω</code>), where continuous intervals are uniform lattices of <code>ω</code> infinitesimal steps <code>dx = 1/ω = ε &gt; 0</code>.
-      </li>
-    </ol>
-
-    <p>
-      “Both frameworks are deeply complementary,” Jack emphasized. “Standard continuous analysis is the engineering workhorse of applied science. The hyperfinite transect, however, provides the conceptual foundation that eliminates divide-by-zero singularities, eliminates non-measurable sets, and restores physical common sense.”
-    </p>
-
-    <hr>
-
-    <h3>2. The Null Set Paradox vs. Strict Positivity</h3>
-
-    <p>
-      “Let''s analyze Jill''s dart paradox across both frameworks,” Jack said:
-    </p>
-
-    <ul>
-      <li>
-        <b>Standard Continuous Analysis (The Semantic Headache):</b><br>
-        In standard measure theory, the probability of any exact real singleton is zero:
-        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
-          P({x}) = ∫_x^x f(t) dt = 0
-        </div>
-        Because of this, standard mathematics is forced to adopt an unnatural semantic convention:
-        <div align="center" style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #991b1b; font-size: 13.5px;">
-          <b>Standard Concession:</b> <i>“An event having probability zero does NOT mean it cannot occur.”</i>
-        </div>
-        Real, physically observed point measurements occur constantly, yet measure theory assigns each of them a probability of zero!
-      </li>
-      <br>
-      <li>
-        <b>The Hyperfinite Transect (Strict Positivity Restored):</b><br>
-        On our hyperfinite transect <code>T = ℝ_ω</code>, the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
-        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
-          P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
-        </div>
-        <i>The Clean Physical Law:</i>
-        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 80%; margin: 8px auto; color: #065f46; font-size: 14px;">
-          <fsd-ref tier="3" scaffold="hyperfinite_probability" title="Hyperfinite Probability Measure &amp; Strict Positivity">
-            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E) = 0 &nbsp;⟺&nbsp; E = ∅ ]
-          </fsd-ref>
-          <div style="font-size: 12px; color: #047857; margin-top: 4px; font-weight: normal;">
-            <i>(Only the strictly impossible empty set carries zero probability on ℝ_ω)</i>
-          </div>
-        </div>
-      </li>
-    </ul>
-
-    <p>
-      “So on the transect,” Jill smiled in relief, “when the dart lands on a point, that point had an actual positive probability weight <code>dx</code>! We never have to tell a student that an event with probability zero actually occurred.”
-    </p>
-
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>3. Bridging Tier B Number Trees to the Transect</h3>
-
-    <p>
-      “Where does the hyperfinite transect come from?” Jill asked. “Is it just an abstract postulate?”
-    </p>
-
-    <p>
-      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we explored in our foundational numbers curriculum!”
-    </p>
-
-    <p>
-      “Recall how sign sequences partition the unit interval <code>[0, 1)</code>:”
-    </p>
-
-    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
-      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0, 1)<br>
-      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br>
-      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2, 3/4), &nbsp; [++] = [3/4, 1)<br>
-      Depth k: 2^k dyadic leaves, each of uniform width Δx = 2^(-k)
-    </div>
-
-    <p>
-      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>. Discrete tree logic and continuous geometry become one and the same!”
-    </p>
-
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="treeProjection">Interactive Demo: Tree-to-Transect Projection in BID</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>4. Measurability: σ-Algebras vs. Full Power Sets</h3>
-
-    <p>
-      “Now let''s examine collections of events,” Jack said. “What subsets of numbers can we assign probabilities to?”
-    </p>
-
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
-      <tr bgcolor="#f8fafc">
-        <th width="50%" align="left">Standard Continuous Analysis</th>
-        <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
-      </tr>
-      <tr>
-        <td valign="top">
-          <b>Restricted σ-Algebras:</b><br>
-          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a translation-invariant measure to every subset in the power set <code>𝒫([0, 1])</code>.
-          <br><br>
-          Standard math is forced to retreat to a restricted sub-collection of ''measurable sets'' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>). Pathological sets (e.g., Vitali sets, Banach-Tarski paradoxes) lurk just outside <code>ℱ</code>.
-        </td>
-        <td valign="top">
-          <b>Full Power Set Available:</b><br>
-          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of cardinality <code>|T| = ω</code>, <b>every single subset <code>E ⊆ T</code> is measurable</b>!
-          <br><br>
-          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is simply a hyperfinite counting sum:
-          <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px 0; color: #1e3a8a;">
-            P(E) = ∑_{x_k ∈ E} p(x_k) · dx
-          </div>
-          Non-measurable paradoxes cannot even be formulated.
-        </td>
-      </tr>
-    </table>
-
-    <h4>Formal Statement (FS-3.1): Hyperfinite Transect &amp; Measure Space</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Transect Domain:</b> <code>T = { x_k = k · dx | k ∈ {0, 1, ..., ω - 1}, dx = 1/ω = ε ∈ ℝ_ω, ε &gt; 0 }</code>.<br>
-      • <b>Measurable Algebra:</b> <code>𝒫(T)</code> (the complete power set of all internal subsets of <code>T</code>).<br>
-      • <b>Measure Function:</b> <code>P : 𝒫(T) → *[0, 1]</code> defined by <code>P(E) = ∑_{x_k ∈ E} p(x_k) · dx</code>, normalized such that <code>P(T) = 1</code>.<br>
-      • <b>Strict Positivity:</b> <code>∀ E ⊆ T, E ≠ ∅ ⇒ P(E) &gt; 0</code>, guaranteeing <code>P(E) = 0 ⟺ E = ∅</code>.
-    </div>
-
-    <hr>
-
-    <h3>5. Conditioning &amp; The Divide-by-Zero Singularity</h3>
-
-    <p>
-      “Here is where the two paradigms diverge dramatically in practice,” Jack continued.
-    </p>
-
-    <p>
-      “In Bayesian updating, when evidence <code>E</code> is observed, we compute the posterior belief:”
-    </p>
-
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
-      P(H | E) = <sup>P(H ⋂ E)</sup> / <sub>P(E)</sub>
-    </div>
-
-    <h4>The Standard Breakdown:</h4>
-    <p>
-      When your instrument records an exact real measurement <code>X = x</code>, standard continuous analysis attempts to divide by <code>P(X = x) = 0</code> &mdash; a fatal <b>divide-by-zero singularity</b>!
-    </p>
-    <p>
-      To bypass this division by zero, standard measure theory must invent advanced, non-elementary machinery: <b>Radon-Nikodym derivatives</b> and limits of conditional expectations. Worse yet, it is vulnerable to the <b>Borel-Kolmogorov Paradox</b>: conditioning on a great circle on a sphere yields two completely <i>different</i> probability densities depending on whether you take the limit via spherical collars or planar slices!
-    </p>
-
-    <h4>The Hyperfinite Resolution:</h4>
-    <p>
-      On the hyperfinite transect <code>ℝ_ω</code>, every non-empty event <code>E ≠ ∅</code> has a strictly positive infinitesimal probability <code>P(E) &gt; 0</code>:
-    </p>
-
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 15px; margin: 10px 0;">
-      ∀ E ≠ ∅ : &nbsp; P(E) &gt; 0 &nbsp;⇒&nbsp; P(H | E) = <sup>(P(E | H) · P(H))</sup> / <sub>P(E)</sub> &nbsp;is ALWAYS an exact rational quotient!
-    </div>
-
-    <p>
-      “Conditioning is always exact arithmetic,” Jack noted. “Because every micro-bin has positive volume <code>dx · dy &gt; 0</code>, coordinate-parametrization paradoxes vanish completely!”
-    </p>
-
-    <h4>Formal Statement (FS-3.2): Exact Non-Singular Conditioning</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Non-Singularity:</b> For any observed event <code>E ⊆ T</code> with <code>E ≠ ∅</code>, <code>P(E) &gt; 0</code>.<br>
-      • <b>Well-Defined Quotient:</b> The conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code> is unconditionally defined in <code>*ℝ</code> without limit processes.<br>
-      • <b>Coordinate Invariance:</b> The posterior ratio is invariant under coordinate reparametrization because it represents a direct ratio of finite hyperfinite sums.
-    </div>
-
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="mosaic">Interactive Demo: View 2D Joint Conditioning in BID</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>6. The Bridge: The Standard Part Map &amp; Peter Loeb''s Theorem</h3>
-
-    <p>
-      “You might wonder,” Jill asked thoughtfully, “if we do our probability calculations on the hyperfinite transect, how do we bridge back to ordinary real numbers for laboratory engineering?”
-    </p>
-
-    <p>
-      “Through the <b>standard part map</b> (<code>st</code>),” Jack answered. “The function <code>st : ℝ_ω → ℝ</code> simply rounds off infinitesimal parts to the nearest standard real number:”
-    </p>
-
-    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 12px 0;">
-      P_std(E) ≡ st( ∑_{x_k ∈ E} p(x_k) · dx ) = ∫_E f(x) dx
-    </div>
-
-    <p>
-      “In 1975, mathematical logician <b>Peter Loeb</b> proved a landmark theorem: every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous Lebesgue integration!”
-    </p>
-
-    <p>
-      “This means you can do all your thinking and proofs with clean, paradox-free discrete sums, and then apply <code>st()</code> at the final step to recover standard engineering formulas!”
-    </p>
-
-    <h4>Formal Statement (FS-3.3): The Loeb Measure &amp; Integral Equivalence</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Standard Part Operator:</b> <code>st : *ℝ_fin → ℝ</code> maps each finite hyperreal <code>x</code> to the unique real number <code>r</code> such that <code>|x - r| &lt; 1/n</code> for all <code>n ∈ ℕ</code>.<br>
-      • <b>Loeb Measure Construction:</b> For any internal event <code>E ⊆ T</code>, the standard probability is <code>μ_L(E) = st(P(E))</code>.<br>
-      • <b>Equivalence Theorem:</b> For any continuous density <code>f(x)</code> on <code>[a, b]</code>, <code>st(∑_{k} f(x_k) · dx) = ∫_a^b f(x) dx</code>.
-    </div>
-
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="continuous">Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref>
-    </div>
-
-    <hr>
-
-    <h3>7. Summary Comparison Matrix</h3>
-
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
-      <tr bgcolor="#f8fafc">
-        <th width="22%" align="left">Dimension</th>
-        <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
-        <th width="39%" align="left">Hyperfinite Discrete Transect (Robinson &amp; Conway)</th>
-      </tr>
-      <tr>
-        <td><b>Sample Space</b></td>
-        <td>Uncountable continuous continuum <code>Ω = [0, 1]</code></td>
-        <td>Discrete hyperfinite transect <code>T = ℝ_ω</code> of size <code>ω</code></td>
-      </tr>
-      <tr>
-        <td><b>Single-Point Weight</b></td>
-        <td><code>P({x}) = 0</code> (Null set paradox)</td>
-        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)</td>
-      </tr>
-      <tr>
-        <td><b>Impossibility Principle</b></td>
-        <td><code>P(E) = 0 ⇏ E = ∅</code> (Zero does not mean impossible)</td>
-        <td><code>P(E) = 0 ⟺ E = ∅</code> (Strict physical correspondence)</td>
-      </tr>
-      <tr>
-        <td><b>Measurable Sets</b></td>
-        <td>Restricted <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code></td>
-        <td>Full power set <code>𝒫(T)</code> (All subsets measurable)</td>
-      </tr>
-      <tr>
-        <td><b>Conditioning on Points</b></td>
-        <td><code>P(X = x) = 0</code> (Requires Radon-Nikodym derivative)</td>
-        <td><code>P(E) &gt; 0</code> (Direct exact fraction quotient)</td>
-      </tr>
-      <tr>
-        <td><b>Paradox Vulnerability</b></td>
-        <td>Borel-Kolmogorov, Vitali, Banach-Tarski paradoxes</td>
-        <td>Immune; geometric ratios remain coordinate-invariant</td>
-      </tr>
-      <tr>
-        <td><b>Integration Engine</b></td>
-        <td>Lebesgue integral <code>∫ f dμ</code> via supremum of limits</td>
-        <td>Exact hyperfinite summation <code>∑ p(x_k) · dx</code></td>
-      </tr>
-      <tr>
-        <td><b>Bridge to Real Numbers</b></td>
-        <td>Axiomatic foundation</td>
-        <td>Standard part map: <code>st(∑ p(x_k) · dx) = ∫ f(x) dx</code></td>
-      </tr>
-    </table>
-
-    <hr>
-
-    <h3>8. Looking Ahead to Lecture 4</h3>
-
-    <p>
-      “Now that we have established how micro-states and probabilities exist without paradoxes on the hyperfinite transect,” Jack concluded, “we are prepared to enter the physical realm.”
-    </p>
-
-    <p>
-      “In <b>Lecture 4: State Spaces, Entropy &amp; Ensembles</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
+      “In <b>Lecture 4: State Spaces, Information Dynamics &amp; Entropy</b>, we will discover how Bayesian inference directly drives <b>Shannon Entropy</b> and <b>Ludwig Boltzmann''s statistical mechanics</b> &mdash; proving that acquiring evidence is a physical process that purges thermal disorder from the universe!”
     </p>
   ', 'published'),
   (37, 'bayesianInferenceLecture4', 36, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
@@ -16885,9 +16985,9 @@ INSERT INTO curriculum_nav_items (
   (51, 'app1_nav_6_0', 1, 50, 0, 'html', 'overview: probability & quantum logic', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (52, 'app1_nav_6_1', 1, 50, 1, 'section', 'course 1: Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (53, 'app1_nav_6_1_0', 1, 52, 0, 'html', 'introduction', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_6_1_1', 1, 52, 1, 'html', 'lecture 1: hyperfinite probability', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_6_1_2', 1, 52, 2, 'html', 'lecture 2: sequential updating', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_6_1_3', 1, 52, 3, 'html', 'lecture 3: standard vs nonstandard prob', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_6_1_1', 1, 52, 1, 'html', 'lecture 1: probability basics & hyperfinite transect', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_6_1_2', 1, 52, 2, 'html', 'lecture 2: conditional probability & Bayes'' filter', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_6_1_3', 1, 52, 3, 'html', 'lecture 3: sequential updating & evidence streams', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (57, 'app1_nav_6_1_4', 1, 52, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (58, 'app1_nav_6_1_5', 1, 52, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
   (59, 'app1_nav_6_2', 1, 50, 2, 'section', 'course 2: quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
@@ -17304,7 +17404,7 @@ INSERT INTO segment_references (
   (19, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
   (20, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
   (21, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (22, 34, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (22, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
   (23, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
   (24, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
   (25, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
