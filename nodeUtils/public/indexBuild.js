@@ -22,6 +22,17 @@ async function buildIndex(app) {
     if (!(0, fs_1.existsSync)(distFolder)) {
         (0, fs_1.mkdirSync)(distFolder, { recursive: true });
     }
+    // Ensure asset directories (segPics, diagrams) are synced to dist
+    const segPicsFolder = (0, path_1.resolve)(appDir, 'segPics');
+    const distSegPicsFolder = (0, path_1.resolve)(distFolder, 'segPics');
+    if ((0, fs_1.existsSync)(segPicsFolder)) {
+        (0, fs_1.cpSync)(segPicsFolder, distSegPicsFolder, { recursive: true });
+    }
+    const diagramsFolder = (0, path_1.resolve)(appDir, 'diagrams');
+    const distDiagramsFolder = (0, path_1.resolve)(distFolder, 'diagrams');
+    if ((0, fs_1.existsSync)(diagramsFolder)) {
+        (0, fs_1.cpSync)(diagramsFolder, distDiagramsFolder, { recursive: true });
+    }
     try {
         const segIds = await (0, indexUtils_js_1.getRequiredSegIds)(app);
         console.log(`[indexBuild] Extracted ${segIds.length} segIds from mainIndex for ${app}:`, segIds);

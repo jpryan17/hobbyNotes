@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, cpSync } from 'fs';
 import { resolve } from 'path';
 import { build } from 'esbuild';
 import { getRequiredSegIds } from './indexUtils.js';
@@ -22,6 +22,18 @@ async function buildIndex(app: string) {
 
     if (!existsSync(distFolder)) {
         mkdirSync(distFolder, { recursive: true });
+    }
+
+    // Ensure asset directories (segPics, diagrams) are synced to dist
+    const segPicsFolder = resolve(appDir, 'segPics');
+    const distSegPicsFolder = resolve(distFolder, 'segPics');
+    if (existsSync(segPicsFolder)) {
+        cpSync(segPicsFolder, distSegPicsFolder, { recursive: true });
+    }
+    const diagramsFolder = resolve(appDir, 'diagrams');
+    const distDiagramsFolder = resolve(distFolder, 'diagrams');
+    if (existsSync(diagramsFolder)) {
+        cpSync(diagramsFolder, distDiagramsFolder, { recursive: true });
     }
 
     try {

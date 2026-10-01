@@ -7,6 +7,7 @@ import { SVGTSpan, textWidth } from './svgElt.js';
 import { Index, IndexItemDesc } from './navIndex.js';
 import { SI } from './serverInterface.js';
 import { initAnyDJSI } from './ida.js';
+import { initDrawioEditor } from './drawioBridge.js';
 import {
     fetchNavItems,
     saveNavItem,
@@ -1084,9 +1085,22 @@ export class StudioOverlay {
             charCount.textContent = `${chars.toLocaleString()} chars • ${words.toLocaleString()} words`;
         };
 
+        const onDrawioSave = (diagramName: string, _updatedSvgXml: string) => {
+            isWysiwygDirty = true;
+            textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+            updateStats();
+            Nav.segMap.set(Nav.segId, textarea.value);
+            if (Nav.segDiv?.elt) {
+                Nav.segDiv.elt.innerHTML = textarea.value;
+                initDrawioEditor(Nav.segDiv.elt as HTMLElement, Nav.app || 'app1', Nav.segId);
+            }
+            StudioOverlay.showToast(`✓ Diagram '${diagramName}' updated in editor & saved to disk.`);
+        };
+
         // Initialize editor content with pristine raw HTML
         wysiwygDiv.innerHTML = currentHtml;
         protectStencils(wysiwygDiv);
+        initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
         textarea.value = currentHtml;
         updateStats();
 
@@ -1258,12 +1272,14 @@ export class StudioOverlay {
                 if (isSourceDirty) {
                     wysiwygDiv.innerHTML = textarea.value;
                     protectStencils(wysiwygDiv);
+                    initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
                     isSourceDirty = false;
                 }
             } else if (currentMode === 'split') {
                 if (isSourceDirty) {
                     wysiwygDiv.innerHTML = textarea.value;
                     protectStencils(wysiwygDiv);
+                    initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
                     isSourceDirty = false;
                     isWysiwygDirty = false;
                 } else if (isWysiwygDirty) {
@@ -1707,6 +1723,7 @@ export class StudioOverlay {
                 sourceSyncTimer = setTimeout(() => {
                     wysiwygDiv.innerHTML = textarea.value;
                     protectStencils(wysiwygDiv);
+                    initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
                     isSourceDirty = false;
                 }, 400);
             }
@@ -1730,6 +1747,7 @@ export class StudioOverlay {
             if (val === 'established') {
                 wysiwygDiv.innerHTML = establishedHtml;
                 protectStencils(wysiwygDiv);
+                initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
                 textarea.value = establishedHtml;
                 isWysiwygDirty = false;
                 isSourceDirty = false;
@@ -1752,6 +1770,7 @@ export class StudioOverlay {
                 if (draftHtml) {
                     wysiwygDiv.innerHTML = draftHtml;
                     protectStencils(wysiwygDiv);
+                    initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
                     textarea.value = draftHtml;
                     isWysiwygDirty = false;
                     isSourceDirty = false;
@@ -1817,6 +1836,7 @@ export class StudioOverlay {
                     Nav.segMap.set(Nav.segId, finalHtml);
                     Nav.segDiv.elt.innerHTML = finalHtml;
                     initAnyDJSI();
+                    initDrawioEditor(Nav.segDiv.elt as HTMLElement, Nav.app || 'app1', Nav.segId);
                     if ((window as any).MathJax?.typesetPromise) {
                         await (window as any).MathJax.typesetPromise([Nav.segDiv.elt]);
                     }
@@ -1844,6 +1864,7 @@ export class StudioOverlay {
             Nav.segMap.set(Nav.segId, finalHtml);
             Nav.segDiv.elt.innerHTML = finalHtml;
             initAnyDJSI();
+            initDrawioEditor(Nav.segDiv.elt as HTMLElement, Nav.app || 'app1', Nav.segId);
             if ((window as any).MathJax?.typesetPromise) {
                 await (window as any).MathJax.typesetPromise([Nav.segDiv.elt]);
             }

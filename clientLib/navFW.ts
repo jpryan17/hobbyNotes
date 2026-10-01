@@ -3,6 +3,7 @@ import {SVGElt,SVGText,SVGTSpan, textWidth} from './svgElt.js'
 import {Index,IndexItemDesc} from './navIndex.js'
 import {Sed} from './editor.js'
 import { initAnyDJSI, displayAnyDJSI } from './ida.js'
+import { initDrawioEditor } from './drawioBridge.js'
 
 export class Nav {
     static app:string
@@ -453,6 +454,9 @@ export class Nav {
             initAnyDJSI()
             if ((window as any).MathJax?.typesetPromise) {
                 (window as any).MathJax.typesetPromise([Nav.segDiv.elt]).catch((err: any) => console.log('MathJax typeset error:', err));
+            }
+            if (Nav.editMode) {
+                initDrawioEditor(Nav.segDiv.elt as HTMLElement, Nav.app, Nav.segId);
             }
         } else {
             Nav.segDiv.elt.innerHTML = `

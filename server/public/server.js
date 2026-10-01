@@ -716,6 +716,29 @@ app.get(['/getSegs/:app', '/reload/:app', '/reload/:app/:seg'], (req, res) => {
             console.error('error running genSegsFiles:', e);
         }
     }
+    else if (appName) {
+        try {
+            const fp = `./${appName}/segs/segsFile.json`;
+            const segDir = (0, path_1.resolve)(process.cwd(), `./${appName}/segs`);
+            let needsRegen = !(0, fs_1.existsSync)(fp);
+            if (!needsRegen && (0, fs_1.existsSync)(segDir)) {
+                const jsonMtime = (0, fs_1.statSync)(fp).mtimeMs;
+                const files = (0, fs_1.readdirSync)(segDir).filter(f => f.endsWith('.html'));
+                for (const file of files) {
+                    if ((0, fs_1.statSync)((0, path_1.resolve)(segDir, file)).mtimeMs > jsonMtime) {
+                        needsRegen = true;
+                        break;
+                    }
+                }
+            }
+            if (needsRegen) {
+                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+            }
+        }
+        catch (e) {
+            console.warn('[server Warning] Could not check or regen segsFile.json:', e);
+        }
+    }
     const fn = 'segsFile.json';
     const fp = `./${appName}/segs/${fn}`;
     try {
@@ -738,9 +761,10 @@ app.get(['/getSegsDate/:app', '/getSegsDate/:app/:editFlag'], (req, res) => {
         res.status(404).send(`error finding modified time for ${fn} ${err}`);
     }
 });
-app.post('/svgPost/:app/:svgName', (req, res) => {
-    const { app: appName, svgName } = req.params;
-    const fp = `./${appName}/diagrams/${svgName}.svg`;
+app.post(['/svgPost/:app/:svgName', '/svgPostWithMeta'], (req, res) => {
+    const appName = req.params.app || req.body?.app || 'app1';
+    const svgName = req.params.svgName || req.body?.diagramName || 'diagram';
+    const segId = req.body?.segId;
     try {
         let svg = '';
         if (typeof req.body === 'string') {
@@ -749,13 +773,66 @@ app.post('/svgPost/:app/:svgName', (req, res) => {
         else if (req.body && typeof req.body === 'object') {
             svg = req.body.svg || JSON.stringify(req.body);
         }
-        (0, fs_1.writeFileSync)(fp, svg);
+        if (!svg || !svg.includes('<svg')) {
+            console.warn(`[server Warning] Received non-SVG or empty content for diagram "${svgName}", skipping write.`);
+            return res.status(400).send('Invalid SVG content');
+        }
+        if (svg && !svg.includes(`data-diagram-name="${svgName}"`)) {
+            svg = svg.replace(/<svg\b/i, `<svg data-diagram-name="${svgName}" `);
+        }
+        // 1. Save to diagrams/ folder
+        const diagramsDir = (0, path_1.resolve)(process.cwd(), `./${appName}/diagrams`);
+        if (!(0, fs_1.existsSync)(diagramsDir))
+            (0, fs_1.mkdirSync)(diagramsDir, { recursive: true });
+        (0, fs_1.writeFileSync)((0, path_1.resolve)(diagramsDir, `${svgName}.svg`), svg, 'utf8');
+        // 2. Save to segPics/ folder as dual-format .drawio.svg
+        const segPicsDir = (0, path_1.resolve)(process.cwd(), `./${appName}/segPics`);
+        if (!(0, fs_1.existsSync)(segPicsDir))
+            (0, fs_1.mkdirSync)(segPicsDir, { recursive: true });
+        (0, fs_1.writeFileSync)((0, path_1.resolve)(segPicsDir, `${svgName}.drawio.svg`), svg, 'utf8');
+        // 3. If segId provided, also update the segment file on disk
+        if (segId) {
+            const segFile = (0, path_1.resolve)(process.cwd(), `./${appName}/segs/${segId}.html`);
+            if ((0, fs_1.existsSync)(segFile)) {
+                let segContent = (0, fs_1.readFileSync)(segFile, 'utf8');
+                const svgMatchRegex = new RegExp(`<svg[^>]*data-diagram-name="${svgName}"[^>]*>[\\s\\S]*?<\\/svg>`, 'i');
+                if (svgMatchRegex.test(segContent)) {
+                    segContent = segContent.replace(svgMatchRegex, svg);
+                    (0, fs_1.writeFileSync)(segFile, segContent, 'utf8');
+                    console.log(`[server] Updated inline SVG in segment file ${segId}.html`);
+                }
+            }
+            if (segId === 'modelsOverview') {
+                const overviewFile = (0, path_1.resolve)(process.cwd(), 'overview.html');
+                if ((0, fs_1.existsSync)(overviewFile)) {
+                    let overviewContent = (0, fs_1.readFileSync)(overviewFile, 'utf8');
+                    const svgMatchRegex = new RegExp(`<svg[^>]*data-diagram-name="${svgName}"[^>]*>[\\s\\S]*?<\\/svg>`, 'i');
+                    if (svgMatchRegex.test(overviewContent)) {
+                        overviewContent = overviewContent.replace(svgMatchRegex, svg);
+                        (0, fs_1.writeFileSync)(overviewFile, overviewContent, 'utf8');
+                        console.log(`[server] Updated inline SVG in root overview.html`);
+                    }
+                }
+            }
+            try {
+                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+                console.log(`[server] Regenerated segsFile.json after SVG update for ${appName}`);
+            }
+            catch (genErr) {
+                console.warn(`[server Warning] Failed to regenerate segsFile.json:`, genErr);
+            }
+        }
+        console.log(`[server] Successfully saved diagram "${svgName}" for ${appName}`);
         res.send('ok');
     }
     catch (err) {
-        res.status(500).send(`error writing ${fp} ${err}`);
+        console.error(`[server Error] Error writing SVG:`, err);
+        res.status(500).send(`error writing svg ${err}`);
     }
 });
+// Static assets hosting
+app.use('/segPics', express_1.default.static((0, path_1.resolve)(process.cwd(), 'app1/segPics')));
+app.use('/diagrams', express_1.default.static((0, path_1.resolve)(process.cwd(), 'app1/diagrams')));
 // ---------------------------------------------------------------------
 // 5. Static Console & Documentation Hosting
 // ---------------------------------------------------------------------
