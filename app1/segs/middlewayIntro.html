@@ -145,49 +145,65 @@
 
     <hr>
 
-    <!-- Collapsible Technical Overview: Lean 4 Infrastructure & 2-Tier Formal Architecture -->
+    <!-- Collapsible Technical Overview: Lean 4 Infrastructure & Formal Architecture -->
     <details style="margin: 20px auto; max-width: 860px; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px;">
       <summary style="font-weight: bold; color: #0369a1; cursor: pointer; font-size: 0.98em;">
-        🛡️ Technical Architecture: The Lean 4 Formal Verification System (Click to expand)
+        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp; Scaffold Depth (Click to expand)
       </summary>
       <div style="margin-top: 14px; font-size: 0.9em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
         <p>
-          To ensure that the Middle Way mathematics curriculum is rigorous and mechanically sound—rather than relying on social consensus or pedagogical hand-waving—every foundational claim is anchored in a <b>2-Tier Formal Verification Model</b> powered by the <b>Lean 4 Interactive Theorem Prover</b>:
+          To ensure that the Middle Way mathematics curriculum is rigorous and mechanically sound—rather than relying on social consensus, pedagogical hand-waving, or machine-intelligence hallucination—every foundational claim is anchored in the <b>Lean 4 Interactive Theorem Prover</b>.
         </p>
 
-        <ul>
-          <li>
-            <b>Tier 1 &mdash; Interactive Ground (Finite &amp; Discrete):</b><br>
-            Evaluates live first-order statements in propositional logic, constructive set theory (<code>0 = { | }</code>), and bounded quantifiers (<code>∀x₁:ℕ</code>, <code>∃x₁:ℕ</code>). An in-browser semantic AST evaluator computes truth tables and searches for witnesses in sub-millisecond time, while dual Lean 4 arithmetic/inductive proofs guarantee formal type-theoretic correctness.
-          </li>
-          <br>
-          <li>
-            <b>Tier 3 &mdash; Constitutional Scaffolds (Continuous &amp; Transfinite):</b><br>
-            Higher-order foundational theorems—including the Day <code>ω</code> hyperfinite continuum (<code>ℝ_ω, ℂ_ω</code>), the telescoping Fundamental Theorem of Calculus, Cauchy closed loop circulation (<code>∮ f(z) dz = 0</code>), and unitary quantum state preservation—are anchored directly to machine-checked theorems in <code>MiddleWayLean/Scaffold.lean</code>.
-          </li>
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">1. Where the Curriculum Sits in the Formal Verification Spectrum</h4>
+        <p>
+          In modern proof assistants, formalization depth spans a multi-tier spectrum:
+        </p>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
+          <li><b>Tier 1 (Type Signatures &amp; Ontology Specification):</b> Formalizing the vocabulary, primitive types, and operator signatures to eliminate ambiguous notation.</li>
+          <li><b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow map (<code>st</code>) as an authoritative structural blueprint, while formally proving key inductive bridge theorems.</li>
+          <li><b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b> Formalizing computational algorithms directly in Lean and proving termination and bit-level semantic equivalence (<code>eval(e) = TrueMathValue(e)</code>) with zero unproven axioms.</li>
+          <li><b>Tier 5 (Universal Constructive Foundations):</b> Building the entire transfinite continuum from scratch out of Dedekind cuts or Conway games in tens of thousands of lines of foundational library proofs (e.g. Mathlib).</li>
         </ul>
+
+        <p>
+          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>. Rather than spending years constructing surreal numbers from scratch before ever reaching physics or calculus, the scaffold postulates the clean Day <code>ω</code> hyperfinite continuum as a rigid axiomatic contract. Within this contract, Lean 4 directly verifies foundational structural inductions—such as the <b>Telescoping Fundamental Theorem of Calculus</b> (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>), operator identities (<code>D_turn_squared</code>, <code>exp_eigen_property</code>), and infinitesimal halo relations—providing an authoritative type oracle for all 21 formal curriculum statements.
+        </p>
+
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">2. Formal Proof vs. The Virtual Calculation Engine</h4>
+        <p>
+          Verifying a calculation engine (our dyadic machines, expression evaluators, and finite difference steppers) would be a Tier 3/4 software verification endeavor. Middle Way Mathematics adopts an epistemologically powerful division of labor:
+        </p>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
+          <li><b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover certifies that the mathematical laws, physical invariants, and operator relationships are logically consistent, well-typed, and free of conceptual drift.</li>
+          <li><b>The Virtual Machine Executes Explicit Computation:</b> Calculations are carried out by an independent, transparent calculation machine interpreting human-auditable pseudo-code step-by-step, completely free of hidden runtime black boxes.</li>
+        </ul>
+        <p>
+          <b>Boundary of Environmental Dependence:</b> To be completely precise about what "runtime independence" entails:
+        </p>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
+          <li><b>No Higher-Level Mathematical Libraries:</b> The engine strictly avoids all continuous calculus libraries, computer algebra systems, and runtime transcendental functions (e.g. <code>Math.exp</code>, <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float approximations). Natural growth is computed purely via discrete Euler compounding in the dyadic ring, rotations via binary CORDIC pseudo-rotations, and calculus via hyperfinite differences.</li>
+          <li><b>Hardware Integer Substrate:</b> The engine borrows only the host environment's CPU for basic discrete integer arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to evaluate explicit dyadic rational fractions <code>m / 2^k</code> on the Conway tree. While pure string-option tree arithmetic (the Conway cut) is mathematically validated, utilizing host integer arithmetic for tree addresses avoids the combinatorial explosion of recursive string branching in the browser.</li>
+        </ul>
+        <p>
+          This dual approach ensures that students and educators receive the full protective certainty of formal methods while interacting with tangible, responsive calculations in the browser.
+        </p>
 
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin: 14px 0;">
           <b style="color: #0f172a;">Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b><br>
           <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-            <li><b>Static Web Production:</b> A build-time generator (<code>genLeanCache</code>) verifies all theorems directly in the Lean 4 kernel (v4.33.1) and caches pre-computed <code>Q.E.D. ✓</code> proofs and exact millisecond timings into client assets. Readers in production on <code>middlewaymath.app</code> receive instantaneous, kernel-certified truth at zero cloud hosting cost.</li>
+            <li><b>Static Web Production:</b> A build-time generator (<code>genLeanCache</code>) verifies all theorems directly in the Lean 4 kernel (v4.33.1) and caches pre-computed <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171 verified targets) into client assets. Readers receive instantaneous, kernel-certified truth at zero cloud hosting cost.</li>
             <li><b>Local Interactive Dev:</b> Running <code>npm run leanServer</code> boots a local compiler service, enabling authors and students to modify lemmas and click <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against the active kernel.</li>
           </ul>
         </div>
 
         <p>
           <b>Live Demonstrator:</b> Test the verification engine right now by clicking this sample constitutional scaffold:<br>
-          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
+          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
         </p>
 
         <p style="margin-bottom: 0;">
-          <b>Grant Proposals &amp; Academic Research:</b> For complete institutional and architectural details, see the whitepapers indexed under <b>Research &amp; Proposals</b>:
-          <br>
-          • <i>Proposal 1: A Narrowed-Scope Lean 4 Educational Interface for General Science Literacy</i> (<code>lean4GenEdProposal</code>)
-          <br>
-          • <i>Proposal 2: Dual-Layer Verified AI Tutor Architecture</i> (<code>dualAgentAcademicProposal</code>)
-          <br>
-          • <i>Proposal 3: The Inductive Continuum — A Minimal Constructive Foundation for Middle Way Mathematics</i> (<code>minimalAxiomaticCoreProposal</code>)
+          <b>Grant Proposals &amp; Academic Research:</b> For complete institutional and architectural details, see our research whitepapers on <i>A Narrowed-Scope Lean 4 Educational Interface for General Science Literacy</i>, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and <i>The Inductive Continuum</i>.
         </p>
       </div>
     </details>

@@ -679,22 +679,294 @@ app.post('/api/promote-staged-segments', async (req, res) => {
     }
 });
 // ---------------------------------------------------------------------
-// 4. Legacy Editor Endpoints (Preserved for compatibility)
+// 4. Standalone Editor & Workspace Umbrella File Endpoints
 // ---------------------------------------------------------------------
-app.get('/startEditor/:app/:segment', (req, res) => {
-    const { app: appName, segment } = req.params;
-    let relativePath = `./${appName}/segs/${segment}.html`;
-    if (!(0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), relativePath))) {
-        const altApp = appName === 'app1' ? 'app2' : 'app1';
-        const altPath = `./${altApp}/segs/${segment}.html`;
-        if ((0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), altPath))) {
-            relativePath = altPath;
+const UMBRELLA_DIR = (0, path_1.resolve)(process.cwd());
+function validateUmbrellaPath(userPath) {
+    if (!userPath || typeof userPath !== 'string') {
+        throw new Error('File path is required.');
+    }
+    let clean = userPath.trim().replace(/^file:\/\/\/?/i, '');
+    // Allow pure segment name shortcut (e.g. "modelsOverview" -> "app1/segs/modelsOverview.html")
+    if (!clean.includes('/') && !clean.includes('\\') && !clean.endsWith('.html') && !clean.endsWith('.htm')) {
+        if (clean === 'overview') {
+            clean = 'overview.html';
+        }
+        else {
+            clean = `app1/segs/${clean}.html`;
         }
     }
-    const absPath = (0, path_1.resolve)(process.cwd(), relativePath);
-    console.log(`launching SeaMonkey Composer for ${absPath}...`);
-    (0, child_process_1.spawn)('SeaMonkey', ['-editor', absPath]);
-    res.type('text/html').send(`editor launched for ${segment}`);
+    // Resolve absolute paths directly, or relative paths against workspace root
+    const fullPath = (0, path_1.isAbsolute)(clean) ? (0, path_1.resolve)(clean) : (0, path_1.resolve)(UMBRELLA_DIR, clean);
+    const rel = (0, path_1.relative)(UMBRELLA_DIR, fullPath);
+    const relPath = (!rel.startsWith('..') && !(0, path_1.isAbsolute)(rel)) ? rel.replace(/\\/g, '/') : fullPath.replace(/\\/g, '/');
+    return { fullPath, relPath };
+}
+function scanProjectHtmlFiles() {
+    const results = [];
+    const ignoreDirs = new Set(['node_modules', '.git', '.gemini', 'coverage', '.cache', 'dist_backup', 'scratch']);
+    function walk(dir, baseRel) {
+        if (!(0, fs_1.existsSync)(dir))
+            return;
+        try {
+            const entries = (0, fs_1.readdirSync)(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                if (entry.isDirectory()) {
+                    if (!ignoreDirs.has(entry.name)) {
+                        walk((0, path_1.resolve)(dir, entry.name), baseRel ? `${baseRel}/${entry.name}` : entry.name);
+                    }
+                }
+                else if (entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm'))) {
+                    const rel = (baseRel ? `${baseRel}/${entry.name}` : entry.name).replace(/\\/g, '/');
+                    let group = 'Workspace Files';
+                    if (rel.startsWith('app1/segs/'))
+                        group = 'App 1 Segments';
+                    else if (rel.startsWith('app2/segs/'))
+                        group = 'App 2 Segments';
+                    else if (rel.startsWith('app1/dist/'))
+                        group = 'App 1 Dist';
+                    else if (rel.startsWith('server/'))
+                        group = 'Server Templates';
+                    else if (!baseRel)
+                        group = 'Root Documents';
+                    let mtime = 0;
+                    try {
+                        mtime = (0, fs_1.statSync)((0, path_1.resolve)(dir, entry.name)).mtimeMs;
+                    }
+                    catch { }
+                    results.push({
+                        path: rel,
+                        name: entry.name,
+                        group,
+                        mtime
+                    });
+                }
+            }
+        }
+        catch { }
+    }
+    walk(UMBRELLA_DIR, '');
+    return results;
+}
+// List all HTML files under the project umbrella
+app.get('/api/editor/files', (_req, res) => {
+    try {
+        const files = scanProjectHtmlFiles();
+        res.json({
+            status: 'success',
+            umbrellaDir: UMBRELLA_DIR,
+            count: files.length,
+            files
+        });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+// Load any HTML file within the project umbrella
+app.get('/api/editor/file', (req, res) => {
+    try {
+        const queryPath = (req.query.path || req.query.file || req.query.segId);
+        if (!queryPath) {
+            return res.status(400).json({ status: 'error', message: 'Parameter "path" or "file" is required.' });
+        }
+        const { fullPath, relPath } = validateUmbrellaPath(queryPath);
+        if (!(0, fs_1.existsSync)(fullPath)) {
+            return res.status(404).json({ status: 'error', message: `File not found: ${relPath}` });
+        }
+        const rawHtml = (0, fs_1.readFileSync)(fullPath, 'utf8');
+        res.json({
+            status: 'success',
+            path: relPath,
+            fullPath,
+            rawHtml,
+            isFullDoc: /<html[^>]*>/i.test(rawHtml)
+        });
+    }
+    catch (err) {
+        res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+// Save or replace any HTML file within the project umbrella
+app.post('/api/editor/save', (req, res) => {
+    const { path: queryPath, content, saveMode = 'body' } = req.body;
+    if (!queryPath || typeof content !== 'string') {
+        return res.status(400).json({ status: 'error', message: 'path and content are required.' });
+    }
+    try {
+        const { fullPath, relPath } = validateUmbrellaPath(queryPath);
+        // Protect hobbyNotes repository files from standalone editor overwrites
+        if (fullPath.startsWith(UMBRELLA_DIR)) {
+            return res.status(403).json({
+                status: 'error',
+                message: 'hobbyNotes project files are protected and off-limits in the standalone editor to prevent accidental overwrites. Please save your document to an external folder or use the native save picker.'
+            });
+        }
+        const parent = (0, path_1.dirname)(fullPath);
+        if (!(0, fs_1.existsSync)(parent)) {
+            (0, fs_1.mkdirSync)(parent, { recursive: true });
+        }
+        let existingHtml = null;
+        if ((0, fs_1.existsSync)(fullPath)) {
+            existingHtml = (0, fs_1.readFileSync)(fullPath, 'utf8');
+        }
+        let finalContent = content;
+        if (saveMode === 'body') {
+            const segName = (0, path_1.basename)(fullPath, (0, path_1.extname)(fullPath));
+            finalContent = formatSegmentFileHtml(existingHtml, content, segName);
+        }
+        (0, fs_1.writeFileSync)(fullPath, finalContent, 'utf8');
+        console.log(`[server] Directly replaced file ${relPath} (${Buffer.byteLength(finalContent)} bytes)`);
+        // If the saved file is in app1/segs or app2/segs, auto-regenerate segsFile.json
+        if (relPath.startsWith('app1/segs/')) {
+            try {
+                (0, child_process_1.execSync)('node ./nodeUtils/public/genSegsFiles.js app1', { cwd: process.cwd() });
+                console.log('[server] Auto-regenerated segsFile.json for app1');
+            }
+            catch (genErr) {
+                console.warn('[server Warning] genSegsFiles app1 error:', genErr);
+            }
+        }
+        else if (relPath.startsWith('app2/segs/')) {
+            try {
+                (0, child_process_1.execSync)('node ./nodeUtils/public/genSegsFiles.js app2', { cwd: process.cwd() });
+                console.log('[server] Auto-regenerated segsFile.json for app2');
+            }
+            catch (genErr) {
+                console.warn('[server Warning] genSegsFiles app2 error:', genErr);
+            }
+        }
+        // Overview / modelsOverview bidirectional synchronization
+        if (relPath === 'app1/segs/modelsOverview.html') {
+            const rootOverview = (0, path_1.resolve)(process.cwd(), 'overview.html');
+            if ((0, fs_1.existsSync)(rootOverview)) {
+                const rootExisting = (0, fs_1.readFileSync)(rootOverview, 'utf8');
+                const formattedOverview = formatSegmentFileHtml(rootExisting, content, 'overview');
+                (0, fs_1.writeFileSync)(rootOverview, formattedOverview, 'utf8');
+                console.log('[server] Auto-synced modelsOverview to overview.html');
+            }
+        }
+        else if (relPath === 'overview.html') {
+            const modelsOverview = (0, path_1.resolve)(process.cwd(), 'app1/segs/modelsOverview.html');
+            if ((0, fs_1.existsSync)(modelsOverview)) {
+                const segExisting = (0, fs_1.readFileSync)(modelsOverview, 'utf8');
+                const formattedSeg = formatSegmentFileHtml(segExisting, content, 'modelsOverview');
+                (0, fs_1.writeFileSync)(modelsOverview, formattedSeg, 'utf8');
+                console.log('[server] Auto-synced overview.html to modelsOverview.html');
+            }
+        }
+        res.json({
+            status: 'success',
+            ok: true,
+            path: relPath,
+            fullPath,
+            bytes: Buffer.byteLength(finalContent),
+            savedAt: new Date().toISOString(),
+            message: `File '${relPath}' saved successfully.`
+        });
+    }
+    catch (err) {
+        console.error('[server Error] Editor save failed:', err);
+        res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+// Backwards compatibility endpoints
+app.get('/api/segment-files', (_req, res) => {
+    try {
+        const appName = 'app1';
+        const segsDir = (0, path_1.resolve)(process.cwd(), `${appName}/segs`);
+        const files = [];
+        if ((0, fs_1.existsSync)(segsDir)) {
+            const list = (0, fs_1.readdirSync)(segsDir)
+                .filter(f => f.endsWith('.html') && !f.includes('File.json'))
+                .map(f => f.replace(/\.html$/, ''));
+            files.push(...list);
+        }
+        if ((0, fs_1.existsSync)((0, path_1.resolve)(process.cwd(), 'overview.html'))) {
+            files.unshift('overview');
+        }
+        res.json({ status: 'success', files });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+app.get('/api/segment-raw/:segId', (req, res) => {
+    const { segId } = req.params;
+    const appName = req.query.app || 'app1';
+    try {
+        let filePath = '';
+        const idStr = String(segId);
+        if (idStr === 'overview' || idStr === 'overview.html') {
+            filePath = (0, path_1.resolve)(process.cwd(), 'overview.html');
+        }
+        else {
+            const cleanId = idStr.replace(/\.html$/, '');
+            filePath = (0, path_1.resolve)(process.cwd(), `${appName}/segs/${cleanId}.html`);
+        }
+        if (!(0, fs_1.existsSync)(filePath)) {
+            return res.status(404).json({ status: 'error', message: `File not found: ${filePath}` });
+        }
+        const rawHtml = (0, fs_1.readFileSync)(filePath, 'utf8');
+        res.json({ status: 'success', segId: idStr, rawHtml });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+app.post('/api/save-segment-direct', (req, res) => {
+    const { app: appName = 'app1', segId, contentHtml } = req.body;
+    if (!segId || typeof contentHtml !== 'string') {
+        return res.status(400).json({ status: 'error', message: 'segId and contentHtml are required.' });
+    }
+    try {
+        const targetRel = segId === 'overview' || segId === 'overview.html' ? 'overview.html' : `${appName}/segs/${String(segId).replace(/\.html$/, '')}.html`;
+        const { fullPath, relPath } = validateUmbrellaPath(targetRel);
+        let existingHtml = null;
+        if ((0, fs_1.existsSync)(fullPath)) {
+            existingHtml = (0, fs_1.readFileSync)(fullPath, 'utf8');
+        }
+        const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, String(segId));
+        (0, fs_1.writeFileSync)(fullPath, formattedHtml, 'utf8');
+        if (segId === 'modelsOverview') {
+            const rootOverview = (0, path_1.resolve)(process.cwd(), 'overview.html');
+            if ((0, fs_1.existsSync)(rootOverview)) {
+                let existingOverview = (0, fs_1.readFileSync)(rootOverview, 'utf8');
+                const formattedOverview = formatSegmentFileHtml(existingOverview, contentHtml, 'overview');
+                (0, fs_1.writeFileSync)(rootOverview, formattedOverview, 'utf8');
+            }
+        }
+        if (relPath.startsWith('app1/segs/')) {
+            try {
+                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+            }
+            catch (genErr) {
+                console.warn(`[server Warning] Failed to regenerate segsFile.json:`, genErr);
+            }
+        }
+        res.json({
+            status: 'success',
+            ok: true,
+            segId,
+            filePath: fullPath,
+            bytes: Buffer.byteLength(formattedHtml),
+            savedAt: new Date().toISOString(),
+            message: `Segment '${segId}' saved directly to disk.`
+        });
+    }
+    catch (err) {
+        console.error('[server Error] Direct save failed:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+app.get(['/editor', '/editor/:app/:segment', '/startEditor/:app/:segment'], (_req, res) => {
+    const editorHtmlPath = (0, path_1.resolve)(process.cwd(), 'server/standaloneEditor.html');
+    if ((0, fs_1.existsSync)(editorHtmlPath)) {
+        res.sendFile(editorHtmlPath);
+    }
+    else {
+        res.redirect('/console');
+    }
 });
 app.get(['/getSegs/:app', '/reload/:app', '/reload/:app/:seg'], (req, res) => {
     const appName = req.params.app;

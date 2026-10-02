@@ -7,7 +7,7 @@ import { SVGTSpan, textWidth } from './svgElt.js';
 import { Index, IndexItemDesc } from './navIndex.js';
 import { SI } from './serverInterface.js';
 import { initAnyDJSI } from './ida.js';
-import { initDrawioEditor } from './drawioBridge.js';
+import { initDrawioEditor, openNewDrawioModal } from './drawioBridge.js';
 import {
     fetchNavItems,
     saveNavItem,
@@ -832,6 +832,7 @@ export class StudioOverlay {
                         <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
                         <button id="tb-insert-ttd" class="studio-tb-btn" style="color: #b91c1c; border-color: #fca5a5; font-weight: 700;" title="Insert Truth Table Demo (TTD) Expression Tag">⚖️ + TTD</button>
                         <button id="tb-insert-fsd" class="studio-tb-btn" style="color: #be185d; border-color: #fbcfe8; font-weight: 700;" title="Insert Formal Statement Demo (FSD) Tag">📐 + FSD</button>
+                        <button id="tb-insert-diagram" class="studio-tb-btn" style="color: #0284c7; border-color: #7dd3fc; font-weight: 700; background: #f0f9ff;" title="Draw &amp; Embed a New Draw.io Diagram">🎨 + Diagram</button>
                         <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
                         <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
                     </div>
@@ -1645,6 +1646,28 @@ export class StudioOverlay {
                 updateStats();
                 StudioOverlay.showToast(`✓ Inserted FSD tag: ${returnedData.formattedText}`);
             }, false);
+        });
+
+        const btnInsertDiagram = document.getElementById('tb-insert-diagram') as HTMLButtonElement;
+        btnInsertDiagram?.addEventListener('click', () => {
+            saveWysiwygRange();
+            openNewDrawioModal(
+                Nav.app || 'app1',
+                Nav.segId,
+                `${Nav.segId}_diagram`,
+                (newSvgXml: string) => {
+                    const block = `\n<div align="center" style="margin: 16px 0;">\n  ${newSvgXml.trim()}\n</div>\n<p><br></p>\n`;
+                    insertHtmlSnippet(block);
+                    initDrawioEditor(wysiwygDiv, Nav.app || 'app1', Nav.segId, onDrawioSave);
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split' || currentMode === 'wysiwyg') {
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    }
+                    updateStats();
+                    StudioOverlay.showToast('✓ New diagram embedded in chapter.');
+                },
+                onDrawioSave
+            );
         });
 
         btnInsertMath.addEventListener('click', () => {

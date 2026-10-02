@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Composer • General Web & Diagram Editor</title>
+  <!-- MathJax Configuration with TeX (LaTeX) + MathML Support -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-header: #0f172a;
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --emerald: #059669;
+      --emerald-hover: #047857;
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-content: "Times New Roman", Times, Georgia, serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg-page);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: var(--bg-header);
+      color: #f8fafc;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1e293b;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: -0.2px;
+    }
+    .brand span { color: #94a3b8; font-weight: 400; font-size: 13px; }
+
+    .file-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-protected {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      user-select: none;
+    }
+
+    .path-input {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      width: 280px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .path-input:focus { border-color: #38bdf8; }
+
+    .btn {
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      font-family: var(--font-ui);
+    }
+    .btn-primary { background: var(--primary); color: #ffffff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #334155; color: #f8fafc; }
+    .btn-secondary:hover { background: #475569; }
+
+    .view-pills {
+      display: flex;
+      background: #1e293b;
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .pill {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pill.active { background: #0284c7; color: #ffffff; }
+
+    .status-pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .status-pill.dirty {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    /* Sub Toolbar (Composer Actions) */
+    .toolbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tb-group { display: flex; align-items: center; gap: 3px; }
+    .tb-btn {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      color: #334155;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tb-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .tb-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+    .tb-select {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      color: #334155;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      font-family: var(--font-ui);
+    }
+    .tb-select:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .tb-divider { width: 1px; height: 18px; background: var(--border-color); margin: 0 4px; }
+
+    /* Unicode Character Palette Strip */
+    .unicode-palette {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      padding: 5px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .palette-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 2px;
+      user-select: none;
+    }
+    .palette-chips {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .u-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.25;
+      cursor: pointer;
+      font-family: var(--font-ui), "Cambria Math", sans-serif;
+      transition: all 0.1s ease;
+      user-select: none;
+    }
+    .u-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      transform: translateY(-1px);
+    }
+    .u-btn.u-bold {
+      font-weight: 700;
+      color: #0369a1;
+    }
+    .u-btn.u-bold:hover {
+      color: #ffffff;
+    }
+    .palette-sep {
+      width: 1px;
+      height: 16px;
+      background: #cbd5e1;
+      margin: 0 4px;
+      display: inline-block;
+    }
+
+    /* Main Workspace */
+    .workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pane {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    /* WYSIWYG Article Styling */
+    #wysiwyg-pane {
+      background: #ffffff;
+      outline: none;
+      padding: 36px 48px;
+      font-family: var(--font-content);
+      font-size: 16px;
+      line-height: 1.6;
+      color: #0f172a;
+    }
+
+    #wysiwyg-pane h1, #wysiwyg-pane h2, #wysiwyg-pane h3 {
+      font-family: var(--font-ui);
+      color: #0f172a;
+      margin-top: 1.2em;
+      margin-bottom: 0.5em;
+    }
+    #wysiwyg-pane p { margin-bottom: 1em; }
+    #wysiwyg-pane ul, #wysiwyg-pane ol { margin: 0.8em 0 1.2em 2em; }
+    #wysiwyg-pane li { margin-bottom: 0.3em; }
+
+    /* SVG Diagram Styling in Editor */
+    #wysiwyg-pane svg {
+      cursor: pointer;
+      border: 1px dashed transparent;
+      border-radius: 6px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      max-width: 100%;
+      height: auto;
+    }
+    #wysiwyg-pane svg:hover {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Source Pane */
+    #source-pane {
+      display: none;
+      background: #0f172a;
+      padding: 0;
+    }
+    #source-textarea {
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      color: #f8fafc;
+      border: none;
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+      tab-size: 2;
+    }
+
+    /* Split View */
+    .workspace.split-mode #wysiwyg-pane {
+      display: block;
+      width: 50%;
+      flex: 0 0 50%;
+      border-right: 1px solid var(--border-color);
+    }
+    .workspace.split-mode #source-pane {
+      display: block;
+      width: 50%;
+      flex: 0 0 50%;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      z-index: 999999;
+      pointer-events: none;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* LaTeX Math Modal & Chips */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(3px);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-backdrop.active { display: flex; }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 10px;
+      width: 600px;
+      max-width: 92vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .modal-header {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 15px; font-weight: 600; }
+    .modal-body {
+      padding: 16px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .m-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .m-chip:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+
+    /* In-situ Math Styling */
+    .latex-math, .latex-math-block {
+      border: 1px dashed transparent;
+      border-radius: 4px;
+      transition: border-color 0.15s, background-color 0.15s;
+      cursor: pointer;
+    }
+    .latex-math:hover, .latex-math-block:hover {
+      border-color: #0284c7;
+      background-color: rgba(2, 132, 199, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      📝 HTML Composer
+      <span>• Web & Diagram Editor</span>
+    </div>
+
+    <div class="file-controls">
+      <div class="badge-protected" title="hobbyNotes repository curriculum files are protected against accidental overwrites">
+        🛡️ hobbyNotes Protected
+      </div>
+
+      <button id="btn-open-file" class="btn btn-secondary" title="Pick an HTML file from your computer">📂 Open File...</button>
+      <input type="file" id="fallback-file-input" accept=".html,.htm,.svg,.txt" style="display: none;" />
+
+      <input id="file-path-input" class="path-input" type="text" placeholder="Untitled.html" title="Current file name or path. Press Enter to load if typing a path." />
+
+      <button id="btn-new-file" class="btn btn-secondary" title="Start a fresh blank document">+ New</button>
+      <div id="status-pill" class="status-pill">✓ Ready</div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="view-pills">
+        <button id="pill-wysiwyg" class="pill active">👁️ Normal</button>
+        <button id="pill-source" class="pill">📝 HTML Source</button>
+        <button id="pill-split" class="pill">🌓 Split</button>
+      </div>
+
+      <button id="btn-save" class="btn btn-primary" title="Save file directly to disk (Ctrl+S)">💾 Save</button>
+      <button id="btn-save-as" class="btn btn-secondary" title="Save with native folder/file picker">💾 Save As...</button>
+    </div>
+  </header>
+
+  <!-- Formatting Toolbar (Composer Actions) -->
+  <div class="toolbar">
+    <div class="tb-group">
+      <button id="tb-bold" class="tb-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button id="tb-italic" class="tb-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+      <button id="tb-underline" class="tb-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button id="tb-strike" class="tb-btn" title="Strikethrough"><s>S</s></button>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <div class="tb-group">
+      <button id="tb-h1" class="tb-btn" title="Heading 1">H1</button>
+      <button id="tb-h2" class="tb-btn" title="Heading 2">H2</button>
+      <button id="tb-h3" class="tb-btn" title="Heading 3">H3</button>
+      <button id="tb-p" class="tb-btn" title="Normal Paragraph">¶</button>
+      <button id="tb-ul" class="tb-btn" title="Bullet List">• List</button>
+      <button id="tb-ol" class="tb-btn" title="Numbered List">1. List</button>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <div class="tb-group">
+      <button id="tb-align-left" class="tb-btn" title="Align Left">⯇</button>
+      <button id="tb-align-center" class="tb-btn" title="Align Center">☰</button>
+      <button id="tb-align-right" class="tb-btn" title="Align Right">⯈</button>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <!-- Text Size Controls (SeaMonkey Composer style) -->
+    <div class="tb-group">
+      <select id="tb-font-size" class="tb-select" title="Font size of selected text">
+        <option value="" disabled selected>Size</option>
+        <option value="1">10px (Tiny)</option>
+        <option value="2">13px (Small)</option>
+        <option value="3">16px (Normal)</option>
+        <option value="4">18px (Medium)</option>
+        <option value="5">24px (Large)</option>
+        <option value="6">32px (X-Large)</option>
+        <option value="7">48px (Huge)</option>
+      </select>
+      <button id="tb-size-down" class="tb-btn" title="Decrease font size (A⁻)">A⁻</button>
+      <button id="tb-size-up" class="tb-btn" title="Increase font size (A⁺)">A⁺</button>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <!-- Links, Images & Diagrams -->
+    <div class="tb-group">
+      <button id="tb-link" class="tb-btn" title="Insert hyperlink">🔗 Link</button>
+      <button id="tb-image" class="tb-btn" title="Insert image">🖼️ Image</button>
+      <button id="tb-hr" class="tb-btn" title="Insert horizontal rule">― Line</button>
+      <button id="tb-insert-latex" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px; background: #059669;" title="Insert or edit LaTeX formula">∑ + LaTeX Math</button>
+      <button id="tb-insert-diagram" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;" title="Draw and embed a new Draw.io diagram">🎨 + Diagram</button>
+    </div>
+
+    <div class="tb-group" style="margin-left: auto;">
+      <button id="tb-spell" class="tb-btn active" title="Toggle spell check (red underlines & right-click suggestions)">🔤 Spell: ON</button>
+      <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">💡 Double-click any embedded diagram to edit</span>
+    </div>
+  </div>
+
+  <!-- Unicode Character Palette Strip -->
+  <div class="unicode-palette">
+    <span class="palette-label">Unicode:</span>
+    <div class="palette-chips">
+      <!-- Logic & Arrows -->
+      <button class="u-btn" data-char="→" title="Right arrow">→</button>
+      <button class="u-btn" data-char="⇒" title="Implies">⇒</button>
+      <button class="u-btn" data-char="↔" title="Left-right arrow">↔</button>
+      <button class="u-btn" data-char="⇔" title="Equivalent / iff">⇔</button>
+      <button class="u-btn" data-char="↦" title="Maps to">↦</button>
+      <button class="u-btn" data-char="¬" title="Not">¬</button>
+      <button class="u-btn" data-char="∧" title="And (logical conjunction)">∧</button>
+      <button class="u-btn" data-char="∨" title="Or (logical disjunction)">∨</button>
+      <button class="u-btn" data-char="∀" title="For all">∀</button>
+      <button class="u-btn" data-char="∃" title="There exists">∃</button>
+
+      <span class="palette-sep"></span>
+
+      <!-- Set Theory & Relations -->
+      <button class="u-btn" data-char="∈" title="Element of">∈</button>
+      <button class="u-btn" data-char="∉" title="Not an element of">∉</button>
+      <button class="u-btn" data-char="⊆" title="Subset of or equal to">⊆</button>
+      <button class="u-btn" data-char="⊂" title="Proper subset of">⊂</button>
+      <button class="u-btn" data-char="∪" title="Union">∪</button>
+      <button class="u-btn" data-char="∩" title="Intersection">∩</button>
+      <button class="u-btn" data-char="∅" title="Empty set">∅</button>
+      <button class="u-btn" data-char="≠" title="Not equal">≠</button>
+      <button class="u-btn" data-char="≤" title="Less than or equal">≤</button>
+      <button class="u-btn" data-char="≥" title="Greater than or equal">≥</button>
+      <button class="u-btn" data-char="≈" title="Approximately equal">≈</button>
+      <button class="u-btn" data-char="≡" title="Identical / congruent">≡</button>
+
+      <span class="palette-sep"></span>
+
+      <!-- Number Systems / Blackboard -->
+      <button class="u-btn u-bold" data-char="ℝ" title="Real numbers (R)">ℝ</button>
+      <button class="u-btn u-bold" data-char="ℕ" title="Natural numbers (N)">ℕ</button>
+      <button class="u-btn u-bold" data-char="ℤ" title="Integers (Z)">ℤ</button>
+      <button class="u-btn u-bold" data-char="ℚ" title="Rational numbers (Q)">ℚ</button>
+      <button class="u-btn u-bold" data-char="ℂ" title="Complex numbers (C)">ℂ</button>
+      <button class="u-btn u-bold" data-char="𝔹" title="Booleans (B)">𝔹</button>
+
+      <span class="palette-sep"></span>
+
+      <!-- Math Operators & Calculus -->
+      <button class="u-btn" data-char="·" title="Center dot">·</button>
+      <button class="u-btn" data-char="×" title="Multiplication">×</button>
+      <button class="u-btn" data-char="÷" title="Division">÷</button>
+      <button class="u-btn" data-char="±" title="Plus-minus">±</button>
+      <button class="u-btn" data-char="√" title="Square root">√</button>
+      <button class="u-btn" data-char="∞" title="Infinity">∞</button>
+      <button class="u-btn" data-char="∂" title="Partial derivative">∂</button>
+      <button class="u-btn" data-char="∇" title="Nabla / gradient">∇</button>
+      <button class="u-btn" data-char="∫" title="Integral">∫</button>
+      <button class="u-btn" data-char="∑" title="Summation">∑</button>
+      <button class="u-btn" data-char="∏" title="Product">∏</button>
+
+      <span class="palette-sep"></span>
+
+      <!-- Brackets & Delimiters -->
+      <button class="u-btn" data-char="⟨" title="Left angle bracket">⟨</button>
+      <button class="u-btn" data-char="⟩" title="Right angle bracket">⟩</button>
+      <button class="u-btn" data-char="⟦" title="Left double bracket">⟦</button>
+      <button class="u-btn" data-char="⟧" title="Right double bracket">⟧</button>
+      <button class="u-btn" data-char="⌈" title="Left ceiling">⌈</button>
+      <button class="u-btn" data-char="⌉" title="Right ceiling">⌉</button>
+      <button class="u-btn" data-char="⌊" title="Left floor">⌊</button>
+      <button class="u-btn" data-char="⌋" title="Right floor">⌋</button>
+
+      <span class="palette-sep"></span>
+
+      <!-- Common Greek Letters -->
+      <button class="u-btn" data-char="α" title="alpha">α</button>
+      <button class="u-btn" data-char="β" title="beta">β</button>
+      <button class="u-btn" data-char="γ" title="gamma">γ</button>
+      <button class="u-btn" data-char="δ" title="delta">δ</button>
+      <button class="u-btn" data-char="ε" title="epsilon">ε</button>
+      <button class="u-btn" data-char="θ" title="theta">θ</button>
+      <button class="u-btn" data-char="λ" title="lambda">λ</button>
+      <button class="u-btn" data-char="μ" title="mu">μ</button>
+      <button class="u-btn" data-char="π" title="pi">π</button>
+      <button class="u-btn" data-char="σ" title="sigma">σ</button>
+      <button class="u-btn" data-char="τ" title="tau">τ</button>
+      <button class="u-btn" data-char="φ" title="phi">φ</button>
+      <button class="u-btn" data-char="ψ" title="psi">ψ</button>
+      <button class="u-btn" data-char="ω" title="omega">ω</button>
+      <button class="u-btn" data-char="Δ" title="Delta">Δ</button>
+      <button class="u-btn" data-char="Γ" title="Gamma">Γ</button>
+      <button class="u-btn" data-char="Ω" title="Omega">Ω</button>
+    </div>
+  </div>
+
+  <!-- Main Workspace -->
+  <div id="workspace" class="workspace">
+    <!-- Visual WYSIWYG Pane -->
+    <div id="wysiwyg-pane" class="pane" contenteditable="true" spellcheck="true"></div>
+
+    <!-- Raw Source Textarea Pane -->
+    <div id="source-pane" class="pane">
+      <textarea id="source-textarea" spellcheck="true"></textarea>
+    </div>
+  </div>
+
+  <div id="toast">Ready</div>
+
+  <!-- LaTeX Formula Modal Dialog -->
+  <div id="math-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="math-modal-title">📐 LaTeX Math Formula Editor</h3>
+        <button id="btn-close-math" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Mode selection -->
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+          <div style="display: flex; gap: 14px;">
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+              <input type="radio" name="math-mode" value="inline" id="math-mode-inline" checked /> Inline (\( ... \))
+            </label>
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+              <input type="radio" name="math-mode" value="display" id="math-mode-display" /> Display Block (\[ ... \])
+            </label>
+          </div>
+          <span style="font-size: 11px; color: var(--text-muted);">Real-time MathJax preview</span>
+        </div>
+
+        <!-- Quick LaTeX template chips -->
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+          <button class="m-chip" data-tex="\frac{a}{b}" title="Fraction">\frac{a}{b}</button>
+          <button class="m-chip" data-tex="x^{2}" title="Superscript">x^{2}</button>
+          <button class="m-chip" data-tex="x_{i}" title="Subscript">x_{i}</button>
+          <button class="m-chip" data-tex="\sqrt{x}" title="Square root">\sqrt{x}</button>
+          <button class="m-chip" data-tex="\sqrt[n]{x}" title="Nth root">\sqrt[n]{x}</button>
+          <button class="m-chip" data-tex="\int_{a}^{b} f(x)\,dx" title="Integral">\int_{a}^{b}</button>
+          <button class="m-chip" data-tex="\sum_{i=1}^{n} a_i" title="Summation">\sum_{i=1}^{n}</button>
+          <button class="m-chip" data-tex="\lim_{x \to 0}" title="Limit">\lim_{x \to 0}</button>
+          <button class="m-chip" data-tex="\begin{pmatrix} a & b \\ c & d \end{pmatrix}" title="Matrix (parentheses)">pmatrix</button>
+          <button class="m-chip" data-tex="\begin{bmatrix} a & b \\ c & d \end{bmatrix}" title="Matrix (brackets)">bmatrix</button>
+          <button class="m-chip" data-tex="\mathbf{v}" title="Bold vector">\mathbf{v}</button>
+          <button class="m-chip" data-tex="\mathbb{R}" title="Blackboard R">\mathbb{R}</button>
+          <button class="m-chip" data-tex="\partial" title="Partial derivative">\partial</button>
+          <button class="m-chip" data-tex="\nabla" title="Gradient / Nabla">\nabla</button>
+          <button class="m-chip" data-tex="\infty" title="Infinity">\infty</button>
+          <button class="m-chip" data-tex="\alpha" title="Alpha">\alpha</button>
+          <button class="m-chip" data-tex="\beta" title="Beta">\beta</button>
+          <button class="m-chip" data-tex="\theta" title="Theta">\theta</button>
+          <button class="m-chip" data-tex="\lambda" title="Lambda">\lambda</button>
+          <button class="m-chip" data-tex="\pi" title="Pi">\pi</button>
+          <button class="m-chip" data-tex="\sigma" title="Sigma">\sigma</button>
+          <button class="m-chip" data-tex="\omega" title="Omega">\omega</button>
+        </div>
+
+        <!-- LaTeX input textarea -->
+        <div>
+          <label style="font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px; display: block;">LaTeX Expression:</label>
+          <textarea id="latex-input" rows="3" style="width: 100%; font-family: var(--font-mono); font-size: 13px; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; box-sizing: border-box; resize: vertical;" placeholder="e.g. \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}"></textarea>
+        </div>
+
+        <!-- Live Preview Box -->
+        <div>
+          <label style="font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px; display: block;">Rendered Formula Preview:</label>
+          <div id="latex-preview-box" style="min-height: 56px; max-height: 120px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+            <span style="color: #94a3b8; font-size: 13px;">Type LaTeX above to see preview</span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+          <button id="btn-cancel-math" class="btn btn-secondary" style="padding: 6px 14px;">Cancel</button>
+          <button id="btn-apply-math" class="btn btn-primary" style="padding: 6px 16px;">Insert Formula</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // State management
+    let activeFileName = 'Untitled.html';
+    let activeFilePath = '';
+    let localFileHandle = null;
+    let fullDocumentWrapper = null;
+    let isDirty = false;
+    let activeMode = 'wysiwyg'; // 'wysiwyg' | 'source' | 'split'
+
+    const filePathInput = document.getElementById('file-path-input');
+    const wysiwygPane = document.getElementById('wysiwyg-pane');
+    const sourceTextarea = document.getElementById('source-textarea');
+    const workspace = document.getElementById('workspace');
+    const statusPill = document.getElementById('status-pill');
+    const toast = document.getElementById('toast');
+    const fallbackFileInput = document.getElementById('fallback-file-input');
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    function setDirty(dirty) {
+      isDirty = dirty;
+      if (dirty) {
+        statusPill.textContent = '● Modified';
+        statusPill.classList.add('dirty');
+      } else {
+        statusPill.textContent = '✓ Saved';
+        statusPill.classList.remove('dirty');
+      }
+    }
+
+    function cleanHtml(html) {
+      return html
+        .replace(/\s*contenteditable="false"/gi, '')
+        .replace(/\s*onclick="[^"]*"/gi, '');
+    }
+
+    // Assemble complete HTML document
+    function getCompleteDocumentHtml() {
+      const bodyContent = cleanHtml(wysiwygPane.innerHTML);
+      if (activeMode === 'source') {
+        return sourceTextarea.value;
+      }
+      if (fullDocumentWrapper && /<body[^>]*>/i.test(fullDocumentWrapper)) {
+        return fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, `$1\n${bodyContent}\n$3`);
+      }
+      const title = activeFileName.replace(/\.html$/i, '');
+      return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${title}</title>
+  <style>
+    body { font-family: "Times New Roman", Times, Georgia, serif; line-height: 1.6; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #1e293b; }
+    h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; }
+    svg { max-width: 100%; height: auto; display: block; margin: 16px auto; }
+  </style>
+</head>
+<body>
+${bodyContent}
+</body>
+</html>\n`;
+    }
+
+    // Start a clean, blank document
+    function newBlankDocument() {
+      if (isDirty && !confirm('Discard unsaved changes and create a new document?')) {
+        return;
+      }
+      activeFileName = 'Untitled.html';
+      activeFilePath = '';
+      localFileHandle = null;
+      fullDocumentWrapper = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled Document</title>
+</head>
+<body>
+<p><br></p>
+</body>
+</html>`;
+      wysiwygPane.innerHTML = '<p><br></p>';
+      sourceTextarea.value = fullDocumentWrapper;
+      filePathInput.value = 'Untitled.html';
+      setDirty(false);
+      wysiwygPane.focus();
+      showToast('✓ Blank document ready');
+    }
+
+    document.getElementById('btn-new-file').onclick = newBlankDocument;
+
+    // Load document content into editor
+    function loadDocumentContent(name, rawHtml, fullPath = '') {
+      activeFileName = name;
+      activeFilePath = fullPath || name;
+      filePathInput.value = fullPath || name;
+      fullDocumentWrapper = rawHtml;
+
+      const bodyMatch = rawHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      const innerHtml = bodyMatch ? bodyMatch[1].trim() : rawHtml;
+
+      wysiwygPane.innerHTML = innerHtml;
+      sourceTextarea.value = activeMode === 'source' ? rawHtml : innerHtml;
+      setDirty(false);
+
+      attachDrawioListeners();
+      attachMathListeners();
+      typesetMath();
+    }
+
+    // Open file using native Windows File Picker
+    async function openFilePicker() {
+      if (isDirty && !confirm('You have unsaved changes. Discard and open another file?')) {
+        return;
+      }
+
+      if ('showOpenFilePicker' in window) {
+        try {
+          const [handle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'HTML & Web Documents',
+              accept: { 'text/html': ['.html', '.htm'], 'image/svg+xml': ['.svg'], 'text/plain': ['.txt'] }
+            }],
+            multiple: false
+          });
+          localFileHandle = handle;
+          const file = await handle.getFile();
+          const text = await file.text();
+          loadDocumentContent(file.name, text);
+          showToast(`✓ Opened ${file.name}`);
+        } catch (err) {
+          if (err.name !== 'AbortError') console.error('Open error:', err);
+        }
+      } else {
+        fallbackFileInput.value = '';
+        fallbackFileInput.click();
+      }
+    }
+
+    document.getElementById('btn-open-file').onclick = openFilePicker;
+
+    fallbackFileInput.onchange = async () => {
+      const file = fallbackFileInput.files[0];
+      if (!file) return;
+      localFileHandle = null;
+      const text = await file.text();
+      loadDocumentContent(file.name, text);
+      showToast(`✓ Opened ${file.name}`);
+    };
+
+    // Load file from server path (if typing full path)
+    async function loadFromServerPath(path) {
+      try {
+        const resp = await fetch(`/api/editor/file?path=${encodeURIComponent(path)}`);
+        const data = await resp.json();
+        if (data.status === 'success') {
+          localFileHandle = null;
+          loadDocumentContent(data.path.split(/[\/\\]/).pop(), data.rawHtml, data.fullPath);
+          showToast(`✓ Loaded ${data.path}`);
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      }
+    }
+
+    filePathInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = filePathInput.value.trim();
+        if (val && val !== 'Untitled.html') {
+          loadFromServerPath(val);
+        }
+      }
+    });
+
+    // Save File (Ctrl+S or Save button)
+    async function saveFile() {
+      if (localFileHandle) {
+        try {
+          const writable = await localFileHandle.createWritable();
+          const finalDoc = getCompleteDocumentHtml();
+          await writable.write(finalDoc);
+          await writable.close();
+          setDirty(false);
+          showToast(`✓ Saved to ${localFileHandle.name}`);
+          return;
+        } catch (err) {
+          console.warn('Native handle write error, opening save picker:', err);
+        }
+      }
+
+      // If no handle yet or new untitled document, open native Save Picker
+      await saveAsPicker();
+    }
+
+    // Save As with native folder & file picker
+    async function saveAsPicker() {
+      if ('showSaveFilePicker' in window) {
+        try {
+          const defaultName = activeFileName && activeFileName !== 'Untitled.html'
+            ? activeFileName.split(/[\/\\]/).pop()
+            : 'document.html';
+
+          const handle = await window.showSaveFilePicker({
+            suggestedName: defaultName,
+            types: [{
+              description: 'HTML Document',
+              accept: { 'text/html': ['.html', '.htm'] }
+            }]
+          });
+
+          localFileHandle = handle;
+          activeFileName = handle.name;
+          activeFilePath = handle.name;
+          filePathInput.value = handle.name;
+
+          const writable = await handle.createWritable();
+          const finalDoc = getCompleteDocumentHtml();
+          await writable.write(finalDoc);
+          await writable.close();
+          setDirty(false);
+          showToast(`✓ Saved to ${handle.name}`);
+        } catch (err) {
+          if (err.name !== 'AbortError') alert('Save failed: ' + err.message);
+        }
+      } else {
+        // Fallback: prompt for destination
+        const dest = prompt('Enter destination file path (must be outside hobbyNotes):', activeFilePath || 'C:\\Users\\jprya\\Documents\\document.html');
+        if (!dest || !dest.trim()) return;
+        try {
+          const resp = await fetch('/api/editor/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              path: dest.trim(),
+              content: getCompleteDocumentHtml(),
+              saveMode: 'full'
+            })
+          });
+          const data = await resp.json();
+          if (data.status === 'success') {
+            activeFileName = dest.split(/[\/\\]/).pop();
+            activeFilePath = dest;
+            filePathInput.value = dest;
+            setDirty(false);
+            showToast(`✓ Saved to ${dest}`);
+          } else {
+            alert('Save error: ' + data.message);
+          }
+        } catch (e) {
+          alert('Save error: ' + e.message);
+        }
+      }
+    }
+
+    document.getElementById('btn-save').onclick = saveFile;
+    document.getElementById('btn-save-as').onclick = saveAsPicker;
+
+    // Keyboard Shortcuts (Ctrl+S)
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        saveFile();
+      }
+    });
+
+    // Typeset MathJax
+    function typesetMath() {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([wysiwygPane]).then(() => {
+          attachMathListeners();
+        }).catch(err => console.log('MathJax error:', err));
+      }
+    }
+
+    // Switch View Modes
+    function setMode(mode) {
+      activeMode = mode;
+      document.querySelectorAll('.view-pills .pill').forEach(p => p.classList.remove('active'));
+
+      if (mode === 'wysiwyg') {
+        document.getElementById('pill-wysiwyg').classList.add('active');
+        workspace.classList.remove('split-mode');
+        wysiwygPane.style.display = 'block';
+        sourceTextarea.parentElement.style.display = 'none';
+
+        let newContent = sourceTextarea.value;
+        const bodyMatch = newContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if (bodyMatch) {
+          fullDocumentWrapper = newContent;
+          wysiwygPane.innerHTML = bodyMatch[1].trim();
+        } else {
+          wysiwygPane.innerHTML = newContent;
+        }
+        attachDrawioListeners();
+        attachMathListeners();
+        typesetMath();
+      } else if (mode === 'source') {
+        document.getElementById('pill-source').classList.add('active');
+        workspace.classList.remove('split-mode');
+        wysiwygPane.style.display = 'none';
+        sourceTextarea.parentElement.style.display = 'block';
+
+        sourceTextarea.value = getCompleteDocumentHtml();
+      } else if (mode === 'split') {
+        document.getElementById('pill-split').classList.add('active');
+        workspace.classList.add('split-mode');
+        wysiwygPane.style.display = 'block';
+        sourceTextarea.parentElement.style.display = 'block';
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        attachDrawioListeners();
+        typesetMath();
+      }
+    }
+
+    document.getElementById('pill-wysiwyg').onclick = () => setMode('wysiwyg');
+    document.getElementById('pill-source').onclick = () => setMode('source');
+    document.getElementById('pill-split').onclick = () => setMode('split');
+
+    // Input listeners
+    wysiwygPane.addEventListener('input', () => {
+      setDirty(true);
+      if (activeMode === 'split') {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+    });
+
+    sourceTextarea.addEventListener('input', () => {
+      setDirty(true);
+      if (activeMode === 'split') {
+        wysiwygPane.innerHTML = sourceTextarea.value;
+        attachDrawioListeners();
+      }
+    });
+
+    // Formatting Toolbar Handlers (Composer style)
+    document.getElementById('tb-bold').onclick = () => document.execCommand('bold');
+    document.getElementById('tb-italic').onclick = () => document.execCommand('italic');
+    document.getElementById('tb-underline').onclick = () => document.execCommand('underline');
+    document.getElementById('tb-strike').onclick = () => document.execCommand('strikeThrough');
+    document.getElementById('tb-p').onclick = () => document.execCommand('formatBlock', false, 'p');
+    document.getElementById('tb-h1').onclick = () => document.execCommand('formatBlock', false, 'h1');
+    document.getElementById('tb-h2').onclick = () => document.execCommand('formatBlock', false, 'h2');
+    document.getElementById('tb-h3').onclick = () => document.execCommand('formatBlock', false, 'h3');
+    document.getElementById('tb-ul').onclick = () => document.execCommand('insertUnorderedList');
+    document.getElementById('tb-ol').onclick = () => document.execCommand('insertOrderedList');
+    document.getElementById('tb-align-left').onclick = () => document.execCommand('justifyLeft');
+    document.getElementById('tb-align-center').onclick = () => document.execCommand('justifyCenter');
+    document.getElementById('tb-align-right').onclick = () => document.execCommand('justifyRight');
+
+    document.getElementById('tb-link').onclick = () => {
+      const url = prompt('Enter hyperlink URL:', 'https://');
+      if (url) document.execCommand('createLink', false, url);
+    };
+
+    document.getElementById('tb-image').onclick = () => {
+      const src = prompt('Enter image URL or path:');
+      if (src) document.execCommand('insertImage', false, src);
+    };
+
+    document.getElementById('tb-hr').onclick = () => {
+      document.execCommand('insertHorizontalRule');
+    };
+
+    // Text Size Handlers (dropdown and A-/A+ buttons)
+    const tbFontSize = document.getElementById('tb-font-size');
+    tbFontSize.onchange = () => {
+      const val = tbFontSize.value;
+      if (val) {
+        wysiwygPane.focus();
+        document.execCommand('fontSize', false, val);
+        setDirty(true);
+        tbFontSize.value = '';
+      }
+    };
+
+    function stepFontSize(delta) {
+      wysiwygPane.focus();
+      let current = parseInt(document.queryCommandValue('fontSize')) || 3;
+      let next = Math.max(1, Math.min(7, current + delta));
+      document.execCommand('fontSize', false, next.toString());
+      setDirty(true);
+    }
+
+    document.getElementById('tb-size-down').onclick = () => stepFontSize(-1);
+    document.getElementById('tb-size-up').onclick = () => stepFontSize(1);
+
+    // Spell Check Toggle Handler
+    let spellCheckActive = true;
+    const tbSpell = document.getElementById('tb-spell');
+    tbSpell.onclick = () => {
+      spellCheckActive = !spellCheckActive;
+      wysiwygPane.setAttribute('spellcheck', spellCheckActive ? 'true' : 'false');
+      sourceTextarea.setAttribute('spellcheck', spellCheckActive ? 'true' : 'false');
+      if (spellCheckActive) {
+        tbSpell.classList.add('active');
+        tbSpell.textContent = '🔤 Spell: ON';
+        showToast('✓ Spell check enabled (red underlines & right-click fixes)');
+      } else {
+        tbSpell.classList.remove('active');
+        tbSpell.textContent = '🔤 Spell: OFF';
+        showToast('Spell check disabled');
+      }
+    };
+
+    // Insert arbitrary text/character at cursor
+    function insertTextAtCursor(text) {
+      if (activeMode === 'wysiwyg' || activeMode === 'split') {
+        wysiwygPane.focus();
+        document.execCommand('insertText', false, text);
+        setDirty(true);
+        if (activeMode === 'split') {
+          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
+      } else if (activeMode === 'source') {
+        sourceTextarea.focus();
+        const start = sourceTextarea.selectionStart;
+        const end = sourceTextarea.selectionEnd;
+        const val = sourceTextarea.value;
+        sourceTextarea.value = val.substring(0, start) + text + val.substring(end);
+        sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
+        setDirty(true);
+      }
+    }
+
+    // Unicode character palette buttons
+    document.querySelectorAll('.u-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const ch = btn.getAttribute('data-char');
+        if (ch) insertTextAtCursor(ch);
+      };
+    });
+
+    // -----------------------------------------------------------------
+    // LaTeX Math Formula Editor
+    // -----------------------------------------------------------------
+    let editingMathElement = null;
+    const mathModal = document.getElementById('math-modal');
+    const latexInput = document.getElementById('latex-input');
+    const latexPreviewBox = document.getElementById('latex-preview-box');
+    const mathModalTitle = document.getElementById('math-modal-title');
+    const btnApplyMath = document.getElementById('btn-apply-math');
+
+    async function updateLatexPreview() {
+      const tex = latexInput.value.trim();
+      const isDisplay = document.getElementById('math-mode-display').checked;
+      if (!tex) {
+        latexPreviewBox.innerHTML = '<span style="color: #94a3b8; font-size: 13px;">Type LaTeX above to see preview</span>';
+        return;
+      }
+      const wrapped = isDisplay ? `\\[ ${tex} \\]` : `\\( ${tex} \\)`;
+      latexPreviewBox.innerHTML = wrapped;
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        try {
+          await window.MathJax.typesetPromise([latexPreviewBox]);
+        } catch (err) {
+          console.warn('MathJax preview error:', err);
+        }
+      }
+    }
+
+    function openMathEditor(existingTarget = null) {
+      editingMathElement = existingTarget;
+      if (existingTarget) {
+        const rawLatex = decodeURIComponent(existingTarget.getAttribute('data-latex') || '');
+        latexInput.value = rawLatex;
+        const isDisplay = existingTarget.getAttribute('data-display') === 'true' || existingTarget.classList.contains('latex-math-block');
+        document.getElementById('math-mode-display').checked = isDisplay;
+        document.getElementById('math-mode-inline').checked = !isDisplay;
+        mathModalTitle.textContent = '📐 Edit LaTeX Math Formula';
+        btnApplyMath.textContent = 'Apply Changes';
+      } else {
+        latexInput.value = '\\frac{a}{b}';
+        document.getElementById('math-mode-inline').checked = true;
+        mathModalTitle.textContent = '📐 Insert LaTeX Math Formula';
+        btnApplyMath.textContent = 'Insert Formula';
+      }
+
+      mathModal.classList.add('active');
+      latexInput.focus();
+      updateLatexPreview();
+    }
+
+    function closeMathEditor() {
+      mathModal.classList.remove('active');
+      editingMathElement = null;
+    }
+
+    document.getElementById('tb-insert-latex').onclick = () => openMathEditor(null);
+    document.getElementById('btn-close-math').onclick = closeMathEditor;
+    document.getElementById('btn-cancel-math').onclick = closeMathEditor;
+    mathModal.onclick = (e) => {
+      if (e.target === mathModal) closeMathEditor();
+    };
+
+    latexInput.addEventListener('input', updateLatexPreview);
+    document.getElementById('math-mode-inline').addEventListener('change', updateLatexPreview);
+    document.getElementById('math-mode-display').addEventListener('change', updateLatexPreview);
+
+    // Quick chips insert
+    document.querySelectorAll('.m-chip').forEach(chip => {
+      chip.onclick = () => {
+        const tex = chip.getAttribute('data-tex');
+        const start = latexInput.selectionStart;
+        const end = latexInput.selectionEnd;
+        const val = latexInput.value;
+        latexInput.value = val.substring(0, start) + tex + val.substring(end);
+        latexInput.selectionStart = latexInput.selectionEnd = start + tex.length;
+        latexInput.focus();
+        updateLatexPreview();
+      };
+    });
+
+    // Apply / Insert Formula
+    function applyFormula() {
+      const tex = latexInput.value.trim();
+      if (!tex) {
+        closeMathEditor();
+        return;
+      }
+      const isDisplay = document.getElementById('math-mode-display').checked;
+      closeMathEditor();
+
+      if (editingMathElement && editingMathElement.parentElement) {
+        editingMathElement.setAttribute('data-latex', encodeURIComponent(tex));
+        editingMathElement.setAttribute('data-display', isDisplay ? 'true' : 'false');
+        editingMathElement.innerHTML = isDisplay ? `\\[ ${tex} \\]` : `\\( ${tex} \\)`;
+        setDirty(true);
+        typesetMath();
+        showToast('✓ Formula updated');
+      } else {
+        const formulaHtml = isDisplay
+          ? `\n<div class="latex-math-block" data-latex="${encodeURIComponent(tex)}" data-display="true" contenteditable="false" style="cursor: pointer; text-align: center; margin: 12px 0; padding: 4px;" title="Double-click to edit LaTeX">\\[ ${tex} \\]</div>\n<p><br></p>\n`
+          : `<span class="latex-math" data-latex="${encodeURIComponent(tex)}" data-display="false" contenteditable="false" style="cursor: pointer; display: inline-block; padding: 1px 4px; border-radius: 3px;" title="Double-click to edit LaTeX">\\( ${tex} \\)</span> `;
+
+        wysiwygPane.focus();
+        document.execCommand('insertHTML', false, formulaHtml);
+        setDirty(true);
+        attachMathListeners();
+        typesetMath();
+        showToast('✓ LaTeX formula inserted');
+      }
+    }
+
+    btnApplyMath.onclick = applyFormula;
+
+    latexInput.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        applyFormula();
+      }
+    });
+
+    // Attach double-click listener to all math formulas in visual view
+    function attachMathListeners() {
+      const formulas = wysiwygPane.querySelectorAll('.latex-math, .latex-math-block');
+      formulas.forEach(f => {
+        f.setAttribute('contenteditable', 'false');
+        f.style.cursor = 'pointer';
+        f.ondblclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openMathEditor(f);
+        };
+      });
+    }
+
+    // -----------------------------------------------------------------
+    // Draw.io Visual Diagram Integration
+    // -----------------------------------------------------------------
+    let activeOverlay = null;
+    let activeMsgListener = null;
+
+    function closeDrawio() {
+      if (activeMsgListener) {
+        window.removeEventListener('message', activeMsgListener);
+        activeMsgListener = null;
+      }
+      if (activeOverlay) {
+        activeOverlay.remove();
+        activeOverlay = null;
+      }
+    }
+
+    function openDrawioEditor({ svg = null, diagramName = 'diagram', onEmbed = null }) {
+      closeDrawio();
+
+      let rawContent = svg ? (svg.getAttribute('content') || '') : '';
+      try { rawContent = decodeURIComponent(rawContent); } catch {}
+      if (!rawContent) {
+        rawContent = '<mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>';
+      }
+
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px);
+        z-index: 99999; display: flex; flex-direction: column; padding: 16px; box-sizing: border-box;
+      `;
+
+      const header = document.createElement('div');
+      header.style.cssText = `
+        display: flex; align-items: center; justify-content: space-between;
+        background: #1e293b; color: #f8fafc; padding: 10px 16px; border-radius: 8px 8px 0 0;
+        font-family: var(--font-ui); font-size: 14px;
+      `;
+      header.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-weight: 600; color: #38bdf8;">Draw.io Diagram Editor</span>
+          <span style="color: #94a3b8;">•</span>
+          <span style="color: #cbd5e1;">${diagramName}</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="drawio-indicator" style="font-size: 12px; color: #94a3b8;">Click "Embed Changes" or "Save and Exit" to apply</span>
+          <button id="drawio-save-btn" class="btn btn-primary" style="padding: 5px 12px;">💾 Embed Changes</button>
+          <button id="drawio-close-btn" class="btn btn-secondary" style="padding: 5px 10px;">✕ Close</button>
+        </div>
+      `;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
+      iframe.style.cssText = `flex: 1; width: 100%; border: none; border-radius: 0 0 8px 8px; background: #ffffff;`;
+
+      overlay.appendChild(header);
+      overlay.appendChild(iframe);
+      document.body.appendChild(overlay);
+      activeOverlay = overlay;
+
+      header.querySelector('#drawio-close-btn').onclick = closeDrawio;
+
+      const triggerExport = () => {
+        header.querySelector('#drawio-indicator').textContent = 'Exporting diagram...';
+        iframe.contentWindow?.postMessage(JSON.stringify({ action: 'export', format: 'xmlsvg', spinKey: 'saving' }), '*');
+      };
+
+      header.querySelector('#drawio-save-btn').onclick = triggerExport;
+
+      const handleSaveSvg = (svgXml) => {
+        let finalSvg = svgXml.trim().replace(/\s*onclick="[^"]*"/gi, '');
+        if (!finalSvg.includes(`data-diagram-name="${diagramName}"`)) {
+          finalSvg = finalSvg.replace(/<svg\b/i, `<svg data-diagram-name="${diagramName}" `);
+        }
+
+        if (svg && svg.parentElement) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(finalSvg, 'image/svg+xml');
+          const newSvg = doc.querySelector('svg');
+          if (newSvg) {
+            newSvg.style.cssText = svg.style.cssText;
+            newSvg.setAttribute('data-diagram-name', diagramName);
+            newSvg.setAttribute('contenteditable', 'false');
+            newSvg.style.cursor = 'pointer';
+            newSvg.setAttribute('title', 'Double-click to edit diagram in Draw.io');
+            svg.parentElement.replaceChild(newSvg, svg);
+          }
+        } else if (onEmbed) {
+          onEmbed(finalSvg);
+        }
+
+        setDirty(true);
+        if (activeMode === 'split') {
+          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
+        showToast(`✓ Diagram '${diagramName}' embedded!`);
+        setTimeout(closeDrawio, 250);
+      };
+
+      activeMsgListener = async (ev) => {
+        if (ev.source !== iframe.contentWindow) return;
+        let msg = null;
+        try { msg = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data; } catch { return; }
+        if (!msg || !msg.event) return;
+
+        if (msg.event === 'configure') {
+          iframe.contentWindow?.postMessage(JSON.stringify({
+            action: 'configure',
+            config: { defaultEdgeStyle: { edgeStyle: 'orthogonalEdgeStyle', rounded: 0 }, compressXml: false }
+          }), '*');
+        } else if (msg.event === 'init') {
+          iframe.contentWindow?.postMessage(JSON.stringify({
+            action: 'load', xml: rawContent, title: `${diagramName}.drawio`, autosave: 1
+          }), '*');
+        } else if (msg.event === 'save') {
+          triggerExport();
+        } else if (msg.event === 'export') {
+          const rawData = msg.data || '';
+          let decoded = '';
+          if (rawData.startsWith('data:image/svg+xml;base64,')) {
+            const b64 = rawData.substring('data:image/svg+xml;base64,'.length);
+            const binStr = atob(b64);
+            const bytes = new Uint8Array(binStr.length);
+            for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+            decoded = new TextDecoder('utf-8').decode(bytes);
+          } else if (rawData.includes('<svg')) {
+            decoded = rawData;
+          } else {
+            decoded = decodeURIComponent(rawData);
+          }
+          handleSaveSvg(decoded);
+        } else if (msg.event === 'exit') {
+          closeDrawio();
+        }
+      };
+
+      window.addEventListener('message', activeMsgListener);
+    }
+
+    // Attach double-click listener to all diagrams in visual view
+    function attachDrawioListeners() {
+      const svgs = wysiwygPane.querySelectorAll('svg');
+      svgs.forEach((svg, index) => {
+        svg.removeAttribute('onclick');
+        svg.setAttribute('contenteditable', 'false');
+        svg.style.cursor = 'pointer';
+        svg.setAttribute('title', 'Double-click to edit diagram in Draw.io');
+
+        let diagramName = svg.getAttribute('data-diagram-name');
+        if (!diagramName) {
+          diagramName = `diagram_${index + 1}`;
+          svg.setAttribute('data-diagram-name', diagramName);
+        }
+
+        svg.ondblclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openDrawioEditor({ svg, diagramName });
+        };
+      });
+    }
+
+    // Insert New Diagram Button
+    document.getElementById('tb-insert-diagram').onclick = () => {
+      const defaultName = `diag_${Date.now().toString().slice(-4)}`;
+      const name = prompt('Enter a name for the new diagram:', defaultName);
+      if (!name || !name.trim()) return;
+      const cleanName = name.trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      openDrawioEditor({
+        svg: null,
+        diagramName: cleanName,
+        onEmbed: (newSvgXml) => {
+          const block = `\n<div align="center" style="margin: 16px 0;">\n  ${newSvgXml}\n</div>\n<p><br></p>\n`;
+          document.execCommand('insertHTML', false, block);
+          attachDrawioListeners();
+          setDirty(true);
+        }
+      });
+    };
+
+    // Initialize on page load
+    (async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const requested = urlParams.get('path') || urlParams.get('file');
+      if (requested) {
+        await loadFromServerPath(requested);
+      } else {
+        newBlankDocument();
+      }
+    })();
+  </script>
+</body>
+</html>

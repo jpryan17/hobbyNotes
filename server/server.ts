@@ -7,7 +7,7 @@ import http from 'http';
 import https from 'https';
 import { execSync, spawn } from 'child_process';
 import { writeFileSync, readFileSync, statSync, existsSync, readdirSync, unlinkSync, copyFileSync, mkdirSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, relative, dirname, isAbsolute, extname, basename } from 'path';
 import { pathToFileURL } from 'url';
 
 // Load environment variables from .env
@@ -731,23 +731,305 @@ app.post('/api/promote-staged-segments', async (req: Request, res: Response) => 
 });
 
 // ---------------------------------------------------------------------
-// 4. Legacy Editor Endpoints (Preserved for compatibility)
+// 4. Standalone Editor & Workspace Umbrella File Endpoints
 // ---------------------------------------------------------------------
 
-app.get('/startEditor/:app/:segment', (req: Request, res: Response) => {
-    const { app: appName, segment } = req.params;
-    let relativePath = `./${appName}/segs/${segment}.html`;
-    if (!existsSync(resolve(process.cwd(), relativePath))) {
-        const altApp = appName === 'app1' ? 'app2' : 'app1';
-        const altPath = `./${altApp}/segs/${segment}.html`;
-        if (existsSync(resolve(process.cwd(), altPath))) {
-            relativePath = altPath;
+const UMBRELLA_DIR = resolve(process.cwd());
+
+function validateUmbrellaPath(userPath: string): { fullPath: string; relPath: string } {
+    if (!userPath || typeof userPath !== 'string') {
+        throw new Error('File path is required.');
+    }
+    let clean = userPath.trim().replace(/^file:\/\/\/?/i, '');
+
+    // Allow pure segment name shortcut (e.g. "modelsOverview" -> "app1/segs/modelsOverview.html")
+    if (!clean.includes('/') && !clean.includes('\\') && !clean.endsWith('.html') && !clean.endsWith('.htm')) {
+        if (clean === 'overview') {
+            clean = 'overview.html';
+        } else {
+            clean = `app1/segs/${clean}.html`;
         }
     }
-    const absPath = resolve(process.cwd(), relativePath);
-    console.log(`launching SeaMonkey Composer for ${absPath}...`);
-    spawn('SeaMonkey', ['-editor', absPath]);
-    res.type('text/html').send(`editor launched for ${segment}`);
+
+    // Resolve absolute paths directly, or relative paths against workspace root
+    const fullPath = isAbsolute(clean) ? resolve(clean) : resolve(UMBRELLA_DIR, clean);
+    const rel = relative(UMBRELLA_DIR, fullPath);
+    const relPath = (!rel.startsWith('..') && !isAbsolute(rel)) ? rel.replace(/\\/g, '/') : fullPath.replace(/\\/g, '/');
+
+    return { fullPath, relPath };
+}
+
+function scanProjectHtmlFiles(): Array<{ path: string; name: string; group: string; mtime: number }> {
+    const results: Array<{ path: string; name: string; group: string; mtime: number }> = [];
+    const ignoreDirs = new Set(['node_modules', '.git', '.gemini', 'coverage', '.cache', 'dist_backup', 'scratch']);
+
+    function walk(dir: string, baseRel: string) {
+        if (!existsSync(dir)) return;
+        try {
+            const entries = readdirSync(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                if (entry.isDirectory()) {
+                    if (!ignoreDirs.has(entry.name)) {
+                        walk(resolve(dir, entry.name), baseRel ? `${baseRel}/${entry.name}` : entry.name);
+                    }
+                } else if (entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm'))) {
+                    const rel = (baseRel ? `${baseRel}/${entry.name}` : entry.name).replace(/\\/g, '/');
+                    let group = 'Workspace Files';
+                    if (rel.startsWith('app1/segs/')) group = 'App 1 Segments';
+                    else if (rel.startsWith('app2/segs/')) group = 'App 2 Segments';
+                    else if (rel.startsWith('app1/dist/')) group = 'App 1 Dist';
+                    else if (rel.startsWith('server/')) group = 'Server Templates';
+                    else if (!baseRel) group = 'Root Documents';
+
+                    let mtime = 0;
+                    try {
+                        mtime = statSync(resolve(dir, entry.name)).mtimeMs;
+                    } catch {}
+
+                    results.push({
+                        path: rel,
+                        name: entry.name,
+                        group,
+                        mtime
+                    });
+                }
+            }
+        } catch {}
+    }
+
+    walk(UMBRELLA_DIR, '');
+    return results;
+}
+
+// List all HTML files under the project umbrella
+app.get('/api/editor/files', (_req: Request, res: Response) => {
+    try {
+        const files = scanProjectHtmlFiles();
+        res.json({
+            status: 'success',
+            umbrellaDir: UMBRELLA_DIR,
+            count: files.length,
+            files
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// Load any HTML file within the project umbrella
+app.get('/api/editor/file', (req: Request, res: Response) => {
+    try {
+        const queryPath = (req.query.path || req.query.file || req.query.segId) as string;
+        if (!queryPath) {
+            return res.status(400).json({ status: 'error', message: 'Parameter "path" or "file" is required.' });
+        }
+        const { fullPath, relPath } = validateUmbrellaPath(queryPath);
+        if (!existsSync(fullPath)) {
+            return res.status(404).json({ status: 'error', message: `File not found: ${relPath}` });
+        }
+        const rawHtml = readFileSync(fullPath, 'utf8');
+        res.json({
+            status: 'success',
+            path: relPath,
+            fullPath,
+            rawHtml,
+            isFullDoc: /<html[^>]*>/i.test(rawHtml)
+        });
+    } catch (err: any) {
+        res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+
+// Save or replace any HTML file within the project umbrella
+app.post('/api/editor/save', (req: Request, res: Response) => {
+    const { path: queryPath, content, saveMode = 'body' } = req.body;
+    if (!queryPath || typeof content !== 'string') {
+        return res.status(400).json({ status: 'error', message: 'path and content are required.' });
+    }
+
+    try {
+        const { fullPath, relPath } = validateUmbrellaPath(queryPath);
+
+        // Protect hobbyNotes repository files from standalone editor overwrites
+        if (fullPath.startsWith(UMBRELLA_DIR)) {
+            return res.status(403).json({
+                status: 'error',
+                message: 'hobbyNotes project files are protected and off-limits in the standalone editor to prevent accidental overwrites. Please save your document to an external folder or use the native save picker.'
+            });
+        }
+
+        const parent = dirname(fullPath);
+        if (!existsSync(parent)) {
+            mkdirSync(parent, { recursive: true });
+        }
+
+        let existingHtml: string | null = null;
+        if (existsSync(fullPath)) {
+            existingHtml = readFileSync(fullPath, 'utf8');
+        }
+
+        let finalContent = content;
+        if (saveMode === 'body') {
+            const segName = basename(fullPath, extname(fullPath));
+            finalContent = formatSegmentFileHtml(existingHtml, content, segName);
+        }
+
+        writeFileSync(fullPath, finalContent, 'utf8');
+        console.log(`[server] Directly replaced file ${relPath} (${Buffer.byteLength(finalContent)} bytes)`);
+
+        // If the saved file is in app1/segs or app2/segs, auto-regenerate segsFile.json
+        if (relPath.startsWith('app1/segs/')) {
+            try {
+                execSync('node ./nodeUtils/public/genSegsFiles.js app1', { cwd: process.cwd() });
+                console.log('[server] Auto-regenerated segsFile.json for app1');
+            } catch (genErr) {
+                console.warn('[server Warning] genSegsFiles app1 error:', genErr);
+            }
+        } else if (relPath.startsWith('app2/segs/')) {
+            try {
+                execSync('node ./nodeUtils/public/genSegsFiles.js app2', { cwd: process.cwd() });
+                console.log('[server] Auto-regenerated segsFile.json for app2');
+            } catch (genErr) {
+                console.warn('[server Warning] genSegsFiles app2 error:', genErr);
+            }
+        }
+
+        // Overview / modelsOverview bidirectional synchronization
+        if (relPath === 'app1/segs/modelsOverview.html') {
+            const rootOverview = resolve(process.cwd(), 'overview.html');
+            if (existsSync(rootOverview)) {
+                const rootExisting = readFileSync(rootOverview, 'utf8');
+                const formattedOverview = formatSegmentFileHtml(rootExisting, content, 'overview');
+                writeFileSync(rootOverview, formattedOverview, 'utf8');
+                console.log('[server] Auto-synced modelsOverview to overview.html');
+            }
+        } else if (relPath === 'overview.html') {
+            const modelsOverview = resolve(process.cwd(), 'app1/segs/modelsOverview.html');
+            if (existsSync(modelsOverview)) {
+                const segExisting = readFileSync(modelsOverview, 'utf8');
+                const formattedSeg = formatSegmentFileHtml(segExisting, content, 'modelsOverview');
+                writeFileSync(modelsOverview, formattedSeg, 'utf8');
+                console.log('[server] Auto-synced overview.html to modelsOverview.html');
+            }
+        }
+
+        res.json({
+            status: 'success',
+            ok: true,
+            path: relPath,
+            fullPath,
+            bytes: Buffer.byteLength(finalContent),
+            savedAt: new Date().toISOString(),
+            message: `File '${relPath}' saved successfully.`
+        });
+    } catch (err: any) {
+        console.error('[server Error] Editor save failed:', err);
+        res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+
+// Backwards compatibility endpoints
+app.get('/api/segment-files', (_req: Request, res: Response) => {
+    try {
+        const appName = 'app1';
+        const segsDir = resolve(process.cwd(), `${appName}/segs`);
+        const files: string[] = [];
+        if (existsSync(segsDir)) {
+            const list = readdirSync(segsDir)
+                .filter(f => f.endsWith('.html') && !f.includes('File.json'))
+                .map(f => f.replace(/\.html$/, ''));
+            files.push(...list);
+        }
+        if (existsSync(resolve(process.cwd(), 'overview.html'))) {
+            files.unshift('overview');
+        }
+        res.json({ status: 'success', files });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+app.get('/api/segment-raw/:segId', (req: Request, res: Response) => {
+    const { segId } = req.params;
+    const appName = (req.query.app as string) || 'app1';
+    try {
+        let filePath = '';
+        const idStr = String(segId);
+        if (idStr === 'overview' || idStr === 'overview.html') {
+            filePath = resolve(process.cwd(), 'overview.html');
+        } else {
+            const cleanId = idStr.replace(/\.html$/, '');
+            filePath = resolve(process.cwd(), `${appName}/segs/${cleanId}.html`);
+        }
+
+        if (!existsSync(filePath)) {
+            return res.status(404).json({ status: 'error', message: `File not found: ${filePath}` });
+        }
+
+        const rawHtml = readFileSync(filePath, 'utf8');
+        res.json({ status: 'success', segId: idStr, rawHtml });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+app.post('/api/save-segment-direct', (req: Request, res: Response) => {
+    const { app: appName = 'app1', segId, contentHtml } = req.body;
+    if (!segId || typeof contentHtml !== 'string') {
+        return res.status(400).json({ status: 'error', message: 'segId and contentHtml are required.' });
+    }
+
+    try {
+        const targetRel = segId === 'overview' || segId === 'overview.html' ? 'overview.html' : `${appName}/segs/${String(segId).replace(/\.html$/, '')}.html`;
+        const { fullPath, relPath } = validateUmbrellaPath(targetRel);
+
+        let existingHtml: string | null = null;
+        if (existsSync(fullPath)) {
+            existingHtml = readFileSync(fullPath, 'utf8');
+        }
+
+        const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, String(segId));
+        writeFileSync(fullPath, formattedHtml, 'utf8');
+
+        if (segId === 'modelsOverview') {
+            const rootOverview = resolve(process.cwd(), 'overview.html');
+            if (existsSync(rootOverview)) {
+                let existingOverview = readFileSync(rootOverview, 'utf8');
+                const formattedOverview = formatSegmentFileHtml(existingOverview, contentHtml, 'overview');
+                writeFileSync(rootOverview, formattedOverview, 'utf8');
+            }
+        }
+
+        if (relPath.startsWith('app1/segs/')) {
+            try {
+                execSync(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
+            } catch (genErr) {
+                console.warn(`[server Warning] Failed to regenerate segsFile.json:`, genErr);
+            }
+        }
+
+        res.json({
+            status: 'success',
+            ok: true,
+            segId,
+            filePath: fullPath,
+            bytes: Buffer.byteLength(formattedHtml),
+            savedAt: new Date().toISOString(),
+            message: `Segment '${segId}' saved directly to disk.`
+        });
+    } catch (err: any) {
+        console.error('[server Error] Direct save failed:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+app.get(['/editor', '/editor/:app/:segment', '/startEditor/:app/:segment'], (_req: Request, res: Response) => {
+    const editorHtmlPath = resolve(process.cwd(), 'server/standaloneEditor.html');
+    if (existsSync(editorHtmlPath)) {
+        res.sendFile(editorHtmlPath);
+    } else {
+        res.redirect('/console');
+    }
 });
 
 app.get(['/getSegs/:app', '/reload/:app', '/reload/:app/:seg'], (req: Request, res: Response) => {

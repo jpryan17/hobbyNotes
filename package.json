@@ -4,6 +4,7 @@
   "description": "Mathematics and the Middle Way (middlewaymath.app)",
   "scripts": {
     "dev": "node ./nodeUtils/public/startApp1.js",
+    "editor": "npm run utilsC && node ./nodeUtils/public/startEditor.js",
     "build": "npm run utilsC && npm run stencils && npm run leanCache && npm run compile && npm run segs && npm run index",
     "build:all": "npm run utilsC && npm run stencils && npm run leanCache:force && npm run compile && npm run segs && npm run index",
     "compile": "cd ./app1 && npx tsc",

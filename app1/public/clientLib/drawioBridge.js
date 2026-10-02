@@ -126,27 +126,56 @@ function decodeXmlSvgData(data) {
     }
     return data;
 }
-async function openDrawioModal(svg, app, segId, diagramName, onSave) {
+export async function openDrawioModal(svgOrOptions, appArg, segIdArg, diagramNameArg, onSaveArg) {
     closeDrawioModal();
-    let rawContent = svg.getAttribute('content') || '';
-    try {
-        rawContent = decodeURIComponent(rawContent);
+    let svg = null;
+    let app = 'app1';
+    let segId = '';
+    let diagramName = '';
+    let onSave = undefined;
+    let onInsert = undefined;
+    if (svgOrOptions && !(svgOrOptions instanceof Element) && typeof svgOrOptions === 'object') {
+        const opts = svgOrOptions;
+        svg = opts.svg || null;
+        app = opts.app || 'app1';
+        segId = opts.segId || '';
+        diagramName = opts.diagramName || 'diagram';
+        onSave = opts.onSave;
+        onInsert = opts.onInsert;
     }
-    catch {
-        // Already decoded
+    else {
+        svg = svgOrOptions;
+        app = appArg || 'app1';
+        segId = segIdArg || '';
+        diagramName = diagramNameArg || 'diagram';
+        onSave = onSaveArg;
     }
-    // Fallback if content was not directly embedded on the SVG attribute
-    if (!rawContent) {
+    let rawContent = '';
+    if (svg) {
+        rawContent = svg.getAttribute('content') || '';
         try {
-            const resp = await fetch(`./segPics/${diagramName}.drawio.svg`);
-            if (resp.ok) {
-                const text = await resp.text();
-                const m = text.match(/content="([^"]+)"/i);
-                if (m)
-                    rawContent = decodeURIComponent(m[1]);
-            }
+            rawContent = decodeURIComponent(rawContent);
         }
-        catch { }
+        catch {
+            // Already decoded
+        }
+        // Fallback if content was not directly embedded on the SVG attribute
+        if (!rawContent) {
+            try {
+                const resp = await fetch(`./segPics/${diagramName}.drawio.svg`);
+                if (resp.ok) {
+                    const text = await resp.text();
+                    const m = text.match(/content="([^"]+)"/i);
+                    if (m)
+                        rawContent = decodeURIComponent(m[1]);
+                }
+            }
+            catch { }
+        }
+    }
+    if (!rawContent) {
+        // Clean blank canvas template for new diagrams
+        rawContent = '<mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>';
     }
     // Create modal overlay
     const overlay = document.createElement('div');
@@ -285,19 +314,30 @@ async function openDrawioModal(svg, app, segId, diagramName, onSave) {
         // Extract embedded XML model if present
         const contentMatch = finalSvg.match(/content="([^"]+)"/i);
         const updatedModelXml = contentMatch ? decodeURIComponent(contentMatch[1]) : '';
-        // 1. Update in-situ DOM element immediately
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(finalSvg, 'image/svg+xml');
-        const newSvg = doc.querySelector('svg');
-        if (newSvg && svg.parentElement) {
-            newSvg.style.cssText = svg.style.cssText;
-            newSvg.setAttribute('data-diagram-name', diagramName);
-            newSvg.setAttribute('contenteditable', 'false');
-            newSvg.style.cursor = 'pointer';
-            newSvg.setAttribute('title', 'Double-click to edit diagram in Draw.io');
-            svg.parentElement.replaceChild(newSvg, svg);
-            svg = newSvg;
-            rawContent = newSvg.getAttribute('content') || updatedModelXml;
+        // 1. Update in-situ DOM element immediately if editing an existing SVG
+        if (svg && svg.parentElement) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(finalSvg, 'image/svg+xml');
+            const newSvg = doc.querySelector('svg');
+            if (newSvg) {
+                newSvg.style.cssText = svg.style.cssText;
+                newSvg.setAttribute('data-diagram-name', diagramName);
+                newSvg.setAttribute('contenteditable', 'false');
+                newSvg.style.cursor = 'pointer';
+                newSvg.setAttribute('title', 'Double-click to edit diagram in Draw.io');
+                svg.parentElement.replaceChild(newSvg, svg);
+                svg = newSvg;
+                rawContent = newSvg.getAttribute('content') || updatedModelXml;
+            }
+        }
+        else if (onInsert) {
+            // 1b. Call insertion callback for newly created diagrams
+            try {
+                onInsert(finalSvg);
+            }
+            catch (insertErr) {
+                console.warn('[drawioBridge] onInsert callback error:', insertErr);
+            }
         }
         // 2. Invoke sync callback if provided (updates Studio WYSIWYG editor textarea & dirty state)
         if (onSave) {
@@ -429,4 +469,22 @@ export function closeDrawioModal() {
         activeOverlay.parentElement.removeChild(activeOverlay);
         activeOverlay = null;
     }
+}
+/**
+ * Prompts user for a diagram name and opens Draw.io with a blank canvas to insert a new diagram.
+ */
+export function openNewDrawioModal(app, segId, suggestedName, onInsertCallback, onSaveCallback) {
+    const defaultName = suggestedName || `${segId || 'diagram'}_${Date.now().toString().slice(-4)}`;
+    const inputName = window.prompt('Enter a unique name for this new diagram:', defaultName);
+    if (!inputName || !inputName.trim())
+        return;
+    const diagramName = inputName.trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+    openDrawioModal({
+        svg: null,
+        app,
+        segId,
+        diagramName,
+        onInsert: onInsertCallback,
+        onSave: onSaveCallback,
+    });
 }
