@@ -334,7 +334,7 @@ export class OpController implements IBTreeController {
   init(): void {
     const opName = this.op === '+' ? 'addition' : 'multiplication';
     this.diagram.setStatusPrompt([
-      [`Select first operand for Surreal ${opName} (${this.op})`, '#1565c0'],
+      [`Select first operand for ${opName} (${this.op})`, '#1565c0'],
     ]);
   }
 
@@ -462,7 +462,7 @@ export class IsoController implements IBTreeController {
     }
 
     this.diagram.setStatusPrompt([
-      ['Surreal: ', '#37474f'],
+      ['Tree: ', '#37474f'],
       [setVal(exp1), c1],
       [` ${this.currentOp} `, '#37474f'],
       [setVal(exp2), c2],
