@@ -7,7 +7,7 @@ export const MODULE_CATALOG = {
         id: 'simpler_options',
         funcName: 'SimplerOptions',
         name: 'Extract Simpler Tree Ancestor Options',
-        badge: 'Tree Decomposition',
+        badge: 'Tree Decomposition', signature: 'Node → (Set of Node × Set of Node)',
         summary: 'Extracts all ancestral prefixes of node X born on earlier days, partitioned into left options (< X) and right options (> X).',
         domain: 'X ∈ {+, -}* (Tree Node) ⟹ (XL, XR) where each option has birthday < birthday(X)',
         primitives: [
@@ -21,7 +21,7 @@ export const MODULE_CATALOG = {
             tree: 'O(d) prefix extractions, where d is the birthday (string depth) of node X',
             dyadic: 'O(1) sign-string prefix slice and set insertion',
         },
-        code: `function SimplerOptions(X: Node): (Set of Node, Set of Node)
+        code: `rule SimplerOptions(X: Node) : (Set of Node, Set of Node) ≔
 var
     XL, XR: Set of Node;
     i: Integer;
@@ -61,7 +61,7 @@ end;`,
         id: 'cut',
         funcName: 'Cut',
         name: 'Conway Cut: Earliest Birthday Node Between Bounds',
-        badge: 'Tree Simplicity',
+        badge: 'Tree Simplicity', signature: '(Node × Node) → Node',
         summary: 'Finds the unique earliest-born (simplest) Conway tree node strictly between a lower bound and upper bound by binary walking from root [].',
         domain: 'leftBound, rightBound ∈ {+, -}* with leftBound < rightBound ⟹ candidate Node',
         primitives: [
@@ -74,7 +74,7 @@ end;`,
             tree: 'O(d) tree walk from root [] to the simplest intermediate node born on day d',
             dyadic: 'O(1) binary mediant branch navigation',
         },
-        code: `function Cut(leftBound: Node, rightBound: Node): Node
+        code: `rule Cut(leftBound: Node, rightBound: Node) : Node ≔
 var
     candidate: Node;
 begin
@@ -110,7 +110,7 @@ end;`,
         id: 'conway_add',
         funcName: 'ConwayAdd',
         name: 'Conway Inductive Addition',
-        badge: 'Tree-Inductive Arithmetic',
+        badge: 'Tree-Inductive Arithmetic', signature: '(Node × Node) → Node',
         summary: 'Evaluates the exact sum X + Y of two Conway numbers directly on their tree sign paths by recursive options reduction and Conway cut.',
         domain: 'X, Y ∈ {+, -}* (Tree Nodes, with [] at root 0)',
         primitives: [
@@ -126,7 +126,7 @@ end;`,
             tree: 'O(4^d) recursive option calls (explodes exponentially with birthday d)',
             dyadic: 'O(1) aligned bit-shift and 32-bit integer add in the ring (𝔻, +, ·)',
         },
-        code: `function ConwayAdd(X: Node, Y: Node): Node
+        code: `rule ConwayAdd(X: Node, Y: Node) : Node ≔
 var
     XL, XR, YL, YR: Set of Node;
     leftResults, rightResults: Set of Node;
@@ -174,7 +174,7 @@ end;`,
         id: 'conway_order',
         funcName: 'ConwayLessEq',
         name: 'Conway Inductive Order (X ≤ Y)',
-        badge: 'Tree-Inductive Order',
+        badge: 'Tree-Inductive Order', signature: '(Node × Node) → 𝔹',
         summary: 'Determines if node X ≤ Y directly on Conway tree options: no left option of X can be ≥ Y, and no right option of Y can be ≤ X.',
         domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ 1 if X ≤ Y else 0',
         primitives: [
@@ -186,7 +186,7 @@ end;`,
             tree: 'O(2^(d_x + d_y)) mutual recursive option evaluations over earlier birthdays',
             dyadic: 'O(1) sign comparison and bit alignment in the ordered field (𝔻, ≤)',
         },
-        code: `function ConwayLessEq(X: Node, Y: Node): Integer
+        code: `rule ConwayLessEq(X: Node, Y: Node) : Integer ≔
 var
     XL, XR, YL, YR: Set of Node;
     xL, yR: Node;
@@ -233,7 +233,7 @@ end;`,
         id: 'conway_sort',
         funcName: 'ConwaySort',
         name: 'Conway Total Order Sort',
-        badge: 'Tree-Inductive Sorting',
+        badge: 'Tree-Inductive Sorting', signature: 'Array of Node → Array of Node',
         summary: 'Sorts an array of Conway tree nodes into ascending linear order strictly using the recursive ConwayLessEq order predicate.',
         domain: 'A: Array of Node ⟹ Sorted A such that A[0] ≤ A[1] ≤ ... ≤ A[n-1]',
         primitives: [
@@ -244,7 +244,7 @@ end;`,
             tree: 'O(n² · 2^d) inductive option comparisons across array elements',
             dyadic: 'O(n log n) standard numeric sort using 64-bit integer compare',
         },
-        code: `function ConwaySort(A: Array of Node, n: Integer): Array of Node
+        code: `rule ConwaySort(A: Array of Node, n: Integer) : Array of Node ≔
 var
     i, j: Integer;
     key: Node;
@@ -285,7 +285,7 @@ end;`,
         id: 'conway_sub',
         funcName: 'ConwaySub',
         name: 'Conway Inductive Subtraction',
-        badge: 'Tree-Inductive Arithmetic',
+        badge: 'Tree-Inductive Arithmetic', signature: '(Node × Node) → Node',
         summary: 'Evaluates the exact difference X - Y of two Conway numbers as X + (-Y) via Conway tree negation and addition.',
         domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X - Y',
         primitives: [
@@ -296,7 +296,7 @@ end;`,
             tree: 'O(4^d) option tree expansion inherited from ConwayAdd',
             dyadic: 'O(1) aligned bit-shift and integer subtraction in the ring (𝔻, +, ·)',
         },
-        code: `function ConwaySub(X: Node, Y: Node): Node
+        code: `rule ConwaySub(X: Node, Y: Node) : Node ≔
 var
     negY: Node;
 begin
@@ -322,7 +322,7 @@ end;`,
         id: 'conway_mul',
         funcName: 'ConwayMul',
         name: 'Conway Inductive Multiplication',
-        badge: 'Tree-Inductive Arithmetic',
+        badge: 'Tree-Inductive Arithmetic', signature: '(Node × Node) → Node',
         summary: 'Evaluates the exact product X · Y of two Conway numbers directly on their tree sign paths via 4-way recursive cross options and Conway cut.',
         domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X · Y',
         primitives: [
@@ -336,7 +336,7 @@ end;`,
             tree: 'Hyper-exponential option explosion: each recursive step branches into 4 products, 2 additions, and 1 subtraction',
             dyadic: 'O(1) single integer multiplication and denominator bit addition: (m₁/2^e₁) · (m₂/2^e₂) = (m₁·m₂)/2^(e₁+e₂)',
         },
-        code: `function ConwayMul(X: Node, Y: Node): Node
+        code: `rule ConwayMul(X: Node, Y: Node) : Node ≔
 var
     XL, XR, YL, YR: Set of Node;
     leftResults, rightResults: Set of Node;
@@ -406,7 +406,7 @@ end;`,
         id: 'conway_neg',
         funcName: 'ConwayNeg',
         name: 'Conway Tree Negation (-X)',
-        badge: 'Tree Reflection Primitive',
+        badge: 'Tree Reflection Primitive', signature: 'Node → Node',
         summary: 'Inverts every sign step (+ <-> -) along the path, reflecting the node across the tree root 0.',
         domain: 'X ∈ {+, -}* ⟹ -X ∈ {+, -}*',
         primitives: [
@@ -417,7 +417,7 @@ end;`,
             tree: 'O(d) sign string inversion where d is birthday depth',
             dyadic: 'O(1) numerator integer negation in (𝔻, +, ·)',
         },
-        code: `function ConwayNeg(X: Node): Node
+        code: `rule ConwayNeg(X: Node) : Node ≔
 var
     res: Node;
     i: Integer;
@@ -447,7 +447,7 @@ end;`,
         id: 'euler_compounding',
         funcName: 'EulerExp',
         name: 'Euler Hyperfinite Compounding in 𝔻',
-        badge: 'Transcendental Dyadic Engine',
+        badge: 'Transcendental Dyadic Engine', signature: '(𝔻 × ℕ) → 𝔻',
         summary: 'Evaluates exp(x) = (1 + x/2^K)^(2^K) using purely dyadic bit-shifts and K repeated squarings in the ring (𝔻, +, ·).',
         domain: 'x ∈ 𝔻 (Dyadic Rational / Tree Node), K ∈ ℕ (e.g. K = 12)',
         primitives: [
@@ -461,7 +461,7 @@ end;`,
             tree: 'Zero calculus limits, zero infinite series, zero floating-point math',
             dyadic: '1 bit-shift, 1 integer add, K repeated squarings in (𝔻, ·)',
         },
-        code: `function EulerExp(x: Node, K: Integer): Node
+        code: `rule EulerExp(x: Node, K: Integer) : Node ≔
 var
     dx, delta, u: Dyadic;
     i: Integer;
@@ -499,7 +499,7 @@ end;`,
         id: 'kinematics_step',
         funcName: 'KinematicStep',
         name: 'Discrete Kinematic State Update in (𝔻, +, ·)',
-        badge: 'Newtonian Difference Engine',
+        badge: 'Newtonian Difference Engine', signature: '(𝔻 × 𝔻 × 𝔻) → (𝔻 × 𝔻)',
         summary: 'Evaluates discrete free-fall velocity v = v₀ ⊖ (g ⊗ t) and trajectory displacement s = (v₀ ⊗ t) ⊖ (1/2 ⊗ g ⊗ t²) strictly in the ring of dyadic rationals.',
         domain: 'v₀, g, t ∈ 𝔻 (Exact Dyadic Rationals on the 2-Successor Tree)',
         primitives: [
@@ -512,7 +512,7 @@ end;`,
             tree: 'Finite difference stepping across discrete 2-successor rational tree',
             dyadic: 'Exact integer bit-shifts and ring additions; zero floating-point drift',
         },
-        code: `function KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic): (Dyadic, Dyadic)
+        code: `rule KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic) : (Dyadic, Dyadic) ≔
 var
     gt, halfG, t2, v, s: Dyadic;
 begin
@@ -549,7 +549,7 @@ end;`,
         id: 'cordic_angle',
         funcName: 'CordicAngle',
         name: 'Elementary CORDIC Rotation Angle Table',
-        badge: 'Discrete Trigonometry',
+        badge: 'Discrete Trigonometry', signature: 'ℕ → 𝔻',
         summary: 'Provides the exact dyadic elementary rotation angle arctan(2^-i) for iteration step i without transcendental library calls.',
         domain: 'i ∈ [0 .. N-1] ⟹ angle θ_i ∈ 𝔻',
         primitives: [
@@ -559,7 +559,7 @@ end;`,
             tree: 'O(1) discrete constant projection from predefined 16-step dyadic lattice',
             dyadic: 'O(1) table lookup with zero runtime transcendentals',
         },
-        code: `function CordicAngle(i: Integer): Dyadic
+        code: `rule CordicAngle(i: Integer) : Dyadic ≔
 begin
     // Table of elementary dyadic rotation angles arctan(2^-i)
     // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...
@@ -581,6 +581,7 @@ end;`,
         funcName: 'CordicRotor',
         name: 'Dyadic CORDIC Unit Rotor Projection',
         badge: 'Discrete Trigonometric Engine',
+        signature: '(𝔻 × 𝔻 × 𝔻 × ℕ) → (𝔻 × 𝔻)',
         summary: 'Evaluates circular trigonometric coordinates (cos θ, sin θ) through N discrete dyadic rotations using only power-of-two bit-shifts and additions.',
         domain: 'θ ∈ 𝔻, step index i ∈ [0 .. N-1] ⟹ coordinate pair (x, y) ∈ 𝔻²',
         primitives: [
@@ -594,7 +595,7 @@ end;`,
             tree: 'Discrete angular winding along binary unit circle lattice',
             dyadic: 'N elementary shifts and additions; zero Math.sin / Math.cos dependency',
         },
-        code: `function CordicRotor(theta: Dyadic, N: Integer): (Dyadic, Dyadic)
+        code: `rule CordicRotor(theta: Dyadic, N: Integer) : (Dyadic, Dyadic) ≔
 var
     x, y, z, nextX, nextY: Dyadic;
     d, i: Integer;
@@ -643,6 +644,7 @@ end;`,
         funcName: 'HeatDiffusionStep',
         name: 'Discrete Laplacian Thermal Diffusion in 𝔻',
         badge: 'Discrete Field Engine',
+        signature: '(Array of 𝔻 × 𝔻 × 𝔻 × 𝔻) → Array of 𝔻',
         summary: 'Advances 1D thermal distribution across spatial slices using the discrete second-difference operator in the ring (𝔻, +, ·).',
         domain: 'T[i] ∈ 𝔻, diffusion coefficient α ∈ 𝔻 (α ≤ 1/2 for stability)',
         primitives: [
@@ -656,7 +658,7 @@ end;`,
             tree: 'Local discrete interaction across spatial neighbor tree',
             dyadic: 'O(M) shifts and additions per time-tick; unconditionally exact over 𝔻',
         },
-        code: `function HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer): Array of Dyadic
+        code: `rule HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer) : Array of Dyadic ≔
 var
     nextT: Array of Dyadic;
     i: Integer;
@@ -697,6 +699,7 @@ end;`,
         funcName: 'BayesUpdate',
         name: 'Discrete Bayesian Posterior Update in 𝔻',
         badge: 'Probability Logic Engine',
+        signature: '(Array of 𝔻 × Array of 𝔻) → Array of 𝔻',
         summary: 'Computes posterior probability P(H | E) = P(E | H) · P(H) / P(E) over a finite discrete hypothesis partition strictly in (𝔻, +, ·).',
         domain: 'Prior, Likelihood ∈ 𝔻 ∩ [0, 1], Hypothesis Space Ω',
         primitives: [
@@ -709,7 +712,7 @@ end;`,
             tree: 'Partition branching on finite hypothesis decision tree',
             dyadic: 'Ring multiplications and dyadic quotient; zero measure-theoretic integrals',
         },
-        code: `function BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic): Dyadic
+        code: `rule BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic) : Dyadic ≔
 var
     priorNotH, jointH, jointNotH, totalEvidence, posterior: Dyadic;
 begin
@@ -744,7 +747,7 @@ end;`,
         id: 'maximum',
         funcName: 'Maximum',
         name: 'Option Set Supremum (Maximum)',
-        badge: 'Set Extremum Primitive',
+        badge: 'Set Extremum Primitive', signature: 'Set of Node → Node',
         summary: 'Scans a finite set of Conway tree options to find the maximal (greatest) node according to the surreal tree order.',
         domain: 'S ⊂ {+, -}* (Finite Option Set) ⟹ m ∈ S such that ∀ x ∈ S, x ≤ m',
         primitives: [
@@ -757,7 +760,7 @@ end;`,
             tree: 'O(|S|) comparisons along binary sign trees',
             dyadic: 'O(|S|) 1-to-1 sign sequence comparisons',
         },
-        code: `function Maximum(S: Set of Node): Node
+        code: `rule Maximum(S: Set of Node) : Node ≔
 var
     m, x: Node;
 begin
@@ -790,7 +793,7 @@ end;`,
         id: 'minimum',
         funcName: 'Minimum',
         name: 'Option Set Infimum (Minimum)',
-        badge: 'Set Extremum Primitive',
+        badge: 'Set Extremum Primitive', signature: 'Set of Node → Node',
         summary: 'Scans a finite set of Conway tree options to find the minimal (least) node according to the surreal tree order.',
         domain: 'S ⊂ {+, -}* (Finite Option Set) ⟹ m ∈ S such that ∀ x ∈ S, x ≥ m',
         primitives: [
@@ -803,7 +806,7 @@ end;`,
             tree: 'O(|S|) comparisons along binary sign trees',
             dyadic: 'O(|S|) 1-to-1 sign sequence comparisons',
         },
-        code: `function Minimum(S: Set of Node): Node
+        code: `rule Minimum(S: Set of Node) : Node ≔
 var
     m, x: Node;
 begin
@@ -836,7 +839,7 @@ end;`,
         id: 'empty_set',
         funcName: 'EmptySet',
         name: 'Empty Option Set Allocator',
-        badge: 'Option Set Lifecycle Primitive',
+        badge: 'Option Set Lifecycle Primitive', signature: '() → Set of Node',
         summary: 'Initializes an empty finite discrete option collection ∅ born before the current generation day.',
         domain: '() ⟹ ∅ (Empty Option Collection)',
         primitives: [
@@ -846,7 +849,7 @@ end;`,
             tree: 'O(1) allocation of empty ancestor collection',
             dyadic: 'O(1) set reference creation',
         },
-        code: `function EmptySet(): Set of Node
+        code: `rule EmptySet() : Set of Node ≔
 var
     S: Set of Node;
 begin
@@ -869,7 +872,7 @@ end;`,
         id: 'insert',
         funcName: 'Insert',
         name: 'Option Set Inclusion',
-        badge: 'Option Set Inclusion Primitive',
+        badge: 'Option Set Inclusion Primitive', signature: '(Set of Node × Node) → Set of Node',
         summary: 'Inserts candidate tree node into an ancestral option collection S if not already present.',
         domain: 'S ⊂ {+, -}*, item ∈ {+, -}* ⟹ S ∪ {item}',
         primitives: [
@@ -881,7 +884,7 @@ end;`,
             tree: 'O(|S|) prefix equality checks',
             dyadic: 'O(1) amortized hashed set insertion',
         },
-        code: `function Insert(S: Set of Node, item: Node): Set of Node
+        code: `rule Insert(S: Set of Node, item: Node) : Set of Node ≔
 var
     alreadyPresent: Integer;
     x: Node;
@@ -916,7 +919,7 @@ end;`,
         id: 'length',
         funcName: 'length',
         name: 'Birthday Depth (length)',
-        badge: 'Tree Metric Primitive',
+        badge: 'Tree Metric Primitive', signature: 'Node → ℕ',
         summary: 'Returns the string length (birthday depth) of node X from the root [].',
         domain: 'X ∈ {+, -}* ⟹ birthday(X) ∈ ℕ',
         primitives: [
@@ -927,7 +930,7 @@ end;`,
             tree: 'O(1) step count query on path string',
             dyadic: 'O(1) integer property access',
         },
-        code: `function length(X: Node): Integer
+        code: `rule length(X: Node) : Integer ≔
 begin
     // Birthday depth: count of sign steps (+, -) from the root []
     return birthday(X);
@@ -948,7 +951,7 @@ end;`,
         id: 'sqr',
         funcName: 'sqr',
         name: 'Exact Dyadic Squaring',
-        badge: 'Ring Multiplicative Primitive',
+        badge: 'Ring Multiplicative Primitive', signature: '𝔻 → 𝔻',
         summary: 'Evaluates the exact square u² of a dyadic rational via a single multiplication in the ring (𝔻, ·).',
         domain: 'u ∈ 𝔻 ⟹ u ⊗ u ∈ 𝔻',
         primitives: [
@@ -958,7 +961,7 @@ end;`,
             tree: 'Finite convolution of sign path numerators',
             dyadic: '1 integer multiplication and denominator doubling',
         },
-        code: `function sqr(u: Dyadic): Dyadic
+        code: `rule sqr(u: Dyadic) : Dyadic ≔
 begin
     // Exact dyadic squaring via ring multiplication in (𝔻, ·)
     return u ⊗ u;
@@ -978,7 +981,7 @@ end;`,
         id: 'val',
         funcName: 'val',
         name: 'Rational Projection (val)',
-        badge: 'Tree-to-Ring Projection',
+        badge: 'Tree-to-Ring Projection', signature: 'Node → 𝔻',
         summary: 'Extracts the exact rational value d ∈ 𝔻 from a Conway tree node sign sequence.',
         domain: 'X ∈ {+, -}* ⟹ d = m / 2^e ∈ 𝔻',
         primitives: [
@@ -988,7 +991,7 @@ end;`,
             tree: 'O(d) binary Horner evaluation of sign string',
             dyadic: 'O(1) rational struct extraction',
         },
-        code: `function val(X: Node): Dyadic
+        code: `rule val(X: Node) : Dyadic ≔
 begin
     // Rational projection: evaluates sign path (+, -) into dyadic fraction d ∈ 𝔻
     return to_dyadic(X);
@@ -1008,7 +1011,7 @@ end;`,
         id: 'node',
         funcName: 'node',
         name: 'Canonical Tree Projection (node)',
-        badge: 'Ring-to-Tree Projection',
+        badge: 'Ring-to-Tree Projection', signature: '𝔻 → Node',
         summary: 'Maps a dyadic rational d ∈ 𝔻 to its unique earliest sign path on the binary tree.',
         domain: 'd ∈ 𝔻 ⟹ unique simplest node X ∈ {+, -}*',
         primitives: [
@@ -1019,7 +1022,7 @@ end;`,
             tree: 'O(e) tree descent to earliest born rational',
             dyadic: 'O(1) canonical path reconstruction',
         },
-        code: `function node(d: Dyadic): Node
+        code: `rule node(d: Dyadic) : Node ≔
 begin
     // Canonical tree projection: maps dyadic rational d to unique earliest sign path
     return to_node(d);
@@ -1039,7 +1042,7 @@ end;`,
         id: 'create_array',
         funcName: 'CreateArray',
         name: 'Lattice Array Allocation',
-        badge: 'Lattice Primitive',
+        badge: 'Lattice Primitive', signature: '(ℕ × 𝔻) → Array of 𝔻',
         summary: 'Allocates a spatial 1D grid array of M discrete dyadic cells initialized to root [].',
         domain: 'M ∈ ℕ ⟹ Array[0 .. M-1] of Dyadic',
         primitives: [
@@ -1049,7 +1052,7 @@ end;`,
             tree: 'O(M) tree root references',
             dyadic: 'O(M) contiguous memory allocation',
         },
-        code: `function CreateArray(M: Integer): Array of Dyadic
+        code: `rule CreateArray(M: Integer) : Array of Dyadic ≔
 var
     arr: Array of Dyadic;
 begin
@@ -1072,7 +1075,7 @@ end;`,
         id: 'cordic_angle_table',
         funcName: 'CordicAngleTable',
         name: 'Elementary CORDIC Angle Table',
-        badge: 'Trigonometric Table Primitive',
+        badge: 'Trigonometric Table Primitive', signature: '() → Array of 𝔻',
         summary: 'Provides the exact elementary rotation angle arctan(2^-i) for step i.',
         domain: 'i ∈ [0 .. 15] ⟹ θ_i ∈ 𝔻',
         primitives: [
@@ -1082,7 +1085,7 @@ end;`,
             tree: 'O(1) constant projection',
             dyadic: 'O(1) direct table indexing',
         },
-        code: `function CordicAngleTable(i: Integer): Dyadic
+        code: `rule CordicAngleTable(i: Integer) : Dyadic ≔
 var
     angle: Dyadic;
 begin
@@ -1106,7 +1109,7 @@ end;`,
         id: 'op_add',
         funcName: 'DyadicAdd',
         name: 'Dyadic Ring Addition (⊕)',
-        badge: 'Ring Machine Primitive',
+        badge: 'Ring Machine Primitive', signature: '(𝔻 × 𝔻) → 𝔻',
         summary: 'Evaluates exact dyadic addition with power-of-two denominator alignment in the ring (𝔻, +, ·).',
         domain: 'a, b ∈ 𝔻 ⟹ a ⊕ b ∈ 𝔻',
         primitives: [
@@ -1117,7 +1120,7 @@ end;`,
             tree: 'Replaces Conway inductive recursion O(4^d) with exact O(1) ring addition',
             dyadic: '1 bit-shift, 1 integer addition',
         },
-        code: `function DyadicAdd(a: Dyadic, b: Dyadic): Dyadic
+        code: `rule DyadicAdd(a: Dyadic, b: Dyadic) : Dyadic ≔
 begin
     // Exact ring addition with power-of-two denominator alignment in (𝔻, +, ·)
     return a ⊕ b;
@@ -1140,7 +1143,7 @@ end;`,
         id: 'op_concat',
         funcName: 'TreeConcat',
         name: 'Tree Branch Concatenation (++)',
-        badge: 'Tree Geometry Primitive',
+        badge: 'Tree Geometry Primitive', signature: '(Node × Node) → Node',
         summary: 'Appends a discrete sign step (+ for right branch, - for left branch) to walk down the binary tree.',
         domain: 'p ∈ {+, -}*, sign ∈ {+, -} ⟹ p ++ sign',
         primitives: [
@@ -1150,7 +1153,7 @@ end;`,
             tree: '1 step down the binary Conway tree',
             dyadic: 'O(1) string/path append',
         },
-        code: `function TreeConcat(p: Node, sign: String): Node
+        code: `rule TreeConcat(p: Node, sign: String) : Node ≔
 begin
     // Appends sign step ('+' for right, '-' for left) to walk down the tree
     return p ++ sign;

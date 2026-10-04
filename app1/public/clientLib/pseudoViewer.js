@@ -516,6 +516,16 @@ const SEMANTIC_TOKENS = {
         moduleId: 'op_concat',
         desc: 'Tree Concatenation: appends sign step (+ or -) to walk down the binary Conway tree. Click to inspect.',
     },
+    '≔': {
+        role: 'operator',
+        label: 'Directed Equality',
+        desc: 'Computational reduction rule: directed equality establishing function evaluation without side effects.',
+    },
+    '::=': {
+        role: 'operator',
+        label: 'Directed Equality',
+        desc: 'Computational reduction rule: directed equality establishing function evaluation without side effects.',
+    },
 };
 /**
  * Syntax highlighter that renders the code itself as an interactive semantic canvas.
@@ -548,6 +558,7 @@ function highlightPseudoCode(rawCode, activeLine = -1, currentFocusFuncName = ''
             .replace(/>/g, '&gt;');
         // Keywords highlighting
         const keywords = [
+            'rule',
             'function',
             'var',
             'begin',
@@ -571,8 +582,9 @@ function highlightPseudoCode(rawCode, activeLine = -1, currentFocusFuncName = ''
             codePart = codePart.replace(reg, `<span style="color:#c084fc;font-weight:bold;">${kw}</span>`);
         }
         // Types
-        codePart = codePart.replace(/\b(Node|Dyadic|Integer|Set|Array)\b/g, '<span style="color:#38bdf8;font-weight:600;">$1</span>');
+        codePart = codePart.replace(/\b(Node|Dyadic|Integer|Boolean|Set|Array)\b|𝔹/g, '<span style="color:#38bdf8;font-weight:600;">$&</span>');
         codePart = codePart.replace(/\bSet of Node\b/g, '<span style="color:#38bdf8;font-weight:600;">Set of Node</span>');
+        codePart = codePart.replace(/\bArray of (Node|Dyadic)\b/g, '<span style="color:#38bdf8;font-weight:600;">Array of $1</span>');
         // Identifiers: Sub-modules vs Primitives
         const identRegex = /\b(SimplerOptions|Cut|ConwayAdd|ConwayLessEq|ConwayCompare|ConwaySort|ConwaySub|ConwayMul|ConwayNeg|Insert|EmptySet|Maximum|Minimum|EulerExp|KinematicStep|CordicRotor|CordicAngle|HeatDiffusionStep|BayesUpdate|sqr|val|node|length|CreateArray|CordicAngleTable|DyadicAdd|TreeConcat)\b/g;
         codePart = codePart.replace(identRegex, (match) => {
@@ -592,8 +604,8 @@ function highlightPseudoCode(rawCode, activeLine = -1, currentFocusFuncName = ''
             }
             return `<span class="pseudo-token pseudo-token-primitive" data-token-name="${match}" style="color:#4ade80;font-weight:600;cursor:help;padding:0 2px;">${match}</span>`;
         });
-        // Machine Operators
-        const opRegex = /(::=|:=|&gt;=|&lt;=|\+\+|≫|≪|⊕|⊖|⊗|⊘)/g;
+        // Machine & Reduction Operators
+        const opRegex = /(≔|::=|:=|&gt;=|&lt;=|\+\+|≫|≪|⊕|⊖|⊗|⊘)/g;
         codePart = codePart.replace(opRegex, (match) => {
             const meta = SEMANTIC_TOKENS[match];
             if (meta && meta.role === 'operator') {
@@ -1088,9 +1100,12 @@ export class PseudoViewer extends Elt {
                 ${mod.name}
               </h2>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div style="background:rgba(192,132,252,0.15);border:1px solid #c084fc;color:#e9d5ff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:14px;font-family:monospace;">
+                Rule: ${mod.signature || mod.funcName}
+              </div>
               <span style="background:rgba(34,197,94,0.15);border:1px solid #22c55e;color:#4ade80;font-size:11px;font-weight:600;padding:2px 8px;border-radius:14px;">
-                Interactive Stepper Active
+                Directed Equality
               </span>
               <div style="background:rgba(56,189,248,0.12);border:1px solid #38bdf8;color:#7dd3fc;font-size:11px;font-weight:600;padding:2px 8px;border-radius:14px;">
                 Atomic Module (1:1)
@@ -1108,6 +1123,10 @@ export class PseudoViewer extends Elt {
                 ${mod.summary}
               </p>
               <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:6px;font-size:12px;display:flex;flex-direction:column;gap:6px;">
+                <div>
+                  <span style="color:#94a3b8;font-weight:600;">Formal Rule Signature:</span>
+                  <span style="font-family:monospace;color:#c084fc;margin-left:6px;font-weight:bold;">rule ${mod.funcName} : ${mod.signature || 'Function'} ≔</span>
+                </div>
                 <div>
                   <span style="color:#94a3b8;font-weight:600;">Mathematical Domain:</span>
                   <span style="font-family:monospace;color:#f1f5f9;margin-left:6px;font-weight:bold;">${mod.domain}</span>

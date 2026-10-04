@@ -17,7 +17,7 @@
       "tree": "O(d) prefix extractions, where d is the birthday (string depth) of node X",
       "dyadic": "O(1) sign-string prefix slice and set insertion"
     },
-    "code": "function SimplerOptions(X: Node): (Set of Node, Set of Node)\nvar\n    XL, XR: Set of Node;\n    i: Integer;\n    prefix: Node;\nbegin\n    XL := EmptySet();\n    XR := EmptySet();\n\n    // All proper prefixes are numbers born on earlier days\n    for i := 0 to length(X) - 1 do\n    begin\n        prefix := X[0 .. i];\n        if prefix < X then\n            Insert(XL, prefix)\n        else\n            Insert(XR, prefix);\n    end;\n\n    return (XL, XR);\nend;",
+    "code": "rule SimplerOptions(X: Node) : (Set of Node, Set of Node) ≔\nvar\n    XL, XR: Set of Node;\n    i: Integer;\n    prefix: Node;\nbegin\n    XL := EmptySet();\n    XR := EmptySet();\n\n    // All proper prefixes are numbers born on earlier days\n    for i := 0 to length(X) - 1 do\n    begin\n        prefix := X[0 .. i];\n        if prefix < X then\n            Insert(XL, prefix)\n        else\n            Insert(XR, prefix);\n    end;\n\n    return (XL, XR);\nend;",
     "explanation": [
       "Every tree node X is identified by its sign sequence of + and - steps from the root [].",
       "The \"options\" of X are strictly its ancestral prefixes born on earlier days.",
@@ -33,7 +33,8 @@
         "Prefix length 1: [+] (1) > [+ -] ⟹ Insert([+], XR)"
       ],
       "result": "XL = { [] }, XR = { [+] }"
-    }
+    },
+    "signature": "Node → (Set of Node × Set of Node)"
   },
   "cut": {
     "id": "cut",
@@ -52,7 +53,7 @@
       "tree": "O(d) tree walk from root [] to the simplest intermediate node born on day d",
       "dyadic": "O(1) binary mediant branch navigation"
     },
-    "code": "function Cut(leftBound: Node, rightBound: Node): Node\nvar\n    candidate: Node;\nbegin\n    // Walk down the binary tree from the root []\n    candidate := [];\n    while (candidate <= leftBound) or (candidate >= rightBound) do\n    begin\n        if candidate <= leftBound then\n            candidate := candidate ++ '+'      // Branch right to grow\n        else\n            candidate := candidate ++ '-';     // Branch left to shrink\n    end;\n    return candidate;  // Unique simplest node strictly between bounds\nend;",
+    "code": "rule Cut(leftBound: Node, rightBound: Node) : Node ≔\nvar\n    candidate: Node;\nbegin\n    // Walk down the binary tree from the root []\n    candidate := [];\n    while (candidate <= leftBound) or (candidate >= rightBound) do\n    begin\n        if candidate <= leftBound then\n            candidate := candidate ++ '+'      // Branch right to grow\n        else\n            candidate := candidate ++ '-';     // Branch left to shrink\n    end;\n    return candidate;  // Unique simplest node strictly between bounds\nend;",
     "explanation": [
       "The Conway cut embodies the Simplicity Theorem: between any two surreal numbers lies a unique simplest number born on the earliest day.",
       "Begins at the root node [] (0).",
@@ -71,7 +72,8 @@
         "candidate = [+ +] (2) >= 1&1/2 ⟹ branch left (-), candidate := [+ + -]"
       ],
       "result": "Cut(1, 1&1/2) = [+ + -] (1&1/4)"
-    }
+    },
+    "signature": "(Node × Node) → Node"
   },
   "conway_add": {
     "id": "conway_add",
@@ -93,7 +95,7 @@
       "tree": "O(4^d) recursive option calls (explodes exponentially with birthday d)",
       "dyadic": "O(1) aligned bit-shift and 32-bit integer add in the ring (𝔻, +, ·)"
     },
-    "code": "function ConwayAdd(X: Node, Y: Node): Node\nvar\n    XL, XR, YL, YR: Set of Node;\n    leftResults, rightResults: Set of Node;\n    maxLeft, minRight: Node;\nbegin\n    // 1. Decompose both nodes into their simpler tree ancestors\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    leftResults  := EmptySet();\n    rightResults := EmptySet();\n\n    // 2. Recursive cross-additions: (XL + Y) and (X + YL)\n    for each xL in XL do Insert(leftResults, ConwayAdd(xL, Y));\n    for each yL in YL do Insert(leftResults, ConwayAdd(X, yL));\n\n    // 3. Recursive cross-additions: (XR + Y) and (X + YR)\n    for each xR in XR do Insert(rightResults, ConwayAdd(xR, Y));\n    for each yR in YR do Insert(rightResults, ConwayAdd(X, yR));\n\n    // 4. Extreme bounds: greatest left option and least right option\n    maxLeft  := Maximum(leftResults);\n    minRight := Minimum(rightResults);\n\n    // 5. The sum is the simplest node created between the two bounds\n    return Cut(maxLeft, minRight);\nend;",
+    "code": "rule ConwayAdd(X: Node, Y: Node) : Node ≔\nvar\n    XL, XR, YL, YR: Set of Node;\n    leftResults, rightResults: Set of Node;\n    maxLeft, minRight: Node;\nbegin\n    // 1. Decompose both nodes into their simpler tree ancestors\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    leftResults  := EmptySet();\n    rightResults := EmptySet();\n\n    // 2. Recursive cross-additions: (XL + Y) and (X + YL)\n    for each xL in XL do Insert(leftResults, ConwayAdd(xL, Y));\n    for each yL in YL do Insert(leftResults, ConwayAdd(X, yL));\n\n    // 3. Recursive cross-additions: (XR + Y) and (X + YR)\n    for each xR in XR do Insert(rightResults, ConwayAdd(xR, Y));\n    for each yR in YR do Insert(rightResults, ConwayAdd(X, yR));\n\n    // 4. Extreme bounds: greatest left option and least right option\n    maxLeft  := Maximum(leftResults);\n    minRight := Minimum(rightResults);\n\n    // 5. The sum is the simplest node created between the two bounds\n    return Cut(maxLeft, minRight);\nend;",
     "explanation": [
       "Conway addition recurses over all combinations of simpler ancestors (XL + Y) and (X + YL).",
       "Demonstrates why tree-inductive arithmetic is mathematically fundamental yet computationally explosive.",
@@ -111,7 +113,8 @@
         "max(leftResults) = 1, min(rightResults) = 1&1/2"
       ],
       "result": "Cut(1, 1&1/2) = [+ + -] (1&1/4)"
-    }
+    },
+    "signature": "(Node × Node) → Node"
   },
   "conway_order": {
     "id": "conway_order",
@@ -129,7 +132,7 @@
       "tree": "O(2^(d_x + d_y)) mutual recursive option evaluations over earlier birthdays",
       "dyadic": "O(1) sign comparison and bit alignment in the ordered field (𝔻, ≤)"
     },
-    "code": "function ConwayLessEq(X: Node, Y: Node): Integer\nvar\n    XL, XR, YL, YR: Set of Node;\n    xL, yR: Node;\nbegin\n    // 1. Decompose both nodes into simpler ancestral options\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    // 2. Condition 1: No left option of X is >= Y (i.e. Y <= xL is false)\n    for each xL in XL do\n    begin\n        if ConwayLessEq(Y, xL) = 1 then\n            return 0; // Violation found: xL >= Y\n    end;\n\n    // 3. Condition 2: No right option of Y is <= X (i.e. yR <= X is false)\n    for each yR in YR do\n    begin\n        if ConwayLessEq(yR, X) = 1 then\n            return 0; // Violation found: yR <= X\n    end;\n\n    // Satisfies Conway surreal order: X <= Y\n    return 1;\nend;",
+    "code": "rule ConwayLessEq(X: Node, Y: Node) : Integer ≔\nvar\n    XL, XR, YL, YR: Set of Node;\n    xL, yR: Node;\nbegin\n    // 1. Decompose both nodes into simpler ancestral options\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    // 2. Condition 1: No left option of X is >= Y (i.e. Y <= xL is false)\n    for each xL in XL do\n    begin\n        if ConwayLessEq(Y, xL) = 1 then\n            return 0; // Violation found: xL >= Y\n    end;\n\n    // 3. Condition 2: No right option of Y is <= X (i.e. yR <= X is false)\n    for each yR in YR do\n    begin\n        if ConwayLessEq(yR, X) = 1 then\n            return 0; // Violation found: yR <= X\n    end;\n\n    // Satisfies Conway surreal order: X <= Y\n    return 1;\nend;",
     "explanation": [
       "Conway fundamental inductive definition of order: X ≤ Y ⇔ (∀ xᴸ ∈ Xᴸ, ¬(Y ≤ xᴸ)) ∧ (∀ yᴿ ∈ Yᴿ, ¬(yᴿ ≤ X)).",
       "Base case: 0 ≤ 0 ([] ≤ []) has XL = ∅ and YR = ∅, immediately returning 1 (true).",
@@ -148,7 +151,8 @@
         "Right loop: YR is empty ⟹ no violation"
       ],
       "result": "ConwayLessEq([], [+]) = 1 (0 ≤ 1)"
-    }
+    },
+    "signature": "(Node × Node) → 𝔹"
   },
   "conway_sort": {
     "id": "conway_sort",
@@ -165,7 +169,7 @@
       "tree": "O(n² · 2^d) inductive option comparisons across array elements",
       "dyadic": "O(n log n) standard numeric sort using 64-bit integer compare"
     },
-    "code": "function ConwaySort(A: Array of Node, n: Integer): Array of Node\nvar\n    i, j: Integer;\n    key: Node;\nbegin\n    // Insertion sort grounded strictly on Conway inductive order\n    for i := 1 to n - 1 do\n    begin\n        key := A[i];\n        j := i - 1;\n\n        // Shift elements greater than key to the right\n        while (j >= 0) and (ConwayLessEq(key, A[j]) = 1) do\n        begin\n            A[j + 1] := A[j];\n            j := j - 1;\n        end;\n        A[j + 1] := key;\n    end;\n\n    return A;\nend;",
+    "code": "rule ConwaySort(A: Array of Node, n: Integer) : Array of Node ≔\nvar\n    i, j: Integer;\n    key: Node;\nbegin\n    // Insertion sort grounded strictly on Conway inductive order\n    for i := 1 to n - 1 do\n    begin\n        key := A[i];\n        j := i - 1;\n\n        // Shift elements greater than key to the right\n        while (j >= 0) and (ConwayLessEq(key, A[j]) = 1) do\n        begin\n            A[j + 1] := A[j];\n            j := j - 1;\n        end;\n        A[j + 1] := key;\n    end;\n\n    return A;\nend;",
     "explanation": [
       "Demonstrates that Conway recursive order defines a true total ordering on any finite collection of surreal numbers.",
       "Uses insertion sort where every pairwise order decision invokes the inductive ConwayLessEq predicate.",
@@ -182,7 +186,8 @@
         "Final sorted array satisfies Conway order at every step"
       ],
       "result": "ConwaySort(A, 5) = [-1, -1/2, 0, 1/2, 1]"
-    }
+    },
+    "signature": "Array of Node → Array of Node"
   },
   "conway_sub": {
     "id": "conway_sub",
@@ -199,7 +204,7 @@
       "tree": "O(4^d) option tree expansion inherited from ConwayAdd",
       "dyadic": "O(1) aligned bit-shift and integer subtraction in the ring (𝔻, +, ·)"
     },
-    "code": "function ConwaySub(X: Node, Y: Node): Node\nvar\n    negY: Node;\nbegin\n    // Subtraction is addition of the tree negation: X - Y = X + (-Y)\n    negY := ConwayNeg(Y);\n    return ConwayAdd(X, negY);\nend;",
+    "code": "rule ConwaySub(X: Node, Y: Node) : Node ≔\nvar\n    negY: Node;\nbegin\n    // Subtraction is addition of the tree negation: X - Y = X + (-Y)\n    negY := ConwayNeg(Y);\n    return ConwayAdd(X, negY);\nend;",
     "explanation": [
       "Conway subtraction reduces directly to addition with the sign-inverted tree node.",
       "Reflects the right-hand argument Y across the root 0 (+ <-> -).",
@@ -215,7 +220,8 @@
         "ConwayAdd(1&1/4, -3/4) = 1/2"
       ],
       "result": "ConwaySub(1&1/4, 3/4) = [+ -] (1/2)"
-    }
+    },
+    "signature": "(Node × Node) → Node"
   },
   "conway_mul": {
     "id": "conway_mul",
@@ -235,7 +241,7 @@
       "tree": "Hyper-exponential option explosion: each recursive step branches into 4 products, 2 additions, and 1 subtraction",
       "dyadic": "O(1) single integer multiplication and denominator bit addition: (m₁/2^e₁) · (m₂/2^e₂) = (m₁·m₂)/2^(e₁+e₂)"
     },
-    "code": "function ConwayMul(X: Node, Y: Node): Node\nvar\n    XL, XR, YL, YR: Set of Node;\n    leftResults, rightResults: Set of Node;\n    term, maxLeft, minRight: Node;\nbegin\n    // 1. Decompose both nodes into ancestral options\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    leftResults  := EmptySet();\n    rightResults := EmptySet();\n\n    // 2. Left options: (xL · Y) + (X · yL) - (xL · yL)\n    for each xL in XL do\n        for each yL in YL do\n        begin\n            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yL));\n            Insert(leftResults, ConwaySub(term, ConwayMul(xL, yL)));\n        end;\n\n    // (xR · Y) + (X · yR) - (xR · yR)\n    for each xR in XR do\n        for each yR in YR do\n        begin\n            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yR));\n            Insert(leftResults, ConwaySub(term, ConwayMul(xR, yR)));\n        end;\n\n    // 3. Right options: (xL · Y) + (X · yR) - (xL · yR)\n    for each xL in XL do\n        for each yR in YR do\n        begin\n            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yR));\n            Insert(rightResults, ConwaySub(term, ConwayMul(xL, yR)));\n        end;\n\n    // (xR · Y) + (X · yL) - (xR · yL)\n    for each xR in XR do\n        for each yL in YL do\n        begin\n            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yL));\n            Insert(rightResults, ConwaySub(term, ConwayMul(xR, yL)));\n        end;\n\n    // 4. Resolve simplest intermediate node between bounds\n    maxLeft  := Maximum(leftResults);\n    minRight := Minimum(rightResults);\n    return Cut(maxLeft, minRight);\nend;",
+    "code": "rule ConwayMul(X: Node, Y: Node) : Node ≔\nvar\n    XL, XR, YL, YR: Set of Node;\n    leftResults, rightResults: Set of Node;\n    term, maxLeft, minRight: Node;\nbegin\n    // 1. Decompose both nodes into ancestral options\n    (XL, XR) := SimplerOptions(X);\n    (YL, YR) := SimplerOptions(Y);\n\n    leftResults  := EmptySet();\n    rightResults := EmptySet();\n\n    // 2. Left options: (xL · Y) + (X · yL) - (xL · yL)\n    for each xL in XL do\n        for each yL in YL do\n        begin\n            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yL));\n            Insert(leftResults, ConwaySub(term, ConwayMul(xL, yL)));\n        end;\n\n    // (xR · Y) + (X · yR) - (xR · yR)\n    for each xR in XR do\n        for each yR in YR do\n        begin\n            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yR));\n            Insert(leftResults, ConwaySub(term, ConwayMul(xR, yR)));\n        end;\n\n    // 3. Right options: (xL · Y) + (X · yR) - (xL · yR)\n    for each xL in XL do\n        for each yR in YR do\n        begin\n            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yR));\n            Insert(rightResults, ConwaySub(term, ConwayMul(xL, yR)));\n        end;\n\n    // (xR · Y) + (X · yL) - (xR · yL)\n    for each xR in XR do\n        for each yL in YL do\n        begin\n            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yL));\n            Insert(rightResults, ConwaySub(term, ConwayMul(xR, yL)));\n        end;\n\n    // 4. Resolve simplest intermediate node between bounds\n    maxLeft  := Maximum(leftResults);\n    minRight := Minimum(rightResults);\n    return Cut(maxLeft, minRight);\nend;",
     "explanation": [
       "Conway multiplication is the pinnacle of tree-inductive surreal arithmetic.",
       "Crosses every left and right option pair through 4 distinct algebraic combinations.",
@@ -253,7 +259,8 @@
         "max(leftResults) = 0, min(rightResults) = 1"
       ],
       "result": "Cut(0, 1) = [+ -] (1/2)"
-    }
+    },
+    "signature": "(Node × Node) → Node"
   },
   "conway_neg": {
     "id": "conway_neg",
@@ -270,7 +277,7 @@
       "tree": "O(d) sign string inversion where d is birthday depth",
       "dyadic": "O(1) numerator integer negation in (𝔻, +, ·)"
     },
-    "code": "function ConwayNeg(X: Node): Node\nvar\n    res: Node;\n    i: Integer;\nbegin\n    res := [];\n    for i := 0 to length(X) - 1 do\n    begin\n        if X[i] = '+' then\n            res := res ++ '-'\n        else\n            res := res ++ '+';\n    end;\n    return res;\nend;",
+    "code": "rule ConwayNeg(X: Node) : Node ≔\nvar\n    res: Node;\n    i: Integer;\nbegin\n    res := [];\n    for i := 0 to length(X) - 1 do\n    begin\n        if X[i] = '+' then\n            res := res ++ '-'\n        else\n            res := res ++ '+';\n    end;\n    return res;\nend;",
     "explanation": [
       "Reflects any surreal number across the central root 0.",
       "Positive steps (+) become negative steps (-); negative steps (-) become positive steps (+).",
@@ -284,7 +291,8 @@
         "+ -> -, - -> +, + -> - ⟹ [- + -]"
       ],
       "result": "ConwayNeg([+ - +]) = [- + -] (-3/4)"
-    }
+    },
+    "signature": "Node → Node"
   },
   "euler_compounding": {
     "id": "euler_compounding",
@@ -304,7 +312,7 @@
       "tree": "Zero calculus limits, zero infinite series, zero floating-point math",
       "dyadic": "1 bit-shift, 1 integer add, K repeated squarings in (𝔻, ·)"
     },
-    "code": "function EulerExp(x: Node, K: Integer): Node\nvar\n    dx, delta, u: Dyadic;\n    i: Integer;\nbegin\n    dx    := 1 ≫ K;              // Microscopic tick dx = 1 / 2^K\n    delta := val(x) ≫ K;         // Infinitesimal increment x · dx = x / 2^K\n    u     := 1 ⊕ delta;          // Base growth slice u₀ = 1 + x/2^K\n\n    // Exact repeated squaring in (𝔻, ·)\n    for i := 1 to K do\n    begin\n        u := sqr(u);             // u_i = (u_{i-1})²\n    end;\n\n    return node(u);              // Canonical Conway tree node\nend;",
+    "code": "rule EulerExp(x: Node, K: Integer) : Node ≔\nvar\n    dx, delta, u: Dyadic;\n    i: Integer;\nbegin\n    dx    := 1 ≫ K;              // Microscopic tick dx = 1 / 2^K\n    delta := val(x) ≫ K;         // Infinitesimal increment x · dx = x / 2^K\n    u     := 1 ⊕ delta;          // Base growth slice u₀ = 1 + x/2^K\n\n    // Exact repeated squaring in (𝔻, ·)\n    for i := 1 to K do\n    begin\n        u := sqr(u);             // u_i = (u_{i-1})²\n    end;\n\n    return node(u);              // Canonical Conway tree node\nend;",
     "explanation": [
       "Avoids transcendental library calls and floating-point rounding errors entirely.",
       "Divides unit time into 2^K infinitesimal intervals of width dx = 1/2^K.",
@@ -323,7 +331,8 @@
         "u₁₂ = (u₁₁)² ≈ 2.7182818..."
       ],
       "result": "node(u₁₂) = [ + + - + - - + ... ] ⇔ e ≈ 2.718282"
-    }
+    },
+    "signature": "(𝔻 × ℕ) → 𝔻"
   },
   "kinematics_step": {
     "id": "kinematics_step",
@@ -342,7 +351,7 @@
       "tree": "Finite difference stepping across discrete 2-successor rational tree",
       "dyadic": "Exact integer bit-shifts and ring additions; zero floating-point drift"
     },
-    "code": "function KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic): (Dyadic, Dyadic)\nvar\n    gt, halfG, t2, v, s: Dyadic;\nbegin\n    // 1. Velocity decrement: v(t) = v₀ - g · t\n    gt    := g ⊗ t;                   // Exact dyadic product\n    v     := v0 ⊖ gt;                 // Ring subtraction\n\n    // 2. Trajectory displacement: s(t) = v₀ · t - (1/2) · g · t²\n    halfG := g ≫ 1;                   // Exact 1-bit right shift (division by 2)\n    t2    := sqr(t);                  // t²\n    s     := (v0 ⊗ t) ⊖ (halfG ⊗ t2); // Exact rational difference\n\n    return (v, s);                    // Pair of canonical dyadic values\nend;",
+    "code": "rule KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic) : (Dyadic, Dyadic) ≔\nvar\n    gt, halfG, t2, v, s: Dyadic;\nbegin\n    // 1. Velocity decrement: v(t) = v₀ - g · t\n    gt    := g ⊗ t;                   // Exact dyadic product\n    v     := v0 ⊖ gt;                 // Ring subtraction\n\n    // 2. Trajectory displacement: s(t) = v₀ · t - (1/2) · g · t²\n    halfG := g ≫ 1;                   // Exact 1-bit right shift (division by 2)\n    t2    := sqr(t);                  // t²\n    s     := (v0 ⊗ t) ⊖ (halfG ⊗ t2); // Exact rational difference\n\n    return (v, s);                    // Pair of canonical dyadic values\nend;",
     "explanation": [
       "Bypasses continuous limits and floating-point math libraries entirely.",
       "Operates purely over the ring of dyadic rationals (𝔻, +, ·) where division by 2 is an exact bit-shift.",
@@ -363,7 +372,8 @@
         "s = (20 ⊗ 2) ⊖ ((39/8) ⊗ 4) = 40 ⊖ 39/2 = 20&1/2 m"
       ],
       "result": "v = 1/2 m/s, s = 20&1/2 m (strictly exact in 𝔻)"
-    }
+    },
+    "signature": "(𝔻 × 𝔻 × 𝔻) → (𝔻 × 𝔻)"
   },
   "cordic_angle": {
     "id": "cordic_angle",
@@ -379,7 +389,7 @@
       "tree": "O(1) discrete constant projection from predefined 16-step dyadic lattice",
       "dyadic": "O(1) table lookup with zero runtime transcendentals"
     },
-    "code": "function CordicAngle(i: Integer): Dyadic\nbegin\n    // Table of elementary dyadic rotation angles arctan(2^-i)\n    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...\n    return CordicAngleTable(i);\nend;",
+    "code": "rule CordicAngle(i: Integer) : Dyadic ≔\nbegin\n    // Table of elementary dyadic rotation angles arctan(2^-i)\n    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...\n    return CordicAngleTable(i);\nend;",
     "explanation": [
       "CORDIC rotation relies on an elementary sequence of angles θ_i = arctan(2^-i).",
       "Because tan(θ_i) = 2^-i, multiplying by the tangent reduces to a simple power-of-two bit-shift.",
@@ -393,7 +403,8 @@
         "arctan(2^0) = arctan(1) = π/4 ≈ 0.785398"
       ],
       "result": "CordicAngle(0) ≈ 0.785398 ∈ 𝔻"
-    }
+    },
+    "signature": "ℕ → 𝔻"
   },
   "rotor_trig_cordic": {
     "id": "rotor_trig_cordic",
@@ -413,7 +424,7 @@
       "tree": "Discrete angular winding along binary unit circle lattice",
       "dyadic": "N elementary shifts and additions; zero Math.sin / Math.cos dependency"
     },
-    "code": "function CordicRotor(theta: Dyadic, N: Integer): (Dyadic, Dyadic)\nvar\n    x, y, z, nextX, nextY: Dyadic;\n    d, i: Integer;\nbegin\n    // Initial scaled rotor along unit axis: K ≈ 0.607252935\n    x := 39797 ≫ 16;  // Canonical dyadic scaling constant\n    y := 0;\n    z := theta;\n\n    for i := 0 to N - 1 do\n    begin\n        if z >= 0 then\n            d := 1\n        else\n            d := -1;\n\n        // Elementary dyadic pseudo-rotation via 2^-i shifts\n        nextX := x ⊖ (d ⊗ (y ≫ i));\n        nextY := y ⊕ (d ⊗ (x ≫ i));\n        z     := z ⊖ (d ⊗ CordicAngle(i));\n\n        x := nextX;\n        y := nextY;\n    end;\n\n    return (x, y);    // Exact dyadic projections (cos θ, sin θ)\nend;",
+    "code": "rule CordicRotor(theta: Dyadic, N: Integer) : (Dyadic, Dyadic) ≔\nvar\n    x, y, z, nextX, nextY: Dyadic;\n    d, i: Integer;\nbegin\n    // Initial scaled rotor along unit axis: K ≈ 0.607252935\n    x := 39797 ≫ 16;  // Canonical dyadic scaling constant\n    y := 0;\n    z := theta;\n\n    for i := 0 to N - 1 do\n    begin\n        if z >= 0 then\n            d := 1\n        else\n            d := -1;\n\n        // Elementary dyadic pseudo-rotation via 2^-i shifts\n        nextX := x ⊖ (d ⊗ (y ≫ i));\n        nextY := y ⊕ (d ⊗ (x ≫ i));\n        z     := z ⊖ (d ⊗ CordicAngle(i));\n\n        x := nextX;\n        y := nextY;\n    end;\n\n    return (x, y);    // Exact dyadic projections (cos θ, sin θ)\nend;",
     "explanation": [
       "Eliminates external transcendental math libraries (Math.sin/cos).",
       "At step i, the coordinate vector rotates by angle arctan(2^-i) using only right-shifts (≫ i) and additions (⊕).",
@@ -431,7 +442,8 @@
         "x converges to 1.0 (node [+]), y converges to 0.0 (node [ ])"
       ],
       "result": "(cos 0, sin 0) = (1, 0) ∈ 𝔻²"
-    }
+    },
+    "signature": "(𝔻 × 𝔻 × 𝔻 × ℕ) → (𝔻 × 𝔻)"
   },
   "laplacian_heat_step": {
     "id": "laplacian_heat_step",
@@ -451,7 +463,7 @@
       "tree": "Local discrete interaction across spatial neighbor tree",
       "dyadic": "O(M) shifts and additions per time-tick; unconditionally exact over 𝔻"
     },
-    "code": "function HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer): Array of Dyadic\nvar\n    nextT: Array of Dyadic;\n    i: Integer;\n    laplacian: Dyadic;\nbegin\n    nextT := CreateArray(M);\n\n    // Boundary conditions: Dirichlet fixed endpoints\n    nextT[0]   := T[0];\n    nextT[M-1] := T[M-1];\n\n    // Interior grid nodes: T_{n+1}[i] = T_n[i] + α · (T_n[i-1] - 2·T_n[i] + T_n[i+1])\n    for i := 1 to M - 2 do\n    begin\n        laplacian := T[i-1] ⊖ (T[i] ≪ 1) ⊕ T[i+1];\n        nextT[i]  := T[i] ⊕ (alpha ⊗ laplacian);\n    end;\n\n    return nextT;\nend;",
+    "code": "rule HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer) : Array of Dyadic ≔\nvar\n    nextT: Array of Dyadic;\n    i: Integer;\n    laplacian: Dyadic;\nbegin\n    nextT := CreateArray(M);\n\n    // Boundary conditions: Dirichlet fixed endpoints\n    nextT[0]   := T[0];\n    nextT[M-1] := T[M-1];\n\n    // Interior grid nodes: T_{n+1}[i] = T_n[i] + α · (T_n[i-1] - 2·T_n[i] + T_n[i+1])\n    for i := 1 to M - 2 do\n    begin\n        laplacian := T[i-1] ⊖ (T[i] ≪ 1) ⊕ T[i+1];\n        nextT[i]  := T[i] ⊕ (alpha ⊗ laplacian);\n    end;\n\n    return nextT;\nend;",
     "explanation": [
       "Replaces continuous partial differential equations (PDEs) with exact discrete difference equations in 𝔻.",
       "Multiplying by 2 in the central difference is evaluated as an exact 1-bit left shift (≪ 1).",
@@ -469,7 +481,8 @@
         "nextT[1] = 1 ⊕ (-1/2) = 1/2 (node [+ -])"
       ],
       "result": "nextT = [0, 1/2, 0] (smooth central dispersion in 𝔻)"
-    }
+    },
+    "signature": "(Array of 𝔻 × 𝔻 × 𝔻 × 𝔻) → Array of 𝔻"
   },
   "bayes_discrete_update": {
     "id": "bayes_discrete_update",
@@ -488,7 +501,7 @@
       "tree": "Partition branching on finite hypothesis decision tree",
       "dyadic": "Ring multiplications and dyadic quotient; zero measure-theoretic integrals"
     },
-    "code": "function BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic): Dyadic\nvar\n    priorNotH, jointH, jointNotH, totalEvidence, posterior: Dyadic;\nbegin\n    priorNotH     := 1 ⊖ priorH;\n    jointH        := priorH ⊗ pEgivenH;\n    jointNotH     := priorNotH ⊗ pEgivenNotH;\n    totalEvidence := jointH ⊕ jointNotH;\n\n    // Exact dyadic division\n    posterior     := jointH ⊘ totalEvidence;\n\n    return posterior;\nend;",
+    "code": "rule BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic) : Dyadic ≔\nvar\n    priorNotH, jointH, jointNotH, totalEvidence, posterior: Dyadic;\nbegin\n    priorNotH     := 1 ⊖ priorH;\n    jointH        := priorH ⊗ pEgivenH;\n    jointNotH     := priorNotH ⊗ pEgivenNotH;\n    totalEvidence := jointH ⊕ jointNotH;\n\n    // Exact dyadic division\n    posterior     := jointH ⊘ totalEvidence;\n\n    return posterior;\nend;",
     "explanation": [
       "Grounds probability strictly in discrete partition counting over finite event sets.",
       "Joint likelihoods are exact dyadic products in the ring (𝔻, +, ·).",
@@ -508,7 +521,8 @@
         "posterior = (3/8) ⊘ (1/2) = 3/4"
       ],
       "result": "P(H | E) = 3/4 (node [+ - +])"
-    }
+    },
+    "signature": "(Array of 𝔻 × Array of 𝔻) → Array of 𝔻"
   },
   "maximum": {
     "id": "maximum",
@@ -527,7 +541,7 @@
       "tree": "O(|S|) comparisons along binary sign trees",
       "dyadic": "O(|S|) 1-to-1 sign sequence comparisons"
     },
-    "code": "function Maximum(S: Set of Node): Node\nvar\n    m, x: Node;\nbegin\n    m := nil;\n    for each x in S do\n    begin\n        if (m = nil) or (x > m) then\n            m := x;\n    end;\n    return m;\nend;",
+    "code": "rule Maximum(S: Set of Node) : Node ≔\nvar\n    m, x: Node;\nbegin\n    m := nil;\n    for each x in S do\n    begin\n        if (m = nil) or (x > m) then\n            m := x;\n    end;\n    return m;\nend;",
     "explanation": [
       "Finds the supremum over a finite set of surreal tree options.",
       "Initializes candidate maximum to nil (unassigned empty bound).",
@@ -545,7 +559,8 @@
         "x = [+-] (1/2): [+-] not > [+] ⟹ m stays [+]"
       ],
       "result": "Maximum(S) = [+] (1)"
-    }
+    },
+    "signature": "Set of Node → Node"
   },
   "minimum": {
     "id": "minimum",
@@ -564,7 +579,7 @@
       "tree": "O(|S|) comparisons along binary sign trees",
       "dyadic": "O(|S|) 1-to-1 sign sequence comparisons"
     },
-    "code": "function Minimum(S: Set of Node): Node\nvar\n    m, x: Node;\nbegin\n    m := nil;\n    for each x in S do\n    begin\n        if (m = nil) or (x < m) then\n            m := x;\n    end;\n    return m;\nend;",
+    "code": "rule Minimum(S: Set of Node) : Node ≔\nvar\n    m, x: Node;\nbegin\n    m := nil;\n    for each x in S do\n    begin\n        if (m = nil) or (x < m) then\n            m := x;\n    end;\n    return m;\nend;",
     "explanation": [
       "Finds the infimum over a finite set of surreal tree options.",
       "Initializes candidate minimum to nil (unassigned empty bound).",
@@ -582,7 +597,8 @@
         "x = [-] (-1): [-] < [] ⟹ m := [-]"
       ],
       "result": "Minimum(S) = [-] (-1)"
-    }
+    },
+    "signature": "Set of Node → Node"
   },
   "empty_set": {
     "id": "empty_set",
@@ -598,7 +614,7 @@
       "tree": "O(1) allocation of empty ancestor collection",
       "dyadic": "O(1) set reference creation"
     },
-    "code": "function EmptySet(): Set of Node\nvar\n    S: Set of Node;\nbegin\n    // Allocate an empty finite option set ∅\n    S := Set();\n    return S;\nend;",
+    "code": "rule EmptySet() : Set of Node ≔\nvar\n    S: Set of Node;\nbegin\n    // Allocate an empty finite option set ∅\n    S := Set();\n    return S;\nend;",
     "explanation": [
       "All surreal inductive definitions ground in the empty option set ∅.",
       "The surreal number zero is defined by 0 = { ∅ | ∅ } on Day 0.",
@@ -612,7 +628,8 @@
         "Allocate discrete container ∅"
       ],
       "result": "EmptySet() = ∅"
-    }
+    },
+    "signature": "() → Set of Node"
   },
   "insert": {
     "id": "insert",
@@ -630,7 +647,7 @@
       "tree": "O(|S|) prefix equality checks",
       "dyadic": "O(1) amortized hashed set insertion"
     },
-    "code": "function Insert(S: Set of Node, item: Node): Set of Node\nvar\n    alreadyPresent: Integer;\n    x: Node;\nbegin\n    alreadyPresent := 0;\n    for each x in S do\n    begin\n        if x = item then\n            alreadyPresent := 1;\n    end;\n\n    if alreadyPresent = 0 then\n        include(S, item);\n\n    return S;\nend;",
+    "code": "rule Insert(S: Set of Node, item: Node) : Set of Node ≔\nvar\n    alreadyPresent: Integer;\n    x: Node;\nbegin\n    alreadyPresent := 0;\n    for each x in S do\n    begin\n        if x = item then\n            alreadyPresent := 1;\n    end;\n\n    if alreadyPresent = 0 then\n        include(S, item);\n\n    return S;\nend;",
     "explanation": [
       "Maintains set uniqueness when aggregating cross-recursive option sums.",
       "Checks whether the tree node item is already present in S.",
@@ -646,7 +663,8 @@
         "alreadyPresent = 0 ⟹ include(S, [+-])"
       ],
       "result": "Insert(S, [+-]) = { [], [+-] }"
-    }
+    },
+    "signature": "(Set of Node × Node) → Set of Node"
   },
   "length": {
     "id": "length",
@@ -663,7 +681,7 @@
       "tree": "O(1) step count query on path string",
       "dyadic": "O(1) integer property access"
     },
-    "code": "function length(X: Node): Integer\nbegin\n    // Birthday depth: count of sign steps (+, -) from the root []\n    return birthday(X);\nend;",
+    "code": "rule length(X: Node) : Integer ≔\nbegin\n    // Birthday depth: count of sign steps (+, -) from the root []\n    return birthday(X);\nend;",
     "explanation": [
       "The length of a sign sequence is its birthday: the generation day d on which number X was created.",
       "Root [] has length 0 (Day 0).",
@@ -678,7 +696,8 @@
         "Count steps: \"+\", \"-\", \"+\" ⟹ 3 steps"
       ],
       "result": "length([+-+]) = 3 (born Day 3)"
-    }
+    },
+    "signature": "Node → ℕ"
   },
   "sqr": {
     "id": "sqr",
@@ -694,7 +713,7 @@
       "tree": "Finite convolution of sign path numerators",
       "dyadic": "1 integer multiplication and denominator doubling"
     },
-    "code": "function sqr(u: Dyadic): Dyadic\nbegin\n    // Exact dyadic squaring via ring multiplication in (𝔻, ·)\n    return u ⊗ u;\nend;",
+    "code": "rule sqr(u: Dyadic) : Dyadic ≔\nbegin\n    // Exact dyadic squaring via ring multiplication in (𝔻, ·)\n    return u ⊗ u;\nend;",
     "explanation": [
       "Computes u² strictly within the ring of dyadic rationals.",
       "If u = m / 2^e, then u² = m² / 2^(2e), staying strictly inside 𝔻.",
@@ -708,7 +727,8 @@
         "(3/4) ⊗ (3/4) = 9/16"
       ],
       "result": "sqr(3/4) = 9/16 (node [+-+--])"
-    }
+    },
+    "signature": "𝔻 → 𝔻"
   },
   "val": {
     "id": "val",
@@ -724,7 +744,7 @@
       "tree": "O(d) binary Horner evaluation of sign string",
       "dyadic": "O(1) rational struct extraction"
     },
-    "code": "function val(X: Node): Dyadic\nbegin\n    // Rational projection: evaluates sign path (+, -) into dyadic fraction d ∈ 𝔻\n    return to_dyadic(X);\nend;",
+    "code": "rule val(X: Node) : Dyadic ≔\nbegin\n    // Rational projection: evaluates sign path (+, -) into dyadic fraction d ∈ 𝔻\n    return to_dyadic(X);\nend;",
     "explanation": [
       "Bridges the tree-inductive realm and the algebraic ring (𝔻, +, ·).",
       "Interprets the sign path as an integer part followed by binary fractional bits.",
@@ -738,7 +758,8 @@
         "Root 0 ➔ branch right (+) to 1 ➔ branch left (-) to 1/2"
       ],
       "result": "val([+-]) = 1/2"
-    }
+    },
+    "signature": "Node → 𝔻"
   },
   "node": {
     "id": "node",
@@ -755,7 +776,7 @@
       "tree": "O(e) tree descent to earliest born rational",
       "dyadic": "O(1) canonical path reconstruction"
     },
-    "code": "function node(d: Dyadic): Node\nbegin\n    // Canonical tree projection: maps dyadic rational d to unique earliest sign path\n    return to_node(d);\nend;",
+    "code": "rule node(d: Dyadic) : Node ≔\nbegin\n    // Canonical tree projection: maps dyadic rational d to unique earliest sign path\n    return to_node(d);\nend;",
     "explanation": [
       "The inverse of val: projects an algebraic dyadic rational back into the geometric Conway tree.",
       "Guaranteed to produce the canonical, shortest sign string representing d.",
@@ -769,7 +790,8 @@
         "Reconstruct binary walk: + (1) ➔ - (1/2) ➔ + (3/4)"
       ],
       "result": "node(3/4) = [+-+]"
-    }
+    },
+    "signature": "𝔻 → Node"
   },
   "create_array": {
     "id": "create_array",
@@ -785,7 +807,7 @@
       "tree": "O(M) tree root references",
       "dyadic": "O(M) contiguous memory allocation"
     },
-    "code": "function CreateArray(M: Integer): Array of Dyadic\nvar\n    arr: Array of Dyadic;\nbegin\n    // Allocates a 1D spatial grid lattice of M discrete dyadic cells\n    arr := allocate_grid(M);\n    return arr;\nend;",
+    "code": "rule CreateArray(M: Integer) : Array of Dyadic ≔\nvar\n    arr: Array of Dyadic;\nbegin\n    // Allocates a 1D spatial grid lattice of M discrete dyadic cells\n    arr := allocate_grid(M);\n    return arr;\nend;",
     "explanation": [
       "Initializes discrete spatial domain for 1D diffusion and wave PDE stepping.",
       "Allocates M discrete cells, each initialized to 0 (root []).",
@@ -799,7 +821,8 @@
         "Allocate 3 cells: [0, 0, 0]"
       ],
       "result": "CreateArray(3) = [0, 0, 0]"
-    }
+    },
+    "signature": "(ℕ × 𝔻) → Array of 𝔻"
   },
   "cordic_angle_table": {
     "id": "cordic_angle_table",
@@ -815,7 +838,7 @@
       "tree": "O(1) constant projection",
       "dyadic": "O(1) direct table indexing"
     },
-    "code": "function CordicAngleTable(i: Integer): Dyadic\nvar\n    angle: Dyadic;\nbegin\n    // Elementary rotation angles arctan(2^-i) for discrete dyadic rotor\n    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...\n    angle := lookup_angle(i);\n    return angle;\nend;",
+    "code": "rule CordicAngleTable(i: Integer) : Dyadic ≔\nvar\n    angle: Dyadic;\nbegin\n    // Elementary rotation angles arctan(2^-i) for discrete dyadic rotor\n    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...\n    angle := lookup_angle(i);\n    return angle;\nend;",
     "explanation": [
       "Provides the predefined constants arctan(2^-i) where tangent is exactly 2^-i.",
       "Multiplication by the tangent reduces to a simple power-of-two right bit-shift (≫ i).",
@@ -829,7 +852,8 @@
         "lookup_angle(0) = arctan(1) = π/4 ≈ 0.785398"
       ],
       "result": "CordicAngleTable(0) ≈ 0.785398"
-    }
+    },
+    "signature": "() → Array of 𝔻"
   },
   "op_add": {
     "id": "op_add",
@@ -846,7 +870,7 @@
       "tree": "Replaces Conway inductive recursion O(4^d) with exact O(1) ring addition",
       "dyadic": "1 bit-shift, 1 integer addition"
     },
-    "code": "function DyadicAdd(a: Dyadic, b: Dyadic): Dyadic\nbegin\n    // Exact ring addition with power-of-two denominator alignment in (𝔻, +, ·)\n    return a ⊕ b;\nend;",
+    "code": "rule DyadicAdd(a: Dyadic, b: Dyadic) : Dyadic ≔\nbegin\n    // Exact ring addition with power-of-two denominator alignment in (𝔻, +, ·)\n    return a ⊕ b;\nend;",
     "explanation": [
       "The foundational operation of the dyadic machine.",
       "Aligns denominators via bit-shifts and sums 64-bit integer numerators.",
@@ -862,7 +886,8 @@
         "Sum numerators: 1 + 2 = 3"
       ],
       "result": "DyadicAdd(1/4, 1/2) = 3/4"
-    }
+    },
+    "signature": "(𝔻 × 𝔻) → 𝔻"
   },
   "op_concat": {
     "id": "op_concat",
@@ -878,7 +903,7 @@
       "tree": "1 step down the binary Conway tree",
       "dyadic": "O(1) string/path append"
     },
-    "code": "function TreeConcat(p: Node, sign: String): Node\nbegin\n    // Appends sign step ('+' for right, '-' for left) to walk down the tree\n    return p ++ sign;\nend;",
+    "code": "rule TreeConcat(p: Node, sign: String) : Node ≔\nbegin\n    // Appends sign step ('+' for right, '-' for left) to walk down the tree\n    return p ++ sign;\nend;",
     "explanation": [
       "Navigates down the Conway surreal tree one generation step at a time.",
       "Appending + moves to a larger child (right branch).",
@@ -894,6 +919,7 @@
         "Append \"-\" to path \"+\": \"+-\""
       ],
       "result": "TreeConcat([+], \"-\") = [+-] (1/2)"
-    }
+    },
+    "signature": "(Node × Node) → Node"
   }
 }

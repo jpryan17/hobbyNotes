@@ -21,6 +21,7 @@ export interface IToken {
 
 const KEYWORDS = new Set([
   'function',
+  'rule',
   'var',
   'begin',
   'end',
@@ -63,7 +64,14 @@ export function tokenize(source: string): IToken[] {
         continue;
       }
 
-      // Two-character operators
+      // Three-character & two-character operators
+      const three = line.substring(col, col + 3);
+      if (three === '::=') {
+        tokens.push({ type: 'OPERATOR', value: three, line: lineNum });
+        col += 3;
+        continue;
+      }
+
       const two = line.substring(col, col + 2);
       if ([':=', '<=', '>=', '++', '..'].includes(two)) {
         tokens.push({ type: 'OPERATOR', value: two, line: lineNum });
@@ -72,7 +80,7 @@ export function tokenize(source: string): IToken[] {
       }
 
       // Single character operators & special Unicode math
-      if (['≫', '≪', '⊕', '⊖', '⊗', '⊘', '+', '-', '*', '/', '<', '>', '='].includes(ch)) {
+      if (['≔', '≫', '≪', '⊕', '⊖', '⊗', '⊘', '+', '-', '*', '/', '<', '>', '='].includes(ch)) {
         tokens.push({ type: 'OPERATOR', value: ch, line: lineNum });
         col++;
         continue;
@@ -234,7 +242,7 @@ export class PseudoParser {
     const functions = new Map<string, IFunctionDef>();
 
     while (!this.check('EOF')) {
-      if (this.check('KEYWORD', 'function')) {
+      if (this.check('KEYWORD', 'function') || this.check('KEYWORD', 'rule')) {
         const fn = this.parseFunction();
         functions.set(fn.name, fn);
       } else {
@@ -247,7 +255,12 @@ export class PseudoParser {
   }
 
   private parseFunction(): IFunctionDef {
-    const fnTok = this.expect('KEYWORD', 'function');
+    let fnTok: IToken;
+    if (this.check('KEYWORD', 'rule')) {
+      fnTok = this.expect('KEYWORD', 'rule');
+    } else {
+      fnTok = this.expect('KEYWORD', 'function');
+    }
     const nameTok = this.expect('IDENT');
     const name = nameTok.value;
 
@@ -265,9 +278,19 @@ export class PseudoParser {
     }
     this.expect('PUNCT', ')');
 
-    // Skip return type if present: ": (Set of Node, Set of Node)" or ": Node"
+    // Skip return type if present: ": (Set of Node, Set of Node)" or ": Node" or ": 𝔹"
     if (this.match('PUNCT', ':')) {
       this.skipType();
+    }
+
+    // Optional directed equality symbol: "rule Foo(...): Type ≔" or "::=" or ":="
+    if (
+      this.check('OPERATOR', '≔') ||
+      this.check('OPERATOR', '::=') ||
+      this.check('OPERATOR', ':=') ||
+      this.check('OPERATOR', '=')
+    ) {
+      this.advance();
     }
 
     // Optional "var" section
@@ -318,6 +341,10 @@ export class PseudoParser {
         !this.check('PUNCT', ')') &&
         !this.check('KEYWORD', 'begin') &&
         !this.check('KEYWORD', 'var') &&
+        !this.check('OPERATOR', '≔') &&
+        !this.check('OPERATOR', '::=') &&
+        !this.check('OPERATOR', ':=') &&
+        !this.check('OPERATOR', '=') &&
         !this.check('EOF')
       ) {
         this.advance();
