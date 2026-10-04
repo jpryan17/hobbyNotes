@@ -848,6 +848,54 @@ export class PseudoViewer extends Elt {
       </div>
     `;
     }
+    showFloatingTooltip(targetEl, meta, tokenName) {
+        const tooltip = this.elt.querySelector('#pseudo-floating-tooltip');
+        const container = this.elt.querySelector('#pseudo-code-container');
+        if (!tooltip || !container)
+            return;
+        const badgeColors = {
+            submodule: { bg: '#0f766e', text: '#2dd4bf' },
+            primitive: { bg: '#064e3b', text: '#4ade80' },
+            operator: { bg: '#451a03', text: '#fbbf24' },
+        };
+        const colors = badgeColors[meta.role] || { bg: '#334155', text: '#cbd5e1' };
+        const clickNotice = meta.moduleId
+            ? `<div style="color:#38bdf8;font-weight:600;margin-top:4px;font-size:11px;">➔ Click to inspect definition</div>`
+            : '';
+        tooltip.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+        <span style="background:${colors.bg};color:${colors.text};border:1px solid ${colors.text};font-size:9.5px;font-weight:bold;padding:1px 6px;border-radius:3px;text-transform:uppercase;">
+          ${meta.label}
+        </span>
+        <strong style="color:#f8fafc;font-family:monospace;font-size:12.5px;">${tokenName}</strong>
+      </div>
+      <div style="color:#cbd5e1;font-size:11.5px;line-height:1.4;">${meta.desc}</div>
+      ${clickNotice}
+    `;
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = targetEl.getBoundingClientRect();
+        let top = targetRect.top - containerRect.top - 58;
+        let left = targetRect.left - containerRect.left;
+        if (top < 8) {
+            top = targetRect.bottom - containerRect.top + 8;
+        }
+        if (left + 330 > containerRect.width) {
+            left = Math.max(10, containerRect.width - 340);
+        }
+        if (left < 10)
+            left = 10;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`;
+        tooltip.style.display = 'block';
+        tooltip.style.opacity = '1';
+    }
+    hideFloatingTooltip() {
+        const tooltip = this.elt.querySelector('#pseudo-floating-tooltip');
+        if (tooltip) {
+            tooltip.style.opacity = '0';
+            tooltip.style.display = 'none';
+        }
+    }
     attachCodeTokenEvents() {
         const editor = this.elt.querySelector('#pseudo-editor-body');
         if (!editor)
@@ -859,10 +907,12 @@ export class PseudoViewer extends Elt {
             el.addEventListener('mouseenter', () => {
                 if (meta) {
                     this.updateSemanticPill(meta, tokenName);
+                    this.showFloatingTooltip(el, meta, tokenName);
                 }
             });
             el.addEventListener('mouseleave', () => {
                 this.updateSemanticPill();
+                this.hideFloatingTooltip();
             });
             // Click: Any token with a moduleId navigates into focus
             if (meta && meta.moduleId) {
@@ -1102,14 +1152,17 @@ export class PseudoViewer extends Elt {
           </div>
 
           <!-- Code Box Container (Strictly 1-to-1 with Focused Module) -->
-          <div style="border:1px solid #1e293b;border-top:none;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3);">
+          <div id="pseudo-code-container" style="border:1px solid #1e293b;border-top:none;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3);position:relative;">
             <div id="pseudo-editor-body" style="background:#090d16;padding:16px;color:#f1f5f9;font-family:Consolas, 'Courier New', monospace;font-size:13px;overflow-x:auto;max-height:460px;overflow-y:auto;">
               ${highlightPseudoCode(mod.code, -1, mod.funcName)}
             </div>
+
+            <!-- Floating Hover Tooltip (Appears directly at hovered token) -->
+            <div id="pseudo-floating-tooltip" style="display:none;position:absolute;z-index:100;pointer-events:none;background:#0b1120;border:1.5px solid #38bdf8;box-shadow:0 8px 24px rgba(0,0,0,0.7);border-radius:8px;padding:8px 12px;font-size:12px;color:#f1f5f9;max-width:340px;transition:opacity 0.12s ease;opacity:0;"></div>
           </div>
 
-          <!-- Semantic Status Pill (Hover Invariants & Click-to-Focus Guide) -->
-          <div id="pseudo-semantic-pill" style="border:1px solid #334155;border-top:none;border-radius:0 0 8px 8px;background:#0f172a;padding:8px 14px;font-size:12px;color:#cbd5e1;display:flex;align-items:center;justify-content:space-between;min-height:38px;box-shadow:0 2px 4px rgba(0,0,0,0.1);margin-bottom:20px;">
+          <!-- Sticky Floating Semantic Status Pill (Always visible on screen) -->
+          <div id="pseudo-semantic-pill" style="position:sticky;bottom:8px;z-index:40;border:1px solid #334155;border-radius:8px;background:rgba(15,23,42,0.96);backdrop-filter:blur(8px);padding:8px 14px;font-size:12px;color:#cbd5e1;display:flex;align-items:center;justify-content:space-between;min-height:38px;box-shadow:0 4px 16px rgba(0,0,0,0.45);margin:8px 0 20px 0;">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#94a3b8;font-size:12px;">
               <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#38bdf8;"></span>
               <span>Module: <strong style="color:#f1f5f9;font-family:monospace;">${mod.funcName}</strong></span>
