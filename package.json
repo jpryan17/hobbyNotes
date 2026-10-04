@@ -16,6 +16,7 @@
     "leanServer": "node ./leanServer/public/server.js",
     "serverC": "cd ./server && npx tsc",
     "consoleC": "node ./node_modules/esbuild/bin/esbuild console/console.ts --bundle --outfile=console/public/bundle.js --format=esm --sourcemap",
+    "console": "npm run utilsC && npm run consoleC && node ./nodeUtils/public/startConsole.js",
     "server": "node ./server/public/server.js",
     "utilsC": "cd ./nodeUtils && npx tsc",
     "segs": "cd ./nodeUtils && node ./public/genSegsFiles.js",

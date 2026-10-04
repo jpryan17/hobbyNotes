@@ -351,9 +351,17 @@ export class PseudoParser {
             this.match('PUNCT', ';');
             return { type: 'ASSIGN', line: tok.line, target: targets, expr };
         }
-        // 6. Identifier-led: assignment (x := ...) or procedure call (Insert(...))
+        // 6. Identifier-led: assignment (x := ... or x[i] := ...) or procedure call (Insert(...))
         if (this.check('IDENT')) {
             const name = this.advance().value;
+            if (this.match('PUNCT', '[')) {
+                const indexExpr = this.parseExpr();
+                this.expect('PUNCT', ']');
+                this.expect('OPERATOR', ':=');
+                const expr = this.parseExpr();
+                this.match('PUNCT', ';');
+                return { type: 'ASSIGN', line: tok.line, target: name, indexExpr, expr };
+            }
             if (this.match('OPERATOR', ':=')) {
                 const expr = this.parseExpr();
                 this.match('PUNCT', ';');
@@ -472,19 +480,29 @@ export class PseudoParser {
                 this.expect('PUNCT', ')');
                 return { type: 'CALL', callee: name, args, line: tok.line };
             }
-            // Slicing: X[0 .. i]
+            // Slicing: X[0 .. i] or Indexing: X[i]
             if (this.match('PUNCT', '[')) {
-                const start = this.parseExpr();
-                this.expect('OPERATOR', '..');
-                const end = this.parseExpr();
-                this.expect('PUNCT', ']');
-                return {
-                    type: 'SLICE',
-                    target: { type: 'IDENT', name, line: tok.line },
-                    start,
-                    end,
-                    line: tok.line,
-                };
+                const first = this.parseExpr();
+                if (this.match('OPERATOR', '..')) {
+                    const end = this.parseExpr();
+                    this.expect('PUNCT', ']');
+                    return {
+                        type: 'SLICE',
+                        target: { type: 'IDENT', name, line: tok.line },
+                        start: first,
+                        end,
+                        line: tok.line,
+                    };
+                }
+                else {
+                    this.expect('PUNCT', ']');
+                    return {
+                        type: 'INDEX',
+                        target: { type: 'IDENT', name, line: tok.line },
+                        index: first,
+                        line: tok.line,
+                    };
+                }
             }
             return { type: 'IDENT', name, line: tok.line };
         }
@@ -634,7 +652,14 @@ export class PseudoInterpreter {
         switch (stmt.type) {
             case 'ASSIGN': {
                 const val = this.evalExpr(stmt.expr, scope);
-                if (Array.isArray(stmt.target)) {
+                if (stmt.indexExpr) {
+                    const arr = scope.get(stmt.target);
+                    const idx = Number(this.evalExpr(stmt.indexExpr, scope));
+                    if (Array.isArray(arr)) {
+                        arr[idx] = val;
+                    }
+                }
+                else if (Array.isArray(stmt.target)) {
                     // Tuple assignment: (XL, XR) := ...
                     if (Array.isArray(val)) {
                         for (let i = 0; i < stmt.target.length; i++) {
@@ -724,6 +749,8 @@ export class PseudoInterpreter {
             case 'IDENT': {
                 if (expr.name === '[]')
                     return dyadicMachine.root();
+                if (expr.name === 'nil' || expr.name === 'null')
+                    return null;
                 return scope.get(expr.name);
             }
             case 'TUPLE':
@@ -839,17 +866,31 @@ export class PseudoInterpreter {
                 }
                 return null;
             }
+            case 'INDEX': {
+                const target = this.evalExpr(expr.target, scope);
+                const idx = Number(this.evalExpr(expr.index, scope));
+                if (Array.isArray(target)) {
+                    return target[idx];
+                }
+                if (target && typeof target === 'object' && 'path' in target) {
+                    return target.path[idx] ?? '';
+                }
+                if (typeof target === 'string') {
+                    return target[idx] ?? '';
+                }
+                return null;
+            }
             case 'CALL': {
                 const name = expr.callee;
                 const evaluatedArgs = expr.args.map((a) => this.evalExpr(a, scope));
-                // Built-in Primitives
-                if (name === 'EmptySet')
+                // Built-in Primitives & Aliases
+                if (name === 'EmptySet' || name === 'Set')
                     return new Set();
-                if (name === 'Insert') {
+                if (name === 'Insert' || name === 'include') {
                     const s = evaluatedArgs[0];
                     if (s instanceof Set)
                         s.add(evaluatedArgs[1]);
-                    return null;
+                    return s;
                 }
                 if (name === 'Maximum') {
                     const s = evaluatedArgs[0];
@@ -861,7 +902,7 @@ export class PseudoInterpreter {
                     const arr = s instanceof Set ? [...s] : [];
                     return arr.length > 0 ? dyadicMachine.min(arr) : null;
                 }
-                if (name === 'length') {
+                if (name === 'length' || name === 'birthday') {
                     const item = evaluatedArgs[0];
                     if (item && typeof item === 'object' && 'path' in item) {
                         return item.path.length;
@@ -870,11 +911,11 @@ export class PseudoInterpreter {
                 }
                 if (name === 'sqr')
                     return dyadicMachine.mul(evaluatedArgs[0], evaluatedArgs[0]);
-                if (name === 'val')
+                if (name === 'val' || name === 'to_dyadic')
                     return evaluatedArgs[0];
-                if (name === 'node')
+                if (name === 'node' || name === 'to_node')
                     return dyadicMachine.node(evaluatedArgs[0]);
-                if (name === 'CordicAngle') {
+                if (name === 'CordicAngle' || name === 'CordicAngleTable' || name === 'lookup_angle') {
                     const idx = Number(evaluatedArgs[0]);
                     const angles = [
                         0.7853981633974483, 0.4636476090008061, 0.24497866312686414, 0.12435499454676144,
@@ -883,9 +924,21 @@ export class PseudoInterpreter {
                     const val = angles[idx] ?? (0.785398 / Math.pow(2, idx));
                     return dyadicMachine.fromFloat(val);
                 }
-                if (name === 'CreateArray') {
+                if (name === 'CreateArray' || name === 'allocate_grid') {
                     const len = Number(evaluatedArgs[0]);
                     return new Array(len).fill(dyadicMachine.root());
+                }
+                if (name === 'DyadicAdd') {
+                    return dyadicMachine.add(evaluatedArgs[0], evaluatedArgs[1]);
+                }
+                if (name === 'TreeConcat') {
+                    const left = evaluatedArgs[0];
+                    const right = evaluatedArgs[1];
+                    if (left && typeof left === 'object' && 'path' in left) {
+                        const nextSign = typeof right === 'string' ? right : '';
+                        return dyadicMachine.fromPath(left.path + nextSign);
+                    }
+                    return String(left) + String(right);
                 }
                 if (name === 'KinematicStep') {
                     const res = dyadicMachine.kinematicStep(evaluatedArgs[0], evaluatedArgs[1], evaluatedArgs[2]);
