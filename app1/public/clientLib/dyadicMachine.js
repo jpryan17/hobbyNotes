@@ -523,6 +523,156 @@ export class DyadicMachineClass {
     conwaySub(xInput, yInput) {
         return this.conwayAdd(xInput, this.conwayNeg(yInput));
     }
+    conwayMulMemo = new Map();
+    /**
+     * Conway Inductive Multiplication:
+     *   X · Y = { Xᴸ·Y + X·Yᴸ - Xᴸ·Yᴸ, Xᴿ·Y + X·Yᴿ - Xᴿ·Yᴿ | Xᴸ·Y + X·Yᴿ - Xᴸ·Yᴿ, Xᴿ·Y + X·Yᴸ - Xᴿ·Yᴸ }
+     */
+    conwayMul(xInput, yInput) {
+        const X = this.node(xInput);
+        const Y = this.node(yInput);
+        const key = `${X.path}|${Y.path}`;
+        if (this.conwayMulMemo.has(key))
+            return this.conwayMulMemo.get(key);
+        const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
+        const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
+        const leftResults = [];
+        const rightResults = [];
+        // Left options: (xL*Y + X*yL - xL*yL) and (xR*Y + X*yR - xR*yR)
+        for (const xL of XL) {
+            for (const yL of YL) {
+                const sum = this.conwayAdd(this.conwayMul(xL, Y), this.conwayMul(X, yL));
+                leftResults.push(this.conwaySub(sum, this.conwayMul(xL, yL)));
+            }
+        }
+        for (const xR of XR) {
+            for (const yR of YR) {
+                const sum = this.conwayAdd(this.conwayMul(xR, Y), this.conwayMul(X, yR));
+                leftResults.push(this.conwaySub(sum, this.conwayMul(xR, yR)));
+            }
+        }
+        // Right options: (xL*Y + X*yR - xL*yR) and (xR*Y + X*yL - xR*yL)
+        for (const xL of XL) {
+            for (const yR of YR) {
+                const sum = this.conwayAdd(this.conwayMul(xL, Y), this.conwayMul(X, yR));
+                rightResults.push(this.conwaySub(sum, this.conwayMul(xL, yR)));
+            }
+        }
+        for (const xR of XR) {
+            for (const yL of YL) {
+                const sum = this.conwayAdd(this.conwayMul(xR, Y), this.conwayMul(X, yL));
+                rightResults.push(this.conwaySub(sum, this.conwayMul(xR, yL)));
+            }
+        }
+        const maxLeft = leftResults.length > 0 ? this.max(leftResults) : null;
+        const minRight = rightResults.length > 0 ? this.min(rightResults) : null;
+        const result = this.cut(maxLeft, minRight);
+        this.conwayMulMemo.set(key, result);
+        return result;
+    }
+    conwayLessEq(xInput, yInput) {
+        const X = this.node(xInput);
+        const Y = this.node(yInput);
+        const { leftOptions: XL } = this.simplerOptions(X);
+        const { rightOptions: YR } = this.simplerOptions(Y);
+        for (const xL of XL) {
+            if (this.conwayLessEq(Y, xL))
+                return false;
+        }
+        for (const yR of YR) {
+            if (this.conwayLessEq(yR, X))
+                return false;
+        }
+        return true;
+    }
+    countConwayAdd(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }) {
+        stats.calls++;
+        if (depth > stats.maxDepth)
+            stats.maxDepth = depth;
+        stats.cuts++;
+        const X = this.node(xInput);
+        const Y = this.node(yInput);
+        const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
+        const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
+        if (stats.calls > 500)
+            return stats;
+        for (const xL of XL)
+            this.countConwayAdd(xL, Y, depth + 1, stats);
+        for (const yL of YL)
+            this.countConwayAdd(X, yL, depth + 1, stats);
+        for (const xR of XR)
+            this.countConwayAdd(xR, Y, depth + 1, stats);
+        for (const yR of YR)
+            this.countConwayAdd(X, yR, depth + 1, stats);
+        return stats;
+    }
+    countConwayMul(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0, addCalls: 0 }) {
+        stats.calls++;
+        if (depth > stats.maxDepth)
+            stats.maxDepth = depth;
+        stats.cuts++;
+        const X = this.node(xInput);
+        const Y = this.node(yInput);
+        const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
+        const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
+        if (stats.calls > 500)
+            return stats;
+        for (const xL of XL) {
+            for (const yL of YL) {
+                stats.addCalls = (stats.addCalls || 0) + 2;
+                this.countConwayMul(xL, Y, depth + 1, stats);
+                this.countConwayMul(X, yL, depth + 1, stats);
+                this.countConwayMul(xL, yL, depth + 1, stats);
+            }
+        }
+        for (const xR of XR) {
+            for (const yR of YR) {
+                stats.addCalls = (stats.addCalls || 0) + 2;
+                this.countConwayMul(xR, Y, depth + 1, stats);
+                this.countConwayMul(X, yR, depth + 1, stats);
+                this.countConwayMul(xR, yR, depth + 1, stats);
+            }
+        }
+        for (const xL of XL) {
+            for (const yR of YR) {
+                stats.addCalls = (stats.addCalls || 0) + 2;
+                this.countConwayMul(xL, Y, depth + 1, stats);
+                this.countConwayMul(X, yR, depth + 1, stats);
+                this.countConwayMul(xL, yR, depth + 1, stats);
+            }
+        }
+        for (const xR of XR) {
+            for (const yL of YL) {
+                stats.addCalls = (stats.addCalls || 0) + 2;
+                this.countConwayMul(xR, Y, depth + 1, stats);
+                this.countConwayMul(X, yL, depth + 1, stats);
+                this.countConwayMul(xR, yL, depth + 1, stats);
+            }
+        }
+        return stats;
+    }
+    countConwayLessEq(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }) {
+        stats.calls++;
+        if (depth > stats.maxDepth)
+            stats.maxDepth = depth;
+        const X = this.node(xInput);
+        const Y = this.node(yInput);
+        const { leftOptions: XL } = this.simplerOptions(X);
+        const { rightOptions: YR } = this.simplerOptions(Y);
+        if (stats.calls > 500)
+            return stats;
+        for (const xL of XL) {
+            if (this.compare(Y, xL) <= 0) {
+                this.countConwayLessEq(Y, xL, depth + 1, stats);
+            }
+        }
+        for (const yR of YR) {
+            if (this.compare(yR, X) <= 0) {
+                this.countConwayLessEq(yR, X, depth + 1, stats);
+            }
+        }
+        return stats;
+    }
 }
 /**
  * Singleton instance of the Dyadic Arithmetic Machine.

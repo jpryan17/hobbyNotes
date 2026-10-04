@@ -202,6 +202,289 @@ end;`,
     },
   },
 
+  conway_order: {
+    id: 'conway_order',
+    funcName: 'ConwayLessEq',
+    name: 'Conway Inductive Order (X ≤ Y)',
+    badge: 'Tree-Inductive Order',
+    summary:
+      'Determines if node X ≤ Y directly on Conway tree options: no left option of X can be ≥ Y, and no right option of Y can be ≤ X.',
+    domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ 1 if X ≤ Y else 0',
+    primitives: [
+      'SimplerOptions(X)',
+      'ConwayLessEq(Y, xL) [mutual recursion]',
+      'ConwayLessEq(yR, X)',
+    ],
+    complexity: {
+      tree: 'O(2^(d_x + d_y)) mutual recursive option evaluations over earlier birthdays',
+      dyadic: 'O(1) sign comparison and bit alignment in the ordered field (𝔻, ≤)',
+    },
+    code: `function ConwayLessEq(X: Node, Y: Node): Integer
+var
+    XL, XR, YL, YR: Set of Node;
+    xL, yR: Node;
+begin
+    // 1. Decompose both nodes into simpler ancestral options
+    (XL, XR) := SimplerOptions(X);
+    (YL, YR) := SimplerOptions(Y);
+
+    // 2. Condition 1: No left option of X is >= Y (i.e. Y <= xL is false)
+    for each xL in XL do
+    begin
+        if ConwayLessEq(Y, xL) = 1 then
+            return 0; // Violation found: xL >= Y
+    end;
+
+    // 3. Condition 2: No right option of Y is <= X (i.e. yR <= X is false)
+    for each yR in YR do
+    begin
+        if ConwayLessEq(yR, X) = 1 then
+            return 0; // Violation found: yR <= X
+    end;
+
+    // Satisfies Conway surreal order: X <= Y
+    return 1;
+end;`,
+    explanation: [
+      'Conway fundamental inductive definition of order: X ≤ Y ⇔ (∀ xᴸ ∈ Xᴸ, ¬(Y ≤ xᴸ)) ∧ (∀ yᴿ ∈ Yᴿ, ¬(yᴿ ≤ X)).',
+      'Base case: 0 ≤ 0 ([] ≤ []) has XL = ∅ and YR = ∅, immediately returning 1 (true).',
+      'Inductively generates a total linear order across the entire binary tree without continuous limits or Cauchy sequences.',
+      'Grounds the entire field ordering in well-founded induction on birthday depth.',
+    ],
+    example: {
+      inputs: ['X = [] (0)', 'Y = [+] (1)'],
+      steps: [
+        'XL = ∅, XR = ∅ for X = []',
+        'YL = { [] }, YR = ∅ for Y = [+]',
+        'Left loop: XL is empty ⟹ no violation',
+        'Right loop: YR is empty ⟹ no violation',
+      ],
+      result: 'ConwayLessEq([], [+]) = 1 (0 ≤ 1)',
+    },
+  },
+
+  conway_sort: {
+    id: 'conway_sort',
+    funcName: 'ConwaySort',
+    name: 'Conway Total Order Sort',
+    badge: 'Tree-Inductive Sorting',
+    summary:
+      'Sorts an array of Conway tree nodes into ascending linear order strictly using the recursive ConwayLessEq order predicate.',
+    domain: 'A: Array of Node ⟹ Sorted A such that A[0] ≤ A[1] ≤ ... ≤ A[n-1]',
+    primitives: [
+      'ConwayLessEq(a, b)',
+      'A[i] (array indexing)',
+    ],
+    complexity: {
+      tree: 'O(n² · 2^d) inductive option comparisons across array elements',
+      dyadic: 'O(n log n) standard numeric sort using 64-bit integer compare',
+    },
+    code: `function ConwaySort(A: Array of Node, n: Integer): Array of Node
+var
+    i, j: Integer;
+    key: Node;
+begin
+    // Insertion sort grounded strictly on Conway inductive order
+    for i := 1 to n - 1 do
+    begin
+        key := A[i];
+        j := i - 1;
+
+        // Shift elements greater than key to the right
+        while (j >= 0) and (ConwayLessEq(key, A[j]) = 1) do
+        begin
+            A[j + 1] := A[j];
+            j := j - 1;
+        end;
+        A[j + 1] := key;
+    end;
+
+    return A;
+end;`,
+    explanation: [
+      'Demonstrates that Conway recursive order defines a true total ordering on any finite collection of surreal numbers.',
+      'Uses insertion sort where every pairwise order decision invokes the inductive ConwayLessEq predicate.',
+      'Shows how abstract combinatorial game options organize into a strict linear sequence from least to greatest.',
+    ],
+    example: {
+      inputs: ['A = [1, -1, 1/2, 0, -1/2]', 'n = 5'],
+      steps: [
+        'Compare key -1 with 1: -1 ≤ 1 ⟹ shift',
+        'Compare key 1/2 with 1: 1/2 ≤ 1 ⟹ insert after 0',
+        'Final sorted array satisfies Conway order at every step',
+      ],
+      result: 'ConwaySort(A, 5) = [-1, -1/2, 0, 1/2, 1]',
+    },
+  },
+
+  conway_sub: {
+    id: 'conway_sub',
+    funcName: 'ConwaySub',
+    name: 'Conway Inductive Subtraction',
+    badge: 'Tree-Inductive Arithmetic',
+    summary:
+      'Evaluates the exact difference X - Y of two Conway numbers as X + (-Y) via Conway tree negation and addition.',
+    domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X - Y',
+    primitives: [
+      'ConwayNeg(Y)',
+      'ConwayAdd(X, -Y)',
+    ],
+    complexity: {
+      tree: 'O(4^d) option tree expansion inherited from ConwayAdd',
+      dyadic: 'O(1) aligned bit-shift and integer subtraction in the ring (𝔻, +, ·)',
+    },
+    code: `function ConwaySub(X: Node, Y: Node): Node
+var
+    negY: Node;
+begin
+    // Subtraction is addition of the tree negation: X - Y = X + (-Y)
+    negY := ConwayNeg(Y);
+    return ConwayAdd(X, negY);
+end;`,
+    explanation: [
+      'Conway subtraction reduces directly to addition with the sign-inverted tree node.',
+      'Reflects the right-hand argument Y across the root 0 (+ <-> -).',
+      'Preserves the group inversion law in the surreal number field.',
+    ],
+    example: {
+      inputs: ['X = [+ + -] (1&1/4)', 'Y = [+ - +] (3/4)'],
+      steps: [
+        'ConwayNeg([+ - +]) = [- + -] (-3/4)',
+        'ConwayAdd(1&1/4, -3/4) = 1/2',
+      ],
+      result: 'ConwaySub(1&1/4, 3/4) = [+ -] (1/2)',
+    },
+  },
+
+  conway_mul: {
+    id: 'conway_mul',
+    funcName: 'ConwayMul',
+    name: 'Conway Inductive Multiplication',
+    badge: 'Tree-Inductive Arithmetic',
+    summary:
+      'Evaluates the exact product X · Y of two Conway numbers directly on their tree sign paths via 4-way recursive cross options and Conway cut.',
+    domain: 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X · Y',
+    primitives: [
+      'SimplerOptions(X)',
+      'ConwayAdd(a, b)',
+      'ConwaySub(a, b)',
+      'ConwayMul(a, b) [recursive]',
+      'Cut(L, R)',
+    ],
+    complexity: {
+      tree: 'Hyper-exponential option explosion: each recursive step branches into 4 products, 2 additions, and 1 subtraction',
+      dyadic: 'O(1) single integer multiplication and denominator bit addition: (m₁/2^e₁) · (m₂/2^e₂) = (m₁·m₂)/2^(e₁+e₂)',
+    },
+    code: `function ConwayMul(X: Node, Y: Node): Node
+var
+    XL, XR, YL, YR: Set of Node;
+    leftResults, rightResults: Set of Node;
+    term, maxLeft, minRight: Node;
+begin
+    // 1. Decompose both nodes into ancestral options
+    (XL, XR) := SimplerOptions(X);
+    (YL, YR) := SimplerOptions(Y);
+
+    leftResults  := EmptySet();
+    rightResults := EmptySet();
+
+    // 2. Left options: (xL · Y) + (X · yL) - (xL · yL)
+    for each xL in XL do
+        for each yL in YL do
+        begin
+            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yL));
+            Insert(leftResults, ConwaySub(term, ConwayMul(xL, yL)));
+        end;
+
+    // (xR · Y) + (X · yR) - (xR · yR)
+    for each xR in XR do
+        for each yR in YR do
+        begin
+            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yR));
+            Insert(leftResults, ConwaySub(term, ConwayMul(xR, yR)));
+        end;
+
+    // 3. Right options: (xL · Y) + (X · yR) - (xL · yR)
+    for each xL in XL do
+        for each yR in YR do
+        begin
+            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yR));
+            Insert(rightResults, ConwaySub(term, ConwayMul(xL, yR)));
+        end;
+
+    // (xR · Y) + (X · yL) - (xR · yL)
+    for each xR in XR do
+        for each yL in YL do
+        begin
+            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yL));
+            Insert(rightResults, ConwaySub(term, ConwayMul(xR, yL)));
+        end;
+
+    // 4. Resolve simplest intermediate node between bounds
+    maxLeft  := Maximum(leftResults);
+    minRight := Minimum(rightResults);
+    return Cut(maxLeft, minRight);
+end;`,
+    explanation: [
+      'Conway multiplication is the pinnacle of tree-inductive surreal arithmetic.',
+      'Crosses every left and right option pair through 4 distinct algebraic combinations.',
+      'Demonstrates why multiplying even small Day 2 numbers triggers dozens of recursive invocations.',
+      'The Conway Cut identifies the unique earliest-born surreal product satisfying all option bounds.',
+    ],
+    example: {
+      inputs: ['X = [+] (1)', 'Y = [+ -] (1/2)'],
+      steps: [
+        'XL = { [] }, XR = ∅; YL = { [], [+] }, YR = { [+ - -] }',
+        'Cross-multiply options: 0 · 1/2 + 1 · 0 - 0 · 0 = 0',
+        'max(leftResults) = 0, min(rightResults) = 1',
+      ],
+      result: 'Cut(0, 1) = [+ -] (1/2)',
+    },
+  },
+
+  conway_neg: {
+    id: 'conway_neg',
+    funcName: 'ConwayNeg',
+    name: 'Conway Tree Negation (-X)',
+    badge: 'Tree Reflection Primitive',
+    summary:
+      'Inverts every sign step (+ <-> -) along the path, reflecting the node across the tree root 0.',
+    domain: 'X ∈ {+, -}* ⟹ -X ∈ {+, -}*',
+    primitives: [
+      'X[i] (sign step)',
+      'TreeConcat(res, invSign)',
+    ],
+    complexity: {
+      tree: 'O(d) sign string inversion where d is birthday depth',
+      dyadic: 'O(1) numerator integer negation in (𝔻, +, ·)',
+    },
+    code: `function ConwayNeg(X: Node): Node
+var
+    res: Node;
+    i: Integer;
+begin
+    res := [];
+    for i := 0 to length(X) - 1 do
+    begin
+        if X[i] = '+' then
+            res := res ++ '-'
+        else
+            res := res ++ '+';
+    end;
+    return res;
+end;`,
+    explanation: [
+      'Reflects any surreal number across the central root 0.',
+      'Positive steps (+) become negative steps (-); negative steps (-) become positive steps (+).',
+      'Exact symmetry: ConwayNeg(ConwayNeg(X)) = X.',
+    ],
+    example: {
+      inputs: ['X = [+ - +] (3/4)'],
+      steps: ['+ -> -, - -> +, + -> - ⟹ [- + -]'],
+      result: 'ConwayNeg([+ - +]) = [- + -] (-3/4)',
+    },
+  },
+
   euler_compounding: {
     id: 'euler_compounding',
     funcName: 'EulerExp',
@@ -973,6 +1256,12 @@ export const PSEUDO_CATALOG: Record<string, IPseudoAlgorithm> = {
   SimplerOptions: MODULE_CATALOG.simpler_options,
   Cut: MODULE_CATALOG.cut,
   ConwayAdd: MODULE_CATALOG.conway_add,
+  ConwayLessEq: MODULE_CATALOG.conway_order,
+  ConwayCompare: MODULE_CATALOG.conway_order,
+  ConwaySort: MODULE_CATALOG.conway_sort,
+  ConwaySub: MODULE_CATALOG.conway_sub,
+  ConwayMul: MODULE_CATALOG.conway_mul,
+  ConwayNeg: MODULE_CATALOG.conway_neg,
   EulerExp: MODULE_CATALOG.euler_compounding,
   KinematicStep: MODULE_CATALOG.kinematics_step,
   CordicAngle: MODULE_CATALOG.cordic_angle,

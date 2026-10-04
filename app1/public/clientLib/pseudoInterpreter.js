@@ -569,6 +569,12 @@ export function formatRuntimeValue(val) {
 export class PseudoInterpreter {
     program;
     callStack = [];
+    telemetry = {
+        callCount: 0,
+        maxCallDepth: 0,
+        stepCount: 0,
+        cutCount: 0,
+    };
     constructor(source) {
         const tokens = tokenize(source);
         const parser = new PseudoParser(tokens);
@@ -587,10 +593,17 @@ export class PseudoInterpreter {
                 variables: {},
                 isDone: true,
                 error: err,
+                telemetry: { ...this.telemetry },
             };
         }
         const globalScope = new ExecutionScope();
         this.callStack = [];
+        this.telemetry = {
+            callCount: 0,
+            maxCallDepth: 0,
+            stepCount: 0,
+            cutCount: 0,
+        };
         try {
             const result = yield* this.executeFunction(fn, args, globalScope);
             return {
@@ -599,6 +612,7 @@ export class PseudoInterpreter {
                 variables: {},
                 isDone: true,
                 result,
+                telemetry: { ...this.telemetry },
             };
         }
         catch (e) {
@@ -608,13 +622,18 @@ export class PseudoInterpreter {
                 variables: {},
                 isDone: true,
                 error: e.message || String(e),
+                telemetry: { ...this.telemetry },
             };
         }
     }
     *executeFunction(fn, args, parentScope) {
         const scope = new ExecutionScope(parentScope);
         const callDesc = `${fn.name}(${args.map(formatRuntimeValue).join(', ')})`;
+        this.telemetry.callCount++;
         this.callStack.push(callDesc);
+        if (this.callStack.length > this.telemetry.maxCallDepth) {
+            this.telemetry.maxCallDepth = this.callStack.length;
+        }
         // Bind parameters
         for (let i = 0; i < fn.params.length; i++) {
             scope.define(fn.params[i], args[i]);
@@ -629,6 +648,7 @@ export class PseudoInterpreter {
             callStack: [...this.callStack],
             variables: scope.formatVariables(),
             isDone: false,
+            telemetry: { ...this.telemetry },
         };
         // Execute body statements
         for (const stmt of fn.body) {
@@ -642,12 +662,14 @@ export class PseudoInterpreter {
         return null;
     }
     *executeStatement(stmt, scope) {
+        this.telemetry.stepCount++;
         // Yield current statement execution state before running it
         yield {
             currentLine: stmt.line,
             callStack: [...this.callStack],
             variables: scope.formatVariables(),
             isDone: false,
+            telemetry: { ...this.telemetry },
         };
         switch (stmt.type) {
             case 'ASSIGN': {
@@ -964,10 +986,54 @@ export class PseudoInterpreter {
                     return [new Set(res.leftOptions), new Set(res.rightOptions)];
                 }
                 if (name === 'Cut') {
+                    this.telemetry.cutCount++;
                     return dyadicMachine.cut(evaluatedArgs[0], evaluatedArgs[1]);
                 }
                 if (name === 'ConwayAdd') {
+                    const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+                    this.telemetry.callCount += stats.calls;
+                    this.telemetry.cutCount += stats.cuts;
+                    if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+                        this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                    }
                     return dyadicMachine.conwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+                }
+                if (name === 'ConwaySub') {
+                    const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+                    this.telemetry.callCount += stats.calls;
+                    this.telemetry.cutCount += stats.cuts;
+                    return dyadicMachine.conwaySub(evaluatedArgs[0], evaluatedArgs[1]);
+                }
+                if (name === 'ConwayNeg') {
+                    return dyadicMachine.conwayNeg(evaluatedArgs[0]);
+                }
+                if (name === 'ConwayMul') {
+                    const stats = dyadicMachine.countConwayMul(evaluatedArgs[0], evaluatedArgs[1]);
+                    this.telemetry.callCount += stats.calls;
+                    this.telemetry.cutCount += stats.cuts;
+                    if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+                        this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                    }
+                    return dyadicMachine.conwayMul(evaluatedArgs[0], evaluatedArgs[1]);
+                }
+                if (name === 'ConwayLessEq') {
+                    const stats = dyadicMachine.countConwayLessEq(evaluatedArgs[0], evaluatedArgs[1]);
+                    this.telemetry.callCount += stats.calls;
+                    if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+                        this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                    }
+                    return dyadicMachine.conwayLessEq(evaluatedArgs[0], evaluatedArgs[1]) ? 1 : 0;
+                }
+                if (name === 'ConwayCompare') {
+                    this.telemetry.callCount += 2;
+                    return dyadicMachine.compare(evaluatedArgs[0], evaluatedArgs[1]);
+                }
+                if (name === 'ConwaySort') {
+                    const arr = evaluatedArgs[0];
+                    if (Array.isArray(arr)) {
+                        return [...arr].sort((a, b) => dyadicMachine.compare(a, b));
+                    }
+                    return arr;
                 }
                 // User-defined AST function call
                 const userFn = this.program.functions.get(name);
@@ -975,6 +1041,8 @@ export class PseudoInterpreter {
                     // Synchronous invocation using dyadicMachine implementation for recursion efficiency
                     if (name === 'ConwayAdd')
                         return dyadicMachine.conwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+                    if (name === 'ConwayMul')
+                        return dyadicMachine.conwayMul(evaluatedArgs[0], evaluatedArgs[1]);
                     if (name === 'Cut')
                         return dyadicMachine.cut(evaluatedArgs[0], evaluatedArgs[1]);
                     if (name === 'SimplerOptions') {

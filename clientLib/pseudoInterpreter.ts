@@ -619,6 +619,13 @@ export class PseudoParser {
 // 4. Runtime Environment & Stepper Execution
 // =====================================================================
 
+export interface IExecutionTelemetry {
+  callCount: number;
+  maxCallDepth: number;
+  stepCount: number;
+  cutCount: number;
+}
+
 export interface IStepState {
   currentLine: number;
   callStack: string[];
@@ -626,6 +633,7 @@ export interface IStepState {
   isDone: boolean;
   result?: any;
   error?: string;
+  telemetry: IExecutionTelemetry;
 }
 
 export class ExecutionScope {
@@ -687,6 +695,12 @@ export function formatRuntimeValue(val: any): string {
 export class PseudoInterpreter {
   public program: IProgram;
   public callStack: string[] = [];
+  public telemetry: IExecutionTelemetry = {
+    callCount: 0,
+    maxCallDepth: 0,
+    stepCount: 0,
+    cutCount: 0,
+  };
 
   constructor(source: string) {
     const tokens = tokenize(source);
@@ -710,11 +724,18 @@ export class PseudoInterpreter {
         variables: {},
         isDone: true,
         error: err,
+        telemetry: { ...this.telemetry },
       };
     }
 
     const globalScope = new ExecutionScope();
     this.callStack = [];
+    this.telemetry = {
+      callCount: 0,
+      maxCallDepth: 0,
+      stepCount: 0,
+      cutCount: 0,
+    };
 
     try {
       const result = yield* this.executeFunction(fn, args, globalScope);
@@ -724,6 +745,7 @@ export class PseudoInterpreter {
         variables: {},
         isDone: true,
         result,
+        telemetry: { ...this.telemetry },
       };
     } catch (e: any) {
       return {
@@ -732,6 +754,7 @@ export class PseudoInterpreter {
         variables: {},
         isDone: true,
         error: e.message || String(e),
+        telemetry: { ...this.telemetry },
       };
     }
   }
@@ -743,7 +766,11 @@ export class PseudoInterpreter {
   ): Generator<IStepState, any, void> {
     const scope = new ExecutionScope(parentScope);
     const callDesc = `${fn.name}(${args.map(formatRuntimeValue).join(', ')})`;
+    this.telemetry.callCount++;
     this.callStack.push(callDesc);
+    if (this.callStack.length > this.telemetry.maxCallDepth) {
+      this.telemetry.maxCallDepth = this.callStack.length;
+    }
 
     // Bind parameters
     for (let i = 0; i < fn.params.length; i++) {
@@ -761,6 +788,7 @@ export class PseudoInterpreter {
       callStack: [...this.callStack],
       variables: scope.formatVariables(),
       isDone: false,
+      telemetry: { ...this.telemetry },
     };
 
     // Execute body statements
@@ -780,12 +808,14 @@ export class PseudoInterpreter {
     stmt: ASTStmt,
     scope: ExecutionScope
   ): Generator<IStepState, any, void> {
+    this.telemetry.stepCount++;
     // Yield current statement execution state before running it
     yield {
       currentLine: stmt.line,
       callStack: [...this.callStack],
       variables: scope.formatVariables(),
       isDone: false,
+      telemetry: { ...this.telemetry },
     };
 
     switch (stmt.type) {
@@ -1099,10 +1129,54 @@ export class PseudoInterpreter {
           return [new Set(res.leftOptions), new Set(res.rightOptions)];
         }
         if (name === 'Cut') {
+          this.telemetry.cutCount++;
           return dyadicMachine.cut(evaluatedArgs[0], evaluatedArgs[1]);
         }
         if (name === 'ConwayAdd') {
+          const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+          this.telemetry.callCount += stats.calls;
+          this.telemetry.cutCount += stats.cuts;
+          if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+            this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+          }
           return dyadicMachine.conwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+        }
+        if (name === 'ConwaySub') {
+          const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+          this.telemetry.callCount += stats.calls;
+          this.telemetry.cutCount += stats.cuts;
+          return dyadicMachine.conwaySub(evaluatedArgs[0], evaluatedArgs[1]);
+        }
+        if (name === 'ConwayNeg') {
+          return dyadicMachine.conwayNeg(evaluatedArgs[0]);
+        }
+        if (name === 'ConwayMul') {
+          const stats = dyadicMachine.countConwayMul(evaluatedArgs[0], evaluatedArgs[1]);
+          this.telemetry.callCount += stats.calls;
+          this.telemetry.cutCount += stats.cuts;
+          if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+            this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+          }
+          return dyadicMachine.conwayMul(evaluatedArgs[0], evaluatedArgs[1]);
+        }
+        if (name === 'ConwayLessEq') {
+          const stats = dyadicMachine.countConwayLessEq(evaluatedArgs[0], evaluatedArgs[1]);
+          this.telemetry.callCount += stats.calls;
+          if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
+            this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+          }
+          return dyadicMachine.conwayLessEq(evaluatedArgs[0], evaluatedArgs[1]) ? 1 : 0;
+        }
+        if (name === 'ConwayCompare') {
+          this.telemetry.callCount += 2;
+          return dyadicMachine.compare(evaluatedArgs[0], evaluatedArgs[1]);
+        }
+        if (name === 'ConwaySort') {
+          const arr = evaluatedArgs[0];
+          if (Array.isArray(arr)) {
+            return [...arr].sort((a, b) => dyadicMachine.compare(a, b));
+          }
+          return arr;
         }
 
         // User-defined AST function call
@@ -1110,6 +1184,7 @@ export class PseudoInterpreter {
         if (userFn) {
           // Synchronous invocation using dyadicMachine implementation for recursion efficiency
           if (name === 'ConwayAdd') return dyadicMachine.conwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
+          if (name === 'ConwayMul') return dyadicMachine.conwayMul(evaluatedArgs[0], evaluatedArgs[1]);
           if (name === 'Cut') return dyadicMachine.cut(evaluatedArgs[0], evaluatedArgs[1]);
           if (name === 'SimplerOptions') {
             const res = dyadicMachine.simplerOptions(evaluatedArgs[0]);

@@ -10,6 +10,105 @@ const ALGO_PRESETS = {
             funcName: 'ConwayAdd',
             args: [dyadicMachine.fromPath('+-'), dyadicMachine.fromPath('+-+')],
         },
+        {
+            id: 'conway_add_one_half',
+            label: 'ConwayAdd([+], [+-]) ⟹ 1 + 1/2 = 1&1/2',
+            funcName: 'ConwayAdd',
+            args: [dyadicMachine.fromInt(1), dyadicMachine.fromPath('+-')],
+        },
+    ],
+    conway_order: [
+        {
+            id: 'order_zero_one',
+            label: 'ConwayLessEq(0, 1) ⟹ 1 (True: 0 ≤ 1)',
+            funcName: 'ConwayLessEq',
+            args: [dyadicMachine.root(), dyadicMachine.fromInt(1)],
+        },
+        {
+            id: 'order_one_zero',
+            label: 'ConwayLessEq(1, 0) ⟹ 0 (False: 1 not ≤ 0)',
+            funcName: 'ConwayLessEq',
+            args: [dyadicMachine.fromInt(1), dyadicMachine.root()],
+        },
+        {
+            id: 'order_half_threefourths',
+            label: 'ConwayLessEq(1/2, 3/4) ⟹ 1 (True: 1/2 ≤ 3/4)',
+            funcName: 'ConwayLessEq',
+            args: [dyadicMachine.fromPath('+-'), dyadicMachine.fromPath('+-+')],
+        },
+    ],
+    conway_sort: [
+        {
+            id: 'sort_standard_5',
+            label: 'ConwaySort([1, -1, 1/2, 0, -1/2], 5) ⟹ Total Ascending Order',
+            funcName: 'ConwaySort',
+            args: [
+                [
+                    dyadicMachine.fromInt(1),
+                    dyadicMachine.fromInt(-1),
+                    dyadicMachine.fromPath('+-'),
+                    dyadicMachine.root(),
+                    dyadicMachine.fromPath('-+'),
+                ],
+                5,
+            ],
+        },
+        {
+            id: 'sort_dyadics_4',
+            label: 'ConwaySort([3/4, 1/4, 1/2, 0], 4) ⟹ [0, 1/4, 1/2, 3/4]',
+            funcName: 'ConwaySort',
+            args: [
+                [
+                    dyadicMachine.fromPath('+-+'),
+                    dyadicMachine.fromPath('+--'),
+                    dyadicMachine.fromPath('+-'),
+                    dyadicMachine.root(),
+                ],
+                4,
+            ],
+        },
+    ],
+    conway_sub: [
+        {
+            id: 'sub_demo_1',
+            label: 'ConwaySub(1&1/4, 3/4) ⟹ 1/2 ([+-])',
+            funcName: 'ConwaySub',
+            args: [dyadicMachine.fromPath('++-'), dyadicMachine.fromPath('+-+')],
+        },
+        {
+            id: 'sub_demo_2',
+            label: 'ConwaySub(1, 1/2) ⟹ 1/2 ([+-])',
+            funcName: 'ConwaySub',
+            args: [dyadicMachine.fromInt(1), dyadicMachine.fromPath('+-')],
+        },
+    ],
+    conway_mul: [
+        {
+            id: 'mul_one_half',
+            label: 'ConwayMul(1, 1/2) ⟹ 1 · 1/2 = 1/2 ([+-])',
+            funcName: 'ConwayMul',
+            args: [dyadicMachine.fromInt(1), dyadicMachine.fromPath('+-')],
+        },
+        {
+            id: 'mul_half_half',
+            label: 'ConwayMul(1/2, 1/2) ⟹ 1/2 · 1/2 = 1/4 ([+--])',
+            funcName: 'ConwayMul',
+            args: [dyadicMachine.fromPath('+-'), dyadicMachine.fromPath('+-')],
+        },
+        {
+            id: 'mul_half_threefourths',
+            label: 'ConwayMul(1/2, 3/4) ⟹ 1/2 · 3/4 = 3/8',
+            funcName: 'ConwayMul',
+            args: [dyadicMachine.fromPath('+-'), dyadicMachine.fromPath('+-+')],
+        },
+    ],
+    conway_neg: [
+        {
+            id: 'neg_three_fourths',
+            label: 'ConwayNeg([+-+]) ⟹ [-+-] (-3/4)',
+            funcName: 'ConwayNeg',
+            args: [dyadicMachine.fromPath('+-+')],
+        },
     ],
     cut: [
         {
@@ -234,6 +333,42 @@ const SEMANTIC_TOKENS = {
         moduleId: 'conway_add',
         desc: 'Conway Inductive Addition — evaluates exact sum directly on tree sign paths.',
     },
+    ConwayLessEq: {
+        role: 'submodule',
+        label: 'Sub-Module',
+        moduleId: 'conway_order',
+        desc: 'Conway Inductive Order: verifies X ≤ Y via mutual options induction. Click to inspect.',
+    },
+    ConwayCompare: {
+        role: 'submodule',
+        label: 'Sub-Module',
+        moduleId: 'conway_order',
+        desc: 'Conway Total Comparison: -1 (less), 0 (equal), +1 (greater). Click to inspect.',
+    },
+    ConwaySort: {
+        role: 'submodule',
+        label: 'Sub-Module',
+        moduleId: 'conway_sort',
+        desc: 'Conway Total Order Sort: sorts array using ConwayLessEq predicate. Click to inspect.',
+    },
+    ConwaySub: {
+        role: 'submodule',
+        label: 'Sub-Module',
+        moduleId: 'conway_sub',
+        desc: 'Conway Inductive Subtraction: X - Y = X + (-Y). Click to inspect.',
+    },
+    ConwayMul: {
+        role: 'submodule',
+        label: 'Sub-Module',
+        moduleId: 'conway_mul',
+        desc: 'Conway Inductive Multiplication: 4-way cross-products of options. Click to inspect.',
+    },
+    ConwayNeg: {
+        role: 'primitive',
+        label: 'Runtime Primitive',
+        moduleId: 'conway_neg',
+        desc: 'Conway Tree Negation: inverts every sign (+ <-> -). Click to inspect.',
+    },
     EulerExp: {
         role: 'submodule',
         label: 'Sub-Module',
@@ -439,7 +574,7 @@ function highlightPseudoCode(rawCode, activeLine = -1, currentFocusFuncName = ''
         codePart = codePart.replace(/\b(Node|Dyadic|Integer|Set|Array)\b/g, '<span style="color:#38bdf8;font-weight:600;">$1</span>');
         codePart = codePart.replace(/\bSet of Node\b/g, '<span style="color:#38bdf8;font-weight:600;">Set of Node</span>');
         // Identifiers: Sub-modules vs Primitives
-        const identRegex = /\b(SimplerOptions|Cut|ConwayAdd|Insert|EmptySet|Maximum|Minimum|EulerExp|KinematicStep|CordicRotor|CordicAngle|HeatDiffusionStep|BayesUpdate|sqr|val|node|length|CreateArray|CordicAngleTable|DyadicAdd|TreeConcat)\b/g;
+        const identRegex = /\b(SimplerOptions|Cut|ConwayAdd|ConwayLessEq|ConwayCompare|ConwaySort|ConwaySub|ConwayMul|ConwayNeg|Insert|EmptySet|Maximum|Minimum|EulerExp|KinematicStep|CordicRotor|CordicAngle|HeatDiffusionStep|BayesUpdate|sqr|val|node|length|CreateArray|CordicAngleTable|DyadicAdd|TreeConcat)\b/g;
         codePart = codePart.replace(identRegex, (match) => {
             const meta = SEMANTIC_TOKENS[match];
             if (!meta)
@@ -798,6 +933,39 @@ export class PseudoViewer extends Elt {
                 stackContainer.innerHTML = stackHtml;
             }
         }
+        const telemetryContainer = this.elt.querySelector('#pseudo-telemetry-gauge');
+        if (telemetryContainer) {
+            const tel = this.currentState?.telemetry || {
+                callCount: 0,
+                maxCallDepth: 0,
+                stepCount: this.stepCount,
+                cutCount: 0,
+            };
+            telemetryContainer.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;font-family:monospace;font-size:12px;">
+          <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
+            <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Recursive Calls</div>
+            <div style="color:#38bdf8;font-size:16px;font-weight:bold;margin-top:2px;">${tel.callCount}</div>
+            <div style="color:#64748b;font-size:10px;">vs. Dyadic: 1 op</div>
+          </div>
+          <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
+            <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Max Stack Depth</div>
+            <div style="color:#fbbf24;font-size:16px;font-weight:bold;margin-top:2px;">${tel.maxCallDepth}</div>
+            <div style="color:#64748b;font-size:10px;">vs. Dyadic: 1 frame</div>
+          </div>
+          <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
+            <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Conway Cuts</div>
+            <div style="color:#a855f7;font-size:16px;font-weight:bold;margin-top:2px;">${tel.cutCount}</div>
+            <div style="color:#64748b;font-size:10px;">vs. Dyadic: 0</div>
+          </div>
+          <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
+            <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Steps Executed</div>
+            <div style="color:#4ade80;font-size:16px;font-weight:bold;margin-top:2px;">${this.stepCount}</div>
+            <div style="color:#64748b;font-size:10px;">Line evaluations</div>
+          </div>
+        </div>
+      `;
+        }
     }
     render() {
         const mod = getPseudoModule(this.currentModuleId) || MODULE_CATALOG.conway_add;
@@ -1001,6 +1169,22 @@ export class PseudoViewer extends Elt {
                 </div>
               </div>
 
+            </div>
+
+            <!-- Live Inductive Recursion Telemetry Gauge -->
+            <div style="background:#0f172a;border:1.5px solid #334155;border-radius:8px;padding:12px 16px;margin-top:12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:14px;">📊</span>
+                  <span style="font-size:12px;font-weight:700;color:#38bdf8;text-transform:uppercase;letter-spacing:0.5px;">
+                    Live Inductive Recursion &amp; Complexity Telemetry
+                  </span>
+                </div>
+                <span style="font-size:11px;color:#94a3b8;font-style:italic;">Updated dynamically on step execution</span>
+              </div>
+              <div id="pseudo-telemetry-gauge">
+                <!-- Dynamically populated by updateWatchPanels -->
+              </div>
             </div>
           </div>
 
