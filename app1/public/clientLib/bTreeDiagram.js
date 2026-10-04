@@ -2,7 +2,7 @@ import { SVGElt, SVGGrpElt, SVGText, SVGTSpan, textWidth, } from './svgElt.js';
 import { BTreePresets, DEFAULT_PALETTE, } from './bTreeConfig.js';
 import { expToId, keyToExp, nodeKeyToBirthdayLinePos, WU, } from './exputils.js';
 import { DR } from './dyadicRationals.js';
-import { SubtreeController, SimplicityController, OrderController, CutController, OpController, IsoController, OmegaStateController, EulerCompoundingController, } from './bTreeControllers.js';
+import { SubtreeController, SimplicityController, OrderController, CutController, IsoController, OmegaStateController, EulerCompoundingController, } from './bTreeControllers.js';
 export class BTreeDiagram extends SVGElt {
     config;
     palette;
@@ -356,10 +356,10 @@ export class BTreeDiagram extends SVGElt {
                 this.controller = new CutController(this);
                 break;
             case 'addition':
-                this.controller = new OpController(this, '+');
+                this.controller = new IsoController(this, '+');
                 break;
             case 'multiplication':
-                this.controller = new OpController(this, '\u2217');
+                this.controller = new IsoController(this, '\u2217');
                 break;
             case 'isomorphism':
                 this.controller = new IsoController(this);
@@ -383,6 +383,12 @@ export class BTreeDiagram extends SVGElt {
     setupEventListeners() {
         this.elt.addEventListener('click', (event) => {
             const target = event.target;
+            if (target &&
+                (target.closest('[data-ctrl="true"]') ||
+                    target.getAttribute('data-ctrl') === 'true' ||
+                    target.closest('.diagram-control'))) {
+                return;
+            }
             if (target && target.getAttributeNS(null, 'class') === 'node') {
                 const key = target.id;
                 if (this.arity === 1) {

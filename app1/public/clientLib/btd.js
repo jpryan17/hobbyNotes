@@ -1,6 +1,7 @@
 import { SVGElt, SVGGrpElt, SVGSelectableText, SVGText } from './svgElt.js';
 import { Nav } from './navFW.js';
 import { BTreeDiagram } from './bTreeDiagram.js';
+import { IsoController } from './bTreeControllers.js';
 export class BTD extends SVGElt {
     controlsFrame;
     diagramGroup;
@@ -82,9 +83,7 @@ export class BTD extends SVGElt {
             ['simplicity', 'Simplicity (≺)'],
             ['order', 'Total Order'],
             ['cut', 'Conway Cut'],
-            ['addition', 'Addition'],
-            ['multiplication', 'Multiplication'],
-            ['isomorphism', 'Isomorphism'],
+            ['isomorphism', 'Arithmetic & Isomorphism'],
             ['omegaState', 'State / Ω'],
             ['eulerCompounding', 'Euler Exp'],
         ];
@@ -129,12 +128,25 @@ export class BTD extends SVGElt {
         });
     }
     setMode(mode) {
-        this.currentMode = mode;
+        let targetMode = mode;
+        let initialOp;
+        if (mode === 'addition') {
+            targetMode = 'isomorphism';
+            initialOp = '+';
+        }
+        else if (mode === 'multiplication') {
+            targetMode = 'isomorphism';
+            initialOp = '\u2217';
+        }
+        this.currentMode = targetMode;
         // Update active styling on buttons
         this.updateButtonStyles();
         // Replace current diagram
         this.diagramGroup.removeChildren();
-        this.currentDiagram = new BTreeDiagram({ mode });
+        this.currentDiagram = new BTreeDiagram({ mode: targetMode });
+        if (initialOp && this.currentDiagram.controller instanceof IsoController) {
+            this.currentDiagram.controller.setOp(initialOp);
+        }
         this.diagramGroup.append(this.currentDiagram);
         this.layout();
         if (typeof requestAnimationFrame !== 'undefined') {
@@ -194,8 +206,6 @@ export class BTD extends SVGElt {
             'simplicity',
             'order',
             'cut',
-            'addition',
-            'multiplication',
             'isomorphism',
             'omegaState',
             'eulerCompounding',

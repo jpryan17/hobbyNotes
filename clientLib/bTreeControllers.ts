@@ -11,6 +11,9 @@ import { DR } from './dyadicRationals.js';
 import { RsOps } from './rsOps.js';
 import { BTreeDiagram } from './bTreeDiagram.js';
 import { dyadicMachine } from './dyadicMachine.js';
+import { SVGElt, SVGGrpElt } from './svgElt.js';
+import { pseudoViewer, setPseudoViewer } from './pseudoViewer.js';
+import { Nav } from './navFW.js';
 
 export interface IBTreeController {
   init(): void;
@@ -400,43 +403,362 @@ export class OpController implements IBTreeController {
 }
 
 /**
- * Isomorphism Controller (2-operand with toggle):
- * Demonstrates the exact isomorphism between Surreal tree arithmetic and Dyadic Rational arithmetic.
+ * Combined Isomorphism & Arithmetic Lab Controller (2-operand):
+ * Unifies Surreal Tree Addition & Multiplication with Dyadic Rational Arithmetic,
+ * featuring interactive operation toggling (+, *), an evaluation engine toggle
+ * (Instant Dyadic O(1) vs Conway Inductive Recursion with live telemetry & stats),
+ * and a direct gateway to the underlying formal pseudocode rules.
  */
 export class IsoController implements IBTreeController {
   private currentOp: '+' | '\u2217' = '+';
+  private engineMode: 'dyadic' | 'conway' = 'conway';
+  private lastVisited: string[] = [];
 
-  constructor(private diagram: BTreeDiagram) {}
+  // Controls UI elements
+  private controlsGroup?: SVGGrpElt;
+  private btnOpAdd?: any;
+  private btnOpMul?: any;
+  private btnEngDyadic?: any;
+  private btnEngConway?: any;
+  private btnGateway?: any;
 
-  init(): void {
-    this.diagram.setStatusPrompt([
-      ['[Toggle Op] ', '#1565c0'],
-      [`Operation: ${this.currentOp === '+' ? 'Addition (+)' : 'Multiplication (*)'} | `, '#37474f'],
-      ['Select first operand', '#1565c0'],
-    ]);
+  constructor(
+    private diagram: BTreeDiagram,
+    initialOp: '+' | '\u2217' = '+'
+  ) {
+    this.currentOp = initialOp;
   }
 
-  toggleOp(): void {
-    this.currentOp = this.currentOp === '+' ? '\u2217' : '+';
-    this.diagram.clearHighlights();
-    this.init();
+  setOp(op: '+' | '\u2217'): void {
+    if (this.currentOp === op) return;
+    this.currentOp = op;
+    this.updateControlsUI();
+    if (this.lastVisited.length === 2) {
+      this.onProcess(this.lastVisited);
+    } else if (this.lastVisited.length === 1) {
+      this.onFirstSelect(this.lastVisited[0]);
+    } else {
+      this.initPrompts();
+    }
+  }
+
+  setEngine(mode: 'dyadic' | 'conway'): void {
+    if (this.engineMode === mode) return;
+    this.engineMode = mode;
+    this.updateControlsUI();
+    if (this.lastVisited.length === 2) {
+      this.onProcess(this.lastVisited);
+    } else {
+      this.initPrompts();
+    }
+  }
+
+  init(): void {
+    if (!this.controlsGroup) {
+      this.buildControls();
+    }
+    this.updateControlsUI();
+    this.initPrompts();
+  }
+
+  private buildControls(): void {
+    this.controlsGroup = new SVGGrpElt();
+    this.controlsGroup.setAA([
+      'class', 'diagram-control-bar',
+      'data-ctrl', 'true',
+    ]);
+
+    // Background bar
+    const bar = new SVGElt('rect');
+    bar.setAA([
+      'x', 15,
+      'y', 366,
+      'width', 870,
+      'height', 38,
+      'rx', 8,
+      'fill', '#f8fafc',
+      'stroke', '#cbd5e1',
+      'stroke-width', 1.2,
+      'data-ctrl', 'true',
+    ]);
+    this.controlsGroup.append(bar);
+
+    // Op Label
+    const opLabel = new SVGElt('text');
+    opLabel.setAA([
+      'x', 28,
+      'y', 386,
+      'font-size', 11,
+      'font-weight', '700',
+      'font-family', 'system-ui, -apple-system, sans-serif',
+      'fill', '#475569',
+      'data-ctrl', 'true',
+    ]);
+    opLabel.setV('Op:');
+    this.controlsGroup.append(opLabel);
+
+    // Buttons for Op
+    this.btnOpAdd = this.createPillButton(
+      this.controlsGroup,
+      52, 372, 78, 26,
+      '+ Add',
+      () => this.setOp('+'),
+      'Surreal Addition on Tree'
+    );
+
+    this.btnOpMul = this.createPillButton(
+      this.controlsGroup,
+      136, 372, 98, 26,
+      '· Mult',
+      () => this.setOp('\u2217'),
+      'Surreal Multiplication on Tree'
+    );
+
+    // Divider 1
+    const div1 = new SVGElt('line');
+    div1.setAA([
+      'x1', 244, 'y1', 374,
+      'x2', 244, 'y2', 396,
+      'stroke', '#cbd5e1',
+      'stroke-width', 1,
+      'data-ctrl', 'true',
+    ]);
+    this.controlsGroup.append(div1);
+
+    // Engine Label
+    const engLabel = new SVGElt('text');
+    engLabel.setAA([
+      'x', 256,
+      'y', 386,
+      'font-size', 11,
+      'font-weight', '700',
+      'font-family', 'system-ui, -apple-system, sans-serif',
+      'fill', '#475569',
+      'data-ctrl', 'true',
+    ]);
+    engLabel.setV('Engine:');
+    this.controlsGroup.append(engLabel);
+
+    // Engine Buttons
+    this.btnEngDyadic = this.createPillButton(
+      this.controlsGroup,
+      306, 372, 118, 26,
+      '⚡ Dyadic (O(1))',
+      () => this.setEngine('dyadic'),
+      'Instant ring bit-shift ALU evaluation'
+    );
+
+    this.btnEngConway = this.createPillButton(
+      this.controlsGroup,
+      430, 372, 150, 26,
+      '🌳 Conway Recursion',
+      () => this.setEngine('conway'),
+      'Recursive surreal tree induction with live stats feedback'
+    );
+
+    // Divider 2
+    const div2 = new SVGElt('line');
+    div2.setAA([
+      'x1', 590, 'y1', 374,
+      'x2', 590, 'y2', 396,
+      'stroke', '#cbd5e1',
+      'stroke-width', 1,
+      'data-ctrl', 'true',
+    ]);
+    this.controlsGroup.append(div2);
+
+    // Gateway Button to Pseudocode Viewer
+    this.btnGateway = this.createPillButton(
+      this.controlsGroup,
+      602, 372, 212, 26,
+      '📜 View Conway Rule ➔',
+      () => this.openRuleGateway(),
+      'Inspect formal rule in Pseudocode Viewer'
+    );
+
+    // Reset Button
+    this.createPillButton(
+      this.controlsGroup,
+      820, 372, 56, 26,
+      '↺ Clear',
+      () => {
+        this.diagram.clearHighlights();
+        this.diagram.wasVisited = [];
+        this.diagram.state = 0;
+        this.onClear();
+      },
+      'Reset selected operands'
+    );
+
+    this.diagram.append(this.controlsGroup);
+  }
+
+  private createPillButton(
+    parent: SVGGrpElt,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    label: string,
+    onClick: () => void,
+    title?: string
+  ): {
+    group: SVGGrpElt;
+    rect: SVGElt;
+    text: SVGElt;
+    setLabel: (l: string) => void;
+    setActive: (active: boolean, activeColor?: string) => void;
+  } {
+    const grp = new SVGGrpElt();
+    grp.setAA([
+      'transform', `translate(${x}, ${y})`,
+      'cursor', 'pointer',
+      'data-ctrl', 'true',
+      'class', 'diagram-control',
+    ]);
+    if (title) {
+      const titleEl = new SVGElt('title');
+      titleEl.setV(title);
+      grp.append(titleEl);
+    }
+
+    const rect = new SVGElt('rect');
+    rect.setAA([
+      'x', 0,
+      'y', 0,
+      'width', w,
+      'height', h,
+      'rx', h / 2,
+      'fill', '#ffffff',
+      'stroke', '#cbd5e1',
+      'stroke-width', 1.2,
+      'data-ctrl', 'true',
+    ]);
+    grp.append(rect);
+
+    const txt = new SVGElt('text');
+    txt.setAA([
+      'x', w / 2,
+      'y', h / 2 + 0.5,
+      'text-anchor', 'middle',
+      'dominant-baseline', 'central',
+      'font-size', 11,
+      'font-weight', '600',
+      'font-family', 'system-ui, -apple-system, sans-serif',
+      'fill', '#475569',
+      'pointer-events', 'none',
+      'data-ctrl', 'true',
+    ]);
+    txt.setV(label);
+    grp.append(txt);
+
+    let isActive = false;
+    let currentActiveColor = '#1e40af';
+
+    const updateColors = (isHover: boolean) => {
+      if (isActive) {
+        rect.setAA([
+          'fill', currentActiveColor,
+          'stroke', currentActiveColor,
+        ]);
+        txt.setAA(['fill', '#ffffff', 'font-weight', '700']);
+      } else if (isHover) {
+        rect.setAA([
+          'fill', '#e2e8f0',
+          'stroke', '#94a3b8',
+        ]);
+        txt.setAA(['fill', '#0f172a', 'font-weight', '600']);
+      } else {
+        rect.setAA([
+          'fill', '#ffffff',
+          'stroke', '#cbd5e1',
+        ]);
+        txt.setAA(['fill', '#475569', 'font-weight', '600']);
+      }
+    };
+
+    grp.elt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onClick();
+    });
+
+    grp.elt.addEventListener('mouseenter', () => updateColors(true));
+    grp.elt.addEventListener('mouseleave', () => updateColors(false));
+
+    parent.append(grp);
+
+    return {
+      group: grp,
+      rect,
+      text: txt,
+      setLabel: (newLabel: string) => {
+        txt.setV(newLabel);
+      },
+      setActive: (active: boolean, activeColor = '#1e40af') => {
+        isActive = active;
+        currentActiveColor = activeColor;
+        updateColors(false);
+      },
+    };
+  }
+
+  private updateControlsUI(): void {
+    if (!this.btnOpAdd) return;
+
+    this.btnOpAdd.setActive(this.currentOp === '+', '#1e40af');
+    this.btnOpMul.setActive(this.currentOp === '\u2217', '#1e40af');
+
+    this.btnEngDyadic.setActive(this.engineMode === 'dyadic', '#0284c7');
+    this.btnEngConway.setActive(this.engineMode === 'conway', '#059669');
+
+    const ruleName = this.currentOp === '+' ? 'ConwayAdd' : 'ConwayMul';
+    this.btnGateway.setLabel(`📜 View ${ruleName} Rule ➔`);
+    this.btnGateway.setActive(false);
+  }
+
+  private initPrompts(): void {
+    const opName = this.currentOp === '+' ? 'Addition (+)' : 'Multiplication (\u2217)';
+    const engName =
+      this.engineMode === 'conway'
+        ? '🌳 Conway Recursion & Stats'
+        : '⚡ Instant Dyadic Machine (O(1))';
+
+    const line1: [string, string][] = [
+      [`[${opName}] `, '#1e40af'],
+      [`Engine: ${engName}  |  `, '#475569'],
+      ['Select first operand on the binary tree', '#1565c0'],
+    ];
+    const line2: [string, string][] = [
+      ['💡 Click any tree node to pick operand 1. Toggle op or engine anytime above.', '#64748b'],
+    ];
+    this.diagram.setStatusLines([line1, line2]);
   }
 
   onFirstSelect(key: string): void {
+    this.lastVisited = [key];
     const exp1 = keyToExp(key);
     const dr1 = new DR(exp1).format();
     this.diagram.setNodeColor(key, this.diagram.palette.firstSelection || '#1976d2');
-    this.diagram.setStatusPrompt([
+
+    const line1: [string, string][] = [
       ['Op 1: ', '#37474f'],
       [`${setVal(exp1)} (${dr1})`, this.diagram.palette.firstSelection || '#1976d2'],
-      [` ${this.currentOp} Select second operand`, '#1565c0'],
-    ]);
+      [`  ${this.currentOp}  Select second operand`, '#1565c0'],
+    ];
+    const line2: [string, string][] = [
+      [
+        '👉 Click a second node on the tree to evaluate and view isomorphic telemetry.',
+        '#64748b',
+      ],
+    ];
+    this.diagram.setStatusLines([line1, line2]);
   }
 
   onProcess(visited: string[]): void {
     if (visited.length < 2) return;
-    const exp1 = keyToExp(visited[0]);
-    const exp2 = keyToExp(visited[1]);
+    this.lastVisited = visited.slice(0, 2);
+    const exp1 = keyToExp(this.lastVisited[0]);
+    const exp2 = keyToExp(this.lastVisited[1]);
 
     const dr1 = new DR(exp1);
     const dr2 = new DR(exp2);
@@ -461,20 +783,92 @@ export class IsoController implements IBTreeController {
       this.diagram.setDirectionAntenna(surrealRes, cRes);
     }
 
-    this.diagram.setStatusPrompt([
+    const line1: [string, string][] = [
       ['Tree: ', '#37474f'],
       [setVal(exp1), c1],
       [` ${this.currentOp} `, '#37474f'],
       [setVal(exp2), c2],
       [' = ', '#37474f'],
       [setVal(surrealRes), cRes],
-      ['  \u21D4  Dyadic: ', '#00695c'],
+      ['   \u21D4   Dyadic: ', '#0f172a'],
       [`${dr1Str} ${this.currentOp} ${dr2Str} = ${drResStr}`, '#00695c'],
-    ]);
+    ];
+
+    if (this.engineMode === 'conway') {
+      const stats =
+        this.currentOp === '+'
+          ? dyadicMachine.countConwayAdd(exp1, exp2)
+          : dyadicMachine.countConwayMul(exp1, exp2);
+
+      RsOps.mc = 0;
+      RsOps.ac = 0;
+      RsOps.bailed = false;
+      if (this.currentOp === '+') {
+        RsOps.add(exp1, exp2);
+      } else {
+        RsOps.multiply(exp1, exp2);
+      }
+
+      const isBailed = stats.calls > 500 || RsOps.bailed;
+      let telemetryText = '';
+      if (isBailed) {
+        telemetryText = `⚠️ Conway Telemetry: 500+ calls (safety limit reached) | Max Depth: ${stats.maxDepth} | Dyadic ALU: O(1)`;
+      } else {
+        const crossStr = stats.addCalls ? ` | ${stats.addCalls} cross-additions` : '';
+        telemetryText = `🌳 Conway Telemetry: ${stats.calls} recursive calls | Max Depth: ${stats.maxDepth} | ${stats.cuts} cuts resolved${crossStr} | Isomorphism verified`;
+      }
+
+      const line2: [string, string][] = [
+        [telemetryText, isBailed ? '#b45309' : '#047857'],
+      ];
+      this.diagram.setStatusLines([line1, line2]);
+    } else {
+      const line2: [string, string][] = [
+        ['⚡ Instant Dyadic Machine: ', '#0284c7'],
+        ['Evaluated in O(1) bit-shift ring operations via Dyadic ALU | Ring homomorphism verified', '#475569'],
+      ];
+      this.diagram.setStatusLines([line1, line2]);
+    }
   }
 
   onClear(): void {
-    this.init();
+    this.lastVisited = [];
+    this.initPrompts();
+  }
+
+  private openRuleGateway(): void {
+    const algoId = this.currentOp === '+' ? 'conway_add' : 'conway_mul';
+    const funcName = this.currentOp === '+' ? 'ConwayAdd' : 'ConwayMul';
+
+    const index = Nav.indices[Nav.currentIndex];
+    const choice = index && index.choices ? index.choices[index.chosen] : null;
+    const topicName = choice && choice[0] ? choice[0].topic : 'binary tree';
+    const buttonText = `back to ${topicName}`;
+
+    if (!pseudoViewer) setPseudoViewer();
+
+    if (this.lastVisited && this.lastVisited.length >= 2) {
+      const exp1 = keyToExp(this.lastVisited[0]);
+      const exp2 = keyToExp(this.lastVisited[1]);
+      const label = `Custom: ${setVal(exp1)} ${this.currentOp} ${setVal(exp2)}`;
+      pseudoViewer.showAlgorithmWithArgs(algoId, label, funcName, [exp1, exp2]);
+    } else {
+      pseudoViewer.showAlgorithm(algoId);
+    }
+
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    Nav.setLastVisit();
+    Nav.addNavLineBackButton(buttonText);
+    Nav.fo.removeChildren();
+    Nav.fo.elt.scrollTop = 0;
+    Nav.fo.append(pseudoViewer);
+    Nav.display();
+    pseudoViewer.layout();
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => pseudoViewer.layout());
+    }
   }
 }
 

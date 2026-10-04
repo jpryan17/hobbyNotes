@@ -457,10 +457,10 @@ export class BTreeDiagram extends SVGElt {
         this.controller = new CutController(this);
         break;
       case 'addition':
-        this.controller = new OpController(this, '+');
+        this.controller = new IsoController(this, '+');
         break;
       case 'multiplication':
-        this.controller = new OpController(this, '\u2217');
+        this.controller = new IsoController(this, '\u2217');
         break;
       case 'isomorphism':
         this.controller = new IsoController(this);
@@ -486,6 +486,14 @@ export class BTreeDiagram extends SVGElt {
   private setupEventListeners(): void {
     this.elt.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
+      if (
+        target &&
+        (target.closest('[data-ctrl="true"]') ||
+          target.getAttribute('data-ctrl') === 'true' ||
+          target.closest('.diagram-control'))
+      ) {
+        return;
+      }
       if (target && target.getAttributeNS(null, 'class') === 'node') {
         const key = target.id;
         if (this.arity === 1) {
