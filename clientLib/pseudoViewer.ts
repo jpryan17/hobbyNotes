@@ -1158,47 +1158,54 @@ export class PseudoViewer extends Elt {
       <div style="max-width:890px;margin:0 auto;border:1.5px solid #cbd5e1;border-radius:12px;background:#ffffff;box-shadow:0 6px 20px rgba(0,0,0,0.06);overflow:hidden;">
         
         <!-- Header Banner -->
-        <div style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);color:#f8fafc;padding:22px 24px;border-bottom:1px solid #334155;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
-            <div>
-              <span style="display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;background:#3b82f6;color:#ffffff;padding:3px 10px;border-radius:4px;margin-bottom:8px;">
+        <div style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);color:#f8fafc;padding:12px 18px;border-bottom:1px solid #334155;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;background:#3b82f6;color:#ffffff;padding:2px 8px;border-radius:4px;">
                 ${mod.badge}
               </span>
-              <h2 style="margin:0;font-size:21px;font-weight:700;color:#ffffff;line-height:1.3;">
+              <h2 style="margin:0;font-size:18px;font-weight:700;color:#ffffff;line-height:1.2;">
                 ${mod.name}
               </h2>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <span style="background:rgba(34,197,94,0.15);border:1px solid #22c55e;color:#4ade80;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;">
+              <span style="background:rgba(34,197,94,0.15);border:1px solid #22c55e;color:#4ade80;font-size:11px;font-weight:600;padding:2px 8px;border-radius:14px;">
                 Interactive Stepper Active
               </span>
-              <div style="background:rgba(56,189,248,0.12);border:1px solid #38bdf8;color:#7dd3fc;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;">
+              <div style="background:rgba(56,189,248,0.12);border:1px solid #38bdf8;color:#7dd3fc;font-size:11px;font-weight:600;padding:2px 8px;border-radius:14px;">
                 Atomic Module (1:1)
               </div>
             </div>
           </div>
 
-          <p style="margin:6px 0 14px 0;font-size:14px;color:#cbd5e1;line-height:1.5;">
-            ${mod.summary}
-          </p>
-
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:10px 14px;border-radius:8px;font-size:12.5px;">
-            <div style="margin-bottom:6px;">
-              <span style="color:#94a3b8;font-weight:600;">Mathematical Domain:</span>
-              <span style="font-family:monospace;color:#f1f5f9;margin-left:6px;font-weight:bold;">${mod.domain}</span>
+          <!-- Collapsible Overview Detail (saves vertical real estate for code) -->
+          <details style="margin-top:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:6px 12px;font-size:12.5px;color:#cbd5e1;">
+            <summary style="cursor:pointer;font-weight:600;color:#38bdf8;outline:none;user-select:none;font-size:12px;display:flex;align-items:center;gap:6px;">
+              <span>ℹ️</span> <span>Module Overview &amp; Domain Details</span>
+            </summary>
+            <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);line-height:1.5;">
+              <p style="margin:0 0 10px 0;font-size:13px;color:#e2e8f0;line-height:1.5;">
+                ${mod.summary}
+              </p>
+              <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:6px;font-size:12px;display:flex;flex-direction:column;gap:6px;">
+                <div>
+                  <span style="color:#94a3b8;font-weight:600;">Mathematical Domain:</span>
+                  <span style="font-family:monospace;color:#f1f5f9;margin-left:6px;font-weight:bold;">${mod.domain}</span>
+                </div>
+                <div>
+                  <span style="color:#94a3b8;font-weight:600;">Direct Invariants:</span>
+                  <span style="margin-left:6px;">${primitivesHtml}</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <span style="color:#94a3b8;font-weight:600;">Direct Invariants:</span>
-              <span style="margin-left:6px;">${primitivesHtml}</span>
-            </div>
-          </div>
+          </details>
         </div>
 
         <!-- Navigation Bar (Breadcrumb or Narrative Anchor) -->
         ${navBarHtml}
 
         <!-- Body Content -->
-        <div style="padding:20px 24px;">
+        <div style="padding:14px 18px 20px 18px;">
 
           <!-- Stepper Control Bar -->
           <div style="background:#1e293b;border:1px solid #334155;border-radius:8px 8px 0 0;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -1319,14 +1326,14 @@ export class PseudoViewer extends Elt {
           </div>
 
           <!-- Mathematical Notes & Invariants -->
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;margin-bottom:10px;">
-            <h4 style="margin:0 0 10px 0;font-size:14px;font-weight:700;color:#1e3a8a;">
-              Mathematical Notes &amp; Invariants: ${mod.name}
-            </h4>
-            <ul style="margin:0;padding-left:18px;font-size:13.5px;color:#334155;">
+          <details style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;margin-bottom:10px;">
+            <summary style="cursor:pointer;font-size:13px;font-weight:700;color:#1e3a8a;outline:none;user-select:none;display:flex;align-items:center;gap:6px;">
+              <span>📖</span> <span>Mathematical Notes &amp; Proof Invariants (${mod.name})</span>
+            </summary>
+            <ul style="margin:10px 0 0 0;padding-left:18px;font-size:13px;color:#334155;line-height:1.5;">
               ${explanationHtml}
             </ul>
-          </div>
+          </details>
 
         </div>
 
