@@ -522,6 +522,65 @@
       </table>
     </div>
 
+    <!-- Detail for the Curious: Proof of the Dyadic Isomorphism -->
+    <details style="margin: 16px auto; max-width: 740px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px; font-size: 13.5px; color: #1e293b;">
+      <summary style="cursor: pointer; font-size: 13.5px; font-weight: bold; color: #1e3a8a; outline: none; user-select: none; display: flex; align-items: center; gap: 8px;">
+        <span>🔍</span> <span>Detail for the Curious: Outline of the Proof of the Dyadic Isomorphism</span>
+      </summary>
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.6;">
+        <p style="margin: 0 0 10px 0;">
+          <b>The Core Statement:</b> Let <code>S_&lt;ω</code> denote the set of surreal numbers born at finite birthdays <code>d &lt; ω</code> on the 2-successor tree, and let <code>𝔻 = { m / 2ᵈ | m &isin; ℤ, d &isin; ℕ }</code> be the dyadic rationals. There exists a unique bijective mapping:
+        </p>
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 6px 12px; max-width: 480px;">
+          &phi; : S_&lt;ω &rarr; 𝔻
+        </div>
+        <p style="margin: 8px 0;">
+          such that for all <code>x, y &isin; S_&lt;ω</code>, &phi; preserves linear order, addition, and multiplication:
+        </p>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
+          <li><b>Order:</b> <code>x ≤_tree y &hArr; &phi;(x) ≤ &phi;(y)</code></li>
+          <li><b>Addition:</b> <code>&phi;(x +_tree y) = &phi;(x) + &phi;(y)</code></li>
+          <li><b>Multiplication:</b> <code>&phi;(x &middot;_tree y) = &phi;(x) &middot; &phi;(y)</code></li>
+        </ul>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">1. Bijective Correspondence by Birthday Induction</h5>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
+          <li><b>Base Step (d = 0):</b> The root has an empty sign path <code>&empty;</code> and empty option sets <code>0 = { &empty; | &empty; }</code>. We set <code>&phi;(0) = 0 = 0 / 2⁰</code>.</li>
+          <li><b>Inductive Step (d &rarr; d + 1):</b> Assume all numbers born up to day <code>d</code> are dyadic rationals <code>m / 2ᵏ</code> (<code>k ≤ d</code>) strictly ordered along the real line. At birthday <code>d + 1</code>:
+            <ul>
+              <li><b>Outer Spines (Integers):</b> A path of pure <code>[+]</code> has only a left option: <code>k = { k - 1 | &empty; }</code>. Conway's simplicity rule selects the earliest born number greater than <code>k - 1</code>, which is the integer <code>(k - 1) + 1 = k</code>. Similarly, pure <code>[-]</code> yields <code>-k</code>.</li>
+              <li><b>Inner Cuts (Midpoints):</b> An inner node cuts between two existing adjacent dyadic numbers <code>a = m / 2ᵈ</code> and <code>b = (m + 1) / 2ᵈ</code> with <code>a &lt; b</code>. By Conway's Simplicity Theorem, the unique earliest-born number in the open gap <code>(a, b)</code> is their exact dyadic midpoint:
+                <div align="center" style="font-family: monospace; font-size: 12.5px; margin: 6px auto; color: #1e3a8a; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; max-width: 380px;">
+                  &phi;(x) = (a + b) / 2 = (2m + 1) / 2^(d+1)
+                </div>
+                which is an irreducible fraction with denominator <code>2^(d+1)</code>, born at day <code>d + 1</code>.
+              </li>
+            </ul>
+          </li>
+          <li><b>Bijection:</b> Every finite sign path encodes a unique binary sequence of bisections (injectivity), and every dyadic fraction has a terminating binary expansion giving the unique path from root <code>0</code> (surjectivity).</li>
+        </ul>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">2. Order Preservation (≤)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          Conway's order test compares ancestral choices. On the tree, branching left (<code>[-]</code>) directs the entire subtree strictly left of the parent, while branching right (<code>[+]</code>) directs it strictly right. Comparing two paths reduces to the first sign index where they diverge; the path turning left lands strictly below the path turning right, matching the real ordering <code>&phi;(p₁) &lt; &phi;(w) &lt; &phi;(p₂)</code>.
+        </p>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">3. Addition Preservation (+)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          By double induction on <code>birthday(x) + birthday(y)</code>, each left option sum <code>xᴸ + y</code> is strictly less than <code>&phi;(x) + &phi;(y)</code>, and each right option sum is strictly greater. The recursive cut <code>{ xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }</code> selects the simplest number in the open interval. Because <code>&phi;(x) + &phi;(y)</code> is a dyadic rational with denominator <code>≤ 2^(max(d_x, d_y))</code>, Simplicity forces the cut to land precisely on <code>&phi;(x) + &phi;(y)</code>.
+        </p>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">4. Multiplication Preservation (·)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          Conway's 4-way cross-product cut is derived from the geometric positivity invariant <code>(x - xᴸ)(y - yᴸ) &gt; 0 &rArr; xy &gt; xᴸy + xyᴸ - xᴸyᴸ</code>. Inductively, all left options are strictly less than <code>&phi;(x) &middot; &phi;(y)</code>, and all right options strictly greater. The product <code>(m₁ / 2ᵈ¹) &middot; (m₂ / 2ᵈ²) = (m₁m₂) / 2^(d₁+d₂)</code> is a dyadic rational born on or before day <code>d₁ + d₂</code>, and Simplicity again guarantees that the cut equals <code>&phi;(x &middot; y) = &phi;(x) &middot; &phi;(y)</code>.
+        </p>
+
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; margin-top: 10px; font-size: 12px; color: #475569;">
+          <strong style="color: #0f172a;">Epistemic Takeaway:</strong> Conway's tree and the dyadic machine describe the <i>exact same ordered ring</i> <code>(𝔻, +, &middot;, ≤)</code>. Conway's formulation gives us foundational ontological rigor and continuum limits, while the dyadic machine gives us <code>O(1)</code> execution speed via machine bit-shifts and integer arithmetic.
+        </div>
+      </div>
+    </details>
+
     <p>
       “Look at what this means for operations: Conway's tree-inductive arithmetic and the dyadic machine ring <code>(𝔻, +, ·)</code> are mathematically isomorphic, but algorithmically worlds apart!”
     </p>
