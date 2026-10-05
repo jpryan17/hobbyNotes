@@ -126,6 +126,16 @@ export interface IConwayRecursionStats {
 }
 
 /**
+ * Modest ambient system resource ledger for Conway recursive definitions.
+ */
+export interface ISystemResourceLedger {
+  addCount: number;
+  mulCount: number;
+  cutCount: number;
+  maxDepth: number;
+}
+
+/**
  * Core Dyadic Arithmetic Machine Interface.
  * Operates purely over the Ring of Dyadic Rationals (𝔻, +, ·)
  * Grounded in the 2-successor Conway number tree.
@@ -160,7 +170,7 @@ export interface IDyadicMachine {
 
   // Ordering & Comparison
   abs(a: IDyadicNode | DR | number): IDyadicNode;
-  compare(a: IDyadicNode | DR | number, b: IDyadicNode | DR | number): -1 | 0 | 1;
+  compare(a: IDyadicNode | DR | number | string, b: IDyadicNode | DR | number | string): -1 | 0 | 1;
   eq(a: IDyadicNode | DR | number, b: IDyadicNode | DR | number): boolean;
   lt(a: IDyadicNode | DR | number, b: IDyadicNode | DR | number): boolean;
   gt(a: IDyadicNode | DR | number, b: IDyadicNode | DR | number): boolean;
@@ -178,8 +188,8 @@ export interface IDyadicMachine {
     rightOptions: IDyadicNode[];
   };
   cut(
-    leftBound: IDyadicNode | DR | number | null,
-    rightBound: IDyadicNode | DR | number | null
+    leftBound: IDyadicNode | DR | number | string | null,
+    rightBound: IDyadicNode | DR | number | string | null
   ): IDyadicNode;
   conwayAdd(
     x: IDyadicNode | DR | number | string,
@@ -216,12 +226,32 @@ export interface IDyadicMachine {
   expWithTrace(x: IDyadicNode | DR | number | string, k?: number, precisionBits?: number): IEulerCompoundingTrace;
   cordicSinCos(theta: IDyadicNode | DR | number, iterations?: number): { sin: IDyadicNode; cos: IDyadicNode };
   kinematicStep(v0: IDyadicNode | DR | number, g: IDyadicNode | DR | number, t: IDyadicNode | DR | number): { v: IDyadicNode; s: IDyadicNode };
+
+  // --- Ambient System Resource Ledger ---
+  systemLedger: ISystemResourceLedger;
+  resetLedger(): void;
 }
 
 /**
  * Concrete implementation of the Dyadic Arithmetic Machine.
  */
 export class DyadicMachineClass implements IDyadicMachine {
+  public systemLedger: ISystemResourceLedger = {
+    addCount: 0,
+    mulCount: 0,
+    cutCount: 0,
+    maxDepth: 0,
+  };
+
+  public resetLedger(): void {
+    this.systemLedger = {
+      addCount: 0,
+      mulCount: 0,
+      cutCount: 0,
+      maxDepth: 0,
+    };
+  }
+
   /**
    * Root node (Day 0): path "" (empty string).
    */
@@ -303,7 +333,10 @@ export class DyadicMachineClass implements IDyadicMachine {
     return this.fromDR(input);
   }
 
-  private toDR(input: IDyadicNode | DR | number): DR {
+  private toDR(input: IDyadicNode | DR | number | string): DR {
+    if (typeof input === 'string') {
+      return this.fromPath(input).value;
+    }
     if (typeof input === 'number') {
       return (Number.isInteger(input) ? this.fromInt(input) : this.fromFloat(input)).value;
     }
@@ -419,7 +452,7 @@ export class DyadicMachineClass implements IDyadicMachine {
     return this.fromDR(drA);
   }
 
-  compare(a: IDyadicNode | DR | number, b: IDyadicNode | DR | number): -1 | 0 | 1 {
+  compare(a: IDyadicNode | DR | number | string, b: IDyadicNode | DR | number | string): -1 | 0 | 1 {
     return DR.compare(this.toDR(a), this.toDR(b));
   }
 
@@ -694,8 +727,8 @@ export class DyadicMachineClass implements IDyadicMachine {
    * or branching left '-' when >= rightBound.
    */
   cut(
-    leftBound: IDyadicNode | DR | number | null,
-    rightBound: IDyadicNode | DR | number | null
+    leftBound: IDyadicNode | DR | number | string | null,
+    rightBound: IDyadicNode | DR | number | string | null
   ): IDyadicNode {
     const lNode = leftBound !== null && leftBound !== undefined ? this.node(leftBound) : null;
     const rNode = rightBound !== null && rightBound !== undefined ? this.node(rightBound) : null;
@@ -713,6 +746,7 @@ export class DyadicMachineClass implements IDyadicMachine {
       }
     }
 
+    this.systemLedger.cutCount++;
     return candidate;
   }
 
@@ -725,6 +759,7 @@ export class DyadicMachineClass implements IDyadicMachine {
     xInput: IDyadicNode | DR | number | string,
     yInput: IDyadicNode | DR | number | string
   ): IDyadicNode {
+    this.systemLedger.addCount++;
     const X = this.node(xInput);
     const Y = this.node(yInput);
 
@@ -787,6 +822,7 @@ export class DyadicMachineClass implements IDyadicMachine {
     xInput: IDyadicNode | DR | number | string,
     yInput: IDyadicNode | DR | number | string
   ): IDyadicNode {
+    this.systemLedger.mulCount++;
     const X = this.node(xInput);
     const Y = this.node(yInput);
     const key = `${X.path}|${Y.path}`;

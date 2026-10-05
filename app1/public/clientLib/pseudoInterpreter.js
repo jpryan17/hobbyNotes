@@ -559,10 +559,22 @@ export class ExecutionScope {
     define(name, val) {
         this.vars.set(name, val);
     }
-    formatVariables() {
+    formatVariables(systemLedger) {
         const res = {};
         for (const [k, v] of this.vars.entries()) {
             res[k] = formatRuntimeValue(v);
+        }
+        if (systemLedger &&
+            (systemLedger.addCount > 0 ||
+                systemLedger.cutCount > 0 ||
+                systemLedger.mulCount > 0 ||
+                systemLedger.maxDepth > 0)) {
+            res['[sys] addCount'] = String(systemLedger.addCount);
+            res['[sys] cutCount'] = String(systemLedger.cutCount);
+            if (systemLedger.mulCount > 0)
+                res['[sys] mulCount'] = String(systemLedger.mulCount);
+            if (systemLedger.maxDepth > 0)
+                res['[sys] maxDepth'] = String(systemLedger.maxDepth);
         }
         return res;
     }
@@ -599,6 +611,12 @@ export class PseudoInterpreter {
         stepCount: 0,
         cutCount: 0,
     };
+    systemLedger = {
+        addCount: 0,
+        mulCount: 0,
+        cutCount: 0,
+        maxDepth: 0,
+    };
     constructor(source) {
         const tokens = tokenize(source);
         const parser = new PseudoParser(tokens);
@@ -627,6 +645,12 @@ export class PseudoInterpreter {
             maxCallDepth: 0,
             stepCount: 0,
             cutCount: 0,
+        };
+        this.systemLedger = {
+            addCount: 0,
+            mulCount: 0,
+            cutCount: 0,
+            maxDepth: 0,
         };
         try {
             const result = yield* this.executeFunction(fn, args, globalScope);
@@ -670,9 +694,10 @@ export class PseudoInterpreter {
         yield {
             currentLine: fn.line,
             callStack: [...this.callStack],
-            variables: scope.formatVariables(),
+            variables: scope.formatVariables(this.systemLedger),
             isDone: false,
             telemetry: { ...this.telemetry },
+            systemLedger: { ...this.systemLedger },
         };
         // Execute body statements
         for (const stmt of fn.body) {
@@ -691,9 +716,10 @@ export class PseudoInterpreter {
         yield {
             currentLine: stmt.line,
             callStack: [...this.callStack],
-            variables: scope.formatVariables(),
+            variables: scope.formatVariables(this.systemLedger),
             isDone: false,
             telemetry: { ...this.telemetry },
+            systemLedger: { ...this.systemLedger },
         };
         switch (stmt.type) {
             case 'ASSIGN': {
@@ -797,7 +823,19 @@ export class PseudoInterpreter {
                     return dyadicMachine.root();
                 if (expr.name === 'nil' || expr.name === 'null')
                     return null;
-                return scope.get(expr.name);
+                const val = scope.get(expr.name);
+                if (val !== undefined)
+                    return val;
+                // Ambient system resource ledger variables
+                if (expr.name === 'addCount' || expr.name === 'addCalls')
+                    return this.systemLedger.addCount;
+                if (expr.name === 'mulCount' || expr.name === 'mulCalls')
+                    return this.systemLedger.mulCount;
+                if (expr.name === 'cutCount' || expr.name === 'cutCalls')
+                    return this.systemLedger.cutCount;
+                if (expr.name === 'maxDepth')
+                    return this.systemLedger.maxDepth;
+                return undefined;
             }
             case 'TUPLE':
                 return expr.elements.map((e) => this.evalExpr(e, scope));
@@ -1011,14 +1049,18 @@ export class PseudoInterpreter {
                 }
                 if (name === 'Cut') {
                     this.telemetry.cutCount++;
+                    this.systemLedger.cutCount++;
                     return dyadicMachine.cut(evaluatedArgs[0], evaluatedArgs[1]);
                 }
                 if (name === 'ConwayAdd') {
                     const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
                     this.telemetry.callCount += stats.calls;
                     this.telemetry.cutCount += stats.cuts;
+                    this.systemLedger.addCount += stats.calls;
+                    this.systemLedger.cutCount += stats.cuts;
                     if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
                         this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                        this.systemLedger.maxDepth = this.telemetry.maxCallDepth;
                     }
                     return dyadicMachine.conwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
                 }
@@ -1026,6 +1068,8 @@ export class PseudoInterpreter {
                     const stats = dyadicMachine.countConwayAdd(evaluatedArgs[0], evaluatedArgs[1]);
                     this.telemetry.callCount += stats.calls;
                     this.telemetry.cutCount += stats.cuts;
+                    this.systemLedger.addCount += stats.calls;
+                    this.systemLedger.cutCount += stats.cuts;
                     return dyadicMachine.conwaySub(evaluatedArgs[0], evaluatedArgs[1]);
                 }
                 if (name === 'ConwayNeg') {
@@ -1035,8 +1079,12 @@ export class PseudoInterpreter {
                     const stats = dyadicMachine.countConwayMul(evaluatedArgs[0], evaluatedArgs[1]);
                     this.telemetry.callCount += stats.calls;
                     this.telemetry.cutCount += stats.cuts;
+                    this.systemLedger.mulCount += stats.calls;
+                    this.systemLedger.addCount += stats.addCalls || 0;
+                    this.systemLedger.cutCount += stats.cuts;
                     if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
                         this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                        this.systemLedger.maxDepth = this.telemetry.maxCallDepth;
                     }
                     return dyadicMachine.conwayMul(evaluatedArgs[0], evaluatedArgs[1]);
                 }
@@ -1045,6 +1093,7 @@ export class PseudoInterpreter {
                     this.telemetry.callCount += stats.calls;
                     if (this.callStack.length + stats.maxDepth > this.telemetry.maxCallDepth) {
                         this.telemetry.maxCallDepth = this.callStack.length + stats.maxDepth;
+                        this.systemLedger.maxDepth = this.telemetry.maxCallDepth;
                     }
                     return dyadicMachine.conwayLessEq(evaluatedArgs[0], evaluatedArgs[1]) ? 1 : 0;
                 }

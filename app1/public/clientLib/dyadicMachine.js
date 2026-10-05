@@ -44,6 +44,20 @@ export class DyadicNode {
  * Concrete implementation of the Dyadic Arithmetic Machine.
  */
 export class DyadicMachineClass {
+    systemLedger = {
+        addCount: 0,
+        mulCount: 0,
+        cutCount: 0,
+        maxDepth: 0,
+    };
+    resetLedger() {
+        this.systemLedger = {
+            addCount: 0,
+            mulCount: 0,
+            cutCount: 0,
+            maxDepth: 0,
+        };
+    }
     /**
      * Root node (Day 0): path "" (empty string).
      */
@@ -122,6 +136,9 @@ export class DyadicMachineClass {
         return this.fromDR(input);
     }
     toDR(input) {
+        if (typeof input === 'string') {
+            return this.fromPath(input).value;
+        }
         if (typeof input === 'number') {
             return (Number.isInteger(input) ? this.fromInt(input) : this.fromFloat(input)).value;
         }
@@ -472,6 +489,7 @@ export class DyadicMachineClass {
                 break; // Strictly between bounds: lNode < candidate < rNode
             }
         }
+        this.systemLedger.cutCount++;
         return candidate;
     }
     /**
@@ -480,6 +498,7 @@ export class DyadicMachineClass {
      * Evaluates the sum via recursive options reduction and the bounding Conway cut.
      */
     conwayAdd(xInput, yInput) {
+        this.systemLedger.addCount++;
         const X = this.node(xInput);
         const Y = this.node(yInput);
         const key = `${X.path}|${Y.path}`;
@@ -529,6 +548,7 @@ export class DyadicMachineClass {
      *   X · Y = { Xᴸ·Y + X·Yᴸ - Xᴸ·Yᴸ, Xᴿ·Y + X·Yᴿ - Xᴿ·Yᴿ | Xᴸ·Y + X·Yᴿ - Xᴸ·Yᴿ, Xᴿ·Y + X·Yᴸ - Xᴿ·Yᴸ }
      */
     conwayMul(xInput, yInput) {
+        this.systemLedger.mulCount++;
         const X = this.node(xInput);
         const Y = this.node(yInput);
         const key = `${X.path}|${Y.path}`;
