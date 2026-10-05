@@ -1007,22 +1007,22 @@ export class PseudoViewer extends Elt {
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;font-family:monospace;font-size:12px;">
           <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
             <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Recursive Calls</div>
-            <div style="color:#38bdf8;font-size:16px;font-weight:bold;margin-top:2px;">${tel.callCount}</div>
+            <div style="color:#38bdf8;font-size:16px;font-weight:bold;margin-top:2px;">${tel.callCount.toLocaleString()}</div>
             <div style="color:#64748b;font-size:10px;">vs. Dyadic: 1 op</div>
           </div>
           <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
             <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Max Stack Depth</div>
-            <div style="color:#fbbf24;font-size:16px;font-weight:bold;margin-top:2px;">${tel.maxCallDepth}</div>
+            <div style="color:#fbbf24;font-size:16px;font-weight:bold;margin-top:2px;">${tel.maxCallDepth.toLocaleString()}</div>
             <div style="color:#64748b;font-size:10px;">vs. Dyadic: 1 frame</div>
           </div>
           <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
             <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Conway Cuts</div>
-            <div style="color:#a855f7;font-size:16px;font-weight:bold;margin-top:2px;">${tel.cutCount}</div>
+            <div style="color:#a855f7;font-size:16px;font-weight:bold;margin-top:2px;">${tel.cutCount.toLocaleString()}</div>
             <div style="color:#64748b;font-size:10px;">vs. Dyadic: 0</div>
           </div>
           <div style="background:#1e293b;border:1px solid #334155;padding:8px 10px;border-radius:6px;">
             <div style="color:#94a3b8;font-size:10.5px;text-transform:uppercase;">Steps Executed</div>
-            <div style="color:#4ade80;font-size:16px;font-weight:bold;margin-top:2px;">${this.stepCount}</div>
+            <div style="color:#4ade80;font-size:16px;font-weight:bold;margin-top:2px;">${this.stepCount.toLocaleString()}</div>
             <div style="color:#64748b;font-size:10px;">Line evaluations</div>
           </div>
         </div>

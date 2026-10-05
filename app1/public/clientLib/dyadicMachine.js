@@ -605,92 +605,207 @@ export class DyadicMachineClass {
         }
         return true;
     }
-    countConwayAdd(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }) {
+    countConwayAdd(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }, maxCalls = 2_000_000) {
+        const t0 = depth === 1 ? performance.now() : 0;
         stats.calls++;
         if (depth > stats.maxDepth)
             stats.maxDepth = depth;
         stats.cuts++;
+        if (stats.calls >= maxCalls) {
+            stats.bailed = true;
+            if (depth === 1)
+                stats.elapsedMs = performance.now() - t0;
+            return stats;
+        }
         const X = this.node(xInput);
         const Y = this.node(yInput);
         const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
         const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
-        if (stats.calls > 500)
-            return stats;
-        for (const xL of XL)
-            this.countConwayAdd(xL, Y, depth + 1, stats);
-        for (const yL of YL)
-            this.countConwayAdd(X, yL, depth + 1, stats);
-        for (const xR of XR)
-            this.countConwayAdd(xR, Y, depth + 1, stats);
-        for (const yR of YR)
-            this.countConwayAdd(X, yR, depth + 1, stats);
+        for (const xL of XL) {
+            this.countConwayAdd(xL, Y, depth + 1, stats, maxCalls);
+            if (stats.bailed) {
+                if (depth === 1)
+                    stats.elapsedMs = performance.now() - t0;
+                return stats;
+            }
+        }
+        for (const yL of YL) {
+            this.countConwayAdd(X, yL, depth + 1, stats, maxCalls);
+            if (stats.bailed) {
+                if (depth === 1)
+                    stats.elapsedMs = performance.now() - t0;
+                return stats;
+            }
+        }
+        for (const xR of XR) {
+            this.countConwayAdd(xR, Y, depth + 1, stats, maxCalls);
+            if (stats.bailed) {
+                if (depth === 1)
+                    stats.elapsedMs = performance.now() - t0;
+                return stats;
+            }
+        }
+        for (const yR of YR) {
+            this.countConwayAdd(X, yR, depth + 1, stats, maxCalls);
+            if (stats.bailed) {
+                if (depth === 1)
+                    stats.elapsedMs = performance.now() - t0;
+                return stats;
+            }
+        }
+        if (depth === 1)
+            stats.elapsedMs = performance.now() - t0;
         return stats;
     }
-    countConwayMul(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0, addCalls: 0 }) {
+    countConwayMul(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0, addCalls: 0 }, maxCalls = 2_000_000) {
+        const t0 = depth === 1 ? performance.now() : 0;
         stats.calls++;
         if (depth > stats.maxDepth)
             stats.maxDepth = depth;
         stats.cuts++;
+        if (stats.calls >= maxCalls) {
+            stats.bailed = true;
+            if (depth === 1)
+                stats.elapsedMs = performance.now() - t0;
+            return stats;
+        }
         const X = this.node(xInput);
         const Y = this.node(yInput);
         const { leftOptions: XL, rightOptions: XR } = this.simplerOptions(X);
         const { leftOptions: YL, rightOptions: YR } = this.simplerOptions(Y);
-        if (stats.calls > 500)
-            return stats;
         for (const xL of XL) {
             for (const yL of YL) {
                 stats.addCalls = (stats.addCalls || 0) + 2;
-                this.countConwayMul(xL, Y, depth + 1, stats);
-                this.countConwayMul(X, yL, depth + 1, stats);
-                this.countConwayMul(xL, yL, depth + 1, stats);
+                this.countConwayMul(xL, Y, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(X, yL, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(xL, yL, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
         for (const xR of XR) {
             for (const yR of YR) {
                 stats.addCalls = (stats.addCalls || 0) + 2;
-                this.countConwayMul(xR, Y, depth + 1, stats);
-                this.countConwayMul(X, yR, depth + 1, stats);
-                this.countConwayMul(xR, yR, depth + 1, stats);
+                this.countConwayMul(xR, Y, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(X, yR, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(xR, yR, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
         for (const xL of XL) {
             for (const yR of YR) {
                 stats.addCalls = (stats.addCalls || 0) + 2;
-                this.countConwayMul(xL, Y, depth + 1, stats);
-                this.countConwayMul(X, yR, depth + 1, stats);
-                this.countConwayMul(xL, yR, depth + 1, stats);
+                this.countConwayMul(xL, Y, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(X, yR, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(xL, yR, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
         for (const xR of XR) {
             for (const yL of YL) {
                 stats.addCalls = (stats.addCalls || 0) + 2;
-                this.countConwayMul(xR, Y, depth + 1, stats);
-                this.countConwayMul(X, yL, depth + 1, stats);
-                this.countConwayMul(xR, yL, depth + 1, stats);
+                this.countConwayMul(xR, Y, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(X, yL, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
+                this.countConwayMul(xR, yL, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
+        if (depth === 1)
+            stats.elapsedMs = performance.now() - t0;
         return stats;
     }
-    countConwayLessEq(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }) {
+    countConwayLessEq(xInput, yInput, depth = 1, stats = { calls: 0, maxDepth: 0, cuts: 0 }, maxCalls = 2_000_000) {
+        const t0 = depth === 1 ? performance.now() : 0;
         stats.calls++;
         if (depth > stats.maxDepth)
             stats.maxDepth = depth;
+        if (stats.calls >= maxCalls) {
+            stats.bailed = true;
+            if (depth === 1)
+                stats.elapsedMs = performance.now() - t0;
+            return stats;
+        }
         const X = this.node(xInput);
         const Y = this.node(yInput);
         const { leftOptions: XL } = this.simplerOptions(X);
         const { rightOptions: YR } = this.simplerOptions(Y);
-        if (stats.calls > 500)
-            return stats;
         for (const xL of XL) {
             if (this.compare(Y, xL) <= 0) {
-                this.countConwayLessEq(Y, xL, depth + 1, stats);
+                this.countConwayLessEq(Y, xL, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
         for (const yR of YR) {
             if (this.compare(yR, X) <= 0) {
-                this.countConwayLessEq(yR, X, depth + 1, stats);
+                this.countConwayLessEq(yR, X, depth + 1, stats, maxCalls);
+                if (stats.bailed) {
+                    if (depth === 1)
+                        stats.elapsedMs = performance.now() - t0;
+                    return stats;
+                }
             }
         }
+        if (depth === 1)
+            stats.elapsedMs = performance.now() - t0;
         return stats;
     }
 }

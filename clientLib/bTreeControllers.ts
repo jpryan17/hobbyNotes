@@ -838,11 +838,18 @@ export class OpController implements IBTreeController {
     this.diagram.setNodeColor(expToId(exp2), exp2Color);
 
     let statsMsg = '';
-    if (stats.calls <= 500) {
+    const isBailed = Boolean(stats.bailed || stats.calls >= 2_000_000);
+    const timeStr = stats.elapsedMs !== undefined
+      ? stats.elapsedMs >= 1000
+        ? ` | ${(stats.elapsedMs / 1000).toFixed(2)}s`
+        : ` | ${stats.elapsedMs.toFixed(1)}ms`
+      : '';
+
+    if (!isBailed) {
       if (this.op === '+') {
-        statsMsg = ` (addition recursion count: ${stats.calls}, depth: ${stats.maxDepth})`;
+        statsMsg = ` (addition recursion count: ${stats.calls.toLocaleString()}, depth: ${stats.maxDepth}${timeStr})`;
       } else {
-        statsMsg = ` (mult: ${stats.calls}, add: ${stats.addCalls || 0})`;
+        statsMsg = ` (mult: ${stats.calls.toLocaleString()}, add: ${(stats.addCalls || 0).toLocaleString()}${timeStr})`;
       }
 
       if (resultExp.length <= this.diagram.maxBD) {
@@ -851,7 +858,7 @@ export class OpController implements IBTreeController {
         this.diagram.setDirectionAntenna(resultExp, resColor);
       }
     } else {
-      statsMsg = ' (max recursion count exceeded)';
+      statsMsg = ` (recursion ceiling reached: ${stats.calls.toLocaleString()} calls${timeStr})`;
     }
 
     this.diagram.setStatusPrompt([
@@ -1178,13 +1185,19 @@ export class IsoController implements IBTreeController {
           ? dyadicMachine.conwayAdd(exp1, exp2)
           : dyadicMachine.conwayMul(exp1, exp2);
 
-      const isBailed = stats.calls > 500;
+      const isBailed = Boolean(stats.bailed || stats.calls >= 2_000_000);
+      const timeStr = stats.elapsedMs !== undefined
+        ? stats.elapsedMs >= 1000
+          ? `${(stats.elapsedMs / 1000).toFixed(2)}s`
+          : `${stats.elapsedMs.toFixed(1)}ms`
+        : '';
+
       let telemetryText = '';
       if (isBailed) {
-        telemetryText = `⚠️ Conway Telemetry: 500+ calls (safety limit reached) | Max Depth: ${stats.maxDepth} | Dyadic ALU: O(1)`;
+        telemetryText = `⚠️ Conway Telemetry: ${stats.calls.toLocaleString()} calls (recursion ceiling reached in ${timeStr}) | Max Depth: ${stats.maxDepth} | Dyadic ALU: O(1)`;
       } else {
-        const crossStr = stats.addCalls ? ` | ${stats.addCalls} cross-additions` : '';
-        telemetryText = `🌳 Conway Telemetry: ${stats.calls} additions | Max Depth: ${stats.maxDepth} | ${stats.cuts} cuts resolved${crossStr} | Isomorphism verified`;
+        const crossStr = stats.addCalls ? ` | ${stats.addCalls.toLocaleString()} cross-additions` : '';
+        telemetryText = `🌳 Conway Telemetry: ${stats.calls.toLocaleString()} calls | Max Depth: ${stats.maxDepth} | ${stats.cuts.toLocaleString()} cuts resolved${crossStr} | ${timeStr} | Isomorphism verified`;
       }
 
       const line2: [string, string][] = [
