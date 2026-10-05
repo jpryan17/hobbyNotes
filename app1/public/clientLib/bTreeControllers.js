@@ -444,7 +444,7 @@ export class OrderController {
         ];
         const line2 = [
             ['💡 Conway Order Theorem: ', '#4338ca'],
-            ['Every surreal number X partitions all other numbers into strictly smaller and strictly larger sets.', '#64748b'],
+            ['Every number X ∈ ℝ_ω partitions all other numbers into strictly smaller and strictly larger sets.', '#64748b'],
         ];
         this.diagram.setStatusLines([line1, line2]);
     }
@@ -619,7 +619,7 @@ export class CutController {
 }
 /**
  * Operation Controller (2-operand):
- * Executes recursive Surreal Addition or Multiplication with step counts and result highlighting.
+ * Executes recursive Addition or Multiplication in ℝ_ω with step counts and result highlighting.
  */
 export class OpController {
     diagram;
@@ -694,8 +694,8 @@ export class OpController {
 }
 /**
  * Combined Isomorphism & Arithmetic Lab Controller (2-operand):
- * Unifies Surreal Tree Addition & Multiplication with Dyadic Rational Arithmetic,
- * featuring interactive operation toggling (+, *), an evaluation engine toggle
+ * Unifies Tree Addition & Multiplication in ℝ_ω with Dyadic Rational Arithmetic,
+ * featuring interactive operation toggling (+, ·), an evaluation engine toggle
  * (Instant Dyadic O(1) vs Conway Inductive Recursion with live telemetry & stats),
  * and a direct gateway to the underlying formal pseudocode rules.
  */
@@ -783,8 +783,8 @@ export class IsoController {
         opLabel.setV('Op:');
         this.controlsGroup.append(opLabel);
         // Buttons for Op
-        this.btnOpAdd = this.createPillButton(this.controlsGroup, 52, 372, 78, 26, '+ Add', () => this.setOp('+'), 'Surreal Addition on Tree');
-        this.btnOpMul = this.createPillButton(this.controlsGroup, 136, 372, 98, 26, '· Mult', () => this.setOp('\u2217'), 'Surreal Multiplication on Tree');
+        this.btnOpAdd = this.createPillButton(this.controlsGroup, 52, 372, 78, 26, '+ Add', () => this.setOp('+'), 'Tree Addition in ℝ_ω');
+        this.btnOpMul = this.createPillButton(this.controlsGroup, 136, 372, 98, 26, '· Mult', () => this.setOp('\u2217'), 'Tree Multiplication in ℝ_ω');
         // Divider 1
         const div1 = new SVGElt('line');
         div1.setAA([
@@ -810,7 +810,7 @@ export class IsoController {
         this.controlsGroup.append(engLabel);
         // Engine Buttons
         this.btnEngDyadic = this.createPillButton(this.controlsGroup, 306, 372, 118, 26, '⚡ Dyadic (O(1))', () => this.setEngine('dyadic'), 'Instant ring bit-shift ALU evaluation');
-        this.btnEngConway = this.createPillButton(this.controlsGroup, 430, 372, 150, 26, '🌳 Conway Recursion', () => this.setEngine('conway'), 'Recursive surreal tree induction with live stats feedback');
+        this.btnEngConway = this.createPillButton(this.controlsGroup, 430, 372, 150, 26, '🌳 Conway Recursion', () => this.setEngine('conway'), 'Recursive tree induction in ℝ_ω with live stats feedback');
         // Divider 2
         const div2 = new SVGElt('line');
         div2.setAA([
@@ -891,17 +891,17 @@ export class IsoController {
         const dr2Str = dr2.format();
         const drResult = this.currentOp === '+' ? DR.add(dr1, dr2) : DR.multiply(dr1, dr2);
         const drResStr = drResult.format();
-        const surrealRes = drResult.toSignExpansion();
+        const signRes = drResult.toSignExpansion();
         const c1 = '#0288d1'; // blue
         const c2 = '#c2185b'; // pink/red
         const cRes = '#2e7d32'; // green
         this.diagram.setNodeColor(expToId(exp1), c1);
         this.diagram.setNodeColor(expToId(exp2), c2);
-        if (surrealRes.length <= this.diagram.maxBD) {
-            this.diagram.setNodeColor(expToId(surrealRes), cRes);
+        if (signRes.length <= this.diagram.maxBD) {
+            this.diagram.setNodeColor(expToId(signRes), cRes);
         }
         else {
-            this.diagram.setDirectionAntenna(surrealRes, cRes);
+            this.diagram.setDirectionAntenna(signRes, cRes);
         }
         const line1 = [
             ['Tree: ', '#37474f'],
@@ -909,7 +909,7 @@ export class IsoController {
             [` ${this.currentOp} `, '#37474f'],
             [setVal(exp2), c2],
             [' = ', '#37474f'],
-            [setVal(surrealRes), cRes],
+            [setVal(signRes), cRes],
             ['   \u21D4   Dyadic: ', '#0f172a'],
             [`${dr1Str} ${this.currentOp} ${dr2Str} = ${drResStr}`, '#00695c'],
         ];

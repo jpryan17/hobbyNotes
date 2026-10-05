@@ -570,7 +570,7 @@ export class OrderController implements IBTreeController {
     ];
     const line2: [string, string][] = [
       ['💡 Conway Order Theorem: ', '#4338ca'],
-      ['Every surreal number X partitions all other numbers into strictly smaller and strictly larger sets.', '#64748b'],
+      ['Every number X ∈ ℝ_ω partitions all other numbers into strictly smaller and strictly larger sets.', '#64748b'],
     ];
 
     this.diagram.setStatusLines([line1, line2]);
@@ -787,7 +787,7 @@ export class CutController implements IBTreeController {
 
 /**
  * Operation Controller (2-operand):
- * Executes recursive Surreal Addition or Multiplication with step counts and result highlighting.
+ * Executes recursive Addition or Multiplication in ℝ_ω with step counts and result highlighting.
  */
 export class OpController implements IBTreeController {
   constructor(
@@ -871,8 +871,8 @@ export class OpController implements IBTreeController {
 
 /**
  * Combined Isomorphism & Arithmetic Lab Controller (2-operand):
- * Unifies Surreal Tree Addition & Multiplication with Dyadic Rational Arithmetic,
- * featuring interactive operation toggling (+, *), an evaluation engine toggle
+ * Unifies Tree Addition & Multiplication in ℝ_ω with Dyadic Rational Arithmetic,
+ * featuring interactive operation toggling (+, ·), an evaluation engine toggle
  * (Instant Dyadic O(1) vs Conway Inductive Recursion with live telemetry & stats),
  * and a direct gateway to the underlying formal pseudocode rules.
  */
@@ -970,7 +970,7 @@ export class IsoController implements IBTreeController {
       52, 372, 78, 26,
       '+ Add',
       () => this.setOp('+'),
-      'Surreal Addition on Tree'
+      'Tree Addition in ℝ_ω'
     );
 
     this.btnOpMul = this.createPillButton(
@@ -978,7 +978,7 @@ export class IsoController implements IBTreeController {
       136, 372, 98, 26,
       '· Mult',
       () => this.setOp('\u2217'),
-      'Surreal Multiplication on Tree'
+      'Tree Multiplication in ℝ_ω'
     );
 
     // Divider 1
@@ -1020,7 +1020,7 @@ export class IsoController implements IBTreeController {
       430, 372, 150, 26,
       '🌳 Conway Recursion',
       () => this.setEngine('conway'),
-      'Recursive surreal tree induction with live stats feedback'
+      'Recursive tree induction in ℝ_ω with live stats feedback'
     );
 
     // Divider 2
@@ -1139,7 +1139,7 @@ export class IsoController implements IBTreeController {
     const drResult =
       this.currentOp === '+' ? DR.add(dr1, dr2) : DR.multiply(dr1, dr2);
     const drResStr = drResult.format();
-    const surrealRes = drResult.toSignExpansion();
+    const signRes = drResult.toSignExpansion();
 
     const c1 = '#0288d1'; // blue
     const c2 = '#c2185b'; // pink/red
@@ -1148,10 +1148,10 @@ export class IsoController implements IBTreeController {
     this.diagram.setNodeColor(expToId(exp1), c1);
     this.diagram.setNodeColor(expToId(exp2), c2);
 
-    if (surrealRes.length <= this.diagram.maxBD) {
-      this.diagram.setNodeColor(expToId(surrealRes), cRes);
+    if (signRes.length <= this.diagram.maxBD) {
+      this.diagram.setNodeColor(expToId(signRes), cRes);
     } else {
-      this.diagram.setDirectionAntenna(surrealRes, cRes);
+      this.diagram.setDirectionAntenna(signRes, cRes);
     }
 
     const line1: [string, string][] = [
@@ -1160,7 +1160,7 @@ export class IsoController implements IBTreeController {
       [` ${this.currentOp} `, '#37474f'],
       [setVal(exp2), c2],
       [' = ', '#37474f'],
-      [setVal(surrealRes), cRes],
+      [setVal(signRes), cRes],
       ['   \u21D4   Dyadic: ', '#0f172a'],
       [`${dr1Str} ${this.currentOp} ${dr2Str} = ${drResStr}`, '#00695c'],
     ];
