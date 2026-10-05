@@ -581,6 +581,91 @@
       </div>
     </details>
 
+    <!-- Architecture Diagram: The Ordinal Birthday Continuum & Core Isomorphism -->
+    <div style="margin: 24px auto; max-width: 740px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <div style="font-weight: 700; color: #1e3a8a; font-size: 14.5px; margin-bottom: 8px; text-align: center;">
+        The Ordinal Birthday Architecture of Conway Tree Numbers
+      </div>
+      <div align="center">
+        <svg viewBox="0 0 720 420" width="100%" height="auto" style="max-width: 720px; font-family: system-ui, -apple-system, sans-serif;">
+          <defs>
+            <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+            </pattern>
+            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1e293b"/>
+            </marker>
+          </defs>
+
+          <!-- Grid Background -->
+          <rect width="720" height="420" fill="url(#gridPattern)" rx="6"/>
+
+          <!-- Main Vertical Axis (birthday: Ordinal) -->
+          <line x1="245" y1="395" x2="245" y2="30" stroke="#1e293b" stroke-width="2.2" marker-end="url(#arrow)"/>
+          <text x="75" y="45" font-size="13.5" font-weight="700" fill="#334155">birthday: Ordinal</text>
+          <text x="365" y="45" font-size="14.5" font-weight="700" fill="#0f172a">Conway number tree numbers</text>
+
+          <!-- Level ε₀ (dashed line) -->
+          <line x1="245" y1="150" x2="560" y2="150" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 5"/>
+          <text x="254" y="145" font-size="24" font-style="italic" font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#0f172a">ε₀</text>
+
+          <!-- Box: [| transfinite induction |] -->
+          <g transform="translate(65, 88)">
+            <rect x="0" y="0" width="150" height="44" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" rx="2"/>
+            <line x1="12" y1="0" x2="12" y2="44" stroke="#1e293b" stroke-width="1.6"/>
+            <line x1="138" y1="0" x2="138" y2="44" stroke="#1e293b" stroke-width="1.6"/>
+            <text x="75" y="27" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">transfinite induction</text>
+          </g>
+
+          <!-- Level ω (dotted line across) -->
+          <line x1="20" y1="260" x2="700" y2="260" stroke="#1e293b" stroke-width="2.4" stroke-dasharray="3 6"/>
+          <text x="254" y="250" font-size="28" font-style="italic" font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#0f172a">ω</text>
+
+          <!-- Box: ( recursive definitions ) above ω -->
+          <g transform="translate(48, 192)">
+            <rect x="0" y="0" width="164" height="44" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" rx="10"/>
+            <text x="82" y="27" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e293b">recursive definitions</text>
+          </g>
+
+          <!-- Cardinality Labels -->
+          <text x="615" y="240" font-size="13.5" font-weight="700" fill="#64748b" text-anchor="middle">uncountable</text>
+          <text x="615" y="295" font-size="13.5" font-weight="700" fill="#64748b" text-anchor="middle">countable</text>
+
+          <!-- Below ω: Finite Tier -->
+          <!-- Box: [| finite induction |] -->
+          <g transform="translate(65, 325)">
+            <rect x="0" y="0" width="150" height="44" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" rx="2"/>
+            <line x1="12" y1="0" x2="12" y2="44" stroke="#1e293b" stroke-width="1.6"/>
+            <line x1="138" y1="0" x2="138" y2="44" stroke="#1e293b" stroke-width="1.6"/>
+            <text x="75" y="27" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e293b">finite induction</text>
+          </g>
+
+          <!-- Finite Conway Numbers: Core Isomorphism -->
+          <text x="260" y="305" font-size="13" font-weight="700" fill="#334155">for finite Conway numbers:</text>
+
+          <!-- Box: ( recursive definitions ) -->
+          <g transform="translate(305, 325)">
+            <rect x="0" y="0" width="150" height="44" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" rx="10"/>
+            <text x="75" y="27" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">recursive definitions</text>
+          </g>
+
+          <!-- Isomorphism Symbol ≡ -->
+          <text x="475" y="352" text-anchor="middle" font-size="24" font-weight="bold" fill="#1e40af">≡</text>
+
+          <!-- Box: [ dyadic arithmetic ] -->
+          <g transform="translate(495, 325)">
+            <rect x="0" y="0" width="145" height="44" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" rx="2"/>
+            <text x="72.5" y="27" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">dyadic arithmetic</text>
+          </g>
+        </svg>
+      </div>
+      <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+        <strong style="color: #0f172a;">Architectural Key:</strong> 
+        On the finite tier (<code>birthdays &lt; ω</code>), finite induction guarantees that Conway's tree-inductive option cuts and machine dyadic arithmetic are <b>strictly isomorphic (≡)</b>. 
+        Finite bit registers cannot scale past <code>ω</code>, but Conway's recursive definitions carry seamlessly across the boundary into the uncountable continuum and ordinals via <b>transfinite induction</b>.
+      </div>
+    </div>
+
     <p>
       “Look at what this means for operations: Conway's tree-inductive arithmetic and the dyadic machine ring <code>(𝔻, +, ·)</code> are mathematically isomorphic, but algorithmically worlds apart!”
     </p>
