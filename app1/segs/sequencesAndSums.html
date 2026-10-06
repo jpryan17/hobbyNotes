@@ -131,39 +131,47 @@
         Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> and accumulating its differences.
       </p>
 
-      <!-- Demystifying F: Function Type & Assignment Rule -->
+      <!-- Demystifying F: The Sequence in the Conceptual Model -->
       <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
           <span style="font-size: 18px;">📐</span>
-          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence as a Formal Function Type</h4>
+          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
         </div>
         <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
-          In casual speech, we often speak of a "sequence" as if it were a static list of numbers. But in the formal architecture of Middle Way Math (and Lean 4), every sequence <code>F</code> is a <b>typed mapping</b> characterized by two distinct layers:
+          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
         </p>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 12px 0;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
           <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Type Signature (Domain &amp; Codomain)</div>
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
             <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
             <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This signature formalizes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
+              In our foundational ontology, a function's type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
             </div>
           </div>
 
           <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Assignment Rule (Mapping Law)</div>
-            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">k ↦ F(k)</div>
+            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
             <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              The rule specifies the value assigned to each index <code>k</code>. This assignment rule can be defined recursively or sampled from a continuous function <code>f(x)</code> evaluated on discrete step indices:
+              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
             </div>
           </div>
         </div>
 
-        <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 13px; color: #334155;">
-          <li><b>Polynomial Progression:</b> Sampling <code>f(x) = c · x³</code> on index steps yields the cubic sequence <code>F(k) = c · k³</code>.</li>
-          <li><b>Exponential Progression:</b> Sampling <code>f(x) = a · r^x</code> yields the geometric progression <code>F(k) = a · r^k</code>.</li>
-          <li><b>Physical Trajectory:</b> Sampling kinetic energy <code>f(v) = ½ · m · v²</code> at velocity increments <code>v_k = k · Δv</code> produces the telescoping work-energy ladder.</li>
-        </ul>
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
+          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
+            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code> &emsp; (increments by fixed constant difference <code>d</code>).</li>
+            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code> &emsp; (scales by fixed multiplicative factor <code>r</code>).</li>
+            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code> &emsp; (generates the cubic progression evaluated on the counting spine).</li>
+            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code> &emsp; (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
+          </ul>
+        </div>
+
+        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
+          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
+        </p>
       </div>
     </div>
 
@@ -401,7 +409,7 @@
       </div>
       <p style="margin: 8px 0;">
         Because the theorem quantifies universally over <code>∀ (F : ℕ_ω → ℝ_ω)</code>, it holds for <b>every possible rule</b>! 
-        Whether we plug in the cubic rule <code>F(k) = c · k³</code>, the odd-sum rule <code>F(k) = k²</code>, or the work-energy rule <code>F(k) = ½ m v_k²</code>, the interior terms must vanish identically.
+        Whether we plug in the cubic rule <code>rule F(k) ≔ c · k³</code>, the odd-sum rule <code>rule F(k) ≔ k²</code>, or the work-energy rule <code>rule F(k) ≔ ½ · m · (k · Δv)²</code>, the interior terms must vanish identically.
       </p>
       <p style="margin-bottom: 0;">
         This finite algebraic identity—which in the analysis lectures ahead will blossom into the Fundamental Theorem of Calculus (FTC)—is machine-verified in Lean 4 as <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>.
