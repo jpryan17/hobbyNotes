@@ -118,9 +118,9 @@
   </style>
 
   <div class="seq-container">
-    <h1>Sequences, Sums &amp; Progressions</h1>
+    <h1>Sequences &amp; Progressions</h1>
     <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
-      The doorway to continuous analysis: from the discrete stepping of trees to the algebra of ladders, musical scales, and telescoping sums.
+      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
     </p>
 
     <!-- Curricular Gateway -->
@@ -128,7 +128,7 @@
       <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
       <p style="margin-bottom: 12px;">
         In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
-        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> and accumulating its differences.
+        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
       </p>
 
       <!-- Demystifying F: The Sequence in the Conceptual Model -->
@@ -364,98 +364,19 @@
       </p>
     </div>
 
-    <!-- Section 3: The Sum of a Progression -->
-    <h2>3. The Sum of a Progression &amp; The High School Trick</h2>
-    <p>
-      How do we sum a geometric progression? In secondary school algebra, students are introduced to the celebrated "shift-and-subtract" method:
-    </p>
-    
-    <div class="seq-formula-box">
-      S_n &nbsp;=&nbsp; a + a·r + a·r² + ... + a·rⁿ⁻¹<br>
-      r·S_n = &emsp;&ensp; a·r + a·r² + ... + a·rⁿ⁻¹ + a·rⁿ
-    </div>
-
-    <p>
-      Subtracting the second equation from the first collapses every single interior power:
-    </p>
-
-    <div class="seq-formula-box" style="border-left-color: #059669;">
-      (1 - r) · S_n = a - a · rⁿ &nbsp;⇒&nbsp; S_n = a · (1 - rⁿ) / (1 - r)
-    </div>
-
-    <p>
-      Notice what made this calculation work: <b>all intermediate terms cancelled pairwise</b>. Only the initial boundary term <code>a</code> and the outer boundary term <code>a · rⁿ</code> survived.
-    </p>
-
-    <!-- Section 4: Telescoping Sums -->
-    <h2>4. Telescoping Sums: A Nod Toward the Fundamental Theorem</h2>
-    <p>
-      The shift-and-subtract trick for geometric series is not an isolated algebraic accident. It is a specific instance of a universal <b>telescoping identity</b>—an algebraic cancellation pattern that will soon serve as our bridge to continuous analysis.
-    </p>
-
-    <div class="seq-highlight-card" style="border-color: #93c5fd;">
-      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 16px;">The Universal Telescoping Cancellation</h3>
-      <p style="margin-bottom: 8px;">
-        For <i>any</i> sequence function <code>F : ℕ_ω → ℝ_ω</code>—regardless of which algebraic rule <code>F</code> adopts—if we define the forward step difference:
+    <!-- Bridge to Course 1: Analysis 1D -->
+    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
+      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
+        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
       </p>
-      <div class="seq-formula-box" style="background: #ffffff;">
-        ΔF(k) = F(k + 1) - F(k)
-      </div>
-      <p style="margin: 8px 0;">
-        Then the sum of differences collapses identically to the net boundary difference:
-      </p>
-      <div class="seq-formula-box" style="background: #ffffff; border-left-color: #1e3a8a;">
-        ∑_{k=0}^{n-1} ΔF(k) = [ F(1) - F(0) ] + [ F(2) - F(1) ] + ... + [ F(n) - F(n-1) ] = F(n) - F(0)
-      </div>
-      <p style="margin: 8px 0;">
-        Because the theorem quantifies universally over <code>∀ (F : ℕ_ω → ℝ_ω)</code>, it holds for <b>every possible rule</b>! 
-        Whether we plug in the cubic rule <code>rule F(k) ≔ c · k³</code>, the odd-sum rule <code>rule F(k) ≔ k²</code>, or the work-energy rule <code>rule F(k) ≔ ½ · m · (k · Δv)²</code>, the interior terms must vanish identically.
-      </p>
-      <p style="margin-bottom: 0;">
-        This finite algebraic identity—which in the analysis lectures ahead will blossom into the Fundamental Theorem of Calculus (FTC)—is machine-verified in Lean 4 as <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>.
-      </p>
-    </div>
-
-    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 18px; margin: 18px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-      <span style="font-size: 13.5px; font-weight: 600; color: #1e3a8a;">Formal Verification &amp; Simulation:</span>
-      <fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>
-    </div>
-
-    <h3>Numeric Sequences vs. Function Sequences</h3>
-    <p>
-      Here we observe an important architectural distinction that will recur throughout advanced analysis:
-    </p>
-    <ul>
-      <li><b>Numeric Sequence (<code>ℕ_ω → ℝ_ω</code>):</b> At each step index <code>k</code>, the sequence outputs a single numerical scalar (a ladder rung, a partial sum, or a particle position).</li>
-      <li><b>Function Sequence (<code>ℕ_ω → (ℝ_ω → ℝ_ω)</code>):</b> At each step index <code>k</code>, the sequence outputs an <i>entire spatial function</i> <code>F_k(x)</code> holding across the full continuum domain (such as progressive Taylor polynomial curves, Fourier wave sums, or heat diffusion time slices across a spatial bar).</li>
-    </ul>
-    <p>
-      Both advance along the discrete counting spine <code>ℕ_ω</code>, but a function sequence carries an entire spatial profile forward at every step.
-    </p>
-
-    <!-- Section 5: From Step Index k to Continuum Transect x -->
-    <h2>5. From Step Index k to Continuum Transect x</h2>
-    <p>
-      Once we recognize that summation is boundary cancellation, continuous calculus requires only one conceptual refinement:
-    </p>
-    <ol>
-      <li>Replace the integer step index <code>k</code> with grid nodes <code>x_k = a + k · dx</code>, where <code>dx = 1/ω</code> is an infinitesimal step.</li>
-      <li>The difference quotient becomes the derivative rate: <code>f(x_k) = ΔF(k) / dx</code>.</li>
-      <li>The telescoping sum becomes the definite hyperfinite Riemann integral:
-        <div class="seq-formula-box" style="border-left-color: #059669;">
-          ∫_a^b f(x) dx = ∑_{k=0}^{N-1} f(x_k) dx = ∑_{k=0}^{N-1} ΔF(k) = F(b) - F(a)
-        </div>
-      </li>
-    </ol>
-    <p>
-      Calculus is not an esoteric regime detached from elementary mathematics; it is the exact same pairwise boundary cancellation students learn in high school algebra, operating across an infinitesimal grid.
-    </p>
-
-    <!-- Next Up -->
-    <div class="seq-callout" style="background: #f0fdf4; border-color: #bbf7d0;">
-      <h3 style="margin-top: 0; color: #166534; font-size: 15px;">Up Next in Analysis</h3>
-      <p style="margin-bottom: 0; color: #166534; font-size: 14px;">
-        Having established the behavior of discrete progressions, we next examine continuous exponential growth, the natural logarithm, and the differential rates of 1D analysis.
+      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
+        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
+        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
+        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
+        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
       </p>
     </div>
   </div>

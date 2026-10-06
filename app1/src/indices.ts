@@ -435,7 +435,7 @@ export const level2Index: IndexItemDesc[] = [
   },
   {
     type: "html",
-    topic: "sequences, sums & progressions",
+    topic: "sequences & progressions",
     htmlSegmentId: "sequencesAndSums",
   },
   {

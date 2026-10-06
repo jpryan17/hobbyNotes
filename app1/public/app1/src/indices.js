@@ -415,7 +415,7 @@ export const level2Index = [
     },
     {
         type: "html",
-        topic: "sequences, sums & progressions",
+        topic: "sequences & progressions",
         htmlSegmentId: "sequencesAndSums",
     },
     {

@@ -86,7 +86,41 @@
 
   <hr>
 
-  <h3>3. The 1D Calculus Toolkit on ℝ_ω</h3>
+  <h3>3. The Architectural Bridge: From Step Index k to Continuum Transect x</h3>
+  <p>
+    In our introductory study of <b>Sequences &amp; Progressions</b>, quantities stepped along discrete tree ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. 
+    Crossing into continuous analysis requires only one foundational refinement: replacing the integer step with an <b>infinitesimal transect grid</b> across the continuum <code>ℝ_ω</code>:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 15px 0;">
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin-bottom: 4px;">Discrete Stepping Ladder (Level 1)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code><br>
+        • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br>
+        • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code><br>
+        • <b>Nature:</b> Exact pairwise cancellation of internal ladder boundaries.
+      </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #059669; font-size: 13.5px; margin-bottom: 4px;">Continuous Transect Grid on ℝ_ω (Level 2)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with <code>dx = (b - a)/ω</code><br>
+        • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br>
+        • <b>Definite Integral:</b> <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br>
+        • <b>Fundamental Theorem:</b> <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Calculus is not an esoteric regime detached from elementary arithmetic; it is the <b>exact same pairwise boundary cancellation</b> discovered in high school algebra, operating across an infinitesimal grid.
+  </p>
+
+  <hr>
+
+  <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
 
   <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
     <tr bgcolor="#f8fafc">
@@ -118,7 +152,7 @@
 
   <hr>
 
-  <h3>4. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
+  <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
 
   <div style="display: flex; justify-content: center; margin: 20px 0;">
     <div style="width: 100%; max-width: 640px; text-align: center;">

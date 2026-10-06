@@ -76,7 +76,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-06T01:06:36.049Z",
+  "generatedAt": "2026-10-06T01:31:01.021Z",
   "version": "1.0.0",
   "formalStatements": [
     {
@@ -120,7 +120,6 @@ export const FS_CATALOG: FsCatalog = {
       "referencedInSegments": [
         "analysis1DLecture3",
         "introduction",
-        "sequencesAndSums",
         "stemHeatDiffusion",
         "stemTrigFoundations"
       ]
