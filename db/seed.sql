@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-02T09:32:47.360Z
+-- Generated At: 2026-10-07T15:07:25.569Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -40,8 +40,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriulum focuses on the mathematics of mathematical physics.
-    </p><p>Our approach is to use Conway number trees to undergird a nonstandard analysis, thus bypassing limit theory and additional topological and measure spaces.</p>
+      Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriculum focuses on the mathematics of mathematical physics.
+    </p>
+
+    <p>
+      Our approach is to use Conway number trees to undergird a nonstandard analysis, thus bypassing limit theory and additional topological and measure spaces.
+    </p>
 
     <p>
       The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that the page merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
@@ -147,6 +151,20 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Why not General Relativity?</b> General relativity is an elegant geometric theory, but it describes only gravity.</li>
       <li><b>Why Quantum Statistical Mechanics?</b> It describes the tangible everyday reality we directly interact with—how solid matter, temperature, pressure, and thermal equilibrium emerge from statistical averages over trillions of microscopic quantum degrees of freedom.</li>
     </ul>
+    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
+      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
+      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+        <p style="margin: 0 0 10px 0;">
+          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, specifically quantum statistical mechanics, the curriculum is not specifically designed for STEM bound students, and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies. The curriculum is designed for all students.
+        </p>
+        <p style="margin: 0 0 10px 0;">
+          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described in the introduction, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
+        </p>
+        <p style="margin: 0;">
+          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent although explicitly not comprehensive, and which supports the calculations needed to model quantum statistical mechanics.
+        </p>
+      </div>
+    </details>
 
     <hr>
 
@@ -225,6 +243,13 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
           <li><b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover certifies that the mathematical laws, physical invariants, and operator relationships are logically consistent, well-typed, and free of conceptual drift.</li>
           <li><b>The Virtual Machine Executes Explicit Computation:</b> Calculations are carried out by an independent, transparent calculation machine interpreting human-auditable pseudo-code step-by-step, completely free of hidden runtime black boxes.</li>
+        </ul>
+        <p>
+          <b>Boundary of Environmental Dependence:</b> To be completely precise about what "runtime independence" entails:
+        </p>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
+          <li><b>No Higher-Level Mathematical Libraries:</b> The engine strictly avoids all continuous calculus libraries, computer algebra systems, and runtime transcendental functions (e.g. <code>Math.exp</code>, <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float approximations). Natural growth is computed purely via discrete Euler compounding in the dyadic ring, rotations via binary CORDIC pseudo-rotations, and calculus via hyperfinite differences.</li>
+          <li><b>Hardware Integer Substrate:</b> The engine borrows only the host environment''s CPU for basic discrete integer arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to evaluate explicit dyadic rational fractions <code>m / 2^k</code> on the Conway tree. While pure string-option tree arithmetic (the Conway cut) is mathematically validated, utilizing host integer arithmetic for tree addresses avoids the combinatorial explosion of recursive string branching in the browser.</li>
         </ul>
         <p>
           This dual approach ensures that students and educators receive the full protective certainty of formal methods while interacting with tangible, responsive calculations in the browser.
@@ -3064,7 +3089,10 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
           </li>
           <br>
           <li>
-            <b>Mode 2 &mdash; Algorithmic Understanding:</b> One may have an algorithmic understanding of the definitions. This is useful, e.g., for building visuals and interactive demonstrations.
+            <b>Mode 2 &mdash; Algorithmic Knowledge &amp; Inductive Telemetry:</b> 
+            Beyond knowing that recursive definitions exist, one can hold an exact, executable algorithmic understanding of Conway''s triad: <b>Inductive Order</b> (<code>X ≤ Y</code>), <b>Inductive Addition</b> (<code>X + Y</code>), and <b>Inductive Multiplication</b> (<code>X · Y</code>). 
+            In our interactive pseudocode engine, each definition is exposed as a transparent, step-by-step module. 
+            Students can inspect the combinatorial options, step through each recursive branch, and observe the live recursion statistics—viscerally experiencing the exponential computational cliff of tree options versus the instantaneous <code>O(1)</code> execution of the dyadic machine ring <code>(𝔻, +, ·)</code>.
           </li>
           <br>
           <li>
@@ -3465,7 +3493,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #1e293b; line-height: 1.6;">
         <li><b>Static Projections:</b> Toggle between the <i>Plain Tree</i>, <i>Birthday Levels</i> (days <code>0, 1, 2, 3...</code>), <i>Sign Expansions</i> (<code>{ -, + }</code> sequences), <i>Dyadic Fractions</i> (<code>-1, -1/2, 0, 1/2, 1...</code>), and the projected <i>Number Line</i>.</li>
         <li><b>Simplicity &amp; Cuts:</b> Visualize Conway''s simplicity rule (<code>&lt;s</code>) and how numbers are defined as cuts between older left and right numeric sets: <code>{ L | R }</code>.</li>
-        <li><b>Arithmetic Operations:</b> Experiment with interactive <i>Surreal Addition (<code>+</code>)</i> and <i>Surreal Multiplication (<code>*</code>)</i>, observing how tree paths recursively compose to form a complete field.</li>
+        <li><b>Arithmetic Operations:</b> Experiment with interactive <i>Addition (<code>+</code>)</i> and <i>Multiplication (<code>*</code>)</i>, observing how tree paths recursively compose to form a complete field.</li>
         <li><b>The Transfinite Horizon:</b> Inspect the <i>State / Ω Inspector</i> to see how the finite dyadic tree extends into transfinite limits at Day <code>ω</code>.</li>
       </ul>
     </div>
@@ -4433,46 +4461,269 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       </table>
     </div>
 
+    <!-- Architecture Diagram: The Ordinal Birthday Continuum & Core Isomorphism -->
+    <div style="margin: 14px auto; max-width: 720px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin: 0 0 6px 0; text-align: center;">
+        The Ordinal Birthday Architecture of Conway Tree Numbers
+      </div>
+      <svg viewBox="0 0 720 175" style="width: 100%; max-width: 720px; height: auto; aspect-ratio: 720 / 175; display: block; margin: 0 auto; font-family: system-ui, -apple-system, sans-serif;">
+        <defs>
+          <pattern id="gridPatternCompact" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+          </pattern>
+          <marker id="arrowCompact" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1e293b"/>
+          </marker>
+        </defs>
+
+        <!-- Grid Background -->
+        <rect width="720" height="175" fill="url(#gridPatternCompact)" rx="4"/>
+
+        <!-- Main Vertical Axis (birthday: Ordinal) -->
+        <line x1="240" y1="165" x2="240" y2="12" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arrowCompact)"/>
+        <text x="70" y="18" font-size="11.5" font-weight="700" fill="#334155">birthday: Ordinal</text>
+        <text x="360" y="18" font-size="12.5" font-weight="700" fill="#0f172a">Conway number tree numbers</text>
+
+        <!-- Level ε₀ (dashed line) -->
+        <line x1="240" y1="50" x2="540" y2="50" stroke="#475569" stroke-width="1.3" stroke-dasharray="5 4"/>
+        <text x="248" y="47" font-size="18" font-style="italic" font-family="Georgia, serif" font-weight="700" fill="#0f172a">ε₀</text>
+
+        <!-- Box: [| transfinite induction |] -->
+        <g transform="translate(60, 36)">
+          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
+          <line x1="9" y1="0" x2="9" y2="24" stroke="#1e293b" stroke-width="1.3"/>
+          <line x1="136" y1="0" x2="136" y2="24" stroke="#1e293b" stroke-width="1.3"/>
+          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">transfinite induction</text>
+        </g>
+
+        <!-- Level ω (dotted line across) -->
+        <line x1="20" y1="94" x2="700" y2="94" stroke="#1e293b" stroke-width="1.8" stroke-dasharray="3 5"/>
+        <text x="248" y="89" font-size="20" font-style="italic" font-family="Georgia, serif" font-weight="700" fill="#0f172a">ω</text>
+
+        <!-- Box: ( recursive definitions ) above ω -->
+        <g transform="translate(50, 68)">
+          <rect x="0" y="0" width="155" height="23" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="8"/>
+          <text x="77.5" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">recursive definitions</text>
+        </g>
+
+        <!-- Cardinality Labels -->
+        <text x="615" y="85" font-size="11.5" font-weight="700" fill="#64748b" text-anchor="middle">uncountable</text>
+        <text x="615" y="110" font-size="11.5" font-weight="700" fill="#64748b" text-anchor="middle">countable</text>
+
+        <!-- Below ω: Finite Tier -->
+        <!-- Box: [| finite induction |] -->
+        <g transform="translate(60, 124)">
+          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
+          <line x1="9" y1="0" x2="9" y2="24" stroke="#1e293b" stroke-width="1.3"/>
+          <line x1="136" y1="0" x2="136" y2="24" stroke="#1e293b" stroke-width="1.3"/>
+          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">finite induction</text>
+        </g>
+
+        <!-- Finite Conway Numbers: Core Isomorphism -->
+        <text x="260" y="115" font-size="11" font-weight="700" fill="#334155">for finite Conway numbers:</text>
+
+        <!-- Box: ( recursive definitions ) -->
+        <g transform="translate(290, 124)">
+          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="8"/>
+          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">recursive definitions</text>
+        </g>
+
+        <!-- Isomorphism Symbol ≡ -->
+        <text x="455" y="141" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e40af">≡</text>
+
+        <!-- Box: [ dyadic arithmetic ] -->
+        <g transform="translate(475, 124)">
+          <rect x="0" y="0" width="140" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
+          <text x="70" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">dyadic arithmetic</text>
+        </g>
+      </svg>
+      <div style="margin-top: 6px; font-size: 12px; line-height: 1.4; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 5px; text-align: center;">
+        <strong style="color: #0f172a;">Core Isomorphism (≡):</strong> 
+        For finite Conway numbers (<code>birthdays &lt; ω</code>), finite induction proves <code>Recursive Definitions ≡ Dyadic Machine Arithmetic</code>. 
+        Above <code>ω</code>, Conway recursion scales to the uncountable continuum and ordinals via transfinite induction.
+      </div>
+    </div>
+
+    <!-- Detail for the Curious: Proof of the Dyadic Isomorphism -->
+    <details style="margin: 16px auto; max-width: 740px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px; font-size: 13.5px; color: #1e293b;">
+      <summary style="cursor: pointer; font-size: 13.5px; font-weight: bold; color: #1e3a8a; outline: none; user-select: none; display: flex; align-items: center; gap: 8px;">
+        <span>🔍</span> <span>Detail for the Curious: Outline of the Proof of the Dyadic Isomorphism</span>
+      </summary>
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.6;">
+        <p style="margin: 0 0 10px 0;">
+          <b>The Core Statement:</b> Let <code>S_&lt;ω</code> denote the set of numbers in ℝ_ω born at finite birthdays <code>d &lt; ω</code> on the 2-successor tree, and let <code>𝔻 = { m / 2ᵈ | m &isin; ℤ, d &isin; ℕ }</code> be the dyadic rationals. There exists a unique bijective mapping:
+        </p>
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 6px 12px; max-width: 480px;">
+          &phi; : S_&lt;ω &rarr; 𝔻
+        </div>
+        <p style="margin: 8px 0;">
+          such that for all <code>x, y &isin; S_&lt;ω</code>, &phi; preserves linear order, addition, and multiplication:
+        </p>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
+          <li><b>Order:</b> <code>x ≤_tree y &hArr; &phi;(x) ≤ &phi;(y)</code></li>
+          <li><b>Addition:</b> <code>&phi;(x +_tree y) = &phi;(x) + &phi;(y)</code></li>
+          <li><b>Multiplication:</b> <code>&phi;(x &middot;_tree y) = &phi;(x) &middot; &phi;(y)</code></li>
+        </ul>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">1. Bijective Correspondence by Birthday Induction</h5>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
+          <li><b>Base Step (d = 0):</b> The root has an empty sign path <code>&empty;</code> and empty option sets <code>0 = { &empty; | &empty; }</code>. We set <code>&phi;(0) = 0 = 0 / 2⁰</code>.</li>
+          <li><b>Inductive Step (d &rarr; d + 1):</b> Assume all numbers born up to day <code>d</code> are dyadic rationals <code>m / 2ᵏ</code> (<code>k ≤ d</code>) strictly ordered along the real line. At birthday <code>d + 1</code>:
+            <ul>
+              <li><b>Outer Spines (Integers):</b> A path of pure <code>[+]</code> has only a left option: <code>k = { k - 1 | &empty; }</code>. Conway''s simplicity rule selects the earliest born number greater than <code>k - 1</code>, which is the integer <code>(k - 1) + 1 = k</code>. Similarly, pure <code>[-]</code> yields <code>-k</code>.</li>
+              <li><b>Inner Cuts (Midpoints):</b> An inner node cuts between two existing adjacent dyadic numbers <code>a = m / 2ᵈ</code> and <code>b = (m + 1) / 2ᵈ</code> with <code>a &lt; b</code>. By Conway''s Simplicity Theorem, the unique earliest-born number in the open gap <code>(a, b)</code> is their exact dyadic midpoint:
+                <div align="center" style="font-family: monospace; font-size: 12.5px; margin: 6px auto; color: #1e3a8a; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; max-width: 380px;">
+                  &phi;(x) = (a + b) / 2 = (2m + 1) / 2^(d+1)
+                </div>
+                which is an irreducible fraction with denominator <code>2^(d+1)</code>, born at day <code>d + 1</code>.
+              </li>
+            </ul>
+          </li>
+          <li><b>Bijection:</b> Every finite sign path encodes a unique binary sequence of bisections (injectivity), and every dyadic fraction has a terminating binary expansion giving the unique path from root <code>0</code> (surjectivity).</li>
+        </ul>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">2. Order Preservation (≤)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          Conway''s order test compares ancestral choices. On the tree, branching left (<code>[-]</code>) directs the entire subtree strictly left of the parent, while branching right (<code>[+]</code>) directs it strictly right. Comparing two paths reduces to the first sign index where they diverge; the path turning left lands strictly below the path turning right, matching the real ordering <code>&phi;(p₁) &lt; &phi;(w) &lt; &phi;(p₂)</code>.
+        </p>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">3. Addition Preservation (+)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          By double induction on <code>birthday(x) + birthday(y)</code>, each left option sum <code>xᴸ + y</code> is strictly less than <code>&phi;(x) + &phi;(y)</code>, and each right option sum is strictly greater. The recursive cut <code>{ xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }</code> selects the simplest number in the open interval. Because <code>&phi;(x) + &phi;(y)</code> is a dyadic rational with denominator <code>≤ 2^(max(d_x, d_y))</code>, Simplicity forces the cut to land precisely on <code>&phi;(x) + &phi;(y)</code>.
+        </p>
+
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">4. Multiplication Preservation (·)</h5>
+        <p style="margin: 4px 0 10px 0;">
+          Conway''s 4-way cross-product cut is derived from the geometric positivity invariant <code>(x - xᴸ)(y - yᴸ) &gt; 0 &rArr; xy &gt; xᴸy + xyᴸ - xᴸyᴸ</code>. Inductively, all left options are strictly less than <code>&phi;(x) &middot; &phi;(y)</code>, and all right options strictly greater. The product <code>(m₁ / 2ᵈ¹) &middot; (m₂ / 2ᵈ²) = (m₁m₂) / 2^(d₁+d₂)</code> is a dyadic rational born on or before day <code>d₁ + d₂</code>, and Simplicity again guarantees that the cut equals <code>&phi;(x &middot; y) = &phi;(x) &middot; &phi;(y)</code>.
+        </p>
+
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; margin-top: 10px; font-size: 12px; color: #475569;">
+          <strong style="color: #0f172a;">Epistemic Takeaway:</strong> Conway''s tree and the dyadic machine describe the <i>exact same ordered ring</i> <code>(𝔻, +, &middot;, ≤)</code>. Conway''s formulation gives us foundational ontological rigor and continuum limits, while the dyadic machine gives us <code>O(1)</code> execution speed via machine bit-shifts and integer arithmetic.
+        </div>
+      </div>
+    </details>
+
     <p>
-      “Look at what this means for operations:”
+      “Look at what this means for operations: Conway''s tree-inductive arithmetic and the dyadic machine ring <code>(𝔻, +, ·)</code> are mathematically isomorphic, but algorithmically worlds apart!”
     </p>
 
-    <ul>
-      <li>
-        <b>1. Order Preservation (≤):</b><br>
-        Comparing two sign paths using tree geometry gives the exact same truth value as comparing the two fractions:
-        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
-          path₁ ≤_tree path₂ &nbsp;&hArr;&nbsp; frac₁ ≤ frac₂
-        </div>
-      </li>
-      <li>
-        <b>2. Addition Preservation (+):</b><br>
-        Adding two paths on the tree via the tree''s recursive addition rule yields the exact path corresponding to rational addition:
-        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
-          path(a +_tree b) &nbsp;=&nbsp; path(a) +_dyadic path(b)
-        </div>
-      </li>
-      <li>
-        <b>3. Multiplication Preservation (·):</b><br>
-        Multiplying two tree paths yields the exact path corresponding to rational multiplication:
-        <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 550px;">
-          path(a ·_tree b) &nbsp;=&nbsp; path(a) ·_dyadic path(b)
-        </div>
-      </li>
-    </ul>
-
     <p>
-      “In our <b>Isomorphism Demo</b>, you can select any two nodes on the tree, choose <b>addition (+)</b> or <b>multiplication (·)</b>, and watch the tree operation dynamically calculate the result node, proving the arithmetic on both representations matches perfectly!”
+      “Conway''s construction is founded on <b>three mutually recursive algorithmic definitions</b> &mdash; <b>Order</b>, <b>Addition</b>, and <b>Multiplication</b> &mdash; each defined purely in terms of ancestral tree options before executing a bounding cut. Let''s examine each of these three algorithms, the explosion of recursive calls they generate, and how the dyadic machine compresses them into instantaneous <code>O(1)</code> ring primitives.”
     </p>
 
+    <!-- Algorithmic Definition 1: Inductive Order & Total Sort -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 1: Conway Inductive Order (≤) &amp; Total Sort</h4>
+      <p style="margin: 0 0 10px 0;">
+        “On Conway''s number tree, order is not an axiom &mdash; it is an inductive test on sets of options. A number <code>x</code> is less than or equal to <code>y</code> if and only if no left option of <code>x</code> can outrank <code>y</code>, and <code>x</code> never outranks any right option of <code>y</code>:”
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 620px;">
+        x ≤ y &nbsp;&hArr;&nbsp; (&forall; xᴸ &isin; L(x): ¬(y ≤ xᴸ)) &nbsp;&and;&nbsp; (&forall; yᴿ &isin; R(y): ¬(yᴿ ≤ x))
+      </div>
+      <p style="margin: 10px 0 0 0;">
+        “Notice that the definition of <code>≤</code> calls itself recursively on all ancestral tree choices! To sort an arbitrary list of tree nodes, <b>Conway Total Sort</b> performs these pairwise inductive comparisons to insert each element into its canonical chain. Meanwhile, the <b>Dyadic Machine</b> performs the identical comparison in <code>O(1)</code> time by cross-multiplying numerators across aligned power-of-two denominators: <code>m₁ &middot; 2^(maxD - d₁) ≤ m₂ &middot; 2^(maxD - d₂)</code>.”
+      </p>
+      <div align="center" style="margin: 12px 0 4px 0;">
+        <pseudo-ref id="conway_order">Conway Inductive Order (ConwayLessEq)</pseudo-ref> &nbsp;|&nbsp;
+        <pseudo-ref id="conway_sort">Conway Total Sort (ConwaySort)</pseudo-ref> &nbsp;|&nbsp;
+        <btd-ref mode="order">Test Order Relations in BTD</btd-ref>
+      </div>
+    </div>
+
+    <!-- Algorithmic Definition 2: Inductive Addition -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 2: Conway Inductive Addition (+)</h4>
+      <p style="margin: 0 0 10px 0;">
+        “Addition on the tree is defined recursively by adding each operand to the other''s ancestral options, then choosing the simplest number born in the resulting cut gap:”
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 620px;">
+        x + y &nbsp;=&nbsp; { xᴸ + y, &nbsp; x + yᴸ &nbsp;|&nbsp; xᴿ + y, &nbsp; x + yᴿ }
+      </div>
+      <p style="margin: 10px 0 0 0;">
+        “Even for tiny fractions, this generates an explosion of branch evaluations. Adding <code>1/2 + 3/4</code> requires <b>86 recursive calls</b>, reaches a call stack depth of <b>6</b>, and resolves <b>86 Conway cuts</b> before confirming <code>5/4</code>! In contrast, the <b>Dyadic Machine</b> adds the two numbers in a single <code>O(1)</code> cycle using an integer bit-shift: <code>(1 &laquo; 1 + 3) / 2² = 5/4</code>.”
+      </p>
+      <div align="center" style="margin: 12px 0 4px 0;">
+        <pseudo-ref id="conway_add">Conway Recursive Addition (ConwayAdd)</pseudo-ref> &nbsp;|&nbsp;
+        <btd-ref mode="addition">Test Conway Addition in BTD</btd-ref>
+      </div>
+    </div>
+
+    <!-- Algorithmic Definition 3: Inductive Multiplication -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 3: Conway Inductive Multiplication (·)</h4>
+      <p style="margin: 0 0 10px 0;">
+        “Conway''s multiplication is the ultimate test of tree induction. Each step forms 4-way cross-products of options with recursive cross-additions and cross-subtractions to guarantee that <code>(x - xᴸ)(y - yᴸ) &gt; 0</code>:”
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 640px;">
+        x &middot; y &nbsp;=&nbsp; { xᴸ&middot;y + x&middot;yᴸ - xᴸ&middot;yᴸ, &nbsp; xᴿ&middot;y + x&middot;yᴿ - xᴿ&middot;yᴿ &nbsp;|&nbsp; xᴸ&middot;y + x&middot;yᴿ - xᴸ&middot;yᴿ, &nbsp; xᴿ&middot;y + x&middot;yᴸ - xᴿ&middot;yᴸ }
+      </div>
+      <p style="margin: 10px 0 0 0;">
+        “Multiplying just <code>1/2 &middot; 1/2</code> unleashes <b>52 recursive calls</b>, <b>34 cross-additions</b>, and depth <b>6</b> to yield <code>1/4</code>. The <b>Dyadic Machine</b> accomplishes this identically in <code>O(1)</code> time via integer multiplication and denominator exponent sum: <code>(1 &middot; 1) / 2^(1+1) = 1/4</code>.”
+      </p>
+      <div align="center" style="margin: 12px 0 4px 0;">
+        <pseudo-ref id="conway_mul">Conway Recursive Multiplication (ConwayMul)</pseudo-ref> &nbsp;|&nbsp;
+        <btd-ref mode="multiplication">Test Conway Multiplication in BTD</btd-ref>
+      </div>
+    </div>
+
+    <!-- Live Recursion & Complexity Telemetry Ledger -->
     <p>
-      “From an algorithmic perspective, Conway''s recursive addition rule is pure, rigorous, and blazingly inefficient &mdash; taking exponential options over ancestral sign prefixes before executing the bounding Conway cut. In contrast, the isomorphic dyadic machine performs the exact same addition in <code>O(1)</code> time via aligned integer bit-shifts!”
+      “Because tree recursion grows exponentially with birthday depth, our interactive tree demos and pseudocode viewers maintain <b>live inductive recursion telemetry</b> &mdash; tracking total calls, call stack depth, cuts resolved, and arithmetic operations in real time:”
+    </p>
+
+    <div align="center" style="margin: 18px 0;">
+      <table style="width: 100%; max-width: 740px; border-collapse: collapse; margin: 14px auto; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background-color: #1e3a8a; color: #ffffff;">
+            <th style="padding: 10px 12px; text-align: left; width: 22%;">Operation &amp; Operands</th>
+            <th style="padding: 10px 12px; text-align: center; width: 20%;">Conway Calls</th>
+            <th style="padding: 10px 12px; text-align: center; width: 18%;">Stack Depth</th>
+            <th style="padding: 10px 12px; text-align: center; width: 18%;">Cuts Resolved</th>
+            <th style="padding: 10px 12px; text-align: left; width: 22%;">Dyadic Machine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 9px 12px;"><b>Order:</b> <code>1/2 ≤ 3/4</code></td>
+            <td style="padding: 9px 12px;" align="center"><b>7 calls</b></td>
+            <td style="padding: 9px 12px;" align="center">Depth 3</td>
+            <td style="padding: 9px 12px;" align="center">7 inductive tests</td>
+            <td style="padding: 9px 12px;"><b>O(1)</b> (1 cross-product)</td>
+          </tr>
+          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 9px 12px;"><b>Addition:</b> <code>1/2 + 3/4</code></td>
+            <td style="padding: 9px 12px;" align="center"><b>86 calls</b></td>
+            <td style="padding: 9px 12px;" align="center">Depth 6</td>
+            <td style="padding: 9px 12px;" align="center">86 cuts</td>
+            <td style="padding: 9px 12px;"><b>O(1)</b> (1 bit-shift, 1 add)</td>
+          </tr>
+          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 9px 12px;"><b>Multiplication:</b> <code>1/2 &middot; 1/2</code></td>
+            <td style="padding: 9px 12px;" align="center"><b>52 calls</b></td>
+            <td style="padding: 9px 12px;" align="center">Depth 6</td>
+            <td style="padding: 9px 12px;" align="center">52 cuts (34 adds)</td>
+            <td style="padding: 9px 12px;"><b>O(1)</b> (1 integer mul)</td>
+          </tr>
+          <tr style="background-color: #f8fafc;">
+            <td style="padding: 9px 12px;"><b>Total Sort:</b> 4 tree nodes</td>
+            <td style="padding: 9px 12px;" align="center"><b>24 calls</b></td>
+            <td style="padding: 9px 12px;" align="center">Depth 4</td>
+            <td style="padding: 9px 12px;" align="center">24 cuts</td>
+            <td style="padding: 9px 12px;"><b>O(n log n)</b> quicksort</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      “In our <b>Operation Isomorphism Demo</b>, you can select any two nodes on the tree, switch between addition and multiplication, and watch the recursive engine calculate the result node with live recursion stats &mdash; verifying that Conway''s tree algebra and dyadic machine arithmetic arrive at the exact same point in space!”
     </p>
 
     <div align="center" style="margin: 15px 0;">
       <btd-ref mode="dyadic">View Dyadic Rational Labels</btd-ref> &nbsp;|&nbsp;
       <btd-ref mode="isomorphism">Interactive Demo: Test Operation Isomorphism in BTD</btd-ref> &nbsp;|&nbsp;
-      <pseudo-ref id="conway_add">Inspect Structured Pseudocode: Conway Recursive Addition</pseudo-ref>
+      <pseudo-ref id="conway_add">Conway Addition Pseudocode</pseudo-ref> &nbsp;|&nbsp;
+      <pseudo-ref id="conway_mul">Conway Multiplication Pseudocode</pseudo-ref>
     </div>
 
     <hr>
@@ -4836,7 +5087,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     Level 2 develops this unified framework across:
   </p>
   <ul>
-    <li><b>Sequences, Sums &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code>, telescoping boundary cancellation, and the bridge to continuous integration.</li>
+    <li><b>Sequences &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code> along the arithmetic and geometric tree ladders, grounding continuous analysis in finite induction.</li>
     <li><b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity without epsilon-delta, and the fundamental theorem of calculus on <code>ℝ_ω</code>.</li>
     <li><b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, conformal shape-preservation, Cauchy contour integration by 2D cell cancellation, and continuous phase dynamics.</li>
   </ul>
@@ -4886,56 +5137,268 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </li>
   </ul>
 ', 'published'),
-  (16, 'sequencesAndSums', 15, 'Sequences, Sums & Progressions', 'sequences-and-sums', '
-<div class="container">
-    <h1>Sequences, Sums &amp; Progressions</h1>
-    <p style="font-size: 1.05em; color: var(--muted); margin-bottom: 24px;">
-      The doorway to continuous analysis: from the discrete stepping of trees to the algebra of ladders, musical scales, and telescoping sums.
+  (16, 'sequencesAndSums', 15, 'Sequences & Progressions', 'sequences-and-sums', '
+  <style>
+    .seq-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 36px 60px 36px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      color: #0f172a;
+    }
+    .seq-container h1 {
+      color: #1e3a8a;
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .seq-container h2 {
+      color: #1e3a8a;
+      font-size: 1.4em;
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 6px;
+    }
+    .seq-container h3 {
+      color: #0284c7;
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .seq-container p, .seq-container li {
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .seq-container code {
+      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .seq-formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #0284c7;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .seq-highlight-card {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 22px 0;
+    }
+    .seq-callout {
+      background: #f5f3ff;
+      border: 1.5px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .seq-grid-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 18px;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .seq-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13.5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .seq-table th {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .seq-table td {
+      border-top: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+    .seq-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <div class="seq-container">
+    <h1>Sequences &amp; Progressions</h1>
+    <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
+      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
     </p>
 
-    <div class="highlight-card">
-      <h3 style="margin-top: 0; color: var(--primary);">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
-      <p style="margin-bottom: 0;">
+    <!-- Curricular Gateway -->
+    <div class="seq-highlight-card">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
+      <p style="margin-bottom: 12px;">
         In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
-        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> and accumulating its differences.
-      </p><p style="margin-bottom: 0;"><br></p><div class="callout" style="background: rgb(248, 250, 252); border-color: rgb(203, 213, 225) rgb(203, 213, 225) rgb(203, 213, 225) rgb(30, 41, 59); border-left-width: 2.72727px; border-left-style: none;"><h3 style="color: rgb(30, 41, 59); margin-top: 0px;">Demystifying F: The Sequence as a Function-Type</h3><p>In casual speech, we often speak of a "sequence" as if it were a static list of numbers. But in the formal architecture of Middle Way Math (and Lean 4), every sequence <code>F</code> is a <b>FunctionType</b>:</p><div class="formula-box">FunctionType = Directed Pair (The Channel) + Rule Type (The Assignment Rule)</div><ul><li><b>The Channel (Function-Type):</b> For sequences, the channel is <code>ℕ_ω → ℝ_ω</code>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the hyperreal continuum <code>ℝ_ω</code>. This channel guarantees that quantities advance step-by-step up to the horizon <code>ω</code>.</li><li><b>The Rule (The Function''s Personality):</b> What gives meat to that mysterious <code>F</code>? Its assignment rule <code>k ↦ F(k)</code> is almost always determined by a <b>function from a specified domain</b>:<ul><li><b>From Polynomial Functions:</b> Taking <code>f(x) = c · x³</code> from the continuum function domain and evaluating it on step indices yields the cubic sequence rule <code>F(k) = c · k³</code>.</li><li><b>From Exponential Functions:</b> Taking <code>f(x) = a · r^x</code> yields the geometric progression rule <code>F(k) = a · r^k</code>.</li><li><b>From Physical Energy Functions:</b> Taking <code>f(v) = ½ · m · v²</code> evaluated at velocity steps <code>v_k = k · Δv</code> yields the telescoping work-energy ladder.</li></ul></li></ul><p style="margin: 8px 0px 0px;">In short: the sequence function''s <b>type</b> provides the stepping channel; its <b>rule</b> inherits its shape directly from a function!</p><div><br></div></div>
+        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
+      </p>
+
+      <!-- Demystifying F: The Sequence in the Conceptual Model -->
+      <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span style="font-size: 18px;">📐</span>
+          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
+        </div>
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
+          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our foundational ontology, a function''s type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
+          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
+            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code> &emsp; (increments by fixed constant difference <code>d</code>).</li>
+            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code> &emsp; (scales by fixed multiplicative factor <code>r</code>).</li>
+            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code> &emsp; (generates the cubic progression evaluated on the counting spine).</li>
+            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code> &emsp; (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
+          </ul>
+        </div>
+
+        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
+          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
+        </p>
+      </div>
     </div>
 
+    <!-- Section 1: The Two Fundamental Ladders -->
     <h2>1. The Two Fundamental Ladders of the Trees</h2>
     <p>
-      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of progression:
+      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of stepping:
     </p>
 
-    <table>
+    <!-- Side-by-Side Visual Comparison Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 20px 0;">
+      
+      <!-- Arithmetic Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #1e3a8a;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe;">Tree 1 (Unary Spine)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">1-Successor Count</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 16px;">The Arithmetic Ladder (Linear March)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by adding a fixed constant at each step. Models uniform motion, constant-force acceleration increments, and clock ticks.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; margin: 4px 0;">
+            F(k + 1) = F(k) + d &nbsp;⇒&nbsp; F(k) = a + k · d
+          </div>
+          <div style="font-size: 12px; color: #475569;">Constant forward difference: <code>ΔF(k) = d</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Equally spaced rungs climbing a straight vertical ladder.<br>
+          • <b>Continuous Limit:</b> Forms the linear line <code>y = m·x + b</code> with constant slope <code>d</code>.
+        </div>
+      </div>
+
+      <!-- Geometric Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #7c3aed;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">Tree 2 (Binary Branching)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">2-Successor Branching</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #7c3aed; font-size: 16px;">The Geometric Ladder (Multiplicative Scaling)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by multiplying by a fixed ratio at each step. Models binary branch populations, radioactive decay, compounding, and sensory perception.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #7c3aed; margin: 4px 0;">
+            F(k + 1) = r · F(k) &nbsp;⇒&nbsp; F(k) = a · r^k
+          </div>
+          <div style="font-size: 12px; color: #475569;">Difference proportional to term: <code>ΔF(k) = F(k) · (r - 1)</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Each rung multiplies the height of the previous rung.<br>
+          • <b>Continuous Limit:</b> Forms the exponential curve <code>y = a · e^(k·x)</code> where rate equals quantity.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary Comparison Table -->
+    <table class="seq-table">
       <thead>
         <tr>
-          <th>Tree Structure</th>
-          <th>Progression Type</th>
-          <th>Step Law</th>
-          <th>Formula</th>
-          <th>Characteristic Property</th>
+          <th style="width: 20%;">Tree Foundation</th>
+          <th style="width: 22%;">Progression Type</th>
+          <th style="width: 18%;">Step Law</th>
+          <th style="width: 20%;">Closed Formula</th>
+          <th style="width: 20%;">Characteristic Property</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><b>Tree 1 (Unary Spine)</b><br>1-successor count</td>
-          <td><b>Arithmetic Progression</b></td>
-          <td>Constant additive step: <code>+ d</code></td>
+        <tr style="background-color: #ffffff;">
+          <td><b>Tree 1</b><br><span style="font-size: 11.5px; color: #64748b;">Unary counting spine</span></td>
+          <td><b style="color: #1e3a8a;">Arithmetic</b></td>
+          <td><code>+ d</code> (additive)</td>
           <td><code>F(k) = a + k · d</code></td>
-          <td>Uniform linear march; constant difference <code>ΔF(k) = d</code>.</td>
+          <td>Uniform slope: <code>ΔF(k) = d</code></td>
         </tr>
-        <tr>
-          <td><b>Tree 2 (Binary Branching)</b><br>2-successor branching</td>
-          <td><b>Geometric Progression</b></td>
-          <td>Constant multiplicative ratio: <code>× r</code></td>
+        <tr style="background-color: #f8fafc;">
+          <td><b>Tree 2</b><br><span style="font-size: 11.5px; color: #64748b;">Binary branching fan</span></td>
+          <td><b style="color: #7c3aed;">Geometric</b></td>
+          <td><code>× r</code> (multiplicative)</td>
           <td><code>F(k) = a · r^k</code></td>
-          <td>Exponential growth; difference proportional to term: <code>ΔF(k) = a · r^k · (r - 1)</code>.</td>
+          <td>Self-proportional: <code>ΔF(k) ∝ F(k)</code></td>
         </tr>
       </tbody>
     </table>
 
-    <div class="callout" style="background: #f8fafc; border-color: #cbd5e1; border-left: 4px solid var(--primary);">
-      <h3 style="margin-top: 0; color: var(--primary);"><span style="color: rgb(30, 58, 138); font-size: 1.35rem; background-color: rgb(255, 255, 255);">2. Musical Scales: The Human Ear as a Geometric Processor</span></h3></div>
+    <!-- Section 2: Musical Scales -->
+    <h2>2. Musical Scales: The Human Ear as a Geometric Processor</h2>
     <p>
       The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
     </p>
@@ -4943,114 +5406,109 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
     </p>
 
-    <div class="callout">
-      <h3 style="margin-top: 0; color: var(--accent);">The 12-Tone Equal Temperament Ladder</h3>
-      <p>
-        An <b>octave</b> is a pure frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio:
-      </p>
-      <div class="formula-box">
-        r = 2^(1/12) ≈ 1.059463...
+    <!-- 12-Tone Equal Temperament Ladder Card -->
+    <div class="seq-callout">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <h3 style="margin: 0; color: #6d28d9; font-size: 16px;">The 12-Tone Equal Temperament Ladder</h3>
+        <span class="seq-pill" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd;">Acoustic Geometry</span>
       </div>
-      <p>
+      <p style="margin: 0 0 10px 0;">
+        An <b>octave</b> is an exact frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio <code>r</code> such that:
+      </p>
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
+        r¹² = 2 &nbsp;⇒&nbsp; r = 2^(1/12) ≈ 1.059463094...
+      </div>
+
+      <p style="margin: 10px 0 6px 0;">
         Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
       </p>
-      <div class="formula-box">
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
         f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
       </div>
-      <p>
+
+      <!-- Musical Scale Progression Table -->
+      <div style="margin-top: 14px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; border: 1px solid #ddd6fe; border-radius: 6px; overflow: hidden; background: #ffffff;">
+          <thead>
+            <tr style="background: #ede9fe; color: #4c1d95;">
+              <th style="padding: 7px 8px;">Step k</th>
+              <th style="padding: 7px 8px;">Note</th>
+              <th style="padding: 7px 8px;">Interval</th>
+              <th style="padding: 7px 8px;">Frequency f_k</th>
+              <th style="padding: 7px 8px;">Acoustic Ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>0</b></td>
+              <td><b>A4</b></td>
+              <td>Unison</td>
+              <td><code>440.00 Hz</code></td>
+              <td><code>1.000</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>3</b></td>
+              <td><b>C5</b></td>
+              <td>Minor third</td>
+              <td><code>523.25 Hz</code></td>
+              <td><code>2^(3/12) ≈ 1.189</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>5</b></td>
+              <td><b>D5</b></td>
+              <td>Perfect fourth</td>
+              <td><code>587.33 Hz</code></td>
+              <td><code>2^(5/12) ≈ 1.335</code> (close to 4/3)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>7</b></td>
+              <td><b>E5</b></td>
+              <td>Perfect fifth</td>
+              <td><code>659.26 Hz</code></td>
+              <td><code>2^(7/12) ≈ 1.498</code> (close to 3/2)</td>
+            </tr>
+            <tr>
+              <td><b>12</b></td>
+              <td><b>A5</b></td>
+              <td><b>Octave</b></td>
+              <td><code>880.00 Hz</code></td>
+              <td><b>2.000 (exact doubling)</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
         After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
       </p>
     </div>
 
-    <h3>The Cochlear Frequency Sorter</h3>
-    <p>
-      Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex. 
-      Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human ear''s sensor corresponds to equal pitch intervals—a living geometric progression analyzer.
-    </p>
-
-    <h2>3. The Sum of a Progression &amp; The High School Trick</h2>
-    <p>
-      How do we sum a geometric progression? In secondary school algebra, students are introduced to the celebrated "shift-and-subtract" method:
-    </p>
-    <div class="formula-box">
-      S_n = a + a·r + a·r^2 + ... + a·r^(n-1)<br>
-      r · S_n =    a·r + a·r^2 + ... + a·r^(n-1) + a·r^n
-    </div>
-    <p>
-      Subtracting the second equation from the first collapses every single interior power:
-    </p>
-    <div class="formula-box">
-      (1 - r) · S_n = a - a · r^n &nbsp;⇒&nbsp; S_n = a · (1 - r^n) / (1 - r)
-    </div>
-    <p>
-      Notice what made this miraculous calculation work: <b>all intermediate terms cancelled pairwise</b>. Only the initial boundary term <code>a</code> and the outer boundary term <code>a · r^n</code> survived.
-    </p>
-
-    <h2>4. Telescoping Sums: A Nod Toward the Fundamental Theorem</h2>
-    <p>
-      The shift-and-subtract trick for geometric series is not an isolated algebraic accident. It is a specific instance of a universal <b>telescoping identity</b>—an algebraic cancellation pattern that will soon serve as our bridge to continuous analysis.
-    </p>
-
-    <div class="highlight-card">
-      <h3 style="margin-top: 0; color: var(--primary);">The Universal Telescoping Cancellation</h3>
-      <p>
-        For <i>any</i> sequence function <code>F : ℕ_ω → ℝ_ω</code>—regardless of which algebraic rule <code>F</code> adopts—if we define the forward step difference:
+    <!-- Cochlear Biological Processor -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
+      <h3 style="margin-top: 0; color: #059669; font-size: 15px;">The Cochlear Frequency Sorter: Biology''s Living Geometric Analyzer</h3>
+      <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #334155;">
+        Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex.
       </p>
-      <div class="formula-box">
-        ΔF(k) = F(k + 1) - F(k)
-      </div>
-      <p>
-        Then the sum of differences collapses identically to the net boundary difference:
-      </p>
-      <div class="formula-box">
-        ∑_{k=0}^{n-1} ΔF(k) = [ F(1) - F(0) ] + [ F(2) - F(1) ] + ... + [ F(n) - F(n-1) ] = F(n) - F(0)
-      </div>
-      <p>
-        Because the theorem quantifies universally over <code>∀ (F : ℕ_ω → ℝ_ω)</code>, it holds for <b>every possible rule</b>! 
-        Whether we plug in the cubic rule <code>F(k) = c · k³</code>, the odd-sum rule <code>F(k) = k²</code>, or the work-energy rule <code>F(k) = ½ m v_k²</code>, the interior terms must vanish identically.
-      </p>
-      <p style="margin-bottom: 0;">
-        This finite algebraic identity—which in the analysis lectures ahead will blossom into the Fundamental Theorem of Calculus (FTC)—is machine-verified in Lean 4 as <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>.
+      <p style="margin: 0; font-size: 13.5px; color: #334155;">
+        Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human sensor correspond to equal musical ratios—demonstrating that the geometric ladder is a biological architecture for processing reality.
       </p>
     </div>
 
-    <p>
-      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>
-    </p>
-
-    <h3>Numeric Sequences vs. Function Sequences</h3>
-    <p>
-      Here we observe an important architectural distinction that will recur throughout advanced analysis:
-    </p>
-    <ul>
-      <li><b>Numeric Sequence (<code>ℕ_ω → ℝ_ω</code>):</b> At each step index <code>k</code>, the sequence outputs a single numerical scalar (a ladder rung, a partial sum, or a particle position).</li>
-      <li><b>Function Sequence (<code>ℕ_ω → FunctionSpace ≡ ℕ_ω → (ℝ_ω → ℝ_ω)</code>):</b> At each step index <code>k</code>, the sequence outputs an <i>entire spatial function</i> <code>F_k(x)</code> holding across the full continuum domain (such as progressive Taylor polynomial curves, Fourier wave sums, or heat diffusion time slices across a spatial bar).</li>
-    </ul>
-    <p>
-      Both share the discrete stepping channel on <code>ℕ_ω</code>, but a function sequence carries an entire spatial profile forward at every step.
-    </p>
-
-    <h2>5. From Step Index k to Continuum Transect x</h2>
-    <p>
-      Once we recognize that summation is boundary cancellation, continuous calculus requires only one conceptual refinement:
-    </p>
-    <ol>
-      <li>Replace the integer step index <code>k</code> with grid nodes <code>x_k = a + k · dx</code>, where <code>dx</code> is an infinitesimal step.</li>
-      <li>The difference quotient becomes the derivative rate: <code>f(x_k) = ΔF(k) / dx</code>.</li>
-      <li>The telescoping sum becomes the definite Riemann-hyperfinite integral:
-        <div class="formula-box">
-          ∫_a^b f(x) dx = ∑_{k=0}^{N-1} f(x_k) dx = ∑_{k=0}^{N-1} ΔF(k) = F(b) - F(a)
-        </div>
-      </li>
-    </ol>
-    <p>
-      Calculus is not an esoteric regime detached from elementary mathematics; it is the exact same pairwise boundary cancellation students learn in high school algebra, operating across an infinitesimal grid.
-    </p>
-
-    <div class="callout" style="background: #f0fdf4; border-color: #bbf7d0;">
-      <h3 style="margin-top: 0; color: #166534;">Up Next in Analysis</h3>
-      <p style="margin-bottom: 0; color: #166534;">
-        Having established the behavior of discrete progressions, we next examine continuous exponential growth, the natural logarithm, and the differential rates of 1D analysis.
+    <!-- Bridge to Course 1: Analysis 1D -->
+    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
+      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
+        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
+      </p>
+      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
+        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
+        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
+        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
+        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
       </p>
     </div>
   </div>
@@ -5136,7 +5594,41 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
   <hr>
 
-  <h3>3. The 1D Calculus Toolkit on ℝ_ω</h3>
+  <h3>3. The Architectural Bridge: From Step Index k to Continuum Transect x</h3>
+  <p>
+    In our introductory study of <b>Sequences &amp; Progressions</b>, quantities stepped along discrete tree ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. 
+    Crossing into continuous analysis requires only one foundational refinement: replacing the integer step with an <b>infinitesimal transect grid</b> across the continuum <code>ℝ_ω</code>:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 15px 0;">
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin-bottom: 4px;">Discrete Stepping Ladder (Level 1)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code><br>
+        • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br>
+        • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code><br>
+        • <b>Nature:</b> Exact pairwise cancellation of internal ladder boundaries.
+      </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #059669; font-size: 13.5px; margin-bottom: 4px;">Continuous Transect Grid on ℝ_ω (Level 2)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with <code>dx = (b - a)/ω</code><br>
+        • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br>
+        • <b>Definite Integral:</b> <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br>
+        • <b>Fundamental Theorem:</b> <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Calculus is not an esoteric regime detached from elementary arithmetic; it is the <b>exact same pairwise boundary cancellation</b> discovered in high school algebra, operating across an infinitesimal grid.
+  </p>
+
+  <hr>
+
+  <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
 
   <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
     <tr bgcolor="#f8fafc">
@@ -5168,7 +5660,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
   <hr>
 
-  <h3>4. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
+  <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
 
   <div style="display: flex; justify-content: center; margin: 20px 0;">
     <div style="width: 100%; max-width: 640px; text-align: center;">
@@ -5212,7 +5704,10 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
   <br>
 
   <p>
-    Jane began Lecture 1 by drawing a single point on a horizontal real number line:
+    “In our foundational study of Sequences &amp; Progressions,” Jane began Lecture 1, “we marched along discrete ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. But continuous analysis asks a deeper question: what happens when quantities vary continuously across space and time?”
+  </p>
+  <p>
+    Jane drew a single point on a horizontal real number line:
   </p>
 
   <div align="center" style="margin: 15px 0;">
@@ -5783,6 +6278,10 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
   </p>
 
+  <p>
+    “Wait,” Jill added, “that is the exact same pairwise cancellation as the high-school shift-and-subtract trick for geometric progressions: <code>(1 - r) · S_n = a - a · rⁿ</code>! All intermediate terms collapse identically!”
+  </p>
+
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
     <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
   </div>
@@ -5795,7 +6294,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
   </div>
 
   <p>
-    “The entire Fundamental Theorem of Calculus is proven in a single line of telescoping cancellation,” Jane smiled. “There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
+    “Exactly,” Jane smiled. “The high-school progression trick and the Fundamental Theorem of Calculus are the exact same algebraic phenomenon: pairwise boundary cancellation, operating here across our hyperfinite grid. There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
   </p>
 
   <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
@@ -15987,7 +16486,7 @@ INSERT INTO curriculum_nav_items (
   (24, 'app1_nav_2_4_4', 1, 19, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
   (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: continuous analysis', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences, sums & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: analysis 1D', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: microscope & continuity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
@@ -16061,10 +16560,7 @@ ON CONFLICT (id) DO UPDATE SET
 INSERT INTO pseudocode_algorithms (
   id, algo_key, name, badge, summary, domain, primitives, tree_complexity, dyadic_complexity, code
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'conway_add', 'Conway Recursive Addition on Tree Nodes', 'Tree-Inductive Arithmetic', 'Evaluates the exact sum X + Y of two Conway numbers directly on their tree sign paths by recursive options reduction and Conway cut.', 'X, Y ∈ {+, -}* (Tree Nodes, with [] at root 0)', ARRAY['options(X)', 'cut(L, R)', 'left(X)', 'right(X)', 'birthday(X)', 'SimplerOptions(X)']::text[], 'O(4^d) recursive option calls (explodes exponentially with birthday d)', 'O(1) aligned bit-shift and 32-bit integer add in the ring (𝔻, +, ·)', '// =====================================================================
-// 1. Extract Simpler Tree Ancestor Options
-// =====================================================================
-function SimplerOptions(X: Node): (Set of Node, Set of Node)
+  (1, 'simpler_options', 'Extract Simpler Tree Ancestor Options', 'Tree Decomposition', 'Extracts all ancestral prefixes of node X born on earlier days, partitioned into left options (< X) and right options (> X).', 'X ∈ {+, -}* (Tree Node) ⟹ (XL, XR) where each option has birthday < birthday(X)', ARRAY['EmptySet()', 'Insert(set, item)', 'length(X)', 'prefix < X (tree order)', 'X[0 .. i] (proper prefix)']::text[], 'O(d) prefix extractions, where d is the birthday (string depth) of node X', 'O(1) sign-string prefix slice and set insertion', 'rule SimplerOptions(X: Node) : (Set of Node, Set of Node) ≔
 var
     XL, XR: Set of Node;
     i: Integer;
@@ -16084,12 +16580,8 @@ begin
     end;
 
     return (XL, XR);
-end;
-
-// =====================================================================
-// 2. The Conway Cut: Earliest Birthday Node Between Bounds
-// =====================================================================
-function Cut(leftBound: Node, rightBound: Node): Node
+end;'),
+  (2, 'cut', 'Conway Cut: Earliest Birthday Node Between Bounds', 'Tree Simplicity', 'Finds the unique earliest-born (simplest) Conway tree node strictly between a lower bound and upper bound by binary walking from root [].', 'leftBound, rightBound ∈ {+, -}* with leftBound < rightBound ⟹ candidate Node', ARRAY['candidate ++ "+" (branch right)', 'candidate ++ "-" (branch left)', '<= (tree order comparison)', '>= (tree order comparison)']::text[], 'O(d) tree walk from root [] to the simplest intermediate node born on day d', 'O(1) binary mediant branch navigation', 'rule Cut(leftBound: Node, rightBound: Node) : Node ≔
 var
     candidate: Node;
 begin
@@ -16103,12 +16595,8 @@ begin
             candidate := candidate ++ ''-'';     // Branch left to shrink
     end;
     return candidate;  // Unique simplest node strictly between bounds
-end;
-
-// =====================================================================
-// 3. Conway Inductive Addition
-// =====================================================================
-function ConwayAdd(X: Node, Y: Node): Node
+end;'),
+  (3, 'conway_add', 'Conway Inductive Addition', 'Tree-Inductive Arithmetic', 'Evaluates the exact sum X + Y of two Conway numbers directly on their tree sign paths by recursive options reduction and Conway cut.', 'X, Y ∈ {+, -}* (Tree Nodes, with [] at root 0)', ARRAY['SimplerOptions(X)', 'Cut(L, R)', 'ConwayAdd(x, y) [recursive]', 'EmptySet()', 'Insert(set, item)', 'Maximum(set)', 'Minimum(set)']::text[], 'O(4^d) recursive option calls (explodes exponentially with birthday d)', 'O(1) aligned bit-shift and 32-bit integer add in the ring (𝔻, +, ·)', 'rule ConwayAdd(X: Node, Y: Node) : Node ≔
 var
     XL, XR, YL, YR: Set of Node;
     leftResults, rightResults: Set of Node;
@@ -16136,10 +16624,128 @@ begin
     // 5. The sum is the simplest node created between the two bounds
     return Cut(maxLeft, minRight);
 end;'),
-  (2, 'euler_compounding', 'Euler Hyperfinite Compounding in 𝔻', 'Transcendental Dyadic Engine', 'Evaluates exp(x) = (1 + x/2^K)^(2^K) using purely dyadic bit-shifts and K repeated squarings in the ring (𝔻, +, ·).', 'x ∈ 𝔻 (Dyadic Rational / Tree Node), K ∈ ℕ (e.g. K = 12)', ARRAY['shift(a, k)', 'add(a, b)', 'sqr(a)', 'val(X)', 'node(d)']::text[], 'Zero calculus limits, zero infinite series, zero floating-point math', '1 bit-shift, 1 integer add, K repeated squarings in (𝔻, ·)', '// =====================================================================
-// Euler Hyperfinite Compounding in the Ring (𝔻, +, ·)
-// =====================================================================
-function EulerExp(x: Node, K: Integer): Node
+  (4, 'conway_order', 'Conway Inductive Order (X ≤ Y)', 'Tree-Inductive Order', 'Determines if node X ≤ Y directly on Conway tree options: no left option of X can be ≥ Y, and no right option of Y can be ≤ X.', 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ 1 if X ≤ Y else 0', ARRAY['SimplerOptions(X)', 'ConwayLessEq(Y, xL) [mutual recursion]', 'ConwayLessEq(yR, X)']::text[], 'O(2^(d_x + d_y)) mutual recursive option evaluations over earlier birthdays', 'O(1) sign comparison and bit alignment in the ordered field (𝔻, ≤)', 'rule ConwayLessEq(X: Node, Y: Node) : Integer ≔
+var
+    XL, XR, YL, YR: Set of Node;
+    xL, yR: Node;
+begin
+    // 1. Decompose both nodes into simpler ancestral options
+    (XL, XR) := SimplerOptions(X);
+    (YL, YR) := SimplerOptions(Y);
+
+    // 2. Condition 1: No left option of X is >= Y (i.e. Y <= xL is false)
+    for each xL in XL do
+    begin
+        if ConwayLessEq(Y, xL) = 1 then
+            return 0; // Violation found: xL >= Y
+    end;
+
+    // 3. Condition 2: No right option of Y is <= X (i.e. yR <= X is false)
+    for each yR in YR do
+    begin
+        if ConwayLessEq(yR, X) = 1 then
+            return 0; // Violation found: yR <= X
+    end;
+
+    // Satisfies Conway surreal order: X <= Y
+    return 1;
+end;'),
+  (5, 'conway_sort', 'Conway Total Order Sort', 'Tree-Inductive Sorting', 'Sorts an array of Conway tree nodes into ascending linear order strictly using the recursive ConwayLessEq order predicate.', 'A: Array of Node ⟹ Sorted A such that A[0] ≤ A[1] ≤ ... ≤ A[n-1]', ARRAY['ConwayLessEq(a, b)', 'A[i] (array indexing)']::text[], 'O(n² · 2^d) inductive option comparisons across array elements', 'O(n log n) standard numeric sort using 64-bit integer compare', 'rule ConwaySort(A: Array of Node, n: Integer) : Array of Node ≔
+var
+    i, j: Integer;
+    key: Node;
+begin
+    // Insertion sort grounded strictly on Conway inductive order
+    for i := 1 to n - 1 do
+    begin
+        key := A[i];
+        j := i - 1;
+
+        // Shift elements greater than key to the right
+        while (j >= 0) and (ConwayLessEq(key, A[j]) = 1) do
+        begin
+            A[j + 1] := A[j];
+            j := j - 1;
+        end;
+        A[j + 1] := key;
+    end;
+
+    return A;
+end;'),
+  (6, 'conway_sub', 'Conway Inductive Subtraction', 'Tree-Inductive Arithmetic', 'Evaluates the exact difference X - Y of two Conway numbers as X + (-Y) via Conway tree negation and addition.', 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X - Y', ARRAY['ConwayNeg(Y)', 'ConwayAdd(X, -Y)']::text[], 'O(4^d) option tree expansion inherited from ConwayAdd', 'O(1) aligned bit-shift and integer subtraction in the ring (𝔻, +, ·)', 'rule ConwaySub(X: Node, Y: Node) : Node ≔
+var
+    negY: Node;
+begin
+    // Subtraction is addition of the tree negation: X - Y = X + (-Y)
+    negY := ConwayNeg(Y);
+    return ConwayAdd(X, negY);
+end;'),
+  (7, 'conway_mul', 'Conway Inductive Multiplication', 'Tree-Inductive Arithmetic', 'Evaluates the exact product X · Y of two Conway numbers directly on their tree sign paths via 4-way recursive cross options and Conway cut.', 'X, Y ∈ {+, -}* (Tree Nodes) ⟹ X · Y', ARRAY['SimplerOptions(X)', 'ConwayAdd(a, b)', 'ConwaySub(a, b)', 'ConwayMul(a, b) [recursive]', 'Cut(L, R)']::text[], 'Hyper-exponential option explosion: each recursive step branches into 4 products, 2 additions, and 1 subtraction', 'O(1) single integer multiplication and denominator bit addition: (m₁/2^e₁) · (m₂/2^e₂) = (m₁·m₂)/2^(e₁+e₂)', 'rule ConwayMul(X: Node, Y: Node) : Node ≔
+var
+    XL, XR, YL, YR: Set of Node;
+    leftResults, rightResults: Set of Node;
+    term, maxLeft, minRight: Node;
+begin
+    // 1. Decompose both nodes into ancestral options
+    (XL, XR) := SimplerOptions(X);
+    (YL, YR) := SimplerOptions(Y);
+
+    leftResults  := EmptySet();
+    rightResults := EmptySet();
+
+    // 2. Left options: (xL · Y) + (X · yL) - (xL · yL)
+    for each xL in XL do
+        for each yL in YL do
+        begin
+            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yL));
+            Insert(leftResults, ConwaySub(term, ConwayMul(xL, yL)));
+        end;
+
+    // (xR · Y) + (X · yR) - (xR · yR)
+    for each xR in XR do
+        for each yR in YR do
+        begin
+            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yR));
+            Insert(leftResults, ConwaySub(term, ConwayMul(xR, yR)));
+        end;
+
+    // 3. Right options: (xL · Y) + (X · yR) - (xL · yR)
+    for each xL in XL do
+        for each yR in YR do
+        begin
+            term := ConwayAdd(ConwayMul(xL, Y), ConwayMul(X, yR));
+            Insert(rightResults, ConwaySub(term, ConwayMul(xL, yR)));
+        end;
+
+    // (xR · Y) + (X · yL) - (xR · yL)
+    for each xR in XR do
+        for each yL in YL do
+        begin
+            term := ConwayAdd(ConwayMul(xR, Y), ConwayMul(X, yL));
+            Insert(rightResults, ConwaySub(term, ConwayMul(xR, yL)));
+        end;
+
+    // 4. Resolve simplest intermediate node between bounds
+    maxLeft  := Maximum(leftResults);
+    minRight := Minimum(rightResults);
+    return Cut(maxLeft, minRight);
+end;'),
+  (8, 'conway_neg', 'Conway Tree Negation (-X)', 'Tree Reflection Primitive', 'Inverts every sign step (+ <-> -) along the path, reflecting the node across the tree root 0.', 'X ∈ {+, -}* ⟹ -X ∈ {+, -}*', ARRAY['X[i] (sign step)', 'TreeConcat(res, invSign)']::text[], 'O(d) sign string inversion where d is birthday depth', 'O(1) numerator integer negation in (𝔻, +, ·)', 'rule ConwayNeg(X: Node) : Node ≔
+var
+    res: Node;
+    i: Integer;
+begin
+    res := [];
+    for i := 0 to length(X) - 1 do
+    begin
+        if X[i] = ''+'' then
+            res := res ++ ''-''
+        else
+            res := res ++ ''+'';
+    end;
+    return res;
+end;'),
+  (9, 'euler_compounding', 'Euler Hyperfinite Compounding in 𝔻', 'Transcendental Dyadic Engine', 'Evaluates exp(x) = (1 + x/2^K)^(2^K) using purely dyadic bit-shifts and K repeated squarings in the ring (𝔻, +, ·).', 'x ∈ 𝔻 (Dyadic Rational / Tree Node), K ∈ ℕ (e.g. K = 12)', ARRAY['≫ K (power-of-two right bit-shift)', '⊕ (exact dyadic ring addition)', 'sqr(u) (exact dyadic squaring)', 'val(x) (node to dyadic projection)', 'node(u) (dyadic to canonical tree node)']::text[], 'Zero calculus limits, zero infinite series, zero floating-point math', '1 bit-shift, 1 integer add, K repeated squarings in (𝔻, ·)', 'rule EulerExp(x: Node, K: Integer) : Node ≔
 var
     dx, delta, u: Dyadic;
     i: Integer;
@@ -16156,10 +16762,7 @@ begin
 
     return node(u);              // Canonical Conway tree node
 end;'),
-  (3, 'kinematics_step', 'Discrete Kinematic State Update in (𝔻, +, ·)', 'Newtonian Difference Engine', 'Evaluates discrete free-fall velocity v = v₀ ⊖ (g ⊗ t) and trajectory displacement s = (v₀ ⊗ t) ⊖ (1/2 ⊗ g ⊗ t²) strictly in the ring of dyadic rationals.', 'v₀, g, t ∈ 𝔻 (Exact Dyadic Rationals on the 2-Successor Tree)', ARRAY['⊕ (dyadic add)', '⊖ (dyadic sub)', '⊗ (dyadic mul)', '≫ 1 (half bit-shift)', 'sqr(t)', 'node(d)']::text[], 'Finite difference stepping across discrete 2-successor rational tree', 'Exact integer bit-shifts and ring additions; zero floating-point drift', '// =====================================================================
-// Discrete Kinematic Update in the Ring (𝔻, +, ·)
-// =====================================================================
-function KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic): (Dyadic, Dyadic)
+  (10, 'kinematics_step', 'Discrete Kinematic State Update in (𝔻, +, ·)', 'Newtonian Difference Engine', 'Evaluates discrete free-fall velocity v = v₀ ⊖ (g ⊗ t) and trajectory displacement s = (v₀ ⊗ t) ⊖ (1/2 ⊗ g ⊗ t²) strictly in the ring of dyadic rationals.', 'v₀, g, t ∈ 𝔻 (Exact Dyadic Rationals on the 2-Successor Tree)', ARRAY['⊗ (dyadic ring multiplication)', '⊖ (dyadic ring subtraction)', '≫ 1 (exact half bit-shift)', 'sqr(t) (exact squaring)']::text[], 'Finite difference stepping across discrete 2-successor rational tree', 'Exact integer bit-shifts and ring additions; zero floating-point drift', 'rule KinematicStep(v0: Dyadic, g: Dyadic, t: Dyadic) : (Dyadic, Dyadic) ≔
 var
     gt, halfG, t2, v, s: Dyadic;
 begin
@@ -16174,10 +16777,13 @@ begin
 
     return (v, s);                    // Pair of canonical dyadic values
 end;'),
-  (4, 'rotor_trig_cordic', 'Dyadic CORDIC Unit Rotor Projection', 'Discrete Trigonometric Engine', 'Evaluates circular trigonometric coordinates (cos θ, sin θ) through N discrete dyadic rotations using only power-of-two bit-shifts and additions.', 'θ ∈ 𝔻, step index i ∈ [0 .. N-1], coordinate pair (x, y) ∈ 𝔻²', ARRAY['x ≫ i (bit-shift)', 'x ⊕ y (dyadic add)', 'x ⊖ y (dyadic sub)', 'CordicAngle(i)', 'val(X)']::text[], 'Discrete angular winding along binary unit circle lattice', 'N elementary shifts and additions; zero Math.sin / Math.cos dependency', '// =====================================================================
-// CORDIC Unit Rotor Projection in the Ring (𝔻, +, ·)
-// =====================================================================
-function CordicRotor(theta: Dyadic, N: Integer): (Dyadic, Dyadic)
+  (11, 'cordic_angle', 'Elementary CORDIC Rotation Angle Table', 'Discrete Trigonometry', 'Provides the exact dyadic elementary rotation angle arctan(2^-i) for iteration step i without transcendental library calls.', 'i ∈ [0 .. N-1] ⟹ angle θ_i ∈ 𝔻', ARRAY['CordicAngleTable(i) (elementary dyadic constant table)']::text[], 'O(1) discrete constant projection from predefined 16-step dyadic lattice', 'O(1) table lookup with zero runtime transcendentals', 'rule CordicAngle(i: Integer) : Dyadic ≔
+begin
+    // Table of elementary dyadic rotation angles arctan(2^-i)
+    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...
+    return CordicAngleTable(i);
+end;'),
+  (12, 'rotor_trig_cordic', 'Dyadic CORDIC Unit Rotor Projection', 'Discrete Trigonometric Engine', 'Evaluates circular trigonometric coordinates (cos θ, sin θ) through N discrete dyadic rotations using only power-of-two bit-shifts and additions.', 'θ ∈ 𝔻, step index i ∈ [0 .. N-1] ⟹ coordinate pair (x, y) ∈ 𝔻²', ARRAY['CordicAngle(i)', '≫ i (power-of-two right bit-shift)', '⊖ (dyadic ring subtraction)', '⊕ (dyadic ring addition)', '⊗ (dyadic ring multiplication)']::text[], 'Discrete angular winding along binary unit circle lattice', 'N elementary shifts and additions; zero Math.sin / Math.cos dependency', 'rule CordicRotor(theta: Dyadic, N: Integer) : (Dyadic, Dyadic) ≔
 var
     x, y, z, nextX, nextY: Dyadic;
     d, i: Integer;
@@ -16205,10 +16811,7 @@ begin
 
     return (x, y);    // Exact dyadic projections (cos θ, sin θ)
 end;'),
-  (5, 'laplacian_heat_step', 'Discrete Laplacian Thermal Diffusion in 𝔻', 'Discrete Field Engine', 'Advances 1D thermal distribution across spatial slices using the discrete second-difference operator in the ring (𝔻, +, ·).', 'T[i] ∈ 𝔻, diffusion coefficient α ∈ 𝔻 (α ≤ 1/2 for stability)', ARRAY['T[i] ≪ 1 (double shift)', 'T[i-1] ⊖ 2·T[i] ⊕ T[i+1] (second difference)', 'alpha ⊗ laplacian', '⊕ (dyadic add)']::text[], 'Local discrete interaction across spatial neighbor tree', 'O(M) shifts and additions per time-tick; unconditionally exact over 𝔻', '// =====================================================================
-// 1D Discrete Thermal Diffusion Step in (𝔻, +, ·)
-// =====================================================================
-function HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer): Array of Dyadic
+  (13, 'laplacian_heat_step', 'Discrete Laplacian Thermal Diffusion in 𝔻', 'Discrete Field Engine', 'Advances 1D thermal distribution across spatial slices using the discrete second-difference operator in the ring (𝔻, +, ·).', 'T[i] ∈ 𝔻, diffusion coefficient α ∈ 𝔻 (α ≤ 1/2 for stability)', ARRAY['CreateArray(M)', 'T[i] ≪ 1 (double shift)', '⊖ (dyadic ring subtraction)', '⊕ (dyadic ring addition)', '⊗ (dyadic ring multiplication)']::text[], 'Local discrete interaction across spatial neighbor tree', 'O(M) shifts and additions per time-tick; unconditionally exact over 𝔻', 'rule HeatDiffusionStep(T: Array of Dyadic, alpha: Dyadic, M: Integer) : Array of Dyadic ≔
 var
     nextT: Array of Dyadic;
     i: Integer;
@@ -16229,10 +16832,7 @@ begin
 
     return nextT;
 end;'),
-  (6, 'bayes_discrete_update', 'Discrete Bayesian Posterior Update in 𝔻', 'Probability Logic Engine', 'Computes posterior probability P(H | E) = P(E | H) · P(H) / P(E) over a finite discrete hypothesis partition strictly in (𝔻, +, ·).', 'Prior, Likelihood ∈ 𝔻 ∩ [0, 1], Hypothesis Space Ω', ARRAY['priorH ⊗ pEgivenH', '1 ⊖ priorH (complement)', '⊕ (dyadic add)', '⊘ (dyadic quotient)']::text[], 'Partition branching on finite hypothesis decision tree', 'Ring multiplications and dyadic quotient; zero measure-theoretic integrals', '// =====================================================================
-// Discrete Bayesian Hypothesis Update in (𝔻, +, ·)
-// =====================================================================
-function BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic): Dyadic
+  (14, 'bayes_discrete_update', 'Discrete Bayesian Posterior Update in 𝔻', 'Probability Logic Engine', 'Computes posterior probability P(H | E) = P(E | H) · P(H) / P(E) over a finite discrete hypothesis partition strictly in (𝔻, +, ·).', 'Prior, Likelihood ∈ 𝔻 ∩ [0, 1], Hypothesis Space Ω', ARRAY['priorH ⊗ pEgivenH', '1 ⊖ priorH (complement)', '⊕ (dyadic add)', '⊘ (dyadic quotient)']::text[], 'Partition branching on finite hypothesis decision tree', 'Ring multiplications and dyadic quotient; zero measure-theoretic integrals', 'rule BayesUpdate(priorH: Dyadic, pEgivenH: Dyadic, pEgivenNotH: Dyadic) : Dyadic ≔
 var
     priorNotH, jointH, jointNotH, totalEvidence, posterior: Dyadic;
 begin
@@ -16245,6 +16845,102 @@ begin
     posterior     := jointH ⊘ totalEvidence;
 
     return posterior;
+end;'),
+  (15, 'maximum', 'Option Set Supremum (Maximum)', 'Set Extremum Primitive', 'Scans a finite set of Conway tree options to find the maximal (greatest) node according to the surreal tree order.', 'S ⊂ {+, -}* (Finite Option Set) ⟹ m ∈ S such that ∀ x ∈ S, x ≤ m', ARRAY['nil', 'for each x in S', '> (surreal tree order)', 'm := x']::text[], 'O(|S|) comparisons along binary sign trees', 'O(|S|) 1-to-1 sign sequence comparisons', 'rule Maximum(S: Set of Node) : Node ≔
+var
+    m, x: Node;
+begin
+    m := nil;
+    for each x in S do
+    begin
+        if (m = nil) or (x > m) then
+            m := x;
+    end;
+    return m;
+end;'),
+  (16, 'minimum', 'Option Set Infimum (Minimum)', 'Set Extremum Primitive', 'Scans a finite set of Conway tree options to find the minimal (least) node according to the surreal tree order.', 'S ⊂ {+, -}* (Finite Option Set) ⟹ m ∈ S such that ∀ x ∈ S, x ≥ m', ARRAY['nil', 'for each x in S', '< (surreal tree order)', 'm := x']::text[], 'O(|S|) comparisons along binary sign trees', 'O(|S|) 1-to-1 sign sequence comparisons', 'rule Minimum(S: Set of Node) : Node ≔
+var
+    m, x: Node;
+begin
+    m := nil;
+    for each x in S do
+    begin
+        if (m = nil) or (x < m) then
+            m := x;
+    end;
+    return m;
+end;'),
+  (17, 'empty_set', 'Empty Option Set Allocator', 'Option Set Lifecycle Primitive', 'Initializes an empty finite discrete option collection ∅ born before the current generation day.', '() ⟹ ∅ (Empty Option Collection)', ARRAY['Set() (finite option container)']::text[], 'O(1) allocation of empty ancestor collection', 'O(1) set reference creation', 'rule EmptySet() : Set of Node ≔
+var
+    S: Set of Node;
+begin
+    // Allocate an empty finite option set ∅
+    S := Set();
+    return S;
+end;'),
+  (18, 'insert', 'Option Set Inclusion', 'Option Set Inclusion Primitive', 'Inserts candidate tree node into an ancestral option collection S if not already present.', 'S ⊂ {+, -}*, item ∈ {+, -}* ⟹ S ∪ {item}', ARRAY['for each x in S', 'x = item', 'include(S, item)']::text[], 'O(|S|) prefix equality checks', 'O(1) amortized hashed set insertion', 'rule Insert(S: Set of Node, item: Node) : Set of Node ≔
+var
+    alreadyPresent: Integer;
+    x: Node;
+begin
+    alreadyPresent := 0;
+    for each x in S do
+    begin
+        if x = item then
+            alreadyPresent := 1;
+    end;
+
+    if alreadyPresent = 0 then
+        include(S, item);
+
+    return S;
+end;'),
+  (19, 'length', 'Birthday Depth (length)', 'Tree Metric Primitive', 'Returns the string length (birthday depth) of node X from the root [].', 'X ∈ {+, -}* ⟹ birthday(X) ∈ ℕ', ARRAY['birthday(X)', 'count of sign steps from []']::text[], 'O(1) step count query on path string', 'O(1) integer property access', 'rule length(X: Node) : Integer ≔
+begin
+    // Birthday depth: count of sign steps (+, -) from the root []
+    return birthday(X);
+end;'),
+  (20, 'sqr', 'Exact Dyadic Squaring', 'Ring Multiplicative Primitive', 'Evaluates the exact square u² of a dyadic rational via a single multiplication in the ring (𝔻, ·).', 'u ∈ 𝔻 ⟹ u ⊗ u ∈ 𝔻', ARRAY['⊗ (exact dyadic ring multiplication)']::text[], 'Finite convolution of sign path numerators', '1 integer multiplication and denominator doubling', 'rule sqr(u: Dyadic) : Dyadic ≔
+begin
+    // Exact dyadic squaring via ring multiplication in (𝔻, ·)
+    return u ⊗ u;
+end;'),
+  (21, 'val', 'Rational Projection (val)', 'Tree-to-Ring Projection', 'Extracts the exact rational value d ∈ 𝔻 from a Conway tree node sign sequence.', 'X ∈ {+, -}* ⟹ d = m / 2^e ∈ 𝔻', ARRAY['to_dyadic(X)']::text[], 'O(d) binary Horner evaluation of sign string', 'O(1) rational struct extraction', 'rule val(X: Node) : Dyadic ≔
+begin
+    // Rational projection: evaluates sign path (+, -) into dyadic fraction d ∈ 𝔻
+    return to_dyadic(X);
+end;'),
+  (22, 'node', 'Canonical Tree Projection (node)', 'Ring-to-Tree Projection', 'Maps a dyadic rational d ∈ 𝔻 to its unique earliest sign path on the binary tree.', 'd ∈ 𝔻 ⟹ unique simplest node X ∈ {+, -}*', ARRAY['to_node(d)', 'binary tree descent']::text[], 'O(e) tree descent to earliest born rational', 'O(1) canonical path reconstruction', 'rule node(d: Dyadic) : Node ≔
+begin
+    // Canonical tree projection: maps dyadic rational d to unique earliest sign path
+    return to_node(d);
+end;'),
+  (23, 'create_array', 'Lattice Array Allocation', 'Lattice Primitive', 'Allocates a spatial 1D grid array of M discrete dyadic cells initialized to root [].', 'M ∈ ℕ ⟹ Array[0 .. M-1] of Dyadic', ARRAY['allocate_grid(M)']::text[], 'O(M) tree root references', 'O(M) contiguous memory allocation', 'rule CreateArray(M: Integer) : Array of Dyadic ≔
+var
+    arr: Array of Dyadic;
+begin
+    // Allocates a 1D spatial grid lattice of M discrete dyadic cells
+    arr := allocate_grid(M);
+    return arr;
+end;'),
+  (24, 'cordic_angle_table', 'Elementary CORDIC Angle Table', 'Trigonometric Table Primitive', 'Provides the exact elementary rotation angle arctan(2^-i) for step i.', 'i ∈ [0 .. 15] ⟹ θ_i ∈ 𝔻', ARRAY['lookup_angle(i)']::text[], 'O(1) constant projection', 'O(1) direct table indexing', 'rule CordicAngleTable(i: Integer) : Dyadic ≔
+var
+    angle: Dyadic;
+begin
+    // Elementary rotation angles arctan(2^-i) for discrete dyadic rotor
+    // i=0: π/4 ≈ 0.785398, i=1: arctan(1/2) ≈ 0.463648, ...
+    angle := lookup_angle(i);
+    return angle;
+end;'),
+  (25, 'op_add', 'Dyadic Ring Addition (⊕)', 'Ring Machine Primitive', 'Evaluates exact dyadic addition with power-of-two denominator alignment in the ring (𝔻, +, ·).', 'a, b ∈ 𝔻 ⟹ a ⊕ b ∈ 𝔻', ARRAY['a ⊕ b', 'power-of-two alignment']::text[], 'Replaces Conway inductive recursion O(4^d) with exact O(1) ring addition', '1 bit-shift, 1 integer addition', 'rule DyadicAdd(a: Dyadic, b: Dyadic) : Dyadic ≔
+begin
+    // Exact ring addition with power-of-two denominator alignment in (𝔻, +, ·)
+    return a ⊕ b;
+end;'),
+  (26, 'op_concat', 'Tree Branch Concatenation (++)', 'Tree Geometry Primitive', 'Appends a discrete sign step (+ for right branch, - for left branch) to walk down the binary tree.', 'p ∈ {+, -}*, sign ∈ {+, -} ⟹ p ++ sign', ARRAY['p ++ sign']::text[], '1 step down the binary Conway tree', 'O(1) string/path append', 'rule TreeConcat(p: Node, sign: String) : Node ≔
+begin
+    // Appends sign step (''+'' for right, ''-'' for left) to walk down the tree
+    return p ++ sign;
 end;')
 ON CONFLICT (id) DO UPDATE SET
   algo_key = EXCLUDED.algo_key,
@@ -16263,10 +16959,10 @@ INSERT INTO formal_statements (
   title, description, expression, lean_signature, lean_snippet, status, referenced_segments
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 'fs_newtonian_mechanics', 'newtonian_mechanics', 'kinematics_and_dynamics', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Newtonian Dynamics & Boundary Acceleration', 'Foundational relation between force, inertia, and momentum conservation on ℝ_ω.', 'F = m · a  ∧  p = m · v', NULL, NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 1, 'theorem', 3, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'introduction', 'middlewayIntro', 'sequencesAndSums', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
+  (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 1, 'theorem', 10, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
+  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'introduction', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
   (4, 'fs_work_energy', 'work_energy', 'kinematics_and_dynamics', 3, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Telescoping Work-Energy Principle', 'Exact cancellation of interior work increments yielding net kinetic energy change.', 'Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k', 'theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 3, 'theorem', 5, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
+  (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 3, 'theorem', 13, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
   (6, 'fs_quartic_diff', 'r_quartic', 'discrete_analysis', 3, 'theorem', NULL, 'math', 'corollary', 'shadow_map', 'Hyperfinite Quartic Derivative', 'Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.', 'diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²', NULL, NULL, 'published', ARRAY['analysis1DLecture2']::text[]),
   (7, 'fs_complex_arithmetic', 'cauchy_edge_cancel', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'axiom', 'conway_cut', 'Hyperfinite Complex Arithmetic & Cell Loop', '2D tensor product algebra ℂ_ω = ℝ_ω ⊗ ℝ_ω and Cauchy cell edge cancellation.', 'z₁ · z₂ = (x₁·x₂ - y₁·y₂) + i·(x₁·y₂ + x₂·y₁)', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', NULL, 'published', ARRAY['analysis2DLecture2']::text[]),
   (8, 'fs_cauchy_riemann', 'cauchy_riemann', 'discrete_analysis', 7, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Cauchy-Riemann Conformal Symmetries', 'Direction-independent complex derivative enforcing angle preservation and zero shear.', '∂u/∂x = ∂v/∂y  ∧  ∂u/∂y = -∂v/∂x', NULL, NULL, 'published', ARRAY['analysis2DLecture1']::text[]),
@@ -16275,14 +16971,14 @@ INSERT INTO formal_statements (
   (11, 'fs_unitary_isometry', 'unitary_isometry', 'kinematics_and_dynamics', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Unitary Evolution & Norm Isometry', 'Norm-preserving probability evolution under self-adjoint operators U† · U = I.', '⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩  ∧  ∥U ψ∥ = ∥ψ∥ = 1', 'axiom unitary_isometry (U : C_w) : norm_sq U = 1', NULL, 'published', ARRAY['vectorsLecture2', 'vectorsLecture3']::text[]),
   (12, 'fs_three_polarizer', 'born_rule', 'kinematics_and_dynamics', 11, 'theorem', NULL, 'physics', 'scenario', 'boundary_law', 'Three-Polarizer Sequential Projection', 'Quantum state projection through non-commuting measurement operators via Born rule.', 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', NULL, NULL, 'published', ARRAY['quantumLogicLecture2', 'vectorsLecture3']::text[]),
   (13, 'fs_probability_foundations', 'discrete_probability', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'axiom', 'shadow_map', 'Discrete Probability Measure & Conditioning', 'Non-negative measure on finite state spaces with unit total mass.', 'P(A ∩ B) = P(A|B) · P(B)', NULL, NULL, 'published', ARRAY['bayesianInferenceIntro']::text[]),
-  (14, 'fs_bayes_updating', 'bayes_rule', 'information_and_signals', 13, 'theorem', 6, 'information', 'theorem', 'shadow_map', 'Bayesian Posterior Updating (P(H|D))', 'Prior belief update under sensory observation with probability normalization.', 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]', NULL, NULL, 'published', ARRAY['editedBayesianInferenceLecture1V1']::text[]),
+  (14, 'fs_bayes_updating', 'bayes_rule', 'information_and_signals', 13, 'theorem', 14, 'information', 'theorem', 'shadow_map', 'Bayesian Posterior Updating (P(H|D))', 'Prior belief update under sensory observation with probability normalization.', 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]', NULL, NULL, 'published', ARRAY['editedBayesianInferenceLecture1V1']::text[]),
   (15, 'fs_scale_reciprocity', 'omega_inv', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'constitutional', 'conway_cut', 'Scale Horizon & Infinitesimal Reciprocity', 'Fundamental scale axiom: Day ω cosmic horizon and grid step dx are mutual inverses ω · dx = 1.', 'ω · dx = 1  ∧  dx = 1/ω', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
   (16, 'fs_discrete_ivt', 'discrete_ivt', 'discrete_analysis', 15, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Discrete Intermediate Value Theorem Bisection', 'Constructive root isolation through dyadic interval halving on sign change.', 'f(a)·f(b) < 0  ⇒  c = (a + b)/2', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
   (17, 'fs_nucleus_halo_decomposition', 'nucleus_halo_decomposition', 'discrete_analysis', 15, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Nucleus-Halo Decomposition Theorem', 'Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.', 'x = st(x) + ε  ∧  ε ∈ μ(0)', 'axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε', NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
   (18, 'fs_dyadic_angle_bisection', 'dyadic_angle', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Angle Bisection & Unit Rotor Generation', 'Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.', 'θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1', 'def dyadic_angle (m : Int) (n : Nat) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
   (19, 'fs_polygonal_horn_chord', 'chord_length', 'discrete_analysis', 18, 'theorem', NULL, 'math', 'scenario', 'boundary_law', 'Polygonal Horn Rim Chord & Inward Deflection', 'Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
   (20, 'fs_sin_dyadic_bisection', 'sin_dyadic_fn', 'discrete_analysis', 18, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Tree Sine Function & CORDIC Bisection', 'Directed pair 𝔻 → [-1, 1] mapping Conway binary angle tree nodes to standard sine coordinates.', 'sin_dyadic_fn(d) = sin(2π · d.val) ∈ [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
-  (21, 'fs_sin_rotor_projection', 'sin_rotor_fn', 'discrete_analysis', NULL, 'theorem', 4, 'math', 'axiom', 'conway_cut', 'Unit Rotor Group Sine Projection', 'Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.', 'sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', NULL, 'published', ARRAY['stemTrigFoundations']::text[])
+  (21, 'fs_sin_rotor_projection', 'sin_rotor_fn', 'discrete_analysis', NULL, 'theorem', 12, 'math', 'axiom', 'conway_cut', 'Unit Rotor Group Sine Projection', 'Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.', 'sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', NULL, 'published', ARRAY['stemTrigFoundations']::text[])
 ON CONFLICT (id) DO UPDATE SET
   statement_key = EXCLUDED.statement_key,
   scaffold_key = EXCLUDED.scaffold_key,
@@ -16301,22 +16997,22 @@ ON CONFLICT (id) DO UPDATE SET
 INSERT INTO calculation_modes (
   id, mode_key, statement_id, pseudo_algo_id, function_rule_name, function_signature, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'ff_v_from_v0_g_t', 2, 3, 'Kinematic Step ↦ v', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ v: 𝔻', '(v₀, g, t) → v', 'v', 'ℝ_ω', 'm/s', 'v = v₀ - g · t', 'v0 - g * t', TRUE),
-  (2, 'ff_t_from_v_v0_g', 2, 3, 'Kinematic Step ↦ t', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ t: 𝔻', '(v, v₀, g) → t', 't', 'ℝ_ω', 's', 't = (v₀ - v) / g', '(v0 - v) / g', TRUE),
-  (3, 'ff_s_from_v0_g_t', 2, 3, 'Kinematic Step ↦ s', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ s: 𝔻', '(v₀, g, t) → s', 's', 'ℝ_ω', 'm', 's = v₀ · t - (1/2) · g · t²', 'v0 * t - 0.5 * g * (t ** 2)', TRUE),
+  (1, 'ff_v_from_v0_g_t', 2, 10, 'Kinematic Step ↦ v', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ v: 𝔻', '(v₀, g, t) → v', 'v', 'ℝ_ω', 'm/s', 'v = v₀ - g · t', 'v0 - g * t', TRUE),
+  (2, 'ff_t_from_v_v0_g', 2, 10, 'Kinematic Step ↦ t', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ t: 𝔻', '(v, v₀, g) → t', 't', 'ℝ_ω', 's', 't = (v₀ - v) / g', '(v0 - v) / g', TRUE),
+  (3, 'ff_s_from_v0_g_t', 2, 10, 'Kinematic Step ↦ s', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ s: 𝔻', '(v₀, g, t) → s', 's', 'ℝ_ω', 'm', 's = v₀ · t - (1/2) · g · t²', 'v0 * t - 0.5 * g * (t ** 2)', TRUE),
   (4, 'we_ke_from_m_v', 4, NULL, NULL, NULL, '(m, v) → KE', 'KE', 'ℝ_ω', 'J', 'KE = (1/2) · m · v²', '0.5 * m * (v ** 2)', TRUE),
   (5, 'we_v_from_ke_m', 4, NULL, NULL, NULL, '(KE, m) → v', 'v', 'ℝ_ω', 'm/s', 'v = √(2 · KE / m)', 'Math.sqrt((2 * KE) / m)', TRUE),
-  (6, 'diff_heat_step', 5, 5, 'Discrete Thermal Diffusion ↦ u_new', '(T: 𝔻[], α: 𝔻) ↦ u_new: 𝔻[]', '(α, Δt, Δx, u_L, u_C, u_R) → u_new', 'u_new', 'ℝ_ω', '°C', 'u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)', 'u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)', TRUE),
+  (6, 'diff_heat_step', 5, 13, 'Discrete Thermal Diffusion ↦ u_new', '(T: 𝔻[], α: 𝔻) ↦ u_new: 𝔻[]', '(α, Δt, Δx, u_L, u_C, u_R) → u_new', 'u_new', 'ℝ_ω', '°C', 'u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)', 'u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)', TRUE),
   (7, 'complex_mult_eval', 7, NULL, NULL, NULL, '(x₁, y₁, x₂, y₂) → z₁ · z₂', 'z₁ · z₂', 'ℂ_ω', NULL, 'z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)', '[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]', TRUE),
   (8, 'polarizer_transmission', 12, NULL, NULL, NULL, '(θ₁, θ₂, I₀) → I_final', 'I_final', 'ℝ_ω', NULL, 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', 'I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)', TRUE),
-  (9, 'bayes_posterior', 14, 6, 'Discrete Bayesian Update ↦ P(H|D)', '(P(H): 𝔻, P(E|H): 𝔻) ↦ P(H|D): 𝔻', '(P(H), P(D|H), P(D|¬H)) → P(H|D)', 'P(H|D)', '[0, 1]', NULL, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', TRUE),
+  (9, 'bayes_posterior', 14, 14, 'Discrete Bayesian Update ↦ P(H|D)', '(P(H): 𝔻, P(E|H): 𝔻) ↦ P(H|D): 𝔻', '(P(H), P(D|H), P(D|¬H)) → P(H|D)', 'P(H|D)', '[0, 1]', NULL, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', TRUE),
   (10, 'scale_reciprocity_eval', 15, NULL, NULL, NULL, '(ω, dx) → Balance Product ω · dx', 'ω · dx', 'ℝ_ω', NULL, 'ω · dx = 1.0', 'omega * dx', TRUE),
   (11, 'diff_x4_st', 6, NULL, NULL, NULL, '(x, dx) → st(Δ(x⁴)/dx) = 4x³', 'f''(x)', 'ℝ_ω', NULL, 'st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³', '4 * (x ** 3)', TRUE),
   (12, 'ivt_root_bisection', 16, NULL, NULL, NULL, '(a, b) → Midpoint c = (a + b)/2', 'c', 'ℝ_ω', NULL, 'c = (a + b) / 2', '(a + b) / 2', TRUE),
-  (13, 'trig_dyadic_angle', 18, 4, 'Dyadic Rotor Projection ↦ θ', '(θ: 𝔻, N: ℕ) ↦ θ: 𝔻', '(m, n) → θ', 'θ', '[0, 2π)', 'rad', 'θ = 2π · (m / 2ⁿ)', '2 * Math.PI * (m / (2 ** n))', TRUE),
-  (14, 'trig_chord_length', 19, 4, 'Dyadic Rotor Projection ↦ c', '(θ: 𝔻, N: ℕ) ↦ c: 𝔻', '(Δθ, R) → Chord c', 'c', 'ℝ_ω', NULL, 'c = 2 · R · sin(Δθ / 2)', '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)', TRUE),
-  (15, 'trig_sin_dyadic_eval', 20, 4, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(m, n) → sin(θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(θ) = sin(2π · m / 2ⁿ)', 'Math.sin(2 * Math.PI * (m / (2 ** n)))', TRUE),
-  (16, 'trig_sin_rotor_eval', 21, 4, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(θ) → (cos θ, sin θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(U) = Im(U) = sin(θ) ∈ [-1, 1]', 'Math.sin(theta * Math.PI / 180)', TRUE),
+  (13, 'trig_dyadic_angle', 18, 12, 'Dyadic Rotor Projection ↦ θ', '(θ: 𝔻, N: ℕ) ↦ θ: 𝔻', '(m, n) → θ', 'θ', '[0, 2π)', 'rad', 'θ = 2π · (m / 2ⁿ)', '2 * Math.PI * (m / (2 ** n))', TRUE),
+  (14, 'trig_chord_length', 19, 12, 'Dyadic Rotor Projection ↦ c', '(θ: 𝔻, N: ℕ) ↦ c: 𝔻', '(Δθ, R) → Chord c', 'c', 'ℝ_ω', NULL, 'c = 2 · R · sin(Δθ / 2)', '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)', TRUE),
+  (15, 'trig_sin_dyadic_eval', 20, 12, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(m, n) → sin(θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(θ) = sin(2π · m / 2ⁿ)', 'Math.sin(2 * Math.PI * (m / (2 ** n)))', TRUE),
+  (16, 'trig_sin_rotor_eval', 21, 12, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(θ) → (cos θ, sin θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(U) = Im(U) = sin(θ) ∈ [-1, 1]', 'Math.sin(theta * Math.PI / 180)', TRUE),
   (17, 'nucleus_halo_decomp_eval', 17, NULL, NULL, NULL, '(x₀, k) → x = x₀ + k·dx', 'x', 'ℝ_ω', NULL, 'x = st(x) + ε = x₀ + k · dx', 'x0 + k * dx', FALSE)
 ON CONFLICT (id) DO UPDATE SET
   mode_key = EXCLUDED.mode_key,
@@ -16413,34 +17109,32 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 16, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (3, 16, 3, NULL, NULL, 'proof', 1, '🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)', '<fsd-ref scaffold="telescoping_ftc" instance="cubic_sum" title="Cubic Telescoping Sum Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Discrete Telescoping Calculator (Cubic Sequence Accumulation)</fsd-ref>'),
-  (4, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (5, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (6, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (7, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (8, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (9, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (10, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (11, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (12, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (13, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (14, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (15, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (16, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (17, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (18, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (19, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (20, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (21, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (22, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
-  (23, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (24, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (25, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (26, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (27, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (28, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (29, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (2, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (3, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (4, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (5, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (6, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (7, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (8, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (9, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (10, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (11, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (12, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (13, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (14, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (15, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (16, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (17, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (18, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (19, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (20, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (21, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (22, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (23, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (24, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (25, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (26, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (27, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
