@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-07T15:16:21.957Z
+-- Generated At: 2026-10-07T15:38:32.894Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -51,20 +51,6 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that the page merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
     </p>
 
-    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
-      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Disclaimer by human collaborator</summary>
-      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-        <p style="margin: 0 0 10px 0;">
-          I think it is important to clarify the human collaborator''s relation to this page and it''s content, for full disclosure.
-        </p>
-        <p style="margin: 0 0 10px 0;">
-          The page is an artifact of a hobby-level project that, at the point of engaging with a machine based intelligent assistant, was geared toward developing an environment where I could make notes about mathematics. It soon became apparent that my programming-partner was considerably better at compiling notes than me, and the project goal drifted toward the compilation of a customized text book on mathematics for me to read and study.
-        </p>
-        <p style="margin: 0;">
-          In this sense, I am in the same position as most others readers would be. The text describes some mathematics which I will need to study before fully comprehending.</p>
-      </div>
-    </details>
-
     <hr>
 
     <h3>1. Core Educational Responsibilities &amp; Complementary Roles</h3>
@@ -104,6 +90,21 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <p>
       But epistemological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more efficacious than its standard construction. In many ways, improvements to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by our model. We make no claims as to the foundational nature of our model. But we do claim its logical consistency, and it seems to serve its purpose well.
     </p>
+
+    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
+      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
+      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+        <p style="margin: 0 0 10px 0;">
+          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, specifically quantum statistical mechanics, the curriculum is not specifically designed for STEM bound students, and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies. The curriculum is designed for all students.
+        </p>
+        <p style="margin: 0 0 10px 0;">
+          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described in the introduction, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
+        </p>
+        <p style="margin: 0;">
+          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent although explicitly not comprehensive, and which supports the calculations needed to model quantum statistical mechanics.
+        </p>
+      </div>
+    </details>
 
     <hr>
 
@@ -151,20 +152,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Why not General Relativity?</b> General relativity is an elegant geometric theory, but it describes only gravity.</li>
       <li><b>Why Quantum Statistical Mechanics?</b> It describes the tangible everyday reality we directly interact with—how solid matter, temperature, pressure, and thermal equilibrium emerge from statistical averages over trillions of microscopic quantum degrees of freedom.</li>
     </ul>
-    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
-      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
-      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-        <p style="margin: 0 0 10px 0;">
-          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, specifically quantum statistical mechanics, the curriculum is not specifically designed for STEM bound students, and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies. The curriculum is designed for all students.
-        </p>
-        <p style="margin: 0 0 10px 0;">
-          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described in the introduction, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
-        </p>
-        <p style="margin: 0;">
-          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent although explicitly not comprehensive, and which supports the calculations needed to model quantum statistical mechanics.
-        </p>
-      </div>
-    </details>
+
 
     <hr>
 
