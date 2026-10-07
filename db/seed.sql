@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-07T15:38:32.894Z
+-- Generated At: 2026-10-07T15:52:37.346Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -95,13 +95,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
       <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
         <p style="margin: 0 0 10px 0;">
-          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, specifically quantum statistical mechanics, the curriculum is not specifically designed for STEM bound students, and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies. The curriculum is designed for all students.
-        </p>
+          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, the curriculum is not specifically designed for STEM oriented students, rather&nbsp;<span style="font-size: 0.95em;">The curriculum is designed for all students,&nbsp;</span><span style="font-size: 0.95em;">and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies. .</span></p>
         <p style="margin: 0 0 10px 0;">
-          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described in the introduction, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
+          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
         </p>
         <p style="margin: 0;">
-          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent although explicitly not comprehensive, and which supports the calculations needed to model quantum statistical mechanics.
+          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent, although explicitly not comprehensive, and which supports the calculations needed to formally model physical theories.
         </p>
       </div>
     </details>
