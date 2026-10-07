@@ -378,7 +378,53 @@ export const level1Index: IndexItemDesc[] = [
 ];
 
 // =====================================================================
-// Level 2: Continuum & Calculus
+// Level 2: Space, Direction & Geometry
+// =====================================================================
+
+export const vectorsIndex: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: linear algebra",
+    htmlSegmentId: "vectorFoundationsIntro",
+  },
+  {
+    type: "html",
+    topic: "lecture 1: emergent groups & fields",
+    htmlSegmentId: "vectorsLecture1",
+  },
+  {
+    type: "html",
+    topic: "lecture 2: structure-preserving maps",
+    htmlSegmentId: "vectorsLecture2",
+  },
+  {
+    type: "html",
+    topic: "lecture 3: vector spaces & duality",
+    htmlSegmentId: "vectorsLecture3",
+  },
+];
+
+export const level2Index: IndexItemDesc[] = [
+  {
+    type: "html",
+    topic: "overview: linear algebra & geometry",
+    htmlSegmentId: "vectorFoundationsIntro",
+  },
+  {
+    type: "index",
+    topic: "course 1: linear algebra",
+    navTopic: "linear algebra",
+    indexDesc: vectorsIndex,
+  },
+  {
+    type: "html",
+    topic: "course 2: trigonometry & rotor geometry",
+    htmlSegmentId: "stemTrigFoundations",
+  },
+];
+
+// =====================================================================
+// Level 3: Continuum & Calculus
 // =====================================================================
 
 export const analysis1DIndex: IndexItemDesc[] = [
@@ -427,7 +473,7 @@ export const analysis2DIndex: IndexItemDesc[] = [
   },
 ];
 
-export const level2Index: IndexItemDesc[] = [
+export const level3Index: IndexItemDesc[] = [
   {
     type: "html",
     topic: "overview: continuous analysis",
@@ -449,52 +495,6 @@ export const level2Index: IndexItemDesc[] = [
     topic: "course 2: analysis 2D",
     navTopic: "analysis 2D",
     indexDesc: analysis2DIndex,
-  },
-];
-
-// =====================================================================
-// Level 3: Space, Direction & Geometry
-// =====================================================================
-
-export const vectorsIndex: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "overview: linear algebra",
-    htmlSegmentId: "vectorFoundationsIntro",
-  },
-  {
-    type: "html",
-    topic: "lecture 1: emergent groups & fields",
-    htmlSegmentId: "vectorsLecture1",
-  },
-  {
-    type: "html",
-    topic: "lecture 2: structure-preserving maps",
-    htmlSegmentId: "vectorsLecture2",
-  },
-  {
-    type: "html",
-    topic: "lecture 3: vector spaces & duality",
-    htmlSegmentId: "vectorsLecture3",
-  },
-];
-
-export const level3Index: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "overview: linear algebra & geometry",
-    htmlSegmentId: "vectorFoundationsIntro",
-  },
-  {
-    type: "index",
-    topic: "course 1: linear algebra",
-    navTopic: "linear algebra",
-    indexDesc: vectorsIndex,
-  },
-  {
-    type: "html",
-    topic: "course 2: trigonometry & rotor geometry",
-    htmlSegmentId: "stemTrigFoundations",
   },
 ];
 
@@ -599,10 +599,10 @@ export const level6Index: IndexItemDesc[] = [
 // =====================================================================
 
 export const foundationIndex = level1Index;
-export const phase2AGeometryIndex = level3Index;
-export const phase2BAnalysisIndex = level2Index;
-export const analysisAndSeminarsIndex = level2Index;
-export const lamIndex = level2Index;
+export const phase2AGeometryIndex = level2Index;
+export const phase2BAnalysisIndex = level3Index;
+export const analysisAndSeminarsIndex = level3Index;
+export const lamIndex = level3Index;
 export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
 export const seminarsIndex = level6Index;
 
@@ -631,14 +631,14 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "index",
-    topic: "Level 2: Continuum & Calculus",
-    navTopic: "Continuum & Calculus",
+    topic: "Level 2: Space & Geometry",
+    navTopic: "Space & Geometry",
     indexDesc: level2Index,
   },
   {
     type: "index",
-    topic: "Level 3: Space & Geometry",
-    navTopic: "Space & Geometry",
+    topic: "Level 3: Continuum & Calculus",
+    navTopic: "Continuum & Calculus",
     indexDesc: level3Index,
   },
   {
