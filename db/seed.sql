@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-07T15:07:25.569Z
+-- Generated At: 2026-10-07T15:16:21.957Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
