@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-08T16:06:53.361Z
+-- Generated At: 2026-10-08T16:52:19.210Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -89,6 +89,10 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <p>
       But epistemological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more efficacious than its standard construction. In many ways, improvements to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by our model. We make no claims as to the foundational nature of our model. But we do claim its logical consistency, and it seems to serve its purpose well.
+    </p>
+
+    <p>
+      Angle offers another compact illustration. The experience of turning, or of two lines of sight opening from one vantage point, is the same everywhere and at every scale. Yet over four thousand years mathematics has represented it as a builder''s slope, a chord across a circle, a half-chord (the sine), a dimensionless real number (the radian), and an operator that rotates space (the rotor). None of these is <i>the</i> angle; each is a representation that made new questions answerable. When our Level 2 lecture on trigonometry represents angle as a path on a binary tree, it adds one more entry to this list — chosen because it supports exact, auditable calculation, not because it is claimed to be what angle really is.
     </p>
 
     <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
@@ -4786,6 +4790,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li><b>Physics-Free Mathematics First:</b> We establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
     <li><b>Physical Realizations Second:</b> Once the algebraic geometry is rock-solid, we introduce physical realizations &mdash; such as Dirac bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces &mdash; as concrete applications.</li>
   </ol>
+  <p>
+    Level 2 has two courses. <b>Linear Algebra</b> (sections 1&ndash;5 below) builds the algebraic skeleton: groups, fields, structure-preserving maps, and vector spaces. <b>Trigonometry &amp; Rotor Geometry</b> (section 6) puts that skeleton to work on the most familiar geometric idea of all &mdash; turning.
+  </p>
 
   <hr>
 
@@ -4893,11 +4900,33 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <hr>
 
-  <h3>Linear Algebra Lecture Plan</h3>
+  <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
+  <p>
+    The second course asks a simple question &mdash; <i>what is an angle?</i> &mdash; and answers it with the number trees from Level 1 and the maps from section 3.
+  </p>
+  <ul>
+    <li><b>From Triangles to Turning:</b> We start from the familiar presentation (SOH CAH TOA, then the unit circle and radians) and its open questions: how is a curved arc measured with straight rulers, how is <code>sin(35°)</code> actually computed, and how do static corners become continuous rotation?</li>
+    <li><b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the circle gives the perimeter <code>2π</code> as an exact sum, and the winding integral <code>∮ (1/z) dz = 2π i</code>.</li>
+    <li><b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the angle step. The half-angle rule <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète''s nested radicals, and the same left/right steering is the CORDIC algorithm used in hardware.</li>
+    <li><b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is the generator <code>i</code>, and an angle becomes a <b>unit rotor</b> <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors compose by multiplication &mdash; the phase map <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in action.</li>
+    <li><b>Euler''s Formula by Stepping:</b> Compounding <code>ω</code> perpendicular steps <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields <code>e^(iθ)</code> directly, without Taylor series.</li>
+  </ul>
+  <p>
+    Rotors are where the two courses meet: a rotor is a linear map on the vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix is the familiar <code>[ cos θ  -sin θ ; sin θ  cos θ ]</code>. This also sets up the complex phase that Level 5 needs for quantum amplitudes.
+  </p>
+
+  <hr>
+
+  <h3>Level 2 Lecture Plan</h3>
+  <p><b>Course 1: Linear Algebra</b></p>
   <ul>
     <li><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b> Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>, why fields eject zero, and continuous transformation groups.</li>
     <li><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b> Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection, the exponential bridge, and embedding dimensions.</li>
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
+  </ul>
+  <p><b>Course 2: Trigonometry &amp; Rotor Geometry</b></p>
+  <ul>
+    <li><b>Trigonometric Foundations &amp; Rotor Geometry:</b> A short history of angle, the standard presentation and its open questions, angle on the 1-, 2-, and 4-successor trees, CORDIC, unit rotors, Euler''s formula by perpendicular stepping, and why <code>2π i</code> appears in contour integrals.</li>
   </ul>
 ', 'published'),
   (16, 'vectorsLecture1', 15, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
@@ -5528,54 +5557,48 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   (19, 'stemTrigFoundations', 18, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
-    <div class="subtitle">
-      A Constructive STEM Perspective — Grounded in 1-Successor Counting, 2-Successor Dyadic Bisection, and the 4-Successor Complex Continuum
-    </div>
 
-    <!-- OPENING MOTIF: THE PHENOMENON VS THE MATHEMATICAL MODEL -->
+    <!-- OPENING: WHAT IS AN ANGLE? -->
     <div style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); border: 1.5px solid #93c5fd; border-radius: 10px; padding: 22px 26px; margin: 24px 0 28px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.05);">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #bfdbfe; padding-bottom: 8px;">
-        <span class="badge badge-blue" style="font-size: 0.8em; padding: 3px 9px;">Foundational Motif</span>
-        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">The Phenomenon vs. The Mathematical Model: What is an Angle?</h3>
+        <span class="badge badge-blue" style="font-size: 0.8em; padding: 3px 9px;">Opening Question</span>
+        <h3 style="margin: 0; font-size: 1.15em; color: #1e3a8a;">What is an Angle?</h3>
       </div>
       <p style="margin-top: 0; margin-bottom: 12px; font-size: 0.95em; line-height: 1.65; color: #1e293b;">
-        Long before degrees, sines, radians, or coordinate axes were invented, human beings directly experienced the <b>raw phenomenon of angularity</b>:
+        An angle is the <b>mutual inclination of two directions</b> meeting at a point. It can be read two ways: as an <i>opening</i> (two lines of sight diverging from one vantage point) or as an <i>instruction</i> (“turn this much”). Either way it is scale-free — the corner of a postage stamp and the corner of a city block are the same angle.
       </p>
-      <ul style="margin: 10px 0 14px; padding-left: 22px; font-size: 0.92em; color: #334155; line-height: 1.6;">
-        <li><b>Aperture of Sight:</b> Standing on a hilltop looking at two mountain peaks, our two lines of sight diverge from a single vantage point.</li>
-        <li><b>Operational Turn:</b> Navigating across a landscape or observing celestial bodies, an angle is not an object; it is an active kinematic instruction: <i>“turn this much.”</i></li>
-        <li><b>Scale-Invariance:</b> The corner of a postage stamp and a galactic quadrant subtend the exact same visual opening—angle is strictly scale-free and dimensionless.</li>
-      </ul>
       <p style="margin-bottom: 12px; font-size: 0.92em; line-height: 1.65; color: #1e293b;">
-        <b>The Map vs. Territory Paradigm:</b> An angle in itself is the <b>relative mutual inclination of two directions in space</b>. 
-        For thousands of years, mathematics confused this lived phenomenon with whatever computational tool was used to represent it:
+        Over the centuries, mathematics has represented angle in six main ways, each adding something its predecessors lacked:
       </p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 12px 0 14px;">
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #92400e;">1. Slope Model (Egypt/Babylon):</b><br>
-          Angle modeled as a physical ratio of stonebuilder''s rods (run / rise) or 360-day calendar steps.
+          <b style="color: #92400e;">1. Slope (Egypt/Babylon):</b><br>
+          A ratio of run to rise, or a step along a 360-part calendar circle.
         </div>
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #6b21a8;">2. Chord Model (Ptolemy):</b><br>
-          Angle modeled as a straight geometric line segment cutting across a reference circle.
+          <b style="color: #6b21a8;">2. Chord (Ptolemy):</b><br>
+          A straight line segment cutting across a reference circle.
         </div>
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #166534;">3. Altitude Model (India/Islam):</b><br>
-          Angle modeled as the right-triangle half-chord (sine) dropping onto the horizontal radius.
+          <b style="color: #166534;">3. Half-Chord / Sine (India/Islam):</b><br>
+          The right-triangle altitude dropped onto the horizontal radius.
         </div>
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #1e40af;">4. Analytical Model (Euler):</b><br>
-          Angle modeled as a continuous real number on ℝ and an imaginary logarithm (θ = Im(ln z)).
+          <b style="color: #1e40af;">4. Radian (Euler):</b><br>
+          A real number: arc length over radius, and θ = Im(ln z).
         </div>
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #475569;">5. Rotor Model (Clifford):</b><br>
-          Angle modeled as an active unitary rotation operator on space: v = U · u.
+          <b style="color: #475569;">5. Rotor (Clifford):</b><br>
+          An active rotation operator on space: v = U · u.
         </div>
         <div style="background: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 10px 12px; font-size: 0.88em;">
-          <b style="color: #1d4ed8;">6. The Tree Model (Middle Way):</b><br>
-          Angle modeled constructively as a <b>discrete binary path on a 2-successor tree</b>—a sequence of inward steering choices culminating at Day ω in the continuous complex plane ℂ_ω.
+          <b style="color: #1d4ed8;">6. Tree Path (this lecture):</b><br>
+          A <b>binary path on the 2-successor tree</b> — a sequence of inward steering choices arriving at Day ω in ℂ_ω.
         </div>
       </div>
+      <p style="margin-bottom: 0; font-size: 0.88em; line-height: 1.6; color: #475569;">
+        As discussed in the curriculum introduction, these are successive representations of one idea rather than competing answers to “what an angle really is.” This lecture builds the last two — tree paths and rotors — and shows how they recover everything the earlier ones offered.
+      </p>
     <!-- Collapsible Historical Foundations Section (navFW Return Control Integrated) -->
     <a name="historyOfAngleAnchor" id="historyOfAngleAnchor"></a>
     <details id="history-of-angle-section" style="margin-top: 18px; background-color: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(30, 58, 138, 0.04);">
@@ -5814,7 +5837,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <h2><span class="badge badge-blue">Section 1</span> The Pedagogical Bridge: How Trigonometry is Currently Presented (And Its Hidden Cracks)</h2>
 
     <p>
-      Before we explore how trigonometry is generated on balanced number trees, we must examine the <b>standard pedagogical model</b> taught in modern secondary and collegiate education. 
+      Before we explore how trigonometry is generated on balanced number trees, we must examine the <b>standard presentation</b> taught in modern secondary and collegiate education. 
       Every modern student is introduced to trigonometry through a two-phase progression: moving from <b>ratios inside a right triangle</b> to <b>points on the unit circle</b>.
     </p>
 
@@ -5825,13 +5848,13 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <!-- Graph paper grid pattern -->
           <defs>
             <pattern id="graph-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"></path>
             </pattern>
           </defs>
-          <rect width="460" height="410" fill="url(#graph-grid)" rx="6"/>
+          <rect width="460" height="410" fill="url(#graph-grid)" rx="6"></rect>
 
           <!-- Unit Circle: Center (230, 200), Radius R = 150 -->
-          <circle cx="230" cy="200" r="150" fill="none" stroke="#0f172a" stroke-width="2"/>
+          <circle cx="230" cy="200" r="150" fill="none" stroke="#0f172a" stroke-width="2"></circle>
 
           <!-- Total Circumference label at bottom: 2π -->
           <text x="230" y="385" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, serif" font-size="24" font-weight="bold" fill="#0f172a">2π</text>
@@ -5845,29 +5868,29 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           -->
 
           <!-- Right Angle Marker at (341.5, 200) -->
-          <path d="M 329.5 200 L 329.5 188 L 341.5 188" fill="none" stroke="#64748b" stroke-width="1.5"/>
+          <path d="M 329.5 200 L 329.5 188 L 341.5 188" fill="none" stroke="#64748b" stroke-width="1.5"></path>
 
           <!-- Horizontal base leg: s -->
-          <line x1="230" y1="200" x2="341.5" y2="200" stroke="#0f172a" stroke-width="2"/>
+          <line x1="230" y1="200" x2="341.5" y2="200" stroke="#0f172a" stroke-width="2"></line>
           <text x="286" y="224" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">s</text>
 
           <!-- Vertical perpendicular leg: p -->
-          <line x1="341.5" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <line x1="341.5" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"></line>
           <text x="326" y="155" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">p</text>
 
           <!-- Hypotenuse: h -->
-          <line x1="230" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"/>
+          <line x1="230" y1="200" x2="341.5" y2="99.6" stroke="#0f172a" stroke-width="2"></line>
           <text x="278" y="142" text-anchor="middle" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">h</text>
 
           <!-- Angle Arc for theta at origin (230, 200) -->
-          <path d="M 265 200 A 35 35 0 0 0 256 176.6" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+          <path d="M 265 200 A 35 35 0 0 0 256 176.6" fill="none" stroke="#0f172a" stroke-width="1.5"></path>
           <text x="216" y="206" text-anchor="middle" font-family="serif" font-size="22" font-style="italic" fill="#0f172a">θ</text>
 
           <!-- Straight Dotted Chord from apex (341.5, 99.6) to (380, 200) -->
-          <line x1="341.5" y1="99.6" x2="380" y2="200" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="3,6" stroke-linecap="round"/>
+          <line x1="341.5" y1="99.6" x2="380" y2="200" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="3,6" stroke-linecap="round"></line>
 
           <!-- Curved Arc along circle circumference from (380, 200) to (341.5, 99.6) -->
-          <path d="M 380 200 A 150 150 0 0 0 341.5 99.6" fill="none" stroke="#2563eb" stroke-width="3"/>
+          <path d="M 380 200 A 150 150 0 0 0 341.5 99.6" fill="none" stroke="#2563eb" stroke-width="3"></path>
           <text x="374" y="122" font-family="serif" font-size="20" font-style="italic" fill="#0f172a">c</text>
 
           <!-- Governing Identity Formula -->
@@ -5893,7 +5916,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           For an acute angle <code>θ</code> inside a Euclidean right triangle with hypotenuse <code>h</code>, perpendicular (opposite) side <code>p</code>, and adjacent base <code>s</code>:
         </p>
         <div class="formula-box" style="margin: 6px 0; font-size: 0.95em;">
-          sin(θ) = p / h &emsp;|&emsp; cos(θ) = s / h &emsp;|&emsp; tan(θ) = p / s
+          sin(θ) = p / h  |  cos(θ) = s / h  |  tan(θ) = p / s
         </div>
         <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
           Inverting these ratios recovers the angle: <code>θ = sin⁻¹(p / h) = cos⁻¹(s / h)</code>. 
@@ -5907,7 +5930,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           To liberate <code>θ</code> from the confines of an acute triangle, we set radius <code>h = 1</code> and inscribe the triangle inside a circle of radius 1 centered at the origin:
         </p>
         <div class="formula-box" style="margin: 6px 0; font-size: 0.95em; background: #ffffff; border-left-color: #2563eb;">
-          θ = arc length / radius = c / 1 = c &emsp; (Circumference = 2π)
+          θ = arc length / radius = c / 1 = c   (Circumference = 2π)
         </div>
         <p style="font-size: 0.9em; margin-top: 6px; color: #475569;">
           The apex coordinates on the circle are <code>(x, y) = (s, p) = (cos θ, sin θ)</code>, yielding the grand unifying identity:
@@ -5964,7 +5987,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         How do we bridge the straight chord to the curved arc <code>c</code> and compute <code>(s, p)</code> without a black box? 
         By <b>recursive half-angle bisection</b>:
         <div class="formula-box" style="margin: 6px 0;">
-          cos(θ / 2) = √[ (1 + cos θ) / 2 ] &emsp;|&emsp; sin(θ / 2) = √[ (1 - cos θ) / 2 ]
+          cos(θ / 2) = √[ (1 + cos θ) / 2 ]  |  sin(θ / 2) = √[ (1 - cos θ) / 2 ]
         </div>
         Every bisection is a direct step on the binary tree <code>ℝ_ω</code>. Ascending the tree through successive birthday bisections generates François Viète’s nested radicals and the <b>CORDIC hardware algorithm</b> (<code>binary_steering_choice</code>), allowing any student or microprocessor to compute trigonometric coordinates with exact integer shifts!
       </li>
@@ -5973,7 +5996,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         On the complex continuum <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, the right angle is not an unprovable postulate (Euclid Postulate 4) or an inert ray pair (Hilbert); it is the <b>discrete 90° rotation generator</b> <code>i = ⟨0, 1⟩</code> (cyclic step <code>north</code> on <code>Tree4</code>).
         The apex point is the complex unit rotor:
         <div class="formula-box" style="margin: 6px 0;">
-          U = s + i · p = cos(θ) + i · sin(θ) &emsp; with &emsp; s² + p² = h² = 1
+          U = s + i · p = cos(θ) + i · sin(θ)   with   s² + p² = h² = 1
         </div>
         Multiplying by <code>i</code> rotates <code>(s, p) → (-p, s)</code>, driving smooth continuous circulation <code>dz = z · i dθ</code> across all four quadrants with zero artificial stitching.
       </li>
@@ -6071,12 +6094,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       Perimeter = ∑[k=1 to ω] ds = ∑[k=1 to ω] (2π / ω) = ω · (2π / ω) = 2π
     </div>
     <p>
-      By Lean''s fundamental theorem of calculus scaffold (<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>), total accumulation along the 1-successor path is exact discrete algebra: <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code>. 
+      By Lean''s fundamental theorem of calculus scaffold (<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>), total accumulation along the 1-successor path is exact discrete algebra: <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code>. 
       The 1-successor trunk thus parameterizes the boundary of the unit circle <code>S¹_ω ≡ ℝ_ω / (2π ℤ)</code> as a uniform march of <code>ω</code> infinitesimal steps.
     </p>
 
     <p>
-      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>
+      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>
     </p>
 
     <h3>3. Complex Loop Circulation &amp; The Cauchy Winding Integral</h3>
@@ -6345,9 +6368,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       • <b>Directed Pair Signature:</b> <code>dyadic_angle : ℤ × ℕ → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Maps any discrete tree address <code>(m, n)</code> (numerator <code>m ∈ ℤ</code> and birthday level <code>n ∈ ℕ</code>) to the continuous angle:
       <div class="formula-box" style="margin: 8px 0;">
-        θ_{m, n} = 2π · (m / 2ⁿ) &emsp; where &emsp; m ∈ ℤ, &nbsp; n ∈ ℕ
+        θ_{m, n} = 2π · (m / 2ⁿ)   where   m ∈ ℤ, &nbsp; n ∈ ℕ
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator"><code>MiddleWay.dyadic_angle (m : Z_w) (n : N_w) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_angle (m : Z_w) (n : N_w) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
     </div>
 
     <!-- Formal Statement 1B: Dyadic Continuum Embedding -->
@@ -6356,26 +6379,26 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       • <b>Directed Pair Signature:</b> <code>dyadic_to_real : 𝔻 → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Unfolds any discrete dyadic node <code>d ∈ 𝔻</code> into the continuous hyperfinite ordered field <code>ℝ_ω</code>:
       <div class="formula-box" style="margin: 8px 0;">
-        d ↦ d.val &emsp; where &emsp; d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
+        d ↦ d.val   where   d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
-      • <b>Interactive Dyadic Sine Stencil:</b> <fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
+      • <b>Interactive Dyadic Sine Stencil:</b> <fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
     </div>
 
     <!-- Formal Statement 2: Rotor & Coordinate Projection -->
     <h4>Formal Statement (FS-TRIG-1.3): Certified Unit Rotor &amp; Coordinate Projection via Directed Pairs ℝ_ω → ℂ_ω &amp; ℝ_ω → UnitRotor</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
-      • <b>Directed Pair Signatures:</b> <code>angle_to_point : ℝ_ω → ℂ_ω</code> &emsp;and&emsp; <code>angle_to_rotor : ℝ_ω → UnitRotor</code><br>
+      • <b>Directed Pair Signatures:</b> <code>angle_to_point : ℝ_ω → ℂ_ω</code>  and  <code>angle_to_rotor : ℝ_ω → UnitRotor</code><br>
       • <b>Assignment Rule:</b> Embeds an angle <code>θ</code> as a complex point or a certified unitary rotor on the circle:
       <div class="formula-box" style="margin: 8px 0;">
-        θ ↦ ⟨cos(θ), sin(θ)⟩ &emsp; with invariant &emsp; |U(θ)|² = cos²(θ) + sin²(θ) = 1
+        θ ↦ ⟨cos(θ), sin(θ)⟩   with invariant   |U(θ)|² = cos²(θ) + sin²(θ) = 1
       </div>
       • <b>Circle Map from Dyadics:</b> The composite directed pair <code>dyadic_to_rotor : 𝔻 → UnitRotor</code> maps fractional turns directly to group rotations:
       <div class="formula-box" style="margin: 8px 0;">
         d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
-      • <b>Interactive Rotor Projection Stencil:</b> <fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
+      • <b>Interactive Rotor Projection Stencil:</b> <fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
     </div>
 
     <!-- Formal Statement 2B: Circle Quotient Isomorphism -->
@@ -6386,7 +6409,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <div class="formula-box" style="margin: 8px 0;">
         θ ∈ [0, 2π) ↦ ⟨⟨cos(θ), sin(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:R_w_circle" title="Quotient Circle S¹_ω"><code>MiddleWay.R_w_circle</code></fsd-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:R_w_circle" title="Quotient Circle S¹_ω" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.R_w_circle</code></fsd-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
     </div>
 
     <!-- Formal Statement 3: Ptolemaic Half-Angle Bisection -->
@@ -6395,21 +6418,21 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       • <b>Directed Pair Signature:</b> <code>cos_half_angle : ℝ_ω → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Maps the cosine of an existing angle to the cosine of the bisected daughter branch:
       <div class="formula-box" style="margin: 8px 0;">
-        c ↦ √[ (1 + c) / 2 ] &emsp; satisfying &emsp; cos_half_angle(cos θ) = cos(θ / 2)
+        c ↦ √[ (1 + c) / 2 ]   satisfying   cos_half_angle(cos θ) = cos(θ / 2)
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:cos_half_angle" title="Ptolemaic Half-Angle Bisection"><code>MiddleWay.cos_half_angle (c : R_w) : R_w</code></fsd-ref> governs recursive Viète radical propagation down the positive spine.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:cos_half_angle" title="Ptolemaic Half-Angle Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.cos_half_angle (c : R_w) : R_w</code></fsd-ref> governs recursive Viète radical propagation down the positive spine.
     </div>
 
     <!-- Formal Statement 4: Polygonal Horn Rim Chord -->
     <h4>Formal Statement (FS-TRIG-1.6): Polygonal Horn Rim Chord via Directed Pair ℝ_ω → ℝ_ω</h4>
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; font-size: 0.92em; margin-bottom: 20px;">
-      • <b>Directed Pair Signature:</b> <code>chord_length : ℝ_ω → ℝ_ω</code> &emsp;and&emsp; <code>circle_chord : ℝ_ω:mod(2π) → ℝ_ω</code><br>
+      • <b>Directed Pair Signature:</b> <code>chord_length : ℝ_ω → ℝ_ω</code>  and  <code>circle_chord : ℝ_ω:mod(2π) → ℝ_ω</code><br>
       • <b>Assignment Rule:</b> Maps the central turning angle <code>Δθ</code> to the Euclidean chord length connecting consecutive polygonal vertices:
       <div class="formula-box" style="margin: 8px 0;">
-        c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ] &emsp; (for R = 1)
+        c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ]   (for R = 1)
       </div>
       • <b>Polygonal Horn Curvature:</b> While the radial position vectors <code>(O → p_k)</code> are unturning rays fanning out from the root to frame the upper half-plane, each rim chord <code>(p_k → p_k+1)</code> undergoes an <b>inward angular deflection</b> of <code>Δθ</code> at every vertex, causing the polygonal boundary to curve tightly and wrap around the origin into a polygonal horn.<br>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:chord_length" title="Polygonal Rim Chord"><code>MiddleWay.chord_length (delta_theta : R_w) : R_w</code></fsd-ref> grounds the Ptolemaic and Archimedean chord transformations.
+      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:chord_length" title="Polygonal Rim Chord" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.chord_length (delta_theta : R_w) : R_w</code></fsd-ref> grounds the Ptolemaic and Archimedean chord transformations.
     </div>
 
     <h3 style="margin-top: 36px;">3. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
@@ -6482,7 +6505,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       e^(i · 3π/2) = -i &nbsp;&nbsp;(South, 270°)
     </div>
     <p>
-      As explored in our foundational discussion of Numbers & Trees, <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
+      As explored in our foundational discussion of Numbers &amp; Trees, <code>ℂ_ω</code> can be visualized as <b>two 180° polar fans spreading out back-to-back</b> from the root:
     </p>
     <ul>
       <li><b>Fan 1 (Upper Half-Plane):</b> Sweeps angles <code>0° → 180°</code>.</li>
@@ -16820,10 +16843,10 @@ INSERT INTO segment_references (
   (6, 18, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
   (7, 18, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
   (8, 18, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (9, 19, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (10, 19, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (11, 19, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (12, 19, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (9, 19, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (10, 19, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (11, 19, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (12, 19, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
   (13, 23, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
   (14, 23, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
   (15, 23, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),

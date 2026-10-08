@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Level 2 Overview: Linear Algebra &amp; Directional Space</title>
+  <title>Level 2 Overview: Linear Algebra, Trigonometry &amp; Rotor Geometry</title>
 </head>
 
 <body>
@@ -25,6 +25,9 @@
     <li><b>Physics-Free Mathematics First:</b> We establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
     <li><b>Physical Realizations Second:</b> Once the algebraic geometry is rock-solid, we introduce physical realizations &mdash; such as Dirac bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces &mdash; as concrete applications.</li>
   </ol>
+  <p>
+    Level 2 has two courses. <b>Linear Algebra</b> (sections 1&ndash;5 below) builds the algebraic skeleton: groups, fields, structure-preserving maps, and vector spaces. <b>Trigonometry &amp; Rotor Geometry</b> (section 6) puts that skeleton to work on the most familiar geometric idea of all &mdash; turning.
+  </p>
 
   <hr>
 
@@ -132,11 +135,33 @@
 
   <hr>
 
-  <h3>Linear Algebra Lecture Plan</h3>
+  <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
+  <p>
+    The second course asks a simple question &mdash; <i>what is an angle?</i> &mdash; and answers it with the number trees from Level 1 and the maps from section 3.
+  </p>
+  <ul>
+    <li><b>From Triangles to Turning:</b> We start from the familiar presentation (SOH CAH TOA, then the unit circle and radians) and its open questions: how is a curved arc measured with straight rulers, how is <code>sin(35°)</code> actually computed, and how do static corners become continuous rotation?</li>
+    <li><b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the circle gives the perimeter <code>2π</code> as an exact sum, and the winding integral <code>∮ (1/z) dz = 2π i</code>.</li>
+    <li><b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the angle step. The half-angle rule <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète's nested radicals, and the same left/right steering is the CORDIC algorithm used in hardware.</li>
+    <li><b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is the generator <code>i</code>, and an angle becomes a <b>unit rotor</b> <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors compose by multiplication &mdash; the phase map <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in action.</li>
+    <li><b>Euler's Formula by Stepping:</b> Compounding <code>ω</code> perpendicular steps <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields <code>e^(iθ)</code> directly, without Taylor series.</li>
+  </ul>
+  <p>
+    Rotors are where the two courses meet: a rotor is a linear map on the vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix is the familiar <code>[ cos θ  -sin θ ; sin θ  cos θ ]</code>. This also sets up the complex phase that Level 5 needs for quantum amplitudes.
+  </p>
+
+  <hr>
+
+  <h3>Level 2 Lecture Plan</h3>
+  <p><b>Course 1: Linear Algebra</b></p>
   <ul>
     <li><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b> Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>, why fields eject zero, and continuous transformation groups.</li>
     <li><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b> Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection, the exponential bridge, and embedding dimensions.</li>
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
+  </ul>
+  <p><b>Course 2: Trigonometry &amp; Rotor Geometry</b></p>
+  <ul>
+    <li><b>Trigonometric Foundations &amp; Rotor Geometry:</b> A short history of angle, the standard presentation and its open questions, angle on the 1-, 2-, and 4-successor trees, CORDIC, unit rotors, Euler's formula by perpendicular stepping, and why <code>2π i</code> appears in contour integrals.</li>
   </ul>
 </body>
 </html>
