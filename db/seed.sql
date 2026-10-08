@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-07T16:00:54.163Z
+-- Generated At: 2026-10-08T16:06:53.361Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -167,16 +167,16 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Numbers &amp; Graph Trees:</b> Well-ordering on <code>ℕ</code>, transfinite Day <code>ω</code> as the supremum limit ordinal, and generating 1D <code>ℝ_ω</code> and 2D <code>ℂ_ω</code> continua with infinitesimal step size <code>dx = 1/ω</code>.</li>
     </ul>
 
-    <h4>Level 2: Continuum &amp; Calculus</h4>
-    <ul>
-      <li><b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference quotients, nonstandard microscopes, and the telescoping Fundamental Theorem of Calculus.</li>
-      <li><b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete contour integrals, and phase evolution.</li>
-    </ul>
-
-    <h4>Level 3: Space, Direction &amp; Geometry</h4>
+    <h4>Level 2: Space, Direction &amp; Geometry</h4>
     <ul>
       <li><b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures, linear transformations, and geometric duality.</li>
       <li><b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic operators, angle measures, and geometric products.</li>
+    </ul>
+
+    <h4>Level 3: Continuum &amp; Calculus</h4>
+    <ul>
+      <li><b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference quotients, nonstandard microscopes, and the telescoping Fundamental Theorem of Calculus.</li>
+      <li><b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete contour integrals, and phase evolution.</li>
     </ul>
 
     <h4>Level 4: Growth &amp; The Logarithm</h4>
@@ -300,17 +300,13 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
     <p>The following diagram illustrates this foundational ontology:</p>
     <div align="center" style="margin: 16px 0;">
-      <svg data-diagram-name="ontologyModel"  xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light dark;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="552px" height="572px" viewBox="0 0 552 572" id="ge-svg-KCFpx29P9SnLF0kx3I_v" content="&lt;mxfile host=&quot;embed.diagrams.net&quot; agent=&quot;Mozilla/5.0 (Windows NT         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0         Safari/537.36&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-KCFpx29P9SnLF0kx3I_v { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); } }</style><defs/><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g transform="translate(0.5,0.5)"><ellipse cx="275.5" cy="20.96" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 21px; margin-left: 220px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">proposition</div></div></div></foreignObject><text x="276" y="25" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">proposition</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g transform="translate(0.5,0.5)"><ellipse cx="161.71" cy="220.95" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 221px; margin-left: 106px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">quantifier</div></div></div></foreignObject><text x="162" y="225" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">quantifier</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g transform="translate(0.5,0.5)"><ellipse cx="398.78" cy="230.51" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 231px; margin-left: 343px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">predicate</div></div></div></foreignObject><text x="399" y="234" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">predicate</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g transform="translate(0.5,0.5)"><ellipse cx="398.78" cy="322.72" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 323px; margin-left: 343px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">function</div></div></div></foreignObject><text x="399" y="326" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">function</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g transform="translate(0.5,0.5)"><ellipse cx="341.88" cy="427.5" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 428px; margin-left: 286px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed-pair</div></div></div></foreignObject><text x="342" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed-pair</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g transform="translate(0.5,0.5)"><ellipse cx="142.74" cy="314.34" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 314px; margin-left: 87px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set</div></div></div></foreignObject><text x="143" y="318" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g transform="translate(0.5,0.5)"><rect x="436.71" y="469.41" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 447.71 469.41 L 447.71 494.56 M 539.5 469.41 L 539.5 494.56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 482px; margin-left: 450px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set constructor</div></div></div></foreignObject><text x="494" y="486" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set constructor</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-8"><g transform="translate(0.5,0.5)"><rect x="436.71" y="414.93" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 447.71 414.93 L 447.71 440.07 M 539.5 414.93 L 539.5 440.07" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 428px; margin-left: 450px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">rule</div></div></div></foreignObject><text x="494" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">rule</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-11"><g transform="translate(0.5,0.5)"><ellipse cx="275.5" cy="104.78" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 105px; margin-left: 220px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">formal statement</div></div></div></foreignObject><text x="276" y="108" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">formal statement</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-12"><g transform="translate(0.5,0.5)"><path d="M 275.5 83.82 L 275.5 60.03" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 275.5 43.03 L 284 60.03 L 267 60.03 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 72px; margin-left: 296px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="296" y="75" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-16"><g transform="translate(0.5,0.5)"><path d="M 275.5 141.72 L 275.5 168.07 L 150.57 168.07 L 150.57 198.17" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 275.5 126.72 L 279.91 134.22 L 275.5 141.72 L 271.09 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 144.07 186.29 L 150.57 199.29 L 157.07 186.29" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-17"><g transform="translate(0.5,0.5)"><path d="M 275.5 141.72 L 275.5 167.67 L 398.83 167.67 L 398.78 207.32" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 275.5 126.72 L 279.91 134.22 L 275.5 141.72 L 271.09 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 392.3 195.43 L 398.78 208.44 L 405.3 195.45" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-18"><g transform="translate(0.5,0.5)"><path d="M 398.78 251.47 L 398.78 283.65" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 398.78 300.65 L 390.28 283.65 L 407.28 283.65 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 266px; margin-left: 379px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="379" y="269" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-21"><g transform="translate(0.5,0.5)"><path d="M 398.81 359.66 L 398.83 373 L 493.63 373 L 493.63 402.33 L 493.61 412.69" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 398.78 344.66 L 403.2 352.15 L 398.81 359.66 L 394.38 352.17 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 487.14 400.79 L 493.61 413.81 L 500.14 400.82" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-22"><g transform="translate(0.5,0.5)"><path d="M 398.81 359.66 L 398.83 373 L 341.9 373 L 341.9 402.33 L 341.89 404.31" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 398.78 344.66 L 403.2 352.15 L 398.81 359.66 L 394.38 352.17 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 335.45 392.39 L 341.88 405.43 L 348.45 392.46" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g transform="translate(0.5,0.5)"><ellipse cx="57.4" cy="549.04" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">number set</div></div></div></foreignObject><text x="57" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">number set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-28"><g transform="translate(0.5,0.5)"><path d="M 57.4 528.09 L 97.94 346.61" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 101.65 330.02 L 106.24 348.46 L 89.65 344.75 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 387px; margin-left: 125px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="125" y="391" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-29"><g transform="translate(0.5,0.5)"><ellipse cx="237.57" cy="549.04" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 182px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">constructed set</div></div></div></foreignObject><text x="238" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">constructed set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-30"><g transform="translate(0.5,0.5)"><path d="M 341.88 448.46 L 289.17 519.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 279.08 533.56 L 282.33 514.83 L 296.01 524.92 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 461px; margin-left: 308px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="308" y="465" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-31"><g transform="translate(0.5,0.5)"><path d="M 237.57 512.1 L 237.63 314.33 L 201.87 314.34" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 237.57 527.1 L 233.16 519.6 L 237.57 512.1 L 241.98 519.6 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 213.76 307.84 L 200.76 314.34 L 213.76 320.84" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 498px; margin-left: 215px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">2</div></div></div></foreignObject><text x="215" y="498" fill="#000000" font-family="Helvetica" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">2</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-37"><g transform="translate(0.5,0.5)"><path d="M 294.47 549.04 L 493.6 549.04 L 493.6 500.93" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 493.6 495.68 L 497.1 502.68 L 493.6 500.93 L 490.1 502.68 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g><rect x="427.22" y="519.71" width="56.9" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 55px; height: 1px; padding-top: 528px; margin-left: 428px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">requires</div></div></div></foreignObject><text x="456" y="532" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">requires</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-39"><g><rect x="284.98" y="130" width="18.97" height="25.15" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 17px; height: 1px; padding-top: 143px; margin-left: 286px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><span style="font-size:         18px;">*</span></div></div></div></foreignObject><text x="294" y="146" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">*</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-42"><g transform="translate(0.5,0.5)"><path d="M 205.82 534.67 L 148.21 352.57" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 143.08 336.36 L 156.31 350 L 140.1 355.13 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g transform="translate(0.5,0.5)"><ellipse cx="77.4" cy="120.96" rx="56.89655172413793" ry="20.955882352941178" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 121px; margin-left: 21px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Boolean values</div></div></div></foreignObject><text x="77" y="125" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Boolean values</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-46"><g transform="translate(0.5,0.5)"><path d="M 77.4 141.91 L 99.12 281.85" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 101.72 298.65 L 90.72 283.15 L 107.52 280.54 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 265px; margin-left: 61px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="61" y="268" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
+      <svg data-diagram-name="ontologyModel" xmlns="http://www.w3.org/2000/svg" style="background: transparent; color-scheme: light dark; cursor: pointer;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="552px" height="572px" viewBox="0 0 552 572" id="ge-svg-MBL6xy6uBDkPAxJBHw_e" content="&lt;mxfile host=&quot;embed.diagrams.net&quot; agent=&quot;Mozilla/5.0 (Windows NT         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0         Safari/537.36&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-MBL6xy6uBDkPAxJBHw_e { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); } }</style><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g transform="translate(0.5,0.5)"><ellipse cx="275" cy="20.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 21px; margin-left: 219px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">proposition</div></div></div></foreignObject><text x="275" y="25" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">proposition</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g transform="translate(0.5,0.5)"><ellipse cx="161.21" cy="220.95" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 221px; margin-left: 105px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">quantifier</div></div></div></foreignObject><text x="161" y="225" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">quantifier</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g transform="translate(0.5,0.5)"><ellipse cx="421.9" cy="230.95" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 231px; margin-left: 366px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">predicate</div></div></div></foreignObject><text x="422" y="235" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">predicate</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g transform="translate(0.5,0.5)"><ellipse cx="406.9" cy="322.72" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 323px; margin-left: 351px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">function</div></div></div></foreignObject><text x="407" y="326" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">function</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g transform="translate(0.5,0.5)"><ellipse cx="341.38" cy="427.5" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 428px; margin-left: 285px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed-pair</div></div></div></foreignObject><text x="341" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed-pair</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g transform="translate(0.5,0.5)"><ellipse cx="142.24" cy="314.34" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 314px; margin-left: 86px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set</div></div></div></foreignObject><text x="142" y="318" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g transform="translate(0.5,0.5)"><rect x="436.21" y="469.41" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 447.21 469.41 L 447.21 494.56 M 539 469.41 L 539 494.56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 482px; margin-left: 448px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set constructor</div></div></div></foreignObject><text x="493" y="486" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set constructor</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-8"><g transform="translate(0.5,0.5)"><rect x="436.21" y="414.93" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 447.21 414.93 L 447.21 440.07 M 539 414.93 L 539 440.07" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 428px; margin-left: 448px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">rule</div></div></div></foreignObject><text x="493" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">rule</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-11"><g transform="translate(0.5,0.5)"><ellipse cx="275" cy="104.78" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 105px; margin-left: 219px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">formal statement</div></div></div></foreignObject><text x="275" y="108" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">formal statement</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-12"><g transform="translate(0.5,0.5)"><path d="M 275 83.82 L 275 60.03" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 43.03 L 283.5 60.03 L 266.5 60.03 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 72px; margin-left: 295px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="295" y="75" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-16"><g transform="translate(0.5,0.5)"><path d="M 275 141.72 L 275 168 L 150 168 L 150 198.17" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.72 L 279.41 134.22 L 275 141.72 L 270.59 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 143.5 186.29 L 150 199.29 L 156.5 186.29" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-17"><g transform="translate(0.5,0.5)"><path d="M 275 141.72 L 275 167.7 L 421.9 167.7 L 421.9 207.76" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.72 L 279.41 134.22 L 275 141.72 L 270.59 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 415.4 195.88 L 421.9 208.88 L 428.4 195.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-18"><g transform="translate(0.5,0.5)"><path d="M 421.9 251.91 L 412.12 284.42" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 407.22 300.69 L 403.98 281.97 L 420.26 286.86 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 261px; margin-left: 398px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="398" y="264" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-21"><g transform="translate(0.5,0.5)"><path d="M 406.9 359.66 L 406.9 373 L 398.3 373 L 493.1 373 L 493.1 412.69" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 406.9 344.66 L 411.31 352.16 L 406.9 359.66 L 402.49 352.16 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 486.6 400.81 L 493.1 413.81 L 499.6 400.81" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-22"><g transform="translate(0.5,0.5)"><path d="M 406.9 359.66 L 406.9 373 L 398.3 373 L 341.4 373 L 341.38 404.31" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 406.9 344.66 L 411.31 352.16 L 406.9 359.66 L 402.49 352.16 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 334.89 392.42 L 341.38 405.43 L 347.89 392.43" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g transform="translate(0.5,0.5)"><ellipse cx="56.9" cy="549.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">number set</div></div></div></foreignObject><text x="57" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">number set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-28"><g transform="translate(0.5,0.5)"><path d="M 56.9 528.09 L 97.44 346.61" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 101.15 330.02 L 105.74 348.46 L 89.15 344.75 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 387px; margin-left: 124px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="124" y="391" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-29"><g transform="translate(0.5,0.5)"><ellipse cx="237.07" cy="549.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 181px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">constructed set</div></div></div></foreignObject><text x="237" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">constructed set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-30"><g transform="translate(0.5,0.5)"><path d="M 341.38 448.46 L 288.67 519.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 278.58 533.56 L 281.83 514.83 L 295.51 524.92 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 462px; margin-left: 307px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="307" y="465" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-31"><g transform="translate(0.5,0.5)"><path d="M 237.07 512.1 L 237.1 314.3 L 201.37 314.34" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 237.07 527.1 L 232.66 519.6 L 237.07 512.1 L 241.48 519.6 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 213.25 307.82 L 200.26 314.34 L 213.26 320.82" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 498px; margin-left: 214px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">2</div></div></div></foreignObject><text x="214" y="498" fill="#000000" font-family="Helvetica" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">2</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-37"><g transform="translate(0.5,0.5)"><path d="M 293.97 549.04 L 493.1 549.04 L 493.1 500.93" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 493.1 495.68 L 496.6 502.68 L 493.1 500.93 L 489.6 502.68 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g><rect x="426.72" y="519.71" width="56.9" height="16.76" fill="none" stroke="none" pointer-events="all"></rect></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 55px; height: 1px; padding-top: 528px; margin-left: 428px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">requires</div></div></div></foreignObject><text x="455" y="532" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">requires</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-39"><g><rect x="284.48" y="130" width="18.97" height="25.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 17px; height: 1px; padding-top: 143px; margin-left: 285px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><span style="font-size:         18px;">*</span></div></div></div></foreignObject><text x="294" y="146" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">*</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-42"><g transform="translate(0.5,0.5)"><path d="M 205.32 534.67 L 147.71 352.57" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 142.58 336.36 L 155.81 350 L 139.6 355.13 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g transform="translate(0.5,0.5)"><ellipse cx="76.9" cy="120.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 121px; margin-left: 21px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Boolean values</div></div></div></foreignObject><text x="77" y="125" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Boolean values</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-46"><g transform="translate(0.5,0.5)"><path d="M 76.9 141.91 L 98.62 281.85" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 101.22 298.65 L 90.22 283.15 L 107.02 280.54 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 265px; margin-left: 61px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="61" y="268" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-3"><g transform="translate(0.5,0.5)"><path d="M 291.9 210 L 291.9 167.9 L 275 167.9 L 275 132.1" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.85 L 278.5 133.85 L 275 132.1 L 271.5 133.85 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-1"><g transform="translate(0.5,0.5)"><ellipse cx="291.9" cy="230.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 231px; margin-left: 236px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">logical operator</div></div></div></foreignObject><text x="292" y="235" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">logical operator</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
     <p>
       The conceptual model is complemented by the middle way math
       computational model, as illustrated in the following diagram.<br>
     </p>
     <div align="center" style="margin: 16px 0;">
-      <svg xmlns="http://www.w3.org/2000/svg"
-        data-diagram-name="computationalModel"
-        style="cursor:pointer;width:100%;max-width:641px;height:auto;display:block;margin:0 auto;"
-        xlink="http://www.w3.org/1999/xlink" version="1.1" width="641px"
-        viewBox="-0.5 -0.5 641 686" content="&lt;mxfile
+      <svg xmlns="http://www.w3.org/2000/svg" data-diagram-name="computationalModel" style="cursor:pointer;width:100%;max-width:641px;height:auto;display:block;margin:0 auto;" xlink="http://www.w3.org/1999/xlink" version="1.1" width="641px" viewBox="-0.5 -0.5 641 686" content="&lt;mxfile
         host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT
         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0
@@ -547,27 +543,12 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         &lt;/mxGeometry&gt; &lt;/mxCell&gt; &lt;/root&gt;
         &lt;/mxGraphModel&gt; &lt;/diagram&gt;
         &lt;/mxfile&gt;
-        "><defs></defs><g><g
-            data-cell-id="0"><g data-cell-id="1"><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-7"><g
-                  transform="translate(0.5,0.5)"><path d="M 0 173 L 0
-                    150 L 200 150 L 200 173" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 173 L 0 210 L 200 210 L 200 173" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="none" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 173 L 200 173" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="none"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+        " title="Double-click to edit diagram in Draw.io"><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-7"><g transform="translate(0.5,0.5)"><path d="M 0 173 L 0
+                    150 L 200 150 L 200 173" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 173 L 0 210 L 200 210 L 200 173" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 173 L 200 173" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           198px; height: 1px; padding-top: 162px;
                           margin-left: 1px;">
@@ -581,30 +562,13 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               word-wrap: normal; ">Formal Statement</div>
                           </div>
                         </div>
-                      </foreignObject><text x="100" y="165"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle" font-weight="bold">Formal
-                        Statement</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-8"><g
-                  transform="translate(0.5,0.5)"><path d="M 0 353 L 0
-                    330 L 200 330 L 200 353" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 353 L 0 390 L 200 390 L 200 353" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="none" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 353 L 200 353" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="none"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                      </foreignObject><text x="100" y="165" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">Formal
+                        Statement</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-8"><g transform="translate(0.5,0.5)"><path d="M 0 353 L 0
+                    330 L 200 330 L 200 353" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 353 L 0 390 L 200 390 L 200 353" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 353 L 200 353" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           198px; height: 1px; padding-top: 342px;
                           margin-left: 1px;">
@@ -618,29 +582,12 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               word-wrap: normal; ">Theorem</div>
                           </div>
                         </div>
-                      </foreignObject><text x="100" y="345"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle" font-weight="bold">Theorem</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-10"><g
-                  transform="translate(0.5,0.5)"><path d="M 0 492 L 0
-                    469 L 200 469 L 200 492" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 492 L 0 530 L 200 530 L 200 492" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="none" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 0 492 L 200 492" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="none"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                      </foreignObject><text x="100" y="345" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">Theorem</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-10"><g transform="translate(0.5,0.5)"><path d="M 0 492 L 0
+                    469 L 200 469 L 200 492" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 492 L 0 530 L 200 530 L 200 492" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 0 492 L 200 492" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           198px; height: 1px; padding-top: 481px;
                           margin-left: 1px;">
@@ -654,21 +601,9 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               word-wrap: normal; ">Theorem Instantiation</div>
                           </div>
                         </div>
-                      </foreignObject><text x="100" y="484"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle" font-weight="bold">Theorem
-                        Instantiation</text></switch></g></g><g
-                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-61"><g
-                    transform="translate(0.5,0.5)"><rect x="60" y="500"
-                      width="90" height="30" fill="none" stroke="none"
-                      pointer-events="all"></rect></g><g><g><switch><foreignObject
-                          style="overflow: visible; text-align: left;"
-                          pointer-events="none" width="100%"
-                          height="100%"
-                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                          <div xmlns="http://www.w3.org/1999/xhtml"
-                            style="display: flex; align-items: unsafe
+                      </foreignObject><text x="100" y="484" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">Theorem
+                        Instantiation</text></switch></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-61"><g transform="translate(0.5,0.5)"><rect x="60" y="500" width="90" height="30" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                             center; justify-content: unsafe center;
                             width: 88px; height: 1px; padding-top:
                             515px; margin-left: 61px;">
@@ -683,29 +618,12 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                                 ">(e.g. function)</div>
                             </div>
                           </div>
-                        </foreignObject><text x="105" y="519"
-                          fill="light-dark(#000000, #ffffff)"
-                          font-family="Helvetica" font-size="12px"
-                          text-anchor="middle">(e.g. function)</text></switch></g></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-11"><g
-                  transform="translate(0.5,0.5)"><path d="M 340 333 L
-                    340 310 L 540 310 L 540 333" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 340 333 L 340 410 L 540 410 L 540 333"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="none" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 340 333 L 540 333" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="none"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                        </foreignObject><text x="105" y="519" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">(e.g. function)</text></switch></g></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-11"><g transform="translate(0.5,0.5)"><path d="M 340 333 L
+                    340 310 L 540 310 L 540 333" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 340 333 L 340 410 L 540 410 L 540 333" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 340 333 L 540 333" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           198px; height: 1px; padding-top: 322px;
                           margin-left: 341px;">
@@ -720,53 +638,22 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               Equality&nbsp;</div>
                           </div>
                         </div>
-                      </foreignObject><text x="440" y="325"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle" font-weight="bold">Directed
-                        Equality&nbsp;</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-13"><g
-                  transform="translate(0.5,0.5)"><path d="M 440 310 L
-                    440 260 L 100 260 L 100 228.12" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 100 211.12 L 108.5 228.12 L 91.5 228.12 Z"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-15"><g
-                  transform="translate(0.5,0.5)"><path d="M 100 330 L
-                    100 228.12" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="stroke"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                      </foreignObject><text x="440" y="325" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">Directed
+                        Equality&nbsp;</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-13"><g transform="translate(0.5,0.5)"><path d="M 440 310 L
+                    440 260 L 100 260 L 100 228.12" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 100 211.12 L 108.5 228.12 L 91.5 228.12 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-15"><g transform="translate(0.5,0.5)"><path d="M 100 330 L
+                    100 228.12" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 100 211.12 L 108.5
-                    228.12 L 91.5 228.12 Z" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-23"><g
-                  transform="translate(0.5,0.5)"><path d="M 215.99
-                    499.51 L 270.06 499.53 L 270.06 360 L 337.76 360"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 200.99 499.5 L 208.49 495.09 L 215.99 499.51 L
-                    208.48 503.92 Z" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    228.12 L 91.5 228.12 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-23"><g transform="translate(0.5,0.5)"><path d="M 215.99
+                    499.51 L 270.06 499.53 L 270.06 360 L 337.76 360" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 200.99 499.5 L 208.49 495.09 L 215.99 499.51 L
+                    208.48 503.92 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 325.88 366.5 L 338.88
-                    360 L 325.88 353.5" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g
-                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-24"><g><g><switch><foreignObject
-                          style="overflow: visible; text-align: left;"
-                          pointer-events="none" width="100%"
-                          height="100%"
-                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                          <div xmlns="http://www.w3.org/1999/xhtml"
-                            style="display: flex; align-items: unsafe
+                    360 L 325.88 353.5" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-24"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                             flex-start; justify-content: unsafe
                             flex-start; width: 1px; height: 1px;
                             padding-top: 507px; margin-left: 222px;">
@@ -782,28 +669,12 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                                 white-space: nowrap; ">1</div>
                             </div>
                           </div>
-                        </foreignObject><text x="222" y="518"
-                          fill="light-dark(#000000, #ffffff)"
-                          font-family="Helvetica" font-size="11px">1</text></switch></g></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-26"><g
-                  transform="translate(0.5,0.5)"><path d="M 290 533 L
-                    290 510 L 490 510 L 490 533" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 290 533 L 290 570 L 490 570 L 490 533"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="none" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 290 533 L 490 533" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="none"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                        </foreignObject><text x="222" y="518" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px">1</text></switch></g></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-26"><g transform="translate(0.5,0.5)"><path d="M 290 533 L
+                    290 510 L 490 510 L 490 533" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 290 533 L 290 570 L 490 570 L 490 533" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 290 533 L 490 533" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           198px; height: 1px; padding-top: 522px;
                           margin-left: 291px;">
@@ -818,25 +689,14 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               (stencil)</div>
                           </div>
                         </div>
-                      </foreignObject><text x="390" y="525"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle" font-weight="bold">calculator
-                        template (stencil)</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-29"><g
-                  transform="translate(0.5,0.5)"><path d="M 365 85 C 313
+                      </foreignObject><text x="390" y="525" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">calculator
+                        template (stencil)</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-29"><g transform="translate(0.5,0.5)"><path d="M 365 85 C 313
                     85 300 120 341.6 127 C 300 142.4 346.8 176 380.6 162
                     C 404 190 482 190 508 162 C 560 162 560 134 527.5
                     120 C 560 92 508 64 462.5 78 C 430 57 378 57 365 85
-                    Z" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                    Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           258px; height: 1px; padding-top: 120px;
                           margin-left: 301px;">
@@ -851,32 +711,14 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                             </div>
                           </div>
                         </div>
-                      </foreignObject><text x="430" y="124"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle">Mathematical...</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-30"><g
-                  transform="translate(0.5,0.5)"><path d="M 310.01
-                    142.53 L 250.06 142.47 L 250.06 180 L 202.24 180"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 325.01 142.54 L 317.51 146.94 L 310.01 142.53 L
-                    317.52 138.12 Z" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                      </foreignObject><text x="430" y="124" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Mathematical...</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-30"><g transform="translate(0.5,0.5)"><path d="M 310.01
+                    142.53 L 250.06 142.47 L 250.06 180 L 202.24 180" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 325.01 142.54 L 317.51 146.94 L 310.01 142.53 L
+                    317.52 138.12 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 214.12 173.5 L 201.12
-                    180 L 214.12 186.5" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g
-                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-31"><g><g><switch><foreignObject
-                          style="overflow: visible; text-align: left;"
-                          pointer-events="none" width="100%"
-                          height="100%"
-                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                          <div xmlns="http://www.w3.org/1999/xhtml"
-                            style="display: flex; align-items: unsafe
+                    180 L 214.12 186.5" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-31"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                             flex-start; justify-content: unsafe
                             flex-start; width: 1px; height: 1px;
                             padding-top: 150px; margin-left: 292px;">
@@ -892,23 +734,10 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                                 white-space: nowrap; ">1..*</div>
                             </div>
                           </div>
-                        </foreignObject><text x="292" y="161"
-                          fill="light-dark(#000000, #ffffff)"
-                          font-family="Helvetica" font-size="11px">1..*</text></switch></g></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-32"><g
-                  transform="translate(0.5,0.5)"><rect x="40" y="615"
-                    width="160" height="70" fill="none" stroke="#000000"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
-                    d="M 56 615 L 56 685 M 184 615 L 184 685"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                        </foreignObject><text x="292" y="161" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px">1..*</text></switch></g></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-32"><g transform="translate(0.5,0.5)"><rect x="40" y="615" width="160" height="70" fill="none" stroke="#000000" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 56 615 L 56 685 M 184 615 L 184 685" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           126px; height: 1px; padding-top: 650px;
                           margin-left: 57px;">
@@ -925,18 +754,15 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                                     0, 0, 0); font-family: monospace;
                                     font-size: 0px; text-align: start;
                                     text-wrap-mode: nowrap;
-                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
-                                    style="color: rgba(0, 0, 0, 0);
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span style="color: rgba(0, 0, 0, 0);
                                     font-family: monospace; font-size:
                                     0px; text-align: start;
                                     text-wrap-mode: nowrap;
-                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
-                                    style="color: rgba(0, 0, 0, 0);
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span style="color: rgba(0, 0, 0, 0);
                                     font-family: monospace; font-size:
                                     0px; text-align: start;
                                     text-wrap-mode: nowrap;
-                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span
-                                    style="color: rgba(0, 0, 0, 0);
+                                    background-color: transparent;">%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20edge%3D%221%22%20parent%3D%221%22%20style%3D%22edgeStyle%3DorthogonalEdgeStyle%3Brounded%3D0%3BorthogonalLoop%3D1%3BjettySize%3Dauto%3Bhtml%3D1%3BexitX%3D0.5%3BexitY%3D1%3BexitDx%3D0%3BexitDy%3D0%3B%22%3E%3CmxGeometry%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22680%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22360%22%20y%3D%22720%22%20as%3D%22targetPoint%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E</span><span style="color: rgba(0, 0, 0, 0);
                                     font-family: monospace; font-size:
                                     0px; text-align: start;
                                     text-wrap-mode: nowrap;
@@ -945,24 +771,10 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                             </div>
                           </div>
                         </div>
-                      </foreignObject><text x="121" y="654"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle">middle way...</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-51"><g
-                  transform="translate(0.5,0.5)"><rect x="330" y="620"
-                    width="120" height="60" fill="none" stroke="#000000"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path
-                    d="M 342 620 L 342 680 M 438 620 L 438 680"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                      </foreignObject><text x="121" y="654" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">middle way...</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-51"><g transform="translate(0.5,0.5)"><rect x="330" y="620" width="120" height="60" fill="none" stroke="#000000" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 342 620 L 342 680 M 438 620 L 438 680" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           94px; height: 1px; padding-top: 650px;
                           margin-left: 343px;">
@@ -977,55 +789,23 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                             </div>
                           </div>
                         </div>
-                      </foreignObject><text x="390" y="654"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle">FS...</text></switch></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-53"><g
-                  transform="translate(0.5,0.5)"><path d="M 330 650 L
-                    206.37 650" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" stroke-dasharray="8 8"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 201.12 650 L 208.12 646.5 L 206.37 650 L 208.12
-                    653.5 Z" fill="#000000" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                      </foreignObject><text x="390" y="654" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">FS...</text></switch></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-53"><g transform="translate(0.5,0.5)"><path d="M 330 650 L
+                    206.37 650" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 201.12 650 L 208.12 646.5 L 206.37 650 L 208.12
+                    653.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
                     255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-55"><g
-                  transform="translate(0.5,0.5)"><path d="M 390 570 L
-                    390 613.63" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" stroke-dasharray="3 3"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 390 618.88 L 386.5 611.88 L 390 613.63 L 393.5
-                    611.88 Z" fill="#000000" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    255, 255));"></path></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-55"><g transform="translate(0.5,0.5)"><path d="M 390 570 L
+                    390 613.63" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 390 618.88 L 386.5 611.88 L 390 613.63 L 393.5
+                    611.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
                     255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-62"><g
-                  transform="translate(0.5,0.5)"><path d="M 100 405.99 L
-                    100 466.76" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="stroke"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-62"><g transform="translate(0.5,0.5)"><path d="M 100 405.99 L
+                    100 466.76" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 100 390.99 L 104.41
-                    398.49 L 100 405.99 L 95.59 398.49 Z" fill="none"
-                    stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 93.5 454.88 L 100 467.88 L 106.5 454.88"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g
-                  data-cell-id="ptby2ZPBaP-rPuBbrWYJ-63"><g><g><switch><foreignObject
-                          style="overflow: visible; text-align: left;"
-                          pointer-events="none" width="100%"
-                          height="100%"
-                          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                          <div xmlns="http://www.w3.org/1999/xhtml"
-                            style="display: flex; align-items: unsafe
+                    398.49 L 100 405.99 L 95.59 398.49 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 93.5 454.88 L 100 467.88 L 106.5 454.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-63"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                          <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                             flex-start; justify-content: unsafe
                             flex-start; width: 1px; height: 1px;
                             padding-top: 407px; margin-left: 107px;">
@@ -1041,18 +821,8 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                                 white-space: nowrap; ">0..*</div>
                             </div>
                           </div>
-                        </foreignObject><text x="107" y="418"
-                          fill="light-dark(#000000, #ffffff)"
-                          font-family="Helvetica" font-size="11px">0..*</text></switch></g></g></g></g><g
-                data-cell-id="ptby2ZPBaP-rPuBbrWYJ-67"><g
-                  transform="translate(0.5,0.5)"><rect x="140" y="0"
-                    width="360" height="40" fill="none" stroke="none"
-                    pointer-events="all"></rect></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                        </foreignObject><text x="107" y="418" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px">0..*</text></switch></g></g></g></g><g data-cell-id="ptby2ZPBaP-rPuBbrWYJ-67"><g transform="translate(0.5,0.5)"><rect x="140" y="0" width="360" height="40" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           358px; height: 1px; padding-top: 20px;
                           margin-left: 141px;">
@@ -1062,26 +832,14 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               font-size: 12px; font-family: Helvetica;
                               color: light-dark(#000000, #ffffff);
                               line-height: 1.2; pointer-events: all;
-                              white-space: normal; word-wrap: normal; "><font
-                                style="font-size: 20px;">middle way math
+                              white-space: normal; word-wrap: normal; "><font style="font-size: 20px;">middle way math
                                 computational model</font></div>
                           </div>
                         </div>
-                      </foreignObject><text x="320" y="24"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle">middle way math
-                        computational model</text></switch></g></g></g><g
-                data-cell-id="-qdD8BeOlldyrR-mFRZQ-4"><g
-                  transform="translate(0.5,0.5)"><rect x="520" y="510"
-                    width="120" height="60" fill="none" stroke="#000000"
-                    pointer-events="all" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                      </foreignObject><text x="320" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">middle way math
+                        computational model</text></switch></g></g></g><g data-cell-id="-qdD8BeOlldyrR-mFRZQ-4"><g transform="translate(0.5,0.5)"><rect x="520" y="510" width="120" height="60" fill="none" stroke="#000000" pointer-events="all" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           center; justify-content: unsafe center; width:
                           118px; height: 1px; padding-top: 540px;
                           margin-left: 521px;">
@@ -1098,31 +856,15 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                             </div>
                           </div>
                         </div>
-                      </foreignObject><text x="580" y="544"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="12px"
-                        text-anchor="middle">middle way...</text></switch></g></g></g><g
-                data-cell-id="-qdD8BeOlldyrR-mFRZQ-6"><g
-                  transform="translate(0.5,0.5)"><path d="M 440.02
-                    425.99 L 440.06 460 L 390.06 460 L 390 507.76"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
-                    435.6 418.49 Z" fill="#000000" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                      </foreignObject><text x="580" y="544" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">middle way...</text></switch></g></g></g><g data-cell-id="-qdD8BeOlldyrR-mFRZQ-6"><g transform="translate(0.5,0.5)"><path d="M 440.02
+                    425.99 L 440.06 460 L 390.06 460 L 390 507.76" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
+                    435.6 418.49 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
                     255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 383.52 495.87 L 390
-                    508.88 L 396.52 495.89" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g><g><g><switch><foreignObject
-                        style="overflow: visible; text-align: left;"
-                        pointer-events="none" width="100%" height="100%"
-requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                        <div xmlns="http://www.w3.org/1999/xhtml"
-                          style="display: flex; align-items: unsafe
+                    508.88 L 396.52 495.89" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe
                           flex-end; justify-content: unsafe flex-start;
                           width: 1px; height: 1px; padding-top: 431px;
                           margin-left: 422px;">
@@ -1135,42 +877,19 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                               white-space: nowrap; ">1</div>
                           </div>
                         </div>
-                      </foreignObject><text x="422" y="431"
-                        fill="light-dark(#000000, #ffffff)"
-                        font-family="Helvetica" font-size="11px">1</text></switch></g></g></g><g
-                data-cell-id="-qdD8BeOlldyrR-mFRZQ-7"><g
-                  transform="translate(0.5,0.5)"><path d="M 440.02
-                    425.99 L 440.06 460 L 580.06 460 L 580 507.76"
-                    fill="none" stroke="#000000" stroke-miterlimit="10"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
-                    435.6 418.49 Z" fill="#000000" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                      </foreignObject><text x="422" y="431" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px">1</text></switch></g></g></g><g data-cell-id="-qdD8BeOlldyrR-mFRZQ-7"><g transform="translate(0.5,0.5)"><path d="M 440.02
+                    425.99 L 440.06 460 L 580.06 460 L 580 507.76" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 440 410.99 L 444.42 418.48 L 440.02 425.99 L
+                    435.6 418.49 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
                     255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
                     255, 255));"></path><path d="M 573.52 495.87 L 580
-                    508.88 L 586.52 495.89" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g></g><g
-                data-cell-id="-qdD8BeOlldyrR-mFRZQ-8"><g
-                  transform="translate(0.5,0.5)"><path d="M 580 570 L
-                    580 650 L 456.37 650" fill="none" stroke="#000000"
-                    stroke-miterlimit="10" stroke-dasharray="3 3"
-                    pointer-events="stroke" style="stroke:
-                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path
-                    d="M 451.12 650 L 458.12 646.5 L 456.37 650 L 458.12
-                    653.5 Z" fill="#000000" stroke="#000000"
-                    stroke-miterlimit="10" pointer-events="all"
-                    style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
+                    508.88 L 586.52 495.89" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255,
+                    255, 255));"></path></g></g><g data-cell-id="-qdD8BeOlldyrR-mFRZQ-8"><g transform="translate(0.5,0.5)"><path d="M 580 570 L
+                    580 650 L 456.37 650" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke:
+                    light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 451.12 650 L 458.12 646.5 L 456.37 650 L 458.12
+                    653.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255,
                     255)); stroke: light-dark(rgb(0, 0, 0), rgb(255,
-                    255, 255));"></path></g></g></g></g></g><switch><g
-            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a
-            transform="translate(0,-5)"
-            xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems"
-            target="_blank"><text text-anchor="middle" font-size="10px"
-              x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
+                    255, 255));"></path></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
 
     <h3>2. The Computational Model &amp; Calculation Engine</h3>
     <p>
@@ -1192,9 +911,7 @@ requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
       which serves as its persistent storage. The schema for the database is illustrated in the diagram below:
     </p>
     <div align="center" style="margin: 16px 0;">
-      <img style="width: 100%; max-width: 722px; height: auto; display: block; margin: 0 auto;"
-src="data:image/png;base64,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"
-        alt="" width="722" height="497"></div>
+      <img style="width: 100%; max-width: 722px; height: auto; display: block; margin: 0 auto;" src="data:image/png;base64,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" alt="" width="722" height="497"></div>
     <p><br>
     </p>
 ', 'published'),
@@ -1475,7 +1192,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
   <hr>
 
   <p>
-    With deductive certainty, predicate language, and the Conway number tree in hand, we are fully prepared to cross the threshold into <b>Level 2: Continuum &amp; Calculus</b>.
+    With deductive certainty, predicate language, and the Conway number tree in hand, we are fully prepared to cross the threshold into <b>Level 2: Space, Direction &amp; Geometry</b>.
   </p>
 ', 'published'),
   (5, 'propLogicIntro', 4, 'Introduction: Propositional Logic', 'prop-logic-intro', '
@@ -5049,1984 +4766,9 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
 ', 'published'),
-  (15, 'lamOverview', 14, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
+  (15, 'vectorFoundationsIntro', 14, 'Level 2: Space, Direction & Geometry', 'vector-foundations-intro', '
 <div align="center">
-    <font size="+2"><i><b>Level 2: Continuum &amp; Calculus<br>
-          Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
-    <font size="+1"><i>— Bridging the Discrete Conway Tree to Continuous Analysis —</i></font>
-  </div>
-  <br>
-
-  <h3>Continuous Change on the Hyperfinite Scaffold</h3>
-  <p>
-    In our foundational study of numbers and discrete structures, we established how numbers emerge day by day from inductive trees. 
-    In <b>Level 2: Continuum &amp; Calculus</b>, we extend this discrete foundation into continuous change, instantaneous rates, and accumulation.
-  </p>
-  <p>
-    Standard real analysis constructs the continuum using metric topologies, epsilon-delta limit towers, and Dedekind cuts. 
-    While rigorous, this traditional apparatus often obscures the geometric intuition of continuous change beneath layers of nested quantifiers.
-  </p>
-  <p>
-    By leveraging John Conway''s recursive number tree at Day <code>ω</code>, we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate number. 
-    This nonstandard perspective transforms continuous calculus into straightforward algebra: derivatives become simple difference ratios <code>dy / dx</code> followed by taking the standard part shadow, and integrals become genuine hyperfinite sums of microscopic tiles.
-  </p>
-  <p>
-    Level 2 develops this unified framework across:
-  </p>
-  <ul>
-    <li><b>Sequences &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code> along the arithmetic and geometric tree ladders, grounding continuous analysis in finite induction.</li>
-    <li><b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity without epsilon-delta, and the fundamental theorem of calculus on <code>ℝ_ω</code>.</li>
-    <li><b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, conformal shape-preservation, Cauchy contour integration by 2D cell cancellation, and continuous phase dynamics.</li>
-  </ul>
-
-  <hr>
-
-  <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
-  <p>
-    To understand why nonstandard analysis is so empowering, one must examine how mathematics historically struggled to tame continuous change:
-  </p>
-
-  <ul>
-    <li>
-      <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash; <i>Leibniz, Newton, Euler</i>:</b><br>
-      Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code>) &mdash; quantities strictly greater than zero, yet smaller than any positive standard real number. With infinitesimals, derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>). Mathematicians solved celestial orbits, fluid mechanics, and wave equations with breathtaking speed, but critics (like Bishop Berkeley) argued that infinitesimals were logically unsound "ghosts of departed quantities."
-    </li>
-    <br>
-    <li>
-      <b>Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash; <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
-      Fearing foundational inconsistency, 19th-century mathematicians banished infinitesimals. They replaced intuitive algebraic ratios with the real continuum <code>ℝ</code> and dense <b>epsilon-delta (ε-δ) limit definitions</b>:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
-      </div>
-      While logically watertight, this reform erected a massive cognitive barrier, turning intuitive geometric concepts into nested quantifier gymnastics.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
-      As physics expanded into quantum mechanics and relativity, mathematicians sought to escape the clumsiness of metric <code>ε-δ</code> limits by ascending into <b>pure set-theoretic topology and measure theory</b>:
-      <ul>
-        <li><i>Topological Continuity:</i> <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The preimage of every open set is an open set).</li>
-        <li><i>Lebesgue Integration:</i> Integrated functions by measuring preimage sizes on <code>σ-algebras</code> rather than taking limits of partition meshes.</li>
-      </ul>
-      This abstraction was immensely powerful for functional analysis, but it severely detached continuous mathematics from physical and geometric intuition.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 4: The Nonstandard Synthesis &mdash; <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
-      Leibniz''s intuitive infinitesimals were given complete, rigorous mathematical foundations through model theory and <b>John Conway''s recursive number tree</b>.
-      By observing the continuum scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the transfinite tree:
-      <ul>
-        <li><b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers born on Day <code>ω</code> of the recursive tree: <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.</li>
-        <li><b>Continuity</b> is halo preservation: <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing by transfinite branches stay infinitesimally close).</li>
-        <li><b>Differentiation</b> is pure algebraic division: <code>f''(x) = st(Δy / dx)</code>.</li>
-        <li><b>Integration</b> is genuine discrete addition: <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.</li>
-      </ul>
-    </li>
-  </ul>
-', 'published'),
-  (16, 'sequencesAndSums', 15, 'Sequences & Progressions', 'sequences-and-sums', '
-  <style>
-    .seq-container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #ffffff;
-      padding: 32px 36px 60px 36px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.65;
-      color: #0f172a;
-    }
-    .seq-container h1 {
-      color: #1e3a8a;
-      font-size: 1.85em;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-    .seq-container h2 {
-      color: #1e3a8a;
-      font-size: 1.4em;
-      margin-top: 36px;
-      margin-bottom: 14px;
-      border-bottom: 2px solid #eff6ff;
-      padding-bottom: 6px;
-    }
-    .seq-container h3 {
-      color: #0284c7;
-      font-size: 1.15em;
-      margin-top: 24px;
-      margin-bottom: 8px;
-    }
-    .seq-container p, .seq-container li {
-      font-size: 15px;
-      color: #0f172a;
-    }
-    .seq-container code {
-      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
-      font-size: 0.9em;
-      background: #f1f5f9;
-      color: #0f172a;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .seq-formula-box {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-left: 4px solid #0284c7;
-      border-radius: 6px;
-      padding: 14px 18px;
-      margin: 16px 0;
-      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.7;
-      overflow-x: auto;
-    }
-    .seq-highlight-card {
-      background: #eff6ff;
-      border: 1.5px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 20px 24px;
-      margin: 22px 0;
-    }
-    .seq-callout {
-      background: #f5f3ff;
-      border: 1.5px solid #ddd6fe;
-      border-radius: 8px;
-      padding: 18px 22px;
-      margin: 20px 0;
-    }
-    .seq-grid-card {
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 18px;
-      background: #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .seq-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 18px 0;
-      font-size: 13.5px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
-    .seq-table th {
-      background-color: #1e3a8a;
-      color: #ffffff;
-      padding: 11px 14px;
-      text-align: left;
-      font-weight: 600;
-    }
-    .seq-table td {
-      border-top: 1px solid #e2e8f0;
-      padding: 10px 14px;
-      vertical-align: top;
-    }
-    .seq-pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  </style>
-
-  <div class="seq-container">
-    <h1>Sequences &amp; Progressions</h1>
-    <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
-      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
-    </p>
-
-    <!-- Curricular Gateway -->
-    <div class="seq-highlight-card">
-      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
-      <p style="margin-bottom: 12px;">
-        In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
-        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
-      </p>
-
-      <!-- Demystifying F: The Sequence in the Conceptual Model -->
-      <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-          <span style="font-size: 18px;">📐</span>
-          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
-        </div>
-        <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
-          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
-            <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
-            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              In our foundational ontology, a function''s type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
-            </div>
-          </div>
-
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
-            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
-            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
-            </div>
-          </div>
-        </div>
-
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
-          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
-          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
-            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code> &emsp; (increments by fixed constant difference <code>d</code>).</li>
-            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code> &emsp; (scales by fixed multiplicative factor <code>r</code>).</li>
-            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code> &emsp; (generates the cubic progression evaluated on the counting spine).</li>
-            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code> &emsp; (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
-          </ul>
-        </div>
-
-        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
-          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
-        </p>
-      </div>
-    </div>
-
-    <!-- Section 1: The Two Fundamental Ladders -->
-    <h2>1. The Two Fundamental Ladders of the Trees</h2>
-    <p>
-      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of stepping:
-    </p>
-
-    <!-- Side-by-Side Visual Comparison Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 20px 0;">
-      
-      <!-- Arithmetic Card -->
-      <div class="seq-grid-card" style="border-top: 4px solid #1e3a8a;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span class="seq-pill" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe;">Tree 1 (Unary Spine)</span>
-          <span style="font-size: 12px; font-weight: 700; color: #64748b;">1-Successor Count</span>
-        </div>
-        <h3 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 16px;">The Arithmetic Ladder (Linear March)</h3>
-        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
-          Formed by adding a fixed constant at each step. Models uniform motion, constant-force acceleration increments, and clock ticks.
-        </p>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
-          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
-          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; margin: 4px 0;">
-            F(k + 1) = F(k) + d &nbsp;⇒&nbsp; F(k) = a + k · d
-          </div>
-          <div style="font-size: 12px; color: #475569;">Constant forward difference: <code>ΔF(k) = d</code></div>
-        </div>
-
-        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
-          • <b>Geometric Picture:</b> Equally spaced rungs climbing a straight vertical ladder.<br>
-          • <b>Continuous Limit:</b> Forms the linear line <code>y = m·x + b</code> with constant slope <code>d</code>.
-        </div>
-      </div>
-
-      <!-- Geometric Card -->
-      <div class="seq-grid-card" style="border-top: 4px solid #7c3aed;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span class="seq-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">Tree 2 (Binary Branching)</span>
-          <span style="font-size: 12px; font-weight: 700; color: #64748b;">2-Successor Branching</span>
-        </div>
-        <h3 style="margin: 0 0 8px 0; color: #7c3aed; font-size: 16px;">The Geometric Ladder (Multiplicative Scaling)</h3>
-        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
-          Formed by multiplying by a fixed ratio at each step. Models binary branch populations, radioactive decay, compounding, and sensory perception.
-        </p>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
-          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
-          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #7c3aed; margin: 4px 0;">
-            F(k + 1) = r · F(k) &nbsp;⇒&nbsp; F(k) = a · r^k
-          </div>
-          <div style="font-size: 12px; color: #475569;">Difference proportional to term: <code>ΔF(k) = F(k) · (r - 1)</code></div>
-        </div>
-
-        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
-          • <b>Geometric Picture:</b> Each rung multiplies the height of the previous rung.<br>
-          • <b>Continuous Limit:</b> Forms the exponential curve <code>y = a · e^(k·x)</code> where rate equals quantity.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Summary Comparison Table -->
-    <table class="seq-table">
-      <thead>
-        <tr>
-          <th style="width: 20%;">Tree Foundation</th>
-          <th style="width: 22%;">Progression Type</th>
-          <th style="width: 18%;">Step Law</th>
-          <th style="width: 20%;">Closed Formula</th>
-          <th style="width: 20%;">Characteristic Property</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background-color: #ffffff;">
-          <td><b>Tree 1</b><br><span style="font-size: 11.5px; color: #64748b;">Unary counting spine</span></td>
-          <td><b style="color: #1e3a8a;">Arithmetic</b></td>
-          <td><code>+ d</code> (additive)</td>
-          <td><code>F(k) = a + k · d</code></td>
-          <td>Uniform slope: <code>ΔF(k) = d</code></td>
-        </tr>
-        <tr style="background-color: #f8fafc;">
-          <td><b>Tree 2</b><br><span style="font-size: 11.5px; color: #64748b;">Binary branching fan</span></td>
-          <td><b style="color: #7c3aed;">Geometric</b></td>
-          <td><code>× r</code> (multiplicative)</td>
-          <td><code>F(k) = a · r^k</code></td>
-          <td>Self-proportional: <code>ΔF(k) ∝ F(k)</code></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Section 2: Musical Scales -->
-    <h2>2. Musical Scales: The Human Ear as a Geometric Processor</h2>
-    <p>
-      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
-    </p>
-    <p>
-      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
-    </p>
-
-    <!-- 12-Tone Equal Temperament Ladder Card -->
-    <div class="seq-callout">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-        <h3 style="margin: 0; color: #6d28d9; font-size: 16px;">The 12-Tone Equal Temperament Ladder</h3>
-        <span class="seq-pill" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd;">Acoustic Geometry</span>
-      </div>
-      <p style="margin: 0 0 10px 0;">
-        An <b>octave</b> is an exact frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio <code>r</code> such that:
-      </p>
-
-      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
-        r¹² = 2 &nbsp;⇒&nbsp; r = 2^(1/12) ≈ 1.059463094...
-      </div>
-
-      <p style="margin: 10px 0 6px 0;">
-        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
-      </p>
-
-      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
-        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
-      </div>
-
-      <!-- Musical Scale Progression Table -->
-      <div style="margin-top: 14px; overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; border: 1px solid #ddd6fe; border-radius: 6px; overflow: hidden; background: #ffffff;">
-          <thead>
-            <tr style="background: #ede9fe; color: #4c1d95;">
-              <th style="padding: 7px 8px;">Step k</th>
-              <th style="padding: 7px 8px;">Note</th>
-              <th style="padding: 7px 8px;">Interval</th>
-              <th style="padding: 7px 8px;">Frequency f_k</th>
-              <th style="padding: 7px 8px;">Acoustic Ratio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #f3e8ff;">
-              <td><b>0</b></td>
-              <td><b>A4</b></td>
-              <td>Unison</td>
-              <td><code>440.00 Hz</code></td>
-              <td><code>1.000</code></td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
-              <td><b>3</b></td>
-              <td><b>C5</b></td>
-              <td>Minor third</td>
-              <td><code>523.25 Hz</code></td>
-              <td><code>2^(3/12) ≈ 1.189</code></td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff;">
-              <td><b>5</b></td>
-              <td><b>D5</b></td>
-              <td>Perfect fourth</td>
-              <td><code>587.33 Hz</code></td>
-              <td><code>2^(5/12) ≈ 1.335</code> (close to 4/3)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
-              <td><b>7</b></td>
-              <td><b>E5</b></td>
-              <td>Perfect fifth</td>
-              <td><code>659.26 Hz</code></td>
-              <td><code>2^(7/12) ≈ 1.498</code> (close to 3/2)</td>
-            </tr>
-            <tr>
-              <td><b>12</b></td>
-              <td><b>A5</b></td>
-              <td><b>Octave</b></td>
-              <td><code>880.00 Hz</code></td>
-              <td><b>2.000 (exact doubling)</b></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
-        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
-      </p>
-    </div>
-
-    <!-- Cochlear Biological Processor -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
-      <h3 style="margin-top: 0; color: #059669; font-size: 15px;">The Cochlear Frequency Sorter: Biology''s Living Geometric Analyzer</h3>
-      <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #334155;">
-        Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex.
-      </p>
-      <p style="margin: 0; font-size: 13.5px; color: #334155;">
-        Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human sensor correspond to equal musical ratios—demonstrating that the geometric ladder is a biological architecture for processing reality.
-      </p>
-    </div>
-
-    <!-- Bridge to Course 1: Analysis 1D -->
-    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
-      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
-      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
-        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
-      </p>
-      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
-        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
-        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
-      </ul>
-      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
-        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
-        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
-      </p>
-    </div>
-  </div>
-', 'published'),
-  (17, 'analysis1DIntro', 16, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
-    <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
-  </div>
-  <br>
-
-  <h3>Preface: Taming the Unbroken Continuum</h3>
-  <p>
-    While <b>Algebra</b> studies exact equalities and discrete symmetries, <b>Analysis</b> is the branch of mathematics that tames <b>continuous change, approximation, and accumulation over an unbroken continuum</b>.
-  </p>
-  <p>
-    Whenever a physical quantity varies continuously across time or space, analysis addresses two master questions:
-  </p>
-  <ol>
-    <li><b>The Local Question (Instantaneous Rate of Change):</b> How fast is a function changing <i>right here, right now</i>, at a single point?</li>
-    <li><b>The Global Question (Continuous Accumulation):</b> How do uncountably many infinitesimal contributions across an unbroken interval cumulate into a single total sum (area, energy, or work)?</li>
-  </ol>
-
-  <hr>
-
-  <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
-  <p>
-    In classical 19th-century real analysis, every individual real number <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound foundational crisis:
-  </p>
-  <ul>
-    <li>Evaluating change at a single point requires dividing the change in output by the change in input: <code>Δy / Δx</code>.</li>
-    <li>If <code>Δx = 0</code>, division is algebraically impossible (<code>0 / 0</code> is undefined).</li>
-    <li>To avoid dividing by zero, standard analysis erected dense <b>epsilon-delta (ε-δ) limit towers</b>:
-      <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0;">
-        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx ( 0 &lt; |Δx| &lt; δ &rArr; |Δy/Δx - L| &lt; ε )
-      </div>
-    </li>
-  </ul>
-
-  <p>
-    <b>The Nonstandard Resolution (Abraham Robinson, 1960):</b><br>
-    Rather than treating the continuum as a static collection of zero-width points, we use our constructive scaffold <b><code>ℝ_ω</code></b>, equipped with genuine <b>infinitesimals</b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Infinitesimal Step: &nbsp; dx = 1/ω &nbsp;&gt;&nbsp; 0 &emsp; (smaller than any standard real 1/n)</b>
-  </div>
-
-  <p>
-    Because <code>dx &gt; 0</code>, division by <code>dx</code> is 100% legal, ordinary algebra!
-  </p>
-
-  <hr>
-
-  <h3>2. The Core Machinery: Tree Birthdays &amp; Halos</h3>
-
-  <h4>A. Hyperreals as Conway Tree Nodes (Birthday &ge; &omega;)</h4>
-  <p>
-    On John Conway''s recursive number tree, numbers are created day by day:
-  </p>
-  <ul>
-    <li>Standard real numbers and dyadic fractions are born on finite days: <code>0, 1, 2, ..., n</code>.</li>
-    <li><b>Hyperreal Numbers</b> (ubiquitous in nonstandard analysis literature) <b>are nothing more than Conway tree numbers whose birthday is <code>&ge; &omega;</code>!</b></li>
-  </ul>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>Demystifying the Literature:</b><br><br>
-    The famous "Hyperreal Field <b>*ℝ</b>" constructed via ultrafilters in standard mathematical logic is <b>100% isomorphic to the subfield of Conway''s Surreals born on Day <code>&le; &omega;_1</code></b>!<br><br>
-    Infinitesimals like <b><code>dx = 1/&omega; = { 0 | 1, 1/2, 1/4, 1/8, ... } &gt; 0</code></b> and infinite numbers like <b><code>&omega; = { 0, 1, 2, 3, ... | }</code></b> are simply nodes born on transfinite birthdays <b><code>&ge; &omega;</code></b>!
-  </div>
-
-  <h4>B. The Infinitesimal Halo (Monad) μ(x)</h4>
-  <p>
-    Around every number <code>x</code> born on a finite day sits a cluster of tree nodes born on Day <code>ω</code> that differ from <code>x</code> by an infinitesimal step &mdash; its <b>Halo <code>μ(x)</code></b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>μ(x) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x } &emsp; where &emsp; y ≈ x &hArr; |y - x| is an infinitesimal tree branch</b>
-  </div>
-
-  <h4>C. The Standard Part Function (st)</h4>
-  <p>
-    Every finite number <code>y ∈ ℝ_ω</code> is uniquely decomposed into its earliest standard ancestor plus transfinite branch dust: <code>y = x + ε</code> (where <code>x</code> was born on a finite day and <code>ε</code> on Day <code>ω</code>).
-    The <b>Standard Part Function <code>st(y) = x</code></b> simply prunes the branch back to its earliest standard ancestor on the tree, casting its observable shadow on <code>ℝ</code>.
-  </p>
-
-  <hr>
-
-  <h3>3. The Architectural Bridge: From Step Index k to Continuum Transect x</h3>
-  <p>
-    In our introductory study of <b>Sequences &amp; Progressions</b>, quantities stepped along discrete tree ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. 
-    Crossing into continuous analysis requires only one foundational refinement: replacing the integer step with an <b>infinitesimal transect grid</b> across the continuum <code>ℝ_ω</code>:
-  </p>
-
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 15px 0;">
-    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
-      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin-bottom: 4px;">Discrete Stepping Ladder (Level 1)</div>
-      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-        • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code><br>
-        • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br>
-        • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code><br>
-        • <b>Nature:</b> Exact pairwise cancellation of internal ladder boundaries.
-      </div>
-    </div>
-
-    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 6px; padding: 12px 14px;">
-      <div style="font-weight: 700; color: #059669; font-size: 13.5px; margin-bottom: 4px;">Continuous Transect Grid on ℝ_ω (Level 2)</div>
-      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-        • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with <code>dx = (b - a)/ω</code><br>
-        • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br>
-        • <b>Definite Integral:</b> <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br>
-        • <b>Fundamental Theorem:</b> <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
-      </div>
-    </div>
-  </div>
-
-  <p>
-    Calculus is not an esoteric regime detached from elementary arithmetic; it is the <b>exact same pairwise boundary cancellation</b> discovered in high school algebra, operating across an infinitesimal grid.
-  </p>
-
-  <hr>
-
-  <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
-
-  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
-    <tr bgcolor="#f8fafc">
-      <th width="20%" align="left">Concept</th>
-      <th width="40%" align="center">Nonstandard Formulation (ℝ_ω)</th>
-      <th width="40%" align="left">Intuitive Meaning</th>
-    </tr>
-    <tr>
-      <td><b>Continuity</b></td>
-      <td align="center"><code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code></td>
-      <td>Points in the same halo map to the same halo (nearby points stay nearby).</td>
-    </tr>
-    <tr>
-      <td><b>Derivative</b></td>
-      <td align="center"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></td>
-      <td>Direct algebraic division over an infinitesimal step, followed by standard part shadow.</td>
-    </tr>
-    <tr>
-      <td><b>Integral</b></td>
-      <td align="center"><code>∫[a to b] f(x) dx = st( ∑[k=1 to ω] f(x_k) · dx )</code></td>
-      <td>Genuine discrete addition of <code>ω</code> microscopic rectangular tiles.</td>
-    </tr>
-    <tr>
-      <td><b>Fundamental Theorem</b></td>
-      <td align="center"><code>∑[k=1 to ω] [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code></td>
-      <td>Pure telescoping cancellation of internal grid boundaries!</td>
-    </tr>
-  </table>
-
-  <hr>
-
-  <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 640px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Header -->
-        <rect x="0" y="0" width="640" height="26" fill="#f1f5f9" rx="8" />
-        <rect x="0" y="18" width="640" height="8" fill="#f1f5f9" />
-        <text x="320" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">Comparing 1D Differentiation</text>
-
-        <!-- Left: Classical Secant Limit -->
-        <rect x="25" y="40" width="280" height="120" rx="4" fill="#faf5ff" stroke="#d8b4fe" />
-        <text x="165" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">Classical Standard Approach</text>
-        <text x="165" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#581c87">f''(x) = lim (Δx→0) Δy / Δx</text>
-        <text x="165" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Requires ε-δ quantified limit machinery</text>
-        <text x="165" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Secant lines approaching a limit</text>
-
-        <!-- Right: Nonstandard Algebraic Division -->
-        <rect x="335" y="40" width="280" height="120" rx="4" fill="#eff6ff" stroke="#93c5fd" />
-        <text x="475" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Nonstandard ℝ_ω Approach</text>
-        <text x="475" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#1e3a8a">f''(x) = st( Δy / dx )</text>
-        <text x="475" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Actual step dx = 1/ω &gt; 0</text>
-        <text x="475" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Direct algebraic division &amp; standard shadow</text>
-      </svg>
-    </div>
-  </div>
-
-  <hr>
-
-  <h3>Analysis 1D Lecture Plan</h3>
-  <ul>
-    <li><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining continuity without <code>ε-δ</code>, and the Intermediate Value Theorem as a discrete grid march.</li>
-    <li><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b> Calculating slopes via pure algebra, the product and chain rules, and local linear approximation <code>df = f''(x)·dx</code>.</li>
-    <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
-  </ul>
-', 'published'),
-  (18, 'analysis1DLecture1', 17, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
-    <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
-  </div>
-  <br>
-
-  <p>
-    “In our foundational study of Sequences &amp; Progressions,” Jane began Lecture 1, “we marched along discrete ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. But continuous analysis asks a deeper question: what happens when quantities vary continuously across space and time?”
-  </p>
-  <p>
-    Jane drew a single point on a horizontal real number line:
-  </p>
-
-  <div align="center" style="margin: 15px 0;">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 80" style="width: 100%; max-width: 500px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px;">
-      <line x1="40" y1="40" x2="460" y2="40" stroke="#334155" stroke-width="2" />
-      <polygon points="465,40 455,35 455,45" fill="#334155" />
-      <circle cx="250" cy="40" r="4" fill="#2563eb" />
-      <text x="250" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">x₀</text>
-    </svg>
-  </div>
-
-  <p>
-    “In standard 19th-century geometry,” Jane said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
-  </p>
-
-  <p>
-    Jill looked at the point: “And that''s why Weierstrass and Cauchy had to invent the epsilon-delta limit &mdash; because they couldn''t actually step inside the point without breaking arithmetic.”
-  </p>
-
-  <p>
-    “Exactly,” Jane nodded. “Now let''s see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
-
-  <p>
-    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jane said:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 600px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Left: Macroscopic Point -->
-        <rect x="20" y="20" width="220" height="120" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
-        <text x="130" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">Macroscopic View (ℝ)</text>
-        <line x1="40" y1="85" x2="220" y2="85" stroke="#64748b" stroke-width="2" />
-        <circle cx="130" cy="85" r="4" fill="#2563eb" />
-        <text x="130" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">x₀</text>
-
-        <!-- Arrow: Magnification -->
-        <text x="280" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">Zoom × ω</text>
-        <line x1="250" y1="85" x2="310" y2="85" stroke="#94a3b8" stroke-width="2" />
-        <polygon points="315,85 305,80 305,90" fill="#94a3b8" />
-
-        <!-- Right: Microscopic Halo -->
-        <rect x="330" y="20" width="250" height="120" rx="6" fill="#eff6ff" stroke="#93c5fd" />
-        <text x="455" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Microscopic Halo μ(x₀) in ℝ_ω</text>
-        <line x1="350" y1="85" x2="560" y2="85" stroke="#3b82f6" stroke-width="1.5" />
-        <circle cx="455" cy="85" r="4" fill="#1d4ed8" />
-        <circle cx="495" cy="85" r="3" fill="#60a5fa" />
-        <circle cx="415" cy="85" r="3" fill="#60a5fa" />
-        <text x="455" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">x₀</text>
-        <text x="500" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ + dx</text>
-        <text x="410" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ - dx</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “Under the magnification of <code>ω</code>,” Jane explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
-  </p>
-
-  <p>
-    “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
-  </div>
-
-  <p>
-    “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
-  </p>
-
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
-    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
-      <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε &emsp; where &emsp; ε ≈ 0</b>
-    </div>
-    When <code>x</code> is a <b>hard dyadic number</b> (born on finite Day <code>k &lt; ω</code>), its halo perturbation vanishes identically (<code>ε = 0</code>), so <code>st(x) = x</code>.
-  </div>
-
-  <p>
-    “Notice the critical distinction here between the <b>formal theorem</b> and a <b>concrete instance</b>,” Jane explained:
-  </p>
-
-  <ul>
-    <li><b>Formal Deductive Theorem:</b> Lean 4 guarantees universally that every finite element on the tree decomposes into its standard shadow and infinitesimal halo dust without exception.</li>
-    <li><b>Concrete Computational Instance:</b> If we take a specific number like <code>x = 4 + 3·dx</code> (where <code>dx = 1/ω</code>):
-      <ul>
-        <li>The standard nucleus is <code>x₀ = st(4 + 3·dx) = 4</code> (a hard dyadic integer with zero intrinsic dust).</li>
-        <li>The transfinite halo perturbation is <code>ε = x - st(x) = 3·dx ∈ μ(0)</code>.</li>
-        <li>The exact decomposition holds: <code>x = 4 + 3·dx = st(x) + ε</code>.</li>
-        <li>Conversely, for a hard number such as <code>y = 4</code>, there is zero dust: <code>st(y) = 4</code> and <code>ε = 0</code>.</li>
-      </ul>
-    </li>
-  </ul>
-
-  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
-    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
-    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
-    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
-    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
-    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
-    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>.
-  </div>
-
-  <hr>
-
-  <h3>2. Continuity Without Epsilon-Delta</h3>
-
-  <p>
-    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
-  </p>
-
-  <p>
-    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
-  </p>
-
-  <p>
-    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>x ≈ x₀ &emsp;&rArr;&emsp; f(x) ≈ f(x₀)</b>
-  </div>
-
-  <p>
-    “In standard calculus,” Jane continued, “professors torture students with Weierstrass’s <i>epsilon-delta definition</i>: 
-    <code>∀ ε &gt; 0, ∃ δ &gt; 0, ∀ x, |x - x₀| &lt; δ &rArr; |f(x) - f(x₀)| &lt; ε</code>. 
-    It has four alternating quantifiers and turns a simple visual idea into a nightmare of nested inequalities!”
-  </p>
-
-  <p>
-    “On <code>ℝ_ω</code>, continuity has <b>zero epsilon-deltas</b>: a function is continuous at <code>x₀</code> if and only if it maps the halo of <code>x₀</code> into the halo of <code>f(x₀)</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping"><b>f( μ(x₀) ) &nbsp;&sube;&nbsp; μ( f(x₀) )</b></fsd-ref>
-  </div>
-
-  <p>
-    “Let''s test this on our favorite function,” Jane said: “<b>Is <code>f(x) = x²</code> continuous?</b>”
-  </p>
-
-  <ol>
-    <li>Take any point in the halo of <code>x₀</code>: &nbsp; <code>x = x₀ + dx</code>, where <code>dx ≈ 0</code>.</li>
-    <li>Compute the output: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code>.</li>
-    <li>Subtract <code>f(x₀)</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx² = dx · (2x₀ + dx)</code>.</li>
-    <li>Because <code>2x₀ + dx</code> is finite and <code>dx</code> is infinitesimal, their product is infinitesimal!</li>
-    <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
-  </ol>
-  <p>
-    Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
-  </p>
-
-  <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
-    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
-
-  <p>
-    “Now let''s look at one of the classical crown jewels of real analysis,” Jane said: “<b>The Intermediate Value Theorem (IVT)</b>.”
-  </p>
-
-  <p>
-    <i>Theorem:</i> If <code>f</code> is continuous on <code>[a, b]</code> with <code>f(a) &lt; 0</code> and <code>f(b) &gt; 0</code>, there exists a point <code>c ∈ [a, b]</code> where <code>f(c) = 0</code>.
-  </p>
-
-  <p>
-    “In standard analysis, proving IVT requires the completeness axiom of the real numbers (Dedekind cuts or least upper bounds) &mdash; an unconstructive proof that tells you a root exists, but gives you no procedure to find it!”
-  </p>
-
-  <p>
-    “On <code>ℝ_ω</code>,” Jane explained, “the proof is a <b>finite computational algorithm</b>:”
-  </p>
-
-  <ol>
-    <li>Partition the interval <code>[a, b]</code> into <code>ω</code> equal steps of size <code>dx = (b - a)/ω</code>: &nbsp; <code>x_k = a + k · dx</code>.</li>
-    <li>Evaluate <code>f</code> at each grid point from left to right: &nbsp; <code>f(x₀) &lt; 0, f(x₁), f(x₂), ...</code>.</li>
-    <li>Because <code>f(x_ω) = f(b) &gt; 0</code>, there must be a <b>first index <code>m</code> where <code>f(x_m) ≥ 0</code></b>.</li>
-    <li>At this transition step: &nbsp; <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code>.</li>
-    <li>Because <code>x_{m-1}</code> and <code>x_m</code> differ by only <code>dx ≈ 0</code>, they belong to the same halo: <code>x_{m-1} ≈ x_m</code>!</li>
-    <li>By continuity: &nbsp; <code>f(x_{m-1}) ≈ f(x_m)</code>. Because <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code> are infinitesimally close, their common standard part must be zero: &nbsp; <b><code>st(f(x_m)) = 0</code></b>!</li>
-  </ol>
-
-  <p>
-    Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
-    • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
-    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</eq-ref>
-  </div>
-
-  <hr>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
-  </p>
-', 'published'),
-  (19, 'analysis1DLecture2', 18, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
-    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
-    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
-  </div>
-
-  <p>
-    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
-  </p>
-
-  <p>
-    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
-  </p>
-
-  <p>
-    “Exactly,” Jane smiled. “Let''s see how this turns all of differential calculus into pure algebra.”
-  </p>
-
-  <hr>
-
-  <h3>1. Deriving Slopes by Pure Algebra</h3>
-
-  <h4>Example 1: The Parabola f(x) = x²</h4>
-  <p>
-    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
-  </p>
-  <ol>
-    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
-    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
-    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
-    <li>Take the standard part: &nbsp; <code>f''(x) = st(2x + dx) = 2x</code></li>
-  </ol>
-  <p>
-    No limits, no inequalities &mdash; just straightforward polynomial division!
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
-      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
-      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
-    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
-    • <b>Equivalence:</b> <code>f''(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
-
-  <p>
-    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 500px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Base Box -->
-        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
-        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
-
-        <!-- Right Strip: u · dv -->
-        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
-        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
-
-        <!-- Top Strip: v · du -->
-        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
-        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
-
-        <!-- Corner: du · dv -->
-        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
-        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
-    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
-  </div>
-  <p>
-    Dividing by <code>dx</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
-  </div>
-  <p>
-    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )'' &nbsp;=&nbsp; u · v'' + v · u''</b></fsd-ref>
-  </div>
-
-  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)'' = u·v'' + v·u''</code></fsd-ref>.<br>
-    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
-    <div align="center" style="margin: 4px 0; font-family: monospace;">
-      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )''(x) = f''(g(x)) · g''(x)</code></fsd-ref>
-    </div>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
-
-  <p>
-    “In standard calculus,” Jane noted, “students are strictly warned: <i>''dy/dx is not a fraction; you cannot cancel dx!''</i>”
-  </p>
-  <p>
-    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
-    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
-  </div>
-  <p>
-    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
-    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
-  </div>
-  <p>
-    Taking standard parts yields the classical Chain Rule:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )''(x) &nbsp;=&nbsp; f''(g(x)) · g''(x)</b></fsd-ref>
-  </div>
-
-  <hr>
-
-  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
-
-  <p>
-    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f''(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
-  </p>
-  <p>
-    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
-    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f''(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
-  </div>
-  <p>
-    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f''(x) · dx</b></fsd-ref>
-  </div>
-  <p>
-    “The derivative <code>f''(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f''(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
-    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f''(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
-    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
-
-  <p>
-    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f''(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
-  </p>
-
-  <p>
-    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn''t curvature come from the <i>difference of the differences</i>?”
-  </p>
-
-  <p>
-    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
-  </p>
-
-  <p>
-    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
-  </p>
-
-  <ol>
-    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
-    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
-    <li><b>The Second Discrete Difference:</b></li>
-  </ol>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
-  </div>
-
-  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
-  <p>
-    Let''s test this directly on our parabola from Section 1:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
-    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
-  </div>
-
-  <p>
-    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-    <b>f''''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
-  </div>
-  <p>
-    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
-  </p>
-
-  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
-  <p>
-    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
-    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
-  </div>
-  <p>
-    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
-  </p>
-  <ul>
-    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
-    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
-    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
-  </ul>
-  <p>
-    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
-    • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
-    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
-  </div>
-
-  <hr>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
-  </p>
-', 'published'),
-  (20, 'analysis1DLecture3', 19, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
-    <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began the final lecture of Course 2 by drawing a continuous curve over an interval <code>[a, b]</code>, divided into a multitude of vertical strips:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 540px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Axes -->
-        <line x1="40" y1="130" x2="500" y2="130" stroke="#334155" stroke-width="2" />
-        <line x1="50" y1="140" x2="50" y2="20" stroke="#334155" stroke-width="2" />
-
-        <!-- Strips under curve -->
-        <path d="M 100 130 L 100 95 Q 220 30 350 70 T 460 30 L 460 130 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
-        
-        <!-- Individual Tile -->
-        <rect x="250" y="55" width="20" height="75" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
-        <text x="260" y="45" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1e40af">f(x_k)·dx</text>
-
-        <!-- Labels -->
-        <text x="100" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">a = x₀</text>
-        <text x="460" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">b = x_ω</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In classical textbooks,” Jane said, “defining the integral requires taking the limit of Riemann sums as the mesh size shrinks to zero, or taking the supremum over all possible Darboux partitions.”
-  </p>
-
-  <p>
-    “On our hyperfinite scaffold <code>ℝ_ω</code>,” Jane smiled, “an integral is not an infinite limit. <b>It is literally a genuine discrete sum of <code>ω</code> microscopic rectangular tiles</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. The Discrete Hyperfinite Integral</h3>
-
-  <p>
-    Partition the interval <code>[a, b]</code> into <code>ω</code> equal infinitesimal steps of width <code>dx = (b - a) / ω</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b &emsp; where &emsp; x_k = a + k·dx
-  </div>
-
-  <p>
-    The continuous area under the curve is the standard part of the discrete sum:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b></fsd-ref>
-  </div>
-
-  <p>
-    Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
-  </p>
-
-  <h4>Formal Statement (FS-A1D-3.1): The Discrete Definite Integral on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
-    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
-    • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
-    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_discrete_integral" formula="SUM_W(x^2, 0, 1)">Discrete Definite Integral of x² on [0, 1] ≡ 1/3</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>2. The Fundamental Theorem of Calculus as Telescoping Cancellation</h3>
-
-  <p>
-    “Now,” Jane said, “we arrive at the crown jewel connecting differentiation and integration: <b>The Fundamental Theorem of Calculus (FTC)</b>.”
-  </p>
-
-  <p>
-    “Suppose <code>F''(x) = f(x)</code>. Across each microscopic step <code>dx</code> from <code>x_{k-1}</code> to <code>x_k</code>, the change in <code>F</code> is:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    <b>F(x_k) - F(x_{k-1}) &nbsp;≈&nbsp; F''(x_k) · dx &nbsp;=&nbsp; f(x_k) · dx</b>
-  </div>
-
-  <p>
-    “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref><br><br>
-    = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
-  </div>
-
-  <p>
-    Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
-  </p>
-
-  <p>
-    “Wait,” Jill added, “that is the exact same pairwise cancellation as the high-school shift-and-subtract trick for geometric progressions: <code>(1 - r) · S_n = a - a · rⁿ</code>! All intermediate terms collapse identically!”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
-    <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
-  </div>
-
-  <p>
-    Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>
-  </div>
-
-  <p>
-    “Exactly,” Jane smiled. “The high-school progression trick and the Fundamental Theorem of Calculus are the exact same algebraic phenomenon: pairwise boundary cancellation, operating here across our hyperfinite grid. There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Exact Telescoping Identity:</b> For any discrete sequence <code>F(x_k)</code>:<br>
-    <div align="center" style="margin: 4px 0; font-family: monospace;">
-      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
-    </div>
-    • <b>Infinitesimal Increment Substitution:</b> If <code>F''(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
-    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_telescoping_ftc" formula="TELESCOPING_FTC(x^3, a, b)">Telescoping FTC Cancellation on f(x) = 3x²</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. Looking Forward to Analysis 2D (ℂ_ω)</h3>
-
-  <p>
-    “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
-  </p>
-  <p>
-    “In <b>Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
-  </p>
-  <ul>
-    <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
-    <li>How <b>Cauchy''s Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
-    <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
-  </ul>
-', 'published'),
-  (21, 'analysis2DIntro', 20, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
-<div align="center">
-      <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
-      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
-    </div>
-    <br>
-    <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
-    <p>
-      If 1D Real Analysis is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
-    </p>
-    <p>
-      Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
-    </p>
-    <hr>
-    <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
-    <p>
-      The complex continuum <code>ℂ_ω</code> is constructed by taking two copies of our 1D real tree scaffold <code>ℝ_ω</code> and crossing them at right angles:
-    </p>
-    <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
-      <b>z &nbsp;=&nbsp; x + i · y &emsp; where &emsp; x, y ∈ ℝ_ω &emsp;and&emsp; i² = -1</b>
-    </div>
-    <p>
-      The fundamental infinitesimal cell displacement is:
-    </p>
-    <div style="font-family: monospace; font-size: 14px; margin: 6px 0;" align="center">
-      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
-    </div>
-
-    <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
-      The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i·y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
-      </div>
-      Every point <code>z ∈ ℂ_ω</code> is tiled by infinitesimal <code>dx × dy</code> square cells with step <code>dz = dx + i·dy</code>, yielding a seamless 2D continuum with zero gaps.
-    </div>
-    </fsd-ref>
-
-    <div style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
-      <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
-      <br>
-      Crossing two 1D 2-successor trees <code>(ℝ_ω × ℝ_ω)</code> yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> cells &mdash; completely tiling 2D Cartesian space with zero gaps!<br>
-      <br>
-      While two decoupled 1D axes fill Cartesian space, the native <b>4-successor complex tree <code>ℂ_ω</code></b> binds <em>x</em> and <em>y</em> into a single complex entity. Neighboring cells share 1D boundary walls across which complex phase rotations <code>e^{iθ}</code> and continuous quantum wave packets flow smoothly.
-    </div>
-    <hr>
-    <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
-    <p>
-      In real 2D calculus, a function <code>f : ℝ² → ℝ²</code> can stretch, squish, or distort shapes into arbitrary shears. In <b>Complex Analysis</b>, requiring a single complex derivative <code>f''(z)</code> forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
-    </p>
-    <ul>
-      <li>Every infinitesimal grid square is <b>scaled and rotated</b>, but <b>never sheared</b>!</li>
-      <li>This geometric square-preservation is algebraically expressed by the <b>Cauchy-Riemann Equations</b>:
-        <div style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;" align="center">
-          <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
-        </div>
-      </li>
-    </ul>
-
-    <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Maps">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Maps):</b><br>
-      A function <code>f(z) = u(x,y) + i·v(x,y)</code> is complex differentiable if and only if horizontal and vertical infinitesimal slopes coincide:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>st(Δf / dx) &nbsp;=&nbsp; st(Δf / (i·dy)) &nbsp;⇒&nbsp; ∂u/∂x = ∂v/∂y &nbsp;and&nbsp; ∂u/∂y = -∂v/∂x</b>
-      </div>
-      Geometrically, every microscopic square cell maps to another un-sheared square, preserving angles and local shapes.
-    </div>
-    </fsd-ref>
-
-    <hr>
-    <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
-    <p>
-      In 1D calculus, the Fundamental Theorem worked by 1D telescoping cancellation between adjacent line segments. In 2D complex calculus, <b>Cauchy''s Integral Theorem</b> is the exact 2D planar analog:
-    </p>
-    <div style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (around any closed loop enclosing no poles)</b>
-    </div>
-    <p>
-      <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside. Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
-    </p>
-
-    <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="FS-A2D-2.1: Cauchy''s Integral Theorem & Boundary Cancellation">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; Boundary Cancellation):</b><br>
-      For any holomorphic function <code>f(z)</code> on a simply connected domain enclosing loop <code>γ</code>, tiling the interior into micro-cells <code>□_k</code> gives:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>∮_γ f(z) dz &nbsp;=&nbsp; ∑_{k} ∮_{∂□_k} f(z) dz &nbsp;=&nbsp; 0</b>
-      </div>
-      Every shared internal cell edge is traversed in opposing directions (<code>↑ + ↓ = 0</code>, <code>→ + ← = 0</code>), leaving net boundary circulation zero.
-    </div>
-    </fsd-ref>
-
-    <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: Residues & Logarithmic Root Counting">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-2.2 (Residues &amp; Logarithmic Root Counting):</b><br>
-      When isolated poles <code>z_k</code> puncture the region, closed loop integration counts vortex circulations:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k) &emsp;and&emsp; (1 / 2π i) ∮_γ [f''(z) / f(z)] dz &nbsp;=&nbsp; N_zeros(f, γ)</b>
-      </div>
-      Continuous contour integrals act as exact integer counters for enclosed roots.
-    </div>
-    </fsd-ref>
-
-    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
-      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
-        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
-      </summary>
-      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
-        <p>
-          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy''s Integral Theorem</b>, <b>Cauchy''s Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green''s Theorem</b> &mdash; opens with the exact same condition: 
-          <i>“Let γ be a simple closed curve in the plane...”</i>
-        </p>
-        <p>
-          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
-        </p>
-        <ul>
-          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
-          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
-          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
-        </ul>
-        <p>
-          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
-        </p>
-
-        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
-
-        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
-        <ol style="margin-left: 18px;">
-          <li style="margin-bottom: 8px;">
-            <b>Cauchy''s Integral Formula as an Analytic Inside/Outside Detector:</b><br>
-            Consider Cauchy''s integral formula with test function <code>f(z) = 1</code>:
-            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
-            </div>
-            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
-          </li>
-          <li style="margin-bottom: 8px;">
-            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
-            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
-          </li>
-          <li style="margin-bottom: 8px;">
-            <b>Green''s Theorem &amp; Telescoping Cell Sums:</b><br>
-            Green''s theorem converts a 2D surface integral into a 1D perimeter circulation:
-            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
-            </div>
-            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
-          </li>
-        </ol>
-
-        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
-
-        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
-        <p>
-          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
-        </p>
-        <ul>
-          <li><b>The Quadtree Horizon Escape:</b> 
-            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
-          </li>
-          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
-            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
-            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
-              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
-            </div>
-            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
-          </li>
-          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
-            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy''s integral formula.
-          </li>
-        </ul>
-      </div>
-    </details>
-
-    <hr>
-    <h3>4. Looking Ahead: Continuous Unitary Evolution &amp; Phase Transitions</h3>
-    <p>
-      Complex analysis provides the mathematical foundation for wave mechanics and continuous state evolution, bridging forward to spatial geometry and quantum theory:
-    </p>
-    <h4>A. Continuous Quantum State Evolution</h4>
-    <p>
-      The continuous-time evolution of a quantum state is a continuous phase rotation powered by the Hamiltonian operator <code>H</code>:
-    </p>
-    <div style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;" align="center">
-      <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
-    </div>
-
-    <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Continuous Unitary Evolution & Schrödinger Equation">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-3.1 (Continuous Unitary Evolution &amp; Schrödinger Equation):</b><br>
-      Self-adjointness of the Hamiltonian (<code>H = H†</code>) guarantees that time evolution <code>U(t) = e^(-i H t / ħ)</code> is unitary (<code>U(t)† U(t) = I</code>), preserving total probability. Differentiating with respect to time yields the continuous Schrödinger equation:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-      </div>
-    </div>
-    </fsd-ref>
-
-    <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
-    <p>
-      Why does liquid water suddenly freeze into rigid ice at exactly 0°C?
-    </p>
-    <ul>
-      <li>For any finite system (<code>N &lt; ω</code>), the thermodynamic partition function <code>Z_N(T)</code> is strictly positive and analytic everywhere on the real temperature axis.</li>
-      <li>Its zeros live exclusively in the <b>complex plane</b> (Lee-Yang zeros).</li>
-      <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
-    </ul>
-
-    <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Phase Transitions">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Phase Transitions):</b><br>
-      For any finite system, partition zeros lie strictly off the real line in <code>ℂ_ω \ ℝ</code>. In the transfinite continuum limit (<code>N = ω</code>), the zero distribution pinches the real line at critical point <code>T_c</code>, inducing a non-analytic kink in free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> that manifests as a macroscopic phase transition.
-    </div>
-    </fsd-ref>
-
-    <hr>
-    <h3>Analysis 2D Lecture Plan</h3>
-    <ul>
-      <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
-        Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation (<b>FS-A2D-1.1, FS-A2D-1.2</b>).</li>
-      <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b>
-        Proving Cauchy''s Integral Theorem via 2D cell edge cancellation, Laurent expansions, and root-counting loop integrals (<b>FS-A2D-2.1, FS-A2D-2.2</b>).</li>
-      <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b>
-        Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
-    </ul>
-', 'published'),
-  (22, 'analysis2DLecture1', 21, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
-    <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 1 by sketching a 2D square grid on the blackboard, formed by crossing two copies of the 1D tree scaffold <code>ℝ_ω</code>:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 520px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Axes -->
-        <line x1="30" y1="130" x2="490" y2="130" stroke="#334155" stroke-width="2" />
-        <line x1="50" y1="145" x2="50" y2="15" stroke="#334155" stroke-width="2" />
-        <text x="480" y="145" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Re (x)</text>
-        <text x="55" y="25" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Im (y)</text>
-
-        <!-- Grid Lines -->
-        <g stroke="#e2e8f0" stroke-width="1">
-          <line x1="120" y1="20" x2="120" y2="130" />
-          <line x1="190" y1="20" x2="190" y2="130" />
-          <line x1="260" y1="20" x2="260" y2="130" />
-          <line x1="330" y1="20" x2="330" y2="130" />
-          <line x1="400" y1="20" x2="400" y2="130" />
-          <line x1="50" y1="100" x2="470" y2="100" />
-          <line x1="50" y1="70" x2="470" y2="70" />
-          <line x1="50" y1="40" x2="470" y2="40" />
-        </g>
-
-        <!-- Highlighted Cell dz = dx + i dy -->
-        <rect x="260" y="70" width="70" height="30" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
-        <text x="295" y="88" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#1e40af">dz = dx + i·dy</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In Course 2,” Jane said, “we explored continuous calculus along a 1D line. Today, we cross two 1D tree transects at right angles to construct the 2D complex plane: <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>.”
-  </p>
-
-  <p>
-    Jill observed: “In 1D, when you take an infinitesimal step <code>dx</code>, you can only step left or right. But in 2D, a point can be approached from an infinite number of directions: horizontally, vertically, or diagonally!”
-  </p>
-
-  <p>
-    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
-  </div>
-
-  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
-    • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
-    • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
-    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
-    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_complex_step" formula="NORM_SQ(x + i*y)">2D Complex Step &amp; Modulus Invariance on ℂ_ω</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>1. Deriving the Cauchy-Riemann Equations</h3>
-
-  <p>
-    Let <code>f(z) = u(x, y) + i · v(x, y)</code> be a complex function, where <code>u</code> is the real part and <code>v</code> is the imaginary part.
-    For the derivative <code>f''(z) = st(Δf / dz)</code> to exist independently of direction, the slope along a <b>horizontal step</b> must match the slope along a <b>vertical step</b>:
-  </p>
-
-  <h4>Move 1: Horizontal Step (dz = dx, dy = 0)</h4>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;→&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
-  </div>
-
-  <h4>Move 2: Vertical Step (dz = i·dy, dx = 0)</h4>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δf / (i·dy) &nbsp;=&nbsp; [ (u(x, y+dy) - u(x, y)) + i(v(x, y+dy) - v(x, y)) ] / (i·dy) &nbsp;=&nbsp; (1/i) · ∂u/∂y + ∂v/∂y<br>
-    &emsp;&emsp;&emsp;&emsp;&emsp;= <b>∂v/∂y - i · ∂u/∂y</b> &emsp; (since 1/i = -i)
-  </div>
-
-  <h4>Equating Real &amp; Imaginary Components:</h4>
-  <p>
-    Equating the horizontal and vertical slopes gives the famous <b>Cauchy-Riemann Equations</b>:
-  </p>
-
-  <fsd-ref tier="3" scaffold="Holomorphic" title="Cauchy-Riemann Coordinate Symmetry">
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Geometric Meaning: Conformal Square Preservation</h3>
-
-  <p>
-    “What do the Cauchy-Riemann equations actually mean geometrically?” Jane asked.
-  </p>
-
-  <p>
-    Jane drew a microscopic square on the input grid and its image under <code>f(z)</code>:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 540px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Left: Input Square -->
-        <rect x="40" y="35" width="60" height="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
-        <text x="70" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">dx × dy</text>
-        <text x="70" y="115" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Input Cell</text>
-
-        <!-- Arrow -->
-        <text x="200" y="60" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">f(z)</text>
-        <line x1="150" y1="65" x2="250" y2="65" stroke="#94a3b8" stroke-width="2" />
-        <polygon points="255,65 245,60 245,70" fill="#94a3b8" />
-
-        <!-- Right: Rotated & Scaled Square (No Shear!) -->
-        <g transform="translate(370, 65) rotate(30)">
-          <rect x="-40" y="-40" width="80" height="80" fill="#faf5ff" stroke="#9333ea" stroke-width="2" />
-          <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Rotated Square</text>
-        </g>
-        <text x="370" y="125" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Output Cell: Preserves 90° Corners!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    Jill smiled: “The transformation stretches and rotates the square, but it <b>never distorts it into a parallelogram</b>! It preserves every right angle!”
-  </p>
-
-  <p>
-    “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
-  </p>
-
-  <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Invariance">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
-    Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Coordinate Symmetry:</b> <code>∂u/∂x = ∂v/∂y</code> and <code>∂u/∂y = -∂v/∂x</code>.</li>
-      <li><b>Jacobian Structure:</b> The derivative Jacobian matrix has the conformal form:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>J = [ [a, -b], [b, a] ] &emsp; with &nbsp; det(J) = a² + b² = |f''(z)|²</b>
-        </div>
-      </li>
-      <li><b>Conformal Invariance:</b> The linear map scales by <code>|f''(z)|</code> and rotates by <code>arg(f''(z))</code>, strictly preserving oriented angles and orthogonality.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_riemann" formula="CR_DIFF(z^2, z)">Cauchy-Riemann Symmetries on f(z) = z²</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <p>
-    “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
-  </p>
-', 'published'),
-  (23, 'analysis2DLecture2', 22, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
-    <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 2 by drawing a closed loop <code>γ</code> filled with a checkerboard mosaic of microscopic square cells:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 520px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Outer Loop -->
-        <ellipse cx="260" cy="80" rx="190" ry="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" />
-        <text x="430" y="50" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Loop γ</text>
-
-        <!-- Internal Cells -->
-        <g stroke="#93c5fd" stroke-width="1">
-          <rect x="180" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="220" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="260" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="300" y="55" width="40" height="40" fill="#ffffff" />
-        </g>
-
-        <!-- Opposing Arrows on Shared Edge -->
-        <line x1="220" y1="58" x2="220" y2="92" stroke="#dc2626" stroke-width="2" />
-        <polygon points="217,70 220,62 223,70" fill="#dc2626" />
-        <line x1="222" y1="58" x2="222" y2="92" stroke="#16a34a" stroke-width="2" />
-        <polygon points="219,80 222,88 225,80" fill="#16a34a" />
-        <text x="220" y="115" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#334155">Opposing internal edges cancel!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In 1D calculus,” Jane said, “the Fundamental Theorem worked because every intermediate point canceled out in a single line of telescoping addition. Today, we discover how the exact same principle works across a 2D plane: <b>Cauchy''s Integral Theorem</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. Cauchy''s Theorem as 2D Boundary Cancellation</h3>
-
-  <p>
-    Suppose you want to compute the total circulation around a closed loop: <code>∮_γ f(z) dz</code>.
-  </p>
-
-  <ol>
-    <li>
-      Tile the interior of the loop with microscopic square cells <code>dx × dy</code> on our grid <code>ℂ_ω</code>.
-    </li>
-    <li>
-      Sum the counter-clockwise circulation around every individual microscopic cell.
-    </li>
-    <li>
-      <b>The Internal Edge Cancellation:</b> For every interior boundary line separating two cells, the left cell integrates upwards (<code>↑</code>), while the right cell integrates downwards (<code>↓</code>). The two contributions are equal and opposite, <b>cancelling to exact zero</b>!
-    </li>
-    <li>
-      All internal edges vanish, leaving only the outermost perimeter edges &mdash; which form the outer loop <code>γ</code>!
-    </li>
-  </ol>
-
-  <p>
-    Because the Cauchy-Riemann equations guarantee that circulation around every unpunctured microscopic square is zero, the total loop integral must be <b>identically zero</b>:
-  </p>
-
-  <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="Cauchy Closed Loop Circulation (∮ f(z) dz = 0)">
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
-  </div>
-  </fsd-ref>
-
-  <fsd-ref tier="3" scaffold="cauchy_edge_cancel" title="FS-A2D-2.1: Cauchy''s Integral Theorem & 2D Edge Cancellation">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; 2D Edge Cancellation):</b><br>
-    Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; st( ∑_{k} ∮_{∂□_k} f(z) dz ) &nbsp;=&nbsp; 0</b>
-    </div>
-    <b>Proof mechanism:</b> Every interior cell-boundary edge shared by adjacent cells <code>□_i</code> and <code>□_j</code> is oriented with opposite traversal directions:
-    <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-      <b>∫_{e_{ij}} f(z) dz + ∫_{e_{ji}} f(z) dz &nbsp;=&nbsp; 0</b>
-    </div>
-    All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_integral" formula="CELL_SUM(dz, Loop)">Cauchy Closed Loop Cell Edge Cancellation</eq-ref>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Singularities &amp; The Residue Theorem</h3>
-
-  <p>
-    “What happens,” Jill asked, “if a function blows up at a point inside the loop &mdash; like <code>f(z) = 1/z</code> at <code>z = 0</code>?”
-  </p>
-
-  <p>
-    “When a puncture (pole) exists,” Jane explained, “the square at the origin cannot cancel. If we integrate <code>1/z</code> around a circle of radius <code>r = 1</code> using <code>z = e^(iθ)</code> and <code>dz = i·e^(iθ) dθ</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∮_{|z|=1} (1/z) dz &nbsp;=&nbsp; ∫[0 to 2π] (1/e^(iθ)) · (i·e^(iθ) dθ) &nbsp;=&nbsp; i ∫[0 to 2π] dθ &nbsp;=&nbsp; 2π i</b>
-  </div>
-
-  <p>
-    “The non-zero value <code>2π i</code> is the fundamental vortex circulation of the pole!” Jane said.
-    “This generalizes to the <b>Residue Theorem</b>: every closed loop integral simply counts the sum of its enclosed vortex residues:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
-    <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
-  </div>
-
-  <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: The Residue Theorem & Logarithmic Root Counting">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
-    Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑_{k} Res(f, z_k) &emsp; where &emsp; Res(f, z_k) = c_{-1}</b>
-    </div>
-    Furthermore, integrating the logarithmic derivative yields the exact integer zero-counter:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>( 1 / 2π i ) ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
-    </div>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_residue_integral" formula="RESIDUE(1/z, z=0)">Residue Theorem on 1/z at Origin: 2π i</eq-ref>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>3. Counting Zeros via Logarithmic Loops</h3>
-
-  <p>
-    “Finally,” Jane said, “look at what happens when we integrate the logarithmic derivative <code>f''(z) / f(z)</code> around a loop <code>γ</code>:”
-  </p>
-
-  <fsd-ref tier="3" scaffold="residue_theorem" title="Logarithmic Derivative Root Counter">
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>( 1 / 2π i ) · ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; Number of Zeros of f(z) inside γ</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jill’s eyes widened: “A continuous loop integral acts as an <b>exact integer counter</b> for how many roots are trapped inside!”
-  </p>
-
-  <p>
-    “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
-  </p>
-', 'published'),
-  (24, 'analysis2DLecture3', 23, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
-    <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane stood before the class to open the concluding lecture of Analysis 2D:
-  </p>
-
-  <p>
-    “Having explored 1D rates of change and 2D conformal geometry on the complex plane <code>ℂ_ω</code>, we now examine how complex numbers govern continuous physical systems. Today, we discover how continuous phase rotations drive unitary state evolution and uncover the geometric origins of <b>Phase Transitions</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. Continuous-Time Wave Evolution &amp; Unitary Invariance</h3>
-
-  <p>
-    “In physical systems and wave mechanics,” Jane explained to Jill, “a continuous state evolves over time driven by an energy Hamiltonian operator <code>H</code>. How does complex geometry govern this continuous change?”
-  </p>
-
-  <p>
-    “In quantum mechanics, time evolution is driven by the energy Hamiltonian operator <code>H</code> through a <b>continuous unitary group map</b>:”
-  </p>
-
-  <fsd-ref tier="3" scaffold="unitary_preservation" title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)">
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jane pointed to the exponent: “Notice how the mathematical pieces we''ve built snap together:”
-  </p>
-  <ul>
-    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies.</li>
-    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code>.</li>
-    <li><b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign in the complex exponent:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t / ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b>
-      </div>
-      Multiplying them together yields:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
-        <b>U(t)† · U(t) &nbsp;=&nbsp; e^(+iHt/ħ) · e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
-      </div>
-    </li>
-    <li><b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation on the unit sphere of Hilbert space &mdash; <b>probabilities are 100% conserved and information is never destroyed</b>!</li>
-    <li>Evaluating the infinitesimal rate of change yields <b>Schrödinger''s Equation</b> directly:
-      <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-        <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-      </div>
-    </li>
-  </ul>
-
-  <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger Equation):</b><br>
-    Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space <code>H</code>.
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Unitary Group Map:</b> The continuous time operator <code>U(t) = e^{-i H t / ħ}</code> satisfies:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥² &nbsp;=&nbsp; 1</b>
-        </div>
-      </li>
-      <li><b>Infinitesimal Generator:</b> Taking the time derivative at <code>dt = 1/ω</code> yields the differential Schrödinger equation:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-        </div>
-      </li>
-      <li><b>Probability Conservation:</b> Continuous state dynamics preserves total probability along the unit sphere without dissipation.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_unitary_schrodinger" formula="SCHRODINGER_EXP(-i*H*t/hbar)">Unitary Time Evolution &amp; Probability Conservation</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Continuous Wavepackets &amp; Spatial Normalization</h3>
-
-  <p>
-    “When a physical wave or state is continuous across space,” Jane continued, “the spatial amplitude <code>ψ(x)</code> distributes across the continuum.”
-  </p>
-
-  <p>
-    The total probability is normalized through our hyperfinite integral:
-  </p>
-  <fsd-ref tier="3" scaffold="hyper_sum" title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)">
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-    <b>∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx ) &nbsp;=&nbsp; 1</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    “When an observation is made at position <code>x</code>, the continuous state localizes. Looking ahead to our later exploration of Quantum and Bayesian systems in Level 5, the Born rule <code>P(x) = |ψ(x)|²</code> serves as the profound bridge connecting continuous wave geometry to empirical observation and belief revision!”
-  </p>
-
-  <hr>
-
-  <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
-
-  <p>
-    “Now,” Jane smiled, “let''s address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 580px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Real Axis -->
-        <line x1="30" y1="90" x2="550" y2="90" stroke="#334155" stroke-width="2" />
-        <text x="540" y="80" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Real Temp T</text>
-        <circle cx="290" cy="90" r="4" fill="#dc2626" />
-        <text x="290" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#dc2626">Critical Temp T_c</text>
-
-        <!-- Complex Unit Circle & Pinching Zeros -->
-        <ellipse cx="290" cy="90" rx="90" ry="70" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3" />
-        <circle cx="240" cy="40" r="3" fill="#2563eb" />
-        <circle cx="340" cy="40" r="3" fill="#2563eb" />
-        <circle cx="230" cy="90" r="3" fill="#2563eb" />
-        <circle cx="350" cy="90" r="3" fill="#2563eb" />
-        <circle cx="280" cy="85" r="3" fill="#2563eb" />
-        <circle cx="300" cy="85" r="3" fill="#2563eb" />
-        <circle cx="290" cy="91" r="3.5" fill="#dc2626" />
-
-        <text x="290" y="25" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Lee-Yang Zeros in Complex Plane ℂ_ω</text>
-        <text x="290" y="155" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#64748b">At N = ω, zeros pinch the real axis at T_c creating sudden macroscopic phase change!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    Jane explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
-  </p>
-
-  <ol>
-    <li>
-      <b>Finite Systems are Perfectly Smooth (N &lt; ω):</b> For any finite collection of <code>N</code> atoms, the partition function <code>Z_N(T)</code> is a polynomial with all positive real coefficients. A polynomial with positive coefficients <b>can never equal zero for any real temperature <code>T ∈ ℝ</code></b>.
-    </li>
-    <li>
-      <b>Zeros Live Exclusively in ℂ_ω:</b> In 1952, Nobel laureates T.D. Lee and C.N. Yang proved that all zeros of <code>Z_N</code> live off the real axis, distributed along a circle in the <b>complex plane <code>ℂ_ω</code></b>.
-    </li>
-    <li>
-      <b>The Thermodynamic Pinch (N = ω):</b> As the number of atoms reaches our transfinite scale <code>N = ω</code>, the density of complex zeros intensifies until they <b>pinch the real temperature axis at exact critical point <code>T_c</code></b>!
-    </li>
-    <li>
-      <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink &mdash; creating the sudden, sharp macroscopic transition of freezing, boiling, or ferromagnetism!
-    </li>
-  </ol>
-
-  <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Emergent Phase Transitions):</b><br>
-    Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition function of an <code>N</code>-particle system.
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Analyticity on Real Axis:</b> For all finite <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in <code>ℂ_ω \ ℝ</code>.</li>
-      <li><b>Transfinite Accumulation:</b> In the thermodynamic limit <code>N → ω</code>, the zero locus accumulates into continuous curves pinching the real axis:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at &emsp; T = T_c</b>
-        </div>
-      </li>
-      <li><b>Macroscopic Singularity:</b> The free energy per particle <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a non-analytic derivative singularity at <code>T_c</code>, giving rise to physical latent heat and spontaneous symmetry breaking.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_lee_yang" formula="LEE_YANG_ZEROS(N)">Lee-Yang Circle Zeros &amp; Thermodynamic Pinch at T_c</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”
-  </p>
-
-  <p>
-    “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
-  </p>
-', 'published'),
-  (25, 'vectorFoundationsIntro', 24, 'Level 3: Space, Direction & Geometry', 'vector-foundations-intro', '
-<div align="center">
-    <i><font size="+2"><b>Level 3: Space, Direction &amp; Geometry</b></font></i><br>
+    <i><font size="+2"><b>Level 2: Space, Direction &amp; Geometry</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric Transformations</font></i>
   </div>
   <br>
@@ -7158,7 +4900,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
   </ul>
 ', 'published'),
-  (26, 'vectorsLecture1', 25, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (16, 'vectorsLecture1', 15, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -7360,7 +5102,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (27, 'vectorsLecture2', 26, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (17, 'vectorsLecture2', 16, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -7495,7 +5237,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (28, 'vectorsLecture3', 27, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (18, 'vectorsLecture3', 17, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -7783,7 +5525,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
   </p>
 ', 'published'),
-  (29, 'stemTrigFoundations', 28, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
+  (19, 'stemTrigFoundations', 18, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
     <div class="subtitle">
@@ -9025,6 +6767,1981 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
   </div>
 ', 'published'),
+  (20, 'lamOverview', 19, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
+<div align="center">
+    <font size="+2"><i><b>Level 3: Continuum &amp; Calculus<br>
+          Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
+    <font size="+1"><i>— Bridging the Discrete Conway Tree to Continuous Analysis —</i></font>
+  </div>
+  <br>
+
+  <h3>Continuous Change on the Hyperfinite Scaffold</h3>
+  <p>
+    In our foundational study of numbers and discrete structures, we established how numbers emerge day by day from inductive trees. 
+    In <b>Level 3: Continuum &amp; Calculus</b>, we extend this discrete foundation into continuous change, instantaneous rates, and accumulation.
+  </p>
+  <p>
+    Standard real analysis constructs the continuum using metric topologies, epsilon-delta limit towers, and Dedekind cuts. 
+    While rigorous, this traditional apparatus often obscures the geometric intuition of continuous change beneath layers of nested quantifiers.
+  </p>
+  <p>
+    By leveraging John Conway''s recursive number tree at Day <code>ω</code>, we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate number. 
+    This nonstandard perspective transforms continuous calculus into straightforward algebra: derivatives become simple difference ratios <code>dy / dx</code> followed by taking the standard part shadow, and integrals become genuine hyperfinite sums of microscopic tiles.
+  </p>
+  <p>
+    Level 3 develops this unified framework across:
+  </p>
+  <ul>
+    <li><b>Sequences &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code> along the arithmetic and geometric tree ladders, grounding continuous analysis in finite induction.</li>
+    <li><b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity without epsilon-delta, and the fundamental theorem of calculus on <code>ℝ_ω</code>.</li>
+    <li><b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, conformal shape-preservation, Cauchy contour integration by 2D cell cancellation, and continuous phase dynamics.</li>
+  </ul>
+
+  <hr>
+
+  <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
+  <p>
+    To understand why nonstandard analysis is so empowering, one must examine how mathematics historically struggled to tame continuous change:
+  </p>
+
+  <ul>
+    <li>
+      <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash; <i>Leibniz, Newton, Euler</i>:</b><br>
+      Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code>) &mdash; quantities strictly greater than zero, yet smaller than any positive standard real number. With infinitesimals, derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>). Mathematicians solved celestial orbits, fluid mechanics, and wave equations with breathtaking speed, but critics (like Bishop Berkeley) argued that infinitesimals were logically unsound "ghosts of departed quantities."
+    </li>
+    <br>
+    <li>
+      <b>Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash; <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
+      Fearing foundational inconsistency, 19th-century mathematicians banished infinitesimals. They replaced intuitive algebraic ratios with the real continuum <code>ℝ</code> and dense <b>epsilon-delta (ε-δ) limit definitions</b>:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
+      </div>
+      While logically watertight, this reform erected a massive cognitive barrier, turning intuitive geometric concepts into nested quantifier gymnastics.
+    </li>
+    <br>
+    <li>
+      <b>Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
+      As physics expanded into quantum mechanics and relativity, mathematicians sought to escape the clumsiness of metric <code>ε-δ</code> limits by ascending into <b>pure set-theoretic topology and measure theory</b>:
+      <ul>
+        <li><i>Topological Continuity:</i> <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The preimage of every open set is an open set).</li>
+        <li><i>Lebesgue Integration:</i> Integrated functions by measuring preimage sizes on <code>σ-algebras</code> rather than taking limits of partition meshes.</li>
+      </ul>
+      This abstraction was immensely powerful for functional analysis, but it severely detached continuous mathematics from physical and geometric intuition.
+    </li>
+    <br>
+    <li>
+      <b>Epoch 4: The Nonstandard Synthesis &mdash; <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
+      Leibniz''s intuitive infinitesimals were given complete, rigorous mathematical foundations through model theory and <b>John Conway''s recursive number tree</b>.
+      By observing the continuum scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the transfinite tree:
+      <ul>
+        <li><b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers born on Day <code>ω</code> of the recursive tree: <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.</li>
+        <li><b>Continuity</b> is halo preservation: <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing by transfinite branches stay infinitesimally close).</li>
+        <li><b>Differentiation</b> is pure algebraic division: <code>f''(x) = st(Δy / dx)</code>.</li>
+        <li><b>Integration</b> is genuine discrete addition: <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.</li>
+      </ul>
+    </li>
+  </ul>
+', 'published'),
+  (21, 'sequencesAndSums', 20, 'Sequences & Progressions', 'sequences-and-sums', '
+  <style>
+    .seq-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 36px 60px 36px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      color: #0f172a;
+    }
+    .seq-container h1 {
+      color: #1e3a8a;
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .seq-container h2 {
+      color: #1e3a8a;
+      font-size: 1.4em;
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 6px;
+    }
+    .seq-container h3 {
+      color: #0284c7;
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .seq-container p, .seq-container li {
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .seq-container code {
+      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .seq-formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #0284c7;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .seq-highlight-card {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 22px 0;
+    }
+    .seq-callout {
+      background: #f5f3ff;
+      border: 1.5px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .seq-grid-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 18px;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .seq-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13.5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .seq-table th {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .seq-table td {
+      border-top: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+    .seq-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <div class="seq-container">
+    <h1>Sequences &amp; Progressions</h1>
+    <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
+      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
+    </p>
+
+    <!-- Curricular Gateway -->
+    <div class="seq-highlight-card">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
+      <p style="margin-bottom: 12px;">
+        In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
+        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
+      </p>
+
+      <!-- Demystifying F: The Sequence in the Conceptual Model -->
+      <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span style="font-size: 18px;">📐</span>
+          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
+        </div>
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
+          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our foundational ontology, a function''s type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
+          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
+            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code> &emsp; (increments by fixed constant difference <code>d</code>).</li>
+            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code> &emsp; (scales by fixed multiplicative factor <code>r</code>).</li>
+            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code> &emsp; (generates the cubic progression evaluated on the counting spine).</li>
+            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code> &emsp; (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
+          </ul>
+        </div>
+
+        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
+          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 1: The Two Fundamental Ladders -->
+    <h2>1. The Two Fundamental Ladders of the Trees</h2>
+    <p>
+      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of stepping:
+    </p>
+
+    <!-- Side-by-Side Visual Comparison Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 20px 0;">
+      
+      <!-- Arithmetic Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #1e3a8a;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe;">Tree 1 (Unary Spine)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">1-Successor Count</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 16px;">The Arithmetic Ladder (Linear March)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by adding a fixed constant at each step. Models uniform motion, constant-force acceleration increments, and clock ticks.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; margin: 4px 0;">
+            F(k + 1) = F(k) + d &nbsp;⇒&nbsp; F(k) = a + k · d
+          </div>
+          <div style="font-size: 12px; color: #475569;">Constant forward difference: <code>ΔF(k) = d</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Equally spaced rungs climbing a straight vertical ladder.<br>
+          • <b>Continuous Limit:</b> Forms the linear line <code>y = m·x + b</code> with constant slope <code>d</code>.
+        </div>
+      </div>
+
+      <!-- Geometric Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #7c3aed;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">Tree 2 (Binary Branching)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">2-Successor Branching</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #7c3aed; font-size: 16px;">The Geometric Ladder (Multiplicative Scaling)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by multiplying by a fixed ratio at each step. Models binary branch populations, radioactive decay, compounding, and sensory perception.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #7c3aed; margin: 4px 0;">
+            F(k + 1) = r · F(k) &nbsp;⇒&nbsp; F(k) = a · r^k
+          </div>
+          <div style="font-size: 12px; color: #475569;">Difference proportional to term: <code>ΔF(k) = F(k) · (r - 1)</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Each rung multiplies the height of the previous rung.<br>
+          • <b>Continuous Limit:</b> Forms the exponential curve <code>y = a · e^(k·x)</code> where rate equals quantity.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary Comparison Table -->
+    <table class="seq-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Tree Foundation</th>
+          <th style="width: 22%;">Progression Type</th>
+          <th style="width: 18%;">Step Law</th>
+          <th style="width: 20%;">Closed Formula</th>
+          <th style="width: 20%;">Characteristic Property</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background-color: #ffffff;">
+          <td><b>Tree 1</b><br><span style="font-size: 11.5px; color: #64748b;">Unary counting spine</span></td>
+          <td><b style="color: #1e3a8a;">Arithmetic</b></td>
+          <td><code>+ d</code> (additive)</td>
+          <td><code>F(k) = a + k · d</code></td>
+          <td>Uniform slope: <code>ΔF(k) = d</code></td>
+        </tr>
+        <tr style="background-color: #f8fafc;">
+          <td><b>Tree 2</b><br><span style="font-size: 11.5px; color: #64748b;">Binary branching fan</span></td>
+          <td><b style="color: #7c3aed;">Geometric</b></td>
+          <td><code>× r</code> (multiplicative)</td>
+          <td><code>F(k) = a · r^k</code></td>
+          <td>Self-proportional: <code>ΔF(k) ∝ F(k)</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 2: Musical Scales -->
+    <h2>2. Musical Scales: The Human Ear as a Geometric Processor</h2>
+    <p>
+      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
+    </p>
+    <p>
+      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
+    </p>
+
+    <!-- 12-Tone Equal Temperament Ladder Card -->
+    <div class="seq-callout">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <h3 style="margin: 0; color: #6d28d9; font-size: 16px;">The 12-Tone Equal Temperament Ladder</h3>
+        <span class="seq-pill" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd;">Acoustic Geometry</span>
+      </div>
+      <p style="margin: 0 0 10px 0;">
+        An <b>octave</b> is an exact frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio <code>r</code> such that:
+      </p>
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
+        r¹² = 2 &nbsp;⇒&nbsp; r = 2^(1/12) ≈ 1.059463094...
+      </div>
+
+      <p style="margin: 10px 0 6px 0;">
+        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
+      </p>
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
+        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
+      </div>
+
+      <!-- Musical Scale Progression Table -->
+      <div style="margin-top: 14px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; border: 1px solid #ddd6fe; border-radius: 6px; overflow: hidden; background: #ffffff;">
+          <thead>
+            <tr style="background: #ede9fe; color: #4c1d95;">
+              <th style="padding: 7px 8px;">Step k</th>
+              <th style="padding: 7px 8px;">Note</th>
+              <th style="padding: 7px 8px;">Interval</th>
+              <th style="padding: 7px 8px;">Frequency f_k</th>
+              <th style="padding: 7px 8px;">Acoustic Ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>0</b></td>
+              <td><b>A4</b></td>
+              <td>Unison</td>
+              <td><code>440.00 Hz</code></td>
+              <td><code>1.000</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>3</b></td>
+              <td><b>C5</b></td>
+              <td>Minor third</td>
+              <td><code>523.25 Hz</code></td>
+              <td><code>2^(3/12) ≈ 1.189</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>5</b></td>
+              <td><b>D5</b></td>
+              <td>Perfect fourth</td>
+              <td><code>587.33 Hz</code></td>
+              <td><code>2^(5/12) ≈ 1.335</code> (close to 4/3)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>7</b></td>
+              <td><b>E5</b></td>
+              <td>Perfect fifth</td>
+              <td><code>659.26 Hz</code></td>
+              <td><code>2^(7/12) ≈ 1.498</code> (close to 3/2)</td>
+            </tr>
+            <tr>
+              <td><b>12</b></td>
+              <td><b>A5</b></td>
+              <td><b>Octave</b></td>
+              <td><code>880.00 Hz</code></td>
+              <td><b>2.000 (exact doubling)</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
+        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
+      </p>
+    </div>
+
+    <!-- Cochlear Biological Processor -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
+      <h3 style="margin-top: 0; color: #059669; font-size: 15px;">The Cochlear Frequency Sorter: Biology''s Living Geometric Analyzer</h3>
+      <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #334155;">
+        Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex.
+      </p>
+      <p style="margin: 0; font-size: 13.5px; color: #334155;">
+        Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human sensor correspond to equal musical ratios—demonstrating that the geometric ladder is a biological architecture for processing reality.
+      </p>
+    </div>
+
+    <!-- Bridge to Course 1: Analysis 1D -->
+    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
+      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
+        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
+      </p>
+      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
+        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
+        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
+        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
+        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
+      </p>
+    </div>
+  </div>
+', 'published'),
+  (22, 'analysis1DIntro', 21, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
+    <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
+  </div>
+  <br>
+
+  <h3>Preface: Taming the Unbroken Continuum</h3>
+  <p>
+    While <b>Algebra</b> studies exact equalities and discrete symmetries, <b>Analysis</b> is the branch of mathematics that tames <b>continuous change, approximation, and accumulation over an unbroken continuum</b>.
+  </p>
+  <p>
+    Whenever a physical quantity varies continuously across time or space, analysis addresses two master questions:
+  </p>
+  <ol>
+    <li><b>The Local Question (Instantaneous Rate of Change):</b> How fast is a function changing <i>right here, right now</i>, at a single point?</li>
+    <li><b>The Global Question (Continuous Accumulation):</b> How do uncountably many infinitesimal contributions across an unbroken interval cumulate into a single total sum (area, energy, or work)?</li>
+  </ol>
+
+  <hr>
+
+  <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
+  <p>
+    In classical 19th-century real analysis, every individual real number <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound foundational crisis:
+  </p>
+  <ul>
+    <li>Evaluating change at a single point requires dividing the change in output by the change in input: <code>Δy / Δx</code>.</li>
+    <li>If <code>Δx = 0</code>, division is algebraically impossible (<code>0 / 0</code> is undefined).</li>
+    <li>To avoid dividing by zero, standard analysis erected dense <b>epsilon-delta (ε-δ) limit towers</b>:
+      <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0;">
+        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx ( 0 &lt; |Δx| &lt; δ &rArr; |Δy/Δx - L| &lt; ε )
+      </div>
+    </li>
+  </ul>
+
+  <p>
+    <b>The Nonstandard Resolution (Abraham Robinson, 1960):</b><br>
+    Rather than treating the continuum as a static collection of zero-width points, we use our constructive scaffold <b><code>ℝ_ω</code></b>, equipped with genuine <b>infinitesimals</b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Infinitesimal Step: &nbsp; dx = 1/ω &nbsp;&gt;&nbsp; 0 &emsp; (smaller than any standard real 1/n)</b>
+  </div>
+
+  <p>
+    Because <code>dx &gt; 0</code>, division by <code>dx</code> is 100% legal, ordinary algebra!
+  </p>
+
+  <hr>
+
+  <h3>2. The Core Machinery: Tree Birthdays &amp; Halos</h3>
+
+  <h4>A. Hyperreals as Conway Tree Nodes (Birthday &ge; &omega;)</h4>
+  <p>
+    On John Conway''s recursive number tree, numbers are created day by day:
+  </p>
+  <ul>
+    <li>Standard real numbers and dyadic fractions are born on finite days: <code>0, 1, 2, ..., n</code>.</li>
+    <li><b>Hyperreal Numbers</b> (ubiquitous in nonstandard analysis literature) <b>are nothing more than Conway tree numbers whose birthday is <code>&ge; &omega;</code>!</b></li>
+  </ul>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Demystifying the Literature:</b><br><br>
+    The famous "Hyperreal Field <b>*ℝ</b>" constructed via ultrafilters in standard mathematical logic is <b>100% isomorphic to the subfield of Conway''s Surreals born on Day <code>&le; &omega;_1</code></b>!<br><br>
+    Infinitesimals like <b><code>dx = 1/&omega; = { 0 | 1, 1/2, 1/4, 1/8, ... } &gt; 0</code></b> and infinite numbers like <b><code>&omega; = { 0, 1, 2, 3, ... | }</code></b> are simply nodes born on transfinite birthdays <b><code>&ge; &omega;</code></b>!
+  </div>
+
+  <h4>B. The Infinitesimal Halo (Monad) μ(x)</h4>
+  <p>
+    Around every number <code>x</code> born on a finite day sits a cluster of tree nodes born on Day <code>ω</code> that differ from <code>x</code> by an infinitesimal step &mdash; its <b>Halo <code>μ(x)</code></b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>μ(x) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x } &emsp; where &emsp; y ≈ x &hArr; |y - x| is an infinitesimal tree branch</b>
+  </div>
+
+  <h4>C. The Standard Part Function (st)</h4>
+  <p>
+    Every finite number <code>y ∈ ℝ_ω</code> is uniquely decomposed into its earliest standard ancestor plus transfinite branch dust: <code>y = x + ε</code> (where <code>x</code> was born on a finite day and <code>ε</code> on Day <code>ω</code>).
+    The <b>Standard Part Function <code>st(y) = x</code></b> simply prunes the branch back to its earliest standard ancestor on the tree, casting its observable shadow on <code>ℝ</code>.
+  </p>
+
+  <hr>
+
+  <h3>3. The Architectural Bridge: From Step Index k to Continuum Transect x</h3>
+  <p>
+    In our introductory study of <b>Sequences &amp; Progressions</b>, quantities stepped along discrete tree ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. 
+    Crossing into continuous analysis requires only one foundational refinement: replacing the integer step with an <b>infinitesimal transect grid</b> across the continuum <code>ℝ_ω</code>:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 15px 0;">
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin-bottom: 4px;">Discrete Stepping Ladder (Level 1)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code><br>
+        • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br>
+        • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code><br>
+        • <b>Nature:</b> Exact pairwise cancellation of internal ladder boundaries.
+      </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 6px; padding: 12px 14px;">
+      <div style="font-weight: 700; color: #059669; font-size: 13.5px; margin-bottom: 4px;">Continuous Transect Grid on ℝ_ω (Level 2)</div>
+      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with <code>dx = (b - a)/ω</code><br>
+        • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br>
+        • <b>Definite Integral:</b> <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br>
+        • <b>Fundamental Theorem:</b> <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Calculus is not an esoteric regime detached from elementary arithmetic; it is the <b>exact same pairwise boundary cancellation</b> discovered in high school algebra, operating across an infinitesimal grid.
+  </p>
+
+  <hr>
+
+  <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
+
+  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
+    <tr bgcolor="#f8fafc">
+      <th width="20%" align="left">Concept</th>
+      <th width="40%" align="center">Nonstandard Formulation (ℝ_ω)</th>
+      <th width="40%" align="left">Intuitive Meaning</th>
+    </tr>
+    <tr>
+      <td><b>Continuity</b></td>
+      <td align="center"><code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code></td>
+      <td>Points in the same halo map to the same halo (nearby points stay nearby).</td>
+    </tr>
+    <tr>
+      <td><b>Derivative</b></td>
+      <td align="center"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></td>
+      <td>Direct algebraic division over an infinitesimal step, followed by standard part shadow.</td>
+    </tr>
+    <tr>
+      <td><b>Integral</b></td>
+      <td align="center"><code>∫[a to b] f(x) dx = st( ∑[k=1 to ω] f(x_k) · dx )</code></td>
+      <td>Genuine discrete addition of <code>ω</code> microscopic rectangular tiles.</td>
+    </tr>
+    <tr>
+      <td><b>Fundamental Theorem</b></td>
+      <td align="center"><code>∑[k=1 to ω] [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code></td>
+      <td>Pure telescoping cancellation of internal grid boundaries!</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 640px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Header -->
+        <rect x="0" y="0" width="640" height="26" fill="#f1f5f9" rx="8" />
+        <rect x="0" y="18" width="640" height="8" fill="#f1f5f9" />
+        <text x="320" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">Comparing 1D Differentiation</text>
+
+        <!-- Left: Classical Secant Limit -->
+        <rect x="25" y="40" width="280" height="120" rx="4" fill="#faf5ff" stroke="#d8b4fe" />
+        <text x="165" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">Classical Standard Approach</text>
+        <text x="165" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#581c87">f''(x) = lim (Δx→0) Δy / Δx</text>
+        <text x="165" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Requires ε-δ quantified limit machinery</text>
+        <text x="165" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Secant lines approaching a limit</text>
+
+        <!-- Right: Nonstandard Algebraic Division -->
+        <rect x="335" y="40" width="280" height="120" rx="4" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="475" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Nonstandard ℝ_ω Approach</text>
+        <text x="475" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#1e3a8a">f''(x) = st( Δy / dx )</text>
+        <text x="475" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Actual step dx = 1/ω &gt; 0</text>
+        <text x="475" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Direct algebraic division &amp; standard shadow</text>
+      </svg>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>Analysis 1D Lecture Plan</h3>
+  <ul>
+    <li><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining continuity without <code>ε-δ</code>, and the Intermediate Value Theorem as a discrete grid march.</li>
+    <li><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b> Calculating slopes via pure algebra, the product and chain rules, and local linear approximation <code>df = f''(x)·dx</code>.</li>
+    <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
+  </ul>
+', 'published'),
+  (23, 'analysis1DLecture1', 22, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
+    <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
+  </div>
+  <br>
+
+  <p>
+    “In our foundational study of Sequences &amp; Progressions,” Jane began Lecture 1, “we marched along discrete ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. But continuous analysis asks a deeper question: what happens when quantities vary continuously across space and time?”
+  </p>
+  <p>
+    Jane drew a single point on a horizontal real number line:
+  </p>
+
+  <div align="center" style="margin: 15px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 80" style="width: 100%; max-width: 500px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px;">
+      <line x1="40" y1="40" x2="460" y2="40" stroke="#334155" stroke-width="2" />
+      <polygon points="465,40 455,35 455,45" fill="#334155" />
+      <circle cx="250" cy="40" r="4" fill="#2563eb" />
+      <text x="250" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">x₀</text>
+    </svg>
+  </div>
+
+  <p>
+    “In standard 19th-century geometry,” Jane said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
+  </p>
+
+  <p>
+    Jill looked at the point: “And that''s why Weierstrass and Cauchy had to invent the epsilon-delta limit &mdash; because they couldn''t actually step inside the point without breaking arithmetic.”
+  </p>
+
+  <p>
+    “Exactly,” Jane nodded. “Now let''s see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
+
+  <p>
+    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jane said:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 600px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Macroscopic Point -->
+        <rect x="20" y="20" width="220" height="120" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="130" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">Macroscopic View (ℝ)</text>
+        <line x1="40" y1="85" x2="220" y2="85" stroke="#64748b" stroke-width="2" />
+        <circle cx="130" cy="85" r="4" fill="#2563eb" />
+        <text x="130" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">x₀</text>
+
+        <!-- Arrow: Magnification -->
+        <text x="280" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">Zoom × ω</text>
+        <line x1="250" y1="85" x2="310" y2="85" stroke="#94a3b8" stroke-width="2" />
+        <polygon points="315,85 305,80 305,90" fill="#94a3b8" />
+
+        <!-- Right: Microscopic Halo -->
+        <rect x="330" y="20" width="250" height="120" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="455" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Microscopic Halo μ(x₀) in ℝ_ω</text>
+        <line x1="350" y1="85" x2="560" y2="85" stroke="#3b82f6" stroke-width="1.5" />
+        <circle cx="455" cy="85" r="4" fill="#1d4ed8" />
+        <circle cx="495" cy="85" r="3" fill="#60a5fa" />
+        <circle cx="415" cy="85" r="3" fill="#60a5fa" />
+        <text x="455" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">x₀</text>
+        <text x="500" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ + dx</text>
+        <text x="410" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ - dx</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “Under the magnification of <code>ω</code>,” Jane explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
+  </p>
+
+  <p>
+    “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
+  </div>
+
+  <p>
+    “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
+  </p>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
+    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε &emsp; where &emsp; ε ≈ 0</b>
+    </div>
+    When <code>x</code> is a <b>hard dyadic number</b> (born on finite Day <code>k &lt; ω</code>), its halo perturbation vanishes identically (<code>ε = 0</code>), so <code>st(x) = x</code>.
+  </div>
+
+  <p>
+    “Notice the critical distinction here between the <b>formal theorem</b> and a <b>concrete instance</b>,” Jane explained:
+  </p>
+
+  <ul>
+    <li><b>Formal Deductive Theorem:</b> Lean 4 guarantees universally that every finite element on the tree decomposes into its standard shadow and infinitesimal halo dust without exception.</li>
+    <li><b>Concrete Computational Instance:</b> If we take a specific number like <code>x = 4 + 3·dx</code> (where <code>dx = 1/ω</code>):
+      <ul>
+        <li>The standard nucleus is <code>x₀ = st(4 + 3·dx) = 4</code> (a hard dyadic integer with zero intrinsic dust).</li>
+        <li>The transfinite halo perturbation is <code>ε = x - st(x) = 3·dx ∈ μ(0)</code>.</li>
+        <li>The exact decomposition holds: <code>x = 4 + 3·dx = st(x) + ε</code>.</li>
+        <li>Conversely, for a hard number such as <code>y = 4</code>, there is zero dust: <code>st(y) = 4</code> and <code>ε = 0</code>.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
+    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
+    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
+    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
+    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
+    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>.
+  </div>
+
+  <hr>
+
+  <h3>2. Continuity Without Epsilon-Delta</h3>
+
+  <p>
+    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
+  </p>
+
+  <p>
+    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
+  </p>
+
+  <p>
+    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>x ≈ x₀ &emsp;&rArr;&emsp; f(x) ≈ f(x₀)</b>
+  </div>
+
+  <p>
+    “In standard calculus,” Jane continued, “professors torture students with Weierstrass’s <i>epsilon-delta definition</i>: 
+    <code>∀ ε &gt; 0, ∃ δ &gt; 0, ∀ x, |x - x₀| &lt; δ &rArr; |f(x) - f(x₀)| &lt; ε</code>. 
+    It has four alternating quantifiers and turns a simple visual idea into a nightmare of nested inequalities!”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>, continuity has <b>zero epsilon-deltas</b>: a function is continuous at <code>x₀</code> if and only if it maps the halo of <code>x₀</code> into the halo of <code>f(x₀)</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping"><b>f( μ(x₀) ) &nbsp;&sube;&nbsp; μ( f(x₀) )</b></fsd-ref>
+  </div>
+
+  <p>
+    “Let''s test this on our favorite function,” Jane said: “<b>Is <code>f(x) = x²</code> continuous?</b>”
+  </p>
+
+  <ol>
+    <li>Take any point in the halo of <code>x₀</code>: &nbsp; <code>x = x₀ + dx</code>, where <code>dx ≈ 0</code>.</li>
+    <li>Compute the output: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code>.</li>
+    <li>Subtract <code>f(x₀)</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx² = dx · (2x₀ + dx)</code>.</li>
+    <li>Because <code>2x₀ + dx</code> is finite and <code>dx</code> is infinitesimal, their product is infinitesimal!</li>
+    <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
+  </ol>
+  <p>
+    Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
+  </p>
+
+  <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
+    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
+
+  <p>
+    “Now let''s look at one of the classical crown jewels of real analysis,” Jane said: “<b>The Intermediate Value Theorem (IVT)</b>.”
+  </p>
+
+  <p>
+    <i>Theorem:</i> If <code>f</code> is continuous on <code>[a, b]</code> with <code>f(a) &lt; 0</code> and <code>f(b) &gt; 0</code>, there exists a point <code>c ∈ [a, b]</code> where <code>f(c) = 0</code>.
+  </p>
+
+  <p>
+    “In standard analysis, proving IVT requires the completeness axiom of the real numbers (Dedekind cuts or least upper bounds) &mdash; an unconstructive proof that tells you a root exists, but gives you no procedure to find it!”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>,” Jane explained, “the proof is a <b>finite computational algorithm</b>:”
+  </p>
+
+  <ol>
+    <li>Partition the interval <code>[a, b]</code> into <code>ω</code> equal steps of size <code>dx = (b - a)/ω</code>: &nbsp; <code>x_k = a + k · dx</code>.</li>
+    <li>Evaluate <code>f</code> at each grid point from left to right: &nbsp; <code>f(x₀) &lt; 0, f(x₁), f(x₂), ...</code>.</li>
+    <li>Because <code>f(x_ω) = f(b) &gt; 0</code>, there must be a <b>first index <code>m</code> where <code>f(x_m) ≥ 0</code></b>.</li>
+    <li>At this transition step: &nbsp; <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code>.</li>
+    <li>Because <code>x_{m-1}</code> and <code>x_m</code> differ by only <code>dx ≈ 0</code>, they belong to the same halo: <code>x_{m-1} ≈ x_m</code>!</li>
+    <li>By continuity: &nbsp; <code>f(x_{m-1}) ≈ f(x_m)</code>. Because <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code> are infinitesimally close, their common standard part must be zero: &nbsp; <b><code>st(f(x_m)) = 0</code></b>!</li>
+  </ol>
+
+  <p>
+    Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
+    • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
+    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</eq-ref>
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
+  </p>
+', 'published'),
+  (24, 'analysis1DLecture2', 23, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
+    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
+  </div>
+
+  <p>
+    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
+  </p>
+
+  <p>
+    “Exactly,” Jane smiled. “Let''s see how this turns all of differential calculus into pure algebra.”
+  </p>
+
+  <hr>
+
+  <h3>1. Deriving Slopes by Pure Algebra</h3>
+
+  <h4>Example 1: The Parabola f(x) = x²</h4>
+  <p>
+    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
+  </p>
+  <ol>
+    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
+    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
+    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
+    <li>Take the standard part: &nbsp; <code>f''(x) = st(2x + dx) = 2x</code></li>
+  </ol>
+  <p>
+    No limits, no inequalities &mdash; just straightforward polynomial division!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
+      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
+      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
+    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
+    • <b>Equivalence:</b> <code>f''(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
+
+  <p>
+    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 500px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Base Box -->
+        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
+        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
+
+        <!-- Right Strip: u · dv -->
+        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
+        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
+
+        <!-- Top Strip: v · du -->
+        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
+        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
+
+        <!-- Corner: du · dv -->
+        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
+        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
+    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
+  </div>
+  <p>
+    Dividing by <code>dx</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
+  </div>
+  <p>
+    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )'' &nbsp;=&nbsp; u · v'' + v · u''</b></fsd-ref>
+  </div>
+
+  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)'' = u·v'' + v·u''</code></fsd-ref>.<br>
+    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )''(x) = f''(g(x)) · g''(x)</code></fsd-ref>
+    </div>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
+
+  <p>
+    “In standard calculus,” Jane noted, “students are strictly warned: <i>''dy/dx is not a fraction; you cannot cancel dx!''</i>”
+  </p>
+  <p>
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
+    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
+  </div>
+  <p>
+    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
+  </div>
+  <p>
+    Taking standard parts yields the classical Chain Rule:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )''(x) &nbsp;=&nbsp; f''(g(x)) · g''(x)</b></fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
+
+  <p>
+    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f''(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
+  </p>
+  <p>
+    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f''(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
+  </div>
+  <p>
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f''(x) · dx</b></fsd-ref>
+  </div>
+  <p>
+    “The derivative <code>f''(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f''(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
+    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f''(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
+
+  <p>
+    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f''(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
+  </p>
+
+  <p>
+    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn''t curvature come from the <i>difference of the differences</i>?”
+  </p>
+
+  <p>
+    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
+  </p>
+
+  <ol>
+    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
+    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
+    <li><b>The Second Discrete Difference:</b></li>
+  </ol>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
+  </div>
+
+  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
+  <p>
+    Let''s test this directly on our parabola from Section 1:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
+  </div>
+
+  <p>
+    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>f''''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
+  </div>
+  <p>
+    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
+  </p>
+
+  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
+  <p>
+    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
+  </div>
+  <p>
+    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
+  </p>
+  <ul>
+    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
+    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
+    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
+  </ul>
+  <p>
+    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
+    • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
+    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
+  </p>
+', 'published'),
+  (25, 'analysis1DLecture3', 24, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
+    <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began the final lecture of Course 2 by drawing a continuous curve over an interval <code>[a, b]</code>, divided into a multitude of vertical strips:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 540px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Axes -->
+        <line x1="40" y1="130" x2="500" y2="130" stroke="#334155" stroke-width="2" />
+        <line x1="50" y1="140" x2="50" y2="20" stroke="#334155" stroke-width="2" />
+
+        <!-- Strips under curve -->
+        <path d="M 100 130 L 100 95 Q 220 30 350 70 T 460 30 L 460 130 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
+        
+        <!-- Individual Tile -->
+        <rect x="250" y="55" width="20" height="75" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+        <text x="260" y="45" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1e40af">f(x_k)·dx</text>
+
+        <!-- Labels -->
+        <text x="100" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">a = x₀</text>
+        <text x="460" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">b = x_ω</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In classical textbooks,” Jane said, “defining the integral requires taking the limit of Riemann sums as the mesh size shrinks to zero, or taking the supremum over all possible Darboux partitions.”
+  </p>
+
+  <p>
+    “On our hyperfinite scaffold <code>ℝ_ω</code>,” Jane smiled, “an integral is not an infinite limit. <b>It is literally a genuine discrete sum of <code>ω</code> microscopic rectangular tiles</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. The Discrete Hyperfinite Integral</h3>
+
+  <p>
+    Partition the interval <code>[a, b]</code> into <code>ω</code> equal infinitesimal steps of width <code>dx = (b - a) / ω</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b &emsp; where &emsp; x_k = a + k·dx
+  </div>
+
+  <p>
+    The continuous area under the curve is the standard part of the discrete sum:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b></fsd-ref>
+  </div>
+
+  <p>
+    Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-3.1): The Discrete Definite Integral on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
+    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
+    • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
+    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_discrete_integral" formula="SUM_W(x^2, 0, 1)">Discrete Definite Integral of x² on [0, 1] ≡ 1/3</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>2. The Fundamental Theorem of Calculus as Telescoping Cancellation</h3>
+
+  <p>
+    “Now,” Jane said, “we arrive at the crown jewel connecting differentiation and integration: <b>The Fundamental Theorem of Calculus (FTC)</b>.”
+  </p>
+
+  <p>
+    “Suppose <code>F''(x) = f(x)</code>. Across each microscopic step <code>dx</code> from <code>x_{k-1}</code> to <code>x_k</code>, the change in <code>F</code> is:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>F(x_k) - F(x_{k-1}) &nbsp;≈&nbsp; F''(x_k) · dx &nbsp;=&nbsp; f(x_k) · dx</b>
+  </div>
+
+  <p>
+    “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref><br><br>
+    = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
+  </div>
+
+  <p>
+    Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
+  </p>
+
+  <p>
+    “Wait,” Jill added, “that is the exact same pairwise cancellation as the high-school shift-and-subtract trick for geometric progressions: <code>(1 - r) · S_n = a - a · rⁿ</code>! All intermediate terms collapse identically!”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
+  </div>
+
+  <p>
+    Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>
+  </div>
+
+  <p>
+    “Exactly,” Jane smiled. “The high-school progression trick and the Fundamental Theorem of Calculus are the exact same algebraic phenomenon: pairwise boundary cancellation, operating here across our hyperfinite grid. There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Exact Telescoping Identity:</b> For any discrete sequence <code>F(x_k)</code>:<br>
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
+    </div>
+    • <b>Infinitesimal Increment Substitution:</b> If <code>F''(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
+    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_telescoping_ftc" formula="TELESCOPING_FTC(x^3, a, b)">Telescoping FTC Cancellation on f(x) = 3x²</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. Looking Forward to Analysis 2D (ℂ_ω)</h3>
+
+  <p>
+    “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
+  </p>
+  <p>
+    “In <b>Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
+  </p>
+  <ul>
+    <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
+    <li>How <b>Cauchy''s Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
+    <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
+  </ul>
+', 'published'),
+  (26, 'analysis2DIntro', 25, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
+<div align="center">
+      <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
+      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
+    </div>
+    <br>
+    <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
+    <p>
+      If 1D Real Analysis is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
+    </p>
+    <p>
+      Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
+    </p>
+    <hr>
+    <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
+    <p>
+      The complex continuum <code>ℂ_ω</code> is constructed by taking two copies of our 1D real tree scaffold <code>ℝ_ω</code> and crossing them at right angles:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
+      <b>z &nbsp;=&nbsp; x + i · y &emsp; where &emsp; x, y ∈ ℝ_ω &emsp;and&emsp; i² = -1</b>
+    </div>
+    <p>
+      The fundamental infinitesimal cell displacement is:
+    </p>
+    <div style="font-family: monospace; font-size: 14px; margin: 6px 0;" align="center">
+      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
+    </div>
+
+    <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
+      The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i·y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
+      </div>
+      Every point <code>z ∈ ℂ_ω</code> is tiled by infinitesimal <code>dx × dy</code> square cells with step <code>dz = dx + i·dy</code>, yielding a seamless 2D continuum with zero gaps.
+    </div>
+    </fsd-ref>
+
+    <div style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
+      <br>
+      Crossing two 1D 2-successor trees <code>(ℝ_ω × ℝ_ω)</code> yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> cells &mdash; completely tiling 2D Cartesian space with zero gaps!<br>
+      <br>
+      While two decoupled 1D axes fill Cartesian space, the native <b>4-successor complex tree <code>ℂ_ω</code></b> binds <em>x</em> and <em>y</em> into a single complex entity. Neighboring cells share 1D boundary walls across which complex phase rotations <code>e^{iθ}</code> and continuous quantum wave packets flow smoothly.
+    </div>
+    <hr>
+    <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
+    <p>
+      In real 2D calculus, a function <code>f : ℝ² → ℝ²</code> can stretch, squish, or distort shapes into arbitrary shears. In <b>Complex Analysis</b>, requiring a single complex derivative <code>f''(z)</code> forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
+    </p>
+    <ul>
+      <li>Every infinitesimal grid square is <b>scaled and rotated</b>, but <b>never sheared</b>!</li>
+      <li>This geometric square-preservation is algebraically expressed by the <b>Cauchy-Riemann Equations</b>:
+        <div style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;" align="center">
+          <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
+        </div>
+      </li>
+    </ul>
+
+    <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Maps">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Maps):</b><br>
+      A function <code>f(z) = u(x,y) + i·v(x,y)</code> is complex differentiable if and only if horizontal and vertical infinitesimal slopes coincide:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>st(Δf / dx) &nbsp;=&nbsp; st(Δf / (i·dy)) &nbsp;⇒&nbsp; ∂u/∂x = ∂v/∂y &nbsp;and&nbsp; ∂u/∂y = -∂v/∂x</b>
+      </div>
+      Geometrically, every microscopic square cell maps to another un-sheared square, preserving angles and local shapes.
+    </div>
+    </fsd-ref>
+
+    <hr>
+    <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
+    <p>
+      In 1D calculus, the Fundamental Theorem worked by 1D telescoping cancellation between adjacent line segments. In 2D complex calculus, <b>Cauchy''s Integral Theorem</b> is the exact 2D planar analog:
+    </p>
+    <div style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (around any closed loop enclosing no poles)</b>
+    </div>
+    <p>
+      <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside. Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
+    </p>
+
+    <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="FS-A2D-2.1: Cauchy''s Integral Theorem & Boundary Cancellation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; Boundary Cancellation):</b><br>
+      For any holomorphic function <code>f(z)</code> on a simply connected domain enclosing loop <code>γ</code>, tiling the interior into micro-cells <code>□_k</code> gives:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>∮_γ f(z) dz &nbsp;=&nbsp; ∑_{k} ∮_{∂□_k} f(z) dz &nbsp;=&nbsp; 0</b>
+      </div>
+      Every shared internal cell edge is traversed in opposing directions (<code>↑ + ↓ = 0</code>, <code>→ + ← = 0</code>), leaving net boundary circulation zero.
+    </div>
+    </fsd-ref>
+
+    <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: Residues & Logarithmic Root Counting">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-2.2 (Residues &amp; Logarithmic Root Counting):</b><br>
+      When isolated poles <code>z_k</code> puncture the region, closed loop integration counts vortex circulations:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k) &emsp;and&emsp; (1 / 2π i) ∮_γ [f''(z) / f(z)] dz &nbsp;=&nbsp; N_zeros(f, γ)</b>
+      </div>
+      Continuous contour integrals act as exact integer counters for enclosed roots.
+    </div>
+    </fsd-ref>
+
+    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
+      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
+        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
+      </summary>
+      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
+        <p>
+          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy''s Integral Theorem</b>, <b>Cauchy''s Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green''s Theorem</b> &mdash; opens with the exact same condition: 
+          <i>“Let γ be a simple closed curve in the plane...”</i>
+        </p>
+        <p>
+          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
+        </p>
+        <ul>
+          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
+          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
+          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
+        </ul>
+        <p>
+          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
+        </p>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
+        <ol style="margin-left: 18px;">
+          <li style="margin-bottom: 8px;">
+            <b>Cauchy''s Integral Formula as an Analytic Inside/Outside Detector:</b><br>
+            Consider Cauchy''s integral formula with test function <code>f(z) = 1</code>:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
+            </div>
+            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
+            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>Green''s Theorem &amp; Telescoping Cell Sums:</b><br>
+            Green''s theorem converts a 2D surface integral into a 1D perimeter circulation:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
+            </div>
+            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
+          </li>
+        </ol>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
+        <p>
+          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
+        </p>
+        <ul>
+          <li><b>The Quadtree Horizon Escape:</b> 
+            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
+          </li>
+          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
+            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
+            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
+              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
+            </div>
+            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
+          </li>
+          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
+            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy''s integral formula.
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <hr>
+    <h3>4. Looking Ahead: Continuous Unitary Evolution &amp; Phase Transitions</h3>
+    <p>
+      Complex analysis provides the mathematical foundation for wave mechanics and continuous state evolution, bridging forward to spatial geometry and quantum theory:
+    </p>
+    <h4>A. Continuous Quantum State Evolution</h4>
+    <p>
+      The continuous-time evolution of a quantum state is a continuous phase rotation powered by the Hamiltonian operator <code>H</code>:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;" align="center">
+      <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
+    </div>
+
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Continuous Unitary Evolution & Schrödinger Equation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-3.1 (Continuous Unitary Evolution &amp; Schrödinger Equation):</b><br>
+      Self-adjointness of the Hamiltonian (<code>H = H†</code>) guarantees that time evolution <code>U(t) = e^(-i H t / ħ)</code> is unitary (<code>U(t)† U(t) = I</code>), preserving total probability. Differentiating with respect to time yields the continuous Schrödinger equation:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+      </div>
+    </div>
+    </fsd-ref>
+
+    <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
+    <p>
+      Why does liquid water suddenly freeze into rigid ice at exactly 0°C?
+    </p>
+    <ul>
+      <li>For any finite system (<code>N &lt; ω</code>), the thermodynamic partition function <code>Z_N(T)</code> is strictly positive and analytic everywhere on the real temperature axis.</li>
+      <li>Its zeros live exclusively in the <b>complex plane</b> (Lee-Yang zeros).</li>
+      <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
+    </ul>
+
+    <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Phase Transitions">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Phase Transitions):</b><br>
+      For any finite system, partition zeros lie strictly off the real line in <code>ℂ_ω \ ℝ</code>. In the transfinite continuum limit (<code>N = ω</code>), the zero distribution pinches the real line at critical point <code>T_c</code>, inducing a non-analytic kink in free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> that manifests as a macroscopic phase transition.
+    </div>
+    </fsd-ref>
+
+    <hr>
+    <h3>Analysis 2D Lecture Plan</h3>
+    <ul>
+      <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
+        Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation (<b>FS-A2D-1.1, FS-A2D-1.2</b>).</li>
+      <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b>
+        Proving Cauchy''s Integral Theorem via 2D cell edge cancellation, Laurent expansions, and root-counting loop integrals (<b>FS-A2D-2.1, FS-A2D-2.2</b>).</li>
+      <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b>
+        Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
+    </ul>
+', 'published'),
+  (27, 'analysis2DLecture1', 26, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
+    <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 1 by sketching a 2D square grid on the blackboard, formed by crossing two copies of the 1D tree scaffold <code>ℝ_ω</code>:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 520px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Axes -->
+        <line x1="30" y1="130" x2="490" y2="130" stroke="#334155" stroke-width="2" />
+        <line x1="50" y1="145" x2="50" y2="15" stroke="#334155" stroke-width="2" />
+        <text x="480" y="145" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Re (x)</text>
+        <text x="55" y="25" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Im (y)</text>
+
+        <!-- Grid Lines -->
+        <g stroke="#e2e8f0" stroke-width="1">
+          <line x1="120" y1="20" x2="120" y2="130" />
+          <line x1="190" y1="20" x2="190" y2="130" />
+          <line x1="260" y1="20" x2="260" y2="130" />
+          <line x1="330" y1="20" x2="330" y2="130" />
+          <line x1="400" y1="20" x2="400" y2="130" />
+          <line x1="50" y1="100" x2="470" y2="100" />
+          <line x1="50" y1="70" x2="470" y2="70" />
+          <line x1="50" y1="40" x2="470" y2="40" />
+        </g>
+
+        <!-- Highlighted Cell dz = dx + i dy -->
+        <rect x="260" y="70" width="70" height="30" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+        <text x="295" y="88" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#1e40af">dz = dx + i·dy</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In Course 2,” Jane said, “we explored continuous calculus along a 1D line. Today, we cross two 1D tree transects at right angles to construct the 2D complex plane: <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>.”
+  </p>
+
+  <p>
+    Jill observed: “In 1D, when you take an infinitesimal step <code>dx</code>, you can only step left or right. But in 2D, a point can be approached from an infinite number of directions: horizontally, vertically, or diagonally!”
+  </p>
+
+  <p>
+    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
+  </div>
+
+  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
+    • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
+    • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
+    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
+    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_complex_step" formula="NORM_SQ(x + i*y)">2D Complex Step &amp; Modulus Invariance on ℂ_ω</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>1. Deriving the Cauchy-Riemann Equations</h3>
+
+  <p>
+    Let <code>f(z) = u(x, y) + i · v(x, y)</code> be a complex function, where <code>u</code> is the real part and <code>v</code> is the imaginary part.
+    For the derivative <code>f''(z) = st(Δf / dz)</code> to exist independently of direction, the slope along a <b>horizontal step</b> must match the slope along a <b>vertical step</b>:
+  </p>
+
+  <h4>Move 1: Horizontal Step (dz = dx, dy = 0)</h4>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;→&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
+  </div>
+
+  <h4>Move 2: Vertical Step (dz = i·dy, dx = 0)</h4>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δf / (i·dy) &nbsp;=&nbsp; [ (u(x, y+dy) - u(x, y)) + i(v(x, y+dy) - v(x, y)) ] / (i·dy) &nbsp;=&nbsp; (1/i) · ∂u/∂y + ∂v/∂y<br>
+    &emsp;&emsp;&emsp;&emsp;&emsp;= <b>∂v/∂y - i · ∂u/∂y</b> &emsp; (since 1/i = -i)
+  </div>
+
+  <h4>Equating Real &amp; Imaginary Components:</h4>
+  <p>
+    Equating the horizontal and vertical slopes gives the famous <b>Cauchy-Riemann Equations</b>:
+  </p>
+
+  <fsd-ref tier="3" scaffold="Holomorphic" title="Cauchy-Riemann Coordinate Symmetry">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>2. Geometric Meaning: Conformal Square Preservation</h3>
+
+  <p>
+    “What do the Cauchy-Riemann equations actually mean geometrically?” Jane asked.
+  </p>
+
+  <p>
+    Jane drew a microscopic square on the input grid and its image under <code>f(z)</code>:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 540px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Input Square -->
+        <rect x="40" y="35" width="60" height="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+        <text x="70" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">dx × dy</text>
+        <text x="70" y="115" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Input Cell</text>
+
+        <!-- Arrow -->
+        <text x="200" y="60" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">f(z)</text>
+        <line x1="150" y1="65" x2="250" y2="65" stroke="#94a3b8" stroke-width="2" />
+        <polygon points="255,65 245,60 245,70" fill="#94a3b8" />
+
+        <!-- Right: Rotated & Scaled Square (No Shear!) -->
+        <g transform="translate(370, 65) rotate(30)">
+          <rect x="-40" y="-40" width="80" height="80" fill="#faf5ff" stroke="#9333ea" stroke-width="2" />
+          <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Rotated Square</text>
+        </g>
+        <text x="370" y="125" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Output Cell: Preserves 90° Corners!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    Jill smiled: “The transformation stretches and rotates the square, but it <b>never distorts it into a parallelogram</b>! It preserves every right angle!”
+  </p>
+
+  <p>
+    “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
+  </p>
+
+  <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Invariance">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
+    Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Coordinate Symmetry:</b> <code>∂u/∂x = ∂v/∂y</code> and <code>∂u/∂y = -∂v/∂x</code>.</li>
+      <li><b>Jacobian Structure:</b> The derivative Jacobian matrix has the conformal form:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>J = [ [a, -b], [b, a] ] &emsp; with &nbsp; det(J) = a² + b² = |f''(z)|²</b>
+        </div>
+      </li>
+      <li><b>Conformal Invariance:</b> The linear map scales by <code>|f''(z)|</code> and rotates by <code>arg(f''(z))</code>, strictly preserving oriented angles and orthogonality.</li>
+      <li><b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_riemann" formula="CR_DIFF(z^2, z)">Cauchy-Riemann Symmetries on f(z) = z²</eq-ref></li>
+    </ol>
+  </div>
+  </fsd-ref>
+
+  <p>
+    “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
+  </p>
+', 'published'),
+  (28, 'analysis2DLecture2', 27, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
+    <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by drawing a closed loop <code>γ</code> filled with a checkerboard mosaic of microscopic square cells:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 520px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Outer Loop -->
+        <ellipse cx="260" cy="80" rx="190" ry="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" />
+        <text x="430" y="50" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Loop γ</text>
+
+        <!-- Internal Cells -->
+        <g stroke="#93c5fd" stroke-width="1">
+          <rect x="180" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="220" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="260" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="300" y="55" width="40" height="40" fill="#ffffff" />
+        </g>
+
+        <!-- Opposing Arrows on Shared Edge -->
+        <line x1="220" y1="58" x2="220" y2="92" stroke="#dc2626" stroke-width="2" />
+        <polygon points="217,70 220,62 223,70" fill="#dc2626" />
+        <line x1="222" y1="58" x2="222" y2="92" stroke="#16a34a" stroke-width="2" />
+        <polygon points="219,80 222,88 225,80" fill="#16a34a" />
+        <text x="220" y="115" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#334155">Opposing internal edges cancel!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In 1D calculus,” Jane said, “the Fundamental Theorem worked because every intermediate point canceled out in a single line of telescoping addition. Today, we discover how the exact same principle works across a 2D plane: <b>Cauchy''s Integral Theorem</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. Cauchy''s Theorem as 2D Boundary Cancellation</h3>
+
+  <p>
+    Suppose you want to compute the total circulation around a closed loop: <code>∮_γ f(z) dz</code>.
+  </p>
+
+  <ol>
+    <li>
+      Tile the interior of the loop with microscopic square cells <code>dx × dy</code> on our grid <code>ℂ_ω</code>.
+    </li>
+    <li>
+      Sum the counter-clockwise circulation around every individual microscopic cell.
+    </li>
+    <li>
+      <b>The Internal Edge Cancellation:</b> For every interior boundary line separating two cells, the left cell integrates upwards (<code>↑</code>), while the right cell integrates downwards (<code>↓</code>). The two contributions are equal and opposite, <b>cancelling to exact zero</b>!
+    </li>
+    <li>
+      All internal edges vanish, leaving only the outermost perimeter edges &mdash; which form the outer loop <code>γ</code>!
+    </li>
+  </ol>
+
+  <p>
+    Because the Cauchy-Riemann equations guarantee that circulation around every unpunctured microscopic square is zero, the total loop integral must be <b>identically zero</b>:
+  </p>
+
+  <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="Cauchy Closed Loop Circulation (∮ f(z) dz = 0)">
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
+  </div>
+  </fsd-ref>
+
+  <fsd-ref tier="3" scaffold="cauchy_edge_cancel" title="FS-A2D-2.1: Cauchy''s Integral Theorem & 2D Edge Cancellation">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; 2D Edge Cancellation):</b><br>
+    Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; st( ∑_{k} ∮_{∂□_k} f(z) dz ) &nbsp;=&nbsp; 0</b>
+    </div>
+    <b>Proof mechanism:</b> Every interior cell-boundary edge shared by adjacent cells <code>□_i</code> and <code>□_j</code> is oriented with opposite traversal directions:
+    <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+      <b>∫_{e_{ij}} f(z) dz + ∫_{e_{ji}} f(z) dz &nbsp;=&nbsp; 0</b>
+    </div>
+    All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_integral" formula="CELL_SUM(dz, Loop)">Cauchy Closed Loop Cell Edge Cancellation</eq-ref>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>2. Singularities &amp; The Residue Theorem</h3>
+
+  <p>
+    “What happens,” Jill asked, “if a function blows up at a point inside the loop &mdash; like <code>f(z) = 1/z</code> at <code>z = 0</code>?”
+  </p>
+
+  <p>
+    “When a puncture (pole) exists,” Jane explained, “the square at the origin cannot cancel. If we integrate <code>1/z</code> around a circle of radius <code>r = 1</code> using <code>z = e^(iθ)</code> and <code>dz = i·e^(iθ) dθ</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∮_{|z|=1} (1/z) dz &nbsp;=&nbsp; ∫[0 to 2π] (1/e^(iθ)) · (i·e^(iθ) dθ) &nbsp;=&nbsp; i ∫[0 to 2π] dθ &nbsp;=&nbsp; 2π i</b>
+  </div>
+
+  <p>
+    “The non-zero value <code>2π i</code> is the fundamental vortex circulation of the pole!” Jane said.
+    “This generalizes to the <b>Residue Theorem</b>: every closed loop integral simply counts the sum of its enclosed vortex residues:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
+  </div>
+
+  <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: The Residue Theorem & Logarithmic Root Counting">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
+    Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑_{k} Res(f, z_k) &emsp; where &emsp; Res(f, z_k) = c_{-1}</b>
+    </div>
+    Furthermore, integrating the logarithmic derivative yields the exact integer zero-counter:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>( 1 / 2π i ) ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
+    </div>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_residue_integral" formula="RESIDUE(1/z, z=0)">Residue Theorem on 1/z at Origin: 2π i</eq-ref>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>3. Counting Zeros via Logarithmic Loops</h3>
+
+  <p>
+    “Finally,” Jane said, “look at what happens when we integrate the logarithmic derivative <code>f''(z) / f(z)</code> around a loop <code>γ</code>:”
+  </p>
+
+  <fsd-ref tier="3" scaffold="residue_theorem" title="Logarithmic Derivative Root Counter">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>( 1 / 2π i ) · ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; Number of Zeros of f(z) inside γ</b>
+  </div>
+  </fsd-ref>
+
+  <p>
+    Jill’s eyes widened: “A continuous loop integral acts as an <b>exact integer counter</b> for how many roots are trapped inside!”
+  </p>
+
+  <p>
+    “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
+  </p>
+', 'published'),
+  (29, 'analysis2DLecture3', 28, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
+    <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane stood before the class to open the concluding lecture of Analysis 2D:
+  </p>
+
+  <p>
+    “Having explored 1D rates of change and 2D conformal geometry on the complex plane <code>ℂ_ω</code>, we now examine how complex numbers govern continuous physical systems. Today, we discover how continuous phase rotations drive unitary state evolution and uncover the geometric origins of <b>Phase Transitions</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. Continuous-Time Wave Evolution &amp; Unitary Invariance</h3>
+
+  <p>
+    “In physical systems and wave mechanics,” Jane explained to Jill, “a continuous state evolves over time driven by an energy Hamiltonian operator <code>H</code>. How does complex geometry govern this continuous change?”
+  </p>
+
+  <p>
+    “In quantum mechanics, time evolution is driven by the energy Hamiltonian operator <code>H</code> through a <b>continuous unitary group map</b>:”
+  </p>
+
+  <fsd-ref tier="3" scaffold="unitary_preservation" title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)">
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
+  </div>
+  </fsd-ref>
+
+  <p>
+    Jane pointed to the exponent: “Notice how the mathematical pieces we''ve built snap together:”
+  </p>
+  <ul>
+    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies.</li>
+    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code>.</li>
+    <li><b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign in the complex exponent:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t / ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b>
+      </div>
+      Multiplying them together yields:
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+        <b>U(t)† · U(t) &nbsp;=&nbsp; e^(+iHt/ħ) · e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
+      </div>
+    </li>
+    <li><b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation on the unit sphere of Hilbert space &mdash; <b>probabilities are 100% conserved and information is never destroyed</b>!</li>
+    <li>Evaluating the infinitesimal rate of change yields <b>Schrödinger''s Equation</b> directly:
+      <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+        <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+      </div>
+    </li>
+  </ul>
+
+  <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger Equation):</b><br>
+    Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space <code>H</code>.
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Unitary Group Map:</b> The continuous time operator <code>U(t) = e^{-i H t / ħ}</code> satisfies:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥² &nbsp;=&nbsp; 1</b>
+        </div>
+      </li>
+      <li><b>Infinitesimal Generator:</b> Taking the time derivative at <code>dt = 1/ω</code> yields the differential Schrödinger equation:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+        </div>
+      </li>
+      <li><b>Probability Conservation:</b> Continuous state dynamics preserves total probability along the unit sphere without dissipation.</li>
+      <li><b>CAS Example:</b> <eq-ref eq-id="cas_unitary_schrodinger" formula="SCHRODINGER_EXP(-i*H*t/hbar)">Unitary Time Evolution &amp; Probability Conservation</eq-ref></li>
+    </ol>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>2. Continuous Wavepackets &amp; Spatial Normalization</h3>
+
+  <p>
+    “When a physical wave or state is continuous across space,” Jane continued, “the spatial amplitude <code>ψ(x)</code> distributes across the continuum.”
+  </p>
+
+  <p>
+    The total probability is normalized through our hyperfinite integral:
+  </p>
+  <fsd-ref tier="3" scaffold="hyper_sum" title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)">
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx ) &nbsp;=&nbsp; 1</b>
+  </div>
+  </fsd-ref>
+
+  <p>
+    “When an observation is made at position <code>x</code>, the continuous state localizes. Looking ahead to our later exploration of Quantum and Bayesian systems in Level 5, the Born rule <code>P(x) = |ψ(x)|²</code> serves as the profound bridge connecting continuous wave geometry to empirical observation and belief revision!”
+  </p>
+
+  <hr>
+
+  <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
+
+  <p>
+    “Now,” Jane smiled, “let''s address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 580px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Real Axis -->
+        <line x1="30" y1="90" x2="550" y2="90" stroke="#334155" stroke-width="2" />
+        <text x="540" y="80" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Real Temp T</text>
+        <circle cx="290" cy="90" r="4" fill="#dc2626" />
+        <text x="290" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#dc2626">Critical Temp T_c</text>
+
+        <!-- Complex Unit Circle & Pinching Zeros -->
+        <ellipse cx="290" cy="90" rx="90" ry="70" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3" />
+        <circle cx="240" cy="40" r="3" fill="#2563eb" />
+        <circle cx="340" cy="40" r="3" fill="#2563eb" />
+        <circle cx="230" cy="90" r="3" fill="#2563eb" />
+        <circle cx="350" cy="90" r="3" fill="#2563eb" />
+        <circle cx="280" cy="85" r="3" fill="#2563eb" />
+        <circle cx="300" cy="85" r="3" fill="#2563eb" />
+        <circle cx="290" cy="91" r="3.5" fill="#dc2626" />
+
+        <text x="290" y="25" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Lee-Yang Zeros in Complex Plane ℂ_ω</text>
+        <text x="290" y="155" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#64748b">At N = ω, zeros pinch the real axis at T_c creating sudden macroscopic phase change!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    Jane explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
+  </p>
+
+  <ol>
+    <li>
+      <b>Finite Systems are Perfectly Smooth (N &lt; ω):</b> For any finite collection of <code>N</code> atoms, the partition function <code>Z_N(T)</code> is a polynomial with all positive real coefficients. A polynomial with positive coefficients <b>can never equal zero for any real temperature <code>T ∈ ℝ</code></b>.
+    </li>
+    <li>
+      <b>Zeros Live Exclusively in ℂ_ω:</b> In 1952, Nobel laureates T.D. Lee and C.N. Yang proved that all zeros of <code>Z_N</code> live off the real axis, distributed along a circle in the <b>complex plane <code>ℂ_ω</code></b>.
+    </li>
+    <li>
+      <b>The Thermodynamic Pinch (N = ω):</b> As the number of atoms reaches our transfinite scale <code>N = ω</code>, the density of complex zeros intensifies until they <b>pinch the real temperature axis at exact critical point <code>T_c</code></b>!
+    </li>
+    <li>
+      <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink &mdash; creating the sudden, sharp macroscopic transition of freezing, boiling, or ferromagnetism!
+    </li>
+  </ol>
+
+  <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Emergent Phase Transitions):</b><br>
+    Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition function of an <code>N</code>-particle system.
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Analyticity on Real Axis:</b> For all finite <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in <code>ℂ_ω \ ℝ</code>.</li>
+      <li><b>Transfinite Accumulation:</b> In the thermodynamic limit <code>N → ω</code>, the zero locus accumulates into continuous curves pinching the real axis:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at &emsp; T = T_c</b>
+        </div>
+      </li>
+      <li><b>Macroscopic Singularity:</b> The free energy per particle <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a non-analytic derivative singularity at <code>T_c</code>, giving rise to physical latent heat and spontaneous symmetry breaking.</li>
+      <li><b>CAS Example:</b> <eq-ref eq-id="cas_lee_yang" formula="LEE_YANG_ZEROS(N)">Lee-Yang Circle Zeros &amp; Thermodynamic Pinch at T_c</eq-ref></li>
+    </ol>
+  </div>
+  </fsd-ref>
+
+  <p>
+    Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”
+  </p>
+
+  <p>
+    “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
+  </p>
+', 'published'),
   (30, 'stemExpLogFoundations', 29, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
 <div class="container">
     <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
@@ -10006,7 +9723,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
   <h3>From Deductive Certainty to Empirical Inference</h3>
   <p>
     Across the first four levels of our curriculum, we explored the deductive architecture of mathematics:
-    first-order logic and inductive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and rotation (<b>Level 4</b>).
+    first-order logic and inductive Conway trees (<b>Level 1</b>), linear vector spaces and geometric transformations (<b>Level 2</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), and the transcendental engine of growth and rotation (<b>Level 4</b>).
   </p>
   <p>
     In that deductive domain, every proven proposition is unconditionally either <i>True</i> (1) or <i>False</i> (0).
@@ -10150,7 +9867,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <h3>2. From Deductive Certainty to Scientific Inference</h3>
     <p>
-      Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), linear vector spaces, duality, and geometric transformations (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
+      Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), linear vector spaces, duality, and geometric transformations (<b>Level 2</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
     </p>
     <p>
       In that deductive world, every proven statement is definitively either <i>True</i> (1) or <i>False</i> (0). 
@@ -10338,11 +10055,11 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
     </p>
     <p>
-      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (which we developed in Level 2 with infinitesimal step size <code>dx = 1/ω &gt; 0</code>), continuous probability integrates seamlessly with our calculus:
+      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (which we developed in Level 3 with infinitesimal step size <code>dx = 1/ω &gt; 0</code>), continuous probability integrates seamlessly with our calculus:
     </p>
     <ol>
       <li><b>No Divide-by-Zero Singularities:</b> Because every non-empty event carries a strictly positive infinitesimal weight (<code>P(x_k) = p(x_k) · dx &gt; 0</code>), Bayes'' division is always well-defined. Impossible events are strictly those where <code>E = ∅</code> (inspect the point masses in the <bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>).</li>
-      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable limit of integrals; continuous probability accumulation <code>P(a ≤ X ≤ b) = ∫_a^b p(x) dx = st( ∑ p(x_k) · dx )</code> is simply the discrete telescoping addition mastered in Level 2!</li>
+      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable limit of integrals; continuous probability accumulation <code>P(a ≤ X ≤ b) = ∫_a^b p(x) dx = st( ∑ p(x_k) · dx )</code> is simply the discrete telescoping addition mastered in Level 3!</li>
       <li><b>Macroscopic Readout:</b> Whenever a standard decimal value or laboratory probability is required, hyperfinite values seamlessly <b>"pop" to the nearest real number</b> via the standard part map (<code>st: ℝ_ω → ℝ</code>), dropping infinitesimal parts (<code>∼ 𝒪(1/ω)</code>). See this bridged directly via <bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>.</li>
     </ol>
 
@@ -10543,7 +10260,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       <br>
       <li>
         <b>The Hyperfinite Transect (Robinson &amp; Conway):</b><br>
-        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed in Level 2), the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
+        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed in Level 3), the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
         <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
           P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
         </div>
@@ -11610,7 +11327,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      “In our upcoming chapter on <b>Quantum Logic</b>, we unite these probability measures with the 2D complex grid <code>ℂ_ω</code> (from Level 2) and the Hilbert space geometry <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code> (from Level 3):”
+      “In our upcoming chapter on <b>Quantum Logic</b>, we unite these probability measures with the 2D complex grid <code>ℂ_ω</code> (from Level 3) and the Hilbert space geometry <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code> (from Level 2):”
     </p>
 
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
@@ -11653,7 +11370,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       While real numbers suffice for classical scalar probability weights, quantum mechanics fundamentally requires complex phase rotations and wave interference.
     </p>
     <p>
-      As established in <b>Level 2 (Analysis 2D)</b> and <b>Level 3 (Vector Foundations)</b>, crossing two real axes yields the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree basis:
+      As established in <b>Level 2 (Vector Foundations)</b> and <b>Level 3 (Analysis 2D)</b>, crossing two real axes yields the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree basis:
     </p>
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; font-family: monospace; font-size: 0.95em; border-radius: 6px; color: #1e3a8a; margin: 12px 0;">
       Quad-Tree Basis = { +1, -1, +i, -i } &nbsp;⇒&nbsp; Gaussian Dyadics &amp; Complex Grid ℂ_ω
@@ -11664,7 +11381,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
 
     <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 0.92em;">
       <b>Epistemic Foundations: The Algebraic Safety Net</b><br>
-      In Level 3, we observed that while the working grid <code>ℂ_ω</code> supports all concrete physical operations, division or normalization by diagonal roots (like <code>√2</code>) generates remainders with transfinite birthdays beyond <code>ω</code>. From this junction, there are <b>two coherent foundational pathways</b>:
+      In Level 2, we observed that while the working grid <code>ℂ_ω</code> supports all concrete physical operations, division or normalization by diagonal roots (like <code>√2</code>) generates remainders with transfinite birthdays beyond <code>ω</code>. From this junction, there are <b>two coherent foundational pathways</b>:
       <ul style="margin-top: 8px;">
         <li>
           <b>Pathway A (The Standard Real Shadow):</b> Apply the <b>standard part map</b> (<code>st : ℝ_ω → ℝ</code>) whenever an operation leaves <code>ℂ_ω</code>. This "pops" the calculation down to the nearest standard real number, interfacing directly with standard laboratory calculus and intrinsic Hilbert spaces.
@@ -12177,7 +11894,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      Jill raised her hand with an insightful smile: “Jack, in your lecture title, you wrote <i>''Vector Projection''</i>. Back in Level 3, we explored how vector spaces, duality pairings <code>⟨ϕ|ψ⟩</code>, and projection operators operate in abstract geometry. Are we now seeing the physical realization of that exact same geometry?”
+      Jill raised her hand with an insightful smile: “Jack, in your lecture title, you wrote <i>''Vector Projection''</i>. Back in Level 2, we explored how vector spaces, duality pairings <code>⟨ϕ|ψ⟩</code>, and projection operators operate in abstract geometry. Are we now seeing the physical realization of that exact same geometry?”
     </p>
 
     <p>
@@ -12185,7 +11902,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     </p>
 
     <p>
-      “As established in Level 3, our working grid <code>ℂ_ω</code> is supported by our transfinite tree cutoff (with Cantor''s epsilon horizon <code>ε₀</code> serving as the airtight algebraic safety net). We don''t need any detached, unconstructive axioms &mdash; we have the concrete geometry of directional state arrows and subspace projections!”
+      “As established in Level 2, our working grid <code>ℂ_ω</code> is supported by our transfinite tree cutoff (with Cantor''s epsilon horizon <code>ε₀</code> serving as the airtight algebraic safety net). We don''t need any detached, unconstructive axioms &mdash; we have the concrete geometry of directional state arrows and subspace projections!”
     </p>
 
     <p>
@@ -12386,7 +12103,7 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
     <h3>1. The Grand Capstone of the Minimal Path</h3>
     <p>
       We have arrived at the summit of our constructive curriculum. 
-      Every formal tool we have forged across five levels &mdash; from binary truth values and the Conway number tree (<b>Level 1</b>), to hyperfinite calculus on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), to vector spaces, duality, and linear maps (<b>Level 3</b>), the transcendental engine (<b>Level 4</b>), and probabilistic inference with quantum logic (<b>Level 5</b>) &mdash; converges into a single, breathtaking realization:
+      Every formal tool we have forged across five levels &mdash; from binary truth values and the Conway number tree (<b>Level 1</b>), to vector spaces, duality, and linear maps (<b>Level 2</b>), to hyperfinite calculus on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), the transcendental engine (<b>Level 4</b>), and probabilistic inference with quantum logic (<b>Level 5</b>) &mdash; converges into a single, breathtaking realization:
     </p>
 
     <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; font-weight: bold; border-radius: 6px; font-size: 0.95em; color: #1e3a8a; margin: 12px 0;">
@@ -12654,14 +12371,14 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
         <td>Deductive certainty, syntactic consistency, and exact construction of numbers.</td>
       </tr>
       <tr>
-        <td><b>Level 2: Continuum &amp; Calculus</b></td>
-        <td>Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid <code>ℂ_ω</code>, telescoping FTC</td>
-        <td>Instantaneous change, continuous accumulation, conformal geometry, and continuous unitary time evolution.</td>
-      </tr>
-      <tr>
-        <td><b>Level 3: Space &amp; Geometry</b></td>
+        <td><b>Level 2: Space &amp; Geometry</b></td>
         <td>Vector spaces <code>V</code>, dual measurement spaces <code>V*</code>, Dirac bra-kets <code>⟨ϕ|ψ⟩</code></td>
         <td>Geometric directions, linear transformations, canonical evaluation pairing, and unitary isometries.</td>
+      </tr>
+      <tr>
+        <td><b>Level 3: Continuum &amp; Calculus</b></td>
+        <td>Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid <code>ℂ_ω</code>, telescoping FTC</td>
+        <td>Instantaneous change, continuous accumulation, conformal geometry, and continuous unitary time evolution.</td>
       </tr>
       <tr>
         <td><b>Level 4: The Transcendental Engine</b></td>
@@ -12847,9 +12564,9 @@ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQ
       <b>The 5-Level Constructive Ascent:</b><br><br>
       <b>Level 1: Logic &amp; Number</b> &mdash; From Conway''s root <code>0 = { | }</code> to dyadic branching trees and typed logic<br>
       &darr;<br>
-      <b>Level 2: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates <code>dy/dx</code>, integral sums, and conformal geometry on <code>ℝ_ω</code> and <code>ℂ_ω</code><br>
+      <b>Level 2: Space, Direction &amp; Geometry</b> &mdash; Vector spaces, inner products, linear operators, and Dirac bra-ket duality<br>
       &darr;<br>
-      <b>Level 3: Space, Direction &amp; Geometry</b> &mdash; Vector spaces, inner products, linear operators, and Dirac bra-ket duality<br>
+      <b>Level 3: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates <code>dy/dx</code>, integral sums, and conformal geometry on <code>ℝ_ω</code> and <code>ℂ_ω</code><br>
       &darr;<br>
       <b>Level 4: The Transcendental Engine</b> &mdash; Continuous growth <code>e^x</code>, natural logarithms <code>ln x</code>, and circular rotor dynamics<br>
       &darr;<br>
@@ -16471,27 +16188,27 @@ INSERT INTO curriculum_nav_items (
   (22, 'app1_nav_2_4_2', 1, 19, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (23, 'app1_nav_2_4_3', 1, 19, 3, 'html', 'lecture 3: STEM & spaces', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (24, 'app1_nav_2_4_4', 1, 19, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: continuous analysis', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: analysis 1D', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: microscope & continuity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (31, 'app1_nav_3_2_2', 1, 28, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_3_2_3', 1, 28, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_3_3', 1, 25, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_3_3_0', 1, 33, 0, 'html', 'overview: analysis 2D', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_3_3_1', 1, 33, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (36, 'app1_nav_3_3_2', 1, 33, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_3_3_3', 1, 33, 3, 'html', 'lecture 3: state evolution & phase', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_4_0', 1, 38, 0, 'html', 'overview: linear algebra & geometry', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_4_1', 1, 38, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_4_1_0', 1, 40, 0, 'html', 'overview: linear algebra', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_4_1_1', 1, 40, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_4_1_2', 1, 40, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_4_1_3', 1, 40, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_4_2', 1, 38, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: linear algebra & geometry', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_3_1', 1, 25, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (28, 'app1_nav_3_1_0', 1, 27, 0, 'html', 'overview: linear algebra', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_3_1_1', 1, 27, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (30, 'app1_nav_3_1_2', 1, 27, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (31, 'app1_nav_3_1_3', 1, 27, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_3_2', 1, 25, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_4_0', 1, 33, 0, 'html', 'overview: continuous analysis', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_4_1', 1, 33, 1, 'html', 'sequences & progressions', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (36, 'app1_nav_4_2', 1, 33, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_4_2_0', 1, 36, 0, 'html', 'overview: analysis 1D', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_4_2_1', 1, 36, 1, 'html', 'lecture 1: microscope & continuity', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_4_2_2', 1, 36, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (40, 'app1_nav_4_2_3', 1, 36, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_4_3', 1, 33, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_4_3_0', 1, 41, 0, 'html', 'overview: analysis 2D', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_4_3_1', 1, 41, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_4_3_2', 1, 41, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_4_3_3', 1, 41, 3, 'html', 'lecture 3: state evolution & phase', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (46, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (47, 'app1_nav_5_0', 1, 46, 0, 'html', 'exponential & logarithmic foundations', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (48, 'app1_nav_5_1', 1, 46, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
@@ -17096,24 +16813,24 @@ INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (3, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (4, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (5, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (6, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (7, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (8, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (9, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (10, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (11, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (12, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (13, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (14, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (15, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (16, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (17, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (18, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (19, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (2, 17, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (3, 17, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (4, 17, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (5, 18, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (6, 18, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (7, 18, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (8, 18, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (9, 19, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (10, 19, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (11, 19, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (12, 19, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc title="Unit Rotor Sine Projection Calculator"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (13, 23, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (14, 23, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (15, 23, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (16, 25, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (17, 25, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (18, 25, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (19, 25, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
   (20, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
   (21, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
   (22, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
@@ -17130,11 +16847,11 @@ DELETE FROM segment_prerequisites;
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
   (1, 46, 1, 'foundational'),
   (2, 47, 46, 'foundational'),
-  (3, 47, 20, 'foundational'),
-  (4, 18, 1, 'foundational'),
-  (5, 19, 18, 'foundational'),
-  (6, 20, 19, 'foundational'),
-  (7, 22, 20, 'foundational')
+  (3, 47, 25, 'foundational'),
+  (4, 23, 1, 'foundational'),
+  (5, 24, 23, 'foundational'),
+  (6, 25, 24, 'foundational'),
+  (7, 27, 25, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
