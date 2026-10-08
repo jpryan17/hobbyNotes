@@ -1,254 +1,655 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Toward a Theoretical Maximum: A Curriculum for General Education in General Science</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>
+      Toward a Theoretical Maximum: A Curriculum for General Education in
+      General Science
+    </title>
   </head>
   <body>
-<div align="center">
-      <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
-      <font size="+1"><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font></div>
+    <div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Toward a Theoretical Maximum:<br />A Curriculum for General
+            Education in General Science</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font
+      >
+    </div>
     <p>
-      Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.
+      Middle Way Mathematics is an interactive formal science textbook designed
+      to be a robust proof of concept for a general formal science curriculum
+      that serves the needs of the 75% or so of students not bound for STEM
+      related careers in a manner consistent with the needs of students
+      preparing for further STEM related study.
     </p>
 
     <p>
-      Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriculum focuses on the mathematics of mathematical physics.
+      Our motivation is that current theories of physical reality are among the
+      pinnacles of human culture, and should be made as available as possible to
+      as many as possible. Thus the curriculum focuses on the mathematics of
+      mathematical physics.
     </p>
 
     <p>
-      Our approach is to use Conway number trees to undergird a nonstandard analysis, thus bypassing limit theory and additional topological and measure spaces.
+      Our approach is to use Conway number trees to undergird a nonstandard
+      analysis, thus bypassing limit theory and additional topological and
+      measure spaces.
     </p>
 
     <p>
-      The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that the page merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a 'calculation machine' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it's support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
+      The page is an artifact of an ongoing pair-programming dialogue between a
+      human collaborator and an embedded machine intelligence.&nbsp; As an AI
+      agent is responsible for much of this page, the chance that the page
+      merely reflects a shared hallucination cannot be ignored; so an effort was
+      made to minimize this possibility. First, the page uses formal statements
+      to describe mathematical concepts. These statements are quantified
+      predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all
+      statements are verified by the Lean theorem prover. Thus the mathematical
+      description is at least consistent. Second, calculations are defined
+      relative to a formal statement. A calculation is described by pseudo-code,
+      which is interpreted by a 'calculation machine' that is independent of any
+      access to runtime resources for mathematical calculation. This dual
+      approach of verifying the conceptual description and demonstrating it's
+      support for calculation, add weight to the claim that this page is perhaps
+      more than a mere shared hallucination.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>1. Core Educational Responsibilities &amp; Complementary Roles</h3>
-    <p>A robust curriculum in general science serves two complementary goals:
+    <p>
+      A robust curriculum in general science serves two complementary goals:
     </p>
     <ol>
-      <li><b>General Scientific Literacy:</b> Provide all students—especially the ~75% not bound for STEM careers—with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
-      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners with an intuitive, constructive foundation that accelerates their subsequent study of advanced physics and higher mathematics.</li>
+      <li>
+        <b>General Scientific Literacy:</b> Provide all students—especially the
+        ~75% not bound for STEM careers—with a clear, conceptual, and
+        foundational understanding of how modern science models the physical
+        world.
+      </li>
+      <li>
+        <b>Prerequisite Technical Preparation:</b> Provide future STEM
+        practitioners with an intuitive, constructive foundation that
+        accelerates their subsequent study of advanced physics and higher
+        mathematics.
+      </li>
     </ol>
 
-    <hr>
+    <hr />
 
     <h3>2. Epistemological Compass: Lived Phenomena vs. Mathematical Models</h3>
     <p>
-      Throughout this curriculum, we maintain a clear and essential epistemological attitude: <b>the rigorous distinction between physical phenomena and mathematical models</b>.
+      Throughout this curriculum, we maintain a clear and essential
+      epistemological attitude:
+      <b
+        >the rigorous distinction between physical phenomena and mathematical
+        models</b
+      >.
     </p>
 
-    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px 20px; margin: 16px auto; width: 90%;">
-      <table width="100%" cellpadding="6" style="border-collapse: collapse; font-size: 14px;">
-        <tbody><tr>
-          <td width="48%" valign="top" style="padding-right: 15px; border-right: 1px solid #e2e8f0;">
-            <font size="+1" color="#1e3a8a"><b>Physical Reality &amp; Phenomena (The Territory)</b></font><br><br>
-            • <b>Fixed and Objective:</b> The physical universe exists and unfolds independently of human observers or symbolic representations.<br><br>
-            • <b>Direct Experience:</b> Tangible, lived phenomena—the turning of a shadow, the solidity of a wooden desk, heat diffusing through a metal bar, or light passing through polarizers—are the primary empirical touchstones of science.<br><br>
-            • <b>Non-Monotonic Discovery:</b> In the natural world, we never possess complete axioms. Empirical inquiry is always open to surprise; a single new experimental observation can revise or overturn a prevailing hypothesis.
-          </td>
-          <td width="48%" valign="top" style="padding-left: 15px;">
-            <font size="+1" color="#1e3a8a"><b>Mathematical Formalisms &amp; Models (The Map)</b></font><br><br>
-            • <b>Human Inventions:</b> Scientific theories—from Euclidean geometry and Newtonian kinematics to Boltzmann ensembles and Quantum Density Operators (<code>ρ</code>)—are formal tools crafted by human minds.<br><br>
-            • <b>Deductive Precision:</b> Mathematical logic is strictly monotonic. Once a theorem is deduced from axioms, it remains permanently valid within its formal domain.<br><br>
-            • <b>Reasoning Under Uncertainty:</b> Our models do not dictate how nature "must" behave; rather, they serve as rigorous, evolving lenses to organize observations, quantify ignorance, and update beliefs rationally.
-          </td>
-        </tr>
-      </tbody></table>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 16px auto;
+        width: 90%;
+      "
+    >
+      <table
+        width="100%"
+        cellpadding="6"
+        style="border-collapse: collapse; font-size: 14px"
+      >
+        <tbody>
+          <tr>
+            <td
+              width="48%"
+              valign="top"
+              style="padding-right: 15px; border-right: 1px solid #e2e8f0"
+            >
+              <font size="+1" color="#1e3a8a"
+                ><b>Physical Reality &amp; Phenomena (The Territory)</b></font
+              ><br /><br />
+              • <b>Fixed and Objective:</b> The physical universe exists and
+              unfolds independently of human observers or symbolic
+              representations.<br /><br />
+              • <b>Direct Experience:</b> Tangible, lived phenomena—the turning
+              of a shadow, the solidity of a wooden desk, heat diffusing through
+              a metal bar, or light passing through polarizers—are the primary
+              empirical touchstones of science.<br /><br />
+              • <b>Non-Monotonic Discovery:</b> In the natural world, we never
+              possess complete axioms. Empirical inquiry is always open to
+              surprise; a single new experimental observation can revise or
+              overturn a prevailing hypothesis.
+            </td>
+            <td width="48%" valign="top" style="padding-left: 15px">
+              <font size="+1" color="#1e3a8a"
+                ><b>Mathematical Formalisms &amp; Models (The Map)</b></font
+              ><br /><br />
+              • <b>Human Inventions:</b> Scientific theories—from Euclidean
+              geometry and Newtonian kinematics to Boltzmann ensembles and
+              Quantum Density Operators (<code>ρ</code>)—are formal tools
+              crafted by human minds.<br /><br />
+              • <b>Deductive Precision:</b> Mathematical logic is strictly
+              monotonic. Once a theorem is deduced from axioms, it remains
+              permanently valid within its formal domain.<br /><br />
+              • <b>Reasoning Under Uncertainty:</b> Our models do not dictate
+              how nature "must" behave; rather, they serve as rigorous, evolving
+              lenses to organize observations, quantify ignorance, and update
+              beliefs rationally.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p>
-      But epistemological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more efficacious than its standard construction. In many ways, improvements to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by our model. We make no claims as to the foundational nature of our model. But we do claim its logical consistency, and it seems to serve its purpose well.
+      But epistemological consideration does not stop there. The mathematics
+      used to model physical theories is itself a model of a mathematical
+      universe. For example, we do not believe numbers are addresses on a Conway
+      number tree. But we do believe this model of number is more efficacious
+      than its standard construction. In many ways, improvements to physical
+      models reflect improvements to modeling mathematics. Our model of the
+      mathematical universe is what one might call effective. It is designed to
+      support a general education in formal science. We know the universe of
+      numbers is not covered by our model. We make no claims as to the
+      foundational nature of our model. But we do claim its logical consistency,
+      and it seems to serve its purpose well.
     </p>
 
     <p>
-      Angle offers another compact illustration. The experience of turning, or of two lines of sight opening from one vantage point, is the same everywhere and at every scale. Yet over four thousand years mathematics has represented it as a builder's slope, a chord across a circle, a half-chord (the sine), a dimensionless real number (the radian), and an operator that rotates space (the rotor). None of these is <i>the</i> angle; each is a representation that made new questions answerable. When our Level 2 lecture on trigonometry represents angle as a path on a binary tree, it adds one more entry to this list — chosen because it supports exact, auditable calculation, not because it is claimed to be what angle really is.
+      Angle offers another compact illustration. The experience of turning, or
+      of two lines of sight opening from one vantage point, is the same
+      everywhere and at every scale. Yet over four thousand years mathematics
+      has represented it as a builder's slope, a chord across a circle, a
+      half-chord (the sine), a dimensionless real number (the radian), and an
+      operator that rotates space (the rotor). None of these is
+      <i>the</i> angle; each is a representation that made new questions
+      answerable. When our Level 3 lecture on trigonometry represents angle as a
+      path on a binary tree, it adds one more entry to this list — chosen
+      because it supports exact, auditable calculation, not because it is
+      claimed to be what angle really is.
     </p>
 
-    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
-      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
-      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-        <p style="margin: 0 0 10px 0;">
-          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, the curriculum is not specifically designed for STEM oriented students, rather t<span style="font-size: 0.95em;">he curriculum is designed for all students,&nbsp;</span><span style="font-size: 0.95em;">and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies.&nbsp;</span></p>
-        <p style="margin: 0 0 10px 0;">
-          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
+    <details
+      style="
+        margin: 14px 0 18px;
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 0.95em;
+      "
+    >
+      <summary
+        style="
+          font-weight: 600;
+          color: #475569;
+          cursor: pointer;
+          user-select: none;
+        "
+      >
+        Proof of concept
+      </summary>
+      <div
+        style="
+          margin-top: 10px;
+          color: #334155;
+          line-height: 1.6;
+          border-top: 1px solid #e2e8f0;
+          padding-top: 10px;
+        "
+      >
+        <p style="margin: 0 0 10px 0">
+          This page presents a curriculum for a general education in formal
+          science. Although the curriculum targets an understanding of modern
+          physics, the curriculum is not specifically designed for STEM oriented
+          students, rather t<span style="font-size: 0.95em"
+            >he curriculum is designed for all students,&nbsp;</span
+          ><span style="font-size: 0.95em"
+            >and completion of the curriculum would not fulfill all prerequisite
+            material for advanced STEM related studies.&nbsp;</span
+          >
         </p>
-        <p style="margin: 0;">
-          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent, although explicitly not comprehensive, and which supports the calculations needed to formally model physical theories.
+        <p style="margin: 0 0 10px 0">
+          If one identifies practical knowledge as knowledge one can put to
+          practical use, then one has to admit the curriculum provides minimal
+          practical knowledge. As described, the curriculum is aesthetically
+          motivated: it provides the tools required to appreciate modern science
+          and mathematics; it provides a window. In a manner of speaking, it is
+          a formal extension of popular science.
+        </p>
+        <p style="margin: 0">
+          In particular, although curricular related knowledge is not practical,
+          it is formal. And, even if only for the sake of STEM oriented
+          students, the formality must be accurate, if not comprehensive. So,
+          when the page describes itself as a proof of concept, it claims to
+          present a formality that is consistent, although explicitly not
+          comprehensive, and which supports the calculations needed to formally
+          model physical theories.
         </p>
       </div>
     </details>
 
-    <hr>
+    <hr />
 
     <h3>3. Concept Presentation Standards: The Learning Workflow</h3>
     <p>
-      To ensure consistent pedagogical quality, intellectual transparency, and cognitive accessibility across all modules, every mathematical concept in Middle Way Mathematics is presented according to a rigorous six-stage pipeline:
+      To ensure consistent pedagogical quality, intellectual transparency, and
+      cognitive accessibility across all modules, every mathematical concept in
+      Middle Way Mathematics is presented according to a rigorous six-stage
+      pipeline:
     </p>
 
-    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 24px; margin: 16px auto; width: 92%;">
-      <ol style="margin: 0; padding-left: 20px; line-height: 1.7; font-size: 14px;">
-        <li style="margin-bottom: 12px;">
-          <b>Introduce the Concept in Text:</b><br>
-          Every topic begins with plain-language prose, physical motivation, or historical context. We ground the concept in tangible phenomena and intuitive analogies before introducing any formal notation.
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 18px 24px;
+        margin: 16px auto;
+        width: 92%;
+      "
+    >
+      <ol
+        style="margin: 0; padding-left: 20px; line-height: 1.7; font-size: 14px"
+      >
+        <li style="margin-bottom: 12px">
+          <b>Introduce the Concept in Text:</b><br />
+          Every topic begins with plain-language prose, physical motivation, or
+          historical context. We ground the concept in tangible phenomena and
+          intuitive analogies before introducing any formal notation.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Reinforce with Interactive Visuals:</b><br>
-          Where possible, the text is immediately backed by visual and manipulative tools—Truth Table Demos (TTD), 2D Boolean Relation Matrices (FSD), Conway binary tree explorers (BTD), state-space probability trees (BID), or vector rotors. Learners manipulate parameters and observe immediate geometric feedback to build operational intuition.
+        <li style="margin-bottom: 12px">
+          <b>Reinforce with Interactive Visuals:</b><br />
+          Where possible, the text is immediately backed by visual and
+          manipulative tools—Truth Table Demos (TTD), 2D Boolean Relation
+          Matrices (FSD), Conway binary tree explorers (BTD), state-space
+          probability trees (BID), or vector rotors. Learners manipulate
+          parameters and observe immediate geometric feedback to build
+          operational intuition.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Describe the Concept with Verified Formal Statements:</b><br>
-          We translate the intuitive idea into an exact formal statement in First-Order Logic using sets, predicates, and quantifiers (<code>∀, ∃, ∈, =</code>). Every statement is machine-checked by the Lean 4 interactive theorem prover, guaranteeing syntactic correctness, logical consistency, and eliminating AI/human hallucination.
+        <li style="margin-bottom: 12px">
+          <b>Describe the Concept with Verified Formal Statements:</b><br />
+          We translate the intuitive idea into an exact formal statement in
+          First-Order Logic using sets, predicates, and quantifiers (<code
+            >∀, ∃, ∈, =</code
+          >). Every statement is machine-checked by the Lean 4 interactive
+          theorem prover, guaranteeing syntactic correctness, logical
+          consistency, and eliminating AI/human hallucination.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Set Up Calculators for Functions:</b><br>
-          Mathematical functions and operators are not left as abstract declarations. We explicitly define their domain and codomain over our foundational sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) and constructed product sets (<code>A → B</code>), staging them as concrete computational devices ready to receive inputs.
+        <li style="margin-bottom: 12px">
+          <b>Set Up Calculators for Functions:</b><br />
+          Mathematical functions and operators are not left as abstract
+          declarations. We explicitly define their domain and codomain over our
+          foundational sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) and constructed
+          product sets (<code>A → B</code>), staging them as concrete
+          computational devices ready to receive inputs.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Display Function Rules (Auditable Pseudo-Code):</b><br>
-          Rather than relying on opaque, black-box runtime libraries, every function displays its explicit rule: clean, auditable pseudo-code showing each step, conditional branch, and assignment required to compute the result.
+        <li style="margin-bottom: 12px">
+          <b>Display Function Rules (Auditable Pseudo-Code):</b><br />
+          Rather than relying on opaque, black-box runtime libraries, every
+          function displays its explicit rule: clean, auditable pseudo-code
+          showing each step, conditional branch, and assignment required to
+          compute the result.
         </li>
-        <li style="margin-bottom: 0;">
-          <b>Calculate!:</b><br>
-          Learners execute the calculation on our virtual, context-sensitive calculation machine. They observe the instruction pointer, examine register states, and inspect the resulting output, verifying that the formal theory translates directly into verifiable computation.
+        <li style="margin-bottom: 0">
+          <b>Calculate!:</b><br />
+          Learners execute the calculation on our virtual, context-sensitive
+          calculation machine. They observe the instruction pointer, examine
+          register states, and inspect the resulting output, verifying that the
+          formal theory translates directly into verifiable computation.
         </li>
       </ol>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. Choosing the Summit: Quantum Statistical Mechanics</h3>
-    <p>Our mission is to provide a mathematical foundation for understanding current theories of physical reality. Of course there are many such theories, so to sharpen the focus, we choose to formally describe <b>Quantum Statistical Mechanics and Inference</b>:
+    <p>
+      Our mission is to provide a mathematical foundation for understanding
+      current theories of physical reality. Of course there are many such
+      theories, so to sharpen the focus, we choose to formally describe
+      <b>Quantum Statistical Mechanics and Inference</b>:
     </p>
     <ul>
-      <li><b>Why not the Standard Model of Particle Physics?</b> High-energy particle interactions are fundamental, but they are detached from everyday human experience.</li>
-      <li><b>Why not General Relativity?</b> General relativity is an elegant geometric theory, but it describes only gravity.</li>
-      <li><b>Why Quantum Statistical Mechanics?</b> It describes the tangible everyday reality we directly interact with—how solid matter, temperature, pressure, and thermal equilibrium emerge from statistical averages over trillions of microscopic quantum degrees of freedom.</li>
+      <li>
+        <b>Why not the Standard Model of Particle Physics?</b> High-energy
+        particle interactions are fundamental, but they are detached from
+        everyday human experience.
+      </li>
+      <li>
+        <b>Why not General Relativity?</b> General relativity is an elegant
+        geometric theory, but it describes only gravity.
+      </li>
+      <li>
+        <b>Why Quantum Statistical Mechanics?</b> It describes the tangible
+        everyday reality we directly interact with—how solid matter,
+        temperature, pressure, and thermal equilibrium emerge from statistical
+        averages over trillions of microscopic quantum degrees of freedom.
+      </li>
     </ul>
 
-
-    <hr>
+    <hr />
 
     <h3>5. Curricular Levels: A Cumulative Single-Root Tree</h3>
     <p>
-      To reach this summit with minimal cognitive load, the curriculum functions as a cohesive single-root tree organized into progressive curricular levels:
+      To reach this summit with minimal cognitive load, the curriculum functions
+      as a cohesive single-root tree organized into progressive curricular
+      levels:
     </p>
 
     <h4>Level 1: Logic &amp; Number</h4>
     <ul>
-      <li><b>Propositional Logic:</b> Grounding formal science in truth tables, Boolean connectives (<code>¬, ∧, ∨, →, ↔</code>), and deductive certainty.</li>
-      <li><b>Formal Statements:</b> The language of sets, tuples, and predicates as functions into <code>𝔹</code>, visualized on the 2D Boolean Relation Matrix.</li>
-      <li><b>Numbers &amp; Graph Trees:</b> Well-ordering on <code>ℕ</code>, transfinite Day <code>ω</code> as the supremum limit ordinal, and generating 1D <code>ℝ_ω</code> and 2D <code>ℂ_ω</code> continua with infinitesimal step size <code>dx = 1/ω</code>.</li>
+      <li>
+        <b>Propositional Logic:</b> Grounding formal science in truth tables,
+        Boolean connectives (<code>¬, ∧, ∨, →, ↔</code>), and deductive
+        certainty.
+      </li>
+      <li>
+        <b>Formal Statements:</b> The language of sets, tuples, and predicates
+        as functions into <code>𝔹</code>, visualized on the 2D Boolean Relation
+        Matrix.
+      </li>
+      <li>
+        <b>Numbers &amp; Graph Trees:</b> Well-ordering on <code>ℕ</code>,
+        transfinite Day <code>ω</code> as the supremum limit ordinal, and
+        generating 1D <code>ℝ_ω</code> and 2D <code>ℂ_ω</code> continua with
+        infinitesimal step size <code>dx = 1/ω</code>.
+      </li>
     </ul>
 
-    <h4>Level 2: Space, Direction &amp; Geometry</h4>
+    <h4>Level 3: Space, Direction &amp; Geometry</h4>
     <ul>
-      <li><b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures, linear transformations, and geometric duality.</li>
-      <li><b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic operators, angle measures, and geometric products.</li>
+      <li>
+        <b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures,
+        linear transformations, and geometric duality.
+      </li>
+      <li>
+        <b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic
+        operators, angle measures, and geometric products.
+      </li>
     </ul>
 
-    <h4>Level 3: Continuum &amp; Calculus</h4>
+    <h4>Level 2: Continuum &amp; Calculus</h4>
     <ul>
-      <li><b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference quotients, nonstandard microscopes, and the telescoping Fundamental Theorem of Calculus.</li>
-      <li><b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete contour integrals, and phase evolution.</li>
+      <li>
+        <b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference
+        quotients, nonstandard microscopes, and the telescoping Fundamental
+        Theorem of Calculus.
+      </li>
+      <li>
+        <b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete
+        contour integrals, and phase evolution.
+      </li>
     </ul>
 
     <h4>Level 4: Growth &amp; The Logarithm</h4>
     <ul>
-      <li><b>The Transcendental Engine:</b> Exponential compounding, natural logarithms, circular dynamics, and Euler's formula <code>e^(iθ)</code>.</li>
+      <li>
+        <b>The Transcendental Engine:</b> Exponential compounding, natural
+        logarithms, circular dynamics, and Euler's formula <code>e^(iθ)</code>.
+      </li>
     </ul>
 
     <h4>Level 5: Probability, Information &amp; Quantum Logic</h4>
     <ul>
-      <li><b>Bayesian Inference &amp; Statistical Ensembles:</b> Non-monotonic reasoning on state spaces (<code>Ω</code>) and Boltzmann statistical ensembles (Jaynes MaxEnt).</li>
-      <li><b>Quantum Logic &amp; Measurement:</b> Why physical polarization breaks Boolean Venn diagrams (the 3-polarizer experiment), complex amplitude arrows on <code>ℂ_ω</code>, and projection measurement.</li>
-      <li><b>Quantum Bayesian Inference:</b> Density Operators (<code>ρ</code>), the Lüders Quantum Bayes rule, and von Neumann entropy explaining macroscopic emergence.</li>
+      <li>
+        <b>Bayesian Inference &amp; Statistical Ensembles:</b> Non-monotonic
+        reasoning on state spaces (<code>Ω</code>) and Boltzmann statistical
+        ensembles (Jaynes MaxEnt).
+      </li>
+      <li>
+        <b>Quantum Logic &amp; Measurement:</b> Why physical polarization breaks
+        Boolean Venn diagrams (the 3-polarizer experiment), complex amplitude
+        arrows on <code>ℂ_ω</code>, and projection measurement.
+      </li>
+      <li>
+        <b>Quantum Bayesian Inference:</b> Density Operators (<code>ρ</code>),
+        the Lüders Quantum Bayes rule, and von Neumann entropy explaining
+        macroscopic emergence.
+      </li>
     </ul>
 
     <h4>Level 6: Applied Seminars &amp; Horizons</h4>
     <ul>
-      <li><b>Physical &amp; Mathematical Horizons:</b> Newtonian mechanics, 1D heat diffusion, Fourier duality, cosmology, and particle zoo logic.</li>
+      <li>
+        <b>Physical &amp; Mathematical Horizons:</b> Newtonian mechanics, 1D
+        heat diffusion, Fourier duality, cosmology, and particle zoo logic.
+      </li>
     </ul>
 
-    <hr>
+    <hr />
 
     <!-- Collapsible Technical Overview: Lean 4 Infrastructure & Formal Architecture -->
-    <details style="margin: 20px auto; max-width: 860px; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px;">
-      <summary style="font-weight: bold; color: #0369a1; cursor: pointer; font-size: 0.98em;">
-        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp; Scaffold Depth (Click to expand)
+    <details
+      style="
+        margin: 20px auto;
+        max-width: 860px;
+        background-color: #f8fafc;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 14px 18px;
+      "
+    >
+      <summary
+        style="
+          font-weight: bold;
+          color: #0369a1;
+          cursor: pointer;
+          font-size: 0.98em;
+        "
+      >
+        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp;
+        Scaffold Depth (Click to expand)
       </summary>
-      <div style="margin-top: 14px; font-size: 0.9em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
+      <div
+        style="
+          margin-top: 14px;
+          font-size: 0.9em;
+          line-height: 1.6;
+          color: #334155;
+          border-top: 1px dashed #cbd5e1;
+          padding-top: 12px;
+        "
+      >
         <p>
-          To ensure that the Middle Way mathematics curriculum is rigorous and mechanically sound, every foundational claim is anchored in the <b>Lean 4 Interactive Theorem Prover</b>.
+          To ensure that the Middle Way mathematics curriculum is rigorous and
+          mechanically sound, every foundational claim is anchored in the
+          <b>Lean 4 Interactive Theorem Prover</b>.
         </p>
 
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">1. Where the Curriculum Sits in the Formal Verification Spectrum</h4>
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
+          1. Where the Curriculum Sits in the Formal Verification Spectrum
+        </h4>
         <p>
-          In modern proof assistants, formalization depth spans a multi-tier spectrum:
+          In modern proof assistants, formalization depth spans a multi-tier
+          spectrum:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>Tier 1 (Type Signatures &amp; Ontology Specification):</b> Formalizing the vocabulary, primitive types, and operator signatures to eliminate ambiguous notation.</li>
-          <li><b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow map (<code>st</code>) as an authoritative structural blueprint, while formally proving key inductive bridge theorems.</li>
-          <li><b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b> Formalizing computational algorithms directly in Lean and proving termination and bit-level semantic equivalence (<code>eval(e) = TrueMathValue(e)</code>) with zero unproven axioms.</li>
-          <li><b>Tier 5 (Universal Constructive Foundations):</b> Building the entire transfinite continuum from scratch out of Dedekind cuts or Conway games in tens of thousands of lines of foundational library proofs (e.g. Mathlib).</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Tier 1 (Type Signatures &amp; Ontology Specification):</b>
+            Formalizing the vocabulary, primitive types, and operator signatures
+            to eliminate ambiguous notation.
+          </li>
+          <li>
+            <b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the
+            algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow
+            map (<code>st</code>) as an authoritative structural blueprint,
+            while formally proving key inductive bridge theorems.
+          </li>
+          <li>
+            <b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b>
+            Formalizing computational algorithms directly in Lean and proving
+            termination and bit-level semantic equivalence (<code
+              >eval(e) = TrueMathValue(e)</code
+            >) with zero unproven axioms.
+          </li>
+          <li>
+            <b>Tier 5 (Universal Constructive Foundations):</b> Building the
+            entire transfinite continuum from scratch out of Dedekind cuts or
+            Conway games in tens of thousands of lines of foundational library
+            proofs (e.g. Mathlib).
+          </li>
         </ul>
 
         <p>
-          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>. It is designed to provide a structural blueprint: an axiomatic contract. Within this contract, Lean 4 directly verifies foundational structural inductions—such as the <b>Telescoping Fundamental Theorem of Calculus</b> (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>), operator identities (<code>D_turn_squared</code>, <code>exp_eigen_property</code>), and infinitesimal halo relations—providing an authoritative type oracle for all 21 formal curriculum statements.
+          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold
+          sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>.
+          It is designed to provide a structural blueprint: an axiomatic
+          contract. Within this contract, Lean 4 directly verifies foundational
+          structural inductions—such as the
+          <b>Telescoping Fundamental Theorem of Calculus</b>
+          (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>),
+          operator identities (<code>D_turn_squared</code>,
+          <code>exp_eigen_property</code>), and infinitesimal halo
+          relations—providing an authoritative type oracle for all 21 formal
+          curriculum statements.
         </p>
 
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">2. Formal Proof vs. The Virtual Calculation Engine</h4>
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
+          2. Formal Proof vs. The Virtual Calculation Engine
+        </h4>
         <p>
-          Verifying a calculation engine (our dyadic machines, expression evaluators, and finite difference steppers) would be a Tier 3/4 software verification endeavor. Middle Way Mathematics adopts an epistemologically powerful division of labor:
+          Verifying a calculation engine (our dyadic machines, expression
+          evaluators, and finite difference steppers) would be a Tier 3/4
+          software verification endeavor. Middle Way Mathematics adopts an
+          epistemologically powerful division of labor:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover certifies that the mathematical laws, physical invariants, and operator relationships are logically consistent, well-typed, and free of conceptual drift.</li>
-          <li><b>The Virtual Machine Executes Explicit Computation:</b> Calculations are carried out by an independent, transparent calculation machine interpreting human-auditable pseudo-code step-by-step, completely free of hidden runtime black boxes.</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover
+            certifies that the mathematical laws, physical invariants, and
+            operator relationships are logically consistent, well-typed, and
+            free of conceptual drift.
+          </li>
+          <li>
+            <b>The Virtual Machine Executes Explicit Computation:</b>
+            Calculations are carried out by an independent, transparent
+            calculation machine interpreting human-auditable pseudo-code
+            step-by-step, completely free of hidden runtime black boxes.
+          </li>
         </ul>
         <p>
-          <b>Boundary of Environmental Dependence:</b> To be completely precise about what "runtime independence" entails:
+          <b>Boundary of Environmental Dependence:</b> To be completely precise
+          about what "runtime independence" entails:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>No Higher-Level Mathematical Libraries:</b> The engine strictly avoids all continuous calculus libraries, computer algebra systems, and runtime transcendental functions (e.g. <code>Math.exp</code>, <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float approximations). Natural growth is computed purely via discrete Euler compounding in the dyadic ring, rotations via binary CORDIC pseudo-rotations, and calculus via hyperfinite differences.</li>
-          <li><b>Hardware Integer Substrate:</b> The engine borrows only the host environment's CPU for basic discrete integer arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to evaluate explicit dyadic rational fractions <code>m / 2^k</code> on the Conway tree. While pure string-option tree arithmetic (the Conway cut) is mathematically validated, utilizing host integer arithmetic for tree addresses avoids the combinatorial explosion of recursive string branching in the browser.</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>No Higher-Level Mathematical Libraries:</b> The engine strictly
+            avoids all continuous calculus libraries, computer algebra systems,
+            and runtime transcendental functions (e.g. <code>Math.exp</code>,
+            <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float
+            approximations). Natural growth is computed purely via discrete
+            Euler compounding in the dyadic ring, rotations via binary CORDIC
+            pseudo-rotations, and calculus via hyperfinite differences.
+          </li>
+          <li>
+            <b>Hardware Integer Substrate:</b> The engine borrows only the host
+            environment's CPU for basic discrete integer arithmetic
+            (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to
+            evaluate explicit dyadic rational fractions <code>m / 2^k</code> on
+            the Conway tree. While pure string-option tree arithmetic (the
+            Conway cut) is mathematically validated, utilizing host integer
+            arithmetic for tree addresses avoids the combinatorial explosion of
+            recursive string branching in the browser.
+          </li>
         </ul>
         <p>
-          This dual approach ensures that students and educators receive the full protective certainty of formal methods while interacting with tangible, responsive calculations in the browser.
+          This dual approach ensures that students and educators receive the
+          full protective certainty of formal methods while interacting with
+          tangible, responsive calculations in the browser.
         </p>
 
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin: 14px 0;">
-          <b style="color: #0f172a;">Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b><br>
-          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-            <li><b>Static Web Production:</b> A build-time generator (<code>genLeanCache</code>) verifies all theorems directly in the Lean 4 kernel (v4.33.1) and caches pre-computed <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171 verified targets) into client assets. Readers receive instantaneous, kernel-certified truth at zero cloud hosting cost.</li>
-            <li><b>Local Interactive Dev:</b> Running <code>npm run leanServer</code> boots a local compiler service, enabling authors and students to modify lemmas and click <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against the active kernel.</li>
+        <div
+          style="
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 14px 0;
+          "
+        >
+          <b style="color: #0f172a"
+            >Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b
+          ><br />
+          <ul style="margin: 8px 0 0 0; padding-left: 20px">
+            <li>
+              <b>Static Web Production:</b> A build-time generator
+              (<code>genLeanCache</code>) verifies all theorems directly in the
+              Lean 4 kernel (v4.33.1) and caches pre-computed
+              <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171
+              verified targets) into client assets. Readers receive
+              instantaneous, kernel-certified truth at zero cloud hosting cost.
+            </li>
+            <li>
+              <b>Local Interactive Dev:</b> Running
+              <code>npm run leanServer</code> boots a local compiler service,
+              enabling authors and students to modify lemmas and click
+              <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against
+              the active kernel.
+            </li>
           </ul>
         </div>
 
         <p>
-          <b>Live Demonstrator:</b> Test the verification engine right now by clicking this sample constitutional scaffold:<br>
-          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
+          <b>Live Demonstrator:</b> Test the verification engine right now by
+          clicking this sample constitutional scaffold:<br />
+          <fsd-ref
+            tier="3"
+            scaffold="telescoping_ftc"
+            title="Fundamental Theorem of Calculus"
+            style="color: #0284c7; font-weight: bold; cursor: pointer"
+            >telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref
+          >
         </p>
 
-        <p style="margin-bottom: 0;">
-          <b>Grant Proposals &amp; Academic Research:</b> For complete institutional and architectural details, see our research whitepapers on <i>A Narrowed-Scope Lean 4 Educational Interface for General Science Literacy</i>, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and <i>The Inductive Continuum</i>.
+        <p style="margin-bottom: 0">
+          <b>Grant Proposals &amp; Academic Research:</b> For complete
+          institutional and architectural details, see our research whitepapers
+          on
+          <i
+            >A Narrowed-Scope Lean 4 Educational Interface for General Science
+            Literacy</i
+          >, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and
+          <i>The Inductive Continuum</i>.
         </p>
       </div>
     </details>
 
-    <hr>
+    <hr />
 
     <h3>6. Interactive Exploration Prototypes</h3>
     <p>
-      To provide visual intuition, this application includes interactive demonstration suites embedded directly across the modules:
+      To provide visual intuition, this application includes interactive
+      demonstration suites embedded directly across the modules:
     </p>
     <ul>
-      <li><b>TTD (Truth Table Demo):</b> Interactive evaluation of propositional formulas and truth tables.</li>
-      <li><b>FSD (Formal Statements Demo):</b> Syntactic tree parsing, predicate binding, and 2D Boolean Relation Matrices.</li>
-      <li><b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees, transfinite Day <code>ω</code>, and dyadic paths.</li>
-      <li><b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space trees (<code>Ω</code>), likelihood comparisons, and dynamic belief revision.</li>
+      <li>
+        <b>TTD (Truth Table Demo):</b> Interactive evaluation of propositional
+        formulas and truth tables.
+      </li>
+      <li>
+        <b>FSD (Formal Statements Demo):</b> Syntactic tree parsing, predicate
+        binding, and 2D Boolean Relation Matrices.
+      </li>
+      <li>
+        <b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees,
+        transfinite Day <code>ω</code>, and dyadic paths.
+      </li>
+      <li>
+        <b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space
+        trees (<code>Ω</code>), likelihood comparisons, and dynamic belief
+        revision.
+      </li>
     </ul>
-</body>
+  </body>
 </html>

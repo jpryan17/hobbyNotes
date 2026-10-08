@@ -293,7 +293,6 @@ export const conceptualHistoryIndex: IndexItemDesc[] = [
   },
 ];
 
-
 export const proposalsIndex: IndexItemDesc[] = [
   {
     type: "html",
@@ -378,7 +377,7 @@ export const level1Index: IndexItemDesc[] = [
 ];
 
 // =====================================================================
-// Level 2: Space, Direction & Geometry
+// Level 3: Space, Direction & Geometry
 // =====================================================================
 
 export const vectorsIndex: IndexItemDesc[] = [
@@ -404,7 +403,7 @@ export const vectorsIndex: IndexItemDesc[] = [
   },
 ];
 
-export const level2Index: IndexItemDesc[] = [
+export const level3Index: IndexItemDesc[] = [
   {
     type: "html",
     topic: "overview: linear algebra & geometry",
@@ -424,7 +423,7 @@ export const level2Index: IndexItemDesc[] = [
 ];
 
 // =====================================================================
-// Level 3: Continuum & Calculus
+// Level 2: Continuum & Calculus
 // =====================================================================
 
 export const analysis1DIndex: IndexItemDesc[] = [
@@ -473,7 +472,7 @@ export const analysis2DIndex: IndexItemDesc[] = [
   },
 ];
 
-export const level3Index: IndexItemDesc[] = [
+export const level2Index: IndexItemDesc[] = [
   {
     type: "html",
     topic: "overview: continuous analysis",
@@ -599,10 +598,10 @@ export const level6Index: IndexItemDesc[] = [
 // =====================================================================
 
 export const foundationIndex = level1Index;
-export const phase2AGeometryIndex = level2Index;
-export const phase2BAnalysisIndex = level3Index;
-export const analysisAndSeminarsIndex = level3Index;
-export const lamIndex = level3Index;
+export const phase2AGeometryIndex = level3Index;
+export const phase2BAnalysisIndex = level2Index;
+export const analysisAndSeminarsIndex = level2Index;
+export const lamIndex = level2Index;
 export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
 export const seminarsIndex = level6Index;
 
@@ -631,16 +630,17 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "index",
-    topic: "Level 2: Space & Geometry",
-    navTopic: "Space & Geometry",
+    topic: "Level 2: Continuum & Calculus",
+    navTopic: "Continuum & Calculus",
     indexDesc: level2Index,
   },
   {
     type: "index",
-    topic: "Level 3: Continuum & Calculus",
-    navTopic: "Continuum & Calculus",
+    topic: "Level 3: Space & Geometry",
+    navTopic: "Space & Geometry",
     indexDesc: level3Index,
   },
+
   {
     type: "index",
     topic: "Level 4: Growth & The Logarithm",
@@ -695,28 +695,43 @@ export function layoutEED() {
   layoutEqDemo();
 }
 
-export function hydrateDiagramCallbacks(tree: IndexItemDesc[]): IndexItemDesc[] {
+export function hydrateDiagramCallbacks(
+  tree: IndexItemDesc[],
+): IndexItemDesc[] {
   return tree.map((item) => {
     const cloned: IndexItemDesc = { ...item };
-    if (cloned.type === 'diagram') {
-      const topicLower = (cloned.topic || '').toLowerCase();
-      const keyLower = ((cloned as any).diagramKey || '').toLowerCase();
-      if (topicLower.includes('truth table') || keyLower.includes('ttd')) {
+    if (cloned.type === "diagram") {
+      const topicLower = (cloned.topic || "").toLowerCase();
+      const keyLower = ((cloned as any).diagramKey || "").toLowerCase();
+      if (topicLower.includes("truth table") || keyLower.includes("ttd")) {
         cloned.initCB = initTTD;
         cloned.layoutCB = layout;
-      } else if (topicLower.includes('formal statement') || keyLower.includes('fsd')) {
+      } else if (
+        topicLower.includes("formal statement") ||
+        keyLower.includes("fsd")
+      ) {
         cloned.initCB = initFSD;
         cloned.layoutCB = layoutFSD;
-      } else if (topicLower.includes('equation') || keyLower.includes('eed') || keyLower.includes('eqd')) {
+      } else if (
+        topicLower.includes("equation") ||
+        keyLower.includes("eed") ||
+        keyLower.includes("eqd")
+      ) {
         cloned.initCB = initEED;
         cloned.layoutCB = layoutEED;
-      } else if (topicLower.includes('binary tree') || keyLower.includes('btd')) {
+      } else if (
+        topicLower.includes("binary tree") ||
+        keyLower.includes("btd")
+      ) {
         cloned.initCB = initBTD;
         cloned.layoutCB = layoutBTD;
-      } else if (topicLower.includes('binary interval') || keyLower.includes('bid')) {
+      } else if (
+        topicLower.includes("binary interval") ||
+        keyLower.includes("bid")
+      ) {
         cloned.initCB = initBID;
         cloned.layoutCB = layoutBID;
-      } else if (topicLower.includes('banner')) {
+      } else if (topicLower.includes("banner")) {
         cloned.initCB = initOutlineBanner;
         cloned.layoutCB = layoutOutlineBanner;
       }
@@ -727,4 +742,3 @@ export function hydrateDiagramCallbacks(tree: IndexItemDesc[]): IndexItemDesc[] 
     return cloned;
   });
 }
-
