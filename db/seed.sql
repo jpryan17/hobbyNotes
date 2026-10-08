@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-08T16:52:19.210Z
+-- Generated At: 2026-10-08T20:33:34.697Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -31,253 +31,651 @@ ON CONFLICT (id) DO UPDATE SET
 
 -- 2. Curricular Segments (52 Chapters)
 INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, status) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'introduction', 0, 'Toward a Theoretical Maximum:A Curriculum for General Education in General Science', 'introduction', '
-<div align="center">
-      <font size="+2"><i><b>Toward a Theoretical Maximum:<br>A Curriculum for General Education in General Science</b></i></font><br>
-      <font size="+1"><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font></div>
+  (1, 'introduction', 0, '1. Core Educational Responsibilities & Complementary Roles', 'introduction', '
+    <div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Toward a Theoretical Maximum:<br />A Curriculum for General
+            Education in General Science</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i>— Part 1: Mission, Epistemology &amp; Curricular Tree —</i></font
+      >
+    </div>
     <p>
-      Middle Way Mathematics is an interactive formal science textbook designed to be a robust proof of concept for a general formal science curriculum that serves the needs of the 75% or so of students not bound for STEM related careers in a manner consistent with the needs of students preparing for further STEM related study.
+      Middle Way Mathematics is an interactive formal science textbook designed
+      to be a robust proof of concept for a general formal science curriculum
+      that serves the needs of the 75% or so of students not bound for STEM
+      related careers in a manner consistent with the needs of students
+      preparing for further STEM related study.
     </p>
 
     <p>
-      Our motivation is that current theories of physical reality are among the pinnacles of human culture, and should be made as available as possible to as many as possible. Thus the curriculum focuses on the mathematics of mathematical physics.
+      Our motivation is that current theories of physical reality are among the
+      pinnacles of human culture, and should be made as available as possible to
+      as many as possible. Thus the curriculum focuses on the mathematics of
+      mathematical physics.
     </p>
 
     <p>
-      Our approach is to use Conway number trees to undergird a nonstandard analysis, thus bypassing limit theory and additional topological and measure spaces.
+      Our approach is to use Conway number trees to undergird a nonstandard
+      analysis, thus bypassing limit theory and additional topological and
+      measure spaces.
     </p>
 
     <p>
-      The page is an artifact of an ongoing pair-programming dialogue between a human collaborator and an embedded machine intelligence.&nbsp; As an AI agent is responsible for much of this page, the chance that the page merely reflects a shared hallucination cannot be ignored; so an effort was made to minimize this possibility. First, the page uses formal statements to describe mathematical concepts. These statements are quantified predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all statements are verified by the Lean theorem prover. Thus the mathematical description is at least consistent. Second, calculations are defined relative to a formal statement. A calculation is described by pseudo-code, which is interpreted by a ''calculation machine'' that is independent of any access to runtime resources for mathematical calculation. This dual approach of verifying the conceptual description and demonstrating it''s support for calculation, add weight to the claim that this page is perhaps more than a mere shared hallucination.
+      The page is an artifact of an ongoing pair-programming dialogue between a
+      human collaborator and an embedded machine intelligence.&nbsp; As an AI
+      agent is responsible for much of this page, the chance that the page
+      merely reflects a shared hallucination cannot be ignored; so an effort was
+      made to minimize this possibility. First, the page uses formal statements
+      to describe mathematical concepts. These statements are quantified
+      predicate expressions, i.e. encoded in First Order Logic.&nbsp; And all
+      statements are verified by the Lean theorem prover. Thus the mathematical
+      description is at least consistent. Second, calculations are defined
+      relative to a formal statement. A calculation is described by pseudo-code,
+      which is interpreted by a ''calculation machine'' that is independent of any
+      access to runtime resources for mathematical calculation. This dual
+      approach of verifying the conceptual description and demonstrating it''s
+      support for calculation, add weight to the claim that this page is perhaps
+      more than a mere shared hallucination.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>1. Core Educational Responsibilities &amp; Complementary Roles</h3>
-    <p>A robust curriculum in general science serves two complementary goals:
+    <p>
+      A robust curriculum in general science serves two complementary goals:
     </p>
     <ol>
-      <li><b>General Scientific Literacy:</b> Provide all students—especially the ~75% not bound for STEM careers—with a clear, conceptual, and foundational understanding of how modern science models the physical world.</li>
-      <li><b>Prerequisite Technical Preparation:</b> Provide future STEM practitioners with an intuitive, constructive foundation that accelerates their subsequent study of advanced physics and higher mathematics.</li>
+      <li>
+        <b>General Scientific Literacy:</b> Provide all students—especially the
+        ~75% not bound for STEM careers—with a clear, conceptual, and
+        foundational understanding of how modern science models the physical
+        world.
+      </li>
+      <li>
+        <b>Prerequisite Technical Preparation:</b> Provide future STEM
+        practitioners with an intuitive, constructive foundation that
+        accelerates their subsequent study of advanced physics and higher
+        mathematics.
+      </li>
     </ol>
 
-    <hr>
+    <hr />
 
     <h3>2. Epistemological Compass: Lived Phenomena vs. Mathematical Models</h3>
     <p>
-      Throughout this curriculum, we maintain a clear and essential epistemological attitude: <b>the rigorous distinction between physical phenomena and mathematical models</b>.
+      Throughout this curriculum, we maintain a clear and essential
+      epistemological attitude:
+      <b
+        >the rigorous distinction between physical phenomena and mathematical
+        models</b
+      >.
     </p>
 
-    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px 20px; margin: 16px auto; width: 90%;">
-      <table width="100%" cellpadding="6" style="border-collapse: collapse; font-size: 14px;">
-        <tbody><tr>
-          <td width="48%" valign="top" style="padding-right: 15px; border-right: 1px solid #e2e8f0;">
-            <font size="+1" color="#1e3a8a"><b>Physical Reality &amp; Phenomena (The Territory)</b></font><br><br>
-            • <b>Fixed and Objective:</b> The physical universe exists and unfolds independently of human observers or symbolic representations.<br><br>
-            • <b>Direct Experience:</b> Tangible, lived phenomena—the turning of a shadow, the solidity of a wooden desk, heat diffusing through a metal bar, or light passing through polarizers—are the primary empirical touchstones of science.<br><br>
-            • <b>Non-Monotonic Discovery:</b> In the natural world, we never possess complete axioms. Empirical inquiry is always open to surprise; a single new experimental observation can revise or overturn a prevailing hypothesis.
-          </td>
-          <td width="48%" valign="top" style="padding-left: 15px;">
-            <font size="+1" color="#1e3a8a"><b>Mathematical Formalisms &amp; Models (The Map)</b></font><br><br>
-            • <b>Human Inventions:</b> Scientific theories—from Euclidean geometry and Newtonian kinematics to Boltzmann ensembles and Quantum Density Operators (<code>ρ</code>)—are formal tools crafted by human minds.<br><br>
-            • <b>Deductive Precision:</b> Mathematical logic is strictly monotonic. Once a theorem is deduced from axioms, it remains permanently valid within its formal domain.<br><br>
-            • <b>Reasoning Under Uncertainty:</b> Our models do not dictate how nature "must" behave; rather, they serve as rigorous, evolving lenses to organize observations, quantify ignorance, and update beliefs rationally.
-          </td>
-        </tr>
-      </tbody></table>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 16px auto;
+        width: 90%;
+      "
+    >
+      <table
+        width="100%"
+        cellpadding="6"
+        style="border-collapse: collapse; font-size: 14px"
+      >
+        <tbody>
+          <tr>
+            <td
+              width="48%"
+              valign="top"
+              style="padding-right: 15px; border-right: 1px solid #e2e8f0"
+            >
+              <font size="+1" color="#1e3a8a"
+                ><b>Physical Reality &amp; Phenomena (The Territory)</b></font
+              ><br /><br />
+              • <b>Fixed and Objective:</b> The physical universe exists and
+              unfolds independently of human observers or symbolic
+              representations.<br /><br />
+              • <b>Direct Experience:</b> Tangible, lived phenomena—the turning
+              of a shadow, the solidity of a wooden desk, heat diffusing through
+              a metal bar, or light passing through polarizers—are the primary
+              empirical touchstones of science.<br /><br />
+              • <b>Non-Monotonic Discovery:</b> In the natural world, we never
+              possess complete axioms. Empirical inquiry is always open to
+              surprise; a single new experimental observation can revise or
+              overturn a prevailing hypothesis.
+            </td>
+            <td width="48%" valign="top" style="padding-left: 15px">
+              <font size="+1" color="#1e3a8a"
+                ><b>Mathematical Formalisms &amp; Models (The Map)</b></font
+              ><br /><br />
+              • <b>Human Inventions:</b> Scientific theories—from Euclidean
+              geometry and Newtonian kinematics to Boltzmann ensembles and
+              Quantum Density Operators (<code>ρ</code>)—are formal tools
+              crafted by human minds.<br /><br />
+              • <b>Deductive Precision:</b> Mathematical logic is strictly
+              monotonic. Once a theorem is deduced from axioms, it remains
+              permanently valid within its formal domain.<br /><br />
+              • <b>Reasoning Under Uncertainty:</b> Our models do not dictate
+              how nature "must" behave; rather, they serve as rigorous, evolving
+              lenses to organize observations, quantify ignorance, and update
+              beliefs rationally.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p>
-      But epistemological consideration does not stop there. The mathematics used to model physical theories is itself a model of a mathematical universe. For example, we do not believe numbers are addresses on a Conway number tree. But we do believe this model of number is more efficacious than its standard construction. In many ways, improvements to physical models reflect improvements to modeling mathematics. Our model of the mathematical universe is what one might call effective. It is designed to support a general education in formal science. We know the universe of numbers is not covered by our model. We make no claims as to the foundational nature of our model. But we do claim its logical consistency, and it seems to serve its purpose well.
+      But epistemological consideration does not stop there. The mathematics
+      used to model physical theories is itself a model of a mathematical
+      universe. For example, we do not believe numbers are addresses on a Conway
+      number tree. But we do believe this model of number is more efficacious
+      than its standard construction. In many ways, improvements to physical
+      models reflect improvements to modeling mathematics. Our model of the
+      mathematical universe is what one might call effective. It is designed to
+      support a general education in formal science. We know the universe of
+      numbers is not covered by our model. We make no claims as to the
+      foundational nature of our model. But we do claim its logical consistency,
+      and it seems to serve its purpose well.
     </p>
 
     <p>
-      Angle offers another compact illustration. The experience of turning, or of two lines of sight opening from one vantage point, is the same everywhere and at every scale. Yet over four thousand years mathematics has represented it as a builder''s slope, a chord across a circle, a half-chord (the sine), a dimensionless real number (the radian), and an operator that rotates space (the rotor). None of these is <i>the</i> angle; each is a representation that made new questions answerable. When our Level 2 lecture on trigonometry represents angle as a path on a binary tree, it adds one more entry to this list — chosen because it supports exact, auditable calculation, not because it is claimed to be what angle really is.
+      Angle offers another compact illustration. The experience of turning, or
+      of two lines of sight opening from one vantage point, is the same
+      everywhere and at every scale. Yet over four thousand years mathematics
+      has represented it as a builder''s slope, a chord across a circle, a
+      half-chord (the sine), a dimensionless real number (the radian), and an
+      operator that rotates space (the rotor). None of these is
+      <i>the</i> angle; each is a representation that made new questions
+      answerable. When our Level 3 lecture on trigonometry represents angle as a
+      path on a binary tree, it adds one more entry to this list — chosen
+      because it supports exact, auditable calculation, not because it is
+      claimed to be what angle really is.
     </p>
 
-    <details style="margin: 14px 0 18px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 0.95em;">
-      <summary style="font-weight: 600; color: #475569; cursor: pointer; user-select: none;">Proof of concept</summary>
-      <div style="margin-top: 10px; color: #334155; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-        <p style="margin: 0 0 10px 0;">
-          This page presents a curriculum for a general education in formal science. Although the curriculum targets an understanding of modern physics, the curriculum is not specifically designed for STEM oriented students, rather t<span style="font-size: 0.95em;">he curriculum is designed for all students,&nbsp;</span><span style="font-size: 0.95em;">and completion of the curriculum would not fulfill all prerequisite material for advanced STEM related studies.&nbsp;</span></p>
-        <p style="margin: 0 0 10px 0;">
-          If one identifies practical knowledge as knowledge one can put to practical use, then one has to admit the curriculum provides minimal practical knowledge. As described, the curriculum is aesthetically motivated: it provides the tools required to appreciate modern science and mathematics; it provides a window. In a manner of speaking, it is a formal extension of popular science.
+    <details
+      style="
+        margin: 14px 0 18px;
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 0.95em;
+      "
+    >
+      <summary
+        style="
+          font-weight: 600;
+          color: #475569;
+          cursor: pointer;
+          user-select: none;
+        "
+      >
+        Proof of concept
+      </summary>
+      <div
+        style="
+          margin-top: 10px;
+          color: #334155;
+          line-height: 1.6;
+          border-top: 1px solid #e2e8f0;
+          padding-top: 10px;
+        "
+      >
+        <p style="margin: 0 0 10px 0">
+          This page presents a curriculum for a general education in formal
+          science. Although the curriculum targets an understanding of modern
+          physics, the curriculum is not specifically designed for STEM oriented
+          students, rather t<span style="font-size: 0.95em"
+            >he curriculum is designed for all students,&nbsp;</span
+          ><span style="font-size: 0.95em"
+            >and completion of the curriculum would not fulfill all prerequisite
+            material for advanced STEM related studies.&nbsp;</span
+          >
         </p>
-        <p style="margin: 0;">
-          In particular, although curricular related knowledge is not practical, it is formal. And, even if only for the sake of STEM oriented students, the formality must be accurate, if not comprehensive. So, when the page describes itself as a proof of concept, it claims to present a formality that is consistent, although explicitly not comprehensive, and which supports the calculations needed to formally model physical theories.
+        <p style="margin: 0 0 10px 0">
+          If one identifies practical knowledge as knowledge one can put to
+          practical use, then one has to admit the curriculum provides minimal
+          practical knowledge. As described, the curriculum is aesthetically
+          motivated: it provides the tools required to appreciate modern science
+          and mathematics; it provides a window. In a manner of speaking, it is
+          a formal extension of popular science.
+        </p>
+        <p style="margin: 0">
+          In particular, although curricular related knowledge is not practical,
+          it is formal. And, even if only for the sake of STEM oriented
+          students, the formality must be accurate, if not comprehensive. So,
+          when the page describes itself as a proof of concept, it claims to
+          present a formality that is consistent, although explicitly not
+          comprehensive, and which supports the calculations needed to formally
+          model physical theories.
         </p>
       </div>
     </details>
 
-    <hr>
+    <hr />
 
     <h3>3. Concept Presentation Standards: The Learning Workflow</h3>
     <p>
-      To ensure consistent pedagogical quality, intellectual transparency, and cognitive accessibility across all modules, every mathematical concept in Middle Way Mathematics is presented according to a rigorous six-stage pipeline:
+      To ensure consistent pedagogical quality, intellectual transparency, and
+      cognitive accessibility across all modules, every mathematical concept in
+      Middle Way Mathematics is presented according to a rigorous six-stage
+      pipeline:
     </p>
 
-    <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 24px; margin: 16px auto; width: 92%;">
-      <ol style="margin: 0; padding-left: 20px; line-height: 1.7; font-size: 14px;">
-        <li style="margin-bottom: 12px;">
-          <b>Introduce the Concept in Text:</b><br>
-          Every topic begins with plain-language prose, physical motivation, or historical context. We ground the concept in tangible phenomena and intuitive analogies before introducing any formal notation.
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 18px 24px;
+        margin: 16px auto;
+        width: 92%;
+      "
+    >
+      <ol
+        style="margin: 0; padding-left: 20px; line-height: 1.7; font-size: 14px"
+      >
+        <li style="margin-bottom: 12px">
+          <b>Introduce the Concept in Text:</b><br />
+          Every topic begins with plain-language prose, physical motivation, or
+          historical context. We ground the concept in tangible phenomena and
+          intuitive analogies before introducing any formal notation.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Reinforce with Interactive Visuals:</b><br>
-          Where possible, the text is immediately backed by visual and manipulative tools—Truth Table Demos (TTD), 2D Boolean Relation Matrices (FSD), Conway binary tree explorers (BTD), state-space probability trees (BID), or vector rotors. Learners manipulate parameters and observe immediate geometric feedback to build operational intuition.
+        <li style="margin-bottom: 12px">
+          <b>Reinforce with Interactive Visuals:</b><br />
+          Where possible, the text is immediately backed by visual and
+          manipulative tools—Truth Table Demos (TTD), 2D Boolean Relation
+          Matrices (FSD), Conway binary tree explorers (BTD), state-space
+          probability trees (BID), or vector rotors. Learners manipulate
+          parameters and observe immediate geometric feedback to build
+          operational intuition.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Describe the Concept with Verified Formal Statements:</b><br>
-          We translate the intuitive idea into an exact formal statement in First-Order Logic using sets, predicates, and quantifiers (<code>∀, ∃, ∈, =</code>). Every statement is machine-checked by the Lean 4 interactive theorem prover, guaranteeing syntactic correctness, logical consistency, and eliminating AI/human hallucination.
+        <li style="margin-bottom: 12px">
+          <b>Describe the Concept with Verified Formal Statements:</b><br />
+          We translate the intuitive idea into an exact formal statement in
+          First-Order Logic using sets, predicates, and quantifiers (<code
+            >∀, ∃, ∈, =</code
+          >). Every statement is machine-checked by the Lean 4 interactive
+          theorem prover, guaranteeing syntactic correctness, logical
+          consistency, and eliminating AI/human hallucination.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Set Up Calculators for Functions:</b><br>
-          Mathematical functions and operators are not left as abstract declarations. We explicitly define their domain and codomain over our foundational sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) and constructed product sets (<code>A → B</code>), staging them as concrete computational devices ready to receive inputs.
+        <li style="margin-bottom: 12px">
+          <b>Set Up Calculators for Functions:</b><br />
+          Mathematical functions and operators are not left as abstract
+          declarations. We explicitly define their domain and codomain over our
+          foundational sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) and constructed
+          product sets (<code>A → B</code>), staging them as concrete
+          computational devices ready to receive inputs.
         </li>
-        <li style="margin-bottom: 12px;">
-          <b>Display Function Rules (Auditable Pseudo-Code):</b><br>
-          Rather than relying on opaque, black-box runtime libraries, every function displays its explicit rule: clean, auditable pseudo-code showing each step, conditional branch, and assignment required to compute the result.
+        <li style="margin-bottom: 12px">
+          <b>Display Function Rules (Auditable Pseudo-Code):</b><br />
+          Rather than relying on opaque, black-box runtime libraries, every
+          function displays its explicit rule: clean, auditable pseudo-code
+          showing each step, conditional branch, and assignment required to
+          compute the result.
         </li>
-        <li style="margin-bottom: 0;">
-          <b>Calculate!:</b><br>
-          Learners execute the calculation on our virtual, context-sensitive calculation machine. They observe the instruction pointer, examine register states, and inspect the resulting output, verifying that the formal theory translates directly into verifiable computation.
+        <li style="margin-bottom: 0">
+          <b>Calculate!:</b><br />
+          Learners execute the calculation on our virtual, context-sensitive
+          calculation machine. They observe the instruction pointer, examine
+          register states, and inspect the resulting output, verifying that the
+          formal theory translates directly into verifiable computation.
         </li>
       </ol>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. Choosing the Summit: Quantum Statistical Mechanics</h3>
-    <p>Our mission is to provide a mathematical foundation for understanding current theories of physical reality. Of course there are many such theories, so to sharpen the focus, we choose to formally describe <b>Quantum Statistical Mechanics and Inference</b>:
+    <p>
+      Our mission is to provide a mathematical foundation for understanding
+      current theories of physical reality. Of course there are many such
+      theories, so to sharpen the focus, we choose to formally describe
+      <b>Quantum Statistical Mechanics and Inference</b>:
     </p>
     <ul>
-      <li><b>Why not the Standard Model of Particle Physics?</b> High-energy particle interactions are fundamental, but they are detached from everyday human experience.</li>
-      <li><b>Why not General Relativity?</b> General relativity is an elegant geometric theory, but it describes only gravity.</li>
-      <li><b>Why Quantum Statistical Mechanics?</b> It describes the tangible everyday reality we directly interact with—how solid matter, temperature, pressure, and thermal equilibrium emerge from statistical averages over trillions of microscopic quantum degrees of freedom.</li>
+      <li>
+        <b>Why not the Standard Model of Particle Physics?</b> High-energy
+        particle interactions are fundamental, but they are detached from
+        everyday human experience.
+      </li>
+      <li>
+        <b>Why not General Relativity?</b> General relativity is an elegant
+        geometric theory, but it describes only gravity.
+      </li>
+      <li>
+        <b>Why Quantum Statistical Mechanics?</b> It describes the tangible
+        everyday reality we directly interact with—how solid matter,
+        temperature, pressure, and thermal equilibrium emerge from statistical
+        averages over trillions of microscopic quantum degrees of freedom.
+      </li>
     </ul>
 
-
-    <hr>
+    <hr />
 
     <h3>5. Curricular Levels: A Cumulative Single-Root Tree</h3>
     <p>
-      To reach this summit with minimal cognitive load, the curriculum functions as a cohesive single-root tree organized into progressive curricular levels:
+      To reach this summit with minimal cognitive load, the curriculum functions
+      as a cohesive single-root tree organized into progressive curricular
+      levels:
     </p>
 
     <h4>Level 1: Logic &amp; Number</h4>
     <ul>
-      <li><b>Propositional Logic:</b> Grounding formal science in truth tables, Boolean connectives (<code>¬, ∧, ∨, →, ↔</code>), and deductive certainty.</li>
-      <li><b>Formal Statements:</b> The language of sets, tuples, and predicates as functions into <code>𝔹</code>, visualized on the 2D Boolean Relation Matrix.</li>
-      <li><b>Numbers &amp; Graph Trees:</b> Well-ordering on <code>ℕ</code>, transfinite Day <code>ω</code> as the supremum limit ordinal, and generating 1D <code>ℝ_ω</code> and 2D <code>ℂ_ω</code> continua with infinitesimal step size <code>dx = 1/ω</code>.</li>
+      <li>
+        <b>Propositional Logic:</b> Grounding formal science in truth tables,
+        Boolean connectives (<code>¬, ∧, ∨, →, ↔</code>), and deductive
+        certainty.
+      </li>
+      <li>
+        <b>Formal Statements:</b> The language of sets, tuples, and predicates
+        as functions into <code>𝔹</code>, visualized on the 2D Boolean Relation
+        Matrix.
+      </li>
+      <li>
+        <b>Numbers &amp; Graph Trees:</b> Well-ordering on <code>ℕ</code>,
+        transfinite Day <code>ω</code> as the supremum limit ordinal, and
+        generating 1D <code>ℝ_ω</code> and 2D <code>ℂ_ω</code> continua with
+        infinitesimal step size <code>dx = 1/ω</code>.
+      </li>
     </ul>
 
-    <h4>Level 2: Space, Direction &amp; Geometry</h4>
+    <h4>Level 3: Space, Direction &amp; Geometry</h4>
     <ul>
-      <li><b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures, linear transformations, and geometric duality.</li>
-      <li><b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic operators, angle measures, and geometric products.</li>
+      <li>
+        <b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures,
+        linear transformations, and geometric duality.
+      </li>
+      <li>
+        <b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic
+        operators, angle measures, and geometric products.
+      </li>
     </ul>
 
-    <h4>Level 3: Continuum &amp; Calculus</h4>
+    <h4>Level 2: Continuum &amp; Calculus</h4>
     <ul>
-      <li><b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference quotients, nonstandard microscopes, and the telescoping Fundamental Theorem of Calculus.</li>
-      <li><b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete contour integrals, and phase evolution.</li>
+      <li>
+        <b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference
+        quotients, nonstandard microscopes, and the telescoping Fundamental
+        Theorem of Calculus.
+      </li>
+      <li>
+        <b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete
+        contour integrals, and phase evolution.
+      </li>
     </ul>
 
     <h4>Level 4: Growth &amp; The Logarithm</h4>
     <ul>
-      <li><b>The Transcendental Engine:</b> Exponential compounding, natural logarithms, circular dynamics, and Euler''s formula <code>e^(iθ)</code>.</li>
+      <li>
+        <b>The Transcendental Engine:</b> Exponential compounding, natural
+        logarithms, circular dynamics, and Euler''s formula <code>e^(iθ)</code>.
+      </li>
     </ul>
 
     <h4>Level 5: Probability, Information &amp; Quantum Logic</h4>
     <ul>
-      <li><b>Bayesian Inference &amp; Statistical Ensembles:</b> Non-monotonic reasoning on state spaces (<code>Ω</code>) and Boltzmann statistical ensembles (Jaynes MaxEnt).</li>
-      <li><b>Quantum Logic &amp; Measurement:</b> Why physical polarization breaks Boolean Venn diagrams (the 3-polarizer experiment), complex amplitude arrows on <code>ℂ_ω</code>, and projection measurement.</li>
-      <li><b>Quantum Bayesian Inference:</b> Density Operators (<code>ρ</code>), the Lüders Quantum Bayes rule, and von Neumann entropy explaining macroscopic emergence.</li>
+      <li>
+        <b>Bayesian Inference &amp; Statistical Ensembles:</b> Non-monotonic
+        reasoning on state spaces (<code>Ω</code>) and Boltzmann statistical
+        ensembles (Jaynes MaxEnt).
+      </li>
+      <li>
+        <b>Quantum Logic &amp; Measurement:</b> Why physical polarization breaks
+        Boolean Venn diagrams (the 3-polarizer experiment), complex amplitude
+        arrows on <code>ℂ_ω</code>, and projection measurement.
+      </li>
+      <li>
+        <b>Quantum Bayesian Inference:</b> Density Operators (<code>ρ</code>),
+        the Lüders Quantum Bayes rule, and von Neumann entropy explaining
+        macroscopic emergence.
+      </li>
     </ul>
 
     <h4>Level 6: Applied Seminars &amp; Horizons</h4>
     <ul>
-      <li><b>Physical &amp; Mathematical Horizons:</b> Newtonian mechanics, 1D heat diffusion, Fourier duality, cosmology, and particle zoo logic.</li>
+      <li>
+        <b>Physical &amp; Mathematical Horizons:</b> Newtonian mechanics, 1D
+        heat diffusion, Fourier duality, cosmology, and particle zoo logic.
+      </li>
     </ul>
 
-    <hr>
+    <hr />
 
     <!-- Collapsible Technical Overview: Lean 4 Infrastructure & Formal Architecture -->
-    <details style="margin: 20px auto; max-width: 860px; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px;">
-      <summary style="font-weight: bold; color: #0369a1; cursor: pointer; font-size: 0.98em;">
-        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp; Scaffold Depth (Click to expand)
+    <details
+      style="
+        margin: 20px auto;
+        max-width: 860px;
+        background-color: #f8fafc;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 14px 18px;
+      "
+    >
+      <summary
+        style="
+          font-weight: bold;
+          color: #0369a1;
+          cursor: pointer;
+          font-size: 0.98em;
+        "
+      >
+        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp;
+        Scaffold Depth (Click to expand)
       </summary>
-      <div style="margin-top: 14px; font-size: 0.9em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
+      <div
+        style="
+          margin-top: 14px;
+          font-size: 0.9em;
+          line-height: 1.6;
+          color: #334155;
+          border-top: 1px dashed #cbd5e1;
+          padding-top: 12px;
+        "
+      >
         <p>
-          To ensure that the Middle Way mathematics curriculum is rigorous and mechanically sound, every foundational claim is anchored in the <b>Lean 4 Interactive Theorem Prover</b>.
+          To ensure that the Middle Way mathematics curriculum is rigorous and
+          mechanically sound, every foundational claim is anchored in the
+          <b>Lean 4 Interactive Theorem Prover</b>.
         </p>
 
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">1. Where the Curriculum Sits in the Formal Verification Spectrum</h4>
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
+          1. Where the Curriculum Sits in the Formal Verification Spectrum
+        </h4>
         <p>
-          In modern proof assistants, formalization depth spans a multi-tier spectrum:
+          In modern proof assistants, formalization depth spans a multi-tier
+          spectrum:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>Tier 1 (Type Signatures &amp; Ontology Specification):</b> Formalizing the vocabulary, primitive types, and operator signatures to eliminate ambiguous notation.</li>
-          <li><b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow map (<code>st</code>) as an authoritative structural blueprint, while formally proving key inductive bridge theorems.</li>
-          <li><b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b> Formalizing computational algorithms directly in Lean and proving termination and bit-level semantic equivalence (<code>eval(e) = TrueMathValue(e)</code>) with zero unproven axioms.</li>
-          <li><b>Tier 5 (Universal Constructive Foundations):</b> Building the entire transfinite continuum from scratch out of Dedekind cuts or Conway games in tens of thousands of lines of foundational library proofs (e.g. Mathlib).</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Tier 1 (Type Signatures &amp; Ontology Specification):</b>
+            Formalizing the vocabulary, primitive types, and operator signatures
+            to eliminate ambiguous notation.
+          </li>
+          <li>
+            <b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the
+            algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow
+            map (<code>st</code>) as an authoritative structural blueprint,
+            while formally proving key inductive bridge theorems.
+          </li>
+          <li>
+            <b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b>
+            Formalizing computational algorithms directly in Lean and proving
+            termination and bit-level semantic equivalence (<code
+              >eval(e) = TrueMathValue(e)</code
+            >) with zero unproven axioms.
+          </li>
+          <li>
+            <b>Tier 5 (Universal Constructive Foundations):</b> Building the
+            entire transfinite continuum from scratch out of Dedekind cuts or
+            Conway games in tens of thousands of lines of foundational library
+            proofs (e.g. Mathlib).
+          </li>
         </ul>
 
         <p>
-          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>. It is designed to provide a structural blueprint: an axiomatic contract. Within this contract, Lean 4 directly verifies foundational structural inductions—such as the <b>Telescoping Fundamental Theorem of Calculus</b> (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>), operator identities (<code>D_turn_squared</code>, <code>exp_eigen_property</code>), and infinitesimal halo relations—providing an authoritative type oracle for all 21 formal curriculum statements.
+          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold
+          sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>.
+          It is designed to provide a structural blueprint: an axiomatic
+          contract. Within this contract, Lean 4 directly verifies foundational
+          structural inductions—such as the
+          <b>Telescoping Fundamental Theorem of Calculus</b>
+          (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>),
+          operator identities (<code>D_turn_squared</code>,
+          <code>exp_eigen_property</code>), and infinitesimal halo
+          relations—providing an authoritative type oracle for all 21 formal
+          curriculum statements.
         </p>
 
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em;">2. Formal Proof vs. The Virtual Calculation Engine</h4>
+        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
+          2. Formal Proof vs. The Virtual Calculation Engine
+        </h4>
         <p>
-          Verifying a calculation engine (our dyadic machines, expression evaluators, and finite difference steppers) would be a Tier 3/4 software verification endeavor. Middle Way Mathematics adopts an epistemologically powerful division of labor:
+          Verifying a calculation engine (our dyadic machines, expression
+          evaluators, and finite difference steppers) would be a Tier 3/4
+          software verification endeavor. Middle Way Mathematics adopts an
+          epistemologically powerful division of labor:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover certifies that the mathematical laws, physical invariants, and operator relationships are logically consistent, well-typed, and free of conceptual drift.</li>
-          <li><b>The Virtual Machine Executes Explicit Computation:</b> Calculations are carried out by an independent, transparent calculation machine interpreting human-auditable pseudo-code step-by-step, completely free of hidden runtime black boxes.</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover
+            certifies that the mathematical laws, physical invariants, and
+            operator relationships are logically consistent, well-typed, and
+            free of conceptual drift.
+          </li>
+          <li>
+            <b>The Virtual Machine Executes Explicit Computation:</b>
+            Calculations are carried out by an independent, transparent
+            calculation machine interpreting human-auditable pseudo-code
+            step-by-step, completely free of hidden runtime black boxes.
+          </li>
         </ul>
         <p>
-          <b>Boundary of Environmental Dependence:</b> To be completely precise about what "runtime independence" entails:
+          <b>Boundary of Environmental Dependence:</b> To be completely precise
+          about what "runtime independence" entails:
         </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px;">
-          <li><b>No Higher-Level Mathematical Libraries:</b> The engine strictly avoids all continuous calculus libraries, computer algebra systems, and runtime transcendental functions (e.g. <code>Math.exp</code>, <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float approximations). Natural growth is computed purely via discrete Euler compounding in the dyadic ring, rotations via binary CORDIC pseudo-rotations, and calculus via hyperfinite differences.</li>
-          <li><b>Hardware Integer Substrate:</b> The engine borrows only the host environment''s CPU for basic discrete integer arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to evaluate explicit dyadic rational fractions <code>m / 2^k</code> on the Conway tree. While pure string-option tree arithmetic (the Conway cut) is mathematically validated, utilizing host integer arithmetic for tree addresses avoids the combinatorial explosion of recursive string branching in the browser.</li>
+        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>No Higher-Level Mathematical Libraries:</b> The engine strictly
+            avoids all continuous calculus libraries, computer algebra systems,
+            and runtime transcendental functions (e.g. <code>Math.exp</code>,
+            <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float
+            approximations). Natural growth is computed purely via discrete
+            Euler compounding in the dyadic ring, rotations via binary CORDIC
+            pseudo-rotations, and calculus via hyperfinite differences.
+          </li>
+          <li>
+            <b>Hardware Integer Substrate:</b> The engine borrows only the host
+            environment''s CPU for basic discrete integer arithmetic
+            (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to
+            evaluate explicit dyadic rational fractions <code>m / 2^k</code> on
+            the Conway tree. While pure string-option tree arithmetic (the
+            Conway cut) is mathematically validated, utilizing host integer
+            arithmetic for tree addresses avoids the combinatorial explosion of
+            recursive string branching in the browser.
+          </li>
         </ul>
         <p>
-          This dual approach ensures that students and educators receive the full protective certainty of formal methods while interacting with tangible, responsive calculations in the browser.
+          This dual approach ensures that students and educators receive the
+          full protective certainty of formal methods while interacting with
+          tangible, responsive calculations in the browser.
         </p>
 
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin: 14px 0;">
-          <b style="color: #0f172a;">Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b><br>
-          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-            <li><b>Static Web Production:</b> A build-time generator (<code>genLeanCache</code>) verifies all theorems directly in the Lean 4 kernel (v4.33.1) and caches pre-computed <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171 verified targets) into client assets. Readers receive instantaneous, kernel-certified truth at zero cloud hosting cost.</li>
-            <li><b>Local Interactive Dev:</b> Running <code>npm run leanServer</code> boots a local compiler service, enabling authors and students to modify lemmas and click <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against the active kernel.</li>
+        <div
+          style="
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 14px 0;
+          "
+        >
+          <b style="color: #0f172a"
+            >Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b
+          ><br />
+          <ul style="margin: 8px 0 0 0; padding-left: 20px">
+            <li>
+              <b>Static Web Production:</b> A build-time generator
+              (<code>genLeanCache</code>) verifies all theorems directly in the
+              Lean 4 kernel (v4.33.1) and caches pre-computed
+              <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171
+              verified targets) into client assets. Readers receive
+              instantaneous, kernel-certified truth at zero cloud hosting cost.
+            </li>
+            <li>
+              <b>Local Interactive Dev:</b> Running
+              <code>npm run leanServer</code> boots a local compiler service,
+              enabling authors and students to modify lemmas and click
+              <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against
+              the active kernel.
+            </li>
           </ul>
         </div>
 
         <p>
-          <b>Live Demonstrator:</b> Test the verification engine right now by clicking this sample constitutional scaffold:<br>
-          <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
+          <b>Live Demonstrator:</b> Test the verification engine right now by
+          clicking this sample constitutional scaffold:<br />
+          <fsd-ref
+            tier="3"
+            scaffold="telescoping_ftc"
+            title="Fundamental Theorem of Calculus"
+            style="color: #0284c7; font-weight: bold; cursor: pointer"
+            >telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref
+          >
         </p>
 
-        <p style="margin-bottom: 0;">
-          <b>Grant Proposals &amp; Academic Research:</b> For complete institutional and architectural details, see our research whitepapers on <i>A Narrowed-Scope Lean 4 Educational Interface for General Science Literacy</i>, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and <i>The Inductive Continuum</i>.
+        <p style="margin-bottom: 0">
+          <b>Grant Proposals &amp; Academic Research:</b> For complete
+          institutional and architectural details, see our research whitepapers
+          on
+          <i
+            >A Narrowed-Scope Lean 4 Educational Interface for General Science
+            Literacy</i
+          >, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and
+          <i>The Inductive Continuum</i>.
         </p>
       </div>
     </details>
 
-    <hr>
+    <hr />
 
     <h3>6. Interactive Exploration Prototypes</h3>
     <p>
-      To provide visual intuition, this application includes interactive demonstration suites embedded directly across the modules:
+      To provide visual intuition, this application includes interactive
+      demonstration suites embedded directly across the modules:
     </p>
     <ul>
-      <li><b>TTD (Truth Table Demo):</b> Interactive evaluation of propositional formulas and truth tables.</li>
-      <li><b>FSD (Formal Statements Demo):</b> Syntactic tree parsing, predicate binding, and 2D Boolean Relation Matrices.</li>
-      <li><b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees, transfinite Day <code>ω</code>, and dyadic paths.</li>
-      <li><b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space trees (<code>Ω</code>), likelihood comparisons, and dynamic belief revision.</li>
+      <li>
+        <b>TTD (Truth Table Demo):</b> Interactive evaluation of propositional
+        formulas and truth tables.
+      </li>
+      <li>
+        <b>FSD (Formal Statements Demo):</b> Syntactic tree parsing, predicate
+        binding, and 2D Boolean Relation Matrices.
+      </li>
+      <li>
+        <b>BTD (Binary Tree Demo):</b> Conway inductive birthday trees,
+        transfinite Day <code>ω</code>, and dyadic paths.
+      </li>
+      <li>
+        <b>BID (Bayesian Inference Demo):</b> Upward 2-successor state space
+        trees (<code>Ω</code>), likelihood comparisons, and dynamic belief
+        revision.
+      </li>
     </ul>
-', 'published'),
+  ', 'published'),
   (2, 'modelsOverview', 1, 'Part 2 — Conceptual Overview: The Three Architectural Models', 'models-overview', '
 <div align="center">
       <font size="+2"><i><b>Part 2 — Conceptual Overview: The Three Architectural Models</b></i></font><br>
@@ -1132,73 +1530,143 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
 ', 'published'),
   (4, 'level1Overview', 3, 'Constructing the Formal Foundation', 'level1-overview', '
-<div align="center">
-    <font size="+2"><i><b>Level 1: Logic &amp; Number<br>
-          The Foundational Bedrock: Deductive Certainty, Predicates &amp; The Conway Tree</b></i></font><br>
-    <font size="+1"><i>— From the Empty Root to Formal Statements &amp; Inductive Continua —</i></font>
-  </div>
-  <br>
+    <div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Level 1: Logic &amp; Number<br />
+            The Foundational Bedrock: Deductive Certainty, Predicates &amp; The
+            Conway Tree</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i
+          >— From the Empty Root to Formal Statements &amp; Inductive Continua
+          —</i
+        ></font
+      >
+    </div>
+    <br />
 
-  <h3>Constructing the Formal Foundation</h3>
-  <p>
-    Every tower of thought requires an unshakeable foundation. In <b>Level 1: Logic &amp; Number</b>, we construct the formal grammar and foundational number scaffolds that empower all subsequent levels of our curriculum.
-  </p>
-  <p>
-    Rather than accepting real numbers or logical rules as unexamined postulates from authority, we build from first principles:
-    starting with binary truth values in propositional logic, elevating to quantified predicates over sets and tuples, and growing numbers Day by Day from John Conway''s inductive root <code>0 = { | }</code>.
-  </p>
+    <h3>Constructing the Formal Foundation</h3>
+    <p>
+      Every tower of thought requires an unshakeable foundation. In
+      <b>Level 1: Logic &amp; Number</b>, we construct the formal grammar and
+      foundational number scaffolds that empower all subsequent levels of our
+      curriculum.
+    </p>
+    <p>
+      Rather than accepting real numbers or logical rules as unexamined
+      postulates from authority, we build from first principles: starting with
+      binary truth values in propositional logic, elevating to quantified
+      predicates over sets and tuples, and growing numbers Day by Day from John
+      Conway''s inductive root <code>0 = { | }</code>.
+    </p>
 
-  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 0.92em; color: #1e3a8a;">
-    <b>The Level 1 Architectural Progression:</b><br>
-    <b>Propositional Logic</b> (Deductive Certainty &amp; Truth Tables)<br>
-    &darr;<br>
-    <b>Formal Statements</b> (Predicates, Sets, Tuples &amp; 2D Boolean Matrices)<br>
-    &darr;<br>
-    <b>Numbers &amp; Trees</b> (Conway Inductive Birthdays, Transfinite Day <code>ω</code> &amp; Infinitesimal <code>dx = 1/ω</code>)
-  </div>
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1.5px solid #3b82f6;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 16px 0;
+        font-size: 0.92em;
+        color: #1e3a8a;
+      "
+    >
+      <b>The Level 1 Architectural Progression:</b><br />
+      <b>Propositional Logic</b> (Deductive Certainty &amp; Truth Tables)<br />
+      &darr;<br />
+      <b>Formal Statements</b> (Predicates, Sets, Tuples &amp; 2D Boolean
+      Matrices)<br />
+      &darr;<br />
+      <b>Numbers &amp; Trees</b> (Conway Inductive Birthdays, Transfinite Day
+      <code>ω</code> &amp; Infinitesimal <code>dx = 1/ω</code>)
+    </div>
 
-  <hr>
+    <hr />
 
-  <h3>The Three Pillars of Level 1</h3>
+    <h3>The Three Pillars of Level 1</h3>
 
-  <h4>1. Propositional Logic: Deductive Certainty</h4>
-  <p>
-    Formal science begins on familiar intuitive ground: the Boolean domain <code>𝔹 = {0, 1}</code>. 
-    A proposition is any statement that evaluates unequivocally to True or False. Using the five standard connectives (<code>¬, ∧, ∨, →, ↔</code>), we evaluate compound claims via systematic truth tables and celebrate the strict monotonicity of deductive proof: once a theorem is proven from premises, discovering new facts cannot overturn it.
-  </p>
-  <ul>
-    <li><b>Interactive Suite:</b> The <b>Truth Table Demo (TTD)</b> enables interactive formula construction, evaluation, and truth table verification.</li>
-  </ul>
+    <h4>1. Propositional Logic: Deductive Certainty</h4>
+    <p>
+      Formal science begins on familiar intuitive ground: the Boolean domain
+      <code>𝔹 = {0, 1}</code>. A proposition is any statement that evaluates
+      unequivocally to True or False. Using the five standard connectives (<code
+        >¬, ∧, ∨, →, ↔</code
+      >), we evaluate compound claims via systematic truth tables and celebrate
+      the strict monotonicity of deductive proof: once a theorem is proven from
+      premises, discovering new facts cannot overturn it.
+    </p>
+    <ul>
+      <li>
+        <b>Interactive Suite:</b> The <b>Truth Table Demo (TTD)</b> enables
+        interactive formula construction, evaluation, and truth table
+        verification.
+      </li>
+    </ul>
 
-  <h4>2. Formal Statements: Predicate Logic &amp; Relational Geometry</h4>
-  <p>
-    Moving beyond atomic variables, we introduce typed domains, sets, tuples, and predicates as functions mapping candidate objects into <code>𝔹</code>. 
-    By visualizing binary predicates on the <b>2D Boolean Relation Matrix</b>, logic gains geometric spatial clarity.
-  </p>
-  <ul>
-    <li><b>Formal Statement Demo (FSD):</b> Parses quantified first-order predicate structures and syntax trees.</li>
-    <li><b>Equation Evaluator Demo (EED):</b> Interprets predicate calculations directly via an independent execution engine.</li>
-    <li><b>Machine Verification:</b> Formal statements are verified with the Lean theorem prover to ensure internal consistency.</li>
-  </ul>
+    <h4>2. Formal Statements: Predicate Logic &amp; Relational Geometry</h4>
+    <p>
+      Moving beyond atomic variables, we introduce typed domains, sets, tuples,
+      and predicates as functions mapping candidate objects into <code>𝔹</code>.
+      By visualizing binary predicates on the <b>2D Boolean Relation Matrix</b>,
+      logic gains geometric spatial clarity.
+    </p>
+    <ul>
+      <li>
+        <b>Formal Statement Demo (FSD):</b> Parses quantified first-order
+        predicate structures and syntax trees.
+      </li>
+      <li>
+        <b>Equation Evaluator Demo (EED):</b> Interprets predicate calculations
+        directly via an independent execution engine.
+      </li>
+      <li>
+        <b>Machine Verification:</b> Formal statements are verified with the
+        Lean theorem prover to ensure internal consistency.
+      </li>
+    </ul>
 
-  <h4>3. Numbers &amp; Trees: The Conway Number Generator</h4>
-  <p>
-    With logic established, we construct numbers constructively. Starting from nothing &mdash; Conway''s root <code>0 = { | }</code> &mdash; numbers are born across inductive Days:
-  </p>
-  <ul>
-    <li><b>Day 0:</b> The empty cut creates <code>0 = { | }</code>.</li>
-    <li><b>Finite Days:</b> The integers <code>ℤ</code> and dyadic rationals <code>ℚ_2</code> populate the branching tree.</li>
-    <li><b>Transfinite Day <code>ω</code>:</b> The supremum limit ordinal yields infinite numbers (<code>ω</code>) and reciprocal infinitesimals (<code>dx = 1/ω</code>).</li>
-    <li><b>Continua &amp; Rotors:</b> 2-successor dyadic branching generates the 1D real continuum <code>ℝ_ω</code>, while 4-successor quad-trees generate the 2D complex plane <code>ℂ_ω</code>.</li>
-    <li><b>Binary Tree Demo (BTD):</b> Renders and traverses the recursive Conway birthday tree interactively.</li>
-  </ul>
+    <h4>3. Numbers &amp; Trees: The Conway Number Generator</h4>
+    <p>
+      With logic established, we construct numbers constructively. Starting from
+      nothing &mdash; Conway''s root <code>0 = { | }</code> &mdash; numbers are
+      born across inductive Days:
+    </p>
+    <ul>
+      <li><b>Day 0:</b> The empty cut creates <code>0 = { | }</code>.</li>
+      <li>
+        <b>Finite Days:</b> The integers <code>ℤ</code> and dyadic rationals
+        <code>ℚ_2</code> populate the branching tree.
+      </li>
+      <li>
+        <b>Transfinite Day <code>ω</code>:</b> The supremum limit ordinal yields
+        infinite numbers (<code>ω</code>) and reciprocal infinitesimals (<code
+          >dx = 1/ω</code
+        >).
+      </li>
+      <li>
+        <b>Continua &amp; Rotors:</b> 2-successor dyadic branching generates the
+        1D real continuum <code>ℝ_ω</code>, while 4-successor quad-trees
+        generate the 2D complex plane <code>ℂ_ω</code>.
+      </li>
+      <li>
+        <b>Binary Tree Demo (BTD):</b> Renders and traverses the recursive
+        Conway birthday tree interactively.
+      </li>
+    </ul>
 
-  <hr>
+    <hr />
 
-  <p>
-    With deductive certainty, predicate language, and the Conway number tree in hand, we are fully prepared to cross the threshold into <b>Level 2: Space, Direction &amp; Geometry</b>.
-  </p>
-', 'published'),
+    <p>
+      With deductive certainty, predicate language, and the Conway number tree
+      in hand, we are fully prepared to cross the threshold into
+      <b>Level 3: Space, Direction &amp; Geometry</b>.
+    </p>
+  ', 'published'),
   (5, 'propLogicIntro', 4, 'Introduction: Propositional Logic', 'prop-logic-intro', '
 <div align="center">
       <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
@@ -2716,294 +3184,988 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <li><b>Declarative Engine:</b> Predicates (including <code>EVEN</code>) are dynamically loaded and evaluated from <code>domainsAndPredicates.json</code>.</li>
     </ul>
 ', 'published'),
-  (11, 'numbersIntro', 10, 'Introduction: Numbers & Graph Trees', 'numbers-intro', '
-<div align="center">
-      <font size="+2"><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font><br>
-      <font size="+1"><i>Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The Duality of Scale</i></font>
+  (11, 'numbersIntro', 10, '1. Transfinite Trees & The Limit Ordinal (ω)', 'numbers-intro', '
+    <div align="center">
+      <font size="+2"
+        ><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font
+      ><br />
+      <font size="+1"
+        ><i
+          >Transfinite Trees, Geometric Continua, Dyadic Scaling &amp; The
+          Duality of Scale</i
+        ></font
+      >
     </div>
-    <br>
+    <br />
 
     <h3>1. Transfinite Trees &amp; The Limit Ordinal (ω)</h3>
     <p>
-      By the time the subject of a formal description of numbers is presented to students, they are already well versed in basic numerical calculation. 
-      The goal of our formal description is to provide a foundational bridge: a rigorous way to describe mathematical models directly on discrete, executable graph trees, bypassing the heavy machinery of point-set topology and measure theory until specialized STEM tracks require them.
+      By the time the subject of a formal description of numbers is presented to
+      students, they are already well versed in basic numerical calculation. The
+      goal of our formal description is to provide a foundational bridge: a
+      rigorous way to describe mathematical models directly on discrete,
+      executable graph trees, bypassing the heavy machinery of point-set
+      topology and measure theory until specialized STEM tracks require them.
     </p>
 
     <p>
-      We describe three core sets of numbers defined by transfinite inductive definitions whose birthday is less than or equal to <b>ω (omega)</b>, the first limit ordinal. 
-      Rather than introducing <code>ω</code> as a mystical leap, the curriculum grounds it through two rigorous mathematical discoveries:
+      We describe three core sets of numbers defined by transfinite inductive
+      definitions whose birthday is less than or equal to <b>ω (omega)</b>, the
+      first limit ordinal. Rather than introducing <code>ω</code> as a mystical
+      leap, the curriculum grounds it through two rigorous mathematical
+      discoveries:
     </p>
     <ol>
-      <li><b>The Structural Discovery:</b> The natural numbers do not exhaust endless order. By examining non-standard well-orders (such as sorting evens before odds: <code>2 ≺ 4 ≺ 6 ... ≺ 1 ≺ 3 ...</code>), students prove by contradiction that the position of <code>1</code> sits strictly after infinitely many predecessors and cannot be indexed by any finite counting number.</li>
-      <li><b>The Operational Definition (LUB):</b> Just as dyadic ruler fractions <code>{ 1/2, 3/4, 7/8, ... }</code> have an external Least Upper Bound at <code>1</code>, the counting numbers <code>ℕ</code> have an external supremum sitting immediately above them all: <b><code>ω = sup(ℕ)</code></b>.</li>
+      <li>
+        <b>The Structural Discovery:</b> The natural numbers do not exhaust
+        endless order. By examining non-standard well-orders (such as sorting
+        evens before odds: <code>2 ≺ 4 ≺ 6 ... ≺ 1 ≺ 3 ...</code>), students
+        prove by contradiction that the position of <code>1</code> sits strictly
+        after infinitely many predecessors and cannot be indexed by any finite
+        counting number.
+      </li>
+      <li>
+        <b>The Operational Definition (LUB):</b> Just as dyadic ruler fractions
+        <code>{ 1/2, 3/4, 7/8, ... }</code> have an external Least Upper Bound
+        at <code>1</code>, the counting numbers <code>ℕ</code> have an external
+        supremum sitting immediately above them all:
+        <b><code>ω = sup(ℕ)</code></b
+        >.
+      </li>
     </ol>
 
     <p>
-      All three number sets originate from a single root (0). Their structure is entirely determined by their <b>branching factor</b>—the number of successor functions in their definition (1, 2, or 4):
+      All three number sets originate from a single root (0). Their structure is
+      entirely determined by their <b>branching factor</b>—the number of
+      successor functions in their definition (1, 2, or 4):
     </p>
 
     <ul>
       <li>
-        <b>1-Successor &rarr; <code>ℕ_ω ≡ ℕ ⋃ {ω}</code>:</b><br>
-        Adds the single transfinite limit point <code>ω</code> to the natural numbers. While simple, it introduces the critical concept of <code>ω</code> as a legitimate set member and ordinal boundary.
+        <b>1-Successor &rarr; <code>ℕ_ω ≡ ℕ ⋃ {ω}</code>:</b><br />
+        Adds the single transfinite limit point <code>ω</code> to the natural
+        numbers. While simple, it introduces the critical concept of
+        <code>ω</code> as a legitimate set member and ordinal boundary.
       </li>
-      <br>
+      <br />
       <li>
-        <b>2-Successors &rarr; <code>ℝ_ω ≡ { the dyadic rationals } ⋃ { 2-successor numbers born at ω }</code>:</b><br>
-        Constructs the real hyperfinite continuum, where the standard real numbers embed as a dense subset: <code>ℝ ⊂ ℝ_ω</code>.
+        <b
+          >2-Successors &rarr;
+          <code
+            >ℝ_ω ≡ { the dyadic rationals } ⋃ { 2-successor numbers born at ω
+            }</code
+          >:</b
+        ><br />
+        Constructs the real hyperfinite continuum, where the standard real
+        numbers embed as a dense subset: <code>ℝ ⊂ ℝ_ω</code>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>4-Successors &rarr; <code>ℂ_ω ≡ { the dyadic complex numbers } ⋃ { 4-successor numbers born at ω }</code>:</b><br>
-        Constructs the complex hyperfinite plane, where the standard complex numbers embed: <code>ℂ ⊂ ℂ_ω</code>.
+        <b
+          >4-Successors &rarr;
+          <code
+            >ℂ_ω ≡ { the dyadic complex numbers } ⋃ { 4-successor numbers born
+            at ω }</code
+          >:</b
+        ><br />
+        Constructs the complex hyperfinite plane, where the standard complex
+        numbers embed: <code>ℂ ⊂ ℂ_ω</code>.
       </li>
     </ul>
 
-    <div style="background-color: #f1f5f9; border: 1.5px solid #3b82f6; border-radius: 6px; padding: 12px 16px; margin: 15px 0;">
-      <b>The Cardinality Leap: From Depth (ω) to Width (2^ℵ₀):</b><br>
-      Notice the profound structural bridge: across all finite days (<code>n &lt; ω</code>), the dyadic fractions form a <b>countably infinite set</b> (<code>ℵ₀</code>). 
-      At the limit birthday <b>Day ω</b>, every point is an infinite binary path of length <code>ω</code>. 
-      The number of such paths explodes to the power set <b><code>2^ℵ₀</code></b>—the <b>uncountable continuum</b>! 
-      Thus, reaching the first limit ordinal <code>ω</code> is the exact mathematical threshold where discrete tree branching generates the continuous physical continuum and infinitesimal step size <code>dx = 1/ω</code>.
+    <div
+      style="
+        background-color: #f1f5f9;
+        border: 1.5px solid #3b82f6;
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin: 15px 0;
+      "
+    >
+      <b>The Cardinality Leap: From Depth (ω) to Width (2^ℵ₀):</b><br />
+      Notice the profound structural bridge: across all finite days (<code
+        >n &lt; ω</code
+      >), the dyadic fractions form a
+      <b>countably infinite set</b> (<code>ℵ₀</code>). At the limit birthday
+      <b>Day ω</b>, every point is an infinite binary path of length
+      <code>ω</code>. The number of such paths explodes to the power set
+      <b><code>2^ℵ₀</code></b
+      >—the <b>uncountable continuum</b>! Thus, reaching the first limit ordinal
+      <code>ω</code> is the exact mathematical threshold where discrete tree
+      branching generates the continuous physical continuum and infinitesimal
+      step size <code>dx = 1/ω</code>.
     </div>
 
     <p>
-      Rather than treating <code>ℝ_ω</code> and <code>ℂ_ω</code> as advanced nonstandard curiosities, we treat them as our primary concrete structures. 
-      Because the countable dyadic rationals generated by finite induction are dense in the continuum born at <code>ω</code>, John Conway''s recursive definitions of order and arithmetic give us a transparent, visual model of both the discrete and continuous.
+      Rather than treating <code>ℝ_ω</code> and <code>ℂ_ω</code> as advanced
+      nonstandard curiosities, we treat them as our primary concrete structures.
+      Because the countable dyadic rationals generated by finite induction are
+      dense in the continuum born at <code>ω</code>, John Conway''s recursive
+      definitions of order and arithmetic give us a transparent, visual model of
+      both the discrete and continuous.
     </p>
 
     <!-- Anchor for navFW Return Button -->
     <a id="jillQuestionAnchor" name="jillQuestionAnchor"></a>
 
     <!-- Collapsible Editorial Note: Integrated with navFW Return infrastructure -->
-    <details style="margin: 18px auto; max-width: 760px; background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px;">
-      <summary style="font-weight: bold; color: #1e3a8a; cursor: pointer; font-size: 0.95em;">
-        📖 Editorial Note: Knowing the Conway Number Tree (Epistemic Background &amp; Intuition)
+    <details
+      style="
+        margin: 18px auto;
+        max-width: 760px;
+        background-color: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 14px 18px;
+      "
+    >
+      <summary
+        style="
+          font-weight: bold;
+          color: #1e3a8a;
+          cursor: pointer;
+          font-size: 0.95em;
+        "
+      >
+        📖 Editorial Note: Knowing the Conway Number Tree (Epistemic Background
+        &amp; Intuition)
       </summary>
-      <div style="margin-top: 12px; font-size: 0.9em; line-height: 1.6; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+      <div
+        style="
+          margin-top: 12px;
+          font-size: 0.9em;
+          line-height: 1.6;
+          color: #334155;
+          border-top: 1px dashed #cbd5e1;
+          padding-top: 10px;
+        "
+      >
         <p>
-          The finite single-successor induction framework and the recursively defined arithmetic operations of addition and multiplication defined on this framework have been used to model well-ordered collections for centuries. It seems to pretty closely reflect one of those human intuitions that allows us to learn mathematics in the first place.
+          The finite single-successor induction framework and the recursively
+          defined arithmetic operations of addition and multiplication defined
+          on this framework have been used to model well-ordered collections for
+          centuries. It seems to pretty closely reflect one of those human
+          intuitions that allows us to learn mathematics in the first place.
         </p>
         <p>
-          On the other hand, not until the long history of engineering number systems over the centuries and finally arriving at the currently established notion of real numbers was enough mathematical background established that John Conway could construct recursive definitions for a 2-successor induction framework, where in the finite case, models dyadic arithmetic, and in the transfinite case, models a Field of numbers that includes the reals as a subfield.
+          On the other hand, not until the long history of engineering number
+          systems over the centuries and finally arriving at the currently
+          established notion of real numbers was enough mathematical background
+          established that John Conway could construct recursive definitions for
+          a 2-successor induction framework, where in the finite case, models
+          dyadic arithmetic, and in the transfinite case, models a Field of
+          numbers that includes the reals as a subfield.
         </p>
         <p>
-          It is difficult to imagine this feat (engineering the recursive definitions for order and arithmetic operations on a set defined by 2-successor induction) without the current model of the reals in place. Nevertheless, it provides a novel model of continuous quantity.
+          It is difficult to imagine this feat (engineering the recursive
+          definitions for order and arithmetic operations on a set defined by
+          2-successor induction) without the current model of the reals in
+          place. Nevertheless, it provides a novel model of continuous quantity.
         </p>
-        <h4 style="color: #1e293b; margin: 14px 0 8px 0;">What Kind of Knowledge Can Be Gleaned from This New Approach?</h4>
+        <h4 style="color: #1e293b; margin: 14px 0 8px 0">
+          What Kind of Knowledge Can Be Gleaned from This New Approach?
+        </h4>
         <ol>
           <li>
-            <b>Mode 1 &mdash; Structural Fact &amp; Converging Bounds:</b> Although Conway''s approach generated ordinals, it is also valid to assume the ordinals, as we do, and use them for birthday values. This done, we have an immediate visualization of the number tree as a balanced binary tree. The tree can be used to describe the behavior of the definitions for small birthdays, while the tree structure shows the converging limits on where higher birthday numbers must lie. In this case, it is enough to know the recursive definitions, with the exhibited behavior, exist as mathematical fact.
+            <b>Mode 1 &mdash; Structural Fact &amp; Converging Bounds:</b>
+            Although Conway''s approach generated ordinals, it is also valid to
+            assume the ordinals, as we do, and use them for birthday values.
+            This done, we have an immediate visualization of the number tree as
+            a balanced binary tree. The tree can be used to describe the
+            behavior of the definitions for small birthdays, while the tree
+            structure shows the converging limits on where higher birthday
+            numbers must lie. In this case, it is enough to know the recursive
+            definitions, with the exhibited behavior, exist as mathematical
+            fact.
           </li>
-          <br>
+          <br />
           <li>
-            <b>Mode 2 &mdash; Algorithmic Knowledge &amp; Inductive Telemetry:</b> 
-            Beyond knowing that recursive definitions exist, one can hold an exact, executable algorithmic understanding of Conway''s triad: <b>Inductive Order</b> (<code>X ≤ Y</code>), <b>Inductive Addition</b> (<code>X + Y</code>), and <b>Inductive Multiplication</b> (<code>X · Y</code>). 
-            In our interactive pseudocode engine, each definition is exposed as a transparent, step-by-step module. 
-            Students can inspect the combinatorial options, step through each recursive branch, and observe the live recursion statistics—viscerally experiencing the exponential computational cliff of tree options versus the instantaneous <code>O(1)</code> execution of the dyadic machine ring <code>(𝔻, +, ·)</code>.
+            <b
+              >Mode 2 &mdash; Algorithmic Knowledge &amp; Inductive
+              Telemetry:</b
+            >
+            Beyond knowing that recursive definitions exist, one can hold an
+            exact, executable algorithmic understanding of Conway''s triad:
+            <b>Inductive Order</b> (<code>X ≤ Y</code>),
+            <b>Inductive Addition</b> (<code>X + Y</code>), and
+            <b>Inductive Multiplication</b> (<code>X · Y</code>). In our
+            interactive pseudocode engine, each definition is exposed as a
+            transparent, step-by-step module. Students can inspect the
+            combinatorial options, step through each recursive branch, and
+            observe the live recursion statistics—viscerally experiencing the
+            exponential computational cliff of tree options versus the
+            instantaneous <code>O(1)</code> execution of the dyadic machine ring
+            <code>(𝔻, +, ·)</code>.
           </li>
-          <br>
+          <br />
           <li>
-            <b>Mode 3 &mdash; Foundational Proof:</b> Then there is an understanding of why these definitions exhibit the desired behavior (proving the field axioms).
+            <b>Mode 3 &mdash; Foundational Proof:</b> Then there is an
+            understanding of why these definitions exhibit the desired behavior
+            (proving the field axioms).
           </li>
         </ol>
-        <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 10px 14px; margin-top: 12px; font-size: 0.9em; color: #1e3a8a;">
-          <b>Pedagogical Mission:</b> It should be clear our goal is to let the student know that definitions that exhibit such behavior exist and can be understood visually, without requiring them to reconstruct the entire algebraic scaffolding from scratch.
+        <div
+          style="
+            background-color: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #1e3a8a;
+          "
+        >
+          <b>Pedagogical Mission:</b> It should be clear our goal is to let the
+          student know that definitions that exhibit such behavior exist and can
+          be understood visually, without requiring them to reconstruct the
+          entire algebraic scaffolding from scratch.
         </div>
       </div>
     </details>
 
-    <hr>
-    
+    <hr />
+
     <h3>2. The Power of Graphs: Inductive Branching as Number Systems</h3>
     <p>
-      There is a profound geometric unity underlying this construction: <b>balanced trees are the direct visual and topological manifestation of inductive definitions</b>. 
-      The branching factor of the graph corresponds precisely to the number of successor operations:
+      There is a profound geometric unity underlying this construction:
+      <b
+        >balanced trees are the direct visual and topological manifestation of
+        inductive definitions</b
+      >. The branching factor of the graph corresponds precisely to the number
+      of successor operations:
     </p>
 
     <ul>
       <li>
-        <b>1-Successor (The Linear Ray &rarr; <code>ℕ_ω</code>):</b><br>
-        A trunk without branches—a linear ray extending toward the transfinite horizon <code>ω</code>. It supports ordinal counting, but lacks the branching capacity to partition space.
+        <b>1-Successor (The Linear Ray &rarr; <code>ℕ_ω</code>):</b><br />
+        A trunk without branches—a linear ray extending toward the transfinite
+        horizon <code>ω</code>. It supports ordinal counting, but lacks the
+        branching capacity to partition space.
       </li>
-      <br>
+      <br />
       <li>
-        <b>2-Successors (The Binary Tree &rarr; <code>ℝ_ω</code>):</b><br>
-        A tree with branching factor 2 generated by signs <code>{ -, + }</code>. 
-        Each path defines a precise Dedekind cut. In probability, this 1D <b>hyperfinite transect</b> supports <b>classical real-valued weights</b> <code>P(x) ∈ [0, 1]</code> and Bayesian belief updating.
+        <b>2-Successors (The Binary Tree &rarr; <code>ℝ_ω</code>):</b><br />
+        A tree with branching factor 2 generated by signs <code>{ -, + }</code>.
+        Each path defines a precise Dedekind cut. In probability, this 1D
+        <b>hyperfinite transect</b> supports
+        <b>classical real-valued weights</b> <code>P(x) ∈ [0, 1]</code> and
+        Bayesian belief updating.
       </li>
-      <br>
+      <br />
       <li>
-        <b>4-Successors (The Quad-Tree &rarr; <code>ℂ_ω</code>):</b><br>
-        A tree with branching factor 4 generated by the four unit directions <code>{ +1, -1, +i, -i }</code>. 
-        In physics, this 2D <b>hyperfinite grid</b> supports <b>complex probability amplitudes</b> <code>ψ(x) ∈ ℂ_ω</code>, phase rotations, and quantum wave interference.
+        <b>4-Successors (The Quad-Tree &rarr; <code>ℂ_ω</code>):</b><br />
+        A tree with branching factor 4 generated by the four unit directions
+        <code>{ +1, -1, +i, -i }</code>. In physics, this 2D
+        <b>hyperfinite grid</b> supports <b>complex probability amplitudes</b>
+        <code>ψ(x) ∈ ℂ_ω</code>, phase rotations, and quantum wave interference.
       </li>
     </ul>
 
-    <hr>
+    <hr />
 
-    <h3>3. Geometric Space Partitioning: Polar Fans vs. The Cartesian H-Tree</h3>
+    <h3>
+      3. Geometric Space Partitioning: Polar Fans vs. The Cartesian H-Tree
+    </h3>
     <p>
-      Graph representations of space partition the continuum in two fundamentally distinct ways: <b>angular polar fans</b> and <b>orthogonal Cartesian trees</b>.
+      Graph representations of space partition the continuum in two
+      fundamentally distinct ways: <b>angular polar fans</b> and
+      <b>orthogonal Cartesian trees</b>.
     </p>
 
     <ul>
       <li>
-        <b>1. The 2-Successor Real Fan (ℝ_ω) &mdash; 180° Half-Space &amp; Directional Projection:</b><br>
-        A 2-successor tree generated by signs <code>{ -, + }</code> acts as an <b>angular polar fan</b> radiating outward from the root <code>0</code>. 
-        When projected into 2D polar space <code>(r, θ)</code>, each binary branch subdivides the angle across a 180° angular wedge.
+        <b
+          >1. The 2-Successor Real Fan (ℝ_ω) &mdash; 180° Half-Space &amp;
+          Directional Projection:</b
+        ><br />
+        A 2-successor tree generated by signs <code>{ -, + }</code> acts as an
+        <b>angular polar fan</b> radiating outward from the root <code>0</code>.
+        When projected into 2D polar space <code>(r, θ)</code>, each binary
+        branch subdivides the angle across a 180° angular wedge.
       </li>
-      <br>
+      <br />
       <li>
-        <b>2. The Complex Plane (ℂ_ω) as Two Fans Spreading Out &mdash; 360° Full Space Coverage:</b><br>
-        To span all 2D directions without blindspots, the 4-successor quad-tree <code>{ +1, -1, +i, -i }</code> deploys <b>two polar fans spreading out back-to-back from the root</b>:
+        <b
+          >2. The Complex Plane (ℂ_ω) as Two Fans Spreading Out &mdash; 360°
+          Full Space Coverage:</b
+        ><br />
+        To span all 2D directions without blindspots, the 4-successor quad-tree
+        <code>{ +1, -1, +i, -i }</code> deploys
+        <b>two polar fans spreading out back-to-back from the root</b>:
         <ul>
-          <li><b>Fan 1 (Upper 180° Fan):</b> Radiates through angles <code>0° &rarr; 180°</code>, spanning the upper half-plane.</li>
-          <li><b>Fan 2 (Lower 180° Fan):</b> Radiates through angles <code>180° &rarr; 360°</code>, spanning the lower half-plane.</li>
+          <li>
+            <b>Fan 1 (Upper 180° Fan):</b> Radiates through angles
+            <code>0° &rarr; 180°</code>, spanning the upper half-plane.
+          </li>
+          <li>
+            <b>Fan 2 (Lower 180° Fan):</b> Radiates through angles
+            <code>180° &rarr; 360°</code>, spanning the lower half-plane.
+          </li>
         </ul>
-        The imaginary unit <code>i</code> acts as the <b>perpendicular 90° steering wheel</b> that activates the second fan. Together, the two fans spread out to cover the <b>entire 360° circle with zero blindspots</b>.
+        The imaginary unit <code>i</code> acts as the
+        <b>perpendicular 90° steering wheel</b> that activates the second fan.
+        Together, the two fans spread out to cover the
+        <b>entire 360° circle with zero blindspots</b>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>3. The Cartesian View (The Orthogonal H-Tree) &mdash; Space via Alternating Perpendiculars:</b><br>
-        Alternatively, space can be tiled along the orthogonal Cartesian axes (<code>x</code> and <code>y</code>) through alternating 90° perpendicular steps:
+        <b
+          >3. The Cartesian View (The Orthogonal H-Tree) &mdash; Space via
+          Alternating Perpendiculars:</b
+        ><br />
+        Alternatively, space can be tiled along the orthogonal Cartesian axes
+        (<code>x</code> and <code>y</code>) through alternating 90°
+        perpendicular steps:
         <ol>
-          <li><b>Horizontal step</b> left and right along the <code>x</code>-axis (length = <code>1</code>).</li>
-          <li><b>Vertical perpendicular step</b> up and down along the <code>y</code>-axis (length = <code>1/2</code>).</li>
-          <li><b>Horizontal perpendicular step</b> left and right again (length = <code>1/4</code>).</li>
+          <li>
+            <b>Horizontal step</b> left and right along the <code>x</code>-axis
+            (length = <code>1</code>).
+          </li>
+          <li>
+            <b>Vertical perpendicular step</b> up and down along the
+            <code>y</code>-axis (length = <code>1/2</code>).
+          </li>
+          <li>
+            <b>Horizontal perpendicular step</b> left and right again (length =
+            <code>1/4</code>).
+          </li>
         </ol>
-        To tile the 2D plane without branches colliding, link lengths must <b>geometrically halve at each orthogonal turn</b> (<code>1, 1/2, 1/4, 1/8, ...</code>).
-        <br><br>
-        <i>Equivalence to 2D Analysis:</i> Alternating 2-successor steps across 2D Cartesian space yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> grid cells &mdash; proving that two 1D trees in parallel <code>(ℝ_ω × ℝ_ω)</code> tile 2D space completely with zero gaps, matching the cell count of a native 4-successor quad-tree!
+        To tile the 2D plane without branches colliding, link lengths must
+        <b>geometrically halve at each orthogonal turn</b> (<code
+          >1, 1/2, 1/4, 1/8, ...</code
+        >). <br /><br />
+        <i>Equivalence to 2D Analysis:</i> Alternating 2-successor steps across
+        2D Cartesian space yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> grid cells &mdash;
+        proving that two 1D trees in parallel <code>(ℝ_ω × ℝ_ω)</code> tile 2D
+        space completely with zero gaps, matching the cell count of a native
+        4-successor quad-tree!
       </li>
     </ul>
 
     <!-- Visual Comparison Diagrams: 3-Part Suite -->
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 28px; margin: 30px 0;">
-      
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        margin: 30px 0;
+      "
+    >
       <!-- Diagram 1: Single 2-Successor Polar Fan (180° Half-Space) -->
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 310"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
-          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">1. The 2-Successor Tree: 180° Polar Fan Projection</text>
-          
+          <text
+            x="320"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            1. The 2-Successor Tree: 180° Polar Fan Projection
+          </text>
+
           <defs>
-            <marker id="polar-arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="polar-arr-blue"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e40af" />
             </marker>
           </defs>
 
           <!-- Upper Half-Plane Background -->
-          <path d="M 70 170 A 250 250 0 0 1 570 170 Z" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5" />
+          <path
+            d="M 70 170 A 250 250 0 0 1 570 170 Z"
+            fill="#eff6ff"
+            stroke="#bfdbfe"
+            stroke-width="1.5"
+          />
           <!-- Lower Half-Plane Background -->
-          <path d="M 70 170 A 250 250 0 0 0 570 170 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4" />
+          <path
+            d="M 70 170 A 250 250 0 0 0 570 170 Z"
+            fill="#f8fafc"
+            stroke="#cbd5e1"
+            stroke-width="1.5"
+            stroke-dasharray="4,4"
+          />
 
           <!-- Horizontal Separator Line -->
-          <line x1="45" y1="170" x2="595" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" />
-          <text x="590" y="163" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#64748b">0° / 180° Boundary</text>
+          <line
+            x1="45"
+            y1="170"
+            x2="595"
+            y2="170"
+            stroke="#94a3b8"
+            stroke-width="1.5"
+            stroke-dasharray="4,4"
+          />
+          <text
+            x="590"
+            y="163"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#64748b"
+          >
+            0° / 180° Boundary
+          </text>
 
-          <text x="320" y="52" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">ACTIVE 180° POLAR FAN (Real Continuum ℝ_ω)</text>
-          <text x="320" y="67" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">Binary branching sweeps 180° half-space like a directional beam</text>
+          <text
+            x="320"
+            y="52"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            ACTIVE 180° POLAR FAN (Real Continuum ℝ_ω)
+          </text>
+          <text
+            x="320"
+            y="67"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            fill="#3b82f6"
+          >
+            Binary branching sweeps 180° half-space like a directional beam
+          </text>
 
           <!-- Polar Branches -->
-          <line x1="320" y1="170" x2="230" y2="125" stroke="#1e40af" stroke-width="2" />
-          <line x1="320" y1="170" x2="410" y2="125" stroke="#1e40af" stroke-width="2" />
+          <line
+            x1="320"
+            y1="170"
+            x2="230"
+            y2="125"
+            stroke="#1e40af"
+            stroke-width="2"
+          />
+          <line
+            x1="320"
+            y1="170"
+            x2="410"
+            y2="125"
+            stroke="#1e40af"
+            stroke-width="2"
+          />
 
-          <line x1="230" y1="125" x2="140" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="230" y1="125" x2="265" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="410" y1="125" x2="375" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="410" y1="125" x2="500" y2="95" stroke="#1e40af" stroke-width="1.8" />
+          <line
+            x1="230"
+            y1="125"
+            x2="140"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="230"
+            y1="125"
+            x2="265"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="410"
+            y1="125"
+            x2="375"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="410"
+            y1="125"
+            x2="500"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
 
-          <line x1="140" y1="95" x2="85" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="140" y1="95" x2="125" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="265" y1="95" x2="235" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="265" y1="95" x2="275" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="375" y1="95" x2="365" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="375" y1="95" x2="405" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="500" y1="95" x2="515" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
-          <line x1="500" y1="95" x2="555" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue)" />
+          <line
+            x1="140"
+            y1="95"
+            x2="85"
+            y2="82"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="140"
+            y1="95"
+            x2="125"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="265"
+            y1="95"
+            x2="235"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="265"
+            y1="95"
+            x2="275"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="375"
+            y1="95"
+            x2="365"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="375"
+            y1="95"
+            x2="405"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="500"
+            y1="95"
+            x2="515"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
+          <line
+            x1="500"
+            y1="95"
+            x2="555"
+            y2="82"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue)"
+          />
 
           <!-- Nodes & Labels -->
-          <circle cx="320" cy="170" r="5.5" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5" />
-          <text x="320" y="188" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Root (0)</text>
+          <circle
+            cx="320"
+            cy="170"
+            r="5.5"
+            fill="#1e3a8a"
+            stroke="#ffffff"
+            stroke-width="1.5"
+          />
+          <text
+            x="320"
+            y="188"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            Root (0)
+          </text>
 
           <circle cx="230" cy="125" r="4.5" fill="#2563eb" />
-          <text x="215" y="122" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[-] -1</text>
+          <text
+            x="215"
+            y="122"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            [-] -1
+          </text>
 
           <circle cx="410" cy="125" r="4.5" fill="#2563eb" />
-          <text x="425" y="122" text-anchor="start" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[+] +1</text>
+          <text
+            x="425"
+            y="122"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            [+] +1
+          </text>
 
           <circle cx="140" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="130" y="92" text-anchor="end" font-family="sans-serif" font-size="9" fill="#1e40af">[--] -2</text>
+          <text
+            x="130"
+            y="92"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [--] -2
+          </text>
 
           <circle cx="265" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="265" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[-+] -½</text>
+          <text
+            x="265"
+            y="108"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [-+] -½
+          </text>
 
           <circle cx="375" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="375" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[+-] +½</text>
+          <text
+            x="375"
+            y="108"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [+-] +½
+          </text>
 
           <circle cx="500" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="510" y="92" text-anchor="start" font-family="sans-serif" font-size="9" fill="#1e40af">[++] +2</text>
+          <text
+            x="510"
+            y="92"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [++] +2
+          </text>
 
-          <rect x="140" y="215" width="360" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
-          <text x="320" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">180° POLAR HALF-SPACE PROJECTION</text>
-          <text x="320" y="256" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Spans 1D Real line ℝ_ω, fanning across the upper half-plane</text>
+          <rect
+            x="140"
+            y="215"
+            width="360"
+            height="60"
+            rx="6"
+            fill="#ffffff"
+            stroke="#cbd5e1"
+            stroke-width="1"
+          />
+          <text
+            x="320"
+            y="238"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#475569"
+          >
+            180° POLAR HALF-SPACE PROJECTION
+          </text>
+          <text
+            x="320"
+            y="256"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            fill="#64748b"
+          >
+            Spans 1D Real line ℝ_ω, fanning across the upper half-plane
+          </text>
         </svg>
-        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px;"><i>Figure 1: The 2-Successor Polar Fan (180° Half-Space) &mdash; 1D dyadic branches fanning in polar coordinates</i></div>
+        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px">
+          <i
+            >Figure 1: The 2-Successor Polar Fan (180° Half-Space) &mdash; 1D
+            dyadic branches fanning in polar coordinates</i
+          >
+        </div>
       </div>
 
       <!-- Diagram 2: Complex Plane as 2 Fans Spreading Out (360° All Space) -->
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 370"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
-          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">2. The Complex Plane ℂ_ω: Two Polar Fans Spreading Out (360° All Space)</text>
-          
+          <text
+            x="320"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            2. The Complex Plane ℂ_ω: Two Polar Fans Spreading Out (360° All
+            Space)
+          </text>
+
           <defs>
-            <marker id="fan1-arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="fan1-arr"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
             </marker>
-            <marker id="fan2-arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="fan2-arr"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
             </marker>
           </defs>
 
           <!-- Circular Outer Boundary -->
-          <circle cx="320" cy="190" r="145" fill="#fafafa" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />
+          <circle
+            cx="320"
+            cy="190"
+            r="145"
+            fill="#fafafa"
+            stroke="#94a3b8"
+            stroke-width="1.2"
+            stroke-dasharray="3,3"
+          />
 
           <!-- Fan 1 Semicircle -->
-          <path d="M 175 190 A 145 145 0 0 1 465 190 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" />
+          <path
+            d="M 175 190 A 145 145 0 0 1 465 190 Z"
+            fill="#eff6ff"
+            stroke="#3b82f6"
+            stroke-width="1.2"
+          />
           <!-- Fan 2 Semicircle -->
-          <path d="M 175 190 A 145 145 0 0 0 465 190 Z" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.2" />
+          <path
+            d="M 175 190 A 145 145 0 0 0 465 190 Z"
+            fill="#fdf4ff"
+            stroke="#a855f7"
+            stroke-width="1.2"
+          />
 
           <!-- Coordinate Axes -->
-          <line x1="145" y1="190" x2="495" y2="190" stroke="#64748b" stroke-width="1.5" />
-          <line x1="320" y1="35" x2="320" y2="345" stroke="#64748b" stroke-width="1.5" />
+          <line
+            x1="145"
+            y1="190"
+            x2="495"
+            y2="190"
+            stroke="#64748b"
+            stroke-width="1.5"
+          />
+          <line
+            x1="320"
+            y1="35"
+            x2="320"
+            y2="345"
+            stroke="#64748b"
+            stroke-width="1.5"
+          />
 
           <!-- Unit Direction Labels -->
-          <text x="480" y="184" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+1 (0°)</text>
-          <text x="320" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+i (90°)</text>
-          <text x="160" y="184" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
-          <text x="320" y="340" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+          <text
+            x="480"
+            y="184"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            +1 (0°)
+          </text>
+          <text
+            x="320"
+            y="50"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            +i (90°)
+          </text>
+          <text
+            x="160"
+            y="184"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            -1 (180°)
+          </text>
+          <text
+            x="320"
+            y="340"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            -i (270°)
+          </text>
 
           <!-- Fan 1 Branches (Blue) -->
-          <line x1="320" y1="190" x2="395" y2="115" stroke="#2563eb" stroke-width="1.8" />
-          <line x1="395" y1="115" x2="435" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr)" />
-          <line x1="395" y1="115" x2="415" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr)" />
-          
-          <line x1="320" y1="190" x2="245" y2="115" stroke="#2563eb" stroke-width="1.8" />
-          <line x1="245" y1="115" x2="225" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr)" />
-          <line x1="245" y1="115" x2="205" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="395"
+            y2="115"
+            stroke="#2563eb"
+            stroke-width="1.8"
+          />
+          <line
+            x1="395"
+            y1="115"
+            x2="435"
+            y2="90"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr)"
+          />
+          <line
+            x1="395"
+            y1="115"
+            x2="415"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr)"
+          />
+
+          <line
+            x1="320"
+            y1="190"
+            x2="245"
+            y2="115"
+            stroke="#2563eb"
+            stroke-width="1.8"
+          />
+          <line
+            x1="245"
+            y1="115"
+            x2="225"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr)"
+          />
+          <line
+            x1="245"
+            y1="115"
+            x2="205"
+            y2="90"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr)"
+          />
 
           <!-- Fan 2 Branches (Purple) -->
-          <line x1="320" y1="190" x2="245" y2="265" stroke="#7c3aed" stroke-width="1.8" />
-          <line x1="245" y1="265" x2="205" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr)" />
-          <line x1="245" y1="265" x2="225" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="245"
+            y2="265"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <line
+            x1="245"
+            y1="265"
+            x2="205"
+            y2="290"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr)"
+          />
+          <line
+            x1="245"
+            y1="265"
+            x2="225"
+            y2="310"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr)"
+          />
 
-          <line x1="320" y1="190" x2="395" y2="265" stroke="#7c3aed" stroke-width="1.8" />
-          <line x1="395" y1="265" x2="415" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr)" />
-          <line x1="395" y1="265" x2="435" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="395"
+            y2="265"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <line
+            x1="395"
+            y1="265"
+            x2="415"
+            y2="310"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr)"
+          />
+          <line
+            x1="395"
+            y1="265"
+            x2="435"
+            y2="290"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr)"
+          />
 
           <!-- Fan Nodes -->
           <circle cx="395" cy="115" r="4" fill="#2563eb" />
@@ -3012,200 +4174,831 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <circle cx="395" cy="265" r="4" fill="#7c3aed" />
 
           <!-- Center Root (0) -->
-          <circle cx="320" cy="190" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
-          <text x="332" y="204" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">0</text>
+          <circle
+            cx="320"
+            cy="190"
+            r="6"
+            fill="#0f172a"
+            stroke="#ffffff"
+            stroke-width="2"
+          />
+          <text
+            x="332"
+            y="204"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            0
+          </text>
 
-          <rect x="360" y="65" width="220" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1" />
-          <text x="470" y="81" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">FAN 1: Upper 180° (0° &rarr; 180°)</text>
+          <rect
+            x="360"
+            y="65"
+            width="220"
+            height="24"
+            rx="4"
+            fill="#ffffff"
+            stroke="#bfdbfe"
+            stroke-width="1"
+          />
+          <text
+            x="470"
+            y="81"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            FAN 1: Upper 180° (0° &rarr; 180°)
+          </text>
 
-          <rect x="60" y="295" width="220" height="24" rx="4" fill="#ffffff" stroke="#e9d5ff" stroke-width="1" />
-          <text x="170" y="311" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">FAN 2: Lower 180° (180° &rarr; 360°)</text>
+          <rect
+            x="60"
+            y="295"
+            width="220"
+            height="24"
+            rx="4"
+            fill="#ffffff"
+            stroke="#e9d5ff"
+            stroke-width="1"
+          />
+          <text
+            x="170"
+            y="311"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            FAN 2: Lower 180° (180° &rarr; 360°)
+          </text>
 
-          <rect x="150" y="338" width="340" height="22" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
-          <text x="320" y="353" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">2 Fans Spreading Out &rArr; Complete 360° Space Coverage</text>
+          <rect
+            x="150"
+            y="338"
+            width="340"
+            height="22"
+            rx="4"
+            fill="#f0fdf4"
+            stroke="#86efac"
+            stroke-width="1"
+          />
+          <text
+            x="320"
+            y="353"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#15803d"
+          >
+            2 Fans Spreading Out &rArr; Complete 360° Space Coverage
+          </text>
         </svg>
-        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px;"><i>Figure 2: The Complex Plane as Two Polar Fans &mdash; Two 180° fans spread out back-to-back from the origin to sweep all 360°</i></div>
+        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px">
+          <i
+            >Figure 2: The Complex Plane as Two Polar Fans &mdash; Two 180° fans
+            spread out back-to-back from the origin to sweep all 360°</i
+          >
+        </div>
       </div>
 
       <!-- Diagram 3: Cartesian View (The Orthogonal H-Tree) -->
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 600 280"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <rect x="0" y="0" width="600" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="600" height="8" fill="#f1f5f9" />
-          <text x="300" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)</text>
-          
+          <text
+            x="300"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)
+          </text>
+
           <defs>
-            <marker id="cart-arr-spine" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-spine"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0f766e" />
             </marker>
-            <marker id="cart-arr-vert" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-vert"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
             </marker>
-            <marker id="cart-arr-sub" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-sub"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
             </marker>
-            <marker id="cart-arr-term" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-term"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#4f46e5" />
             </marker>
           </defs>
 
           <!-- Level 1: Central Horizontal Spine (x-axis) -->
-          <line x1="290" y1="140" x2="175" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine)" />
-          <line x1="290" y1="140" x2="405" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine)" />
+          <line
+            x1="290"
+            y1="140"
+            x2="175"
+            y2="140"
+            stroke="#0f766e"
+            stroke-width="2.2"
+            marker-end="url(#cart-arr-spine)"
+          />
+          <line
+            x1="290"
+            y1="140"
+            x2="405"
+            y2="140"
+            stroke="#0f766e"
+            stroke-width="2.2"
+            marker-end="url(#cart-arr-spine)"
+          />
 
-          <!-- Level 2: Left & Right Vertical Bars (y-axis perpendiculars) -->
-          <line x1="175" y1="140" x2="175" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
-          <line x1="175" y1="140" x2="175" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
-          <line x1="405" y1="140" x2="405" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
-          <line x1="405" y1="140" x2="405" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert)" />
+          <!-- Level 3: Left & Right Vertical Bars (y-axis perpendiculars) -->
+          <line
+            x1="175"
+            y1="140"
+            x2="175"
+            y2="75"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert)"
+          />
+          <line
+            x1="175"
+            y1="140"
+            x2="175"
+            y2="205"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert)"
+          />
+          <line
+            x1="405"
+            y1="140"
+            x2="405"
+            y2="75"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert)"
+          />
+          <line
+            x1="405"
+            y1="140"
+            x2="405"
+            y2="205"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert)"
+          />
 
-          <!-- Level 3: Four Horizontal Bars -->
-          <line x1="175" y1="75" x2="115" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="175" y1="75" x2="235" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="175" y1="205" x2="115" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="175" y1="205" x2="235" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="405" y1="75" x2="345" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="405" y1="75" x2="465" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="405" y1="205" x2="345" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
-          <line x1="405" y1="205" x2="465" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub)" />
+          <!-- Level 2: Four Horizontal Bars -->
+          <line
+            x1="175"
+            y1="75"
+            x2="115"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="175"
+            y1="75"
+            x2="235"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="175"
+            y1="205"
+            x2="115"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="175"
+            y1="205"
+            x2="235"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="405"
+            y1="75"
+            x2="345"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="405"
+            y1="75"
+            x2="465"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="405"
+            y1="205"
+            x2="345"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
+          <line
+            x1="405"
+            y1="205"
+            x2="465"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub)"
+          />
 
           <!-- Level 4: Eight Vertical Terminal Arrows -->
-          <line x1="115" y1="75" x2="115" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="115" y1="75" x2="115" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="235" y1="75" x2="235" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="235" y1="75" x2="235" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="115" y1="205" x2="115" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="115" y1="205" x2="115" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="235" y1="205" x2="235" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="235" y1="205" x2="235" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="345" y1="75" x2="345" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="345" y1="75" x2="345" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="465" y1="75" x2="465" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="465" y1="75" x2="465" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="345" y1="205" x2="345" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="345" y1="205" x2="345" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="465" y1="205" x2="465" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
-          <line x1="465" y1="205" x2="465" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term)" />
+          <line
+            x1="115"
+            y1="75"
+            x2="115"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="115"
+            y1="75"
+            x2="115"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="235"
+            y1="75"
+            x2="235"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="235"
+            y1="75"
+            x2="235"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="115"
+            y1="205"
+            x2="115"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="115"
+            y1="205"
+            x2="115"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="235"
+            y1="205"
+            x2="235"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="235"
+            y1="205"
+            x2="235"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="345"
+            y1="75"
+            x2="345"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="345"
+            y1="75"
+            x2="345"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="465"
+            y1="75"
+            x2="465"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="465"
+            y1="75"
+            x2="465"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="345"
+            y1="205"
+            x2="345"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="345"
+            y1="205"
+            x2="345"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="465"
+            y1="205"
+            x2="465"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
+          <line
+            x1="465"
+            y1="205"
+            x2="465"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term)"
+          />
 
           <!-- Nodes with clean styling -->
-          <circle cx="290" cy="140" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
-          <text x="290" y="158" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0f172a">0</text>
-          
-          <circle cx="175" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
-          <circle cx="405" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
-          <circle cx="175" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="175" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="405" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="405" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="115" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="235" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="115" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="235" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="345" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="465" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="345" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="465" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle
+            cx="290"
+            cy="140"
+            r="6"
+            fill="#0f172a"
+            stroke="#ffffff"
+            stroke-width="2"
+          />
+          <text
+            x="290"
+            y="158"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            0
+          </text>
+
+          <circle
+            cx="175"
+            cy="140"
+            r="5"
+            fill="#ffffff"
+            stroke="#0f766e"
+            stroke-width="2"
+          />
+          <circle
+            cx="405"
+            cy="140"
+            r="5"
+            fill="#ffffff"
+            stroke="#0f766e"
+            stroke-width="2"
+          />
+          <circle
+            cx="175"
+            cy="75"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="175"
+            cy="205"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="405"
+            cy="75"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="405"
+            cy="205"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="115"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="235"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="115"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="235"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="345"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="465"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="345"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="465"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
 
           <!-- Bottom Summary Badge -->
-          <rect x="100" y="246" width="400" height="24" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
-          <text x="300" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling (4ⁿ Cells)</text>
+          <rect
+            x="100"
+            y="246"
+            width="400"
+            height="24"
+            rx="4"
+            fill="#f0fdf4"
+            stroke="#86efac"
+            stroke-width="1"
+          />
+          <text
+            x="300"
+            y="262"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#15803d"
+          >
+            Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling
+            (4ⁿ Cells)
+          </text>
         </svg>
-        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px;"><i>Figure 3: Alternating Orthogonal Steps (x ↔ y) &mdash; Space partitioned via 90° turns and halved link lengths (1, 1/2, 1/4...)</i></div>
+        <div style="font-size: 0.85em; color: #64748b; margin-top: 5px">
+          <i
+            >Figure 3: Alternating Orthogonal Steps (x ↔ y) &mdash; Space
+            partitioned via 90° turns and halved link lengths (1, 1/2,
+            1/4...)</i
+          >
+        </div>
       </div>
-      
     </div>
 
-    <hr>
+    <hr />
 
-    <h3>4. The Duality of Scale: Shrinking Links (Continua) vs. Expanding Links (Integers)</h3>
+    <h3>
+      4. The Duality of Scale: Shrinking Links (Continua) vs. Expanding Links
+      (Integers)
+    </h3>
     <p>
-      When we examine the metric scaling of tree links across generations, we encounter a remarkable insight: <b>the micro-world of the continuum and the macro-world of the integers are reflections of the exact same dyadic geometry</b>.
+      When we examine the metric scaling of tree links across generations, we
+      encounter a remarkable insight:
+      <b
+        >the micro-world of the continuum and the macro-world of the integers
+        are reflections of the exact same dyadic geometry</b
+      >.
     </p>
 
-    <div align="center" style="margin: 20px 0;">
-      <table style="width: 100%; max-width: 760px; border-collapse: collapse; margin: 16px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div align="center" style="margin: 20px 0">
+      <table
+        style="
+          width: 100%;
+          max-width: 760px;
+          border-collapse: collapse;
+          margin: 16px auto;
+          font-size: 13.5px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        "
+      >
         <thead>
-          <tr style="background-color: #1e3a8a; color: #ffffff;">
-            <th style="padding: 10px 14px; text-align: left; width: 25%;">Perspective</th>
-            <th style="padding: 10px 14px; text-align: left; width: 35%;">Metric Scaling Rule</th>
-            <th style="padding: 10px 14px; text-align: left; width: 40%;">Mathematical Realm Generated</th>
+          <tr style="background-color: #1e3a8a; color: #ffffff">
+            <th style="padding: 10px 14px; text-align: left; width: 25%">
+              Perspective
+            </th>
+            <th style="padding: 10px 14px; text-align: left; width: 35%">
+              Metric Scaling Rule
+            </th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%">
+              Mathematical Realm Generated
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Shrinking Links<br><span style="color: #2563eb; font-size: 0.9em;">(Microscopic Dive)</span></b></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Halving step lengths at each depth:</b><br><code>1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>The Real Continuum &amp; Infinitesimals:</b><br>Subdivides intervals into dense dyadic cuts, reaching the infinitesimal differentials <code>dx = 1/ω</code> born at <code>ω</code>.</td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b
+                >Shrinking Links<br /><span
+                  style="color: #2563eb; font-size: 0.9em"
+                  >(Microscopic Dive)</span
+                ></b
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Halving step lengths at each depth:</b><br /><code
+                >1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>The Real Continuum &amp; Infinitesimals:</b><br />Subdivides
+              intervals into dense dyadic cuts, reaching the infinitesimal
+              differentials <code>dx = 1/ω</code> born at <code>ω</code>.
+            </td>
           </tr>
-          <tr style="background-color: #f8fafc;">
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Expanding Links<br><span style="color: #7c3aed; font-size: 0.9em;">(Macroscopic Reach)</span></b></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Doubling step lengths at each depth:</b><br><code>1, 2, 4, 8, ..., 2⁺ᵈ</code></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Unbounded Integers &amp; Transfinite Horizon:</b><br>Expands outward to span all unbounded integers, reaching the infinite scale <code>Ω = 2^ω</code>.</td>
+          <tr style="background-color: #f8fafc">
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b
+                >Expanding Links<br /><span
+                  style="color: #7c3aed; font-size: 0.9em"
+                  >(Macroscopic Reach)</span
+                ></b
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Doubling step lengths at each depth:</b><br /><code
+                >1, 2, 4, 8, ..., 2⁺ᵈ</code
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Unbounded Integers &amp; Transfinite Horizon:</b><br />Expands
+              outward to span all unbounded integers, reaching the infinite
+              scale <code>Ω = 2^ω</code>.
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <p>
-      <b>Fractal Scale Invariance:</b><br>
-      Because the branching graph is perfectly self-similar across base-2 powers, a local snapshot of the tree is scale-invariant. 
-      You cannot tell whether you are looking at <b>cosmic powers doubling outward toward infinity</b> or <b>sub-microscopic cuts halving inward toward infinitesimals</b>. 
-      The tree geometry unifies the boundless macrocosm with the continuous microcosm under a single, elegant law.
+      <b>Fractal Scale Invariance:</b><br />
+      Because the branching graph is perfectly self-similar across base-2
+      powers, a local snapshot of the tree is scale-invariant. You cannot tell
+      whether you are looking at
+      <b>cosmic powers doubling outward toward infinity</b> or
+      <b>sub-microscopic cuts halving inward toward infinitesimals</b>. The tree
+      geometry unifies the boundless macrocosm with the continuous microcosm
+      under a single, elegant law.
     </p>
 
-    <hr>
+    <hr />
 
-    <h3>5. The Jump to Standard Analysis: Families of Sets &amp; Intrinsic Spaces</h3>
+    <h3>
+      5. The Jump to Standard Analysis: Families of Sets &amp; Intrinsic Spaces
+    </h3>
     <p>
-      In our core track, numbers come equipped with intrinsic geometric coordinates through their inductive tree addresses in <code>ℝ_ω</code> and <code>ℂ_ω</code>. 
-      Every neighborhood, infinitesimal interval, and dyadic slice is already built into the graph.
-    </p>
-    
-    <p>
-      Standard continuous analysis, however, discards these discrete tree branches and views the real numbers <code>ℝ</code> and complex numbers <code>ℂ</code> as an unstructured dust of points. 
-      To recover continuity, limits, open neighborhoods, and area/volume integration, standard analysis cannot rely on simple pairwise unions (<code>A ⋃ B</code>) or intersections (<code>A ⋂ B</code>). 
-      It must glue together infinite collections of subsets simultaneously.
+      In our core track, numbers come equipped with intrinsic geometric
+      coordinates through their inductive tree addresses in <code>ℝ_ω</code> and
+      <code>ℂ_ω</code>. Every neighborhood, infinitesimal interval, and dyadic
+      slice is already built into the graph.
     </p>
 
     <p>
-      This motivates the concept of an <b>indexed family of sets</b>—a systematic way to label an entire collection of subsets using an index set <code>I</code>. 
-      The whole architecture of standard analysis is governed by <b>set cardinality</b>—the size permitted for this index set:
+      Standard continuous analysis, however, discards these discrete tree
+      branches and views the real numbers <code>ℝ</code> and complex numbers
+      <code>ℂ</code> as an unstructured dust of points. To recover continuity,
+      limits, open neighborhoods, and area/volume integration, standard analysis
+      cannot rely on simple pairwise unions (<code>A ⋃ B</code>) or
+      intersections (<code>A ⋂ B</code>). It must glue together infinite
+      collections of subsets simultaneously.
+    </p>
+
+    <p>
+      This motivates the concept of an <b>indexed family of sets</b>—a
+      systematic way to label an entire collection of subsets using an index set
+      <code>I</code>. The whole architecture of standard analysis is governed by
+      <b>set cardinality</b>—the size permitted for this index set:
     </p>
 
     <ul>
       <li>
-        <b>Finite Families:</b> Allow basic Boolean combinations, but cannot capture limiting behavior.
+        <b>Finite Families:</b> Allow basic Boolean combinations, but cannot
+        capture limiting behavior.
       </li>
       <li>
-        <b>Countable Families (indexed by <code>ℕ</code>):</b> 
-        Provide the exact scope needed for <b>measure theory</b> and <b>probability spaces (σ-algebras)</b>, where countably infinite sums of weights converge reliably.
+        <b>Countable Families (indexed by <code>ℕ</code>):</b>
+        Provide the exact scope needed for <b>measure theory</b> and
+        <b>probability spaces (σ-algebras)</b>, where countably infinite sums of
+        weights converge reliably.
       </li>
       <li>
-        <b>Arbitrary (Uncountable) Families (indexed by <code>ℝ</code> or beyond):</b> 
-        Provide the scope needed for <b>topological spaces</b>, allowing every single point in the continuum to contribute an open ball to a general union.
+        <b
+          >Arbitrary (Uncountable) Families (indexed by <code>ℝ</code> or
+          beyond):</b
+        >
+        Provide the scope needed for <b>topological spaces</b>, allowing every
+        single point in the continuum to contribute an open ball to a general
+        union.
       </li>
     </ul>
 
     <p>
-      In this way, the transition from discrete graph trees to the continuous spaces of STEM topics is mediated by moving from binary set operations to indexed families of sets.
+      In this way, the transition from discrete graph trees to the continuous
+      spaces of STEM topics is mediated by moving from binary set operations to
+      indexed families of sets.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>6. Interactive Exploration: The 2-Successor Tree Demo (BTD)</h3>
     <p>
-      To transition from passive reading to tactile mathematical discovery, the Middle Way curriculum includes the <b>2-Successor Tree Demo (BTD)</b>, accessible directly in the top navigation line:
+      To transition from passive reading to tactile mathematical discovery, the
+      Middle Way curriculum includes the <b>2-Successor Tree Demo (BTD)</b>,
+      accessible directly in the top navigation line:
     </p>
-    <div style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; margin: 16px 0; color: #1e3a8a;">
+    <div
+      style="
+        background-color: #eff6ff;
+        border: 1.5px solid #3b82f6;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 16px 0;
+        color: #1e3a8a;
+      "
+    >
       <b>Exploring the Number Tree Interactively in BTD:</b>
-      <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #1e293b; line-height: 1.6;">
-        <li><b>Static Projections:</b> Toggle between the <i>Plain Tree</i>, <i>Birthday Levels</i> (days <code>0, 1, 2, 3...</code>), <i>Sign Expansions</i> (<code>{ -, + }</code> sequences), <i>Dyadic Fractions</i> (<code>-1, -1/2, 0, 1/2, 1...</code>), and the projected <i>Number Line</i>.</li>
-        <li><b>Simplicity &amp; Cuts:</b> Visualize Conway''s simplicity rule (<code>&lt;s</code>) and how numbers are defined as cuts between older left and right numeric sets: <code>{ L | R }</code>.</li>
-        <li><b>Arithmetic Operations:</b> Experiment with interactive <i>Addition (<code>+</code>)</i> and <i>Multiplication (<code>*</code>)</i>, observing how tree paths recursively compose to form a complete field.</li>
-        <li><b>The Transfinite Horizon:</b> Inspect the <i>State / Ω Inspector</i> to see how the finite dyadic tree extends into transfinite limits at Day <code>ω</code>.</li>
+      <ul
+        style="
+          margin: 8px 0 0 0;
+          padding-left: 20px;
+          color: #1e293b;
+          line-height: 1.6;
+        "
+      >
+        <li>
+          <b>Static Projections:</b> Toggle between the <i>Plain Tree</i>,
+          <i>Birthday Levels</i> (days <code>0, 1, 2, 3...</code>),
+          <i>Sign Expansions</i> (<code>{ -, + }</code> sequences),
+          <i>Dyadic Fractions</i> (<code>-1, -1/2, 0, 1/2, 1...</code>), and the
+          projected <i>Number Line</i>.
+        </li>
+        <li>
+          <b>Simplicity &amp; Cuts:</b> Visualize Conway''s simplicity rule
+          (<code>&lt;s</code>) and how numbers are defined as cuts between older
+          left and right numeric sets: <code>{ L | R }</code>.
+        </li>
+        <li>
+          <b>Arithmetic Operations:</b> Experiment with interactive
+          <i>Addition (<code>+</code>)</i> and
+          <i>Multiplication (<code>*</code>)</i>, observing how tree paths
+          recursively compose to form a complete field.
+        </li>
+        <li>
+          <b>The Transfinite Horizon:</b> Inspect the
+          <i>State / Ω Inspector</i> to see how the finite dyadic tree extends
+          into transfinite limits at Day <code>ω</code>.
+        </li>
       </ul>
     </div>
-', 'published'),
+  ', 'published'),
   (12, 'numbersLecture1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
 <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
@@ -3651,265 +5444,694 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       This allows us to do calculus, Bayesian inference, and quantum wave mechanics using <b>exact algebraic arithmetic</b> without ever getting bogged down in limits. In our next lectures, we''ll explore the geometry of these trees and use them to power physics and computation!”
     </p>
 ', 'published'),
-  (13, 'numbersLecture2', 12, 'Numbers Lecture 2: Binary Trees & Labeled Paths', 'numbers-lecture2', '
-<div align="center">
-      <font size="+2"><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font><br>
-      <font size="+1"><i>Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic Isomorphism</i></font>
+  (13, 'numbersLecture2', 12, '1. The 2-Successor Scaffold: Root and Sign Branches', 'numbers-lecture2', '
+    <div align="center">
+      <font size="+2"
+        ><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font
+      ><br />
+      <font size="+1"
+        ><i
+          >Tree Scaffolding, Labeled Paths, Polar Fans &amp; The Dyadic
+          Isomorphism</i
+        ></font
+      >
     </div>
-    <br>
+    <br />
+
+    <p>“Howdy folks!” Jack said with a grin.</p>
 
     <p>
-      “Howdy folks!” Jack said with a grin.
+      “In our first lecture, we covered a lot of historical territory. Today, we
+      are putting all the abstract set definitions aside so we can focus on
+      something you can actually see and touch:
+      <b>the geometry of the 2-successor tree</b>.”
     </p>
 
     <p>
-      “In our first lecture, we covered a lot of historical territory. Today, we are putting all the abstract set definitions aside so we can focus on something you can actually see and touch: <b>the geometry of the 2-successor tree</b>.”
+      “We don''t need to get bogged down in formal recurrence formulas.
+      Mathematicians like John Conway have already done the heavy lifting,
+      proving that consistent arithmetic lives on this tree. Our goal today is
+      much more fun:
+      <b
+        >understanding how every number is simply a unique address &mdash; a
+        labeled path &mdash; along the tree branches</b
+      >.”
     </p>
 
-    <p>
-      “We don''t need to get bogged down in formal recurrence formulas. Mathematicians like John Conway have already done the heavy lifting, proving that consistent arithmetic lives on this tree. Our goal today is much more fun: <b>understanding how every number is simply a unique address &mdash; a labeled path &mdash; along the tree branches</b>.”
-    </p>
-
-    <hr>
+    <hr />
 
     <h3>1. The 2-Successor Scaffold: Root and Sign Branches</h3>
 
     <p>
-      “The entire universe of real numbers begins with the simplest possible inductive blueprint: <b>a 2-successor tree</b>.”
+      “The entire universe of real numbers begins with the simplest possible
+      inductive blueprint: <b>a 2-successor tree</b>.”
     </p>
 
     <ul>
-      <li><b>The Root:</b> The single starting node, assigned the value <b><code>0</code></b>.</li>
-      <li><b>Two Successors:</b> At every node, two independent branches shoot outward:
+      <li>
+        <b>The Root:</b> The single starting node, assigned the value
+        <b><code>0</code></b
+        >.
+      </li>
+      <li>
+        <b>Two Successors:</b> At every node, two independent branches shoot
+        outward:
         <ul>
-          <li>A <b>Left branch</b>, labeled with a minus sign: <code>[-]</code> (stepping lower in value).</li>
-          <li>A <b>Right branch</b>, labeled with a plus sign: <code>[+]</code> (stepping higher in value).</li>
+          <li>
+            A <b>Left branch</b>, labeled with a minus sign:
+            <code>[-]</code> (stepping lower in value).
+          </li>
+          <li>
+            A <b>Right branch</b>, labeled with a plus sign:
+            <code>[+]</code> (stepping higher in value).
+          </li>
         </ul>
       </li>
     </ul>
 
     <p>
-      “Because each node has two distinct successors that never intersect, every single node in the entire tree possesses a <b>unique sequence of sign labels</b> tracing its path from the root.”
+      “Because each node has two distinct successors that never intersect, every
+      single node in the entire tree possesses a
+      <b>unique sequence of sign labels</b> tracing its path from the root.”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <btd-ref mode="labeled">Interactive Demo: Explore Labeled Sign Paths in BTD</btd-ref>
+    <div align="center" style="margin: 15px 0">
+      <btd-ref mode="labeled"
+        >Interactive Demo: Explore Labeled Sign Paths in BTD</btd-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. The Birthday Metric: Generations of Depth</h3>
 
     <p>
-      “A number’s <b>birthday <code>d</code></b> is simply its depth in the tree &mdash; the number of steps you must take from the root <code>0</code> to reach it:”
+      “A number’s <b>birthday <code>d</code></b> is simply its depth in the tree
+      &mdash; the number of steps you must take from the root <code>0</code> to
+      reach it:”
     </p>
 
     <ul>
-      <li><b>Birthday 0 (Depth 0):</b> The root itself: <code>0</code>. (Path: empty).</li>
-      <li><b>Birthday 1 (Depth 1):</b> Two numbers born:
+      <li>
+        <b>Birthday 0 (Depth 0):</b> The root itself: <code>0</code>. (Path:
+        empty).
+      </li>
+      <li>
+        <b>Birthday 1 (Depth 1):</b> Two numbers born:
         <ul>
-          <li>Path <code>[-]</code> &rarr; <b><code>-1</code></b></li>
-          <li>Path <code>[+]</code> &rarr; <b><code>+1</code></b></li>
+          <li>
+            Path <code>[-]</code> &rarr; <b><code>-1</code></b>
+          </li>
+          <li>
+            Path <code>[+]</code> &rarr; <b><code>+1</code></b>
+          </li>
         </ul>
       </li>
-      <li><b>Birthday 2 (Depth 2):</b> Four numbers born:
+      <li>
+        <b>Birthday 2 (Depth 2):</b> Four numbers born:
         <ul>
-          <li>Path <code>[--]</code> &rarr; <b><code>-2</code></b> (stepping left twice)</li>
-          <li>Path <code>[-+]</code> &rarr; <b><code>-½</code></b> (stepping left, then right)</li>
-          <li>Path <code>[+-]</code> &rarr; <b><code>+½</code></b> (stepping right, then left)</li>
-          <li>Path <code>[++]</code> &rarr; <b><code>+2</code></b> (stepping right twice)</li>
+          <li>
+            Path <code>[--]</code> &rarr; <b><code>-2</code></b> (stepping left
+            twice)
+          </li>
+          <li>
+            Path <code>[-+]</code> &rarr; <b><code>-½</code></b> (stepping left,
+            then right)
+          </li>
+          <li>
+            Path <code>[+-]</code> &rarr; <b><code>+½</code></b> (stepping
+            right, then left)
+          </li>
+          <li>
+            Path <code>[++]</code> &rarr; <b><code>+2</code></b> (stepping right
+            twice)
+          </li>
         </ul>
       </li>
-      <li><b>Birthday 3 (Depth 3):</b> Eight numbers born: <code>-3, -1½, -¾, -¼, +¼, +¾, +1½, +3</code>.</li>
+      <li>
+        <b>Birthday 3 (Depth 3):</b> Eight numbers born:
+        <code>-3, -1½, -¾, -¼, +¼, +¾, +1½, +3</code>.
+      </li>
     </ul>
 
     <p>
-      “At any finite birthday <code>d</code>, exactly <code>2^d</code> new numbers are born into the world!”
+      “At any finite birthday <code>d</code>, exactly <code>2^d</code> new
+      numbers are born into the world!”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <btd-ref mode="birthday">Interactive Demo: Inspect Birthday Levels (Depth d) in BTD</btd-ref>
+    <div align="center" style="margin: 15px 0">
+      <btd-ref mode="birthday"
+        >Interactive Demo: Inspect Birthday Levels (Depth d) in BTD</btd-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. Navigating the Tree: Order and Subtrees</h3>
 
-    <p>
-      “How do we compare two numbers on the tree?”
-    </p>
+    <p>“How do we compare two numbers on the tree?”</p>
 
     <p>
-      “You don''t need complicated formulas &mdash; you can read order directly off the tree''s geometry:”
+      “You don''t need complicated formulas &mdash; you can read order directly
+      off the tree''s geometry:”
     </p>
 
     <ul>
-      <li><b>The Left Subtree:</b> Everything down the Left branch of a node <code>x</code> is strictly <b>less than</b> <code>x</code>.</li>
-      <li><b>The Right Subtree:</b> Everything down the Right branch of a node <code>x</code> is strictly <b>greater than</b> <code>x</code>.</li>
+      <li>
+        <b>The Left Subtree:</b> Everything down the Left branch of a node
+        <code>x</code> is strictly <b>less than</b> <code>x</code>.
+      </li>
+      <li>
+        <b>The Right Subtree:</b> Everything down the Right branch of a node
+        <code>x</code> is strictly <b>greater than</b> <code>x</code>.
+      </li>
     </ul>
 
     <p>
-      “Whenever you branch right (<code>+</code>), you move up in value; whenever you branch left (<code>-</code>), you move down in value. The tree maintains a perfect <b>linear order</b> across all its leaves.”
+      “Whenever you branch right (<code>+</code>), you move up in value;
+      whenever you branch left (<code>-</code>), you move down in value. The
+      tree maintains a perfect <b>linear order</b> across all its leaves.”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <btd-ref mode="subtree">Interactive Demo: Explore Left and Right Subtrees</btd-ref> &nbsp;|&nbsp;
+    <div align="center" style="margin: 15px 0">
+      <btd-ref mode="subtree"
+        >Interactive Demo: Explore Left and Right Subtrees</btd-ref
+      >
+      &nbsp;|&nbsp;
       <btd-ref mode="order">Test Order Relations in BTD</btd-ref>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. The Dual Paths: Outer Expansion vs. Inner Precision</h3>
 
     <p>
-      “As you traverse deeper into the tree, two distinct geometric behaviors emerge depending on which path you follow:”
+      “As you traverse deeper into the tree, two distinct geometric behaviors
+      emerge depending on which path you follow:”
     </p>
 
     <ol>
       <li>
-        <b>The Outer Spine &mdash; Stepping Toward the Horizon:</b><br>
-        If you always choose the same direction (e.g., <code>[+], [++], [+++], ...</code>), you march straight through the integers: <code>1, 2, 3, 4, ...</code> 
-        This path expands outward, scaling up toward the infinite transfinite horizon <b><code>ω</code></b>.
+        <b>The Outer Spine &mdash; Stepping Toward the Horizon:</b><br />
+        If you always choose the same direction (e.g.,
+        <code>[+], [++], [+++], ...</code>), you march straight through the
+        integers: <code>1, 2, 3, 4, ...</code> This path expands outward,
+        scaling up toward the infinite transfinite horizon <b><code>ω</code></b
+        >.
       </li>
-      <br>
+      <br />
       <li>
-        <b>The Inner Zig-Zag &mdash; Diving into the Continuum:</b><br>
-        If you alternate directions (e.g., <code>[+-], [+-+], [+-+-], ...</code>), you cut between previous numbers, halving the interval at each step: <code>1/2, 1/4, 1/8, 1/16, ...</code> 
-        This path drills inward, scaling down toward the infinitesimal differential <b><code>dx = 1/ω</code></b>.
+        <b>The Inner Zig-Zag &mdash; Diving into the Continuum:</b><br />
+        If you alternate directions (e.g.,
+        <code>[+-], [+-+], [+-+-], ...</code>), you cut between previous
+        numbers, halving the interval at each step:
+        <code>1/2, 1/4, 1/8, 1/16, ...</code> This path drills inward, scaling
+        down toward the infinitesimal differential <b><code>dx = 1/ω</code></b
+        >.
       </li>
     </ol>
 
     <p>
-      “Because the binary tree is perfectly self-similar, the geometry of zooming in on an infinitesimal fraction is identical to the geometry of zooming out across boundless integers. The tree unifies the macro-scale and the micro-scale into a single fractal structure.”
+      “Because the binary tree is perfectly self-similar, the geometry of
+      zooming in on an infinitesimal fraction is identical to the geometry of
+      zooming out across boundless integers. The tree unifies the macro-scale
+      and the micro-scale into a single fractal structure.”
     </p>
 
-    <div align="center" style="margin: 18px 0;">
-      <table style="width: 100%; max-width: 760px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div align="center" style="margin: 18px 0">
+      <table
+        style="
+          width: 100%;
+          max-width: 760px;
+          border-collapse: collapse;
+          margin: 14px auto;
+          font-size: 13.5px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        "
+      >
         <thead>
-          <tr style="background-color: #1e3a8a; color: #ffffff;">
-            <th style="padding: 10px 14px; text-align: left; width: 25%;">Perspective</th>
-            <th style="padding: 10px 14px; text-align: left; width: 35%;">Metric Scaling Rule</th>
-            <th style="padding: 10px 14px; text-align: left; width: 40%;">Mathematical Realm Generated</th>
+          <tr style="background-color: #1e3a8a; color: #ffffff">
+            <th style="padding: 10px 14px; text-align: left; width: 25%">
+              Perspective
+            </th>
+            <th style="padding: 10px 14px; text-align: left; width: 35%">
+              Metric Scaling Rule
+            </th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%">
+              Mathematical Realm Generated
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Inner Zig-Zag<br><span style="color: #2563eb; font-size: 0.9em;">(Microscopic Dive)</span></b></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Halving step lengths at each depth:</b><br><code>1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>The Real Continuum &amp; Infinitesimals:</b><br>Subdivides intervals into dense dyadic cuts, reaching the infinitesimal differentials <code>dx = 1/ω</code> born at <code>ω</code>.</td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b
+                >Inner Zig-Zag<br /><span
+                  style="color: #2563eb; font-size: 0.9em"
+                  >(Microscopic Dive)</span
+                ></b
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Halving step lengths at each depth:</b><br /><code
+                >1, 1/2, 1/4, 1/8, ..., 2⁻ᵈ</code
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>The Real Continuum &amp; Infinitesimals:</b><br />Subdivides
+              intervals into dense dyadic cuts, reaching the infinitesimal
+              differentials <code>dx = 1/ω</code> born at <code>ω</code>.
+            </td>
           </tr>
-          <tr style="background-color: #f8fafc;">
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Outer Spine<br><span style="color: #7c3aed; font-size: 0.9em;">(Macroscopic Reach)</span></b></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Doubling step lengths at each depth:</b><br><code>1, 2, 4, 8, ..., 2⁺ᵈ</code></td>
-            <td style="padding: 12px 14px; vertical-align: top;"><b>Unbounded Integers &amp; Transfinite Horizon:</b><br>Expands outward to span all unbounded integers, reaching the infinite scale <code>Ω = 2^ω</code>.</td>
+          <tr style="background-color: #f8fafc">
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b
+                >Outer Spine<br /><span style="color: #7c3aed; font-size: 0.9em"
+                  >(Macroscopic Reach)</span
+                ></b
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Doubling step lengths at each depth:</b><br /><code
+                >1, 2, 4, 8, ..., 2⁺ᵈ</code
+              >
+            </td>
+            <td style="padding: 12px 14px; vertical-align: top">
+              <b>Unbounded Integers &amp; Transfinite Horizon:</b><br />Expands
+              outward to span all unbounded integers, reaching the infinite
+              scale <code>Ω = 2^ω</code>.
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div align="center" style="margin: 15px 0;">
-      <btd-ref mode="precision">Interactive Demo: Inspect Tree Precision &amp; Dual Scales in BTD</btd-ref>
+    <div align="center" style="margin: 15px 0">
+      <btd-ref mode="precision"
+        >Interactive Demo: Inspect Tree Precision &amp; Dual Scales in
+        BTD</btd-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>5. Polar Fans &amp; The Complex Plane: Covering All of Space</h3>
 
     <p>
-      “Now,” Jack said, turning to the chalkboard, “what happens if we interpret our 2-successor branches not as steps along a straight line, but as <b>directional rays fanning out from the origin</b>?”
+      “Now,” Jack said, turning to the chalkboard, “what happens if we interpret
+      our 2-successor branches not as steps along a straight line, but as
+      <b>directional rays fanning out from the origin</b>?”
     </p>
 
     <p>
-      Jill pictured it: “At step 1, the root splits into 2 rays. At step 2, it splits into 4 rays. By birthday <code>d</code>, you have <code>2^d</code> rays fanning outward like the beam of a flashlight!”
+      Jill pictured it: “At step 1, the root splits into 2 rays. At step 2, it
+      splits into 4 rays. By birthday <code>d</code>, you have
+      <code>2^d</code> rays fanning outward like the beam of a flashlight!”
     </p>
 
     <p>
-      “Exactly,” Jack nodded. “And what is the maximum angular spread that flashlight can ever cover?”
+      “Exactly,” Jack nodded. “And what is the maximum angular spread that
+      flashlight can ever cover?”
     </p>
 
     <p>
-      Jill traced the angles: “If each binary branch halves the angle, the rays will densely fill a wedge... but no matter how many millions of times it branches, the entire tree is <b>trapped within 180° &mdash; exactly half of space!</b> The entire world behind the flashlight is completely in the dark!”
+      Jill traced the angles: “If each binary branch halves the angle, the rays
+      will densely fill a wedge... but no matter how many millions of times it
+      branches, the entire tree is
+      <b>trapped within 180° &mdash; exactly half of space!</b> The entire world
+      behind the flashlight is completely in the dark!”
     </p>
 
     <!-- Figure 1: 180° Polar Fan & Blindspot -->
-    <div style="display: flex; justify-content: center; margin: 25px 0;">
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: center; margin: 25px 0">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 310"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <!-- Header -->
           <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
-          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">1. The 2-Successor Tree: 180° Polar Fan &amp; The Half-Space Blindspot</text>
-          
+          <text
+            x="320"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            1. The 2-Successor Tree: 180° Polar Fan &amp; The Half-Space
+            Blindspot
+          </text>
+
           <defs>
-            <marker id="polar-arr-blue2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="polar-arr-blue2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e40af" />
             </marker>
           </defs>
 
           <!-- Upper Half-Plane Background (Illuminated 180° Wedge) -->
-          <path d="M 70 170 A 250 250 0 0 1 570 170 Z" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5" />
-          
+          <path
+            d="M 70 170 A 250 250 0 0 1 570 170 Z"
+            fill="#eff6ff"
+            stroke="#bfdbfe"
+            stroke-width="1.5"
+          />
+
           <!-- Lower Half-Plane Background (180° Blindspot) -->
-          <path d="M 70 170 A 250 250 0 0 0 570 170 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,4" />
+          <path
+            d="M 70 170 A 250 250 0 0 0 570 170 Z"
+            fill="#f8fafc"
+            stroke="#cbd5e1"
+            stroke-width="1.5"
+            stroke-dasharray="4,4"
+          />
 
           <!-- Horizontal Separator Line -->
-          <line x1="45" y1="170" x2="595" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" />
-          <text x="590" y="163" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#64748b">0° / 180° Boundary</text>
+          <line
+            x1="45"
+            y1="170"
+            x2="595"
+            y2="170"
+            stroke="#94a3b8"
+            stroke-width="1.5"
+            stroke-dasharray="4,4"
+          />
+          <text
+            x="590"
+            y="163"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#64748b"
+          >
+            0° / 180° Boundary
+          </text>
 
           <!-- Upper Illuminated Fan Label -->
-          <text x="320" y="52" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">ACTIVE 180° POLAR FAN (Real Continuum ℝ_ω)</text>
-          <text x="320" y="67" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3b82f6">Binary branching sweeps 180° half-space like a flashlight beam</text>
+          <text
+            x="320"
+            y="52"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            ACTIVE 180° POLAR FAN (Real Continuum ℝ_ω)
+          </text>
+          <text
+            x="320"
+            y="67"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            fill="#3b82f6"
+          >
+            Binary branching sweeps 180° half-space like a flashlight beam
+          </text>
 
           <!-- Polar Branches -->
           <!-- Level 0 -> Level 1 -->
-          <line x1="320" y1="170" x2="230" y2="125" stroke="#1e40af" stroke-width="2" />
-          <line x1="320" y1="170" x2="410" y2="125" stroke="#1e40af" stroke-width="2" />
+          <line
+            x1="320"
+            y1="170"
+            x2="230"
+            y2="125"
+            stroke="#1e40af"
+            stroke-width="2"
+          />
+          <line
+            x1="320"
+            y1="170"
+            x2="410"
+            y2="125"
+            stroke="#1e40af"
+            stroke-width="2"
+          />
 
-          <!-- Level 1 -> Level 2 -->
-          <line x1="230" y1="125" x2="140" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="230" y1="125" x2="265" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="410" y1="125" x2="375" y2="95" stroke="#1e40af" stroke-width="1.8" />
-          <line x1="410" y1="125" x2="500" y2="95" stroke="#1e40af" stroke-width="1.8" />
+          <!-- Level 1 -> Level 3 -->
+          <line
+            x1="230"
+            y1="125"
+            x2="140"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="230"
+            y1="125"
+            x2="265"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="410"
+            y1="125"
+            x2="375"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
+          <line
+            x1="410"
+            y1="125"
+            x2="500"
+            y2="95"
+            stroke="#1e40af"
+            stroke-width="1.8"
+          />
 
-          <!-- Level 2 -> Level 3 -->
-          <line x1="140" y1="95" x2="85" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
-          <line x1="140" y1="95" x2="125" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
-          
-          <line x1="265" y1="95" x2="235" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
-          <line x1="265" y1="95" x2="275" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <!-- Level 3 -> Level 2 -->
+          <line
+            x1="140"
+            y1="95"
+            x2="85"
+            y2="82"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
+          <line
+            x1="140"
+            y1="95"
+            x2="125"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
 
-          <line x1="375" y1="95" x2="365" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
-          <line x1="375" y1="95" x2="405" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line
+            x1="265"
+            y1="95"
+            x2="235"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
+          <line
+            x1="265"
+            y1="95"
+            x2="275"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
 
-          <line x1="500" y1="95" x2="515" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
-          <line x1="500" y1="95" x2="555" y2="82" stroke="#2563eb" stroke-width="1.4" marker-end="url(#polar-arr-blue2)" />
+          <line
+            x1="375"
+            y1="95"
+            x2="365"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
+          <line
+            x1="375"
+            y1="95"
+            x2="405"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
+
+          <line
+            x1="500"
+            y1="95"
+            x2="515"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
+          <line
+            x1="500"
+            y1="95"
+            x2="555"
+            y2="82"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#polar-arr-blue2)"
+          />
 
           <!-- Nodes & Labels -->
-          <circle cx="320" cy="170" r="5.5" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5" />
-          <text x="320" y="188" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Root (0)</text>
+          <circle
+            cx="320"
+            cy="170"
+            r="5.5"
+            fill="#1e3a8a"
+            stroke="#ffffff"
+            stroke-width="1.5"
+          />
+          <text
+            x="320"
+            y="188"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            Root (0)
+          </text>
 
           <circle cx="230" cy="125" r="4.5" fill="#2563eb" />
-          <text x="215" y="122" text-anchor="end" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[-] -1</text>
+          <text
+            x="215"
+            y="122"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            [-] -1
+          </text>
 
           <circle cx="410" cy="125" r="4.5" fill="#2563eb" />
-          <text x="425" y="122" text-anchor="start" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">[+] +1</text>
+          <text
+            x="425"
+            y="122"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            [+] +1
+          </text>
 
           <circle cx="140" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="130" y="92" text-anchor="end" font-family="sans-serif" font-size="9" fill="#1e40af">[--] -2</text>
+          <text
+            x="130"
+            y="92"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [--] -2
+          </text>
 
           <circle cx="265" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="265" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[-+] -½</text>
+          <text
+            x="265"
+            y="108"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [-+] -½
+          </text>
 
           <circle cx="375" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="375" y="108" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1e40af">[+-] +½</text>
+          <text
+            x="375"
+            y="108"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [+-] +½
+          </text>
 
           <circle cx="500" cy="95" r="3.8" fill="#3b82f6" />
-          <text x="510" y="92" text-anchor="start" font-family="sans-serif" font-size="9" fill="#1e40af">[++] +2</text>
+          <text
+            x="510"
+            y="92"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="9"
+            fill="#1e40af"
+          >
+            [++] +2
+          </text>
 
           <!-- Lower Half Blindspot Details -->
-          <rect x="140" y="215" width="360" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
-          <text x="320" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#991b1b">180° BLINDSPOT: THE DARK HALF OF SPACE</text>
-          <text x="320" y="256" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Unreachable by 2-successor branches &mdash; confined to a single half-plane!</text>
+          <rect
+            x="140"
+            y="215"
+            width="360"
+            height="60"
+            rx="6"
+            fill="#ffffff"
+            stroke="#cbd5e1"
+            stroke-width="1"
+          />
+          <text
+            x="320"
+            y="238"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#991b1b"
+          >
+            180° BLINDSPOT: THE DARK HALF OF SPACE
+          </text>
+          <text
+            x="320"
+            y="256"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            fill="#64748b"
+          >
+            Unreachable by 2-successor branches &mdash; confined to a single
+            half-plane!
+          </text>
         </svg>
       </div>
     </div>
@@ -3919,76 +6141,291 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 
     <p>
-      “We need <b>two fans spreading out back-to-back</b>!” Jack answered. “And that is precisely what the <b>4-successor complex tree <code>ℂ_ω</code></b> delivers with its four unit directions <code>{ +1, -1, +i, -i }</code>:”
+      “We need <b>two fans spreading out back-to-back</b>!” Jack answered. “And
+      that is precisely what the
+      <b>4-successor complex tree <code>ℂ_ω</code></b> delivers with its four
+      unit directions <code>{ +1, -1, +i, -i }</code>:”
     </p>
 
     <ul>
-      <li><b>Fan 1 (Upper 180° Fan):</b> Sweeps from <code>0° &rarr; 180°</code> (anchored by <code>+1</code>, <code>+i</code>, <code>-1</code>).</li>
-      <li><b>Fan 2 (Lower 180° Fan):</b> Sweeps from <code>180° &rarr; 360°</code> (anchored by <code>-1</code>, <code>-i</code>, <code>+1</code>).</li>
+      <li>
+        <b>Fan 1 (Upper 180° Fan):</b> Sweeps from
+        <code>0° &rarr; 180°</code> (anchored by <code>+1</code>,
+        <code>+i</code>, <code>-1</code>).
+      </li>
+      <li>
+        <b>Fan 2 (Lower 180° Fan):</b> Sweeps from
+        <code>180° &rarr; 360°</code> (anchored by <code>-1</code>,
+        <code>-i</code>, <code>+1</code>).
+      </li>
     </ul>
 
     <p>
-      “With <b>two fans spreading out from the origin</b>, the entire 360° circle is completely illuminated &mdash; there is not a single blindspot anywhere in 2D space!”
+      “With <b>two fans spreading out from the origin</b>, the entire 360°
+      circle is completely illuminated &mdash; there is not a single blindspot
+      anywhere in 2D space!”
     </p>
 
     <!-- Figure 2: Complex Plane as 2 Fans Spreading Out -->
-    <div style="display: flex; justify-content: center; margin: 25px 0;">
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: center; margin: 25px 0">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 370"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <!-- Header -->
           <rect x="0" y="0" width="640" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="640" height="8" fill="#f1f5f9" />
-          <text x="320" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">2. The Complex Plane ℂ_ω: Two Polar Fans Spreading Out (360° All Space)</text>
-          
+          <text
+            x="320"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            2. The Complex Plane ℂ_ω: Two Polar Fans Spreading Out (360° All
+            Space)
+          </text>
+
           <defs>
-            <marker id="fan1-arr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="fan1-arr2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
             </marker>
-            <marker id="fan2-arr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="fan2-arr2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
             </marker>
           </defs>
 
           <!-- Circular Outer Boundary -->
-          <circle cx="320" cy="190" r="145" fill="#fafafa" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />
+          <circle
+            cx="320"
+            cy="190"
+            r="145"
+            fill="#fafafa"
+            stroke="#94a3b8"
+            stroke-width="1.2"
+            stroke-dasharray="3,3"
+          />
 
           <!-- Fan 1 Semicircle (Upper Half 0° -> 180°) -->
-          <path d="M 175 190 A 145 145 0 0 1 465 190 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" />
+          <path
+            d="M 175 190 A 145 145 0 0 1 465 190 Z"
+            fill="#eff6ff"
+            stroke="#3b82f6"
+            stroke-width="1.2"
+          />
 
           <!-- Fan 2 Semicircle (Lower Half 180° -> 360°) -->
-          <path d="M 175 190 A 145 145 0 0 0 465 190 Z" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.2" />
+          <path
+            d="M 175 190 A 145 145 0 0 0 465 190 Z"
+            fill="#fdf4ff"
+            stroke="#a855f7"
+            stroke-width="1.2"
+          />
 
           <!-- Coordinate Axes -->
-          <line x1="145" y1="190" x2="495" y2="190" stroke="#64748b" stroke-width="1.5" />
-          <line x1="320" y1="35" x2="320" y2="345" stroke="#64748b" stroke-width="1.5" />
+          <line
+            x1="145"
+            y1="190"
+            x2="495"
+            y2="190"
+            stroke="#64748b"
+            stroke-width="1.5"
+          />
+          <line
+            x1="320"
+            y1="35"
+            x2="320"
+            y2="345"
+            stroke="#64748b"
+            stroke-width="1.5"
+          />
 
           <!-- Unit Direction Labels -->
-          <text x="480" y="184" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+1 (0°)</text>
-          <text x="320" y="50" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">+i (90°)</text>
-          <text x="160" y="184" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-1 (180°)</text>
-          <text x="320" y="340" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">-i (270°)</text>
+          <text
+            x="480"
+            y="184"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            +1 (0°)
+          </text>
+          <text
+            x="320"
+            y="50"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            +i (90°)
+          </text>
+          <text
+            x="160"
+            y="184"
+            text-anchor="end"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            -1 (180°)
+          </text>
+          <text
+            x="320"
+            y="340"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            -i (270°)
+          </text>
 
           <!-- Fan 1 Branches (Blue - Upper 180°) -->
           <!-- Ray toward 45° -->
-          <line x1="320" y1="190" x2="395" y2="115" stroke="#2563eb" stroke-width="1.8" />
-          <line x1="395" y1="115" x2="435" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
-          <line x1="395" y1="115" x2="415" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
-          
+          <line
+            x1="320"
+            y1="190"
+            x2="395"
+            y2="115"
+            stroke="#2563eb"
+            stroke-width="1.8"
+          />
+          <line
+            x1="395"
+            y1="115"
+            x2="435"
+            y2="90"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr2)"
+          />
+          <line
+            x1="395"
+            y1="115"
+            x2="415"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr2)"
+          />
+
           <!-- Ray toward 135° -->
-          <line x1="320" y1="190" x2="245" y2="115" stroke="#2563eb" stroke-width="1.8" />
-          <line x1="245" y1="115" x2="225" y2="70" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
-          <line x1="245" y1="115" x2="205" y2="90" stroke="#2563eb" stroke-width="1.4" marker-end="url(#fan1-arr2)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="245"
+            y2="115"
+            stroke="#2563eb"
+            stroke-width="1.8"
+          />
+          <line
+            x1="245"
+            y1="115"
+            x2="225"
+            y2="70"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr2)"
+          />
+          <line
+            x1="245"
+            y1="115"
+            x2="205"
+            y2="90"
+            stroke="#2563eb"
+            stroke-width="1.4"
+            marker-end="url(#fan1-arr2)"
+          />
 
           <!-- Fan 2 Branches (Purple - Lower 180°) -->
           <!-- Ray toward 225° -->
-          <line x1="320" y1="190" x2="245" y2="265" stroke="#7c3aed" stroke-width="1.8" />
-          <line x1="245" y1="265" x2="205" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
-          <line x1="245" y1="265" x2="225" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="245"
+            y2="265"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <line
+            x1="245"
+            y1="265"
+            x2="205"
+            y2="290"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr2)"
+          />
+          <line
+            x1="245"
+            y1="265"
+            x2="225"
+            y2="310"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr2)"
+          />
 
           <!-- Ray toward 315° -->
-          <line x1="320" y1="190" x2="395" y2="265" stroke="#7c3aed" stroke-width="1.8" />
-          <line x1="395" y1="265" x2="415" y2="310" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
-          <line x1="395" y1="265" x2="435" y2="290" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#fan2-arr2)" />
+          <line
+            x1="320"
+            y1="190"
+            x2="395"
+            y2="265"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <line
+            x1="395"
+            y1="265"
+            x2="415"
+            y2="310"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr2)"
+          />
+          <line
+            x1="395"
+            y1="265"
+            x2="435"
+            y2="290"
+            stroke="#7c3aed"
+            stroke-width="1.4"
+            marker-end="url(#fan2-arr2)"
+          />
 
           <!-- Fan Nodes -->
           <circle cx="395" cy="115" r="4" fill="#2563eb" />
@@ -3997,463 +6434,1616 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
           <circle cx="395" cy="265" r="4" fill="#7c3aed" />
 
           <!-- Center Root (0) -->
-          <circle cx="320" cy="190" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
-          <text x="332" y="204" text-anchor="start" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">0</text>
+          <circle
+            cx="320"
+            cy="190"
+            r="6"
+            fill="#0f172a"
+            stroke="#ffffff"
+            stroke-width="2"
+          />
+          <text
+            x="332"
+            y="204"
+            text-anchor="start"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            0
+          </text>
 
           <!-- Fan Labels & Badges -->
-          <rect x="360" y="65" width="220" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1" />
-          <text x="470" y="81" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e40af">FAN 1: Upper 180° (0° &rarr; 180°)</text>
+          <rect
+            x="360"
+            y="65"
+            width="220"
+            height="24"
+            rx="4"
+            fill="#ffffff"
+            stroke="#bfdbfe"
+            stroke-width="1"
+          />
+          <text
+            x="470"
+            y="81"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            FAN 1: Upper 180° (0° &rarr; 180°)
+          </text>
 
-          <rect x="60" y="295" width="220" height="24" rx="4" fill="#ffffff" stroke="#e9d5ff" stroke-width="1" />
-          <text x="170" y="311" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">FAN 2: Lower 180° (180° &rarr; 360°)</text>
+          <rect
+            x="60"
+            y="295"
+            width="220"
+            height="24"
+            rx="4"
+            fill="#ffffff"
+            stroke="#e9d5ff"
+            stroke-width="1"
+          />
+          <text
+            x="170"
+            y="311"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            FAN 2: Lower 180° (180° &rarr; 360°)
+          </text>
 
           <!-- Bottom Coverage Badge -->
-          <rect x="150" y="338" width="340" height="22" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
-          <text x="320" y="353" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">2 Fans Spreading Out &rArr; Complete 360° Space Coverage (No Blindspots!)</text>
+          <rect
+            x="150"
+            y="338"
+            width="340"
+            height="22"
+            rx="4"
+            fill="#f0fdf4"
+            stroke="#86efac"
+            stroke-width="1"
+          />
+          <text
+            x="320"
+            y="353"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#15803d"
+          >
+            2 Fans Spreading Out &rArr; Complete 360° Space Coverage (No
+            Blindspots!)
+          </text>
         </svg>
       </div>
     </div>
 
     <p>
-      Jill smiled: “So the ''imaginary'' number <code>i</code> isn''t some weird algebraic trick &mdash; it''s just the <b>perpendicular 90° steering turn</b> that activates the second fan and unlocks all of space!”
+      Jill smiled: “So the ''imaginary'' number <code>i</code> isn''t some weird
+      algebraic trick &mdash; it''s just the
+      <b>perpendicular 90° steering turn</b> that activates the second fan and
+      unlocks all of space!”
     </p>
 
     <p>
-      “And look what happens if we step along Cartesian axes instead of polar angles,” Jack added, showing a third sketch:
+      “And look what happens if we step along Cartesian axes instead of polar
+      angles,” Jack added, showing a third sketch:
     </p>
 
     <!-- Figure 3: Cartesian Orthogonal H-Tree -->
-    <div style="display: flex; justify-content: center; margin: 25px 0;">
-      <div style="width: 100%; max-width: 640px; text-align: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: center; margin: 25px 0">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 600 280"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          "
+        >
           <!-- Header -->
           <rect x="0" y="0" width="600" height="28" fill="#f1f5f9" rx="8" />
           <rect x="0" y="20" width="600" height="8" fill="#f1f5f9" />
-          <text x="300" y="19" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)</text>
-          
+          <text
+            x="300"
+            y="19"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            3. Cartesian View: The Orthogonal H-Tree (x ↔ y Alternation)
+          </text>
+
           <defs>
-            <marker id="cart-arr-spine2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-spine2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#0f766e" />
             </marker>
-            <marker id="cart-arr-vert2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-vert2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
             </marker>
-            <marker id="cart-arr-sub2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-sub2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
             </marker>
-            <marker id="cart-arr-term2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker
+              id="cart-arr-term2"
+              viewBox="0 0 10 10"
+              refX="6"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#4f46e5" />
             </marker>
           </defs>
 
           <!-- Level 1: Central Horizontal Spine (x-axis) -->
-          <line x1="290" y1="140" x2="175" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine2)" />
-          <line x1="290" y1="140" x2="405" y2="140" stroke="#0f766e" stroke-width="2.2" marker-end="url(#cart-arr-spine2)" />
+          <line
+            x1="290"
+            y1="140"
+            x2="175"
+            y2="140"
+            stroke="#0f766e"
+            stroke-width="2.2"
+            marker-end="url(#cart-arr-spine2)"
+          />
+          <line
+            x1="290"
+            y1="140"
+            x2="405"
+            y2="140"
+            stroke="#0f766e"
+            stroke-width="2.2"
+            marker-end="url(#cart-arr-spine2)"
+          />
 
-          <!-- Level 2: Left & Right Vertical Bars (y-axis perpendiculars) -->
-          <line x1="175" y1="140" x2="175" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
-          <line x1="175" y1="140" x2="175" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
-          <line x1="405" y1="140" x2="405" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
-          <line x1="405" y1="140" x2="405" y2="205" stroke="#7c3aed" stroke-width="2" marker-end="url(#cart-arr-vert2)" />
+          <!-- Level 3: Left & Right Vertical Bars (y-axis perpendiculars) -->
+          <line
+            x1="175"
+            y1="140"
+            x2="175"
+            y2="75"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert2)"
+          />
+          <line
+            x1="175"
+            y1="140"
+            x2="175"
+            y2="205"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert2)"
+          />
+          <line
+            x1="405"
+            y1="140"
+            x2="405"
+            y2="75"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert2)"
+          />
+          <line
+            x1="405"
+            y1="140"
+            x2="405"
+            y2="205"
+            stroke="#7c3aed"
+            stroke-width="2"
+            marker-end="url(#cart-arr-vert2)"
+          />
 
-          <!-- Level 3: Four Horizontal Bars (x-axis perpendiculars) -->
-          <line x1="175" y1="75" x2="115" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="175" y1="75" x2="235" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="175" y1="205" x2="115" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="175" y1="205" x2="235" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="405" y1="75" x2="345" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="405" y1="75" x2="465" y2="75" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="405" y1="205" x2="345" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
-          <line x1="405" y1="205" x2="465" y2="205" stroke="#2563eb" stroke-width="1.8" marker-end="url(#cart-arr-sub2)" />
+          <!-- Level 2: Four Horizontal Bars (x-axis perpendiculars) -->
+          <line
+            x1="175"
+            y1="75"
+            x2="115"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="175"
+            y1="75"
+            x2="235"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="175"
+            y1="205"
+            x2="115"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="175"
+            y1="205"
+            x2="235"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="405"
+            y1="75"
+            x2="345"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="405"
+            y1="75"
+            x2="465"
+            y2="75"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="405"
+            y1="205"
+            x2="345"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
+          <line
+            x1="405"
+            y1="205"
+            x2="465"
+            y2="205"
+            stroke="#2563eb"
+            stroke-width="1.8"
+            marker-end="url(#cart-arr-sub2)"
+          />
 
           <!-- Level 4: Eight Vertical Terminal Arrows -->
-          <line x1="115" y1="75" x2="115" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="115" y1="75" x2="115" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="235" y1="75" x2="235" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="235" y1="75" x2="235" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="115" y1="205" x2="115" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="115" y1="205" x2="115" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="235" y1="205" x2="235" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="235" y1="205" x2="235" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="345" y1="75" x2="345" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="345" y1="75" x2="345" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="465" y1="75" x2="465" y2="52" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="465" y1="75" x2="465" y2="98" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="345" y1="205" x2="345" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="345" y1="205" x2="345" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="465" y1="205" x2="465" y2="182" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
-          <line x1="465" y1="205" x2="465" y2="228" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#cart-arr-term2)" />
+          <line
+            x1="115"
+            y1="75"
+            x2="115"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="115"
+            y1="75"
+            x2="115"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="235"
+            y1="75"
+            x2="235"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="235"
+            y1="75"
+            x2="235"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="115"
+            y1="205"
+            x2="115"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="115"
+            y1="205"
+            x2="115"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="235"
+            y1="205"
+            x2="235"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="235"
+            y1="205"
+            x2="235"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="345"
+            y1="75"
+            x2="345"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="345"
+            y1="75"
+            x2="345"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="465"
+            y1="75"
+            x2="465"
+            y2="52"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="465"
+            y1="75"
+            x2="465"
+            y2="98"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="345"
+            y1="205"
+            x2="345"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="345"
+            y1="205"
+            x2="345"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="465"
+            y1="205"
+            x2="465"
+            y2="182"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
+          <line
+            x1="465"
+            y1="205"
+            x2="465"
+            y2="228"
+            stroke="#4f46e5"
+            stroke-width="1.5"
+            marker-end="url(#cart-arr-term2)"
+          />
 
           <!-- Open Nodes with styling -->
-          <circle cx="290" cy="140" r="6" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
-          <text x="290" y="158" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0f172a">0</text>
-          
-          <circle cx="175" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
-          <circle cx="405" cy="140" r="5" fill="#ffffff" stroke="#0f766e" stroke-width="2" />
-          <circle cx="175" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="175" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="405" cy="75" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="405" cy="205" r="4.5" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
-          <circle cx="115" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="235" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="115" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="235" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="345" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="465" cy="75" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="345" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
-          <circle cx="465" cy="205" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+          <circle
+            cx="290"
+            cy="140"
+            r="6"
+            fill="#0f172a"
+            stroke="#ffffff"
+            stroke-width="2"
+          />
+          <text
+            x="290"
+            y="158"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#0f172a"
+          >
+            0
+          </text>
+
+          <circle
+            cx="175"
+            cy="140"
+            r="5"
+            fill="#ffffff"
+            stroke="#0f766e"
+            stroke-width="2"
+          />
+          <circle
+            cx="405"
+            cy="140"
+            r="5"
+            fill="#ffffff"
+            stroke="#0f766e"
+            stroke-width="2"
+          />
+          <circle
+            cx="175"
+            cy="75"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="175"
+            cy="205"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="405"
+            cy="75"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="405"
+            cy="205"
+            r="4.5"
+            fill="#ffffff"
+            stroke="#7c3aed"
+            stroke-width="1.8"
+          />
+          <circle
+            cx="115"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="235"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="115"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="235"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="345"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="465"
+            cy="75"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="345"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="465"
+            cy="205"
+            r="4"
+            fill="#ffffff"
+            stroke="#2563eb"
+            stroke-width="1.5"
+          />
 
           <!-- Bottom Summary Badge -->
-          <rect x="100" y="246" width="400" height="24" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
-          <text x="300" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling (4ⁿ Cells)</text>
+          <rect
+            x="100"
+            y="246"
+            width="400"
+            height="24"
+            rx="4"
+            fill="#f0fdf4"
+            stroke="#86efac"
+            stroke-width="1"
+          />
+          <text
+            x="300"
+            y="262"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="10"
+            font-weight="bold"
+            fill="#15803d"
+          >
+            Alternating Perpendiculars (x ↔ y) &rArr; Complete 2D Grid Tiling
+            (4ⁿ Cells)
+          </text>
         </svg>
       </div>
     </div>
 
     <p>
-      “Keep all of this in your back pocket,” Jack winked. “When we reach Quantum Logic, that 4-way turn and its two spreading fans will unlock wave interference and the entire quantum world!”
+      “Keep all of this in your back pocket,” Jack winked. “When we reach
+      Quantum Logic, that 4-way turn and its two spreading fans will unlock wave
+      interference and the entire quantum world!”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>6. The Dyadic Isomorphism: Preserving Elements &amp; Operations</h3>
 
     <p>
-      “Now that we''ve seen how the tree branches both outward toward integers and inward toward fractions,” Jack continued, “look at the exact numerical values produced at finite birthdays.”
+      “Now that we''ve seen how the tree branches both outward toward integers
+      and inward toward fractions,” Jack continued, “look at the exact numerical
+      values produced at finite birthdays.”
     </p>
 
     <p>
-      “Every single path corresponds to an integer or a fraction whose denominator is a power of 2!” Jill observed.
+      “Every single path corresponds to an integer or a fraction whose
+      denominator is a power of 2!” Jill observed.
     </p>
 
     <p>
-      “Exactly!” Jack nodded. “Mathematicians call this an <b>isomorphism</b>. And what makes an isomorphism so powerful is that it is <b>not just a renaming of elements &mdash; it preserves the actual mathematical operations</b>!”
+      “Exactly!” Jack nodded. “Mathematicians call this an <b>isomorphism</b>.
+      And what makes an isomorphism so powerful is that it is
+      <b
+        >not just a renaming of elements &mdash; it preserves the actual
+        mathematical operations</b
+      >!”
     </p>
 
-    <div align="center" style="margin: 18px 0;">
-      <table style="width: 100%; max-width: 720px; border-collapse: collapse; margin: 14px auto; font-size: 13.5px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div align="center" style="margin: 18px 0">
+      <table
+        style="
+          width: 100%;
+          max-width: 720px;
+          border-collapse: collapse;
+          margin: 14px auto;
+          font-size: 13.5px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        "
+      >
         <thead>
-          <tr style="background-color: #1e3a8a; color: #ffffff;">
-            <th style="padding: 10px 14px; text-align: left; width: 40%;">Sign Path on the 2-Successor Tree</th>
-            <th style="padding: 10px 14px; text-align: center; width: 20%;">Birthday</th>
-            <th style="padding: 10px 14px; text-align: left; width: 40%;">Isomorphic Dyadic Rational</th>
+          <tr style="background-color: #1e3a8a; color: #ffffff">
+            <th style="padding: 10px 14px; text-align: left; width: 40%">
+              Sign Path on the 2-Successor Tree
+            </th>
+            <th style="padding: 10px 14px; text-align: center; width: 20%">
+              Birthday
+            </th>
+            <th style="padding: 10px 14px; text-align: left; width: 40%">
+              Isomorphic Dyadic Rational
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 10px 14px;"><code>(root)</code></td>
-            <td style="padding: 10px 14px;" align="center">0</td>
-            <td style="padding: 10px 14px;"><b><code>0</code></b></td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 10px 14px"><code>(root)</code></td>
+            <td style="padding: 10px 14px" align="center">0</td>
+            <td style="padding: 10px 14px">
+              <b><code>0</code></b>
+            </td>
           </tr>
-          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 10px 14px;"><code>[+]</code> &nbsp;|&nbsp; <code>[-]</code></td>
-            <td style="padding: 10px 14px;" align="center">1</td>
-            <td style="padding: 10px 14px;"><b><code>+1</code></b> &nbsp;|&nbsp; <b><code>-1</code></b></td>
+          <tr
+            style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 10px 14px">
+              <code>[+]</code> &nbsp;|&nbsp; <code>[-]</code>
+            </td>
+            <td style="padding: 10px 14px" align="center">1</td>
+            <td style="padding: 10px 14px">
+              <b><code>+1</code></b> &nbsp;|&nbsp; <b><code>-1</code></b>
+            </td>
           </tr>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 10px 14px;"><code>[++]</code> &nbsp;|&nbsp; <code>[+-]</code></td>
-            <td style="padding: 10px 14px;" align="center">2</td>
-            <td style="padding: 10px 14px;"><b><code>+2</code></b> &nbsp;|&nbsp; <b><code>+½</code></b></td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 10px 14px">
+              <code>[++]</code> &nbsp;|&nbsp; <code>[+-]</code>
+            </td>
+            <td style="padding: 10px 14px" align="center">2</td>
+            <td style="padding: 10px 14px">
+              <b><code>+2</code></b> &nbsp;|&nbsp; <b><code>+½</code></b>
+            </td>
           </tr>
-          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 10px 14px;"><code>[-+]</code> &nbsp;|&nbsp; <code>[--]</code></td>
-            <td style="padding: 10px 14px;" align="center">2</td>
-            <td style="padding: 10px 14px;"><b><code>-½</code></b> &nbsp;|&nbsp; <b><code>-2</code></b></td>
+          <tr
+            style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 10px 14px">
+              <code>[-+]</code> &nbsp;|&nbsp; <code>[--]</code>
+            </td>
+            <td style="padding: 10px 14px" align="center">2</td>
+            <td style="padding: 10px 14px">
+              <b><code>-½</code></b> &nbsp;|&nbsp; <b><code>-2</code></b>
+            </td>
           </tr>
-          <tr style="background-color: #ffffff;">
-            <td style="padding: 10px 14px;"><code>[++-]</code> &nbsp;|&nbsp; <code>[+-+]</code></td>
-            <td style="padding: 10px 14px;" align="center">3</td>
-            <td style="padding: 10px 14px;"><b><code>+1½</code></b> &nbsp;|&nbsp; <b><code>+¾</code></b></td>
+          <tr style="background-color: #ffffff">
+            <td style="padding: 10px 14px">
+              <code>[++-]</code> &nbsp;|&nbsp; <code>[+-+]</code>
+            </td>
+            <td style="padding: 10px 14px" align="center">3</td>
+            <td style="padding: 10px 14px">
+              <b><code>+1½</code></b> &nbsp;|&nbsp; <b><code>+¾</code></b>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Architecture Diagram: The Ordinal Birthday Continuum & Core Isomorphism -->
-    <div style="margin: 14px auto; max-width: 720px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin: 0 0 6px 0; text-align: center;">
+    <div
+      style="
+        margin: 14px auto;
+        max-width: 720px;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      "
+    >
+      <div
+        style="
+          font-weight: 700;
+          color: #1e3a8a;
+          font-size: 13.5px;
+          margin: 0 0 6px 0;
+          text-align: center;
+        "
+      >
         The Ordinal Birthday Architecture of Conway Tree Numbers
       </div>
-      <svg viewBox="0 0 720 175" style="width: 100%; max-width: 720px; height: auto; aspect-ratio: 720 / 175; display: block; margin: 0 auto; font-family: system-ui, -apple-system, sans-serif;">
+      <svg
+        viewBox="0 0 720 175"
+        style="
+          width: 100%;
+          max-width: 720px;
+          height: auto;
+          aspect-ratio: 720 / 175;
+          display: block;
+          margin: 0 auto;
+          font-family:
+            system-ui,
+            -apple-system,
+            sans-serif;
+        "
+      >
         <defs>
-          <pattern id="gridPatternCompact" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+          <pattern
+            id="gridPatternCompact"
+            width="20"
+            height="20"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 20 0 L 0 0 0 20"
+              fill="none"
+              stroke="#f1f5f9"
+              stroke-width="1"
+            />
           </pattern>
-          <marker id="arrowCompact" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1e293b"/>
+          <marker
+            id="arrowCompact"
+            viewBox="0 0 10 10"
+            refX="5"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1e293b" />
           </marker>
         </defs>
 
         <!-- Grid Background -->
-        <rect width="720" height="175" fill="url(#gridPatternCompact)" rx="4"/>
+        <rect width="720" height="175" fill="url(#gridPatternCompact)" rx="4" />
 
         <!-- Main Vertical Axis (birthday: Ordinal) -->
-        <line x1="240" y1="165" x2="240" y2="12" stroke="#1e293b" stroke-width="1.8" marker-end="url(#arrowCompact)"/>
-        <text x="70" y="18" font-size="11.5" font-weight="700" fill="#334155">birthday: Ordinal</text>
-        <text x="360" y="18" font-size="12.5" font-weight="700" fill="#0f172a">Conway number tree numbers</text>
+        <line
+          x1="240"
+          y1="165"
+          x2="240"
+          y2="12"
+          stroke="#1e293b"
+          stroke-width="1.8"
+          marker-end="url(#arrowCompact)"
+        />
+        <text x="70" y="18" font-size="11.5" font-weight="700" fill="#334155">
+          birthday: Ordinal
+        </text>
+        <text x="360" y="18" font-size="12.5" font-weight="700" fill="#0f172a">
+          Conway number tree numbers
+        </text>
 
         <!-- Level ε₀ (dashed line) -->
-        <line x1="240" y1="50" x2="540" y2="50" stroke="#475569" stroke-width="1.3" stroke-dasharray="5 4"/>
-        <text x="248" y="47" font-size="18" font-style="italic" font-family="Georgia, serif" font-weight="700" fill="#0f172a">ε₀</text>
+        <line
+          x1="240"
+          y1="50"
+          x2="540"
+          y2="50"
+          stroke="#475569"
+          stroke-width="1.3"
+          stroke-dasharray="5 4"
+        />
+        <text
+          x="248"
+          y="47"
+          font-size="18"
+          font-style="italic"
+          font-family="Georgia, serif"
+          font-weight="700"
+          fill="#0f172a"
+        >
+          ε₀
+        </text>
 
         <!-- Box: [| transfinite induction |] -->
         <g transform="translate(60, 36)">
-          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
-          <line x1="9" y1="0" x2="9" y2="24" stroke="#1e293b" stroke-width="1.3"/>
-          <line x1="136" y1="0" x2="136" y2="24" stroke="#1e293b" stroke-width="1.3"/>
-          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">transfinite induction</text>
+          <rect
+            x="0"
+            y="0"
+            width="145"
+            height="24"
+            fill="#ffffff"
+            stroke="#1e293b"
+            stroke-width="1.3"
+            rx="2"
+          />
+          <line
+            x1="9"
+            y1="0"
+            x2="9"
+            y2="24"
+            stroke="#1e293b"
+            stroke-width="1.3"
+          />
+          <line
+            x1="136"
+            y1="0"
+            x2="136"
+            y2="24"
+            stroke="#1e293b"
+            stroke-width="1.3"
+          />
+          <text
+            x="72.5"
+            y="16"
+            text-anchor="middle"
+            font-size="10.5"
+            font-weight="600"
+            fill="#1e293b"
+          >
+            transfinite induction
+          </text>
         </g>
 
         <!-- Level ω (dotted line across) -->
-        <line x1="20" y1="94" x2="700" y2="94" stroke="#1e293b" stroke-width="1.8" stroke-dasharray="3 5"/>
-        <text x="248" y="89" font-size="20" font-style="italic" font-family="Georgia, serif" font-weight="700" fill="#0f172a">ω</text>
+        <line
+          x1="20"
+          y1="94"
+          x2="700"
+          y2="94"
+          stroke="#1e293b"
+          stroke-width="1.8"
+          stroke-dasharray="3 5"
+        />
+        <text
+          x="248"
+          y="89"
+          font-size="20"
+          font-style="italic"
+          font-family="Georgia, serif"
+          font-weight="700"
+          fill="#0f172a"
+        >
+          ω
+        </text>
 
         <!-- Box: ( recursive definitions ) above ω -->
         <g transform="translate(50, 68)">
-          <rect x="0" y="0" width="155" height="23" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="8"/>
-          <text x="77.5" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">recursive definitions</text>
+          <rect
+            x="0"
+            y="0"
+            width="155"
+            height="23"
+            fill="#ffffff"
+            stroke="#1e293b"
+            stroke-width="1.3"
+            rx="8"
+          />
+          <text
+            x="77.5"
+            y="15"
+            text-anchor="middle"
+            font-size="10.5"
+            font-weight="600"
+            fill="#1e293b"
+          >
+            recursive definitions
+          </text>
         </g>
 
         <!-- Cardinality Labels -->
-        <text x="615" y="85" font-size="11.5" font-weight="700" fill="#64748b" text-anchor="middle">uncountable</text>
-        <text x="615" y="110" font-size="11.5" font-weight="700" fill="#64748b" text-anchor="middle">countable</text>
+        <text
+          x="615"
+          y="85"
+          font-size="11.5"
+          font-weight="700"
+          fill="#64748b"
+          text-anchor="middle"
+        >
+          uncountable
+        </text>
+        <text
+          x="615"
+          y="110"
+          font-size="11.5"
+          font-weight="700"
+          fill="#64748b"
+          text-anchor="middle"
+        >
+          countable
+        </text>
 
         <!-- Below ω: Finite Tier -->
         <!-- Box: [| finite induction |] -->
         <g transform="translate(60, 124)">
-          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
-          <line x1="9" y1="0" x2="9" y2="24" stroke="#1e293b" stroke-width="1.3"/>
-          <line x1="136" y1="0" x2="136" y2="24" stroke="#1e293b" stroke-width="1.3"/>
-          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">finite induction</text>
+          <rect
+            x="0"
+            y="0"
+            width="145"
+            height="24"
+            fill="#ffffff"
+            stroke="#1e293b"
+            stroke-width="1.3"
+            rx="2"
+          />
+          <line
+            x1="9"
+            y1="0"
+            x2="9"
+            y2="24"
+            stroke="#1e293b"
+            stroke-width="1.3"
+          />
+          <line
+            x1="136"
+            y1="0"
+            x2="136"
+            y2="24"
+            stroke="#1e293b"
+            stroke-width="1.3"
+          />
+          <text
+            x="72.5"
+            y="16"
+            text-anchor="middle"
+            font-size="10.5"
+            font-weight="600"
+            fill="#1e293b"
+          >
+            finite induction
+          </text>
         </g>
 
         <!-- Finite Conway Numbers: Core Isomorphism -->
-        <text x="260" y="115" font-size="11" font-weight="700" fill="#334155">for finite Conway numbers:</text>
+        <text x="260" y="115" font-size="11" font-weight="700" fill="#334155">
+          for finite Conway numbers:
+        </text>
 
         <!-- Box: ( recursive definitions ) -->
         <g transform="translate(290, 124)">
-          <rect x="0" y="0" width="145" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="8"/>
-          <text x="72.5" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">recursive definitions</text>
+          <rect
+            x="0"
+            y="0"
+            width="145"
+            height="24"
+            fill="#ffffff"
+            stroke="#1e293b"
+            stroke-width="1.3"
+            rx="8"
+          />
+          <text
+            x="72.5"
+            y="16"
+            text-anchor="middle"
+            font-size="10.5"
+            font-weight="600"
+            fill="#1e293b"
+          >
+            recursive definitions
+          </text>
         </g>
 
         <!-- Isomorphism Symbol ≡ -->
-        <text x="455" y="141" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e40af">≡</text>
+        <text
+          x="455"
+          y="141"
+          text-anchor="middle"
+          font-size="18"
+          font-weight="bold"
+          fill="#1e40af"
+        >
+          ≡
+        </text>
 
         <!-- Box: [ dyadic arithmetic ] -->
         <g transform="translate(475, 124)">
-          <rect x="0" y="0" width="140" height="24" fill="#ffffff" stroke="#1e293b" stroke-width="1.3" rx="2"/>
-          <text x="70" y="16" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e293b">dyadic arithmetic</text>
+          <rect
+            x="0"
+            y="0"
+            width="140"
+            height="24"
+            fill="#ffffff"
+            stroke="#1e293b"
+            stroke-width="1.3"
+            rx="2"
+          />
+          <text
+            x="70"
+            y="16"
+            text-anchor="middle"
+            font-size="10.5"
+            font-weight="600"
+            fill="#1e293b"
+          >
+            dyadic arithmetic
+          </text>
         </g>
       </svg>
-      <div style="margin-top: 6px; font-size: 12px; line-height: 1.4; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 5px; text-align: center;">
-        <strong style="color: #0f172a;">Core Isomorphism (≡):</strong> 
-        For finite Conway numbers (<code>birthdays &lt; ω</code>), finite induction proves <code>Recursive Definitions ≡ Dyadic Machine Arithmetic</code>. 
-        Above <code>ω</code>, Conway recursion scales to the uncountable continuum and ordinals via transfinite induction.
+      <div
+        style="
+          margin-top: 6px;
+          font-size: 12px;
+          line-height: 1.4;
+          color: #475569;
+          border-top: 1px solid #e2e8f0;
+          padding-top: 5px;
+          text-align: center;
+        "
+      >
+        <strong style="color: #0f172a">Core Isomorphism (≡):</strong>
+        For finite Conway numbers (<code>birthdays &lt; ω</code>), finite
+        induction proves
+        <code>Recursive Definitions ≡ Dyadic Machine Arithmetic</code>. Above
+        <code>ω</code>, Conway recursion scales to the uncountable continuum and
+        ordinals via transfinite induction.
       </div>
     </div>
 
     <!-- Detail for the Curious: Proof of the Dyadic Isomorphism -->
-    <details style="margin: 16px auto; max-width: 740px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 16px; font-size: 13.5px; color: #1e293b;">
-      <summary style="cursor: pointer; font-size: 13.5px; font-weight: bold; color: #1e3a8a; outline: none; user-select: none; display: flex; align-items: center; gap: 8px;">
-        <span>🔍</span> <span>Detail for the Curious: Outline of the Proof of the Dyadic Isomorphism</span>
+    <details
+      style="
+        margin: 16px auto;
+        max-width: 740px;
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 13.5px;
+        color: #1e293b;
+      "
+    >
+      <summary
+        style="
+          cursor: pointer;
+          font-size: 13.5px;
+          font-weight: bold;
+          color: #1e3a8a;
+          outline: none;
+          user-select: none;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        "
+      >
+        <span>🔍</span>
+        <span
+          >Detail for the Curious: Outline of the Proof of the Dyadic
+          Isomorphism</span
+        >
       </summary>
-      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.6;">
-        <p style="margin: 0 0 10px 0;">
-          <b>The Core Statement:</b> Let <code>S_&lt;ω</code> denote the set of numbers in ℝ_ω born at finite birthdays <code>d &lt; ω</code> on the 2-successor tree, and let <code>𝔻 = { m / 2ᵈ | m &isin; ℤ, d &isin; ℕ }</code> be the dyadic rationals. There exists a unique bijective mapping:
+      <div
+        style="
+          margin-top: 12px;
+          padding-top: 12px;
+          border-top: 1px solid #e2e8f0;
+          line-height: 1.6;
+        "
+      >
+        <p style="margin: 0 0 10px 0">
+          <b>The Core Statement:</b> Let <code>S_&lt;ω</code> denote the set of
+          numbers in ℝ_ω born at finite birthdays <code>d &lt; ω</code> on the
+          2-successor tree, and let
+          <code>𝔻 = { m / 2ᵈ | m &isin; ℤ, d &isin; ℕ }</code> be the dyadic
+          rationals. There exists a unique bijective mapping:
         </p>
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 6px 12px; max-width: 480px;">
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 13px;
+            margin: 8px auto;
+            color: #1e3a8a;
+            background-color: #f0f7ff;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 6px 12px;
+            max-width: 480px;
+          "
+        >
           &phi; : S_&lt;ω &rarr; 𝔻
         </div>
-        <p style="margin: 8px 0;">
-          such that for all <code>x, y &isin; S_&lt;ω</code>, &phi; preserves linear order, addition, and multiplication:
+        <p style="margin: 8px 0">
+          such that for all <code>x, y &isin; S_&lt;ω</code>, &phi; preserves
+          linear order, addition, and multiplication:
         </p>
-        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
-          <li><b>Order:</b> <code>x ≤_tree y &hArr; &phi;(x) ≤ &phi;(y)</code></li>
-          <li><b>Addition:</b> <code>&phi;(x +_tree y) = &phi;(x) + &phi;(y)</code></li>
-          <li><b>Multiplication:</b> <code>&phi;(x &middot;_tree y) = &phi;(x) &middot; &phi;(y)</code></li>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Order:</b> <code>x ≤_tree y &hArr; &phi;(x) ≤ &phi;(y)</code>
+          </li>
+          <li>
+            <b>Addition:</b>
+            <code>&phi;(x +_tree y) = &phi;(x) + &phi;(y)</code>
+          </li>
+          <li>
+            <b>Multiplication:</b>
+            <code>&phi;(x &middot;_tree y) = &phi;(x) &middot; &phi;(y)</code>
+          </li>
         </ul>
 
-        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">1. Bijective Correspondence by Birthday Induction</h5>
-        <ul style="margin: 4px 0 10px 0; padding-left: 20px;">
-          <li><b>Base Step (d = 0):</b> The root has an empty sign path <code>&empty;</code> and empty option sets <code>0 = { &empty; | &empty; }</code>. We set <code>&phi;(0) = 0 = 0 / 2⁰</code>.</li>
-          <li><b>Inductive Step (d &rarr; d + 1):</b> Assume all numbers born up to day <code>d</code> are dyadic rationals <code>m / 2ᵏ</code> (<code>k ≤ d</code>) strictly ordered along the real line. At birthday <code>d + 1</code>:
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px">
+          1. Bijective Correspondence by Birthday Induction
+        </h5>
+        <ul style="margin: 4px 0 10px 0; padding-left: 20px">
+          <li>
+            <b>Base Step (d = 0):</b> The root has an empty sign path
+            <code>&empty;</code> and empty option sets
+            <code>0 = { &empty; | &empty; }</code>. We set
+            <code>&phi;(0) = 0 = 0 / 2⁰</code>.
+          </li>
+          <li>
+            <b>Inductive Step (d &rarr; d + 1):</b> Assume all numbers born up
+            to day <code>d</code> are dyadic rationals
+            <code>m / 2ᵏ</code> (<code>k ≤ d</code>) strictly ordered along the
+            real line. At birthday <code>d + 1</code>:
             <ul>
-              <li><b>Outer Spines (Integers):</b> A path of pure <code>[+]</code> has only a left option: <code>k = { k - 1 | &empty; }</code>. Conway''s simplicity rule selects the earliest born number greater than <code>k - 1</code>, which is the integer <code>(k - 1) + 1 = k</code>. Similarly, pure <code>[-]</code> yields <code>-k</code>.</li>
-              <li><b>Inner Cuts (Midpoints):</b> An inner node cuts between two existing adjacent dyadic numbers <code>a = m / 2ᵈ</code> and <code>b = (m + 1) / 2ᵈ</code> with <code>a &lt; b</code>. By Conway''s Simplicity Theorem, the unique earliest-born number in the open gap <code>(a, b)</code> is their exact dyadic midpoint:
-                <div align="center" style="font-family: monospace; font-size: 12.5px; margin: 6px auto; color: #1e3a8a; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; max-width: 380px;">
+              <li>
+                <b>Outer Spines (Integers):</b> A path of pure
+                <code>[+]</code> has only a left option:
+                <code>k = { k - 1 | &empty; }</code>. Conway''s simplicity rule
+                selects the earliest born number greater than
+                <code>k - 1</code>, which is the integer
+                <code>(k - 1) + 1 = k</code>. Similarly, pure
+                <code>[-]</code> yields <code>-k</code>.
+              </li>
+              <li>
+                <b>Inner Cuts (Midpoints):</b> An inner node cuts between two
+                existing adjacent dyadic numbers <code>a = m / 2ᵈ</code> and
+                <code>b = (m + 1) / 2ᵈ</code> with <code>a &lt; b</code>. By
+                Conway''s Simplicity Theorem, the unique earliest-born number in
+                the open gap <code>(a, b)</code> is their exact dyadic midpoint:
+                <div
+                  align="center"
+                  style="
+                    font-family: monospace;
+                    font-size: 12.5px;
+                    margin: 6px auto;
+                    color: #1e3a8a;
+                    background: #ffffff;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 4px;
+                    padding: 4px;
+                    max-width: 380px;
+                  "
+                >
                   &phi;(x) = (a + b) / 2 = (2m + 1) / 2^(d+1)
                 </div>
-                which is an irreducible fraction with denominator <code>2^(d+1)</code>, born at day <code>d + 1</code>.
+                which is an irreducible fraction with denominator
+                <code>2^(d+1)</code>, born at day <code>d + 1</code>.
               </li>
             </ul>
           </li>
-          <li><b>Bijection:</b> Every finite sign path encodes a unique binary sequence of bisections (injectivity), and every dyadic fraction has a terminating binary expansion giving the unique path from root <code>0</code> (surjectivity).</li>
+          <li>
+            <b>Bijection:</b> Every finite sign path encodes a unique binary
+            sequence of bisections (injectivity), and every dyadic fraction has
+            a terminating binary expansion giving the unique path from root
+            <code>0</code> (surjectivity).
+          </li>
         </ul>
 
-        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">2. Order Preservation (≤)</h5>
-        <p style="margin: 4px 0 10px 0;">
-          Conway''s order test compares ancestral choices. On the tree, branching left (<code>[-]</code>) directs the entire subtree strictly left of the parent, while branching right (<code>[+]</code>) directs it strictly right. Comparing two paths reduces to the first sign index where they diverge; the path turning left lands strictly below the path turning right, matching the real ordering <code>&phi;(p₁) &lt; &phi;(w) &lt; &phi;(p₂)</code>.
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px">
+          2. Order Preservation (≤)
+        </h5>
+        <p style="margin: 4px 0 10px 0">
+          Conway''s order test compares ancestral choices. On the tree, branching
+          left (<code>[-]</code>) directs the entire subtree strictly left of
+          the parent, while branching right (<code>[+]</code>) directs it
+          strictly right. Comparing two paths reduces to the first sign index
+          where they diverge; the path turning left lands strictly below the
+          path turning right, matching the real ordering
+          <code>&phi;(p₁) &lt; &phi;(w) &lt; &phi;(p₂)</code>.
         </p>
 
-        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">3. Addition Preservation (+)</h5>
-        <p style="margin: 4px 0 10px 0;">
-          By double induction on <code>birthday(x) + birthday(y)</code>, each left option sum <code>xᴸ + y</code> is strictly less than <code>&phi;(x) + &phi;(y)</code>, and each right option sum is strictly greater. The recursive cut <code>{ xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }</code> selects the simplest number in the open interval. Because <code>&phi;(x) + &phi;(y)</code> is a dyadic rational with denominator <code>≤ 2^(max(d_x, d_y))</code>, Simplicity forces the cut to land precisely on <code>&phi;(x) + &phi;(y)</code>.
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px">
+          3. Addition Preservation (+)
+        </h5>
+        <p style="margin: 4px 0 10px 0">
+          By double induction on <code>birthday(x) + birthday(y)</code>, each
+          left option sum <code>xᴸ + y</code> is strictly less than
+          <code>&phi;(x) + &phi;(y)</code>, and each right option sum is
+          strictly greater. The recursive cut
+          <code>{ xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }</code> selects the simplest
+          number in the open interval. Because
+          <code>&phi;(x) + &phi;(y)</code> is a dyadic rational with denominator
+          <code>≤ 2^(max(d_x, d_y))</code>, Simplicity forces the cut to land
+          precisely on <code>&phi;(x) + &phi;(y)</code>.
         </p>
 
-        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px;">4. Multiplication Preservation (·)</h5>
-        <p style="margin: 4px 0 10px 0;">
-          Conway''s 4-way cross-product cut is derived from the geometric positivity invariant <code>(x - xᴸ)(y - yᴸ) &gt; 0 &rArr; xy &gt; xᴸy + xyᴸ - xᴸyᴸ</code>. Inductively, all left options are strictly less than <code>&phi;(x) &middot; &phi;(y)</code>, and all right options strictly greater. The product <code>(m₁ / 2ᵈ¹) &middot; (m₂ / 2ᵈ²) = (m₁m₂) / 2^(d₁+d₂)</code> is a dyadic rational born on or before day <code>d₁ + d₂</code>, and Simplicity again guarantees that the cut equals <code>&phi;(x &middot; y) = &phi;(x) &middot; &phi;(y)</code>.
+        <h5 style="margin: 12px 0 6px 0; color: #0f172a; font-size: 13.5px">
+          4. Multiplication Preservation (·)
+        </h5>
+        <p style="margin: 4px 0 10px 0">
+          Conway''s 4-way cross-product cut is derived from the geometric
+          positivity invariant
+          <code>(x - xᴸ)(y - yᴸ) &gt; 0 &rArr; xy &gt; xᴸy + xyᴸ - xᴸyᴸ</code>.
+          Inductively, all left options are strictly less than
+          <code>&phi;(x) &middot; &phi;(y)</code>, and all right options
+          strictly greater. The product
+          <code>(m₁ / 2ᵈ¹) &middot; (m₂ / 2ᵈ²) = (m₁m₂) / 2^(d₁+d₂)</code> is a
+          dyadic rational born on or before day <code>d₁ + d₂</code>, and
+          Simplicity again guarantees that the cut equals
+          <code>&phi;(x &middot; y) = &phi;(x) &middot; &phi;(y)</code>.
         </p>
 
-        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; margin-top: 10px; font-size: 12px; color: #475569;">
-          <strong style="color: #0f172a;">Epistemic Takeaway:</strong> Conway''s tree and the dyadic machine describe the <i>exact same ordered ring</i> <code>(𝔻, +, &middot;, ≤)</code>. Conway''s formulation gives us foundational ontological rigor and continuum limits, while the dyadic machine gives us <code>O(1)</code> execution speed via machine bit-shifts and integer arithmetic.
+        <div
+          style="
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #475569;
+          "
+        >
+          <strong style="color: #0f172a">Epistemic Takeaway:</strong> Conway''s
+          tree and the dyadic machine describe the
+          <i>exact same ordered ring</i> <code>(𝔻, +, &middot;, ≤)</code>.
+          Conway''s formulation gives us foundational ontological rigor and
+          continuum limits, while the dyadic machine gives us
+          <code>O(1)</code> execution speed via machine bit-shifts and integer
+          arithmetic.
         </div>
       </div>
     </details>
 
     <p>
-      “Look at what this means for operations: Conway''s tree-inductive arithmetic and the dyadic machine ring <code>(𝔻, +, ·)</code> are mathematically isomorphic, but algorithmically worlds apart!”
+      “Look at what this means for operations: Conway''s tree-inductive
+      arithmetic and the dyadic machine ring <code>(𝔻, +, ·)</code> are
+      mathematically isomorphic, but algorithmically worlds apart!”
     </p>
 
     <p>
-      “Conway''s construction is founded on <b>three mutually recursive algorithmic definitions</b> &mdash; <b>Order</b>, <b>Addition</b>, and <b>Multiplication</b> &mdash; each defined purely in terms of ancestral tree options before executing a bounding cut. Let''s examine each of these three algorithms, the explosion of recursive calls they generate, and how the dyadic machine compresses them into instantaneous <code>O(1)</code> ring primitives.”
+      “Conway''s construction is founded on
+      <b>three mutually recursive algorithmic definitions</b> &mdash;
+      <b>Order</b>, <b>Addition</b>, and <b>Multiplication</b> &mdash; each
+      defined purely in terms of ancestral tree options before executing a
+      bounding cut. Let''s examine each of these three algorithms, the explosion
+      of recursive calls they generate, and how the dyadic machine compresses
+      them into instantaneous <code>O(1)</code> ring primitives.”
     </p>
 
     <!-- Algorithmic Definition 1: Inductive Order & Total Sort -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
-      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 1: Conway Inductive Order (≤) &amp; Total Sort</h4>
-      <p style="margin: 0 0 10px 0;">
-        “On Conway''s number tree, order is not an axiom &mdash; it is an inductive test on sets of options. A number <code>x</code> is less than or equal to <code>y</code> if and only if no left option of <code>x</code> can outrank <code>y</code>, and <code>x</code> never outranks any right option of <code>y</code>:”
+    <div
+      style="
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0;
+      "
+    >
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a">
+        Algorithmic Definition 1: Conway Inductive Order (≤) &amp; Total Sort
+      </h4>
+      <p style="margin: 0 0 10px 0">
+        “On Conway''s number tree, order is not an axiom &mdash; it is an
+        inductive test on sets of options. A number <code>x</code> is less than
+        or equal to <code>y</code> if and only if no left option of
+        <code>x</code> can outrank <code>y</code>, and <code>x</code> never
+        outranks any right option of <code>y</code>:”
       </p>
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 620px;">
-        x ≤ y &nbsp;&hArr;&nbsp; (&forall; xᴸ &isin; L(x): ¬(y ≤ xᴸ)) &nbsp;&and;&nbsp; (&forall; yᴿ &isin; R(y): ¬(yᴿ ≤ x))
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 13.5px;
+          margin: 8px auto;
+          color: #1e3a8a;
+          background-color: #f0f7ff;
+          border: 1.5px solid #bfdbfe;
+          border-radius: 6px;
+          padding: 8px;
+          max-width: 620px;
+        "
+      >
+        x ≤ y &nbsp;&hArr;&nbsp; (&forall; xᴸ &isin; L(x): ¬(y ≤ xᴸ))
+        &nbsp;&and;&nbsp; (&forall; yᴿ &isin; R(y): ¬(yᴿ ≤ x))
       </div>
-      <p style="margin: 10px 0 0 0;">
-        “Notice that the definition of <code>≤</code> calls itself recursively on all ancestral tree choices! To sort an arbitrary list of tree nodes, <b>Conway Total Sort</b> performs these pairwise inductive comparisons to insert each element into its canonical chain. Meanwhile, the <b>Dyadic Machine</b> performs the identical comparison in <code>O(1)</code> time by cross-multiplying numerators across aligned power-of-two denominators: <code>m₁ &middot; 2^(maxD - d₁) ≤ m₂ &middot; 2^(maxD - d₂)</code>.”
+      <p style="margin: 10px 0 0 0">
+        “Notice that the definition of <code>≤</code> calls itself recursively
+        on all ancestral tree choices! To sort an arbitrary list of tree nodes,
+        <b>Conway Total Sort</b> performs these pairwise inductive comparisons
+        to insert each element into its canonical chain. Meanwhile, the
+        <b>Dyadic Machine</b> performs the identical comparison in
+        <code>O(1)</code> time by cross-multiplying numerators across aligned
+        power-of-two denominators:
+        <code>m₁ &middot; 2^(maxD - d₁) ≤ m₂ &middot; 2^(maxD - d₂)</code>.”
       </p>
-      <div align="center" style="margin: 12px 0 4px 0;">
-        <pseudo-ref id="conway_order">Conway Inductive Order (ConwayLessEq)</pseudo-ref> &nbsp;|&nbsp;
-        <pseudo-ref id="conway_sort">Conway Total Sort (ConwaySort)</pseudo-ref> &nbsp;|&nbsp;
+      <div align="center" style="margin: 12px 0 4px 0">
+        <pseudo-ref id="conway_order"
+          >Conway Inductive Order (ConwayLessEq)</pseudo-ref
+        >
+        &nbsp;|&nbsp;
+        <pseudo-ref id="conway_sort">Conway Total Sort (ConwaySort)</pseudo-ref>
+        &nbsp;|&nbsp;
         <btd-ref mode="order">Test Order Relations in BTD</btd-ref>
       </div>
     </div>
 
     <!-- Algorithmic Definition 2: Inductive Addition -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
-      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 2: Conway Inductive Addition (+)</h4>
-      <p style="margin: 0 0 10px 0;">
-        “Addition on the tree is defined recursively by adding each operand to the other''s ancestral options, then choosing the simplest number born in the resulting cut gap:”
+    <div
+      style="
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0;
+      "
+    >
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a">
+        Algorithmic Definition 2: Conway Inductive Addition (+)
+      </h4>
+      <p style="margin: 0 0 10px 0">
+        “Addition on the tree is defined recursively by adding each operand to
+        the other''s ancestral options, then choosing the simplest number born in
+        the resulting cut gap:”
       </p>
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 620px;">
-        x + y &nbsp;=&nbsp; { xᴸ + y, &nbsp; x + yᴸ &nbsp;|&nbsp; xᴿ + y, &nbsp; x + yᴿ }
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 13.5px;
+          margin: 8px auto;
+          color: #1e3a8a;
+          background-color: #f0f7ff;
+          border: 1.5px solid #bfdbfe;
+          border-radius: 6px;
+          padding: 8px;
+          max-width: 620px;
+        "
+      >
+        x + y &nbsp;=&nbsp; { xᴸ + y, &nbsp; x + yᴸ &nbsp;|&nbsp; xᴿ + y, &nbsp;
+        x + yᴿ }
       </div>
-      <p style="margin: 10px 0 0 0;">
-        “Even for tiny fractions, this generates an explosion of branch evaluations. Adding <code>1/2 + 3/4</code> requires <b>86 recursive calls</b>, reaches a call stack depth of <b>6</b>, and resolves <b>86 Conway cuts</b> before confirming <code>5/4</code>! In contrast, the <b>Dyadic Machine</b> adds the two numbers in a single <code>O(1)</code> cycle using an integer bit-shift: <code>(1 &laquo; 1 + 3) / 2² = 5/4</code>.”
+      <p style="margin: 10px 0 0 0">
+        “Even for tiny fractions, this generates an explosion of branch
+        evaluations. Adding <code>1/2 + 3/4</code> requires
+        <b>86 recursive calls</b>, reaches a call stack depth of <b>6</b>, and
+        resolves <b>86 Conway cuts</b> before confirming <code>5/4</code>! In
+        contrast, the <b>Dyadic Machine</b> adds the two numbers in a single
+        <code>O(1)</code> cycle using an integer bit-shift:
+        <code>(1 &laquo; 1 + 3) / 2² = 5/4</code>.”
       </p>
-      <div align="center" style="margin: 12px 0 4px 0;">
-        <pseudo-ref id="conway_add">Conway Recursive Addition (ConwayAdd)</pseudo-ref> &nbsp;|&nbsp;
+      <div align="center" style="margin: 12px 0 4px 0">
+        <pseudo-ref id="conway_add"
+          >Conway Recursive Addition (ConwayAdd)</pseudo-ref
+        >
+        &nbsp;|&nbsp;
         <btd-ref mode="addition">Test Conway Addition in BTD</btd-ref>
       </div>
     </div>
 
     <!-- Algorithmic Definition 3: Inductive Multiplication -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
-      <h4 style="margin: 0 0 10px 0; color: #1e3a8a;">Algorithmic Definition 3: Conway Inductive Multiplication (·)</h4>
-      <p style="margin: 0 0 10px 0;">
-        “Conway''s multiplication is the ultimate test of tree induction. Each step forms 4-way cross-products of options with recursive cross-additions and cross-subtractions to guarantee that <code>(x - xᴸ)(y - yᴸ) &gt; 0</code>:”
+    <div
+      style="
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0;
+      "
+    >
+      <h4 style="margin: 0 0 10px 0; color: #1e3a8a">
+        Algorithmic Definition 3: Conway Inductive Multiplication (·)
+      </h4>
+      <p style="margin: 0 0 10px 0">
+        “Conway''s multiplication is the ultimate test of tree induction. Each
+        step forms 4-way cross-products of options with recursive
+        cross-additions and cross-subtractions to guarantee that
+        <code>(x - xᴸ)(y - yᴸ) &gt; 0</code>:”
       </p>
-      <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px auto; color: #1e3a8a; background-color: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 8px; max-width: 640px;">
-        x &middot; y &nbsp;=&nbsp; { xᴸ&middot;y + x&middot;yᴸ - xᴸ&middot;yᴸ, &nbsp; xᴿ&middot;y + x&middot;yᴿ - xᴿ&middot;yᴿ &nbsp;|&nbsp; xᴸ&middot;y + x&middot;yᴿ - xᴸ&middot;yᴿ, &nbsp; xᴿ&middot;y + x&middot;yᴸ - xᴿ&middot;yᴸ }
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 13px;
+          margin: 8px auto;
+          color: #1e3a8a;
+          background-color: #f0f7ff;
+          border: 1.5px solid #bfdbfe;
+          border-radius: 6px;
+          padding: 8px;
+          max-width: 640px;
+        "
+      >
+        x &middot; y &nbsp;=&nbsp; { xᴸ&middot;y + x&middot;yᴸ - xᴸ&middot;yᴸ,
+        &nbsp; xᴿ&middot;y + x&middot;yᴿ - xᴿ&middot;yᴿ &nbsp;|&nbsp;
+        xᴸ&middot;y + x&middot;yᴿ - xᴸ&middot;yᴿ, &nbsp; xᴿ&middot;y +
+        x&middot;yᴸ - xᴿ&middot;yᴸ }
       </div>
-      <p style="margin: 10px 0 0 0;">
-        “Multiplying just <code>1/2 &middot; 1/2</code> unleashes <b>52 recursive calls</b>, <b>34 cross-additions</b>, and depth <b>6</b> to yield <code>1/4</code>. The <b>Dyadic Machine</b> accomplishes this identically in <code>O(1)</code> time via integer multiplication and denominator exponent sum: <code>(1 &middot; 1) / 2^(1+1) = 1/4</code>.”
+      <p style="margin: 10px 0 0 0">
+        “Multiplying just <code>1/2 &middot; 1/2</code> unleashes
+        <b>52 recursive calls</b>, <b>34 cross-additions</b>, and depth
+        <b>6</b> to yield <code>1/4</code>. The
+        <b>Dyadic Machine</b> accomplishes this identically in
+        <code>O(1)</code> time via integer multiplication and denominator
+        exponent sum: <code>(1 &middot; 1) / 2^(1+1) = 1/4</code>.”
       </p>
-      <div align="center" style="margin: 12px 0 4px 0;">
-        <pseudo-ref id="conway_mul">Conway Recursive Multiplication (ConwayMul)</pseudo-ref> &nbsp;|&nbsp;
-        <btd-ref mode="multiplication">Test Conway Multiplication in BTD</btd-ref>
+      <div align="center" style="margin: 12px 0 4px 0">
+        <pseudo-ref id="conway_mul"
+          >Conway Recursive Multiplication (ConwayMul)</pseudo-ref
+        >
+        &nbsp;|&nbsp;
+        <btd-ref mode="multiplication"
+          >Test Conway Multiplication in BTD</btd-ref
+        >
       </div>
     </div>
 
     <!-- Live Recursion & Complexity Telemetry Ledger -->
     <p>
-      “Because tree recursion grows exponentially with birthday depth, our interactive tree demos and pseudocode viewers maintain <b>live inductive recursion telemetry</b> &mdash; tracking total calls, call stack depth, cuts resolved, and arithmetic operations in real time:”
+      “Because tree recursion grows exponentially with birthday depth, our
+      interactive tree demos and pseudocode viewers maintain
+      <b>live inductive recursion telemetry</b> &mdash; tracking total calls,
+      call stack depth, cuts resolved, and arithmetic operations in real time:”
     </p>
 
-    <div align="center" style="margin: 18px 0;">
-      <table style="width: 100%; max-width: 740px; border-collapse: collapse; margin: 14px auto; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div align="center" style="margin: 18px 0">
+      <table
+        style="
+          width: 100%;
+          max-width: 740px;
+          border-collapse: collapse;
+          margin: 14px auto;
+          font-size: 13px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        "
+      >
         <thead>
-          <tr style="background-color: #1e3a8a; color: #ffffff;">
-            <th style="padding: 10px 12px; text-align: left; width: 22%;">Operation &amp; Operands</th>
-            <th style="padding: 10px 12px; text-align: center; width: 20%;">Conway Calls</th>
-            <th style="padding: 10px 12px; text-align: center; width: 18%;">Stack Depth</th>
-            <th style="padding: 10px 12px; text-align: center; width: 18%;">Cuts Resolved</th>
-            <th style="padding: 10px 12px; text-align: left; width: 22%;">Dyadic Machine</th>
+          <tr style="background-color: #1e3a8a; color: #ffffff">
+            <th style="padding: 10px 12px; text-align: left; width: 22%">
+              Operation &amp; Operands
+            </th>
+            <th style="padding: 10px 12px; text-align: center; width: 20%">
+              Conway Calls
+            </th>
+            <th style="padding: 10px 12px; text-align: center; width: 18%">
+              Stack Depth
+            </th>
+            <th style="padding: 10px 12px; text-align: center; width: 18%">
+              Cuts Resolved
+            </th>
+            <th style="padding: 10px 12px; text-align: left; width: 22%">
+              Dyadic Machine
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 9px 12px;"><b>Order:</b> <code>1/2 ≤ 3/4</code></td>
-            <td style="padding: 9px 12px;" align="center"><b>7 calls</b></td>
-            <td style="padding: 9px 12px;" align="center">Depth 3</td>
-            <td style="padding: 9px 12px;" align="center">7 inductive tests</td>
-            <td style="padding: 9px 12px;"><b>O(1)</b> (1 cross-product)</td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 9px 12px">
+              <b>Order:</b> <code>1/2 ≤ 3/4</code>
+            </td>
+            <td style="padding: 9px 12px" align="center"><b>7 calls</b></td>
+            <td style="padding: 9px 12px" align="center">Depth 3</td>
+            <td style="padding: 9px 12px" align="center">7 inductive tests</td>
+            <td style="padding: 9px 12px"><b>O(1)</b> (1 cross-product)</td>
           </tr>
-          <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 9px 12px;"><b>Addition:</b> <code>1/2 + 3/4</code></td>
-            <td style="padding: 9px 12px;" align="center"><b>86 calls</b></td>
-            <td style="padding: 9px 12px;" align="center">Depth 6</td>
-            <td style="padding: 9px 12px;" align="center">86 cuts</td>
-            <td style="padding: 9px 12px;"><b>O(1)</b> (1 bit-shift, 1 add)</td>
+          <tr
+            style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 9px 12px">
+              <b>Addition:</b> <code>1/2 + 3/4</code>
+            </td>
+            <td style="padding: 9px 12px" align="center"><b>86 calls</b></td>
+            <td style="padding: 9px 12px" align="center">Depth 6</td>
+            <td style="padding: 9px 12px" align="center">86 cuts</td>
+            <td style="padding: 9px 12px"><b>O(1)</b> (1 bit-shift, 1 add)</td>
           </tr>
-          <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 9px 12px;"><b>Multiplication:</b> <code>1/2 &middot; 1/2</code></td>
-            <td style="padding: 9px 12px;" align="center"><b>52 calls</b></td>
-            <td style="padding: 9px 12px;" align="center">Depth 6</td>
-            <td style="padding: 9px 12px;" align="center">52 cuts (34 adds)</td>
-            <td style="padding: 9px 12px;"><b>O(1)</b> (1 integer mul)</td>
+          <tr
+            style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0"
+          >
+            <td style="padding: 9px 12px">
+              <b>Multiplication:</b> <code>1/2 &middot; 1/2</code>
+            </td>
+            <td style="padding: 9px 12px" align="center"><b>52 calls</b></td>
+            <td style="padding: 9px 12px" align="center">Depth 6</td>
+            <td style="padding: 9px 12px" align="center">52 cuts (34 adds)</td>
+            <td style="padding: 9px 12px"><b>O(1)</b> (1 integer mul)</td>
           </tr>
-          <tr style="background-color: #f8fafc;">
-            <td style="padding: 9px 12px;"><b>Total Sort:</b> 4 tree nodes</td>
-            <td style="padding: 9px 12px;" align="center"><b>24 calls</b></td>
-            <td style="padding: 9px 12px;" align="center">Depth 4</td>
-            <td style="padding: 9px 12px;" align="center">24 cuts</td>
-            <td style="padding: 9px 12px;"><b>O(n log n)</b> quicksort</td>
+          <tr style="background-color: #f8fafc">
+            <td style="padding: 9px 12px"><b>Total Sort:</b> 4 tree nodes</td>
+            <td style="padding: 9px 12px" align="center"><b>24 calls</b></td>
+            <td style="padding: 9px 12px" align="center">Depth 4</td>
+            <td style="padding: 9px 12px" align="center">24 cuts</td>
+            <td style="padding: 9px 12px"><b>O(n log n)</b> quicksort</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <p>
-      “In our <b>Operation Isomorphism Demo</b>, you can select any two nodes on the tree, switch between addition and multiplication, and watch the recursive engine calculate the result node with live recursion stats &mdash; verifying that Conway''s tree algebra and dyadic machine arithmetic arrive at the exact same point in space!”
+      “In our <b>Operation Isomorphism Demo</b>, you can select any two nodes on
+      the tree, switch between addition and multiplication, and watch the
+      recursive engine calculate the result node with live recursion stats
+      &mdash; verifying that Conway''s tree algebra and dyadic machine arithmetic
+      arrive at the exact same point in space!”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
+    <div align="center" style="margin: 15px 0">
       <btd-ref mode="dyadic">View Dyadic Rational Labels</btd-ref> &nbsp;|&nbsp;
-      <btd-ref mode="isomorphism">Interactive Demo: Test Operation Isomorphism in BTD</btd-ref> &nbsp;|&nbsp;
-      <pseudo-ref id="conway_add">Conway Addition Pseudocode</pseudo-ref> &nbsp;|&nbsp;
+      <btd-ref mode="isomorphism"
+        >Interactive Demo: Test Operation Isomorphism in BTD</btd-ref
+      >
+      &nbsp;|&nbsp;
+      <pseudo-ref id="conway_add">Conway Addition Pseudocode</pseudo-ref>
+      &nbsp;|&nbsp;
       <pseudo-ref id="conway_mul">Conway Multiplication Pseudocode</pseudo-ref>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>7. Summary: The Scaffold for Intrinsic Spaces</h3>
 
-    <p>
-      “Let''s recap what we''ve established today:”
-    </p>
+    <p>“Let''s recap what we''ve established today:”</p>
 
     <ul>
-      <li><b>2-Successor Induction</b> provides the geometric scaffold for all real numbers.</li>
-      <li>Every number is uniquely identified by its <b>labeled sign path</b> from root <code>0</code>.</li>
-      <li>Finite paths are <b>isomorphic to the dyadic rationals</b> <code>m / 2^d</code>.</li>
-      <li>At the transfinite boundary <code>ω</code>, the tree captures both continuous numbers (like <code>√2</code> and <code>π</code>) and genuine infinitesimals (<code>dx = 1/ω</code>).</li>
-      <li>The 2-successor polar fan is geometrically bounded to <b>180° (half of space)</b>, while the 4-successor complex continuum <code>ℂ_ω</code> operates as <b>two fans spreading out back-to-back to cover all 360° of space</b>.</li>
+      <li>
+        <b>2-Successor Induction</b> provides the geometric scaffold for all
+        real numbers.
+      </li>
+      <li>
+        Every number is uniquely identified by its <b>labeled sign path</b> from
+        root <code>0</code>.
+      </li>
+      <li>
+        Finite paths are <b>isomorphic to the dyadic rationals</b>
+        <code>m / 2^d</code>.
+      </li>
+      <li>
+        At the transfinite boundary <code>ω</code>, the tree captures both
+        continuous numbers (like <code>√2</code> and <code>π</code>) and genuine
+        infinitesimals (<code>dx = 1/ω</code>).
+      </li>
+      <li>
+        The 2-successor polar fan is geometrically bounded to
+        <b>180° (half of space)</b>, while the 4-successor complex continuum
+        <code>ℂ_ω</code> operates as
+        <b>two fans spreading out back-to-back to cover all 360° of space</b>.
+      </li>
     </ul>
 
     <p>
-      “In Lecture 3, we will see how these tree addresses and the algebra of sets allow us to construct <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous STEM mathematics.”
+      “In Lecture 3, we will see how these tree addresses and the algebra of
+      sets allow us to construct
+      <b>intrinsic topological and measure spaces</b> on <code>ℝ_ω</code> and
+      <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous
+      STEM mathematics.”
     </p>
-', 'published'),
+  ', 'published'),
   (14, 'numbersLecture3', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
 <div align="center">
       <h2>Numbers Lecture 3</h2>
@@ -4770,166 +8360,3051 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
 ', 'published'),
-  (15, 'vectorFoundationsIntro', 14, 'Level 2: Space, Direction & Geometry', 'vector-foundations-intro', '
+  (15, 'lamOverview', 14, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
+    <div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Level 2: Continuum &amp; Calculus<br />
+            Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i
+          >— Bridging the Discrete Conway Tree to Continuous Analysis —</i
+        ></font
+      >
+    </div>
+    <br />
+
+    <h3>Continuous Change on the Hyperfinite Scaffold</h3>
+    <p>
+      In our foundational study of numbers and discrete structures, we
+      established how numbers emerge day by day from inductive trees. In
+      <b>Level 2: Continuum &amp; Calculus</b>, we extend this discrete
+      foundation into continuous change, instantaneous rates, and accumulation.
+    </p>
+    <p>
+      Standard real analysis constructs the continuum using metric topologies,
+      epsilon-delta limit towers, and Dedekind cuts. While rigorous, this
+      traditional apparatus often obscures the geometric intuition of continuous
+      change beneath layers of nested quantifiers.
+    </p>
+    <p>
+      By leveraging John Conway''s recursive number tree at Day <code>ω</code>,
+      we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate
+      number. This nonstandard perspective transforms continuous calculus into
+      straightforward algebra: derivatives become simple difference ratios
+      <code>dy / dx</code> followed by taking the standard part shadow, and
+      integrals become genuine hyperfinite sums of microscopic tiles.
+    </p>
+    <p>Level 2 develops this unified framework across:</p>
+    <ul>
+      <li>
+        <b>Sequences &amp; Progressions:</b> Discrete stepping on
+        <code>ℕ_ω</code> along the arithmetic and geometric tree ladders,
+        grounding continuous analysis in finite induction.
+      </li>
+      <li>
+        <b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity
+        without epsilon-delta, and the fundamental theorem of calculus on
+        <code>ℝ_ω</code>.
+      </li>
+      <li>
+        <b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>,
+        conformal shape-preservation, Cauchy contour integration by 2D cell
+        cancellation, and continuous phase dynamics.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
+    <p>
+      To understand why nonstandard analysis is so empowering, one must examine
+      how mathematics historically struggled to tame continuous change:
+    </p>
+
+    <ul>
+      <li>
+        <b
+          >Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash;
+          <i>Leibniz, Newton, Euler</i>:</b
+        ><br />
+        Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code
+        >) &mdash; quantities strictly greater than zero, yet smaller than any
+        positive standard real number. With infinitesimals, derivatives were
+        simple algebraic ratios (<code>dy / dx</code>) and integrals were
+        genuine sums of microscopic rectangles (<code>∫ y dx</code>).
+        Mathematicians solved celestial orbits, fluid mechanics, and wave
+        equations with breathtaking speed, but critics (like Bishop Berkeley)
+        argued that infinitesimals were logically unsound "ghosts of departed
+        quantities."
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash;
+          <i>Cauchy, Weierstrass, Dedekind</i>:</b
+        ><br />
+        Fearing foundational inconsistency, 19th-century mathematicians banished
+        infinitesimals. They replaced intuitive algebraic ratios with the real
+        continuum <code>ℝ</code> and dense
+        <b>epsilon-delta (ε-δ) limit definitions</b>:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 13.5px; margin: 6px 0"
+        >
+          f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp;
+          ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ
+          &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
+        </div>
+        While logically watertight, this reform erected a massive cognitive
+        barrier, turning intuitive geometric concepts into nested quantifier
+        gymnastics.
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th
+          Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b
+        ><br />
+        As physics expanded into quantum mechanics and relativity,
+        mathematicians sought to escape the clumsiness of metric
+        <code>ε-δ</code> limits by ascending into
+        <b>pure set-theoretic topology and measure theory</b>:
+        <ul>
+          <li>
+            <i>Topological Continuity:</i>
+            <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The
+            preimage of every open set is an open set).
+          </li>
+          <li>
+            <i>Lebesgue Integration:</i> Integrated functions by measuring
+            preimage sizes on <code>σ-algebras</code> rather than taking limits
+            of partition meshes.
+          </li>
+        </ul>
+        This abstraction was immensely powerful for functional analysis, but it
+        severely detached continuous mathematics from physical and geometric
+        intuition.
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 4: The Nonstandard Synthesis &mdash;
+          <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b
+        ><br />
+        Leibniz''s intuitive infinitesimals were given complete, rigorous
+        mathematical foundations through model theory and
+        <b>John Conway''s recursive number tree</b>. By observing the continuum
+        scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the
+        transfinite tree:
+        <ul>
+          <li>
+            <b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers
+            born on Day <code>ω</code> of the recursive tree:
+            <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.
+          </li>
+          <li>
+            <b>Continuity</b> is halo preservation:
+            <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing
+            by transfinite branches stay infinitesimally close).
+          </li>
+          <li>
+            <b>Differentiation</b> is pure algebraic division:
+            <code>f''(x) = st(Δy / dx)</code>.
+          </li>
+          <li>
+            <b>Integration</b> is genuine discrete addition:
+            <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  ', 'published'),
+  (16, 'sequencesAndSums', 15, 'Sequences & Progressions', 'sequences-and-sums', '
+<style>
+    .seq-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 36px 60px 36px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      color: #0f172a;
+    }
+    .seq-container h1 {
+      color: #1e3a8a;
+      font-size: 1.85em;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .seq-container h2 {
+      color: #1e3a8a;
+      font-size: 1.4em;
+      margin-top: 36px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #eff6ff;
+      padding-bottom: 6px;
+    }
+    .seq-container h3 {
+      color: #0284c7;
+      font-size: 1.15em;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .seq-container p, .seq-container li {
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .seq-container code {
+      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .seq-formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #0284c7;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .seq-highlight-card {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 22px 0;
+    }
+    .seq-callout {
+      background: #f5f3ff;
+      border: 1.5px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .seq-grid-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 18px;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .seq-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13.5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .seq-table th {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .seq-table td {
+      border-top: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+    .seq-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <div class="seq-container">
+    <h1>Sequences &amp; Progressions</h1>
+    <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
+      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
+    </p>
+
+    <!-- Curricular Gateway -->
+    <div class="seq-highlight-card">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
+      <p style="margin-bottom: 12px;">Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
+      </p>
+
+      <!-- Demystifying F: The Sequence in the Conceptual Model -->
+      <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span style="font-size: 18px;">📐</span>
+          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
+        </div>
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
+          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our foundational ontology, a function''s type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
+            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
+            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
+              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
+          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
+            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code>   (increments by fixed constant difference <code>d</code>).</li>
+            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code>   (scales by fixed multiplicative factor <code>r</code>).</li>
+            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code>   (generates the cubic progression evaluated on the counting spine).</li>
+            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code>   (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
+          </ul>
+        </div>
+
+        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
+          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 1: The Two Fundamental Ladders -->
+    <h2>1. The Two Fundamental Ladders of the Trees</h2>
+    <p>
+      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of stepping:
+    </p>
+
+    <!-- Side-by-Side Visual Comparison Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 20px 0;">
+      
+      <!-- Arithmetic Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #1e3a8a;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe;">Tree 1 (Unary Spine)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">1-Successor Count</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 16px;">The Arithmetic Ladder (Linear March)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by adding a fixed constant at each step. Models uniform motion, constant-force acceleration increments, and clock ticks.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; margin: 4px 0;">
+            F(k + 1) = F(k) + d &nbsp;⇒&nbsp; F(k) = a + k · d
+          </div>
+          <div style="font-size: 12px; color: #475569;">Constant forward difference: <code>ΔF(k) = d</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Equally spaced rungs climbing a straight vertical ladder.<br>
+          • <b>Continuous Limit:</b> Forms the linear line <code>y = m·x + b</code> with constant slope <code>d</code>.
+        </div>
+      </div>
+
+      <!-- Geometric Card -->
+      <div class="seq-grid-card" style="border-top: 4px solid #7c3aed;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span class="seq-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">Tree 2 (Binary Branching)</span>
+          <span style="font-size: 12px; font-weight: 700; color: #64748b;">2-Successor Branching</span>
+        </div>
+        <h3 style="margin: 0 0 8px 0; color: #7c3aed; font-size: 16px;">The Geometric Ladder (Multiplicative Scaling)</h3>
+        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
+          Formed by multiplying by a fixed ratio at each step. Models binary branch populations, radioactive decay, compounding, and sensory perception.
+        </p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
+          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #7c3aed; margin: 4px 0;">
+            F(k + 1) = r · F(k) &nbsp;⇒&nbsp; F(k) = a · r^k
+          </div>
+          <div style="font-size: 12px; color: #475569;">Difference proportional to term: <code>ΔF(k) = F(k) · (r - 1)</code></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
+          • <b>Geometric Picture:</b> Each rung multiplies the height of the previous rung.<br>
+          • <b>Continuous Limit:</b> Forms the exponential curve <code>y = a · e^(k·x)</code> where rate equals quantity.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary Comparison Table -->
+    <table class="seq-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Tree Foundation</th>
+          <th style="width: 22%;">Progression Type</th>
+          <th style="width: 18%;">Step Law</th>
+          <th style="width: 20%;">Closed Formula</th>
+          <th style="width: 20%;">Characteristic Property</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background-color: #ffffff;">
+          <td><b>Tree 1</b><br><span style="font-size: 11.5px; color: #64748b;">Unary counting spine</span></td>
+          <td><b style="color: #1e3a8a;">Arithmetic</b></td>
+          <td><code>+ d</code> (additive)</td>
+          <td><code>F(k) = a + k · d</code></td>
+          <td>Uniform slope: <code>ΔF(k) = d</code></td>
+        </tr>
+        <tr style="background-color: #f8fafc;">
+          <td><b>Tree 2</b><br><span style="font-size: 11.5px; color: #64748b;">Binary branching fan</span></td>
+          <td><b style="color: #7c3aed;">Geometric</b></td>
+          <td><code>× r</code> (multiplicative)</td>
+          <td><code>F(k) = a · r^k</code></td>
+          <td>Self-proportional: <code>ΔF(k) ∝ F(k)</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 2: Musical Scales -->
+    <h2>2. Musical Scales: The Human Ear as a Geometric Processor</h2>
+    <p>
+      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
+    </p>
+    <p>
+      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
+    </p>
+
+    <!-- 12-Tone Equal Temperament Ladder Card -->
+    <div class="seq-callout">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <h3 style="margin: 0; color: #6d28d9; font-size: 16px;">The 12-Tone Equal Temperament Ladder</h3>
+        <span class="seq-pill" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd;">Acoustic Geometry</span>
+      </div>
+      <p style="margin: 0 0 10px 0;">
+        An <b>octave</b> is an exact frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio <code>r</code> such that:
+      </p>
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
+        r¹² = 2 &nbsp;⇒&nbsp; r = 2^(1/12) ≈ 1.059463094...
+      </div>
+
+      <p style="margin: 10px 0 6px 0;">
+        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
+      </p>
+
+      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
+        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
+      </div>
+
+      <!-- Musical Scale Progression Table -->
+      <div style="margin-top: 14px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; border: 1px solid #ddd6fe; border-radius: 6px; overflow: hidden; background: #ffffff;">
+          <thead>
+            <tr style="background: #ede9fe; color: #4c1d95;">
+              <th style="padding: 7px 8px;">Step k</th>
+              <th style="padding: 7px 8px;">Note</th>
+              <th style="padding: 7px 8px;">Interval</th>
+              <th style="padding: 7px 8px;">Frequency f_k</th>
+              <th style="padding: 7px 8px;">Acoustic Ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>0</b></td>
+              <td><b>A4</b></td>
+              <td>Unison</td>
+              <td><code>440.00 Hz</code></td>
+              <td><code>1.000</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>3</b></td>
+              <td><b>C5</b></td>
+              <td>Minor third</td>
+              <td><code>523.25 Hz</code></td>
+              <td><code>2^(3/12) ≈ 1.189</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff;">
+              <td><b>5</b></td>
+              <td><b>D5</b></td>
+              <td>Perfect fourth</td>
+              <td><code>587.33 Hz</code></td>
+              <td><code>2^(5/12) ≈ 1.335</code> (close to 4/3)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
+              <td><b>7</b></td>
+              <td><b>E5</b></td>
+              <td>Perfect fifth</td>
+              <td><code>659.26 Hz</code></td>
+              <td><code>2^(7/12) ≈ 1.498</code> (close to 3/2)</td>
+            </tr>
+            <tr>
+              <td><b>12</b></td>
+              <td><b>A5</b></td>
+              <td><b>Octave</b></td>
+              <td><code>880.00 Hz</code></td>
+              <td><b>2.000 (exact doubling)</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
+        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
+      </p>
+    </div>
+
+    <!-- Cochlear Biological Processor -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
+      <h3 style="margin-top: 0; color: #059669; font-size: 15px;">The Cochlear Frequency Sorter: Biology''s Living Geometric Analyzer</h3>
+      <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #334155;">
+        Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex.
+      </p>
+      <p style="margin: 0; font-size: 13.5px; color: #334155;">
+        Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human sensor correspond to equal musical ratios—demonstrating that the geometric ladder is a biological architecture for processing reality.
+      </p>
+    </div>
+
+    <!-- Bridge to Course 1: Analysis 1D -->
+    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
+      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
+      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
+        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
+      </p>
+      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
+        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
+        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
+        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
+        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
+      </p>
+    </div>
+  </div>
+', 'published'),
+  (17, 'analysis1DIntro', 16, 'Preface: Taming the Unbroken Continuum', 'analysis1-d-intro', '
+    <div align="center">
+      <i
+        ><font size="+2"
+          ><b>Analysis 1D Overview: The Real Continuum</b></font
+        ></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite
+          Scaffold ℝ_ω</font
+        ></i
+      >
+    </div>
+    <br />
+
+    <h3>Preface: Taming the Unbroken Continuum</h3>
+    <p>
+      While <b>Algebra</b> studies exact equalities and discrete symmetries,
+      <b>Analysis</b> is the branch of mathematics that tames
+      <b
+        >continuous change, approximation, and accumulation over an unbroken
+        continuum</b
+      >.
+    </p>
+    <p>
+      Whenever a physical quantity varies continuously across time or space,
+      analysis addresses two master questions:
+    </p>
+    <ol>
+      <li>
+        <b>The Local Question (Instantaneous Rate of Change):</b> How fast is a
+        function changing <i>right here, right now</i>, at a single point?
+      </li>
+      <li>
+        <b>The Global Question (Continuous Accumulation):</b> How do uncountably
+        many infinitesimal contributions across an unbroken interval cumulate
+        into a single total sum (area, energy, or work)?
+      </li>
+    </ol>
+
+    <hr />
+
+    <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
+    <p>
+      In classical 19th-century real analysis, every individual real number
+      <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound
+      foundational crisis:
+    </p>
+    <ul>
+      <li>
+        Evaluating change at a single point requires dividing the change in
+        output by the change in input: <code>Δy / Δx</code>.
+      </li>
+      <li>
+        If <code>Δx = 0</code>, division is algebraically impossible (<code
+          >0 / 0</code
+        >
+        is undefined).
+      </li>
+      <li>
+        To avoid dividing by zero, standard analysis erected dense
+        <b>epsilon-delta (ε-δ) limit towers</b>:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 13px; margin: 6px 0"
+        >
+          f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp;
+          ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx ( 0 &lt; |Δx| &lt; δ &rArr;
+          |Δy/Δx - L| &lt; ε )
+        </div>
+      </li>
+    </ul>
+
+    <p>
+      <b>The Nonstandard Resolution (Abraham Robinson, 1960):</b><br />
+      Rather than treating the continuum as a static collection of zero-width
+      points, we use our constructive scaffold <b><code>ℝ_ω</code></b
+      >, equipped with genuine <b>infinitesimals</b>:
+    </p>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 14.5px;
+        margin: 10px 0;
+        color: #1e3a8a;
+        background-color: #f8fafc;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      "
+    >
+      <b
+        >Infinitesimal Step: &nbsp; dx = 1/ω &nbsp;&gt;&nbsp; 0 &emsp; (smaller
+        than any standard real 1/n)</b
+      >
+    </div>
+
+    <p>
+      Because <code>dx &gt; 0</code>, division by <code>dx</code> is 100% legal,
+      ordinary algebra!
+    </p>
+
+    <hr />
+
+    <h3>2. The Core Machinery: Tree Birthdays &amp; Halos</h3>
+
+    <h4>A. Hyperreals as Conway Tree Nodes (Birthday &ge; &omega;)</h4>
+    <p>
+      On John Conway''s recursive number tree, numbers are created day by day:
+    </p>
+    <ul>
+      <li>
+        Standard real numbers and dyadic fractions are born on finite days:
+        <code>0, 1, 2, ..., n</code>.
+      </li>
+      <li>
+        <b>Hyperreal Numbers</b> (ubiquitous in nonstandard analysis literature)
+        <b
+          >are nothing more than Conway tree numbers whose birthday is
+          <code>&ge; &omega;</code>!</b
+        >
+      </li>
+    </ul>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 14px;
+        margin: 10px 0;
+        color: #1e3a8a;
+        background-color: #eff6ff;
+        padding: 14px;
+        border: 1.5px solid #3b82f6;
+        border-radius: 8px;
+      "
+    >
+      <b>Demystifying the Literature:</b><br /><br />
+      The famous "Hyperreal Field <b>*ℝ</b>" constructed via ultrafilters in
+      standard mathematical logic is
+      <b
+        >100% isomorphic to the subfield of Conway''s Surreals born on Day
+        <code>&le; &omega;_1</code></b
+      >!<br /><br />
+      Infinitesimals like
+      <b><code>dx = 1/&omega; = { 0 | 1, 1/2, 1/4, 1/8, ... } &gt; 0</code></b>
+      and infinite numbers like
+      <b><code>&omega; = { 0, 1, 2, 3, ... | }</code></b> are simply nodes born
+      on transfinite birthdays <b><code>&ge; &omega;</code></b
+      >!
+    </div>
+
+    <h4>B. The Infinitesimal Halo (Monad) μ(x)</h4>
+    <p>
+      Around every number <code>x</code> born on a finite day sits a cluster of
+      tree nodes born on Day <code>ω</code> that differ from <code>x</code> by
+      an infinitesimal step &mdash; its <b>Halo <code>μ(x)</code></b
+      >:
+    </p>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 14px;
+        margin: 8px 0;
+        color: #1e3a8a;
+        background: #f8fafc;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      "
+    >
+      <b
+        >μ(x) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x } &emsp; where &emsp;
+        y ≈ x &hArr; |y - x| is an infinitesimal tree branch</b
+      >
+    </div>
+
+    <h4>C. The Standard Part Function (st)</h4>
+    <p>
+      Every finite number <code>y ∈ ℝ_ω</code> is uniquely decomposed into its
+      earliest standard ancestor plus transfinite branch dust:
+      <code>y = x + ε</code> (where <code>x</code> was born on a finite day and
+      <code>ε</code> on Day <code>ω</code>). The
+      <b>Standard Part Function <code>st(y) = x</code></b> simply prunes the
+      branch back to its earliest standard ancestor on the tree, casting its
+      observable shadow on <code>ℝ</code>.
+    </p>
+
+    <hr />
+
+    <h3>
+      3. The Architectural Bridge: From Step Index k to Continuum Transect x
+    </h3>
+    <p>
+      In our introductory study of <b>Sequences &amp; Progressions</b>,
+      quantities stepped along discrete tree ladders rung-by-rung using an
+      integer index <code>k ∈ ℕ_ω</code>. Crossing into continuous analysis
+      requires only one foundational refinement: replacing the integer step with
+      an <b>infinitesimal transect grid</b> across the continuum
+      <code>ℝ_ω</code>:
+    </p>
+
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 14px;
+        margin: 15px 0;
+      "
+    >
+      <div
+        style="
+          background: #f8fafc;
+          border: 1px solid #cbd5e1;
+          border-left: 4px solid #1e3a8a;
+          border-radius: 6px;
+          padding: 12px 14px;
+        "
+      >
+        <div
+          style="
+            font-weight: 700;
+            color: #1e3a8a;
+            font-size: 13.5px;
+            margin-bottom: 4px;
+          "
+        >
+          Discrete Stepping Ladder (Level 1)
+        </div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5">
+          • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code
+          ><br />
+          • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br />
+          • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code
+          ><br />
+          • <b>Nature:</b> Exact pairwise cancellation of internal ladder
+          boundaries.
+        </div>
+      </div>
+
+      <div
+        style="
+          background: #f8fafc;
+          border: 1px solid #cbd5e1;
+          border-left: 4px solid #059669;
+          border-radius: 6px;
+          padding: 12px 14px;
+        "
+      >
+        <div
+          style="
+            font-weight: 700;
+            color: #059669;
+            font-size: 13.5px;
+            margin-bottom: 4px;
+          "
+        >
+          Continuous Transect Grid on ℝ_ω (Level 3)
+        </div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5">
+          • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with
+          <code>dx = (b - a)/ω</code><br />
+          • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br />
+          • <b>Definite Integral:</b>
+          <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br />
+          • <b>Fundamental Theorem:</b>
+          <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Calculus is not an esoteric regime detached from elementary arithmetic; it
+      is the <b>exact same pairwise boundary cancellation</b> discovered in high
+      school algebra, operating across an infinitesimal grid.
+    </p>
+
+    <hr />
+
+    <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
+
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13.5px;
+        margin: 10px 0;
+      "
+    >
+      <tr bgcolor="#f8fafc">
+        <th width="20%" align="left">Concept</th>
+        <th width="40%" align="center">Nonstandard Formulation (ℝ_ω)</th>
+        <th width="40%" align="left">Intuitive Meaning</th>
+      </tr>
+      <tr>
+        <td><b>Continuity</b></td>
+        <td align="center">
+          <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code>
+        </td>
+        <td>
+          Points in the same halo map to the same halo (nearby points stay
+          nearby).
+        </td>
+      </tr>
+      <tr>
+        <td><b>Derivative</b></td>
+        <td align="center">
+          <code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code>
+        </td>
+        <td>
+          Direct algebraic division over an infinitesimal step, followed by
+          standard part shadow.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Integral</b></td>
+        <td align="center">
+          <code>∫[a to b] f(x) dx = st( ∑[k=1 to ω] f(x_k) · dx )</code>
+        </td>
+        <td>
+          Genuine discrete addition of <code>ω</code> microscopic rectangular
+          tiles.
+        </td>
+      </tr>
+      <tr>
+        <td><b>Fundamental Theorem</b></td>
+        <td align="center">
+          <code>∑[k=1 to ω] [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
+        </td>
+        <td>Pure telescoping cancellation of internal grid boundaries!</td>
+      </tr>
+    </table>
+
+    <hr />
+
+    <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
+
+    <div style="display: flex; justify-content: center; margin: 20px 0">
+      <div style="width: 100%; max-width: 640px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 180"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+          "
+        >
+          <!-- Header -->
+          <rect x="0" y="0" width="640" height="26" fill="#f1f5f9" rx="8" />
+          <rect x="0" y="18" width="640" height="8" fill="#f1f5f9" />
+          <text
+            x="320"
+            y="18"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#334155"
+          >
+            Comparing 1D Differentiation
+          </text>
+
+          <!-- Left: Classical Secant Limit -->
+          <rect
+            x="25"
+            y="40"
+            width="280"
+            height="120"
+            rx="4"
+            fill="#faf5ff"
+            stroke="#d8b4fe"
+          />
+          <text
+            x="165"
+            y="62"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#6b21a8"
+          >
+            Classical Standard Approach
+          </text>
+          <text
+            x="165"
+            y="85"
+            text-anchor="middle"
+            font-family="monospace"
+            font-size="10.5"
+            fill="#581c87"
+          >
+            f''(x) = lim (Δx→0) Δy / Δx
+          </text>
+          <text
+            x="165"
+            y="110"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9.5"
+            fill="#7e22ce"
+          >
+            Requires ε-δ quantified limit machinery
+          </text>
+          <text
+            x="165"
+            y="130"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9.5"
+            fill="#7e22ce"
+          >
+            Secant lines approaching a limit
+          </text>
+
+          <!-- Right: Nonstandard Algebraic Division -->
+          <rect
+            x="335"
+            y="40"
+            width="280"
+            height="120"
+            rx="4"
+            fill="#eff6ff"
+            stroke="#93c5fd"
+          />
+          <text
+            x="475"
+            y="62"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            Nonstandard ℝ_ω Approach
+          </text>
+          <text
+            x="475"
+            y="85"
+            text-anchor="middle"
+            font-family="monospace"
+            font-size="10.5"
+            fill="#1e3a8a"
+          >
+            f''(x) = st( Δy / dx )
+          </text>
+          <text
+            x="475"
+            y="110"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9.5"
+            fill="#2563eb"
+          >
+            Actual step dx = 1/ω &gt; 0
+          </text>
+          <text
+            x="475"
+            y="130"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9.5"
+            fill="#2563eb"
+          >
+            Direct algebraic division &amp; standard shadow
+          </text>
+        </svg>
+      </div>
+    </div>
+
+    <hr />
+
+    <h3>Analysis 1D Lecture Plan</h3>
+    <ul>
+      <li>
+        <b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The
+        halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining
+        continuity without <code>ε-δ</code>, and the Intermediate Value Theorem
+        as a discrete grid march.
+      </li>
+      <li>
+        <b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b>
+        Calculating slopes via pure algebra, the product and chain rules, and
+        local linear approximation <code>df = f''(x)·dx</code>.
+      </li>
+      <li>
+        <b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as
+        genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in
+        one telescoping line, and side-by-side comparisons with standard Riemann
+        limits.
+      </li>
+    </ul>
+  ', 'published'),
+  (18, 'analysis1DLecture1', 17, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
 <div align="center">
-    <i><font size="+2"><b>Level 2: Space, Direction &amp; Geometry</b></font></i><br>
-    <i><font size="+1">Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric Transformations</font></i>
+    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
+    <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
   </div>
   <br>
 
-  <h3>Preface: Algebraic Structures are Observed in Construction &amp; Confirmed by Induction</h3>
   <p>
-    In traditional mathematical presentations, abstract algebra is often introduced top-down as an intimidating list of arbitrary axioms handed down by authority.
-    In this curriculum, we take the opposite, constructive approach: <b>algebraic structures are emergent symmetries directly observed from recursively defined operations on our number trees &mdash; and then rigorously confirmed across all branches by structural mathematical induction</b>.
+    “In our foundational study of Sequences &amp; Progressions,” Jane began Lecture 1, “we marched along discrete ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. But continuous analysis asks a deeper question: what happens when quantities vary continuously across space and time?”
   </p>
   <p>
-    We adopt a strict pedagogical discipline:
+    Jane drew a single point on a horizontal real number line:
   </p>
-  <ol>
-    <li><b>Observation &rarr; Inductive Confirmation:</b> We first observe regularities on early tree days, then use mathematical induction on birthdays to prove the algebraic laws as universal theorems.</li>
-    <li><b>Physics-Free Mathematics First:</b> We establish all concepts in clean, abstract mathematical notation (<code>(G, ⋆), (F, +, ·), (V, +, ·)</code>, linear maps <code>T : V &rarr; W</code>, and duality <code>f(v)</code>).</li>
-    <li><b>Physical Realizations Second:</b> Once the algebraic geometry is rock-solid, we introduce physical realizations &mdash; such as Dirac bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces &mdash; as concrete applications.</li>
-  </ol>
+
+  <div align="center" style="margin: 15px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 80" style="width: 100%; max-width: 500px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px;">
+      <line x1="40" y1="40" x2="460" y2="40" stroke="#334155" stroke-width="2" />
+      <polygon points="465,40 455,35 455,45" fill="#334155" />
+      <circle cx="250" cy="40" r="4" fill="#2563eb" />
+      <text x="250" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">x₀</text>
+    </svg>
+  </div>
+
   <p>
-    Level 2 has two courses. <b>Linear Algebra</b> (sections 1&ndash;5 below) builds the algebraic skeleton: groups, fields, structure-preserving maps, and vector spaces. <b>Trigonometry &amp; Rotor Geometry</b> (section 6) puts that skeleton to work on the most familiar geometric idea of all &mdash; turning.
+    “In standard 19th-century geometry,” Jane said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
+  </p>
+
+  <p>
+    Jill looked at the point: “And that''s why Weierstrass and Cauchy had to invent the epsilon-delta limit &mdash; because they couldn''t actually step inside the point without breaking arithmetic.”
+  </p>
+
+  <p>
+    “Exactly,” Jane nodded. “Now let''s see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
   </p>
 
   <hr>
 
-  <h3>1. The Transfinite Scale: The Cutoff at ω &amp; The Countable ε₀ Safety Net</h3>
+  <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
+
   <p>
-    Closure is the non-negotiable bedrock of any algebraic structure: when you combine elements, the arithmetic result must stay inside the carrier set.
+    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jane said:
   </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 600px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Macroscopic Point -->
+        <rect x="20" y="20" width="220" height="120" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="130" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">Macroscopic View (ℝ)</text>
+        <line x1="40" y1="85" x2="220" y2="85" stroke="#64748b" stroke-width="2" />
+        <circle cx="130" cy="85" r="4" fill="#2563eb" />
+        <text x="130" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">x₀</text>
+
+        <!-- Arrow: Magnification -->
+        <text x="280" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">Zoom × ω</text>
+        <line x1="250" y1="85" x2="310" y2="85" stroke="#94a3b8" stroke-width="2" />
+        <polygon points="315,85 305,80 305,90" fill="#94a3b8" />
+
+        <!-- Right: Microscopic Halo -->
+        <rect x="330" y="20" width="250" height="120" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="455" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Microscopic Halo μ(x₀) in ℝ_ω</text>
+        <line x1="350" y1="85" x2="560" y2="85" stroke="#3b82f6" stroke-width="1.5" />
+        <circle cx="455" cy="85" r="4" fill="#1d4ed8" />
+        <circle cx="495" cy="85" r="3" fill="#60a5fa" />
+        <circle cx="415" cy="85" r="3" fill="#60a5fa" />
+        <text x="455" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">x₀</text>
+        <text x="500" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ + dx</text>
+        <text x="410" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ - dx</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “Under the magnification of <code>ω</code>,” Jane explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
+  </p>
+
+  <p>
+    “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
+  </div>
+
+  <p>
+    “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
+  </p>
+
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
+    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε &emsp; where &emsp; ε ≈ 0</b>
+    </div>
+    When <code>x</code> is a <b>hard dyadic number</b> (born on finite Day <code>k &lt; ω</code>), its halo perturbation vanishes identically (<code>ε = 0</code>), so <code>st(x) = x</code>.
+  </div>
+
+  <p>
+    “Notice the critical distinction here between the <b>formal theorem</b> and a <b>concrete instance</b>,” Jane explained:
+  </p>
+
   <ul>
-    <li><b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at ordinal <code>ω</code> in recursive tree generation. In the transfinite hierarchy of ordinals, <code>ω</code> is a "wee little thing."</li>
-    <li><b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling vectors can produce exact values whose <b>birthdays are strictly greater than <code>ω</code></b> (born on Day <code>ω+1, ω·2, ω^ω</code>). These numbers did not vanish &mdash; they were simply born on later days in the transfinite calendar!</li>
-    <li><b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where <code>ω^(ε₀) = ε₀</code>, the carrier set becomes <b>completely algebraically closed</b> &mdash; big enough to support a genuine field.</li>
-    <li><b>Standard Part Resolution:</b> The <b>Standard Part Function <code>st(x)</code></b> casts high-birthday transfinite results cleanly back down to their observable shadow on Day <code>ω</code>.</li>
-  </ul>
-
-  <hr>
-
-  <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
-  <p>
-    When arithmetic operations are run recursively on the tree, natural algebraic skeletons emerge and are confirmed by structural induction:
-  </p>
-
-  <h4>A. The Abelian Group <code>(G, +)</code></h4>
-  <p>
-    Recursive addition on the tree naturally exhibits four core symmetries, observed on early days and confirmed universally by mathematical induction on tree birthdays:
-  </p>
-  <ul>
-    <li><code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the root of the tree, confirmed inductively by <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).</li>
-    <li><code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral tree reflection).</li>
-    <li>Commutativity (<code>x + y = y + x</code>) and Associativity (<code>(x+y)+z = x+(y+z)</code>).</li>
-  </ul>
-  <p>
-    <i>Generalization:</i> Any collection of objects obeying these observed and inductively proven behaviors forms an <b>Abelian Group <code>(G, +)</code></b>.
-  </p>
-
-  <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>
-  <p>
-    A remarkable mathematical reality is that <b>you cannot simultaneously fit two full groups onto the exact same carrier set <code>F</code></b>:
-  </p>
-  <ul>
-    <li>If <code>(F, +)</code> is an additive group with identity <code>0</code>, then multiplication <i>cannot</i> form a group on all of <code>F</code> because <code>0</code> has no multiplicative inverse (<code>0 · x = 0 &ne; 1</code>).</li>
-    <li>The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.</li>
-    <li>A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of harmony between two operations: an additive group on all of <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched together by the <b>Distributive Law</b>:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;">
-        <b>a · ( b + c ) = a · b + a · c</b>
-      </div>
+    <li><b>Formal Deductive Theorem:</b> Lean 4 guarantees universally that every finite element on the tree decomposes into its standard shadow and infinitesimal halo dust without exception.</li>
+    <li><b>Concrete Computational Instance:</b> If we take a specific number like <code>x = 4 + 3·dx</code> (where <code>dx = 1/ω</code>):
+      <ul>
+        <li>The standard nucleus is <code>x₀ = st(4 + 3·dx) = 4</code> (a hard dyadic integer with zero intrinsic dust).</li>
+        <li>The transfinite halo perturbation is <code>ε = x - st(x) = 3·dx ∈ μ(0)</code>.</li>
+        <li>The exact decomposition holds: <code>x = 4 + 3·dx = st(x) + ε</code>.</li>
+        <li>Conversely, for a hard number such as <code>y = 4</code>, there is zero dust: <code>st(y) = 4</code> and <code>ε = 0</code>.</li>
+      </ul>
     </li>
   </ul>
 
-  <hr>
-
-  <h3>3. Structure-Preserving Functions: Mapping Between Operations</h3>
-  <p>
-    A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is <b>structure-preserving (a group homomorphism)</b> if:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
+    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
+    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
+    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
+    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
+    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>.
   </div>
-  <p>
-    <i>Core Meaning:</i> You get the exact same answer whether you combine elements first in the starting world using <code>⋆</code>, or map them first and combine them in the destination world using <code>⊙</code>!
-  </p>
-  <ul>
-    <li><b>The Exponential Bridge:</b> <code>(ℝ, +) &rarr; (ℝ⁺, ·)</code> with <code>e^(a + b) = e^a · e^b</code> (translates addition into multiplication).</li>
-    <li><b>Dimension Embedding:</b> <code>(ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</code> with <code>(a + b) + 0i = (a + 0i) +_ℂ (b + 0i)</code>.</li>
-    <li><b>The Phase Map:</b> <code>(ℝ, +) &rarr; (U(1), ·)</code> with <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> (converts angle addition to phase rotation).</li>
-  </ul>
 
   <hr>
 
-  <h3>4. Vector Spaces, Linear Maps &amp; Duality</h3>
+  <h3>2. Continuity Without Epsilon-Delta</h3>
+
   <p>
-    Combining our field <code>F</code> (such as <code>ℝ_ω</code> or <code>ℂ_ω</code>) with Cartesian multi-directional intuition produces a <b>Vector Space <code>(V, +, ·)</code></b> governed by Two Basic Moves:
+    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
   </p>
+
+  <p>
+    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
+  </p>
+
+  <p>
+    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>x ≈ x₀ &emsp;&rArr;&emsp; f(x) ≈ f(x₀)</b>
+  </div>
+
+  <p>
+    “In standard calculus,” Jane continued, “professors torture students with Weierstrass’s <i>epsilon-delta definition</i>: 
+    <code>∀ ε &gt; 0, ∃ δ &gt; 0, ∀ x, |x - x₀| &lt; δ &rArr; |f(x) - f(x₀)| &lt; ε</code>. 
+    It has four alternating quantifiers and turns a simple visual idea into a nightmare of nested inequalities!”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>, continuity has <b>zero epsilon-deltas</b>: a function is continuous at <code>x₀</code> if and only if it maps the halo of <code>x₀</code> into the halo of <code>f(x₀)</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping"><b>f( μ(x₀) ) &nbsp;&sube;&nbsp; μ( f(x₀) )</b></fsd-ref>
+  </div>
+
+  <p>
+    “Let''s test this on our favorite function,” Jane said: “<b>Is <code>f(x) = x²</code> continuous?</b>”
+  </p>
+
   <ol>
-    <li><b>Vector Addition (u + v):</b> Abelian group behavior inside <code>V</code>.</li>
-    <li><b>Scalar Multiplication (c · v):</b> Distributing field elements across vector directions.</li>
+    <li>Take any point in the halo of <code>x₀</code>: &nbsp; <code>x = x₀ + dx</code>, where <code>dx ≈ 0</code>.</li>
+    <li>Compute the output: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code>.</li>
+    <li>Subtract <code>f(x₀)</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx² = dx · (2x₀ + dx)</code>.</li>
+    <li>Because <code>2x₀ + dx</code> is finite and <code>dx</code> is infinitesimal, their product is infinitesimal!</li>
+    <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
+  </ol>
+  <p>
+    Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
+  </p>
+
+  <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
+    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
+
+  <p>
+    “Now let''s look at one of the classical crown jewels of real analysis,” Jane said: “<b>The Intermediate Value Theorem (IVT)</b>.”
+  </p>
+
+  <p>
+    <i>Theorem:</i> If <code>f</code> is continuous on <code>[a, b]</code> with <code>f(a) &lt; 0</code> and <code>f(b) &gt; 0</code>, there exists a point <code>c ∈ [a, b]</code> where <code>f(c) = 0</code>.
+  </p>
+
+  <p>
+    “In standard analysis, proving IVT requires the completeness axiom of the real numbers (Dedekind cuts or least upper bounds) &mdash; an unconstructive proof that tells you a root exists, but gives you no procedure to find it!”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>,” Jane explained, “the proof is a <b>finite computational algorithm</b>:”
+  </p>
+
+  <ol>
+    <li>Partition the interval <code>[a, b]</code> into <code>ω</code> equal steps of size <code>dx = (b - a)/ω</code>: &nbsp; <code>x_k = a + k · dx</code>.</li>
+    <li>Evaluate <code>f</code> at each grid point from left to right: &nbsp; <code>f(x₀) &lt; 0, f(x₁), f(x₂), ...</code>.</li>
+    <li>Because <code>f(x_ω) = f(b) &gt; 0</code>, there must be a <b>first index <code>m</code> where <code>f(x_m) ≥ 0</code></b>.</li>
+    <li>At this transition step: &nbsp; <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code>.</li>
+    <li>Because <code>x_{m-1}</code> and <code>x_m</code> differ by only <code>dx ≈ 0</code>, they belong to the same halo: <code>x_{m-1} ≈ x_m</code>!</li>
+    <li>By continuity: &nbsp; <code>f(x_{m-1}) ≈ f(x_m)</code>. Because <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code> are infinitesimally close, their common standard part must be zero: &nbsp; <b><code>st(f(x_m)) = 0</code></b>!</li>
   </ol>
 
-  <h4>Linear Maps &amp; Calculus Operators</h4>
   <p>
-    A map <code>T : V &rarr; W</code> is linear if <code>T(u + v) = T(u) + T(v)</code> and <code>T(c·v) = c·T(v)</code>.
-    This enables the linear derivative operator <code>D(f+g) = Df + Dg</code> and integral functional <code>∫(f+g) = ∫f + ∫g</code>.
+    Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
   </p>
 
-  <h4>Vector / Covector Duality</h4>
-  <p>
-    Every vector space <code>V</code> naturally pairs with its <b>dual space</b> <code>V*</code> of covectors (linear measurement meters):
-  </p>
-  <ul>
-    <li><b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions (column vectors).</li>
-    <li><b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement meters (row vectors).</li>
-    <li><b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading (scalar number).</li>
-  </ul>
+  <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
+    • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
+    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</eq-ref>
+  </div>
 
   <hr>
 
-  <h3>5. Physical Realizations: Duality &amp; Quantum State Spaces</h3>
   <p>
-    With the mathematical framework established, the physical realization of vector/covector duality in quantum and measurement theory falls directly into place (bridging forward to Level 5):
+    “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
-  <ul>
-    <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
-    <li>Measurement detectors are <b>covectors (bras)</b>: <code>⟨ϕ| ∈ ℋ_ω*</code>.</li>
-    <li>The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.</li>
-  </ul>
+', 'published'),
+  (19, 'analysis1DLecture2', 18, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
+    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
+    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
+  </div>
+
+  <p>
+    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
+  </p>
+
+  <p>
+    “Exactly,” Jane smiled. “Let''s see how this turns all of differential calculus into pure algebra.”
+  </p>
 
   <hr>
 
-  <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
+  <h3>1. Deriving Slopes by Pure Algebra</h3>
+
+  <h4>Example 1: The Parabola f(x) = x²</h4>
   <p>
-    The second course asks a simple question &mdash; <i>what is an angle?</i> &mdash; and answers it with the number trees from Level 1 and the maps from section 3.
+    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
+  </p>
+  <ol>
+    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
+    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
+    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
+    <li>Take the standard part: &nbsp; <code>f''(x) = st(2x + dx) = 2x</code></li>
+  </ol>
+  <p>
+    No limits, no inequalities &mdash; just straightforward polynomial division!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
+      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
+      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
+    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
+    • <b>Equivalence:</b> <code>f''(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
+
+  <p>
+    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 500px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Base Box -->
+        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
+        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
+
+        <!-- Right Strip: u · dv -->
+        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
+        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
+
+        <!-- Top Strip: v · du -->
+        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
+        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
+
+        <!-- Corner: du · dv -->
+        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
+        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
+    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
+  </div>
+  <p>
+    Dividing by <code>dx</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
+  </div>
+  <p>
+    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )'' &nbsp;=&nbsp; u · v'' + v · u''</b></fsd-ref>
+  </div>
+
+  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)'' = u·v'' + v·u''</code></fsd-ref>.<br>
+    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )''(x) = f''(g(x)) · g''(x)</code></fsd-ref>
+    </div>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
+
+  <p>
+    “In standard calculus,” Jane noted, “students are strictly warned: <i>''dy/dx is not a fraction; you cannot cancel dx!''</i>”
+  </p>
+  <p>
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
+    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
+  </div>
+  <p>
+    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
+  </div>
+  <p>
+    Taking standard parts yields the classical Chain Rule:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )''(x) &nbsp;=&nbsp; f''(g(x)) · g''(x)</b></fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
+
+  <p>
+    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f''(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
+  </p>
+  <p>
+    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f''(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
+  </div>
+  <p>
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f''(x) · dx</b></fsd-ref>
+  </div>
+  <p>
+    “The derivative <code>f''(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f''(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
+    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f''(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
+
+  <p>
+    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f''(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
+  </p>
+
+  <p>
+    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn''t curvature come from the <i>difference of the differences</i>?”
+  </p>
+
+  <p>
+    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
+  </p>
+
+  <ol>
+    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
+    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
+    <li><b>The Second Discrete Difference:</b></li>
+  </ol>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
+  </div>
+
+  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
+  <p>
+    Let''s test this directly on our parabola from Section 1:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
+  </div>
+
+  <p>
+    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>f''''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
+  </div>
+  <p>
+    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
+  </p>
+
+  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
+  <p>
+    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
+  </div>
+  <p>
+    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
   </p>
   <ul>
-    <li><b>From Triangles to Turning:</b> We start from the familiar presentation (SOH CAH TOA, then the unit circle and radians) and its open questions: how is a curved arc measured with straight rulers, how is <code>sin(35°)</code> actually computed, and how do static corners become continuous rotation?</li>
-    <li><b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the circle gives the perimeter <code>2π</code> as an exact sum, and the winding integral <code>∮ (1/z) dz = 2π i</code>.</li>
-    <li><b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the angle step. The half-angle rule <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète''s nested radicals, and the same left/right steering is the CORDIC algorithm used in hardware.</li>
-    <li><b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is the generator <code>i</code>, and an angle becomes a <b>unit rotor</b> <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors compose by multiplication &mdash; the phase map <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in action.</li>
-    <li><b>Euler''s Formula by Stepping:</b> Compounding <code>ω</code> perpendicular steps <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields <code>e^(iθ)</code> directly, without Taylor series.</li>
+    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
+    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
+    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
   </ul>
   <p>
-    Rotors are where the two courses meet: a rotor is a linear map on the vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix is the familiar <code>[ cos θ  -sin θ ; sin θ  cos θ ]</code>. This also sets up the complex phase that Level 5 needs for quantum amplitudes.
+    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
+    • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
+    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
+  </p>
+', 'published'),
+  (20, 'analysis1DLecture3', 19, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
+    <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began the final lecture of Course 2 by drawing a continuous curve over an interval <code>[a, b]</code>, divided into a multitude of vertical strips:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 540px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Axes -->
+        <line x1="40" y1="130" x2="500" y2="130" stroke="#334155" stroke-width="2" />
+        <line x1="50" y1="140" x2="50" y2="20" stroke="#334155" stroke-width="2" />
+
+        <!-- Strips under curve -->
+        <path d="M 100 130 L 100 95 Q 220 30 350 70 T 460 30 L 460 130 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
+        
+        <!-- Individual Tile -->
+        <rect x="250" y="55" width="20" height="75" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
+        <text x="260" y="45" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1e40af">f(x_k)·dx</text>
+
+        <!-- Labels -->
+        <text x="100" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">a = x₀</text>
+        <text x="460" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">b = x_ω</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In classical textbooks,” Jane said, “defining the integral requires taking the limit of Riemann sums as the mesh size shrinks to zero, or taking the supremum over all possible Darboux partitions.”
+  </p>
+
+  <p>
+    “On our hyperfinite scaffold <code>ℝ_ω</code>,” Jane smiled, “an integral is not an infinite limit. <b>It is literally a genuine discrete sum of <code>ω</code> microscopic rectangular tiles</b>.”
   </p>
 
   <hr>
 
-  <h3>Level 2 Lecture Plan</h3>
-  <p><b>Course 1: Linear Algebra</b></p>
+  <h3>1. The Discrete Hyperfinite Integral</h3>
+
+  <p>
+    Partition the interval <code>[a, b]</code> into <code>ω</code> equal infinitesimal steps of width <code>dx = (b - a) / ω</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b &emsp; where &emsp; x_k = a + k·dx
+  </div>
+
+  <p>
+    The continuous area under the curve is the standard part of the discrete sum:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b></fsd-ref>
+  </div>
+
+  <p>
+    Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-3.1): The Discrete Definite Integral on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
+    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
+    • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
+    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_discrete_integral" formula="SUM_W(x^2, 0, 1)">Discrete Definite Integral of x² on [0, 1] ≡ 1/3</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>2. The Fundamental Theorem of Calculus as Telescoping Cancellation</h3>
+
+  <p>
+    “Now,” Jane said, “we arrive at the crown jewel connecting differentiation and integration: <b>The Fundamental Theorem of Calculus (FTC)</b>.”
+  </p>
+
+  <p>
+    “Suppose <code>F''(x) = f(x)</code>. Across each microscopic step <code>dx</code> from <code>x_{k-1}</code> to <code>x_k</code>, the change in <code>F</code> is:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>F(x_k) - F(x_{k-1}) &nbsp;≈&nbsp; F''(x_k) · dx &nbsp;=&nbsp; f(x_k) · dx</b>
+  </div>
+
+  <p>
+    “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref><br><br>
+    = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
+  </div>
+
+  <p>
+    Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
+  </p>
+
+  <p>
+    “Wait,” Jill added, “that is the exact same pairwise cancellation as the high-school shift-and-subtract trick for geometric progressions: <code>(1 - r) · S_n = a - a · rⁿ</code>! All intermediate terms collapse identically!”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
+  </div>
+
+  <p>
+    Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>
+  </div>
+
+  <p>
+    “Exactly,” Jane smiled. “The high-school progression trick and the Fundamental Theorem of Calculus are the exact same algebraic phenomenon: pairwise boundary cancellation, operating here across our hyperfinite grid. There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Exact Telescoping Identity:</b> For any discrete sequence <code>F(x_k)</code>:<br>
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
+    </div>
+    • <b>Infinitesimal Increment Substitution:</b> If <code>F''(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
+    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_telescoping_ftc" formula="TELESCOPING_FTC(x^3, a, b)">Telescoping FTC Cancellation on f(x) = 3x²</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. Looking Forward to Analysis 2D (ℂ_ω)</h3>
+
+  <p>
+    “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
+  </p>
+  <p>
+    “In <b>Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
+  </p>
   <ul>
-    <li><b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b> Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>, why fields eject zero, and continuous transformation groups.</li>
-    <li><b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b> Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection, the exponential bridge, and embedding dimensions.</li>
-    <li><b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian multi-directional space, linear maps, vector/covector duality, and Dirac bra-ket inference.</li>
-  </ul>
-  <p><b>Course 2: Trigonometry &amp; Rotor Geometry</b></p>
-  <ul>
-    <li><b>Trigonometric Foundations &amp; Rotor Geometry:</b> A short history of angle, the standard presentation and its open questions, angle on the 1-, 2-, and 4-successor trees, CORDIC, unit rotors, Euler''s formula by perpendicular stepping, and why <code>2π i</code> appears in contour integrals.</li>
+    <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
+    <li>How <b>Cauchy''s Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
+    <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
   </ul>
 ', 'published'),
-  (16, 'vectorsLecture1', 15, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+  (21, 'analysis2DIntro', 20, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
+<div align="center">
+      <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
+      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
+    </div>
+    <br>
+    <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
+    <p>
+      If 1D Real Analysis is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
+    </p>
+    <p>
+      Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
+    </p>
+    <hr>
+    <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
+    <p>
+      The complex continuum <code>ℂ_ω</code> is constructed by taking two copies of our 1D real tree scaffold <code>ℝ_ω</code> and crossing them at right angles:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
+      <b>z &nbsp;=&nbsp; x + i · y &emsp; where &emsp; x, y ∈ ℝ_ω &emsp;and&emsp; i² = -1</b>
+    </div>
+    <p>
+      The fundamental infinitesimal cell displacement is:
+    </p>
+    <div style="font-family: monospace; font-size: 14px; margin: 6px 0;" align="center">
+      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
+    </div>
+
+    <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
+      The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i·y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
+      </div>
+      Every point <code>z ∈ ℂ_ω</code> is tiled by infinitesimal <code>dx × dy</code> square cells with step <code>dz = dx + i·dy</code>, yielding a seamless 2D continuum with zero gaps.
+    </div>
+    </fsd-ref>
+
+    <div style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
+      <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
+      <br>
+      Crossing two 1D 2-successor trees <code>(ℝ_ω × ℝ_ω)</code> yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> cells &mdash; completely tiling 2D Cartesian space with zero gaps!<br>
+      <br>
+      While two decoupled 1D axes fill Cartesian space, the native <b>4-successor complex tree <code>ℂ_ω</code></b> binds <em>x</em> and <em>y</em> into a single complex entity. Neighboring cells share 1D boundary walls across which complex phase rotations <code>e^{iθ}</code> and continuous quantum wave packets flow smoothly.
+    </div>
+    <hr>
+    <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
+    <p>
+      In real 2D calculus, a function <code>f : ℝ² → ℝ²</code> can stretch, squish, or distort shapes into arbitrary shears. In <b>Complex Analysis</b>, requiring a single complex derivative <code>f''(z)</code> forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
+    </p>
+    <ul>
+      <li>Every infinitesimal grid square is <b>scaled and rotated</b>, but <b>never sheared</b>!</li>
+      <li>This geometric square-preservation is algebraically expressed by the <b>Cauchy-Riemann Equations</b>:
+        <div style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;" align="center">
+          <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
+        </div>
+      </li>
+    </ul>
+
+    <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Maps">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Maps):</b><br>
+      A function <code>f(z) = u(x,y) + i·v(x,y)</code> is complex differentiable if and only if horizontal and vertical infinitesimal slopes coincide:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>st(Δf / dx) &nbsp;=&nbsp; st(Δf / (i·dy)) &nbsp;⇒&nbsp; ∂u/∂x = ∂v/∂y &nbsp;and&nbsp; ∂u/∂y = -∂v/∂x</b>
+      </div>
+      Geometrically, every microscopic square cell maps to another un-sheared square, preserving angles and local shapes.
+    </div>
+    </fsd-ref>
+
+    <hr>
+    <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
+    <p>
+      In 1D calculus, the Fundamental Theorem worked by 1D telescoping cancellation between adjacent line segments. In 2D complex calculus, <b>Cauchy''s Integral Theorem</b> is the exact 2D planar analog:
+    </p>
+    <div style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (around any closed loop enclosing no poles)</b>
+    </div>
+    <p>
+      <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside. Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
+    </p>
+
+    <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="FS-A2D-2.1: Cauchy''s Integral Theorem & Boundary Cancellation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; Boundary Cancellation):</b><br>
+      For any holomorphic function <code>f(z)</code> on a simply connected domain enclosing loop <code>γ</code>, tiling the interior into micro-cells <code>□_k</code> gives:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>∮_γ f(z) dz &nbsp;=&nbsp; ∑_{k} ∮_{∂□_k} f(z) dz &nbsp;=&nbsp; 0</b>
+      </div>
+      Every shared internal cell edge is traversed in opposing directions (<code>↑ + ↓ = 0</code>, <code>→ + ← = 0</code>), leaving net boundary circulation zero.
+    </div>
+    </fsd-ref>
+
+    <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: Residues & Logarithmic Root Counting">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-2.2 (Residues &amp; Logarithmic Root Counting):</b><br>
+      When isolated poles <code>z_k</code> puncture the region, closed loop integration counts vortex circulations:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k) &emsp;and&emsp; (1 / 2π i) ∮_γ [f''(z) / f(z)] dz &nbsp;=&nbsp; N_zeros(f, γ)</b>
+      </div>
+      Continuous contour integrals act as exact integer counters for enclosed roots.
+    </div>
+    </fsd-ref>
+
+    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
+      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
+        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
+      </summary>
+      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
+        <p>
+          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy''s Integral Theorem</b>, <b>Cauchy''s Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green''s Theorem</b> &mdash; opens with the exact same condition: 
+          <i>“Let γ be a simple closed curve in the plane...”</i>
+        </p>
+        <p>
+          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
+        </p>
+        <ul>
+          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
+          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
+          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
+        </ul>
+        <p>
+          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
+        </p>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
+        <ol style="margin-left: 18px;">
+          <li style="margin-bottom: 8px;">
+            <b>Cauchy''s Integral Formula as an Analytic Inside/Outside Detector:</b><br>
+            Consider Cauchy''s integral formula with test function <code>f(z) = 1</code>:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
+            </div>
+            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
+            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <b>Green''s Theorem &amp; Telescoping Cell Sums:</b><br>
+            Green''s theorem converts a 2D surface integral into a 1D perimeter circulation:
+            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
+            </div>
+            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
+          </li>
+        </ol>
+
+        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
+
+        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
+        <p>
+          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
+        </p>
+        <ul>
+          <li><b>The Quadtree Horizon Escape:</b> 
+            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
+          </li>
+          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
+            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
+            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
+              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
+            </div>
+            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
+          </li>
+          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
+            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy''s integral formula.
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <hr>
+    <h3>4. Looking Ahead: Continuous Unitary Evolution &amp; Phase Transitions</h3>
+    <p>
+      Complex analysis provides the mathematical foundation for wave mechanics and continuous state evolution, bridging forward to spatial geometry and quantum theory:
+    </p>
+    <h4>A. Continuous Quantum State Evolution</h4>
+    <p>
+      The continuous-time evolution of a quantum state is a continuous phase rotation powered by the Hamiltonian operator <code>H</code>:
+    </p>
+    <div style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;" align="center">
+      <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
+    </div>
+
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Continuous Unitary Evolution & Schrödinger Equation">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-3.1 (Continuous Unitary Evolution &amp; Schrödinger Equation):</b><br>
+      Self-adjointness of the Hamiltonian (<code>H = H†</code>) guarantees that time evolution <code>U(t) = e^(-i H t / ħ)</code> is unitary (<code>U(t)† U(t) = I</code>), preserving total probability. Differentiating with respect to time yields the continuous Schrödinger equation:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+        <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+      </div>
+    </div>
+    </fsd-ref>
+
+    <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
+    <p>
+      Why does liquid water suddenly freeze into rigid ice at exactly 0°C?
+    </p>
+    <ul>
+      <li>For any finite system (<code>N &lt; ω</code>), the thermodynamic partition function <code>Z_N(T)</code> is strictly positive and analytic everywhere on the real temperature axis.</li>
+      <li>Its zeros live exclusively in the <b>complex plane</b> (Lee-Yang zeros).</li>
+      <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
+    </ul>
+
+    <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Phase Transitions">
+    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+      <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Phase Transitions):</b><br>
+      For any finite system, partition zeros lie strictly off the real line in <code>ℂ_ω \ ℝ</code>. In the transfinite continuum limit (<code>N = ω</code>), the zero distribution pinches the real line at critical point <code>T_c</code>, inducing a non-analytic kink in free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> that manifests as a macroscopic phase transition.
+    </div>
+    </fsd-ref>
+
+    <hr>
+    <h3>Analysis 2D Lecture Plan</h3>
+    <ul>
+      <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
+        Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation (<b>FS-A2D-1.1, FS-A2D-1.2</b>).</li>
+      <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b>
+        Proving Cauchy''s Integral Theorem via 2D cell edge cancellation, Laurent expansions, and root-counting loop integrals (<b>FS-A2D-2.1, FS-A2D-2.2</b>).</li>
+      <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b>
+        Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
+    </ul>
+', 'published'),
+  (22, 'analysis2DLecture1', 21, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
+    <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 1 by sketching a 2D square grid on the blackboard, formed by crossing two copies of the 1D tree scaffold <code>ℝ_ω</code>:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 520px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Axes -->
+        <line x1="30" y1="130" x2="490" y2="130" stroke="#334155" stroke-width="2" />
+        <line x1="50" y1="145" x2="50" y2="15" stroke="#334155" stroke-width="2" />
+        <text x="480" y="145" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Re (x)</text>
+        <text x="55" y="25" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Im (y)</text>
+
+        <!-- Grid Lines -->
+        <g stroke="#e2e8f0" stroke-width="1">
+          <line x1="120" y1="20" x2="120" y2="130" />
+          <line x1="190" y1="20" x2="190" y2="130" />
+          <line x1="260" y1="20" x2="260" y2="130" />
+          <line x1="330" y1="20" x2="330" y2="130" />
+          <line x1="400" y1="20" x2="400" y2="130" />
+          <line x1="50" y1="100" x2="470" y2="100" />
+          <line x1="50" y1="70" x2="470" y2="70" />
+          <line x1="50" y1="40" x2="470" y2="40" />
+        </g>
+
+        <!-- Highlighted Cell dz = dx + i dy -->
+        <rect x="260" y="70" width="70" height="30" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+        <text x="295" y="88" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#1e40af">dz = dx + i·dy</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In Course 2,” Jane said, “we explored continuous calculus along a 1D line. Today, we cross two 1D tree transects at right angles to construct the 2D complex plane: <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>.”
+  </p>
+
+  <p>
+    Jill observed: “In 1D, when you take an infinitesimal step <code>dx</code>, you can only step left or right. But in 2D, a point can be approached from an infinite number of directions: horizontally, vertically, or diagonally!”
+  </p>
+
+  <p>
+    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
+  </div>
+
+  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
+    • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
+    • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
+    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
+    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_complex_step" formula="NORM_SQ(x + i*y)">2D Complex Step &amp; Modulus Invariance on ℂ_ω</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>1. Deriving the Cauchy-Riemann Equations</h3>
+
+  <p>
+    Let <code>f(z) = u(x, y) + i · v(x, y)</code> be a complex function, where <code>u</code> is the real part and <code>v</code> is the imaginary part.
+    For the derivative <code>f''(z) = st(Δf / dz)</code> to exist independently of direction, the slope along a <b>horizontal step</b> must match the slope along a <b>vertical step</b>:
+  </p>
+
+  <h4>Move 1: Horizontal Step (dz = dx, dy = 0)</h4>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;→&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
+  </div>
+
+  <h4>Move 2: Vertical Step (dz = i·dy, dx = 0)</h4>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δf / (i·dy) &nbsp;=&nbsp; [ (u(x, y+dy) - u(x, y)) + i(v(x, y+dy) - v(x, y)) ] / (i·dy) &nbsp;=&nbsp; (1/i) · ∂u/∂y + ∂v/∂y<br>
+    &emsp;&emsp;&emsp;&emsp;&emsp;= <b>∂v/∂y - i · ∂u/∂y</b> &emsp; (since 1/i = -i)
+  </div>
+
+  <h4>Equating Real &amp; Imaginary Components:</h4>
+  <p>
+    Equating the horizontal and vertical slopes gives the famous <b>Cauchy-Riemann Equations</b>:
+  </p>
+
+  <fsd-ref tier="3" scaffold="Holomorphic" title="Cauchy-Riemann Coordinate Symmetry">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>2. Geometric Meaning: Conformal Square Preservation</h3>
+
+  <p>
+    “What do the Cauchy-Riemann equations actually mean geometrically?” Jane asked.
+  </p>
+
+  <p>
+    Jane drew a microscopic square on the input grid and its image under <code>f(z)</code>:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 540px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Input Square -->
+        <rect x="40" y="35" width="60" height="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+        <text x="70" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">dx × dy</text>
+        <text x="70" y="115" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Input Cell</text>
+
+        <!-- Arrow -->
+        <text x="200" y="60" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">f(z)</text>
+        <line x1="150" y1="65" x2="250" y2="65" stroke="#94a3b8" stroke-width="2" />
+        <polygon points="255,65 245,60 245,70" fill="#94a3b8" />
+
+        <!-- Right: Rotated & Scaled Square (No Shear!) -->
+        <g transform="translate(370, 65) rotate(30)">
+          <rect x="-40" y="-40" width="80" height="80" fill="#faf5ff" stroke="#9333ea" stroke-width="2" />
+          <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Rotated Square</text>
+        </g>
+        <text x="370" y="125" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Output Cell: Preserves 90° Corners!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    Jill smiled: “The transformation stretches and rotates the square, but it <b>never distorts it into a parallelogram</b>! It preserves every right angle!”
+  </p>
+
+  <p>
+    “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
+  </p>
+
+  <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Invariance">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
+    Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
+    <ol style="margin: 6px 0 0 18px;">
+      <li><b>Coordinate Symmetry:</b> <code>∂u/∂x = ∂v/∂y</code> and <code>∂u/∂y = -∂v/∂x</code>.</li>
+      <li><b>Jacobian Structure:</b> The derivative Jacobian matrix has the conformal form:
+        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+          <b>J = [ [a, -b], [b, a] ] &emsp; with &nbsp; det(J) = a² + b² = |f''(z)|²</b>
+        </div>
+      </li>
+      <li><b>Conformal Invariance:</b> The linear map scales by <code>|f''(z)|</code> and rotates by <code>arg(f''(z))</code>, strictly preserving oriented angles and orthogonality.</li>
+      <li><b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_riemann" formula="CR_DIFF(z^2, z)">Cauchy-Riemann Symmetries on f(z) = z²</eq-ref></li>
+    </ol>
+  </div>
+  </fsd-ref>
+
+  <p>
+    “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
+  </p>
+', 'published'),
+  (23, 'analysis2DLecture2', 22, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+<div align="center">
+    <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
+    <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by drawing a closed loop <code>γ</code> filled with a checkerboard mosaic of microscopic square cells:
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 15px 0;">
+    <div style="width: 100%; max-width: 520px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Outer Loop -->
+        <ellipse cx="260" cy="80" rx="190" ry="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" />
+        <text x="430" y="50" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Loop γ</text>
+
+        <!-- Internal Cells -->
+        <g stroke="#93c5fd" stroke-width="1">
+          <rect x="180" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="220" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="260" y="55" width="40" height="40" fill="#ffffff" />
+          <rect x="300" y="55" width="40" height="40" fill="#ffffff" />
+        </g>
+
+        <!-- Opposing Arrows on Shared Edge -->
+        <line x1="220" y1="58" x2="220" y2="92" stroke="#dc2626" stroke-width="2" />
+        <polygon points="217,70 220,62 223,70" fill="#dc2626" />
+        <line x1="222" y1="58" x2="222" y2="92" stroke="#16a34a" stroke-width="2" />
+        <polygon points="219,80 222,88 225,80" fill="#16a34a" />
+        <text x="220" y="115" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#334155">Opposing internal edges cancel!</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    “In 1D calculus,” Jane said, “the Fundamental Theorem worked because every intermediate point canceled out in a single line of telescoping addition. Today, we discover how the exact same principle works across a 2D plane: <b>Cauchy''s Integral Theorem</b>.”
+  </p>
+
+  <hr>
+
+  <h3>1. Cauchy''s Theorem as 2D Boundary Cancellation</h3>
+
+  <p>
+    Suppose you want to compute the total circulation around a closed loop: <code>∮_γ f(z) dz</code>.
+  </p>
+
+  <ol>
+    <li>
+      Tile the interior of the loop with microscopic square cells <code>dx × dy</code> on our grid <code>ℂ_ω</code>.
+    </li>
+    <li>
+      Sum the counter-clockwise circulation around every individual microscopic cell.
+    </li>
+    <li>
+      <b>The Internal Edge Cancellation:</b> For every interior boundary line separating two cells, the left cell integrates upwards (<code>↑</code>), while the right cell integrates downwards (<code>↓</code>). The two contributions are equal and opposite, <b>cancelling to exact zero</b>!
+    </li>
+    <li>
+      All internal edges vanish, leaving only the outermost perimeter edges &mdash; which form the outer loop <code>γ</code>!
+    </li>
+  </ol>
+
+  <p>
+    Because the Cauchy-Riemann equations guarantee that circulation around every unpunctured microscopic square is zero, the total loop integral must be <b>identically zero</b>:
+  </p>
+
+  <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="Cauchy Closed Loop Circulation (∮ f(z) dz = 0)">
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
+  </div>
+  </fsd-ref>
+
+  <fsd-ref tier="3" scaffold="cauchy_edge_cancel" title="FS-A2D-2.1: Cauchy''s Integral Theorem & 2D Edge Cancellation">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; 2D Edge Cancellation):</b><br>
+    Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; st( ∑_{k} ∮_{∂□_k} f(z) dz ) &nbsp;=&nbsp; 0</b>
+    </div>
+    <b>Proof mechanism:</b> Every interior cell-boundary edge shared by adjacent cells <code>□_i</code> and <code>□_j</code> is oriented with opposite traversal directions:
+    <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
+      <b>∫_{e_{ij}} f(z) dz + ∫_{e_{ji}} f(z) dz &nbsp;=&nbsp; 0</b>
+    </div>
+    All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_integral" formula="CELL_SUM(dz, Loop)">Cauchy Closed Loop Cell Edge Cancellation</eq-ref>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>2. Singularities &amp; The Residue Theorem</h3>
+
+  <p>
+    “What happens,” Jill asked, “if a function blows up at a point inside the loop &mdash; like <code>f(z) = 1/z</code> at <code>z = 0</code>?”
+  </p>
+
+  <p>
+    “When a puncture (pole) exists,” Jane explained, “the square at the origin cannot cancel. If we integrate <code>1/z</code> around a circle of radius <code>r = 1</code> using <code>z = e^(iθ)</code> and <code>dz = i·e^(iθ) dθ</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>∮_{|z|=1} (1/z) dz &nbsp;=&nbsp; ∫[0 to 2π] (1/e^(iθ)) · (i·e^(iθ) dθ) &nbsp;=&nbsp; i ∫[0 to 2π] dθ &nbsp;=&nbsp; 2π i</b>
+  </div>
+
+  <p>
+    “The non-zero value <code>2π i</code> is the fundamental vortex circulation of the pole!” Jane said.
+    “This generalizes to the <b>Residue Theorem</b>: every closed loop integral simply counts the sum of its enclosed vortex residues:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
+    <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
+  </div>
+
+  <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: The Residue Theorem & Logarithmic Root Counting">
+  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
+    <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
+    Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑_{k} Res(f, z_k) &emsp; where &emsp; Res(f, z_k) = c_{-1}</b>
+    </div>
+    Furthermore, integrating the logarithmic derivative yields the exact integer zero-counter:
+    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
+      <b>( 1 / 2π i ) ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
+    </div>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_residue_integral" formula="RESIDUE(1/z, z=0)">Residue Theorem on 1/z at Origin: 2π i</eq-ref>
+  </div>
+  </fsd-ref>
+
+  <hr>
+
+  <h3>3. Counting Zeros via Logarithmic Loops</h3>
+
+  <p>
+    “Finally,” Jane said, “look at what happens when we integrate the logarithmic derivative <code>f''(z) / f(z)</code> around a loop <code>γ</code>:”
+  </p>
+
+  <fsd-ref tier="3" scaffold="residue_theorem" title="Logarithmic Derivative Root Counter">
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>( 1 / 2π i ) · ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; Number of Zeros of f(z) inside γ</b>
+  </div>
+  </fsd-ref>
+
+  <p>
+    Jill’s eyes widened: “A continuous loop integral acts as an <b>exact integer counter</b> for how many roots are trapped inside!”
+  </p>
+
+  <p>
+    “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
+  </p>
+', 'published'),
+  (24, 'analysis2DLecture3', 23, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+    <div align="center">
+      <i
+        ><font size="+2"><b>Analysis 2D Lecture 3</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >— Continuous State Evolution &amp; Phase Transitions —</font
+        ></i
+      >
+    </div>
+    <br />
+
+    <p>
+      Jane stood before the class to open the concluding lecture of Analysis 2D:
+    </p>
+
+    <p>
+      “Having explored 1D rates of change and 2D conformal geometry on the
+      complex plane <code>ℂ_ω</code>, we now examine how complex numbers govern
+      continuous physical systems. Today, we discover how continuous phase
+      rotations drive unitary state evolution and uncover the geometric origins
+      of <b>Phase Transitions</b>.”
+    </p>
+
+    <hr />
+
+    <h3>1. Continuous-Time Wave Evolution &amp; Unitary Invariance</h3>
+
+    <p>
+      “In physical systems and wave mechanics,” Jane explained to Jill, “a
+      continuous state evolves over time driven by an energy Hamiltonian
+      operator <code>H</code>. How does complex geometry govern this continuous
+      change?”
+    </p>
+
+    <p>
+      “In quantum mechanics, time evolution is driven by the energy Hamiltonian
+      operator <code>H</code> through a <b>continuous unitary group map</b>:”
+    </p>
+
+    <fsd-ref
+      tier="3"
+      scaffold="unitary_preservation"
+      title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)"
+    >
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 16px;
+          margin: 12px 0;
+          color: #1e3a8a;
+          background-color: #f8fafc;
+          padding: 12px;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+        "
+      >
+        <b
+          >|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ)
+          |ψ(0)⟩</b
+        >
+      </div>
+    </fsd-ref>
+
+    <p>
+      Jane pointed to the exponent: “Notice how the mathematical pieces we''ve
+      built snap together:”
+    </p>
+    <ul>
+      <li>
+        The Hamiltonian <code>H</code> is a
+        <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose
+        eigenvalues represent real physical energies.
+      </li>
+      <li>
+        Multiplying by the imaginary unit <code>i</code> turns real energy into
+        a pure phase rotation across <code>ℂ_ω</code>.
+      </li>
+      <li>
+        <b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign
+        in the complex exponent:
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 13.5px;
+            margin: 6px 0;
+            color: #1e3a8a;
+          "
+        >
+          <b
+            >U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t /
+            ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b
+          >
+        </div>
+        Multiplying them together yields:
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 14px;
+            margin: 6px 0;
+            color: #1e3a8a;
+          "
+        >
+          <b
+            >U(t)† · U(t) &nbsp;=&nbsp; e^(+iHt/ħ) · e^(-iHt/ħ) &nbsp;=&nbsp;
+            e^0 &nbsp;=&nbsp; I</b
+          >
+        </div>
+      </li>
+      <li>
+        <b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation
+        on the unit sphere of Hilbert space &mdash;
+        <b
+          >probabilities are 100% conserved and information is never
+          destroyed</b
+        >!
+      </li>
+      <li>
+        Evaluating the infinitesimal rate of change yields
+        <b>Schrödinger''s Equation</b> directly:
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 14.5px;
+            margin: 8px 0;
+            color: #1e3a8a;
+          "
+        >
+          <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+        </div>
+      </li>
+    </ul>
+
+    <fsd-ref
+      tier="3"
+      scaffold="unitary_preservation"
+      title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation"
+    >
+      <div
+        style="
+          margin: 14px 0;
+          padding: 12px 16px;
+          background-color: #f8fafc;
+          border-left: 4px solid #0284c7;
+          border-top: 1px solid #e2e8f0;
+          border-right: 1px solid #e2e8f0;
+          border-bottom: 1px solid #e2e8f0;
+          border-radius: 4px;
+        "
+      >
+        <b
+          >Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger
+          Equation):</b
+        ><br />
+        Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space
+        <code>H</code>.
+        <ol style="margin: 6px 0 0 18px">
+          <li>
+            <b>Unitary Group Map:</b> The continuous time operator
+            <code>U(t) = e^{-i H t / ħ}</code> satisfies:
+            <div
+              align="center"
+              style="
+                font-family: monospace;
+                font-size: 13px;
+                margin: 4px 0;
+                color: #1e3a8a;
+              "
+            >
+              <b
+                >U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I
+                &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥²
+                &nbsp;=&nbsp; 1</b
+              >
+            </div>
+          </li>
+          <li>
+            <b>Infinitesimal Generator:</b> Taking the time derivative at
+            <code>dt = 1/ω</code> yields the differential Schrödinger equation:
+            <div
+              align="center"
+              style="
+                font-family: monospace;
+                font-size: 13px;
+                margin: 4px 0;
+                color: #1e3a8a;
+              "
+            >
+              <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
+            </div>
+          </li>
+          <li>
+            <b>Probability Conservation:</b> Continuous state dynamics preserves
+            total probability along the unit sphere without dissipation.
+          </li>
+          <li>
+            <b>CAS Example:</b>
+            <eq-ref
+              eq-id="cas_unitary_schrodinger"
+              formula="SCHRODINGER_EXP(-i*H*t/hbar)"
+              >Unitary Time Evolution &amp; Probability Conservation</eq-ref
+            >
+          </li>
+        </ol>
+      </div>
+    </fsd-ref>
+
+    <hr />
+
+    <h3>2. Continuous Wavepackets &amp; Spatial Normalization</h3>
+
+    <p>
+      “When a physical wave or state is continuous across space,” Jane
+      continued, “the spatial amplitude <code>ψ(x)</code> distributes across the
+      continuum.”
+    </p>
+
+    <p>The total probability is normalized through our hyperfinite integral:</p>
+    <fsd-ref
+      tier="3"
+      scaffold="hyper_sum"
+      title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)"
+    >
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 14.5px;
+          margin: 8px 0;
+          color: #1e3a8a;
+        "
+      >
+        <b
+          >∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx )
+          &nbsp;=&nbsp; 1</b
+        >
+      </div>
+    </fsd-ref>
+
+    <p>
+      “When an observation is made at position <code>x</code>, the continuous
+      state localizes. Looking ahead to our later exploration of Quantum and
+      Bayesian systems in Level 5, the Born rule
+      <code>P(x) = |ψ(x)|²</code> serves as the profound bridge connecting
+      continuous wave geometry to empirical observation and belief revision!”
+    </p>
+
+    <hr />
+
+    <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
+
+    <p>
+      “Now,” Jane smiled, “let''s address one of the deepest questions in
+      physical science: <b>why do sudden phase transitions occur?</b> Why does
+      liquid water suddenly freeze into solid ice at exactly 0°C, even though
+      microscopic atomic laws are completely smooth?”
+    </p>
+
+    <div style="display: flex; justify-content: center; margin: 20px 0">
+      <div style="width: 100%; max-width: 580px; text-align: center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 580 180"
+          style="
+            width: 100%;
+            height: auto;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+          "
+        >
+          <!-- Real Axis -->
+          <line
+            x1="30"
+            y1="90"
+            x2="550"
+            y2="90"
+            stroke="#334155"
+            stroke-width="2"
+          />
+          <text
+            x="540"
+            y="80"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#334155"
+          >
+            Real Temp T
+          </text>
+          <circle cx="290" cy="90" r="4" fill="#dc2626" />
+          <text
+            x="290"
+            y="110"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#dc2626"
+          >
+            Critical Temp T_c
+          </text>
+
+          <!-- Complex Unit Circle & Pinching Zeros -->
+          <ellipse
+            cx="290"
+            cy="90"
+            rx="90"
+            ry="70"
+            fill="none"
+            stroke="#93c5fd"
+            stroke-width="1.5"
+            stroke-dasharray="3,3"
+          />
+          <circle cx="240" cy="40" r="3" fill="#2563eb" />
+          <circle cx="340" cy="40" r="3" fill="#2563eb" />
+          <circle cx="230" cy="90" r="3" fill="#2563eb" />
+          <circle cx="350" cy="90" r="3" fill="#2563eb" />
+          <circle cx="280" cy="85" r="3" fill="#2563eb" />
+          <circle cx="300" cy="85" r="3" fill="#2563eb" />
+          <circle cx="290" cy="91" r="3.5" fill="#dc2626" />
+
+          <text
+            x="290"
+            y="25"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="11"
+            font-weight="bold"
+            fill="#1e40af"
+          >
+            Lee-Yang Zeros in Complex Plane ℂ_ω
+          </text>
+          <text
+            x="290"
+            y="155"
+            text-anchor="middle"
+            font-family="sans-serif"
+            font-size="9.5"
+            fill="#64748b"
+          >
+            At N = ω, zeros pinch the real axis at T_c creating sudden
+            macroscopic phase change!
+          </text>
+        </svg>
+      </div>
+    </div>
+
+    <p>
+      Jane explained the four steps of the celebrated
+      <b>Lee-Yang Circle Theorem</b>:
+    </p>
+
+    <ol>
+      <li>
+        <b>Finite Systems are Perfectly Smooth (N &lt; ω):</b> For any finite
+        collection of <code>N</code> atoms, the partition function
+        <code>Z_N(T)</code> is a polynomial with all positive real coefficients.
+        A polynomial with positive coefficients
+        <b>can never equal zero for any real temperature <code>T ∈ ℝ</code></b
+        >.
+      </li>
+      <li>
+        <b>Zeros Live Exclusively in ℂ_ω:</b> In 1952, Nobel laureates T.D. Lee
+        and C.N. Yang proved that all zeros of <code>Z_N</code> live off the
+        real axis, distributed along a circle in the
+        <b>complex plane <code>ℂ_ω</code></b
+        >.
+      </li>
+      <li>
+        <b>The Thermodynamic Pinch (N = ω):</b> As the number of atoms reaches
+        our transfinite scale <code>N = ω</code>, the density of complex zeros
+        intensifies until they
+        <b
+          >pinch the real temperature axis at exact critical point
+          <code>T_c</code></b
+        >!
+      </li>
+      <li>
+        <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free
+        energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink
+        &mdash; creating the sudden, sharp macroscopic transition of freezing,
+        boiling, or ferromagnetism!
+      </li>
+    </ol>
+
+    <fsd-ref
+      tier="3"
+      scaffold="lee_yang_zero_pinch"
+      title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions"
+    >
+      <div
+        style="
+          margin: 14px 0;
+          padding: 12px 16px;
+          background-color: #f8fafc;
+          border-left: 4px solid #0284c7;
+          border-top: 1px solid #e2e8f0;
+          border-right: 1px solid #e2e8f0;
+          border-bottom: 1px solid #e2e8f0;
+          border-radius: 4px;
+        "
+      >
+        <b
+          >Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp;
+          Emergent Phase Transitions):</b
+        ><br />
+        Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition
+        function of an <code>N</code>-particle system.
+        <ol style="margin: 6px 0 0 18px">
+          <li>
+            <b>Analyticity on Real Axis:</b> For all finite
+            <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all
+            <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in
+            <code>ℂ_ω \ ℝ</code>.
+          </li>
+          <li>
+            <b>Transfinite Accumulation:</b> In the thermodynamic limit
+            <code>N → ω</code>, the zero locus accumulates into continuous
+            curves pinching the real axis:
+            <div
+              align="center"
+              style="
+                font-family: monospace;
+                font-size: 13px;
+                margin: 4px 0;
+                color: #1e3a8a;
+              "
+            >
+              <b
+                >lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at
+                &emsp; T = T_c</b
+              >
+            </div>
+          </li>
+          <li>
+            <b>Macroscopic Singularity:</b> The free energy per particle
+            <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a
+            non-analytic derivative singularity at <code>T_c</code>, giving rise
+            to physical latent heat and spontaneous symmetry breaking.
+          </li>
+          <li>
+            <b>CAS Example:</b>
+            <eq-ref eq-id="cas_lee_yang" formula="LEE_YANG_ZEROS(N)"
+              >Lee-Yang Circle Zeros &amp; Thermodynamic Pinch at T_c</eq-ref
+            >
+          </li>
+        </ol>
+      </div>
+    </fsd-ref>
+
+    <p>
+      Jill beamed: “A physical phase transition in our real world is literally
+      caused by complex zeros pinching the real line on Day <code>ω</code>!”
+    </p>
+
+    <p>
+      “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal
+      halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold
+      provides a direct foundation for continuous change. Next, in
+      <b>Level 2: Space, Direction &amp; Geometry</b>, we will expand these
+      tools into multidimensional vector spaces, linear transformations, and
+      geometric duality!”
+    </p>
+  ', 'published'),
+  (25, 'vectorFoundationsIntro', 24, '2. Skeletons of Observed Symmetry: Groups & Fields', 'vector-foundations-intro', '
+    <div align="center">
+      <i
+        ><font size="+2"
+          ><b>Level 3: Space, Direction &amp; Geometry</b></font
+        ></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric
+          Transformations</font
+        ></i
+      >
+    </div>
+    <br />
+
+    <h3>
+      Preface: Algebraic Structures are Observed in Construction &amp; Confirmed
+      by Induction
+    </h3>
+    <p>
+      In traditional mathematical presentations, abstract algebra is often
+      introduced top-down as an intimidating list of arbitrary axioms handed
+      down by authority. In this curriculum, we take the opposite, constructive
+      approach:
+      <b
+        >algebraic structures are emergent symmetries directly observed from
+        recursively defined operations on our number trees &mdash; and then
+        rigorously confirmed across all branches by structural mathematical
+        induction</b
+      >.
+    </p>
+    <p>We adopt a strict pedagogical discipline:</p>
+    <ol>
+      <li>
+        <b>Observation &rarr; Inductive Confirmation:</b> We first observe
+        regularities on early tree days, then use mathematical induction on
+        birthdays to prove the algebraic laws as universal theorems.
+      </li>
+      <li>
+        <b>Physics-Free Mathematics First:</b> We establish all concepts in
+        clean, abstract mathematical notation (<code
+          >(G, ⋆), (F, +, ·), (V, +, ·)</code
+        >, linear maps <code>T : V &rarr; W</code>, and duality
+        <code>f(v)</code>).
+      </li>
+      <li>
+        <b>Physical Realizations Second:</b> Once the algebraic geometry is
+        rock-solid, we introduce physical realizations &mdash; such as Dirac
+        bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces
+        &mdash; as concrete applications.
+      </li>
+    </ol>
+    <p>
+      Level 3 has two courses. <b>Linear Algebra</b> (sections 1&ndash;5 below)
+      builds the algebraic skeleton: groups, fields, structure-preserving maps,
+      and vector spaces. <b>Trigonometry &amp; Rotor Geometry</b> (section 6)
+      puts that skeleton to work on the most familiar geometric idea of all
+      &mdash; turning.
+    </p>
+
+    <hr />
+
+    <h3>
+      1. The Transfinite Scale: The Cutoff at ω &amp; The Countable ε₀ Safety
+      Net
+    </h3>
+    <p>
+      Closure is the non-negotiable bedrock of any algebraic structure: when you
+      combine elements, the arithmetic result must stay inside the carrier set.
+    </p>
+    <ul>
+      <li>
+        <b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds
+        <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at
+        ordinal <code>ω</code> in recursive tree generation. In the transfinite
+        hierarchy of ordinals, <code>ω</code> is a "wee little thing."
+      </li>
+      <li>
+        <b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling
+        vectors can produce exact values whose
+        <b>birthdays are strictly greater than <code>ω</code></b> (born on Day
+        <code>ω+1, ω·2, ω^ω</code>). These numbers did not vanish &mdash; they
+        were simply born on later days in the transfinite calendar!
+      </li>
+      <li>
+        <b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to
+        the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where
+        <code>ω^(ε₀) = ε₀</code>, the carrier set becomes
+        <b>completely algebraically closed</b> &mdash; big enough to support a
+        genuine field.
+      </li>
+      <li>
+        <b>Standard Part Resolution:</b> The
+        <b>Standard Part Function <code>st(x)</code></b> casts high-birthday
+        transfinite results cleanly back down to their observable shadow on Day
+        <code>ω</code>.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
+    <p>
+      When arithmetic operations are run recursively on the tree, natural
+      algebraic skeletons emerge and are confirmed by structural induction:
+    </p>
+
+    <h4>A. The Abelian Group <code>(G, +)</code></h4>
+    <p>
+      Recursive addition on the tree naturally exhibits four core symmetries,
+      observed on early days and confirmed universally by mathematical induction
+      on tree birthdays:
+    </p>
+    <ul>
+      <li>
+        <code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the
+        root of the tree, confirmed inductively by
+        <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).
+      </li>
+      <li>
+        <code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral
+        tree reflection).
+      </li>
+      <li>
+        Commutativity (<code>x + y = y + x</code>) and Associativity (<code
+          >(x+y)+z = x+(y+z)</code
+        >).
+      </li>
+    </ul>
+    <p>
+      <i>Generalization:</i> Any collection of objects obeying these observed
+      and inductively proven behaviors forms an
+      <b>Abelian Group <code>(G, +)</code></b
+      >.
+    </p>
+
+    <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>
+    <p>
+      A remarkable mathematical reality is that
+      <b
+        >you cannot simultaneously fit two full groups onto the exact same
+        carrier set <code>F</code></b
+      >:
+    </p>
+    <ul>
+      <li>
+        If <code>(F, +)</code> is an additive group with identity
+        <code>0</code>, then multiplication <i>cannot</i> form a group on all of
+        <code>F</code> because <code>0</code> has no multiplicative inverse
+        (<code>0 · x = 0 &ne; 1</code>).
+      </li>
+      <li>
+        The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.
+      </li>
+      <li>
+        A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of
+        harmony between two operations: an additive group on all of
+        <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched
+        together by the <b>Distributive Law</b>:
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 14px;
+            margin: 8px 0;
+            color: #1e3a8a;
+          "
+        >
+          <b>a · ( b + c ) = a · b + a · c</b>
+        </div>
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>3. Structure-Preserving Functions: Mapping Between Operations</h3>
+    <p>
+      A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is
+      <b>structure-preserving (a group homomorphism)</b> if:
+    </p>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 15px;
+        margin: 10px 0;
+        color: #1e3a8a;
+        background: #f8fafc;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      "
+    >
+      <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+    </div>
+    <p>
+      <i>Core Meaning:</i> You get the exact same answer whether you combine
+      elements first in the starting world using <code>⋆</code>, or map them
+      first and combine them in the destination world using <code>⊙</code>!
+    </p>
+    <ul>
+      <li>
+        <b>The Exponential Bridge:</b> <code>(ℝ, +) &rarr; (ℝ⁺, ·)</code> with
+        <code>e^(a + b) = e^a · e^b</code> (translates addition into
+        multiplication).
+      </li>
+      <li>
+        <b>Dimension Embedding:</b> <code>(ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</code> with
+        <code>(a + b) + 0i = (a + 0i) +_ℂ (b + 0i)</code>.
+      </li>
+      <li>
+        <b>The Phase Map:</b> <code>(ℝ, +) &rarr; (U(1), ·)</code> with
+        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> (converts angle addition
+        to phase rotation).
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>4. Vector Spaces, Linear Maps &amp; Duality</h3>
+    <p>
+      Combining our field <code>F</code> (such as <code>ℝ_ω</code> or
+      <code>ℂ_ω</code>) with Cartesian multi-directional intuition produces a
+      <b>Vector Space <code>(V, +, ·)</code></b> governed by Two Basic Moves:
+    </p>
+    <ol>
+      <li>
+        <b>Vector Addition (u + v):</b> Abelian group behavior inside
+        <code>V</code>.
+      </li>
+      <li>
+        <b>Scalar Multiplication (c · v):</b> Distributing field elements across
+        vector directions.
+      </li>
+    </ol>
+
+    <h4>Linear Maps &amp; Calculus Operators</h4>
+    <p>
+      A map <code>T : V &rarr; W</code> is linear if
+      <code>T(u + v) = T(u) + T(v)</code> and <code>T(c·v) = c·T(v)</code>. This
+      enables the linear derivative operator <code>D(f+g) = Df + Dg</code> and
+      integral functional <code>∫(f+g) = ∫f + ∫g</code>.
+    </p>
+
+    <h4>Vector / Covector Duality</h4>
+    <p>
+      Every vector space <code>V</code> naturally pairs with its
+      <b>dual space</b> <code>V*</code> of covectors (linear measurement
+      meters):
+    </p>
+    <ul>
+      <li>
+        <b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions
+        (column vectors).
+      </li>
+      <li>
+        <b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement
+        meters (row vectors).
+      </li>
+      <li>
+        <b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading
+        (scalar number).
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>5. Physical Realizations: Duality &amp; Quantum State Spaces</h3>
+    <p>
+      With the mathematical framework established, the physical realization of
+      vector/covector duality in quantum and measurement theory falls directly
+      into place (bridging forward to Level 5):
+    </p>
+    <ul>
+      <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
+      <li>
+        Measurement detectors are <b>covectors (bras)</b>:
+        <code>⟨ϕ| ∈ ℋ_ω*</code>.
+      </li>
+      <li>
+        The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the
+        <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
+    <p>
+      The second course asks a simple question &mdash;
+      <i>what is an angle?</i> &mdash; and answers it with the number trees from
+      Level 1 and the maps from section 3.
+    </p>
+    <ul>
+      <li>
+        <b>From Triangles to Turning:</b> We start from the familiar
+        presentation (SOH CAH TOA, then the unit circle and radians) and its
+        open questions: how is a curved arc measured with straight rulers, how
+        is <code>sin(35°)</code> actually computed, and how do static corners
+        become continuous rotation?
+      </li>
+      <li>
+        <b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting
+        <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the
+        circle gives the perimeter <code>2π</code> as an exact sum, and the
+        winding integral <code>∮ (1/z) dz = 2π i</code>.
+      </li>
+      <li>
+        <b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the
+        angle step. The half-angle rule
+        <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète''s nested
+        radicals, and the same left/right steering is the CORDIC algorithm used
+        in hardware.
+      </li>
+      <li>
+        <b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is
+        the generator <code>i</code>, and an angle becomes a <b>unit rotor</b>
+        <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors
+        compose by multiplication &mdash; the phase map
+        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in
+        action.
+      </li>
+      <li>
+        <b>Euler''s Formula by Stepping:</b> Compounding
+        <code>ω</code> perpendicular steps
+        <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields
+        <code>e^(iθ)</code> directly, without Taylor series.
+      </li>
+    </ul>
+    <p>
+      Rotors are where the two courses meet: a rotor is a linear map on the
+      vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix
+      is the familiar <code>[ cos θ -sin θ ; sin θ cos θ ]</code>. This also
+      sets up the complex phase that Level 5 needs for quantum amplitudes.
+    </p>
+
+    <hr />
+
+    <h3>Level 3 Lecture Plan</h3>
+    <p><b>Course 1: Linear Algebra</b></p>
+    <ul>
+      <li>
+        <b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b>
+        Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>,
+        why fields eject zero, and continuous transformation groups.
+      </li>
+      <li>
+        <b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b>
+        Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection,
+        the exponential bridge, and embedding dimensions.
+      </li>
+      <li>
+        <b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian
+        multi-directional space, linear maps, vector/covector duality, and Dirac
+        bra-ket inference.
+      </li>
+    </ul>
+    <p><b>Course 2: Trigonometry &amp; Rotor Geometry</b></p>
+    <ul>
+      <li>
+        <b>Trigonometric Foundations &amp; Rotor Geometry:</b> A short history
+        of angle, the standard presentation and its open questions, angle on the
+        1-, 2-, and 4-successor trees, CORDIC, unit rotors, Euler''s formula by
+        perpendicular stepping, and why <code>2π i</code> appears in contour
+        integrals.
+      </li>
+    </ul>
+  ', 'published'),
+  (26, 'vectorsLecture1', 25, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
     <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
@@ -5131,7 +11606,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
   </p>
 ', 'published'),
-  (17, 'vectorsLecture2', 16, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+  (27, 'vectorsLecture2', 26, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
     <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
@@ -5266,7 +11741,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
   </p>
 ', 'published'),
-  (18, 'vectorsLecture3', 17, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+  (28, 'vectorsLecture3', 27, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
 <div align="center">
     <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
     <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
@@ -5554,7 +12029,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
   </p>
 ', 'published'),
-  (19, 'stemTrigFoundations', 18, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
+  (29, 'stemTrigFoundations', 28, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
     <h1>Trigonometry on&nbsp;ℝ_ω &amp; ℂ_ω</h1>
 
@@ -6790,1981 +13265,6 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   </div>
 ', 'published'),
-  (20, 'lamOverview', 19, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
-<div align="center">
-    <font size="+2"><i><b>Level 3: Continuum &amp; Calculus<br>
-          Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b></i></font><br>
-    <font size="+1"><i>— Bridging the Discrete Conway Tree to Continuous Analysis —</i></font>
-  </div>
-  <br>
-
-  <h3>Continuous Change on the Hyperfinite Scaffold</h3>
-  <p>
-    In our foundational study of numbers and discrete structures, we established how numbers emerge day by day from inductive trees. 
-    In <b>Level 3: Continuum &amp; Calculus</b>, we extend this discrete foundation into continuous change, instantaneous rates, and accumulation.
-  </p>
-  <p>
-    Standard real analysis constructs the continuum using metric topologies, epsilon-delta limit towers, and Dedekind cuts. 
-    While rigorous, this traditional apparatus often obscures the geometric intuition of continuous change beneath layers of nested quantifiers.
-  </p>
-  <p>
-    By leveraging John Conway''s recursive number tree at Day <code>ω</code>, we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate number. 
-    This nonstandard perspective transforms continuous calculus into straightforward algebra: derivatives become simple difference ratios <code>dy / dx</code> followed by taking the standard part shadow, and integrals become genuine hyperfinite sums of microscopic tiles.
-  </p>
-  <p>
-    Level 3 develops this unified framework across:
-  </p>
-  <ul>
-    <li><b>Sequences &amp; Progressions:</b> Discrete stepping on <code>ℕ_ω</code> along the arithmetic and geometric tree ladders, grounding continuous analysis in finite induction.</li>
-    <li><b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity without epsilon-delta, and the fundamental theorem of calculus on <code>ℝ_ω</code>.</li>
-    <li><b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, conformal shape-preservation, Cauchy contour integration by 2D cell cancellation, and continuous phase dynamics.</li>
-  </ul>
-
-  <hr>
-
-  <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
-  <p>
-    To understand why nonstandard analysis is so empowering, one must examine how mathematics historically struggled to tame continuous change:
-  </p>
-
-  <ul>
-    <li>
-      <b>Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash; <i>Leibniz, Newton, Euler</i>:</b><br>
-      Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code>) &mdash; quantities strictly greater than zero, yet smaller than any positive standard real number. With infinitesimals, derivatives were simple algebraic ratios (<code>dy / dx</code>) and integrals were genuine sums of microscopic rectangles (<code>∫ y dx</code>). Mathematicians solved celestial orbits, fluid mechanics, and wave equations with breathtaking speed, but critics (like Bishop Berkeley) argued that infinitesimals were logically unsound "ghosts of departed quantities."
-    </li>
-    <br>
-    <li>
-      <b>Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash; <i>Cauchy, Weierstrass, Dedekind</i>:</b><br>
-      Fearing foundational inconsistency, 19th-century mathematicians banished infinitesimals. They replaced intuitive algebraic ratios with the real continuum <code>ℝ</code> and dense <b>epsilon-delta (ε-δ) limit definitions</b>:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
-      </div>
-      While logically watertight, this reform erected a massive cognitive barrier, turning intuitive geometric concepts into nested quantifier gymnastics.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b><br>
-      As physics expanded into quantum mechanics and relativity, mathematicians sought to escape the clumsiness of metric <code>ε-δ</code> limits by ascending into <b>pure set-theoretic topology and measure theory</b>:
-      <ul>
-        <li><i>Topological Continuity:</i> <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The preimage of every open set is an open set).</li>
-        <li><i>Lebesgue Integration:</i> Integrated functions by measuring preimage sizes on <code>σ-algebras</code> rather than taking limits of partition meshes.</li>
-      </ul>
-      This abstraction was immensely powerful for functional analysis, but it severely detached continuous mathematics from physical and geometric intuition.
-    </li>
-    <br>
-    <li>
-      <b>Epoch 4: The Nonstandard Synthesis &mdash; <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b><br>
-      Leibniz''s intuitive infinitesimals were given complete, rigorous mathematical foundations through model theory and <b>John Conway''s recursive number tree</b>.
-      By observing the continuum scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the transfinite tree:
-      <ul>
-        <li><b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers born on Day <code>ω</code> of the recursive tree: <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.</li>
-        <li><b>Continuity</b> is halo preservation: <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing by transfinite branches stay infinitesimally close).</li>
-        <li><b>Differentiation</b> is pure algebraic division: <code>f''(x) = st(Δy / dx)</code>.</li>
-        <li><b>Integration</b> is genuine discrete addition: <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.</li>
-      </ul>
-    </li>
-  </ul>
-', 'published'),
-  (21, 'sequencesAndSums', 20, 'Sequences & Progressions', 'sequences-and-sums', '
-  <style>
-    .seq-container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #ffffff;
-      padding: 32px 36px 60px 36px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.65;
-      color: #0f172a;
-    }
-    .seq-container h1 {
-      color: #1e3a8a;
-      font-size: 1.85em;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-    .seq-container h2 {
-      color: #1e3a8a;
-      font-size: 1.4em;
-      margin-top: 36px;
-      margin-bottom: 14px;
-      border-bottom: 2px solid #eff6ff;
-      padding-bottom: 6px;
-    }
-    .seq-container h3 {
-      color: #0284c7;
-      font-size: 1.15em;
-      margin-top: 24px;
-      margin-bottom: 8px;
-    }
-    .seq-container p, .seq-container li {
-      font-size: 15px;
-      color: #0f172a;
-    }
-    .seq-container code {
-      font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
-      font-size: 0.9em;
-      background: #f1f5f9;
-      color: #0f172a;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .seq-formula-box {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-left: 4px solid #0284c7;
-      border-radius: 6px;
-      padding: 14px 18px;
-      margin: 16px 0;
-      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.7;
-      overflow-x: auto;
-    }
-    .seq-highlight-card {
-      background: #eff6ff;
-      border: 1.5px solid #bfdbfe;
-      border-radius: 8px;
-      padding: 20px 24px;
-      margin: 22px 0;
-    }
-    .seq-callout {
-      background: #f5f3ff;
-      border: 1.5px solid #ddd6fe;
-      border-radius: 8px;
-      padding: 18px 22px;
-      margin: 20px 0;
-    }
-    .seq-grid-card {
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 18px;
-      background: #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .seq-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 18px 0;
-      font-size: 13.5px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
-    .seq-table th {
-      background-color: #1e3a8a;
-      color: #ffffff;
-      padding: 11px 14px;
-      text-align: left;
-      font-weight: 600;
-    }
-    .seq-table td {
-      border-top: 1px solid #e2e8f0;
-      padding: 10px 14px;
-      vertical-align: top;
-    }
-    .seq-pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  </style>
-
-  <div class="seq-container">
-    <h1>Sequences &amp; Progressions</h1>
-    <p style="font-size: 1.05em; color: #475569; margin-bottom: 24px;">
-      The doorway to continuous analysis: from the discrete stepping of inductive trees to the algebra of arithmetic and geometric ladders.
-    </p>
-
-    <!-- Curricular Gateway -->
-    <div class="seq-highlight-card">
-      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 1.2em;">Curricular Gateway: From Static Geometry to Dynamic Stepping</h3>
-      <p style="margin-bottom: 12px;">
-        In our study of Geometry, we examined static spatial invariants: fixed vectors, angles, basis rotations, and metric distances. 
-        Analysis begins the moment we allow quantities to <b>step</b>. Before introducing rates of change or continuous motion, we examine the most fundamental discrete pattern: stepping through a sequence <code>F(0), F(1), F(2), ..., F(n)</code> along our inductive trees.
-      </p>
-
-      <!-- Demystifying F: The Sequence in the Conceptual Model -->
-      <div style="background: #ffffff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 18px 20px; margin-top: 14px; box-shadow: 0 2px 6px rgba(30, 58, 138, 0.05);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-          <span style="font-size: 18px;">📐</span>
-          <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Demystifying F: The Sequence in the Conceptual Model</h4>
-        </div>
-        <p style="margin: 0 0 10px 0; font-size: 14px; color: #334155;">
-          In textbook calculus, a sequence is often introduced loosely as a static list of numbers or as points "sampled" along an already-existing continuum curve. But as explored in our foundational discussion of the three architectural models, Middle Way Mathematics builds constructively from the ground up: discrete stepping is primitive, and every sequence <code>F</code> is a <b>formal function</b> defined by two interlocking architectural layers:
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 12px 0;">
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. Ontological Model: Directed Pair Set (<code>→</code>)</div>
-            <div style="font-family: monospace; font-size: 13px; color: #0284c7; font-weight: bold; margin-bottom: 6px;">F : ℕ_ω → ℝ_ω</div>
-            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              In our foundational ontology, a function''s type signature is formed by the primitive <b>directed pair set constructor (<code>→</code>)</b>. The domain is the transfinite counting spine <code>ℕ_ω = ℕ ∪ {ω}</code>, and the codomain is the continuum <code>ℝ_ω</code>. This establishes that indices step sequentially one-by-one from <code>0</code> toward the horizon <code>ω</code>.
-            </div>
-          </div>
-
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 6px; padding: 12px 14px;">
-            <div style="font-weight: 700; color: #7c3aed; font-size: 13px; margin-bottom: 4px;">2. Computational Model: Directed Equality Rule (<code>≔</code>)</div>
-            <div style="font-family: monospace; font-size: 13px; color: #6d28d9; font-weight: bold; margin-bottom: 6px;">rule F(k) ≔ &lt;pseudocode block&gt;</div>
-            <div style="font-size: 12.5px; color: #475569; line-height: 1.45;">
-              In our computational model, a function is not an uninstantiated static relation. It requires an explicit <b>executable rule</b>—an asymmetric directed equality (<code>≔</code>) expressed as a pseudocode block. This rule targets the <b>Middle Way Calculation Machine</b>, evaluating outputs step-by-step without relying on external runtime libraries.
-            </div>
-          </div>
-        </div>
-
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; margin-top: 10px;">
-          <div style="font-weight: 700; color: #1e3a8a; font-size: 12.5px; margin-bottom: 4px;">Concrete Rule Instantiations on the Calculation Machine:</div>
-          <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #1e293b; line-height: 1.5;">
-            <li><b>Linear Step Rule (Tree 1):</b> <code>rule F(k) ≔ a + k · d</code> &emsp; (increments by fixed constant difference <code>d</code>).</li>
-            <li><b>Branching Step Rule (Tree 2):</b> <code>rule F(k) ≔ a · r^k</code> &emsp; (scales by fixed multiplicative factor <code>r</code>).</li>
-            <li><b>Polynomial Accumulation Rule:</b> <code>rule F(k) ≔ c · k³</code> &emsp; (generates the cubic progression evaluated on the counting spine).</li>
-            <li><b>Physical Work-Energy Rule:</b> <code>rule F(k) ≔ ½ · m · (k · Δv)²</code> &emsp; (computes kinetic energy at velocity increments <code>v_k = k · Δv</code>).</li>
-          </ul>
-        </div>
-
-        <p style="margin: 10px 0 0 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
-          <b>The Architectural Bridge:</b> When we state universal theorems (such as the Telescoping Identity), the Lean 4 formal statement quantifies over <i>all</i> functions <code>∀ (F : ℕ_ω → ℝ_ω)</code>. When we calculate or simulate, we <i>instantiate</i> the theorem with a specific directed equality rule (<code>≔</code>) executed by the Calculation Machine.
-        </p>
-      </div>
-    </div>
-
-    <!-- Section 1: The Two Fundamental Ladders -->
-    <h2>1. The Two Fundamental Ladders of the Trees</h2>
-    <p>
-      In Middle Way Math, numbers are grounded in finite induction from Day 0. The two primitive inductive trees immediately give birth to two distinct modes of stepping:
-    </p>
-
-    <!-- Side-by-Side Visual Comparison Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 20px 0;">
-      
-      <!-- Arithmetic Card -->
-      <div class="seq-grid-card" style="border-top: 4px solid #1e3a8a;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span class="seq-pill" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe;">Tree 1 (Unary Spine)</span>
-          <span style="font-size: 12px; font-weight: 700; color: #64748b;">1-Successor Count</span>
-        </div>
-        <h3 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 16px;">The Arithmetic Ladder (Linear March)</h3>
-        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
-          Formed by adding a fixed constant at each step. Models uniform motion, constant-force acceleration increments, and clock ticks.
-        </p>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
-          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
-          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #1e3a8a; margin: 4px 0;">
-            F(k + 1) = F(k) + d &nbsp;⇒&nbsp; F(k) = a + k · d
-          </div>
-          <div style="font-size: 12px; color: #475569;">Constant forward difference: <code>ΔF(k) = d</code></div>
-        </div>
-
-        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
-          • <b>Geometric Picture:</b> Equally spaced rungs climbing a straight vertical ladder.<br>
-          • <b>Continuous Limit:</b> Forms the linear line <code>y = m·x + b</code> with constant slope <code>d</code>.
-        </div>
-      </div>
-
-      <!-- Geometric Card -->
-      <div class="seq-grid-card" style="border-top: 4px solid #7c3aed;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span class="seq-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">Tree 2 (Binary Branching)</span>
-          <span style="font-size: 12px; font-weight: 700; color: #64748b;">2-Successor Branching</span>
-        </div>
-        <h3 style="margin: 0 0 8px 0; color: #7c3aed; font-size: 16px;">The Geometric Ladder (Multiplicative Scaling)</h3>
-        <p style="font-size: 13.5px; color: #475569; margin: 0 0 12px 0;">
-          Formed by multiplying by a fixed ratio at each step. Models binary branch populations, radioactive decay, compounding, and sensory perception.
-        </p>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px;">
-          <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Step Law &amp; Explicit Formula</div>
-          <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #7c3aed; margin: 4px 0;">
-            F(k + 1) = r · F(k) &nbsp;⇒&nbsp; F(k) = a · r^k
-          </div>
-          <div style="font-size: 12px; color: #475569;">Difference proportional to term: <code>ΔF(k) = F(k) · (r - 1)</code></div>
-        </div>
-
-        <div style="font-size: 12.5px; color: #334155; line-height: 1.45;">
-          • <b>Geometric Picture:</b> Each rung multiplies the height of the previous rung.<br>
-          • <b>Continuous Limit:</b> Forms the exponential curve <code>y = a · e^(k·x)</code> where rate equals quantity.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Summary Comparison Table -->
-    <table class="seq-table">
-      <thead>
-        <tr>
-          <th style="width: 20%;">Tree Foundation</th>
-          <th style="width: 22%;">Progression Type</th>
-          <th style="width: 18%;">Step Law</th>
-          <th style="width: 20%;">Closed Formula</th>
-          <th style="width: 20%;">Characteristic Property</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background-color: #ffffff;">
-          <td><b>Tree 1</b><br><span style="font-size: 11.5px; color: #64748b;">Unary counting spine</span></td>
-          <td><b style="color: #1e3a8a;">Arithmetic</b></td>
-          <td><code>+ d</code> (additive)</td>
-          <td><code>F(k) = a + k · d</code></td>
-          <td>Uniform slope: <code>ΔF(k) = d</code></td>
-        </tr>
-        <tr style="background-color: #f8fafc;">
-          <td><b>Tree 2</b><br><span style="font-size: 11.5px; color: #64748b;">Binary branching fan</span></td>
-          <td><b style="color: #7c3aed;">Geometric</b></td>
-          <td><code>× r</code> (multiplicative)</td>
-          <td><code>F(k) = a · r^k</code></td>
-          <td>Self-proportional: <code>ΔF(k) ∝ F(k)</code></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Section 2: Musical Scales -->
-    <h2>2. Musical Scales: The Human Ear as a Geometric Processor</h2>
-    <p>
-      The geometric progression is not an abstract invention—it is hardwired into human sensory biology.
-    </p>
-    <p>
-      When we listen to music, our pitch perception is fundamentally <b>logarithmic</b> rather than linear. We perceive equal musical intervals (such as an octave, a fifth, or a semitone) when the physical sound frequencies form equal <b>ratios</b>, not equal differences.
-    </p>
-
-    <!-- 12-Tone Equal Temperament Ladder Card -->
-    <div class="seq-callout">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-        <h3 style="margin: 0; color: #6d28d9; font-size: 16px;">The 12-Tone Equal Temperament Ladder</h3>
-        <span class="seq-pill" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd;">Acoustic Geometry</span>
-      </div>
-      <p style="margin: 0 0 10px 0;">
-        An <b>octave</b> is an exact frequency doubling: a ratio of <code>2 : 1</code>. To divide the octave into 12 perceptually equal semitones (the 12 keys of an octave on a piano), the frequencies must advance by a constant multiplicative ratio <code>r</code> such that:
-      </p>
-
-      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
-        r¹² = 2 &nbsp;⇒&nbsp; r = 2^(1/12) ≈ 1.059463094...
-      </div>
-
-      <p style="margin: 10px 0 6px 0;">
-        Starting from standard concert pitch <code>A4 = 440 Hz</code>, the chromatic musical scale is literally a discrete geometric progression:
-      </p>
-
-      <div class="seq-formula-box" style="border-left-color: #7c3aed; background: #ffffff;">
-        f_k = 440 · (2^(1/12))^k &nbsp; Hz   (k = 0, 1, 2, ..., 12)
-      </div>
-
-      <!-- Musical Scale Progression Table -->
-      <div style="margin-top: 14px; overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: center; border: 1px solid #ddd6fe; border-radius: 6px; overflow: hidden; background: #ffffff;">
-          <thead>
-            <tr style="background: #ede9fe; color: #4c1d95;">
-              <th style="padding: 7px 8px;">Step k</th>
-              <th style="padding: 7px 8px;">Note</th>
-              <th style="padding: 7px 8px;">Interval</th>
-              <th style="padding: 7px 8px;">Frequency f_k</th>
-              <th style="padding: 7px 8px;">Acoustic Ratio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #f3e8ff;">
-              <td><b>0</b></td>
-              <td><b>A4</b></td>
-              <td>Unison</td>
-              <td><code>440.00 Hz</code></td>
-              <td><code>1.000</code></td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
-              <td><b>3</b></td>
-              <td><b>C5</b></td>
-              <td>Minor third</td>
-              <td><code>523.25 Hz</code></td>
-              <td><code>2^(3/12) ≈ 1.189</code></td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff;">
-              <td><b>5</b></td>
-              <td><b>D5</b></td>
-              <td>Perfect fourth</td>
-              <td><code>587.33 Hz</code></td>
-              <td><code>2^(5/12) ≈ 1.335</code> (close to 4/3)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #f3e8ff; background: #faf5ff;">
-              <td><b>7</b></td>
-              <td><b>E5</b></td>
-              <td>Perfect fifth</td>
-              <td><code>659.26 Hz</code></td>
-              <td><code>2^(7/12) ≈ 1.498</code> (close to 3/2)</td>
-            </tr>
-            <tr>
-              <td><b>12</b></td>
-              <td><b>A5</b></td>
-              <td><b>Octave</b></td>
-              <td><code>880.00 Hz</code></td>
-              <td><b>2.000 (exact doubling)</b></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
-        After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
-      </p>
-    </div>
-
-    <!-- Cochlear Biological Processor -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
-      <h3 style="margin-top: 0; color: #059669; font-size: 15px;">The Cochlear Frequency Sorter: Biology''s Living Geometric Analyzer</h3>
-      <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #334155;">
-        Inside the inner ear, the <b>basilar membrane</b> physically separates sound frequencies along its length. High frequencies resonate near the stiff base, while low frequencies resonate near the flexible apex.
-      </p>
-      <p style="margin: 0; font-size: 13.5px; color: #334155;">
-        Because the spatial resonant frequency drops exponentially along the membrane, equal physical distances along the human sensor correspond to equal musical ratios—demonstrating that the geometric ladder is a biological architecture for processing reality.
-      </p>
-    </div>
-
-    <!-- Bridge to Course 1: Analysis 1D -->
-    <div class="seq-callout" style="background: #eff6ff; border-color: #93c5fd; margin-top: 24px;">
-      <h3 style="margin-top: 0; color: #1e3a8a; font-size: 15px;">The Threshold of Analysis: From Stepping Ladders to Continuous Curves</h3>
-      <p style="margin-bottom: 8px; font-size: 13.5px; color: #334155;">
-        With the arithmetic and geometric progressions, we have mapped the two primitive ways quantities step along inductive trees:
-      </p>
-      <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #334155;">
-        <li><b>The Arithmetic Ladder (Tree 1):</b> Linear accumulation with constant step difference <code>d</code>.</li>
-        <li><b>The Geometric Ladder (Tree 2):</b> Multiplicative scaling with constant branching factor <code>r</code>.</li>
-      </ul>
-      <p style="margin-bottom: 0; font-size: 13.5px; color: #334155;">
-        Up to now, step indices <code>k ∈ ℕ_ω</code> have advanced by discrete integer ticks (<code>0, 1, 2, ...</code>). 
-        As we cross the threshold into <b>Course 1 (Analysis 1D)</b>, we allow steps to become microscopic—laying an infinitesimal grid across the real continuum <code>ℝ_ω</code> to discover rates of change, continuous exponential growth, and continuous accumulation.
-      </p>
-    </div>
-  </div>
-', 'published'),
-  (22, 'analysis1DIntro', 21, 'Analysis 1D Overview: The Real Continuum', 'analysis1-d-intro', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Overview: The Real Continuum</b></font></i><br>
-    <i><font size="+1">Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite Scaffold ℝ_ω</font></i>
-  </div>
-  <br>
-
-  <h3>Preface: Taming the Unbroken Continuum</h3>
-  <p>
-    While <b>Algebra</b> studies exact equalities and discrete symmetries, <b>Analysis</b> is the branch of mathematics that tames <b>continuous change, approximation, and accumulation over an unbroken continuum</b>.
-  </p>
-  <p>
-    Whenever a physical quantity varies continuously across time or space, analysis addresses two master questions:
-  </p>
-  <ol>
-    <li><b>The Local Question (Instantaneous Rate of Change):</b> How fast is a function changing <i>right here, right now</i>, at a single point?</li>
-    <li><b>The Global Question (Continuous Accumulation):</b> How do uncountably many infinitesimal contributions across an unbroken interval cumulate into a single total sum (area, energy, or work)?</li>
-  </ol>
-
-  <hr>
-
-  <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
-  <p>
-    In classical 19th-century real analysis, every individual real number <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound foundational crisis:
-  </p>
-  <ul>
-    <li>Evaluating change at a single point requires dividing the change in output by the change in input: <code>Δy / Δx</code>.</li>
-    <li>If <code>Δx = 0</code>, division is algebraically impossible (<code>0 / 0</code> is undefined).</li>
-    <li>To avoid dividing by zero, standard analysis erected dense <b>epsilon-delta (ε-δ) limit towers</b>:
-      <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0;">
-        f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp; ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx ( 0 &lt; |Δx| &lt; δ &rArr; |Δy/Δx - L| &lt; ε )
-      </div>
-    </li>
-  </ul>
-
-  <p>
-    <b>The Nonstandard Resolution (Abraham Robinson, 1960):</b><br>
-    Rather than treating the continuum as a static collection of zero-width points, we use our constructive scaffold <b><code>ℝ_ω</code></b>, equipped with genuine <b>infinitesimals</b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Infinitesimal Step: &nbsp; dx = 1/ω &nbsp;&gt;&nbsp; 0 &emsp; (smaller than any standard real 1/n)</b>
-  </div>
-
-  <p>
-    Because <code>dx &gt; 0</code>, division by <code>dx</code> is 100% legal, ordinary algebra!
-  </p>
-
-  <hr>
-
-  <h3>2. The Core Machinery: Tree Birthdays &amp; Halos</h3>
-
-  <h4>A. Hyperreals as Conway Tree Nodes (Birthday &ge; &omega;)</h4>
-  <p>
-    On John Conway''s recursive number tree, numbers are created day by day:
-  </p>
-  <ul>
-    <li>Standard real numbers and dyadic fractions are born on finite days: <code>0, 1, 2, ..., n</code>.</li>
-    <li><b>Hyperreal Numbers</b> (ubiquitous in nonstandard analysis literature) <b>are nothing more than Conway tree numbers whose birthday is <code>&ge; &omega;</code>!</b></li>
-  </ul>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>Demystifying the Literature:</b><br><br>
-    The famous "Hyperreal Field <b>*ℝ</b>" constructed via ultrafilters in standard mathematical logic is <b>100% isomorphic to the subfield of Conway''s Surreals born on Day <code>&le; &omega;_1</code></b>!<br><br>
-    Infinitesimals like <b><code>dx = 1/&omega; = { 0 | 1, 1/2, 1/4, 1/8, ... } &gt; 0</code></b> and infinite numbers like <b><code>&omega; = { 0, 1, 2, 3, ... | }</code></b> are simply nodes born on transfinite birthdays <b><code>&ge; &omega;</code></b>!
-  </div>
-
-  <h4>B. The Infinitesimal Halo (Monad) μ(x)</h4>
-  <p>
-    Around every number <code>x</code> born on a finite day sits a cluster of tree nodes born on Day <code>ω</code> that differ from <code>x</code> by an infinitesimal step &mdash; its <b>Halo <code>μ(x)</code></b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>μ(x) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x } &emsp; where &emsp; y ≈ x &hArr; |y - x| is an infinitesimal tree branch</b>
-  </div>
-
-  <h4>C. The Standard Part Function (st)</h4>
-  <p>
-    Every finite number <code>y ∈ ℝ_ω</code> is uniquely decomposed into its earliest standard ancestor plus transfinite branch dust: <code>y = x + ε</code> (where <code>x</code> was born on a finite day and <code>ε</code> on Day <code>ω</code>).
-    The <b>Standard Part Function <code>st(y) = x</code></b> simply prunes the branch back to its earliest standard ancestor on the tree, casting its observable shadow on <code>ℝ</code>.
-  </p>
-
-  <hr>
-
-  <h3>3. The Architectural Bridge: From Step Index k to Continuum Transect x</h3>
-  <p>
-    In our introductory study of <b>Sequences &amp; Progressions</b>, quantities stepped along discrete tree ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. 
-    Crossing into continuous analysis requires only one foundational refinement: replacing the integer step with an <b>infinitesimal transect grid</b> across the continuum <code>ℝ_ω</code>:
-  </p>
-
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 15px 0;">
-    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
-      <div style="font-weight: 700; color: #1e3a8a; font-size: 13.5px; margin-bottom: 4px;">Discrete Stepping Ladder (Level 1)</div>
-      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-        • <b>Index Input:</b> Integer tick <code>k ∈ {0, 1, 2, ..., n}</code><br>
-        • <b>Step Difference:</b> <code>ΔF(k) = F(k + 1) - F(k)</code><br>
-        • <b>Summation:</b> <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code><br>
-        • <b>Nature:</b> Exact pairwise cancellation of internal ladder boundaries.
-      </div>
-    </div>
-
-    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #059669; border-radius: 6px; padding: 12px 14px;">
-      <div style="font-weight: 700; color: #059669; font-size: 13.5px; margin-bottom: 4px;">Continuous Transect Grid on ℝ_ω (Level 2)</div>
-      <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-        • <b>Grid Node:</b> Transect point <code>x_k = a + k · dx</code> with <code>dx = (b - a)/ω</code><br>
-        • <b>Derivative Rate:</b> <code>f(x_k) = st( ΔF(k) / dx )</code><br>
-        • <b>Definite Integral:</b> <code>∫_a^b f(x) dx = st( ∑_{k=1}^ω f(x_k) · dx )</code><br>
-        • <b>Fundamental Theorem:</b> <code>∑_{k=1}^ω [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code>
-      </div>
-    </div>
-  </div>
-
-  <p>
-    Calculus is not an esoteric regime detached from elementary arithmetic; it is the <b>exact same pairwise boundary cancellation</b> discovered in high school algebra, operating across an infinitesimal grid.
-  </p>
-
-  <hr>
-
-  <h3>4. The 1D Calculus Toolkit on ℝ_ω</h3>
-
-  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
-    <tr bgcolor="#f8fafc">
-      <th width="20%" align="left">Concept</th>
-      <th width="40%" align="center">Nonstandard Formulation (ℝ_ω)</th>
-      <th width="40%" align="left">Intuitive Meaning</th>
-    </tr>
-    <tr>
-      <td><b>Continuity</b></td>
-      <td align="center"><code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code></td>
-      <td>Points in the same halo map to the same halo (nearby points stay nearby).</td>
-    </tr>
-    <tr>
-      <td><b>Derivative</b></td>
-      <td align="center"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></td>
-      <td>Direct algebraic division over an infinitesimal step, followed by standard part shadow.</td>
-    </tr>
-    <tr>
-      <td><b>Integral</b></td>
-      <td align="center"><code>∫[a to b] f(x) dx = st( ∑[k=1 to ω] f(x_k) · dx )</code></td>
-      <td>Genuine discrete addition of <code>ω</code> microscopic rectangular tiles.</td>
-    </tr>
-    <tr>
-      <td><b>Fundamental Theorem</b></td>
-      <td align="center"><code>∑[k=1 to ω] [F(x_k) - F(x_{k-1})] = F(b) - F(a)</code></td>
-      <td>Pure telescoping cancellation of internal grid boundaries!</td>
-    </tr>
-  </table>
-
-  <hr>
-
-  <h3>5. Side-by-Side Comparison: Classical vs. Nonstandard Analysis</h3>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 640px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Header -->
-        <rect x="0" y="0" width="640" height="26" fill="#f1f5f9" rx="8" />
-        <rect x="0" y="18" width="640" height="8" fill="#f1f5f9" />
-        <text x="320" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155">Comparing 1D Differentiation</text>
-
-        <!-- Left: Classical Secant Limit -->
-        <rect x="25" y="40" width="280" height="120" rx="4" fill="#faf5ff" stroke="#d8b4fe" />
-        <text x="165" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">Classical Standard Approach</text>
-        <text x="165" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#581c87">f''(x) = lim (Δx→0) Δy / Δx</text>
-        <text x="165" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Requires ε-δ quantified limit machinery</text>
-        <text x="165" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#7e22ce">Secant lines approaching a limit</text>
-
-        <!-- Right: Nonstandard Algebraic Division -->
-        <rect x="335" y="40" width="280" height="120" rx="4" fill="#eff6ff" stroke="#93c5fd" />
-        <text x="475" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Nonstandard ℝ_ω Approach</text>
-        <text x="475" y="85" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#1e3a8a">f''(x) = st( Δy / dx )</text>
-        <text x="475" y="110" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Actual step dx = 1/ω &gt; 0</text>
-        <text x="475" y="130" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#2563eb">Direct algebraic division &amp; standard shadow</text>
-      </svg>
-    </div>
-  </div>
-
-  <hr>
-
-  <h3>Analysis 1D Lecture Plan</h3>
-  <ul>
-    <li><b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining continuity without <code>ε-δ</code>, and the Intermediate Value Theorem as a discrete grid march.</li>
-    <li><b>Lecture 2: Algebraic Derivatives &amp; Local Linearity:</b> Calculating slopes via pure algebra, the product and chain rules, and local linear approximation <code>df = f''(x)·dx</code>.</li>
-    <li><b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in one telescoping line, and side-by-side comparisons with standard Riemann limits.</li>
-  </ul>
-', 'published'),
-  (23, 'analysis1DLecture1', 22, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br>
-    <i><font size="+1">The Infinitesimal Microscope &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
-  </div>
-  <br>
-
-  <p>
-    “In our foundational study of Sequences &amp; Progressions,” Jane began Lecture 1, “we marched along discrete ladders rung-by-rung using an integer index <code>k ∈ ℕ_ω</code>. But continuous analysis asks a deeper question: what happens when quantities vary continuously across space and time?”
-  </p>
-  <p>
-    Jane drew a single point on a horizontal real number line:
-  </p>
-
-  <div align="center" style="margin: 15px 0;">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 80" style="width: 100%; max-width: 500px; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px;">
-      <line x1="40" y1="40" x2="460" y2="40" stroke="#334155" stroke-width="2" />
-      <polygon points="465,40 455,35 455,45" fill="#334155" />
-      <circle cx="250" cy="40" r="4" fill="#2563eb" />
-      <text x="250" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">x₀</text>
-    </svg>
-  </div>
-
-  <p>
-    “In standard 19th-century geometry,” Jane said, “a point <code>x₀</code> has exact width zero. And because it has width zero, if you ask how a function changes <i>at</i> that point, you are immediately forced to divide by zero: <code>0 / 0</code>.”
-  </p>
-
-  <p>
-    Jill looked at the point: “And that''s why Weierstrass and Cauchy had to invent the epsilon-delta limit &mdash; because they couldn''t actually step inside the point without breaking arithmetic.”
-  </p>
-
-  <p>
-    “Exactly,” Jane nodded. “Now let''s see what happens when we view that exact same point through our constructive scaffold <b><code>ℝ_ω</code></b> using the <b>Infinitesimal Microscope</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. The Infinitesimal Microscope &amp; The Halo (Monad)</h3>
-
-  <p>
-    “Imagine pointing a microscope with magnification power <code>ω</code> directly at the point <code>x₀</code>,” Jane said:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 600px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Left: Macroscopic Point -->
-        <rect x="20" y="20" width="220" height="120" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
-        <text x="130" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#475569">Macroscopic View (ℝ)</text>
-        <line x1="40" y1="85" x2="220" y2="85" stroke="#64748b" stroke-width="2" />
-        <circle cx="130" cy="85" r="4" fill="#2563eb" />
-        <text x="130" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">x₀</text>
-
-        <!-- Arrow: Magnification -->
-        <text x="280" y="75" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">Zoom × ω</text>
-        <line x1="250" y1="85" x2="310" y2="85" stroke="#94a3b8" stroke-width="2" />
-        <polygon points="315,85 305,80 305,90" fill="#94a3b8" />
-
-        <!-- Right: Microscopic Halo -->
-        <rect x="330" y="20" width="250" height="120" rx="6" fill="#eff6ff" stroke="#93c5fd" />
-        <text x="455" y="45" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Microscopic Halo μ(x₀) in ℝ_ω</text>
-        <line x1="350" y1="85" x2="560" y2="85" stroke="#3b82f6" stroke-width="1.5" />
-        <circle cx="455" cy="85" r="4" fill="#1d4ed8" />
-        <circle cx="495" cy="85" r="3" fill="#60a5fa" />
-        <circle cx="415" cy="85" r="3" fill="#60a5fa" />
-        <text x="455" y="105" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">x₀</text>
-        <text x="500" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ + dx</text>
-        <text x="410" y="105" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2563eb">x₀ - dx</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “Under the magnification of <code>ω</code>,” Jane explained, “what looked like a single isolated point blossoms into a cloud of transfinite tree nodes born at Day <code>ω</code>: <code>x₀ + dx, x₀ + 2dx, x₀ - dx/2</code>, all differing from <code>x₀</code> by infinitesimal branches.”
-  </p>
-
-  <p>
-    “This cluster is called the <b>Halo (or Monad) <code>μ(x₀)</code></b>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>μ(x₀) &nbsp;=&nbsp; { y ∈ ℝ_ω &nbsp;|&nbsp; y ≈ x₀ } &emsp; where &emsp; y ≈ x₀ &hArr; |y - x₀| is an infinitesimal tree step</b>
-  </div>
-
-  <p>
-    “Every number <code>y ∈ ℝ_ω</code> has a unique shadow on the standard real line, obtained by pruning its Day <code>ω</code> transfinite dust back to its earliest standard ancestor through the <b>Standard Part Function <code>st(y)</code></b>.”
-  </p>
-
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
-    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
-    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
-      <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε &emsp; where &emsp; ε ≈ 0</b>
-    </div>
-    When <code>x</code> is a <b>hard dyadic number</b> (born on finite Day <code>k &lt; ω</code>), its halo perturbation vanishes identically (<code>ε = 0</code>), so <code>st(x) = x</code>.
-  </div>
-
-  <p>
-    “Notice the critical distinction here between the <b>formal theorem</b> and a <b>concrete instance</b>,” Jane explained:
-  </p>
-
-  <ul>
-    <li><b>Formal Deductive Theorem:</b> Lean 4 guarantees universally that every finite element on the tree decomposes into its standard shadow and infinitesimal halo dust without exception.</li>
-    <li><b>Concrete Computational Instance:</b> If we take a specific number like <code>x = 4 + 3·dx</code> (where <code>dx = 1/ω</code>):
-      <ul>
-        <li>The standard nucleus is <code>x₀ = st(4 + 3·dx) = 4</code> (a hard dyadic integer with zero intrinsic dust).</li>
-        <li>The transfinite halo perturbation is <code>ε = x - st(x) = 3·dx ∈ μ(0)</code>.</li>
-        <li>The exact decomposition holds: <code>x = 4 + 3·dx = st(x) + ε</code>.</li>
-        <li>Conversely, for a hard number such as <code>y = 4</code>, there is zero dust: <code>st(y) = 4</code> and <code>ε = 0</code>.</li>
-      </ul>
-    </li>
-  </ul>
-
-  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
-    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
-    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
-    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
-    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
-    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
-    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d">«Eq: x = x₀ + k·dx»</eq-ref>.
-  </div>
-
-  <hr>
-
-  <h3>2. Continuity Without Epsilon-Delta</h3>
-
-  <p>
-    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
-  </p>
-
-  <p>
-    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
-  </p>
-
-  <p>
-    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>x ≈ x₀ &emsp;&rArr;&emsp; f(x) ≈ f(x₀)</b>
-  </div>
-
-  <p>
-    “In standard calculus,” Jane continued, “professors torture students with Weierstrass’s <i>epsilon-delta definition</i>: 
-    <code>∀ ε &gt; 0, ∃ δ &gt; 0, ∀ x, |x - x₀| &lt; δ &rArr; |f(x) - f(x₀)| &lt; ε</code>. 
-    It has four alternating quantifiers and turns a simple visual idea into a nightmare of nested inequalities!”
-  </p>
-
-  <p>
-    “On <code>ℝ_ω</code>, continuity has <b>zero epsilon-deltas</b>: a function is continuous at <code>x₀</code> if and only if it maps the halo of <code>x₀</code> into the halo of <code>f(x₀)</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping"><b>f( μ(x₀) ) &nbsp;&sube;&nbsp; μ( f(x₀) )</b></fsd-ref>
-  </div>
-
-  <p>
-    “Let''s test this on our favorite function,” Jane said: “<b>Is <code>f(x) = x²</code> continuous?</b>”
-  </p>
-
-  <ol>
-    <li>Take any point in the halo of <code>x₀</code>: &nbsp; <code>x = x₀ + dx</code>, where <code>dx ≈ 0</code>.</li>
-    <li>Compute the output: &nbsp; <code>f(x₀ + dx) = (x₀ + dx)² = x₀² + 2x₀·dx + dx²</code>.</li>
-    <li>Subtract <code>f(x₀)</code>: &nbsp; <code>f(x₀ + dx) - f(x₀) = 2x₀·dx + dx² = dx · (2x₀ + dx)</code>.</li>
-    <li>Because <code>2x₀ + dx</code> is finite and <code>dx</code> is infinitesimal, their product is infinitesimal!</li>
-    <li>Conclusion: &nbsp; <code>f(x₀ + dx) - f(x₀) ≈ 0 &emsp;&rArr;&emsp; f(x₀ + dx) ≈ f(x₀)</code></li>
-  </ol>
-  <p>
-    Because <code>x ≈ x₀ &rArr; f(x) ≈ f(x₀)</code>, <b><code>f(x) = x²</code> preserves halos and is continuous everywhere on <code>ℝ_ω</code>!</b>
-  </p>
-
-  <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
-    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. The Intermediate Value Theorem as a Discrete Grid March</h3>
-
-  <p>
-    “Now let''s look at one of the classical crown jewels of real analysis,” Jane said: “<b>The Intermediate Value Theorem (IVT)</b>.”
-  </p>
-
-  <p>
-    <i>Theorem:</i> If <code>f</code> is continuous on <code>[a, b]</code> with <code>f(a) &lt; 0</code> and <code>f(b) &gt; 0</code>, there exists a point <code>c ∈ [a, b]</code> where <code>f(c) = 0</code>.
-  </p>
-
-  <p>
-    “In standard analysis, proving IVT requires the completeness axiom of the real numbers (Dedekind cuts or least upper bounds) &mdash; an unconstructive proof that tells you a root exists, but gives you no procedure to find it!”
-  </p>
-
-  <p>
-    “On <code>ℝ_ω</code>,” Jane explained, “the proof is a <b>finite computational algorithm</b>:”
-  </p>
-
-  <ol>
-    <li>Partition the interval <code>[a, b]</code> into <code>ω</code> equal steps of size <code>dx = (b - a)/ω</code>: &nbsp; <code>x_k = a + k · dx</code>.</li>
-    <li>Evaluate <code>f</code> at each grid point from left to right: &nbsp; <code>f(x₀) &lt; 0, f(x₁), f(x₂), ...</code>.</li>
-    <li>Because <code>f(x_ω) = f(b) &gt; 0</code>, there must be a <b>first index <code>m</code> where <code>f(x_m) ≥ 0</code></b>.</li>
-    <li>At this transition step: &nbsp; <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code>.</li>
-    <li>Because <code>x_{m-1}</code> and <code>x_m</code> differ by only <code>dx ≈ 0</code>, they belong to the same halo: <code>x_{m-1} ≈ x_m</code>!</li>
-    <li>By continuity: &nbsp; <code>f(x_{m-1}) ≈ f(x_m)</code>. Because <code>f(x_{m-1}) &lt; 0</code> and <code>f(x_m) ≥ 0</code> are infinitesimally close, their common standard part must be zero: &nbsp; <b><code>st(f(x_m)) = 0</code></b>!</li>
-  </ol>
-
-  <p>
-    Jill smiled: “The proof is literally just walking across the grid until you cross zero!”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
-    • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
-    • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)">Discrete Grid March for f(x) = x³ - 2 = 0</eq-ref>
-  </div>
-
-  <hr>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
-  </p>
-', 'published'),
-  (24, 'analysis1DLecture2', 23, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
-    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
-    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
-  </div>
-
-  <p>
-    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
-  </p>
-
-  <p>
-    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
-  </p>
-
-  <p>
-    “Exactly,” Jane smiled. “Let''s see how this turns all of differential calculus into pure algebra.”
-  </p>
-
-  <hr>
-
-  <h3>1. Deriving Slopes by Pure Algebra</h3>
-
-  <h4>Example 1: The Parabola f(x) = x²</h4>
-  <p>
-    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
-  </p>
-  <ol>
-    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
-    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
-    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
-    <li>Take the standard part: &nbsp; <code>f''(x) = st(2x + dx) = 2x</code></li>
-  </ol>
-  <p>
-    No limits, no inequalities &mdash; just straightforward polynomial division!
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
-      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
-      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
-    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
-    • <b>Equivalence:</b> <code>f''(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
-
-  <p>
-    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 500px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Base Box -->
-        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
-        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
-
-        <!-- Right Strip: u · dv -->
-        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
-        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
-
-        <!-- Top Strip: v · du -->
-        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
-        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
-
-        <!-- Corner: du · dv -->
-        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
-        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
-    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
-  </div>
-  <p>
-    Dividing by <code>dx</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
-  </div>
-  <p>
-    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )'' &nbsp;=&nbsp; u · v'' + v · u''</b></fsd-ref>
-  </div>
-
-  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)'' = u·v'' + v·u''</code></fsd-ref>.<br>
-    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
-    <div align="center" style="margin: 4px 0; font-family: monospace;">
-      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )''(x) = f''(g(x)) · g''(x)</code></fsd-ref>
-    </div>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
-
-  <p>
-    “In standard calculus,” Jane noted, “students are strictly warned: <i>''dy/dx is not a fraction; you cannot cancel dx!''</i>”
-  </p>
-  <p>
-    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
-    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
-  </div>
-  <p>
-    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
-    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
-  </div>
-  <p>
-    Taking standard parts yields the classical Chain Rule:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )''(x) &nbsp;=&nbsp; f''(g(x)) · g''(x)</b></fsd-ref>
-  </div>
-
-  <hr>
-
-  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
-
-  <p>
-    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f''(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
-  </p>
-  <p>
-    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
-    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f''(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
-  </div>
-  <p>
-    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f''(x) · dx</b></fsd-ref>
-  </div>
-  <p>
-    “The derivative <code>f''(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f''(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
-    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f''(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
-    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
-
-  <p>
-    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f''(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
-  </p>
-
-  <p>
-    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn''t curvature come from the <i>difference of the differences</i>?”
-  </p>
-
-  <p>
-    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
-  </p>
-
-  <p>
-    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
-  </p>
-
-  <ol>
-    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
-    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
-    <li><b>The Second Discrete Difference:</b></li>
-  </ol>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
-  </div>
-
-  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
-  <p>
-    Let''s test this directly on our parabola from Section 1:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
-    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
-  </div>
-
-  <p>
-    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-    <b>f''''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
-  </div>
-  <p>
-    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
-  </p>
-
-  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
-  <p>
-    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
-    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
-  </div>
-  <p>
-    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
-  </p>
-  <ul>
-    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
-    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
-    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
-  </ul>
-  <p>
-    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
-    • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
-    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
-  </div>
-
-  <hr>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
-  </p>
-', 'published'),
-  (25, 'analysis1DLecture3', 24, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
-    <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began the final lecture of Course 2 by drawing a continuous curve over an interval <code>[a, b]</code>, divided into a multitude of vertical strips:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 540px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Axes -->
-        <line x1="40" y1="130" x2="500" y2="130" stroke="#334155" stroke-width="2" />
-        <line x1="50" y1="140" x2="50" y2="20" stroke="#334155" stroke-width="2" />
-
-        <!-- Strips under curve -->
-        <path d="M 100 130 L 100 95 Q 220 30 350 70 T 460 30 L 460 130 Z" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
-        
-        <!-- Individual Tile -->
-        <rect x="250" y="55" width="20" height="75" fill="#dbeafe" stroke="#2563eb" stroke-width="1" />
-        <text x="260" y="45" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#1e40af">f(x_k)·dx</text>
-
-        <!-- Labels -->
-        <text x="100" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">a = x₀</text>
-        <text x="460" y="145" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">b = x_ω</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In classical textbooks,” Jane said, “defining the integral requires taking the limit of Riemann sums as the mesh size shrinks to zero, or taking the supremum over all possible Darboux partitions.”
-  </p>
-
-  <p>
-    “On our hyperfinite scaffold <code>ℝ_ω</code>,” Jane smiled, “an integral is not an infinite limit. <b>It is literally a genuine discrete sum of <code>ω</code> microscopic rectangular tiles</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. The Discrete Hyperfinite Integral</h3>
-
-  <p>
-    Partition the interval <code>[a, b]</code> into <code>ω</code> equal infinitesimal steps of width <code>dx = (b - a) / ω</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    a = x₀ &lt; x₁ &lt; x₂ &lt; ... &lt; x_ω = b &emsp; where &emsp; x_k = a + k·dx
-  </div>
-
-  <p>
-    The continuous area under the curve is the standard part of the discrete sum:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; st( ∑[k=1 to ω] f(x_k) · dx )</b></fsd-ref>
-  </div>
-
-  <p>
-    Because this is an actual sum, all standard properties of integration &mdash; linearity, additivity of intervals, and area bounds &mdash; follow directly from the algebraic properties of discrete summation!
-  </p>
-
-  <h4>Formal Statement (FS-A1D-3.1): The Discrete Definite Integral on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Infinitesimal Tile Sum:</b> For continuous <code>f : [a, b] → ℝ</code>, the discrete sum is <code>S_ω = ∑_{k=1}^ω f(x_k) · dx</code> with <code>dx = (b - a)/ω</code>.<br>
-    • <b>Definite Integral:</b> <fsd-ref tier="3" scaffold="hyper_sum" title="Discrete Definite Integral"><code>∫_a^b f(x) dx ≡ st(S_ω)</code></fsd-ref>.<br>
-    • <b>Linearity:</b> <code>∫_a^b (α f + β g) dx = α ∫_a^b f dx + β ∫_a^b g dx</code> (derived directly from sum linearity).<br>
-    • <b>Domain Additivity:</b> <code>∫_a^b f dx + ∫_b^c f dx = ∫_a^c f dx</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_discrete_integral" formula="SUM_W(x^2, 0, 1)">Discrete Definite Integral of x² on [0, 1] ≡ 1/3</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>2. The Fundamental Theorem of Calculus as Telescoping Cancellation</h3>
-
-  <p>
-    “Now,” Jane said, “we arrive at the crown jewel connecting differentiation and integration: <b>The Fundamental Theorem of Calculus (FTC)</b>.”
-  </p>
-
-  <p>
-    “Suppose <code>F''(x) = f(x)</code>. Across each microscopic step <code>dx</code> from <code>x_{k-1}</code> to <code>x_k</code>, the change in <code>F</code> is:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    <b>F(x_k) - F(x_{k-1}) &nbsp;≈&nbsp; F''(x_k) · dx &nbsp;=&nbsp; f(x_k) · dx</b>
-  </div>
-
-  <p>
-    “Now add up all <code>ω</code> steps from <code>x₀ = a</code> to <code>x_ω = b</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref><br><br>
-    = [ F(x₁) - F(x₀) ] + [ F(x₂) - F(x₁) ] + [ F(x₃) - F(x₂) ] + ... + [ F(x_ω) - F(x_{ω-1}) ]
-  </div>
-
-  <p>
-    Jill’s face lit up: “Every single middle term cancels! <code>+F(x₁)</code> cancels <code>-F(x₁)</code>, <code>+F(x₂)</code> cancels <code>-F(x₂)</code>... only the very first and very last terms survive!”
-  </p>
-
-  <p>
-    “Wait,” Jill added, “that is the exact same pairwise cancellation as the high-school shift-and-subtract trick for geometric progressions: <code>(1 - r) · S_n = a - a · rⁿ</code>! All intermediate terms collapse identically!”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
-    <b>= F(x_ω) - F(x₀) &nbsp;=&nbsp; F(b) - F(a)</b>
-  </div>
-
-  <p>
-    Taking the standard part on both sides yields the Fundamental Theorem of Calculus:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>
-  </div>
-
-  <p>
-    “Exactly,” Jane smiled. “The high-school progression trick and the Fundamental Theorem of Calculus are the exact same algebraic phenomenon: pairwise boundary cancellation, operating here across our hyperfinite grid. There are no partition bounds, no epsilon squeezes, and no unconstructive approximations.”
-  </p>
-
-  <h4>Formal Statement (FS-A1D-3.2): The Telescoping Fundamental Theorem of Calculus</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Exact Telescoping Identity:</b> For any discrete sequence <code>F(x_k)</code>:<br>
-    <div align="center" style="margin: 4px 0; font-family: monospace;">
-      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>
-    </div>
-    • <b>Infinitesimal Increment Substitution:</b> If <code>F''(x) = f(x)</code> is continuous, <code>F(x_k) - F(x_{k-1}) = f(x_k)·dx + ε_k·dx</code> with <code>max |ε_k| ≈ 0</code>.<br>
-    • <b>Standard Part Theorem:</b> <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_telescoping_ftc" formula="TELESCOPING_FTC(x^3, a, b)">Telescoping FTC Cancellation on f(x) = 3x²</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>3. Looking Forward to Analysis 2D (ℂ_ω)</h3>
-
-  <p>
-    “We have mastered continuous change on the 1D real continuum <code>ℝ_ω</code>,” Jane concluded.
-  </p>
-  <p>
-    “In <b>Analysis 2D</b>, we take our 1D real axes and cross them into the 2D complex plane: <fsd-ref tier="3" scaffold="C_w" title="2D Complex Grid"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></fsd-ref> with cell step <code>dz = dx + i·dy</code>. There we will discover:”
-  </p>
-  <ul>
-    <li>How <b>Cauchy-Riemann equations</b> express conformal square preservation.</li>
-    <li>How <b>Cauchy''s Integral Theorem</b> is simply 2D boundary cancellation across discrete grid squares.</li>
-    <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
-  </ul>
-', 'published'),
-  (26, 'analysis2DIntro', 25, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
-<div align="center">
-      <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
-      <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
-    </div>
-    <br>
-    <h3>Preface: The Crown Jewel of Continuous Mathematics</h3>
-    <p>
-      If 1D Real Analysis is the calculus of moving along a line, <b>2D Complex Analysis is the geometry of rotating, scaling, and preserving shapes across an unbroken plane</b>.
-    </p>
-    <p>
-      Complex analysis is widely regarded as one of the most stunningly unified theories in all of science. On our transfinite tree scaffold <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>, complex analysis is not an intimidating maze of Riemann surfaces and winding numbers; it is the <b>discrete geometry of square-preserving cell transformations and 2D edge cancellations</b>.
-    </p>
-    <hr>
-    <h3>1. The 2D Complex Scaffold: Crossing Two 1D Tree Transects</h3>
-    <p>
-      The complex continuum <code>ℂ_ω</code> is constructed by taking two copies of our 1D real tree scaffold <code>ℝ_ω</code> and crossing them at right angles:
-    </p>
-    <div style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
-      <b>z &nbsp;=&nbsp; x + i · y &emsp; where &emsp; x, y ∈ ℝ_ω &emsp;and&emsp; i² = -1</b>
-    </div>
-    <p>
-      The fundamental infinitesimal cell displacement is:
-    </p>
-    <div style="font-family: monospace; font-size: 14px; margin: 6px 0;" align="center">
-      <b>dz &nbsp;=&nbsp; dx + i · dy &emsp; (where dx = 1/ω and dy = 1/ω)</b>
-    </div>
-
-    <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
-      The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i·y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
-      </div>
-      Every point <code>z ∈ ℂ_ω</code> is tiled by infinitesimal <code>dx × dy</code> square cells with step <code>dz = dx + i·dy</code>, yielding a seamless 2D continuum with zero gaps.
-    </div>
-    </fsd-ref>
-
-    <div style="font-family: monospace; font-size: 13.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;" align="center">
-      <b>Note on 2D Tiling &amp; Shared Boundaries:</b><br>
-      <br>
-      Crossing two 1D 2-successor trees <code>(ℝ_ω × ℝ_ω)</code> yields <code>2ⁿ × 2ⁿ = 4ⁿ</code> cells &mdash; completely tiling 2D Cartesian space with zero gaps!<br>
-      <br>
-      While two decoupled 1D axes fill Cartesian space, the native <b>4-successor complex tree <code>ℂ_ω</code></b> binds <em>x</em> and <em>y</em> into a single complex entity. Neighboring cells share 1D boundary walls across which complex phase rotations <code>e^{iθ}</code> and continuous quantum wave packets flow smoothly.
-    </div>
-    <hr>
-    <h3>2. Conformal Geometry &amp; The Cauchy-Riemann Symmetries</h3>
-    <p>
-      In real 2D calculus, a function <code>f : ℝ² → ℝ²</code> can stretch, squish, or distort shapes into arbitrary shears. In <b>Complex Analysis</b>, requiring a single complex derivative <code>f''(z)</code> forces the transformation to be <b>Conformal (Shape-Preserving)</b>:
-    </p>
-    <ul>
-      <li>Every infinitesimal grid square is <b>scaled and rotated</b>, but <b>never sheared</b>!</li>
-      <li>This geometric square-preservation is algebraically expressed by the <b>Cauchy-Riemann Equations</b>:
-        <div style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a;" align="center">
-          <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
-        </div>
-      </li>
-    </ul>
-
-    <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Maps">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Maps):</b><br>
-      A function <code>f(z) = u(x,y) + i·v(x,y)</code> is complex differentiable if and only if horizontal and vertical infinitesimal slopes coincide:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>st(Δf / dx) &nbsp;=&nbsp; st(Δf / (i·dy)) &nbsp;⇒&nbsp; ∂u/∂x = ∂v/∂y &nbsp;and&nbsp; ∂u/∂y = -∂v/∂x</b>
-      </div>
-      Geometrically, every microscopic square cell maps to another un-sheared square, preserving angles and local shapes.
-    </div>
-    </fsd-ref>
-
-    <hr>
-    <h3>3. Discrete Contour Integrals &amp; 2D Cell Cancellation</h3>
-    <p>
-      In 1D calculus, the Fundamental Theorem worked by 1D telescoping cancellation between adjacent line segments. In 2D complex calculus, <b>Cauchy''s Integral Theorem</b> is the exact 2D planar analog:
-    </p>
-    <div style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" align="center">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (around any closed loop enclosing no poles)</b>
-    </div>
-    <p>
-      <i>Why it works on <code>ℂ_ω</code>:</i> Summing the integral around the outer loop is identical to summing the circulations of all microscopic <code>dx × dy</code> square cells inside. Every internal shared boundary edge is traversed twice in opposite directions &mdash; cancelling to exact zero!
-    </p>
-
-    <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="FS-A2D-2.1: Cauchy''s Integral Theorem & Boundary Cancellation">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; Boundary Cancellation):</b><br>
-      For any holomorphic function <code>f(z)</code> on a simply connected domain enclosing loop <code>γ</code>, tiling the interior into micro-cells <code>□_k</code> gives:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>∮_γ f(z) dz &nbsp;=&nbsp; ∑_{k} ∮_{∂□_k} f(z) dz &nbsp;=&nbsp; 0</b>
-      </div>
-      Every shared internal cell edge is traversed in opposing directions (<code>↑ + ↓ = 0</code>, <code>→ + ← = 0</code>), leaving net boundary circulation zero.
-    </div>
-    </fsd-ref>
-
-    <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: Residues & Logarithmic Root Counting">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-2.2 (Residues &amp; Logarithmic Root Counting):</b><br>
-      When isolated poles <code>z_k</code> puncture the region, closed loop integration counts vortex circulations:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k) &emsp;and&emsp; (1 / 2π i) ∮_γ [f''(z) / f(z)] dz &nbsp;=&nbsp; N_zeros(f, γ)</b>
-      </div>
-      Continuous contour integrals act as exact integer counters for enclosed roots.
-    </div>
-    </fsd-ref>
-
-    <details id="bounded-inside-outside-details" style="margin: 18px 0; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.06);">
-      <summary style="font-weight: bold; color: #0369a1; font-size: 15px; cursor: pointer;">
-        Deep Dive: Bounded Inside vs. Unbounded Outside &mdash; Why Planar Analysis Depends on Jordan Separation
-      </summary>
-      <div style="margin-top: 12px; line-height: 1.6; font-size: 14px; color: #334155;">
-        <p>
-          Every crown jewel theorem in 2D Analysis &mdash; <b>Cauchy''s Integral Theorem</b>, <b>Cauchy''s Integral Formula</b>, <b>The Residue Theorem</b>, and <b>Green''s Theorem</b> &mdash; opens with the exact same condition: 
-          <i>“Let γ be a simple closed curve in the plane...”</i>
-        </p>
-        <p>
-          Why is this condition so foundational? Because any simple closed loop in 2D space divides the plane into exactly two connected components:
-        </p>
-        <ul>
-          <li><b>One Bounded Inside (Interior):</b> A finite expanse of space that can be trapped inside an outer bounding box.</li>
-          <li><b>One Unbounded Outside (Exterior):</b> An infinite expanse stretching outward to the horizon in all directions.</li>
-          <li><b>A Single Shared Boundary (Curve γ):</b> The dividing fence that separates inside from outside.</li>
-        </ul>
-        <p>
-          In classical continuous topology, this is the celebrated <b>Jordan Curve Theorem</b> (Camille Jordan, 1887; Oswald Veblen, 1905). While deceptively obvious to the eye, proving it continuously required over thirty pages of dense homology because continuous curves can wander fractally. On our transfinite tree scaffold <code>ℂ_ω</code>, however, this distinction is completely constructive, computational, and transparent.
-        </p>
-
-        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
-
-        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">1. The Three Pillars of 2D Analysis Powered by Inside vs. Outside</h4>
-        <ol style="margin-left: 18px;">
-          <li style="margin-bottom: 8px;">
-            <b>Cauchy''s Integral Formula as an Analytic Inside/Outside Detector:</b><br>
-            Consider Cauchy''s integral formula with test function <code>f(z) = 1</code>:
-            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-              <b>χ_Inside(z₀) &nbsp;=&nbsp; (1 / 2π i) ∮_γ [ 1 / (z - z₀) ] dz &nbsp;=&nbsp; { 1 &nbsp;if z₀ ∈ Inside, &emsp; 0 &nbsp;if z₀ ∈ Outside }</b>
-            </div>
-            Contour integration is literally an <b>analytic point-in-polygon detector</b>! If <code>z₀</code> is inside, the contour winds around the pole once (winding number <code>W = 1</code>), yielding <code>2π i / 2π i = 1</code>. If <code>z₀</code> is outside, the integrand is holomorphic everywhere throughout the interior cells, and the internal cell edges cancel to exact <code>0</code>!
-          </li>
-          <li style="margin-bottom: 8px;">
-            <b>The Residue Theorem as Enclosed Singularity Accounting:</b><br>
-            When evaluating <code>∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)</code>, which singularities get counted? <b>Strictly those in the bounded inside.</b> Poles located in the unbounded outside contribute exactly zero. If the plane were not cleanly separated into bounded inside and unbounded outside, the integral could not act as an exact integer register for enclosed vortices.
-          </li>
-          <li style="margin-bottom: 8px;">
-            <b>Green''s Theorem &amp; Telescoping Cell Sums:</b><br>
-            Green''s theorem converts a 2D surface integral into a 1D perimeter circulation:
-            <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-              <b>∬_Inside [ ∂Q/∂x - ∂P/∂y ] dx dy &nbsp;=&nbsp; ∮_γ [ P dx + Q dy ]</b>
-            </div>
-            This requires summing across a <b>bounded region</b> so that the total hyperfinite count of micro-cells <code>N_cells = ∑ □_k</code> is a well-defined hyperinteger. In the unbounded outside, the cell sum has no termination unless bounded by an artificial horizon.
-          </li>
-        </ol>
-
-        <hr style="border: 0; border-top: 1px dashed #94a3b8; margin: 14px 0;">
-
-        <h4 style="color: #1e3a8a; margin: 8px 0 6px 0;">2. The Tree &amp; Transfinite Grid Resolution</h4>
-        <p>
-          How does our discrete tree scaffold <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code> make the inside/outside split foolproof and immune to floating-point degeneracies?
-        </p>
-        <ul>
-          <li><b>The Quadtree Horizon Escape:</b> 
-            Every loop <code>γ</code> has an extreme bounding box <code>[x_min, x_max] × [y_min, y_max]</code>. A micro-cell is in the <b>unbounded outside</b> if there exists a connected path of adjacent empty cells leading out to the transfinite grid horizon. It is in the <b>bounded inside</b> if all paths toward the horizon are severed by boundary edges of <code>γ</code>.
-          </li>
-          <li><b>The 1-Successor Ray Parity Rule (k mod 2 ∈ 𝔹):</b>
-            Shoot a 1D ray from any query point <code>z₀</code> to the transfinite horizon. By offsetting the ray by an infinitesimal half-step <code>dy/2</code>, it is provably impossible for the ray to strike any vertex or skim along any horizontal edge:
-            <div align="center" style="font-family: monospace; font-size: 13px; margin: 6px 0; color: #1e3a8a;">
-              <b>k = Count of boundary crossings &emsp;⇒&emsp; { k mod 2 = 1 ⇒ Inside, &emsp; k mod 2 = 0 ⇒ Outside }</b>
-            </div>
-            A 2D spatial enclosure problem reduces to a simple 1D counting parity along the tree trunk <code>ℕ_ω</code>.
-          </li>
-          <li><b>Rotor Direction &amp; The Left-Hand Rule:</b>
-            Traversing the perimeter <code>γ</code> counter-clockwise (positive complex rotor rotation <code>e^{+i dθ}</code>) keeps the bounded inside consistently on the <b>left hand</b>. This geometric convention fixes the outward unit normal <code>n = -i · (dz / |dz|)</code> pointing toward the unbounded outside, guaranteeing positive circulation <code>+2π i</code> in Cauchy''s integral formula.
-          </li>
-        </ul>
-      </div>
-    </details>
-
-    <hr>
-    <h3>4. Looking Ahead: Continuous Unitary Evolution &amp; Phase Transitions</h3>
-    <p>
-      Complex analysis provides the mathematical foundation for wave mechanics and continuous state evolution, bridging forward to spatial geometry and quantum theory:
-    </p>
-    <h4>A. Continuous Quantum State Evolution</h4>
-    <p>
-      The continuous-time evolution of a quantum state is a continuous phase rotation powered by the Hamiltonian operator <code>H</code>:
-    </p>
-    <div style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;" align="center">
-      <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
-    </div>
-
-    <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Continuous Unitary Evolution & Schrödinger Equation">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-3.1 (Continuous Unitary Evolution &amp; Schrödinger Equation):</b><br>
-      Self-adjointness of the Hamiltonian (<code>H = H†</code>) guarantees that time evolution <code>U(t) = e^(-i H t / ħ)</code> is unitary (<code>U(t)† U(t) = I</code>), preserving total probability. Differentiating with respect to time yields the continuous Schrödinger equation:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-      </div>
-    </div>
-    </fsd-ref>
-
-    <h4>B. Phase Transitions &amp; Lee-Yang Zeros</h4>
-    <p>
-      Why does liquid water suddenly freeze into rigid ice at exactly 0°C?
-    </p>
-    <ul>
-      <li>For any finite system (<code>N &lt; ω</code>), the thermodynamic partition function <code>Z_N(T)</code> is strictly positive and analytic everywhere on the real temperature axis.</li>
-      <li>Its zeros live exclusively in the <b>complex plane</b> (Lee-Yang zeros).</li>
-      <li>At the thermodynamic limit (<code>N = ω</code>), these complex zeros <b>pinch the real axis</b> at the critical temperature <code>T_c</code>, creating a sudden non-analytic singularity &mdash; the macroscopic phase transition!</li>
-    </ul>
-
-    <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Phase Transitions">
-    <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-      <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Phase Transitions):</b><br>
-      For any finite system, partition zeros lie strictly off the real line in <code>ℂ_ω \ ℝ</code>. In the transfinite continuum limit (<code>N = ω</code>), the zero distribution pinches the real line at critical point <code>T_c</code>, inducing a non-analytic kink in free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> that manifests as a macroscopic phase transition.
-    </div>
-    </fsd-ref>
-
-    <hr>
-    <h3>Analysis 2D Lecture Plan</h3>
-    <ul>
-      <li><b>Lecture 1: The 2D Complex Grid &amp; Conformal Maps:</b>
-        Crossing 1D axes to build <code>ℂ_ω</code>, infinitesimal cell steps <code>dz = dx + i·dy</code>, and proving Cauchy-Riemann as square-preservation (<b>FS-A2D-1.1, FS-A2D-1.2</b>).</li>
-      <li><b>Lecture 2: Discrete Contour Integrals &amp; Residues:</b>
-        Proving Cauchy''s Integral Theorem via 2D cell edge cancellation, Laurent expansions, and root-counting loop integrals (<b>FS-A2D-2.1, FS-A2D-2.2</b>).</li>
-      <li><b>Lecture 3: Quantum State Evolution &amp; Phase Transitions:</b>
-        Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
-    </ul>
-', 'published'),
-  (27, 'analysis2DLecture1', 26, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
-    <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 1 by sketching a 2D square grid on the blackboard, formed by crossing two copies of the 1D tree scaffold <code>ℝ_ω</code>:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 520px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Axes -->
-        <line x1="30" y1="130" x2="490" y2="130" stroke="#334155" stroke-width="2" />
-        <line x1="50" y1="145" x2="50" y2="15" stroke="#334155" stroke-width="2" />
-        <text x="480" y="145" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Re (x)</text>
-        <text x="55" y="25" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Im (y)</text>
-
-        <!-- Grid Lines -->
-        <g stroke="#e2e8f0" stroke-width="1">
-          <line x1="120" y1="20" x2="120" y2="130" />
-          <line x1="190" y1="20" x2="190" y2="130" />
-          <line x1="260" y1="20" x2="260" y2="130" />
-          <line x1="330" y1="20" x2="330" y2="130" />
-          <line x1="400" y1="20" x2="400" y2="130" />
-          <line x1="50" y1="100" x2="470" y2="100" />
-          <line x1="50" y1="70" x2="470" y2="70" />
-          <line x1="50" y1="40" x2="470" y2="40" />
-        </g>
-
-        <!-- Highlighted Cell dz = dx + i dy -->
-        <rect x="260" y="70" width="70" height="30" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
-        <text x="295" y="88" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#1e40af">dz = dx + i·dy</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In Course 2,” Jane said, “we explored continuous calculus along a 1D line. Today, we cross two 1D tree transects at right angles to construct the 2D complex plane: <b><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code></b>.”
-  </p>
-
-  <p>
-    Jill observed: “In 1D, when you take an infinitesimal step <code>dx</code>, you can only step left or right. But in 2D, a point can be approached from an infinite number of directions: horizontally, vertically, or diagonally!”
-  </p>
-
-  <p>
-    “A profound observation,” Jane nodded. “And because you can approach a point from any 2D direction, the halo surrounding every complex point <code>z₀ = x₀ + i·y₀</code> becomes a rich, two-dimensional <b>Complex Halo Soup <code>μ(z₀) ⊂ ℂ_ω</code></b>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>z &nbsp;=&nbsp; z₀ + ε &emsp; where &emsp; z₀ ∈ ℂ &emsp;and&emsp; ε = dx + i·dy ∈ μ(0)</b>
-  </div>
-
-  <h4>Formal Statement (FS-A2D-1.1): The 2D Complex Continuum &amp; Complex Halo Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Complex Tensor Grid:</b> <fsd-ref tier="3" scaffold="C_w" title="2D Complex Continuum ℂ_ω"><code>ℂ_ω = ℝ_ω ⊗ ℝ_ω = { x + i·y | x, y ∈ ℝ_ω, i² = -1 }</code></fsd-ref>.<br>
-    • <b>Complex Finite Horizon:</b> <code>z ∈ ℂ_ω^{fin} ⟺ is_finite(z.re) ∧ is_finite(z.im) ⟺ |z.re| &lt; |ω| ∧ |z.im| &lt; |ω|</code>.<br>
-    • <b>Complex Hard Dyadic Grid:</b> <code>is_hard_C(z) ⟺ is_hard(z.re) ∧ is_hard(z.im)</code> (exact Gaussian dyadic computer registers born at finite days with zero halo dust: <code>st_C(z) = z</code>).<br>
-    • <b>Complex Standard Shadow:</b> <fsd-ref tier="3" scaffold="st" title="Complex Standard Part st_C"><code>st_C(z) = ⟨st(z.re), st(z.im)⟩ ∈ ℂ</code></fsd-ref> extracts the standard 2D nucleus.<br>
-    • <b>Complex Halo Decomposition:</b> Every finite complex number decomposes uniquely into a standard nucleus and 2D Day <code>ω</code> halo fluctuations: <code>z = z₀ + ε</code> with <code>z₀ = st_C(z)</code> and <code>ε ∈ μ(0)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_complex_step" formula="NORM_SQ(x + i*y)">2D Complex Step &amp; Modulus Invariance on ℂ_ω</eq-ref>
-  </div>
-
-  <hr>
-
-  <h3>1. Deriving the Cauchy-Riemann Equations</h3>
-
-  <p>
-    Let <code>f(z) = u(x, y) + i · v(x, y)</code> be a complex function, where <code>u</code> is the real part and <code>v</code> is the imaginary part.
-    For the derivative <code>f''(z) = st(Δf / dz)</code> to exist independently of direction, the slope along a <b>horizontal step</b> must match the slope along a <b>vertical step</b>:
-  </p>
-
-  <h4>Move 1: Horizontal Step (dz = dx, dy = 0)</h4>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δf / dx &nbsp;=&nbsp; [ (u(x+dx, y) - u(x, y)) + i(v(x+dx, y) - v(x, y)) ] / dx &nbsp;→&nbsp; <b>∂u/∂x + i · ∂v/∂x</b>
-  </div>
-
-  <h4>Move 2: Vertical Step (dz = i·dy, dx = 0)</h4>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    Δf / (i·dy) &nbsp;=&nbsp; [ (u(x, y+dy) - u(x, y)) + i(v(x, y+dy) - v(x, y)) ] / (i·dy) &nbsp;=&nbsp; (1/i) · ∂u/∂y + ∂v/∂y<br>
-    &emsp;&emsp;&emsp;&emsp;&emsp;= <b>∂v/∂y - i · ∂u/∂y</b> &emsp; (since 1/i = -i)
-  </div>
-
-  <h4>Equating Real &amp; Imaginary Components:</h4>
-  <p>
-    Equating the horizontal and vertical slopes gives the famous <b>Cauchy-Riemann Equations</b>:
-  </p>
-
-  <fsd-ref tier="3" scaffold="Holomorphic" title="Cauchy-Riemann Coordinate Symmetry">
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∂u/∂x &nbsp;=&nbsp; ∂v/∂y &emsp;&emsp;and&emsp;&emsp; ∂u/∂y &nbsp;=&nbsp; -∂v/∂x</b>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Geometric Meaning: Conformal Square Preservation</h3>
-
-  <p>
-    “What do the Cauchy-Riemann equations actually mean geometrically?” Jane asked.
-  </p>
-
-  <p>
-    Jane drew a microscopic square on the input grid and its image under <code>f(z)</code>:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 540px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Left: Input Square -->
-        <rect x="40" y="35" width="60" height="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
-        <text x="70" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">dx × dy</text>
-        <text x="70" y="115" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Input Cell</text>
-
-        <!-- Arrow -->
-        <text x="200" y="60" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#64748b">f(z)</text>
-        <line x1="150" y1="65" x2="250" y2="65" stroke="#94a3b8" stroke-width="2" />
-        <polygon points="255,65 245,60 245,70" fill="#94a3b8" />
-
-        <!-- Right: Rotated & Scaled Square (No Shear!) -->
-        <g transform="translate(370, 65) rotate(30)">
-          <rect x="-40" y="-40" width="80" height="80" fill="#faf5ff" stroke="#9333ea" stroke-width="2" />
-          <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">Rotated Square</text>
-        </g>
-        <text x="370" y="125" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">Output Cell: Preserves 90° Corners!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    Jill smiled: “The transformation stretches and rotates the square, but it <b>never distorts it into a parallelogram</b>! It preserves every right angle!”
-  </p>
-
-  <p>
-    “Exactly!” Jane said. “A complex differentiable function is <b>conformal (shape-preserving)</b>: every microscopic square is mapped to another perfect square with zero shear.”
-  </p>
-
-  <fsd-ref tier="3" scaffold="Holomorphic" title="FS-A2D-1.2: Cauchy-Riemann Symmetries & Conformal Invariance">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-1.2 (Cauchy-Riemann Symmetries &amp; Conformal Invariance):</b><br>
-    Let <code>f: ℂ_ω → ℂ_ω</code> be differentiable at <code>z_0 = x_0 + i·y_0</code>. Then:
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Coordinate Symmetry:</b> <code>∂u/∂x = ∂v/∂y</code> and <code>∂u/∂y = -∂v/∂x</code>.</li>
-      <li><b>Jacobian Structure:</b> The derivative Jacobian matrix has the conformal form:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>J = [ [a, -b], [b, a] ] &emsp; with &nbsp; det(J) = a² + b² = |f''(z)|²</b>
-        </div>
-      </li>
-      <li><b>Conformal Invariance:</b> The linear map scales by <code>|f''(z)|</code> and rotates by <code>arg(f''(z))</code>, strictly preserving oriented angles and orthogonality.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_riemann" formula="CR_DIFF(z^2, z)">Cauchy-Riemann Symmetries on f(z) = z²</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <p>
-    “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
-  </p>
-', 'published'),
-  (28, 'analysis2DLecture2', 27, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
-    <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 2 by drawing a closed loop <code>γ</code> filled with a checkerboard mosaic of microscopic square cells:
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 15px 0;">
-    <div style="width: 100%; max-width: 520px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Outer Loop -->
-        <ellipse cx="260" cy="80" rx="190" ry="60" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,4" />
-        <text x="430" y="50" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Loop γ</text>
-
-        <!-- Internal Cells -->
-        <g stroke="#93c5fd" stroke-width="1">
-          <rect x="180" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="220" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="260" y="55" width="40" height="40" fill="#ffffff" />
-          <rect x="300" y="55" width="40" height="40" fill="#ffffff" />
-        </g>
-
-        <!-- Opposing Arrows on Shared Edge -->
-        <line x1="220" y1="58" x2="220" y2="92" stroke="#dc2626" stroke-width="2" />
-        <polygon points="217,70 220,62 223,70" fill="#dc2626" />
-        <line x1="222" y1="58" x2="222" y2="92" stroke="#16a34a" stroke-width="2" />
-        <polygon points="219,80 222,88 225,80" fill="#16a34a" />
-        <text x="220" y="115" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#334155">Opposing internal edges cancel!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    “In 1D calculus,” Jane said, “the Fundamental Theorem worked because every intermediate point canceled out in a single line of telescoping addition. Today, we discover how the exact same principle works across a 2D plane: <b>Cauchy''s Integral Theorem</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. Cauchy''s Theorem as 2D Boundary Cancellation</h3>
-
-  <p>
-    Suppose you want to compute the total circulation around a closed loop: <code>∮_γ f(z) dz</code>.
-  </p>
-
-  <ol>
-    <li>
-      Tile the interior of the loop with microscopic square cells <code>dx × dy</code> on our grid <code>ℂ_ω</code>.
-    </li>
-    <li>
-      Sum the counter-clockwise circulation around every individual microscopic cell.
-    </li>
-    <li>
-      <b>The Internal Edge Cancellation:</b> For every interior boundary line separating two cells, the left cell integrates upwards (<code>↑</code>), while the right cell integrates downwards (<code>↓</code>). The two contributions are equal and opposite, <b>cancelling to exact zero</b>!
-    </li>
-    <li>
-      All internal edges vanish, leaving only the outermost perimeter edges &mdash; which form the outer loop <code>γ</code>!
-    </li>
-  </ol>
-
-  <p>
-    Because the Cauchy-Riemann equations guarantee that circulation around every unpunctured microscopic square is zero, the total loop integral must be <b>identically zero</b>:
-  </p>
-
-  <fsd-ref tier="3" scaffold="cauchy_integral_theorem" title="Cauchy Closed Loop Circulation (∮ f(z) dz = 0)">
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∮_γ f(z) dz &nbsp;=&nbsp; 0 &emsp; (for any loop enclosing no singularities)</b>
-  </div>
-  </fsd-ref>
-
-  <fsd-ref tier="3" scaffold="cauchy_edge_cancel" title="FS-A2D-2.1: Cauchy''s Integral Theorem & 2D Edge Cancellation">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-2.1 (Cauchy''s Integral Theorem &amp; 2D Edge Cancellation):</b><br>
-    Let <code>f: D → ℂ_ω</code> be holomorphic on a simply connected region <code>D</code> enclosing loop <code>γ</code>. Then:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; st( ∑_{k} ∮_{∂□_k} f(z) dz ) &nbsp;=&nbsp; 0</b>
-    </div>
-    <b>Proof mechanism:</b> Every interior cell-boundary edge shared by adjacent cells <code>□_i</code> and <code>□_j</code> is oriented with opposite traversal directions:
-    <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-      <b>∫_{e_{ij}} f(z) dz + ∫_{e_{ji}} f(z) dz &nbsp;=&nbsp; 0</b>
-    </div>
-    All internal edges cancel telescopically, leaving only the external boundary <code>∂D = γ</code>, which vanishes by Cauchy-Riemann area circulation.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_cauchy_integral" formula="CELL_SUM(dz, Loop)">Cauchy Closed Loop Cell Edge Cancellation</eq-ref>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Singularities &amp; The Residue Theorem</h3>
-
-  <p>
-    “What happens,” Jill asked, “if a function blows up at a point inside the loop &mdash; like <code>f(z) = 1/z</code> at <code>z = 0</code>?”
-  </p>
-
-  <p>
-    “When a puncture (pole) exists,” Jane explained, “the square at the origin cannot cancel. If we integrate <code>1/z</code> around a circle of radius <code>r = 1</code> using <code>z = e^(iθ)</code> and <code>dz = i·e^(iθ) dθ</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>∮_{|z|=1} (1/z) dz &nbsp;=&nbsp; ∫[0 to 2π] (1/e^(iθ)) · (i·e^(iθ) dθ) &nbsp;=&nbsp; i ∫[0 to 2π] dθ &nbsp;=&nbsp; 2π i</b>
-  </div>
-
-  <p>
-    “The non-zero value <code>2π i</code> is the fundamental vortex circulation of the pole!” Jane said.
-    “This generalizes to the <b>Residue Theorem</b>: every closed loop integral simply counts the sum of its enclosed vortex residues:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
-    <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑ Res(f, z_k)</b>
-  </div>
-
-  <fsd-ref tier="3" scaffold="residue_theorem" title="FS-A2D-2.2: The Residue Theorem & Logarithmic Root Counting">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-2.2 (The Residue Theorem &amp; Logarithmic Root Counting):</b><br>
-    Let <code>f</code> be meromorphic on domain <code>D</code> with isolated poles <code>{z_k}</code> inside loop <code>γ</code>. Then:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>∮_γ f(z) dz &nbsp;=&nbsp; 2π i · ∑_{k} Res(f, z_k) &emsp; where &emsp; Res(f, z_k) = c_{-1}</b>
-    </div>
-    Furthermore, integrating the logarithmic derivative yields the exact integer zero-counter:
-    <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-      <b>( 1 / 2π i ) ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; N_{zeros}(f, γ) - N_{poles}(f, γ)</b>
-    </div>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_residue_integral" formula="RESIDUE(1/z, z=0)">Residue Theorem on 1/z at Origin: 2π i</eq-ref>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>3. Counting Zeros via Logarithmic Loops</h3>
-
-  <p>
-    “Finally,” Jane said, “look at what happens when we integrate the logarithmic derivative <code>f''(z) / f(z)</code> around a loop <code>γ</code>:”
-  </p>
-
-  <fsd-ref tier="3" scaffold="residue_theorem" title="Logarithmic Derivative Root Counter">
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>( 1 / 2π i ) · ∮_γ [ f''(z) / f(z) ] dz &nbsp;=&nbsp; Number of Zeros of f(z) inside γ</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jill’s eyes widened: “A continuous loop integral acts as an <b>exact integer counter</b> for how many roots are trapped inside!”
-  </p>
-
-  <p>
-    “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
-  </p>
-', 'published'),
-  (29, 'analysis2DLecture3', 28, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
-<div align="center">
-    <i><font size="+2"><b>Analysis 2D Lecture 3</b></font></i><br>
-    <i><font size="+1">— Continuous State Evolution &amp; Phase Transitions —</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane stood before the class to open the concluding lecture of Analysis 2D:
-  </p>
-
-  <p>
-    “Having explored 1D rates of change and 2D conformal geometry on the complex plane <code>ℂ_ω</code>, we now examine how complex numbers govern continuous physical systems. Today, we discover how continuous phase rotations drive unitary state evolution and uncover the geometric origins of <b>Phase Transitions</b>.”
-  </p>
-
-  <hr>
-
-  <h3>1. Continuous-Time Wave Evolution &amp; Unitary Invariance</h3>
-
-  <p>
-    “In physical systems and wave mechanics,” Jane explained to Jill, “a continuous state evolves over time driven by an energy Hamiltonian operator <code>H</code>. How does complex geometry govern this continuous change?”
-  </p>
-
-  <p>
-    “In quantum mechanics, time evolution is driven by the energy Hamiltonian operator <code>H</code> through a <b>continuous unitary group map</b>:”
-  </p>
-
-  <fsd-ref tier="3" scaffold="unitary_preservation" title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)">
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ) |ψ(0)⟩</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jane pointed to the exponent: “Notice how the mathematical pieces we''ve built snap together:”
-  </p>
-  <ul>
-    <li>The Hamiltonian <code>H</code> is a <b>self-adjoint linear operator (<code>H = H†</code>)</b> whose eigenvalues represent real physical energies.</li>
-    <li>Multiplying by the imaginary unit <code>i</code> turns real energy into a pure phase rotation across <code>ℂ_ω</code>.</li>
-    <li><b>Why Unitarity is Guaranteed:</b> Taking the adjoint reverses the sign in the complex exponent:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
-        <b>U(t)† &nbsp;=&nbsp; ( e^(-i H t / ħ) )† &nbsp;=&nbsp; e^(+i H† t / ħ) &nbsp;=&nbsp; e^(+i H t / ħ)</b>
-      </div>
-      Multiplying them together yields:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
-        <b>U(t)† · U(t) &nbsp;=&nbsp; e^(+iHt/ħ) · e^(-iHt/ħ) &nbsp;=&nbsp; e^0 &nbsp;=&nbsp; I</b>
-      </div>
-    </li>
-    <li><b>Physical Meaning:</b> Time evolution is a smooth, continuous rotation on the unit sphere of Hilbert space &mdash; <b>probabilities are 100% conserved and information is never destroyed</b>!</li>
-    <li>Evaluating the infinitesimal rate of change yields <b>Schrödinger''s Equation</b> directly:
-      <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-        <b>iħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-      </div>
-    </li>
-  </ul>
-
-  <fsd-ref tier="3" scaffold="unitary_preservation" title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger Equation):</b><br>
-    Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space <code>H</code>.
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Unitary Group Map:</b> The continuous time operator <code>U(t) = e^{-i H t / ħ}</code> satisfies:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥² &nbsp;=&nbsp; 1</b>
-        </div>
-      </li>
-      <li><b>Infinitesimal Generator:</b> Taking the time derivative at <code>dt = 1/ω</code> yields the differential Schrödinger equation:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-        </div>
-      </li>
-      <li><b>Probability Conservation:</b> Continuous state dynamics preserves total probability along the unit sphere without dissipation.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_unitary_schrodinger" formula="SCHRODINGER_EXP(-i*H*t/hbar)">Unitary Time Evolution &amp; Probability Conservation</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <hr>
-
-  <h3>2. Continuous Wavepackets &amp; Spatial Normalization</h3>
-
-  <p>
-    “When a physical wave or state is continuous across space,” Jane continued, “the spatial amplitude <code>ψ(x)</code> distributes across the continuum.”
-  </p>
-
-  <p>
-    The total probability is normalized through our hyperfinite integral:
-  </p>
-  <fsd-ref tier="3" scaffold="hyper_sum" title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)">
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
-    <b>∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx ) &nbsp;=&nbsp; 1</b>
-  </div>
-  </fsd-ref>
-
-  <p>
-    “When an observation is made at position <code>x</code>, the continuous state localizes. Looking ahead to our later exploration of Quantum and Bayesian systems in Level 5, the Born rule <code>P(x) = |ψ(x)|²</code> serves as the profound bridge connecting continuous wave geometry to empirical observation and belief revision!”
-  </p>
-
-  <hr>
-
-  <h3>3. The Physical Capstone: Phase Transitions &amp; Lee-Yang Zeros</h3>
-
-  <p>
-    “Now,” Jane smiled, “let''s address one of the deepest questions in physical science: <b>why do sudden phase transitions occur?</b> Why does liquid water suddenly freeze into solid ice at exactly 0°C, even though microscopic atomic laws are completely smooth?”
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 580px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 180" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Real Axis -->
-        <line x1="30" y1="90" x2="550" y2="90" stroke="#334155" stroke-width="2" />
-        <text x="540" y="80" font-family="sans-serif" font-size="11" font-weight="bold" fill="#334155">Real Temp T</text>
-        <circle cx="290" cy="90" r="4" fill="#dc2626" />
-        <text x="290" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#dc2626">Critical Temp T_c</text>
-
-        <!-- Complex Unit Circle & Pinching Zeros -->
-        <ellipse cx="290" cy="90" rx="90" ry="70" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3" />
-        <circle cx="240" cy="40" r="3" fill="#2563eb" />
-        <circle cx="340" cy="40" r="3" fill="#2563eb" />
-        <circle cx="230" cy="90" r="3" fill="#2563eb" />
-        <circle cx="350" cy="90" r="3" fill="#2563eb" />
-        <circle cx="280" cy="85" r="3" fill="#2563eb" />
-        <circle cx="300" cy="85" r="3" fill="#2563eb" />
-        <circle cx="290" cy="91" r="3.5" fill="#dc2626" />
-
-        <text x="290" y="25" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Lee-Yang Zeros in Complex Plane ℂ_ω</text>
-        <text x="290" y="155" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#64748b">At N = ω, zeros pinch the real axis at T_c creating sudden macroscopic phase change!</text>
-      </svg>
-    </div>
-  </div>
-
-  <p>
-    Jane explained the four steps of the celebrated <b>Lee-Yang Circle Theorem</b>:
-  </p>
-
-  <ol>
-    <li>
-      <b>Finite Systems are Perfectly Smooth (N &lt; ω):</b> For any finite collection of <code>N</code> atoms, the partition function <code>Z_N(T)</code> is a polynomial with all positive real coefficients. A polynomial with positive coefficients <b>can never equal zero for any real temperature <code>T ∈ ℝ</code></b>.
-    </li>
-    <li>
-      <b>Zeros Live Exclusively in ℂ_ω:</b> In 1952, Nobel laureates T.D. Lee and C.N. Yang proved that all zeros of <code>Z_N</code> live off the real axis, distributed along a circle in the <b>complex plane <code>ℂ_ω</code></b>.
-    </li>
-    <li>
-      <b>The Thermodynamic Pinch (N = ω):</b> As the number of atoms reaches our transfinite scale <code>N = ω</code>, the density of complex zeros intensifies until they <b>pinch the real temperature axis at exact critical point <code>T_c</code></b>!
-    </li>
-    <li>
-      <b>Macroscopic Phase Change:</b> At <code>T = T_c</code>, the free energy <code>F(T) = -st(k_B T ln Z_ω(T))</code> hits a non-analytic kink &mdash; creating the sudden, sharp macroscopic transition of freezing, boiling, or ferromagnetism!
-    </li>
-  </ol>
-
-  <fsd-ref tier="3" scaffold="lee_yang_zero_pinch" title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions">
-  <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
-    <b>Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp; Emergent Phase Transitions):</b><br>
-    Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition function of an <code>N</code>-particle system.
-    <ol style="margin: 6px 0 0 18px;">
-      <li><b>Analyticity on Real Axis:</b> For all finite <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in <code>ℂ_ω \ ℝ</code>.</li>
-      <li><b>Transfinite Accumulation:</b> In the thermodynamic limit <code>N → ω</code>, the zero locus accumulates into continuous curves pinching the real axis:
-        <div align="center" style="font-family: monospace; font-size: 13px; margin: 4px 0; color: #1e3a8a;">
-          <b>lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at &emsp; T = T_c</b>
-        </div>
-      </li>
-      <li><b>Macroscopic Singularity:</b> The free energy per particle <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a non-analytic derivative singularity at <code>T_c</code>, giving rise to physical latent heat and spontaneous symmetry breaking.</li>
-      <li><b>CAS Example:</b> <eq-ref eq-id="cas_lee_yang" formula="LEE_YANG_ZEROS(N)">Lee-Yang Circle Zeros &amp; Thermodynamic Pinch at T_c</eq-ref></li>
-    </ol>
-  </div>
-  </fsd-ref>
-
-  <p>
-    Jill beamed: “A physical phase transition in our real world is literally caused by complex zeros pinching the real line on Day <code>ω</code>!”
-  </p>
-
-  <p>
-    “Exactly!” Jane concluded. “From recursive tree roots to infinitesimal halos, and from 1D rates to 2D complex residues, our hyperfinite scaffold provides a direct foundation for continuous change. Next, in <b>Level 3: Space, Direction &amp; Geometry</b>, we will expand these tools into multidimensional vector spaces, linear transformations, and geometric duality!”
-  </p>
-', 'published'),
   (30, 'stemExpLogFoundations', 29, 'Exponential & Logarithmic Foundations on the Trees', 'stem-exp-log-foundations', '
 <div class="container">
     <h1>Exponential &amp; Logarithmic Foundations on the Trees</h1>
@@ -9736,310 +14236,662 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </div>
 ', 'published'),
   (32, 'level5Overview', 31, 'From Deductive Certainty to Empirical Inference', 'level5-overview', '
-<div align="center">
-    <font size="+2"><i><b>Level 5: Probability, Information &amp; Quantum Logic<br>
-          The Architecture of Non-Monotonic Inference: From Classical Belief Revision to Quantum Lattices</b></i></font><br>
-    <font size="+1"><i>— Rational Inquiry under Uncertainty: State Spaces, Non-Boolean Geometries &amp; Density Operators —</i></font>
-  </div>
-  <br>
+    <div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Level 5: Probability, Information &amp; Quantum Logic<br />
+            The Architecture of Non-Monotonic Inference: From Classical Belief
+            Revision to Quantum Lattices</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i
+          >— Rational Inquiry under Uncertainty: State Spaces, Non-Boolean
+          Geometries &amp; Density Operators —</i
+        ></font
+      >
+    </div>
+    <br />
 
-  <h3>From Deductive Certainty to Empirical Inference</h3>
-  <p>
-    Across the first four levels of our curriculum, we explored the deductive architecture of mathematics:
-    first-order logic and inductive Conway trees (<b>Level 1</b>), linear vector spaces and geometric transformations (<b>Level 2</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), and the transcendental engine of growth and rotation (<b>Level 4</b>).
-  </p>
-  <p>
-    In that deductive domain, every proven proposition is unconditionally either <i>True</i> (1) or <i>False</i> (0).
-    Furthermore, deductive proof is strictly <b>monotonic</b>: once a conclusion is derived from premises, discovering new facts can never invalidate that proof:
-  </p>
+    <h3>From Deductive Certainty to Empirical Inference</h3>
+    <p>
+      Across the first four levels of our curriculum, we explored the deductive
+      architecture of mathematics: first-order logic and inductive Conway trees
+      (<b>Level 1</b>), linear vector spaces and geometric transformations (<b
+        >Level 3</b
+      >), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and
+      <code>ℂ_ω</code> (<b>Level 2</b>), and the transcendental engine of growth
+      and rotation (<b>Level 4</b>).
+    </p>
+    <p>
+      In that deductive domain, every proven proposition is unconditionally
+      either <i>True</i> (1) or <i>False</i> (0). Furthermore, deductive proof
+      is strictly <b>monotonic</b>: once a conclusion is derived from premises,
+      discovering new facts can never invalidate that proof:
+    </p>
 
-  <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 8px 0; color: #1e3a8a;">
-    If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
-  </div>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 0.95em;
+        margin: 8px 0;
+        color: #1e3a8a;
+      "
+    >
+      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact)
+      ⊢ Conclusion
+    </div>
 
-  <p>
-    However, natural science and empirical discovery operate in the opposite mode: they are fundamentally <b>non-monotonic</b>. 
-    Learning new experimental evidence constantly forces rational observers to retract, revise, or reallocate confidence across hypotheses. 
-    <b>Level 5</b> provides the formal mathematical scaffolding for reasoning under uncertainty, extending classical logic into probability, information theory, and the non-Boolean geometry of quantum mechanics.
-  </p>
+    <p>
+      However, natural science and empirical discovery operate in the opposite
+      mode: they are fundamentally <b>non-monotonic</b>. Learning new
+      experimental evidence constantly forces rational observers to retract,
+      revise, or reallocate confidence across hypotheses.
+      <b>Level 5</b> provides the formal mathematical scaffolding for reasoning
+      under uncertainty, extending classical logic into probability, information
+      theory, and the non-Boolean geometry of quantum mechanics.
+    </p>
 
-  <div align="center" style="background-color: #f8fafc; border: 1.5px solid #6366f1; border-radius: 8px; padding: 14px 18px; margin: 18px 0; font-size: 0.92em; color: #1e1b4b;">
-    <b>The Level 5 Three-Pillar Progression:</b><br><br>
-    <b>Course 1: Bayesian Inference</b> (Sample Space Ω, Non-Monotonic Revision &amp; Discrete Updating)<br>
-    &darr;<br>
-    <b>Course 2: Quantum Logic</b> (The 3-Polarizer Anomaly, Failure of Venn Distributivity &amp; Orthomodular Lattices)<br>
-    &darr;<br>
-    <b>Course 3: Quantum Bayesian Inference</b> (State Vectors, Density Operators ρ, Gleason''s Theorem &amp; Information Updating)
-  </div>
+    <div
+      align="center"
+      style="
+        background-color: #f8fafc;
+        border: 1.5px solid #6366f1;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 18px 0;
+        font-size: 0.92em;
+        color: #1e1b4b;
+      "
+    >
+      <b>The Level 5 Three-Pillar Progression:</b><br /><br />
+      <b>Course 1: Bayesian Inference</b> (Sample Space Ω, Non-Monotonic
+      Revision &amp; Discrete Updating)<br />
+      &darr;<br />
+      <b>Course 2: Quantum Logic</b> (The 3-Polarizer Anomaly, Failure of Venn
+      Distributivity &amp; Orthomodular Lattices)<br />
+      &darr;<br />
+      <b>Course 3: Quantum Bayesian Inference</b> (State Vectors, Density
+      Operators ρ, Gleason''s Theorem &amp; Information Updating)
+    </div>
 
-  <hr>
+    <hr />
 
-  <h3>The Primacy of the Substrate: Why the Arena Precedes the Distribution</h3>
-  <p>
-    In applied statistics and data science, modern practice often fixates on the distribution—tuning priors, optimizing likelihoods, and updating posteriors. 
-    Yet the history of mathematical physics reveals a much deeper, foundational principle:
-  </p>
+    <h3>
+      The Primacy of the Substrate: Why the Arena Precedes the Distribution
+    </h3>
+    <p>
+      In applied statistics and data science, modern practice often fixates on
+      the distribution—tuning priors, optimizing likelihoods, and updating
+      posteriors. Yet the history of mathematical physics reveals a much deeper,
+      foundational principle:
+    </p>
 
-  <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 12px auto; width: 85%; font-weight: bold; font-size: 1.05em; color: #1e3a8a;">
-    The distribution describes what you believe; the substrate dictates what is physically and logically possible.
-  </div>
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 12px auto;
+        width: 85%;
+        font-weight: bold;
+        font-size: 1.05em;
+        color: #1e3a8a;
+      "
+    >
+      The distribution describes what you believe; the substrate dictates what
+      is physically and logically possible.
+    </div>
 
-  <p>
-    Whenever scientific revolutions resolved seemingly insurmountable paradoxes, they did so not by adjusting probability functions, but by <b>overhauling the underlying state space substrate</b>:
-  </p>
+    <p>
+      Whenever scientific revolutions resolved seemingly insurmountable
+      paradoxes, they did so not by adjusting probability functions, but by
+      <b>overhauling the underlying state space substrate</b>:
+    </p>
 
-  <ul>
-    <li>
-      <b>Boltzmann, Planck &amp; Phase Space (Classical Continuum &rarr; Quantized Cells):</b><br>
-      In Newtonian mechanics, phase space was treated as an unquantized, smooth continuum of positions and momenta <code>(q, p) ∈ ℝ^{6N}</code>. 
-      Under that continuous substrate, the number of microstates in any finite volume was infinite, rendering thermodynamic entropy <code>S = k · ln(W) = k · ln(∞)</code> completely undefined, while blackbody radiation suffered the infinite ultraviolet catastrophe. 
-      Only when Boltzmann and Planck pixelated the substrate into discrete cells of action volume <code>h³</code> did microstate counting and thermodynamic entropy become mathematically sound.
-    </li>
-    <br>
-    <li>
-      <b>Measure Theory vs. The Hyperfinite Transect (Point Dust &rarr; Discrete Lattices):</b><br>
-      In 1933, Andrey Kolmogorov attempted to lay continuous probability across the raw, unstructured real line <code>ℝ</code>. 
-      Because the real line is an uncountable point dust, Giuseppe Vitali proved that non-measurable sets inevitably arise, forcing measure theory to retreat to restricted <code>σ</code>-algebras and accept the unnatural Null Set Paradox (<code>P({x}) = 0</code>). 
-      By grounding Course 1 on the <b>hyperfinite transect <code>ℝ_ω</code></b> with uniform infinitesimal spacing <code>dx = 1/ω &gt; 0</code>, the entire power set <code>𝒫(T)</code> is measurable, every physical point carries strictly positive mass, and conditioning is always exact rational arithmetic.
-    </li>
-    <br>
-    <li>
-      <b>Classical Sets vs. Quantum Hilbert Spaces (Boolean Logic &rarr; Orthomodular Lattices):</b><br>
-      Classical inference universally assumes the substrate of events obeys Boolean set algebra (Venn diagrams). 
-      Yet in the three-polarizer experiment, non-commuting physical operations cause Boolean distributivity <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> to fail completely. 
-      In Course 2 and Course 3, we see physics abandon set subsets entirely, replacing them with closed linear subspaces and projection operators on a Hilbert space.
-    </li>
-  </ul>
+    <ul>
+      <li>
+        <b
+          >Boltzmann, Planck &amp; Phase Space (Classical Continuum &rarr;
+          Quantized Cells):</b
+        ><br />
+        In Newtonian mechanics, phase space was treated as an unquantized,
+        smooth continuum of positions and momenta <code>(q, p) ∈ ℝ^{6N}</code>.
+        Under that continuous substrate, the number of microstates in any finite
+        volume was infinite, rendering thermodynamic entropy
+        <code>S = k · ln(W) = k · ln(∞)</code> completely undefined, while
+        blackbody radiation suffered the infinite ultraviolet catastrophe. Only
+        when Boltzmann and Planck pixelated the substrate into discrete cells of
+        action volume <code>h³</code> did microstate counting and thermodynamic
+        entropy become mathematically sound.
+      </li>
+      <br />
+      <li>
+        <b
+          >Measure Theory vs. The Hyperfinite Transect (Point Dust &rarr;
+          Discrete Lattices):</b
+        ><br />
+        In 1933, Andrey Kolmogorov attempted to lay continuous probability
+        across the raw, unstructured real line <code>ℝ</code>. Because the real
+        line is an uncountable point dust, Giuseppe Vitali proved that
+        non-measurable sets inevitably arise, forcing measure theory to retreat
+        to restricted <code>σ</code>-algebras and accept the unnatural Null Set
+        Paradox (<code>P({x}) = 0</code>). By grounding Course 1 on the
+        <b>hyperfinite transect <code>ℝ_ω</code></b> with uniform infinitesimal
+        spacing <code>dx = 1/ω &gt; 0</code>, the entire power set
+        <code>𝒫(T)</code> is measurable, every physical point carries strictly
+        positive mass, and conditioning is always exact rational arithmetic.
+      </li>
+      <br />
+      <li>
+        <b
+          >Classical Sets vs. Quantum Hilbert Spaces (Boolean Logic &rarr;
+          Orthomodular Lattices):</b
+        ><br />
+        Classical inference universally assumes the substrate of events obeys
+        Boolean set algebra (Venn diagrams). Yet in the three-polarizer
+        experiment, non-commuting physical operations cause Boolean
+        distributivity <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> to fail
+        completely. In Course 2 and Course 3, we see physics abandon set subsets
+        entirely, replacing them with closed linear subspaces and projection
+        operators on a Hilbert space.
+      </li>
+    </ul>
 
-  <p>
-    Throughout Level 5, we keep the substrate front and center: first on the hyperfinite transect <code>ℝ_ω</code>, then on non-Boolean orthomodular lattices, and finally on density operators <code>ρ</code> across quantum state space.
-  </p>
+    <p>
+      Throughout Level 5, we keep the substrate front and center: first on the
+      hyperfinite transect <code>ℝ_ω</code>, then on non-Boolean orthomodular
+      lattices, and finally on density operators <code>ρ</code> across quantum
+      state space.
+    </p>
 
-  <hr>
+    <hr />
 
-  <h3>The Three Pillars of Level 5</h3>
+    <h3>The Three Pillars of Level 5</h3>
 
-  <h4>1. Course 1: Classical Bayesian Inference &amp; The Logic of Discovery</h4>
-  <p>
-    Classical probability begins by grounding all claims on a primary substrate: the <b>Sample Space / State Space (Ω)</b>. 
-    Theoretical models and empirical data both operate on this common ground: hypotheses and observations are formalized as subsets (events) in a field <code>ℱ ⊆ 𝒫(Ω)</code>.
-  </p>
-  <ul>
-    <li><b>Probability Basics &amp; Hyperfinite Transect:</b> Grounding probability in ancient symmetry, sample spaces <code>Ω</code>, event additivity, and resolving the continuous Null Set Paradox via strict positivity on <code>ℝ_ω</code>.</li>
-    <li><b>Conditional Probability &amp; Bayes'' Filter:</b> Formalizing non-monotonic discovery, likelihood functions, and mechanical 3-stage belief updating (Prior → Likelihood Slice → Normalization).</li>
-    <li><b>Sequential Updating &amp; Evidence Streams:</b> Demonstrating how continuous evidence streams iteratively converge belief toward ground truth (<i>“today''s posterior is tomorrow''s prior”</i>), Bayes factors, and log-odds additivity.</li>
-    <li><b>State Spaces &amp; Entropy:</b> Bridging probability to information theory and thermodynamics via Shannon entropy and microstate counting.</li>
-    <li><b>Interactive Suite:</b> The <b>Bayesian Inference Demo (BID)</b> provides live exploration of transect point masses, tree projections, joint mosaic distributions, sequential streams, and log-odds gauges, all driven directly by the Middle Way Calculation Machine.</li>
-  </ul>
+    <h4>
+      1. Course 1: Classical Bayesian Inference &amp; The Logic of Discovery
+    </h4>
+    <p>
+      Classical probability begins by grounding all claims on a primary
+      substrate: the <b>Sample Space / State Space (Ω)</b>. Theoretical models
+      and empirical data both operate on this common ground: hypotheses and
+      observations are formalized as subsets (events) in a field
+      <code>ℱ ⊆ 𝒫(Ω)</code>.
+    </p>
+    <ul>
+      <li>
+        <b>Probability Basics &amp; Hyperfinite Transect:</b> Grounding
+        probability in ancient symmetry, sample spaces <code>Ω</code>, event
+        additivity, and resolving the continuous Null Set Paradox via strict
+        positivity on <code>ℝ_ω</code>.
+      </li>
+      <li>
+        <b>Conditional Probability &amp; Bayes'' Filter:</b> Formalizing
+        non-monotonic discovery, likelihood functions, and mechanical 3-stage
+        belief updating (Prior → Likelihood Slice → Normalization).
+      </li>
+      <li>
+        <b>Sequential Updating &amp; Evidence Streams:</b> Demonstrating how
+        continuous evidence streams iteratively converge belief toward ground
+        truth (<i>“today''s posterior is tomorrow''s prior”</i>), Bayes factors,
+        and log-odds additivity.
+      </li>
+      <li>
+        <b>State Spaces &amp; Entropy:</b> Bridging probability to information
+        theory and thermodynamics via Shannon entropy and microstate counting.
+      </li>
+      <li>
+        <b>Interactive Suite:</b> The
+        <b>Bayesian Inference Demo (BID)</b> provides live exploration of
+        transect point masses, tree projections, joint mosaic distributions,
+        sequential streams, and log-odds gauges, all driven directly by the
+        Middle Way Calculation Machine.
+      </li>
+    </ul>
 
-  <h4>2. Course 2: Quantum Logic &amp; Non-Boolean Lattices</h4>
-  <p>
-    What happens when physical measurements interfere with one another? 
-    As demonstrated by the classical three-polarizer experiment, inserting an intermediate 45° filter between two crossed polarizers <i>restores</i> light transmission from 0% to 25%, defying classical set-theoretic intuition.
-  </p>
-  <ul>
-    <li><b>Failure of Venn Diagrams:</b> In quantum mechanics, observables do not generally commute (<code>A · B ≠ B · A</code>). Consequently, the classical Boolean distributive law <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> breaks down!</li>
-    <li><b>Birkhoff-von Neumann Lattices:</b> Replacing set subsets with closed linear subspaces of a Hilbert space. Propositions become projection operators, forming an <b>orthomodular lattice</b> rather than a Boolean algebra.</li>
-    <li><b>Complementarity:</b> Formalizing how measurement context fundamentally conditions the truth-value of physical propositions.</li>
-  </ul>
+    <h4>2. Course 2: Quantum Logic &amp; Non-Boolean Lattices</h4>
+    <p>
+      What happens when physical measurements interfere with one another? As
+      demonstrated by the classical three-polarizer experiment, inserting an
+      intermediate 45° filter between two crossed polarizers
+      <i>restores</i> light transmission from 0% to 25%, defying classical
+      set-theoretic intuition.
+    </p>
+    <ul>
+      <li>
+        <b>Failure of Venn Diagrams:</b> In quantum mechanics, observables do
+        not generally commute (<code>A · B ≠ B · A</code>). Consequently, the
+        classical Boolean distributive law
+        <code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code> breaks down!
+      </li>
+      <li>
+        <b>Birkhoff-von Neumann Lattices:</b> Replacing set subsets with closed
+        linear subspaces of a Hilbert space. Propositions become projection
+        operators, forming an <b>orthomodular lattice</b> rather than a Boolean
+        algebra.
+      </li>
+      <li>
+        <b>Complementarity:</b> Formalizing how measurement context
+        fundamentally conditions the truth-value of physical propositions.
+      </li>
+    </ul>
 
-  <h4>3. Course 3: Quantum Bayesian Inference &amp; Density Operators</h4>
-  <p>
-    In the final course of Level 5, we unite the probabilistic calculus of Course 1 with the operator algebra of Course 2:
-  </p>
-  <ul>
-    <li><b>State Vectors to Ensembles:</b> Advancing from pure rays <code>|ψ⟩</code> to statistical mixtures formalized by <b>density operators (ρ)</b> satisfying <code>Tr(ρ) = 1</code> and positive semi-definiteness.</li>
-    <li><b>Gleason''s Theorem:</b> Establishing why the Born probability rule <code>P = Tr(ρ · Π)</code> is the unique mathematically consistent measure on non-Boolean quantum lattices for dimensions <code>d ≥ 3</code>.</li>
-    <li><b>Entropy &amp; Information:</b> Quantifying statistical mixedness via von Neumann entropy <code>S(ρ) = -Tr(ρ · ln ρ)</code>, linking thermodynamics to quantum information.</li>
-    <li><b>Quantum State Revision (QBism):</b> Understanding wave-function collapse not as mechanical physical disruption, but as exact Bayesian conditioning of an observer''s information state.</li>
-  </ul>
+    <h4>3. Course 3: Quantum Bayesian Inference &amp; Density Operators</h4>
+    <p>
+      In the final course of Level 5, we unite the probabilistic calculus of
+      Course 1 with the operator algebra of Course 2:
+    </p>
+    <ul>
+      <li>
+        <b>State Vectors to Ensembles:</b> Advancing from pure rays
+        <code>|ψ⟩</code> to statistical mixtures formalized by
+        <b>density operators (ρ)</b> satisfying <code>Tr(ρ) = 1</code> and
+        positive semi-definiteness.
+      </li>
+      <li>
+        <b>Gleason''s Theorem:</b> Establishing why the Born probability rule
+        <code>P = Tr(ρ · Π)</code> is the unique mathematically consistent
+        measure on non-Boolean quantum lattices for dimensions
+        <code>d ≥ 3</code>.
+      </li>
+      <li>
+        <b>Entropy &amp; Information:</b> Quantifying statistical mixedness via
+        von Neumann entropy <code>S(ρ) = -Tr(ρ · ln ρ)</code>, linking
+        thermodynamics to quantum information.
+      </li>
+      <li>
+        <b>Quantum State Revision (QBism):</b> Understanding wave-function
+        collapse not as mechanical physical disruption, but as exact Bayesian
+        conditioning of an observer''s information state.
+      </li>
+    </ul>
 
-  <hr>
+    <hr />
 
-  <h3>Computational &amp; Formal Grounding</h3>
-  <p>
-    Consistent with our curriculum presentation standard, all probabilistic calculations across Level 5 are executed explicitly on the 
-    <b>(𝔻, +, ·) Calculation Machine</b> (via <code>bayes_discrete_update</code> and <code>rotor_trig_cordic</code>), accompanied by interactive visual demonstrators and first-order formalizations in Lean 4.
-  </p>
-', 'published'),
+    <h3>Computational &amp; Formal Grounding</h3>
+    <p>
+      Consistent with our curriculum presentation standard, all probabilistic
+      calculations across Level 5 are executed explicitly on the
+      <b>(𝔻, +, ·) Calculation Machine</b> (via
+      <code>bayes_discrete_update</code> and <code>rotor_trig_cordic</code>),
+      accompanied by interactive visual demonstrators and first-order
+      formalizations in Lean 4.
+    </p>
+  ', 'published'),
   (33, 'bayesianInferenceIntro', 32, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
-<div align="center">
-      <i><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i><br>
-      <i><font size="+1">The Logic of Scientific Discovery: Hypotheses, State Spaces &amp; Exact Belief Revision</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >The Logic of Scientific Discovery: Hypotheses, State Spaces &amp;
+          Exact Belief Revision</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
-    <h3>1. The Raw Intuition of Chance: From Ancient Symmetry to the Clockwork Illusion</h3>
+    <h3>
+      1. The Raw Intuition of Chance: From Ancient Symmetry to the Clockwork
+      Illusion
+    </h3>
     <p>
-      Long before the rise of classical mechanics and the expectation of a deterministic "clockwork universe," human intuition grappled constantly with raw chance. In antiquity and the Middle Ages, lived experience was saturated with genuine uncertainty: the casting of lots and knucklebones (astragali), the erratic fortune of maritime trade, the hazards of harvests and epidemics, and games of dice.
+      Long before the rise of classical mechanics and the expectation of a
+      deterministic "clockwork universe," human intuition grappled constantly
+      with raw chance. In antiquity and the Middle Ages, lived experience was
+      saturated with genuine uncertainty: the casting of lots and knucklebones
+      (astragali), the erratic fortune of maritime trade, the hazards of
+      harvests and epidemics, and games of dice.
     </p>
     <p>
-      The earliest mathematical insight into probability (championed by Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat) arose from a simple, profound recognition of <b>symmetry and counting</b>: if a physical coin or six-sided die is balanced and symmetric, each elemental outcome possesses an equal claim on reality. Probability emerged not as a dense differential limit, but as an intuitive geometric ratio:
+      The earliest mathematical insight into probability (championed by Gerolamo
+      Cardano, Blaise Pascal, and Pierre de Fermat) arose from a simple,
+      profound recognition of <b>symmetry and counting</b>: if a physical coin
+      or six-sided die is balanced and symmetric, each elemental outcome
+      possesses an equal claim on reality. Probability emerged not as a dense
+      differential limit, but as an intuitive geometric ratio:
     </p>
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px auto; width: 80%; font-family: monospace; font-size: 0.95em; color: #1e3a8a;">
-      Probability = (Number of Favorable Configurations) / (Total Number of Symmetric Possibilities)
+    <div
+      align="center"
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 12px auto;
+        width: 80%;
+        font-family: monospace;
+        font-size: 0.95em;
+        color: #1e3a8a;
+      "
+    >
+      Probability = (Number of Favorable Configurations) / (Total Number of
+      Symmetric Possibilities)
     </div>
     <p>
-      <b>The Clockwork Detour:</b> With the triumph of Newtonian physics in the 18th century, science fell under the spell of total determinism. Pierre-Simon Laplace famously envisioned a supreme intellect ("Laplace''s Demon") who, knowing the precise position and momentum of every particle in the cosmos, could calculate the entire past and future with certainty. In this clockwork paradigm, probability was demoted to a mere badge of human ignorance—a temporary crutch until complete mechanical coordinates could be collected.
+      <b>The Clockwork Detour:</b> With the triumph of Newtonian physics in the
+      18th century, science fell under the spell of total determinism.
+      Pierre-Simon Laplace famously envisioned a supreme intellect ("Laplace''s
+      Demon") who, knowing the precise position and momentum of every particle
+      in the cosmos, could calculate the entire past and future with certainty.
+      In this clockwork paradigm, probability was demoted to a mere badge of
+      human ignorance—a temporary crutch until complete mechanical coordinates
+      could be collected.
     </p>
     <p>
-      <b>The Modern Restoration:</b> The 20th century permanently dismantled the clockwork illusion. In statistical mechanics (Boltzmann), macroscopic realities like temperature, pressure, and entropy were shown to be emergent statistical averages over microstates. In quantum mechanics (Birkhoff, von Neumann), uncertainty was discovered to be an intrinsic feature of nature itself. Probability is not a secondary concession to human limitation; it is the fundamental language of physical state spaces and the unique calculus of rational inquiry.
+      <b>The Modern Restoration:</b> The 20th century permanently dismantled the
+      clockwork illusion. In statistical mechanics (Boltzmann), macroscopic
+      realities like temperature, pressure, and entropy were shown to be
+      emergent statistical averages over microstates. In quantum mechanics
+      (Birkhoff, von Neumann), uncertainty was discovered to be an intrinsic
+      feature of nature itself. Probability is not a secondary concession to
+      human limitation; it is the fundamental language of physical state spaces
+      and the unique calculus of rational inquiry.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>2. From Deductive Certainty to Scientific Inference</h3>
     <p>
-      Across the first four levels of our curriculum, we forged an extensive formal foundation: deductive logic and recursive Conway trees (<b>Level 1</b>), linear vector spaces, duality, and geometric transformations (<b>Level 2</b>), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), and the transcendental engine of growth and logarithms (<b>Level 4</b>).
+      Across the first four levels of our curriculum, we forged an extensive
+      formal foundation: deductive logic and recursive Conway trees (<b
+        >Level 1</b
+      >), linear vector spaces, duality, and geometric transformations (<b
+        >Level 3</b
+      >), continuous rates and hyperfinite accumulation on <code>ℝ_ω</code> and
+      <code>ℂ_ω</code> (<b>Level 2</b>), and the transcendental engine of growth
+      and logarithms (<b>Level 4</b>).
     </p>
     <p>
-      In that deductive world, every proven statement is definitively either <i>True</i> (1) or <i>False</i> (0). 
-      Deduction tells us what must follow if our premises are absolute and complete.
+      In that deductive world, every proven statement is definitively either
+      <i>True</i> (1) or <i>False</i> (0). Deduction tells us what must follow
+      if our premises are absolute and complete.
     </p>
     <p>
-      However, deductive logic possesses a rigid structural property: it is strictly <b>monotonic</b>. 
-      In deduction, once a conclusion is proven from a set of premises, learning new facts can <i>never</i> invalidate the proof:
+      However, deductive logic possesses a rigid structural property: it is
+      strictly <b>monotonic</b>. In deduction, once a conclusion is proven from
+      a set of premises, learning new facts can <i>never</i> invalidate the
+      proof:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
-      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact) ⊢ Conclusion
+    <div
+      align="center"
+      style="font-family: monospace; font-size: 0.95em; margin: 6px 0"
+    >
+      If &nbsp; Premises ⊢ Conclusion, &nbsp; then &nbsp; (Premises ∪ New Fact)
+      ⊢ Conclusion
     </div>
     <p>
       You can never "un-prove" a mathematical theorem by discovering new data.
     </p>
     <p>
-      Yet empirical discovery in the <b>natural sciences</b> is fundamentally <b>non-monotonic</b>:
+      Yet empirical discovery in the <b>natural sciences</b> is fundamentally
+      <b>non-monotonic</b>:
     </p>
     <ul>
-      <li>Observing a thousand white swans leads to high confidence that <i>"All swans are white."</i></li>
-      <li>Observing a <b>single black swan</b> immediately shatters and revokes that belief!</li>
+      <li>
+        Observing a thousand white swans leads to high confidence that
+        <i>"All swans are white."</i>
+      </li>
+      <li>
+        Observing a <b>single black swan</b> immediately shatters and revokes
+        that belief!
+      </li>
     </ul>
     <p>
-      In science, learning new data constantly forces us to retract, revise, or discard previously favored models. 
-      Classical deductive systems cannot model this retraction without self-contradiction.
+      In science, learning new data constantly forces us to retract, revise, or
+      discard previously favored models. Classical deductive systems cannot
+      model this retraction without self-contradiction.
     </p>
     <p>
-      <b>Bayesian Inference</b> is the unique, mathematically consistent formalization of <b>non-monotonic logic</b>. 
-      It provides the exact calculus of scientific discovery: allowing rational beliefs to rise, fall, and reallocate dynamically across competing hypotheses as new evidence arrives.
+      <b>Bayesian Inference</b> is the unique, mathematically consistent
+      formalization of <b>non-monotonic logic</b>. It provides the exact
+      calculus of scientific discovery: allowing rational beliefs to rise, fall,
+      and reallocate dynamically across competing hypotheses as new evidence
+      arrives.
     </p>
 
-    <hr>
+    <hr />
 
-    <h3>3. The Primacy of the Substrate: Sample Space (Ω) as the Arena of Reality</h3>
+    <h3>
+      3. The Primacy of the Substrate: Sample Space (Ω) as the Arena of Reality
+    </h3>
     <p>
-      In both probability theory and physics, scientific reasoning is anchored on a single fundamental substrate: the <b>Sample Space / State Space (Ω)</b>.
+      In both probability theory and physics, scientific reasoning is anchored
+      on a single fundamental substrate: the
+      <b>Sample Space / State Space (Ω)</b>.
     </p>
     <p>
-      <b>The Substrate Precedes the Distribution:</b> While applied textbooks often treat probability as a game of adjusting curves or tuning weights, the history of science demonstrates that <i>the choice of substrate is the true master key</i>:
+      <b>The Substrate Precedes the Distribution:</b> While applied textbooks
+      often treat probability as a game of adjusting curves or tuning weights,
+      the history of science demonstrates that
+      <i>the choice of substrate is the true master key</i>:
     </p>
     <ul>
-      <li><b>The Distribution:</b> Describes what we currently believe, calculate, or predict given our evidence.</li>
-      <li><b>The Substrate:</b> Dictates what states can exist, what events can be measured, and what operations are logically and physically possible.</li>
+      <li>
+        <b>The Distribution:</b> Describes what we currently believe, calculate,
+        or predict given our evidence.
+      </li>
+      <li>
+        <b>The Substrate:</b> Dictates what states can exist, what events can be
+        measured, and what operations are logically and physically possible.
+      </li>
     </ul>
     <p>
-      If the substrate is an unstructured continuous point dust, Boltzmann’s microstate count blows up to infinity (<code>W = ∞</code>), Planck’s blackbody radiation diverges into the ultraviolet catastrophe, and Kolmogorov’s real line generates non-measurable sets and divide-by-zero conditioning singularities. 
-      Only when the substrate is properly structured—whether as discrete combinatorial states, quantized Planck cells, or our <b>hyperfinite transect <code>ℝ_ω</code></b>—does probabilistic inference become exact, non-singular, and physically meaningful.
+      If the substrate is an unstructured continuous point dust, Boltzmann’s
+      microstate count blows up to infinity (<code>W = ∞</code>), Planck’s
+      blackbody radiation diverges into the ultraviolet catastrophe, and
+      Kolmogorov’s real line generates non-measurable sets and divide-by-zero
+      conditioning singularities. Only when the substrate is properly
+      structured—whether as discrete combinatorial states, quantized Planck
+      cells, or our <b>hyperfinite transect <code>ℝ_ω</code></b
+      >—does probabilistic inference become exact, non-singular, and physically
+      meaningful.
     </p>
     <p>
-      Instead of treating theoretical models and empirical data as detached worlds, they both operate on this common ground:
+      Instead of treating theoretical models and empirical data as detached
+      worlds, they both operate on this common ground:
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="border-collapse: collapse; border-color: #cbd5e1"
+    >
       <tr bgcolor="#f8fafc">
-        <th width="30%" align="left"><font size="+1">1. The State / Sample Space (Ω)</font></th>
-        <th width="35%" align="left"><font size="+1">2. We Hypothesize About Ω (ℋ)</font></th>
-        <th width="35%" align="left"><font size="+1">3. We Observe Ω (𝒟)</font></th>
+        <th width="30%" align="left">
+          <font size="+1">1. The State / Sample Space (Ω)</font>
+        </th>
+        <th width="35%" align="left">
+          <font size="+1">2. We Hypothesize About Ω (ℋ)</font>
+        </th>
+        <th width="35%" align="left">
+          <font size="+1">3. We Observe Ω (𝒟)</font>
+        </th>
       </tr>
       <tr>
         <td valign="top">
-          <b>The Primary Substrate of Reality</b><br>
-          • <b>Elements:</b> Atomic states or trial outcomes <code>p ∈ Ω</code>.<br>
-          • <b>The Arena:</b> The complete universe of possible occurrences or microscopic configurations.<br>
-          • <i>Example:</i> <code>Ω = {Heads, Tails}</code>, or detector pixels, or phase-space points <code>(q, p)</code>.
+          <b>The Primary Substrate of Reality</b><br />
+          • <b>Elements:</b> Atomic states or trial outcomes
+          <code>p ∈ Ω</code>.<br />
+          • <b>The Arena:</b> The complete universe of possible occurrences or
+          microscopic configurations.<br />
+          • <i>Example:</i> <code>Ω = {Heads, Tails}</code>, or detector pixels,
+          or phase-space points <code>(q, p)</code>.
         </td>
         <td valign="top">
-          <b>The World of Explanations</b><br>
-          • <b>Elements:</b> Hypotheses / Models <code>h ∈ ℋ</code>.<br>
-          • <b>Role:</b> A hypothesis is a <i>proposed rule or probability distribution</i> over <code>Ω</code>.<br>
-          • <b>Function:</b> <code>h : Ω → [0, 1]_ω</code>, assigning likelihood <code>h(p) = P(p | h)</code> to every state <code>p ∈ Ω</code>.<br>
-          • <i>Example:</i> <code>h_fair</code> (50/50 on Ω) vs. <code>h_biased</code> (80/20 on Ω).
+          <b>The World of Explanations</b><br />
+          • <b>Elements:</b> Hypotheses / Models <code>h ∈ ℋ</code>.<br />
+          • <b>Role:</b> A hypothesis is a
+          <i>proposed rule or probability distribution</i> over
+          <code>Ω</code>.<br />
+          • <b>Function:</b> <code>h : Ω → [0, 1]_ω</code>, assigning likelihood
+          <code>h(p) = P(p | h)</code> to every state <code>p ∈ Ω</code>.<br />
+          • <i>Example:</i> <code>h_fair</code> (50/50 on Ω) vs.
+          <code>h_biased</code> (80/20 on Ω).
         </td>
         <td valign="top">
-          <b>The World of Observations</b><br>
-          • <b>Elements:</b> Realized datasets <code>d ∈ 𝒟</code>.<br>
-          • <b>Role:</b> Empirical measurements physically recorded from nature.<br>
-          • <b>Structure:</b> Collections or sequences of samples drawn from <code>Ω</code> (<code>d = (p₁, p₂, ...) ∈ Ωⁿ</code>).<br>
+          <b>The World of Observations</b><br />
+          • <b>Elements:</b> Realized datasets <code>d ∈ 𝒟</code>.<br />
+          • <b>Role:</b> Empirical measurements physically recorded from
+          nature.<br />
+          • <b>Structure:</b> Collections or sequences of samples drawn from
+          <code>Ω</code> (<code>d = (p₁, p₂, ...) ∈ Ωⁿ</code>).<br />
           • <i>Example:</i> <code>d = [H, H, T, H] ∈ Ω⁴</code>.
         </td>
       </tr>
     </table>
 
-    <br>
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #94a3b8; border-radius: 6px; padding: 14px;">
-      <div style="font-family: monospace; font-size: 0.88em; margin-bottom: 8px; line-height: 1.4;">
-                     [ Hypotheses (Models in ℋ) ]<br>
-                   (Candidate distributions on Ω)<br>
-                               │<br>
-                               │ Hypothesize: h(p) = P(p | h)<br>
-                               ▼<br>
-     ═════════════════════════════════════════════════════════<br>
-                SAMPLE SPACE / STATE SPACE (Ω)<br>
-                 The Arena of All Possibilities<br>
-     ═════════════════════════════════════════════════════════<br>
-                               ▲<br>
-                               │ Observe: Sample points p ∈ Ω<br>
-                               │<br>
-                     [ Observations (Data 𝒟) ]<br>
-                  (Realized occurrences from Ω)
+    <br />
+    <div
+      align="center"
+      style="
+        background-color: #f1f5f9;
+        border: 1px solid #94a3b8;
+        border-radius: 6px;
+        padding: 14px;
+      "
+    >
+      <div
+        style="
+          font-family: monospace;
+          font-size: 0.88em;
+          margin-bottom: 8px;
+          line-height: 1.4;
+        "
+      >
+        [ Hypotheses (Models in ℋ) ]<br />
+        (Candidate distributions on Ω)<br />
+        │<br />
+        │ Hypothesize: h(p) = P(p | h)<br />
+        ▼<br />
+        ═════════════════════════════════════════════════════════<br />
+        SAMPLE SPACE / STATE SPACE (Ω)<br />
+        The Arena of All Possibilities<br />
+        ═════════════════════════════════════════════════════════<br />
+        ▲<br />
+        │ Observe: Sample points p ∈ Ω<br />
+        │<br />
+        [ Observations (Data 𝒟) ]<br />
+        (Realized occurrences from Ω)
       </div>
-      <b>The Unifying Logic of Inference:</b><br>
-      • <b>We hypothesize about Ω:</b> Proposing which probability distribution governs the states.<br>
-      • <b>We observe points in Ω:</b> Nature delivers concrete sample outcomes.<br>
-      • <b>Bayesian Inference:</b> Evaluates which candidate distribution over <code>Ω</code> assigned the highest likelihood to the actual points witnessed, updating our beliefs across <code>ℋ</code>.
+      <b>The Unifying Logic of Inference:</b><br />
+      • <b>We hypothesize about Ω:</b> Proposing which probability distribution
+      governs the states.<br />
+      • <b>We observe points in Ω:</b> Nature delivers concrete sample
+      outcomes.<br />
+      • <b>Bayesian Inference:</b> Evaluates which candidate distribution over
+      <code>Ω</code> assigned the highest likelihood to the actual points
+      witnessed, updating our beliefs across <code>ℋ</code>.
     </div>
 
-    <br>
-    <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px;">
-      <b>The Direct Bridge to Physics (Statistical Mechanics &amp; Quantum):</b><br>
-      • In <b>Probability &amp; Inference:</b> <code>Ω</code> is the <i>Sample Space</i> of observable outcomes (explored directly in <bid-ref mode="stateTree">BID: Head/Tail State Space Tree</bid-ref>).<br>
-      • In <b>Statistical Mechanics:</b> <code>Ω</code> is the <i>Microstate Space / Phase Space</i>, and physical macrostates (temperature, entropy) are probability ensembles over <code>Ω</code> (Boltzmann-Gibbs distribution <code>P(p) ∝ e^(-β E(p))</code>).<br>
-      • In <b>Quantum Mechanics:</b> <code>Ω</code> is the <i>Eigenstate / Measurement Outcome Spectrum</i> over which quantum density operators assign probability amplitudes in <code>ℂ_ω</code>.
+    <br />
+    <div
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 12px;
+      "
+    >
+      <b>The Direct Bridge to Physics (Statistical Mechanics &amp; Quantum):</b
+      ><br />
+      • In <b>Probability &amp; Inference:</b> <code>Ω</code> is the
+      <i>Sample Space</i> of observable outcomes (explored directly in
+      <bid-ref mode="stateTree">BID: Head/Tail State Space Tree</bid-ref
+      >).<br />
+      • In <b>Statistical Mechanics:</b> <code>Ω</code> is the
+      <i>Microstate Space / Phase Space</i>, and physical macrostates
+      (temperature, entropy) are probability ensembles over
+      <code>Ω</code> (Boltzmann-Gibbs distribution
+      <code>P(p) ∝ e^(-β E(p))</code>).<br />
+      • In <b>Quantum Mechanics:</b> <code>Ω</code> is the
+      <i>Eigenstate / Measurement Outcome Spectrum</i> over which quantum
+      density operators assign probability amplitudes in <code>ℂ_ω</code>.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. The Hypothesis as a Function: Generalizing the Predicate</h3>
     <p>
-      In formal logic, a <b>Predicate</b> is a typed function mapping domain objects to binary truth:
+      In formal logic, a <b>Predicate</b> is a typed function mapping domain
+      objects to binary truth:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
+    <div
+      align="center"
+      style="font-family: monospace; font-size: 0.95em; margin: 6px 0"
+    >
       Predicate: P : Domain → { 0, 1 }
     </div>
     <p>
-      We now define a <b>Hypothesis</b> as a natural continuous generalization: a rule that assigns likelihood weights to elemental outcomes in the <b>Sample Space <code>Ω</code></b> into the hyperfinite unit interval <code>[0, 1] ⊆ ℝ_ω</code>:
+      We now define a <b>Hypothesis</b> as a natural continuous generalization:
+      a rule that assigns likelihood weights to elemental outcomes in the
+      <b>Sample Space <code>Ω</code></b> into the hyperfinite unit interval
+      <code>[0, 1] ⊆ ℝ_ω</code>:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 0.95em; margin: 6px 0;">
-      Hypothesis Likelihood: h : Ω → [0, 1]_ω &nbsp; where &nbsp; h(p) = P(p | h)
+    <div
+      align="center"
+      style="font-family: monospace; font-size: 0.95em; margin: 6px 0"
+    >
+      Hypothesis Likelihood: h : Ω → [0, 1]_ω &nbsp; where &nbsp; h(p) = P(p |
+      h)
     </div>
     <ul>
-      <li>When certainty is absolute, <code>h(p)</code> returns <code>0</code> or <code>1</code>, degenerating precisely into a classical predicate (deterministic rule).</li>
-      <li>When uncertainty is present, <code>h(p)</code> assigns a graded degree of probability across the points <code>p ∈ Ω</code>.</li>
-      <li>At each observed point <code>p ∈ Ω</code>, Bayesian inference evaluates how well the prediction <code>h(p)</code> matches the empirical data to update belief over <code>ℋ</code>.</li>
+      <li>
+        When certainty is absolute, <code>h(p)</code> returns <code>0</code> or
+        <code>1</code>, degenerating precisely into a classical predicate
+        (deterministic rule).
+      </li>
+      <li>
+        When uncertainty is present, <code>h(p)</code> assigns a graded degree
+        of probability across the points <code>p ∈ Ω</code>.
+      </li>
+      <li>
+        At each observed point <code>p ∈ Ω</code>, Bayesian inference evaluates
+        how well the prediction <code>h(p)</code> matches the empirical data to
+        update belief over <code>ℋ</code>.
+      </li>
     </ul>
 
-    <hr>
+    <hr />
 
     <h3>5. The Anatomy of Bayes'' Rule</h3>
     <p>
-      Given an initial state of knowledge and a new empirical observation <code>D ∈ 𝒟</code>, <b>Bayes'' Rule</b> calculates the updated belief for every competing hypothesis <code>H ∈ ℋ</code>:
+      Given an initial state of knowledge and a new empirical observation
+      <code>D ∈ 𝒟</code>, <b>Bayes'' Rule</b> calculates the updated belief for
+      every competing hypothesis <code>H ∈ ℋ</code>:
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 14px;
+        margin: 12px 0;
+      "
+    >
       <font size="+2" color="#1e3a8a">
         <b>P(H | D) = <sup>P(D | H) · P(H)</sup> / <sub>P(D)</sub></b>
       </font>
     </div>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1;">
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="border-collapse: collapse; border-color: #cbd5e1"
+    >
       <tr bgcolor="#f8fafc">
         <th width="22%" align="left">Component</th>
         <th width="20%" align="left">Formal Type</th>
@@ -10048,169 +14900,356 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <tr>
         <td><b>Prior: P(H)</b></td>
         <td>Measure on <code>ℋ</code></td>
-        <td>Our initial state of belief in hypothesis <code>H</code> before witnessing new data.</td>
+        <td>
+          Our initial state of belief in hypothesis <code>H</code> before
+          witnessing new data.
+        </td>
       </tr>
       <tr>
         <td><b>Likelihood: P(D | H)</b></td>
         <td>Mapping <code>ℋ × 𝒟 → [0, 1]_ω</code></td>
-        <td>The forward predictive power: how probable was outcome <code>D</code> if hypothesis <code>H</code> is true?</td>
+        <td>
+          The forward predictive power: how probable was outcome
+          <code>D</code> if hypothesis <code>H</code> is true?
+        </td>
       </tr>
       <tr>
         <td><b>Marginal: P(D)</b></td>
         <td>Measure on <code>𝒟</code></td>
-        <td>The total weighted compatibility sum across all hypotheses: <code>∑ P(D | H_i) · P(H_i)</code>.</td>
+        <td>
+          The total weighted compatibility sum across all hypotheses:
+          <code>∑ P(D | H_i) · P(H_i)</code>.
+        </td>
       </tr>
       <tr>
         <td><b>Posterior: P(H | D)</b></td>
         <td>Updated measure on <code>ℋ</code></td>
-        <td>Our refined, rational state of belief in hypothesis <code>H</code> after incorporating data <code>D</code>.</td>
+        <td>
+          Our refined, rational state of belief in hypothesis
+          <code>H</code> after incorporating data <code>D</code>.
+        </td>
       </tr>
     </table>
 
     <p>
-      To see this mechanical pipeline visually in action, compare the <bid-ref mode="filter">3-Stage Bayesian Filter</bid-ref> (partitioning → slicing → normalizing) with the geometric area weighting in the <bid-ref mode="mosaic">2D Joint Mosaic Grid</bid-ref>.
+      To see this mechanical pipeline visually in action, compare the
+      <bid-ref mode="filter">3-Stage Bayesian Filter</bid-ref> (partitioning →
+      slicing → normalizing) with the geometric area weighting in the
+      <bid-ref mode="mosaic">2D Joint Mosaic Grid</bid-ref>.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>6. Bypassing Manifolds: Exact Arithmetic on <code>ℝ_ω</code></h3>
     <p>
-      In standard graduate mathematics, continuous probability requires heavy topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth differential manifolds.
+      In standard graduate mathematics, continuous probability requires heavy
+      topological machinery—Borel σ-algebras, Lebesgue integrals, and smooth
+      differential manifolds.
     </p>
     <p>
-      By founding our analysis on the <b>hyperfinite transect <code>ℝ_ω</code></b> (which we developed in Level 3 with infinitesimal step size <code>dx = 1/ω &gt; 0</code>), continuous probability integrates seamlessly with our calculus:
+      By founding our analysis on the
+      <b>hyperfinite transect <code>ℝ_ω</code></b> (which we developed in Level
+      3 with infinitesimal step size <code>dx = 1/ω &gt; 0</code>), continuous
+      probability integrates seamlessly with our calculus:
     </p>
     <ol>
-      <li><b>No Divide-by-Zero Singularities:</b> Because every non-empty event carries a strictly positive infinitesimal weight (<code>P(x_k) = p(x_k) · dx &gt; 0</code>), Bayes'' division is always well-defined. Impossible events are strictly those where <code>E = ∅</code> (inspect the point masses in the <bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>).</li>
-      <li><b>Exact Arithmetic Slicing:</b> Probability updating is not an intractable limit of integrals; continuous probability accumulation <code>P(a ≤ X ≤ b) = ∫_a^b p(x) dx = st( ∑ p(x_k) · dx )</code> is simply the discrete telescoping addition mastered in Level 3!</li>
-      <li><b>Macroscopic Readout:</b> Whenever a standard decimal value or laboratory probability is required, hyperfinite values seamlessly <b>"pop" to the nearest real number</b> via the standard part map (<code>st: ℝ_ω → ℝ</code>), dropping infinitesimal parts (<code>∼ 𝒪(1/ω)</code>). See this bridged directly via <bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>.</li>
+      <li>
+        <b>No Divide-by-Zero Singularities:</b> Because every non-empty event
+        carries a strictly positive infinitesimal weight (<code
+          >P(x_k) = p(x_k) · dx &gt; 0</code
+        >), Bayes'' division is always well-defined. Impossible events are
+        strictly those where <code>E = ∅</code> (inspect the point masses in the
+        <bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>).
+      </li>
+      <li>
+        <b>Exact Arithmetic Slicing:</b> Probability updating is not an
+        intractable limit of integrals; continuous probability accumulation
+        <code>P(a ≤ X ≤ b) = ∫_a^b p(x) dx = st( ∑ p(x_k) · dx )</code> is
+        simply the discrete telescoping addition mastered in Level 2!
+      </li>
+      <li>
+        <b>Macroscopic Readout:</b> Whenever a standard decimal value or
+        laboratory probability is required, hyperfinite values seamlessly
+        <b>"pop" to the nearest real number</b> via the standard part map (<code
+          >st: ℝ_ω → ℝ</code
+        >), dropping infinitesimal parts (<code>∼ 𝒪(1/ω)</code>). See this
+        bridged directly via
+        <bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>.
+      </li>
     </ol>
 
-    <hr>
+    <hr />
 
     <h3>7. Course Roadmap: The Four Lectures</h3>
     <p>
-      Course 1 unfolds across four progressive lectures designed to ground probability from its primitive symmetries to modern information theory:
+      Course 1 unfolds across four progressive lectures designed to ground
+      probability from its primitive symmetries to modern information theory:
     </p>
     <ul>
       <li>
-        <b>Lecture 1: Probability Basics &amp; The Hyperfinite Transect:</b><br>
-        Laying the foundational bedrock. Explores raw chance, symmetry, sample spaces <code>Ω</code>, event additivity, and contrasts standard Kolmogorov measure theory (and its Null Set Paradox) with the hyperfinite transect where every physical event has strictly positive mass.
+        <b>Lecture 1: Probability Basics &amp; The Hyperfinite Transect:</b
+        ><br />
+        Laying the foundational bedrock. Explores raw chance, symmetry, sample
+        spaces <code>Ω</code>, event additivity, and contrasts standard
+        Kolmogorov measure theory (and its Null Set Paradox) with the
+        hyperfinite transect where every physical event has strictly positive
+        mass.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter:</b><br>
-        Introducing the logic of clues. Analyzes monotonic vs. non-monotonic discovery, conditional probability <code>P(A | B)</code>, joint product grids, and executes Bayes'' inversion mechanically via the 3-Stage Filter (Prior → Likelihood Slice → Posterior Normalization).
+        <b
+          >Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian
+          Filter:</b
+        ><br />
+        Introducing the logic of clues. Analyzes monotonic vs. non-monotonic
+        discovery, conditional probability <code>P(A | B)</code>, joint product
+        grids, and executes Bayes'' inversion mechanically via the 3-Stage Filter
+        (Prior → Likelihood Slice → Posterior Normalization).
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 3: Sequential Updating &amp; Evidence Streams:</b><br>
-        Expanding to dynamic discovery. Formalizes the recursive invariant (<i>"today''s posterior is tomorrow''s prior"</i>), order invariance of evidence, Bayes factors, additive log-odds balances, and debunks the base-rate screening fallacy.
+        <b>Lecture 3: Sequential Updating &amp; Evidence Streams:</b><br />
+        Expanding to dynamic discovery. Formalizes the recursive invariant (<i
+          >"today''s posterior is tomorrow''s prior"</i
+        >), order invariance of evidence, Bayes factors, additive log-odds
+        balances, and debunks the base-rate screening fallacy.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 4: State Spaces, Information Dynamics &amp; Entropy:</b><br>
-        Bridging inference to statistical physics. Quantifies surprise and uncertainty via Shannon Entropy <code>H = -∑ p_i log₂(p_i)</code>, explores microstates vs. macrostates, and sets up the threshold to non-Boolean quantum logic.
+        <b>Lecture 4: State Spaces, Information Dynamics &amp; Entropy:</b
+        ><br />
+        Bridging inference to statistical physics. Quantifies surprise and
+        uncertainty via Shannon Entropy <code>H = -∑ p_i log₂(p_i)</code>,
+        explores microstates vs. macrostates, and sets up the threshold to
+        non-Boolean quantum logic.
       </li>
     </ul>
 
-    <hr>
+    <hr />
 
     <h3>8. Interactive Demonstration Suite (BID)</h3>
     <p>
-      To build visual and computational intuition, the <b>Bayesian Inference Demo (BID)</b> provides two complementary suites of executable models:
+      To build visual and computational intuition, the
+      <b>Bayesian Inference Demo (BID)</b> provides two complementary suites of
+      executable models:
     </p>
 
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 20px; margin: 15px 0;">
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 14px 20px;
+        margin: 15px 0;
+      "
+    >
       <b>Static Geometric Perspectives:</b>
       <ul>
-        <li><bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>: Exact discrete point masses <code>P(x_k) &gt; 0</code> on <code>ℝ_ω</code> summing to 1.000.</li>
-        <li><bid-ref mode="filter">The 3-Stage Bayesian Filter</bid-ref>: Visualizing <i>Prior Partition → Likelihood Slicing → Posterior Normalization</i>.</li>
-        <li><bid-ref mode="mosaic">2D Joint Mosaic Grid</bid-ref>: Proportional block areas spanning the joint product space <code>ℋ × 𝒟</code>.</li>
-        <li><bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>: Mapping dyadic branch paths of the 2-successor tree to probability intervals.</li>
+        <li>
+          <bid-ref mode="transect">Hyperfinite Transect Lattice</bid-ref>: Exact
+          discrete point masses <code>P(x_k) &gt; 0</code> on
+          <code>ℝ_ω</code> summing to 1.000.
+        </li>
+        <li>
+          <bid-ref mode="filter">The 3-Stage Bayesian Filter</bid-ref>:
+          Visualizing
+          <i>Prior Partition → Likelihood Slicing → Posterior Normalization</i>.
+        </li>
+        <li>
+          <bid-ref mode="mosaic">2D Joint Mosaic Grid</bid-ref>: Proportional
+          block areas spanning the joint product space <code>ℋ × 𝒟</code>.
+        </li>
+        <li>
+          <bid-ref mode="treeProjection">Tree-to-Transect Projection</bid-ref>:
+          Mapping dyadic branch paths of the 2-successor tree to probability
+          intervals.
+        </li>
       </ul>
       <b>Interactive Operational Labs:</b>
       <ul>
-        <li><bid-ref mode="stateTree">Head/Tail Tree (Ω)</bid-ref>: The centerpiece state space tree connecting candidate models, coin tosses, and belief revision.</li>
-        <li><bid-ref mode="sequential">Sequential Evidence Stream</bid-ref>: Stepping through real-time observation pipelines (<i>"Today''s posterior is tomorrow''s prior"</i>).</li>
-        <li><bid-ref mode="oddsGauge">Odds &amp; Bayes Factor Balance</bid-ref>: A physical scale/lever demonstrating likelihood multipliers.</li>
-        <li><bid-ref mode="continuous">Beta-Binomial Learning</bid-ref>: Dynamic belief curve sharpening over continuous parameter spaces.</li>
-        <li><bid-ref mode="baseRate">Base Rate Screening Lab</bid-ref>: Exploring why false positives dominate rare disease diagnostic tests.</li>
+        <li>
+          <bid-ref mode="stateTree">Head/Tail Tree (Ω)</bid-ref>: The
+          centerpiece state space tree connecting candidate models, coin tosses,
+          and belief revision.
+        </li>
+        <li>
+          <bid-ref mode="sequential">Sequential Evidence Stream</bid-ref>:
+          Stepping through real-time observation pipelines (<i
+            >"Today''s posterior is tomorrow''s prior"</i
+          >).
+        </li>
+        <li>
+          <bid-ref mode="oddsGauge">Odds &amp; Bayes Factor Balance</bid-ref>: A
+          physical scale/lever demonstrating likelihood multipliers.
+        </li>
+        <li>
+          <bid-ref mode="continuous">Beta-Binomial Learning</bid-ref>: Dynamic
+          belief curve sharpening over continuous parameter spaces.
+        </li>
+        <li>
+          <bid-ref mode="baseRate">Base Rate Screening Lab</bid-ref>: Exploring
+          why false positives dominate rare disease diagnostic tests.
+        </li>
       </ul>
     </div>
 
     <p>
-      In the lectures that follow, we unpack the mechanics of belief revision, sequential observation streams, entropy, and the final transition to quantum amplitudes.
+      In the lectures that follow, we unpack the mechanics of belief revision,
+      sequential observation streams, entropy, and the final transition to
+      quantum amplitudes.
     </p>
-', 'published'),
+  ', 'published'),
   (34, 'bayesianInferenceLecture1', 33, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
-<div align="center">
-      <i><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i><br>
-      <i><font size="+1">Raw Chance, Symmetry, Axioms &amp; The Null Set Paradox Resolved on ℝ_ω</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Raw Chance, Symmetry, Axioms &amp; The Null Set Paradox Resolved on
+          ℝ_ω</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <p>
-      “Welcome to Course 1, everyone!” Jack greeted the classroom with enthusiasm.
+      “Welcome to Course 1, everyone!” Jack greeted the classroom with
+      enthusiasm.
     </p>
 
     <p>
-      “Now that we have established logic, numbers, hyperfinite calculus, vector spaces, and the exponential engine across our first four levels, we enter the world of applied discovery: <b>probability and the logic of uncertainty</b>.”
+      “Now that we have established logic, numbers, hyperfinite calculus, vector
+      spaces, and the exponential engine across our first four levels, we enter
+      the world of applied discovery:
+      <b>probability and the logic of uncertainty</b>.”
     </p>
 
     <p>
-      “Whenever modern textbooks introduce probability,” Jack began, setting a polished wooden cube on the front seminar table, “they often rush straight into complex calculus formulas, or dismiss probability as merely ''our subjective ignorance'' about a deterministic clockwork universe.”
+      “Whenever modern textbooks introduce probability,” Jack began, setting a
+      polished wooden cube on the front seminar table, “they often rush straight
+      into complex calculus formulas, or dismiss probability as merely ''our
+      subjective ignorance'' about a deterministic clockwork universe.”
     </p>
 
     <p>
-      “To truly master probability, we need to peel back that clockwork assumption and start where humanity first discovered chance: in <b>physical symmetry, counting, and the balance of possibilities</b>.”
+      “To truly master probability, we need to peel back that clockwork
+      assumption and start where humanity first discovered chance: in
+      <b>physical symmetry, counting, and the balance of possibilities</b>.”
     </p>
 
-    <hr>
+    <hr />
 
-    <h3>1. The Raw Intuition of Chance: Symmetry, Ratios &amp; Sample Space (Ω)</h3>
+    <h3>
+      1. The Raw Intuition of Chance: Symmetry, Ratios &amp; Sample Space (Ω)
+    </h3>
 
     <p>
-      “Thousands of years before Pierre-Simon Laplace declared that the universe was a deterministic clockwork machine, humans engaged with chance through <b>physical symmetry</b>,” Jack explained.
+      “Thousands of years before Pierre-Simon Laplace declared that the universe
+      was a deterministic clockwork machine, humans engaged with chance through
+      <b>physical symmetry</b>,” Jack explained.
     </p>
 
     <ul>
-      <li><b>Casting Lots &amp; Games of Chance:</b> Ancient civilizations cast astragali (sheep knucklebones) and carved cubic dice to divide inheritances, make civic decisions, and play games.</li>
-      <li><b>Symmetry Dictates Balance:</b> Because a carved cubic die has six identical, interchangeable faces, no single face has a physical advantage over any other. The chance of rolling a three is simply one out of six.</li>
-      <li><b>The Classical Ratio:</b> In the 16th and 17th centuries, Gerolamo Cardano, Blaise Pascal, and Pierre de Fermat codified this intuition into the fundamental definition of classical probability:</li>
+      <li>
+        <b>Casting Lots &amp; Games of Chance:</b> Ancient civilizations cast
+        astragali (sheep knucklebones) and carved cubic dice to divide
+        inheritances, make civic decisions, and play games.
+      </li>
+      <li>
+        <b>Symmetry Dictates Balance:</b> Because a carved cubic die has six
+        identical, interchangeable faces, no single face has a physical
+        advantage over any other. The chance of rolling a three is simply one
+        out of six.
+      </li>
+      <li>
+        <b>The Classical Ratio:</b> In the 16th and 17th centuries, Gerolamo
+        Cardano, Blaise Pascal, and Pierre de Fermat codified this intuition
+        into the fundamental definition of classical probability:
+      </li>
     </ul>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; margin: 12px 0; font-family: monospace; font-size: 15px; color: #1e3a8a;">
-      P(E) = <sup>|E| (Number of favorable outcomes)</sup> / <sub>|Ω| (Total number of equally likely outcomes)</sub>
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 12px 0;
+        font-family: monospace;
+        font-size: 15px;
+        color: #1e3a8a;
+      "
+    >
+      P(E) = <sup>|E| (Number of favorable outcomes)</sup> /
+      <sub>|Ω| (Total number of equally likely outcomes)</sub>
     </div>
 
     <p>
-      Jill smiled: “Because the die is physically symmetric, every face has an identical claim on reality. One favorable outcome divided by six total possibilities gives <code>1/6</code>.”
+      Jill smiled: “Because the die is physically symmetric, every face has an
+      identical claim on reality. One favorable outcome divided by six total
+      possibilities gives <code>1/6</code>.”
     </p>
 
     <p>
-      “Exactly,” Jack agreed. “This formulation gives us the primary arena for all probabilistic reasoning: the <b>Sample Space (Ω)</b>.”
+      “Exactly,” Jack agreed. “This formulation gives us the primary arena for
+      all probabilistic reasoning: the <b>Sample Space (Ω)</b>.”
     </p>
 
     <p>
-      “And notice something crucial right at the outset,” Jack emphasized. “People often assume the main game in probability is choosing the right distribution. But before you can even talk about a distribution, <b>you have to choose the right substrate!</b> The distribution describes what you believe; the substrate dictates what is physically and logically possible. If your substrate is flawed, your probabilities will collapse into paradoxes.”
+      “And notice something crucial right at the outset,” Jack emphasized.
+      “People often assume the main game in probability is choosing the right
+      distribution. But before you can even talk about a distribution,
+      <b>you have to choose the right substrate!</b> The distribution describes
+      what you believe; the substrate dictates what is physically and logically
+      possible. If your substrate is flawed, your probabilities will collapse
+      into paradoxes.”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 12px 0; font-size: 13.5px; line-height: 1.5;">
-      • <b>Sample Space / Substrate (Ω):</b> The complete universe of all mutually exclusive and exhaustive possible elementary outcomes.<br>
-      • <b>Sample Point (ω ∈ Ω):</b> A single, indivisible elementary outcome (e.g., rolling a <code>4</code>, or a coin landing <code>Heads</code>).<br>
-      • <b>Event (E ⊆ Ω):</b> Any collection or subset of elementary outcomes (e.g., rolling an even number: <code>E = {2, 4, 6} ⊆ Ω</code>).
+    <div
+      align="center"
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 12px 0;
+        font-size: 13.5px;
+        line-height: 1.5;
+      "
+    >
+      • <b>Sample Space / Substrate (Ω):</b> The complete universe of all
+      mutually exclusive and exhaustive possible elementary outcomes.<br />
+      • <b>Sample Point (ω ∈ Ω):</b> A single, indivisible elementary outcome
+      (e.g., rolling a <code>4</code>, or a coin landing
+      <code>Heads</code>).<br />
+      • <b>Event (E ⊆ Ω):</b> Any collection or subset of elementary outcomes
+      (e.g., rolling an even number: <code>E = {2, 4, 6} ⊆ Ω</code>).
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. Probability Axioms &amp; The Boolean Event Algebra</h3>
 
     <p>
-      “In 1933, Andrey Kolmogorov established that every consistent system of probability satisfies three fundamental rules on the sample space <code>Ω</code>:”
+      “In 1933, Andrey Kolmogorov established that every consistent system of
+      probability satisfies three fundamental rules on the sample space
+      <code>Ω</code>:”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 12px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="30%" align="left">Axiom</th>
         <th width="35%" align="left">Mathematical Rule</th>
@@ -10223,148 +15262,298 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </tr>
       <tr>
         <td><b>2. Normalization (Certainty)</b></td>
-        <td><code>P(Ω) = 1.000</code> &nbsp; and &nbsp; <code>P(∅) = 0.000</code></td>
-        <td><i>Something</i> in the universe of possibilities must occur; the empty set never occurs.</td>
+        <td>
+          <code>P(Ω) = 1.000</code> &nbsp; and &nbsp; <code>P(∅) = 0.000</code>
+        </td>
+        <td>
+          <i>Something</i> in the universe of possibilities must occur; the
+          empty set never occurs.
+        </td>
       </tr>
       <tr>
         <td><b>3. Additivity (Disjoint Events)</b></td>
-        <td>If <code>A ⋂ B = ∅</code>, then:<br><code>P(A ⋃ B) = P(A) + P(B)</code></td>
-        <td>Mutually exclusive possibilities simply sum their probability masses.</td>
+        <td>
+          If <code>A ⋂ B = ∅</code>, then:<br /><code
+            >P(A ⋃ B) = P(A) + P(B)</code
+          >
+        </td>
+        <td>
+          Mutually exclusive possibilities simply sum their probability masses.
+        </td>
       </tr>
     </table>
 
     <p>
-      “From these three axioms flow the familiar laws of probability arithmetic:”
+      “From these three axioms flow the familiar laws of probability
+      arithmetic:”
     </p>
 
     <ul>
-      <li><b>Complement Rule:</b> <code>P(A^c) = 1 - P(A)</code> (the probability of an event not happening).</li>
-      <li><b>General Inclusion-Exclusion:</b> <code>P(A ⋃ B) = P(A) + P(B) - P(A ⋂ B)</code> (subtracting the double-counted intersection).</li>
-      <li><b>Monotonicity:</b> If <code>A ⊆ B</code>, then <code>P(A) ≤ P(B)</code>.</li>
+      <li>
+        <b>Complement Rule:</b> <code>P(A^c) = 1 - P(A)</code> (the probability
+        of an event not happening).
+      </li>
+      <li>
+        <b>General Inclusion-Exclusion:</b>
+        <code>P(A ⋃ B) = P(A) + P(B) - P(A ⋂ B)</code> (subtracting the
+        double-counted intersection).
+      </li>
+      <li>
+        <b>Monotonicity:</b> If <code>A ⊆ B</code>, then
+        <code>P(A) ≤ P(B)</code>.
+      </li>
     </ul>
 
     <p>
-      “For finite dice and coins, this arithmetic is straightforward,” Jack noted. “The trouble begins when we leave finite discrete games and attempt to assign probabilities to continuous space!”
+      “For finite dice and coins, this arithmetic is straightforward,” Jack
+      noted. “The trouble begins when we leave finite discrete games and attempt
+      to assign probabilities to continuous space!”
     </p>
 
-    <hr>
+    <hr />
 
-    <h3>3. Continuous Probability: The Null Set Paradox vs. Strict Positivity</h3>
-
-    <p>
-      Jill leaned forward: “Jack, that brings up the question I was wrestling with over the weekend. If you throw a precision dart at a continuous number line from <code>0</code> to <code>1</code>, what is the probability of hitting an exact number like <code>0.421978...</code>?”
-    </p>
+    <h3>
+      3. Continuous Probability: The Null Set Paradox vs. Strict Positivity
+    </h3>
 
     <p>
-      “In standard calculus,” Jack answered, “the integral over any single isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
-    </p>
-
-    <p>
-      “That''s what''s driving me crazy!” Jill exclaimed. “The dart <i>had</i> to hit somewhere! If every single individual point has a probability of exactly zero, how can an event with probability zero actually happen?! And if you add up zeroes, how do you ever get <code>1</code>?!”
-    </p>
-
-    <p>
-      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the famous <b>Null Set Paradox</b> of continuous mathematics!”
+      Jill leaned forward: “Jack, that brings up the question I was wrestling
+      with over the weekend. If you throw a precision dart at a continuous
+      number line from <code>0</code> to <code>1</code>, what is the probability
+      of hitting an exact number like <code>0.421978...</code>?”
     </p>
 
     <p>
-      “In modern mathematical science, there are two distinct paradigms for handling continuous probability:”
+      “In standard calculus,” Jack answered, “the integral over any single
+      isolated point is exactly zero: <code>P({x}) = ∫_x^x f(t) dt = 0</code>.”
+    </p>
+
+    <p>
+      “That''s what''s driving me crazy!” Jill exclaimed. “The dart <i>had</i> to
+      hit somewhere! If every single individual point has a probability of
+      exactly zero, how can an event with probability zero actually happen?! And
+      if you add up zeroes, how do you ever get <code>1</code>?!”
+    </p>
+
+    <p>
+      “Congratulations, Jill,” Jack smiled warmly. “You have just discovered the
+      famous <b>Null Set Paradox</b> of continuous mathematics!”
+    </p>
+
+    <p>
+      “In modern mathematical science, there are two distinct paradigms for
+      handling continuous probability:”
     </p>
 
     <ul>
       <li>
-        <b>Standard Continuous Analysis (Kolmogorov, 1933):</b><br>
-        In standard measure theory, the probability of any exact real singleton is zero: <code>P({x}) = 0</code>. Because of this, standard mathematics is forced to adopt an unnatural semantic concession:
-        <div align="center" style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 6px; width: 75%; margin: 8px auto; color: #991b1b; font-size: 13.5px;">
-          <b>Standard Concession:</b> <i>“An event having probability zero does NOT mean it cannot occur.”</i>
+        <b>Standard Continuous Analysis (Kolmogorov, 1933):</b><br />
+        In standard measure theory, the probability of any exact real singleton
+        is zero: <code>P({x}) = 0</code>. Because of this, standard mathematics
+        is forced to adopt an unnatural semantic concession:
+        <div
+          align="center"
+          style="
+            background-color: #fef2f2;
+            border: 1px solid #fca5a5;
+            padding: 10px;
+            border-radius: 6px;
+            width: 75%;
+            margin: 8px auto;
+            color: #991b1b;
+            font-size: 13.5px;
+          "
+        >
+          <b>Standard Concession:</b>
+          <i
+            >“An event having probability zero does NOT mean it cannot
+            occur.”</i
+          >
         </div>
-        Real, physically observed point measurements occur constantly, yet measure theory assigns each of them a probability of zero!
+        Real, physically observed point measurements occur constantly, yet
+        measure theory assigns each of them a probability of zero!
       </li>
-      <br>
+      <br />
       <li>
-        <b>The Hyperfinite Transect (Robinson &amp; Conway):</b><br>
-        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed in Level 3), the continuum is a uniform lattice of <code>ω</code> discrete micro-nodes. Every individual node <code>x_k</code> carries an exact, strictly positive infinitesimal probability mass:
-        <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0;">
+        <b>The Hyperfinite Transect (Robinson &amp; Conway):</b><br />
+        On our hyperfinite transect <code>T = ℝ_ω</code> (which we constructed
+        in Level 2), the continuum is a uniform lattice of
+        <code>ω</code> discrete micro-nodes. Every individual node
+        <code>x_k</code> carries an exact, strictly positive infinitesimal
+        probability mass:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 14.5px; margin: 8px 0"
+        >
           P(x_k) = p(x_k) · dx &gt; 0 &nbsp;&nbsp; (where dx = 1/ω = ε &gt; 0)
         </div>
         <i>The Clean Physical Law:</i>
-        <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 10px; border-radius: 6px; width: 80%; margin: 8px auto; color: #065f46; font-size: 14px;">
-          <fsd-ref tier="3" scaffold="hyperfinite_probability" title="Hyperfinite Probability Measure &amp; Strict Positivity">
-            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E) = 0 &nbsp;⟺&nbsp; E = ∅ ]
+        <div
+          align="center"
+          style="
+            background-color: #ecfdf5;
+            border: 1px solid #10b981;
+            padding: 10px;
+            border-radius: 6px;
+            width: 80%;
+            margin: 8px auto;
+            color: #065f46;
+            font-size: 14px;
+          "
+        >
+          <fsd-ref
+            tier="3"
+            scaffold="hyperfinite_probability"
+            title="Hyperfinite Probability Measure &amp; Strict Positivity"
+          >
+            P(E) = ∑_{x ∈ E} p(x) · dx &gt; 0 &nbsp;&nbsp; ∧ &nbsp;&nbsp; [ P(E)
+            = 0 &nbsp;⟺&nbsp; E = ∅ ]
           </fsd-ref>
-          <div style="font-size: 12px; color: #047857; margin-top: 4px; font-weight: normal;">
-            <i>(Only the strictly impossible empty set carries zero probability on ℝ_ω)</i>
+          <div
+            style="
+              font-size: 12px;
+              color: #047857;
+              margin-top: 4px;
+              font-weight: normal;
+            "
+          >
+            <i
+              >(Only the strictly impossible empty set carries zero probability
+              on ℝ_ω)</i
+            >
           </div>
         </div>
       </li>
     </ul>
 
     <p>
-      “So on the transect,” Jill smiled in relief, “when the dart lands on a point, that point had an actual positive probability weight <code>dx</code>! We never have to tell a student that an event with probability zero actually occurred.”
+      “So on the transect,” Jill smiled in relief, “when the dart lands on a
+      point, that point had an actual positive probability weight
+      <code>dx</code>! We never have to tell a student that an event with
+      probability zero actually occurred.”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="transect">Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="transect"
+        >Interactive Demo: Inspect Point Masses on the Hyperfinite Transect in
+        BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. Bridging Dyadic Trees to the Transect</h3>
 
     <p>
-      “Where does the hyperfinite transect come from?” Jill asked. “Is it just an abstract postulate?”
+      “Where does the hyperfinite transect come from?” Jill asked. “Is it just
+      an abstract postulate?”
     </p>
 
     <p>
-      “Not at all!” Jack answered. “It connects directly to the <b>dyadic binary trees</b> we explored in our foundational numbers curriculum!”
+      “Not at all!” Jack answered. “It connects directly to the
+      <b>dyadic binary trees</b> we explored in our foundational numbers
+      curriculum!”
     </p>
 
     <p>
-      “Recall how sign sequences partition the unit interval <code>[0, 1)</code>:”
+      “Recall how sign sequences partition the unit interval
+      <code>[0, 1)</code>:”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 13.5px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin: 12px 0;">
-      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0, 1)<br>
-      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br>
-      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2, 3/4), &nbsp; [++] = [3/4, 1)<br>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 13.5px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        padding: 12px;
+        border-radius: 6px;
+        margin: 12px 0;
+      "
+    >
+      Depth 0: [ ] &nbsp;────────────────────────────────────────► Interval [0,
+      1)<br />
+      Depth 1: [-] = [0, 1/2), &nbsp; [+] = [1/2, 1)<br />
+      Depth 2: [--] = [0, 1/4), &nbsp; [-+] = [1/4, 1/2), &nbsp; [+-] = [1/2,
+      3/4), &nbsp; [++] = [3/4, 1)<br />
       Depth k: 2^k dyadic leaves, each of uniform width Δx = 2^(-k)
     </div>
 
     <p>
-      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>. Discrete tree logic and continuous geometry become one and the same!”
+      “When we extend the tree depth from finite integers <code>k ∈ ℕ</code> to
+      a hyperfinite integer <code>k = ω</code>, the <code>2^ω</code> leaves
+      project directly onto the 1D transect <code>ℝ_ω</code>! Each leaf node
+      becomes a single infinitesimal bin of width <code>dx = 2^(-ω)</code>.
+      Discrete tree logic and continuous geometry become one and the same!”
     </p>
 
-    <div align="center" style="margin: 14px 0; display: flex; justify-content: center; gap: 15px;">
+    <div
+      align="center"
+      style="margin: 14px 0; display: flex; justify-content: center; gap: 15px"
+    >
       <bid-ref mode="stateTree">BID: Head/Tail State Space Tree (Ω)</bid-ref>
       <bid-ref mode="treeProjection">BID: Tree-to-Transect Projection</bid-ref>
     </div>
 
-    <hr>
+    <hr />
 
-    <h3>5. Measurability: σ-Algebras vs. Full Power Sets &amp; The Loeb Bridge</h3>
+    <h3>
+      5. Measurability: σ-Algebras vs. Full Power Sets &amp; The Loeb Bridge
+    </h3>
 
     <p>
-      “Now let''s examine collections of events,” Jack said. “What subsets of numbers can we assign probabilities to?”
+      “Now let''s examine collections of events,” Jack said. “What subsets of
+      numbers can we assign probabilities to?”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 12px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
-        <th width="50%" align="left">Standard Continuous Analysis (Kolmogorov)</th>
+        <th width="50%" align="left">
+          Standard Continuous Analysis (Kolmogorov)
+        </th>
         <th width="50%" align="left">Hyperfinite Discrete Transect (ℝ_ω)</th>
       </tr>
       <tr>
         <td valign="top">
-          <b>Restricted σ-Algebras:</b><br>
-          Because the continuous interval <code>[0, 1]</code> is an uncountable point dust, Giuseppe Vitali proved in 1905 that it is mathematically impossible to assign a translation-invariant measure to every subset in the power set <code>𝒫([0, 1])</code>.
-          <br><br>
-          Standard math is forced to retreat to a restricted sub-collection of ''measurable sets'' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>). Pathological non-measurable sets (Vitali sets, Banach-Tarski paradoxes) lurk just outside <code>ℱ</code>.
+          <b>Restricted σ-Algebras:</b><br />
+          Because the continuous interval <code>[0, 1]</code> is an uncountable
+          point dust, Giuseppe Vitali proved in 1905 that it is mathematically
+          impossible to assign a translation-invariant measure to every subset
+          in the power set <code>𝒫([0, 1])</code>. <br /><br />
+          Standard math is forced to retreat to a restricted sub-collection of
+          ''measurable sets'' (a <code>σ</code>-algebra <code>ℱ ⊂ 𝒫(Ω)</code>).
+          Pathological non-measurable sets (Vitali sets, Banach-Tarski
+          paradoxes) lurk just outside <code>ℱ</code>.
         </td>
         <td valign="top">
-          <b>Full Power Set Available:</b><br>
-          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a hyperfinite discrete set of cardinality <code>|T| = ω</code>, <b>every single subset <code>E ⊆ T</code> is measurable</b>!
-          <br><br>
-          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is simply a hyperfinite counting sum:
-          <div align="center" style="font-family: monospace; font-size: 13px; margin: 8px 0; color: #1e3a8a;">
+          <b>Full Power Set Available:</b><br />
+          Because the transect <code>T = { x₀, x₁, ..., x_{ω-1} }</code> is a
+          hyperfinite discrete set of cardinality <code>|T| = ω</code>,
+          <b>every single subset <code>E ⊆ T</code> is measurable</b>!
+          <br /><br />
+          The entire power set <code>𝒫(T)</code> is well-behaved. Probability is
+          simply a hyperfinite counting sum:
+          <div
+            align="center"
+            style="
+              font-family: monospace;
+              font-size: 13px;
+              margin: 8px 0;
+              color: #1e3a8a;
+            "
+          >
             P(E) = ∑_{x_k ∈ E} p(x_k) · dx
           </div>
           Non-measurable paradoxes cannot even be formulated.
@@ -10374,54 +15563,98 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <h4>Conditioning Without Singularities:</h4>
     <p>
-      In Bayesian updating, when evidence <code>E</code> is observed, we compute the conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code>.
+      In Bayesian updating, when evidence <code>E</code> is observed, we compute
+      the conditional probability <code>P(H | E) = P(H ⋂ E) / P(E)</code>.
     </p>
     <p>
-      In standard continuous measure theory, conditioning on an exact measurement <code>X = x</code> forces division by <code>P(X = x) = 0</code> &mdash; a fatal divide-by-zero singularity requiring Radon-Nikodym derivatives and creating the Borel-Kolmogorov paradox.
+      In standard continuous measure theory, conditioning on an exact
+      measurement <code>X = x</code> forces division by
+      <code>P(X = x) = 0</code> &mdash; a fatal divide-by-zero singularity
+      requiring Radon-Nikodym derivatives and creating the Borel-Kolmogorov
+      paradox.
     </p>
     <p>
-      On the hyperfinite transect, every non-empty event <code>E ≠ ∅</code> has <code>P(E) &gt; 0</code>. Conditioning is <b>always exact, non-singular rational arithmetic</b>!
+      On the hyperfinite transect, every non-empty event <code>E ≠ ∅</code> has
+      <code>P(E) &gt; 0</code>. Conditioning is
+      <b>always exact, non-singular rational arithmetic</b>!
     </p>
 
     <h4>The Bridge to Real Numbers: Peter Loeb''s Theorem</h4>
     <p>
-      “If we calculate probabilities on the hyperfinite transect, how do we bridge back to ordinary real numbers for laboratory engineering?” Jill asked.
+      “If we calculate probabilities on the hyperfinite transect, how do we
+      bridge back to ordinary real numbers for laboratory engineering?” Jill
+      asked.
     </p>
     <p>
       “Through the <b>standard part map</b> (<code>st</code>),” Jack answered:
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 15px; background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin: 12px 0;">
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 15px;
+        background: #f8fafc;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        margin: 12px 0;
+      "
+    >
       P_std(E) ≡ st( ∑_{x_k ∈ E} p(x_k) · dx ) = ∫_E f(x) dx
     </div>
 
     <p>
-      “In 1975, Peter Loeb proved that every hyperfinite probability space naturally induces a standard measure space (the <i>Loeb Measure</i>) that is 100% mathematically equivalent to standard continuous Lebesgue integration. You can do all your thinking with clean discrete sums, and round off infinitesimal parts at the very end!”
+      “In 1975, Peter Loeb proved that every hyperfinite probability space
+      naturally induces a standard measure space (the <i>Loeb Measure</i>) that
+      is 100% mathematically equivalent to standard continuous Lebesgue
+      integration. You can do all your thinking with clean discrete sums, and
+      round off infinitesimal parts at the very end!”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="continuous">Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="continuous"
+        >Interactive Demo: Beta-Binomial Continuous Explorer in BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>6. Summary Comparison Matrix &amp; Looking Ahead to Lecture 2</h3>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 15px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="22%" align="left">Dimension</th>
         <th width="39%" align="left">Standard Measure Theory (Kolmogorov)</th>
-        <th width="39%" align="left">Hyperfinite Discrete Transect (Robinson &amp; Conway)</th>
+        <th width="39%" align="left">
+          Hyperfinite Discrete Transect (Robinson &amp; Conway)
+        </th>
       </tr>
       <tr>
         <td><b>Sample Space (Ω)</b></td>
         <td>Uncountable continuous continuum <code>Ω = [0, 1]</code></td>
-        <td>Discrete hyperfinite transect <code>T = ℝ_ω</code> of size <code>ω</code></td>
+        <td>
+          Discrete hyperfinite transect <code>T = ℝ_ω</code> of size
+          <code>ω</code>
+        </td>
       </tr>
       <tr>
         <td><b>Single-Point Weight</b></td>
         <td><code>P({x}) = 0</code> (Null set paradox)</td>
-        <td><code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)</td>
+        <td>
+          <code>P(x_k) = p(x_k) · dx &gt; 0</code> (Strictly positive mass)
+        </td>
       </tr>
       <tr>
         <td><b>Impossibility Principle</b></td>
@@ -10456,17 +15689,25 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </table>
 
     <p>
-      “Now that we have established how probability arises from raw symmetry and exists without paradoxes on the hyperfinite transect,” Jack concluded, “we are ready to explore how evidence informs belief.”
+      “Now that we have established how probability arises from raw symmetry and
+      exists without paradoxes on the hyperfinite transect,” Jack concluded, “we
+      are ready to explore how evidence informs belief.”
     </p>
 
     <p>
-      “In <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter</b>, we will explore monotonic deduction vs. non-monotonic discovery, likelihood functions, and how an autonomous Mars rover updates its confidence in real time!”
+      “In
+      <b>Lecture 2: Conditional Probability &amp; The 3-Stage Bayesian Filter</b
+      >, we will explore monotonic deduction vs. non-monotonic discovery,
+      likelihood functions, and how an autonomous Mars rover updates its
+      confidence in real time!”
     </p>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="filter">Preview in BID: The 3-Stage Bayesian Filter</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="filter"
+        >Preview in BID: The 3-Stage Bayesian Filter</bid-ref
+      >
     </div>
-', 'published'),
+  ', 'published'),
   (35, 'bayesianInferenceLecture2', 34, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
 <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
@@ -11055,162 +16296,311 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 ', 'published'),
   (37, 'bayesianInferenceLecture4', 36, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
-<div align="center">
-      <i><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i><br>
-      <i><font size="+1">State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone: Unifying Inference with Thermodynamics</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >State Spaces, Shannon Entropy &amp; The Physical Rosetta Stone:
+          Unifying Inference with Thermodynamics</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <p>
-      “Welcome to our grand finale on Bayesian Inference!” Jack announced with enthusiasm.
+      “Welcome to our grand finale on Bayesian Inference!” Jack announced with
+      enthusiasm.
     </p>
 
     <p>
-      “Today, we build our <b>first physical model</b>. We are going to connect Bayesian reasoning directly to the physics of heat, thermodynamics, and the fundamental laws of information theory.”
+      “Today, we build our <b>first physical model</b>. We are going to connect
+      Bayesian reasoning directly to the physics of heat, thermodynamics, and
+      the fundamental laws of information theory.”
     </p>
 
     <p>
-      Jill leaned forward, deeply intrigued: “Wait, what does Bayesian updating about Mars rover sensors and medical tests have to do with physics, engines, and temperature?”
+      Jill leaned forward, deeply intrigued: “Wait, what does Bayesian updating
+      about Mars rover sensors and medical tests have to do with physics,
+      engines, and temperature?”
     </p>
 
     <p>
-      “Everything!” Jack smiled. “By the end of today''s lecture, you will see that statistical physics and Bayesian inference are two dialects of the exact same universal language.”
+      “Everything!” Jack smiled. “By the end of today''s lecture, you will see
+      that statistical physics and Bayesian inference are two dialects of the
+      exact same universal language.”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>1. The Physical State Space (Ω) &amp; Statistical Ensembles</h3>
 
     <p>
-      “Let''s return to our foundational stage: the <b>State Space (Ω)</b>,” Jack began.
+      “Let''s return to our foundational stage: the <b>State Space (Ω)</b>,” Jack
+      began.
     </p>
 
     <p>
-      “In the 1870s, Austrian physicist <b>Ludwig Boltzmann</b> revolutionized science by viewing a container of gas not as continuous smooth fluid, but as a discrete combinatorial state space:”
+      “In the 1870s, Austrian physicist <b>Ludwig Boltzmann</b> revolutionized
+      science by viewing a container of gas not as continuous smooth fluid, but
+      as a discrete combinatorial state space:”
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px; font-weight: bold; font-size: 15px; margin: 10px 0; color: #1e3a8a;">
-      A "Statistical Ensemble" is a probability distribution over the discrete State Space Ω under incomplete macroscopic observation.
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 10px 0;
+        color: #1e3a8a;
+      "
+    >
+      A "Statistical Ensemble" is a probability distribution over the discrete
+      State Space Ω under incomplete macroscopic observation.
     </div>
 
     <ul>
       <li>
-        <b>Microstates (<code>s ∈ Ω</code>):</b> The ultra-detailed microscopic configurations &mdash; such as the exact physical coordinates of every particle, or the individual leaf paths of our recursive dyadic number tree at hyperfinite depth <code>ω</code>.
+        <b>Microstates (<code>s ∈ Ω</code>):</b> The ultra-detailed microscopic
+        configurations &mdash; such as the exact physical coordinates of every
+        particle, or the individual leaf paths of our recursive dyadic number
+        tree at hyperfinite depth <code>ω</code>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Macrostates as Coarse Partitions:</b> When we use a laboratory thermometer or pressure gauge, we only measure coarse averages (like total energy <code>E</code> or volume <code>V</code>). A single macrostate is an event <code>E ⊂ Ω</code> containing trillions of microscopic microstates that look identical from the outside!
+        <b>Macrostates as Coarse Partitions:</b> When we use a laboratory
+        thermometer or pressure gauge, we only measure coarse averages (like
+        total energy <code>E</code> or volume <code>V</code>). A single
+        macrostate is an event <code>E ⊂ Ω</code> containing trillions of
+        microscopic microstates that look identical from the outside!
       </li>
-      <br>
+      <br />
       <li>
-        <b>Multiplicity (<code>W = |E|</code>):</b> The integer number of distinct microscopic states that produce the exact same macroscopic observation.
+        <b>Multiplicity (<code>W = |E|</code>):</b> The integer number of
+        distinct microscopic states that produce the exact same macroscopic
+        observation.
       </li>
     </ul>
 
-    <h4>Formal Statement (FS-4.1): Discrete State Space &amp; Macro-Partitions</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Microstate Space:</b> Let <code>Ω = T = { s₀, s₁, ..., s_{ω-1} }</code> be a discrete hyperfinite state space of cardinality <code>|Ω| = ω</code>.<br>
-      • <b>Ensemble Distribution:</b> A probability vector <code>P = (p₀, p₁, ..., p_{ω-1})</code> such that <code>p_k ≥ 0</code> and <code>∑_{k=0}^{ω-1} p_k = 1</code>.<br>
-      • <b>Macroscopic Partition:</b> A collection of mutually disjoint events <code>{ M₁, M₂, ..., M_m }</code> such that <code>⋃ M_j = Ω</code>, where each macrostate has multiplicity <code>W_j = |M_j|</code>.<br>
-      • <b>Microcanonical Prior:</b> Under zero macroscopic knowledge, the principle of indifference assigns uniform weight: <code>p_k = 1 / |Ω| = dx</code> for all microstates.
+    <h4>
+      Formal Statement (FS-4.1): Discrete State Space &amp; Macro-Partitions
+    </h4>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Microstate Space:</b> Let
+      <code>Ω = T = { s₀, s₁, ..., s_{ω-1} }</code> be a discrete hyperfinite
+      state space of cardinality <code>|Ω| = ω</code>.<br />
+      • <b>Ensemble Distribution:</b> A probability vector
+      <code>P = (p₀, p₁, ..., p_{ω-1})</code> such that <code>p_k ≥ 0</code> and
+      <code>∑_{k=0}^{ω-1} p_k = 1</code>.<br />
+      • <b>Macroscopic Partition:</b> A collection of mutually disjoint events
+      <code>{ M₁, M₂, ..., M_m }</code> such that <code>⋃ M_j = Ω</code>, where
+      each macrostate has multiplicity <code>W_j = |M_j|</code>.<br />
+      • <b>Microcanonical Prior:</b> Under zero macroscopic knowledge, the
+      principle of indifference assigns uniform weight:
+      <code>p_k = 1 / |Ω| = dx</code> for all microstates.
     </div>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="transect">Interactive Demo: Inspect Microstates on the Hyperfinite Transect in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="transect"
+        >Interactive Demo: Inspect Microstates on the Hyperfinite Transect in
+        BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. Surprisal &amp; Entropy: Shannon Meets Boltzmann</h3>
 
     <p>
-      “Suppose an event <code>s_k</code> has probability <code>p_k = P(s_k)</code>,” Jack said. “How much ''surprise'' or new information does observing that event deliver?”
+      “Suppose an event <code>s_k</code> has probability
+      <code>p_k = P(s_k)</code>,” Jack said. “How much ''surprise'' or new
+      information does observing that event deliver?”
     </p>
 
     <ul>
-      <li>If <code>p_k = 1</code> (a 100% guaranteed event), observing it tells you nothing new: <b>Surprise = 0</b>.</li>
-      <li>If <code>p_k → 0</code> (an extraordinarily rare event), observing it gives <b>immense surprise</b>.</li>
-      <li>If two independent events occur, their surprises must simply add: <code>I(s₁ ⋂ s₂) = I(s₁) + I(s₂)</code>.</li>
+      <li>
+        If <code>p_k = 1</code> (a 100% guaranteed event), observing it tells
+        you nothing new: <b>Surprise = 0</b>.
+      </li>
+      <li>
+        If <code>p_k → 0</code> (an extraordinarily rare event), observing it
+        gives <b>immense surprise</b>.
+      </li>
+      <li>
+        If two independent events occur, their surprises must simply add:
+        <code>I(s₁ ⋂ s₂) = I(s₁) + I(s₂)</code>.
+      </li>
     </ul>
 
     <p>
-      “The unique mathematical formula satisfying these axioms is the <b>logarithmic surprisal</b>:”
+      “The unique mathematical formula satisfying these axioms is the
+      <b>logarithmic surprisal</b>:”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 15px; background: #f1f5f9; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; margin: 10px 0;">
-      I(s_k) = -ln(p_k) = ln(1 / p_k) &nbsp; [nats] &nbsp;&nbsp; (or -log₂(p_k) in [bits])
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 15px;
+        background: #f1f5f9;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        margin: 10px 0;
+      "
+    >
+      I(s_k) = -ln(p_k) = ln(1 / p_k) &nbsp; [nats] &nbsp;&nbsp; (or -log₂(p_k)
+      in [bits])
     </div>
 
     <h4>A. Shannon Information Entropy (H)</h4>
     <p>
-      “The expected average surprisal across the entire state space is called <b>Shannon Entropy</b> (formulated by Claude Shannon at Bell Labs in 1948):”
+      “The expected average surprisal across the entire state space is called
+      <b>Shannon Entropy</b> (formulated by Claude Shannon at Bell Labs in
+      1948):”
     </p>
 
-    <div align="center" style="margin: 10px 0;">
-      <fsd-ref tier="3" scaffold="shannon_entropy" title="Shannon Information Entropy H(P)">
-        H(P) = -∑_{k=0}^{ω-1} p_k · ln(p_k) &nbsp;&nbsp; where &nbsp;&nbsp; 0 ≤ H(P) ≤ ln(ω)
+    <div align="center" style="margin: 10px 0">
+      <fsd-ref
+        tier="3"
+        scaffold="shannon_entropy"
+        title="Shannon Information Entropy H(P)"
+      >
+        H(P) = -∑_{k=0}^{ω-1} p_k · ln(p_k) &nbsp;&nbsp; where &nbsp;&nbsp; 0 ≤
+        H(P) ≤ ln(ω)
       </fsd-ref>
     </div>
-    <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
-      <i>(Click the formula above to inspect Lean 4 entropy bounds and CAS evaluation)</i>
+    <p
+      style="
+        text-align: center;
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 2px;
+      "
+    >
+      <i
+        >(Click the formula above to inspect Lean 4 entropy bounds and CAS
+        evaluation)</i
+      >
     </p>
 
     <p>
-      “<code>H(P)</code> measures our total macroscopic uncertainty about which microscopic state the system actually occupies.”
+      “<code>H(P)</code> measures our total macroscopic uncertainty about which
+      microscopic state the system actually occupies.”
     </p>
 
     <h4>B. Thermodynamic Boltzmann Entropy (S)</h4>
     <p>
-      “In physics, the thermodynamic entropy <code>S</code> of a physical system is simply Shannon entropy scaled by <b>Boltzmann''s constant</b> (<code>k_B ≈ 1.38065 × 10⁻²³ J/K</code>):”
+      “In physics, the thermodynamic entropy <code>S</code> of a physical system
+      is simply Shannon entropy scaled by <b>Boltzmann''s constant</b> (<code
+        >k_B ≈ 1.38065 × 10⁻²³ J/K</code
+      >):”
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0;">
+    <div
+      align="center"
+      style="font-family: monospace; font-size: 16px; margin: 10px 0"
+    >
       S ≡ k_B · H(P) = -k_B ∑_{k=0}^{ω-1} p_k · ln(p_k)
     </div>
 
     <p>
-      “When all <code>W</code> microstates in a macrostate have equal probability <code>p_k = 1/W</code>, this formula simplifies directly to Ludwig Boltzmann''s famous tombstone equation:”
+      “When all <code>W</code> microstates in a macrostate have equal
+      probability <code>p_k = 1/W</code>, this formula simplifies directly to
+      Ludwig Boltzmann''s famous tombstone equation:”
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 18px; margin: 12px 0; color: #92400e; font-weight: bold;">
+    <div
+      align="center"
+      style="
+        background-color: #fef3c7;
+        border: 1px solid #fde68a;
+        border-radius: 6px;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 18px;
+        margin: 12px 0;
+        color: #92400e;
+        font-weight: bold;
+      "
+    >
       S = k_B · ln(W)
     </div>
 
     <p>
-      Jill smiled in wonder: “So entropy is not some mystical, greasy property of steam engines &mdash; it is literally just a measure of how many microscopic states are concealed behind our macroscopic ignorance!”
+      Jill smiled in wonder: “So entropy is not some mystical, greasy property
+      of steam engines &mdash; it is literally just a measure of how many
+      microscopic states are concealed behind our macroscopic ignorance!”
     </p>
 
     <p>
-      “Precisely!” Jack nodded. “Thermodynamics is applied information theory under physical constraints!”
+      “Precisely!” Jack nodded. “Thermodynamics is applied information theory
+      under physical constraints!”
     </p>
 
     <h4>Formal Statement (FS-4.2): Surprisal &amp; Entropy Equivalence</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Point Surprisal:</b> <code>I(s_k) = -ln(p_k)</code>.<br>
-      • <b>Shannon Entropy:</b> <code>H(P) = ∑_{k} p_k I(s_k) = -∑_{k} p_k ln(p_k)</code>.<br>
-      • <b>Physical Entropy:</b> <code>S(P) = k_B · H(P)</code>.<br>
-      • <b>Uniform Multiplicity Limit:</b> If <code>p_k = 1/W</code> for <code>k ∈ {1, ..., W}</code>, then <code>H(P) = ln(W)</code> and <code>S = k_B · ln(W)</code>.
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Point Surprisal:</b> <code>I(s_k) = -ln(p_k)</code>.<br />
+      • <b>Shannon Entropy:</b>
+      <code>H(P) = ∑_{k} p_k I(s_k) = -∑_{k} p_k ln(p_k)</code>.<br />
+      • <b>Physical Entropy:</b> <code>S(P) = k_B · H(P)</code>.<br />
+      • <b>Uniform Multiplicity Limit:</b> If <code>p_k = 1/W</code> for
+      <code>k ∈ {1, ..., W}</code>, then <code>H(P) = ln(W)</code> and
+      <code>S = k_B · ln(W)</code>.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. Edwin Jaynes'' Principle of Maximum Entropy (MaxEnt)</h3>
 
     <p>
-      “In 1957, physicist <b>Edwin T. Jaynes</b> asked a profound question,” Jack continued:
+      “In 1957, physicist <b>Edwin T. Jaynes</b> asked a profound question,”
+      Jack continued:
     </p>
 
     <p>
-      <i>“If we only know a few macroscopic expectations (like total expected energy <code>⟨E⟩</code>), what is the most honest, least biased probability distribution to assign to the microscopic states?”</i>
+      <i
+        >“If we only know a few macroscopic expectations (like total expected
+        energy <code>⟨E⟩</code>), what is the most honest, least biased
+        probability distribution to assign to the microscopic states?”</i
+      >
     </p>
 
     <p>
-      <b>The MaxEnt Principle:</b> The uniquely rational probability distribution is the one that <b>maximizes Shannon entropy <code>H(P)</code></b> subject to the known constraints. Any distribution with lower entropy assumes unjustified, speculative information that our data does not warrant!
+      <b>The MaxEnt Principle:</b> The uniquely rational probability
+      distribution is the one that
+      <b>maximizes Shannon entropy <code>H(P)</code></b> subject to the known
+      constraints. Any distribution with lower entropy assumes unjustified,
+      speculative information that our data does not warrant!
     </p>
 
     <h4>Deriving the Gibbs-Boltzmann Distribution:</h4>
     <p>
-      “Let''s maximize <code>H(P) = -∑ p_k ln p_k</code> subject to two natural constraints:”
+      “Let''s maximize <code>H(P) = -∑ p_k ln p_k</code> subject to two natural
+      constraints:”
     </p>
     <ol>
       <li>Total probability normalizes: <code>∑ p_k = 1</code></li>
@@ -11218,98 +16608,221 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ol>
 
     <p>
-      “Using Lagrange multipliers, optimization yields the celebrated <b>Gibbs-Boltzmann Distribution</b>:”
+      “Using Lagrange multipliers, optimization yields the celebrated
+      <b>Gibbs-Boltzmann Distribution</b>:”
     </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 16px; margin: 12px 0;">
-      p_k = <sup>1</sup> / <sub>Z</sub> · e^{-β E_k} &nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbsp; Z = ∑_{k=0}^{ω-1} e^{-β E_k}
+    <div
+      align="center"
+      style="
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 16px;
+        margin: 12px 0;
+      "
+    >
+      p_k = <sup>1</sup> / <sub>Z</sub> · e^{-β E_k} &nbsp;&nbsp;&nbsp; where
+      &nbsp;&nbsp;&nbsp; Z = ∑_{k=0}^{ω-1} e^{-β E_k}
     </div>
 
     <p>
-      “Here <code>β = 1 / (k_B T)</code> is the thermodynamic inverse temperature, and <code>Z</code> is the famous <b>Partition Function</b> (from the German <i>Zustandssumme</i>, meaning ''sum over states'').”
+      “Here <code>β = 1 / (k_B T)</code> is the thermodynamic inverse
+      temperature, and <code>Z</code> is the famous
+      <b>Partition Function</b> (from the German <i>Zustandssumme</i>, meaning
+      ''sum over states'').”
     </p>
 
-    <h4>Formal Statement (FS-4.3): The Maximum Entropy (MaxEnt) Distribution</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Variational Optimization:</b> <code>P* = argmax_{P} { H(P) }</code> subject to <code>∑ p_k = 1</code> and <code>∑ p_k E_k = ⟨E⟩</code>.<br>
-      • <b>Boltzmann Distribution:</b> <code>p_k* = Z(β)⁻¹ · e^{-β E_k}</code>.<br>
-      • <b>Partition Function:</b> <code>Z(β) = ∑_{k=0}^{ω-1} e^{-β E_k}</code>.<br>
-      • <b>Thermodynamic Connection:</b> Mean energy is the logarithmic derivative <code>⟨E⟩ = -∂ ln(Z) / ∂β</code>.
+    <h4>
+      Formal Statement (FS-4.3): The Maximum Entropy (MaxEnt) Distribution
+    </h4>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Variational Optimization:</b>
+      <code>P* = argmax_{P} { H(P) }</code> subject to
+      <code>∑ p_k = 1</code> and <code>∑ p_k E_k = ⟨E⟩</code>.<br />
+      • <b>Boltzmann Distribution:</b>
+      <code>p_k* = Z(β)⁻¹ · e^{-β E_k}</code>.<br />
+      • <b>Partition Function:</b>
+      <code>Z(β) = ∑_{k=0}^{ω-1} e^{-β E_k}</code>.<br />
+      • <b>Thermodynamic Connection:</b> Mean energy is the logarithmic
+      derivative <code>⟨E⟩ = -∂ ln(Z) / ∂β</code>.
     </div>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="continuous">Interactive Demo: Continuous Ensembles &amp; Distributions in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="continuous"
+        >Interactive Demo: Continuous Ensembles &amp; Distributions in
+        BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
-    <h3>4. The Physical Rosetta Stone: Statistical Mechanics ≡ Bayesian Inference</h3>
+    <h3>
+      4. The Physical Rosetta Stone: Statistical Mechanics ≡ Bayesian Inference
+    </h3>
 
     <p>
-      “Now,” Jack said, leaning forward with excitement, “look closely at the algebraic anatomy of the Partition Function <code>Z</code>.”
+      “Now,” Jack said, leaning forward with excitement, “look closely at the
+      algebraic anatomy of the Partition Function <code>Z</code>.”
     </p>
 
     <p>
       “Jill, compare the Boltzmann distribution to Bayes'' rule from Lecture 1!”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 15px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="50%" align="left">Statistical Mechanics (Physics)</th>
-        <th width="50%" align="left">Bayesian Inference (Information Theory)</th>
+        <th width="50%" align="left">
+          Bayesian Inference (Information Theory)
+        </th>
       </tr>
       <tr>
-        <td><b>Microstate <code>s_k</code> with energy <code>E_k</code></b></td>
-        <td><b>Hypothesis <code>H_k</code> with negative log-likelihood / loss <code>E_k</code></b></td>
+        <td>
+          <b>Microstate <code>s_k</code> with energy <code>E_k</code></b>
+        </td>
+        <td>
+          <b
+            >Hypothesis <code>H_k</code> with negative log-likelihood / loss
+            <code>E_k</code></b
+          >
+        </td>
       </tr>
       <tr>
-        <td><b>Boltzmann Factor:</b><br><code>e^{-β E_k}</code></td>
-        <td><b>Unnormalized Posterior Weight:</b><br><code>P(Data | H_k) · P(H_k) = e^{-(-ln P(Data | H_k) - ln P(H_k))}</code></td>
+        <td><b>Boltzmann Factor:</b><br /><code>e^{-β E_k}</code></td>
+        <td>
+          <b>Unnormalized Posterior Weight:</b><br /><code
+            >P(Data | H_k) · P(H_k) = e^{-(-ln P(Data | H_k) - ln P(H_k))}</code
+          >
+        </td>
       </tr>
       <tr>
-        <td><b>Partition Function (Normalizer):</b><br><code>Z = ∑_{k} e^{-β E_k}</code></td>
-        <td><b>Marginal Model Evidence (Normalizer):</b><br><code>P(Data) = ∑_{k} P(Data | H_k) · P(H_k)</code></td>
+        <td>
+          <b>Partition Function (Normalizer):</b><br /><code
+            >Z = ∑_{k} e^{-β E_k}</code
+          >
+        </td>
+        <td>
+          <b>Marginal Model Evidence (Normalizer):</b><br /><code
+            >P(Data) = ∑_{k} P(Data | H_k) · P(H_k)</code
+          >
+        </td>
       </tr>
       <tr>
-        <td><b>Helmholtz Free Energy:</b><br><code>F = -k_B T · ln(Z) = ⟨E⟩ - T·S</code></td>
-        <td><b>Surprisal / Bayesian Information Criterion:</b><br><code>-ln P(Data) = Negative Log Evidence</code></td>
+        <td>
+          <b>Helmholtz Free Energy:</b><br /><code
+            >F = -k_B T · ln(Z) = ⟨E⟩ - T·S</code
+          >
+        </td>
+        <td>
+          <b>Surprisal / Bayesian Information Criterion:</b><br /><code
+            >-ln P(Data) = Negative Log Evidence</code
+          >
+        </td>
       </tr>
       <tr>
-        <td><b>Thermal Equilibrium:</b><br>Minimizes Helmholtz Free Energy <code>F</code></td>
-        <td><b>Bayesian Posterior:</b><br>Minimizes expected loss and KL divergence</td>
+        <td>
+          <b>Thermal Equilibrium:</b><br />Minimizes Helmholtz Free Energy
+          <code>F</code>
+        </td>
+        <td>
+          <b>Bayesian Posterior:</b><br />Minimizes expected loss and KL
+          divergence
+        </td>
       </tr>
     </table>
 
     <p>
-      Jill gasped: “The Partition Function <code>Z</code> in physics is the <b>exact same denominator</b> as the evidence normalizer in Bayes'' rule!”
+      Jill gasped: “The Partition Function <code>Z</code> in physics is the
+      <b>exact same denominator</b> as the evidence normalizer in Bayes'' rule!”
     </p>
 
     <p>
-      “Yes!” Jack beamed. “They are mathematically isomorphic. Physical systems settling into thermal equilibrium are literally performing Bayesian inference, with temperature <code>T</code> acting as the annealing noise parameter!”
+      “Yes!” Jack beamed. “They are mathematically isomorphic. Physical systems
+      settling into thermal equilibrium are literally performing Bayesian
+      inference, with temperature <code>T</code> acting as the annealing noise
+      parameter!”
     </p>
 
-    <h4>Formal Statement (FS-4.4): Evidence Accumulation as Physical Entropy Reduction</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Information Gain (Relative Entropy / KL Divergence):</b><br>
-      &nbsp;&nbsp;<code>D_{KL}(P_{post} || P_{prior}) = ∑_{k} P(H_k | D) · ln( P(H_k | D) / P(H_k) ) ≥ 0</code>.<br>
-      • <b>Information Monotonicity:</b> Conditioning on data <code>D</code> strictly decreases expected uncertainty:<br>
-      &nbsp;&nbsp;<code>𝔼_D [ H(P(· | D)) ] ≤ H(P)</code>, with equality if and only if data <code>D</code> is completely uninformative (independent of hypotheses).<br>
-      • <b>Landauer''s Principle:</b> Information is physical. Erasing one bit of uncertainty requires dissipating at least <code>k_B T ln(2)</code> Joules of heat into the environment.
+    <h4>
+      Formal Statement (FS-4.4): Evidence Accumulation as Physical Entropy
+      Reduction
+    </h4>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Information Gain (Relative Entropy / KL Divergence):</b><br />
+      &nbsp;&nbsp;<code
+        >D_{KL}(P_{post} || P_{prior}) = ∑_{k} P(H_k | D) · ln( P(H_k | D) /
+        P(H_k) ) ≥ 0</code
+      >.<br />
+      • <b>Information Monotonicity:</b> Conditioning on data
+      <code>D</code> strictly decreases expected uncertainty:<br />
+      &nbsp;&nbsp;<code>𝔼_D [ H(P(· | D)) ] ≤ H(P)</code>, with equality if and
+      only if data <code>D</code> is completely uninformative (independent of
+      hypotheses).<br />
+      • <b>Landauer''s Principle:</b> Information is physical. Erasing one bit of
+      uncertainty requires dissipating at least <code>k_B T ln(2)</code> Joules
+      of heat into the environment.
     </div>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="filter">Interactive Demo: 3-Stage Bayesian Filter &amp; Uncertainty Reduction in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="filter"
+        >Interactive Demo: 3-Stage Bayesian Filter &amp; Uncertainty Reduction
+        in BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>5. Comprehensive Curriculum Retrospective</h3>
 
     <p>
-      “Over these four lectures, we have traveled from the raw logic of uncertainty all the way to modern statistical mechanics:”
+      “Over these four lectures, we have traveled from the raw logic of
+      uncertainty all the way to modern statistical mechanics:”
     </p>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 15px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="15%" align="left">Lecture</th>
         <th width="25%" align="left">Core Theme</th>
@@ -11318,112 +16831,245 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <tr>
         <td><b>Lecture 1</b></td>
         <td>Deductive vs. Empirical Logic</td>
-        <td>Non-monotonic reasoning; the 3-stage Bayesian filter (Prior &rarr; Likelihood Slicing &rarr; Normalization); Bayes Factor multipliers.</td>
+        <td>
+          Non-monotonic reasoning; the 3-stage Bayesian filter (Prior &rarr;
+          Likelihood Slicing &rarr; Normalization); Bayes Factor multipliers.
+        </td>
       </tr>
       <tr>
         <td><b>Lecture 2</b></td>
         <td>Sequential Streams &amp; Odds</td>
-        <td><i>Today''s Posterior is Tomorrow''s Prior</i>; Order invariance of clue streams; additive log-odds; conquering the Base-Rate Fallacy with natural frequencies.</td>
+        <td>
+          <i>Today''s Posterior is Tomorrow''s Prior</i>; Order invariance of clue
+          streams; additive log-odds; conquering the Base-Rate Fallacy with
+          natural frequencies.
+        </td>
       </tr>
       <tr>
         <td><b>Lecture 3</b></td>
         <td>Standard vs. Nonstandard Probability</td>
-        <td>The hyperfinite transect <code>ℝ_ω</code> restores strict positivity (<code>P(E) = 0 ⟺ E = ∅</code>); full power set measurability <code>𝒫(T)</code>; Peter Loeb''s standard part bridge to Lebesgue integration.</td>
+        <td>
+          The hyperfinite transect <code>ℝ_ω</code> restores strict positivity
+          (<code>P(E) = 0 ⟺ E = ∅</code>); full power set measurability
+          <code>𝒫(T)</code>; Peter Loeb''s standard part bridge to Lebesgue
+          integration.
+        </td>
       </tr>
       <tr>
         <td><b>Lecture 4</b></td>
         <td>Entropy &amp; The Physical Rosetta Stone</td>
-        <td>Shannon surprisal equals Boltzmann entropy; MaxEnt derivation of Gibbs distributions; exact isomorphism between partition function <code>Z</code> and Bayes denominator <code>P(Data)</code>.</td>
+        <td>
+          Shannon surprisal equals Boltzmann entropy; MaxEnt derivation of Gibbs
+          distributions; exact isomorphism between partition function
+          <code>Z</code> and Bayes denominator <code>P(Data)</code>.
+        </td>
       </tr>
     </table>
 
-    <div align="center" style="margin: 15px 0;">
-      <bid-ref mode="sequential">Interactive Demo: Step through Live Sequential Streams in BID</bid-ref>
+    <div align="center" style="margin: 15px 0">
+      <bid-ref mode="sequential"
+        >Interactive Demo: Step through Live Sequential Streams in BID</bid-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>6. Forward Bridge: To Quantum Logic &amp; Complex Amplitudes</h3>
 
     <p>
-      “With classical Bayesian inference and statistical mechanics fully mastered,” Jack said with a sparkle in his eyes, “we are ready for the next frontier.”
+      “With classical Bayesian inference and statistical mechanics fully
+      mastered,” Jack said with a sparkle in his eyes, “we are ready for the
+      next frontier.”
     </p>
 
     <p>
-      “In our upcoming chapter on <b>Quantum Logic</b>, we unite these probability measures with the 2D complex grid <code>ℂ_ω</code> (from Level 3) and the Hilbert space geometry <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code> (from Level 2):”
+      “In our upcoming chapter on <b>Quantum Logic</b>, we unite these
+      probability measures with the 2D complex grid <code>ℂ_ω</code> (from Level
+      3) and the Hilbert space geometry <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code> (from
+      Level 3):”
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; margin: 12px 0;">
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 14px;
+        margin: 12px 0;
+      "
+    >
       <font size="+1" color="#1e3a8a">
-        <b>From Real Probability Weights <code>p_k ∈ [0, 1]</code> on <code>ℝ_ω</code><br>
-        &nbsp;&nbsp;──► To Complex State Vectors <code>|ψ⟩ ∈ ℋ_ω</code> &amp; Non-Commutative Subspaces!</b>
+        <b
+          >From Real Probability Weights <code>p_k ∈ [0, 1]</code> on
+          <code>ℝ_ω</code><br />
+          &nbsp;&nbsp;──► To Complex State Vectors <code>|ψ⟩ ∈ ℋ_ω</code> &amp;
+          Non-Commutative Subspaces!</b
+        >
       </font>
     </div>
 
     <p>
-      “Where classical probabilities simply add as disjoint subsets, quantum states introduce <b>geometric phase, wave interference cross-terms, and projection operators</b>. See you in Quantum Logic!”
+      “Where classical probabilities simply add as disjoint subsets, quantum
+      states introduce
+      <b
+        >geometric phase, wave interference cross-terms, and projection
+        operators</b
+      >. See you in Quantum Logic!”
     </p>
-', 'published'),
+  ', 'published'),
   (38, 'quantumLogicIntro', 37, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
-<div align="center">
-      <i><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i><br>
-      <i><font size="+1">Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces, Projection &amp; Vector Geometry</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Why Classical Boolean Logic Fails at the Atomic Scale: Subspaces,
+          Projection &amp; Vector Geometry</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <h3>1. Pedagogical Intent &amp; Curriculum Role</h3>
     <p>
-      In classical formal science, logic is governed by <b>Boolean algebra</b>: propositions are subsets of a universal set <code>𝒮</code>, statements are either True or False, and compound propositions obey the distributive laws:
+      In classical formal science, logic is governed by <b>Boolean algebra</b>:
+      propositions are subsets of a universal set <code>𝒮</code>, statements are
+      either True or False, and compound propositions obey the distributive
+      laws:
     </p>
-    <div align="center" style="font-family: monospace; font-size: 0.95em; padding: 10px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; margin: 10px 0;">
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 0.95em;
+        padding: 10px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        margin: 10px 0;
+      "
+    >
       A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)
     </div>
     <p>
-      For over two centuries, this classical logic was assumed to be the universal law of human thought and physical reality. However, when 20th-century physicists probed the atomic micro-realm, they discovered an inescapable truth: <b>Nature at the quantum scale does not obey Boolean logic.</b>
+      For over two centuries, this classical logic was assumed to be the
+      universal law of human thought and physical reality. However, when
+      20th-century physicists probed the atomic micro-realm, they discovered an
+      inescapable truth:
+      <b>Nature at the quantum scale does not obey Boolean logic.</b>
     </p>
     <p>
-      In this module, we introduce <b>Quantum Logic</b> &mdash; the non-classical algebraic framework discovered by Garrett Birkhoff and John von Neumann (1936) that correctly describes physical properties, superpositions, and measurements in quantum mechanics.
+      In this module, we introduce <b>Quantum Logic</b> &mdash; the
+      non-classical algebraic framework discovered by Garrett Birkhoff and John
+      von Neumann (1936) that correctly describes physical properties,
+      superpositions, and measurements in quantum mechanics.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>2. From Classical Sample Spaces to Complex Hilbert Spaces</h3>
     <p>
-      In our study of <i>Bayesian Inference</i>, we constructed probability over the 1-dimensional <b>hyperfinite transect</b> <code>ℝ_ω</code> generated by the 2-successor dyadic tree. 
-      While real numbers suffice for classical scalar probability weights, quantum mechanics fundamentally requires complex phase rotations and wave interference.
+      In our study of <i>Bayesian Inference</i>, we constructed probability over
+      the 1-dimensional <b>hyperfinite transect</b> <code>ℝ_ω</code> generated
+      by the 2-successor dyadic tree. While real numbers suffice for classical
+      scalar probability weights, quantum mechanics fundamentally requires
+      complex phase rotations and wave interference.
     </p>
     <p>
-      As established in <b>Level 2 (Vector Foundations)</b> and <b>Level 3 (Analysis 2D)</b>, crossing two real axes yields the 2-dimensional <b>hyperfinite complex grid</b> <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree basis:
+      As established in <b>Level 3 (Vector Foundations)</b> and
+      <b>Level 2 (Analysis 2D)</b>, crossing two real axes yields the
+      2-dimensional <b>hyperfinite complex grid</b>
+      <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>, generated by the 4-successor quad-tree
+      basis:
     </p>
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; font-family: monospace; font-size: 0.95em; border-radius: 6px; color: #1e3a8a; margin: 12px 0;">
-      Quad-Tree Basis = { +1, -1, +i, -i } &nbsp;⇒&nbsp; Gaussian Dyadics &amp; Complex Grid ℂ_ω
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 0.95em;
+        border-radius: 6px;
+        color: #1e3a8a;
+        margin: 12px 0;
+      "
+    >
+      Quad-Tree Basis = { +1, -1, +i, -i } &nbsp;⇒&nbsp; Gaussian Dyadics &amp;
+      Complex Grid ℂ_ω
     </div>
     <p>
-      On this complex grid, physical states are no longer simple points on a line; they are <b>directional state vectors and subspaces in a complex Hilbert space <code>ℋ_ω</code></b>.
+      On this complex grid, physical states are no longer simple points on a
+      line; they are
+      <b
+        >directional state vectors and subspaces in a complex Hilbert space
+        <code>ℋ_ω</code></b
+      >.
     </p>
 
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 18px; margin: 16px 0; font-size: 0.92em;">
-      <b>Epistemic Foundations: The Algebraic Safety Net</b><br>
-      In Level 2, we observed that while the working grid <code>ℂ_ω</code> supports all concrete physical operations, division or normalization by diagonal roots (like <code>√2</code>) generates remainders with transfinite birthdays beyond <code>ω</code>. From this junction, there are <b>two coherent foundational pathways</b>:
-      <ul style="margin-top: 8px;">
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 14px 18px;
+        margin: 16px 0;
+        font-size: 0.92em;
+      "
+    >
+      <b>Epistemic Foundations: The Algebraic Safety Net</b><br />
+      In Level 3, we observed that while the working grid
+      <code>ℂ_ω</code> supports all concrete physical operations, division or
+      normalization by diagonal roots (like <code>√2</code>) generates
+      remainders with transfinite birthdays beyond <code>ω</code>. From this
+      junction, there are <b>two coherent foundational pathways</b>:
+      <ul style="margin-top: 8px">
         <li>
-          <b>Pathway A (The Standard Real Shadow):</b> Apply the <b>standard part map</b> (<code>st : ℝ_ω → ℝ</code>) whenever an operation leaves <code>ℂ_ω</code>. This "pops" the calculation down to the nearest standard real number, interfacing directly with standard laboratory calculus and intrinsic Hilbert spaces.
+          <b>Pathway A (The Standard Real Shadow):</b> Apply the
+          <b>standard part map</b> (<code>st : ℝ_ω → ℝ</code>) whenever an
+          operation leaves <code>ℂ_ω</code>. This "pops" the calculation down to
+          the nearest standard real number, interfacing directly with standard
+          laboratory calculus and intrinsic Hilbert spaces.
         </li>
-        <li style="margin-top: 6px;">
-          <b>Pathway B (The Tree Continuation):</b> Let the recursive tree continue branching down to its natural enveloping algebraic field <b><code>G = ℂ_{&lt;ε₀}</code></b> (the first Cantor epsilon horizon <code>ε₀ = ω^ω^...</code>). Here, every node remains an explicitly constructible set from <code>0 = { | }</code>, and recursive arithmetic is <b>100% algebraically closed</b> without leaking.
+        <li style="margin-top: 6px">
+          <b>Pathway B (The Tree Continuation):</b> Let the recursive tree
+          continue branching down to its natural enveloping algebraic field
+          <b><code>G = ℂ_{&lt;ε₀}</code></b> (the first Cantor epsilon horizon
+          <code>ε₀ = ω^ω^...</code>). Here, every node remains an explicitly
+          constructible set from <code>0 = { | }</code>, and recursive
+          arithmetic is <b>100% algebraically closed</b> without leaking.
         </li>
       </ul>
-      <i>For our general science curriculum, we operate directly on <code>ℂ_ω</code> using the concrete geometry of vectors and projection operators, resting assured that the deeper transfinite tree <code>G</code> serves as an airtight algebraic safety net.</i>
+      <i
+        >For our general science curriculum, we operate directly on
+        <code>ℂ_ω</code> using the concrete geometry of vectors and projection
+        operators, resting assured that the deeper transfinite tree
+        <code>G</code> serves as an airtight algebraic safety net.</i
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. The Central Breakthrough: Geometry Replaces Set Theory</h3>
     <p>
-      The essential conceptual shift of quantum logic is the direct translation from set theory to linear vector geometry:
+      The essential conceptual shift of quantum logic is the direct translation
+      from set theory to linear vector geometry:
     </p>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 0.9em; margin: 12px 0;">
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 0.9em;
+        margin: 12px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="28%" align="left">Logical Concept</th>
         <th width="36%" align="left">Classical Boolean Logic</th>
@@ -11432,12 +17078,18 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <tr>
         <td><b>Proposition / Property</b></td>
         <td>Subset of points <code>A ⊆ 𝒮</code></td>
-        <td><b>Closed Subspace</b> (or Projection Operator <code>P_A = P_A† = P_A²</code>)</td>
+        <td>
+          <b>Closed Subspace</b> (or Projection Operator
+          <code>P_A = P_A† = P_A²</code>)
+        </td>
       </tr>
       <tr>
         <td><b>Negation (NOT A)</b></td>
         <td>Set complement <code>Aᶜ = 𝒮 \ A</code></td>
-        <td><b>Orthogonal Complement</b> <code>A^⊥ = { v ∈ ℋ | ⟨v, w⟩ = 0, ∀w ∈ A }</code></td>
+        <td>
+          <b>Orthogonal Complement</b>
+          <code>A^⊥ = { v ∈ ℋ | ⟨v, w⟩ = 0, ∀w ∈ A }</code>
+        </td>
       </tr>
       <tr>
         <td><b>Conjunction (A AND B)</b></td>
@@ -11447,37 +17099,67 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <tr>
         <td><b>Disjunction (A OR B)</b></td>
         <td>Set union <code>A ∪ B</code></td>
-        <td><b>Closed Linear Span</b> <code>A ∨ B = span(A ∪ B)</code><br><i>(Includes all quantum superpositions!)</i></td>
+        <td>
+          <b>Closed Linear Span</b> <code>A ∨ B = span(A ∪ B)</code><br /><i
+            >(Includes all quantum superpositions!)</i
+          >
+        </td>
       </tr>
       <tr>
         <td><b>Distributive Law</b></td>
-        <td><b>Holds universally:</b><br><code>A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code></td>
-        <td><b>FAILS in general!</b><br>Replaced by the weaker <b>Orthomodular Law</b>.</td>
+        <td>
+          <b>Holds universally:</b><br /><code
+            >A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C)</code
+          >
+        </td>
+        <td>
+          <b>FAILS in general!</b><br />Replaced by the weaker
+          <b>Orthomodular Law</b>.
+        </td>
       </tr>
     </table>
 
-    <hr>
+    <hr />
 
     <h3>4. Roadmap of the Module</h3>
     <ul>
       <li>
-        <b>Lecture 1: The Three Polarizers &amp; Why Venn Diagrams Fail:</b> The physical 3-filter experiment, diagonal superpositions, and why atomic physics shatters classical "AND / OR" distributive logic.
+        <b>Lecture 1: The Three Polarizers &amp; Why Venn Diagrams Fail:</b> The
+        physical 3-filter experiment, diagonal superpositions, and why atomic
+        physics shatters classical "AND / OR" distributive logic.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 2: The 4-Successor Complex Grid &amp; Wave Amplitudes:</b> Moving from real probabilities to 2D complex amplitude arrows on <code>ℂ_ω</code>, wave interference, and the Born Rule (<code>P = |z|²</code>).
+        <b>Lecture 2: The 4-Successor Complex Grid &amp; Wave Amplitudes:</b>
+        Moving from real probabilities to 2D complex amplitude arrows on
+        <code>ℂ_ω</code>, wave interference, and the Born Rule (<code
+          >P = |z|²</code
+        >).
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 3: Quantum Measurement as Vector Projection:</b> How quantum observation drops a perpendicular onto the detector''s axis, retrofitting the classical Bayesian filter into the quantum Lüders update rule.
+        <b>Lecture 3: Quantum Measurement as Vector Projection:</b> How quantum
+        observation drops a perpendicular onto the detector''s axis, retrofitting
+        the classical Bayesian filter into the quantum Lüders update rule.
       </li>
     </ul>
-    <br>
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 12px; border-radius: 6px; font-size: 0.92em;">
-      <b>The Bridge to the Capstone:</b><br>
-      These visual geometric principles provide the exact language needed for our final capstone: <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
+    <br />
+    <div
+      align="center"
+      style="
+        background-color: #ecfdf5;
+        border: 1px solid #10b981;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 0.92em;
+      "
+    >
+      <b>The Bridge to the Capstone:</b><br />
+      These visual geometric principles provide the exact language needed for
+      our final capstone:
+      <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
-', 'published'),
+  ', 'published'),
   (39, 'quantumLogicLecture1', 38, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
 <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
@@ -11902,392 +17584,852 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 ', 'published'),
   (41, 'quantumLogicLecture3', 40, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
-<div align="center">
-      <i><font size="+2"><b>Quantum Logic Lecture 3</b></font></i><br>
-      <i><font size="+1">Quantum Measurement as Vector Projection &amp; The Lüders Filter</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Quantum Logic Lecture 3</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Quantum Measurement as Vector Projection &amp; The Lüders
+          Filter</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <p>
-      “Welcome back to our final lecture on Quantum Logic!” Jack said with a grin as the class settled in.
+      “Welcome back to our final lecture on Quantum Logic!” Jack said with a
+      grin as the class settled in.
     </p>
 
     <p>
-      “In our first two lectures, we discovered that atomic reality shatters Boolean Venn diagrams, and that Nature keeps track of 2D amplitude arrows on our complex grid <code>ℂ_ω</code>. Today, we answer the question that puzzled physicists for decades: <b>What actually happens when a detector observes a quantum particle?</b>”
+      “In our first two lectures, we discovered that atomic reality shatters
+      Boolean Venn diagrams, and that Nature keeps track of 2D amplitude arrows
+      on our complex grid <code>ℂ_ω</code>. Today, we answer the question that
+      puzzled physicists for decades:
+      <b>What actually happens when a detector observes a quantum particle?</b>”
     </p>
 
     <p>
-      Jill raised her hand with an insightful smile: “Jack, in your lecture title, you wrote <i>''Vector Projection''</i>. Back in Level 2, we explored how vector spaces, duality pairings <code>⟨ϕ|ψ⟩</code>, and projection operators operate in abstract geometry. Are we now seeing the physical realization of that exact same geometry?”
+      Jill raised her hand with an insightful smile: “Jack, in your lecture
+      title, you wrote <i>''Vector Projection''</i>. Back in Level 3, we explored
+      how vector spaces, duality pairings <code>⟨ϕ|ψ⟩</code>, and projection
+      operators operate in abstract geometry. Are we now seeing the physical
+      realization of that exact same geometry?”
     </p>
 
     <p>
-      Jack beamed: “Spot on, Jill! That is one of the most stunning unifications in all of science. In quantum mechanics, an observable measurement isn''t an arbitrary interruption &mdash; it is literally dropping a perpendicular projection onto an observable subspace in Hilbert space <code>ℋ_ω</code>!”
+      Jack beamed: “Spot on, Jill! That is one of the most stunning unifications
+      in all of science. In quantum mechanics, an observable measurement isn''t
+      an arbitrary interruption &mdash; it is literally dropping a perpendicular
+      projection onto an observable subspace in Hilbert space <code>ℋ_ω</code>!”
     </p>
 
     <p>
-      “As established in Level 2, our working grid <code>ℂ_ω</code> is supported by our transfinite tree cutoff (with Cantor''s epsilon horizon <code>ε₀</code> serving as the airtight algebraic safety net). We don''t need any detached, unconstructive axioms &mdash; we have the concrete geometry of directional state arrows and subspace projections!”
+      “As established in Level 3, our working grid <code>ℂ_ω</code> is supported
+      by our transfinite tree cutoff (with Cantor''s epsilon horizon
+      <code>ε₀</code> serving as the airtight algebraic safety net). We don''t
+      need any detached, unconstructive axioms &mdash; we have the concrete
+      geometry of directional state arrows and subspace projections!”
     </p>
 
     <p>
-      Jill nodded: “So when a detector observes a particle, it doesn''t slice a set like a classical cookie cutter &mdash; it literally projects the state vector onto the detector''s axis!”
+      Jill nodded: “So when a detector observes a particle, it doesn''t slice a
+      set like a classical cookie cutter &mdash; it literally projects the state
+      vector onto the detector''s axis!”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>1. From Subset Slicing to Vector Projection</h3>
 
     <p>
-      “Let''s contrast how classical and quantum filters work,” Jack said, sketching two diagrams side-by-side on the board.
+      “Let''s contrast how classical and quantum filters work,” Jack said,
+      sketching two diagrams side-by-side on the board.
     </p>
 
     <p>
-      “In our <i>Bayesian Inference</i> module, observing classical evidence <code>E</code> was like using a <b>cookie cutter</b> on our 1D state space <code>ℝ_ω</code>. It sliced out the subset of possibilities incompatible with <code>E</code>, and we stretched the surviving slice back to 100%.”
+      “In our <i>Bayesian Inference</i> module, observing classical evidence
+      <code>E</code> was like using a <b>cookie cutter</b> on our 1D state space
+      <code>ℝ_ω</code>. It sliced out the subset of possibilities incompatible
+      with <code>E</code>, and we stretched the surviving slice back to 100%.”
     </p>
 
     <p>
-      “In quantum mechanics, states are directional arrows in complex Hilbert space <code>ℋ_ω</code>. When a detector set along axis <code>|u⟩</code> measures a particle in state <code>|v⟩</code>, it doesn''t slice a set &mdash; it <b>drops a perpendicular</b> (casts a shadow) from the state arrow onto the detector''s axis!”
+      “In quantum mechanics, states are directional arrows in complex Hilbert
+      space <code>ℋ_ω</code>. When a detector set along axis
+      <code>|u⟩</code> measures a particle in state <code>|v⟩</code>, it doesn''t
+      slice a set &mdash; it <b>drops a perpendicular</b> (casts a shadow) from
+      the state arrow onto the detector''s axis!”
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; font-weight: bold;">
-      Classical Bayes: Slicing Subsets on ℝ_ω &nbsp;&hArr;&nbsp; Quantum Bayes: Dropping Shadows on ℂ_ω
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 15px;
+        margin: 12px 0;
+        color: #1e3a8a;
+        font-weight: bold;
+      "
+    >
+      Classical Bayes: Slicing Subsets on ℝ_ω &nbsp;&hArr;&nbsp; Quantum Bayes:
+      Dropping Shadows on ℂ_ω
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. The Geometric Probability Law (The Dot Product)</h3>
 
     <p>
-      Jill leaned forward: “So if measurement is casting a shadow, how do we calculate the probability that the detector clicks?”
+      Jill leaned forward: “So if measurement is casting a shadow, how do we
+      calculate the probability that the detector clicks?”
     </p>
 
     <p>
-      “It comes down to pure high school trigonometry!” Jack beamed. “<b>The probability of detection is the squared length of the shadow!</b>”
+      “It comes down to pure high school trigonometry!” Jack beamed. “<b
+        >The probability of detection is the squared length of the shadow!</b
+      >”
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; margin: 12px 0;">
-      <font size="+1" color="#92400e"><b>The Geometric Probability Law:</b></font><br>
-      For a particle prepared in unit state <code>|v⟩</code> observed by a detector along unit axis <code>|u⟩</code> with angle <code>θ</code> between them:
-      <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        <fsd-ref tier="3" scaffold="polarizer_projection" title="Geometric Probability Law: P = cos²(θ)">
+    <div
+      align="center"
+      style="
+        background-color: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 6px;
+        padding: 14px;
+        margin: 12px 0;
+      "
+    >
+      <font size="+1" color="#92400e"
+        ><b>The Geometric Probability Law:</b></font
+      ><br />
+      For a particle prepared in unit state <code>|v⟩</code> observed by a
+      detector along unit axis <code>|u⟩</code> with angle
+      <code>θ</code> between them:
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 17px;
+          margin-top: 8px;
+          font-weight: bold;
+        "
+      >
+        <fsd-ref
+          tier="3"
+          scaffold="polarizer_projection"
+          title="Geometric Probability Law: P = cos²(θ)"
+        >
           P(Detection) = |⟨u | v⟩|² = cos²(θ)
         </fsd-ref>
       </div>
-      <p style="text-align: center; font-size: 12px; color: #92400e; margin-top: 4px; margin-bottom: 0;">
-        <i>(Click above to inspect the proof in Lean 4 or test angles in the Dev Calculator)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #92400e;
+          margin-top: 4px;
+          margin-bottom: 0;
+        "
+      >
+        <i
+          >(Click above to inspect the proof in Lean 4 or test angles in the Dev
+          Calculator)</i
+        >
       </p>
     </div>
 
-    <p>
-      “Let''s check the three key angles on our compass clock,” Jack said:
-    </p>
+    <p>“Let''s check the three key angles on our compass clock,” Jack said:</p>
 
     <ul>
-      <li><b>Aligned (<code>θ = 0°</code>):</b> The arrow points directly down the detector''s barrel. The shadow has full length: <code>cos²(0°) = 1.00</code> &rArr; <b>100% Certainty (Always Clicks)</b>.</li>
-      <li><b>Perpendicular (<code>θ = 90°</code>):</b> The arrow is at right angles to the detector. The shadow is a single point of zero length: <code>cos²(90°) = 0.00</code> &rArr; <b>0% Probability (Impossible)</b>.</li>
-      <li><b>Diagonal (<code>θ = 45°</code>):</b> The arrow points midway. The shadow length is <code>1/√2</code>, so its squared length is <code>(1/√2)² = 0.50</code> &rArr; <b>50% Probability (A Fair Coin Toss)</b>.</li>
+      <li>
+        <b>Aligned (<code>θ = 0°</code>):</b> The arrow points directly down the
+        detector''s barrel. The shadow has full length:
+        <code>cos²(0°) = 1.00</code> &rArr;
+        <b>100% Certainty (Always Clicks)</b>.
+      </li>
+      <li>
+        <b>Perpendicular (<code>θ = 90°</code>):</b> The arrow is at right
+        angles to the detector. The shadow is a single point of zero length:
+        <code>cos²(90°) = 0.00</code> &rArr; <b>0% Probability (Impossible)</b>.
+      </li>
+      <li>
+        <b>Diagonal (<code>θ = 45°</code>):</b> The arrow points midway. The
+        shadow length is <code>1/√2</code>, so its squared length is
+        <code>(1/√2)² = 0.50</code> &rArr;
+        <b>50% Probability (A Fair Coin Toss)</b>.
+      </li>
     </ul>
 
-    <h4>Formal Statement (FS-QL-3.1): Projection Operators &amp; The Dot Product Law</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Projection Operator:</b> For a unit ray <code>|u⟩ ∈ ℋ_ω</code>, the projection operator is <code>P_u = |u⟩⟨u|</code>, satisfying idempotence <code>P_u² = P_u</code> and self-adjointness <code>P_u† = P_u</code>.<br>
-      • <b>Born Transition Probability:</b> For an initial state <code>|v⟩</code>, the transition probability is the expectation value:
-      <div align="center" style="margin: 6px 0; font-family: monospace;">
+    <h4>
+      Formal Statement (FS-QL-3.1): Projection Operators &amp; The Dot Product
+      Law
+    </h4>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Projection Operator:</b> For a unit ray <code>|u⟩ ∈ ℋ_ω</code>, the
+      projection operator is <code>P_u = |u⟩⟨u|</code>, satisfying idempotence
+      <code>P_u² = P_u</code> and self-adjointness
+      <code>P_u† = P_u</code>.<br />
+      • <b>Born Transition Probability:</b> For an initial state
+      <code>|v⟩</code>, the transition probability is the expectation value:
+      <div align="center" style="margin: 6px 0; font-family: monospace">
         P(u | v) = ⟨v | P_u | v⟩ = |⟨u | v⟩|² = cos²(θ_{uv})
       </div>
-      • <b>Orthogonality Null Law:</b> If <code>|u⟩ ⊥ |v⟩</code> (i.e., <code>⟨u | v⟩ = 0</code>), then <code>P(u | v) = 0</code>.
+      • <b>Orthogonality Null Law:</b> If <code>|u⟩ ⊥ |v⟩</code> (i.e.,
+      <code>⟨u | v⟩ = 0</code>), then <code>P(u | v) = 0</code>.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. Solving the 3-Polarizer Mystery with Vector Geometry</h3>
 
     <p>
-      “Now,” Jack said, “we are finally ready to solve the sunglasses puzzle from Lecture 1 that broke classical Venn diagrams!”
+      “Now,” Jack said, “we are finally ready to solve the sunglasses puzzle
+      from Lecture 1 that broke classical Venn diagrams!”
     </p>
 
     <p>
-      “Remember: Filter A was Horizontal (0°), Filter B was Vertical (90°), and inserting Filter C at 45° between them mysteriously let light through where none could pass before!”
+      “Remember: Filter A was Horizontal (0°), Filter B was Vertical (90°), and
+      inserting Filter C at 45° between them mysteriously let light through
+      where none could pass before!”
     </p>
 
-    <p>
-      Jack traced the state arrow through each filter step-by-step:
-    </p>
+    <p>Jack traced the state arrow through each filter step-by-step:</p>
 
     <ol>
       <li>
-        <b>Step 1 &mdash; Exiting Filter A (Horizontal 0°):</b><br>
-        The photon emerges pointing purely along the horizontal X-axis: <code>|v₀⟩ = (1, 0)^T</code>.
+        <b>Step 1 &mdash; Exiting Filter A (Horizontal 0°):</b><br />
+        The photon emerges pointing purely along the horizontal X-axis:
+        <code>|v₀⟩ = (1, 0)^T</code>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Step 2 &mdash; Meeting Diagonal Filter C (at 45°):</b><br>
-        The angle between 0° and 45° is <code>θ = 45°</code>.<br>
-        • Probability of passing: <code>P₁ = cos²(45°) = 50%</code>.<br>
-        • <b>Crucial Quantum Action:</b> The surviving light doesn''t stay horizontal &mdash; it <b>drops a perpendicular onto the 45° axis</b> and physically re-aligns to pointing along the diagonal: <code>|v₁⟩ = (1/√2, 1/√2)^T</code>!
+        <b>Step 2 &mdash; Meeting Diagonal Filter C (at 45°):</b><br />
+        The angle between 0° and 45° is <code>θ = 45°</code>.<br />
+        • Probability of passing: <code>P₁ = cos²(45°) = 50%</code>.<br />
+        • <b>Crucial Quantum Action:</b> The surviving light doesn''t stay
+        horizontal &mdash; it <b>drops a perpendicular onto the 45° axis</b> and
+        physically re-aligns to pointing along the diagonal:
+        <code>|v₁⟩ = (1/√2, 1/√2)^T</code>!
       </li>
-      <br>
+      <br />
       <li>
-        <b>Step 3 &mdash; Reaching Vertical Filter B (at 90°):</b><br>
-        The angle between the newly aligned 45° arrow and the 90° vertical filter is now <b>another 45°</b>!<br>
-        • Probability of passing: <code>P₂ = cos²(45°) = 50%</code>.<br>
-        • The surviving light drops a perpendicular onto the vertical axis: <code>|v₂⟩ = (0, 1)^T</code>!
+        <b>Step 3 &mdash; Reaching Vertical Filter B (at 90°):</b><br />
+        The angle between the newly aligned 45° arrow and the 90° vertical
+        filter is now <b>another 45°</b>!<br />
+        • Probability of passing: <code>P₂ = cos²(45°) = 50%</code>.<br />
+        • The surviving light drops a perpendicular onto the vertical axis:
+        <code>|v₂⟩ = (0, 1)^T</code>!
       </li>
     </ol>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 14px; font-weight: bold; font-size: 16px; margin: 14px 0;">
-      <fsd-ref tier="3" scaffold="polarizer_projection" title="Three-Polarizer Geometric Rotation &amp; Transmission">
+    <div
+      align="center"
+      style="
+        background-color: #ecfdf5;
+        border: 1px solid #10b981;
+        border-radius: 6px;
+        padding: 14px;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 14px 0;
+      "
+    >
+      <fsd-ref
+        tier="3"
+        scaffold="polarizer_projection"
+        title="Three-Polarizer Geometric Rotation &amp; Transmission"
+      >
         Total Light Output = P₁ × P₂ = 50% × 50% = 25%!
       </fsd-ref>
-      <p style="text-align: center; font-size: 12px; color: #065f46; margin-top: 6px; margin-bottom: 0; font-weight: normal;">
-        <i>(Click above to simulate the 3-polarizer angle sweep and inspect unitary projection in Lean 4)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #065f46;
+          margin-top: 6px;
+          margin-bottom: 0;
+          font-weight: normal;
+        "
+      >
+        <i
+          >(Click above to simulate the 3-polarizer angle sweep and inspect
+          unitary projection in Lean 4)</i
+        >
       </p>
     </div>
 
     <p>
-      Jill smiled in genuine triumph: “The middle filter didn''t open a secret doorway in a Venn diagram &mdash; it <b>physically rotated the arrow</b> into a 45° direction that had a non-zero shadow on the vertical filter!”
+      Jill smiled in genuine triumph: “The middle filter didn''t open a secret
+      doorway in a Venn diagram &mdash; it
+      <b>physically rotated the arrow</b> into a 45° direction that had a
+      non-zero shadow on the vertical filter!”
     </p>
 
     <p>
-      “Bingo!” Jack cheered. “Classical logic assumed observation was passive. In quantum mechanics, <b>observation is an active geometric projection that rotates the state!</b>”
+      “Bingo!” Jack cheered. “Classical logic assumed observation was passive.
+      In quantum mechanics,
+      <b
+        >observation is an active geometric projection that rotates the
+        state!</b
+      >”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>4. The Quantum Bayesian Filter (The Lüders Rule)</h3>
 
     <p>
-      “To formalize this state update,” Jack explained, “physicist Gerhart Lüders gave us the quantum equivalent of Bayes'' theorem:”
+      “To formalize this state update,” Jack explained, “physicist Gerhart
+      Lüders gave us the quantum equivalent of Bayes'' theorem:”
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 15px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="50%" align="left">Classical Bayesian Update (ℝ_ω)</th>
         <th width="50%" align="left">Quantum Bayesian Update (ℂ_ω)</th>
       </tr>
       <tr>
-        <td><b>Prior State:</b><br>Probability distribution <code>P(s)</code> on state space <code>Ω</code></td>
-        <td><b>Prior State:</b><br>Directional amplitude arrow <code>|ψ⟩</code> in Hilbert space <code>ℋ_ω</code></td>
+        <td>
+          <b>Prior State:</b><br />Probability distribution <code>P(s)</code> on
+          state space <code>Ω</code>
+        </td>
+        <td>
+          <b>Prior State:</b><br />Directional amplitude arrow
+          <code>|ψ⟩</code> in Hilbert space <code>ℋ_ω</code>
+        </td>
       </tr>
       <tr>
-        <td><b>Evidence Filter:</b><br>Subset indicator slicing <code>𝕀_E</code></td>
-        <td><b>Measurement Filter:</b><br>Orthogonal projection operator <code>P_E = |u⟩⟨u|</code></td>
+        <td>
+          <b>Evidence Filter:</b><br />Subset indicator slicing <code>𝕀_E</code>
+        </td>
+        <td>
+          <b>Measurement Filter:</b><br />Orthogonal projection operator
+          <code>P_E = |u⟩⟨u|</code>
+        </td>
       </tr>
       <tr>
-        <td><b>Evidence Normalizer:</b><br><code>P(E) = ∑_{s ∈ E} P(s)</code></td>
-        <td><b>Evidence Normalizer:</b><br><code>P(E) = || P_E |ψ⟩ ||² = |⟨u | ψ⟩|²</code></td>
+        <td>
+          <b>Evidence Normalizer:</b><br /><code>P(E) = ∑_{s ∈ E} P(s)</code>
+        </td>
+        <td>
+          <b>Evidence Normalizer:</b><br /><code
+            >P(E) = || P_E |ψ⟩ ||² = |⟨u | ψ⟩|²</code
+          >
+        </td>
       </tr>
       <tr>
-        <td><b>Posterior State:</b><br><code>P(s | E) = (P(s) · 𝕀_E(s)) / P(E)</code></td>
-        <td><b>Posterior State:</b><br><code>|ψ''⟩ = (P_E |ψ⟩) / √P(E)</code></td>
+        <td>
+          <b>Posterior State:</b><br /><code
+            >P(s | E) = (P(s) · 𝕀_E(s)) / P(E)</code
+          >
+        </td>
+        <td>
+          <b>Posterior State:</b><br /><code>|ψ''⟩ = (P_E |ψ⟩) / √P(E)</code>
+        </td>
       </tr>
     </table>
 
     <h4>Formal Statement (FS-QL-3.2): The Lüders State-Update Rule</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Quantum Conditioning Operator:</b> Let a system prepared in state <code>|ψ⟩ ∈ ℋ_ω</code> undergo projective measurement associated with closed subspace <code>V ⊆ ℋ_ω</code> and projector <code>P_V</code>.<br>
-      • <b>Success Probability:</b> The probability that outcome <code>V</code> occurs is <code>P(V) = || P_V |ψ⟩ ||² = ⟨ψ | P_V | ψ⟩</code>.<br>
-      • <b>Lüders Post-Measurement State:</b> Conditioned on outcome <code>V</code> occurring, the collapsed quantum state is:
-      <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="luders_update" title="The Lüders State-Update Rule">
-          |ψ''⟩ = <sup>P_V |ψ⟩</sup> / <sub>|| P_V |ψ⟩ ||</sub> = <sup>P_V |ψ⟩</sup> / <sub>√⟨ψ | P_V | ψ⟩</sub>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Quantum Conditioning Operator:</b> Let a system prepared in state
+      <code>|ψ⟩ ∈ ℋ_ω</code> undergo projective measurement associated with
+      closed subspace <code>V ⊆ ℋ_ω</code> and projector <code>P_V</code>.<br />
+      • <b>Success Probability:</b> The probability that outcome
+      <code>V</code> occurs is
+      <code>P(V) = || P_V |ψ⟩ ||² = ⟨ψ | P_V | ψ⟩</code>.<br />
+      • <b>Lüders Post-Measurement State:</b> Conditioned on outcome
+      <code>V</code> occurring, the collapsed quantum state is:
+      <div align="center" style="margin: 8px 0">
+        <fsd-ref
+          tier="3"
+          scaffold="luders_update"
+          title="The Lüders State-Update Rule"
+        >
+          |ψ''⟩ = <sup>P_V |ψ⟩</sup> / <sub>|| P_V |ψ⟩ ||</sub> =
+          <sup>P_V |ψ⟩</sup> / <sub>√⟨ψ | P_V | ψ⟩</sub>
         </fsd-ref>
       </div>
-      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
-        <i>(Click above to verify state vector renormalization in Lean 4 or test projection in the Dev Calculator)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #64748b;
+          margin-top: 2px;
+        "
+      >
+        <i
+          >(Click above to verify state vector renormalization in Lean 4 or test
+          projection in the Dev Calculator)</i
+        >
       </p>
-      • <b>Geometric Interpretation:</b> The Lüders rule drops an orthogonal projection from <code>|ψ⟩</code> onto subspace <code>V</code> and renormalizes the surviving shadow to unit length.
+      • <b>Geometric Interpretation:</b> The Lüders rule drops an orthogonal
+      projection from <code>|ψ⟩</code> onto subspace <code>V</code> and
+      renormalizes the surviving shadow to unit length.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>5. Chapter Summary: The Three Pillars of Quantum Logic</h3>
 
     <p>
-      “Let''s take stock of the three pillars we have mastered in this module,” Jack concluded:
+      “Let''s take stock of the three pillars we have mastered in this module,”
+      Jack concluded:
     </p>
 
     <ul>
-      <li><b>1. Complex Amplitudes on <code>ℂ_ω</code>:</b> 2D vector arrows that enable constructive and destructive wave interference.</li>
-      <li><b>2. Superpositions:</b> Linear spans of vector subspaces that explain why atomic reality breaks Boolean Venn diagrams.</li>
-      <li><b>3. Measurement as Vector Projection:</b> Dropping perpendicular shadows to update state arrows via the quantum Lüders filter.</li>
+      <li>
+        <b>1. Complex Amplitudes on <code>ℂ_ω</code>:</b> 2D vector arrows that
+        enable constructive and destructive wave interference.
+      </li>
+      <li>
+        <b>2. Superpositions:</b> Linear spans of vector subspaces that explain
+        why atomic reality breaks Boolean Venn diagrams.
+      </li>
+      <li>
+        <b>3. Measurement as Vector Projection:</b> Dropping perpendicular
+        shadows to update state arrows via the quantum Lüders filter.
+      </li>
     </ul>
 
     <p>
-      “In our final capstone chapter, <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine these vector projections with <b>statistical ensembles and density matrices</b> to complete our grand tour of physical reality!”
+      “In our final capstone chapter,
+      <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>, we combine
+      these vector projections with
+      <b>statistical ensembles and density matrices</b> to complete our grand
+      tour of physical reality!”
     </p>
-', 'published'),
-  (42, 'quantumBayesianInferenceIntro', 41, 'Level 5 Course 3: Quantum Bayesian Inference', 'quantum-bayesian-inference-intro', '
-<div align="center">
-      <i><font size="+2"><b>Level 5 Course 3: Quantum Bayesian Inference</b></font></i><br>
-      <i><font size="+1">The Capstone Summit: Physical Reality as Ensemble Knowledge Updating</font></i>
+  ', 'published'),
+  (42, 'quantumBayesianInferenceIntro', 41, '1. The Grand Capstone of the Minimal Path', 'quantum-bayesian-inference-intro', '
+    <div align="center">
+      <i
+        ><font size="+2"
+          ><b>Level 5 Course 3: Quantum Bayesian Inference</b></font
+        ></i
+      ><br />
+      <i
+        ><font size="+1"
+          >The Capstone Summit: Physical Reality as Ensemble Knowledge
+          Updating</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <h3>1. The Grand Capstone of the Minimal Path</h3>
     <p>
-      We have arrived at the summit of our constructive curriculum. 
-      Every formal tool we have forged across five levels &mdash; from binary truth values and the Conway number tree (<b>Level 1</b>), to vector spaces, duality, and linear maps (<b>Level 2</b>), to hyperfinite calculus on <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 3</b>), the transcendental engine (<b>Level 4</b>), and probabilistic inference with quantum logic (<b>Level 5</b>) &mdash; converges into a single, breathtaking realization:
+      We have arrived at the summit of our constructive curriculum. Every formal
+      tool we have forged across five levels &mdash; from binary truth values
+      and the Conway number tree (<b>Level 1</b>), to vector spaces, duality,
+      and linear maps (<b>Level 3</b>), to hyperfinite calculus on
+      <code>ℝ_ω</code> and <code>ℂ_ω</code> (<b>Level 2</b>), the transcendental
+      engine (<b>Level 4</b>), and probabilistic inference with quantum logic
+      (<b>Level 5</b>) &mdash; converges into a single, breathtaking
+      realization:
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; font-weight: bold; border-radius: 6px; font-size: 0.95em; color: #1e3a8a; margin: 12px 0;">
-      The phenomenological world we experience is the statistical average of a quantum ensemble,<br>
-      and physical state evolution under measurement unfolds in the EXACT same mathematical manner as the rational acquisition of knowledge.
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        padding: 14px;
+        font-weight: bold;
+        border-radius: 6px;
+        font-size: 0.95em;
+        color: #1e3a8a;
+        margin: 12px 0;
+      "
+    >
+      The phenomenological world we experience is the statistical average of a
+      quantum ensemble,<br />
+      and physical state evolution under measurement unfolds in the EXACT same
+      mathematical manner as the rational acquisition of knowledge.
     </div>
 
     <p>
-      <b>Quantum Bayesian Inference</b> reveals that fundamental physics and epistemology share the exact same mathematical heart. 
-      The updating of physical quantum states upon measurement (the Lüders projection rule) is literally the non-commutative generalization of Bayes'' rule for updating beliefs upon receiving empirical evidence.
+      <b>Quantum Bayesian Inference</b> reveals that fundamental physics and
+      epistemology share the exact same mathematical heart. The updating of
+      physical quantum states upon measurement (the Lüders projection rule) is
+      literally the non-commutative generalization of Bayes'' rule for updating
+      beliefs upon receiving empirical evidence.
     </p>
 
-    <hr>
+    <hr />
 
     <h3>2. The Convergence of State Spaces</h3>
     <p>
-      Throughout the history of science, physicists progressively abstracted the concept of a "state space" to describe physical reality:
+      Throughout the history of science, physicists progressively abstracted the
+      concept of a "state space" to describe physical reality:
     </p>
 
-    <div align="center" style="font-family: monospace; font-size: 0.88em; line-height: 1.7; background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      Newton (ℝ³ × ℝ) &nbsp;──►&nbsp; Lagrange (Q) &nbsp;──►&nbsp; Hamilton (P) &nbsp;──►&nbsp; Boltzmann Ensembles &nbsp;──►&nbsp; Density Operators (ρ)<br>
-      (Direct Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Configuration) &nbsp;&nbsp; (Phase Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Classical Stats) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quantum Phase Space)
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 0.88em;
+        line-height: 1.7;
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        padding: 14px;
+        border-radius: 6px;
+        margin: 12px 0;
+      "
+    >
+      Newton (ℝ³ × ℝ) &nbsp;──►&nbsp; Lagrange (Q) &nbsp;──►&nbsp; Hamilton (P)
+      &nbsp;──►&nbsp; Boltzmann Ensembles &nbsp;──►&nbsp; Density Operators
+      (ρ)<br />
+      (Direct Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Configuration)
+      &nbsp;&nbsp; (Phase Space) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Classical
+      Stats) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quantum
+      Phase Space)
     </div>
 
     <p>
-      On our 4-successor hyperfinite complex grid <code>ℂ_ω</code>, the state of any physical system is represented by a <b>Density Operator <code>ρ : ℋ_ω → ℋ_ω</code></b> satisfying two foundational laws:
+      On our 4-successor hyperfinite complex grid <code>ℂ_ω</code>, the state of
+      any physical system is represented by a
+      <b>Density Operator <code>ρ : ℋ_ω → ℋ_ω</code></b> satisfying two
+      foundational laws:
     </p>
 
-    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 10px; font-family: monospace; font-size: 0.95em; border-radius: 6px; width: 65%; margin: 10px auto;">
-      ρ ≥ 0 &nbsp; (Positive Semi-Definite) &nbsp;&nbsp; and &nbsp;&nbsp; Tr(ρ) = 1 &nbsp; (Unit Trace Normalization)
+    <div
+      align="center"
+      style="
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 0.95em;
+        border-radius: 6px;
+        width: 65%;
+        margin: 10px auto;
+      "
+    >
+      ρ ≥ 0 &nbsp; (Positive Semi-Definite) &nbsp;&nbsp; and &nbsp;&nbsp; Tr(ρ)
+      = 1 &nbsp; (Unit Trace Normalization)
     </div>
 
     <p>
-      Macroscopic physical properties (temperature, pressure, magnetization, energy) are not static classical labels attached to isolated particles; they are <b>statistical expectation values</b> calculated via the trace:
+      Macroscopic physical properties (temperature, pressure, magnetization,
+      energy) are not static classical labels attached to isolated particles;
+      they are <b>statistical expectation values</b> calculated via the trace:
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 10px; font-family: monospace; font-size: 1em; border-radius: 6px; width: 45%; margin: 8px auto; color: #92400e; font-weight: bold;">
+    <div
+      align="center"
+      style="
+        background-color: #fef3c7;
+        border: 1px solid #fde68a;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 1em;
+        border-radius: 6px;
+        width: 45%;
+        margin: 8px auto;
+        color: #92400e;
+        font-weight: bold;
+      "
+    >
       ⟨Â⟩ = Tr(ρ · Â)
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. Module Roadmap</h3>
     <ul>
       <li>
-        <b>Lecture 1: Density Operators &amp; The Quantum Bayes Rule:</b><br>
-        The formal capstone of our mathematical journey. Upgrades classical probability distributions to <b>Density Operators (<code>ρ</code>)</b> on <code>ℂ_ω</code>, introduces the non-commutative <b>Lüders Quantum Bayes Rule</b>, and measures quantum uncertainty with <b>von Neumann Entropy</b>.
+        <b>Lecture 1: Density Operators &amp; The Quantum Bayes Rule:</b><br />
+        The formal capstone of our mathematical journey. Upgrades classical
+        probability distributions to
+        <b>Density Operators (<code>ρ</code>)</b> on <code>ℂ_ω</code>,
+        introduces the non-commutative <b>Lüders Quantum Bayes Rule</b>, and
+        measures quantum uncertainty with <b>von Neumann Entropy</b>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Lecture 2: Physical Reality as a Quantum Ensemble:</b><br>
-        Directs our completed formalism to modern physical models. Explains how the tangible macroscopic world (solid desks, heat, thermal equilibrium) emerges from statistical ensemble averages over trillions of microscopic quantum states.
+        <b>Lecture 2: Physical Reality as a Quantum Ensemble:</b><br />
+        Directs our completed formalism to modern physical models. Explains how
+        the tangible macroscopic world (solid desks, heat, thermal equilibrium)
+        emerges from statistical ensemble averages over trillions of microscopic
+        quantum states.
       </li>
     </ul>
 
-    <hr>
+    <hr />
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; padding: 14px; border-radius: 6px; font-size: 0.92em; margin: 15px 0;">
-      <b>Pedagogical Reflection:</b><br>
-      By reaching this capstone, students understand why formal deductive logic, number trees, Bayesian inference, and quantum physics are not disconnected disciplines &mdash; they are the unified branches of a single mathematical tree describing how we reason about and interact with physical reality.
+    <div
+      align="center"
+      style="
+        background-color: #ecfdf5;
+        border: 1px solid #10b981;
+        padding: 14px;
+        border-radius: 6px;
+        font-size: 0.92em;
+        margin: 15px 0;
+      "
+    >
+      <b>Pedagogical Reflection:</b><br />
+      By reaching this capstone, students understand why formal deductive logic,
+      number trees, Bayesian inference, and quantum physics are not disconnected
+      disciplines &mdash; they are the unified branches of a single mathematical
+      tree describing how we reason about and interact with physical reality.
     </div>
-', 'published'),
+  ', 'published'),
   (43, 'quantumBayesianInferenceLecture1', 42, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
-<div align="center">
-      <i><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i><br>
-      <i><font size="+1">Density Operators, Non-Commutative Updating &amp; The Quantum Bayes Rule</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Density Operators, Non-Commutative Updating &amp; The Quantum Bayes
+          Rule</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
+
+    <p>“Welcome to the summit of our curriculum!” Jack announced with pride.</p>
 
     <p>
-      “Welcome to the summit of our curriculum!” Jack announced with pride.
-    </p>
-
-    <p>
-      Jill looked intently at the board: “Jack, throughout our journey we''ve encountered two fundamentally different kinds of uncertainty:
+      Jill looked intently at the board: “Jack, throughout our journey we''ve
+      encountered two fundamentally different kinds of uncertainty:
     </p>
     <ul>
-      <li>In <b>Bayesian Inference</b>, we had classical ignorance about which outcome occurred on the 1D transect <code>ℝ_ω</code>.</li>
-      <li>In <b>Quantum Logic</b>, we had quantum wave superpositions of amplitude arrows on the 2D complex grid <code>ℂ_ω</code>.</li>
+      <li>
+        In <b>Bayesian Inference</b>, we had classical ignorance about which
+        outcome occurred on the 1D transect <code>ℝ_ω</code>.
+      </li>
+      <li>
+        In <b>Quantum Logic</b>, we had quantum wave superpositions of amplitude
+        arrows on the 2D complex grid <code>ℂ_ω</code>.
+      </li>
     </ul>
     <p>
-      “What happens when a real-world system has <b>both</b> quantum wave superpositions AND classical statistical ignorance at the exact same time?”
+      “What happens when a real-world system has <b>both</b> quantum wave
+      superpositions AND classical statistical ignorance at the exact same
+      time?”
     </p>
 
     <p>
-      “That question leads directly to the master mathematical object of modern physics,” Jack smiled: “<b>The Density Matrix <code>ρ</code></b>.”
+      “That question leads directly to the master mathematical object of modern
+      physics,” Jack smiled: “<b>The Density Matrix <code>ρ</code></b
+      >.”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>1. Density Operators: The Master State of Knowledge</h3>
 
     <p>
-      “In classical probability,” Jack explained, “our prior knowledge is represented by a simple probability vector <code>P = (p₀, p₁, ..., p_{ω-1})</code>.”
+      “In classical probability,” Jack explained, “our prior knowledge is
+      represented by a simple probability vector
+      <code>P = (p₀, p₁, ..., p_{ω-1})</code>.”
     </p>
 
     <p>
-      “In quantum physics, to seamlessly combine quantum superpositions with classical ignorance, we represent our total state of knowledge by an <code>ω × ω</code> <b>Density Operator <code>ρ</code></b> on Hilbert space <code>ℋ_ω</code>:”
+      “In quantum physics, to seamlessly combine quantum superpositions with
+      classical ignorance, we represent our total state of knowledge by an
+      <code>ω × ω</code> <b>Density Operator <code>ρ</code></b> on Hilbert space
+      <code>ℋ_ω</code>:”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-      ρ = ∑_{k=0}^{ω-1} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp;&nbsp; where &nbsp;&nbsp; w_k ≥ 0 &nbsp;&nbsp; and &nbsp;&nbsp; ∑_{k} w_k = 1.000
+    <div
+      align="center"
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 15px;
+        margin: 12px 0;
+        color: #1e3a8a;
+      "
+    >
+      ρ = ∑_{k=0}^{ω-1} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;
+      w_k ≥ 0 &nbsp;&nbsp; and &nbsp;&nbsp; ∑_{k} w_k = 1.000
     </div>
 
     <ul>
       <li>
-        <b>Pure State (Complete Quantum Knowledge):</b> When the system is known with 100% certainty to be in a single definite state vector <code>|ψ⟩</code> (i.e., <code>w₀ = 1</code>), the density operator is simply the projection <code>ρ = |ψ⟩⟨ψ|</code> and has purity <code>Tr(ρ²) = 1</code>.
+        <b>Pure State (Complete Quantum Knowledge):</b> When the system is known
+        with 100% certainty to be in a single definite state vector
+        <code>|ψ⟩</code> (i.e., <code>w₀ = 1</code>), the density operator is
+        simply the projection <code>ρ = |ψ⟩⟨ψ|</code> and has purity
+        <code>Tr(ρ²) = 1</code>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Mixed State (Statistical Uncertainty):</b> When there is classical ignorance over which state was prepared (e.g., an emitter spitting out 50% horizontal and 50% vertical photons), <code>ρ</code> is a genuine statistical mixture and <code>Tr(ρ²) &lt; 1</code>.
+        <b>Mixed State (Statistical Uncertainty):</b> When there is classical
+        ignorance over which state was prepared (e.g., an emitter spitting out
+        50% horizontal and 50% vertical photons), <code>ρ</code> is a genuine
+        statistical mixture and <code>Tr(ρ²) &lt; 1</code>.
       </li>
-      <br>
+      <br />
       <li>
-        <b>Observable Expectation Values:</b> For any physical measurement operator <code>Â</code>, its average expected measurement outcome is computed directly via the discrete matrix trace:
-        <div align="center" style="font-family: monospace; font-size: 16px; margin: 8px 0;">
+        <b>Observable Expectation Values:</b> For any physical measurement
+        operator <code>Â</code>, its average expected measurement outcome is
+        computed directly via the discrete matrix trace:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 16px; margin: 8px 0"
+        >
           ⟨Â⟩ = Tr(ρ · Â)
         </div>
       </li>
     </ul>
 
     <h4>Formal Statement (FS-QBI-1.1): The Quantum Density Operator on ℋ_ω</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Density Operator Definition:</b> A self-adjoint, positive semi-definite linear operator <code>ρ : ℋ_ω → ℋ_ω</code> such that <code>ρ = ρ†</code>, <code>ρ ≥ 0</code>, and <code>Tr(ρ) = 1</code>.<br>
-      • <b>Spectral Decomposition:</b> Any density operator can be diagonalized as <code>ρ = ∑_{k=0}^{ω-1} λ_k |e_k⟩⟨e_k|</code> with eigenvalues <code>λ_k ∈ [0, 1]</code> and <code>∑ λ_k = 1</code>.<br>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Density Operator Definition:</b> A self-adjoint, positive
+      semi-definite linear operator <code>ρ : ℋ_ω → ℋ_ω</code> such that
+      <code>ρ = ρ†</code>, <code>ρ ≥ 0</code>, and <code>Tr(ρ) = 1</code>.<br />
+      • <b>Spectral Decomposition:</b> Any density operator can be diagonalized
+      as <code>ρ = ∑_{k=0}^{ω-1} λ_k |e_k⟩⟨e_k|</code> with eigenvalues
+      <code>λ_k ∈ [0, 1]</code> and <code>∑ λ_k = 1</code>.<br />
       • <b>Purity Measure:</b>
-      <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="density_operator" title="The Quantum Density Operator &amp; Purity">
-          ρ = ∑_{k} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp; with &nbsp;&nbsp; Tr(ρ) = 1 &nbsp;&nbsp; and &nbsp;&nbsp; γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]
+      <div align="center" style="margin: 8px 0">
+        <fsd-ref
+          tier="3"
+          scaffold="density_operator"
+          title="The Quantum Density Operator &amp; Purity"
+        >
+          ρ = ∑_{k} w_k · |ψ_k⟩⟨ψ_k| &nbsp;&nbsp; with &nbsp;&nbsp; Tr(ρ) = 1
+          &nbsp;&nbsp; and &nbsp;&nbsp; γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]
         </fsd-ref>
       </div>
-      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
-        <i>(Click the formula above to inspect the density operator invariant in Lean 4 or evaluate purity in the Dev Calculator)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #64748b;
+          margin-top: 2px;
+        "
+      >
+        <i
+          >(Click the formula above to inspect the density operator invariant in
+          Lean 4 or evaluate purity in the Dev Calculator)</i
+        >
       </p>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. The Non-Commutative Quantum Bayes Rule (Lüders Projection)</h3>
 
     <p>
-      “Now,” Jack asked, “when an experimental detector observes an outcome corresponding to projection operator <code>P_k</code>, how does our state of knowledge update?”
+      “Now,” Jack asked, “when an experimental detector observes an outcome
+      corresponding to projection operator <code>P_k</code>, how does our state
+      of knowledge update?”
     </p>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 14px; margin: 15px 0;">
-      <font size="+1" color="#065f46"><b>The Lüders Quantum Bayes Rule:</b></font>
-      <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        <fsd-ref tier="3" scaffold="quantum_bayes" title="The Non-Commutative Lüders Quantum Bayes Rule">
+    <div
+      align="center"
+      style="
+        background-color: #ecfdf5;
+        border: 1px solid #10b981;
+        border-radius: 6px;
+        padding: 14px;
+        margin: 15px 0;
+      "
+    >
+      <font size="+1" color="#065f46"
+        ><b>The Lüders Quantum Bayes Rule:</b></font
+      >
+      <div
+        align="center"
+        style="
+          font-family: monospace;
+          font-size: 17px;
+          margin-top: 8px;
+          font-weight: bold;
+        "
+      >
+        <fsd-ref
+          tier="3"
+          scaffold="quantum_bayes"
+          title="The Non-Commutative Lüders Quantum Bayes Rule"
+        >
           ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)
         </fsd-ref>
       </div>
-      <p style="text-align: center; font-size: 12px; color: #065f46; margin-top: 4px;">
-        <i>(Click the formula above to verify state collapse and non-commutative order dependence in Lean 4)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #065f46;
+          margin-top: 4px;
+        "
+      >
+        <i
+          >(Click the formula above to verify state collapse and non-commutative
+          order dependence in Lean 4)</i
+        >
       </p>
     </div>
 
     <p>
-      “Look at the exact 1-to-1 isomorphism with Bayes'' rule from our earlier lectures!” Jack pointed out:
+      “Look at the exact 1-to-1 isomorphism with Bayes'' rule from our earlier
+      lectures!” Jack pointed out:
     </p>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 12px 0;">
+    <table
+      border="1"
+      cellpadding="8"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 12px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="25%" align="left">Bayesian Element</th>
         <th width="35%" align="left">Classical Bayes (ℝ_ω)</th>
@@ -12296,93 +18438,190 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <tr>
         <td><b>Prior State</b></td>
         <td>Probability vector <code>P(H)</code></td>
-        <td><b>Prior Density Operator <code>ρ</code></b></td>
+        <td>
+          <b>Prior Density Operator <code>ρ</code></b>
+        </td>
       </tr>
       <tr>
         <td><b>Likelihood Filter</b></td>
         <td>Slicing by evidence indicator <code>P(E | H) · P(H)</code></td>
-        <td><b>Sandwiching: <code>P_k · ρ · P_k</code></b></td>
+        <td>
+          <b>Sandwiching: <code>P_k · ρ · P_k</code></b>
+        </td>
       </tr>
       <tr>
         <td><b>Evidence Denominator</b></td>
         <td>Marginal normalizer <code>P(E) = ∑ P(E | H_i) P(H_i)</code></td>
-        <td><b>Trace Normalizer: <code>Tr(ρ · P_k) = P(k)</code></b></td>
+        <td>
+          <b>Trace Normalizer: <code>Tr(ρ · P_k) = P(k)</code></b>
+        </td>
       </tr>
       <tr>
         <td><b>Posterior State</b></td>
         <td>Updated distribution <code>P(H | E)</code></td>
-        <td><b>Updated Density Operator <code>ρ''</code></b></td>
+        <td>
+          <b>Updated Density Operator <code>ρ''</code></b>
+        </td>
       </tr>
     </table>
 
     <h4>Why the Order of Learning Matters (Non-Commutativity)</h4>
     <p>
-      Jill raised her hand: “In classical Bayes, learning Clue A then Clue B gave the exact same posterior belief as learning Clue B then Clue A. Is that still true here?”
+      Jill raised her hand: “In classical Bayes, learning Clue A then Clue B
+      gave the exact same posterior belief as learning Clue B then Clue A. Is
+      that still true here?”
     </p>
 
     <p>
-      “Not in quantum mechanics!” Jack replied. “Because quantum projection operators generally do not commute (<code>P_A P_B ≠ P_B P_A</code>):”
+      “Not in quantum mechanics!” Jack replied. “Because quantum projection
+      operators generally do not commute (<code>P_A P_B ≠ P_B P_A</code>):”
     </p>
 
-    <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 10px auto; width: 80%;">
-      <fsd-ref tier="3" scaffold="quantum_bayes" title="Non-Commutative Quantum Invariance Breakdown">
+    <div
+      align="center"
+      style="
+        background-color: #fee2e2;
+        border: 1px solid #ef4444;
+        border-radius: 6px;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 14px;
+        margin: 10px auto;
+        width: 80%;
+      "
+    >
+      <fsd-ref
+        tier="3"
+        scaffold="quantum_bayes"
+        title="Non-Commutative Quantum Invariance Breakdown"
+      >
         P_A · P_B · ρ · P_B · P_A &nbsp;≠&nbsp; P_B · P_A · ρ · P_A · P_B
       </fsd-ref>
     </div>
 
     <p>
-      “The sequence in which an observer interacts with a quantum system physically alters the resulting state of reality!”
+      “The sequence in which an observer interacts with a quantum system
+      physically alters the resulting state of reality!”
     </p>
 
     <h4>Formal Statement (FS-QBI-1.2): The Lüders Quantum Bayes Rule</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Lüders Update Map:</b> For measurement outcome associated with orthogonal projection <code>P_k</code> such that <code>Tr(ρ · P_k) &gt; 0</code>:<br>
-      <div align="center" style="margin: 6px 0; font-family: monospace;">
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Lüders Update Map:</b> For measurement outcome associated with
+      orthogonal projection <code>P_k</code> such that
+      <code>Tr(ρ · P_k) &gt; 0</code>:<br />
+      <div align="center" style="margin: 6px 0; font-family: monospace">
         𝒯_k(ρ) = <sup>P_k · ρ · P_k</sup> / <sub>Tr(ρ · P_k)</sub>
       </div>
-      • <b>Trace Preservation:</b> <code>Tr(𝒯_k(ρ)) = Tr(P_k ρ P_k) / Tr(ρ P_k) = 1</code>.<br>
-      • <b>Non-Commutative Invariance Breakdown:</b> If <code>[P_A, P_B] = P_A P_B - P_B P_A ≠ 0</code>, then <code>𝒯_A(𝒯_B(ρ)) ≠ 𝒯_B(𝒯_A(ρ))</code>.<br>
-      • <b>CAS Example:</b> <eq-ref eq-id="cas_quantum_bayes" formula="LUDERS_UPDATE(rho, P_k)">Lüders Quantum Bayes Rule &amp; Non-Commutative Order Dependence</eq-ref>
+      • <b>Trace Preservation:</b>
+      <code>Tr(𝒯_k(ρ)) = Tr(P_k ρ P_k) / Tr(ρ P_k) = 1</code>.<br />
+      • <b>Non-Commutative Invariance Breakdown:</b> If
+      <code>[P_A, P_B] = P_A P_B - P_B P_A ≠ 0</code>, then
+      <code>𝒯_A(𝒯_B(ρ)) ≠ 𝒯_B(𝒯_A(ρ))</code>.<br />
+      • <b>CAS Example:</b>
+      <eq-ref eq-id="cas_quantum_bayes" formula="LUDERS_UPDATE(rho, P_k)"
+        >Lüders Quantum Bayes Rule &amp; Non-Commutative Order
+        Dependence</eq-ref
+      >
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. von Neumann Entropy: Measuring Quantum Uncertainty</h3>
 
     <p>
-      “Just as Claude Shannon measured classical uncertainty with <fsd-ref tier="3" scaffold="shannon_entropy" title="Shannon Information Entropy H(P)"><code>H(P) = -∑ p_k ln p_k</code></fsd-ref>, John von Neumann generalized entropy to quantum density operators in 1932:”
+      “Just as Claude Shannon measured classical uncertainty with
+      <fsd-ref
+        tier="3"
+        scaffold="shannon_entropy"
+        title="Shannon Information Entropy H(P)"
+        ><code>H(P) = -∑ p_k ln p_k</code></fsd-ref
+      >, John von Neumann generalized entropy to quantum density operators in
+      1932:”
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 16px; margin: 12px 0;">
-      <fsd-ref tier="3" scaffold="von_neumann_entropy" title="von Neumann Entropy S(ρ)">
+    <div
+      align="center"
+      style="
+        background-color: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 6px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 16px;
+        margin: 12px 0;
+      "
+    >
+      <fsd-ref
+        tier="3"
+        scaffold="von_neumann_entropy"
+        title="von Neumann Entropy S(ρ)"
+      >
         S(ρ) ≡ -k_B · Tr(ρ · ln ρ) = -k_B ∑_{k=0}^{ω-1} λ_k · ln(λ_k)
       </fsd-ref>
     </div>
 
-    <p>
-      where <code>λ_k</code> are the eigenvalues of <code>ρ</code>.
-    </p>
+    <p>where <code>λ_k</code> are the eigenvalues of <code>ρ</code>.</p>
     <ul>
-      <li>For a <b>Pure State</b> (complete knowledge), <code>S(ρ) = 0</code> (minimum entropy).</li>
-      <li>For a <b>Maximally Mixed State</b> <code>ρ = (1/ω) · 𝕀</code> (total macroscopic ignorance), <code>S(ρ) = k_B · ln(ω)</code> (maximum entropy).</li>
+      <li>
+        For a <b>Pure State</b> (complete knowledge),
+        <code>S(ρ) = 0</code> (minimum entropy).
+      </li>
+      <li>
+        For a <b>Maximally Mixed State</b> <code>ρ = (1/ω) · 𝕀</code> (total
+        macroscopic ignorance), <code>S(ρ) = k_B · ln(ω)</code> (maximum
+        entropy).
+      </li>
     </ul>
 
     <h4>Formal Statement (FS-QBI-1.3): von Neumann Entropy</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Quantum Entropy:</b> <code>S(ρ) = -k_B · Tr(ρ ln ρ)</code>.<br>
-      • <b>Unitary Invariance:</b> For any unitary transformation <code>U</code>, <code>S(U ρ U†) = S(ρ)</code>.<br>
-      • <b>Subadditivity:</b> For composite quantum systems, <code>S(ρ_{AB}) ≤ S(ρ_A) + S(ρ_B)</code>, with equality if and only if <code>ρ_{AB} = ρ_A ⊗ ρ_B</code>.
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Quantum Entropy:</b> <code>S(ρ) = -k_B · Tr(ρ ln ρ)</code>.<br />
+      • <b>Unitary Invariance:</b> For any unitary transformation
+      <code>U</code>, <code>S(U ρ U†) = S(ρ)</code>.<br />
+      • <b>Subadditivity:</b> For composite quantum systems,
+      <code>S(ρ_{AB}) ≤ S(ρ_A) + S(ρ_B)</code>, with equality if and only if
+      <code>ρ_{AB} = ρ_A ⊗ ρ_B</code>.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>4. The Grand Rosetta Stone of Formal Science</h3>
 
     <p>
-      “Look at the entire intellectual journey we have traveled across our five levels,” Jack said, drawing the master summary table on the board:
+      “Look at the entire intellectual journey we have traveled across our five
+      levels,” Jack said, drawing the master summary table on the board:
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13px; margin: 15px 0;">
+    <table
+      border="1"
+      cellpadding="10"
+      cellspacing="0"
+      width="100%"
+      style="
+        border-collapse: collapse;
+        border-color: #cbd5e1;
+        font-size: 13px;
+        margin: 15px 0;
+      "
+    >
       <tr bgcolor="#f8fafc">
         <th width="24%" align="left">Curriculum Level</th>
         <th width="36%" align="left">Mathematical Formalism</th>
@@ -12390,224 +18629,438 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </tr>
       <tr>
         <td><b>Level 1: Logic &amp; Number</b></td>
-        <td>Binary truth <code>𝔹 = {0, 1}</code>, root <code>0 = { | }</code>, inductive Conway trees</td>
-        <td>Deductive certainty, syntactic consistency, and exact construction of numbers.</td>
+        <td>
+          Binary truth <code>𝔹 = {0, 1}</code>, root <code>0 = { | }</code>,
+          inductive Conway trees
+        </td>
+        <td>
+          Deductive certainty, syntactic consistency, and exact construction of
+          numbers.
+        </td>
       </tr>
       <tr>
-        <td><b>Level 2: Space &amp; Geometry</b></td>
-        <td>Vector spaces <code>V</code>, dual measurement spaces <code>V*</code>, Dirac bra-kets <code>⟨ϕ|ψ⟩</code></td>
-        <td>Geometric directions, linear transformations, canonical evaluation pairing, and unitary isometries.</td>
+        <td><b>Level 3: Space &amp; Geometry</b></td>
+        <td>
+          Vector spaces <code>V</code>, dual measurement spaces <code>V*</code>,
+          Dirac bra-kets <code>⟨ϕ|ψ⟩</code>
+        </td>
+        <td>
+          Geometric directions, linear transformations, canonical evaluation
+          pairing, and unitary isometries.
+        </td>
       </tr>
       <tr>
-        <td><b>Level 3: Continuum &amp; Calculus</b></td>
-        <td>Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid <code>ℂ_ω</code>, telescoping FTC</td>
-        <td>Instantaneous change, continuous accumulation, conformal geometry, and continuous unitary time evolution.</td>
+        <td><b>Level 2: Continuum &amp; Calculus</b></td>
+        <td>
+          Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid
+          <code>ℂ_ω</code>, telescoping FTC
+        </td>
+        <td>
+          Instantaneous change, continuous accumulation, conformal geometry, and
+          continuous unitary time evolution.
+        </td>
       </tr>
       <tr>
         <td><b>Level 4: The Transcendental Engine</b></td>
-        <td>Continuous growth <code>e^x</code>, natural logarithm <code>ln x</code>, circular dynamics</td>
-        <td>The continuous engine powering probability decay, logarithmic surprisal, and information entropy.</td>
+        <td>
+          Continuous growth <code>e^x</code>, natural logarithm
+          <code>ln x</code>, circular dynamics
+        </td>
+        <td>
+          The continuous engine powering probability decay, logarithmic
+          surprisal, and information entropy.
+        </td>
       </tr>
       <tr>
         <td><b>Level 5: Probability &amp; Quantum Logic</b></td>
-        <td>Density operators <code>ρ</code>, Lüders rule <code>ρ'' = (P ρ P)/Tr(ρ P)</code>, von Neumann <code>S(ρ)</code></td>
-        <td><b>The Grand Capstone:</b> Non-commutative Bayesian inference and physical reality as a statistical ensemble.</td>
+        <td>
+          Density operators <code>ρ</code>, Lüders rule
+          <code>ρ'' = (P ρ P)/Tr(ρ P)</code>, von Neumann <code>S(ρ)</code>
+        </td>
+        <td>
+          <b>The Grand Capstone:</b> Non-commutative Bayesian inference and
+          physical reality as a statistical ensemble.
+        </td>
       </tr>
     </table>
 
     <p>
-      Jill smiled in wonder: “Every single subject &mdash; from logic puzzles and number trees to quantum physics &mdash; is just another branch of the exact same constructive tree!”
+      Jill smiled in wonder: “Every single subject &mdash; from logic puzzles
+      and number trees to quantum physics &mdash; is just another branch of the
+      exact same constructive tree!”
     </p>
 
     <p>
-      “In our final lecture,” Jack concluded, “we will direct this completed formalism to our modern understanding of physical reality itself: <b>The World as a Quantum Statistical Ensemble</b>!”
+      “In our final lecture,” Jack concluded, “we will direct this completed
+      formalism to our modern understanding of physical reality itself:
+      <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
-', 'published'),
+  ', 'published'),
   (44, 'quantumBayesianInferenceLecture2', 43, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
-<div align="center">
-      <i><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i><br>
-      <i><font size="+1">Physical Reality as a Quantum Ensemble &amp; The Capstone Ascent</font></i>
+    <div align="center">
+      <i
+        ><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i
+      ><br />
+      <i
+        ><font size="+1"
+          >Physical Reality as a Quantum Ensemble &amp; The Capstone
+          Ascent</font
+        ></i
+      >
     </div>
-    <br>
+    <br />
 
     <p>
-      “Welcome to the capstone lecture of our foundational curriculum!” Jack greeted the class with a warm, reflective smile.
+      “Welcome to the capstone lecture of our foundational curriculum!” Jack
+      greeted the class with a warm, reflective smile.
     </p>
 
     <p>
-      “Look down at the wooden desk in front of you,” Jack invited everyone. “Rap your knuckles on it.”
+      “Look down at the wooden desk in front of you,” Jack invited everyone.
+      “Rap your knuckles on it.”
     </p>
 
     <p>
-      Jill tapped her knuckles firmly on the wood: “It feels cool, dense, solid, smooth, and completely stationary.”
+      Jill tapped her knuckles firmly on the wood: “It feels cool, dense, solid,
+      smooth, and completely stationary.”
     </p>
 
     <p>
-      “For thousands of years,” Jack said, “human common sense assumed this solidity meant matter was composed of tiny, rigid, classical billiard balls. But modern physics has revealed a far more profound truth:”
+      “For thousands of years,” Jack said, “human common sense assumed this
+      solidity meant matter was composed of tiny, rigid, classical billiard
+      balls. But modern physics has revealed a far more profound truth:”
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 14px; font-weight: bold; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-      At the microscopic scale, atoms are not hard marbles &mdash; they are vibrating clouds of quantum probability amplitudes on our complex grid ℂ_ω.<br><br>
-      The solid, dependable reality of our daily experience is strictly the STATISTICAL ENSEMBLE AVERAGE over trillions of quantum states!
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        padding: 14px;
+        font-weight: bold;
+        font-size: 15px;
+        margin: 12px 0;
+        color: #1e3a8a;
+      "
+    >
+      At the microscopic scale, atoms are not hard marbles &mdash; they are
+      vibrating clouds of quantum probability amplitudes on our complex grid
+      ℂ_ω.<br /><br />
+      The solid, dependable reality of our daily experience is strictly the
+      STATISTICAL ENSEMBLE AVERAGE over trillions of quantum states!
     </div>
 
-    <hr>
+    <hr />
 
     <h3>1. The Great Illusion: Why Does a Table Feel Solid?</h3>
 
     <p>
-      “If every individual atom is a fluctuating probabilistic wave,” Jill asked, “why doesn''t the table wobble, dissolve, or vanish into thin air?”
+      “If every individual atom is a fluctuating probabilistic wave,” Jill
+      asked, “why doesn''t the table wobble, dissolve, or vanish into thin air?”
     </p>
 
-    <p>
-      “Because of the <b>Law of Large Numbers</b>!” Jack answered.
-    </p>
+    <p>“Because of the <b>Law of Large Numbers</b>!” Jack answered.</p>
     <ul>
       <li>The wooden desk contains roughly <code>N ≈ 10²⁴</code> atoms.</li>
-      <li>At the microscopic level, each atom fluctuates quantum-mechanically in phase and position.</li>
-      <li>When you average over <code>10²⁴</code> independent quantum microstates, the relative variance shrinks at the rate <code>1 / √N ≈ 10⁻¹²</code> &mdash; less than one part in a trillion!</li>
+      <li>
+        At the microscopic level, each atom fluctuates quantum-mechanically in
+        phase and position.
+      </li>
+      <li>
+        When you average over <code>10²⁴</code> independent quantum microstates,
+        the relative variance shrinks at the rate
+        <code>1 / √N ≈ 10⁻¹²</code> &mdash; less than one part in a trillion!
+      </li>
     </ul>
 
     <p>
-      “The macroscopic solidity, rigidity, and stability we touch every day is not the absence of quantum mechanics; <b>it is the magnificent triumph of statistical ensemble averaging</b>!”
+      “The macroscopic solidity, rigidity, and stability we touch every day is
+      not the absence of quantum mechanics;
+      <b>it is the magnificent triumph of statistical ensemble averaging</b>!”
     </p>
 
     <h4>Formal Statement (FS-QBI-2.1): Macroscopic Fluctuation Suppression</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Macroscopic Observable:</b> For <code>N</code> identical microscopic quantum systems with single-particle observable <code>Â</code>, the macroscopic observable is <code>Â_macro = (1/N) ∑_{i=1}^N Â_i</code>.<br>
-      • <b>Expectation Value:</b> <code>⟨Â_macro⟩ = ⟨Â⟩</code>.<br>
-      • <b>Relative Fluctuation Vanishing:</b> By the quantum central limit theorem:
-      <div align="center" style="margin: 6px 0; font-family: monospace;">
-        ΔA_macro / ⟨Â_macro⟩ = (ΔA / ⟨Â⟩) · <sup>1</sup> / <sub>√N</sub> &nbsp;──►&nbsp; 0 &nbsp;&nbsp; as &nbsp;&nbsp; N ≈ 10²⁴
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Macroscopic Observable:</b> For <code>N</code> identical microscopic
+      quantum systems with single-particle observable <code>Â</code>, the
+      macroscopic observable is
+      <code>Â_macro = (1/N) ∑_{i=1}^N Â_i</code>.<br />
+      • <b>Expectation Value:</b> <code>⟨Â_macro⟩ = ⟨Â⟩</code>.<br />
+      • <b>Relative Fluctuation Vanishing:</b> By the quantum central limit
+      theorem:
+      <div align="center" style="margin: 6px 0; font-family: monospace">
+        ΔA_macro / ⟨Â_macro⟩ = (ΔA / ⟨Â⟩) · <sup>1</sup> /
+        <sub>√N</sub> &nbsp;──►&nbsp; 0 &nbsp;&nbsp; as &nbsp;&nbsp; N ≈ 10²⁴
       </div>
-      • <b>Deterministic Limit:</b> Microscopic quantum fuzziness washes out into macroscopic classical certainty.
+      • <b>Deterministic Limit:</b> Microscopic quantum fuzziness washes out
+      into macroscopic classical certainty.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>2. Thermal Equilibrium as Quantum MaxEnt</h3>
 
     <p>
-      “Why does a hot cup of coffee left on a desk cool down to room temperature and stay there?” Jack asked.
+      “Why does a hot cup of coffee left on a desk cool down to room temperature
+      and stay there?” Jack asked.
     </p>
 
     <p>
-      “In classical physics, we say it reached ''thermal equilibrium''. In the language of Quantum Bayesian Inference, <b>thermal equilibrium is the unique quantum state of maximal von Neumann entropy subject only to the conserved energy of the environment</b>.”
+      “In classical physics, we say it reached ''thermal equilibrium''. In the
+      language of Quantum Bayesian Inference,
+      <b
+        >thermal equilibrium is the unique quantum state of maximal von Neumann
+        entropy subject only to the conserved energy of the environment</b
+      >.”
     </p>
 
     <p>
-      “By <b>Edwin Jaynes'' Principle of Maximum Entropy</b>, maximizing <code>S(ρ) = -k_B Tr(ρ ln ρ)</code> subject to average energy <code>Tr(ρ Ĥ) = ⟨E⟩</code> and normalization <code>Tr(ρ) = 1</code> uniquely yields the <b>Quantum Gibbs State</b>:”
+      “By <b>Edwin Jaynes'' Principle of Maximum Entropy</b>, maximizing
+      <code>S(ρ) = -k_B Tr(ρ ln ρ)</code> subject to average energy
+      <code>Tr(ρ Ĥ) = ⟨E⟩</code> and normalization
+      <code>Tr(ρ) = 1</code> uniquely yields the <b>Quantum Gibbs State</b>:”
     </p>
 
-    <div align="center" style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 16px; margin: 12px 0;">
-      ρ_eq = <sup>1</sup> / <sub>Z</sub> · e^{-β Ĥ} &nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbsp; Z = Tr(e^{-β Ĥ})
+    <div
+      align="center"
+      style="
+        background-color: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 6px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 16px;
+        margin: 12px 0;
+      "
+    >
+      ρ_eq = <sup>1</sup> / <sub>Z</sub> · e^{-β Ĥ} &nbsp;&nbsp;&nbsp; where
+      &nbsp;&nbsp;&nbsp; Z = Tr(e^{-β Ĥ})
     </div>
 
     <p>
-      “Here <code>Ĥ</code> is the quantum Hamiltonian operator, <code>β = 1 / (k_B T)</code> is the inverse temperature, and <code>Z</code> is the quantum partition function.”
+      “Here <code>Ĥ</code> is the quantum Hamiltonian operator,
+      <code>β = 1 / (k_B T)</code> is the inverse temperature, and
+      <code>Z</code> is the quantum partition function.”
     </p>
 
     <p>
-      “A system in thermal equilibrium is in the state that makes <b>zero unearned, speculative assumptions</b> about its microscopic coordinates beyond its known temperature. Nature''s macroscopic stability is the physical realization of Maximum Entropy inference!”
+      “A system in thermal equilibrium is in the state that makes
+      <b>zero unearned, speculative assumptions</b> about its microscopic
+      coordinates beyond its known temperature. Nature''s macroscopic stability
+      is the physical realization of Maximum Entropy inference!”
     </p>
 
-    <h4>Formal Statement (FS-QBI-2.2): The Quantum Gibbs State &amp; Free Energy</h4>
-    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-      • <b>Variational Principle:</b> <code>ρ_eq = argmax_{ρ} { S(ρ) }</code> subject to <code>Tr(ρ) = 1</code> and <code>Tr(ρ Ĥ) = ⟨E⟩</code>.<br>
+    <h4>
+      Formal Statement (FS-QBI-2.2): The Quantum Gibbs State &amp; Free Energy
+    </h4>
+    <div
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      "
+    >
+      • <b>Variational Principle:</b>
+      <code>ρ_eq = argmax_{ρ} { S(ρ) }</code> subject to
+      <code>Tr(ρ) = 1</code> and <code>Tr(ρ Ĥ) = ⟨E⟩</code>.<br />
       • <b>Gibbs Density Operator:</b>
-      <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="quantum_gibbs_state" title="The Quantum Gibbs State &amp; Maximum Entropy">
-          ρ_eq = Z(β)⁻¹ · e^{-β Ĥ} &nbsp;&nbsp; where &nbsp;&nbsp; Z(β) = Tr(e^{-β Ĥ}) &nbsp;&nbsp; ∧ &nbsp;&nbsp; F = -k_B T · ln Z
+      <div align="center" style="margin: 8px 0">
+        <fsd-ref
+          tier="3"
+          scaffold="quantum_gibbs_state"
+          title="The Quantum Gibbs State &amp; Maximum Entropy"
+        >
+          ρ_eq = Z(β)⁻¹ · e^{-β Ĥ} &nbsp;&nbsp; where &nbsp;&nbsp; Z(β) =
+          Tr(e^{-β Ĥ}) &nbsp;&nbsp; ∧ &nbsp;&nbsp; F = -k_B T · ln Z
         </fsd-ref>
       </div>
-      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
-        <i>(Click the formula above to inspect Lean 4 variational principle and free energy minimization)</i>
+      <p
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: #64748b;
+          margin-top: 2px;
+        "
+      >
+        <i
+          >(Click the formula above to inspect Lean 4 variational principle and
+          free energy minimization)</i
+        >
       </p>
-      • <b>Helmholtz Free Energy:</b> <code>F = -k_B T · ln Z = ⟨Ĥ⟩ - T · S(ρ_eq)</code>.<br>
-      • <b>Thermodynamic Isomorphism:</b> Thermal equilibrium physically minimizes Helmholtz free energy <code>F</code>, mathematically isomorphic to Bayesian model selection minimizing negative log evidence.
+      • <b>Helmholtz Free Energy:</b>
+      <code>F = -k_B T · ln Z = ⟨Ĥ⟩ - T · S(ρ_eq)</code>.<br />
+      • <b>Thermodynamic Isomorphism:</b> Thermal equilibrium physically
+      minimizes Helmholtz free energy <code>F</code>, mathematically isomorphic
+      to Bayesian model selection minimizing negative log evidence.
     </div>
 
-    <hr>
+    <hr />
 
     <h3>3. Observation as an Interactive Process</h3>
 
     <p>
-      “In classical physics, observing nature was imagined as a passive spectator looking through a glass window at a pre-existing fact.”
+      “In classical physics, observing nature was imagined as a passive
+      spectator looking through a glass window at a pre-existing fact.”
     </p>
 
     <p>
-      “In modern quantum science, <b>observation is an active dialogue with physical reality</b>:”
+      “In modern quantum science,
+      <b>observation is an active dialogue with physical reality</b>:”
     </p>
     <ul>
-      <li>Before measurement, our complete description of a physical system is a <b>Prior Density Operator <code>ρ</code></b> representing our state of knowledge.</li>
-      <li>When an experimental instrument interacts with the system, an outcome <code>k</code> is recorded.</li>
-      <li>This interaction projects the state into an updated <b>Posterior Density Operator <code>ρ''</code></b> via the <b>Lüders Quantum Bayes Rule</b>:
-        <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0;">
+      <li>
+        Before measurement, our complete description of a physical system is a
+        <b>Prior Density Operator <code>ρ</code></b> representing our state of
+        knowledge.
+      </li>
+      <li>
+        When an experimental instrument interacts with the system, an outcome
+        <code>k</code> is recorded.
+      </li>
+      <li>
+        This interaction projects the state into an updated
+        <b>Posterior Density Operator <code>ρ''</code></b> via the
+        <b>Lüders Quantum Bayes Rule</b>:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 15px; margin: 8px 0"
+        >
           ρ'' = <sup>(P_k · ρ · P_k)</sup> / <sub>Tr(ρ · P_k)</sub>
         </div>
       </li>
     </ul>
 
     <p>
-      Jill reflected: “Measurement is not a mystical disturbance &mdash; it is the exact non-commutative mathematics of a rational agent updating their state of knowledge upon acquiring physical evidence!”
+      Jill reflected: “Measurement is not a mystical disturbance &mdash; it is
+      the exact non-commutative mathematics of a rational agent updating their
+      state of knowledge upon acquiring physical evidence!”
     </p>
 
-    <hr>
+    <hr />
 
     <h3>4. Distinguishing Physical Reality from Theoretical Models</h3>
 
     <p>
-      “As we complete our formal curriculum,” Jack concluded, “let''s reflect on the most important epistemological lesson of all science:”
+      “As we complete our formal curriculum,” Jack concluded, “let''s reflect on
+      the most important epistemological lesson of all science:”
     </p>
 
-    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin: 15px 0;">
-      <table width="100%" cellpadding="6" style="font-size: 13px;">
+    <div
+      align="center"
+      style="
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 14px;
+        margin: 15px 0;
+      "
+    >
+      <table width="100%" cellpadding="6" style="font-size: 13px">
         <tr>
           <td width="50%" valign="top">
-            <font size="+1" color="#1e3a8a"><b>Physical Reality:</b></font><br>
-            • The objective, physical universe itself is real, unified, and exists independently of human observers.
+            <font size="+1" color="#1e3a8a"><b>Physical Reality:</b></font
+            ><br />
+            • The objective, physical universe itself is real, unified, and
+            exists independently of human observers.
           </td>
           <td width="50%" valign="top">
-            <font size="+1" color="#1e3a8a"><b>Theoretical Models:</b></font><br>
-            • Scientific theories &mdash; from Euclidean geometry and Newtonian mechanics to Boltzmann ensembles and Quantum Density Operators &mdash; are human mathematical tools that evolve to provide increasingly accurate descriptions of reality under uncertainty.
+            <font size="+1" color="#1e3a8a"><b>Theoretical Models:</b></font
+            ><br />
+            • Scientific theories &mdash; from Euclidean geometry and Newtonian
+            mechanics to Boltzmann ensembles and Quantum Density Operators
+            &mdash; are human mathematical tools that evolve to provide
+            increasingly accurate descriptions of reality under uncertainty.
           </td>
         </tr>
       </table>
     </div>
 
-    <hr>
+    <hr />
 
     <h3>5. The Complete Constructive Ascent</h3>
 
     <p>
-      “Think of the magnificent intellectual climb we have made together across all five foundational levels,” Jack said with a proud smile:
+      “Think of the magnificent intellectual climb we have made together across
+      all five foundational levels,” Jack said with a proud smile:
     </p>
 
-    <div align="center" style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 16px; font-size: 14px; margin: 15px 0; line-height: 1.8;">
-      <b>The 5-Level Constructive Ascent:</b><br><br>
-      <b>Level 1: Logic &amp; Number</b> &mdash; From Conway''s root <code>0 = { | }</code> to dyadic branching trees and typed logic<br>
-      &darr;<br>
-      <b>Level 2: Space, Direction &amp; Geometry</b> &mdash; Vector spaces, inner products, linear operators, and Dirac bra-ket duality<br>
-      &darr;<br>
-      <b>Level 3: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates <code>dy/dx</code>, integral sums, and conformal geometry on <code>ℝ_ω</code> and <code>ℂ_ω</code><br>
-      &darr;<br>
-      <b>Level 4: The Transcendental Engine</b> &mdash; Continuous growth <code>e^x</code>, natural logarithms <code>ln x</code>, and circular rotor dynamics<br>
-      &darr;<br>
-      <b>Level 5: Probability, Information &amp; Quantum Logic</b> &mdash; Bayesian updating, Jaynes MaxEnt, and non-commutative Density Operators <code>ρ</code>
+    <div
+      align="center"
+      style="
+        background-color: #ecfdf5;
+        border: 1px solid #10b981;
+        border-radius: 6px;
+        padding: 16px;
+        font-size: 14px;
+        margin: 15px 0;
+        line-height: 1.8;
+      "
+    >
+      <b>The 5-Level Constructive Ascent:</b><br /><br />
+      <b>Level 1: Logic &amp; Number</b> &mdash; From Conway''s root
+      <code>0 = { | }</code> to dyadic branching trees and typed logic<br />
+      &darr;<br />
+      <b>Level 3: Space, Direction &amp; Geometry</b> &mdash; Vector spaces,
+      inner products, linear operators, and Dirac bra-ket duality<br />
+      &darr;<br />
+      <b>Level 2: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates
+      <code>dy/dx</code>, integral sums, and conformal geometry on
+      <code>ℝ_ω</code> and <code>ℂ_ω</code><br />
+      &darr;<br />
+      <b>Level 4: The Transcendental Engine</b> &mdash; Continuous growth
+      <code>e^x</code>, natural logarithms <code>ln x</code>, and circular rotor
+      dynamics<br />
+      &darr;<br />
+      <b>Level 5: Probability, Information &amp; Quantum Logic</b> &mdash;
+      Bayesian updating, Jaynes MaxEnt, and non-commutative Density Operators
+      <code>ρ</code>
     </div>
 
     <p>
-      “Formal deductive logic, hyperfinite calculus, linear algebra, transcendental dynamics, Bayesian inference, and quantum statistical mechanics are not isolated silos,” Jack and Jill concluded together. 
-      “<b>They are the harmonious branches of a single, coherent, beautiful mathematical tree.</b>”
+      “Formal deductive logic, hyperfinite calculus, linear algebra,
+      transcendental dynamics, Bayesian inference, and quantum statistical
+      mechanics are not isolated silos,” Jack and Jill concluded together. “<b
+        >They are the harmonious branches of a single, coherent, beautiful
+        mathematical tree.</b
+      >”
     </p>
 
-    <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 16px; margin: 20px auto; max-width: 640px;">
-      <font size="+1" color="#1e40af"><b>Next Horizons: Applied Seminars &amp; Specialized Explorations</b></font><br>
-      <div style="font-size: 13.5px; color: #334155; margin: 8px 0;">
-        With the entire constructive foundation in place across Levels 1 through 5, you are fully equipped to explore the applied physics seminars, specialized satellite workshops, and computational frontiers in Level 6.
+    <div
+      align="center"
+      style="
+        background-color: #eff6ff;
+        border: 1.5px solid #3b82f6;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 20px auto;
+        max-width: 640px;
+      "
+    >
+      <font size="+1" color="#1e40af"
+        ><b
+          >Next Horizons: Applied Seminars &amp; Specialized Explorations</b
+        ></font
+      ><br />
+      <div style="font-size: 13.5px; color: #334155; margin: 8px 0">
+        With the entire constructive foundation in place across Levels 1 through
+        5, you are fully equipped to explore the applied physics seminars,
+        specialized satellite workshops, and computational frontiers in Level 6.
       </div>
     </div>
-', 'published'),
+  ', 'published'),
   (45, 'satelliteSeminarsIntro', 44, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
 <div align="center">
     <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
@@ -16211,27 +22664,27 @@ INSERT INTO curriculum_nav_items (
   (22, 'app1_nav_2_4_2', 1, 19, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (23, 'app1_nav_2_4_3', 1, 19, 3, 'html', 'lecture 3: STEM & spaces', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (24, 'app1_nav_2_4_4', 1, 19, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: linear algebra & geometry', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (27, 'app1_nav_3_1', 1, 25, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_3_1_0', 1, 27, 0, 'html', 'overview: linear algebra', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_3_1_1', 1, 27, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (30, 'app1_nav_3_1_2', 1, 27, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (31, 'app1_nav_3_1_3', 1, 27, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_3_2', 1, 25, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_4_0', 1, 33, 0, 'html', 'overview: continuous analysis', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_4_1', 1, 33, 1, 'html', 'sequences & progressions', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (36, 'app1_nav_4_2', 1, 33, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_4_2_0', 1, 36, 0, 'html', 'overview: analysis 1D', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_4_2_1', 1, 36, 1, 'html', 'lecture 1: microscope & continuity', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_4_2_2', 1, 36, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_4_2_3', 1, 36, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_4_3', 1, 33, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_4_3_0', 1, 41, 0, 'html', 'overview: analysis 2D', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_4_3_1', 1, 41, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_4_3_2', 1, 41, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_4_3_3', 1, 41, 3, 'html', 'lecture 3: state evolution & phase', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: continuous analysis', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: analysis 1D', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: microscope & continuity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (31, 'app1_nav_3_2_2', 1, 28, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_3_2_3', 1, 28, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_3_3', 1, 25, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_3_3_0', 1, 33, 0, 'html', 'overview: analysis 2D', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_3_3_1', 1, 33, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (36, 'app1_nav_3_3_2', 1, 33, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_3_3_3', 1, 33, 3, 'html', 'lecture 3: state evolution & phase', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_4_0', 1, 38, 0, 'html', 'overview: linear algebra & geometry', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (40, 'app1_nav_4_1', 1, 38, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_4_1_0', 1, 40, 0, 'html', 'overview: linear algebra', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_4_1_1', 1, 40, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_4_1_2', 1, 40, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_4_1_3', 1, 40, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_4_2', 1, 38, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (46, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (47, 'app1_nav_5_0', 1, 46, 0, 'html', 'exponential & logarithmic foundations', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (48, 'app1_nav_5_1', 1, 46, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
@@ -16835,33 +23288,32 @@ DELETE FROM segment_references;
 INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 1, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
-  (2, 17, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (3, 17, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (4, 17, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (5, 18, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (6, 18, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (7, 18, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (8, 18, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (9, 19, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (10, 19, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (11, 19, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (12, 19, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (13, 23, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (14, 23, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (15, 23, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (16, 25, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (17, 25, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (18, 25, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (19, 25, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (20, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
-  (21, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (22, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (23, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (24, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (25, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (26, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (27, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (1, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (2, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (3, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (4, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (5, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (6, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (7, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (8, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (9, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (10, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (11, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (12, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (13, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (14, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (15, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (16, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (17, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (18, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (19, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (20, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (21, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (22, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (23, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (24, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (25, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (26, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
@@ -16870,11 +23322,11 @@ DELETE FROM segment_prerequisites;
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
   (1, 46, 1, 'foundational'),
   (2, 47, 46, 'foundational'),
-  (3, 47, 25, 'foundational'),
-  (4, 23, 1, 'foundational'),
-  (5, 24, 23, 'foundational'),
-  (6, 25, 24, 'foundational'),
-  (7, 27, 25, 'foundational')
+  (3, 47, 20, 'foundational'),
+  (4, 18, 1, 'foundational'),
+  (5, 19, 18, 'foundational'),
+  (6, 20, 19, 'foundational'),
+  (7, 22, 20, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
