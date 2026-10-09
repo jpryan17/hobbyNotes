@@ -146,15 +146,15 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       expression: '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )',
       signature: 'def hyper_sum (f : Nat → R_w) : Nat → R_w',
       snippet: '#check hyper_sum',
-      summary: 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'
+      summary: 'Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/ω'
     },
     {
       key: 'st',
       target: 'scaffold:st',
-      expression: '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]',
-      signature: 'axiom st : { x : R_w // is_finite x } → R_w',
+      expression: '∀ x ∈ ℝ_ω (finite), ∃! d ∈ 𝔻 [ x ≈ d ∧ st(x) = d ]',
+      signature: 'axiom st : { x : R_w // is_finite x } → D_w',
       snippet: '#check st',
-      summary: 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'
+      summary: 'Standard part shadow map projecting Day ω elements to standard dyadic nuclei in 𝔻'
     },
     {
       key: 'C_w',
@@ -162,7 +162,7 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       expression: 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²',
       signature: 'structure C_w where re : R_w; im : R_w',
       snippet: '#check C_w\n#check C_w.norm_sq',
-      summary: '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'
+      summary: '2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication'
     },
     {
       key: 'Holomorphic',
@@ -216,7 +216,7 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       key: 'free_fall_accel',
       target: 'scaffold:free_fall_accel',
       expression: 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g',
-      signature: 'axiom st : { x : R_w // is_finite x } → R_w',
+      signature: 'axiom st : { x : R_w // is_finite x } → D_w',
       snippet: '#check st\n#check delta',
       summary: 'Newtonian kinematic temporal curvature invariance under discrete stencil'
     },
@@ -226,7 +226,7 @@ export function generateLeanCache(force: boolean = false): Record<string, LeanCa
       expression: '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)',
       signature: 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0',
       snippet: '#check telescoping_ftc',
-      summary: 'Telescoping mechanical work-energy conservation on hyperfinite continuum'
+      summary: 'Telescoping mechanical work-energy conservation on transfinite continuum'
     },
     {
       key: 'heat_flux',

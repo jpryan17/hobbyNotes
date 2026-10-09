@@ -81,8 +81,8 @@ def hyper_sum (f : Nat → R_w) : Nat → R_w
 
   st: {
     title: "Constitutional Scaffold: Standard Part Shadow Map (st)",
-    expression: "st : { x : ℝ_ω // is_finite x } → ℝ_ω  ∧  x ≈ st(x)",
-    leanSignature: "def is_finite (x : R_w) : Prop := abs x < abs omega  |  axiom st : { x : R_w // is_finite x } → R_w",
+    expression: "st : { x : ℝ_ω // is_finite x } → 𝔻  ∧  x ≈ st(x)",
+    leanSignature: "def is_finite (x : R_w) : Prop := abs x < abs omega  |  axiom st : { x : R_w // is_finite x } → D_w",
     testOrPickValue: "MiddleWayLean/Scaffold.lean → is_finite & st",
     checks: [
       { label: "1. Cosmic Horizon Bound", question: "Is x strictly inside the Day ω horizon (is_finite x ↔ |x| < |ω|)?", passed: true, detail: "→ |x| < |ω| Verified ✓" },
@@ -90,12 +90,12 @@ def hyper_sum (f : Nat → R_w) : Nat → R_w
       { label: "3. Halo Closeness & Decomposition", question: "Does x - st(x) land purely in the infinitesimal halo μ(0)?", passed: true, detail: "→ x = x₀ + ε ✓" },
       { label: "4. Algebraic Homomorphism", question: "Does st preserve addition and multiplication (st(a+b)=st(a)+st(b))?", passed: true, detail: "→ Homomorphic ✓" }
     ],
-    conflictOrSupport: "Constructive standard part projection from the Day ω continuum (|x| < |ω|) down to standard dyadic and real shadows.",
-    conclusion: "Every finite number inside the Day ω horizon projects uniquely to an exact standard shadow, with hard dyadic numbers having zero halo dust. Certified Lean 4 Q.E.D.",
+    conflictOrSupport: "Constructive standard part projection from the Day ω continuum (|x| < |ω|) down to standard dyadic shadows in 𝔻.",
+    conclusion: "Every finite number inside the Day ω horizon projects uniquely to an exact standard shadow in 𝔻, with hard dyadic numbers having zero halo dust. Certified Lean 4 Q.E.D.",
     leanSnippet: `def is_finite (x : R_w) : Prop :=
   abs x < abs omega
 
-axiom st : { x : R_w // is_finite x } → R_w
+axiom st : { x : R_w // is_finite x } → D_w
 
 def is_hard (x : R_w) : Prop :=
   ∃ (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)

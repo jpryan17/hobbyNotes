@@ -1,7 +1,7 @@
 /-
   MiddleWay.Scaffold: Foundational Middle Way Mathematics in Lean 4
   
-  Establishes the Day ω Hyperfinite Continuum (ℝ_ω), the 1D Discrete
+  Establishes the Day ω Transfinite Continuum (ℝ_ω), the 1D Discrete
   Transect, the 2D Complex Grid (ℂ_ω), and the Telescoping Calculus Theorem.
 -/
 
@@ -150,6 +150,31 @@ def is_finite_birthday (x : R_w) : Prop :=
 
 def D_w : Type := { x : R_w // is_finite_birthday x }
 
+-- Coercion from 𝔻 into ℝ_ω:
+instance : Coe D_w R_w where coe := fun d => d.val
+
+-- Constructed arithmetic-type: (𝔻, +, -, ·) where operations are ℝ_ω operations restricted to 𝔻
+axiom dyadic_zero : is_finite_birthday 0
+axiom dyadic_one  : is_finite_birthday 1
+axiom dyadic_neg {x : R_w} : is_finite_birthday x → is_finite_birthday (-x)
+axiom dyadic_add {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a + b)
+axiom dyadic_sub {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a - b)
+axiom dyadic_mul {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a * b)
+
+def D_zero : D_w := ⟨0, dyadic_zero⟩
+def D_one  : D_w := ⟨1, dyadic_one⟩
+def D_neg (x : D_w) : D_w := ⟨-x.val, dyadic_neg x.property⟩
+def D_add (a b : D_w) : D_w := ⟨a.val + b.val, dyadic_add a.property b.property⟩
+def D_sub (a b : D_w) : D_w := ⟨a.val - b.val, dyadic_sub a.property b.property⟩
+def D_mul (a b : D_w) : D_w := ⟨a.val * b.val, dyadic_mul a.property b.property⟩
+
+instance : Add D_w where add := D_add
+instance : Sub D_w where sub := D_sub
+instance : Mul D_w where mul := D_mul
+instance : Neg D_w where neg := D_neg
+instance : OfNat D_w (nat_lit 0) where ofNat := D_zero
+instance : OfNat D_w (nat_lit 1) where ofNat := D_one
+
 -- Subtype constraint: 𝔻 : < 1 (Strictly bounded dyadic unit interval)
 def D_lt_one : Type := { d : D_w // d.val < 1 }
 
@@ -266,7 +291,7 @@ instance {α β : Type} : CoeFun (FunctionType α β) (fun _ => α → β) where
 -- 2. The Scale Parameter ω and Infinitesimal dx
 -- ============================================================================
 
--- The hyperfinite infinite horizon at Day ω
+-- The transfinite horizon at Day ω
 axiom omega : R_w
 axiom omega_pos : 0 < omega
 axiom abs_omega : abs omega = omega
@@ -275,7 +300,7 @@ axiom abs_omega : abs omega = omega
 axiom dx : R_w
 axiom omega_inv : omega * dx = 1
 
--- Coordinate on the 1D hyperfinite transect: x_k = k * dx
+-- Coordinate on the 1D transfinite transect: x_k = k * dx
 def transect_coord (k : Int) : R_w :=
   (k : R_w) * dx
 
@@ -357,10 +382,13 @@ def deriv (F : Nat → R_w) (k : Nat) : R_w :=
   (delta F k) / dx
 
 -- Discrete Operator 4: The Discrete Integral Operator (Indefinite Accumulator):
--- Hyperfinite summation over finite indices: ∑_{k=0}^{n-1} f(k)
+-- Transfinite summation over finite indices: ∑_{k=0}^{n-1} f(k)
 def hyper_sum (f : Nat → R_w) : Nat → R_w
   | 0 => 0
   | Nat.succ n => hyper_sum f n + f n
+
+-- Preferred transfinite terminology:
+def transfinite_sum := hyper_sum
 
 -- Transfinite summation operator on SequenceSpace (ℕ_ω → ℝ_ω):
 -- Evaluates the accumulated sum up to any index in ℕ_ω, including transfinite evaluation at ω:
@@ -403,7 +431,7 @@ def function_at_omega (F : FunctionSequenceSpace) : FunctionSpace :=
 -- 4. The Telescoping Fundamental Theorem of Calculus (FTC)
 -- ============================================================================
 
--- Theorem: The hyperfinite sum of discrete differences telescopes identically!
+-- Theorem: The transfinite sum of discrete differences telescopes identically!
 -- ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)
 theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
   hyper_sum (delta F) n = F n - F 0 := by
@@ -418,6 +446,10 @@ theorem telescoping_ftc (F : Nat → R_w) (n : Nat) :
     rw [ih]
     unfold delta
     rw [sub_add_cancel]
+
+theorem transfinite_ftc (F : Nat → R_w) (n : Nat) :
+  transfinite_sum (delta F) n = F n - F 0 :=
+  telescoping_ftc F n
 
 -- Finite telescoping on SequenceSpace:
 theorem sequence_ftc (F : SequenceSpace) (n : Nat) :
@@ -449,7 +481,7 @@ axiom ftc_integral_deriv (F : FunctionSpace) (a b : R_w) :
   integral_ab (deriv_op F) a b = F b - F a
 
 -- ============================================================================
--- 5. The 2D Hyperfinite Complex Grid (ℂ_ω)
+-- 5. The 2D Transfinite Complex Grid (ℂ_ω)
 -- ============================================================================
 
 -- ℂ_ω is the discrete 2D plane: ℝ_ω × ℝ_ω
@@ -480,15 +512,15 @@ instance : Mul C_w where mul := mul
 end C_w
 
 -- ============================================================================
--- 6. The Standard Part Shadow Map: st(·) : ℝ_ω → ℝ_ω (Standard Continuum)
+-- 6. The Standard Part Shadow Map: st(·) : { x : ℝ_ω // is_finite x } → 𝔻
 -- ============================================================================
 
 -- Predicate identifying finite elements: strictly bounded within the Day ω horizon (|x| < |ω|)
 def is_finite (x : R_w) : Prop :=
   abs x < abs omega
 
--- Standard part extraction: projects a finite hyperreal to its standard shadow
-axiom st : { x : R_w // is_finite x } → R_w
+-- Standard part extraction: projects a finite transfinite element to its standard dyadic shadow in 𝔻
+axiom st : { x : R_w // is_finite x } → D_w
 
 -- ============================================================================
 -- 7. 2D Cell Geometry & Cauchy Theorems
@@ -547,9 +579,11 @@ axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) :
 axiom bayes_sequential_update (P0 : Nat → R_w) (d1 d2 : Nat) :
   True
 
--- Strict positivity on hyperfinite transect: P(E) = 0 ↔ E = ∅
-axiom hyperfinite_probability_positivity (p : Nat → R_w) (dx : R_w) (h_dx : dx > 0) :
+-- Strict positivity on transfinite transect: P(E) = 0 ↔ E = ∅
+axiom transfinite_probability_positivity (p : Nat → R_w) (dx : R_w) (h_dx : dx > 0) :
   True
+
+abbrev hyperfinite_probability_positivity := transfinite_probability_positivity
 
 -- ============================================================================
 -- 10. Quantum Logic, Born Rule & Vector Projections
@@ -734,7 +768,7 @@ axiom R_w_id_functional : LinearFunctional R_w R_w R_w_is_field R_w_is_abelian_g
 def is_infinitesimal (ε : R_w) : Prop :=
   ∀ (n : Nat), n > 0 → abs ε < (1 : R_w) / (n : R_w)
 
--- Two hyperreals are infinitely close (in the same halo) iff their difference is infinitesimal
+-- Two transfinite elements on ℝ_ω are infinitely close (in the same halo) iff their difference is infinitesimal
 def approx (x y : R_w) : Prop :=
   is_infinitesimal (x - y)
 
@@ -770,7 +804,7 @@ def is_finite_bound (x : R_w) : Prop :=
 axiom finite_iff_horizon (x : R_w) : is_finite_bound x ↔ is_finite x
 
 -- 5> The Standard Part Shadow Axioms & Halo Closeness:
--- Every finite hyperreal x ∈ ℝ_ω has an exact standard part shadow st(x) ∈ ℝ_ω
+-- Every finite transfinite element x ∈ ℝ_ω has an exact standard part shadow st(x) ∈ 𝔻
 -- that resides in its unique infinitesimal halo: x ≈ st(x)
 axiom st_is_standard (x : { x : R_w // is_finite x }) : is_finite (st x)
 axiom st_approx (x : { x : R_w // is_finite x }) : (x.val) ≈ (st x)
@@ -829,7 +863,7 @@ axiom st_C_approx (z : { z : C_w // is_finite_C z }) :
 -- 15. The Nonstandard Derivative & Differential Forms
 -- ============================================================================
 
--- 1> Difference Quotient on the Hyperreal Continuum:
+-- 1> Difference Quotient on the Transfinite Continuum:
 -- Δy / dx = (f(x + dx) - f(x)) / dx for any step dx ≠ 0
 def diff_quotient (f : R_w → R_w) (x dx : R_w) : R_w :=
   (f (x + dx) - f x) / dx
@@ -841,11 +875,21 @@ def has_derivative_at (f : R_w → R_w) (x L : R_w) : Prop :=
   is_finite x ∧ is_finite L ∧ ∀ (dx : R_w), is_infinitesimal dx → dx ≠ 0 → diff_quotient f x dx ≈ L
 
 -- 3> Nonstandard Derivative Shadow:
--- Taking the standard part shadow st(·) of the hyperreal difference quotient yields the exact derivative L:
+-- Taking the standard part shadow st(·) of the transfinite difference quotient yields the exact derivative L:
 axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w)
     (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0)
     (hfin : is_finite (diff_quotient f x dx)) :
   st ⟨diff_quotient f x dx, hfin⟩ = L
+
+-- 3.5> The Nonstandard Algebraic Derivative Rule (Codomain 𝔻):
+-- rule D_ω(f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω) : 𝔻 ≔ st( [ f(x + dx) - f(x) ] / dx )
+def rule_D_w (f : R_w → R_w) (x dx : R_w) (hfin : is_finite (diff_quotient f x dx)) : D_w :=
+  st ⟨diff_quotient f x dx, hfin⟩
+
+axiom dyadic_derivative_shadow (f : R_w → R_w) (x : R_w) (L : D_w) (dx : R_w)
+    (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0)
+    (hfin : is_finite (diff_quotient f x dx)) :
+  rule_D_w f x dx hfin = L
 
 -- 4> Differential 1-Form & Local Linearity:
 -- The differential df = L · dx is the dominant linear shadow with infinitesimal relative error:
@@ -891,20 +935,20 @@ def is_continuous (f : R_w → R_w) : Prop :=
 
 -- 2> Discrete Intermediate Value Theorem (DIVT):
 -- If f is halo-continuous and sign-bracketed across [a, b] (f a ≤ 0 ∧ 0 ≤ f b with a ≤ b),
--- then hyperfinite grid traversal guarantees a lattice point x* ∈ [a, b] in the halo of zero: f(x*) ≈ 0
+-- then transfinite grid traversal guarantees a lattice point x* ∈ [a, b] in the halo of zero: f(x*) ≈ 0
 axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w)
     (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) :
   ∃ (x_star : R_w), a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0
 
 -- 3> Standard Shadow Root:
--- For finite endpoints, projecting the hyperfinite crossing point x* via st(·)
+-- For finite endpoints, projecting the transfinite crossing point x* via st(·)
 -- yields a standard real root c = st(x*) where f(c) ≈ 0
 axiom ivt_standard_root (f : R_w → R_w) (a b : R_w)
     (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b)
     (ha : is_finite a) (hb : is_finite b) :
   ∃ (c : R_w), is_finite c ∧ a ≤ c ∧ c ≤ b ∧ f c ≈ 0
 
--- 4> Hyperfinite Bisection Contraction:
+-- 4> Transfinite Bisection Contraction:
 -- Successive midpoint bisection halves the bracket interval: length at step k is (b - a) / 2^k
 def bisection_interval_len (a b : R_w) (k : Nat) : R_w :=
   (b - a) / ((2 : R_w) ^ k)
