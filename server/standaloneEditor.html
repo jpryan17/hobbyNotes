@@ -522,10 +522,11 @@
 
     <div class="tb-divider"></div>
 
-    <!-- Links, Images & Diagrams -->
+    <!-- Links, Images, Tables & Diagrams -->
     <div class="tb-group">
       <button id="tb-link" class="tb-btn" title="Insert hyperlink">🔗 Link</button>
       <button id="tb-image" class="tb-btn" title="Insert image">🖼️ Image</button>
+      <button id="tb-table" class="tb-btn" style="color: #0284c7; font-weight: 700; border-color: #bae6fd;" title="Insert or construct HTML table">📊 Table</button>
       <button id="tb-hr" class="tb-btn" title="Insert horizontal rule">― Line</button>
       <button id="tb-insert-latex" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px; background: #059669;" title="Insert or edit LaTeX formula">∑ + LaTeX Math</button>
       <button id="tb-insert-diagram" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;" title="Draw and embed a new Draw.io diagram">🎨 + Diagram</button>
@@ -706,6 +707,71 @@
         <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 6px;">
           <button id="btn-cancel-math" class="btn btn-secondary" style="padding: 6px 14px;">Cancel</button>
           <button id="btn-apply-math" class="btn btn-primary" style="padding: 6px 16px;">Insert Formula</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTML Table Construction Modal Dialog -->
+  <div id="table-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 id="table-modal-title">📊 Insert &amp; Construct Table</h3>
+        <button id="btn-close-table" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="table-context-actions" style="display: none; background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px;">
+          <div style="font-size: 12px; font-weight: 700; color: #1e3a8a; margin-bottom: 6px;">Active Table Detected — Quick Actions:</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            <button type="button" id="btn-tbl-add-row-above" class="tb-btn">⬆ Row Above</button>
+            <button type="button" id="btn-tbl-add-row-below" class="tb-btn">⬇ Row Below</button>
+            <button type="button" id="btn-tbl-del-row" class="tb-btn" style="color: #b91c1c;">✕ Del Row</button>
+            <button type="button" id="btn-tbl-add-col-left" class="tb-btn">⬅ Col Left</button>
+            <button type="button" id="btn-tbl-add-col-right" class="tb-btn">➡ Col Right</button>
+            <button type="button" id="btn-tbl-del-col" class="tb-btn" style="color: #b91c1c;">✕ Del Col</button>
+            <button type="button" id="btn-tbl-delete" class="tb-btn" style="color: #dc2626; font-weight: 700;">🗑️ Delete Table</button>
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: #64748b; border-top: 1px solid #dbeafe; padding-top: 6px;">Or construct a new table below:</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Rows (body):</label>
+            <input type="number" id="tbl-input-rows" min="1" max="50" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+          </div>
+          <div>
+            <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Columns:</label>
+            <input type="number" id="tbl-input-cols" min="1" max="20" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+          </div>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Table Visual Style:</label>
+          <select id="tbl-select-style" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; background: #ffffff; cursor: pointer; box-sizing: border-box;">
+            <option value="mwm" selected>📘 MWM Curricular (Navy header, striped rows, clean borders)</option>
+            <option value="grid">▦ Clean Bordered Grid (Light header, full gridlines)</option>
+            <option value="minimal">― Minimalist (Top/bottom dividing lines, no vertical borders)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; font-size: 13px; color: #334155;">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="tbl-check-header" checked />
+            <span>Include header row (<code>&lt;thead&gt; &lt;th&gt;</code>)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="tbl-check-fullwidth" checked />
+            <span>Full width (<code>100%</code>)</span>
+          </label>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #64748b;">
+          💡 <b>Tip:</b> Once inserted, type directly into cells. Click <b>📊 Table</b> anytime while inside a table to add or delete rows and columns!
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+          <button id="btn-cancel-table" class="btn btn-secondary" style="padding: 6px 14px;">Cancel</button>
+          <button id="btn-insert-table-apply" class="btn btn-primary" style="padding: 6px 16px;">Insert Table</button>
         </div>
       </div>
     </div>
@@ -1284,6 +1350,229 @@ ${bodyContent}
         };
       });
     }
+
+    // -----------------------------------------------------------------
+    // HTML Table Construction & Manipulation
+    // -----------------------------------------------------------------
+    const tableModal = document.getElementById('table-modal');
+    const tableContextActions = document.getElementById('table-context-actions');
+    const tblInputRows = document.getElementById('tbl-input-rows');
+    const tblInputCols = document.getElementById('tbl-input-cols');
+    const tblSelectStyle = document.getElementById('tbl-select-style');
+    const tblCheckHeader = document.getElementById('tbl-check-header');
+    const tblCheckFullwidth = document.getElementById('tbl-check-fullwidth');
+    let activeTableContext = null;
+
+    function getActiveTableContext() {
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return null;
+      let node = sel.getRangeAt(0).commonAncestorContainer;
+      if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+      if (!node) return null;
+      const table = node.closest('table');
+      if (!table || !wysiwygPane.contains(table)) return null;
+      const cell = node.closest('td, th');
+      const row = node.closest('tr');
+      return { table, cell, row };
+    }
+
+    function openTableModal() {
+      activeTableContext = getActiveTableContext();
+      if (activeTableContext && activeTableContext.table) {
+        tableContextActions.style.display = 'block';
+      } else {
+        tableContextActions.style.display = 'none';
+      }
+      tableModal.classList.add('active');
+      tblInputRows.focus();
+    }
+
+    function closeTableModal() {
+      tableModal.classList.remove('active');
+      activeTableContext = null;
+    }
+
+    document.getElementById('tb-table').onclick = openTableModal;
+    document.getElementById('btn-close-table').onclick = closeTableModal;
+    document.getElementById('btn-cancel-table').onclick = closeTableModal;
+    tableModal.onclick = (e) => {
+      if (e.target === tableModal) closeTableModal();
+    };
+
+    function buildTableHtml(rows, cols, hasHeader, styleType, isFullWidth) {
+      let tableStyle = 'border-collapse: collapse; margin: 16px 0; font-size: 14px; line-height: 1.5;';
+      if (isFullWidth) tableStyle += ' width: 100%;';
+      if (styleType === 'mwm') {
+        tableStyle += ' border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);';
+      } else if (styleType === 'grid') {
+        tableStyle += ' border: 1px solid #cbd5e1;';
+      }
+
+      let html = `\n<table style="${tableStyle}">\n`;
+      if (hasHeader) {
+        const headerTrStyle = styleType === 'mwm' ? 'background-color: #1e3a8a; color: #ffffff;' : (styleType === 'grid' ? 'background-color: #f8fafc; color: #0f172a;' : 'border-bottom: 2px solid #0f172a;');
+        html += `  <thead>\n    <tr style="${headerTrStyle}">\n`;
+        for (let c = 1; c <= cols; c++) {
+          const thStyle = styleType === 'mwm'
+            ? 'padding: 10px 14px; text-align: left; font-weight: 600; border: 1px solid #cbd5e1;'
+            : (styleType === 'minimal' ? 'padding: 8px 12px; text-align: left; font-weight: 600;' : 'padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #cbd5e1;');
+          html += `      <th style="${thStyle}">Header ${c}</th>\n`;
+        }
+        html += `    </tr>\n  </thead>\n`;
+      }
+
+      html += `  <tbody>\n`;
+      for (let r = 1; r <= rows; r++) {
+        const trBg = (styleType === 'mwm' && r % 2 === 0) ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
+        html += `    <tr style="${trBg}">\n`;
+        for (let c = 1; c <= cols; c++) {
+          const tdStyle = styleType === 'minimal'
+            ? 'padding: 8px 12px; border-bottom: 1px solid #e2e8f0;'
+            : (styleType === 'mwm' ? 'padding: 8px 12px; border: 1px solid #e2e8f0;' : 'padding: 8px 12px; border: 1px solid #cbd5e1;');
+          html += `      <td style="${tdStyle}">Cell ${r},${c}</td>\n`;
+        }
+        html += `    </tr>\n`;
+      }
+      html += `  </tbody>\n</table>\n<p><br></p>\n`;
+      return html;
+    }
+
+    document.getElementById('btn-insert-table-apply').onclick = () => {
+      const rows = Math.max(1, parseInt(tblInputRows.value, 10) || 3);
+      const cols = Math.max(1, parseInt(tblInputCols.value, 10) || 3);
+      const hasHeader = tblCheckHeader.checked;
+      const styleType = tblSelectStyle.value;
+      const isFullWidth = tblCheckFullwidth.checked;
+      const tableHtml = buildTableHtml(rows, cols, hasHeader, styleType, isFullWidth);
+
+      closeTableModal();
+
+      if (activeMode === 'wysiwyg' || activeMode === 'split') {
+        wysiwygPane.focus();
+        document.execCommand('insertHTML', false, tableHtml);
+        setDirty(true);
+        if (activeMode === 'split') {
+          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
+      } else if (activeMode === 'source') {
+        sourceTextarea.focus();
+        const start = sourceTextarea.selectionStart;
+        const end = sourceTextarea.selectionEnd;
+        const val = sourceTextarea.value;
+        sourceTextarea.value = val.substring(0, start) + tableHtml + val.substring(end);
+        sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + tableHtml.length;
+        setDirty(true);
+      }
+      showToast('✓ Table inserted');
+    };
+
+    // Table Context Actions
+    document.getElementById('btn-tbl-add-row-above').onclick = () => {
+      if (!activeTableContext || !activeTableContext.row) return;
+      const row = activeTableContext.row;
+      const colCount = row.children.length;
+      const isHeader = row.closest('thead') !== null;
+      const newRow = document.createElement('tr');
+      for (let i = 0; i < colCount; i++) {
+        const c = document.createElement(isHeader ? 'th' : 'td');
+        c.innerHTML = '&nbsp;';
+        c.style.cssText = (row.children[i] && row.children[i].style.cssText) || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+        newRow.appendChild(c);
+      }
+      row.parentNode.insertBefore(newRow, row);
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Added row above');
+    };
+
+    document.getElementById('btn-tbl-add-row-below').onclick = () => {
+      if (!activeTableContext || !activeTableContext.row) return;
+      const row = activeTableContext.row;
+      const colCount = row.children.length;
+      const newRow = document.createElement('tr');
+      for (let i = 0; i < colCount; i++) {
+        const c = document.createElement('td');
+        c.innerHTML = '&nbsp;';
+        c.style.cssText = (row.children[i] && row.children[i].style.cssText) || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+        newRow.appendChild(c);
+      }
+      row.parentNode.insertBefore(newRow, row.nextSibling);
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Added row below');
+    };
+
+    document.getElementById('btn-tbl-del-row').onclick = () => {
+      if (!activeTableContext || !activeTableContext.row) return;
+      activeTableContext.row.remove();
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Row deleted');
+    };
+
+    document.getElementById('btn-tbl-add-col-left').onclick = () => {
+      if (!activeTableContext || !activeTableContext.cell || !activeTableContext.table) return;
+      const cellIdx = Array.from(activeTableContext.row.children).indexOf(activeTableContext.cell);
+      const rows = activeTableContext.table.querySelectorAll('tr');
+      rows.forEach(r => {
+        const isHead = r.closest('thead') !== null;
+        const newCell = document.createElement(isHead ? 'th' : 'td');
+        newCell.innerHTML = isHead ? 'Header' : '&nbsp;';
+        const refCell = r.children[cellIdx];
+        if (refCell) {
+          newCell.style.cssText = refCell.style.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+          r.insertBefore(newCell, refCell);
+        } else {
+          r.appendChild(newCell);
+        }
+      });
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Column added to left');
+    };
+
+    document.getElementById('btn-tbl-add-col-right').onclick = () => {
+      if (!activeTableContext || !activeTableContext.cell || !activeTableContext.table) return;
+      const cellIdx = Array.from(activeTableContext.row.children).indexOf(activeTableContext.cell);
+      const rows = activeTableContext.table.querySelectorAll('tr');
+      rows.forEach(r => {
+        const isHead = r.closest('thead') !== null;
+        const newCell = document.createElement(isHead ? 'th' : 'td');
+        newCell.innerHTML = isHead ? 'Header' : '&nbsp;';
+        const refCell = r.children[cellIdx];
+        if (refCell && refCell.nextSibling) {
+          newCell.style.cssText = refCell.style.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+          r.insertBefore(newCell, refCell.nextSibling);
+        } else {
+          r.appendChild(newCell);
+        }
+      });
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Column added to right');
+    };
+
+    document.getElementById('btn-tbl-del-col').onclick = () => {
+      if (!activeTableContext || !activeTableContext.cell || !activeTableContext.table) return;
+      const cellIdx = Array.from(activeTableContext.row.children).indexOf(activeTableContext.cell);
+      const rows = activeTableContext.table.querySelectorAll('tr');
+      rows.forEach(r => {
+        if (r.children[cellIdx]) {
+          r.children[cellIdx].remove();
+        }
+      });
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Column deleted');
+    };
+
+    document.getElementById('btn-tbl-delete').onclick = () => {
+      if (!activeTableContext || !activeTableContext.table) return;
+      activeTableContext.table.remove();
+      setDirty(true);
+      closeTableModal();
+      showToast('✓ Table deleted');
+    };
 
     // -----------------------------------------------------------------
     // Draw.io Visual Diagram Integration

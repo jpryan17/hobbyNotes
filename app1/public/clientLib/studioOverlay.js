@@ -735,6 +735,7 @@ export class StudioOverlay {
                         <button id="tb-box-emerald" class="studio-tb-btn" style="color: #047857; border-color: #a7f3d0;" title="Insert Emerald Theorem Box">📗 Theorem</button>
                         <button id="tb-box-amber" class="studio-tb-btn" style="color: #b45309; border-color: #fde68a;" title="Insert Amber Caution Box">📙 Caution</button>
                         <button id="tb-box-card" class="studio-tb-btn" title="Insert Structured Card Container">🗂️ Card</button>
+                        <button id="tb-insert-table" class="studio-tb-btn" style="color: #0284c7; border-color: #bae6fd; font-weight: 700;" title="Insert or Construct HTML Table">📊 Table</button>
                     </div>
 
                     <div class="studio-tb-divider"></div>
@@ -933,6 +934,7 @@ export class StudioOverlay {
         const btnBoxEmerald = document.getElementById('tb-box-emerald');
         const btnBoxAmber = document.getElementById('tb-box-amber');
         const btnCard = document.getElementById('tb-box-card');
+        const btnInsertTable = document.getElementById('tb-insert-table');
         const btnInsertStencil = document.getElementById('tb-insert-stencil');
         const btnInsertTtd = document.getElementById('tb-insert-ttd');
         const btnInsertFsd = document.getElementById('tb-insert-fsd');
@@ -1536,6 +1538,285 @@ export class StudioOverlay {
         btnInsertMath.addEventListener('click', () => {
             insertHtmlSnippet(' $\\omega = \\text{transfinite}$ ');
         });
+        // Table Construction & Manipulation
+        const getActiveTableContext = () => {
+            const sel = window.getSelection();
+            let node = null;
+            if (sel && sel.rangeCount > 0 && wysiwygDiv.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+                node = sel.getRangeAt(0).commonAncestorContainer;
+            }
+            else if (lastWysiwygRange && wysiwygDiv.contains(lastWysiwygRange.commonAncestorContainer)) {
+                node = lastWysiwygRange.commonAncestorContainer;
+            }
+            if (node && node.nodeType === Node.TEXT_NODE)
+                node = node.parentNode;
+            if (!node || !(node instanceof HTMLElement))
+                return null;
+            const table = node.closest('table');
+            if (!table || !wysiwygDiv.contains(table))
+                return null;
+            const cell = node.closest('td, th') || null;
+            const row = node.closest('tr') || null;
+            return { table, cell, row };
+        };
+        const openTableModal = () => {
+            saveWysiwygRange();
+            const activeContext = getActiveTableContext();
+            const existingTblModal = document.getElementById('studio-table-modal');
+            if (existingTblModal)
+                existingTblModal.remove();
+            const tblModal = document.createElement('div');
+            tblModal.id = 'studio-table-modal';
+            tblModal.className = 'studio-modal-backdrop';
+            tblModal.style.zIndex = '100000';
+            const contextActionsHtml = (activeContext && activeContext.table) ? `
+                <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px;">
+                    <div style="font-size: 12px; font-weight: 700; color: #1e3a8a; margin-bottom: 6px;">Active Table Detected — Quick Actions:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                        <button type="button" id="in-tb-row-above" class="studio-tb-btn">⬆ Row Above</button>
+                        <button type="button" id="in-tb-row-below" class="studio-tb-btn">⬇ Row Below</button>
+                        <button type="button" id="in-tb-del-row" class="studio-tb-btn" style="color: #b91c1c;">✕ Del Row</button>
+                        <button type="button" id="in-tb-col-left" class="studio-tb-btn">⬅ Col Left</button>
+                        <button type="button" id="in-tb-col-right" class="studio-tb-btn">➡ Col Right</button>
+                        <button type="button" id="in-tb-del-col" class="studio-tb-btn" style="color: #b91c1c;">✕ Del Col</button>
+                        <button type="button" id="in-tb-del-tbl" class="studio-tb-btn" style="color: #dc2626; font-weight: 700;">🗑️ Delete Table</button>
+                    </div>
+                    <div style="margin-top: 8px; font-size: 11px; color: #64748b; border-top: 1px solid #dbeafe; padding-top: 6px;">Or construct a new table below:</div>
+                </div>
+            ` : '';
+            tblModal.innerHTML = `
+                <div class="studio-modal-dialog" style="max-width: 480px;">
+                    <div class="studio-modal-header">
+                        <h3 style="margin:0; font-size: 1.05rem;">📊 Construct &amp; Insert Table</h3>
+                        <button class="studio-close-btn" id="studio-tbl-close">✕</button>
+                    </div>
+                    <div class="studio-modal-body" style="padding: 16px;">
+                        ${contextActionsHtml}
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Rows (body):</label>
+                                <input type="number" id="in-tbl-rows" min="1" max="50" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Columns:</label>
+                                <input type="number" id="in-tbl-cols" min="1" max="20" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Table Visual Style:</label>
+                            <select id="in-tbl-style" style="width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: #ffffff; cursor: pointer; box-sizing: border-box;">
+                                <option value="mwm" selected>📘 MWM Curricular (Navy header, striped rows, clean borders)</option>
+                                <option value="grid">▦ Clean Bordered Grid (Light header, full gridlines)</option>
+                                <option value="minimal">― Minimalist (Top/bottom dividing lines, no vertical borders)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; font-size: 13px; color: #334155;">
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="in-tbl-header" checked />
+                                <span>Include header row (<code>&lt;thead&gt; &lt;th&gt;</code>)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="in-tbl-fullwidth" checked />
+                                <span>Full width (<code>100%</code>)</span>
+                            </label>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #64748b;">
+                            💡 <b>Tip:</b> Once inserted, type directly into cells. Click <b>📊 Table</b> anytime while inside a table to add or delete rows and columns!
+                        </div>
+                    </div>
+                    <div class="studio-modal-footer" style="display: flex; justify-content: flex-end; gap: 8px; padding: 12px 16px; border-top: 1px solid #e2e8f0;">
+                        <button type="button" class="studio-btn" id="studio-tbl-cancel" style="background:#f1f5f9; color:#475569;">Cancel</button>
+                        <button type="button" class="studio-btn primary" id="studio-tbl-apply">Insert Table</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(tblModal);
+            const closeTblModal = () => tblModal.remove();
+            tblModal.querySelector('#studio-tbl-close')?.addEventListener('click', closeTblModal);
+            tblModal.querySelector('#studio-tbl-cancel')?.addEventListener('click', closeTblModal);
+            tblModal.addEventListener('click', (e) => {
+                if (e.target === tblModal)
+                    closeTblModal();
+            });
+            // Context Actions
+            if (activeContext && activeContext.table) {
+                tblModal.querySelector('#in-tb-row-above')?.addEventListener('click', () => {
+                    if (!activeContext.row)
+                        return;
+                    const colCount = activeContext.row.children.length;
+                    const isHeader = activeContext.row.closest('thead') !== null;
+                    const newRow = document.createElement('tr');
+                    for (let i = 0; i < colCount; i++) {
+                        const c = document.createElement(isHeader ? 'th' : 'td');
+                        c.innerHTML = '&nbsp;';
+                        c.style.cssText = activeContext.row.children[i]?.style?.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+                        newRow.appendChild(c);
+                    }
+                    activeContext.row.parentNode?.insertBefore(newRow, activeContext.row);
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Added row above');
+                });
+                tblModal.querySelector('#in-tb-row-below')?.addEventListener('click', () => {
+                    if (!activeContext.row)
+                        return;
+                    const colCount = activeContext.row.children.length;
+                    const newRow = document.createElement('tr');
+                    for (let i = 0; i < colCount; i++) {
+                        const c = document.createElement('td');
+                        c.innerHTML = '&nbsp;';
+                        c.style.cssText = activeContext.row.children[i]?.style?.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+                        newRow.appendChild(c);
+                    }
+                    activeContext.row.parentNode?.insertBefore(newRow, activeContext.row.nextSibling);
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Added row below');
+                });
+                tblModal.querySelector('#in-tb-del-row')?.addEventListener('click', () => {
+                    if (!activeContext.row)
+                        return;
+                    activeContext.row.remove();
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Row deleted');
+                });
+                tblModal.querySelector('#in-tb-col-left')?.addEventListener('click', () => {
+                    if (!activeContext.cell || !activeContext.row)
+                        return;
+                    const cellIdx = Array.from(activeContext.row.children).indexOf(activeContext.cell);
+                    const rows = activeContext.table.querySelectorAll('tr');
+                    rows.forEach(r => {
+                        const isHead = r.closest('thead') !== null;
+                        const newCell = document.createElement(isHead ? 'th' : 'td');
+                        newCell.innerHTML = isHead ? 'Header' : '&nbsp;';
+                        const refCell = r.children[cellIdx];
+                        if (refCell) {
+                            newCell.style.cssText = refCell.style.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+                            r.insertBefore(newCell, refCell);
+                        }
+                        else {
+                            r.appendChild(newCell);
+                        }
+                    });
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Column added to left');
+                });
+                tblModal.querySelector('#in-tb-col-right')?.addEventListener('click', () => {
+                    if (!activeContext.cell || !activeContext.row)
+                        return;
+                    const cellIdx = Array.from(activeContext.row.children).indexOf(activeContext.cell);
+                    const rows = activeContext.table.querySelectorAll('tr');
+                    rows.forEach(r => {
+                        const isHead = r.closest('thead') !== null;
+                        const newCell = document.createElement(isHead ? 'th' : 'td');
+                        newCell.innerHTML = isHead ? 'Header' : '&nbsp;';
+                        const refCell = r.children[cellIdx];
+                        if (refCell && refCell.nextSibling) {
+                            newCell.style.cssText = refCell.style.cssText || 'padding: 8px 12px; border: 1px solid #e2e8f0;';
+                            r.insertBefore(newCell, refCell.nextSibling);
+                        }
+                        else {
+                            r.appendChild(newCell);
+                        }
+                    });
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Column added to right');
+                });
+                tblModal.querySelector('#in-tb-del-col')?.addEventListener('click', () => {
+                    if (!activeContext.cell || !activeContext.row)
+                        return;
+                    const cellIdx = Array.from(activeContext.row.children).indexOf(activeContext.cell);
+                    const rows = activeContext.table.querySelectorAll('tr');
+                    rows.forEach(r => {
+                        if (r.children[cellIdx])
+                            r.children[cellIdx].remove();
+                    });
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Column deleted');
+                });
+                tblModal.querySelector('#in-tb-del-tbl')?.addEventListener('click', () => {
+                    activeContext.table.remove();
+                    isWysiwygDirty = true;
+                    if (currentMode === 'split')
+                        textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                    updateStats();
+                    closeTblModal();
+                    StudioOverlay.showToast('✓ Table deleted');
+                });
+            }
+            // Apply / Insert New Table
+            tblModal.querySelector('#studio-tbl-apply')?.addEventListener('click', () => {
+                const rows = Math.max(1, parseInt(tblModal.querySelector('#in-tbl-rows').value, 10) || 3);
+                const cols = Math.max(1, parseInt(tblModal.querySelector('#in-tbl-cols').value, 10) || 3);
+                const hasHeader = tblModal.querySelector('#in-tbl-header').checked;
+                const styleType = tblModal.querySelector('#in-tbl-style').value;
+                const isFullWidth = tblModal.querySelector('#in-tbl-fullwidth').checked;
+                let tableStyle = 'border-collapse: collapse; margin: 16px 0; font-size: 14px; line-height: 1.5;';
+                if (isFullWidth)
+                    tableStyle += ' width: 100%;';
+                if (styleType === 'mwm') {
+                    tableStyle += ' border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);';
+                }
+                else if (styleType === 'grid') {
+                    tableStyle += ' border: 1px solid #cbd5e1;';
+                }
+                let html = `\n<table style="${tableStyle}">\n`;
+                if (hasHeader) {
+                    const headerTrStyle = styleType === 'mwm' ? 'background-color: #1e3a8a; color: #ffffff;' : (styleType === 'grid' ? 'background-color: #f8fafc; color: #0f172a;' : 'border-bottom: 2px solid #0f172a;');
+                    html += `  <thead>\n    <tr style="${headerTrStyle}">\n`;
+                    for (let c = 1; c <= cols; c++) {
+                        const thStyle = styleType === 'mwm'
+                            ? 'padding: 10px 14px; text-align: left; font-weight: 600; border: 1px solid #cbd5e1;'
+                            : (styleType === 'minimal' ? 'padding: 8px 12px; text-align: left; font-weight: 600;' : 'padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #cbd5e1;');
+                        html += `      <th style="${thStyle}">Header ${c}</th>\n`;
+                    }
+                    html += `    </tr>\n  </thead>\n`;
+                }
+                html += `  <tbody>\n`;
+                for (let r = 1; r <= rows; r++) {
+                    const trBg = (styleType === 'mwm' && r % 2 === 0) ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
+                    html += `    <tr style="${trBg}">\n`;
+                    for (let c = 1; c <= cols; c++) {
+                        const tdStyle = styleType === 'minimal'
+                            ? 'padding: 8px 12px; border-bottom: 1px solid #e2e8f0;'
+                            : (styleType === 'mwm' ? 'padding: 8px 12px; border: 1px solid #e2e8f0;' : 'padding: 8px 12px; border: 1px solid #cbd5e1;');
+                        html += `      <td style="${tdStyle}">Cell ${r},${c}</td>\n`;
+                    }
+                    html += `    </tr>\n`;
+                }
+                html += `  </tbody>\n</table>\n<p><br></p>\n`;
+                closeTblModal();
+                insertHtmlSnippet(html);
+                isWysiwygDirty = true;
+                if (currentMode === 'split')
+                    textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
+                updateStats();
+                StudioOverlay.showToast('✓ Table inserted into chapter.');
+            });
+        };
+        btnInsertTable?.addEventListener('click', openTableModal);
         btnRenderMath.addEventListener('click', async () => {
             btnRenderMath.textContent = '⏳ Rendering...';
             if (window.MathJax?.typesetPromise) {

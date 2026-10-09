@@ -132,17 +132,92 @@
     </ul>
   </div>
 
-  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
-    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
-    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
-    • <b>Halo Definition:</b> The halo (monad) of a standard dyadic point <code>x₀ ∈ 𝔻</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
-    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → 𝔻 assigns to each finite hyperreal x the unique standard dyadic shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
-    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
-    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: x = x₀ + k·dx»</eq-ref>.
+  <p>
+    “So how does this tie directly into our calculation rules and pseudocode?” Jane asked, turning to the board.
+  </p>
+
+  <p>
+    “Remember our foundational computational architecture,” Jane continued. “In Middle Way Mathematics, a function is not an uninstantiated, static set of infinite pairs. It requires an <b>executable rule</b> evaluated by our <b>Dyadic Arithmetic Machine</b>. When we evaluate an expression in continuous analysis, where do the actual numbers come from?”
+  </p>
+
+  <p>
+    Jill’s eyes lit up: “The function <code>st</code> prepares them! Because <code>st</code> resolves any continuous or infinitesimal expression into a concrete dyadic rational <code>𝔻</code> at whatever precision we demand, it extracts the exact numerical operands that our pseudocode can load, step through, and manipulate on the machine!”
+  </p>
+
+  <p>
+    “Precisely,” Jane nodded approvingly. “And that brings us to the linchpin that makes calculus work without algebraic distortion: the <b>Ring Homomorphism</b>.”
+  </p>
+
+  <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-left: 4px solid #16a34a; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+    <div style="font-weight: 700; color: #15803d; font-size: 14px; margin-bottom: 6px;">
+      The Algebraic Guarantee: Why the Ring Homomorphism Matters
+    </div>
+    <p style="margin: 0 0 10px 0; font-size: 13.5px; color: #166534; line-height: 1.6;">
+      In 19th-century analysis, students are constantly warned that limit processes are fragile—you cannot casually mix limits with high-school algebra without proving individual convergence theorems. But on our inductive scaffold <code>ℝ_ω</code>, the standard part function <code>st</code> preserves both fundamental arithmetic operations:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 14px; font-weight: bold; color: #15803d; background: #ffffff; padding: 10px; border-radius: 6px; border: 1px solid #bbf7d0; margin: 10px 0;">
+      st(x + y) &nbsp;=&nbsp; st(x) + st(y)   and   st(x · y) &nbsp;=&nbsp; st(x) · st(y)
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #14532d; line-height: 1.55;">
+      <b>The Computational Consequence:</b> This identity guarantees that you can perform ordinary high-school algebra with infinitesimals—expanding polynomials, factoring differences, and canceling differentials <code>dx</code>—knowing with mathematical certainty that taking <code>st</code> at the end produces the <i>exact same numerical result</i> as feeding the resolved dyadic values into the arithmetic machine from the start. Addition and multiplication are strictly conserved across the continuum-to-machine boundary.
+    </p>
+  </div>
+
+  <p>
+    “With this computational bridge established,” Jane said, “we can view the formal Lean 4 specification not as an intimidating wall of symbols, but as three interlocking architectural layers:”
+  </p>
+
+  <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; margin: 18px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 8px;">
+      <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Formal Statement (FS-A1D-1.1): The Infinitesimal Halo &amp; Nucleus Decomposition</h4>
+      <span style="font-size: 11.5px; font-weight: 700; color: #0284c7; background: #eff6ff; padding: 3px 8px; border-radius: 12px; border: 1px solid #bfdbfe;">Lean 4 Machine Certified</span>
+    </div>
+
+    <!-- 3 Stepped Architectural Layers -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- Layer 1: The Machine Arena -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. The Machine Arena (Finite Horizon &amp; Dyadic Hardware)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code><br>
+          <span style="color: #64748b; font-size: 12px;">Ensures all quantities stay strictly within the cosmic Day <code>ω</code> boundary, excluding divergent transfinite infinities.</span><br>
+          • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code><br>
+          <span style="color: #64748b; font-size: 12px;">Exact finite binary representations born at <code>k &lt; ω</code>. These are the machine's native numbers with zero halo dust: <code>st(x) = x</code>.</span>
+        </div>
+      </div>
+
+      <!-- Layer 2: The Halo Envelope -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #0284c7; font-size: 13px; margin-bottom: 4px;">2. The Halo Envelope (Microscopic Closeness)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref><br>
+          <span style="color: #64748b; font-size: 12px;">Defines two hyperreals as infinitely close when their distance is smaller than every standard reciprocal fraction.</span><br>
+          • <b>Halo Definition:</b> The halo (monad) of a standard dyadic point <code>x₀ ∈ 𝔻</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+          <span style="color: #64748b; font-size: 12px;">The cluster of all continuum points differing from <code>x₀</code> by infinitesimal Day <code>ω</code> branching steps.</span>
+        </div>
+      </div>
+
+      <!-- Layer 3: The Computational Bridge -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #16a34a; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #16a34a; font-size: 13px; margin-bottom: 4px;">3. The Computational Bridge (Standard Part &amp; Ring Homomorphism)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → 𝔻 assigns to each finite hyperreal x the unique standard dyadic shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+          <span style="color: #64748b; font-size: 12px;">Prunes transfinite dust to the earliest dyadic ancestor, preparing values for the pseudocode calculation machine.</span><br>
+          • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref><br>
+          <span style="color: #64748b; font-size: 12px;">Every finite hyperreal splits uniquely into its standard dyadic nucleus and an infinitesimal Day <code>ω</code> halo perturbation.</span><br>
+          • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
+          <span style="color: #64748b; font-size: 12px;">Guarantees that high-school algebra with infinitesimals produces exact results on the machine without distortion.</span>
+        </div>
+      </div>
+
+      <!-- Concrete Instance & Interactive Evaluation -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a;">
+        • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
+        • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: x = x₀ + k·dx»</eq-ref>.
+      </div>
+
+    </div>
   </div>
 
   <hr>
