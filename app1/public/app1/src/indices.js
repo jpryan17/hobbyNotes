@@ -181,7 +181,7 @@ export const course2Index = [
     },
     {
         type: "html",
-        topic: "lecture 1: microscope & continuity",
+        topic: "lecture 1: continuum & continuity",
         htmlSegmentId: "analysis1DLecture1",
     },
     {
@@ -414,7 +414,7 @@ export const analysis1DIndex = [
     },
     {
         type: "html",
-        topic: "lecture 1: microscope & continuity",
+        topic: "lecture 1: continuum & continuity",
         htmlSegmentId: "analysis1DLecture1",
     },
     {

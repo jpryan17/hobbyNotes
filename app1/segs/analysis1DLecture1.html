@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Analysis 1D Lecture 1: The Infinitesimal Microscope &amp; Continuity</title>
+  <title>Analysis 1D Lecture 1: The Continuum &amp; Continuity</title>
 </head>
 
 <body>
 <div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br><i><font size="+1">Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
+    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br><i><font size="+1">The Continuum &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
   </div>
   <br>
 
@@ -225,15 +225,27 @@
   <h3>2. Continuity Without Epsilon-Delta</h3>
 
   <p>
-    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
+    “Now this is all very interesting,” Jane asked, leaning back against the chalkboard, “but what has it to do with continuity?”
   </p>
 
   <p>
-    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
+    “I'm not sure,” Jill responded after some reflection, “my first idea of continuity is a continuous path that you can only draw if you don't take your pen off the paper once you start. Then I saw it defined by standard limit theory, and I think the domain and codomain need some sort of a topology, the actual structure preserved by a continuous function. But I don't know what halos have to do with continuity.”
   </p>
 
   <p>
-    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
+    “That is the perfect place to start,” Jane said warmly. “Notice what both of those descriptions are trying to capture. The childhood intuition of drawing without lifting your pen is really saying: <i>there are no sudden jumps, no sudden teleports, no tearing of space</i>. When Weierstrass and modern topologists tried to formalize that with limits and open sets, they had to construct an enormous apparatus—four alternating quantifiers in epsilon-delta limits, or abstract topologies of open neighborhoods.”
+  </p>
+
+  <p>
+    “Halos cut straight through that complexity,” Jane explained. “In our arithmetic world, two points are 'infinitely close' if they share the exact same halo: <code>x ≈ x₀</code>. They differ by only an infinitesimal breath. So what must a continuous function do to two points that are that close?”
+  </p>
+
+  <p>
+    Jill tilted her head: “It can't tear them apart. If they start out infinitely close, their outputs have to stay infinitely close.”
+  </p>
+
+  <p>
+    “Exactly!” Jane smiled. “That was Cauchy’s original, intuitive insight, and here on <code>ℝ_ω</code> it becomes an exact algebraic statement: nearby inputs produce nearby outputs. If two points share a halo, their values must land in the same halo:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
