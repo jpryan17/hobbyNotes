@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/harvestStencils.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-10-09T18:21:12.217Z",
+    "generatedAt": "2026-10-09T18:42:52.723Z",
     "version": "1.0.0",
     "formalStatements": [
         {
@@ -48,7 +48,7 @@ export const FS_CATALOG = {
             "leanSignature": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
             "referencedInSegments": [
                 "analysis1DLecture3",
-                "introduction",
+                "modelsOverview",
                 "stemHeatDiffusion",
                 "stemTrigFoundations"
             ]
