@@ -8,21 +8,32 @@
 <body>
 <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
-    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Rates of Change as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
   </div>
   <br>
 
   <p>
-    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
+    Jane began Lecture 2 by writing two contrasting typed directed equalities on the blackboard:
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
-    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
+  <div style="background: #0f172a; color: #f8fafc; border-radius: 8px; padding: 18px 24px; margin: 16px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);">
+    <div style="color: #94a3b8; font-size: 11.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+      The Opening Contrast on Jane's Blackboard
+    </div>
+    <div style="margin-bottom: 14px;">
+      <span style="color: #38bdf8; font-weight: 700;">Standard Limit Definition:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_std( f : ℝ → ℝ, x : ℝ ) : ℝ ≔ lim (Δx → 0) [ (f(x + Δx) - f(x)) / Δx ]</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Indirect limit of secant difference quotients as standard Δx shrinks toward 0, conditioned on ε-δ existence)</span>
+    </div>
+    <div style="border-top: 1px dashed #334155; padding-top: 12px;">
+      <span style="color: #4ade80; font-weight: 700;">Nonstandard Algebraic Rule:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : ℝ ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual hyperreal step dx ≈ 0, dx ≠ 0, followed by standard shadow extraction)</span>
+    </div>
   </div>
 
   <p>
-    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+    “In standard calculus,” Jane said, “the derivative is defined indirectly as the limit of secant difference quotients as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
   </p>
 
   <p>
@@ -35,7 +46,7 @@
 
   <hr>
 
-  <h3>1. Deriving Slopes by Pure Algebra</h3>
+  <h3>1. Deriving Rates of Change by Pure Algebra</h3>
 
   <h4>Example 1: The Parabola f(x) = x²</h4>
   <p>
@@ -52,13 +63,53 @@
   </p>
 
   <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
-      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
-      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
-    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f'(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
-    • <b>Equivalence:</b> <code>f'(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
+  <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; font-size: 13.5px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+
+    <!-- Step 1: The Difference Quotient in the Scaffold Field -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 1: Difference Quotient</span>
+        <b style="color: #1e3a8a;">Hyperreal Field Division</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        For a real function <code>f : ℝ_ω → ℝ_ω</code>, standard base point <code>x ∈ ℝ</code>, and nonzero infinitesimal step <code>dx ∈ μ(0) \ {0}</code>, the difference ratio:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 14px; color: #1e3a8a; background: #ffffff; padding: 6px 12px; border: 1px solid #e2e8f0; border-radius: 4px; margin: 4px 0;">
+        Δy / dx &nbsp;= &nbsp;[ f(x + dx) - f(x) ] / dx &nbsp;∈&nbsp; ℝ_ω
+      </div>
+      <p style="margin: 4px 0 0 0; color: #64748b; font-size: 12px;">
+        This is a genuine, well-defined arithmetic operation inside the field <code>ℝ_ω</code>. No division by zero occurs because <code>dx ≠ 0</code>.
+      </p>
+    </div>
+
+    <!-- Step 2: Invariance Across the Halo -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 2: Differentiability Condition</span>
+        <b style="color: #1e3a8a;">Halo Invariance</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        The function <code>f</code> is <b>differentiable</b> at <code>x</code> if the standard shadow of the difference ratio is completely invariant under the choice of nonzero infinitesimal <code>dx ≈ 0</code>:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13.5px; color: #0f172a; margin: 4px 0;">
+        <code>f'(x) = L &nbsp;⟺&nbsp; ∀ dx ≈ 0 &nbsp;( dx ≠ 0 ⇒ [ f(x + dx) - f(x) ] / dx ≈ L )</code>
+      </div>
+    </div>
+
+    <!-- Step 3: The Derivative Value & Shadow Map -->
+    <div style="margin-bottom: 6px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 3: Shadow Extraction</span>
+        <b style="color: #1e3a8a;">The Derivative Value</b>
+      </div>
+      <div align="center" style="font-family: monospace; font-size: 15px; color: #1e3a8a; background: #ffffff; padding: 8px 14px; border: 1.5px solid #3b82f6; border-radius: 6px; margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f'(x) &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
+      </div>
+      <div style="margin-top: 8px; font-size: 12.5px; color: #475569;">
+        • <b>Interactive Evaluator:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
+      </div>
+    </div>
+
   </div>
 
   <hr>
@@ -193,7 +244,7 @@
   </p>
 
   <p>
-    “Precisely, Jill!” Jane beamed. “Let's compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
+    “Precisely, Jill!” Jane beamed. “Let's compute the difference of consecutive rates of change across our grid step <code>dx = 1/ω</code>.”
   </p>
 
   <p>
