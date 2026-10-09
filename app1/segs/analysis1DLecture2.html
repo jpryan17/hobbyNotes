@@ -28,7 +28,7 @@
     <div style="border-top: 1px dashed #334155; padding-top: 12px;">
       <span style="color: #4ade80; font-weight: 700;">Nonstandard Algebraic Rule:</span><br>
       <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : 𝔻 ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
-      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual hyperreal step dx ≈ 0, dx ≠ 0, followed by shadow resolution to dyadic rationals 𝔻)</span>
+      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual step dx ∈ ℝ_ω, dx ≠ 0, followed by shadow resolution to dyadic rationals 𝔻)</span>
     </div>
   </div>
 
@@ -69,7 +69,7 @@
     <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
         <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 1: Difference Quotient</span>
-        <b style="color: #1e3a8a;">Hyperreal Field Division</b>
+        <b style="color: #1e3a8a;">Field Division on ℝ_ω</b>
       </div>
       <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
         For a real function <code>f : ℝ_ω → ℝ_ω</code>, standard base point <code>x ∈ ℝ</code>, and nonzero infinitesimal step <code>dx ∈ μ(0) \ {0}</code>, the difference ratio:
@@ -179,13 +179,13 @@
     “In standard calculus,” Jane noted, “students are strictly warned: <i>'dy/dx is not a fraction; you cannot cancel dx!'</i>”
   </p>
   <p>
-    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine numbers on our scaffold</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
     <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
   </div>
   <p>
-    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
+    Because these are non-zero numbers in the field <code>ℝ_ω</code>, the intermediate increment <code>du</code> <b>cancels identically</b>:
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
     [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
