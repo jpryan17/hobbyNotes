@@ -27,8 +27,8 @@
     </div>
     <div style="border-top: 1px dashed #334155; padding-top: 12px;">
       <span style="color: #4ade80; font-weight: 700;">Nonstandard Algebraic Rule:</span><br>
-      <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : ℝ ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
-      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual hyperreal step dx ≈ 0, dx ≠ 0, followed by standard shadow extraction)</span>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : 𝔻 ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual hyperreal step dx ≈ 0, dx ≠ 0, followed by shadow resolution to dyadic rationals 𝔻)</span>
     </div>
   </div>
 
@@ -37,11 +37,11 @@
   </p>
 
   <p>
-    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
+    Jill looked closely at the typing: “And notice the codomain! Standard calculus claims to output into an abstract, non-computable Platonic <code>ℝ</code>. But our nonstandard algebraic rule maps directly to <code>𝔻</code> &mdash; the dyadic rationals our calculation machine actually evaluates!”
   </p>
 
   <p>
-    “Exactly,” Jane smiled. “Let's see how this turns all of differential calculus into pure algebra.”
+    “Spot on, Jill,” Jane smiled. “Instead of taking an uninstantiable limit, we perform straightforward polynomial division in the hyperreal field <code>ℝ_ω</code>, and then let <code>st</code> resolve the shadow cleanly into <code>𝔻</code> at whatever precision we specify.”
   </p>
 
   <hr>
@@ -103,7 +103,7 @@
         <b style="color: #1e3a8a;">The Derivative Value</b>
       </div>
       <div align="center" style="font-family: monospace; font-size: 15px; color: #1e3a8a; background: #ffffff; padding: 8px 14px; border: 1.5px solid #3b82f6; border-radius: 6px; margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f'(x) &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
+        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f'(x) : 𝔻 &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
       </div>
       <div style="margin-top: 8px; font-size: 12.5px; color: #475569;">
         • <b>Interactive Evaluator:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
