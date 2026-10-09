@@ -83,7 +83,7 @@
 
   <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
     <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
-    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
+    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard dyadic nucleus <code>x₀ = st(x) ∈ 𝔻</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
       <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε   where   ε ≈ 0</b>
     </div>
@@ -106,13 +106,39 @@
     </li>
   </ul>
 
+  <p>
+    Jill paused, reviewing her notes. “Wait, Jane—what about <code>1/3</code>? In our foundational discussion of sequences and progressions, we explored how the ancients listened to the 'heavenly chimes' of whole-number ratios. We expect <code>1/3</code> to exist naturally as a simple fraction. But on our dyadic tree, <code>1/3</code> never terminates—its binary expansion <code>0.010101...₂</code> goes on forever! It has no finite birthday before Day <code>ω</code>. What does <code>st</code> do with <code>1/3</code>?”
+  </p>
+
+  <p>
+    Jane smiled broadly. “That is the exact fork in the road where constructive calculus parts ways with standard nonstandard analysis.”
+  </p>
+
+  <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 8px; padding: 14px 18px; margin: 16px 0;">
+    <div style="font-weight: 700; color: #6d28d9; font-size: 14px; margin-bottom: 6px;">
+      The 1/3 Contrast: Platonic Trapdoors vs. Constructive Dyadic Halos
+    </div>
+    <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #334155; line-height: 1.6;">
+      <li style="margin-bottom: 8px;">
+        <b>In Standard Nonstandard Analysis (Robinson):</b> The codomain of the standard part function is declared to be the classical completed continuum <code>ℝ</code>: <code>st : *ℝ_{fin} → ℝ</code>. Robinson invokes non-constructive set theory (ultrafilters and the Axiom of Choice) so that <code>st</code> acts like an ontological trapdoor: whenever you are done calculating with infinitesimals, <code>st</code> drops you straight down into a pre-existing Platonic realm where <code>1/3 ∈ ℝ</code> is assumed to sit completed by non-constructive decree.
+      </li>
+      <li>
+        <b>In Constructive Calculus (Middle Way):</b> The codomain of <code>st</code> is grounded in our executable dyadic hardware: <code>st : ℝ_ω^{fin} → 𝔻</code>. On the dyadic tree, <code>1/3</code> is not a static point with a finite birthday, nor does it have zero halo dust. Instead, <code>1/3</code> <b>is the halo itself</b>—an unending stream of tightening dyadic brackets:
+        <div style="font-family: monospace; font-size: 13px; color: #1e3a8a; margin: 6px 0; background: #ffffff; padding: 6px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          [1/4, 1/2] ⊃ [5/16, 6/16] ⊃ [21/64, 22/64] ⊃ ... ⊃ [m / 2^k, (m+1) / 2^k]
+        </div>
+        We don't need a magical Platonic escape hatch. In constructive mathematics, <code>1/3</code> lives as a living process: to calculate with <code>1/3</code>, the Calculation Machine simply queries the dyadic tree down to whatever finite level <code>k &lt; ω</code> your desired precision requires.
+      </li>
+    </ul>
+  </div>
+
   <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
     • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
     • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
-    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
-    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+    • <b>Halo Definition:</b> The halo (monad) of a standard dyadic point <code>x₀ ∈ 𝔻</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → 𝔻 assigns to each finite hyperreal x the unique standard dyadic shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
     • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
     • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
     • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
