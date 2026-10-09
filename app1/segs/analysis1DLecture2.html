@@ -151,22 +151,25 @@
   <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
 
   <p>
-    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f'(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
+    Jill paused, reflecting on the difference quotient: “Wait &mdash; in our foundational study of algebraic structures and vector spaces, a 1D linear map was simply a structure-preserving scalar multiplication <code>L(v) = c·v</code> satisfying <code>L(u + v) = L(u) + L(v)</code> and <code>L(a·v) = a·L(v)</code>. If we multiply both sides of <code>Δy/dx ≈ f'(x)</code> by <code>dx</code>, are we just applying a linear map?”
   </p>
   <p>
-    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
+    “That is the profound heart of calculus!” Jane answered excitedly. “Every smooth curve is infinitesimally straight. Inside the halo <code>μ(x)</code>, the complicated nonlinear curve <code>f</code> collapses into the simplest possible structure-preserving map &mdash; the linear transformation <code>dx &rarr; f'(x)·dx</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
     Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f'(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
   </div>
   <p>
-    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by this dominant <b>linear scaling map</b>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
     <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f'(x) · dx</b></fsd-ref>
   </div>
   <p>
-    “The derivative <code>f'(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+    Jill’s eyes lit up: “And in our exploration of duality, a covector was a linear measurement detector that ingests a vector and returns a scalar number. So <code>df</code> is literally a covector on the tangent space!”
+  </p>
+  <p>
+    “Spot on, Jill!” Jane beamed. “The differential <code>df</code> is a <b>Differential 1-Form</b> &mdash; a linear functional evaluating the infinitesimal displacement vector <code>dx</code> to return the scalar height increment <code>f'(x)·dx</code>. The derivative <code>f'(x)</code> is nothing other than the scalar multiplier of that linear map.”
   </p>
 
   <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>

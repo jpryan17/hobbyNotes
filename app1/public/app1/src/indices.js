@@ -361,9 +361,10 @@ export const level1Index = [
     },
 ];
 // =====================================================================
-// Level 3: Space, Direction & Geometry
 // =====================================================================
-export const vectorsIndex = [
+// Level 2: Algebraic Structure & Linearity
+// =====================================================================
+export const linearAlgebraIndex = [
     {
         type: "html",
         topic: "overview: linear algebra",
@@ -385,26 +386,27 @@ export const vectorsIndex = [
         htmlSegmentId: "vectorsLecture3",
     },
 ];
-export const level3Index = [
+export const vectorsIndex = linearAlgebraIndex;
+export const level2Index = [
     {
         type: "html",
-        topic: "overview: linear algebra & geometry",
+        topic: "overview: algebraic structure & linearity",
         htmlSegmentId: "vectorFoundationsIntro",
     },
     {
-        type: "index",
-        topic: "course 1: linear algebra",
-        navTopic: "linear algebra",
-        indexDesc: vectorsIndex,
+        type: "html",
+        topic: "sequences & progressions",
+        htmlSegmentId: "sequencesAndSums",
     },
     {
-        type: "html",
-        topic: "course 2: trigonometry & rotor geometry",
-        htmlSegmentId: "stemTrigFoundations",
+        type: "index",
+        topic: "course 1: linear algebra & symmetries",
+        navTopic: "linear algebra",
+        indexDesc: linearAlgebraIndex,
     },
 ];
 // =====================================================================
-// Level 2: Continuum & Calculus
+// Level 3: Continuum & Calculus
 // =====================================================================
 export const analysis1DIndex = [
     {
@@ -450,16 +452,11 @@ export const analysis2DIndex = [
         htmlSegmentId: "analysis2DLecture3",
     },
 ];
-export const level2Index = [
+export const level3Index = [
     {
         type: "html",
         topic: "overview: continuous analysis",
         htmlSegmentId: "lamOverview",
-    },
-    {
-        type: "html",
-        topic: "sequences & progressions",
-        htmlSegmentId: "sequencesAndSums",
     },
     {
         type: "index",
@@ -475,9 +472,9 @@ export const level2Index = [
     },
 ];
 // =====================================================================
-// Level 4: The Transcendental Engine: Growth, Rotation & Logarithm
+// Level 4: Space, Trigonometry & The Transcendental Engine
 // =====================================================================
-export const level4Index = [
+export const transcendentalEngineIndex = [
     {
         type: "html",
         topic: "exponential & logarithmic foundations",
@@ -493,6 +490,19 @@ export const level4Index = [
         topic: "Euler compounding demo (BID)",
         initCB: initBID,
         layoutCB: layoutBID,
+    },
+];
+export const level4Index = [
+    {
+        type: "html",
+        topic: "course 1: trigonometry & rotor geometry",
+        htmlSegmentId: "stemTrigFoundations",
+    },
+    {
+        type: "index",
+        topic: "course 2: growth, logarithm & rotation",
+        navTopic: "transcendental engine",
+        indexDesc: transcendentalEngineIndex,
     },
 ];
 // =====================================================================
@@ -567,10 +577,10 @@ export const level6Index = [
 // Backwards-Compatible Aliases
 // =====================================================================
 export const foundationIndex = level1Index;
-export const phase2AGeometryIndex = level3Index;
-export const phase2BAnalysisIndex = level2Index;
-export const analysisAndSeminarsIndex = level2Index;
-export const lamIndex = level2Index;
+export const phase2AGeometryIndex = level4Index;
+export const phase2BAnalysisIndex = level3Index;
+export const analysisAndSeminarsIndex = level3Index;
+export const lamIndex = level3Index;
 export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
 export const seminarsIndex = level6Index;
 // =====================================================================
@@ -597,20 +607,20 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Level 2: Continuum & Calculus",
-        navTopic: "Continuum & Calculus",
+        topic: "Level 2: Algebraic Structure & Linearity",
+        navTopic: "Algebra & Linearity",
         indexDesc: level2Index,
     },
     {
         type: "index",
-        topic: "Level 3: Space & Geometry",
-        navTopic: "Space & Geometry",
+        topic: "Level 3: Continuum & Calculus",
+        navTopic: "Continuum & Calculus",
         indexDesc: level3Index,
     },
     {
         type: "index",
-        topic: "Level 4: Growth & The Logarithm",
-        navTopic: "Growth & Logarithm",
+        topic: "Level 4: Space, Trigonometry & The Transcendental Engine",
+        navTopic: "Space & Growth",
         indexDesc: level4Index,
     },
     {
