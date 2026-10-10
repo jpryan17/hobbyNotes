@@ -15,6 +15,8 @@ export function getFsCatalogStatement(scaffoldKeyOrTarget) {
 export function getFsCatalogExamplesForMode(modeId) {
     return FS_CATALOG.examples.filter((ex) => ex.modeId === modeId);
 }
+import { createHaloResult, createDyadicResult, SlotController } from "./directedEquality.js";
+export { createHaloResult, createDyadicResult };
 /**
  * Infers directional (inputs → output) sets from any Formal Statement (FS).
  */
@@ -2206,7 +2208,8 @@ export class FsCalculator extends Elt {
         // Reset input values to defaults for this mode
         this.currentInputValues = {};
         mode.inputs.forEach((inp) => {
-            this.currentInputValues[inp.name] = Array.isArray(inp.defaultValue) ? inp.defaultValue[0] : inp.defaultValue;
+            const def = Array.isArray(inp.defaultValue) ? inp.defaultValue[0] : inp.defaultValue;
+            this.currentInputValues[inp.name] = typeof def === "number" ? def : (parseFloat(String(def)) || 0);
         });
         // Update formula banner
         this.formulaBanner.removeChildren();
@@ -2249,93 +2252,19 @@ export class FsCalculator extends Elt {
             this.inputControlsContainer.append(presetBar);
         }
         mode.inputs.forEach((inp) => {
-            const row = new Elt("div");
-            row.setA("style", "display: flex; flex-direction: column; gap: 4px; padding-bottom: 8px; border-bottom: 1px dashed #e2e8f0;");
-            // Label line
-            const labelLine = new Elt("div");
-            labelLine.setA("style", "display: flex; justify-content: space-between; align-items: center; font-size: 12px;");
-            const labelText = new Elt("span");
-            labelText.setA("style", "font-weight: 600; color: #1e293b;");
-            labelText.setV(`${inp.symbol}${inp.unit ? ` (${inp.unit})` : ""}`);
-            labelLine.append(labelText);
-            const domainTag = new Elt("span");
-            domainTag.setA("style", "font-size: 10px; color: #64748b; font-family: monospace;");
-            domainTag.setV(`∈ ${inp.domain}`);
-            labelLine.append(domainTag);
-            row.append(labelLine);
-            // Input control line: [-] [ Input ] [+] OR <select> dropdown if options exist
-            const controlLine = new Elt("div");
-            controlLine.setA("style", "display: flex; align-items: center; gap: 6px;");
-            if (inp.options && inp.options.length > 0) {
-                const selectElt = document.createElement("select");
-                selectElt.style.cssText = "flex: 1; height: 26px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; font-family: monospace; font-weight: 600; color: #0f172a; background: #ffffff; cursor: pointer;";
-                const activeVal = this.currentInputValues[inp.name] ?? inp.defaultValue;
-                inp.options.forEach((opt) => {
-                    const optElt = document.createElement("option");
-                    optElt.value = opt.value.toString();
-                    optElt.text = opt.label;
-                    if (opt.value === activeVal) {
-                        optElt.selected = true;
-                    }
-                    selectElt.appendChild(optElt);
-                });
-                selectElt.addEventListener("change", () => {
-                    const parsed = parseFloat(selectElt.value);
-                    if (!isNaN(parsed)) {
-                        this.currentInputValues[inp.name] = parsed;
-                        this.computeAndRenderResult();
-                    }
-                });
-                controlLine.elt.appendChild(selectElt);
-            }
-            else {
-                const step = inp.step !== undefined ? inp.step : 1.0;
-                const decBtn = new Elt("button");
-                decBtn.setA("style", "width: 24px; height: 24px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;");
-                decBtn.setV("-");
-                const inputElt = document.createElement("input");
-                inputElt.type = "number";
-                inputElt.value = (this.currentInputValues[inp.name] ?? inp.defaultValue).toString();
-                inputElt.step = step.toString();
-                if (inp.min !== undefined)
-                    inputElt.min = inp.min.toString();
-                if (inp.max !== undefined)
-                    inputElt.max = inp.max.toString();
-                inputElt.style.cssText = "flex: 1; height: 24px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; font-family: monospace; font-weight: 600; color: #0f172a;";
-                const incBtn = new Elt("button");
-                incBtn.setA("style", "width: 24px; height: 24px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f8fafc; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;");
-                incBtn.setV("+");
-                const updateVal = (newVal) => {
-                    let clamped = newVal;
-                    if (inp.min !== undefined && clamped < inp.min)
-                        clamped = inp.min;
-                    if (inp.max !== undefined && clamped > inp.max)
-                        clamped = inp.max;
-                    inputElt.value = clamped.toString();
-                    this.currentInputValues[inp.name] = clamped;
+            const activeVal = this.currentInputValues[inp.name] ??
+                (typeof inp.defaultValue === "number"
+                    ? inp.defaultValue
+                    : parseFloat(String(inp.defaultValue)) || 0);
+            const slotCtrl = new SlotController(inp, {
+                layout: "stacked",
+                initialValue: activeVal,
+                onChange: (newVal) => {
+                    this.currentInputValues[inp.name] = newVal;
                     this.computeAndRenderResult();
-                };
-                decBtn.elt.addEventListener("click", () => {
-                    const cur = parseFloat(inputElt.value) || 0;
-                    updateVal(cur - step);
-                });
-                incBtn.elt.addEventListener("click", () => {
-                    const cur = parseFloat(inputElt.value) || 0;
-                    updateVal(cur + step);
-                });
-                inputElt.addEventListener("input", () => {
-                    const parsed = parseFloat(inputElt.value);
-                    if (!isNaN(parsed)) {
-                        this.currentInputValues[inp.name] = parsed;
-                        this.computeAndRenderResult();
-                    }
-                });
-                controlLine.append(decBtn);
-                controlLine.elt.appendChild(inputElt);
-                controlLine.append(incBtn);
-            }
-            row.append(controlLine);
-            this.inputControlsContainer.append(row);
+                }
+            });
+            this.inputControlsContainer.append(slotCtrl);
         });
     }
     computeAndRenderResult() {

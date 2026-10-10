@@ -1,39 +1,18 @@
 import { Elt } from "./elt.js";
 import { Nav } from "./navFW.js";
+import {
+  DirectedEqualitySpec,
+  CalculationResult,
+  SlotParam,
+  createHaloResult,
+  createDyadicResult,
+  SlotController
+} from "./directedEquality.js";
 
-export interface EquationSlot {
-  name: string;
-  symbol: string;
-  domain: "ℝ" | "ℝ_ω" | "ℂ" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔹" | string;
-  defaultValue: number | string;
-  step?: number;
-  min?: number;
-  max?: number;
-  description?: string;
-}
-
-export interface EquationResult {
-  displayValue: string;
-  hardPart?: string;
-  dustPart?: string;
-  details?: string[];
-  isHard?: boolean;
-}
-
-export interface EquationSpec {
-  id: string;
-  title: string;
-  formalStatementId?: string;
-  governingTheorem?: string;
-  leanSignature?: string;
-  lhsFormula: string;
-  latexFormula?: string;
-  rhsSymbol: string;
-  rhsDomain: "ℝ" | "ℝ_ω" | "ℂ" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔹" | string;
-  description: string;
-  inputs: EquationSlot[];
-  evaluate: (inputs: Record<string, number>) => EquationResult;
-}
+export type EquationSlot = SlotParam;
+export type EquationResult = CalculationResult;
+export type EquationSpec = DirectedEqualitySpec;
+export { DirectedEqualitySpec, CalculationResult, SlotParam, SlotController };
 
 export interface EquationEvaluatorOptions {
   initialStage?: 1 | 2 | 3 | 4;
@@ -3029,107 +3008,22 @@ export class EquationEvaluator extends Elt {
       controlsGrid.style.cssText = "display: flex; flex-direction: column; gap: 10px;";
 
       for (const slot of this.spec.inputs) {
-        const row = document.createElement("div");
-        row.style.cssText = "display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;";
+        const activeVal =
+          this.curValues[slot.name] ??
+          (typeof slot.defaultValue === "number"
+            ? slot.defaultValue
+            : parseFloat(String(slot.defaultValue)) || 0);
 
-        // Left: symbol & domain badge
-        const infoDiv = document.createElement("div");
-        infoDiv.style.cssText = "display: flex; align-items: center; gap: 8px;";
-
-        const symBadge = document.createElement("span");
-        symBadge.style.cssText = "background: #0284c7; color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px;";
-        symBadge.textContent = slot.symbol;
-        infoDiv.appendChild(symBadge);
-
-        const domainBadge = document.createElement("span");
-        domainBadge.style.cssText = "font-size: 11px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px;";
-        domainBadge.textContent = `∈ ${slot.domain}`;
-        infoDiv.appendChild(domainBadge);
-
-        if (slot.description) {
-          const descSpan = document.createElement("span");
-          descSpan.style.cssText = "font-size: 12px; color: #475569;";
-          descSpan.textContent = slot.description;
-          infoDiv.appendChild(descSpan);
-        }
-        row.appendChild(infoDiv);
-
-        // Right: Stepper [-] [Input] [+]
-        const ctrlDiv = document.createElement("div");
-        ctrlDiv.style.cssText = "display: flex; align-items: center; gap: 4px;";
-
-        const step = slot.step ?? 1;
-
-        const decBtn = document.createElement("button");
-        decBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
-        decBtn.textContent = "-";
-        decBtn.title = `Decrement by ${step}`;
-        decBtn.setAttribute("aria-label", `Decrement by ${step}`);
-
-        const numInput = document.createElement("input");
-        numInput.type = "number";
-        numInput.className = "ee-num-input";
-        numInput.value = (this.curValues[slot.name] ?? slot.defaultValue).toString();
-        numInput.step = step.toString();
-        if (slot.min !== undefined) numInput.min = slot.min.toString();
-        if (slot.max !== undefined) numInput.max = slot.max.toString();
-        numInput.style.cssText = "width: 80px; height: 26px; text-align: center; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #cbd5e1; border-radius: 4px; background: #ffffff; color: #0f172a; outline: none; transition: border-color 0.15s ease;";
-
-        const incBtn = document.createElement("button");
-        incBtn.style.cssText = "width: 28px; height: 28px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; cursor: pointer; color: #0369a1; user-select: none; transition: background 0.15s ease, border-color 0.15s ease;";
-        incBtn.textContent = "+";
-        incBtn.title = `Increment by ${step}`;
-        incBtn.setAttribute("aria-label", `Increment by ${step}`);
-
-        decBtn.addEventListener("mouseenter", () => { decBtn.style.background = "#f0f9ff"; decBtn.style.borderColor = "#0284c7"; });
-        decBtn.addEventListener("mouseleave", () => { decBtn.style.background = "#ffffff"; decBtn.style.borderColor = "#cbd5e1"; });
-        incBtn.addEventListener("mouseenter", () => { incBtn.style.background = "#f0f9ff"; incBtn.style.borderColor = "#0284c7"; });
-        incBtn.addEventListener("mouseleave", () => { incBtn.style.background = "#ffffff"; incBtn.style.borderColor = "#cbd5e1"; });
-        numInput.addEventListener("focus", () => { numInput.style.borderColor = "#0284c7"; });
-        numInput.addEventListener("blur", () => { numInput.style.borderColor = "#cbd5e1"; });
-
-        decBtn.addEventListener("click", () => {
-          let cur = Number(numInput.value);
-          cur = Math.round((cur - step) * 1000) / 1000;
-          if (slot.min !== undefined && cur < slot.min) cur = slot.min;
-          this.curValues[slot.name] = cur;
-          numInput.value = cur.toString();
-          this.updateOutput();
-        });
-
-        incBtn.addEventListener("click", () => {
-          let cur = Number(numInput.value);
-          cur = Math.round((cur + step) * 1000) / 1000;
-          if (slot.max !== undefined && cur > slot.max) cur = slot.max;
-          this.curValues[slot.name] = cur;
-          numInput.value = cur.toString();
-          this.updateOutput();
-        });
-
-        numInput.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowUp") {
-            e.preventDefault();
-            incBtn.click();
-          } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            decBtn.click();
-          }
-        });
-
-        numInput.addEventListener("input", () => {
-          const val = parseFloat(numInput.value);
-          if (!isNaN(val)) {
-            this.curValues[slot.name] = val;
+        const slotCtrl = new SlotController(slot, {
+          layout: "row",
+          initialValue: activeVal,
+          onChange: (newVal) => {
+            this.curValues[slot.name] = newVal;
             this.updateOutput();
           }
         });
 
-        ctrlDiv.appendChild(decBtn);
-        ctrlDiv.appendChild(numInput);
-        ctrlDiv.appendChild(incBtn);
-        row.appendChild(ctrlDiv);
-
-        controlsGrid.appendChild(row);
+        controlsGrid.appendChild(slotCtrl.elt);
       }
 
       inputsCard.appendChild(controlsGrid);
