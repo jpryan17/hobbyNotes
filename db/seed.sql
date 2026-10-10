@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-08T23:39:22.639Z
+-- Generated At: 2026-10-10T18:54:09.007Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -32,7 +32,7 @@ ON CONFLICT (id) DO UPDATE SET
 -- 2. Curricular Segments (52 Chapters)
 INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, status) OVERRIDING SYSTEM VALUE VALUES
   (1, 'introduction', 0, '1. Core Educational Responsibilities & Complementary Roles', 'introduction', '
-    <div align="center">
+<div align="center">
       <font size="+2"
         ><i
           ><b
@@ -391,36 +391,39 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </li>
     </ul>
 
-    <h4>Level 3: Space, Direction &amp; Geometry</h4>
+    <h4>Level 2: Algebraic Structure &amp; Linearity</h4>
     <ul>
       <li>
-        <b>Linear Algebra &amp; Vector Spaces:</b> Emergent group structures,
-        linear transformations, and geometric duality.
+        <b>Sequences &amp; Progressions:</b> Discrete stepping on inductive trees,
+        arithmetic ladders (discrete linearity), and small whole-number ratios.
       </li>
       <li>
-        <b>Trigonometry &amp; Rotor Geometry:</b> Rotations as algebraic
-        operators, angle measures, and geometric products.
+        <b>Linear Algebra &amp; Symmetries:</b> Emergent group and field structures,
+        the <code>ε₀</code> safety net, structure-preserving homomorphisms, vector spaces, and covector duality.
       </li>
     </ul>
 
-    <h4>Level 2: Continuum &amp; Calculus</h4>
+    <h4>Level 3: Continuum &amp; Calculus</h4>
     <ul>
       <li>
-        <b>Continuous Analysis &amp; Sequences:</b> Hyperfinite difference
-        quotients, nonstandard microscopes, and the telescoping Fundamental
-        Theorem of Calculus.
+        <b>1D Analysis:</b> <code>ℝ_ω</code> difference quotients, derivatives as local linear maps,
+        infinitesimal differential 1-forms, and the telescoping Fundamental Theorem of Calculus.
       </li>
       <li>
-        <b>2D Analysis &amp; Conformal Maps:</b> Hyperfinite 2D grids, discrete
-        contour integrals, and phase evolution.
+        <b>2D Analysis &amp; Conformal Maps:</b> 2D grids on <code>ℂ_ω</code>, shape-preserving conformal maps,
+        discrete contour integrals, and phase evolution.
       </li>
     </ul>
 
-    <h4>Level 4: Growth &amp; The Logarithm</h4>
+    <h4>Level 4: Space, Trigonometry &amp; The Transcendental Engine</h4>
     <ul>
       <li>
-        <b>The Transcendental Engine:</b> Exponential compounding, natural
-        logarithms, circular dynamics, and Euler''s formula <code>e^(iθ)</code>.
+        <b>Trigonometric Foundations &amp; Rotor Geometry:</b> Angles on the number trees, unit rotors on <code>ℂ_ω</code>,
+        CORDIC steering, and turning dynamics.
+      </li>
+      <li>
+        <b>Growth &amp; The Logarithm:</b> Exponential compounding, natural logarithms, circular rates of change,
+        and Euler''s stepping formula <code>e^(iθ)</code>.
       </li>
     </ul>
 
@@ -452,203 +455,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
 
     <hr />
-
-    <!-- Collapsible Technical Overview: Lean 4 Infrastructure & Formal Architecture -->
-    <details
-      style="
-        margin: 20px auto;
-        max-width: 860px;
-        background-color: #f8fafc;
-        border: 1.5px solid #0284c7;
-        border-radius: 8px;
-        padding: 14px 18px;
-      "
-    >
-      <summary
-        style="
-          font-weight: bold;
-          color: #0369a1;
-          cursor: pointer;
-          font-size: 0.98em;
-        "
-      >
-        🛡️ Technical Architecture: The Lean 4 Formal Verification System &amp;
-        Scaffold Depth (Click to expand)
-      </summary>
-      <div
-        style="
-          margin-top: 14px;
-          font-size: 0.9em;
-          line-height: 1.6;
-          color: #334155;
-          border-top: 1px dashed #cbd5e1;
-          padding-top: 12px;
-        "
-      >
-        <p>
-          To ensure that the Middle Way mathematics curriculum is rigorous and
-          mechanically sound, every foundational claim is anchored in the
-          <b>Lean 4 Interactive Theorem Prover</b>.
-        </p>
-
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
-          1. Where the Curriculum Sits in the Formal Verification Spectrum
-        </h4>
-        <p>
-          In modern proof assistants, formalization depth spans a multi-tier
-          spectrum:
-        </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
-          <li>
-            <b>Tier 1 (Type Signatures &amp; Ontology Specification):</b>
-            Formalizing the vocabulary, primitive types, and operator signatures
-            to eliminate ambiguous notation.
-          </li>
-          <li>
-            <b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the
-            algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow
-            map (<code>st</code>) as an authoritative structural blueprint,
-            while formally proving key inductive bridge theorems.
-          </li>
-          <li>
-            <b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b>
-            Formalizing computational algorithms directly in Lean and proving
-            termination and bit-level semantic equivalence (<code
-              >eval(e) = TrueMathValue(e)</code
-            >) with zero unproven axioms.
-          </li>
-          <li>
-            <b>Tier 5 (Universal Constructive Foundations):</b> Building the
-            entire transfinite continuum from scratch out of Dedekind cuts or
-            Conway games in tens of thousands of lines of foundational library
-            proofs (e.g. Mathlib).
-          </li>
-        </ul>
-
-        <p>
-          <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold
-          sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>.
-          It is designed to provide a structural blueprint: an axiomatic
-          contract. Within this contract, Lean 4 directly verifies foundational
-          structural inductions—such as the
-          <b>Telescoping Fundamental Theorem of Calculus</b>
-          (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>),
-          operator identities (<code>D_turn_squared</code>,
-          <code>exp_eigen_property</code>), and infinitesimal halo
-          relations—providing an authoritative type oracle for all 21 formal
-          curriculum statements.
-        </p>
-
-        <h4 style="color: #0f172a; margin: 12px 0 6px 0; font-size: 1.02em">
-          2. Formal Proof vs. The Virtual Calculation Engine
-        </h4>
-        <p>
-          Verifying a calculation engine (our dyadic machines, expression
-          evaluators, and finite difference steppers) would be a Tier 3/4
-          software verification endeavor. Middle Way Mathematics adopts an
-          epistemologically powerful division of labor:
-        </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
-          <li>
-            <b>Lean 4 Guarantees the Conceptual Model:</b> The theorem prover
-            certifies that the mathematical laws, physical invariants, and
-            operator relationships are logically consistent, well-typed, and
-            free of conceptual drift.
-          </li>
-          <li>
-            <b>The Virtual Machine Executes Explicit Computation:</b>
-            Calculations are carried out by an independent, transparent
-            calculation machine interpreting human-auditable pseudo-code
-            step-by-step, completely free of hidden runtime black boxes.
-          </li>
-        </ul>
-        <p>
-          <b>Boundary of Environmental Dependence:</b> To be completely precise
-          about what "runtime independence" entails:
-        </p>
-        <ul style="margin: 6px 0 10px 0; padding-left: 20px">
-          <li>
-            <b>No Higher-Level Mathematical Libraries:</b> The engine strictly
-            avoids all continuous calculus libraries, computer algebra systems,
-            and runtime transcendental functions (e.g. <code>Math.exp</code>,
-            <code>Math.sin</code>, <code>Math.cos</code>, or IEEE 754 float
-            approximations). Natural growth is computed purely via discrete
-            Euler compounding in the dyadic ring, rotations via binary CORDIC
-            pseudo-rotations, and calculus via hyperfinite differences.
-          </li>
-          <li>
-            <b>Hardware Integer Substrate:</b> The engine borrows only the host
-            environment''s CPU for basic discrete integer arithmetic
-            (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to
-            evaluate explicit dyadic rational fractions <code>m / 2^k</code> on
-            the Conway tree. While pure string-option tree arithmetic (the
-            Conway cut) is mathematically validated, utilizing host integer
-            arithmetic for tree addresses avoids the combinatorial explosion of
-            recursive string branching in the browser.
-          </li>
-        </ul>
-        <p>
-          This dual approach ensures that students and educators receive the
-          full protective certainty of formal methods while interacting with
-          tangible, responsive calculations in the browser.
-        </p>
-
-        <div
-          style="
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 12px 16px;
-            margin: 14px 0;
-          "
-        >
-          <b style="color: #0f172a"
-            >Dual Architecture: Zero-Cost Static Scaling + Live Dev Compiler</b
-          ><br />
-          <ul style="margin: 8px 0 0 0; padding-left: 20px">
-            <li>
-              <b>Static Web Production:</b> A build-time generator
-              (<code>genLeanCache</code>) verifies all theorems directly in the
-              Lean 4 kernel (v4.33.1) and caches pre-computed
-              <code>Q.E.D. ✓</code> proofs and exact millisecond timings (171
-              verified targets) into client assets. Readers receive
-              instantaneous, kernel-certified truth at zero cloud hosting cost.
-            </li>
-            <li>
-              <b>Local Interactive Dev:</b> Running
-              <code>npm run leanServer</code> boots a local compiler service,
-              enabling authors and students to modify lemmas and click
-              <code>[ ⚡ Live Verify in Lean ]</code> to re-verify live against
-              the active kernel.
-            </li>
-          </ul>
-        </div>
-
-        <p>
-          <b>Live Demonstrator:</b> Test the verification engine right now by
-          clicking this sample constitutional scaffold:<br />
-          <fsd-ref
-            tier="3"
-            scaffold="telescoping_ftc"
-            title="Fundamental Theorem of Calculus"
-            style="color: #0284c7; font-weight: bold; cursor: pointer"
-            >telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref
-          >
-        </p>
-
-        <p style="margin-bottom: 0">
-          <b>Grant Proposals &amp; Academic Research:</b> For complete
-          institutional and architectural details, see our research whitepapers
-          on
-          <i
-            >A Narrowed-Scope Lean 4 Educational Interface for General Science
-            Literacy</i
-          >, the <i>Dual-Layer Verified AI Tutor Architecture</i>, and
-          <i>The Inductive Continuum</i>.
-        </p>
-      </div>
-    </details>
-
+    <p>
+      <i>(For a complete technical breakdown of how our levels and models map to the <b>Lean 4 formal verification engine</b>, including proof assistant verification tiers and our dual static/live compiler architecture, see Section 4 of our <b>Architectural Models</b> overview.)</i>
+    </p>
     <hr />
 
     <h3>6. Interactive Exploration Prototypes</h3>
@@ -675,7 +484,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         revision.
       </li>
     </ul>
-  ', 'published'),
+', 'published'),
   (2, 'modelsOverview', 1, 'Part 2 — Conceptual Overview: The Three Architectural Models', 'models-overview', '
 <div align="center">
       <font size="+2"><i><b>Part 2 — Conceptual Overview: The Three Architectural Models</b></i></font><br>
@@ -702,7 +511,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
     <p>The following diagram illustrates this foundational ontology:</p>
     <div align="center" style="margin: 16px 0;">
-      <svg data-diagram-name="ontologyModel" xmlns="http://www.w3.org/2000/svg" style="background: transparent; color-scheme: light dark; cursor: pointer;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="552px" height="572px" viewBox="0 0 552 572" id="ge-svg-MBL6xy6uBDkPAxJBHw_e" content="&lt;mxfile host=&quot;embed.diagrams.net&quot; agent=&quot;Mozilla/5.0 (Windows NT         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0         Safari/537.36&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-MBL6xy6uBDkPAxJBHw_e { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); } }</style><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g transform="translate(0.5,0.5)"><ellipse cx="275" cy="20.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 21px; margin-left: 219px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">proposition</div></div></div></foreignObject><text x="275" y="25" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">proposition</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g transform="translate(0.5,0.5)"><ellipse cx="161.21" cy="220.95" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 221px; margin-left: 105px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">quantifier</div></div></div></foreignObject><text x="161" y="225" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">quantifier</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g transform="translate(0.5,0.5)"><ellipse cx="421.9" cy="230.95" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 231px; margin-left: 366px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">predicate</div></div></div></foreignObject><text x="422" y="235" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">predicate</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g transform="translate(0.5,0.5)"><ellipse cx="406.9" cy="322.72" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 323px; margin-left: 351px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">function</div></div></div></foreignObject><text x="407" y="326" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">function</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g transform="translate(0.5,0.5)"><ellipse cx="341.38" cy="427.5" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 428px; margin-left: 285px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed-pair</div></div></div></foreignObject><text x="341" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed-pair</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g transform="translate(0.5,0.5)"><ellipse cx="142.24" cy="314.34" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 314px; margin-left: 86px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set</div></div></div></foreignObject><text x="142" y="318" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g transform="translate(0.5,0.5)"><rect x="436.21" y="469.41" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 447.21 469.41 L 447.21 494.56 M 539 469.41 L 539 494.56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 482px; margin-left: 448px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set constructor</div></div></div></foreignObject><text x="493" y="486" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set constructor</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-8"><g transform="translate(0.5,0.5)"><rect x="436.21" y="414.93" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 447.21 414.93 L 447.21 440.07 M 539 414.93 L 539 440.07" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 428px; margin-left: 448px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">rule</div></div></div></foreignObject><text x="493" y="431" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">rule</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-11"><g transform="translate(0.5,0.5)"><ellipse cx="275" cy="104.78" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 105px; margin-left: 219px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">formal statement</div></div></div></foreignObject><text x="275" y="108" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">formal statement</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-12"><g transform="translate(0.5,0.5)"><path d="M 275 83.82 L 275 60.03" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 43.03 L 283.5 60.03 L 266.5 60.03 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 72px; margin-left: 295px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="295" y="75" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-16"><g transform="translate(0.5,0.5)"><path d="M 275 141.72 L 275 168 L 150 168 L 150 198.17" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.72 L 279.41 134.22 L 275 141.72 L 270.59 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 143.5 186.29 L 150 199.29 L 156.5 186.29" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-17"><g transform="translate(0.5,0.5)"><path d="M 275 141.72 L 275 167.7 L 421.9 167.7 L 421.9 207.76" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.72 L 279.41 134.22 L 275 141.72 L 270.59 134.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 415.4 195.88 L 421.9 208.88 L 428.4 195.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-18"><g transform="translate(0.5,0.5)"><path d="M 421.9 251.91 L 412.12 284.42" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 407.22 300.69 L 403.98 281.97 L 420.26 286.86 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 261px; margin-left: 398px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="398" y="264" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-21"><g transform="translate(0.5,0.5)"><path d="M 406.9 359.66 L 406.9 373 L 398.3 373 L 493.1 373 L 493.1 412.69" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 406.9 344.66 L 411.31 352.16 L 406.9 359.66 L 402.49 352.16 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 486.6 400.81 L 493.1 413.81 L 499.6 400.81" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-22"><g transform="translate(0.5,0.5)"><path d="M 406.9 359.66 L 406.9 373 L 398.3 373 L 341.4 373 L 341.38 404.31" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 406.9 344.66 L 411.31 352.16 L 406.9 359.66 L 402.49 352.16 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 334.89 392.42 L 341.38 405.43 L 347.89 392.43" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g transform="translate(0.5,0.5)"><ellipse cx="56.9" cy="549.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">number set</div></div></div></foreignObject><text x="57" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">number set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-28"><g transform="translate(0.5,0.5)"><path d="M 56.9 528.09 L 97.44 346.61" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 101.15 330.02 L 105.74 348.46 L 89.15 344.75 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 387px; margin-left: 124px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="124" y="391" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-29"><g transform="translate(0.5,0.5)"><ellipse cx="237.07" cy="549.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 549px; margin-left: 181px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">constructed set</div></div></div></foreignObject><text x="237" y="553" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">constructed set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-30"><g transform="translate(0.5,0.5)"><path d="M 341.38 448.46 L 288.67 519.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 278.58 533.56 L 281.83 514.83 L 295.51 524.92 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 462px; margin-left: 307px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="307" y="465" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-31"><g transform="translate(0.5,0.5)"><path d="M 237.07 512.1 L 237.1 314.3 L 201.37 314.34" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 237.07 527.1 L 232.66 519.6 L 237.07 512.1 L 241.48 519.6 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 213.25 307.82 L 200.26 314.34 L 213.26 320.82" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 498px; margin-left: 214px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">2</div></div></div></foreignObject><text x="214" y="498" fill="#000000" font-family="Helvetica" font-size="11px" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">2</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-37"><g transform="translate(0.5,0.5)"><path d="M 293.97 549.04 L 493.1 549.04 L 493.1 500.93" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 493.1 495.68 L 496.6 502.68 L 493.1 500.93 L 489.6 502.68 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g><rect x="426.72" y="519.71" width="56.9" height="16.76" fill="none" stroke="none" pointer-events="all"></rect></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 55px; height: 1px; padding-top: 528px; margin-left: 428px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">requires</div></div></div></foreignObject><text x="455" y="532" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">requires</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-39"><g><rect x="284.48" y="130" width="18.97" height="25.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 17px; height: 1px; padding-top: 143px; margin-left: 285px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><span style="font-size:         18px;">*</span></div></div></div></foreignObject><text x="294" y="146" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">*</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-42"><g transform="translate(0.5,0.5)"><path d="M 205.32 534.67 L 147.71 352.57" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 142.58 336.36 L 155.81 350 L 139.6 355.13 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g transform="translate(0.5,0.5)"><ellipse cx="76.9" cy="120.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 121px; margin-left: 21px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Boolean values</div></div></div></foreignObject><text x="77" y="125" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Boolean values</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-46"><g transform="translate(0.5,0.5)"><path d="M 76.9 141.91 L 98.62 281.85" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 101.22 298.65 L 90.22 283.15 L 107.02 280.54 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 265px; margin-left: 61px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; background-color: var(--ge-adaptive-bg, #ffffff); white-space: nowrap; ">isa</div></div></div></foreignObject><text x="61" y="268" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-3"><g transform="translate(0.5,0.5)"><path d="M 291.9 210 L 291.9 167.9 L 275 167.9 L 275 132.1" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 275 126.85 L 278.5 133.85 L 275 132.1 L 271.5 133.85 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-1"><g transform="translate(0.5,0.5)"><ellipse cx="291.9" cy="230.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g transform="scale(0.9999999999999999)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 231px; margin-left: 236px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">logical operator</div></div></div></foreignObject><text x="292" y="235" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">logical operator</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
+      <svg data-diagram-name="ontologyModel"  xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light dark;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="576px" height="558px" viewBox="0 0 576 558" content="&lt;mxfile host=&quot;embed.diagrams.net&quot; agent=&quot;Mozilla/5.0 (Windows NT         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0         Safari/537.36&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;7Vtbc6M2FP41eelMGF24PiZO0u32kk7TzjZPHQVkow1GRIiNvb++kgEDNnYcG4yTzT7soKMbPt/5Ph0J5QyPprOfBUnC33lAozMEgtkZvjpDyLNM9b82zHODDWFumAgW5Kaa4Y59p4URFNaMBTRtNJScR5IlTaPP45j6smEjQvDnZrMxj5qzJmRC1wx3PonWrV9YIMPc6lqgsn+ibBKWM0NQ1ExJ2bgwpCEJ+HPNhK/P8EhwLvOn6WxEI+270i95v5sNtcsXEzSWu3SQj370BEfcv7kN6Gd+7n/7HJ+XbqbBmhuqcQtTyjPhF63c8T1gofnr+JfZH59SNPrL8R7Py3ZyXnpPD3tXFLmQIZ/wmETXlfVS8CwOqH5FoEpVm984T5QRKuNXKuW8iAySSa5MoZxGRS2dMfmv7m5YRem+GEw/X83qhXlZiKWY1zrp4n05ni5U3Ralsl8qiZAXOqr070loXNpuWBQtewRli4CRKY+Dv0MW5xVFMz1NEcpETKjchs8yUBTBKJ9S9Tqqn6ARkexbEzJShPpk2a6KBvVQBER7cGzDsy0UahBHkeKihvI5ZJLeJWQRI89KDZpAjdWPH/GIC1WOeUyXTvhGoqwYbMzFlESLCYikUz1t3oQKSWe1V1h3SVhjoQkND0LHNh1guS7ClpUP81wxGEJsOB6GAJumixzLtfMm5SQeMEBVh/LKQsNgyf5DPN4ON+yQjuiDjgfQcTMjhqIjOjodnzISSzZmVAxFQ2Qb2ClJCGzXaxARYdcA7mJo5JlqKqcvXpod8hKfDi/hXrwEL/CyxrmHiPuPDbaB3dlmHolt7ZDb7xPyfqR4R5ndRbHfghTjo0txImjAfJUUDaTE2PUMz6vq7d6FeLMkHDclzWJfMh6fpN+xpdPU5ejK9z2pIeoyMbUGVcO6Fi6V8QU1hHUtrEljdwtgu9dBe4gdZwVEXSY9w2L+Ljcjx0qPtuF5RCEOmKC+pMF5QthQ+xGMsdLbajdi44Ycm9g2HMes5ujJ+fbRnZ/SoU5i1ApnoWoH6CGruQIClXl4y7zDNjtYAVt97uzi8zQkiX5MBPdpmr7s+wfiP04WOnebyYhp578OE33wnUqR+ZLvRwpkGbCeQED8WoQQ0imKZoNlQUdBvoKQqXOUKgbMvjbpZWR0sl65H+vVu1qv3JOjr8ii/TZzhzPWdFYYu76K2ZVk97ancDvkK3LeO2G7OlWzh6Qh2mkZ7TR1ibPpgz7ABsPlMHCxh6/9a+7iTVPXV4cnttWT9/FOKqh8I5tubkNBJR38ka44vwUPErGJWjKufDWjggFfau8zn0QXRcWUBUELG9f1kj5laguQ7oUh1JJWF020hqFlG5UgYoVmM8kxbcMDeUUOcxNCoCGsJBn1JZpeh5ppfmzKD0lyBv1g376iOu80Ok77O9WgK6p5/JOYS84jSuKlcbiDAbh5Ue3xkgbaj2W39zC4uX168L9P/ksuLpJ/LmbOx52pt3tJYxueR2RjxCc6nVJG5V1B9j0HOpyQyAYNBi4+Cnp9kfDofv6aKQoOeSVtcRem4eHeJA7tKXFbvmK9Z40LSBou3vUVKuUMmijuuY04RXx/mIOXRVf1JmRea5BwFsu0NvKf2lBTDXflrAGs3BJfbQ8cw9zWQz3k71BF3/LHHBCQYHP89aTnyw8nKgoHPRxymstm/hGxL+J3eattkG8kLI6p0K2/kHkR/PvvHHdkrjukVuOdqHGih3YsJXvRanFet8Yk5CkiNciDATZKb5T8sZFh9cUfjD7A2AiGu5L/g77SU7zT/csfFAUIlMmtH4w0UMGaHh1cTGkHZqebKScKzE8dwgI9ozyMLYeym2mV5fXGjrf8ladfEFSyZaCVc0JPZ3CvhkIVqz/dzLPg6u9f8fX/&lt;/diagram&gt;&lt;/mxfile&gt;"><defs/><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="tkclq1CocFOdeJo-cvJn-10"><g transform="translate(0.5,0.5)"><path d="M 226.9 97.76 L 226.9 71 L 163.3 71 L 163.28 49.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 223.4 91.88 L 226.9 98.88 L 230.4 91.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 163.27 42.9 L 165.33 46.4 L 163.28 49.9 L 161.21 46.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g transform="translate(0.5,0.5)"><ellipse cx="226.9" cy="120.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 121px; margin-left: 171px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">formal statement</div></div></div></foreignObject><text x="227" y="125" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">formal statement</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-11"><g transform="translate(0.5,0.5)"><path d="M 163.27 185.85 L 163.3 165 L 226.9 165 L 226.9 149.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 159.78 179.97 L 163.27 186.97 L 166.78 179.98" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 226.9 142.9 L 228.96 146.4 L 226.9 149.9 L 224.84 146.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g transform="translate(0.5,0.5)"><ellipse cx="163.27" cy="209.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 209px; margin-left: 107px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">quantifier</div></div></div></foreignObject><text x="163" y="213" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">quantifier</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-14"><g transform="translate(0.5,0.5)"><path d="M 426.9 230 L 426.9 291.89" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 426.9 298.89 L 423.4 291.89 L 430.4 291.89 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-16"><g transform="translate(0.5,0.5)"><path d="M 426.9 185.85 L 426.9 165 L 226.9 165 L 226.9 149.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 423.4 179.97 L 426.9 186.97 L 430.4 179.97" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 226.9 142.9 L 228.96 146.4 L 226.9 149.9 L 224.84 146.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g transform="translate(0.5,0.5)"><ellipse cx="426.9" cy="209.04" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 209px; margin-left: 371px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">predicate</div></div></div></foreignObject><text x="427" y="213" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">predicate</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g transform="translate(0.5,0.5)"><ellipse cx="426.9" cy="320.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 321px; margin-left: 371px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">function</div></div></div></foreignObject><text x="427" y="325" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">function</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-21"><g transform="translate(0.5,0.5)"><path d="M 313 407.73 L 271.91 407.73" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 264.91 407.73 L 271.91 404.23 L 271.91 411.23 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-24"><g transform="translate(0.5,0.5)"><path d="M 369.9 384.54 L 369.9 364.4 L 426.9 364.4 L 426.9 349.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 366.4 378.66 L 369.9 385.66 L 373.4 378.66" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 426.9 342.9 L 428.96 346.4 L 426.9 349.9 L 424.84 346.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g transform="translate(0.5,0.5)"><ellipse cx="369.9" cy="407.73" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 408px; margin-left: 314px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed-pair</div></div></div></foreignObject><text x="370" y="411" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed-pair</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g transform="translate(0.5,0.5)"><ellipse cx="87.42" cy="279.05" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 279px; margin-left: 32px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set</div></div></div></foreignObject><text x="87" y="283" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g transform="translate(0.5,0.5)"><rect x="210" y="290" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 221 290 L 221 315.15 M 312.79 290 L 312.79 315.15" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 303px; margin-left: 222px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set constructor</div></div></div></foreignObject><text x="266" y="306" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set constructor</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-25"><g transform="translate(0.5,0.5)"><path d="M 516.89 384.53 L 516.9 364.4 L 426.9 364.4 L 426.9 349.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 513.4 378.65 L 516.89 385.65 L 520.4 378.65" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 426.9 342.9 L 428.96 346.4 L 426.9 349.9 L 424.84 346.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-8"><g transform="translate(0.5,0.5)"><rect x="460" y="386.77" width="113.79" height="25.15" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 471 386.77 L 471 411.91 M 562.79 386.77 L 562.79 411.91" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 89px; height: 1px; padding-top: 399px; margin-left: 472px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">rule</div></div></div></foreignObject><text x="516" y="403" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">rule</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-28"><g transform="translate(0.5,0.5)"><path d="M 56.9 400 L 56.9 350 L 87.4 350 L 87.42 308.12" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 87.42 301.12 L 90.92 308.12 L 83.92 308.12 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g transform="translate(0.5,0.5)"><ellipse cx="56.9" cy="420.95" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 421px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">number set</div></div></div></foreignObject><text x="57" y="425" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">number set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g><rect x="226.9" y="360" width="56.9" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 55px; height: 1px; padding-top: 368px; margin-left: 228px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">requires</div></div></div></foreignObject><text x="255" y="372" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">requires</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-9"><g transform="translate(0.5,0.5)"><path d="M 87.42 97.76 L 87.4 71 L 163.3 71 L 163.28 49.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 83.91 91.88 L 87.42 98.88 L 90.91 91.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 163.27 42.9 L 165.33 46.4 L 163.28 49.9 L 161.21 46.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-27"><g transform="translate(0.5,0.5)"><path d="M 87.42 141.91 L 87.42 249.97" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 87.42 256.97 L 83.92 249.97 L 90.92 249.97 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g transform="translate(0.5,0.5)"><ellipse cx="87.42" cy="120.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 121px; margin-left: 32px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Boolean value</div></div></div></foreignObject><text x="87" y="125" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Boolean value</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-12"><g transform="translate(0.5,0.5)"><path d="M 296.9 185.85 L 296.9 165 L 226.9 165 L 226.9 149.9" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 293.4 179.97 L 296.9 186.97 L 300.4 179.97" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 226.9 142.9 L 228.96 146.4 L 226.9 149.9 L 224.84 146.4 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-1"><g transform="translate(0.5,0.5)"><ellipse cx="296.9" cy="209.05" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 209px; margin-left: 241px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">logical operator</div></div></div></foreignObject><text x="297" y="213" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">logical operator</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-1"><g transform="translate(0.5,0.5)"><ellipse cx="163.27" cy="20.96" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 21px; margin-left: 107px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">judgement</div></div></div></foreignObject><text x="163" y="25" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">judgement</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-22"><g transform="translate(0.5,0.5)"><path d="M 206.9 386.77 L 206.9 351 L 266.9 351 L 266.89 321.52" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 266.89 316.27 L 270.39 323.27 L 266.89 321.52 L 263.39 323.27 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-29"><g transform="translate(0.5,0.5)"><path d="M 166.05 393.14 L 166 350 L 87.4 350 L 87.42 308.12" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/><path d="M 87.42 301.12 L 90.92 308.12 L 83.92 308.12 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-20"><g transform="translate(0.5,0.5)"><ellipse cx="206.9" cy="407.73" rx="56.9" ry="20.96" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 112px; height: 1px; padding-top: 408px; margin-left: 151px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">constructed set</div></div></div></foreignObject><text x="207" y="411" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">constructed set</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-26"><g transform="translate(0.5,0.5)"/></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-30"><g><rect x="283.21" y="412.57" width="29.79" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 28px; height: 1px; padding-top: 421px; margin-left: 284px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="298" y="425" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-32"><g><rect x="60" y="150" width="29.79" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 28px; height: 1px; padding-top: 158px; margin-left: 61px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="75" y="162" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-33"><g><rect x="89.79" y="312.58" width="29.79" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 28px; height: 1px; padding-top: 321px; margin-left: 91px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="105" y="325" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-36"><g><rect x="144" y="540" width="19.27" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 17px; height: 1px; padding-top: 548px; margin-left: 145px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">*</div></div></div></foreignObject><text x="154" y="552" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">*</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-38"><g><rect x="197.26" y="141.91" width="19.27" height="16.76" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 17px; height: 1px; padding-top: 150px; margin-left: 198px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">*</div></div></div></foreignObject><text x="207" y="154" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">*</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg></div>
     <p>
       The conceptual model is complemented by the middle way math
       computational model, as illustrated in the following diagram.<br>
@@ -1314,8 +1123,84 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
     <div align="center" style="margin: 16px 0;">
       <img style="width: 100%; max-width: 722px; height: auto; display: block; margin: 0 auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAOYCAIAAAAhc9MYAAAgAElEQVR4nOzdf2xc533v+QdY7zVhbAH9sUCEAAH0VyAEKCBg0qw6ibcEWhhq0QYsssjKRHKXQXpPLLSOCThXENL6ToGbVEhgz5mYqbSWS4tq5KWybMFC2BxWTV2ShWLGuhRPKIkmo0OJYshw5BFG1JQTDsUffvaPhxzO7188Z86v9wvfP+zhzJxnjo6G56PnPN8jJAAAAADAVsLtAQAAAABA0BC0AAAAAMBmBC0AAAAAsBlBCwAAAABsRtACAAAAAJsRtAAAAADAZgQtAAAAALAZQQsAAAAAbEbQAgAAAACbEbQAAAAAwGYELQAAAACwGUELAAAAAGxG0AIAAAAAm/koaC1SDRcAAAAAN/kpaAndpOoWQQsAAABwHUEraEXQAgAAAFznv6Dl9lV53i2CFgAAAOARBK3gFEELAAAA8AiCVnCKoAUAAAB4BEErOEXQAgAAADyCoBWcImgBAAAAHkHQCk4RtAAAAACPIGgFpwhaAAAAgEcQtIJTBC0AAADAIwhawSmCFgAAAOARBK3gFEELAAAA8AiCVnCKoAUAAAB4BEErOEXQAgD4i5laf+m9JSll79iy0M2RhYzbIwIA2wQqaEXO/syWcj0yEbQAAGHQOWQJ3Rycezw49/jE8L3c1k4yu3nSeGCm1t0eGgAcFEGLoAUAQFsls5u9Y8tSyoXM04sz6cIfnb3xUOim+mkyu+nO+ADADgQtghYAAG3VdfW+0M3h+ScVfzo8/ySZ3cxt7Ry+cOfE8L02jw0A7ELQImgBANAOyezmmesr6j/OTz+q/eSFzNPOIUtNbQ3OPa6WygDAswhaBC0AANrhpPFArchq6lVqaqujb5orCQH4S9CCVt0YVjurELQAALDX6sb22RsPpZTJ7Kb6j2aZqXW1lEufSh29NDuxkrV5iADgAIIWQQsAAAepiaySphetOXN9RU1t5bZ2Ls6kc1s7B39PAHAIQYugBQCA/XJbO2ohVjK7+dJ7S3aFotWNbSnl4NxjoZtqxRcAeBNBq/mgZQ0ktEhU7IpqMcMq+KnRLYTQjEVpxbS9J0Wj3U0/Ry5axv5PRTSiGeMELQCAX/RcWxS6qU+lnHjzhczTnmuLamrr2OU5h7YCAAdB0Gr2OQOaEEJEtETMMAYSWkQIIaIxqyREad1REYlqu8+JCiFEt9HMc6xERKWvhDFgJGJaVEQTBC0AQHNU2hG6eezy3ELmaXs2qq4SXMg8fem9JTUB5ZyRhUxH37RqTjibzjm9OQBoHEGr6aCV0AasgkdUItKMohAlRCRRNoUltIGGnzOeiBbntwaKoAUAKKRS1pH+mRPD94RuHjp3a3RpzemNnrm+InQzNpF0ekN5yeymylfHLs/RnBCAdwQtaLnQ3t2KRUXBdJPRLUT57NN4IlowYVX/OQQtAMCB5FOWmsiKTSTVrwnnrrJTt7pKZjfVRX0ObaWa3NZObCLZc21RSjmykOkdWyZxAXBX0IKW8zNai1IuWsZAQuvWtEg0v8KqOGjtT3DtlaEVTGE18Bw1USai3Yl6S7MIWgCAEiUpSxmef3Lo3C2hmyeNB7ZfYqeCXGvd223XOWQJ3TRT61JK4hYAtxC0mnyONbDboCIaiWrdWiJmJLrLZ7QOHrSkXLSM7r0cF9ESA3VntwhaAABZJWUps+nc0UuzQjePXpqdTeds2Zy6HDGZ3ey6et+u9zyg1Y1tdVvk4fknHX3TtnSWB4BmEbSaeo66uq94bVWlSwerhKiiSwfrPGevrHy0yy/xImgBAKqokbKU1Y3trqv31ZItdbHfQehTKe9MZJUbnHt8+MIdNbV15vpK29qBAIAkaDX5nAGtPPCULLiqvP5qQCtsTtjIcyoEvNIMRtACABSqm7Ly8ku2Wu5akb8w7/iVuxMr2dbepG2G558I3ey6el9KyW2OAbQHQav5oFWUhXanm0qCVkko2u3V3sxzrOJ7alWc7CJoAQAKCd38xFu3G5y3yS/Z+l//79ux91eklGdvPOwcstSips4hS/VMH1nIdA5ZIwsZKeVJ40HnkCWlnFjJtrm14MFdnEmrT3Hs8lzX1fvELQBOI2g19xxDE3s9KgZ2V2dpFdZoRaMRtbDKMGJatPK9tmo+Z0DL30TLiKm7dUW5dBCoavf4p6gwl/qL8NJ7S43/zVHXEHa8+Yv/4/9bkHsTYiqnCd1UmeriTFroplrmdKR/RuimlHJ0ae3whTsqt/hLMrupgpaUcjada0O/ewChFbSg5Xx793FD3aRY9agwxqut0bIS1VtZ1H/OuLF7C+PdxhtaA70HC/YPEDb1vx8oKsCVP/5VEFJ9IOpq/DrD4FFNF1XOJGsBcEiggpYnqkqji6afc4BftG7/SQHt55PvB4pypvLH/8RKtqNvuqNvWi2gqiHMKStvdGlNTQCaqfVjl+dIXADsRdCyuwhagAt88v1AUc5U4fe/utLvSP9MjTtlkbJKnLm+InRT9WD04/WQALyJoGV3EbQAF/jk+4GinKmS7//eseX8CqtypKyK1B3AzNS62GtOCAAHRNCyuwhagAt88v1AUc5Uyfd/bmunc8gSuqnaBhYiZdU2m871XFtUU1u9Y8vc6RjAQRC07C6CFuACn3w/UJQzVf79n8xuHr5wp6QxBimrccnsptDNY5fn1H/TCx5ACwhawSmCFkKM7wcq1FXx+7+kMQYpq1kLmaf5XXf4wp26/UUAoARBKzhF0EKI8f1Ahbqqff+fn36kwhUp6yDOXF850j+T29oxU+uxiWSNLiMAUIigFZwiaCHE+H6gQl01vv9fem9J/ZSUdXDqvlv6VEpKycWEAOoiaAWnCFoIMb4fqFBXje//3NbO8St3SVm2SGY3z1xfyW3tJLObh87dik0k3R4RAE8jaAWnCFoIMb4fqFBX7e//ZHaTlGWvkYXMoXO31NTW4Nxjdi+AinwZtNR/UIVV9xctEGgELSrUxfd/+61ubKuprY6+6cMX7rg9HABe5Mug5fZIvIn9gzAjaFGhLr7/3ZLb2tGnUup2W71jyyeNB26PCICHELQCg/2DMKsftCJnf2ZLuX5KTVHlxfe/Fxw6d0voptujAOAhBK3AYP8gzAhaVKiL738A8CCCVmCwfxBm4QtaRrcQIpoYt/cNNcPtzxWkXdrG4vvfCyZWsqNLa26PAoCHELQCg/2DMCNo2fOGBC2CFlp2pH+GSwcBFCJoBcb+/um5tiil7Lm2KHRT9ZwVutk5ZEkpL86khW6qZbv5XwmjS2tCN1t7Ve/Ycv5VZmpdveropVkp5fD8kxPD99SDg3OP+Xc+OCl8Qcv2ImiVlZHojkZjltvDaKT4/egFJ40H6pcmACgErcBwc//MpnP6VGp1YzuZ3ewcslT6ik0khW4Ozz+RUh69NKu636p49tJ7S1LKszcexiaSqxvb6nEVyYCWNBS0av+0bogiaIWsxhNRIQhaAIBWEbQCw4v7J5ndVDnq7I2H6saOo0trx6/cjU0kpZSdQ5bQzWR2M5ndFLrZdfW+lDI2kTx+5a6a/tKnUupVKsK5+UngdQStAxdBq7QIWmiOPpVSv90AQCFoBYb/9k9+3fDqxnZsInn2xkMp5UvvLQndVI8XXoUodFOFrt6xZXVthnoV82CQUkpPBS1rQItGxJ6oNqDO1K1ERIhIwip6spWIFMab/P9aRndU7J7lV3ywci46wKZL3rCpl+wOTAghIrs/tQa0aH4YDWeV/BisWK2XWwMJLRLd/5gxY2+chibKhy3lgCaE0AYa3fru+xQpXLtlGd3R/c13G1aFN2l2n1jG/kcW0YhmjNcZLUHLe1ijBaAEQSswArh/8tcTmqn1E8P3RhYyUsqjl2arLS2bWMlKKTuHLBXJktnN0aU1psLCwTNBy+jePbdOxAxjIJHozp9SNxG0ErHdU+7CoFX8YIWgdbBNtx60tO5otDthDBgJFS0iCSMWVfnHiO0Gv7ohp/ANE7GoiBS9vGhaaUAr/Jha8RMqNrRocLKu4GmWNWCo5KM+mjGQT1NqJ+x/5GhxtGtpnxS/Z0yLNt2TI3jf/35E10EAJQhagRG6/bO6sa1PpdRvtbM3HnYOWepKRaGbJ4bvqQcLe3gcuzwnpVzIPI1NJNWrZtO50aW13NaOq58DtvBG0LJi0dJUUJJSGgpaQhRNaFR8sDQ8HHjTLQctIboNWfJIYU4YT5REkXpRp+TJanKpICYNJPZm6iqNakAr3Q9qAAWDbCBo7b+wZJfuPqfgD6Jki63sExuuUQzb9z8A+AJBKzDYP7sWMk9n0zkp5ejSWmwiqToonhi+p4KWugpRXaZ4YviearG4kHl6pH/mzPWVklep94EfeCJoVblurYnospupiud/Kj5YkgoOvumWg1bx3IuabipKNaWvqhd1Kn7SWjM8Vixa8ITSXVH807pbrx20DK1CIjK0go/cyj4haAUElw4CKEHQCgz2T0MKrye8OJM+aTyQUk6sZPNXIZ65vpK/CvHQuVtH+meklCMLmc4hS02O0arek7zQ3r3O6XJTa7RqxZsKqcCGTR9kjVadndB4m43KC88qJCXLGEho3ZoWya+V2n9CcdSp+EEa23r5ZxkoW7qVt7eJlvbJbpaOdieaXJqVL77/vYD27gBKELQCg/1jj9l07uJMenVjO7e1k29Vr0+l8lchHrs8p/7N0kytF7aqf+m9JTUPRqt6N3ghaJVftNZ02mk1aNmwad8ErXxLiWgkqnVriZhaB1V6Yd7uGJqZLGowaEVjhlq1VVxW1Y/Q0D4pap6RGGh2dovvfwDwIN8HrUh8Ml+Fj2/vfHzF/Oj/+n9mf+9vzed/aHZf/vCt93+9trGdf8KvVjcKX5uv39FvtukD2YxftM7Kt5gfWcioZhtmaj0/zdV19b66ClG1qlf/qKlPpQ6du5VvVa/a/q5ubDMh5gAvXDrIjFajoaJq1Q9alVZ8lU157Q++8esGK2y9atCqlYIOtk+sfIxssH3IXvH97wU0wwBQIphB62Mpe//JKg9Rf/rO7UxuSz2nWtAqCWz7DPXrL6olal0YYCX2/lFSMw76iZvDL1o35bZ2VF8N1XRe3ab54kw636r+0Llb6pbNg3OPhW6q0BWbSOZ7eMQmkup6RbTEC0GreK1OWVXMSyWdHloNWjZsuuLFbE29pNlQUaHqB61KjdrLl0XtvcRKRBpqg1F56+WfpYG+Gjbsk4a7dxQU3/9ewBotACV8H7SUkoD0L798rB55beT+4uNc+jeb/3jr0effnIrEJ98Y+1XFd9/5WL4++qtIfPLcz35d6ef7AUpEayUtghYqGl1aUzlKtapXSUzdsllKOZvOCd1UC8Z6x5bz8axzyFIPmqn14fkntKqvzhNBK9/LofKMh2oMWBgSrN2O7QcPWgffdOU2hk29pJVQUTelVApaJbNM6t/AiqatdoeRiDYzNVQxaFVqYlH6nlYscbB9YhXPHNaOzRWL738v4IbFAEoEM2h96+p8JD75X34893HBcy7eSEbik13v3C5/+cbWzn+9Oh+JT771fsWUJaVkRgsOUtcTqvSlprnUcq/8VYjnpx9VXCT20ntL6lXBa1U/spD5xFu31VFdWB1906ppZDFvBC25aOze1imiJQZKbma1d+IuCu+wFI3acumgDZuuEjOaeklDoaKZqLMbY8qaCu7d3kqNSitZo1WQiBrcbpWt7/WoiBlGbK9Nxe5uEdHuRGIgf1Osg+2TAS2/n42YujNYlEsHAcD/ghm0/vDCrUh88t+s1cLnmMtrkfjk831TJa99vL71tcHZSHzywsTKwUdJ0IK9ylvVnzQeHL00K/da1at/QFW3bF7IPM1t7Ry+cEf18FCvUp05JlayfpkQW93YVh9H6OZnYu9+4XSi65XXvvTNb3eejv/2a5eefeMDoZvHr9xVe2OPV4KWVF0N8hPgIhJNFJ4xj+/eYHc3KozbtEbLhk1XTggtvMTxroPjRn5U6t5iFRdi1byxWMNb398DRQNIdO/v5mjN+5s1tE/GDS1S9Q0bK77/vYCugwBKBDNofS5xMxKfXH6yUficf5hOReKTL/7ow5LXdr1zOxKf7P+5DSlLErTQRqpVvcobF2fSKnEls5uHL9zpunpf7l2FOLKQkVIe6Z9RreonVrL5Hh4XZ9IXZ9JemwdTKevQ90a7XnlNK/OVU6986jtXhW4euzxXMHIvdB2kKNeK738vYI0WgBLBDFrlcls7f/J3tyLxyXdvFl10dD+dU699/ofmf/vnhY/Wqv6Tv5G/f0pRgrIMbf8+LppB0IKHqOsJVze2pZQvvbekOtGrFh2qceLxK3eFbua2dtQiMXUnsfPTj04aD/Kt6tvcokNN0x363ujXv3GqPGXlfTo2mJ/Nk1JKgpZfyhq3KlcItu5k8f0PAB4UlqD13Z8+iMQnv9h/e32z6B/v1zd3vjY4+8X+2+od/ujtW+nfbFV8h0pBq6BDRj5raQQt+MbIQkZlFdWq/vz0I1l8FaKaOJJS6lOpjr5pNTl25vpKYat6dXGjXT7x1u1n9JsV57IK9Zx6+bnX33/2zV/s3bKsftCiPFDVb/jb1DV+vty6s8X3vxfQ3h1AiVAErb+ffBiJT/7uD26ay1W/AW8u/cf//kOzRlvC8qBVHrOKELTgWxMr2Xyr+vxFhkcvzZZchTi6tCZ0U60HU4sTktnNZHazc8hS/SouzqQ7hyyVhfIdFEcWMvlrF3vHltWShvyr1Lqs2ilL6TwdF7q51xiDoEWFuvj+9wIuHQRQIvhBa3Dqo8/GJz+XuPnTXz6uvYG/vb5crS2hrBC09h8Q0YRhSSmlZRRkL4IWAqqwVf2Z6ysqMqmrEFc3thcyT/NXIcYmkvlW9UI3VTxT1y6qObF8g/v8q4Ru/v63vt9I0PrSN78tdFOtRpMELSrcxfe/F9AMA0CJgAetd28+jDSWsqSU4/Or6skVf1oatPbns4ruq8UaLeAghG5++S9ONxK0NE17Rr+pwpskaFHhLr7/AcCDghy0Lv2Ph5H45PEf3Czp817NxIOMen7Fn1YPWsXNMQhawAEI3fzKqVcaDFrPvvHBoXO3pJSSoEWFu/j+9wJuWAygRGCD1jsfJNW6rPF7Tyq+3fN9U5H45Pj8fgbTx5ci8cmvvlva/11pcEarSnPCNuAXLYJA6OYLr55tJGW9+OevCt08MXxPSikJWlS4i+9/L2CNFoASwQxab/98JRKfjL459bOFTLW3++q7s5H45J/9eO6jtaeLqxvvfJD83xI3I/HJn3yYrvj8Wmu0NLVES1oFjxG0gBYI3Yz85duNBK0XXj0rdPPMdXUHPIIWFeri+98L6DoIoITvg5aKWIVV8cF8ff7NKfXC8fnVz5b99G/+tepvqfKpKqNqq2CCFtAioZvPvf5+z6mX6watT373J/nbMUuCFhXu4vsfADzI90GrbSpcE1ihv7uWYI0WcABnrq8I3fx0bLB2yvrC6YTQzYIGX/vHv/oPigpP8f3vEVw6CKAEQatRlRdfWYYW3U1W0WjCsGiGARxIbmvn6KVZoZvH/uqdr3/jVMWU1Xk6/ox+s6NveiHzdO91HP8IM45/T6C9O4ASBK3AYP8gIMzU+uELd4RuHvre6Auvns03Iew59fIf9/71p75zVehmR9/04FzhPRs4/hFmHP8A4EUErcBg/yA4Vje21c2LVT33+vu/9f1/z//v8St3Z9O54ldw/CPMOP49gWYYAEoQtAKD/YOgGVnInLm+0jlkdfRNC93sHLJ6x5YvzlTsC8rxjzDj+PcE1mgBKEHQCgz2D8KM4x9hxvHvCdywGEAJglZgsH8QZhz/CDOOfwDwIoJWYLB/EGYc/wgzjn9PoOsggBIErcBg/yDMOP4RZhz/nsAaLQAlCFqBwf5BmHH8I8w4/gHAiwhagcH+QZhx/CPMOP49gfbuAEoQtAKD/YMw4/hHmHH8ewKXDgIo4cuglb9vKZUvftEi3Dj+EWYc/55AMwwAJXwZtNweiTexfxBmHP8IM45/APAiglZgsH8QZhz/CDOOf0/ghsUAShC0AoP9gzDj+EeYcfx7Amu0AJQgaAUG+wdh5o3j39CiQggR1RK11mlYiahQNKNtQ0OgeeP4Dz26DgIoQdAKDPYPwqzW8R+JT6oqeXx75+Mr5ke/97fm8z80uy9/+Nb7v17b2FY/+tXqRv5VhfU7+s3qY9gPUCJaK2kRtGA3vv8BwIsIWoHB/kGYNR20Ppay95+skhz1p+/czuS2ZPWgVZ7WijCjBXfw/e8JXDoIoARBKzDYPwiz+sd/SUb6l18+VsFp8XEu/ZvNf7z16PNvTkXik2+M/ariy3c+lpH45Lmf/frgYyVowW58/3sC7d0BlPBp0KIqFL9oEWJNB60/vHArEp/8N2s1/4i5vBaJTz7fN1XywsfrW18bnK0zl9UMghbsxvc/AHiR/4IWVbv4RYtQai5ofSzl5xI3I/HJ5Scb+Qf/YToViU+++KMPi953daPrnduR+GT/z1fqDsLQRKUEZRladC9aRTWDoAXbEbQ8gWYYAEoQtIJW/KJFKDU9o1Uit7XzJ393KxKffPfmw/yD99O5Pzj/C3WF4fM/ND9a26w9iEpBq6BDRj5raQQt2Iug5Qms0QJQwk9Bi2q4gLA5aND67k8fROKTX+y/vb65k39wfXPnxR/NfG1w9ov9tyPxyT96+1b6N1s13qQ8aJXHrCIELdiDoOUJ3LAYQAkfBS0AqOZAQevvJx9G4pO/+4Ob5nLVy35uLv1HjVYZSlnQ2n9ARBOGJaWUllGQvQhasAdBCwC8iKAFIABaD1qDUx99Nj75ucTNn/7yce1tROKTXe/crvGE0qC1P59VdF8t1mjBbgQtT6DrIIASBC0AAdB60Io0lrLyz6zxhOpBq7g5BkELNiNoeQJrtACUIGgBCIBWgtY7HyQj8cnxe0/Kn/x831QkPjk+v1r4YCQ++dV3Pyx/cl6DM1pVmhMCLSNoAYAXEbQABEDTQevtn69E4pPRN0vvmqV89d3ZSHzyz348Zz1a/2jt6eLqhkplP/kwXWMQtdZoaWqJlrQKHiNowSYELU+gvTuAEgQtAAFQ60RT9WfPV8UH8/X5N6eklOPzq58t+9Hf/Guds9jyqarCVEXXQTiGoOUJXDoIoARBC0AA2By0pJT/PJf+8qWZ/OO1LxpUKlwTWKG/u5ZgjRZsRtDyBJphAChB0AIQAJ440ay8+MoytOhusopGE4ZFMwzYzhPHPwCgBEELQABwookw4/j3BG5YDKAEQQtAAHCiiTDj+PcE1mgBKEHQAhAAnGgizDj+PYGugwBKELQABAAnmggzjn/3JbObZmrd7VEA8BaCFoAA4EQTYcbx776uq/eFbh6+cMftgQDwEIIWgADgRBNhxvHvmp5ri8cuz0kpzdS6PpXKbe24PSIAHkLQAhAAnGgizDj+281MrU+sZKWUXVfvH+mfSWY33R4RAC8iaAEIAE40EWYc/201sZIVuqkmsohYAGogaAEIAE40EWYVjv+Rhcwn3rqtHi+sjr7pszceujhW/5pYyXZdva86XvRcWxyef+L2iAB4HUELQAAQtBBmRcf/6sZ2z7XdRz4Te/cLpxNdr7z2pW9+u/N0/Ldfu/TsGx8I3Tx+5e5C5qnbw/aN2XROSjk8/0To5pnrK24PB4BvELQABABBC2FWdPyrlHXoe6Ndr7ymlfnKqVc+9Z2r6so3Ojc0Qu1PNZGl1mUBQIMIWgACgKCFMNs//tWsy6HvjX79G6fKU1bep2ODQjdjE0m3R+5dw/NP1OTV8PyTziGLe2QBaAFBC0AA7J9oli9KoahgV+Hx/4m3bj+j36w4l1Wo59TLz73+/rNv/oL8UE71tzh2eU7oJhdYAjgIghaAAGBGC2FW9A8Nn4m9WztlKZ2n40I3aYxRKJndPNI/03X1vpRyYiVLCgVwQAQtAAFA0EKYFQWt3//W9xsJWl/65reFbqpQEXK5rR19KqVi1bHLcz3X+BoBYA+CFoAAIGghzIqC1pf/4nQjQUvTtP8pPvnJC3eklJ1D1knjgZRyZCHTOWRdnElLKXvHljuHLCllMrvZOWSpua+LM+n8gqWRhUww2mnoUykyJwAnELQABABBC2FWFLS+cuqVBoPWf3r9g//lh9NSSqGbR/pnpJQXZ9Jir0lG55AldFNKuZB5KnRTzfPEJpJCN0eX1iZWsh190+qmvT6lT6UOX7iTzG7mtnZeem+J5VgAbEfQAhAABC2EWVHQeuHVs42krBf//FWhmyeG77W2ydzWTu/Ysrppr7rNlF+sbmyPLGSklPpUqqNvmvsOA3AOQQtAABQGLYoKXRUGrchfvt1I0Hrh1bPCjtvvqqmt3rFlW/4mt8HRS7MdfdNqIks1GAQAhxC0AAQAXd0pajdoPff6+z2nXq4btD753Z8I3VRzOwdhptaP9M8Mzj2WUnp2ydbqxnbv2LJKlRdn0rGJ5OrGttuDAhB8BC0AAUDQoihTysUz11eEbn46Nlg7ZX3hdELopup1cXAqX02sZA9fuDO6tGbLe9olmd1c3djObe0cvnDnSP+MZ6MggEAiaAEIAPev3aIoL1Rua+fopVmhm8f+6p2vf+NUxZTVeTr+jH6zo2/a3vYPqpGGp5Y8jSxkhG6qyxrN1DopC0CbEbQA+MnIQuYTb90u/7f8jr5pbr0KSCnN1PrhC3eEbh763ugLr57NNyHsOfXyH/f+9ae+c1X9fVEX+9lLJbeJleyJ4XsuXptnptZ7ri2qVVjHr9xV3eoBoP0IWgD8YXVju+fa7iWCn4m9+4XTia5XXvvSN7/deTr+269devaND4RuHr9ylx7NQOFfFqGbz73+/m99/9/z/3v8yl1H+wSqTbsytaXSnbov1vnpR+0fAAAUImgB8Ad19nboe6Ndr7xWfjXUV069ov6p/tjlOS4QAqSUIwuZM9dXOoesjr5ptSKrd2y5PdM7KmJYn+AAACAASURBVGWZqXV9KtWGzSknhu8dvnAnt7WT29phFguAFxC0APjA8PwTlbKqLTtRPh0bFHu3WwXgotzWzrHLc0I3nW6PMbq0pnJd79jysctz/rqpF4BgI2gB8IFPvHX7Gf1mxbmsQj2nXn7u9fefffMXZmrd7SEDYbeQeapmtGbTOYfyTzK72dE3rSaynHh/ADgIghYAH1DrsmqnrHxHNaGbNMYAPCK3tXOkf0bdI9iu9zRT68cuz6kUd376kdd6ygOAQtAC4ANCN3//W99vJGh96ZvfFrrZdfW+20MGsGtw7rG6WbDqBHiQt7o4k85t7aiJrJfeW7JpgADgCIIWAB8QuvnlvzjdSNDSNO0Z/eaR/hm3hwygiLrH1/Erd1vOWrGJpNBNNZFl4/wYADiEoAXAB4Ru5m8HVNezb3xw6Nwtt4cMoMjqxnbX1fvq9sFNZa3z049UN9FkdrPn2iK3cADgFwQtAD4gdPOFV882krJe/PNXhW6eGL7n9pABVLa6sX2kf0ZdTFj7aRMrWSllz7XFjr5pFmIB8B2CFgAfELoZ+cu3GwlaL7x6Vuhm3XM4AG4xU+uHL9xRU1vVJLObh87dUu0EFzJPuVAQgB8RtAD4gNDN515/v+fUy3WD1ie/+xOhmyMLGbeHDKAq1RVjdWO7c8gqvBnD6sZ2bCKp/v6eNB70ji2vbmy7N0wAOBCCFgAfOHN9Rejmp2ODtVPWF04nhG52DllujxdAfYNzj4VuqqktNWdlptaFbh6/ctftoQGADQhaAHxA9SsTunnsr975+jdOVUxZnafjz+g3O/qmWSsP+MXo0lpua2c2nevomx6efyKlHJx7zIWCAIKBoAXAH9S6DqGbh743+sKrZ/NNCHtOvfzHvX/9qe9cFbrZ0Tc9OPfY7ZECaM6Z6yuHL9w5P/3I7YEAgJ0IWgB8Y3Vju+faotBNVc+9/v5vff/f8/97/Mrd2XTO7TECaFpua+eANzIGAA8iaAHwmZGFzH/+58Vjl+c6+qbViqzeseWLM2m3xwUAALCPoAUAAAAANiNoAfCfI/0zQjfdHgUAAEBVBC0A/kPQAgAAHkfQAgAAAACbEbQA+M/ESnZ0ac3tUQAAAFRF0ALgP1w6CAAAPI6gBcB/9KlUbCLp9igAAACqImgBAAAAgM0IWgD856TxoHPIcnsUAAAAVRG0APgPa7QAAIDHEbQAAAAAwGYELQAAAACwGUELgP9w6SAAAPA4ghYA/6EZBgAA8DiCFgAAAADYjKAFwH+4YTEAAPA4ghYA/2GNFgAA8DiClkMWKR8WfGNiJTu6tOb2KAAAAKoiaDlC6CblryJoeV9uayeZ3ZRSXpxJ0wkDAAB4HEHLEa7HBqrZImh5yurG9urGtpRSn0r1ji1LKYfnnwjdVOuyuq7eF7o5m865PEoAAIDqCFqO2Dtxp3xQBC0vyG3txCaSZ288lFLqUymhm4Nzj6WUxy7PCd3Mbe3MpnOdQ9bFmbSUcjadM1PrLo8YAACgJoKWIwhaPiqCVpsls5uxieTw/BMpZe/YstDNiZWslPLQuVuHL9yRUo4ureUzlZlaZ+YKAAD4EUHLEQQtHxVByzmrG9tnbzxUXSvU9X7J7ObqxrbQzeNX7kopB+cedw5ZIwsZSX8LAAAQLAQtRxC0fFQELVuoeSp1RV/nkNXRNy2lNFPrQjd7ri1KKXvHljuHLPWEwbnHahYLAAAgqAhajiBo+agIWs1ayDzVp1ILmadSyuNX7h69NCv3mlWoRVYnjQedQ5aavBqce8x6KgAAEEIELUcQtHxUBK0aZtO5szceqh6Axy7PnRi+J6U8e+NhYbMKdRGgSl+spwIAAFAIWo4gaPmoCFqKmVrP9/TrHLJUU/WX3lsqbFahgpaZWj8//UjNaAEAAKAigpYjCFo+qmpBa3VjW/VvELp5YvhebmvHlWPJCaNLa6rp3+jS2vErd/WplJTyxPA91awimd0UunnSeKCecPbGQ3WbYAAAADSOoOUIgpaPqmLQmk3njl6aFbrZOWSpWzn5MWvltnZGl9by/Sc6hyzV1u/opVnVrGJiJSt086X3lqSUw/NP1FWC7o4ZAAAgGAhajiBo+ajKg9bw/JND524J3VSXz6nlSd7PWvlbTulTqc4hS/13R9+0alYxOPc436zi4kw6NpEkUwEAADiHoOUIgpaPqiRonbm+InSzo29aNXtQvJa1JlayaonU2RsPO4es1Y1tdb1f19X7srhZRe/Ycmwi6fJwAQAAwoeg5QiClo8qH7RWN7Y7hyyhm0f6Z8o7kruVtWbTObVE6uyNh6oXhbrer7xZRc+1RbXaKpnd9EIaBAAACDOCliNqB63I2Z/ZWK4HFb+XClpm6v6R/hm1KKvaNXVOZ62FzFO16TPXV9RNfi/OpIVuljerODF8T01Y5V8CAAAATyFoOYKg5aNSQauj7xf5aaIa7MpaatJpdWM7NpFU66ZiE0mhm6oZYL5ZhZla77p6f2QhI6WcTefIVAAAAH5B0HIEQctHpYLW//zmL85PP2rkD7cwa/33nyc7hyx1nWHnkKVaoo8sZDqHLJWOeseWO4csKWUyu9k5ZKlM1XNtUeimepXQTdWsQr1KXQSYb2sBAAAAnyJoOYKg5aNSQev3/l+r8Rmq89OP1FKu//MnC0I3Vc909Yjcu95P3fxXLfqSUi5kngrdzF8QmO8KmG9rAQAAgCAhaDmCoOWjUkGr8asBJ1ayHX3THX3TavYJAAAAKEfQckQjQesgT2jqacErI9EdjcYsm95Npaxjl281krWS2U3VM0NNWAEAAAAVEbQcQdByssYTUSHsDlqrGw/qdrnIbe2oSwHr9swAAABAyBG0HEHQcrIcCVpSLtbtKNg7tqz6v3OXKgAAANRG0HKEF4KWZcS0qNgVjWjGePFPu6P7P+02rNIwYyS6934e0RLj0ugWQkQTe29idAshNGPRMgqeZixKuSitgfx2o1qFOFRr03tvK61YxTcxNFEiP6Tan7eRoCVrdm9XLS6O9M+o2wcDAAAANRC0HOF60LISESFENNqdMAaMREyLFmSk0p+q2BNJFAQelWcKnxCNRioELa17/zlCCBFJGLGoEFEtZhgxLRoRQghtoPrAyjat3jYRi4pI0ZvszV9Z1oChApV6B2NA5bTan7fxoCWrZC0aYAAAAKApBC1HuB20al5ctztrVJhDBrSCMFM6eZV/QlnQEqLbKH7b4heOJyrmqHqbrpj6dqfLKn+6A11MWBK0ZFnWogEGAAAAmkXQcoTb7d1rBQ9Dq/AjQ8unJpWOChJUxfRVNYwVvVBNNOUzUr1N7wWt4kmwsm05HrRkcdaiAQYAAACaRdByhNszWrsJR0S7E6VLlQbKVjnlqXmkAa086lQJWgWzTFXSTtHT6m664tsuSisWrRO0anzeFoOWLMhaNMAAAABAswhajnA9aElZ3KYiMbAXS3Yv1TPUAqfisvJPcC5o1dp060Gr+udtPWjJvaxFAwwAAAA0i6DlCC8Erd34ke8BuJuditdEVSjHg1atCHSAoFXl8x4oaEkpVze2zdR6m48fAAAA+B1ByxHeCVr7yaT2EqzaeSnf1u9AQavupm0IWo1uqOGgBQAAALSAoOUI14OWVXxfrMKGE7vLmUomfKxYYi/elGYquSityl0Hmwxa9TfdRNAq6bpR/fMStAAAANB+BC1HuB20BrT8TaWMWEKLCCGi+/FGBRUhot2JxED+XlUF8WYvVmmxhDGQSHRHhdC0g1862MCmGwpa+dYXMcOIJYzxep+XoAUAAIB2I2g5wvX27oYW2esMIUQ0opX24hvfu8Vw1SeouLLfys+GNVoNbLqxoFU4vGhivIHPS9ACAABAWxG0HFE7aPmyKkagQBRBCwAAALYjaDkieEHL0ArudhWsImgBAADAdgQtRwQtaFmxaN3O7L4tghYAAABsR9ByhL+DltEtohFNi6neEtruaqhGm/j5rghaAAAAsB1ByxH+DlrWQKKwt4SIRLWBQM5lqSJoAQAAwHYELUf4O2iFrAhaAAAAsB1ByxEELR8VQQsAAAC2I2g5gqDloyJoAQAAwHYELUcQtHxUBC0AAADYjqDlCIKWj4qgBQAAANsRtByhTtzVGTzl5SJoAQAAwAkELUdw4u4fBC0AAADYj6DlCE7c/YOgBQAAAPsRtBzBibt/ELQAAABgP4KWIzhx9w+CFgAAAOxH0HIEJ+7+QdACAACA/QhajuDE3T8IWgAAALAfQcsRnLj7B0ELAAAA9iNoOYITd/8gaAEAAMB+BC1HcOLuHwQtAAAA2I+g5QhO3P2DoAUAAAD7EbQcwYm7fxC0AAAAYD+CliM4cfcPghYAAADsR9ByBCfu/kHQAgAAgP0IWo7gxN0/9oPWxZm00M2LM2kpZeeQJXRTSjm6tCZ0s+faopSy59qi0M3RpTUppdDNziFLStnyq470z4wsZNz62AAAAHAUQcsR1YJWJD6pquTx7Z2Pr5gf/d7fms//0Oy+/OFb7/96bWNb/ehXqxv5VxXW7+g3Hf8YodDuGa3VjW0ppT6VyqevQ+duqfS1uveHDgAAAL8jaDmiqaD1sZS9/2SV5Kg/fed2Jrclqwet8rRWxNCiQggR1RJWjWdZiahQNKOVzxkELl86uJB5euzyXNfV+3IvfQ3PP1GPuzIeNGyRogJdAICDImg5ovaJe0lG+pdfPlbBafFxLv2bzX+89ejzb05F4pNvjP2q4st3PpaR+OS5n/26+vb3A5SI1kpaBC3pdtAqdPbGwyP9MwuZp7mtnY6+6eNX7kopk9nNZHbT7aGh3O6RQ1HBKy98HwJAABC0HFH7F1VJ0PrW1flIfPK//Hgu/8jFG8lIfLLrndvlr93Y2vmvV+ffer9GypJSMqPVOA8FrbxkdrPr6v3esWUpZWwiKfamuSZWsrmtHbdHB4WgRQW2PPV9CAD+RdByRO1fVCVB6w8v3IrEJ//NWs0/Yi6vReKTz/dNlbzw8frW1wZn61w02AyCljeDVqHBucedQ9bqxvbqxrbQzWOX56SUZmp9YiXr9tBCrvDIoaiAlMe/DwHAXwhajmg8aH0s5ecSNyPxyeUnG/kH/2E6FYlPvvijDwtftbi60fXO7Uh8sv/nK3aNk6DloxOLZHazd2z5/PQjWdzJ8Pz0o9l0zu3RhRBBiwpg+eX7EAB8gaDliKZmtErktnb+5O9uReKT7958mH/wfjr3B+d/oZZyPf9D86O1Oot2DE1USlCWoUX3olVUMwha0qcnFiMLmZ5ri7mtnYXMU6GbJ4bvSSlHl9YuzqRZ0NUuBC0qgOXH70MA8CyCliMOErS++9MHkfjkF/tvr2/ur8ZZ39x58UczXxuc/WL/7Uh88o/evpX+zVaNN6kUtAo6ZOSzlkbQ8veJxerG9vnpR2oFV9fV+0I3zdR6bmund2yZawsdRtCiAli+/j4EAK8haDmi5aD195MPI/HJ3/3BTXN5rdpzbi79R42ehEp50CqPWUUIWv4/sZhYycYmkrL4dsnnpx+dvfGQO3Q5gKBFBbAC830IAF5A0HJEa0FrcOqjz8YnP5e4+dNfPq79/tV6EuaVBa39B0Q0YVhSSmkZBdmLoBWgE4vc1s7w/BM1o9U5ZAndTGY3Vze2u67eH5yrc2ihYQQtKoAVvO9DAHARQcsRrQWtSGMpK//MGk8oDVr781lF99VijVbgTyyS2c2RhYyUcnj+idBNNeUVm0j2XFtkNdfBELSoAFawvw8BoM0IWo5oIWhd+h8Pj//gZmGT9xoi8cnjP2gtaBU3xyBohenEwkytq3B1pH+mo29a9dI4dnlOdTJEkwhaVAArPN+HANAGBC1HNBu03vkgGYlPjt97Uv7k5/umIvHJ8fmiABaJT3713Q/Ln5zX4IxWleaEoRLSEwt1YeHg3GOhm2dvPJRS9lxbVDfscntofkHQogJY4fw+BACHELQc0VTQevvnK5H4ZPTN0tsTK199dzYSn/yzH89Zj9Y/Wnu6uLqhUtlPPkzXGECtNVqaWqIlrYLHCFqhPbFQt0KWUh67PHfo3C0ppZlaP3zhjj6VcntoHkfQogJYIf8+BAB7EbQcUe0XlboRVr4qPpivz785JaUcn1/9bNmP/uZf6/wWLJ+qKkxVdB0swInFPpW4huefHL5w5+JMWkrZOWQdvTS7urGd29phsqtY/aAVOfszW8r1k28qPMX3IQDYiKDlCNd/UVW4JrBCf3ctwRotTixq6rp6/+ilWbnXS0NNc82mc26PywsIWlQAi+9DALARQcsRrv+iqrz4yjK06G6yikYThkUzDMmJRYNGFjLHLs+pOyOriwzVHJeZWnd7aG4haFEBLL4PAcBGBC1H8IvKPzixaNpL7y2dNB5IKS/OpPMt40eX1kLWL56gFaCyBrTdf3TqNlwfjKvF9yEA2Iig5Qh+UfkHJxatG1nIdF29rxoYHjp3S/XSWMg8HZ5/ktvacXt0TiNoBaYGNCGEiGiJgYQWI2jxfQgAdiFoOYJfVP7BiYUNcls7Z288VFNb+lRK6Ka6N9f56UejS2tuj84hDQWt2j+tG6JCHrSMRHc0GrMc3oqViAghNMP9z+uF4vsQAGxE0HIEv6j8gxMLm5mp9TPXVxYyT3NbOx1908cuz6kH9anUQuap26OzEUHL6RpPRIVoU9CKJCzXP68niu9DALARQcsR/KLyD04snJLb2rk4k1b9M3rHloVuqv+OTSRV73ifI2g5XQQtF4rvQwCwEUHLEfyi8g9OLNpBzWitbmwns5tCN49fuSulHF1a6x1b9m2zeK8ELcuIaflbN0QjmjFe/NPu6P5Pu43SODFuJLr3fh7REuPS6BZCRBN7b2J0q8vqLKPgaeoqu/0GEiKqVYhDtTa997bSilV8k/L7/u0Pqdp+2LsCcHeoBQmt6kiM7hpbqTH+VrbVwKfeL2tAi0b2R6UNFD6n9p9p7eOBoAUA7UTQcgS/qPyDE4t2G11aG1nISCl7ri0K3VSLuE4aD9RNulw0spD5xFu31fFQWB1902dvPCx7uieCljrjj0a7E8aAkYhp0eKoUPRTdXZeNHWj8kzhE6LRSIWgpXXvP0cIISIJIxYVIqrFDCO2Gwm0geoDK9u0ettELCoiRW+yl1gsa8BQgUG9gzFQFhGrBK1EbO8WFntvVWMk1rhhDCS0iOqEUbiV2uNvZVsNfOri+BfREjHDGEgkugvDWCMDq3Y8ELQAoM0IWo7gF5V/cGLhmtWNbdWfcCHzVOhm19X7Usrz04+6rt5v8+25Vje2VeoTuvmZ2LtfOJ3oeuW1L33z252n47/92qVn3/hAzcIVrzHzQtCqeXHd7vxJ4Xn2gFZ4Wl8yeZV/QlnQKmp6vjcLVPDC8UTFRFFv0xVTX0FTiuYuHVQZQ4jiOZy6I6l46WC9V7W4rUY+tRUrmSJr5s/Uhost+T4EABsRtBzBLyr/4MTCE5LZTRVjuq7eF7o5m87ltnaOXppVnQydplLWoe+Ndr3ymlbmK6de+dR3rgrdPHZ5rqBtvRfau9c6sTa0Cj8ytHxqUumo7LZRlS4drBTGil5Y0riv3qb3IkfxJFjZtloKWsXvWX8klYJW3Ve1uK0GPrWhlSaxpv9MCVoA4BkELUfwi8o/OLHwHDWdNZvOdfRN91xblFLGJpLHLs85NM01PP9Epayvf+NUecrK+3RsMH93Ziml9MSM1t4Zf7Q7UboUZ6BslVOeOo8f0MpP+svTTn5Z0f5zKp3NFz2t7qYrvu3uZM4Bg1bxezYwkgpBq/6rWtxW/U9d+yM3OrBKxwNBCwBcQNByhPpFVb7Yg/JacWLhcWqaSzUtXN3YXt3YFrr50ntLUsrVjW1bNvGJt24/o9+sOJdVqOfUy8+9/v6zb/5iL+95ImhJWdymIpHvmrB7RZmhFjgVl5V/gnNBq9am2xu0ao+kWtCq+aoWt1X/U5de1lghaNX9OJWPB4IWALiAoOUIflH5BycW/qBi1cRK9uil2TPXV6SUPdcWD1+4M5vOJbObnUOW6ldxcSbdOWSpLNQ5ZJ00HkgpRxYynUOW6infO7bcOWRJKfOvErr5mdi7tVOW0nk6LnRzrzGGV4LW7ul1vgfgbnaqfcrejqBV6xS/vUGr9jtUC1o1XtXitmyZ0Wpsh5QdD40W34cAYCOCliP4ReUfnFj4Ve/Y8pH+mXwvjfxFhmKvk6HQzSP9M1LKizNpsXfVX+eQJXRTSpl/ldDN3//W9xsJWl/65rfFXtMO6bGgtX+aXnsJVsmTy87ad9vWHSho1d1024JWAyOpELTqv6rFbTXwqUvWj1X/8232eGi0+D4EABsRtBzBLyr/4MQi7IRufvkvTjcStDRNe0a/qcKb9EbQsoq7JtRt2CCtWGLvRL80U8lFaVXuOthk0Kq/6SaCVsM5oVL4aWAklZphNLjrmt5WI596r2FGxXhZf2DVj4cGi+9DALARQcsR/KLyD04swk7o5ldOvdJg0Hr2jQ8OnbslpZSeCFoDWv6mSUYsoUWEENH9s3AVVISIdicSA/m7NhWc6O/FKi2WUPdrEkLTDn7pYAObbiho5Vs7xAwjVre7Q8Xw08BOqNTevd6rWtxWY5/a0NSn3r21V/F9tGpvovbxQNACgHYjaDmCX1T+wYlF2AndfOHVs42krBf//FWhmyeG70kpGwxaTrd3N7TIXucDIaLFt3VST0h0136COh3fPXc3xu1Yo9XAphuLHIXDq3vj3Srhp/5OqBS06ryqxW01+qkXLUPdiViJRBMDjW2i7vFA0AKAtiJoOYJfVP7BiUXYCd2M/OXbjQStF149K3RTteJoJGj5siqGASo0xfchANiIoOUIflH5BycWYSd087nX3+859XLdoPXJ7/5E6ObIQkZKKQMatGrfMNflssatyuX2wAJUfB8CgI0IWo4I3ulXgIsTi5A7c31F6OanY4O1U9YXTieEbqrW8FJKGcigZcWioolGf+2t6rfr9eiAfVl8HwKAjQhajnD9PrxUs8WJRWjltnaOXpoVunnsr975+jdOVUxZnafjz+g3O/qm1Q2UpZQyAEHL6BbRiKbFVO8EbXc1VHNN6qiAFd+HAGAjgpYjXI8NVLPFiUWYman1wxfuCN089L3RF149m29C2HPq5T/u/etPfeeq0M2OvunBuccFL/J/0LIGEoW9E0QkWqWrOBWe4vsQAGxE0HKI+78vqeYL4bW6sa1uXqzqudff/63v/3v+f49fuTubzhW/wv9Bi6LKiqAFADYiaKHUkf4ZoZvB2xZQ18hC5sz1lc4hq6NvWuhm55DVO7Z8cSZd6bkELSqARdACABsRtFBKn0rFJpLB2xZgK4IWFcAiaAGAjQhaANACghYVwCJoAYCNCFooddJ4UNDDOjjbAmxF0KICWAQtALARQQulWKMFNICgRQWwCFoAYCOCFgC0gKBFBbAIWgBgI4IWSk2sZEeX1oK3LcBW+6ekrt8FjqJsKYIWANiLoIVSXDoINIBTUgQPRzUA2ImghVK0dwcawCkpgoejGgDsRNACgBZwSorg4agGADsRtFCKGS2gAZySIng4qgHATgQtlGKNFtAATkkRPBzVAGAnghZK0XUQaACnpAgejmoAsBNBCwBawCkpgoejGgDsRNBCKS4dBBrAKSmCh6MaAOxE0EKpk8aDziEreNsCbMUpKYKHoxoA7ETQAoAWcEqK4OGoBgA7EbRQivbuQAM4JUXwcFQDgJ0IWijFGi2gAZySIng4qgHATgQtlGJGC2gAp6QIHo5qALATQQsAWsApKYKHoxoA7ETQQim6DgINqHVKGolPqip5fHvn4yvmR7/3t+bzPzS7L3/41vu/XtvYVj/61epG/lWF9Tv6Tcc/CrCLoAUAdiJooRRrtIAGNB20Ppay95+skhz1p+/czuS2ZPWgVZ7WihhaVAgholqi1j9YWImoUDSjlc+KsCBoAYCdCFoA0IL6p6QlGelffvlYBafFx7n0bzb/8dajz785FYlPvjH2q4ov3/lYRuKT53726+pj2A9QIloraRG00BiCFgDYiaCFUhMr2dGlteBtC7BV00HrDy/cisQn/81azT9iLq9F4pPP902VvPDx+tbXBmfrzGUpzGjBTgQtALATQQuluHQQaEBzQetjKT+XuBmJTy4/2cg/+A/TqUh88sUffVj0vqsbXe/cjsQn+3++YtdYCVpoDEELAOxE0EIp2rsDDWh6RqtEbmvnT/7uViQ++e7Nh/kH76dzf3D+F+oKw+d/aH60tmnLWAlaaAxBCwDsRNACgBYcNGh996cPIvHJL/bfXt/cyT+4vrnz4o9mvjY4+8X+25H45B+9fSv9m60ab2JoolKCsgwtuhetoppB0EKDCFoAYCeCFkoxowU04EBB6+8nH0bik7/7g5vmctU1ijeX/qNGqwylUtAq6JCRz1oaQQuNIGgBgJ0IWijFGi2gAa0HrcGpjz4bn/xc4uZPf/m49jYi8cmud27XeEJ50CqPWUUIWqiFoAUAdiJooRRdB4EGtB60Io2lrPwzazyhLGjtPyCiCcOSUkrLKMheBC3UQtACADsRtACgBa0ErXc+SEbik+P3npQ/+fm+qUh8cnx+tfDBSHzyq+9+WP7kvNKgtT+fVXRfLdZooTEELQCwE0ELpbh0EGhA00Hr7Z+vROKT0TdL75qlfPXd2Uh88s9+PGc9Wv9o7eni6oZKZT/5MF1jENWDVnFzDIIWGkLQAgA7EbRQ6qTxoHOo1s1PfbotwFa1TklVf/Z8VXwwX59/c0pKOT6/+tmyH/3Nv9Y5321wRqtKc0KgBEELAOxE0AKAFtgctKSU/zyX/vKlmfzjtS8aVGqt0dLUEi1pFTxG0EJNBC0AsBNBC6Vo7w40wBOnpOVTVYWpiq6DaJInjmoACAyCFoqYqXWhm0f6ZwK2LcBunjglrXBNYIX+7lqCNVpoiCeOagAIDIIWXeacGgAAIABJREFU9q1ubEspB+ceL2SeBmlbgAM8cUpaefGVZWjR3WQVjSYMi2YYaJAnjmoACAyCFnbFJpJH+mfaE3vauS3AGZySIng4qgHATgQt7CJoAc3glBTBw1ENAHYiaEHqUymVedTlfIHZFuAkTkkRPBzVAGAnglbYDc8/EbrZnptZtXNbgMM4JUXwcFQDgJ0IWpBnrq+07Sq+dm4LcBKnpAgejmoAsBNBCwBawCkpgoejGgDsRNAKuyP9M0I3g7ctwGGckiJ4OKoBwE4ErbA7aTxo26Kpdm4LcBinpAgejmoAsBNBCwBawCkpgoejGgDsRNAKO30qFZtIBm9bgMM4JUXwcFQDgJ0IWmHHGi2gJfunpOo/KMrvRdACAHsRtMJuYiU7urQWvG0BDuOUFMHDUQ0AdiJoAUALOCVF8HBUA4CdCFphx6WDQEs4JUXwcFQDgJ0IWmFH0AJawikpgoejGgDsRNACgBZwSorg4agGADsRtMKOZhhASzglRfBwVAOAnQhaYcelg0BLOCVF8HBUA4CdCFphxw2LgZYUnpJSVECKoAUANiJoAUALuE8xFdgiaAGALQhaYXfSeNA5ZAVvW4DDCFpUYIugBQC2IGiFHWu0gJa4f5UXRTlZAICDImgBQDCNLGQ+8dbt8vmKjr7pszceMrZ2CtvnBQBIghYABM/qxnbPtd2LGz8Te/cLpxNdr7z2pW9+u/N0/Ldfu/TsGx8I3Tx+5e5C5iljc1rYPi8AII+gFXZcOggEjzqzP/S90a5XXtPKfOXUK5/6zlWhm8cuz+W2dhibo8L2eQEAeQStsKMZBhAww/NP1Jn9179xqvzMPu/TsUGhm22+44KXx+aEsH1eAEAhglZ4tXPNAOsTgLb5xFu3n9FvVpw/KdRz6uXnXn//2Td/YabWGZtDwvZ5AQCFCFph1M41A6xPANpM/V2rfWavdJ6OC91s5z92eHlsTgjb5wUAFCJohVE71wywPgFoM6Gbv/+t7zdycv+lb35b6GbX1fuMzSFh+7wAgEIErdBp55oB1icA7Sd088t/cbqRk3tN057Rbx7pn2FsDgnb5wUAFCJohU471wywPgFoP6GbXzn1SoMn98++8cGhc7cYm0PC9nkBAIUIWqHTzjUDrE8A2k/o5guvnm3k792Lf/6q0M0Tw/cYm0PC9nkBAIUIWqHTzjUDrE8A2k/oZuQv327k790Lr54Vunnm+gpjc0jYPi8AoBBBK3TauWaA9QlA+wndfO7193tOvVz3L90nv/sToZsjCxnG5pCwfV4AQCGCVui0c80A6xOA9jtzfUXo5qdjg7X/xn3hdELoZpvvIe7lsTkhbJ8XAFCIoBU67VwzwPoEoP1yWztHL80K3Tz2V+9Ua/jZeTr+jH6zo2+6zbew8/LYnBC2zwsAKETQCp12rhlgfQLgCjO1fvjCHXVzhRdePZufWO459fIf9/61unldR9/04Nxjxua0sH1eAEAeQSt02rlmgPUJgFtWN7bV7cJVPff6+7/1/X/P/+/xK3dn0znG1h5h+7wAAIWgFTrtXDPA+gTAXSMLmTPXVzqHrP/05rT6W9Y7tnxxJu32uKT09ticMLKQ+c//vHjs8lxHXyg+LwCAoBU67VwzwPoEAAAAhBNBK4zauWaA9QmAFxzpnxG66fYoKvPy2OwVnk8KAJAErdBq55oB1icArvPyKb6Xx2av8HxSAIAkaIVcfo1EG9YMtHNbAAAAgLsIWgAQfBMr2dGlNbdHUZmXx2av8HxSAIBsY9BapCiqZgEO8vJFa14em73C80kBALKdQSu/JoeiqJIiaMFp+lQqNpF0exSVeXls9grPJwUASIIWRXmhCFoAAAAB0+6g5fbVWRTlrSJooT1OGg88e09wL4/NXuH5pAAASdCiKHeLoIX28PLqIC+PzV7h+aQAAEnQoih3i6AFAAAQSAQtinKzCFoAAACBRNCiKDeLoIX28PJFa14em73C80kBAJKgRVHuFkEL7eHlNgxeHpu9wvNJAQCSoEVR7hZBCwAAIJAIWhTlZhG00B5evlWul8dmr/B8UgCAJGhRlLtF0EJ7eHl1kJfHZq/wfFIAgCRoUZS7RdBCe0ysZEeX1tweRWVeHpu9wvNJAQCSoEVR7hZBC22wurF9cSbt9iggpZSDc48XMk/dHgUAoB0IWhTlZhG00AadQ5bQzeH5J24PpLIj/TNdV++7PYp2SGY3O/qmD1+44/ZAAADt4ImgFTn7M1vK9ZNmimq2CFpwzshC5sz1FSmlmVo/c31ldWPb7RFVkNvaOdI/E56m5+enH6nZxdhEMjaR9OYfCgDAFgQtinKzCFpwzrHLc0I3WRTkQSpeHr5wJ7e1s7qxndvacXtEAAD7EbQoys0iaMFeua2d3rFldSXebDo3spBxe0R1jCxkRhYyIZzYWd3YnljJSil7x5YPX7hjptbdHhEAwGYELSpYZXQLIaKJcTuf6WQRtGCjZHZTSnn8yt3DF+74pePCieF7Qjdn0zm3B+KaM9dXjvTP5LZ2cls7nl1HBwBoAUGLClYRtBBKC5mnxy7PqYmsZHbTRxNEIwsZ7uGrLh3sHVsWukl/SAAIDK8ErRpnoo2EKIKWlItGojsajVluD8O/5coOJGjhgGbTOTUdpIKWjyIWSpip9Z5ri2pq66TxgMV1AOB3BK3A1HgiKgRBy287kKCFg5hYyQrdVBNZfmyoMLKQOX7lLnM4Jc5PPxK62Tu2LP35xwoAUAhagSmCli93IEELrTk//Uitwuq6en9w7rHbw2mRShQsTCo3PP8kmd3Mbe0cvnDnpfeW3B4OAKAVoQtalhHTomJXNKIZ48U/7Y7u/7TbsErPxY1E997PI1pivHSdj9EthNCMRcsoeJqxKOWitAby241qFc7ma216722lFav4JoYmStRfelTxPYu3ayUiRR+nIITUGG1rryrfvdHEgFW8e61ERIhIovhV+c2Vfq66f+IFz6y9A2sPu/YRRdCCEy7OpPMTWQgwM7V+pH9GTW2NLq2pZicAAL8IV9BSJ+XRaHfCGDASMS1afD5d9FN1bl10Wq9OxwufEI1GKgQtrXv/OUIIEUkYsagQUS1mGDEtGhFCCG2g+sDKNq3eNhGLikjRm+xlGMsaMNTpvnoHY6Asw1QJWlr33nsOJLRIVAghuo2SDJOI7eaI/OZqjra1VzWye1sIWrX+xAueWWMHNvJhqx1RBC3Yy0ytd129r1Zknbm+EoDT7sG5x2HuN9ggdaOtwxfuHDp3iysJAcBHQhW0al4btnvaXXiWPKAVTshUaFI3oJXMfhjdojir7D1S+MLxRMUcVW/TFWNJwdRNk1e+VXrP3Qf3QqBKEUIUz9LUG21rr2pk9zYftBr5E6+5A+sM24arDQlaaJyayDpzfcXtgdgjmd0Uutk5ZLk9EB/Ibe2cvfFQtWe8OJPWp1IkLgDwPq8Erba0d691WmxoFX5kaPnUpNJRQYKqGA+qpoWiF5Zkg3qbLs0/VbbVStAqm34p+pi7kal4u3VH29KrGtq97Q9aDQ2boAWHXZxJH75wR81fef8GxI1b3diOTSTphNGsI/0zHX3TAZjPBIDA80rQqnEmavulgyLanShdSDNQtkgnT53ZD2jlUac8rpQtEKo5T9Lgpiu+7aK0YtEDB63S99xNEbvbLc0wjY22pVc1tHtbvnSw0p94I0Gr0Q9b+f0JWjgw1e7i/PSjjr5p/3a8gL2S2U3VPkSfSh27PDexknV7RACAysIVtKQsblORGNg7q969HsxQ63OKy8o/wbmgVWvT3gtaNUfb0qucClrV/8QbDlq1/2hqvD9BCwfTc22xo29aZa1ATl+cub7SdfU+l8C17Mz1lfwRQtwCAA8KXdDaPTnO9wDcPbkvXi9UoRwPWrVO0NsdtIouAqwYmWpspaVXORi0qvyJNxG0GtmlFd6/sSJoocTqxnZ+vuL4lbsB7hVxpH/m0Llbbo/C39T9qYfnnwRp8R4ABEZIg9b+iXXtNUIlTy47595tOnegoFV30w4GrbI1WhXaWlT4ODVH29KrGtq9ld65rClIlaBVYRj1g1YDfzQ13r+xImihxNFLs+FZgROSj+m00aW1E8P3VCbvHVs2U+tujwgAIGXYgpZVPBlSt4WDtGKJkkbhhcnEqtx1sMmgVX/TTQStxs/yyxskNhZsGtxRrb2qzu61YtGSN7F2m8hXXaNV/U+8ctCqtENqDbvG+zdWBC0oIwuZszceSikvzqRjE8nAX1CXzG5ytZvtRhYy3GANALwjVEFrQMvf8siIJbSIECK6fw6tzrOFiHYnEgP5e1UVnIjvnfdrsYQxkEh0R4XQtINfOtjAphsKWvnGDDHDiNXvzaBmtKIRtbKo/N5cskpkqjva1l5VuHuNart3700Kb1MWrbWvav6Jl6/mqrADaw+79hFF0EKjVje2D1+409E3Hfh8lRebSArdVBdJwkbD80/U1Naxy3PqTscAALd4JWi1p727sXtPXnXqXHyjJ/WERHftJ6iT6d0zb2PcjjVaDWy6saBVOLz6t83de08rUbWXQ5XIVGe0rb2qbPdGKuzeSn8Etdu71/oTr/iHVWEH1hh23SOKoIVaktnN3rFldTY8PP8kVDM8g3OPe64tqkYOsN1C5unhC3fU1NZsOqeWcgEA2swTQcvHVWtFkLfLFyOvvJAsUEXQCqfc1s7qxnZua+fwhTtH+mfcHg4CKLe1o5bAHbs8d+jcLbIWALQfQetAVdgM3XNljVuVa1FKgpZXiqAVQmZq/eilWTWRZabWw3O5YN7qxnbnkMWdwdogt7XTO7Z80nggpRxZyJyffuT2iAAgRAhaByjViaHxRn9treo321UDJmh5owhaoTKbzqm5rMMX7oR5/Yzq2UA78jY7dnlO6CY9CQGgbQhaDZfRLaIRTYupzgfa7mKe5lrMeagIWt4oglZ4DM49Frqp8hXXcSWzm/R2b7OFzFN9KiWlnFjJHrs8F6o1gQDgCoJWw2UNJAo7H4hIVBvw5FxWY0XQ8kYRtMLg/PSj3NZObmvn+JW79NmTYb1g0jteem8p3/IxwHfEBgDXEbQoys0iaAWe6mMem0i6PRAPUb3s3R5FqKkLCM3UOtdwAoBzCFoU5WYRtILKTK2fNB6oFVkvvbfEZXKFeseWX3pvye1RYPcaQjW1pU+lOEoBwF4ELYpyswhaQdU7tix0kyZv8AU1tXX8yl23BwIAgULQoig3i6AVMOenHx29NKtWZLEcq6Lz049eem+JWxV7Sm5rR59KjSxkpJQ91xZjE0kW0QHAwRG0KMrNImgFhkoOvWPLHX3T9HOroevqfaGb9GDwpmR289C5W8cuz6n/Jm4BwEG4ELTUf1AURdAKjBPD9w5fuKNWZLHQpbbc1s7o0prbo0BVqxvbKgZ3Xb1/pH+GSAwALXNlRguAwt8Lf1vd2FaZoXdsuXPIImLVldva4aJBv+i5tqimtmbTOa6DBYAWELQAF/H3wsdWN7YPX7ijJrLcHotvDM8/EXt3bYZfqKs9L86k3R4IAPgMQQtwEX8vfGl4/ok66YxNJGkb0JSJleyJ4XtcOugvZmq9d2w5t7WTzG6eGL6n7sEFAKiLoAW4iL8X/rOQedrRN334wh23BwK029kbD4Vu6lMpKeXqxrbbwwEAryNoAS7i74VvJLObvWPLaiLr4kyaf9RvzUnjgTpNh08Nzz9RU1sdfdOxiaTbwwEATyNoAS7i74UPqCsDZ9O5jr5p7uh6EMnsptDNziHL7YHgoEYWMocv3FGZ+f9n7/5jGzvvO98fIN5G8G1whd7tRgiQvbr/GHMDBBCgNDtV4q2ALIxp0QYqAgSTQbKrIF1mBqltAU4H0zQui9u4SrK2jmI5mmu5sjxbeTWG2qtCC1NRk6k0rWLGU41OqBEjZqgRR6FCypylKFaMSImin/vHo+FQ4m+KPOfwnPcLDwJHlqiH8jkPn885z/M9U2s73N0CgIIIWoCBOC/Mzh1KtI96r3oeCCHmgrtsxzoldyhBuXBrkE/llre2zlxbNbo7AGBGBC3AQJwX5iXzgBbZaxnyXFkIGd0dK6D8vfXEUodOd1guqe2/tcW6UADIRdACDMR5YVJXPQ8UVZvwbQviQf30TK+3DHn4e1pSMp2RRWLknS6juwMApkDQAgzEeWEuyXRGXptfjSbPXFudCcSN7pGlXLwRZJObhQXi+/KUcbrDHeM+CsYAAEELMBDnhblcvBHkwazAKZ133Ze3LpPpDM9MA2BnBC3AQJwXpqBF9i7eCGb/gRJqjTAX3HW6w9zlsAm5QFRdiiiqJmvJAIANEbQAA3FemELP9Lqialx6byinO6yo2tTajtEdgX6m1nbOTd2Tt7Yu3ggG4vtG9wgAdEXQAgzEeWGYZDrjdIfllqHVaJIA0Gjyj0wlDHuS1WX65jeN7ggA6MrgoNU5sJhtuV8/zLx/XXvvv/yP1d/5vvbkK9qF8Z+9+s4vd3PW8/wilsr92Wz7LfW2Tm8IqAOCljHk4sDuSX/r8DJX2QEdjHmj8tZW+6i3/9aW0d0BAD2YMWi9L0Tf3/vzQ9Qfvn4nnkzL7ykWtE4EtpNcji5FUZQux6C/xHf5B7sUyeGq/R0D5RG09BZOHJy9frd70i+ECMT3ucGij3DiQFE1uREOdqZF9tpGVuStLS2yRyF4ANZmiqWDJwLSP/x8W37l+Zn1je1k9FcHf7f84FMvL3UOLL40/4uCr555X7w494vOgcXhH/+yeB8eBSilq1TSImhBLwQt/YQTB/Lm1bmpe92Tfipe6MkdSpy9fpeVYxBCxFKHsdRhMp1pG1lpH/WStQBYmBmD1ten1zoHFv/rW773c75n7Fa4c2Cx5/U7+T+eSmf+ZHqtc2Dx1XdKpCwhBHe0YDYELZ2sRpMtQx55I4uJHWC4WOrwykLoykJICDHmjfJMBQCWZMag9bsjy50Di//oj+V+j7a52zmw+OTQ0omf3d5Lf3litXNgccQdqldfCVrQC0Gr4ca8UVlSvGd6vf/WFinLEMykUULbyErLkIfS/wCsx4xB65ODtzsHFjd3Urnf87eeSOfA4hf+5mcnfrbn9TudA4ujP6lbyhIELeiHoNVYM4G4omqytCAM1Day0jq8bHQvYFKB+L7M4VNrO92T/tVo0ugeAUB9mDFo5UumM3/w18udA4tv3j5Wqmg9mpQ/++Qr2p//IPDebpl97S6HUihB+V2OrofRqsvhImhBNwSthggnDnpnN+QFcqc7zLzNcHPBXZ5ai7L65jdbhjyyRA2nLQALaI6g9cIP73cOLH529M7ewbFlP3sHmS9PrH529I58hd97bTn6q3SJ1ykUtHIqZGSzloOgBX0QtBpiam1HUbXeWf6qQJORFWsmfNuKqlEFHkCza4Kg9d8XtzoHFn/7e7e1zd1i33M7+K//8RWtRFlCKT9o5cesYwhaaCyCVj1Nre20jazIG1kTvm22Y5mE0x1uH/W6QwmjO4KmMROIt4965bncf2uLxzAAaFJmD1oTS+99YmDxk4O3f/jz7dK/4PsLm8XKEmblBa1HX1C6Bl1+IYTwu3KyF0ELjUXQqg85D5M3sliiZjZOd7hlyMODoVEDeWurZ3rd6I4AQC1MHbTevL3VWVnKEkLcXIvJby7xPSeD1qP7Wceeq8UeLeiFoFUHffObiqrJi99c+QasJJnOqEsReXZ3T/qd7rDRPQKAKpg3aF37l63OgcWz37t9os57Me77cfn9Jb6neNA6XhyDoAWdELRqF0sdTq3tCCGm1nZYmWZasdShuhShsAFOaTWabB1elre2uJ4CoFmYNGi9/m5Y7su6eW+n4Ms9ObTUObB4c+1RBlNvBjsHFr/05sn677kqvKNVpDghUHcErdqdvX43eyMLpiUr7PfNbxrdETS9cOJALkA9e/1u+6iXTZgAzM+MQeu1n4Q6Bxa7Xl76cSBe7OW+9OZq58DiH73le293fyOWev3d8H8YvN05sPj2z0o9E7PUHi2H3KIl/DlfI2ihwQhaVXOHEnIX1kwg3je/GUsdGt0jlBJOHGSXfgGnl0xnemc35K0tdygxFyxaJQsADGdw0JIRK7cV/GK2ferlJfmDN9din8j7t3/1ozKz1fxbVbmpiqqD0B1BqzrJdKZtZEVRNZaiAegY9ymqRtYCYFqmuKOlmwJrAgvUd3cMskcLOjHFeWF+yXTmykLoykJICDETiM8Uv9cNs2kf9VIyDg3iDiVkeQwtstczvc6NUwBmY/ugJYTwuxxdR8mqq2vQ5acYBnRjivPC5JLpjLyR1TaywkLB5pJMZ9pHvd2T/vLfCpzCxRtBRdVkdRxGCQDmYa+gBZgM50Upgfh+x7hP1lGYC+4yfwJQjExZWmSvZcijLkWM7g4ACEHQAgzFeVFYIL4fThzIG1nnXfeN7g5qJNd5kpChm5lAvG1kRYauCd82xx4AYxG0AANxXhTgDiVahjzyRhYPzGlqPdPrVC6BzmTZdy2yp6gay1YBGIugBRiI8+KYMW9U3sjqGPeNeUs9qgFNYcK3LWsVADqLpQ6vLIRk4Zy++U3GEwCGIGgBBuK8eGTMG+XJtgDqK5w4aBnyyAcc84xjADojaAEG4rwQgfj+edd9eSOrd3YjEN83ukeoj5lA/Oz1u9xJgOEC8X13KCGEOO+63zHuY0EyAN0QtAADcV4IpzusqFr/rS2jO4I6u+p5kK24DRgumc6cm7rXMe4TQoQTBzx0C4AOCFqAgex7Xox5o/LScjKd4aaHVSXTGcq+wVTkAdk7u8FVAAA6IGgBBrLjeSEnOv23tlqGPEx0LGzCt029QZjT1NrOual7yXQmnDhgxTKAxiFoAQay3XnRO7vRNrISSx0m0xkmNxYWThxQXBvmJ5cu84BjAA1iQNCS/0Cj0ewTtGKpQ7kZ/cpCqGPcx+4IywvE953u8FXPA6M7ApRx1fNA3tpqG1khcQGoL+5oAQayxXmRTGfaR71tIytyR5bR3QGAk2YC8dbhZRm0tMgeIxWAuiBoAQay+HkxF9yVu7D6b2053WHqItjHlYVQz/Q6s1U0EbmkWT53SxYnBIBTImgBBrLyeRFLHbYMedpGVpht21Dr8HLr8LLRvQCqFk4cXLwRlLe21KUIBXsAnAZBCzCQBc+LWOqwb35Tbs5RlyJzwV2jewRjUHIQTS17qYgHHAOoGUELMJAFzwsW3iCcOJC1T4CmpkX2ZgJxIYS6FOmZXqdQKoBqEbQAA1nnvFiNJjvGfXK9zUwgznJBO5Mls1lzBcs477rfOrwsy/kQtwBUjqAFGMgK50Ugvp/dQX7xRtDo7sB4E75tHgILi5ELCNWliKJqE75to7sDoDkYErRoNNpRa/agNeaNtgx55I0sJtYArG1qbefMtVV5a+vKQojtWwBK0zto0Wi0/NaMQUte0w0nDtpHvVzfRVYsddg96eeQgLXJW1t985tGdwSAqRG0aDTjW9MFrSsLIUXV5I0sINdMIK4wAYXVJdMZdSkib22dubYq66wCwAn6BS0ajVayNYFAfL9vflPuyDrvus9aQRQUiO+zpAo2MRfcbRnyyCsLPNIAwAm6BS0ATa9nel1RtTFv1OiOwLy0yB41J2Er4cRBLHWYTGfaRlZ4sgWAXAQtAGVc9Tw4N3VPCBGI75OyUFrbyErr8LLRvQD0Fk4c9Eyvy1tbc8FdntUOQBC0AJQQSx0KIXqm11uGPMwbUIm++U02aMHO5K0tRdVYSQiAoAWgsHNT9zrGfXJHFltuAKBCc8FdpzsshJha2+mZXmc7K2BbBC0Ax8RSh/JCbM/0+tnrd5kioHJXPQ/65jc5ZgDp3NQ9RdW0yJ7gSYOALRG0ADwSSx22Di/L/dzcxUK1ZLkUVkwBWTOBuBBiam2nZcjDHlfAbghaAIQQYiYQl7uwzrvuO91hCsehBrHUIXv5gHwTvu22kRV5a+uq5wEDLGATBC0AIhDfV1SNwsQ4jWQ6w+IooLSptR1F1Xpnm+PZiQBOiaAFgKCFOiBoAWURtABbIWgB9hVLHfbNb8otBE532B1KGN0jNDE5g6S2O1BCOHHQN78p1xD2TK+zawuwNoIWYF9aZE9RNfkwYuCU3KHEual77NECKiGH3+5Jv6DyEGBdBC3AdtyhRMe4T06IJ3zbbMsGAP0F4vuyRGfHuO/s9bvELcB6CFqAjcgPcncooajalYWQ0d2BpfTNb6pLEaN7ATSZcOKge9J/9vpdIcRqNClXFQKwBoIWYBfqUkRRNbkjiycdob7CiYPsOigA1ZIrC+ST6NguC1gGQQuwPhmutMhe28iK/Geg7tyhBBu0gNOYWtuRBQm1yN7FG0EWEwLNjqAFWNx5131F1ZgBo6GYEQJ11Du7oaja1NqOeHizC0AzImgB1qRF9pzusBBiLrh73nWfBxyhoXqm11uGPMQtoC6S6Yys/K5F9lqHl6kCDzQpghZgQcl0pmPcx1p/6ObijaDczQ+gjsa80ZYhj7y1Jf8XQBMhaAHWkUxn1KWIfGLsXHCXT2UAaHbyRrF87lbP9LrR3QFQBYIWYBHJdEbeyGIFF3S2Gk063WFKWQKNE4jv985uyMtn6lKEskZAUyBoAU1PPoblvOu+EMIdSpCyoDOnO5zduA+goVajSUXV2kZWKJIBmB9BC2hi4cRBLHWYTGfOXFs9e/0un7swxGo0ObW2Q8IH9DEX3JV3tPrmN89N3ePUA0yLoAU0K3co0Tq8LG9k8UELAHZz9vpdbm0BZkbQApqPvHuQTGfOXr8ra7gDRgknDhRVu3gjaHRHADsKxPfDiYMrCyFqzAImRNACmsyEb5vaUzAPdyhx9vpdWesSgP6m1nYUVeud3TC6IwBOImgBzSGcOLh4IyhvZF28EeTiJQBAGvNGWUAImBBBC2gO6lKEBVowoTFvdMK3bXQvALsLJw6o/AmYDUELMLWptZ32Ua+sdXHV84B+3RYgAAAgAElEQVRrljCb1uHl1uFlo3sB2F37qJeHKAJmQ9ACTEp+XsobWVc9D4zuDlDYXHCX4xMw3Jg36nSHY6lDozsC4BGCFmBGffOb8tpkMp3RIntGdwcA0ATkkxWN7gWAIwQtwESS6Yx8DKW6FGkf9c4Fd43uEVCK0x1uH/VSmgUwg5lAvHV4WV2KGN0RAEcIWoCJnLm2ml1kz1VJmJ/THW4Z8gTi+0Z3BIAIJw7aRlYIWoB5ELQA42mRPVm3TV2K9M5usJsZAACg2RG0AIPFUoetw8tUi0LTiaUOr3oerEaTRncEwCNOd7h70m90LwAIQdACjJJMZ/pvbY15o0KICd+23JoFNJGZQFxRtb75TaM7AuCRnul1rtwBJkHQAowRThy0DHnaR73sxUKTCicO1KUIVTEBUwknDijyDpgEQQvQ1Wo0efb6XblZeS64y0VHAEB9JdMZLoIAZkDQAnQiH4oVThy0Di/3TK8b3R3gtM5cWz03dc/oXgA4acK3zbJewAwIWoAech9vwl0sWEAynWkf9bLnHjChZDpzZSHEZw1gOIIW0FgTvm15I6ttZOWq54HR3QEA2EIyneGp94CxCFpAA/Xf2lJUjcdHwnpmAvGZQJw994A5JdOZtpGV1uFl6i0BBiJoAfUXThz0zW/KG1nnXfd50BCsp2d6XVE1jm3AtJzucN/8JldDAAMRtID6u3gjqKgaCwVhYRO+bac7bHQvAAAwL4IWUDdTazsd4z55I0tdirBgAwBgoKm1nfZR79TajtEdAWyKoAXUgcxUvbMbiqqx+RiWNxOIn71+l9kbYHJaZK9lyNN/a8vojgA2RdACTqt3dqN91CtvZLFlBXZw1fNAUTWCFmB+7NECDETQAmqUTGdkrLp4I3jm2ioRC7aSTGeYwAHml0xnrnoe8PBiwBAELaAWsnJu28gK003Y0IRvmysLQLPoGPcpqsbziwH9EbSA6rhDCXcoIYTond2gci5sKJw4UFSte9JvdEcAVESL7JGyAEMQtIAqBOL7iqqdubZKRUHYViC+73SHeXoB0FzGvFHiFqAzghZQXjKdcbrDM4G4EKL/1pb8BwAAmoK6FFFUjfKDgM4IWkB5WmRPUbWz1+8a3RHAeFcWQr2zG9zUBZpILHXYO7uhRfaM7ghgLwQtoCgtspd9WNCYN8p2LEAI0Tq83Dq8bHQvANQiEN83uguAjRC0gALkQnZ5I4uquMAJlBwEmtGZa6vto16jewHYCEELOGnMG20dXpY3sphQArnCiQNZdRNA0znvun/edZ/VGYBuCFrAIzJcaZG91uHlMW/U6O4ApuN0hxVVk2cKAAAogaAFHLl4I5idQbLRHyhoam3nvOs+2zyAJjUX3D1zbXUuuGt0RwBbIGjB7sKJA3UpIoTQIns90+usFQQAWNVMIK6o2pWFkNEdAWyBoAW76570sxQKqEQ4cXBu6t6Eb9vojgCoHdcTAd0QtGBTY97oedd9IYQW2ZN3tACUNrW2Qx1OwAKm1naueh4Y3QvA+ghasKnuSX/LkIenNwJVCcT35cMPADSpZDrTNrLSMuThXAYajaAFG0mmM+dd93um14UQq9EkG/qBqmiRPerEABYwE4hznRHQAUELthBLHcpLd2ev3z1zbZXLeEAN2kZWWoeXje4FgPqYCcS5dAI0FEEL1heI77eNrJybuieEIGIBNbt4I8gGLcAa+m9tKarGFmWgoQhasDJ3KCHLK52bundlIcSlOwAAhBDhxMF5130WEAINRdCCZblDCUXV5I4sAKd01fPgykKInY2AxcRSh0Z3AbAsghasJpnOXFkIyat0vbMbM4G40T0CrKBnel1RNZ7AA1hGMp3pnvR3jPuM7ghgWQQtWM2Eb1tRtd7ZDaM7AliKO5SYC+4a3QsA9XTedb970m90LwDLImjBIuaCu2ev35U3svpvbbEWAgAAAAYiaKHpyUKCU2s7iqo53WGjuwNYU/uoV1E1o3sBoJ64Uw00FEELzU1dirQMeeSNLHcoYXR3AMtiiRFgPVxAARqKoIVmJWPVhG+7bWSFihcAAFRLXYqwEgRoHIIWmlL3pL9lyCMLoLEdC9ABEzIAAKpC0EIzWY0mx7xRIcSYN9ozvc4jfQDdsMQIsB6WBAMNRdBCM2kf9WZ3ZAHQE5vmAevhAgrQUAQtNAF1KdJ/a0sIMeHbvup5YHR3AAAAgDIIWjC7ZDrTNrLSOrzMXizAQCwxAqyHO9VAQxG0YFLhxEHP9PqVhZAQYi64y3YswFgsMQKsh/MaaCiCFkwqljpsG1npGPcZ3REAAKyJO9VAQxG0YEZyMYOs3g7ADFhiBABAVQhaMCMWMwBmw1kJWA/PxwMaiqAFM2LoB8yGsxKwHi6gAA1F0AIAALAjlgQDDUXQghmxPRcwG85KAACqQtCCGbGYATAbzkrAejivgYYiaMGMWMwAmMqEb1tRNUXVemc3jO4LgLrhTjXQUAQtAEApWmSvZcjTMuTpGPeRtQAAqBBBC2bEYgbAJGKpQ3k+fv+nD2KpQ7IWYCWsHwEaiqAFM2IxA2AS3ZN+RdX65jfl/yVrAVbCZU2goQhaAIDC+uY3FVU7cdWDrAVYBs/HAxqKoAUzYugHDDe1tqOoWvuoN5Y6PPGvyFoAAJRF0IIZsZgBMNZqNCkLYGiRvYLfQNYCLICF+kBDEbRgRmzPBQyULYAx4dsu/W1kLaCpcVkTaCiCFgDgmHNT93ILYJRA1gIAoBiCFsyIxQyAgfILYJRA1gKaF+tHgIYiaMGMWMwAGEhRtXNT95LpTCXfHEsdyhLwbSMrgfh+o/sGoI74tAUaiqAFADhG3qGqJGtpkT05UTt7/W44caBP9wDUC+tHgIYiaMF0nO6womqKql1ZCBndF8COsqsBS2etCd92y5BHUbWLN4IV3v4CADSdQHy/bWRFbtzNf+AHSiBowVxkyvrfv78sL5NPre0Y3SPAjspmLfks45Yhz1XPA/27B6AueGolSnO6w2PeqBBizBsNJw6S6UzbyMp5132j+9U0CFowEZmy2ke9gfi+O5SQj/FZjSaN7hdgR8WyVu6mLHcoYWAPAZwSe7RQQjhx0Dq83D7qzX4ErEaTHeM+eWtram2HSiplEbRgFrkpS35lzBuVX+E+NWCI/KzFpizASqg6iGLkZEyL7OVXOUqmM/LWVsuQhw+C0ghaMIX8lCXJ5Unnpu4Z1THA5nKz1pg3yqYsALA8pzvcMuSZCcRLfM9ccFcuHVeXIh3jPi2yp1fvmglBC8YrlrKEEMl0Ri5SojAGYJRs1mJTFmAxLB1EQTOB+JlrqxU+sePijaCiaoH4fjKdkRu6kEXQgsFKpCwpnDigMAZgLJm12JQFANbWf2ur9I2sguQUbsK3LZc8NKBfzYqgBSOVTVkShTEAw8VSh6zFBwALc4cSiqqdubZa2+LwQHy/d3ZDriE8N3VPXYrUu4PNh6AFw1SYsiQKYwAAAFvR88mi8lLahG+7whWDJWiRvZYhT8/0uhBiNZq088yNoAXDVJ6yJApjAAAAm8hej9ZhA4XTHW4dXq5jQYtw4kBO8DrGfa3Dy7ZdEEHQgmEUVesY91UetHpnN+SIY9vTFeVs0GhN0qAPw/9D02gVtpN0frLomDda1bXvCiXTGac73Du7IYSYCcT75jftNoUjaMEw5133FVVrHV6u5CEe2ZRV91EAFrIhl1jQaGZuBSdVaAzGBFoTtPwxQc8ni6pLEflbGv3QDllEWt40s0/cImjBSOpSRI4ypXdMkrJQGSZVtCZoBC0dMSbQmqCdGBP0fLLoXHBXUbXuSX8dX7OYWOpwwrcthJha27HPk0IIWjDYXHC3dXhZUbXzrvsFr6aQslCxjZwPLRrNdK3gpAqNxJhAM3XLHxP0fLKovK2UvaOlmwnfdtvIiry1pS5FrF1QmqAF4wXi+/JxqPlbtkhZqAaTKpqpG0FLd4wJNFO3E2OCnk8W7Z3dMHxyJavJd4z7DOxDoxG0YArJdCZ/yxYpC1ViUkUzdSNo6Y4xgWbqljsm6PxkUTMELSHEmDcqn4/cM71+buqe9fZuEbRgIrlbtkhZqB6TKpqpG0FLd4wJNFO37PGp55NFr3oeyB80T6pJpjMd4z55a2s1mqykRlqzIGjBXLJbtkhZqB6TKpqpG0FLd4wJNFO37PGpqNpv/r93qn2y6G9cvdM3vymEmAnEuyf98tbQedd9WdxCi+x1T/r7b20JIfpvbXVP+sOJg1jqUFE1+Shhs5HBr2d6XVE1y2QtghZMR27ZImWhekyqaKZuBC3dMSbQTN1yg1YNTxZ9fMjTdf3n4uE9rjFvVAghN3GJhxUF5TOs5PfL1zf5/GouuHvxRlAIoUX2OsZ9zZ64CFowo2Q6Y5472mgeTKpopm4ELd0xJtBM3bLHJ08WzSeXU8qyH/JmXTMiaAGwDCZVNFM3gpbuGBNopm65YwJPFs0nC34E4vumXe5YFkELgGUwqaKZuhG0dMeYQDN1OzEm8GTRgsKJg97ZDfmA4/5bW+pSpOAfx5yaNGgZf27QrNvQvJhU0UzdCFq6Y0ygmbrljwk8WbSEZDrTOrzcNrKSTGdiqcPaii7qrFmDljw0abT6ttzBDk2o/KSqs//HdWmGfzzTmrExzuiu1JjAaEAzvBUcE3iyaAnhxIH8m/TNb7YOL7tDCaN7VAZBi0Z71E4Mdmg2BC2aqRvjjO4IWjRTtxJjAk8WLe3KQujMtVVZO61vftO0FdSaO2gZfobQLNOYAFkCQYtm6sY4ozuCFs3UrfSYwJNFKyEfKSYriJhwMSFBi0bbEEyALMISQct1QVEUh8tkL+i6oChK1+BNw0/Vhv7ZG/0GGWd0Z46g5X/D0aUoiqIoF1yGH+pFDv56jjm0ilvZMYEni5YVSx1e9TyQt7ZahjxXFkJG9+gYghaNtiGYAFkEQathL0jQqkdjnNGdGYLWGw5FUZROx+Abgw4nQYuW2yoZE3iyaIXmgrvto97SxfH1R9Ci0TYEEyCLqCholf63ZadNdgharsELXV1Ov44noPGNoGVNZYJWif9Y9RoN/IOdZo8xdRpzahs3mm60qW+HGRPqTpYS6Z70G92RIwQtGm1DMNhZBEGrLi94c7BLUZpq6lOvvxJBy3JMErQ6B/1GH+HlDv5Tjzm1jRtNN9rUucOMCY3QPupVVM3oXhwhaNFoG4LBziIIWnV5waab+tTtr0TQshyCVqUHP0HLkA4zJlgeQYtG2xAMdhZhpqDlf8PR1ak81OV4w5/zrwYdnV2P/pXTlTsJKzjpKfJqBedwJ5cq5b9g8Q64HMoJR9mjUK/8rgtd2VdROh2DbxybfGR/xO98WAlA6XJUPEF5+ON+14Wu7K9wZf8apV6wTMfEhhA3XYM5Lzt4s2DQOvY6XRdcJ/7OrkfvS+nqdLhuln1TjDO6MzRouS4UPpsqOEqzZ/HR8S9n9jWfFDWMOUVawcO+6LhR22hT9uyr1+BQ5GWLDVklOlzDaMCY0DjuUCL7/DHDEbRotA3BYGcRpglaRxOsTseg0+V6Y3DwQs6ndXZnvNPlemPQ0akox6+P5k96ir9aTUGrVAf8/jdccsbQdWHQ9YbL9cbRRCSvV66jH7wwOCh/pMgbGXR2KZ1dDmfh7yn3N3Q4LnTJnhzlos5Bl7NLTteyL+h4I/cHy3fs4YTp0St3KV1dnSfneYOdJ74n9099/N86HV0V3Q1jnNGdoUHLf/PhKdbpGMw5myo4So/O4kHn0ew9N2hVfVJUP+YUacUO+6LjRm2jTbmzr+bBoaKXLT5kFetwbaMBY0LjsHTw9AhatDo3BjtLMEfQ8ju7lBJx4o1BR+FL10dfOTHpKflqtQWtMh0ouDbmxIvI+z8FJzHZGcbDfJjbPZlwKrp2fvTjOeWwH94fyJnE3BwsNFWqpGPHZ0JyOnjye45fln7D8eg/RI3LhxhndGfKpYMVHKXy/yrK8XsjtZ0U1Y45RVvpw77gvz3NaFPs7DvV4FDBy5YesvI7fKrFhIwJjaAuRZzusNG9OELQotE2BIOdRZiivLvLcfKjukzzO7sKTPErerUalw6W7kD5oCVnMPlPBDr+g3LWcnw2WcVWqKJx6NjvPf5mK+lYke85/utcjgIzJ5cj+4MErWZhfHn3vJO0otPnKGiVP33KnhQVnPINDFrlfnWhnyp39tX4d6jwZcv9zQlaqA5Bi0bbEAx2FmGGO1oVfej6XW8MOi44HJ3Z3QJFJj1lXq3moFWqA+WD1huO/OmI2BCFZi15m81OTLOKtwI/XpeOFfmeY9OpN/L2YmQd/bWP5sFdFwYr3owhGGcMYMI7WhWdPoXDUi0nRQWnfJVLB4sc9kUHqypHm/JnX+2DQ9UvW1EyrG00YExoHO5onR5Bi1bnxmBnCWYIWsfXouS37F7trs4uxwXHoFNuMCgy6SnzarUErbIdIGg9/LO75DaM4+3RLprcjfgF6m0wzpgBQavaMadMK37YF+pJLaNNBWdfzYND1S9b2Q3/mkYDxoTGYY/W6em3QKjSCmO0Jm8MdpZghqBVweqaE9Go1DKeut/RqqADBK2yaTn3r52dShb6vSca44zuCFrVjjkVtUKHfZE1dVWPNhWcfacIWlW+bKVBq/ifpUxjTGgEqg6eHkGLVufGYGcJZghax8PGyVZojnViD0CBPVrFXq3wbOzk7u2yUaT8JoTa92jpG7Qq3qOVf0H6WCmCYq9TrFX6/YwzujNh0Kpij1Y9glbVY07F7cQbKRKZatvyVPpsqufgUPplqwtalf6inMaYYHkELYIWbUMw2FmEKYJWdkd1oU/i/KuqR1dAi056Sr3aw5qEuVMZ/1E96FJBq3QHCk4UKq46WKYIR2ODVkUdO1mEUGwI/8mqg4VLEfidg9kXOX4XsXQezjbGGd2ZMGhVcZTWLWhVNeaUeC+lDvv8caPG0abs2Vfb4FDTyxYJWic6XNNoIBgTGoalg6dn3aBVsCTXowfwXXAV+566/CIbNwY7SzBH0Hr0kJyjh+fkPvnq6JGXOY9/6XKU2S9R4tUefuoruc+TkY+EKhZ4ynfg0d5up8vlPNreXaBXD18n90FAuZMYQ4JWJR3LFnN3OAfl31NRHI5CF9rzXid38nr0N3c55dOBulg6aEamDFoVHKV13KNVw5hTpJU57PPHjRpHmzJnX82DQw0vW2DIyutwjaMBY0LjnHfd7570G92LIwQt8wet7PP+3hh0OAlaDWoMdpZgivLusvldF7IlthSls2vw0U6Go+Akz2vXzUr2SxR/tQ0hbg5mX7DrwqDrZrk7S+U6cPw1j75etlddxx/4U+RHdAha5TtW6I9WaEi8+fBBqPmvc9Pl6CzyrxhnTMWE5d0rOkrrWnWwljGnUCt72OeNG7WNNmXOvtMMDtW+bMEh60SHaxwNGBNswuJB6zTfUNW3Na6VfyBGba35g5Zr8EJXrU+uyG8MdpZAPVKaqRvjjO4YE2imbowJjUB599OzW9Cq5uGnFbamD1qnekRgfmOwswQmVU3V/Df9hZvRHWtYY5zRHWNClc1+Z6WxjTGhEdijdXoErVM3gtbxxmBnCUyqmqgVf35o/c5rszXGGd0xJlTV7HhWGtsYExqBO1qnZ3zQcjmUQvnnZDHT44uwL7hyvj+7JvDoOXdyFMtdIiyrjeUOdJVuljj2i4TYOL4uudMxWHBDQpGW/XV+58OaHEpXJe+lgo75XY9es8Ai9SI/68r7KHhUK6zkCzLYWR2TKpqpG+OM7hgTaKZujAmWR9Aqcw4U/baCQaVQLdFH1cC6jmWzo3AyeFSLuUDQ8t90ud4YdHTKShgu1xtHSSMvaJX+ReJhMsn9BlmXrIqg5bjQpXR2OZyyS12Kklu9tPB7qewv8PDfOh1dBQr7FPxZv1/WC3pYy+jhX6b0CzLY2QCTKpqpG+OM7hgTaKZujAmNQNXB0zNB0CrwgIjjT1c4ikM3i/3IUYVQpUzRm2KP4MgrKVb0FxWvZFhF0CrYh+y9u5LvpVjHSq79K/umij3lsNblDQx2lsCkimbqxjijO8YEmqkbY0IjsEfr9ExR3v3k6sHjNUBdjgKT/tzH2BV+dl71QavcLyrykPIqlw7mfeexly34XirqWJFcVPavR9BCIUyqaKZujDO6Y0ygmboxJliexYPWab6h/LcdTyDHE1HxHaXZ9W+VPSWjXNAq+4tObhsr2PlSrcgTNnJzZqH3Uulf4OghNqK6ny0Yq4q/IIOdTTCpopm6Mc7ojjGBZurGmNAI7lBiLrhrdC+OELTKnAMlvy13rn9i3n+0zs0ldxAdb7lLB+sTtEr9IkODVsm/gBAPi2coityHVvlfr9j9qyIvyGBnE0yqaKZu+ePMTCDeNrIiv57bfu172pUf/tzAc8kqGBNopm7MPRqBpYOnZ5KglZOCTj47PH8HV8GfrVvQKv6LGhq0ji0dLBi0Kok6fv8bR6UCj/pZyc+WWiiY94LlG4OdJTCpopm65Y4zsdRh7+zRVz7mfPPTlwd7nn3+c898o/vywMefv/ZrL/5EUbX/63v/fOeXUaNPq6bGmEAzdWPu0QiUdz89swStbL7yD3Ye3wdVZGdUTqtT0Cr7i4rc+Rmsrupg3ncWKOxx/L2U/wsU6GfpfWUVvK+aO8BgZwlMqmimbrnjjExZv/HfbvY8+7wjzxcvPfvRb00rqvZvv/2juX/+sdFnVvNiTKCZujH3sDyCVplzoNy3HU33B7tO3jwpXOvC7xw8Xvz91EGr0l90LCn5a6g6eCyxnHjNgu+lfMeOP1OrfKWQnJ8tmKNKvCCDnT0wqaKZumWPz6m1HZmyvvLVS/kpK+sJ54Siar/1/Oi9e/eMPrmaFGMCzdSNuUcjcEfr9MwTtLKVzfMX18kkoChdFwYH5XOfOvMD0umDVtlf9KiYu8M56HpjcPBCl6I4HFVWHezKPs7r6PWPPZW44Hsp07E3HNlnXrmcg45ORVG6HiWrsm8qW/rC6XI5B103y70gg50dPPrvmL/phUYzSRNio21k5TH1dsF7Wbl6Lz39+IvvfGBg8T//6QvxeNzo86sZMSbQzNuYezQIe7ROzxTl3Y+a39lVdEPRTddgtjaDonQde8xU/YJWmV90lFscnQ//7YVB180a9mj5B4vWmSgStEp37Kbr6MHHRftc+ZvqGrxZwQsStCyP/44wtdzZ1cecb5ZOWVL35QFF1T75p1enp6e7J/3nXfeFEDOBePekf8wbFUL0zW/KR3OGEwfdk/7+W1tCiDFvtHvSr0X2hBB2+6njf3LGBJgZx2dDUHXw9FgMoGMrUgzDYi1/sCtWDaxlyCM/8mE+fGjB1HKD1me+/t1KgtbnnvmGomrt/8//Nzw8rKha+6hXCDHmjSqqJtfGdE/65bXbQHxfUbXe2Q0hhNMdVlRNTjXs9lPH/+SMCTAzjk/rI2jRNoT/pr9w2xDCjkGrdDWwloFbiqqdvX43EN83+kTACXxowdRyg9bn//hyJUHL4XB8YGDxQ9/9p76+PqO734wYE2BmHJ8NwdLB0yNo1bEVfzqwXA9pv6BVthrYv3/hfyqq1jHuS6YzRp8LyMWHFkwtN2h98dKzFQatX3vxJ7/24k++9rWvGd39ZsSYADPj+GyI8677eTe3DUPQopVrNgtaVVUDM09ZGz1lVz/HUocTvu2ptR0hxNTajtMdjqUOhRDdk365U0JuqJgJxEXOwKdF9rIbKvpvbXVP+sOJg5p/6jg+tGBquUHrqef6K0lZX/jac4qqffRb0y+99JLR3W9GjAkwM45P6yNo0co1mwWttpGVfzO4VEk1sA+p77YMeeS27CZVIjLJhZG54UdRNZlzzlxblTfl54K72b0T8jagO5QQQiiqJtOR3FAhfyp7K1/+lMyo8qfk76rtp47jQwumlhu0Ov/stUqC1lPP9Suq1vHN19966y2ju9+MGBNgZhyfDUF599MjaNHq3HInQFVVAzNJYYxsZEqmM1NrOwUjk6zQJSPTVc8DkbPdXIvsnYhMJ7aby7pe8i5T3/zmlYWQECIQ33e6w/J3rUaTc8FdeUfLOHxowdRyx5n/7SV376Wny44zH3nhbUXV/uBP+n/xi18Y3f1mxJgAM+P4bAj2aJ0eQYtW55Y7AaqqGljP9Hp9D24tspcfmeaCu5VEpmQ6k1uh68pCqFhkypZClpEpljo0WWSqDR9aMLXs8SnPzSecE6UHmU9fHlRU7SMvvP2jH/3I6L43KcYEmBnHZ0NwR+v0CFq0Orcaq4Gptz8ysiJqfQ7Medf93MiUW9Q4G5lkkMstatw2spIfmca8UblFKjcyBeL7TRuZasOHFkwte3wm0xm5BLfjm68X2w7afXngAwOLHxhY/Mvvjxrd8ebFmAAz4/i0PoIWjbYhjgetKqqBvfTur7/iEbU+B6Z91Ct/KrfSw4nIJL9ov8hUGz60YGq5x6cW2ZNP6vu3L/3zU8/1Z4ed3ktP/37fX3z0W9OKqj2m3v7W2/9idK+bGmMCzIzjsyGoOnh6BC1anVvN1cDOTd0z+nRAFh9aMLUTx2fuI/sUVfv1gZ986Lv/lP2///er/6L9MmZsh5sfYwLMjOOzIdijdXrHpsU02imbOEU1MLnHCebAhxZMreDxOROIX1kIdU/6W4Y8iqrJUp/yVjZOjTEBZsbxaX1NH7SM7gksIjdoPf7iO5VXA5OF+GAOjAwwNY5P3TEmwMw4PhsiW4fZDAhagBA5E6Av/52mVFwNrOM1tk+YCiMDTI3jU3eMCTAzjs+GYOng6XFoos6yR1QynfnNgQWlgmpgj6m3/dFfGd1x5Co1MnQOLMp24uuHmfeva+/9zve1J1/RLoz/7NV3frn7sOjIL2Kp7E/ltt9Sbzf8rcCK+OTSXeExIfd0zv26HA3+y/9YLTggCMYE1Bmz2YagvPvpcWiiznKPqJnl9cdffEdRtdbvzBWrBvaBgcVvz9W2CJgAACAASURBVJrlegkeqjpovS9E39/7T8yZ/vD1O/FkWhSfVOWntWNcji5FUZQux2Cpqkf+wS5Fcrhqea9oQnxy6a6KoFVwNMgdEEQNYwKjAUphNmt9BC1AiLwJ0N++PfuEcyJbLePxF9/JrQb27/7qB3/+yuvGdhiFlB8ZTsyH/uHn23KStLGdjP7q4O+WH3zq5aXOgcWX5n9R8Mcz74vOgcXhH/+yeB8eTZmUrlJzK6ZWNsQnl+7KX3zJ/t/saPD8zHrlA8KLc78oPiYwGqA0ZrMNwR2t0+PQRJ3lH1GapvVc+W7HN1//yAtvf2BgUVG1j7zw9sefv/aZP/3ej370IwO7iuKqDlq/O7LcObD4j/5HRbS1zd3OgcUnh5ZO/OD2XvrLE6tl7mVJXMNGEXxy6a6KoJU/GogKBoQRd8nCs4wGKIXZbEOwR+v0ODRRZwWPqHA4/NZbb33729+WSwf/8i//8s0337x3jwdnmVZ1Qet9IT45eLtzYHFzJ5X94t96Ip0Di1/4m58de91Yquf1O50Di6M/qVs1f6ZWNsQnl+6qCFr5o4EoMiAIIeo7IDAa2BWz2Yag6uDpcWiizjiiLKHqO1onJNOZP/jr5c6BxTdvb2W/uB5N/qerP5Vzsidf0d7bPahLX5la2RDjjO6qCFr5Cg4IQoj1aDI7IPz5DwKnHxMYDeyK2az1EbQAIZgAWcRpg9YLP7zfObD42dE7eweZ7Bf3DjJf+BvvlydWPzt6p3Ng8fdeW47+Kl3iRVwOpdCcye9ydD2cTHU5XEyt7IhxRnenCloFBwQhxN5BJjsglB4TGA1QErPZhmDp4OlxaKLOOKIs4VRB678vbnUOLP72925rm0WXHNwO/muJnfFSoalVzp747OzKwdTKdhhndFd70KpwQPiPr2glxgRGA5TEbLYhzrvud0+W2hWpJ4IWIAQTIIuoPWhNLL33iYHFTw7e/uHPt0v/js6BxZ7X75T4hvypVf7E6himVrbBOKO7GoNW5QPC9xc2S4wJjAYoidms9RG0ACGYAFlE7UGrs7JJVfY7S3xD3tTq0ReUrkGXXwgh/K6c2RZTK9tgnNFdLUHrzdtblQ8IN9diJcYERgOUxGy2ISjvfnocmqgzjihLqCVovf5uuHNg8ea9nfxvfnJoqXNg8ebasXLPnQOLX3rzZAmyXCenVo+uYB97kg67MmyIcUZ31QUtORr89vduFxwQRKExQb0ZLDEmMBqgJGazDcEerdPj0ESdcURZQtVB67WfhDoHFrtePvmQHOlLb652Diz+0Vs+/4O993b3N2IpOQ97+2fREp0oPrU6vh2eqZX9MM7oroqglR0NfhyIF3u57JiQHRD+w+DtEmMCowFKYjbbENzROr3yQ2f+devDzPvXtfd+5/vak69oF8Z/9uo7v9xNHcp/9YtYKvtTue231FILhGAlDHaWUNHIkDs+FDzxOwcWP/XykhDi5lrsE3n/6q9+VOYgqfAadpFyZLAyxhndFR4T8k/5gl88MSCI6scERgOURNCyPrsErfeF6Pt7/4nB8Q9fvxNPpkXxoFW68CtPfLcSBjtLqHPQEkL8wBf9/DVv9uulFw1KpXZlOOSmDOHP+Rojg30wzuiuzkFLHB8TvvTmz6ZX/leJX89ogJIIWg1B1cHTq3qB0D/8fFsOixvbyeivDv5u+cGnXl7qLF6SNfO+6BxYHP7xL4v3Iad0UFeppEXQagoMdpZgig+t/IvTufOoAhgZbMMMx6fNGDwmMBqgJFN8ZlkPe7ROr+qg9fXptc6Bxf/6li/7lbFb4c4iJVlT6cyfTK+9+k6JlCWE4I6WpTDYWYIpPrQKrAIqUNHZMcjIYD9mOD5txnRBi9EAOUzxmWUZgfh+7+yGuhQxuiPH2CVo/e7IcufA4j/6H1UK0jZ3OwcWnxw6uQl+ey/95YnVMosGq0HQagoMdpZgig+twtst/C5H19FQ0NU16PIzMtiRGY5PmzFf0BKMBsgyxWeWBaxGk0IILbKnqFrHuK/s9+vJFkHrfSE+OXi7c2BxcyeV/eLfeiKdA4tf+JtjOy42Yqme1+90DiyO/iRUr74ygDYFBjtL4EMLpsbxqTvGBJgZx2cd9N/aUlRtam1HCDG1tpNMZ4zu0TG2CFr5kunMH/z1cufA4pu3t7JfXI8m/9PVn8qtXE++or23e1C6E0XKBOVcqlK6HC6CVnNgsLMEPrRgahyfumNMgJlxfNZOi+z1zm4k0xktstc+6p0p/lQGY9k0aL3ww/udA4ufHb2zd/Ao+O4dZL7wN94vT6x+dvRO58Di7722HP1VusSLFApa+YuvuxwOglYTYLCzBD60YGocn7pjTICZFTg+ZwLxD796R349t7UMefpvbZV4LfuIpQ6FED3T64qqmTZfZdkxaP33xa3OgcXf/t5tbXO32PfcDv5riZqEUn7QKrDH9dh+V4KWefFhbAlMqmBqHJ+6Y0yAmR07PmOpw97Zo698zPnmpy8P9jz7/Oee+Ub35YGPP3/tgy+9q6ja2et3A/F9o7ttmGQ60z3pl7uwVqNJuVzQ5GwXtCaW3vvEwOInB2//8OfbpX9HsZqEWaWej9E1KB+Q4XflZC+ClonxYWwJTKpgahyfumNMgJkdOz5lymr9zlzPs8878nzx0rMf/da0LPZgtm1IOpha25kL7goheqbXuyf94USZ3T3mYbug1VlZysp+Z4lvqPCJ7+zRagp8GFsCkyqYGsen7hgTYGaPjs+ptR2Zsr7y1Uv5KSvrCeeEompOd9jonusqt5xg04VMewWta/+ydfZ7t3OLvJfQObB49nu1Ba3jxTEIWs2AD2NLYFIFU+P41B1jAszs0fH54VfvPKbeLngvK1fvpacff/GdD778Uy2yZ3TnG24uuNs+6pXrA/tvbTXpW7ZR0Hr93XDnwOLNewUWdD45tNQ5sHhz7VgA6xxY/NKbP8v/5qwK72gVKU4Ic+HD2BKYVMHUOD51x5gAM3t0fMp9WaVTltR9eUBRtWfmgkKI7kn/edd9IcRMIN496R/zRoUQffOb3ZN+IUQ4cdA96ZclNMa80e5Jv8wq7lDCzPeFkumMfCNzwV1F1Zq9BIhdgtZrPwl1Dix2vXzy8cTSl95c7RxY/KO3fP4He+/t7m/EUjKVvf2zaIlOlNqj5ZBbtIQ/52sELTPjw9gSmFTB1Dg+dceYADM7FrQ+8/XvVhK0PvfMNxRV+/Rbd4UQiqq1j3qFEGPeaHZJYfekX1E1IUQgvq+oWu/shhDC6Q4rqjYX3J0L7rYMeXqm1w1946Wcm7qXfS6WBSp/WDBoyQdhZVvBL2bbp15eEkLcXIt9Iu9f/dWPyozL+beqclMVVQebCx/GlsCkCqbG8ak7xgSY2bGg9fk/vlxJ0HI4HI+pt2W+qkEsdXj2+l2zVUVPpjNOd1hmwplAvG9+s4nKXZRmwaClmwJrAgvUd3cMskerGZjhiMKpHfvQotHM2RhndMSYQDNvO3F8fvHSsxUGrQ++9G7r8PIpz42ZQLxnet3wNYThxIG8bdUx7msdXrZMvsoiaNWu8OYrv8vRdZSsuroGXX6KYTQHMxxRODVTjAxAMRyfumNMgJkdC1pPPddfScr6wteeU1Tt3NS9U/7us9fvKkY/8FeL7GXXMa5Gk/JJxBZD0AKEYAJkEYwMMDWOT90xJsDMjgWtzj97rZKg9dRz/YqqXVkInfJ3x1KHRu2DCsT3e2c3ZGWOc1P31KWIzh3QE0ELEIIJkEUwMsDUOD51x5gAMzsWtB5/8Z3eS0+XDVofeeHtOt6J0iJ7rcPLcnOUDmSokw8Nu3gjqM8vNRZBCxCCCZBFMDLA1Dg+dceYADN7dHxeWQgpqvaEc6J0yvr05UFF1WT19rqIpQ47xn2ynHqjyfcob2RN+LZ1+I1mQNAChGACZBGMDDA1jk/dMSbAzB4dn8l05sy1VUXVOr75+le+eqlgyuq+PPCYertlyNOIxX6B+P7FG8FG1MbQInvyWVhTazsd4z53KFH3X2FmBC1ACCZAFsHIAFPj+NQdYwLM7NjxqUX22kZWFFVr/c7cU8/1Z4sQ9l56+vf7/uKj35pWVK1lyNOge0E90+uKqjXi1pYMkKvRZN1fuSkQtAAhmABZBCMDTI3jU3eMCTCzk8dnLHXYO/voUQSPv/jOh777T9n/e/b63cbFlVjq8KrngfyH09/XWo0muyf9ffObQoiptZ254G4duticCFqAEEyALCJ3ZKDRTNcYZ3THmEAzdSs4JswE4lcWQt2T/pYhj9yR1Te/qc82Krll69zUvZqz1tTaTjhxkExn2kZWzrvu17d7zYigBQhB0LIInklKa4LGOKMjxgRaEzTzjAkyaNVchHDMG1VUTd7IsuRDsWpA0AKEIGhZBJMqWhM0xhkdMSbQmqCZakyQASmWOuyb36zwvtbU2s6Za6vyRlb2AVmQCFqAEAQtizB+HQiNVlmDPgz/D02jVdjMRW4Vc7rDJb4nmc7IzVfqUkRRNbnFCyc0fdAy/DoEzQJNELSAyswE4h9+9U7+SdQy5JEFfAGb4xyRYqlDWchOUbXT7PmBIbJ3tEr8h+sY97UMeeSNrEZUnLeGpg9aRvcEFsERhcqdd92v4/Mim0VuOayPOd/89OXBnmef/9wz3+i+PPDx56998KV3FVU7e/0uH7ewLc6RrNVoUhb17rp+t2PcR9ZqUsl05tzUvdwtW+HEgdMdlpU5rnoeXLwRDCcOjOtgEyBoAUIQtFCN9lGvvBFqK3IG2fqduZ5nn89/kuYXLz0rH/PSMe5jOgV74hyRptZ2WoeXlZyiCGStJpVbhFDeuQonDlqGPO2jXqO71jQIWoAQBC1Uwx1K2O2pIFNrO3IG+ZWvXsqfQWY94ZxQyi3rByyJc0S6shBS8p6rS9ZqXvKxWuHEQdvIiroUEULMBOJUFKwcQQsQgqAFlPThV+88pt4ueJ0+V++lpx9/8Z0PvvxTqk7BbjhHYqnD7km/omrto978d0fWampOd7h1eFkGLVSFoAUIQdBCNWy4dFDuOSk9g5S6Lw8oqmarTf+AsP05okX25MDYPekvdruDrNW8YqlD7mLVhqAFCEHQQjVsWAxDUbXPfP27lUwiP/fMNxRV65leN7rLgK7sfI5M+LZbhjzZTVklkLVgNwQtQAiCFlCSomqf/+PLlUwiHQ7HY+pttkrDbux8juRvyiqBrAVbsUDQotHq0AhaqJy6FLHwXvaCFFX74qVnK5xEfvCld1uHl43uMqArO58jcsVg5anpqueB3MpFZXBYXnMHLRqtvo2ghUrYc4/WU8/1VzKD/MLXnlNU7dzUPaO7DOjKzudIVXeo3KFEy5CnZcjjDiV06BtgLIIWjfaoEbRQCRuWd1dUrfPPXqtkEvnUc/2Kql1ZCBndZUBXdj5HKl8NGE4cyAtV8om3gOU1a9Ci0RrWAJykqNrjL77Te+npspPIj7zwtqJqM4G40V0GdGXzc6SSrJVMZ2T997I1MwDLaNKgBQCGsWHVQfkQ0iecE6VnkJ++PKiomt3+OIDgHKkga/XNbypV7uYCmh1BCwCqY8M9Wsl05sy1VUXVOr75+le+eqngDLL78sBj6u2WIU8gvm90fwG9cY6IkllrzBtVKIAB+yFoAQDK0yJ7bSMriqq1fmfuqef6swXWei89/ft9f/HRb00r1ZR4BqyHc0QUyVoUwIBtEbQAoDo2LIYhxVKHvbOPahE9/uI7H/ruP2X/79nrd1ejSaP7CBiJc0TkZS0KYMDOCFoAUB0bLh3MNROI/+cfbHSM+1qGPHLHRd/8JlMoIItzJDdrUQADdkbQAoDq2PCBxQBQlWzWogAG7IygBQCojs3v6QFlcY4IIWKpw197+ae//oqHAhiwLYIWAFTHhuXdT2ASCZTGOSL9cONfX7vzv4zuBWAYghYAVIcpFAAAKIugBQDVsW3VwSz+AkBpnCMS9/9hcwQtAEB1uKcHlMY5IvF3gM0RtACgOkwdqLsIlMY5AkAQtACgWiyGAYBKsIQSNkfQAgBUh6gJlMY5InH/HzZH0AKA6rAoiMkTUBrniMRoCZsjaAFAdZhCAQCAsghaAFAddh0AQCVYQgmbI2gBAKrDPT2gNM4Rib8DbI6gBQDV4RotfwGgNM4Rifv/sDmCFgBUh2u0AACgLIIWAKA6VBIDSuMckbgsBZsjaAFAdVgMw+QJKI1zRGIJJWyOoAUA1WEKRdQESuMcASAIWgBQOS2yNxOIsyhICBFOHBjdBcCkZgLxvvlNo3thCoyWsDmCFgCUEojvO93hQHxfCNE6vNw+6jW6R8brv7XVMuSZCcSN7ghgFuHEwZWF0IRvWwhx3nVfUTUtsmd0p4x3buqeompTaztGdwQwBkELAE5KpjMXbwQv3ggKIa56Hiiqpi5FhBD9t7bkP9jc1NpO6/CynFMCdjYTiPfObiTTmdVoUlE1uR/JHUq4Qwmju2YKgfj+mDdqdC8AwxC0AECsRpNCiKueB63Dy3JnRfuot2XII4QIxPcnfNvyjhaykumM0V0AjBFLHfbf2rrqeSCE6J3dUFRN3t2d8G2zpLag1Wjy4o0ggwZsiKAFwI7CiQM5K4qlDhVV6xj3CSGm1nbaRlbkjRqW/ZQWSx1eWQjJm36AHcibV7HUYSx12DLkOXv9rni4b9PorpmdjKPcA4cNEbQA2EUyncmu/XO6w9mdA72zG72zG0b3rskk05m2kZW2kRWuUsPCkumMuhTpv7UlhLiyEFJUTS6Em1rb4S535WKpQ1IW7ImgBcDiZgLx7km/XByYrWYxF9zNlrhAbbTIXix1aHQvgPqbC+5evBEMxPeT6Ux20FiNJrl5dRqr0WTP9DqDBmyFoAXAUrTIXjKdiaUO20e9PdPrQgh1KZKtZjETiLMmsI7CiQOnO8y+FFiAvOMty7LnDhpzwV2O8Lrom99UVE3ubQNsgqAFoLnFUodzwd3sIkBF1bLVLM5N3ZPfwDypQeTMiUqMaF7uUKJ3dkNef5ElcJLpTCC+T9nAukumM9R5h90QtAA0pbngbt/8ZraahdyYPrW20zO9zgxJN+HEQf+tLdYCoen039qSpVwmfNuKqsmH6s4Fd1lO3Gir0eTZ63e5+AWbIGgBaBqx1GHP9LqcHuVWs1CXIlwoNZC8A2B0L4AytMjexRtBuc/qzLVVRdVkCUF2Xukpd1kmYHkELQAmFU4cyOm7LPYl1/bkVlWeC+5S8s5w4cRB6/CyrI8PmNBVzwNZVnQuuKuomvxndyjB1QGjyNXdgB0QtACYiBbZU5ci8g6JomrZahYd4z551Zm5kQn1zm70zW8SemEe7lDivOu+LCnePelXVE2WEGSKbxJyASGliWB5BC0ABgvE968shORKktxqFj3T6ywvAVC5q54HsgSOFtnLXqlZjSbZEWQ2U2s72a1xgIURtAAYo//WVse4L1vNonvSL4RwhxL9t7aYFTWdq54HbSMrXJ+G/lajyd7ZDVk0XF6pkcchRXFMjv9AsAOCFoCGy67YCcT320ZW5B4JufNKfn1qbYdw1dSm1nZahjxj3qjRHYFdXPU86J70x1KHcpmxvFITiO+zuriJrEaTZ66tUowEFkbQAtAQsdThmDeaXQSY3SORDVrUBLcY/oOi0cKJg4s3gnJFsXyGmyw3ys6rJuUOJVqGPPIh0YAlEbQA1NNVz4PzrvsnqllM+LYv3giuRpNG9w4NFEsd9t/a6r+1ZXRHYDUTvu1zU/fklZps3dFsVVI0NfkfkVI6sCqCFoDayfV+sn6UvCqZu0ei/9YWq/DtQ96ubB1eZs6E04ulDntnN3IfmidLCHK9xnrcocSZa6ssPIYlEbQAVEeL7MlrkOdd97NP/FRUTU6JAvF9KiLYljuUYK8dTmMmEM9W/W4dXm4f9QohYqlDjisLW40mWUAIqyJoAShvLrgrl4TlPvGzb36ze9IvQxf7c5A15o1yUwuVS6YzvbMb5133hRBj3qiiarKEIJds7EMG6WQ6w9ABiyFoAShMi+xdvBGUy3Vyq1mcd91njQeKkcUkeQAaypoL7nZP+mUdi/ZRr1x0KqsIGt01GECL7J25tnplIWR0R4B6ImgBOCLvSvXObrSNrIjjT/ycC+5O+La5bYWyZD5nroxiLt4IylFFPrJW3ipn5xXCiYNsTVrAMghagH2FEwfZ4siKqslLiTJoyYkyRZNRM7IWstyhRPekX94JP3v9buvwcix1mExnyFfIla1AyAJCWAZBC7CXcOKg/9aW3Pxw9vpdWc0inDjoGPdRmBt1EUsdto96O8Z9RncEBuub35Sl2N2hhKJqstoBCRwlBOL7Z66tcl8LlkHQAmyh/9ZWdhFgdsajLkWc7jALAlF33ZP+3tkNLkvbkBbZO3v9rtyk1zO93jq8LJMVZQNRiWQ6I4MWowesgaAFWJBckDO1ttM+6s3OeLLVLK56HlDOC0AdXVkItY965WrAbGFSwhVqIK/9ycooRvcFOC2CFmAFyXRmLrgr41P7qLdlyCMeVrOQCwID8X0mPdCTzPlEeguTTyp3usNCiIs3gi1DHnmJh8WBOCW5gLB70m90R4DTImgBTWzCty1vWMn6XXLG0ze/ed51n2uBMNZVz4NszoeV9N/aah/1hhMH4cRBtjAp13FQX2ev32UBISyAoAU0GXco0TO9LusBdoz7stUs+uY3KRII80imM9zZsIxw4qB70n/xRlAI4XSHW4eX5WjDBR00iIxYyXSGDI+mRtACTC2cOJBTmXNT99pHveJ4NYuptZ254C7X/GBa2ZuuaEb9t7baRlbkgsDW4WV584pwBX2EEwdnrq2evX6Xzzg0L4IWYDpaZG/Cty2EUJciiqpd9TwQQnRP+jvGfTx8Bk0knDhoGfK0DHmYmjeRWOrw7PW756buCSHUpUjLkEc+bY//iNBf7+wGCwjR1AhagClokT2nOyxX47SPeluHl4UQq9Fk96R/JhA3undAjSZ821wXaApj3mjbyIo7lBBCZB+DRriCGXB5Ec2LoAUYqXd2Q257yK1moS5FrnoecA0PljG1tsPxbELJdObc1D35TOExb7RlyCPvpZOvYB7yyVptIysclmhGBC1AJ8l0Rpa6nvBttw4vy9U4HeO+liGP3O874dtm1y+s5+KNoKJq7NQyD1l5X94q7xj3nbm2yjOLYGZOd/jijSAXa9CMCFpAA61GkxO+bfmY4JYhT7aaRevwstx5xXIIWJ4W2eud3eCBWsZKpjNnr9/NH4KAZpFMZ+TSVqCJELSA+lOXIvLxQbnVLC7eCMpSgYA9ccNWf1NrO20jK/J2YragjtGdAqqWTGc6xn2tw8sMI2guBC2gPqbWds5evytX42SrWQTi+053mKcJweayZZqN7ohd9EyvyyFIi+y1DHnk5k+gqalLkd7ZDa4UoLkQtIDaJdOZ9lFv96RfCDHmjWZvXs0E4iyUAnJ1jPu6J/3ssmicmUC8bWRFZqre2Y0z11a5xAPrSaYzcocz0BQIWsCpdIz75ANnYqlDrrQBxRCxGkTWGomlDgPx/ZYhz5WFkNE9Ahro7PW7LUMeNmuhWRC0AAB6mAnEuyf9FIA5DXk1xx1KtI2syD2fVxZCHeM+/qqwiam1HRYQookQtIDatY96FVUzuhdAc5C1YajzXgM5reyb31RULRDfj6UOs0ELsKFkOiOf+QaYHEELqN151325QQtAWVRnrooMV4H4ftvISu/shhDC6Q6fubbK3xDomV5XVE1WnwLMjKAFANDPTCDOE5xKkPnqykJIUTVZU6d91HvxRtDofgEm4g4lriyE2PkJ8yNoAbVTlyLUTQYqF04ctAx52kZWmCHlSqYzyXQmljrMVjG96nlw5toqF+yBEmKpQ5Yiw+QIWkDt2KMFVGvMG50L7hrdC1OQN6+ueh4oqib/Jmev3z3vum90v4DmcN51X1G1MW/U6I4ARRG0gNq5QwmmjEANbFslL5Y6lPev2kZWzlxbFUJMre10jPu4eQVUKxDfZwEhTI6gBQDQldyAZKunjspnB8vHmstqaT3T6+dd95kjAqcUSx063WFOJZgTQQuoHUsHgRpokb2z1+/a525w+6i3fdQrhHCHEmeurVKWGqgj+cxuNmvBnAhaQO0IWgDK6ple75le5xGrQCOEEwd985vc0YI5EbQAAHqzzzPo2MkJ6CCWOiRuwYQIWkDtmEIBtbHP3WD7vFPAQE53WFG1KwshozsCHEPQAmrHFApAaTxtD9BBMp2hAiFMiKAF1I4pFAAAJhFLHV68EQwnDozuCHCEoAUA0Jt97gZzOQbQjboUUVTt4o2g0R0BjhC0gNrZZ0M/UF/2OXfsEykBM1CXIiwghHkQtIDaMYUCUBolcwDAtghaAAC9saAOQCNwARSmQtACAOjNPpMh+7xTwAzssywZTYGgBdSOKRRQG/ssqGPaBwC2RdACascUCgAA82BZMkyFoAXUYiYQ//CrdxRVO9Fahjz9t7aM7h1gdva5G8y0D9CTfcYWNAWCFlCdWOqwd3ZDxqqPOd/89OXBnmef/9wz3+i+PPDx56998KV3FVU7e/1uIL5vdE8B87LPZMg+7xQwA/ssS0ZTIGgB1ZEpq/U7cz3PPu/I88VLz370W9OKqnWM+3iUBwDuaAGAbRG0gCpMre3IlPWVr17KT1lZTzgnFFVjdgUUw1VnAI3APWSYCkELqMKHX73zmHq74L2sXL2Xnn78xXc++PJPtcie0V0GzMg+kyFK5gB6ss/YgqZA0AKqIPdllU5ZUvflAUXVKIwBFGSfBXVM+wDAtghaQBUUVfvM179bSdD63DPfUFStZ3rd6C4DppMtJ9Mx7rNw2ZhY6rBnel2+03NT99i0CeiAZckwFYIWUAVF1T7/x5crCVoOh+Mx9Xb7qNfoLgPmIlPW/3H1zrmpe4qqtQ4vW3JWtBpNnrm2qqha1/W7HeM+shagD+4hx0NuOwAAHyRJREFUw1QIWkAVFFX74qVnKwxaH3zp3dbhZaO7DJiITFnto155I8vpDssbPupSxOiu1dPU2k7r8LKian3zm0KIWOqQrAXowz7LktEUCFpAFRRVe+q5/kpS1he+9pycVxndZcAsTqQsKZtJzrvux1KHBnavXq4shOSzyyd829kvkrUAwIYIWkAVFFXr/LPXKglaTz3Xr6jalYWQ0V0GTKFgypKyq+zOXFtdjSYN6V5dxFKH3ZN++TbzK46StQAdUOcTpkLQAqqgqNrjL77Te+npskHrIy+8rajaTCBudJcB45VIWVK2bkTr8PLU2o7O3asLLbInN4d0T/qL3ZojawGNxh4tmApBC6iCXBT0hHMiG6iM7hFgdmVTVlZ2y1bTbbGY8G23DHmym7JKIGsBgH0QtPSgFGd01xrCwu83mc7INU4d33z9K1+9JIOWhd8vcHoVpiwpu2WrZ3q9ibZs5W/KKoGsBQA2wURQD3abiFv7/WqRvbaRFUXVWr8z99Rz/cLq7xc4JUXVLt4IVv79cg1h5dnMDOSKwcpT01XPA/kew4mDhnYMsI+ZQFx+Op9oLUOe/ltbRvcONsVEUA92m4hb/v3GUofZJ64KG7xf4DTklokK7/ZUvs7QVKq6Q+UOJVqGPC1DHncooUPfAMvL/VD+mPPNT18e7Hn2+c89843uywMff/5ay8AtRdXOXr/bXKMKrIGJoB5KT8RL/NtmxPs98W8Bm8vmivxCfCc0acoS1awGDCcOZPIc80Z16x5gbXLo+I3/drPn2efza1N98dKz//6F/6moWse4j8W60BkTQT3YbSLO+7X2+wWqNeaNygRVYttV86YsqZKslUxnZP33sjUzAFRoam1Hpiy5cbqYJ5wTzVhoB82OiaAeytwPyVtP3NSN90vQAvL1zW8qqlbs+TbNnrKkslkr+0fgsjpQL20jK/9mcKngvaxcvZee/pD6biW31oE6YiKoB4KHnd8vAFHyZo41UpZUImtlb+tRAAOoI0XVPuZ8s+zDLR0OR/flAUXVKIwBPTER1APBw87vF4AUThzImmC5hTGslLKkglmLAhhAgyiq9pmvf7eSoPW5Z76hqFrP9LrRXYaNMBHUA8HDzu8XQNaJwhjWS1nSiaxFAQygcRRV+/wfX64kaDkcjsfU2+2jXqO7DBthImgGG9ZqvF8ARclHSP2fo16rpiwpN2tRAANoHEXVvnjp2QqD1gdferd1eNnoLsNGCFq6yr+lY3RIoJ22nfivyY0soKyLN4LylLFqypKyWUuhAAbQMIqqPfVcfyUp6wtfe05e+zC6y7ARZoS6ImhZrxG0gGol05mz1+9aO2VJMmtRAANoHEXVOv/stUqC1lPP9SuqdmUhZHSXYSPMCHVF0LJeI2gBNQgnDiyfsqRY6pBy0kDjKKr2+Ivv9F56umzQ+sgLbyuqNhOIG91l2AgzQl0RtKzXCFoAABjly3+nKar2hHOidMr69OVBRdU6XvsXo/sLe2FGqCuClvUaQQsAAKMk05nfHFhQVK3jm69/5auXCqas7ssDHxhYfEy97Y/+yuj+wl6YEeqKoGW9RtBqZsYfPzSaVRpgmJnl9cdffEdRtdbvzD31XH+2CGHvpad/v+8vPvqtaUXVPjCw+O1ZzeiewnaYEeqKoGW9RtBqZsf+89FotNqaEBtGn8uwu799e/YJ50T2mHz8xXc+9N1/yv7ff/dXP/jzV17//9u7ux65rfuO4wT6BnrVi7yHAgVopwldJS3aXLRAExsBWniBoAjQskgv0ly0qBPUnZvaRYBkTMuyG8exso7tOEFsNEgrxrCNJoNUfmgpbSxZkh3KD2tLtmRbkmVZD5a0y15whsOHw8MzQ+7hOZzvB/8bjWZnOUPy7P835CH7XkasIjpCrQhaw6vS2iRoWYWgRVEdVJJs9r0vr7L+/w4aUhsbT9182zd/75/3fuKOfb81jpy7Nj5xx77fvf2hP/568MwzP+l98VajUEZHqBVBa3hVWpsELatsshtSVJsiaBmAL4zm9dvf/MWnb9tz89/fnp46+MWvfmPXP939O3c+2fuCrUIxDgjREWpF0BpeldYmQcsqBC2KalU0WAYgaFFGFOOAEB2hVipBy/23/Z1U73+AV6RKa5OgZRWCFkW1KhosAzCOUT0X44AEHaFWKx20wjXHcbxgouG3+KHu8YWgZScaFIpqVTRYBmAco3ouxgEJOkKtCFoELZiEBoWiWhUNlgEYx6iei3FAgo5QK4KWmUErDNY8bxS3GF8IWnaiQaGoVkWDZQDGMarnYhyQoCPUiqBlZNCaBJ7jELRWEQ0KRbUqGiwDMI5RPRfjgAQdoVaKQUuyNauEKIIWQQtqaFAoqlXRYBmAcYzquRgHJOgItTIraM0ySRyueWk+cNxpRInX/dlDni9IIHG45s2e4DiuH6xXnjMJg9zLBhNh0Cq8jrcWxqp7dRyO/PkPun44Kb0pxaUNfackW8LaXyEaXwhadqJBoahWRYNlAMYxqudiHJCgI9TKxKDlr3neWhCuz3KRG4Qjz3E8fxSGI99zHcdx/PX8D4a+m+aiIFifP6d4RCgNMPNX9hzPc0tBKw7c0nMcxw0UslbxB0e+l3vZStCSL20cpw86Tvpq4Xoa9mS/QjS+ELTsRINCUa2KBssAjGNUz8U4IEFHqJWBQctx1sLyI/lQMQlK+Sc9MFWMXtNYUkw7xWSy7pdeeZqIKs9pPoVPeqZfKWipLK3gBRc4mZCgZTMaFIpqVTRYBmAco3ouxgEJOkKtDAxaojiUi16zWDKLLmnuKjxh/vg0mdQ8p/jrQl+QZEJf+OKS3yV+U4ssrfAFCVororlBGezFaSiqi6LBMgBBi+q5GAck6Ai1MjBoFacziQJG4WnrfuVMwrRyGanmOYWgtV6ZGzWfQ9V49mCa/RxvLajOm1p4acXvWvYrROMLQctOBC2KalU0WAYgaFE9F+OABB2hVopBS1Nj13vQ8kZhOi2qWCrHkQoX8MhfiqOjoCX7FaLxhaBlJ4JW8xCx41cKNW1JdN70XOV9ab8J+0JFg2UAghbVczEOSNARasURrVLQWu6K6lnF2dURs1/XXdCq/RWi8YWgZSeClrQIWia8L4IWGhC0qJ6LcUCCjlAr+4OW8hyt6gGiwiUo6l5niSq+VDdztKS/QjS+ELTsRNCSFkFLe4XBmicbgY0rGiwD6BvHLB7NqJ0sxgEJOkKt7A9asuv4Zc+pXNZvM4nLVx2cToIqHSaKR4FCPxEXJ3EVDk8tvrTCHCX7FaLxhaBlJ6UGRdP+aGARtHSXwghsWNFgGYCgRfVcjAMSdIRaDSFoZTf5Ld2ZqhBmZrHKHwXhehCseY7j+6VWKY035ddR6CfW/ewOV+Eo8N1ClFpmabNLX4zCcBSEk4ZfIRpfCFp2Img1DxEELY1F0MISzAhaZm+o3ZRwIMrmF6TfxmoYrMwZmWfFOCBBR6jVMIJWkl4oYnalCMdzfcGl+SZpPpmGnHAiGhoms7skS16nWpPQd2t/qvXSesGk4VeIxheClp3MCFrZRhuPZn+wHc9bC4uHVeNw/r/VbbK4kRd+Ng7c6sU8K8d1S/uj6wfCfbb4i+quExOvT7/RmH7hUniOwissviSVj0tW8XqQ28E9f1T4WdHA2P6TyT7w6VV20mE297vCypVYp68/3zzWc5uHeJkLl/AJs3Uxf6eVS/7INiqVosEyAEFLV9XeFMf1g/XAHxG0+t4XTERHqJVjVNCiuiiCls1MClr+mue4nj8KwywGzM9WnZ6Omx5lDUa+V/grW/zftN2fJyvFoJU2+vkX8bzyOcChP7vtQf74sOirGcdx/WAUpge0c/29yiuoLIn8LUsra4ymH3V5AWqOirf8ZKYfeDCa5ppK0Irj9AfTb6bWw3B9GqXS5wSj2eYh+tCyTShbSMdxHDcIR16aJEUH8+Ub1UIDYJJs9r0vrzKCVm8l+saq4xLM2zSvGAck6Ai1UgxaOzgU2lLxJBZX3wtWM74QtOxkUNAq54T0wWlbrHKT7knuwcJVPZWCVu03tbkH62c8zp8TjzynYVEbXkF5SSRvWVrrgS8+1lR88Y4/men5yY78CHztOQWlNZhmv9JCFuaRTh+pnq2dvc4Ct2WXFA2WAVSDVpsnND9tdYOW4lc8y1U3++lOF+OABB2hVipBi5Ldzti84YagZTODglblYEL+Gi2yv7WhL/iv/OVbFIJWzXU1CwumdA3P0JccWVK+ZmnDkjS/5cUqHnmCFNfxJyO+/I960BL9oEI6LV7jp7rSCVpDQNDqrQhaaTEOSNARakXQGl4RtGxmxuXdaxqUfGiZXa9lLSjPoqn/VqLws/KgpXzvu4a70sl7gk7vwid9y40Vh+uBv+b7bjarqiZodfXJ1JxipBy0yj8oC4eqL1W/US1QNFgGMDdoNUykVJwtmZ+8WplnKKyab3zKu2rT1FbZpMrsoHGmPKmy+E5rp63WfwjN8zbrPurq3Fe1D3PpSZuMAxJ0hFo5BK3BFUHLZtYErSQpXudg/kd0espcmM7qKZbyqYNdxQn5+Xsd3+5c8pZllV0cwnM9f80PRumMphUMWvUb1QJFg2UAQ4NW00RKtdmS8tmJdSU8TUD0RYN0aqtsUmUST2aL7fpBZVJlWP69NdNWZR9Cw7zNwjzSprmvCh9mm0mbjAMSdIRaEbSGVwQtmxl06mBN0CqfkBZnOWHa2TfPTRrmEa0lz6UpzVPaTBJ5aBl40KrZqBYoGiwDGBm0midSKs2WbJidWFvVUaJ4iq/S1FanaVKlaHQtPUc+bbXxQ2h3d9PSECH9MFudo8g4IEFHqBVBa3hF0LKZQUGr8t2hJE5Upm9J5yYJW3yVP7HFP9Xqc7TqFkZ5jtaSS6JSolAkmu/U+SdjctBq86nSYBnAxKC1zERK0VbdsLfWV/nsweKLq01tbZxU2Ry0pNNWFT6E5h1ZafxR+DAJWjuFjlArgtbwiqBlM4OClvC6BfNr1hX/Tjc3BPEoKH2lmn9CPD0fpnwWTb59iRe4tl75S2i/5iQ0hVdQWZLmt1xb1fg6PZhTF1q6+mQWCFqlnmnn5mjVb1TqRYNlAAMv7646kVJ5tmTNli+pYiQrJiLFqa2NO2xj0FJKL7IPoXlHVjqirvJhtpm0yTggQUeoFUFreEXQsplBQcvzsnP9q2fPr/vZqfPhKD2PP9fWp915+QT9Svvu5G+y5JWfMwsP/ihIZxE4ju+XvzyeTs4uzQQo/o2fzRaYzluo3Eer8RVUlqTxLdfWfAGyj8KXzNHq7JNZpG9LZ6CNpu3OTgUt+Ua12ACYJJt978urzNSgJZ9IudhsyZotX1aSQ+WKU1vbB62m85wbPwSNQStpMWmTcUCCjlArgtbwiqBlM4OClh9uxkHdH7lJmLsslehiUJNw/rPiJ0ynWc++sBS1EeXnCM/SKV6nS3xZqtL1r7xgfcFXUFmSxrdcV5Mwe/F0AoZKaGn9ySj2bfnfJb2IWfug1bhRKRUNlgEMPHWwcSLlorMla54jrXkKKv+U4tTWnT6ipfAh6A1a0ze1+KRNxgEJOkITKG3HlKkFexl91UHK3GKVzYoGywAGBq3GKX+Lzpac1SJBK3tyHLjFhVlyauuyc7TqfpHCh9DpHK1FPszFJm0yDkgQtHRw6iVJojReUOZW4/qFsQhaQ6x4Eours1+x8AT34RYNlgEMDFqNEykXni2ZvcICQWsWNgKvvCSN8zy7ClrSaasKH4LKvE3l2bMNc7RaTNpkHJCgEdRB3ojnzz2jrKvG9QuDNTcoOoqg1WXVT3Nf9oJa5Wq4XvNqVW4PQl9MDFqNEykXny25mSSLBq3sKu3VAbZh8ToLWtJpq80fgtq8zea5r80fZqtJm4wDEjSCOtCIDxvr11oELaqpwjXHc31/lPYf/nQC1XIXlx9g0WAZwMygtdk0kXKJ2ZILBy3p1yKyxeswaCWyaatNH0KyqThvs2Hua/OH2WrSJuOABI2gDjTiw8b6tRZBi2qqeD3I9x+O69VdvH4liwbLAGZcdZBa4WIckKAR1IFGfNhYv9YyI2hRlLVFg2WAVQ1aOz8bk1IsxgEJGkEdaMSHjfVrLYIWRbUqGiwDrOY4tvOzMSnlYhyQoBHUgUZ82Fi/1lrNBoWiOisaLAMwjlE9F+OABI2gDjTiw8b6tRYNCkW1KhosAzCOUT0X44AEjaAONOLDxvq1Fg0KRbUqGiwDMI5RPRfjgASNIICVNf/z0PsN2SjKuqLBMgNBi+q5GAckCFpaOZU7FPe9RGir3HZwIMsm/HkA2mAPMgFBi+q5GAck6Ai1ImgND0HLZvx5ANpgDzIBQYvquRgHJOgItSJoDQ9By2b8eQDaYA8yAUGL6rkYByToCLUiaA0PQctm/HkA2mAPMgFzTSkjinFAiI5QK4LW8JRGGYKWVWgTgTbYg0zAWkDP2AIl6Ai1ImgND0HLZjQoQBvsQSZgLaBnbIESdIRayYOWO46yyj9+fWv7Rxun/+qHxz5778auPRtrjxy9/9mTF65cz57w5rkr+Z/N6sa7Duh5X6uMoGUzGhSgDfYgE7AW0DO2QAk6Qq2WCFrbSfK1n8bVEHXL3sPnL19Ln1MXtEqBrSz0PcdxHM8PYsmz4sCb3nzXD5d+4wNG0LIZDQrQBnuQCVgL6BlboAQdoVYqpw6WAtJTr5xNH7n9569tnr185uLVJw69d9Pug+44+vYv3xT+lq3t5Fu/eNMdR/ftP1m/LPMA5XiypEXQkiNo2YwGBWiDPcgErAX0jC1Qgo5QqyWC1j/87Lg7jv7mxy9v557z/f99xx1HN+89XP3xK9e2/vFnx91xdP+zkpSVJAlHtLpB0LIZDQrQBnuQCVgL6BlboAQdoVZLBK0//e4hdxz9d3wu/5yNExfccbTrnoOlnz176dqXHzvmjqPvPvd2V8tM0JIjaNmMBgVogz3IBKwF9IwtUIKOUKslgtYngwPuODrxwZX8cx5/8V13HN368NHSz96897A7jh58vrOUlRC0mhC0bEaDArTBHmQC1gJ6xhYoQUeo1RJBq+ryta0//94hdxw9euBU/vHXzlxOf3bXno1/efL10xeuyhcm9B1RgopD35tFK88PCVoNCFo2o0EB2mAPMgFrAT1jC5SgI9Sqk6B1x9NvuOPo8w8evnR1K//4patbX37s2OcfPJy+wp89cOjMxWuS1xEFrdwVMrKs5RO0ZAhaNqNBAdpgDzIBawE9YwuUoCPUqn3Q+kF0yh1Hn777wMaJC3XPOfDWh5/ZsyG5LGGqGrSqMauAoCVC0LIZDQrQBnuQCVgL6BlboAQdoVYtg9ZjB0/fMI4+GRx4+pWz8l907/+cqLssYaYStOYPOF4QxkmSJHGYy14ELRGCls3MaFC4/idsZcYetOpYC+gZW6AEHaFWbYLWowdOuWopK0mSyfFz6ZMlzykHrXkfV7ivFu2dHEHLZrIGpe6u39e3tn+0cfqz927s2rOx9sjR+589eeHK9fS/6m4dfuNdkj2RO9rBXrT4JmAtoGdsgRJ0hFotHbQe+r9T7jj61N0HStd5r/PcG+fT50ueUx+0ihfHoL2TImjZbOGgtZ0kX/tpXMpRt+w9fP7ytaQ+aMlnXXJEC9aixTcBawE9YwuUoCPUarmgtfeFd9J5WZNXPxC+7K57DrrjaHJ8nsHumrzljqMvPVq+/nue4hGtmosTYoqgZbPmBqW0Mz71ytl0D908e/nMxatPHHrvpt0HJfMht7YTdxzdt7/p7uEKCFowDy2+CVgL6BlboAQdoVZLBK0Hnn/bHUfe7oP7Xz9f97JfevSYO47++scvn77w8ea5K3tfeOf3gwPuONp39IxkYWRztPx0ilYS5x6jvRMiaNls4aBVvYF4493Du1pWghbMQ4tvAiPWAgPUKjNhCzQWHaFW8qAlPN2o7kwkdxzdtHva202On7uh8r93PtOwxVcPVeVTlQCjpwhBy2aLBa1t0Q3EhXcP3zx3Rf3u4dzRDtYyosVfeYuthRc2P0ybhLpvbyVdh+RlGaBWGeOABB2hVipHtLQRtHeC67v7AaOnFEHLZgsf0SoR3j38tTOX/+Tff53dPXypW4dzRztYgaBlgsXWwu0/fz0dnb6x7zXhEwhaWBTjgAQdoVamB62k8DW65wVhzOjZgKBls7ZBS3j38EtXt259+Eh29/Albh3OHe1gCYKWCRZYCxevbv3BPQfT1OTtLp/wnIre+rBUT7z4rjuOvvL4bySvTKuwyhgHJOgItTIqaKETBC2btQpaincPX/zW4dzRDrYgaJlggbXwtz95xR1H48lb9+4/qTiDdN/RM+442v2rE/KnEbRWGeOABB2hVgSt4SFo2Wz5oKV+9/CFbx3OHe1gDYKWCVTXwtvnP77xrsgdR8dOXzz+/iV3HJ3MTTcV+vDK9c9950V3HOUP2gsJBqjCV0bZWBaHwXz6qeN52bW35l8m5Ye47EWktxlEvxgHJOgItSJoDQ9By2bLBy31u4e3uHU4d7SD4QhaJlBdC997/m13HH1x/aX0n3/5gyP3P9dwtZ47n9lsvhNgkiSCAapwHePqs/LSDCVMWtmD5CyTMQ5I0BFqRdAaHoKWzZYJWul97YQ3tave0S59Be5oh4EiaJlAdS3c8v2X3HH0wOxSqA++8M4X9h7env1v9YoXL73zUXoE7O+ekM3OSpWCVkPMSg9jzU+JTsc6yXxVcpbRGAck6Ai1ImgND0HLZgsHrey+dsInZ3e0i9+7lN3UjjvaYbgIWiZQWgsvvv2RO45uGEdvnZueLnjigyvuOMqmmJaC1tb29tojR91x9Km7D7xx9nLjQhSC1ny8ygek7NHaA1bl8wTJWZZgHJCgI9SKoDU8BC2byRoU4XWN5Te14452WDEELRMorYU7ZicBlupfn34jfcLJ8x+nlf7zhwdPp0+4p+kyGKlc0PKFMUt+NdXpM4tJi5xlC8YBCTpCrQhaw0PQslnHQStJkidfPvMXDx3JHpefNJjijnawFkHLBEpr4Y/u2xCOXX9478bH18oXunj3wtXP7NlI707ReBmMlChGFfOR9Auk2VML2Wr2E+Qs0zEOSNARakXQGh6Cls2MaBO5ox2sZcQetPKU1oI7jm77r1dLD37l8d+44+ir/1HIMftfP59mMJWpWZncADX/Ukh85qB0CMtexw/JWdZgHJCgI9SKoDU8BC2b0SYCbbAHmaB5LZy5eNUdR796rXwJn/888n56WdT3P7qaPfiFvYfToPXEofdKdy6WLEThm6BYdN+/4oOFy70HoeCFPM4btAbjgAQdoVYEreEhaNmMNhFogz3IBM1r4dEDpz73nV9f39ouPX7x4+ve7oPuOHokOpU9WHeCtPwi76VD7sKoVXvyYPEQV/Fp5CwLMA5I0BFqVQ1a1JCKoGUb2kSgDfYgEzSvhVsfPvLtX74p/K+v73vVHUe3Pnwke6SToLVY1CqdS8hFVm3DOCBBR6gVR7SGh6BlM9pEoA32IBMYsRYEk0jzUWt+XCo3/TQ9QdAP4/IxK+4aaBkTtkBj0RFqRdAaHoKWzYxoUABrsQeZYHBrgZxlm6FtgZ2iI9SKoDU8BC2bDa5BAbRiDzLBsNZCHM4PhJGzLDGoLbBrdIQAVtawGhRAN/YgEwxkLVTuxMVlMKwxjC1whxC0dBBO/hzwoQ/e77Df74AMpEEBesIeZIKBrIVS0CJmWWQYW+AOoRHUQd6I936tvG6L90vQssdAGhSgJ+xBJhjIWpgHLc/L3WcLFhjGFrhDaAR1IHis8vuFwQbSoAA9YQ8yAWsBPWMLlKAR1IHgscrvFwajQQHaYA8yAWsBPWMLlKAR1KEheAwL77f0vzAYDQrQBnuQCVgL6BlboASNoA5Lt+k24v2W/hcGmzcovR8apSjrihbfDKwF9IwtUIJGUIemRnxzWMX7JWjZggYFaIM9yASsBfSMLVCCRlCHVWvEeb/Dfr8DQoMCtMEeZALWAnrGFihBI6jDqjXivN9hv98BoUEB2mAPMgFrAT1jC5SgEQSwsmhQgDbYg0zAXFPKiGIcECJoAVhZtIlAG+xBJmAtoGdsgRIELQAriwYFaIM9yASsBfSMLVCCoAVgZXGmDUV1UDRYvSJooWdsgRIELQAri6BFUR0UDVavCFroGVugBEELwMrq/SZsFDWYQl8IWugZW6AEQQsAAMBS+aBFUT0UQUuCoAUAAGApToGmjCiClhBBCwAAwFIELcqIImgJEbQAAAAs1f+ZYxQ1K5QRtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgYwQtAAAAAOgYQQsAAAAAOkbQAgAAAICOEbQAAAAAoGMELQAAAADoGEELAAAAADpG0AIAAACAjhG0AAAAAKBjBC0AAAAA6BhBCwAAAAA6RtACAAAAgI4RtAAAAACgY/8PdDMQAYkPpQwAAAAASUVORK5CYII=" alt="" width="722" height="497"></div>
-    <p><br>
+    <hr>
+
+    <h3>4. Mapping the Architectural Models to Lean 4 Formal Verification</h3>
+    <p>
+      The three architectural models described above are not merely theoretical abstractions or conceptual diagrams; they are systematically grounded, certified, and delivered through the <b>Lean 4 Interactive Theorem Prover</b> (v4.33.1).
     </p>
+
+    <div style="margin: 16px auto; max-width: 860px; background-color: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 16px 20px;">
+      <h4 style="color: #0369a1; margin-top: 0; font-size: 1.05em;">
+        🛡️ Triangulating the Three Models with Lean 4 Formal Verification
+      </h4>
+
+      <p style="line-height: 1.6; color: #334155;">
+        Every foundational concept traverses a rigorous verification pipeline that unites ontology, computation, and persistent delivery:
+      </p>
+
+      <ul style="line-height: 1.6; color: #334155; padding-left: 22px;">
+        <li style="margin-bottom: 10px;">
+          <b>Model 1 (Ontology) → The Formal Scaffold (<code>Scaffold.lean</code>):</b>
+          Our classical single-sorted predicate logic and base sets (<code>𝔹, ℕ, ℝ_ω, ℂ_ω</code>) map directly into Lean 4 inductive types and structures. Rather than relying on non-constructive limit gymnastics, the transfinite continuum (<code>ℝ_ω</code>) and its standard-part shadow map (<code>st: ℝ_ω → 𝔻</code>) project continuous dynamics into a dyadic codomain primed for explicit machine calculation. Key structural bridge theorems—including the <b>Telescoping Fundamental Theorem of Calculus</b> (<code>telescoping_ftc</code>, proved by induction on <code>ℕ</code>), operator identities (<code>D_turn_squared</code>, <code>exp_eigen_property</code>), and infinitesimal halo invariants—are machine-verified directly in the Lean kernel.
+        </li>
+        <li style="margin-bottom: 10px;">
+          <b>Model 2 (Computation) → Boundary of Environmental Dependence &amp; Runtime Independence:</b>
+          Middle Way Mathematics maintains an epistemological division of labor between formal proof and explicit execution. Lean 4 certifies that mathematical laws, physical invariants, and operator relationships are logically consistent and well-typed. Meanwhile, our virtual calculation machine executes transparent, human-auditable pseudo-code step-by-step without runtime black boxes. The computation engine strictly avoids continuous calculus libraries, computer algebra packages, and runtime transcendental float approximations (such as IEEE 754 <code>Math.sin</code> or <code>Math.exp</code>). Growth is computed purely via discrete Euler compounding in the dyadic ring, rotations via binary CORDIC pseudo-rotations, and calculus via transfinite differences on <code>ℝ_ω</code>. The engine utilizes the host CPU solely for discrete integer arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, bit-shifts) to evaluate explicit dyadic fractions <code>m / 2^k</code> on the Conway tree <code>𝔻</code>, avoiding combinatorial string branching while maintaining constructive integrity.
+        </li>
+        <li style="margin-bottom: 4px;">
+          <b>Model 3 (Persistence) → Relational Hubs &amp; Dual-Layer Verification Architecture:</b>
+          Our persistent relational database schema (PostgreSQL) catalogs formal statements, verified functions, calculator templates, and educational assets. To serve educational resource hubs efficiently, verification is delivered through a dual architecture:
+          <ul style="margin-top: 6px; padding-left: 20px;">
+            <li>
+              <b>Static Web Production:</b> A build-time generator (<code>genLeanCache</code>) verifies all theorems directly in the Lean 4 kernel and caches pre-computed <code>Q.E.D. ✓</code> proofs and exact millisecond execution timings (171 verified targets) into client assets. Readers receive instantaneous, kernel-certified truth with zero cloud hosting overhead.
+            </li>
+            <li>
+              <b>Local Interactive Dev:</b> Running <code>npm run leanServer</code> launches a local compiler bridge, enabling curriculum authors and students to modify formal lemmas and re-verify them live against the active Lean 4 kernel.
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4 style="color: #0f172a; margin: 16px 0 8px 0; font-size: 1.02em;">
+        Where the Curriculum Sits in the Formal Verification Spectrum
+      </h4>
+      <p style="line-height: 1.6; color: #334155;">
+        In modern interactive theorem provers, formalization depth spans a multi-tier spectrum:
+      </p>
+      <ul style="line-height: 1.6; color: #334155; padding-left: 22px; margin-bottom: 12px;">
+        <li>
+          <b>Tier 1 (Type Signatures &amp; Ontology Specification):</b> Formalizing the vocabulary, primitive types, and operator signatures to eliminate ambiguous notation.
+        </li>
+        <li>
+          <b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the algebraic continuum (<code>ℝ_ω, ℂ_ω</code>) and standard-part shadow map (<code>st: ℝ_ω → 𝔻</code>) as an authoritative structural blueprint, while formally proving key inductive bridge theorems.
+        </li>
+        <li>
+          <b>Tiers 3 &amp; 4 (Certified Software &amp; Computable Models):</b> Formalizing computational algorithms directly in Lean and proving termination and bit-level semantic equivalence (<code>eval(e) = TrueMathValue(e)</code>) with zero unproven axioms.
+        </li>
+        <li>
+          <b>Tier 5 (Universal Constructive Foundations):</b> Constructing the entire transfinite continuum from scratch out of Dedekind cuts or Conway games across tens of thousands of lines of foundational library proofs (e.g. Mathlib).
+        </li>
+      </ul>
+
+      <p style="line-height: 1.6; color: #334155;">
+        <b>The Role of <code>Scaffold.lean</code>:</b> Our formal scaffold sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>. It serves as an authoritative structural contract, verifying key inductive bridge theorems while providing a certified type oracle for all 21 formal curriculum statements.
+      </p>
+
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin: 14px 0;">
+        <b>Live Interactive Verification:</b> Test the verification engine right now by inspecting this sample constitutional scaffold:<br>
+        <fsd-ref
+          tier="3"
+          scaffold="telescoping_ftc"
+          title="Fundamental Theorem of Calculus"
+          style="color: #0284c7; font-weight: bold; cursor: pointer;"
+        >telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>
+      </div>
+
+      <p style="margin-bottom: 0; font-size: 0.92em; color: #64748b;">
+        <i>For complete institutional and architectural details, see our research whitepapers on A Narrowed-Scope Lean 4 Educational Interface for General Science Literacy, the Dual-Layer Verified AI Tutor Architecture, and The Inductive Continuum.</i>
+      </p>
+    </div>
 ', 'published'),
   (3, 'conceptualHistoryIntro', 2, 'Toward a Theoretical Maximum: Conceptual History & Roadmap', 'conceptual-history-intro', '
 <div align="center">
@@ -1530,7 +1415,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
 ', 'published'),
   (4, 'level1Overview', 3, 'Constructing the Formal Foundation', 'level1-overview', '
-    <div align="center">
+<div align="center">
       <font size="+2"
         ><i
           ><b
@@ -1664,9 +1549,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <p>
       With deductive certainty, predicate language, and the Conway number tree
       in hand, we are fully prepared to cross the threshold into
-      <b>Level 3: Space, Direction &amp; Geometry</b>.
+      <b>Level 2: Algebraic Structure &amp; Linearity</b>.
     </p>
-  ', 'published'),
+', 'published'),
   (5, 'propLogicIntro', 4, 'Introduction: Propositional Logic', 'prop-logic-intro', '
 <div align="center">
       <font size="+2"><i><b>Introduction: Propositional Logic</b></i></font><br>
@@ -3185,7 +3070,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </ul>
 ', 'published'),
   (11, 'numbersIntro', 10, '1. Transfinite Trees & The Limit Ordinal (ω)', 'numbers-intro', '
-    <div align="center">
+<div align="center">
       <font size="+2"
         ><i><b>Introduction: Numbers &amp; Graph Trees</b></i></font
       ><br />
@@ -4998,7 +4883,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         </li>
       </ul>
     </div>
-  ', 'published'),
+', 'published'),
   (12, 'numbersLecture1', 11, 'Numbers Lecture 1: Formal Definitions & The Two Paths', 'numbers-lecture1', '
 <div align="center">
       <font size="+2"><i><b>Numbers Lecture 1: Formal Definitions &amp; The Two Paths</b></i></font><br>
@@ -5445,7 +5330,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 ', 'published'),
   (13, 'numbersLecture2', 12, '1. The 2-Successor Scaffold: Root and Sign Branches', 'numbers-lecture2', '
-    <div align="center">
+<div align="center">
       <font size="+2"
         ><i><b>Numbers Lecture 2: Binary Trees &amp; Labeled Paths</b></i></font
       ><br />
@@ -8043,7 +7928,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <code>ℂ_ω</code>, bridging our discrete tree coordinates with continuous
       STEM mathematics.”
     </p>
-  ', 'published'),
+', 'published'),
   (14, 'numbersLecture3', 13, 'STEM Connections, Cardinality & The Architecture of Intrinsic Spaces', 'numbers-lecture3', '
 <div align="center">
       <h2>Numbers Lecture 3</h2>
@@ -8360,170 +8245,378 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       “Now that we have solid numbers and formal statements under our belt, we are ready for the real fun: in our next chapters, we will use these tree addresses to power <b>Bayesian Inference</b> and <b>Quantum Wave Interference</b> with total clarity!”
     </p>
 ', 'published'),
-  (15, 'lamOverview', 14, 'Continuous Change on the Hyperfinite Scaffold', 'lam-overview', '
-    <div align="center">
-      <font size="+2"
-        ><i
-          ><b
-            >Level 2: Continuum &amp; Calculus<br />
-            Continuous Change, Infinitesimals &amp; The Hyperfinite Scaffold</b
-          ></i
-        ></font
+  (15, 'vectorFoundationsIntro', 14, '2. Skeletons of Observed Symmetry: Groups & Fields', 'vector-foundations-intro', '
+<div align="center">
+      <i
+        ><font size="+2"
+          ><b>Level 2: Algebraic Structure &amp; Linearity</b></font
+        ></i
       ><br />
-      <font size="+1"
-        ><i
-          >— Bridging the Discrete Conway Tree to Continuous Analysis —</i
-        ></font
+      <i
+        ><font size="+1"
+          >Emergent Groups, Fields, Structure-Preserving Maps, Vector Spaces &amp; Duality</font
+        ></i
       >
     </div>
     <br />
 
-    <h3>Continuous Change on the Hyperfinite Scaffold</h3>
+    <h3>
+      Preface: Algebraic Structures are Observed in Construction &amp; Confirmed
+      by Induction
+    </h3>
     <p>
-      In our foundational study of numbers and discrete structures, we
-      established how numbers emerge day by day from inductive trees. In
-      <b>Level 2: Continuum &amp; Calculus</b>, we extend this discrete
-      foundation into continuous change, instantaneous rates, and accumulation.
+      In traditional mathematical presentations, abstract algebra is often
+      introduced top-down as an intimidating list of arbitrary axioms handed
+      down by authority. In this curriculum, we take the opposite, constructive
+      approach:
+      <b
+        >algebraic structures are emergent symmetries directly observed from
+        recursively defined operations on our number trees &mdash; and then
+        rigorously confirmed across all branches by structural mathematical
+        induction</b
+      >.
     </p>
+    <p>We adopt a strict pedagogical discipline:</p>
+    <ol>
+      <li>
+        <b>Observation &rarr; Inductive Confirmation:</b> We first observe
+        regularities on early tree days, then use mathematical induction on
+        birthdays to prove the algebraic laws as universal theorems.
+      </li>
+      <li>
+        <b>Physics-Free Mathematics First:</b> We establish all concepts in
+        clean, abstract mathematical notation (<code
+          >(G, ⋆), (F, +, ·), (V, +, ·)</code
+        >, linear maps <code>T : V &rarr; W</code>, and duality
+        <code>f(v)</code>).
+      </li>
+      <li>
+        <b>Physical Realizations Second:</b> Once the algebraic geometry is
+        rock-solid, we introduce physical realizations &mdash; such as Dirac
+        bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces
+        &mdash; as concrete applications.
+      </li>
+    </ol>
     <p>
-      Standard real analysis constructs the continuum using metric topologies,
-      epsilon-delta limit towers, and Dedekind cuts. While rigorous, this
-      traditional apparatus often obscures the geometric intuition of continuous
-      change beneath layers of nested quantifiers.
+      Level 2 develops the structural and operational grammar of numbers across
+      four interconnected pillars: <b>Sequences &amp; Progressions</b> (discrete
+      stepping and linearity on inductive trees), <b>Emergent Groups &amp; Fields</b>
+      (symmetries and the countable <code>ε₀</code> safety net),
+      <b>Structure-Preserving Maps</b> (homomorphisms and scale invariance), and
+      <b>Vector Spaces &amp; Duality</b> (linear maps and covector measurement meters).
+      This algebraic foundation directly equips us for the local linearity of calculus
+      in Level 3, and the turning and rotor dynamics of Level 4.
     </p>
+
+    <hr />
+
+    <h3>
+      1. The Transfinite Scale: The Cutoff at ω &amp; The Countable ε₀ Safety
+      Net
+    </h3>
     <p>
-      By leveraging John Conway''s recursive number tree at Day <code>ω</code>,
-      we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate
-      number. This nonstandard perspective transforms continuous calculus into
-      straightforward algebra: derivatives become simple difference ratios
-      <code>dy / dx</code> followed by taking the standard part shadow, and
-      integrals become genuine hyperfinite sums of microscopic tiles.
+      Closure is the non-negotiable bedrock of any algebraic structure: when you
+      combine elements, the arithmetic result must stay inside the carrier set.
     </p>
-    <p>Level 2 develops this unified framework across:</p>
     <ul>
       <li>
-        <b>Sequences &amp; Progressions:</b> Discrete stepping on
-        <code>ℕ_ω</code> along the arithmetic and geometric tree ladders,
-        grounding continuous analysis in finite induction.
+        <b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds
+        <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at
+        ordinal <code>ω</code> in recursive tree generation. In the transfinite
+        hierarchy of ordinals, <code>ω</code> is a "wee little thing."
       </li>
       <li>
-        <b>Analysis 1D:</b> Instantaneous rates, halo magnification, continuity
-        without epsilon-delta, and the fundamental theorem of calculus on
-        <code>ℝ_ω</code>.
+        <b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling
+        vectors can produce exact values whose
+        <b>birthdays are strictly greater than <code>ω</code></b> (born on Day
+        <code>ω+1, ω·2, ω^ω</code>). These numbers did not vanish &mdash; they
+        were simply born on later days in the transfinite calendar!
       </li>
       <li>
-        <b>Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>,
-        conformal shape-preservation, Cauchy contour integration by 2D cell
-        cancellation, and continuous phase dynamics.
+        <b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to
+        the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where
+        <code>ω^(ε₀) = ε₀</code>, the carrier set becomes
+        <b>completely algebraically closed</b> &mdash; big enough to support a
+        genuine field.
+      </li>
+      <li>
+        <b>Standard Part Resolution:</b> The
+        <b>Standard Part Function <code>st(x)</code></b> casts high-birthday
+        transfinite results cleanly back down to their observable shadow on Day
+        <code>ω</code>.
       </li>
     </ul>
 
     <hr />
 
-    <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
+    <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
     <p>
-      To understand why nonstandard analysis is so empowering, one must examine
-      how mathematics historically struggled to tame continuous change:
+      When arithmetic operations are run recursively on the tree, natural
+      algebraic skeletons emerge and are confirmed by structural induction:
     </p>
 
+    <h4>A. The Abelian Group <code>(G, +)</code></h4>
+    <p>
+      Recursive addition on the tree naturally exhibits four core symmetries,
+      observed on early days and confirmed universally by mathematical induction
+      on tree birthdays:
+    </p>
     <ul>
       <li>
-        <b
-          >Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash;
-          <i>Leibniz, Newton, Euler</i>:</b
-        ><br />
-        Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code
-        >) &mdash; quantities strictly greater than zero, yet smaller than any
-        positive standard real number. With infinitesimals, derivatives were
-        simple algebraic ratios (<code>dy / dx</code>) and integrals were
-        genuine sums of microscopic rectangles (<code>∫ y dx</code>).
-        Mathematicians solved celestial orbits, fluid mechanics, and wave
-        equations with breathtaking speed, but critics (like Bishop Berkeley)
-        argued that infinitesimals were logically unsound "ghosts of departed
-        quantities."
+        <code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the
+        root of the tree, confirmed inductively by
+        <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).
       </li>
-      <br />
       <li>
-        <b
-          >Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash;
-          <i>Cauchy, Weierstrass, Dedekind</i>:</b
-        ><br />
-        Fearing foundational inconsistency, 19th-century mathematicians banished
-        infinitesimals. They replaced intuitive algebraic ratios with the real
-        continuum <code>ℝ</code> and dense
-        <b>epsilon-delta (ε-δ) limit definitions</b>:
-        <div
-          align="center"
-          style="font-family: monospace; font-size: 13.5px; margin: 6px 0"
-        >
-          f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp;
-          ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ
-          &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
-        </div>
-        While logically watertight, this reform erected a massive cognitive
-        barrier, turning intuitive geometric concepts into nested quantifier
-        gymnastics.
+        <code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral
+        tree reflection).
       </li>
-      <br />
       <li>
-        <b
-          >Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th
-          Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b
-        ><br />
-        As physics expanded into quantum mechanics and relativity,
-        mathematicians sought to escape the clumsiness of metric
-        <code>ε-δ</code> limits by ascending into
-        <b>pure set-theoretic topology and measure theory</b>:
-        <ul>
-          <li>
-            <i>Topological Continuity:</i>
-            <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The
-            preimage of every open set is an open set).
-          </li>
-          <li>
-            <i>Lebesgue Integration:</i> Integrated functions by measuring
-            preimage sizes on <code>σ-algebras</code> rather than taking limits
-            of partition meshes.
-          </li>
-        </ul>
-        This abstraction was immensely powerful for functional analysis, but it
-        severely detached continuous mathematics from physical and geometric
-        intuition.
-      </li>
-      <br />
-      <li>
-        <b
-          >Epoch 4: The Nonstandard Synthesis &mdash;
-          <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b
-        ><br />
-        Leibniz''s intuitive infinitesimals were given complete, rigorous
-        mathematical foundations through model theory and
-        <b>John Conway''s recursive number tree</b>. By observing the continuum
-        scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the
-        transfinite tree:
-        <ul>
-          <li>
-            <b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers
-            born on Day <code>ω</code> of the recursive tree:
-            <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.
-          </li>
-          <li>
-            <b>Continuity</b> is halo preservation:
-            <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing
-            by transfinite branches stay infinitesimally close).
-          </li>
-          <li>
-            <b>Differentiation</b> is pure algebraic division:
-            <code>f''(x) = st(Δy / dx)</code>.
-          </li>
-          <li>
-            <b>Integration</b> is genuine discrete addition:
-            <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
-          </li>
-        </ul>
+        Commutativity (<code>x + y = y + x</code>) and Associativity (<code
+          >(x+y)+z = x+(y+z)</code
+        >).
       </li>
     </ul>
-  ', 'published'),
+    <p>
+      <i>Generalization:</i> Any collection of objects obeying these observed
+      and inductively proven behaviors forms an
+      <b>Abelian Group <code>(G, +)</code></b
+      >.
+    </p>
+
+    <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>
+    <p>
+      A remarkable mathematical reality is that
+      <b
+        >you cannot simultaneously fit two full groups onto the exact same
+        carrier set <code>F</code></b
+      >:
+    </p>
+    <ul>
+      <li>
+        If <code>(F, +)</code> is an additive group with identity
+        <code>0</code>, then multiplication <i>cannot</i> form a group on all of
+        <code>F</code> because <code>0</code> has no multiplicative inverse
+        (<code>0 · x = 0 &ne; 1</code>).
+      </li>
+      <li>
+        The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.
+      </li>
+      <li>
+        A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of
+        harmony between two operations: an additive group on all of
+        <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched
+        together by the <b>Distributive Law</b>:
+        <div
+          align="center"
+          style="
+            font-family: monospace;
+            font-size: 14px;
+            margin: 8px 0;
+            color: #1e3a8a;
+          "
+        >
+          <b>a · ( b + c ) = a · b + a · c</b>
+        </div>
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>3. Structure-Preserving Functions: Mapping Between Operations</h3>
+    <p>
+      A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is
+      <b>structure-preserving (a group homomorphism)</b> if:
+    </p>
+    <div
+      align="center"
+      style="
+        font-family: monospace;
+        font-size: 15px;
+        margin: 10px 0;
+        color: #1e3a8a;
+        background: #f8fafc;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      "
+    >
+      <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+    </div>
+    <p>
+      <i>Core Meaning:</i> You get the exact same answer whether you combine
+      elements first in the starting world using <code>⋆</code>, or map them
+      first and combine them in the destination world using <code>⊙</code>!
+    </p>
+    <ul>
+      <li>
+        <b>The Exponential Bridge:</b> <code>(ℝ, +) &rarr; (ℝ⁺, ·)</code> with
+        <code>e^(a + b) = e^a · e^b</code> (translates addition into
+        multiplication).
+      </li>
+      <li>
+        <b>Dimension Embedding:</b> <code>(ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</code> with
+        <code>(a + b) + 0i = (a + 0i) +_ℂ (b + 0i)</code>.
+      </li>
+      <li>
+        <b>The Phase Map:</b> <code>(ℝ, +) &rarr; (U(1), ·)</code> with
+        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> (converts angle addition
+        to phase rotation).
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>4. Vector Spaces, Linear Maps &amp; Duality</h3>
+    <p>
+      Combining our field <code>F</code> (such as <code>ℝ_ω</code> or
+      <code>ℂ_ω</code>) with Cartesian multi-directional intuition produces a
+      <b>Vector Space <code>(V, +, ·)</code></b> governed by Two Basic Moves:
+    </p>
+    <ol>
+      <li>
+        <b>Vector Addition (u + v):</b> Abelian group behavior inside
+        <code>V</code>.
+      </li>
+      <li>
+        <b>Scalar Multiplication (c · v):</b> Distributing field elements across
+        vector directions.
+      </li>
+    </ol>
+
+    <h4>Linear Maps &amp; Calculus Operators</h4>
+    <p>
+      A map <code>T : V &rarr; W</code> is linear if
+      <code>T(u + v) = T(u) + T(v)</code> and <code>T(c·v) = c·T(v)</code>. This
+      enables the linear derivative operator <code>D(f+g) = Df + Dg</code> and
+      integral functional <code>∫(f+g) = ∫f + ∫g</code>.
+    </p>
+
+    <h4>Vector / Covector Duality</h4>
+    <p>
+      Every vector space <code>V</code> naturally pairs with its
+      <b>dual space</b> <code>V*</code> of covectors (linear measurement
+      meters):
+    </p>
+    <ul>
+      <li>
+        <b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions
+        (column vectors).
+      </li>
+      <li>
+        <b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement
+        meters (row vectors).
+      </li>
+      <li>
+        <b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading
+        (scalar number).
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>5. Physical Realizations: Duality &amp; Quantum State Spaces</h3>
+    <p>
+      With the mathematical framework established, the physical realization of
+      vector/covector duality in quantum and measurement theory falls directly
+      into place (bridging forward to Level 5):
+    </p>
+    <ul>
+      <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
+      <li>
+        Measurement detectors are <b>covectors (bras)</b>:
+        <code>⟨ϕ| ∈ ℋ_ω*</code>.
+      </li>
+      <li>
+        The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the
+        <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
+    <p>
+      The second course asks a simple question &mdash;
+      <i>what is an angle?</i> &mdash; and answers it with the number trees from
+      Level 1 and the maps from section 3.
+    </p>
+    <ul>
+      <li>
+        <b>From Triangles to Turning:</b> We start from the familiar
+        presentation (SOH CAH TOA, then the unit circle and radians) and its
+        open questions: how is a curved arc measured with straight rulers, how
+        is <code>sin(35°)</code> actually computed, and how do static corners
+        become continuous rotation?
+      </li>
+      <li>
+        <b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting
+        <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the
+        circle gives the perimeter <code>2π</code> as an exact sum, and the
+        winding integral <code>∮ (1/z) dz = 2π i</code>.
+      </li>
+      <li>
+        <b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the
+        angle step. The half-angle rule
+        <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète''s nested
+        radicals, and the same left/right steering is the CORDIC algorithm used
+        in hardware.
+      </li>
+      <li>
+        <b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is
+        the generator <code>i</code>, and an angle becomes a <b>unit rotor</b>
+        <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors
+        compose by multiplication &mdash; the phase map
+        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in
+        action.
+      </li>
+      <li>
+        <b>Euler''s Formula by Stepping:</b> Compounding
+        <code>ω</code> perpendicular steps
+        <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields
+        <code>e^(iθ)</code> directly, without Taylor series.
+      </li>
+    </ul>
+    <p>
+      Rotors are where the two courses meet: a rotor is a linear map on the
+      vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix
+      is the familiar <code>[ cos θ -sin θ ; sin θ cos θ ]</code>. This also
+      sets up the complex phase that Level 5 needs for quantum amplitudes.
+    </p>
+
+    <hr />
+
+    <h3>Level 2 Curriculum Plan</h3>
+    <p><b>Linear Algebra &amp; Discrete Progressions</b></p>
+    <ul>
+      <li>
+        <b>Sequences &amp; Progressions:</b> Discrete stepping on inductive trees,
+        arithmetic progression (discrete linearity), and geometric scaling ladders.
+      </li>
+      <li>
+        <b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b>
+        Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>,
+        why fields eject zero, and continuous transformation groups.
+      </li>
+      <li>
+        <b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b>
+        Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection,
+        the exponential bridge, and embedding dimensions.
+      </li>
+      <li>
+        <b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian
+        multi-directional space, linear maps, vector/covector duality, and Dirac
+        bra-ket inference.
+      </li>
+    </ul>
+    <p>
+      <i>Bridging Forward:</i> This structural bedrock sets up the continuous
+      halos and local linearity of <b>Level 3: Continuum &amp; Calculus</b>, where
+      the derivative is revealed as the dominant linear approximation to a curve,
+      and <b>Level 4: Space, Trigonometry &amp; The Transcendental Engine</b>,
+      where turning and rotations are modeled as unit rotors on <code>ℂ_ω</code>.
+    </p>
+', 'published'),
   (16, 'sequencesAndSums', 15, 'Sequences & Progressions', 'sequences-and-sums', '
 <style>
     .seq-container {
@@ -8868,6 +8961,22 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <p style="margin: 12px 0 0 0; font-size: 13px; color: #4c1d95;">
         After <code>k = 12</code> steps, <code>f_12 = 440 · (2^(1/12))^12 = 440 · 2 = 880 Hz</code>, completing the octave at <code>A5</code>.
       </p>
+
+      <!-- The Heavenly Chimes Caveat & The 1/3 Juncture -->
+      <div style="background: #ffffff; border: 1.5px solid #c4b5fd; border-radius: 8px; padding: 14px 18px; margin-top: 16px;">
+        <div style="font-weight: 700; color: #6d28d9; font-size: 13.5px; margin-bottom: 6px;">
+          The "Heavenly Chimes" Caveat: Circumscribing Limits &amp; The 1/3 Juncture
+        </div>
+        <p style="margin: 0 0 10px 0; font-size: 13px; color: #334155; line-height: 1.55;">
+          Notice the acoustic ratios in the table above: the fifth at step 7 produces <code>2^(7/12) ≈ 1.4983</code>, lingering tantalizingly close to the pure fraction <code>3/2 = 1.5000</code>. Similarly, the fourth at step 5 yields <code>2^(5/12) ≈ 1.3348</code>, approximating <code>4/3 ≈ 1.3333</code>.
+        </p>
+        <p style="margin: 0 0 10px 0; font-size: 13px; color: #334155; line-height: 1.55;">
+          This 12-tone subdivision is, in truth, an arbitrary human compromise. To the ancient Pythagoreans, the cosmos sounded through the pure "heavenly chimes" of simple natural ratios: <code>1/2</code> (the octave), <code>2/3</code> (the fifth), and <code>3/4</code> (the fourth). Human perception carries a deep, natural inclination toward recognizing ratios of small naturals. Yet because no power of 3 ever equals a power of 2 (<code>3^m ≠ 2^n</code> for non-zero <code>m, n ∈ ℕ</code>), pure Pythagorean intervals can never close a neat circle. To circumscribe our limits and navigate across musical keys without endless retuning, equal temperament replaces pure fractions with an engineered geometric progression of radicals (<code>2^(1/12)</code>).
+        </p>
+        <p style="margin: 0; font-size: 13px; color: #4c1d95; line-height: 1.55; background: #faf5ff; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #7c3aed;">
+          <b>The Conceptual Juncture:</b> We intuitively expect a small natural ratio like <code>1/3</code> to exist as an elementary mathematical object. Yet as we cross into continuous analysis on our dyadic inductive trees, we will uncover an astonishing truth: on a binary ruler generated by repeated halving, <code>1/3</code> has no finite stopping point (<code>1/3 = 0.010101...₂</code>). As we will soon see in our study of 1D Analysis, <code>1/3</code> does indeed exist—not as an isolated, static tick mark, but living eternally within the <i>halo</i> of a dyadic real.
+        </p>
+      </div>
     </div>
 
     <!-- Cochlear Biological Processor -->
@@ -8898,8 +9007,792 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </div>
   </div>
 ', 'published'),
-  (17, 'analysis1DIntro', 16, 'Preface: Taming the Unbroken Continuum', 'analysis1-d-intro', '
-    <div align="center">
+  (17, 'vectorsLecture1', 16, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
+<div align="center">
+    <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
+    <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane opened the lecture by writing two clean structures on the board:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
+    <b>( G, + ) &emsp;&emsp;&emsp;&emsp; ( F, +, · )</b>
+  </div>
+
+  <p>
+    “In many traditional math courses,” Jane began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians invented arbitrary rules for a game. But in this curriculum, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
+  </p>
+
+  <p>
+    Jill leaned forward: “So the axioms are just descriptions of what the tree was doing all along?”
+  </p>
+
+  <p>
+    “Exactly,” Jane nodded. “And to see why, we first have to appreciate where our number scaffolds came from &mdash; and why our initial grid slice needs a safety net.”
+  </p>
+
+  <hr>
+
+  <h3>1. The Transfinite Scale: The Wee Cutoff at ω &amp; The ε₀ Safety Net</h3>
+
+  <p>
+    “In our foundational studies,” Jane said, “we constructed numbers generation by generation on the tree: Day 0 (<code>0 = { | }</code>), Day 1 (<code>-1, +1</code>), Day 2 (<code>±2, ±1/2</code>), and so on.”
+  </p>
+
+  <p>
+    “We stopped our observation at Day <code>ω</code>, giving us the scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code>. But in the transfinite hierarchy of ordinals, <b>ordinal <code>ω</code> is a wee little thing!</b> It is merely the very first step after the finite counting numbers.”
+  </p>
+
+  <p>
+    “Of itself, a grid cutoff at <code>ω</code> is <b>not closed</b> under general arithmetic operations. When you multiply fine numbers, divide, or take polynomial roots, the exact arithmetic result often has a <b>birthday strictly greater than <code>ω</code></b> (such as Day <code>ω+1, ω·2, ω^ω</code>). This is the origin of <b>grid leakage</b>.”
+  </p>
+
+  <p>
+    “Did the missing numbers vanish?” Jill asked.
+  </p>
+
+  <p>
+    “Not at all!” Jane smiled. “They are caught in the wider transfinite tree as epsilons march off toward ever-higher horizons. By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>ε₀ &nbsp;=&nbsp; ω^(ω^(ω^...))</b> &emsp; where &emsp; <b>ω^(ε₀) = ε₀</b>
+  </div>
+
+  <p>
+    “Because <code>ω^ε₀ = ε₀</code>, this carrier set is <b>completely algebraically closed</b>: any addition, multiplication, or polynomial root of numbers born before Day <code>ε₀</code> stays before Day <code>ε₀</code>. We have our rock-solid safety net, and the <b>Standard Part Function <code>st(x)</code></b> casts the shadow cleanly back to our observable grid on Day <code>ω</code>.”
+  </p>
+
+  <h4>Formal Statement (FS-LA-1.1): The Countable Transfinite Safety Net ε₀</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Ordinal Fixed Point:</b> Let <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> be the first Cantor ordinal satisfying <code>ω^(ε₀) = ε₀</code>.<br>
+    • <b>Enveloping Carrier Field:</b> The sub-tree <code>G = ℂ_{&lt;ε₀}</code> comprises all surreal tree addresses created prior to Day <code>ε₀</code>.<br>
+    • <b>Algebraic Closure:</b> The carrier set <code>G</code> is algebraically closed under field arithmetic, roots, and finite linear combinations.<br>
+    • <b>Observable Shadow Map:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Shadow Map st(·)">The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.</fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>2. Observing the Additive Skeleton: The Abelian Group (G, +)</h3>
+
+  <p>
+    “Now look at recursive addition on the tree,” Jane continued. “When we define <code>x + y</code> by inductive rules on branch options, we observe four fundamental symmetries:”
+  </p>
+
+  <ol>
+    <li>
+      <b>The Root Identity:</b> Adding the empty root node <code>0 = { | }</code> leaves any branch unchanged:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
+        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b>
+      </div>
+    </li>
+    <li>
+      <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that cancels it back to the root:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
+        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b>
+      </div>
+    </li>
+    <li>
+      <b>Bilateral Commutativity:</b> Bilateral symmetry of tree options guarantees that <code>x + y = y + x</code>.
+    </li>
+    <li>
+      <b>Inductive Associativity:</b> Grouping depth does not change tree generation: <code>(x + y) + z = x + (y + z)</code>.
+    </li>
+  </ol>
+
+  <p>
+    “We take this observed skeleton,” Jane explained, “and generalize it into a universal mathematical concept: any set with an operation satisfying these four properties is called an <b>Abelian Group <code>(G, +)</code></b>.”
+  </p>
+
+  <p>
+    Jill leaned in with a sharp question: “We can easily observe these four symmetries by calculating on Day 0, Day 1, and Day 2... but how do we know they don''t break down unexpectedly on Day 50, Day <code>ω</code>, or Day <code>ε₀</code>?”
+  </p>
+
+  <p>
+    “That is where <b>structural mathematical induction</b> comes in!” Jane beamed. “Because every number is defined recursively by its left and right branch options <code>x = { x^L | x^R }</code>, the proof of each group property is an airtight inductive proof from the tree root upward:”
+  </p>
+
+  <ul>
+    <li><b>Identity:</b> <code>x + 0 = { x^L + 0 | x^R + 0 } = { x^L | x^R } = x</code> &mdash; confirmed immediately by the induction hypothesis on earlier predecessors.</li>
+    <li><b>Commutativity:</b> <code>x + y = { x^L + y, x + y^L | x^R + y, x + y^R } = y + x</code> &mdash; confirmed because predecessor options commute by inductive assumption.</li>
+    <li><b>Inverses &amp; Associativity:</b> <code>x + (-x) = 0</code> and <code>(x + y) + z = x + (y + z)</code> are confirmed by transfinite induction across all branches.</li>
+  </ul>
+
+  <p>
+    “<b>Observation provides the discovery and geometric insight</b>,” Jane concluded, “<b>while inductive mathematical proofs confirm that the structures hold universally as deductive theorems!</b>”
+  </p>
+
+  <h4>Formal Statement (FS-LA-1.2): The Constructive Abelian Group (G, +)</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — Abstract Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies the <fsd-ref tier="3" scaffold="abelian_group" title="The Constructive Abelian Group (G, +)"><b>Abelian Group Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Closure:</b> <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
+    &nbsp;&nbsp;2. <b>Associativity:</b> <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
+    &nbsp;&nbsp;3. <b>Identity Element:</b> <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
+    &nbsp;&nbsp;4. <b>Inverse Element:</b> <code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code>.<br>
+    &nbsp;&nbsp;5. <b>Commutativity:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
+    • <b>Part 2 — Constructive Argument for (ℝ_ω, +):</b> The surreal continuum <code>(ℝ_ω, +)</code> is certified an exact constructive model of the Abelian group axioms via structural transfinite induction on Conway birthdays: the empty root <code>0 = { | }</code> provides the neutral identity, branch reflection <code>-x = { -x^R | -x^L }</code> cancels each element back to the root, and bilateral option symmetries guarantee commutativity and associativity across all tree branches.
+  </div>
+
+  <hr>
+
+  <h3>3. The "Two-Group" Marvel: Why Fields Eject Zero</h3>
+
+  <p>
+    “Now,” Jane said, leaning against the whiteboard, “here is a puzzle that mathematicians have marveled at for centuries: <b>can you simultaneously fit two independent groups onto the exact same carrier set?</b>”
+  </p>
+
+  <p>
+    Jill thought for a moment: “Why not? We have addition, and we have multiplication. Can''t both be groups on the set <code>F</code>?”
+  </p>
+
+  <p>
+    “Let''s test it,” Jane challenged. “Suppose <code>(F, +)</code> is an additive group with identity <code>0</code>. Now suppose multiplication <code>(F, ·)</code> is also a group with identity <code>1</code>.”
+  </p>
+
+  <p>
+    “In a multiplicative group, <i>every single element must have a multiplicative inverse</i> <code>x⁻¹</code> such that <code>x · x⁻¹ = 1</code>. What happens when you try to invert <code>0</code>?”
+  </p>
+
+  <p>
+    Jill’s eyes widened: “Zero times anything is always zero! <code>0 · x = 0</code>, which can never equal <code>1</code>!”
+  </p>
+
+  <p>
+    “Exactly!” Jane smiled. “Zero is an algebraic black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>The Field ( F, +, · )</b><br><br>
+    1. Addition forms an Abelian group on all of <b>F</b>: &nbsp; <b>( F, + )</b><br>
+    2. Multiplication forms an Abelian group on non-zero elements: &nbsp; <b>( F \ {0}, · )</b><br>
+    3. They are knitted together by <b>Distributivity</b>: &nbsp; <b>a · ( b + c ) = a · b + a · c</b>
+  </div>
+
+  <p>
+    “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jane said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
+  </p>
+
+  <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; The Two-Group Marvel</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — Abstract Field Definition:</b> A triple <code>(F, +, ·)</code> satisfying the <fsd-ref tier="3" scaffold="field_structure" title="The Field (F, +, ·) &amp; Multiplicative Inverses"><b>Constitutional Field Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Additive Group:</b> <code>(F, +)</code> forms an Abelian group with identity <code>0</code>.<br>
+    &nbsp;&nbsp;2. <b>Multiplicative Group:</b> Non-zero elements <code>(F \ {0}, ·)</code> form an Abelian group with unit <code>1 ≠ 0</code>.<br>
+    &nbsp;&nbsp;3. <b>Distributive Peace Treaty:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.<br>
+    • <b>Zero Annihilation &amp; Ejection:</b> Distributivity forces <code>0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code>, deductively proving that <code>0</code> cannot possess a multiplicative inverse and must be ejected from the multiplicative group.<br>
+    • <b>Part 2 — Constructive Argument for (ℝ_ω, +, ·):</b> The Day <code>ω</code> continuum <code>(ℝ_ω, +, ·)</code> is certified a fully functioning real-closed ordered field containing all standard reals and hyperfinite infinitesimals <code>dx = 1/ω</code>.
+  </div>
+
+  <hr>
+
+  <h3>4. Continuous Groups: Symmetries in Motion</h3>
+
+  <p>
+    “Before we move on,” Jane remarked, “notice that groups are not just discrete addition tables. How one represents <b>continuous groups</b> is a living, vibrant topic at the heart of modern mathematics and physics.”
+  </p>
+
+  <ul>
+    <li>
+      <b>The Translation Group (ℝ, +):</b> Shifting space continuously along a line: <code>x &rarr; x + a</code>. Adding shifts is group addition: <code>(x + a) + b = x + (a + b)</code>.
+    </li>
+    <li>
+      <b>The 2D Rotation Circle (SO(2) / U(1)):</b> Rotating the plane by an angle <code>θ</code>. Rotating by <code>θ₁</code> and then <code>θ₂</code> is a continuous group operation:
+      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+        <b>R(θ₁) · R(θ₂) = R(θ₁ + θ₂)</b>
+      </div>
+    </li>
+  </ul>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
+  </p>
+', 'published'),
+  (18, 'vectorsLecture2', 17, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
+<div align="center">
+    <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
+    <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by writing a single, elegant equation in the center of the whiteboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f : ( G, ⋆ ) &rarr; ( H, ⊙ ) &emsp;&emsp; where &emsp;&emsp; f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
+  </div>
+
+  <p>
+    “Last lecture,” Jane said, “we discovered how groups and fields emerge naturally from recursive trees. Today, we examine the central operational concept of modern mathematics: <b>how functions map between two different algebraic worlds while preserving their internal structure</b>.”
+  </p>
+
+  <p>
+    Jill looked closely at the equation: “Notice that there are two different symbols for the operations: <code>⋆</code> on the left and <code>⊙</code> on the right.”
+  </p>
+
+  <p>
+    “A crucial observation!” Jane beamed. “The operation <code>⋆</code> belongs to the starting group <code>G</code>, while the operation <code>⊙</code> belongs to the destination group <code>H</code>. A function <code>f</code> is <b>structure-preserving (a group homomorphism)</b> if calculating in the starting world and then mapping yields the exact same answer as mapping first and calculating in the destination world!”
+  </p>
+
+  <hr>
+
+  <h3>1. Pure Mathematical Examples of Structure Preservation</h3>
+
+  <p>
+    Jane walked through four progressively deeper mathematical bridges:
+  </p>
+
+  <h4>Example 1: Scaling a Measurement Ruler &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
+  <p>
+    Consider doubling all lengths via <code>f(x) = 2x</code>. The operation in both domain and codomain is standard addition (<code>⋆ = +, ⊙ = +</code>):
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a + b ) = 2·(a + b) = 2a + 2b = f(a) + f(b)</b>
+  </div>
+  <p>
+    Adding two lengths and doubling equals doubling each length and adding. The geometric dilation map preserves addition.
+  </p>
+
+  <h4>Example 2: Spatial Reflection / Negation &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
+  <p>
+    The bilateral reflection map <code>f(x) = -x</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a + b ) = -(a + b) = (-a) + (-b) = f(a) + f(b)</b>
+  </div>
+  <p>
+    Reflecting a combined displacement across the origin is identical to reflecting each piece first and combining them.
+  </p>
+
+  <h4>Example 3: The Exponential Bridge &mdash; (ℝ, +) &rarr; (ℝ⁺, ·)</h4>
+  <p>
+    “Here is where the two operations truly differ,” Jane said. “Take the real numbers under <b>addition</b> <code>(ℝ, +)</code> and map them to positive real numbers under <b>multiplication</b> <code>(ℝ⁺, ·)</code> via <code>f(x) = e^x</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f( a + b ) = e^(a + b) = e^a · e^b = f(a) · f(b)</b>
+  </div>
+  <p>
+    “The exponential map seamlessly converts the additive structure of the domain (<code>⋆ = +</code>) into the multiplicative growth of the target (<code>⊙ = ·</code>)!”
+  </p>
+
+  <h4>Example 4: Embedding 1D into the 2D Complex Plane &mdash; (ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</h4>
+  <p>
+    Mapping a real number <code>x</code> to a complex number <code>f(x) = x + 0i</code> preserves addition across dimensions:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    <b>f( a +_ℝ b ) = (a + b) + 0i = (a + 0i) +_ℂ (b + 0i) = f(a) +_ℂ f(b)</b>
+  </div>
+  <p>
+    The 1D real line is embedded inside the 2D plane with its internal algebraic geometry preserved with 100% fidelity.
+  </p>
+
+  <h4>Formal Statement (FS-LA-2.1): Group Homomorphisms &amp; Isomorphisms</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Homomorphism Definition:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" title="Group Homomorphism Structure Preservation"><code>∀ a, b ∈ G, f(a ⋆ b) = f(a) ⊙ f(b)</code></fsd-ref>.<br>
+    • <b>Identity &amp; Inverse Preservation:</b> <code>f(e_G) = e_H</code> and <code>f(a⁻¹) = [f(a)]⁻¹</code>.<br>
+    • <b>Kernel &amp; Invariance:</b> The kernel <code>ker(f) = { a ∈ G | f(a) = e_H }</code> is a normal subgroup of <code>G</code> measuring the loss of structural information.<br>
+    • <b>Isomorphism:</b> If <code>f</code> is bijective (injective and surjective), <code>G ≅ H</code> are structurally identical algebraic systems.
+  </div>
+
+  <hr>
+
+  <h3>2. Continuous Phase Symmetries: Angles, Rotations &amp; Unitary Groups</h3>
+
+  <p>
+    “Now look at continuous groups,” Jane said. “What happens when we map an angle <code>θ</code> to a point on the complex unit circle via <code>f(θ) = e^(iθ)</code>?”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>f( θ₁ + θ₂ ) = e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂) = f(θ₁) · f(θ₂)</b>
+  </div>
+
+  <p>
+    “In the domain, we perform simple <b>angle addition</b>. In the target, we perform <b>complex multiplication</b> (a 2D plane rotation). The map <code>f(θ) = e^(iθ)</code> is a continuous group homomorphism from <code>(ℝ, +)</code> to the circle group <b><code>(U(1), ·)</code></b>!”
+  </p>
+
+  <p>
+    Jill smiled: “So whenever we rotate a phase by multiplying by <code>e^(iθ)</code>, we are just using a structure-preserving map!”
+  </p>
+
+  <p>
+    “Exactly,” Jane nodded. “And notice a crucial geometric property: <b>rotating a phase never changes a vector''s length!</b>”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px;">
+    <b>The Unitary Group U(N): Isometries of Complex Space</b><br><br>
+    • In real geometry, a rotation preserves vector lengths: <b>|R v| = |v|</b> (the Orthogonal Group <b>SO(N)</b>).<br>
+    • In complex geometry, a <b>Unitary Transformation U</b> preserves inner products and total probability:<br>
+    <div align="center" style="font-size: 15px; margin: 8px 0;">
+      <b>⟨ U ϕ | U ψ ⟩ &nbsp;=&nbsp; ⟨ ϕ | ψ ⟩ &emsp;&hArr;&emsp; U† &middot; U &nbsp;=&nbsp; I</b>
+    </div>
+    • <b>Physical Meaning:</b> Unitary groups are the family of all transformations that <b>preserve total probability (100%) with zero information loss</b>!
+  </div>
+
+  <h4>Formal Statement (FS-LA-2.2): The Unitary Group U(N) &amp; Metric Preservation</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Unitary Condition:</b> A linear operator <code>U : ℋ_ω → ℋ_ω</code> satisfies <code>U† · U = U · U† = 𝕀</code>, where <code>U†</code> is the Hermitian conjugate (conjugate transpose).<br>
+    • <b>Inner Product Invariance:</b> <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>.<br>
+    • <b>Norm Conservation:</b> <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>, ensuring that time evolution in closed quantum systems strictly conserves total probability.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
+  </p>
+', 'published'),
+  (19, 'vectorsLecture3', 18, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
+<div align="center">
+    <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
+    <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began the lecture by drawing a single bold arrow with white chalk across the blackboard:
+  </p>
+
+  <div align="center" style="margin: 15px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" style="width: 100%; max-width: 400px; height: auto; background: #1e293b; border-radius: 6px;">
+      <line x1="60" y1="45" x2="330" y2="35" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <polygon points="345,34 325,25 328,45" fill="#f8fafc" />
+      <text x="200" y="68" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">v  (from here to there)</text>
+    </svg>
+  </div>
+
+  <p>
+    “None of us have much trouble understanding a geometric arrow like this,” Jane began. “Its message is as clear as day: <i>from here to there</i>.”
+  </p>
+
+  <p>
+    Jill looked around the room: “And it''s easy to picture in 3D space. In the cubicle of this classroom, the nice 90-degree angles in the corner are practically beckoning us to choose them as our origin.”
+  </p>
+
+  <p>
+    “We certainly tip our hat to René Descartes for making it so convenient to reason about space quantitatively,” Jane replied. “Though in historical fairness, the crisp, orthogonal 90-degree axes we take for granted came well after Descartes. Today, we recognize those three perpendicular corner edges for what they truly are: <b>three distinguished vectors chosen from the space</b> &mdash; a basis &mdash; from which every other displacement can be built.”
+  </p>
+
+  <p>
+    “So what is it about our two previous concepts &mdash; the <b>Abelian group</b> and the <b>scalar field</b> &mdash; that makes them so natural for modeling these geometric vectors, and so much more?”
+  </p>
+
+  <hr>
+
+  <h3>1. Why Groups &amp; Fields Naturally Model Arrows “And More”</h3>
+
+  <p>
+    Jane broke down the physical geometry of displacement into pure algebraic operations:
+  </p>
+
+  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
+    <tr bgcolor="#f8fafc">
+      <th width="45%" align="left">Physical Geometric Intuition</th>
+      <th width="30%" align="center">Algebraic Structure</th>
+      <th width="25%" align="left">Mathematical Meaning</th>
+    </tr>
+    <tr>
+      <td><b>Combining steps:</b> Walking from A to B (<code>v</code>), then B to C (<code>w</code>), equals one net direct step.</td>
+      <td align="center"><code>u + v ∈ V</code></td>
+      <td>Vector Addition (Group Closure)</td>
+    </tr>
+    <tr>
+      <td><b>Order independence:</b> Walking 3m East then 4m North lands at the exact same spot as 4m North then 3m East.</td>
+      <td align="center"><code>u + v = v + u</code></td>
+      <td>Commutativity (Parallelogram Law)</td>
+    </tr>
+    <tr>
+      <td><b>Standing still:</b> Taking zero displacement.</td>
+      <td align="center"><code>v + 0 = v</code></td>
+      <td>Group Identity (The Origin)</td>
+    </tr>
+    <tr>
+      <td><b>Walking back:</b> Walking the exact reverse step back to where you started.</td>
+      <td align="center"><code>v + (-v) = 0</code></td>
+      <td>Group Inverse (Opposite Vector)</td>
+    </tr>
+    <tr>
+      <td><b>Stretching / shrinking:</b> Walking twice as far, half as far, or reversing along the same line.</td>
+      <td align="center"><code>c · v ∈ V</code> &nbsp; (for <code>c ∈ F</code>)</td>
+      <td>Scalar Scaling (Field Dilation)</td>
+    </tr>
+  </table>
+
+  <p>
+    “Notice,” Jane pointed out, “because we abstracted these properties into addition and field scaling, the structure models far more than arrows on a chalkboard:”
+  </p>
+  <ul>
+    <li><b>Sound Waves &amp; Functions:</b> Adding two audio signals <code>f(t) + g(t)</code> (polyphony) and turning up the volume <code>c · f(t)</code>.</li>
+    <li><b>Quantum Superpositions:</b> Combining two state amplitudes <code>|ψ₁⟩ + |ψ₂⟩</code> (wave interference) and rotating phase <code>e^(iθ) · |ψ⟩</code>.</li>
+    <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code> on <code>ℂ_ω</code>.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, F, +, ·) as Group &amp; Field Synergy</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fsd-ref tier="3" scaffold="vector_distributivity" title="The Constructive Vector Space (V, F, +, ·)"><b>Vector Space Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;• <b>Pillar 1 — Additive Abelian Group (V, +):</b> The vectors form an Abelian group (Closure, Associativity, Zero Origin <code>0_V</code>, Inverses <code>-v</code>, Commutativity) governing step addition.<br>
+    &nbsp;&nbsp;• <b>Pillar 2 — Scalar Field (F, +, ·):</b> The scalars form an algebraic field (Continuous scaling, identities <code>0_F, 1_F</code>, non-zero reciprocals, field distributivity).<br>
+    &nbsp;&nbsp;• <b>Pillar 3 — Linear Compatibility Action:</b> Scalar multiplication <code>· : F × V → V</code> knits the field to the group via 4 axioms:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;1. <b>Scalar Distributivity over Vectors:</b> <code>∀ c ∈ F, ∀ u, v ∈ V, c · (u + v) = c · u + c · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;2. <b>Field Distributivity over Scalars:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a + b) · v = a · v + b · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;3. <b>Scalar Action Associativity:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a · b) · v = a · (b · v)</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;4. <b>Unit Scalar Identity:</b> <code>∀ v ∈ V, 1_F · v = v</code>.<br>
+    • <b>Constructive Model Grounding:</b> The hyperfinite continuum <code>ℝ_ω</code> and coordinate spaces <code>ℝ_ω^n</code> are certified canonical vector spaces over the scalar field <code>ℝ_ω</code>.
+  </div>
+
+  <hr>
+
+  <h3>2. The Relational Nature of a Vector</h3>
+
+  <p>
+    Jane then paused and looked at the arrow on the blackboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>“A vector has no meaning outside of its membership in a vector or linear space.”</b>
+  </div>
+
+  <p>
+    Jill looked puzzled: “What do you mean? The arrow is right there on the board!”
+  </p>
+
+  <p>
+    “An isolated arrow on an empty board is just a lonely mark of chalk,” Jane explained. “It only becomes a <b>vector</b> through the <b>network of relationships</b> it shares with every other vector in the space:”
+  </p>
+
+  <ol>
+    <li>It knows how to combine with <i>every other</i> member in the space via addition (<code>u + v</code>).</li>
+    <li>It can be scaled by <i>every</i> scalar in the field <code>F</code> (<code>c · v</code>).</li>
+    <li>It has an established direction and distance relative to the origin (<code>0</code>).</li>
+    <li>It can be uniquely resolved into independent basis directions: <code>v = v_x e₁ + v_y e₂ + v_z e₃</code>.</li>
+  </ol>
+
+  <p>
+    “A vector is not an isolated object,” Jane emphasized. “<b>It is a citizen of a linear space</b>.”
+  </p>
+
+  <hr>
+
+  <h3>3. Linear Maps: Preserving the Vector Space</h3>
+
+  <p>
+    “Now,” Jane said, “with our two-pillar definition of a vector space in hand, what does it mean to map one vector space to another? A function between vector spaces <code>T : V &rarr; W</code> is a <b>Linear Map</b> if and only if it preserves <i>both foundational pillars simultaneously</i>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>1. Group Homomorphism: T( u + v ) = T(u) + T(v) &emsp;&amp;&emsp; 2. Field Scaling Homogeneity: T( c · v ) = c · T(v)</b></fsd-ref>
+  </div>
+
+  <p>
+    “Decorating functions with linearity is what powers all of calculus and modern physics:”
+  </p>
+  <ul>
+    <li><b>The Derivative Operator <code>D = d/dx</code>:</b> <code>D(f + g) = D(f) + D(g)</code> and <code>D(c·f) = c·D(f)</code>.</li>
+    <li><b>The Integral Functional <code>∫</code>:</b> <code>∫ (f + g) dx = ∫ f dx + ∫ g dx</code> and <code>∫ (c·f) dx = c · ∫ f dx</code>.</li>
+    <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved curve with its local linear operator: <code>Δy ≈ f''(x) · dx</code>.</li>
+    <li><b>Quantum Unitary Operators:</b> State evolution <code>U |ψ⟩</code> preserves quantum superposition and norm geometry.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.2): The Linear Map T : V → W as Vector Space Homomorphism</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>Vector Space Homomorphism Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Additive Group Preservation:</b> <code>∀ u, v ∈ V, T(u + v) = T(u) + T(v)</code> (preserves the vector Abelian group).<br>
+    &nbsp;&nbsp;2. <b>Scalar Action Preservation:</b> <code>∀ c ∈ F, ∀ v ∈ V, T(c · v) = c · T(v)</code> (preserves scalar field dilation).<br>
+    &nbsp;&nbsp;3. <b>Combined Superposition Principle:</b> <code>∀ a, b ∈ F, ∀ u, v ∈ V, T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
+    • <b>Forced Invariants:</b> Linearity strictly forces origin preservation <code>T(0_V) = 0_W</code> and inverse reflection <code>T(-v) = -T(v)</code>.<br>
+    • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
+    • <b>Calculus Realization:</b> The differential operator <code>D = d/dx</code> and definite integral <code>∫</code> are certified linear maps on smooth function spaces over <code>ℝ_ω</code>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" auto-calc title="Matrix Action &amp; Linear Superposition Preservation">Matrix Action &amp; Linear Superposition Preservation</fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Vector / Covector Duality: The Algebraic Dual Space V*</h3>
+
+  <p>
+    “In standard textbooks,” Jane remarked, “duality is often rushed through as ''row vectors times column vectors'' or jumped straight into physical measurement. But mathematically, <b>duality is one of the deepest and most elegant concepts in all of algebra</b>.”
+  </p>
+
+  <p>
+    “Let <code>V</code> be a vector space over field <code>F</code>. We can ask: what is the set of all possible scalar-valued linear functions from <code>V</code> into <code>F</code>? This set is called the <b>Dual Space</b>, denoted <code>V* = Hom(V, F)</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>V* &nbsp;=&nbsp; Hom( V, F ) &nbsp;=&nbsp; { f : V &rarr; F &nbsp;|&nbsp; f is linear }</b><br><br>
+    (f + g)(v) = f(v) + g(v) &emsp;&emsp;and&emsp;&emsp; (c · f)(v) = c · f(v)
+  </div>
+
+  <p>
+    “Notice the immediate mathematical consequence,” Jane emphasized: “Because linear functions can be added pointwise and scaled by field elements, <b>the dual space <code>V*</code> is itself an authentic Vector Space over <code>F</code></b>!”
+  </p>
+
+  <p>
+    “Between the vector space <code>V</code> and its dual space <code>V*</code> lies a fundamental algebraic bridge: the <b>Canonical Bilinear Evaluation Pairing</b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>⟨ · , · ⟩ : V* × V &rarr; F &emsp;where&emsp; ⟨f, v⟩ &nbsp;=&nbsp; f(v)</b></fsd-ref>
+  </div>
+
+  <p>
+    “This pairing is <b>bilinear</b> (linear in <code>f</code> and linear in <code>v</code>) and completely <b>non-degenerate</b>: no non-zero vector can hide from every functional, and no non-zero functional is blind to every vector. Furthermore, every vector <code>v ∈ V</code> naturally acts as a linear functional on <code>V*</code> via <code>ev_v(f) = f(v)</code>, establishing the canonical isomorphism into the double dual: <code>V ≅ V**</code>.”
+  </p>
+
+  <p>
+    “<b>How Humans Realize This Pure Algebra:</b> While duality is fundamentally this pure algebraic pairing <code>Hom(V, F)</code>, humans naturally visualize and physically embody it in two vivid ways:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 580px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Vector Arrow -->
+        <rect x="20" y="20" width="250" height="100" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="145" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Vector (v ∈ V): The State / Arrow</text>
+        <line x1="50" y1="90" x2="220" y2="70" stroke="#2563eb" stroke-width="3" />
+        <polygon points="230,68 215,62 218,78" fill="#2563eb" />
+
+        <!-- Right: Covector Lines -->
+        <rect x="310" y="20" width="250" height="100" rx="6" fill="#faf5ff" stroke="#d8b4fe" />
+        <text x="435" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">Covector (f ∈ V*): Linear Form / Meter</text>
+        <line x1="340" y1="60" x2="340" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="380" y1="60" x2="380" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="420" y1="60" x2="420" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="460" y1="60" x2="460" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="500" y1="60" x2="500" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+      </svg>
+    </div>
+  </div>
+
+  <ul>
+    <li><b>Geometric Realization (Contour Piercing):</b> Vectors are directed displacements (arrows), while covectors are parallel level-hyperplanes <code>f(x) = c</code>. The scalar evaluation <code>⟨f, v⟩</code> counts how many contour sheets the arrow pierces.</li>
+    <li><b>Physical Realization (Measurement &amp; Detectors):</b> Vectors represent physical configurations or states, while covectors represent linear detector responses measuring properties of those states.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>Linear Functional Axioms (in Lean 4)</b></fsd-ref>.<br>
+    • <b>Bilinear Canonical Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code> is bilinear, non-degenerate, and canonically reflexive (<code>V ≅ V**</code>).<br>
+    • <b>Part 2 — Geometric &amp; Physical Realizations:</b> Level-surface piercing in geometry, linear measurement detectors in physics, and the <b>Riesz Representation Theorem</b> on Hilbert spaces <code>ℋ_ω</code> where every continuous functional is represented by an inner product with a vector: <code>f(v) = (u, v)</code>.<br>
+    • <b>Dirac Notation Mapping:</b> State vectors are Kets <code>|v⟩ ∈ ℋ_ω</code>, dual functionals are Bras <code>⟨u| ∈ ℋ_ω*</code>, and evaluation is the Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="dual_pairing" auto-calc title="Canonical Bilinear Pairing ⟨f, v⟩ Evaluation">Canonical Bilinear Pairing ⟨f, v⟩ Evaluation</fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>5. The Physical Realization: Dirac Bra-Ket Quantum Inference</h3>
+
+  <p>
+    “In classical mechanics, physical states are tracked by isolated scalar numbers,” Jane said. “In modern quantum theory, physical states live in vector spaces, and observable measurements emerge from <b>vector evaluation pairings</b> in a complex Hilbert space <code>ℋ_ω</code>:”
+  </p>
+
+  <ul>
+    <li>
+      <b>State Vectors are Kets (<code>|ψ⟩ ∈ ℋ_ω</code>):</b> The physical quantum state living in complex Hilbert space <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code>.
+    </li>
+    <li>
+      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a linear detector apparatus.
+    </li>
+    <li>
+      <b>The Bracket as Dual Evaluation (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> acts on the state vector <code>|ψ⟩</code> via canonical evaluation, yielding the complex transition amplitude!
+    </li>
+    <li>
+      <b>The Born Rule Re-Envisioned:</b> The observable detector probability is the squared magnitude of this linear functional evaluation:
+      <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+        <b>P(ϕ | ψ) &nbsp;=&nbsp; |⟨ϕ | ψ⟩|²</b>
+      </div>
+      By linking our duality pairing directly to <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>, every physical measurement is grounded in the geometry of complex vectors!
+    </li>
+    <li>
+      <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that tests for state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>.
+    </li>
+    <li>
+      <b>Unitary Transformations &amp; Isometry:</b> When a state evolves under a linear operator <code>|ψ⟩ &rarr; U |ψ⟩</code>, its dual covector transforms as <code>⟨ψ| &rarr; ⟨ψ| U†</code>. Because <code>U† U = I</code>, the inner product is strictly preserved:
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+        <b>⟨ψ| U† U |ψ⟩ &nbsp;=&nbsp; ⟨ψ | ψ⟩ &nbsp;=&nbsp; 1 (Exact 100% Probability Conservation!)</b>
+      </div>
+    </li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.4): Dirac Bra-Ket Quantum Inference &amp; Probability Conservation</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — State &amp; Detector Duality:</b> Physical states are vectors <code>|ψ⟩ ∈ ℋ_ω</code>; measurement detectors are continuous linear functionals (covectors) <code>⟨ϕ| ∈ ℋ_ω*</code>. Canonical evaluation yields the complex probability amplitude <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>.<br>
+    • <b>Part 2 — The Born Transition Probability:</b> The observable transition probability is the modulus squared of the dual pairing:
+    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>.<br>
+    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>
+  </div>
+
+  <p>
+    Jill beamed: “So Dirac''s bra-ket notation is simply the physical language of vector/covector duality and unitary probability conservation!”
+  </p>
+
+  <p>
+    “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
+  </p>
+', 'published'),
+  (20, 'lamOverview', 19, 'Continuous Change on the ℝ_ω Scaffold', 'lam-overview', '
+<div align="center">
+      <font size="+2"
+        ><i
+          ><b
+            >Level 3: Continuum &amp; Calculus<br />
+            Continuous Change, Infinitesimals &amp; The ℝ_ω Scaffold</b
+          ></i
+        ></font
+      ><br />
+      <font size="+1"
+        ><i
+          >— Bridging the Discrete Conway Tree to Continuous Analysis —</i
+        ></font
+      >
+    </div>
+    <br />
+
+    <h3>Continuous Change on the ℝ_ω Scaffold</h3>
+    <p>
+      Building on our foundational study of numbers in Level 1 and the algebraic
+      symmetries, structure-preserving maps, and vector spaces developed in Level 2,
+      we now enter <b>Level 3: Continuum &amp; Calculus</b>. Here we extend the discrete
+      scaffold into continuous change, instantaneous rates, and accumulation.
+    </p>
+    <p>
+      Standard real analysis constructs the continuum using metric topologies,
+      epsilon-delta limit towers, and Dedekind cuts. While rigorous, this
+      traditional apparatus often obscures the geometric intuition of continuous
+      change beneath layers of nested quantifiers.
+    </p>
+    <p>
+      By leveraging John Conway''s recursive number tree at Day <code>ω</code>,
+      we embrace the infinitesimal <b><code>dx = 1/ω</code></b> as a legitimate
+      number. This nonstandard perspective transforms continuous calculus into
+      straightforward algebra: derivatives become simple difference ratios
+      <code>dy / dx</code> followed by taking the standard part shadow, and
+      integrals become genuine sums on <code>ℝ_ω</code> of microscopic tiles.
+    </p>
+    <p>Level 3 develops this unified framework across two core courses:</p>
+    <ul>
+      <li>
+        <b>Course 1: Analysis 1D:</b> Instantaneous rates, halo magnification, continuity
+        without epsilon-delta, derivatives as local structure-preserving linear maps,
+        and the fundamental theorem of calculus on <code>ℝ_ω</code>.
+      </li>
+      <li>
+        <b>Course 2: Analysis 2D:</b> The complex grid <code>ℂ_ω = ℝ_ω ⊗ ℝ_ω</code>,
+        conformal shape-preservation, Cauchy contour integration by 2D cell
+        cancellation, and continuous phase dynamics.
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3>1. Conceptual History: The Four Epochs of Analysis</h3>
+    <p>
+      To understand why nonstandard analysis is so empowering, one must examine
+      how mathematics historically struggled to tame continuous change:
+    </p>
+
+    <ul>
+      <li>
+        <b
+          >Epoch 1: Intuitive Infinitesimals (17th–18th Century) &mdash;
+          <i>Leibniz, Newton, Euler</i>:</b
+        ><br />
+        Calculus was co-invented using <b>infinitesimals</b> (<code>dx, dy</code
+        >) &mdash; quantities strictly greater than zero, yet smaller than any
+        positive standard real number. With infinitesimals, derivatives were
+        simple algebraic ratios (<code>dy / dx</code>) and integrals were
+        genuine sums of microscopic rectangles (<code>∫ y dx</code>).
+        Mathematicians solved celestial orbits, fluid mechanics, and wave
+        equations with breathtaking speed, but critics (like Bishop Berkeley)
+        argued that infinitesimals were logically unsound "ghosts of departed
+        quantities."
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 2: The Epsilon-Delta Purge (19th Century) &mdash;
+          <i>Cauchy, Weierstrass, Dedekind</i>:</b
+        ><br />
+        Fearing foundational inconsistency, 19th-century mathematicians banished
+        infinitesimals. They replaced intuitive algebraic ratios with the real
+        continuum <code>ℝ</code> and dense
+        <b>epsilon-delta (ε-δ) limit definitions</b>:
+        <div
+          align="center"
+          style="font-family: monospace; font-size: 13.5px; margin: 6px 0"
+        >
+          f''(x) = lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx &emsp;&equiv;&emsp;
+          ∀ε &gt; 0 &nbsp; ∃δ &gt; 0 &nbsp; ∀Δx &nbsp; ( 0 &lt; |Δx| &lt; δ
+          &nbsp;&rArr;&nbsp; |[f(x+Δx)-f(x)]/Δx - L| &lt; ε )
+        </div>
+        While logically watertight, this reform erected a massive cognitive
+        barrier, turning intuitive geometric concepts into nested quantifier
+        gymnastics.
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 3: The Structural &amp; Topological Escape (Early–Mid 20th
+          Century) &mdash; <i>Hausdorff, Lebesgue, Bourbaki</i>:</b
+        ><br />
+        As physics expanded into quantum mechanics and relativity,
+        mathematicians sought to escape the clumsiness of metric
+        <code>ε-δ</code> limits by ascending into
+        <b>pure set-theoretic topology and measure theory</b>:
+        <ul>
+          <li>
+            <i>Topological Continuity:</i>
+            <code>∀ U ∈ Topology(Y), &nbsp; f⁻¹(U) ∈ Topology(X)</code> (The
+            preimage of every open set is an open set).
+          </li>
+          <li>
+            <i>Lebesgue Integration:</i> Integrated functions by measuring
+            preimage sizes on <code>σ-algebras</code> rather than taking limits
+            of partition meshes.
+          </li>
+        </ul>
+        This abstraction was immensely powerful for functional analysis, but it
+        severely detached continuous mathematics from physical and geometric
+        intuition.
+      </li>
+      <br />
+      <li>
+        <b
+          >Epoch 4: The Nonstandard Synthesis &mdash;
+          <i>Abraham Robinson &amp; John Conway''s Number Tree</i>:</b
+        ><br />
+        Leibniz''s intuitive infinitesimals were given complete, rigorous
+        mathematical foundations through model theory and
+        <b>John Conway''s recursive number tree</b>. By observing the continuum
+        scaffold <code>ℝ_ω</code> and complex grid <code>ℂ_ω</code> on the
+        transfinite tree:
+        <ul>
+          <li>
+            <b>Infinitesimals (<code>dx = 1/ω</code>)</b> are legitimate numbers
+            born on Day <code>ω</code> of the recursive tree:
+            <code>1/ω = { 0 | 1, 1/2, 1/4, ... }</code>.
+          </li>
+          <li>
+            <b>Continuity</b> is halo preservation:
+            <code>x ≈ y &nbsp;&rArr;&nbsp; f(x) ≈ f(y)</code> (nodes differing
+            by transfinite branches stay infinitesimally close).
+          </li>
+          <li>
+            <b>Differentiation</b> is pure algebraic division:
+            <code>f''(x) = st(Δy / dx)</code>.
+          </li>
+          <li>
+            <b>Integration</b> is genuine discrete addition:
+            <code>∫ f(x) dx = st(∑ f(x) · dx)</code>.
+          </li>
+        </ul>
+      </li>
+    </ul>
+', 'published'),
+  (21, 'analysis1DIntro', 20, 'Preface: Taming the Unbroken Continuum', 'analysis1-d-intro', '
+<div align="center">
       <i
         ><font size="+2"
           ><b>Analysis 1D Overview: The Real Continuum</b></font
@@ -8907,8 +9800,8 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       ><br />
       <i
         ><font size="+1"
-          >Instantaneous Rates, Continuous Accumulation &amp; The Hyperfinite
-          Scaffold ℝ_ω</font
+          >Instantaneous Rates, Continuous Accumulation &amp; The ℝ_ω
+          Scaffold</font
         ></i
       >
     </div>
@@ -8941,7 +9834,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
     <hr />
 
-    <h3>1. The 19th-Century Paradox vs. The Hyperfinite Scaffold (ℝ_ω)</h3>
+    <h3>1. The 19th-Century Paradox vs. The ℝ_ω Scaffold</h3>
     <p>
       In classical 19th-century real analysis, every individual real number
       <code>x ∈ ℝ</code> has <b>exact width zero</b>. This created a profound
@@ -9381,7 +10274,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <h3>Analysis 1D Lecture Plan</h3>
     <ul>
       <li>
-        <b>Lecture 1: The Infinitesimal Microscope &amp; Continuity:</b> The
+        <b>Lecture 1: The Continuum &amp; Continuity:</b> The
         halo <code>μ(x)</code>, magnifying points by <code>ω</code>, defining
         continuity without <code>ε-δ</code>, and the Intermediate Value Theorem
         as a discrete grid march.
@@ -9393,15 +10286,15 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       </li>
       <li>
         <b>Lecture 3: Accumulation &amp; Telescoping Calculus:</b> Integrals as
-        genuine hyperfinite sums, proving the Fundamental Theorem of Calculus in
+        genuine sums on <code>ℝ_ω</code>, proving the Fundamental Theorem of Calculus in
         one telescoping line, and side-by-side comparisons with standard Riemann
         limits.
       </li>
     </ul>
-  ', 'published'),
-  (18, 'analysis1DLecture1', 17, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
+', 'published'),
+  (22, 'analysis1DLecture1', 21, 'Analysis 1D Lecture 1', 'analysis1-d-lecture1', '
 <div align="center">
-    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br><i><font size="+1">Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
+    <i><font size="+2"><b>Analysis 1D Lecture 1</b></font></i><br><i><font size="+1">The Continuum &amp; Continuity: Halos, Monads &amp; The Discrete Intermediate Value Theorem</font></i>
   </div>
   <br>
 
@@ -9477,7 +10370,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
 
   <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; border-radius: 6px;">
     <b>Theorem: The Nucleus-Halo Decomposition Theorem (ℝ_ω)</b><br>
-    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard real nucleus <code>x₀ = st(x) ∈ ℝ</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
+    Every finite hyperreal <code>x ∈ ℝ_ω^{fin}</code> (strictly within the Day <code>ω</code> horizon <code>|x| &lt; |ω|</code>) decomposes uniquely into an exact standard dyadic nucleus <code>x₀ = st(x) ∈ 𝔻</code> and an infinitesimal halo perturbation <code>ε ∈ μ(0)</code>:
     <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
       <b>x &nbsp;=&nbsp; x₀ + ε &nbsp;=&nbsp; st(x) + ε   where   ε ≈ 0</b>
     </div>
@@ -9500,17 +10393,118 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </li>
   </ul>
 
-  <h4>Formal Statement (FS-A1D-1.1): The Infinitesimal Halo (Monad) &amp; Nucleus Decomposition</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code> (strictly inside the Day <code>ω</code> cosmic boundary).<br>
-    • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code> (exact finite binary computer representations born at <code>k &lt; ω</code> with zero halo dust: <code>st(x) = x</code>).<br>
-    • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref>.<br>
-    • <b>Halo Definition:</b> The halo (monad) of a standard point <code>x₀ ∈ ℝ</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
-    • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → ℝ_ω assigns to each finite hyperreal x the unique standard shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
-    • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref> (every finite hyperreal splits uniquely into a standard nucleus and infinitesimal Day <code>ω</code> halo dust).<br>
-    • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
-    • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: x = x₀ + k·dx»</eq-ref>.
+  <p>
+    Jill paused, reviewing her notes. “Wait, Jane—what about <code>1/3</code>? In our foundational discussion of sequences and progressions, we explored how the ancients listened to the ''heavenly chimes'' of whole-number ratios. We expect <code>1/3</code> to exist naturally as a simple fraction. But on our dyadic tree, <code>1/3</code> never terminates—its binary expansion <code>0.010101...₂</code> goes on forever! It has no finite birthday before Day <code>ω</code>. What does <code>st</code> do with <code>1/3</code>?”
+  </p>
+
+  <p>
+    Jane smiled broadly. “That is the exact fork in the road where constructive calculus parts ways with standard nonstandard analysis.”
+  </p>
+
+  <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-left: 4px solid #7c3aed; border-radius: 8px; padding: 14px 18px; margin: 16px 0;">
+    <div style="font-weight: 700; color: #6d28d9; font-size: 14px; margin-bottom: 6px;">
+      The 1/3 Contrast: Platonic Trapdoors vs. Constructive Dyadic Halos
+    </div>
+    <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #334155; line-height: 1.6;">
+      <li style="margin-bottom: 8px;">
+        <b>In Standard Nonstandard Analysis (Robinson):</b> The codomain of the standard part function is declared to be the classical completed continuum <code>ℝ</code>: <code>st : *ℝ_{fin} → ℝ</code>. Robinson invokes non-constructive set theory (ultrafilters and the Axiom of Choice) so that <code>st</code> acts like an ontological trapdoor: whenever you are done calculating with infinitesimals, <code>st</code> drops you straight down into a pre-existing Platonic realm where <code>1/3 ∈ ℝ</code> is assumed to sit completed by non-constructive decree.
+      </li>
+      <li>
+        <b>In Constructive Calculus (Middle Way):</b> The codomain of <code>st</code> is grounded in our executable dyadic hardware: <code>st : ℝ_ω^{fin} → 𝔻</code>. On the dyadic tree, <code>1/3</code> is not a static point with a finite birthday, nor does it have zero halo dust. Instead, <code>1/3</code> <b>is the halo itself</b>—an unending stream of tightening dyadic brackets:
+        <div style="font-family: monospace; font-size: 13px; color: #1e3a8a; margin: 6px 0; background: #ffffff; padding: 6px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          [1/4, 1/2] ⊃ [5/16, 6/16] ⊃ [21/64, 22/64] ⊃ ... ⊃ [m / 2^k, (m+1) / 2^k]
+        </div>
+        We don''t need a magical Platonic escape hatch. In constructive mathematics, <code>1/3</code> lives as a living process: to calculate with <code>1/3</code>, the Calculation Machine simply queries the dyadic tree down to whatever finite level <code>k &lt; ω</code> your desired precision requires.
+      </li>
+    </ul>
+  </div>
+
+  <p>
+    “So how does this tie directly into our calculation rules and pseudocode?” Jane asked, turning to the board.
+  </p>
+
+  <p>
+    “Remember our foundational computational architecture,” Jane continued. “In Middle Way Mathematics, a function is not an uninstantiated, static set of infinite pairs. It requires an <b>executable rule</b> evaluated by our <b>Dyadic Arithmetic Machine</b>. When we evaluate an expression in continuous analysis, where do the actual numbers come from?”
+  </p>
+
+  <p>
+    Jill’s eyes lit up: “The function <code>st</code> prepares them! Because <code>st</code> resolves any continuous or infinitesimal expression into a concrete dyadic rational <code>𝔻</code> at whatever precision we demand, it extracts the exact numerical operands that our pseudocode can load, step through, and manipulate on the machine!”
+  </p>
+
+  <p>
+    “Precisely,” Jane nodded approvingly. “And that brings us to the linchpin that makes calculus work without algebraic distortion: the <b>Ring Homomorphism</b>.”
+  </p>
+
+  <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-left: 4px solid #16a34a; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+    <div style="font-weight: 700; color: #15803d; font-size: 14px; margin-bottom: 6px;">
+      The Algebraic Guarantee: Why the Ring Homomorphism Matters
+    </div>
+    <p style="margin: 0 0 10px 0; font-size: 13.5px; color: #166534; line-height: 1.6;">
+      In 19th-century analysis, students are constantly warned that limit processes are fragile—you cannot casually mix limits with high-school algebra without proving individual convergence theorems. But on our inductive scaffold <code>ℝ_ω</code>, the standard part function <code>st</code> preserves both fundamental arithmetic operations:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 14px; font-weight: bold; color: #15803d; background: #ffffff; padding: 10px; border-radius: 6px; border: 1px solid #bbf7d0; margin: 10px 0;">
+      st(x + y) &nbsp;=&nbsp; st(x) + st(y)   and   st(x · y) &nbsp;=&nbsp; st(x) · st(y)
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #14532d; line-height: 1.55;">
+      <b>The Computational Consequence:</b> This identity guarantees that you can perform ordinary high-school algebra with infinitesimals—expanding polynomials, factoring differences, and canceling differentials <code>dx</code>—knowing with mathematical certainty that taking <code>st</code> at the end produces the <i>exact same numerical result</i> as feeding the resolved dyadic values into the arithmetic machine from the start. Addition and multiplication are strictly conserved across the continuum-to-machine boundary.
+    </p>
+  </div>
+
+  <p>
+    “With this computational bridge established,” Jane said, “we can view the formal Lean 4 specification not as an intimidating wall of symbols, but as three interlocking architectural layers:”
+  </p>
+
+  <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; margin: 18px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 8px;">
+      <h4 style="margin: 0; color: #1e3a8a; font-size: 15px; font-weight: 700;">Formal Statement (FS-A1D-1.1): The Infinitesimal Halo &amp; Nucleus Decomposition</h4>
+      <span style="font-size: 11.5px; font-weight: 700; color: #0284c7; background: #eff6ff; padding: 3px 8px; border-radius: 12px; border: 1px solid #bfdbfe;">Lean 4 Machine Certified</span>
+    </div>
+
+    <!-- 3 Stepped Architectural Layers -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- Layer 1: The Machine Arena -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #1e3a8a; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #1e3a8a; font-size: 13px; margin-bottom: 4px;">1. The Machine Arena (Finite Horizon &amp; Dyadic Hardware)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Finite Horizon Bound:</b> <code>x ∈ ℝ_ω^{fin} ⟺ is_finite(x) ⟺ |x| &lt; |ω|</code><br>
+          <span style="color: #64748b; font-size: 12px;">Ensures all quantities stay strictly within the cosmic Day <code>ω</code> boundary, excluding divergent transfinite infinities.</span><br>
+          • <b>Hard Dyadic Nuclei:</b> <code>is_hard(x) ⟺ ∃ m ∈ ℤ, k ∈ ℕ, x = m / 2^k</code><br>
+          <span style="color: #64748b; font-size: 12px;">Exact finite binary representations born at <code>k &lt; ω</code>. These are the machine''s native numbers with zero halo dust: <code>st(x) = x</code>.</span>
+        </div>
+      </div>
+
+      <!-- Layer 2: The Halo Envelope -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #0284c7; font-size: 13px; margin-bottom: 4px;">2. The Halo Envelope (Microscopic Closeness)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref><br>
+          <span style="color: #64748b; font-size: 12px;">Defines two hyperreals as infinitely close when their distance is smaller than every standard reciprocal fraction.</span><br>
+          • <b>Halo Definition:</b> The halo (monad) of a standard dyadic point <code>x₀ ∈ 𝔻</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
+          <span style="color: #64748b; font-size: 12px;">The cluster of all continuum points differing from <code>x₀</code> by infinitesimal Day <code>ω</code> branching steps.</span>
+        </div>
+      </div>
+
+      <!-- Layer 3: The Computational Bridge -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #16a34a; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; color: #16a34a; font-size: 13px; margin-bottom: 4px;">3. The Computational Bridge (Standard Part &amp; Ring Homomorphism)</div>
+        <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+          • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → 𝔻 assigns to each finite hyperreal x the unique standard dyadic shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+          <span style="color: #64748b; font-size: 12px;">Prunes transfinite dust to the earliest dyadic ancestor, preparing values for the pseudocode calculation machine.</span><br>
+          • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref><br>
+          <span style="color: #64748b; font-size: 12px;">Every finite hyperreal splits uniquely into its standard dyadic nucleus and an infinitesimal Day <code>ω</code> halo perturbation.</span><br>
+          • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
+          <span style="color: #64748b; font-size: 12px;">Guarantees that high-school algebra with infinitesimals produces exact results on the machine without distortion.</span>
+        </div>
+      </div>
+
+      <!-- Concrete Instance & Interactive Evaluation -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a;">
+        • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
+        • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: x = x₀ + k·dx»</eq-ref>.
+      </div>
+
+    </div>
   </div>
 
   <hr>
@@ -9518,15 +10512,27 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   <h3>2. Continuity Without Epsilon-Delta</h3>
 
   <p>
-    “With halos in hand,” Jane said, “how would you define continuity in plain geometric terms?”
+    “Now this is all very interesting,” Jane asked, leaning back against the chalkboard, “but what has it to do with continuity?”
   </p>
 
   <p>
-    Jill paused, then smiled: “If nearby inputs produce nearby outputs. If two points are in the same halo, their function values must land in the same halo!”
+    “I''m not sure,” Jill responded after some reflection, “my first idea of continuity is a continuous path that you can only draw if you don''t take your pen off the paper once you start. Then I saw it defined by standard limit theory, and I think the domain and codomain need some sort of a topology, the actual structure preserved by a continuous function. But I don''t know what halos have to do with continuity.”
   </p>
 
   <p>
-    “Exactly!” Jane exclaimed. “That is Cauchy’s original, intuitive definition of continuity!”
+    “That is the perfect place to start,” Jane said warmly. “Notice what both of those descriptions are trying to capture. The childhood intuition of drawing without lifting your pen is really saying: <i>there are no sudden jumps, no sudden teleports, no tearing of space</i>. When Weierstrass and modern topologists tried to formalize that with limits and open sets, they had to construct an enormous apparatus—four alternating quantifiers in epsilon-delta limits, or abstract topologies of open neighborhoods.”
+  </p>
+
+  <p>
+    “Halos cut straight through that complexity,” Jane explained. “In our arithmetic world, two points are ''infinitely close'' if they share the exact same halo: <code>x ≈ x₀</code>. They differ by only an infinitesimal breath. So what must a continuous function do to two points that are that close?”
+  </p>
+
+  <p>
+    Jill tilted her head: “It can''t tear them apart. If they start out infinitely close, their outputs have to stay infinitely close.”
+  </p>
+
+  <p>
+    “Exactly!” Jane smiled. “That was Cauchy’s original, intuitive insight, and here on <code>ℝ_ω</code> it becomes an exact algebraic statement: nearby inputs produce nearby outputs. If two points share a halo, their values must land in the same halo:”
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
@@ -9616,37 +10622,48 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will use our infinitesimal step <code>dx</code> to define <b>derivatives through pure algebra</b>!”
   </p>
 ', 'published'),
-  (19, 'analysis1DLecture2', 18, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
+  (23, 'analysis1DLecture2', 22, 'Analysis 1D Lecture 2', 'analysis1-d-lecture2', '
 <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
-    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Slopes as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Rates of Change as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
   </div>
   <br>
 
   <p>
-    Jane began Lecture 2 by writing two contrasting expressions on the blackboard:
+    Jane began Lecture 2 by writing two contrasting typed directed equalities on the blackboard:
   </p>
 
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a;">
-    <b>Standard Limit Calculus:</b> &nbsp; lim (Δx &rarr; 0) [f(x + Δx) - f(x)] / Δx<br><br>
-    <b>Nonstandard Algebra:</b> &nbsp; st( [f(x + dx) - f(x)] / dx )
+  <div style="background: #0f172a; color: #f8fafc; border-radius: 8px; padding: 18px 24px; margin: 16px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);">
+    <div style="color: #94a3b8; font-size: 11.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+      The Opening Contrast on Jane''s Blackboard
+    </div>
+    <div style="margin-bottom: 14px;">
+      <span style="color: #38bdf8; font-weight: 700;">Standard Limit Definition:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_std( f : ℝ → ℝ, x : ℝ ) : ℝ ≔ lim (Δx → 0) [ (f(x + Δx) - f(x)) / Δx ]</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Indirect limit of secant difference quotients as standard Δx shrinks toward 0, conditioned on ε-δ existence)</span>
+    </div>
+    <div style="border-top: 1px dashed #334155; padding-top: 12px;">
+      <span style="color: #4ade80; font-weight: 700;">Nonstandard Algebraic Rule:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : 𝔻 ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual step dx ∈ ℝ_ω, dx ≠ 0, followed by shadow resolution to dyadic rationals 𝔻)</span>
+    </div>
   </div>
 
   <p>
-    “In standard calculus,” Jane said, “the derivative is defined as the limit of secant lines as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+    “In standard calculus,” Jane said, “the derivative is defined indirectly as the limit of secant difference quotients as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
   </p>
 
   <p>
-    Jill observed: “So instead of taking a limit, we just perform regular algebraic division and take the standard shadow at the end?”
+    Jill looked closely at the typing on the board: “I notice the codomain of our rule is <code>𝔻</code> rather than <code>ℝ</code>. I suppose that''s for the dyadic arithmetic machine we discussed last time?”
   </p>
 
   <p>
-    “Exactly,” Jane smiled. “Let''s see how this turns all of differential calculus into pure algebra.”
+    “Yes, exactly,” Jane said. “Standard calculus typically considers derivatives landing in <code>ℝ</code>, and the standard reals are a legitimate subset of our scaffold <code>ℝ_ω</code>. But who knows the ultimate ontological reality of any mathematics? Think back to our discussion of where <code>1/3</code> lives &mdash; it sits comfortably in the halo of dyadics, enveloped to whatever precision we dial in. For us, it''s simply a matter of convenience to have a codomain already primed for calculation. On <code>ℝ_ω</code>, we perform straightforward polynomial division algebraically, and let <code>st</code> resolve the shadow into <code>𝔻</code> at whatever precision our arithmetic machine needs.”
   </p>
 
   <hr>
 
-  <h3>1. Deriving Slopes by Pure Algebra</h3>
+  <h3>1. Deriving Rates of Change by Pure Algebra</h3>
 
   <h4>Example 1: The Parabola f(x) = x²</h4>
   <p>
@@ -9663,13 +10680,53 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
   <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Derivative Definition:</b> A real function <code>f : ℝ → ℝ</code> is differentiable at standard <code>x ∈ ℝ</code> if the ratio
-      <code>Δy / dx = (f(x + dx) - f(x)) / dx</code>
-      has the exact same standard part for every nonzero infinitesimal <code>dx ≈ 0, dx ≠ 0</code>.<br>
-    • <b>Derivative Value:</b> <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><code>f''(x) = st( [f(x + dx) - f(x)] / dx )</code></fsd-ref>.<br>
-    • <b>Equivalence:</b> <code>f''(x) = L ⟺ ∀ dx ≈ 0, (dx ≠ 0 ⇒ [f(x + dx) - f(x)] / dx ≈ L)</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x Hyperfinite Derivative &amp; Extrema</eq-ref>
+  <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; font-size: 13.5px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+
+    <!-- Step 1: The Difference Quotient in the Scaffold Field -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 1: Difference Quotient</span>
+        <b style="color: #1e3a8a;">Field Division on ℝ_ω</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        For a real function <code>f : ℝ_ω → ℝ_ω</code>, standard base point <code>x ∈ ℝ</code>, and nonzero infinitesimal step <code>dx ∈ μ(0) \ {0}</code>, the difference ratio:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 14px; color: #1e3a8a; background: #ffffff; padding: 6px 12px; border: 1px solid #e2e8f0; border-radius: 4px; margin: 4px 0;">
+        Δy / dx &nbsp;= &nbsp;[ f(x + dx) - f(x) ] / dx &nbsp;∈&nbsp; ℝ_ω
+      </div>
+      <p style="margin: 4px 0 0 0; color: #64748b; font-size: 12px;">
+        This is a genuine, well-defined arithmetic operation inside the field <code>ℝ_ω</code>. No division by zero occurs because <code>dx ≠ 0</code>.
+      </p>
+    </div>
+
+    <!-- Step 2: Invariance Across the Halo -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 2: Differentiability Condition</span>
+        <b style="color: #1e3a8a;">Halo Invariance</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        The function <code>f</code> is <b>differentiable</b> at <code>x</code> if the standard shadow of the difference ratio is completely invariant under the choice of nonzero infinitesimal <code>dx ≈ 0</code>:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13.5px; color: #0f172a; margin: 4px 0;">
+        <code>f''(x) = L &nbsp;⟺&nbsp; ∀ dx ≈ 0 &nbsp;( dx ≠ 0 ⇒ [ f(x + dx) - f(x) ] / dx ≈ L )</code>
+      </div>
+    </div>
+
+    <!-- Step 3: The Derivative Value & Shadow Map -->
+    <div style="margin-bottom: 6px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 3: Shadow Extraction</span>
+        <b style="color: #1e3a8a;">The Derivative Value</b>
+      </div>
+      <div align="center" style="font-family: monospace; font-size: 15px; color: #1e3a8a; background: #ffffff; padding: 8px 14px; border: 1.5px solid #3b82f6; border-radius: 6px; margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f''(x) : 𝔻 &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
+      </div>
+      <div style="margin-top: 8px; font-size: 12.5px; color: #475569;">
+        • <b>Interactive Evaluator:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x ℝ_ω Derivative &amp; Extrema</eq-ref>
+      </div>
+    </div>
+
   </div>
 
   <hr>
@@ -9739,13 +10796,13 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In standard calculus,” Jane noted, “students are strictly warned: <i>''dy/dx is not a fraction; you cannot cancel dx!''</i>”
   </p>
   <p>
-    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine hyperreal numbers</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine numbers on our scaffold</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
     <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
   </div>
   <p>
-    Because these are non-zero numbers in field <code>ℝ_ω</code>, the intermediate hyperreal increment <code>du</code> <b>cancels identically</b>:
+    Because these are non-zero numbers in the field <code>ℝ_ω</code>, the intermediate increment <code>du</code> <b>cancels identically</b>:
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
     [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
@@ -9762,22 +10819,25 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
 
   <p>
-    Jill paused, reflecting on the difference quotient: “So the ratio <code>Δy/dx</code> is approximately <code>f''(x)</code>. If we multiply both sides by <code>dx</code>, what do we get?”
+    Jill paused, reflecting on the difference quotient: “Wait &mdash; in our foundational study of algebraic structures and vector spaces, a 1D linear map was simply a structure-preserving scalar multiplication <code>L(v) = c·v</code> satisfying <code>L(u + v) = L(u) + L(v)</code> and <code>L(a·v) = a·L(v)</code>. If we multiply both sides of <code>Δy/dx ≈ f''(x)</code> by <code>dx</code>, are we just applying a linear map?”
   </p>
   <p>
-    “You get the fundamental concept of <b>Differential 1-Forms</b>!” Jane answered excitedly:
+    “That is the profound heart of calculus!” Jane answered excitedly. “Every smooth curve is infinitesimally straight. Inside the halo <code>μ(x)</code>, the complicated nonlinear curve <code>f</code> collapses into the simplest possible structure-preserving map &mdash; the linear transformation <code>dx &rarr; f''(x)·dx</code>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
     Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f''(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
   </div>
   <p>
-    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by a <b>linear scaling map</b>:”
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by this dominant <b>linear scaling map</b>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
     <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f''(x) · dx</b></fsd-ref>
   </div>
   <p>
-    “The derivative <code>f''(x)</code> is the scalar multiplier of the linear map approximating the curve at <code>x</code>.”
+    Jill’s eyes lit up: “And in our exploration of duality, a covector was a linear measurement detector that ingests a vector and returns a scalar number. So <code>df</code> is literally a covector on the tangent space!”
+  </p>
+  <p>
+    “Spot on, Jill!” Jane beamed. “The differential <code>df</code> is a <b>Differential 1-Form</b> &mdash; a linear functional evaluating the infinitesimal displacement vector <code>dx</code> to return the scalar height increment <code>f''(x)·dx</code>. The derivative <code>f''(x)</code> is nothing other than the scalar multiplier of that linear map.”
   </p>
 
   <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
@@ -9801,7 +10861,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </p>
 
   <p>
-    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive slopes across our grid step <code>dx = 1/ω</code>.”
+    “Precisely, Jill!” Jane beamed. “Let''s compute the difference of consecutive rates of change across our grid step <code>dx = 1/ω</code>.”
   </p>
 
   <p>
@@ -9871,7 +10931,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
   </p>
 ', 'published'),
-  (20, 'analysis1DLecture3', 19, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
+  (24, 'analysis1DLecture3', 23, 'Analysis 1D Lecture 3', 'analysis1-d-lecture3', '
 <div align="center">
     <i><font size="+2"><b>Analysis 1D Lecture 3</b></font></i><br>
     <i><font size="+1">Accumulation &amp; Telescoping Calculus: Hyperfinite Sums, Area Under Curves &amp; The 1-Line Telescoping FTC</font></i>
@@ -10016,7 +11076,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <li>How complex phase rotations <code>e^(-iωt)</code> and continuous unitary evolution lay the mathematical groundwork for wave dynamics and quantum theory in later levels!</li>
   </ul>
 ', 'published'),
-  (21, 'analysis2DIntro', 20, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
+  (25, 'analysis2DIntro', 24, 'Analysis 2D Overview: The Complex Continuum', 'analysis2-d-intro', '
 <div align="center">
       <i><font size="+2"><b>Analysis 2D Overview: The Complex Continuum</b></font></i><br>
       <i><font size="+1">— Conformal Geometry, Discrete Contour Integrals &amp; Continuous Wave Dynamics —</font></i>
@@ -10047,7 +11107,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     <fsd-ref tier="3" scaffold="C_w" title="FS-A2D-1.1: The 2D Complex Scaffold (ℂ_ω)">
     <div style="margin: 14px 0; padding: 12px 16px; background-color: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 4px;">
       <b>Formal Statement FS-A2D-1.1 (The 2D Complex Scaffold &amp; Cell Step):</b><br>
-      The complex hyperfinite continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
+      The complex continuum <code>ℂ_ω</code> is the tensor product of two 1D real tree transects:
       <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0; color: #1e3a8a;">
         <b>ℂ_ω &nbsp;=&nbsp; ℝ_ω ⊗ ℝ_ω &nbsp;=&nbsp; { x + i·y &nbsp;|&nbsp; x, y ∈ ℝ_ω, &nbsp; i² = -1 }</b>
       </div>
@@ -10243,7 +11303,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         Continuous unitary time evolution <code>U(t) = e^(-iHt/ħ)</code>, continuous wavepackets, and the Lee-Yang Phase Transition theorem (<b>FS-A2D-3.1, FS-A2D-3.2</b>).</li>
     </ul>
 ', 'published'),
-  (22, 'analysis2DLecture1', 21, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
+  (26, 'analysis2DLecture1', 25, 'Analysis 2D Lecture 1', 'analysis2-d-lecture1', '
 <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 1</b></font></i><br>
     <i><font size="+1">— The 2D Complex Grid &amp; Conformal Maps —</font></i>
@@ -10403,7 +11463,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “In our next lecture, we will see how this square-preservation guarantees that integrating around any closed loop yields exact zero through <b>2D discrete cell edge cancellation</b>!”
   </p>
 ', 'published'),
-  (23, 'analysis2DLecture2', 22, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
+  (27, 'analysis2DLecture2', 26, 'Analysis 2D Lecture 2', 'analysis2-d-lecture2', '
 <div align="center">
     <i><font size="+2"><b>Analysis 2D Lecture 2</b></font></i><br>
     <i><font size="+1">— Discrete Contour Integrals &amp; Residues —</font></i>
@@ -10554,8 +11614,8 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     “Precisely!” Jane smiled. “And in our next lecture, we will use this exact root-counting mechanism to explore the geometry of <b>Phase Transitions &amp; Lee-Yang Zeros</b> and see how continuous state evolution unfolds on the complex plane!”
   </p>
 ', 'published'),
-  (24, 'analysis2DLecture3', 23, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
-    <div align="center">
+  (28, 'analysis2DLecture3', 27, 'Analysis 2D Lecture 3', 'analysis2-d-lecture3', '
+<div align="center">
       <i
         ><font size="+2"><b>Analysis 2D Lecture 3</b></font></i
       ><br />
@@ -11023,1000 +12083,6 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       tools into multidimensional vector spaces, linear transformations, and
       geometric duality!”
     </p>
-  ', 'published'),
-  (25, 'vectorFoundationsIntro', 24, '2. Skeletons of Observed Symmetry: Groups & Fields', 'vector-foundations-intro', '
-    <div align="center">
-      <i
-        ><font size="+2"
-          ><b>Level 3: Space, Direction &amp; Geometry</b></font
-        ></i
-      ><br />
-      <i
-        ><font size="+1"
-          >Emergent Groups, Fields, Vector Spaces, Duality &amp; Geometric
-          Transformations</font
-        ></i
-      >
-    </div>
-    <br />
-
-    <h3>
-      Preface: Algebraic Structures are Observed in Construction &amp; Confirmed
-      by Induction
-    </h3>
-    <p>
-      In traditional mathematical presentations, abstract algebra is often
-      introduced top-down as an intimidating list of arbitrary axioms handed
-      down by authority. In this curriculum, we take the opposite, constructive
-      approach:
-      <b
-        >algebraic structures are emergent symmetries directly observed from
-        recursively defined operations on our number trees &mdash; and then
-        rigorously confirmed across all branches by structural mathematical
-        induction</b
-      >.
-    </p>
-    <p>We adopt a strict pedagogical discipline:</p>
-    <ol>
-      <li>
-        <b>Observation &rarr; Inductive Confirmation:</b> We first observe
-        regularities on early tree days, then use mathematical induction on
-        birthdays to prove the algebraic laws as universal theorems.
-      </li>
-      <li>
-        <b>Physics-Free Mathematics First:</b> We establish all concepts in
-        clean, abstract mathematical notation (<code
-          >(G, ⋆), (F, +, ·), (V, +, ·)</code
-        >, linear maps <code>T : V &rarr; W</code>, and duality
-        <code>f(v)</code>).
-      </li>
-      <li>
-        <b>Physical Realizations Second:</b> Once the algebraic geometry is
-        rock-solid, we introduce physical realizations &mdash; such as Dirac
-        bra-ket notation (<code>|ψ⟩, ⟨ϕ|</code>) and quantum state spaces
-        &mdash; as concrete applications.
-      </li>
-    </ol>
-    <p>
-      Level 3 has two courses. <b>Linear Algebra</b> (sections 1&ndash;5 below)
-      builds the algebraic skeleton: groups, fields, structure-preserving maps,
-      and vector spaces. <b>Trigonometry &amp; Rotor Geometry</b> (section 6)
-      puts that skeleton to work on the most familiar geometric idea of all
-      &mdash; turning.
-    </p>
-
-    <hr />
-
-    <h3>
-      1. The Transfinite Scale: The Cutoff at ω &amp; The Countable ε₀ Safety
-      Net
-    </h3>
-    <p>
-      Closure is the non-negotiable bedrock of any algebraic structure: when you
-      combine elements, the arithmetic result must stay inside the carrier set.
-    </p>
-    <ul>
-      <li>
-        <b>The Wee Cutoff at ω:</b> Our familiar discrete scaffolds
-        <code>ℝ_ω</code> and <code>ℂ_ω</code> represent an arbitrary cutoff at
-        ordinal <code>ω</code> in recursive tree generation. In the transfinite
-        hierarchy of ordinals, <code>ω</code> is a "wee little thing."
-      </li>
-      <li>
-        <b>Grid Leakage:</b> Multiplying fine numbers, dividing, or scaling
-        vectors can produce exact values whose
-        <b>birthdays are strictly greater than <code>ω</code></b> (born on Day
-        <code>ω+1, ω·2, ω^ω</code>). These numbers did not vanish &mdash; they
-        were simply born on later days in the transfinite calendar!
-      </li>
-      <li>
-        <b>The Countable ε₀ Safety Net:</b> By extending our birthday cutoff to
-        the countable fixed-point ordinal <code>ε₀ = ω^(ω^(ω^...))</code> where
-        <code>ω^(ε₀) = ε₀</code>, the carrier set becomes
-        <b>completely algebraically closed</b> &mdash; big enough to support a
-        genuine field.
-      </li>
-      <li>
-        <b>Standard Part Resolution:</b> The
-        <b>Standard Part Function <code>st(x)</code></b> casts high-birthday
-        transfinite results cleanly back down to their observable shadow on Day
-        <code>ω</code>.
-      </li>
-    </ul>
-
-    <hr />
-
-    <h3>2. Skeletons of Observed Symmetry: Groups &amp; Fields</h3>
-    <p>
-      When arithmetic operations are run recursively on the tree, natural
-      algebraic skeletons emerge and are confirmed by structural induction:
-    </p>
-
-    <h4>A. The Abelian Group <code>(G, +)</code></h4>
-    <p>
-      Recursive addition on the tree naturally exhibits four core symmetries,
-      observed on early days and confirmed universally by mathematical induction
-      on tree birthdays:
-    </p>
-    <ul>
-      <li>
-        <code>x + 0 = 0 + x = x</code> (where <code>0 = { | }</code> labels the
-        root of the tree, confirmed inductively by
-        <code>x+0 = {x^L+0 | x^R+0} = {x^L | x^R} = x</code>).
-      </li>
-      <li>
-        <code>∃ y : x + y = 0</code> (where <code>y = -x</code> is the bilateral
-        tree reflection).
-      </li>
-      <li>
-        Commutativity (<code>x + y = y + x</code>) and Associativity (<code
-          >(x+y)+z = x+(y+z)</code
-        >).
-      </li>
-    </ul>
-    <p>
-      <i>Generalization:</i> Any collection of objects obeying these observed
-      and inductively proven behaviors forms an
-      <b>Abelian Group <code>(G, +)</code></b
-      >.
-    </p>
-
-    <h4>B. The "Two-Group" Puzzle &amp; The Field <code>(F, +, ·)</code></h4>
-    <p>
-      A remarkable mathematical reality is that
-      <b
-        >you cannot simultaneously fit two full groups onto the exact same
-        carrier set <code>F</code></b
-      >:
-    </p>
-    <ul>
-      <li>
-        If <code>(F, +)</code> is an additive group with identity
-        <code>0</code>, then multiplication <i>cannot</i> form a group on all of
-        <code>F</code> because <code>0</code> has no multiplicative inverse
-        (<code>0 · x = 0 &ne; 1</code>).
-      </li>
-      <li>
-        The multiplicative group must eject zero: <code>(F \ {0}, ·)</code>.
-      </li>
-      <li>
-        A <b>Field <code>(F, +, ·)</code></b> is the absolute pinnacle of
-        harmony between two operations: an additive group on all of
-        <code>F</code>, a multiplicative group on <code>F \ {0}</code>, stitched
-        together by the <b>Distributive Law</b>:
-        <div
-          align="center"
-          style="
-            font-family: monospace;
-            font-size: 14px;
-            margin: 8px 0;
-            color: #1e3a8a;
-          "
-        >
-          <b>a · ( b + c ) = a · b + a · c</b>
-        </div>
-      </li>
-    </ul>
-
-    <hr />
-
-    <h3>3. Structure-Preserving Functions: Mapping Between Operations</h3>
-    <p>
-      A function <code>f : (G, ⋆) &rarr; (H, ⊙)</code> is
-      <b>structure-preserving (a group homomorphism)</b> if:
-    </p>
-    <div
-      align="center"
-      style="
-        font-family: monospace;
-        font-size: 15px;
-        margin: 10px 0;
-        color: #1e3a8a;
-        background: #f8fafc;
-        padding: 10px;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-      "
-    >
-      <b>f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
-    </div>
-    <p>
-      <i>Core Meaning:</i> You get the exact same answer whether you combine
-      elements first in the starting world using <code>⋆</code>, or map them
-      first and combine them in the destination world using <code>⊙</code>!
-    </p>
-    <ul>
-      <li>
-        <b>The Exponential Bridge:</b> <code>(ℝ, +) &rarr; (ℝ⁺, ·)</code> with
-        <code>e^(a + b) = e^a · e^b</code> (translates addition into
-        multiplication).
-      </li>
-      <li>
-        <b>Dimension Embedding:</b> <code>(ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</code> with
-        <code>(a + b) + 0i = (a + 0i) +_ℂ (b + 0i)</code>.
-      </li>
-      <li>
-        <b>The Phase Map:</b> <code>(ℝ, +) &rarr; (U(1), ·)</code> with
-        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> (converts angle addition
-        to phase rotation).
-      </li>
-    </ul>
-
-    <hr />
-
-    <h3>4. Vector Spaces, Linear Maps &amp; Duality</h3>
-    <p>
-      Combining our field <code>F</code> (such as <code>ℝ_ω</code> or
-      <code>ℂ_ω</code>) with Cartesian multi-directional intuition produces a
-      <b>Vector Space <code>(V, +, ·)</code></b> governed by Two Basic Moves:
-    </p>
-    <ol>
-      <li>
-        <b>Vector Addition (u + v):</b> Abelian group behavior inside
-        <code>V</code>.
-      </li>
-      <li>
-        <b>Scalar Multiplication (c · v):</b> Distributing field elements across
-        vector directions.
-      </li>
-    </ol>
-
-    <h4>Linear Maps &amp; Calculus Operators</h4>
-    <p>
-      A map <code>T : V &rarr; W</code> is linear if
-      <code>T(u + v) = T(u) + T(v)</code> and <code>T(c·v) = c·T(v)</code>. This
-      enables the linear derivative operator <code>D(f+g) = Df + Dg</code> and
-      integral functional <code>∫(f+g) = ∫f + ∫g</code>.
-    </p>
-
-    <h4>Vector / Covector Duality</h4>
-    <p>
-      Every vector space <code>V</code> naturally pairs with its
-      <b>dual space</b> <code>V*</code> of covectors (linear measurement
-      meters):
-    </p>
-    <ul>
-      <li>
-        <b>Vectors (<code>v ∈ V</code>):</b> Physical states / directions
-        (column vectors).
-      </li>
-      <li>
-        <b>Covectors (<code>f ∈ V*</code>):</b> Linear detectors / measurement
-        meters (row vectors).
-      </li>
-      <li>
-        <b>Duality Pairing (<code>f(v) ∈ F</code>):</b> The meter reading
-        (scalar number).
-      </li>
-    </ul>
-
-    <hr />
-
-    <h3>5. Physical Realizations: Duality &amp; Quantum State Spaces</h3>
-    <p>
-      With the mathematical framework established, the physical realization of
-      vector/covector duality in quantum and measurement theory falls directly
-      into place (bridging forward to Level 5):
-    </p>
-    <ul>
-      <li>State vectors are <b>kets</b>: <code>|ψ⟩ ∈ ℋ_ω</code>.</li>
-      <li>
-        Measurement detectors are <b>covectors (bras)</b>:
-        <code>⟨ϕ| ∈ ℋ_ω*</code>.
-      </li>
-      <li>
-        The inner product <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code> provides the
-        <b>Born rule probability amplitude</b>: <code>P = |⟨ϕ|ψ⟩|²</code>.
-      </li>
-    </ul>
-
-    <hr />
-
-    <h3>6. Course 2: Trigonometry &amp; Rotor Geometry</h3>
-    <p>
-      The second course asks a simple question &mdash;
-      <i>what is an angle?</i> &mdash; and answers it with the number trees from
-      Level 1 and the maps from section 3.
-    </p>
-    <ul>
-      <li>
-        <b>From Triangles to Turning:</b> We start from the familiar
-        presentation (SOH CAH TOA, then the unit circle and radians) and its
-        open questions: how is a curved arc measured with straight rulers, how
-        is <code>sin(35°)</code> actually computed, and how do static corners
-        become continuous rotation?
-      </li>
-      <li>
-        <b>The 1-Successor Trunk (<code>ℕ_ω</code>):</b> Counting
-        <code>ω</code> equal steps of size <code>dθ = 2π / ω</code> around the
-        circle gives the perimeter <code>2π</code> as an exact sum, and the
-        winding integral <code>∮ (1/z) dz = 2π i</code>.
-      </li>
-      <li>
-        <b>The 2-Successor Tree (<code>ℝ_ω</code>):</b> Each birthday halves the
-        angle step. The half-angle rule
-        <code>cos(θ/2) = √[(1 + cos θ)/2]</code> produces Viète''s nested
-        radicals, and the same left/right steering is the CORDIC algorithm used
-        in hardware.
-      </li>
-      <li>
-        <b>The 4-Successor Quadtree (<code>ℂ_ω</code>):</b> The right angle is
-        the generator <code>i</code>, and an angle becomes a <b>unit rotor</b>
-        <code>U = cos θ + i·sin θ</code> with <code>|U| = 1</code>. Rotors
-        compose by multiplication &mdash; the phase map
-        <code>e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂)</code> from section 3 in
-        action.
-      </li>
-      <li>
-        <b>Euler''s Formula by Stepping:</b> Compounding
-        <code>ω</code> perpendicular steps
-        <code>z_(k+1) = z_k (1 + i·θ/ω)</code> yields
-        <code>e^(iθ)</code> directly, without Taylor series.
-      </li>
-    </ul>
-    <p>
-      Rotors are where the two courses meet: a rotor is a linear map on the
-      vector space <code>ℂ_ω ≅ ℝ_ω²</code> that preserves length, and its matrix
-      is the familiar <code>[ cos θ -sin θ ; sin θ cos θ ]</code>. This also
-      sets up the complex phase that Level 5 needs for quantum amplitudes.
-    </p>
-
-    <hr />
-
-    <h3>Level 3 Lecture Plan</h3>
-    <p><b>Course 1: Linear Algebra</b></p>
-    <ul>
-      <li>
-        <b>Lecture 1: Emergent Groups, Fields &amp; The Two-Group Puzzle:</b>
-        Skeletons on recursive trees, the transfinite leap to <code>ε₀</code>,
-        why fields eject zero, and continuous transformation groups.
-      </li>
-      <li>
-        <b>Lecture 2: Structure-Preserving Maps &amp; Symmetries:</b>
-        Formalizing <code>f(a ⋆ b) = f(a) ⊙ f(b)</code>, scaling, reflection,
-        the exponential bridge, and embedding dimensions.
-      </li>
-      <li>
-        <b>Lecture 3: Vector Spaces, Linear Maps &amp; Duality:</b> Cartesian
-        multi-directional space, linear maps, vector/covector duality, and Dirac
-        bra-ket inference.
-      </li>
-    </ul>
-    <p><b>Course 2: Trigonometry &amp; Rotor Geometry</b></p>
-    <ul>
-      <li>
-        <b>Trigonometric Foundations &amp; Rotor Geometry:</b> A short history
-        of angle, the standard presentation and its open questions, angle on the
-        1-, 2-, and 4-successor trees, CORDIC, unit rotors, Euler''s formula by
-        perpendicular stepping, and why <code>2π i</code> appears in contour
-        integrals.
-      </li>
-    </ul>
-  ', 'published'),
-  (26, 'vectorsLecture1', 25, 'Linear Algebra Lecture 1', 'vectors-lecture1', '
-<div align="center">
-    <i><font size="+2"><b>Linear Algebra Lecture 1</b></font></i><br>
-    <i><font size="+1">Emergent Groups, Fields &amp; The Two-Group Puzzle: How Recursive Trees Build Symmetries</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane opened the lecture by writing two clean structures on the board:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a;">
-    <b>( G, + ) &emsp;&emsp;&emsp;&emsp; ( F, +, · )</b>
-  </div>
-
-  <p>
-    “In many traditional math courses,” Jane began, “students are handed a list of axioms for <i>groups</i> and <i>fields</i> as if mathematicians invented arbitrary rules for a game. But in this curriculum, we take a different stance: <b>algebraic structures are not invented; they are observed symmetries of recursively defined number trees</b>.”
-  </p>
-
-  <p>
-    Jill leaned forward: “So the axioms are just descriptions of what the tree was doing all along?”
-  </p>
-
-  <p>
-    “Exactly,” Jane nodded. “And to see why, we first have to appreciate where our number scaffolds came from &mdash; and why our initial grid slice needs a safety net.”
-  </p>
-
-  <hr>
-
-  <h3>1. The Transfinite Scale: The Wee Cutoff at ω &amp; The ε₀ Safety Net</h3>
-
-  <p>
-    “In our foundational studies,” Jane said, “we constructed numbers generation by generation on the tree: Day 0 (<code>0 = { | }</code>), Day 1 (<code>-1, +1</code>), Day 2 (<code>±2, ±1/2</code>), and so on.”
-  </p>
-
-  <p>
-    “We stopped our observation at Day <code>ω</code>, giving us the scaffolds <code>ℝ_ω</code> and <code>ℂ_ω</code>. But in the transfinite hierarchy of ordinals, <b>ordinal <code>ω</code> is a wee little thing!</b> It is merely the very first step after the finite counting numbers.”
-  </p>
-
-  <p>
-    “Of itself, a grid cutoff at <code>ω</code> is <b>not closed</b> under general arithmetic operations. When you multiply fine numbers, divide, or take polynomial roots, the exact arithmetic result often has a <b>birthday strictly greater than <code>ω</code></b> (such as Day <code>ω+1, ω·2, ω^ω</code>). This is the origin of <b>grid leakage</b>.”
-  </p>
-
-  <p>
-    “Did the missing numbers vanish?” Jill asked.
-  </p>
-
-  <p>
-    “Not at all!” Jane smiled. “They are caught in the wider transfinite tree as epsilons march off toward ever-higher horizons. By extending our birthday cutoff to the countable fixed-point ordinal <code>ε₀</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>ε₀ &nbsp;=&nbsp; ω^(ω^(ω^...))</b> &emsp; where &emsp; <b>ω^(ε₀) = ε₀</b>
-  </div>
-
-  <p>
-    “Because <code>ω^ε₀ = ε₀</code>, this carrier set is <b>completely algebraically closed</b>: any addition, multiplication, or polynomial root of numbers born before Day <code>ε₀</code> stays before Day <code>ε₀</code>. We have our rock-solid safety net, and the <b>Standard Part Function <code>st(x)</code></b> casts the shadow cleanly back to our observable grid on Day <code>ω</code>.”
-  </p>
-
-  <h4>Formal Statement (FS-LA-1.1): The Countable Transfinite Safety Net ε₀</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Ordinal Fixed Point:</b> Let <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> be the first Cantor ordinal satisfying <code>ω^(ε₀) = ε₀</code>.<br>
-    • <b>Enveloping Carrier Field:</b> The sub-tree <code>G = ℂ_{&lt;ε₀}</code> comprises all surreal tree addresses created prior to Day <code>ε₀</code>.<br>
-    • <b>Algebraic Closure:</b> The carrier set <code>G</code> is algebraically closed under field arithmetic, roots, and finite linear combinations.<br>
-    • <b>Observable Shadow Map:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Shadow Map st(·)">The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.</fsd-ref>
-  </div>
-
-  <hr>
-
-  <h3>2. Observing the Additive Skeleton: The Abelian Group (G, +)</h3>
-
-  <p>
-    “Now look at recursive addition on the tree,” Jane continued. “When we define <code>x + y</code> by inductive rules on branch options, we observe four fundamental symmetries:”
-  </p>
-
-  <ol>
-    <li>
-      <b>The Root Identity:</b> Adding the empty root node <code>0 = { | }</code> leaves any branch unchanged:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; x + 0 = 0 + x = x</b>
-      </div>
-    </li>
-    <li>
-      <b>Bilateral Reflection (Inverses):</b> For every branch <code>x</code>, reflecting it across the tree root yields an opposite branch <code>-x</code> that cancels it back to the root:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 4px 0;">
-        <b>x ∈ ℝ_ω &nbsp;&rArr;&nbsp; ∃ y ∈ ℝ_ω : x + y = y + x = 0 &emsp; (where y = -x)</b>
-      </div>
-    </li>
-    <li>
-      <b>Bilateral Commutativity:</b> Bilateral symmetry of tree options guarantees that <code>x + y = y + x</code>.
-    </li>
-    <li>
-      <b>Inductive Associativity:</b> Grouping depth does not change tree generation: <code>(x + y) + z = x + (y + z)</code>.
-    </li>
-  </ol>
-
-  <p>
-    “We take this observed skeleton,” Jane explained, “and generalize it into a universal mathematical concept: any set with an operation satisfying these four properties is called an <b>Abelian Group <code>(G, +)</code></b>.”
-  </p>
-
-  <p>
-    Jill leaned in with a sharp question: “We can easily observe these four symmetries by calculating on Day 0, Day 1, and Day 2... but how do we know they don''t break down unexpectedly on Day 50, Day <code>ω</code>, or Day <code>ε₀</code>?”
-  </p>
-
-  <p>
-    “That is where <b>structural mathematical induction</b> comes in!” Jane beamed. “Because every number is defined recursively by its left and right branch options <code>x = { x^L | x^R }</code>, the proof of each group property is an airtight inductive proof from the tree root upward:”
-  </p>
-
-  <ul>
-    <li><b>Identity:</b> <code>x + 0 = { x^L + 0 | x^R + 0 } = { x^L | x^R } = x</code> &mdash; confirmed immediately by the induction hypothesis on earlier predecessors.</li>
-    <li><b>Commutativity:</b> <code>x + y = { x^L + y, x + y^L | x^R + y, x + y^R } = y + x</code> &mdash; confirmed because predecessor options commute by inductive assumption.</li>
-    <li><b>Inverses &amp; Associativity:</b> <code>x + (-x) = 0</code> and <code>(x + y) + z = x + (y + z)</code> are confirmed by transfinite induction across all branches.</li>
-  </ul>
-
-  <p>
-    “<b>Observation provides the discovery and geometric insight</b>,” Jane concluded, “<b>while inductive mathematical proofs confirm that the structures hold universally as deductive theorems!</b>”
-  </p>
-
-  <h4>Formal Statement (FS-LA-1.2): The Constructive Abelian Group (G, +)</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Abstract Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies the <fsd-ref tier="3" scaffold="abelian_group" title="The Constructive Abelian Group (G, +)"><b>Abelian Group Axioms (in Lean 4)</b></fsd-ref>:<br>
-    &nbsp;&nbsp;1. <b>Closure:</b> <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
-    &nbsp;&nbsp;2. <b>Associativity:</b> <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
-    &nbsp;&nbsp;3. <b>Identity Element:</b> <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
-    &nbsp;&nbsp;4. <b>Inverse Element:</b> <code>∀ a ∈ G, ∃ (-a) ∈ G : a + (-a) = (-a) + a = 0</code>.<br>
-    &nbsp;&nbsp;5. <b>Commutativity:</b> <code>∀ a, b ∈ G, a + b = b + a</code>.<br>
-    • <b>Part 2 — Constructive Argument for (ℝ_ω, +):</b> The surreal continuum <code>(ℝ_ω, +)</code> is certified an exact constructive model of the Abelian group axioms via structural transfinite induction on Conway birthdays: the empty root <code>0 = { | }</code> provides the neutral identity, branch reflection <code>-x = { -x^R | -x^L }</code> cancels each element back to the root, and bilateral option symmetries guarantee commutativity and associativity across all tree branches.
-  </div>
-
-  <hr>
-
-  <h3>3. The "Two-Group" Marvel: Why Fields Eject Zero</h3>
-
-  <p>
-    “Now,” Jane said, leaning against the whiteboard, “here is a puzzle that mathematicians have marveled at for centuries: <b>can you simultaneously fit two independent groups onto the exact same carrier set?</b>”
-  </p>
-
-  <p>
-    Jill thought for a moment: “Why not? We have addition, and we have multiplication. Can''t both be groups on the set <code>F</code>?”
-  </p>
-
-  <p>
-    “Let''s test it,” Jane challenged. “Suppose <code>(F, +)</code> is an additive group with identity <code>0</code>. Now suppose multiplication <code>(F, ·)</code> is also a group with identity <code>1</code>.”
-  </p>
-
-  <p>
-    “In a multiplicative group, <i>every single element must have a multiplicative inverse</i> <code>x⁻¹</code> such that <code>x · x⁻¹ = 1</code>. What happens when you try to invert <code>0</code>?”
-  </p>
-
-  <p>
-    Jill’s eyes widened: “Zero times anything is always zero! <code>0 · x = 0</code>, which can never equal <code>1</code>!”
-  </p>
-
-  <p>
-    “Exactly!” Jane smiled. “Zero is an algebraic black hole for multiplication. <b>You cannot fit two full groups on one carrier set!</b> The best you can ever do is eject zero from the multiplicative group:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>The Field ( F, +, · )</b><br><br>
-    1. Addition forms an Abelian group on all of <b>F</b>: &nbsp; <b>( F, + )</b><br>
-    2. Multiplication forms an Abelian group on non-zero elements: &nbsp; <b>( F \ {0}, · )</b><br>
-    3. They are knitted together by <b>Distributivity</b>: &nbsp; <b>a · ( b + c ) = a · b + a · c</b>
-  </div>
-
-  <p>
-    “A <b>Field</b> is the ultimate mathematical peace treaty between addition and multiplication,” Jane said. “Our nonstandard continuum <code>ℝ_ω</code> and complex plane <code>ℂ_ω</code> are fully functioning fields.”
-  </p>
-
-  <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; The Two-Group Marvel</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Abstract Field Definition:</b> A triple <code>(F, +, ·)</code> satisfying the <fsd-ref tier="3" scaffold="field_structure" title="The Field (F, +, ·) &amp; Multiplicative Inverses"><b>Constitutional Field Axioms (in Lean 4)</b></fsd-ref>:<br>
-    &nbsp;&nbsp;1. <b>Additive Group:</b> <code>(F, +)</code> forms an Abelian group with identity <code>0</code>.<br>
-    &nbsp;&nbsp;2. <b>Multiplicative Group:</b> Non-zero elements <code>(F \ {0}, ·)</code> form an Abelian group with unit <code>1 ≠ 0</code>.<br>
-    &nbsp;&nbsp;3. <b>Distributive Peace Treaty:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.<br>
-    • <b>Zero Annihilation &amp; Ejection:</b> Distributivity forces <code>0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0</code>, deductively proving that <code>0</code> cannot possess a multiplicative inverse and must be ejected from the multiplicative group.<br>
-    • <b>Part 2 — Constructive Argument for (ℝ_ω, +, ·):</b> The Day <code>ω</code> continuum <code>(ℝ_ω, +, ·)</code> is certified a fully functioning real-closed ordered field containing all standard reals and hyperfinite infinitesimals <code>dx = 1/ω</code>.
-  </div>
-
-  <hr>
-
-  <h3>4. Continuous Groups: Symmetries in Motion</h3>
-
-  <p>
-    “Before we move on,” Jane remarked, “notice that groups are not just discrete addition tables. How one represents <b>continuous groups</b> is a living, vibrant topic at the heart of modern mathematics and physics.”
-  </p>
-
-  <ul>
-    <li>
-      <b>The Translation Group (ℝ, +):</b> Shifting space continuously along a line: <code>x &rarr; x + a</code>. Adding shifts is group addition: <code>(x + a) + b = x + (a + b)</code>.
-    </li>
-    <li>
-      <b>The 2D Rotation Circle (SO(2) / U(1)):</b> Rotating the plane by an angle <code>θ</code>. Rotating by <code>θ₁</code> and then <code>θ₂</code> is a continuous group operation:
-      <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-        <b>R(θ₁) · R(θ₂) = R(θ₁ + θ₂)</b>
-      </div>
-    </li>
-  </ul>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will discover how functions bridge between different groups through <b>structure-preserving maps</b>!”
-  </p>
-', 'published'),
-  (27, 'vectorsLecture2', 26, 'Linear Algebra Lecture 2', 'vectors-lecture2', '
-<div align="center">
-    <i><font size="+2"><b>Linear Algebra Lecture 2</b></font></i><br>
-    <i><font size="+1">Structure-Preserving Maps &amp; Symmetries: Homomorphisms, Invariance &amp; Unitary Rotations</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began Lecture 2 by writing a single, elegant equation in the center of the whiteboard:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 14px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>f : ( G, ⋆ ) &rarr; ( H, ⊙ ) &emsp;&emsp; where &emsp;&emsp; f( a ⋆ b ) &nbsp;=&nbsp; f(a) &odot; f(b)</b>
-  </div>
-
-  <p>
-    “Last lecture,” Jane said, “we discovered how groups and fields emerge naturally from recursive trees. Today, we examine the central operational concept of modern mathematics: <b>how functions map between two different algebraic worlds while preserving their internal structure</b>.”
-  </p>
-
-  <p>
-    Jill looked closely at the equation: “Notice that there are two different symbols for the operations: <code>⋆</code> on the left and <code>⊙</code> on the right.”
-  </p>
-
-  <p>
-    “A crucial observation!” Jane beamed. “The operation <code>⋆</code> belongs to the starting group <code>G</code>, while the operation <code>⊙</code> belongs to the destination group <code>H</code>. A function <code>f</code> is <b>structure-preserving (a group homomorphism)</b> if calculating in the starting world and then mapping yields the exact same answer as mapping first and calculating in the destination world!”
-  </p>
-
-  <hr>
-
-  <h3>1. Pure Mathematical Examples of Structure Preservation</h3>
-
-  <p>
-    Jane walked through four progressively deeper mathematical bridges:
-  </p>
-
-  <h4>Example 1: Scaling a Measurement Ruler &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
-  <p>
-    Consider doubling all lengths via <code>f(x) = 2x</code>. The operation in both domain and codomain is standard addition (<code>⋆ = +, ⊙ = +</code>):
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    <b>f( a + b ) = 2·(a + b) = 2a + 2b = f(a) + f(b)</b>
-  </div>
-  <p>
-    Adding two lengths and doubling equals doubling each length and adding. The geometric dilation map preserves addition.
-  </p>
-
-  <h4>Example 2: Spatial Reflection / Negation &mdash; (ℝ, +) &rarr; (ℝ, +)</h4>
-  <p>
-    The bilateral reflection map <code>f(x) = -x</code>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    <b>f( a + b ) = -(a + b) = (-a) + (-b) = f(a) + f(b)</b>
-  </div>
-  <p>
-    Reflecting a combined displacement across the origin is identical to reflecting each piece first and combining them.
-  </p>
-
-  <h4>Example 3: The Exponential Bridge &mdash; (ℝ, +) &rarr; (ℝ⁺, ·)</h4>
-  <p>
-    “Here is where the two operations truly differ,” Jane said. “Take the real numbers under <b>addition</b> <code>(ℝ, +)</code> and map them to positive real numbers under <b>multiplication</b> <code>(ℝ⁺, ·)</code> via <code>f(x) = e^x</code>:”
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>f( a + b ) = e^(a + b) = e^a · e^b = f(a) · f(b)</b>
-  </div>
-  <p>
-    “The exponential map seamlessly converts the additive structure of the domain (<code>⋆ = +</code>) into the multiplicative growth of the target (<code>⊙ = ·</code>)!”
-  </p>
-
-  <h4>Example 4: Embedding 1D into the 2D Complex Plane &mdash; (ℝ, +_ℝ) &rarr; (ℂ, +_ℂ)</h4>
-  <p>
-    Mapping a real number <code>x</code> to a complex number <code>f(x) = x + 0i</code> preserves addition across dimensions:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
-    <b>f( a +_ℝ b ) = (a + b) + 0i = (a + 0i) +_ℂ (b + 0i) = f(a) +_ℂ f(b)</b>
-  </div>
-  <p>
-    The 1D real line is embedded inside the 2D plane with its internal algebraic geometry preserved with 100% fidelity.
-  </p>
-
-  <h4>Formal Statement (FS-LA-2.1): Group Homomorphisms &amp; Isomorphisms</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Homomorphism Definition:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" title="Group Homomorphism Structure Preservation"><code>∀ a, b ∈ G, f(a ⋆ b) = f(a) ⊙ f(b)</code></fsd-ref>.<br>
-    • <b>Identity &amp; Inverse Preservation:</b> <code>f(e_G) = e_H</code> and <code>f(a⁻¹) = [f(a)]⁻¹</code>.<br>
-    • <b>Kernel &amp; Invariance:</b> The kernel <code>ker(f) = { a ∈ G | f(a) = e_H }</code> is a normal subgroup of <code>G</code> measuring the loss of structural information.<br>
-    • <b>Isomorphism:</b> If <code>f</code> is bijective (injective and surjective), <code>G ≅ H</code> are structurally identical algebraic systems.
-  </div>
-
-  <hr>
-
-  <h3>2. Continuous Phase Symmetries: Angles, Rotations &amp; Unitary Groups</h3>
-
-  <p>
-    “Now look at continuous groups,” Jane said. “What happens when we map an angle <code>θ</code> to a point on the complex unit circle via <code>f(θ) = e^(iθ)</code>?”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>f( θ₁ + θ₂ ) = e^(i(θ₁ + θ₂)) = e^(iθ₁) · e^(iθ₂) = f(θ₁) · f(θ₂)</b>
-  </div>
-
-  <p>
-    “In the domain, we perform simple <b>angle addition</b>. In the target, we perform <b>complex multiplication</b> (a 2D plane rotation). The map <code>f(θ) = e^(iθ)</code> is a continuous group homomorphism from <code>(ℝ, +)</code> to the circle group <b><code>(U(1), ·)</code></b>!”
-  </p>
-
-  <p>
-    Jill smiled: “So whenever we rotate a phase by multiplying by <code>e^(iθ)</code>, we are just using a structure-preserving map!”
-  </p>
-
-  <p>
-    “Exactly,” Jane nodded. “And notice a crucial geometric property: <b>rotating a phase never changes a vector''s length!</b>”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px;">
-    <b>The Unitary Group U(N): Isometries of Complex Space</b><br><br>
-    • In real geometry, a rotation preserves vector lengths: <b>|R v| = |v|</b> (the Orthogonal Group <b>SO(N)</b>).<br>
-    • In complex geometry, a <b>Unitary Transformation U</b> preserves inner products and total probability:<br>
-    <div align="center" style="font-size: 15px; margin: 8px 0;">
-      <b>⟨ U ϕ | U ψ ⟩ &nbsp;=&nbsp; ⟨ ϕ | ψ ⟩ &emsp;&hArr;&emsp; U† &middot; U &nbsp;=&nbsp; I</b>
-    </div>
-    • <b>Physical Meaning:</b> Unitary groups are the family of all transformations that <b>preserve total probability (100%) with zero information loss</b>!
-  </div>
-
-  <h4>Formal Statement (FS-LA-2.2): The Unitary Group U(N) &amp; Metric Preservation</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Unitary Condition:</b> A linear operator <code>U : ℋ_ω → ℋ_ω</code> satisfies <code>U† · U = U · U† = 𝕀</code>, where <code>U†</code> is the Hermitian conjugate (conjugate transpose).<br>
-    • <b>Inner Product Invariance:</b> <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>.<br>
-    • <b>Norm Conservation:</b> <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>, ensuring that time evolution in closed quantum systems strictly conserves total probability.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>
-  </div>
-
-  <hr>
-
-  <p>
-    “In our next lecture,” Jane concluded, “we will generalize this from single groups to <b>Vector Spaces, Duality, and Linear Maps</b>, where functions preserve vector addition and scalar multiplication simultaneously!”
-  </p>
-', 'published'),
-  (28, 'vectorsLecture3', 27, 'Linear Algebra Lecture 3', 'vectors-lecture3', '
-<div align="center">
-    <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
-    <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
-  </div>
-  <br>
-
-  <p>
-    Jane began the lecture by drawing a single bold arrow with white chalk across the blackboard:
-  </p>
-
-  <div align="center" style="margin: 15px 0;">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" style="width: 100%; max-width: 400px; height: auto; background: #1e293b; border-radius: 6px;">
-      <line x1="60" y1="45" x2="330" y2="35" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
-      <polygon points="345,34 325,25 328,45" fill="#f8fafc" />
-      <text x="200" y="68" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">v  (from here to there)</text>
-    </svg>
-  </div>
-
-  <p>
-    “None of us have much trouble understanding a geometric arrow like this,” Jane began. “Its message is as clear as day: <i>from here to there</i>.”
-  </p>
-
-  <p>
-    Jill looked around the room: “And it''s easy to picture in 3D space. In the cubicle of this classroom, the nice 90-degree angles in the corner are practically beckoning us to choose them as our origin.”
-  </p>
-
-  <p>
-    “We certainly tip our hat to René Descartes for making it so convenient to reason about space quantitatively,” Jane replied. “Though in historical fairness, the crisp, orthogonal 90-degree axes we take for granted came well after Descartes. Today, we recognize those three perpendicular corner edges for what they truly are: <b>three distinguished vectors chosen from the space</b> &mdash; a basis &mdash; from which every other displacement can be built.”
-  </p>
-
-  <p>
-    “So what is it about our two previous concepts &mdash; the <b>Abelian group</b> and the <b>scalar field</b> &mdash; that makes them so natural for modeling these geometric vectors, and so much more?”
-  </p>
-
-  <hr>
-
-  <h3>1. Why Groups &amp; Fields Naturally Model Arrows “And More”</h3>
-
-  <p>
-    Jane broke down the physical geometry of displacement into pure algebraic operations:
-  </p>
-
-  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
-    <tr bgcolor="#f8fafc">
-      <th width="45%" align="left">Physical Geometric Intuition</th>
-      <th width="30%" align="center">Algebraic Structure</th>
-      <th width="25%" align="left">Mathematical Meaning</th>
-    </tr>
-    <tr>
-      <td><b>Combining steps:</b> Walking from A to B (<code>v</code>), then B to C (<code>w</code>), equals one net direct step.</td>
-      <td align="center"><code>u + v ∈ V</code></td>
-      <td>Vector Addition (Group Closure)</td>
-    </tr>
-    <tr>
-      <td><b>Order independence:</b> Walking 3m East then 4m North lands at the exact same spot as 4m North then 3m East.</td>
-      <td align="center"><code>u + v = v + u</code></td>
-      <td>Commutativity (Parallelogram Law)</td>
-    </tr>
-    <tr>
-      <td><b>Standing still:</b> Taking zero displacement.</td>
-      <td align="center"><code>v + 0 = v</code></td>
-      <td>Group Identity (The Origin)</td>
-    </tr>
-    <tr>
-      <td><b>Walking back:</b> Walking the exact reverse step back to where you started.</td>
-      <td align="center"><code>v + (-v) = 0</code></td>
-      <td>Group Inverse (Opposite Vector)</td>
-    </tr>
-    <tr>
-      <td><b>Stretching / shrinking:</b> Walking twice as far, half as far, or reversing along the same line.</td>
-      <td align="center"><code>c · v ∈ V</code> &nbsp; (for <code>c ∈ F</code>)</td>
-      <td>Scalar Scaling (Field Dilation)</td>
-    </tr>
-  </table>
-
-  <p>
-    “Notice,” Jane pointed out, “because we abstracted these properties into addition and field scaling, the structure models far more than arrows on a chalkboard:”
-  </p>
-  <ul>
-    <li><b>Sound Waves &amp; Functions:</b> Adding two audio signals <code>f(t) + g(t)</code> (polyphony) and turning up the volume <code>c · f(t)</code>.</li>
-    <li><b>Quantum Superpositions:</b> Combining two state amplitudes <code>|ψ₁⟩ + |ψ₂⟩</code> (wave interference) and rotating phase <code>e^(iθ) · |ψ⟩</code>.</li>
-    <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code> on <code>ℂ_ω</code>.</li>
-  </ul>
-
-  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, F, +, ·) as Group &amp; Field Synergy</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fsd-ref tier="3" scaffold="vector_distributivity" title="The Constructive Vector Space (V, F, +, ·)"><b>Vector Space Axioms (in Lean 4)</b></fsd-ref>:<br>
-    &nbsp;&nbsp;• <b>Pillar 1 — Additive Abelian Group (V, +):</b> The vectors form an Abelian group (Closure, Associativity, Zero Origin <code>0_V</code>, Inverses <code>-v</code>, Commutativity) governing step addition.<br>
-    &nbsp;&nbsp;• <b>Pillar 2 — Scalar Field (F, +, ·):</b> The scalars form an algebraic field (Continuous scaling, identities <code>0_F, 1_F</code>, non-zero reciprocals, field distributivity).<br>
-    &nbsp;&nbsp;• <b>Pillar 3 — Linear Compatibility Action:</b> Scalar multiplication <code>· : F × V → V</code> knits the field to the group via 4 axioms:<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;1. <b>Scalar Distributivity over Vectors:</b> <code>∀ c ∈ F, ∀ u, v ∈ V, c · (u + v) = c · u + c · v</code>.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;2. <b>Field Distributivity over Scalars:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a + b) · v = a · v + b · v</code>.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;3. <b>Scalar Action Associativity:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a · b) · v = a · (b · v)</code>.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;4. <b>Unit Scalar Identity:</b> <code>∀ v ∈ V, 1_F · v = v</code>.<br>
-    • <b>Constructive Model Grounding:</b> The hyperfinite continuum <code>ℝ_ω</code> and coordinate spaces <code>ℝ_ω^n</code> are certified canonical vector spaces over the scalar field <code>ℝ_ω</code>.
-  </div>
-
-  <hr>
-
-  <h3>2. The Relational Nature of a Vector</h3>
-
-  <p>
-    Jane then paused and looked at the arrow on the blackboard:
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>“A vector has no meaning outside of its membership in a vector or linear space.”</b>
-  </div>
-
-  <p>
-    Jill looked puzzled: “What do you mean? The arrow is right there on the board!”
-  </p>
-
-  <p>
-    “An isolated arrow on an empty board is just a lonely mark of chalk,” Jane explained. “It only becomes a <b>vector</b> through the <b>network of relationships</b> it shares with every other vector in the space:”
-  </p>
-
-  <ol>
-    <li>It knows how to combine with <i>every other</i> member in the space via addition (<code>u + v</code>).</li>
-    <li>It can be scaled by <i>every</i> scalar in the field <code>F</code> (<code>c · v</code>).</li>
-    <li>It has an established direction and distance relative to the origin (<code>0</code>).</li>
-    <li>It can be uniquely resolved into independent basis directions: <code>v = v_x e₁ + v_y e₂ + v_z e₃</code>.</li>
-  </ol>
-
-  <p>
-    “A vector is not an isolated object,” Jane emphasized. “<b>It is a citizen of a linear space</b>.”
-  </p>
-
-  <hr>
-
-  <h3>3. Linear Maps: Preserving the Vector Space</h3>
-
-  <p>
-    “Now,” Jane said, “with our two-pillar definition of a vector space in hand, what does it mean to map one vector space to another? A function between vector spaces <code>T : V &rarr; W</code> is a <b>Linear Map</b> if and only if it preserves <i>both foundational pillars simultaneously</i>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>1. Group Homomorphism: T( u + v ) = T(u) + T(v) &emsp;&amp;&emsp; 2. Field Scaling Homogeneity: T( c · v ) = c · T(v)</b></fsd-ref>
-  </div>
-
-  <p>
-    “Decorating functions with linearity is what powers all of calculus and modern physics:”
-  </p>
-  <ul>
-    <li><b>The Derivative Operator <code>D = d/dx</code>:</b> <code>D(f + g) = D(f) + D(g)</code> and <code>D(c·f) = c·D(f)</code>.</li>
-    <li><b>The Integral Functional <code>∫</code>:</b> <code>∫ (f + g) dx = ∫ f dx + ∫ g dx</code> and <code>∫ (c·f) dx = c · ∫ f dx</code>.</li>
-    <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved curve with its local linear operator: <code>Δy ≈ f''(x) · dx</code>.</li>
-    <li><b>Quantum Unitary Operators:</b> State evolution <code>U |ψ⟩</code> preserves quantum superposition and norm geometry.</li>
-  </ul>
-
-  <h4>Formal Statement (FS-LA-3.2): The Linear Map T : V → W as Vector Space Homomorphism</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>Vector Space Homomorphism Axioms (in Lean 4)</b></fsd-ref>:<br>
-    &nbsp;&nbsp;1. <b>Additive Group Preservation:</b> <code>∀ u, v ∈ V, T(u + v) = T(u) + T(v)</code> (preserves the vector Abelian group).<br>
-    &nbsp;&nbsp;2. <b>Scalar Action Preservation:</b> <code>∀ c ∈ F, ∀ v ∈ V, T(c · v) = c · T(v)</code> (preserves scalar field dilation).<br>
-    &nbsp;&nbsp;3. <b>Combined Superposition Principle:</b> <code>∀ a, b ∈ F, ∀ u, v ∈ V, T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
-    • <b>Forced Invariants:</b> Linearity strictly forces origin preservation <code>T(0_V) = 0_W</code> and inverse reflection <code>T(-v) = -T(v)</code>.<br>
-    • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
-    • <b>Calculus Realization:</b> The differential operator <code>D = d/dx</code> and definite integral <code>∫</code> are certified linear maps on smooth function spaces over <code>ℝ_ω</code>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" auto-calc title="Matrix Action &amp; Linear Superposition Preservation">Matrix Action &amp; Linear Superposition Preservation</fsd-ref>
-  </div>
-
-  <hr>
-
-  <h3>4. Vector / Covector Duality: The Algebraic Dual Space V*</h3>
-
-  <p>
-    “In standard textbooks,” Jane remarked, “duality is often rushed through as ''row vectors times column vectors'' or jumped straight into physical measurement. But mathematically, <b>duality is one of the deepest and most elegant concepts in all of algebra</b>.”
-  </p>
-
-  <p>
-    “Let <code>V</code> be a vector space over field <code>F</code>. We can ask: what is the set of all possible scalar-valued linear functions from <code>V</code> into <code>F</code>? This set is called the <b>Dual Space</b>, denoted <code>V* = Hom(V, F)</code>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <b>V* &nbsp;=&nbsp; Hom( V, F ) &nbsp;=&nbsp; { f : V &rarr; F &nbsp;|&nbsp; f is linear }</b><br><br>
-    (f + g)(v) = f(v) + g(v) &emsp;&emsp;and&emsp;&emsp; (c · f)(v) = c · f(v)
-  </div>
-
-  <p>
-    “Notice the immediate mathematical consequence,” Jane emphasized: “Because linear functions can be added pointwise and scaled by field elements, <b>the dual space <code>V*</code> is itself an authentic Vector Space over <code>F</code></b>!”
-  </p>
-
-  <p>
-    “Between the vector space <code>V</code> and its dual space <code>V*</code> lies a fundamental algebraic bridge: the <b>Canonical Bilinear Evaluation Pairing</b>:”
-  </p>
-
-  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>⟨ · , · ⟩ : V* × V &rarr; F &emsp;where&emsp; ⟨f, v⟩ &nbsp;=&nbsp; f(v)</b></fsd-ref>
-  </div>
-
-  <p>
-    “This pairing is <b>bilinear</b> (linear in <code>f</code> and linear in <code>v</code>) and completely <b>non-degenerate</b>: no non-zero vector can hide from every functional, and no non-zero functional is blind to every vector. Furthermore, every vector <code>v ∈ V</code> naturally acts as a linear functional on <code>V*</code> via <code>ev_v(f) = f(v)</code>, establishing the canonical isomorphism into the double dual: <code>V ≅ V**</code>.”
-  </p>
-
-  <p>
-    “<b>How Humans Realize This Pure Algebra:</b> While duality is fundamentally this pure algebraic pairing <code>Hom(V, F)</code>, humans naturally visualize and physically embody it in two vivid ways:”
-  </p>
-
-  <div style="display: flex; justify-content: center; margin: 20px 0;">
-    <div style="width: 100%; max-width: 580px; text-align: center;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
-        <!-- Left: Vector Arrow -->
-        <rect x="20" y="20" width="250" height="100" rx="6" fill="#eff6ff" stroke="#93c5fd" />
-        <text x="145" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Vector (v ∈ V): The State / Arrow</text>
-        <line x1="50" y1="90" x2="220" y2="70" stroke="#2563eb" stroke-width="3" />
-        <polygon points="230,68 215,62 218,78" fill="#2563eb" />
-
-        <!-- Right: Covector Lines -->
-        <rect x="310" y="20" width="250" height="100" rx="6" fill="#faf5ff" stroke="#d8b4fe" />
-        <text x="435" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">Covector (f ∈ V*): Linear Form / Meter</text>
-        <line x1="340" y1="60" x2="340" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
-        <line x1="380" y1="60" x2="380" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
-        <line x1="420" y1="60" x2="420" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
-        <line x1="460" y1="60" x2="460" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
-        <line x1="500" y1="60" x2="500" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
-      </svg>
-    </div>
-  </div>
-
-  <ul>
-    <li><b>Geometric Realization (Contour Piercing):</b> Vectors are directed displacements (arrows), while covectors are parallel level-hyperplanes <code>f(x) = c</code>. The scalar evaluation <code>⟨f, v⟩</code> counts how many contour sheets the arrow pierces.</li>
-    <li><b>Physical Realization (Measurement &amp; Detectors):</b> Vectors represent physical configurations or states, while covectors represent linear detector responses measuring properties of those states.</li>
-  </ul>
-
-  <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>Linear Functional Axioms (in Lean 4)</b></fsd-ref>.<br>
-    • <b>Bilinear Canonical Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code> is bilinear, non-degenerate, and canonically reflexive (<code>V ≅ V**</code>).<br>
-    • <b>Part 2 — Geometric &amp; Physical Realizations:</b> Level-surface piercing in geometry, linear measurement detectors in physics, and the <b>Riesz Representation Theorem</b> on Hilbert spaces <code>ℋ_ω</code> where every continuous functional is represented by an inner product with a vector: <code>f(v) = (u, v)</code>.<br>
-    • <b>Dirac Notation Mapping:</b> State vectors are Kets <code>|v⟩ ∈ ℋ_ω</code>, dual functionals are Bras <code>⟨u| ∈ ℋ_ω*</code>, and evaluation is the Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="dual_pairing" auto-calc title="Canonical Bilinear Pairing ⟨f, v⟩ Evaluation">Canonical Bilinear Pairing ⟨f, v⟩ Evaluation</fsd-ref>
-  </div>
-
-  <hr>
-
-  <h3>5. The Physical Realization: Dirac Bra-Ket Quantum Inference</h3>
-
-  <p>
-    “In classical mechanics, physical states are tracked by isolated scalar numbers,” Jane said. “In modern quantum theory, physical states live in vector spaces, and observable measurements emerge from <b>vector evaluation pairings</b> in a complex Hilbert space <code>ℋ_ω</code>:”
-  </p>
-
-  <ul>
-    <li>
-      <b>State Vectors are Kets (<code>|ψ⟩ ∈ ℋ_ω</code>):</b> The physical quantum state living in complex Hilbert space <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code>.
-    </li>
-    <li>
-      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a linear detector apparatus.
-    </li>
-    <li>
-      <b>The Bracket as Dual Evaluation (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> acts on the state vector <code>|ψ⟩</code> via canonical evaluation, yielding the complex transition amplitude!
-    </li>
-    <li>
-      <b>The Born Rule Re-Envisioned:</b> The observable detector probability is the squared magnitude of this linear functional evaluation:
-      <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
-        <b>P(ϕ | ψ) &nbsp;=&nbsp; |⟨ϕ | ψ⟩|²</b>
-      </div>
-      By linking our duality pairing directly to <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>, every physical measurement is grounded in the geometry of complex vectors!
-    </li>
-    <li>
-      <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that tests for state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>.
-    </li>
-    <li>
-      <b>Unitary Transformations &amp; Isometry:</b> When a state evolves under a linear operator <code>|ψ⟩ &rarr; U |ψ⟩</code>, its dual covector transforms as <code>⟨ψ| &rarr; ⟨ψ| U†</code>. Because <code>U† U = I</code>, the inner product is strictly preserved:
-      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
-        <b>⟨ψ| U† U |ψ⟩ &nbsp;=&nbsp; ⟨ψ | ψ⟩ &nbsp;=&nbsp; 1 (Exact 100% Probability Conservation!)</b>
-      </div>
-    </li>
-  </ul>
-
-  <h4>Formal Statement (FS-LA-3.4): Dirac Bra-Ket Quantum Inference &amp; Probability Conservation</h4>
-  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — State &amp; Detector Duality:</b> Physical states are vectors <code>|ψ⟩ ∈ ℋ_ω</code>; measurement detectors are continuous linear functionals (covectors) <code>⟨ϕ| ∈ ℋ_ω*</code>. Canonical evaluation yields the complex probability amplitude <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>.<br>
-    • <b>Part 2 — The Born Transition Probability:</b> The observable transition probability is the modulus squared of the dual pairing:
-    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>.<br>
-    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>
-  </div>
-
-  <p>
-    Jill beamed: “So Dirac''s bra-ket notation is simply the physical language of vector/covector duality and unitary probability conservation!”
-  </p>
-
-  <p>
-    “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
-  </p>
 ', 'published'),
   (29, 'stemTrigFoundations', 28, 'Trigonometry on ℝ_ω & ℂ_ω', 'stem-trig-foundations', '
 <div class="container">
@@ -14225,7 +14291,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
   </div>
 ', 'published'),
   (32, 'level5Overview', 31, 'From Deductive Certainty to Empirical Inference', 'level5-overview', '
-    <div align="center">
+<div align="center">
       <font size="+2"
         ><i
           ><b
@@ -14512,9 +14578,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       accompanied by interactive visual demonstrators and first-order
       formalizations in Lean 4.
     </p>
-  ', 'published'),
+', 'published'),
   (33, 'bayesianInferenceIntro', 32, 'Level 5 Course 1: Bayesian Inference', 'bayesian-inference-intro', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Level 5 Course 1: Bayesian Inference</b></font></i
       ><br />
@@ -15087,9 +15153,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       sequential observation streams, entropy, and the final transition to
       quantum amplitudes.
     </p>
-  ', 'published'),
+', 'published'),
   (34, 'bayesianInferenceLecture1', 33, 'Bayesian Inference Lecture 1', 'bayesian-inference-lecture1', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Bayesian Inference Lecture 1</b></font></i
       ><br />
@@ -15696,7 +15762,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         >Preview in BID: The 3-Stage Bayesian Filter</bid-ref
       >
     </div>
-  ', 'published'),
+', 'published'),
   (35, 'bayesianInferenceLecture2', 34, 'Bayesian Inference Lecture 2', 'bayesian-inference-lecture2', '
 <div align="center">
       <i><font size="+2"><b>Bayesian Inference Lecture 2</b></font></i><br>
@@ -16285,7 +16351,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 ', 'published'),
   (37, 'bayesianInferenceLecture4', 36, 'Bayesian Inference Lecture 4', 'bayesian-inference-lecture4', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Bayesian Inference Lecture 4</b></font></i
       ><br />
@@ -16906,9 +16972,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         operators</b
       >. See you in Quantum Logic!”
     </p>
-  ', 'published'),
+', 'published'),
   (38, 'quantumLogicIntro', 37, 'Level 5 Course 2: Quantum Logic', 'quantum-logic-intro', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Level 5 Course 2: Quantum Logic</b></font></i
       ><br />
@@ -17148,7 +17214,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       our final capstone:
       <b>Quantum Bayesian Inference &amp; Statistical Mechanics</b>.
     </div>
-  ', 'published'),
+', 'published'),
   (39, 'quantumLogicLecture1', 38, 'Quantum Logic Lecture 1', 'quantum-logic-lecture1', '
 <div align="center">
       <i><font size="+2"><b>Quantum Logic Lecture 1</b></font></i><br>
@@ -17573,7 +17639,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
     </p>
 ', 'published'),
   (41, 'quantumLogicLecture3', 40, 'Quantum Logic Lecture 3', 'quantum-logic-lecture3', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Quantum Logic Lecture 3</b></font></i
       ><br />
@@ -18023,9 +18089,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <b>statistical ensembles and density matrices</b> to complete our grand
       tour of physical reality!”
     </p>
-  ', 'published'),
+', 'published'),
   (42, 'quantumBayesianInferenceIntro', 41, '1. The Grand Capstone of the Minimal Path', 'quantum-bayesian-inference-intro', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"
           ><b>Level 5 Course 3: Quantum Bayesian Inference</b></font
@@ -18198,9 +18264,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       disciplines &mdash; they are the unified branches of a single mathematical
       tree describing how we reason about and interact with physical reality.
     </div>
-  ', 'published'),
+', 'published'),
   (43, 'quantumBayesianInferenceLecture1', 42, 'Quantum Bayesian Inference Lecture 1', 'quantum-bayesian-inference-lecture1', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Quantum Bayesian Inference Lecture 1</b></font></i
       ><br />
@@ -18628,18 +18694,18 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         </td>
       </tr>
       <tr>
-        <td><b>Level 3: Space &amp; Geometry</b></td>
+        <td><b>Level 2: Algebraic Structure &amp; Linearity</b></td>
         <td>
-          Vector spaces <code>V</code>, dual measurement spaces <code>V*</code>,
+          Emergent groups and fields, vector spaces <code>V</code>, dual measurement spaces <code>V*</code>,
           Dirac bra-kets <code>⟨ϕ|ψ⟩</code>
         </td>
         <td>
-          Geometric directions, linear transformations, canonical evaluation
-          pairing, and unitary isometries.
+          Operational symmetries, linear transformations, canonical evaluation
+          pairing, and structure-preserving maps.
         </td>
       </tr>
       <tr>
-        <td><b>Level 2: Continuum &amp; Calculus</b></td>
+        <td><b>Level 3: Continuum &amp; Calculus</b></td>
         <td>
           Infinitesimal <code>dx = 1/ω</code>, <code>ℝ_ω</code>, complex grid
           <code>ℂ_ω</code>, telescoping FTC
@@ -18684,9 +18750,9 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       formalism to our modern understanding of physical reality itself:
       <b>The World as a Quantum Statistical Ensemble</b>!”
     </p>
-  ', 'published'),
+', 'published'),
   (44, 'quantumBayesianInferenceLecture2', 43, 'Quantum Bayesian Inference Lecture 2', 'quantum-bayesian-inference-lecture2', '
-    <div align="center">
+<div align="center">
       <i
         ><font size="+2"><b>Quantum Bayesian Inference Lecture 2</b></font></i
       ><br />
@@ -19002,10 +19068,10 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
       <b>Level 1: Logic &amp; Number</b> &mdash; From Conway''s root
       <code>0 = { | }</code> to dyadic branching trees and typed logic<br />
       &darr;<br />
-      <b>Level 3: Space, Direction &amp; Geometry</b> &mdash; Vector spaces,
-      inner products, linear operators, and Dirac bra-ket duality<br />
+      <b>Level 2: Algebraic Structure &amp; Linearity</b> &mdash; Emergent groups,
+      fields, vector spaces, linear operators, and Dirac bra-ket duality<br />
       &darr;<br />
-      <b>Level 2: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates
+      <b>Level 3: Continuum &amp; Calculus</b> &mdash; Hyperfinite rates
       <code>dy/dx</code>, integral sums, and conformal geometry on
       <code>ℝ_ω</code> and <code>ℂ_ω</code><br />
       &darr;<br />
@@ -19049,7 +19115,7 @@ INSERT INTO segments (id, seg_key, sequence_order, title, slug, content_html, st
         specialized satellite workshops, and computational frontiers in Level 6.
       </div>
     </div>
-  ', 'published'),
+', 'published'),
   (45, 'satelliteSeminarsIntro', 44, 'Satellite Seminars: Jane''s Introduction to the Colloquia', 'satellite-seminars-intro', '
 <div align="center">
     <font size="+2"><i><b>Satellite Seminars: Jane''s Introduction to the Colloquia</b></i></font><br>
@@ -22653,69 +22719,70 @@ INSERT INTO curriculum_nav_items (
   (22, 'app1_nav_2_4_2', 1, 19, 2, 'html', 'lecture 2: 2-successor trees & growth', NULL, 13, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (23, 'app1_nav_2_4_3', 1, 19, 3, 'html', 'lecture 3: STEM & spaces', NULL, 14, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (24, 'app1_nav_2_4_4', 1, 19, 4, 'diagram', '2-successor tree demo (BTD)', NULL, NULL, 'btd', NULL, NULL, '{}'::jsonb, TRUE),
-  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: continuous analysis', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (25, 'app1_nav_3', 1, NULL, 3, 'section', 'Level 2: Algebraic Structure & Linearity', 'Algebra & Linearity', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (26, 'app1_nav_3_0', 1, 25, 0, 'html', 'overview: algebraic structure & linearity', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
   (27, 'app1_nav_3_1', 1, 25, 1, 'html', 'sequences & progressions', NULL, 16, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: analysis 1D', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: microscope & continuity', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (31, 'app1_nav_3_2_2', 1, 28, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (32, 'app1_nav_3_2_3', 1, 28, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (33, 'app1_nav_3_3', 1, 25, 3, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (34, 'app1_nav_3_3_0', 1, 33, 0, 'html', 'overview: analysis 2D', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (35, 'app1_nav_3_3_1', 1, 33, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (36, 'app1_nav_3_3_2', 1, 33, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (37, 'app1_nav_3_3_3', 1, 33, 3, 'html', 'lecture 3: state evolution & phase', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (38, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Space & Geometry', 'Space & Geometry', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (39, 'app1_nav_4_0', 1, 38, 0, 'html', 'overview: linear algebra & geometry', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (40, 'app1_nav_4_1', 1, 38, 1, 'section', 'course 1: linear algebra', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (41, 'app1_nav_4_1_0', 1, 40, 0, 'html', 'overview: linear algebra', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (42, 'app1_nav_4_1_1', 1, 40, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (43, 'app1_nav_4_1_2', 1, 40, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (44, 'app1_nav_4_1_3', 1, 40, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (45, 'app1_nav_4_2', 1, 38, 2, 'html', 'course 2: trigonometry & rotor geometry', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (46, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Growth & The Logarithm', 'Growth & Logarithm', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (47, 'app1_nav_5_0', 1, 46, 0, 'html', 'exponential & logarithmic foundations', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (48, 'app1_nav_5_1', 1, 46, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (49, 'app1_nav_5_2', 1, 46, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (50, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (51, 'app1_nav_6_0', 1, 50, 0, 'html', 'overview: probability & quantum logic', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (52, 'app1_nav_6_1', 1, 50, 1, 'section', 'course 1: Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (53, 'app1_nav_6_1_0', 1, 52, 0, 'html', 'introduction', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (54, 'app1_nav_6_1_1', 1, 52, 1, 'html', 'lecture 1: probability basics & hyperfinite transect', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (55, 'app1_nav_6_1_2', 1, 52, 2, 'html', 'lecture 2: conditional probability & Bayes'' filter', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (56, 'app1_nav_6_1_3', 1, 52, 3, 'html', 'lecture 3: sequential updating & evidence streams', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (57, 'app1_nav_6_1_4', 1, 52, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (58, 'app1_nav_6_1_5', 1, 52, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
-  (59, 'app1_nav_6_2', 1, 50, 2, 'section', 'course 2: quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (60, 'app1_nav_6_2_0', 1, 59, 0, 'html', 'introduction', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (61, 'app1_nav_6_2_1', 1, 59, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (62, 'app1_nav_6_2_2', 1, 59, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (63, 'app1_nav_6_2_3', 1, 59, 3, 'html', 'lecture 3: measurement & projection', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (64, 'app1_nav_6_3', 1, 50, 3, 'section', 'course 3: quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (65, 'app1_nav_6_3_0', 1, 64, 0, 'html', 'introduction', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (66, 'app1_nav_6_3_1', 1, 64, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (67, 'app1_nav_6_3_2', 1, 64, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (68, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (69, 'app1_nav_7_0', 1, 68, 0, 'html', 'overview: seminars & applications', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (70, 'app1_nav_7_1', 1, 68, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (71, 'app1_nav_7_1_0', 1, 70, 0, 'html', 'Newtonian kinematics & conservation', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (72, 'app1_nav_7_1_1', 1, 70, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (73, 'app1_nav_7_2', 1, 68, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (74, 'app1_nav_7_2_0', 1, 73, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (75, 'app1_nav_7_2_1', 1, 73, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (76, 'app1_nav_7_2_2', 1, 73, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (77, 'app1_nav_7_2_3', 1, 73, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (78, 'app1_nav_7_3', 1, 68, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (79, 'app1_nav_7_3_0', 1, 78, 0, 'html', 'overview: satellite seminars', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (80, 'app1_nav_7_3_1', 1, 78, 1, 'html', 'seminar 1: cosmology as information', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (81, 'app1_nav_7_3_2', 1, 78, 2, 'html', 'seminar 2: particle zoo logic', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (82, 'app1_nav_7_3_3', 1, 78, 3, 'html', 'seminar 3: entanglement & reality', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (83, 'app1_nav_7_3_4', 1, 78, 4, 'html', 'seminar 4: algebraic geometry', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (84, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (85, 'app1_nav_8_0', 1, 84, 0, 'html', 'proposal 1: open educational service hubs', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (86, 'app1_nav_8_1', 1, 84, 1, 'html', 'academic paper: dual-agent tutor', NULL, 57, NULL, NULL, NULL, '{}'::jsonb, TRUE),
-  (87, 'app1_nav_8_2', 1, 84, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 58, NULL, NULL, NULL, '{}'::jsonb, TRUE)
+  (28, 'app1_nav_3_2', 1, 25, 2, 'section', 'course 1: linear algebra & symmetries', 'linear algebra', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (29, 'app1_nav_3_2_0', 1, 28, 0, 'html', 'overview: linear algebra', NULL, 15, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (30, 'app1_nav_3_2_1', 1, 28, 1, 'html', 'lecture 1: emergent groups & fields', NULL, 17, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (31, 'app1_nav_3_2_2', 1, 28, 2, 'html', 'lecture 2: structure-preserving maps', NULL, 18, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (32, 'app1_nav_3_2_3', 1, 28, 3, 'html', 'lecture 3: vector spaces & duality', NULL, 19, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (33, 'app1_nav_4', 1, NULL, 4, 'section', 'Level 3: Continuum & Calculus', 'Continuum & Calculus', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (34, 'app1_nav_4_0', 1, 33, 0, 'html', 'overview: continuous analysis', NULL, 20, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (35, 'app1_nav_4_1', 1, 33, 1, 'section', 'course 1: analysis 1D', 'analysis 1D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (36, 'app1_nav_4_1_0', 1, 35, 0, 'html', 'overview: analysis 1D', NULL, 21, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (37, 'app1_nav_4_1_1', 1, 35, 1, 'html', 'lecture 1: continuum & continuity', NULL, 22, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (38, 'app1_nav_4_1_2', 1, 35, 2, 'html', 'lecture 2: derivatives & linearity', NULL, 23, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (39, 'app1_nav_4_1_3', 1, 35, 3, 'html', 'lecture 3: accumulation & calculus', NULL, 24, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (40, 'app1_nav_4_2', 1, 33, 2, 'section', 'course 2: analysis 2D', 'analysis 2D', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (41, 'app1_nav_4_2_0', 1, 40, 0, 'html', 'overview: analysis 2D', NULL, 25, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (42, 'app1_nav_4_2_1', 1, 40, 1, 'html', 'lecture 1: 2D grid & conformal maps', NULL, 26, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (43, 'app1_nav_4_2_2', 1, 40, 2, 'html', 'lecture 2: contour integrals & residues', NULL, 27, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (44, 'app1_nav_4_2_3', 1, 40, 3, 'html', 'lecture 3: state evolution & phase', NULL, 28, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (45, 'app1_nav_5', 1, NULL, 5, 'section', 'Level 4: Space, Trigonometry & The Transcendental Engine', 'Space & Growth', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (46, 'app1_nav_5_0', 1, 45, 0, 'html', 'course 1: trigonometry & rotor geometry', NULL, 29, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (47, 'app1_nav_5_1', 1, 45, 1, 'section', 'course 2: growth, logarithm & rotation', 'transcendental engine', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (48, 'app1_nav_5_1_0', 1, 47, 0, 'html', 'exponential & logarithmic foundations', NULL, 30, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (49, 'app1_nav_5_1_1', 1, 47, 1, 'html', 'circular dynamics & trigonometric derivatives', NULL, 31, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (50, 'app1_nav_5_1_2', 1, 47, 2, 'diagram', 'Euler compounding demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (51, 'app1_nav_6', 1, NULL, 6, 'section', 'Level 5: Quantum & Information', 'Quantum & Information', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (52, 'app1_nav_6_0', 1, 51, 0, 'html', 'overview: probability & quantum logic', NULL, 32, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (53, 'app1_nav_6_1', 1, 51, 1, 'section', 'course 1: Bayesian inference', 'Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (54, 'app1_nav_6_1_0', 1, 53, 0, 'html', 'introduction', NULL, 33, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (55, 'app1_nav_6_1_1', 1, 53, 1, 'html', 'lecture 1: probability basics & hyperfinite transect', NULL, 34, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (56, 'app1_nav_6_1_2', 1, 53, 2, 'html', 'lecture 2: conditional probability & Bayes'' filter', NULL, 35, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (57, 'app1_nav_6_1_3', 1, 53, 3, 'html', 'lecture 3: sequential updating & evidence streams', NULL, 36, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (58, 'app1_nav_6_1_4', 1, 53, 4, 'html', 'lecture 4: state spaces & entropy', NULL, 37, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (59, 'app1_nav_6_1_5', 1, 53, 5, 'diagram', 'Bayesian inference demo (BID)', NULL, NULL, 'bid', NULL, NULL, '{}'::jsonb, TRUE),
+  (60, 'app1_nav_6_2', 1, 51, 2, 'section', 'course 2: quantum logic', 'quantum logic', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (61, 'app1_nav_6_2_0', 1, 60, 0, 'html', 'introduction', NULL, 38, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (62, 'app1_nav_6_2_1', 1, 60, 1, 'html', 'lecture 1: 3 polarizers & Venn failure', NULL, 39, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (63, 'app1_nav_6_2_2', 1, 60, 2, 'html', 'lecture 2: complex amplitudes on ℂ_ω', NULL, 40, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (64, 'app1_nav_6_2_3', 1, 60, 3, 'html', 'lecture 3: measurement & projection', NULL, 41, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (65, 'app1_nav_6_3', 1, 51, 3, 'section', 'course 3: quantum Bayesian inference', 'quantum Bayesian', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (66, 'app1_nav_6_3_0', 1, 65, 0, 'html', 'introduction', NULL, 42, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (67, 'app1_nav_6_3_1', 1, 65, 1, 'html', 'lecture 1: density ops & quantum Bayes', NULL, 43, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (68, 'app1_nav_6_3_2', 1, 65, 2, 'html', 'lecture 2: reality as an ensemble', NULL, 44, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (69, 'app1_nav_7', 1, NULL, 7, 'section', 'Level 6: Applied Seminars', 'Applied Seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (70, 'app1_nav_7_0', 1, 69, 0, 'html', 'overview: seminars & applications', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (71, 'app1_nav_7_1', 1, 69, 1, 'section', 'applied physics seminars', 'applied physics', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (72, 'app1_nav_7_1_0', 1, 71, 0, 'html', 'Newtonian kinematics & conservation', NULL, 46, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (73, 'app1_nav_7_1_1', 1, 71, 1, 'html', '1D heat diffusion: Laplacian & Fourier', NULL, 47, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (74, 'app1_nav_7_2', 1, 69, 2, 'section', 'mini-seminars', 'mini-seminars', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (75, 'app1_nav_7_2_0', 1, 74, 0, 'html', 'mini-seminar 1: Fourier duality', NULL, 48, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (76, 'app1_nav_7_2_1', 1, 74, 1, 'html', 'mini-seminar 2: ω-nodes to halo soup', NULL, 49, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (77, 'app1_nav_7_2_2', 1, 74, 2, 'html', 'mini-seminar 3: holography & boundaries', NULL, 50, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (78, 'app1_nav_7_2_3', 1, 74, 3, 'html', 'mini-seminar 4: higher-successors', NULL, 51, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (79, 'app1_nav_7_3', 1, 69, 3, 'section', 'satellite seminars', 'satellites', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (80, 'app1_nav_7_3_0', 1, 79, 0, 'html', 'overview: satellite seminars', NULL, 45, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (81, 'app1_nav_7_3_1', 1, 79, 1, 'html', 'seminar 1: cosmology as information', NULL, 52, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (82, 'app1_nav_7_3_2', 1, 79, 2, 'html', 'seminar 2: particle zoo logic', NULL, 53, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (83, 'app1_nav_7_3_3', 1, 79, 3, 'html', 'seminar 3: entanglement & reality', NULL, 54, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (84, 'app1_nav_7_3_4', 1, 79, 4, 'html', 'seminar 4: algebraic geometry', NULL, 55, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (85, 'app1_nav_8', 1, NULL, 8, 'section', 'Research & Proposals', 'Proposals', NULL, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (86, 'app1_nav_8_0', 1, 85, 0, 'html', 'proposal 1: open educational service hubs', NULL, 56, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (87, 'app1_nav_8_1', 1, 85, 1, 'html', 'academic paper: dual-agent tutor', NULL, 57, NULL, NULL, NULL, '{}'::jsonb, TRUE),
+  (88, 'app1_nav_8_2', 1, 85, 2, 'html', 'whitepaper: minimal axiomatic core', NULL, 58, NULL, NULL, NULL, '{}'::jsonb, TRUE)
 ON CONFLICT (id) DO UPDATE SET
   nav_key = EXCLUDED.nav_key,
   parent_id = EXCLUDED.parent_id,
@@ -23129,7 +23196,7 @@ INSERT INTO formal_statements (
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 'fs_newtonian_mechanics', 'newtonian_mechanics', 'kinematics_and_dynamics', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Newtonian Dynamics & Boundary Acceleration', 'Foundational relation between force, inertia, and momentum conservation on ℝ_ω.', 'F = m · a  ∧  p = m · v', NULL, NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
   (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 1, 'theorem', 10, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'introduction', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
+  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'modelsOverview', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
   (4, 'fs_work_energy', 'work_energy', 'kinematics_and_dynamics', 3, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Telescoping Work-Energy Principle', 'Exact cancellation of interior work increments yielding net kinetic energy change.', 'Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k', 'theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
   (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 3, 'theorem', 13, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
   (6, 'fs_quartic_diff', 'r_quartic', 'discrete_analysis', 3, 'theorem', NULL, 'math', 'corollary', 'shadow_map', 'Hyperfinite Quartic Derivative', 'Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.', 'diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²', NULL, NULL, 'published', ARRAY['analysis1DLecture2']::text[]),
@@ -23277,32 +23344,38 @@ DELETE FROM segment_references;
 INSERT INTO segment_references (
   id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 18, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
-  (2, 18, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
-  (3, 18, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
-  (4, 20, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
-  (5, 20, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
-  (6, 20, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
-  (7, 20, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
-  (8, 27, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
-  (9, 27, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
-  (10, 27, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
-  (11, 28, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
-  (12, 28, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
-  (13, 28, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
-  (14, 28, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
-  (15, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
-  (16, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
-  (17, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (18, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
-  (19, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
-  (20, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
-  (21, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
-  (22, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (23, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
-  (24, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
-  (25, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
-  (26, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
+  (1, 2, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref
+          tier="3"
+          scaffold="telescoping_ftc"
+          title="Fundamental Theorem of Calculus"
+          style="color: #0284c7; font-weight: bold; cursor: pointer;"
+        >telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
+  (2, 18, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),
+  (3, 18, 11, NULL, NULL, 'proof', 1, '|| U |ψ⟩ || = || |ψ⟩ || = 1', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Norm Conservation"><code>|| U |ψ⟩ || = || |ψ⟩ || = 1</code></fsd-ref>'),
+  (4, 18, 11, NULL, NULL, 'calculator', 2, 'Unitary Phase Rotation &amp; Norm Invariance', '<fsd-ref tier="3" scaffold="unitary_isometry" auto-calc title="Unitary Phase Rotation &amp; Norm Invariance">Unitary Phase Rotation &amp; Norm Invariance</fsd-ref>'),
+  (5, 19, 12, NULL, NULL, 'proof', 0, 'The Born Rule (P = |z|²)', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>'),
+  (6, 19, 12, NULL, NULL, 'proof', 1, 'The Born Probability Law in Lean 4', '<fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>'),
+  (7, 19, 11, NULL, NULL, 'proof', 2, 'Unitary Norm Isometry in Lean 4', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>'),
+  (8, 19, 12, 8, NULL, 'calculator', 3, 'Three-Polarizer Quantum Transmission &amp; Venn Breakdown', '<fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>'),
+  (9, 22, 17, NULL, NULL, 'proof', 0, 'x = st(x) + ε  where  ε ∈ μ(0)', '<fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref>'),
+  (10, 22, 17, NULL, NULL, 'proof', 1, 'x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx', '<fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>'),
+  (11, 22, 16, NULL, NULL, 'proof', 2, 'For internal sequence f(x_k) with f(x₀) &lt; 0 and f(x_ω) &gt; 0, the index m = min { k | f(x_k) ≥ 0 } exists by hyperfinite induction', '<fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>'),
+  (12, 24, 3, NULL, NULL, 'proof', 0, '∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Summation"><b>∑[k=1 to ω] [ F(x_k) - F(x_{k-1}) ]</b></fsd-ref>'),
+  (13, 24, 3, NULL, NULL, 'proof', 1, '∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus"><b>∫[a to b] f(x) dx &nbsp;=&nbsp; F(b) - F(a)</b></fsd-ref>'),
+  (14, 24, 3, NULL, NULL, 'proof', 2, '∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Identity"><code>∑_{k=1}^ω (F(x_k) - F(x_{k-1})) ≡ F(x_ω) - F(x₀) = F(b) - F(a)</code></fsd-ref>'),
+  (15, 24, 3, NULL, NULL, 'proof', 3, 'st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping FTC Standard Part"><code>st(∑ f(x_k)·dx) = F(b) - F(a) ⟹ ∫_a^b f(x) dx = F(b) - F(a)</code></fsd-ref>'),
+  (16, 29, 3, NULL, NULL, 'proof', 0, 'MiddleWay.telescoping_ftc', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>'),
+  (17, 29, 3, NULL, NULL, 'proof', 1, '🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)', '<fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>'),
+  (18, 29, 20, 15, NULL, 'calculator', 2, 'sin_dyadic_fn : 𝔻 → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (19, 29, 21, 16, NULL, 'calculator', 3, 'sin_rotor_fn : UnitRotor → [-1, 1] (Launch Interactive Stencil &amp; Maxima CAS)', '<fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>'),
+  (20, 35, 14, 9, 10, 'calculator', 0, 'The 3-Stage Classical Bayesian Filter &amp; Normalization', '<eq-ref eq-id="cas_bayes_filter" formula="BAYES(0.01, 0.95, 0.05)">The 3-Stage Classical Bayesian Filter &amp; Normalization</eq-ref>'),
+  (21, 46, 2, 1, NULL, 'calculator', 0, 'Free Fall Kinematics &amp; Acceleration Stencil', '<fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>'),
+  (22, 46, 4, 4, NULL, 'calculator', 1, 'Telescoping Work-Kinetic Energy Conservation', '<fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>'),
+  (23, 47, 5, 6, NULL, 'calculator', 0, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (24, 47, 3, NULL, NULL, 'calculator', 1, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>'),
+  (25, 47, 5, 6, NULL, 'calculator', 2, 'Single-Slice Net Thermal Flux Balance', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref>'),
+  (26, 47, 5, 6, NULL, 'calculator', 3, '5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem', '<fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>'),
+  (27, 47, 3, NULL, NULL, 'calculator', 4, 'Total Thermal Energy Conservation via Telescoping Sum', '<fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>')
 ;
 
 -- 9. Segment Prerequisites
@@ -23311,278 +23384,278 @@ DELETE FROM segment_prerequisites;
 INSERT INTO segment_prerequisites (id, segment_id, depends_on_segment_id, prerequisite_type) OVERRIDING SYSTEM VALUE VALUES
   (1, 46, 1, 'foundational'),
   (2, 47, 46, 'foundational'),
-  (3, 47, 20, 'foundational'),
-  (4, 18, 1, 'foundational'),
-  (5, 19, 18, 'foundational'),
-  (6, 20, 19, 'foundational'),
-  (7, 22, 20, 'foundational')
+  (3, 47, 24, 'foundational'),
+  (4, 22, 1, 'foundational'),
+  (5, 23, 22, 'foundational'),
+  (6, 24, 23, 'foundational'),
+  (7, 26, 24, 'foundational')
 ON CONFLICT (segment_id, depends_on_segment_id) DO NOTHING;
 
 -- 10. Lean 4 Verifications
 INSERT INTO lean_verifications (
   key, statement_id, target, expression, signature, verdict, qed, time_ms, engine, verified_at, lean_snippet, summary
 ) VALUES
-  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
-  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check hyper_sum', 'Structural recursion accumulation on hyperfinite grid with infinitesimal dx = 1/ω'),
-  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! r ∈ ℝ [ x ≈ r ∧ st(x) = r ]', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, FALSE, 8012, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st', 'Standard part shadow map mapping Day ω hyperreal coordinates to unique standard reals'),
-  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
-#check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
-#check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, FALSE, 8014, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check C_w
-#check C_w.norm_sq', '2D hyperfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
-  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 5170, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
-  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2239, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
-  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2227, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
-  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2029, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
-  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 3938, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
-  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2391, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
-  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
+  ('telescoping_ftc', 3, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('scaffold:telescoping_ftc', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', NULL, 'scaffold:telescoping_ftc', '∀ (F : ℕ → ℝ_ω) (n : ℕ) [ ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0) ]', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2165, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean'),
+  ('hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2471, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check hyper_sum', 'Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/ω'),
+  ('scaffold:hyper_sum', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2471, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check hyper_sum', 'Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/ω'),
+  ('∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', NULL, 'scaffold:hyper_sum', '∫[a, b] f(x) dx = st( ∑_{k=1}^{ω} f(x_k) · dx )', 'def hyper_sum (f : Nat → R_w) : Nat → R_w', TRUE, TRUE, 2471, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check hyper_sum', 'Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/ω'),
+  ('st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! d ∈ 𝔻 [ x ≈ d ∧ st(x) = d ]', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2340, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st', 'Standard part shadow map projecting Day ω elements to standard dyadic nuclei in 𝔻'),
+  ('scaffold:st', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! d ∈ 𝔻 [ x ≈ d ∧ st(x) = d ]', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2340, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st', 'Standard part shadow map projecting Day ω elements to standard dyadic nuclei in 𝔻'),
+  ('∀ x ∈ ℝ_ω (finite), ∃! d ∈ 𝔻 [ x ≈ d ∧ st(x) = d ]', NULL, 'scaffold:st', '∀ x ∈ ℝ_ω (finite), ∃! d ∈ 𝔻 [ x ≈ d ∧ st(x) = d ]', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2340, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st', 'Standard part shadow map projecting Day ω elements to standard dyadic nuclei in 𝔻'),
+  ('C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2616, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check C_w
+#check C_w.norm_sq', '2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
+  ('scaffold:C_w', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2616, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check C_w
+#check C_w.norm_sq', '2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
+  ('ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', NULL, 'scaffold:C_w', 'ℂ_ω ≡ ℝ_ω × ℝ_ω (u + i v), |ψ|² = u² + v²', 'structure C_w where re : R_w; im : R_w', TRUE, TRUE, 2616, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check C_w
+#check C_w.norm_sq', '2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication'),
+  ('Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('scaffold:Holomorphic', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', NULL, 'scaffold:Holomorphic', '∂u/∂x = ∂v/∂y ∧ ∂u/∂y = -∂v/∂x (Conformal / Cauchy-Riemann)', 'structure Holomorphic (f : C_w → C_w) : Prop', TRUE, TRUE, 2410, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Holomorphic', 'Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl'),
+  ('cauchy_edge_cancel', 7, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2380, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('scaffold:cauchy_edge_cancel', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2380, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', NULL, 'scaffold:cauchy_edge_cancel', '∀ (e : CellEdge) [ e_{forward} + e_{reverse} = ⟨0, 0⟩ ]', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', TRUE, TRUE, 2380, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_edge_cancel', 'Internal edge cancellation ensuring boundary loop circulation equals mosaic sum'),
+  ('cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('scaffold:cauchy_integral_theorem', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('∮_{∂Ω} f(z) dz = 0 for Holomorphic f', NULL, 'scaffold:cauchy_integral_theorem', '∮_{∂Ω} f(z) dz = 0 for Holomorphic f', 'axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cauchy_integral_theorem', 'Closed contour circulation theorem on 2D complex lattice'),
+  ('residue_theorem', 9, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('scaffold:residue_theorem', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', NULL, 'scaffold:residue_theorem', '∮_{∂Ω} (f''/f) dz = 2πi · (Z - P)', 'axiom residue_theorem (f : C_w → C_w) : True', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check residue_theorem', 'Logarithmic derivative contour integral counts enclosed topological roots and poles'),
+  ('unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('scaffold:unitary_preservation', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', NULL, 'scaffold:unitary_preservation', '∀ U ∈ ℂ_ω (|U|² = 1) [ |U · ψ|² = |ψ|² ]', 'axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z', TRUE, TRUE, 2097, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_preservation', 'Conservation of probability amplitude norm squared under unitary Schrödinger evolution'),
+  ('lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('scaffold:lee_yang_zero_pinch', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', NULL, 'scaffold:lee_yang_zero_pinch', 'lim_{N→ω} dist(Roots(Z_N), ℝ_{>0}) = 0 ⟹ Phase Transition', 'axiom lee_yang_zero_pinch : True', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check lee_yang_zero_pinch', 'Day ω condensation of partition function zeros pinching real axis at criticality'),
+  ('free_fall_accel', 2, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2171, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
+  ('scaffold:free_fall_accel', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2171, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → R_w', TRUE, TRUE, 2116, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check st
+  ('st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', NULL, 'scaffold:free_fall_accel', 'st( [s(t + dt) - s(t)] / dt ) = v₀ - gt  ∧  st( [s(t - dt) - 2s(t) + s(t + dt)] / dt² ) = -g', 'axiom st : { x : R_w // is_finite x } → D_w', TRUE, TRUE, 2171, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check st
 #check delta', 'Newtonian kinematic temporal curvature invariance under discrete stencil'),
-  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 1878, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on hyperfinite continuum'),
-  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
+  ('work_energy', 4, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2136, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on transfinite continuum'),
+  ('scaffold:work_energy', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2136, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on transfinite continuum'),
+  ('∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', NULL, 'scaffold:work_energy', '∑_{k=0}^{n-1} F_k · Δx_k = (1/2) m v_n² - (1/2) m v₀² ≡ Δ(KE)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', TRUE, TRUE, 2136, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check telescoping_ftc', 'Telescoping mechanical work-energy conservation on transfinite continuum'),
+  ('heat_flux', 5, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2143, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
+  ('scaffold:heat_flux', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2143, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2248, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta
+  ('d u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', NULL, 'scaffold:heat_flux', 'd u_i / dt = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]  ∧  ∑_{i=1}^{N} Δq_i = q_N - q_0 ≡ 0', 'MiddleWay.delta & MiddleWay.hyper_sum', TRUE, TRUE, 2143, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta
 #check hyper_sum', 'Discrete thermal curvature relaxation with telescoping boundary conservation'),
-  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1942, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
-  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 2127, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
-  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 1911, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
-  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 2252, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
-  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 2317, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
-  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 2081, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
-  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
-  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 1937, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
-  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
-  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
+  ('bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('scaffold:bayes_filter', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', NULL, 'scaffold:bayes_filter', 'P(H_k | D) = (P(D | H_k) · P(H_k)) / (∑_{i} P(D | H_i) · P(H_i))  ∧  ∑_k P(H_k | D) = 1.0', 'axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check bayes_filter_normalization', 'Normalizing Bayesian posterior probability conservation under evidence streaming'),
+  ('shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1946, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('scaffold:shannon_entropy', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1946, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', NULL, 'scaffold:shannon_entropy', 'H(P) = -∑_{i=1}^N p_i · ln(p_i)  ∧  0 ≤ H(P) ≤ ln(N)', 'axiom shannon_entropy_bound (P : Nat → R_w) (N : Nat) : True', TRUE, TRUE, 1946, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check shannon_entropy_bound', 'Shannon information entropy non-negativity and equiprobable maximum bound'),
+  ('born_rule', 12, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('scaffold:born_rule', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', NULL, 'scaffold:born_rule', 'P = |z|² = (Re z)² + (Im z)² = z · z* ≥ 0  on ℂ_ω', 'axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check born_probability_rule', 'Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared'),
+  ('quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1974, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('scaffold:quantum_interference', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1974, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', NULL, 'scaffold:quantum_interference', '|z₁ + z₂|² = |z₁|² + |z₂|² + 2 · Re(z₁* · z₂) = |z₁|² + |z₂|² + 2|z₁||z₂|cos(Δθ)', 'axiom quantum_interference_expansion (z1 z2 : C_w) : True', TRUE, TRUE, 1974, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check quantum_interference_expansion', 'Complex superposition amplitude expansion with non-classical wave interference cross-term'),
+  ('polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('scaffold:polarizer_projection', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', NULL, 'scaffold:polarizer_projection', 'P(u | v) = |⟨u | v⟩|² = cos²(θ_{uv})  ∧  P_total = cos²(θ₁) · cos²(θ₂)', 'axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta ≥ 0', TRUE, TRUE, 1979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check polarizer_projection_law', 'Geometric vector projection probability and three-polarizer chain restoration'),
+  ('luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1899, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('scaffold:luders_update', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1899, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', NULL, 'scaffold:luders_update', '|ψ''⟩ = (P_V |ψ⟩) / ||P_V |ψ⟩|| = (P_V |ψ⟩) / √⟨ψ | P_V | ψ⟩', 'axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True', TRUE, TRUE, 1899, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_vector_renormalization', 'Lüders quantum state conditioning and unit vector renormalization'),
+  ('density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2197, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('scaffold:density_operator', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2197, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', NULL, 'scaffold:density_operator', 'ρ = ∑_{k} w_k |ψ_k⟩⟨ψ_k|  ∧  Tr(ρ) = 1  ∧  γ(ρ) = Tr(ρ²) ∈ [1/ω, 1]', 'axiom density_operator_unit_trace : True', TRUE, TRUE, 2197, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check density_operator_unit_trace', 'Quantum density operator unit trace probability conservation and state purity bounds'),
+  ('quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2046, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('scaffold:quantum_bayes', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2046, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', NULL, 'scaffold:quantum_bayes', 'ρ'' = (P_k · ρ · P_k) / Tr(ρ · P_k)  ∧  P_A P_B ρ P_B P_A ≠ P_B P_A ρ P_A P_B', 'axiom luders_quantum_bayes_update : True', TRUE, TRUE, 2046, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check luders_quantum_bayes_update', 'Non-commutative Lüders quantum Bayesian updating on density matrices'),
+  ('von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2050, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('scaffold:von_neumann_entropy', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2050, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', NULL, 'scaffold:von_neumann_entropy', 'S(ρ) = -k_B · Tr(ρ · ln ρ) = -k_B ∑ λ_i · ln(λ_i)', 'axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2050, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check von_neumann_entropy_invariance', 'von Neumann quantum entropy invariance under unitary state evolution'),
+  ('linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1952, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
+  ('scaffold:linear_map_preservation', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1952, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1939, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearMap
+  ('structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', NULL, 'scaffold:linear_map_preservation', 'structure LinearMap (F V W : Type) : [ map_add ∧ map_smul ]', 'structure LinearMap (F : Type) (V : Type) (W : Type) ...', TRUE, TRUE, 1952, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearMap
 #check R_w_id_linear_map', 'Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication'),
-  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 1977, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
-  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
+  ('unitary_isometry', 11, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2007, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('scaffold:unitary_isometry', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2007, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', NULL, 'scaffold:unitary_isometry', '⟨ U u | U v ⟩ = ⟨ u | v ⟩  ∧  ∥ U v ∥ = ∥ v ∥', 'axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True', TRUE, TRUE, 2007, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check unitary_inner_product_invariance', 'Unitary operator inner product invariance and metric norm isometry'),
+  ('vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2119, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
+  ('scaffold:vector_distributivity', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2119, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2168, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check VectorSpace
+  ('structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', NULL, 'scaffold:vector_distributivity', 'structure VectorSpace (F V : Type) [Field F] [AbelianGroup V] : [ smul_add ∧ add_smul ∧ mul_smul ∧ one_smul ]', 'structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)', TRUE, TRUE, 2119, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check VectorSpace
 #check R_w_vector_space', 'Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, ·)'),
-  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
+  ('dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
+  ('scaffold:dual_pairing', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2043, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check LinearFunctional
+  ('⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', NULL, 'scaffold:dual_pairing', '⟨ · , · ⟩ : V* × V → F  where  ⟨f, v⟩ = f(v)', 'def dual_eval (f : LinearFunctional F V ...) (v : V) : F', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check LinearFunctional
 #check dual_eval
 #check R_w_id_functional', 'Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing ⟨f, v⟩ = f(v)'),
-  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
+  ('infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1871, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
+  ('scaffold:infinitesimal_halo', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1871, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1900, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_infinitesimal
+  ('μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', NULL, 'scaffold:infinitesimal_halo', 'μ(x₀) = { y ∈ ℝ_ω | y ≈ x₀ }  where  y ≈ x₀ ⟺ ∀ n ∈ ℕ, |y - x₀| < 1/n', 'theorem infinitesimal_halo_relation (x y : R_w) : x ≈ y ↔ is_infinitesimal (x - y)', TRUE, TRUE, 1871, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_infinitesimal
 #check approx
 #check halo
 #check dx_is_infinitesimal
 #check infinitesimal_halo_relation', 'Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection'),
-  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
+  ('nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2118, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
+  ('scaffold:nonstandard_derivative', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2118, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 1816, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check diff_quotient
+  ('f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', NULL, 'scaffold:nonstandard_derivative', 'f''(x) = st( [f(x + dx) - f(x)] / dx )  (for non-zero infinitesimal dx)', 'axiom nonstandard_derivative_shadow (f : R_w → R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx ≠ 0) (hfin : is_finite (diff_quotient f x dx)) : st ⟨diff_quotient f x dx, hfin⟩ = L', TRUE, TRUE, 2118, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check diff_quotient
 #check has_derivative_at
 #check nonstandard_derivative_shadow', 'Nonstandard difference quotient derivative shadow on hyperreal continuum'),
-  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
+  ('algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1962, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
+  ('scaffold:algebraic_product_rule', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1962, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check product_rule_shadow
+  ('(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', NULL, 'scaffold:algebraic_product_rule', '(u · v)'' = u · v'' + v · u''  ∧  (f ∘ g)''(x) = f''(g(x)) · g''(x)', 'axiom product_rule_shadow & axiom chain_rule_shadow', TRUE, TRUE, 1962, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check product_rule_shadow
 #check chain_rule_shadow', 'Algebraic product rule and chain rule under microscopic nonstandard difference quotient'),
-  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
+  ('local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
+  ('scaffold:local_linearity', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 1931, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check differential_form
+  ('df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', NULL, 'scaffold:local_linearity', 'df = f''(x) · dx  ∧  |Δf - df| / dx ≈ 0', 'def differential_form & axiom local_linearity', TRUE, TRUE, 2189, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check differential_form
 #check local_linearity', 'Differential 1-form scaling multiplier and infinitesimal local linearity error bound'),
-  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
+  ('discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2108, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
+  ('scaffold:discrete_curvature', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2108, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check delta2
+  ('Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', NULL, 'scaffold:discrete_curvature', 'Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)  ∧  f''''(x) = st( Δ²f(x) / dx² )', 'def delta2 & axiom second_derivative_shadow', TRUE, TRUE, 2108, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check delta2
 #check second_derivative_shadow', 'Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow'),
-  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
+  ('discrete_ivt', 16, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
+  ('scaffold:discrete_ivt', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 1917, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check is_continuous
+  ('f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', NULL, 'scaffold:discrete_ivt', 'f(a) ≤ 0 ∧ 0 ≤ f(b)  ⇒  ∃ x* ∈ [a, b], f(x*) ≈ 0', 'axiom discrete_ivt_bisection (f : R_w → R_w) (a b : R_w) (hf : is_continuous f) (h : f a ≤ 0 ∧ 0 ≤ f b) (hab : a ≤ b) : ∃ x_star, a ≤ x_star ∧ x_star ≤ b ∧ f x_star ≈ 0', TRUE, TRUE, 2083, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check is_continuous
 #check discrete_ivt_bisection
 #check ivt_standard_root
 #check bisection_interval_len', 'Discrete Intermediate Value Theorem root existence on sign-bracketed interval'),
-  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 1923, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
-  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1961, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
-  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1775, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
-  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
+  ('additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('scaffold:additive_identity', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', NULL, 'scaffold:additive_identity', '∀ x ∈ ℝ_ω, x + 0 = 0 + x = x', 'axiom additive_identity : True', TRUE, TRUE, 2105, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_identity', 'Additive identity element neutral action rooted at birthday node 0'),
+  ('additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1944, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('scaffold:additive_inverse', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1944, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', NULL, 'scaffold:additive_inverse', '∀ x ∈ ℝ_ω, ∃ (-x) ∈ ℝ_ω : x + (-x) = (-x) + x = 0', 'axiom additive_inverse : True', TRUE, TRUE, 1944, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check additive_inverse', 'Additive inverse existence via bilateral branch reflection across tree root'),
+  ('zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1897, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('scaffold:zero_annihilation', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1897, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', NULL, 'scaffold:zero_annihilation', '∀ x ∈ F, 0 · x = (0 + 0) · x = 0 · x + 0 · x ⇒ 0 · x = 0', 'axiom zero_annihilation : True', TRUE, TRUE, 1897, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check zero_annihilation', 'Zero annihilation theorem forced by field distributivity: 0 · x = 0'),
+  ('abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
+  ('scaffold:abelian_group', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 1990, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check AbelianGroup
+  ('structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', NULL, 'scaffold:abelian_group', 'structure AbelianGroup (G : Type) : [ add_assoc ∧ add_comm ∧ add_zero ∧ add_neg ]', 'structure AbelianGroup (G : Type)', TRUE, TRUE, 2100, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check AbelianGroup
 #check R_w_is_abelian_group', 'Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (ℝ_ω, +)'),
-  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
+  ('field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
+  ('scaffold:field_structure', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 2052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check Field
+  ('structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', NULL, 'scaffold:field_structure', 'structure Field (F : Type) extends AbelianGroup F : [ mul_assoc ∧ mul_comm ∧ mul_one ∧ mul_inv ∧ distrib ]', 'structure Field (F : Type) extends AbelianGroup F', TRUE, TRUE, 1918, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check Field
 #check R_w_is_field', 'Abstract Field axioms in Lean 4 with Conway continuum model grounding on (ℝ_ω, +, ·)'),
-  ('dyadic_angle', 18, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('scaffold:dyadic_angle', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1910, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
-  ('dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('scaffold:dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('d ↦ d.val ∈ ℝ_ω', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 2071, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
-  ('angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
+  ('dyadic_angle', 18, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('scaffold:dyadic_angle', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', NULL, 'scaffold:dyadic_angle', 'θ_{m, n} = 2π · (m / 2ⁿ)  (m ∈ ℤ, n ∈ ℕ)', 'def dyadic_angle (m : Z_w) (n : N_w) : R_w', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_angle', 'Binary Conway tree directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angle coordinates'),
+  ('dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1959, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('scaffold:dyadic_to_real', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1959, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('d ↦ d.val ∈ ℝ_ω', NULL, 'scaffold:dyadic_to_real', 'd ↦ d.val ∈ ℝ_ω', 'def dyadic_to_real (d : D_w) : R_w', TRUE, TRUE, 1959, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_real', 'Directed pair 𝔻 → ℝ_ω embedding dyadic rationals into the Day ω continuum'),
+  ('angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 1955, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('scaffold:angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
+  ('scaffold:angle_to_point', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 1955, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 2220, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_point
+  ('θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', NULL, 'scaffold:angle_to_point', 'θ ↦ ⟨cos_w(θ), sin_w(θ)⟩ ∈ S¹_ω ⊂ ℂ_ω', 'def angle_to_point (theta : R_w) : C_w', TRUE, TRUE, 1955, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_point
 #check pythagorean_identity', 'Rotor coordinate embedding directed pair ℝ_ω → ℂ_ω preserving unit circle norm squared'),
-  ('angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('scaffold:angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 1965, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
-  ('dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('scaffold:dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 2152, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
-  ('cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
+  ('angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2019, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('scaffold:angle_to_rotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2019, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', NULL, 'scaffold:angle_to_rotor', 'θ ↦ ⟨⟨cos_w(θ), sin_w(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor', 'def angle_to_rotor (theta : R_w) : UnitRotor', TRUE, TRUE, 2019, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check angle_to_rotor', 'Certified unit rotor directed pair ℝ_ω → UnitRotor mapping angle to group element S¹_ω'),
+  ('dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('scaffold:dyadic_to_rotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', NULL, 'scaffold:dyadic_to_rotor', 'd ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor', 'def dyadic_to_rotor (d : D_w) : UnitRotor', TRUE, TRUE, 1932, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check dyadic_to_rotor', 'Directed pair 𝔻 → UnitRotor mapping dyadic turns directly to certified unit rotors'),
+  ('cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2112, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('scaffold:cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
+  ('scaffold:cos_half_angle', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2112, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('cos(θ / 2) = √[(1 + cos θ) / 2]', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check cos_half_angle
+  ('cos(θ / 2) = √[(1 + cos θ) / 2]', NULL, 'scaffold:cos_half_angle', 'cos(θ / 2) = √[(1 + cos θ) / 2]', 'axiom cos_half_angle (c : R_w) : R_w', TRUE, TRUE, 2112, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check cos_half_angle
 #check cos_bisection_rule', 'Ptolemaic angle bisection directed pair ℝ_ω → ℝ_ω computing half-angle cosine recursion'),
-  ('chord_length', 19, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('scaffold:chord_length', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1861, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
-  ('UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
+  ('chord_length', 19, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('scaffold:chord_length', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', NULL, 'scaffold:chord_length', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check chord_length', 'Polygonal rim chord directed pair ℝ_ω → ℝ_ω mapping central turn to Euclidean segment length'),
+  ('UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('scaffold:UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
+  ('scaffold:UnitRotor', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2111, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check UnitRotor
+  ('U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', NULL, 'scaffold:UnitRotor', 'U ∈ U(1) ⊂ ℂ_ω  where  |U|² = 1', 'structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1', TRUE, TRUE, 2036, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check UnitRotor
 #check rotate', 'Unit Rotor structure on ℂ_ω acting as rotational operator on 2D vectors via complex multiplication'),
-  ('sin_dyadic_fn', 20, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
+  ('sin_dyadic_fn', 20, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1995, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('scaffold:sin_dyadic_fn', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
+  ('scaffold:sin_dyadic_fn', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1995, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('sin_dyadic_fn : 𝔻 → [-1, 1]', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1905, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_dyadic_fn
+  ('sin_dyadic_fn : 𝔻 → [-1, 1]', NULL, 'scaffold:sin_dyadic_fn', 'sin_dyadic_fn : 𝔻 → [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', TRUE, TRUE, 1995, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_dyadic_fn
 #check sin_dyadic', 'Dyadic sine function bundling directed pair 𝔻 → [-1, 1] with CORDIC bisection rule'),
-  ('sin_rotor_fn', 21, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
+  ('sin_rotor_fn', 21, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('scaffold:sin_rotor_fn', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
+  ('scaffold:sin_rotor_fn', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('sin_rotor_fn : UnitRotor → [-1, 1]', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2246, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check sin_rotor_fn
+  ('sin_rotor_fn : UnitRotor → [-1, 1]', NULL, 'scaffold:sin_rotor_fn', 'sin_rotor_fn : UnitRotor → [-1, 1]', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', TRUE, TRUE, 2138, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check sin_rotor_fn
 #check sin_rotor_rule', 'Unit rotor sine projection bundling directed pair UnitRotor → [-1, 1] with imaginary coordinate rule'),
-  ('D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
+  ('D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('scaffold:D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
+  ('scaffold:D_w', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2617, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_w
+  ('𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', NULL, 'scaffold:D_w', '𝔻 = { m / 2^k | m ∈ ℤ, k ∈ ℕ } ⊂ ℝ_ω', 'def D_w : Type := { x : R_w // is_dyadic x }', TRUE, TRUE, 2092, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_w
 #check is_dyadic', 'Dyadic rational domain born on finite days k < ω as the 2-successor binary tree backbone'),
-  ('D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('scaffold:D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2815, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
-  ('R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
+  ('D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('scaffold:D_lt_one', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', NULL, 'scaffold:D_lt_one', '𝔻:<1 ≡ { x ∈ 𝔻 | x < 1 }', 'def D_lt_one : Type := { d : D_w // d.val < 1 }', TRUE, TRUE, 2051, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check D_lt_one', 'Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection'),
+  ('R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2205, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('scaffold:R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
+  ('scaffold:R_w_circle', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2205, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2770, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', '#check R_w_circle
+  ('ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', NULL, 'scaffold:R_w_circle', 'ℝ_ω:mod(2π) ≡ [0, 2π), 0 ~ 2π ≅ S¹_ω', 'structure R_w_circle where val : R_w; in_range : 0 ≤ val ∧ val < 2 * pi', TRUE, TRUE, 2205, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', '#check R_w_circle
 #check mod_2pi_rel', 'Quotient circle domain S¹_ω on ℝ_ω with periodic boundary identification modulo 2π'),
-  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
+  ('paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
+  ('exp:paq', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1584, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def paq_witness : Nat := 6
+  ('∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ [ GT5(x₁)∧LT10(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1052, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def paq_witness : Nat := 6
 theorem paq_proof : 6 > 5 ∧ 6 < 10 := by decide', 'Existential satisfied by witness x₁ = 6 (6 > 5 ∧ 6 < 10)'),
-  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1957, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
-  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 1983, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
-  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
+  ('p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 895, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('exp:p', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 895, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('∃x₁:ℕ [ GT5(x₁) ]', NULL, '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ [ GT5(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 895, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem p_proof : 6 > 5 := by decide', 'Existential satisfied by witness x₁ = 6'),
+  ('v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('exp:v', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('∃x₁:ℕ [ EVEN(x₁) ]', NULL, '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ [ EVEN(x₁) ]', '∃x₁:ℕ', TRUE, TRUE, 979, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem v_proof : 6 % 2 = 0 := by decide', 'Existential satisfied by witness x₁ = 6 (6 % 2 == 0)'),
+  ('mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1000, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
+  ('exp:mam', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1000, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1603, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'def mam_witness : Nat := 7
+  ('∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', NULL, '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ [ x₁∈GT5∧x₁∈LT10 ]', '∃x₁:ℕ', TRUE, TRUE, 1000, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'def mam_witness : Nat := 7
 theorem mam_proof : 7 > 5 ∧ 7 < 10 := by decide', 'Subset intersection satisfied by witness x₁ = 7'),
-  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1834, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
-  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 2912, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
-  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
-  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 1475, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-09-28T22:09:30.403Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
+  ('r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1331, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('exp:r', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1331, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', NULL, '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ | GT(11)], ∃x₂:[ℕ | LT(5)] [ GT(x₁, x₂) ]', '∀x₁:[ℕ|GT(11)], ∃x₂:[ℕ|LT(5)]', TRUE, TRUE, 1331, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : ∃ x2 < 5, x1 > x2 := ⟨0, by decide, by omega⟩', 'For any x₁ > 11, choose x₂ = 0 (< 5) satisfying x₁ > x₂'),
+  ('s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 960, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('exp:s', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 960, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', NULL, '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ | EVEN], ∃x₂:[ℕ | LT(x₁)] [ LT(x₂, x₁) ]', '∀x₁:[ℕ|EVEN], ∃x₂:[ℕ|LT(x₁)]', TRUE, TRUE, 960, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 ∧ x1 > 0) : ∃ x2 < x1, x2 < x1 := ⟨0, by omega, by omega⟩', 'Dependent lower bound satisfied by choosing x₂ = 0 < x₁'),
+  ('ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 934, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('exp:ras', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 934, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂'),
+  ('∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', NULL, '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ [ GT(x₁,x₂)∧LT(x₁,x₂) ]', '∃x₁:ℕ, ∃x₂:ℕ', FALSE, TRUE, 934, 'Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)', '2026-10-09T18:19:12.160Z', 'theorem ras_refutation : ¬(∃ x1 x2 : Nat, x1 > x2 ∧ x1 < x2) := by intros h; rcases h with ⟨x1, x2, h1, h2⟩; omega', 'Contradiction refutation: no pair of natural numbers can simultaneously satisfy x₁ > x₂ and x₁ < x₂')
 ON CONFLICT (key) DO UPDATE SET
   statement_id = EXCLUDED.statement_id,
   verdict = EXCLUDED.verdict,
