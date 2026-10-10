@@ -657,30 +657,69 @@
     </div>
 
     <p>
-      MWM includes a single Lean source file: the Lean scaffold (<code>MiddleWayLean/Scaffold.lean</code>). MWM HTML text segments include embedded custom elements (<code>&lt;fsd-ref&gt;</code>) to describe formal statements and connect them to the Lean scaffold.
+      MWM includes a single Lean source file: the Lean scaffold (<code>MiddleWayLean/Scaffold.lean</code>). MWM HTML text segments include embedded custom elements (<code>&lt;fsd-ref&gt;</code>) to describe formal statements and connect them directly to the Lean scaffold.
     </p>
 
+    <h4>The Build Pipeline and Lean Utilities</h4>
     <p>
-      The development workflow uses Node utilities to inspect the curriculum and verify it before deployment:
+      The development workflow uses a dedicated suite of Node utilities to inspect the curriculum, verify theorems against the Lean kernel, and compile static distribution assets:
     </p>
     <ul>
       <li>
-        <b>Lean Cache Generation (<code>npm run leanCache</code>):</b> Runs Lean on the dev machine to verify all theorems in <code>Scaffold.lean</code>, generating static cache files (<code>leanCache.json</code>) that record verification status, type signatures, and timing.
+        <b>Lean Cache Generation (<code>npm run leanCache</code>):</b> Invokes <code>lean.exe</code> via subprocess on the dev machine to verify all theorems in <code>Scaffold.lean</code>. It captures the verification status, type signatures, and millisecond execution timings, storing them in static cache files (<code>clientLib/leanCache.json</code> and <code>clientLib/leanCache.ts</code>). If the scaffold file has not changed, it skips redundant re-verification.
       </li>
       <li>
-        <b>Stencil Harvesting (<code>npm run stencils</code>):</b> Scans the HTML text segments for <code>&lt;fsd-ref&gt;</code> tags and maps them to the corresponding scaffold keys.
+        <b>Stencil Harvesting (<code>npm run stencils</code>):</b> Scans the curricular HTML segments for custom <code>&lt;fsd-ref&gt;</code> tags and maps them directly to corresponding scaffold keys. It generates the catalog files (<code>clientLib/fsCatalog.json</code> and <code>app1/public/fsCatalog.json</code>), emitting formal statements (with hierarchy and types), calculation modes, and working examples.
+      </li>
+      <li>
+        <b>Segment &amp; Index Compilation (<code>npm run segs</code>, <code>npm run index</code>):</b> Bundles all 58 curriculum segments and client scripts into the single static production distribution (<code>app1/dist/index.html</code>), embedding verified proof badges directly so readers on the public site (<code>middlewaymath.app</code>) require no cloud backend or Lean installation.
+      </li>
+      <li>
+        <b>Local Interactive Compiler Bridge (<code>npm run leanServer</code>):</b> An optional Express and WebSocket server running on port 3001 on the dev machine. It receives formal statements from the browser-based development application and invokes <code>lean.exe</code> in real time, allowing curriculum authors to edit formal lemmas and receive instant kernel diagnostics in the browser.
       </li>
     </ul>
 
+    <h4>The Formal Verification Spectrum &amp; Tier Levels</h4>
     <p>
-      This separation distinguishes between deployment and local development:
+      In modern theorem proving, mathematical formalization spans a multi-tier spectrum:
     </p>
     <ul>
       <li>
-        <b>Static Web (<code>middlewaymath.app</code>):</b> Readers receive verified badges pre-loaded from the static cache, with no cloud backend and no Lean installation needed.
+        <b>Tier 1 (Type Signatures &amp; Ontology Specification):</b> Defining vocabulary, primitive types, and operator signatures to eliminate ambiguous notation and certify well-typed formulas.
       </li>
       <li>
-        <b>Local Dev (<code>npm run leanServer</code>):</b> An optional local server runs on the dev machine (port 3001), providing the browser-based dev app with runtime communication to Lean for interactive proof checking.
+        <b>Tier 2 (Axiomatic Semantic Scaffold):</b> Postulating the algebraic continuum (ℕ_ω, ℝ_ω, ℂ_ω) and standard-part shadow map (<code>st: ℝ_ω → 𝔻</code>) as an authoritative structural blueprint, while formally proving key inductive bridge theorems.
+      </li>
+      <li>
+        <b>Tier 3 (Certified Code &amp; Computable Models):</b> Formalizing computational algorithms directly inside Lean and proving termination and exact bit-level semantic equivalence with mathematical truth.
+      </li>
+      <li>
+        <b>Tier 4 (Universal Constructive Foundations):</b> Constructing the entire transfinite continuum from scratch out of Dedekind cuts or Conway games across tens of thousands of lines of foundational library proofs (such as Mathlib).
+      </li>
+    </ul>
+    <p>
+      <b>Where MWM Sits:</b> Middle Way Mathematics sits deliberately at <b>Tier 2 (an Axiomatic Semantic Scaffold)</b>. Rather than imposing the massive proof burden of constructing the entire continuum from set-theoretic scratch, <code>Scaffold.lean</code> specifies primitive set-types and algebraic rules as an authoritative blueprint, verifies foundational inductive bridges (such as the Telescoping Fundamental Theorem of Calculus), and provides certified type signatures for all formal curriculum statements.
+    </p>
+
+    <h4>Outline of the Lean Scaffold (<code>Scaffold.lean</code>)</h4>
+    <p>
+      All formal verification for Middle Way Mathematics is consolidated into a single Lean 4 file (<code>MiddleWayLean/Scaffold.lean</code>). Its 1,294 lines are organized into five primary thematic areas:
+    </p>
+    <ul>
+      <li>
+        <b>1. Primitive Set-Types &amp; the Transfinite Continuum (Sections 0–2):</b> Establishes inductive tree types for Boolean truth (𝔹), the unary counting spine (Tree1), the binary tree (Tree2), and the quadtree (Tree4). Introduces the transfinite ordinal horizon (Day ω), the three base sets (ℕ_ω, ℝ_ω, ℂ_ω), the dyadic rational subtype 𝔻 and discrete integer lattice ℤ, and the infinitesimal scale <code>dx = 1/ω</code>.
+      </li>
+      <li>
+        <b>2. Function Architecture &amp; Analysis Operators (Section 3):</b> Defines the Middle Way function model bundling Directed Pairs (<code>α → β</code>) and assignment Rules into <code>FunctionType</code>. Establishes continuum operators (<code>deriv_op</code>, <code>integral_op</code>), discrete sequence operators (<code>delta_op</code>, <code>hyper_sum</code>), and transfinite function sequence spaces (<code>ℕ_ω → (ℝ_ω → ℝ_ω)</code>).
+      </li>
+      <li>
+        <b>3. The Telescoping Calculus Theorem &amp; 2D Complex Grid (Sections 4–7):</b> Machine-verifies the Telescoping Fundamental Theorem of Calculus (<code>telescoping_ftc</code>, proved by finite induction on ℕ), the continuum FTC, the 2D complex grid ℂ_ω (ℝ_ω × ℝ_ω), the standard-part shadow map <code>st: ℝ_ω → 𝔻</code>, and conformal 2D cell geometry.
+      </li>
+      <li>
+        <b>4. Physics, Logic &amp; Abstract Algebraic Structures (Sections 8–12):</b> Formulates unitary norm preservation, Bayesian sequential updating and Shannon information entropy bounds, quantum logic with the Born probability rule and Lüders state vector projections, and abstract algebraic structures (Abelian groups, fields, vector spaces, and linear duals).
+      </li>
+      <li>
+        <b>5. Nonstandard Analysis, Trigonometry &amp; Directed Morphisms (Sections 13–20):</b> Formalizes infinitesimal halos (<code>x ≈ y</code>), the nucleus-halo decomposition, nonstandard derivative shadows (<code>rule_D_w</code>), the discrete intermediate value theorem (DIVT) and bisection, dyadic trigonometry with CORDIC rotor steering on ℂ_ω, turning differential operators (<code>D_turn² = -I</code>), exponential and logarithmic group morphisms (<code>D(exp) = exp</code>), and extended derivative stencils.
       </li>
     </ul>
 
