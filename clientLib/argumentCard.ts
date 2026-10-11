@@ -221,7 +221,7 @@ export class ArgumentCard extends Elt {
         "style",
         "display: flex; justify-content: space-between; color: #94a3b8; font-size: 10.5px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px; letter-spacing: 0.5px;"
       );
-      codeHeader.setV("<span>⚡ ESTABLISHING LEAN 4 PROOF / ARGUMENT</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+      codeHeader.setV("<span>⚡ Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
       const pre = new Elt("pre");
       pre.setA("style", "margin: 0; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
       pre.setV(arg.leanSnippet);
@@ -401,6 +401,10 @@ export class ArgumentCard extends Elt {
     );
   }
 
+  private isDevMode(): boolean {
+    return typeof Nav !== "undefined" && Boolean((Nav as any).editMode || (Nav as any).edit);
+  }
+
   private async detectEnvironment() {
     const isLocal =
       typeof window !== "undefined" &&
@@ -408,9 +412,7 @@ export class ArgumentCard extends Elt {
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname.endsWith(".local"));
 
-    const isDev =
-      isLocal ||
-      (typeof Nav !== "undefined" && Boolean((Nav as any).edit));
+    const isDev = isLocal || this.isDevMode();
 
     const cached = this.getCachedVerification();
 
@@ -449,12 +451,16 @@ export class ArgumentCard extends Elt {
       return;
     }
 
-    // Dev Mode: Enable Studio button
+    // Studio button: visible only in dev / edit mode
     if (this.studioBtn) {
-      this.studioBtn.setA(
-        "style",
-        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px; transition: all 0.15s ease;"
-      );
+      if (this.isDevMode()) {
+        this.studioBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px; transition: all 0.15s ease;"
+        );
+      } else {
+        this.studioBtn.setA("style", "display: none;");
+      }
     }
 
     // Attempt Lean Server ping for local dev
@@ -494,10 +500,14 @@ export class ArgumentCard extends Elt {
   private setServerOffline(cached?: LeanCacheEntry) {
     ArgumentCard.serverStatus = "offline";
     if (this.studioBtn) {
-      this.studioBtn.setA(
-        "style",
-        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px;"
-      );
+      if (this.isDevMode()) {
+        this.studioBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #7c3aed; background: #7c3aed; color: #ffffff; border-radius: 4px;"
+        );
+      } else {
+        this.studioBtn.setA("style", "display: none;");
+      }
     }
     if (this.calcBtn) {
       this.calcBtn.setA(
