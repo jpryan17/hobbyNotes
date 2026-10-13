@@ -261,32 +261,133 @@ export async function generateSeedSql(): Promise<string> {
     pseudoAlgoKeyToId[algo.id] = idx + 1;
   });
 
+  function inferCategory(badge: string, id: string): string {
+    const b = (badge || '').toLowerCase();
+    const i = (id || '').toLowerCase();
+    if (b.includes('tree') || b.includes('simplicity')) return 'tree_topology';
+    if (b.includes('arithmetic') || i.includes('add') || i.includes('sub') || i.includes('mul') || i.includes('neg')) return 'arithmetic';
+    if (b.includes('order') || b.includes('sort') || i.includes('order') || i.includes('sort') || i.includes('le')) return 'order_theory';
+    if (b.includes('analysis') || b.includes('calculus') || i.includes('euler') || i.includes('kinematic') || i.includes('heat')) return 'analysis';
+    if (b.includes('trig') || b.includes('rotor') || b.includes('cordic')) return 'rotor_trig';
+    if (b.includes('quantum') || b.includes('bayes')) return 'quantum_bayes';
+    if (b.includes('primitive') || b.includes('set')) return 'primitives';
+    return 'arithmetic';
+  }
+
+  function inferAlgoKind(sig: string, id: string, badge: string): string {
+    const s = (sig || '').toLowerCase();
+    const i = (id || '').toLowerCase();
+    const b = (badge || '').toLowerCase();
+    if (s.includes('→ boolean') || s.includes('→ 𝔹') || i.includes('order') || i.includes('le') || i.includes('compare')) return 'predicate';
+    if (b.includes('primitive')) return 'primitive';
+    if (i.includes('step') || b.includes('analysis')) return 'stepper';
+    return 'operation';
+  }
+
+  const ALGO_SCAFFOLD_MAP: Record<string, string> = {
+    conway_add: 'abelian_group',
+    conway_mul: 'field_structure',
+    conway_order: 'D_w_is_totally_ordered',
+    kinematics_step: 'free_fall_accel',
+    laplacian_heat_step: 'heat_flux',
+    euler_compounding: 'nonstandard_derivative',
+    bayes_discrete_update: 'bayes_filter',
+    rotor_trig_cordic: 'UnitRotor',
+    simpler_options: 'Tree1_is_well_ordered',
+    cut: 'D_w_dense_in_R_w'
+  };
+
+  const SERIALIZABLE_PRESETS: Record<string, any[]> = {
+    conway_add: [
+      { id: 'add_half_three_fourths', label: 'ConwayAdd(1/2, 3/4) ⟹ 1&1/4', args: ['+-', '+-+'] },
+      { id: 'add_one_half', label: 'ConwayAdd(1, 1/2) ⟹ 1&1/2', args: ['+', '+-'] }
+    ],
+    conway_order: [
+      { id: 'order_zero_one', label: 'ConwayLessEq(0, 1) ⟹ True', args: ['', '+'] },
+      { id: 'order_one_zero', label: 'ConwayLessEq(1, 0) ⟹ False', args: ['+', ''] },
+      { id: 'order_half_threefourths', label: 'ConwayLessEq(1/2, 3/4) ⟹ True', args: ['+-', '+-+'] }
+    ],
+    conway_sort: [
+      { id: 'sort_standard_5', label: 'ConwaySort([1, -1, 1/2, 0, -1/2], 5)', args: [['+', '-', '+-', '', '-+'], 5] },
+      { id: 'sort_dyadics_4', label: 'ConwaySort([3/4, 1/4, 1/2, 0], 4)', args: [['+-+', '+--', '+-', ''], 4] }
+    ],
+    conway_sub: [
+      { id: 'sub_demo_1', label: 'ConwaySub(1&1/4, 3/4) ⟹ 1/2', args: ['++-', '+-+'] },
+      { id: 'sub_demo_2', label: 'ConwaySub(1, 1/2) ⟹ 1/2', args: ['+', '+-'] }
+    ],
+    conway_mul: [
+      { id: 'mul_one_half', label: 'ConwayMul(1, 1/2) ⟹ 1/2', args: ['+', '+-'] },
+      { id: 'mul_half_half', label: 'ConwayMul(1/2, 1/2) ⟹ 1/4', args: ['+-', '+-'] },
+      { id: 'mul_half_threefourths', label: 'ConwayMul(1/2, 3/4) ⟹ 3/8', args: ['+-', '+-+'] }
+    ],
+    conway_neg: [
+      { id: 'neg_three_fourths', label: 'ConwayNeg(3/4) ⟹ -3/4', args: ['+-+'] }
+    ],
+    cut: [
+      { id: 'cut_bounds', label: 'Cut(1, 1&1/2) ⟹ 1&1/4', args: ['+', '++-'] }
+    ],
+    simpler_options: [
+      { id: 'simpler_half', label: 'SimplerOptions(1/2) ⟹ {0}, {1}', args: ['+-'] }
+    ],
+    euler_compounding: [
+      { id: 'euler_exp_1', label: 'EulerExp(1, 4) ⟹ 4 squarings', args: ['+', 4] },
+      { id: 'euler_exp_half', label: 'EulerExp(1/2, 4) ⟹ 4 squarings', args: ['+-', 4] }
+    ],
+    kinematics_step: [
+      { id: 'kin_step_standard', label: 'KinematicStep(v₀=20, g=9&3/4, t=2)', args: [20, 19.5, 2] },
+      { id: 'kin_step_freefall', label: 'KinematicStep(v₀=0, g=9&3/4, t=1)', args: [0, 19.5, 1] }
+    ],
+    rotor_trig_cordic: [
+      { id: 'cordic_zero', label: 'CordicRotor(θ=0, 16) ⟹ (1, 0)', args: [0, 16] },
+      { id: 'cordic_quarter_pi', label: 'CordicRotor(θ ≈ π/4, 16) ⟹ (0.7071, 0.7071)', args: [0.785398, 16] }
+    ],
+    bayes_discrete_update: [
+      { id: 'bayes_update_demo', label: 'BayesUpdate(Prior=1/2, P(E|H)=3/4, P(E|¬H)=1/4) ⟹ 3/4', args: [0.5, 0.75, 0.25] }
+    ]
+  };
+
   const pseudoInserts: string[] = [];
   pseudoAlgos.forEach((algo: any, idx: number) => {
     const pId = idx + 1;
+    const cat = inferCategory(algo.badge, algo.id);
+    const kind = inferAlgoKind(algo.signature, algo.id, algo.badge);
+    const scaffold = ALGO_SCAFFOLD_MAP[algo.id] || null;
+    const presets = SERIALIZABLE_PRESETS[algo.id] || [];
+
     pseudoInserts.push(
-      `  (${pId}, ${escapeSql(algo.id)}, ${escapeSql(algo.name)}, ${escapeSql(algo.badge)}, ` +
-      `${escapeSql(algo.summary || null)}, ${escapeSql(algo.domain)}, ${escapeTextArray(algo.primitives)}, ` +
-      `${escapeSql(algo.complexity?.tree || null)}, ${escapeSql(algo.complexity?.dyadic || null)}, ` +
-      `${escapeSql(algo.code)})`
+      `  (${pId}, ${escapeSql(algo.id)}, ${escapeSql(algo.funcName || null)}, ${escapeSql(algo.name)}, ` +
+      `${escapeSql(algo.badge)}, ${escapeSql(cat)}, ${escapeSql(kind)}, ${escapeSql(algo.signature || null)}, ` +
+      `${escapeSql(algo.summary || null)}, ${escapeSql(algo.domain)}, ${escapeSql(scaffold)}, ` +
+      `${escapeTextArray(algo.primitives)}, ${escapeSql(algo.complexity?.tree || null)}, ` +
+      `${escapeSql(algo.complexity?.dyadic || null)}, ${escapeSql(algo.code)}, ` +
+      `${escapeJson(algo.explanation || [])}, ${algo.example ? escapeJson(algo.example) : 'NULL'}, ` +
+      `${escapeJson(presets)})`
     );
   });
 
   if (pseudoInserts.length > 0) {
     sql.push(`INSERT INTO pseudocode_algorithms (`);
-    sql.push(`  id, algo_key, name, badge, summary, domain, primitives, tree_complexity, dyadic_complexity, code`);
+    sql.push(`  id, algo_key, func_name, name, badge, category, algo_kind, signature, summary, domain, scaffold_key, primitives, tree_complexity, dyadic_complexity, code, explanation, example, presets`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
     sql.push(pseudoInserts.join(',\n'));
     sql.push(`ON CONFLICT (id) DO UPDATE SET`);
     sql.push(`  algo_key = EXCLUDED.algo_key,`);
+    sql.push(`  func_name = EXCLUDED.func_name,`);
     sql.push(`  name = EXCLUDED.name,`);
     sql.push(`  badge = EXCLUDED.badge,`);
+    sql.push(`  category = EXCLUDED.category,`);
+    sql.push(`  algo_kind = EXCLUDED.algo_kind,`);
+    sql.push(`  signature = EXCLUDED.signature,`);
     sql.push(`  summary = EXCLUDED.summary,`);
     sql.push(`  domain = EXCLUDED.domain,`);
+    sql.push(`  scaffold_key = EXCLUDED.scaffold_key,`);
     sql.push(`  primitives = EXCLUDED.primitives,`);
     sql.push(`  tree_complexity = EXCLUDED.tree_complexity,`);
     sql.push(`  dyadic_complexity = EXCLUDED.dyadic_complexity,`);
-    sql.push(`  code = EXCLUDED.code;\n`);
+    sql.push(`  code = EXCLUDED.code,`);
+    sql.push(`  explanation = EXCLUDED.explanation,`);
+    sql.push(`  example = EXCLUDED.example,`);
+    sql.push(`  presets = EXCLUDED.presets;\n`);
   }
 
   // 4. Formal Statements

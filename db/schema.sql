@@ -113,14 +113,22 @@ COMMENT ON TABLE curriculum_nav_items IS 'Hierarchical navigation outline tree f
 CREATE TABLE pseudocode_algorithms (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     algo_key VARCHAR(64) UNIQUE NOT NULL,        -- e.g. 'conway_add', 'kinematics_step'
+    func_name VARCHAR(64),                       -- e.g. 'ConwayAdd', 'KinematicStep'
     name VARCHAR(255) NOT NULL,
-    badge VARCHAR(64) NOT NULL,
+    badge VARCHAR(64) NOT NULL,                  -- UI Badge, e.g. 'Tree-Inductive Arithmetic'
+    category VARCHAR(64) NOT NULL DEFAULT 'arithmetic', -- e.g. 'order_theory', 'arithmetic', 'analysis', 'rotor_trig', 'quantum_bayes', 'primitives'
+    algo_kind VARCHAR(32) NOT NULL DEFAULT 'operation', -- e.g. 'predicate', 'operation', 'stepper', 'primitive'
+    signature VARCHAR(255),                      -- e.g. '(Node × Node) → Node'
     summary TEXT,
     domain VARCHAR(128) NOT NULL,
+    scaffold_key VARCHAR(64),                    -- e.g. 'abelian_group', 'D_w_is_totally_ordered'
     primitives TEXT[] NOT NULL DEFAULT '{}',
     tree_complexity TEXT,
     dyadic_complexity TEXT,
     code TEXT NOT NULL,
+    explanation JSONB NOT NULL DEFAULT '[]'::jsonb,
+    example JSONB,
+    presets JSONB NOT NULL DEFAULT '[]'::jsonb,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
