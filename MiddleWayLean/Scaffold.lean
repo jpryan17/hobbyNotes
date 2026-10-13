@@ -22,6 +22,155 @@ inductive B_w where
 inductive Tree1 where
   | zero : Tree1
   | succ : Tree1 → Tree1
+deriving DecidableEq
+
+-- ============================================================================
+-- 0.2. Order Classifications: Partial, Total, and Well-Orders
+-- ============================================================================
+
+-- 1. Partial Order Judgment (reflexive, antisymmetric, transitive)
+structure PartialOrder (α : Type) (le : α → α → Prop) : Prop where
+  refl     : ∀ x, le x x
+  antisymm : ∀ x y, le x y → le y x → x = y
+  trans    : ∀ x y z, le x y → le y z → le x z
+
+-- 2. Total Order Judgment (linear order / totality)
+structure TotalOrder (α : Type) (le : α → α → Prop) : Prop where
+  toPartialOrder : PartialOrder α le
+  total          : ∀ x y, le x y ∨ le y x
+
+-- 3. Well-Order Judgment (total order with well-foundedness / no infinite descent)
+structure WellOrder (α : Type) (le : α → α → Prop) (lt : α → α → Prop) : Prop where
+  toTotalOrder : TotalOrder α le
+  wf           : WellFounded lt
+
+-- 4. Constructive Order on Tree1 (1-Successor Unary Counting Spine ≡ ℕ)
+def Tree1.toNat : Tree1 → Nat
+  | Tree1.zero => 0
+  | Tree1.succ n => Nat.succ (Tree1.toNat n)
+
+def Tree1.le (a b : Tree1) : Prop :=
+  Tree1.toNat a ≤ Tree1.toNat b
+
+def Tree1.lt (a b : Tree1) : Prop :=
+  Tree1.toNat a < Tree1.toNat b
+
+instance : LE Tree1 where le := Tree1.le
+instance : LT Tree1 where lt := Tree1.lt
+
+theorem Tree1.toNat_inj : ∀ {a b : Tree1}, Tree1.toNat a = Tree1.toNat b → a = b
+  | Tree1.zero, Tree1.zero, _ => rfl
+  | Tree1.zero, Tree1.succ _, h => by injection h
+  | Tree1.succ _, Tree1.zero, h => by injection h
+  | Tree1.succ a, Tree1.succ b, h => by
+    have h1 : Tree1.toNat a = Tree1.toNat b := Nat.succ.inj h
+    rw [Tree1.toNat_inj h1]
+
+theorem Tree1.le_refl (x : Tree1) : Tree1.le x x :=
+  Nat.le_refl (Tree1.toNat x)
+
+theorem Tree1.le_antisymm (x y : Tree1) : Tree1.le x y → Tree1.le y x → x = y := by
+  intro h1 h2
+  have eq_nat : Tree1.toNat x = Tree1.toNat y := Nat.le_antisymm h1 h2
+  exact Tree1.toNat_inj eq_nat
+
+theorem Tree1.le_trans (x y z : Tree1) : Tree1.le x y → Tree1.le y z → Tree1.le x z := by
+  intro h1 h2
+  exact Nat.le_trans h1 h2
+
+theorem Tree1.le_total (x y : Tree1) : Tree1.le x y ∨ Tree1.le y x :=
+  Nat.le_total (Tree1.toNat x) (Tree1.toNat y)
+
+theorem Tree1.partialOrder : PartialOrder Tree1 Tree1.le := {
+  refl     := Tree1.le_refl,
+  antisymm := Tree1.le_antisymm,
+  trans    := Tree1.le_trans
+}
+
+theorem Tree1.totalOrder : TotalOrder Tree1 Tree1.le := {
+  toPartialOrder := Tree1.partialOrder,
+  total          := Tree1.le_total
+}
+
+theorem Tree1.lt_wf : WellFounded Tree1.lt :=
+  InvImage.wf Tree1.toNat Nat.lt_wfRel.wf
+
+theorem Tree1_is_well_ordered : WellOrder Tree1 Tree1.le Tree1.lt := {
+  toTotalOrder := Tree1.totalOrder,
+  wf           := Tree1.lt_wf
+}
+
+-- 5. Constructive Dyadic Representation (Fraction Model 𝔻 ≡ num / 2^exp)
+def pow2 (k : Nat) : Int := ((2 ^ k : Nat) : Int)
+
+theorem pow2_pos (k : Nat) : pow2 k > 0 := by
+  induction k with
+  | zero => decide
+  | succ n ih =>
+    show ((2 ^ (n + 1) : Nat) : Int) > 0
+    rw [Nat.pow_succ]
+    push_cast
+    exact Int.mul_pos ih (by decide)
+
+structure Dyad where
+  num : Int
+  exp : Nat
+deriving Repr, DecidableEq
+
+namespace Dyad
+
+def le (a b : Dyad) : Prop :=
+  a.num * pow2 b.exp ≤ b.num * pow2 a.exp
+
+def lt (a b : Dyad) : Prop :=
+  a.num * pow2 b.exp < b.num * pow2 a.exp
+
+instance : LE Dyad where le := le
+instance : LT Dyad where lt := lt
+
+theorem le_refl (a : Dyad) : le a a :=
+  Int.le_refl (a.num * pow2 a.exp)
+
+theorem le_total (a b : Dyad) : le a b ∨ le b a :=
+  Int.le_total (a.num * pow2 b.exp) (b.num * pow2 a.exp)
+
+theorem int_reorder (x y z : Int) : (x * y) * z = (x * z) * y := by
+  rw [Int.mul_assoc, Int.mul_comm y z, ←Int.mul_assoc]
+
+theorem le_trans (a b c : Dyad) (h1 : le a b) (h2 : le b c) : le a c := by
+  dsimp [le] at *
+  have h_b_pos : pow2 b.exp > 0 := pow2_pos b.exp
+  have h_c_pos : pow2 c.exp > 0 := pow2_pos c.exp
+  have h_a_pos : pow2 a.exp > 0 := pow2_pos a.exp
+  have m1 : (a.num * pow2 b.exp) * pow2 c.exp ≤ (b.num * pow2 a.exp) * pow2 c.exp :=
+    Int.mul_le_mul_of_nonneg_right h1 (Int.le_of_lt h_c_pos)
+  have m2 : (b.num * pow2 c.exp) * pow2 a.exp ≤ (c.num * pow2 b.exp) * pow2 a.exp :=
+    Int.mul_le_mul_of_nonneg_right h2 (Int.le_of_lt h_a_pos)
+  have e1 : (b.num * pow2 a.exp) * pow2 c.exp = (b.num * pow2 c.exp) * pow2 a.exp :=
+    int_reorder b.num (pow2 a.exp) (pow2 c.exp)
+  have e2 : (a.num * pow2 b.exp) * pow2 c.exp = (a.num * pow2 c.exp) * pow2 b.exp :=
+    int_reorder a.num (pow2 b.exp) (pow2 c.exp)
+  have e3 : (c.num * pow2 b.exp) * pow2 a.exp = (c.num * pow2 a.exp) * pow2 b.exp :=
+    int_reorder c.num (pow2 b.exp) (pow2 a.exp)
+  rw [e1] at m1
+  have chained := Int.le_trans m1 m2
+  rw [e2, e3] at chained
+  exact Int.le_of_mul_le_mul_right chained h_b_pos
+
+-- Equivalence (fractions representing the exact same dyadic point)
+def Equiv (a b : Dyad) : Prop :=
+  a.num * pow2 b.exp = b.num * pow2 a.exp
+
+infix:50 " ≈ " => Equiv
+
+theorem le_antisymm_equiv (a b : Dyad) (h1 : le a b) (h2 : le b a) : a ≈ b :=
+  Int.le_antisymm h1 h2
+
+-- Midpoint between two dyadics (constructive density witness)
+def midpoint (a b : Dyad) : Dyad :=
+  ⟨a.num * pow2 b.exp + b.num * pow2 a.exp, a.exp + b.exp + 1⟩
+
+end Dyad
 
 -- 3. Set defined by 2-successor finite induction: Tree2 (Binary Tree: Branching { -, + })
 inductive Tree2 where
@@ -60,14 +209,114 @@ axiom omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord
 -- ============================================================================
 
 -- 1> ℕ_ω ≡ {set defined by 1-successor finite induction} ∪ {ω}
-axiom N_w : Type
-axiom N_w_from_T1 : Tree1 → N_w
-axiom N_w_omega   : N_w
+inductive N_w where
+  | ofTree1 : Tree1 → N_w
+  | omega   : N_w
+deriving DecidableEq
 
--- Recursive definitions establish ℕ_ω as well-ordered:
-axiom N_w_le : N_w → N_w → Prop
+def N_w_from_T1 (t : Tree1) : N_w := N_w.ofTree1 t
+def N_w_omega : N_w := N_w.omega
+
+namespace N_w
+
+def le : N_w → N_w → Prop
+  | ofTree1 a, ofTree1 b => Tree1.le a b
+  | ofTree1 _, omega     => True
+  | omega,     ofTree1 _ => False
+  | omega,     omega     => True
+
+def lt : N_w → N_w → Prop
+  | ofTree1 a, ofTree1 b => Tree1.lt a b
+  | ofTree1 _, omega     => True
+  | omega,     _         => False
+
+instance : LE N_w where le := le
+instance : LT N_w where lt := lt
+
+theorem le_refl : ∀ x : N_w, le x x
+  | ofTree1 a => Nat.le_refl (Tree1.toNat a)
+  | omega     => trivial
+
+theorem toTree1_inj : ∀ {a b : Tree1}, N_w.ofTree1 a = N_w.ofTree1 b → a = b
+  | _, _, h => by injection h
+
+theorem le_antisymm : ∀ x y : N_w, le x y → le y x → x = y
+  | ofTree1 a, ofTree1 b, h1, h2 => by
+    have eq_nat : Tree1.toNat a = Tree1.toNat b := Nat.le_antisymm h1 h2
+    rw [Tree1.toNat_inj eq_nat]
+  | ofTree1 _, omega, _, h2 => False.elim h2
+  | omega, ofTree1 _, h1, _ => False.elim h1
+  | omega, omega, _, _ => rfl
+
+theorem le_trans : ∀ x y z : N_w, le x y → le y z → le x z
+  | ofTree1 _a, ofTree1 _b, ofTree1 _c, h1, h2 => Nat.le_trans h1 h2
+  | ofTree1 _, ofTree1 _, omega, _, _ => trivial
+  | ofTree1 _, omega, omega, _, _ => trivial
+  | ofTree1 _, omega, ofTree1 _, _, h2 => False.elim h2
+  | omega, ofTree1 _, _, h1, _ => False.elim h1
+  | omega, omega, ofTree1 _, _, h2 => False.elim h2
+  | omega, omega, omega, _, _ => trivial
+
+theorem le_total : ∀ x y : N_w, le x y ∨ le y x
+  | ofTree1 a, ofTree1 b => Nat.le_total (Tree1.toNat a) (Tree1.toNat b)
+  | ofTree1 _, omega     => Or.inl trivial
+  | omega,     ofTree1 _ => Or.inr trivial
+  | omega,     omega     => Or.inl trivial
+
+theorem partialOrder : PartialOrder N_w le := {
+  refl     := le_refl,
+  antisymm := le_antisymm,
+  trans    := le_trans
+}
+
+theorem totalOrder : TotalOrder N_w le := {
+  toPartialOrder := partialOrder,
+  total          := le_total
+}
+
+theorem ofTree1_acc_of_nat (n : Nat) : ∀ (a : Tree1), Tree1.toNat a = n → Acc lt (ofTree1 a) := by
+  induction (Nat.lt_wfRel.wf.apply n) with
+  | intro k _ ih =>
+    intro a ha
+    apply Acc.intro
+    intro y hy
+    cases y with
+    | omega => contradiction
+    | ofTree1 b =>
+      have h_lt : Tree1.toNat b < k := by
+        rw [← ha]
+        exact hy
+      exact ih (Tree1.toNat b) h_lt b rfl
+
+theorem ofTree1_acc (a : Tree1) : Acc lt (ofTree1 a) :=
+  ofTree1_acc_of_nat (Tree1.toNat a) a rfl
+
+theorem omega_acc : Acc lt omega := by
+  apply Acc.intro
+  intro y hy
+  cases y with
+  | omega => contradiction
+  | ofTree1 b => exact ofTree1_acc b
+
+theorem lt_wf : WellFounded lt := ⟨by
+  intro x
+  cases x with
+  | ofTree1 a => exact ofTree1_acc a
+  | omega => exact omega_acc
+⟩
+
+theorem wellOrder : WellOrder N_w le lt := {
+  toTotalOrder := totalOrder,
+  wf           := lt_wf
+}
+
+end N_w
+
+def N_w_le : N_w → N_w → Prop := N_w.le
+def N_w_lt : N_w → N_w → Prop := N_w.lt
 instance : LE N_w where le := N_w_le
-axiom N_w_well_ordered : True
+instance : LT N_w where lt := N_w_lt
+theorem N_w_well_ordered : WellOrder N_w N_w_le N_w_lt := N_w.wellOrder
 
 -- Embedding of standard finite counting numbers into the transfinite counting spine:
 def Nat_to_T1 : Nat → Tree1
@@ -95,7 +344,7 @@ axiom R_w_le : R_w → R_w → Prop
 axiom R_w_lt : R_w → R_w → Prop
 instance : LE R_w where le := R_w_le
 instance : LT R_w where lt := R_w_lt
-axiom R_w_totally_ordered : True
+axiom R_w_totally_ordered : TotalOrder R_w R_w_le
 
 -- 3> ℂ_ω ≡ {4-successor finite induction} ∪ {4-successor transfinite induction at birthday ω}
 -- (Coordinate structure and operations detailed in Section 5)
@@ -175,6 +424,40 @@ instance : Neg D_w where neg := D_neg
 instance : OfNat D_w (nat_lit 0) where ofNat := D_zero
 instance : OfNat D_w (nat_lit 1) where ofNat := D_one
 
+-- Total Order on 𝔻 (inherited from ℝ_ω):
+def D_w.le (a b : D_w) : Prop := a.val ≤ b.val
+def D_w.lt (a b : D_w) : Prop := a.val < b.val
+
+instance : LE D_w where le := D_w.le
+instance : LT D_w where lt := D_w.lt
+
+theorem D_w.le_refl (x : D_w) : x ≤ x :=
+  R_w_totally_ordered.toPartialOrder.refl x.val
+
+theorem D_w.le_antisymm (x y : D_w) (h1 : x ≤ y) (h2 : y ≤ x) : x = y := by
+  have eq_val : x.val = y.val := R_w_totally_ordered.toPartialOrder.antisymm x.val y.val h1 h2
+  exact Subtype.ext eq_val
+
+theorem D_w.le_trans (x y z : D_w) (h1 : x ≤ y) (h2 : y ≤ z) : x ≤ z :=
+  R_w_totally_ordered.toPartialOrder.trans x.val y.val z.val h1 h2
+
+theorem D_w.le_total (x y : D_w) : x ≤ y ∨ y ≤ x :=
+  R_w_totally_ordered.total x.val y.val
+
+theorem D_w.partialOrder : PartialOrder D_w D_w.le := {
+  refl     := D_w.le_refl,
+  antisymm := D_w.le_antisymm,
+  trans    := D_w.le_trans
+}
+
+theorem D_w_is_totally_ordered : TotalOrder D_w D_w.le := {
+  toPartialOrder := D_w.partialOrder,
+  total          := D_w.le_total
+}
+
+-- Density: 𝔻 is dense in ℝ_ω (Order type η dense embedding):
+axiom D_w_dense_in_R_w (x y : R_w) (h : x < y) : ∃ (d : D_w), x < d.val ∧ d.val < y
+
 -- Subtype constraint: 𝔻 : < 1 (Strictly bounded dyadic unit interval)
 def D_lt_one : Type := { d : D_w // d.val < 1 }
 
@@ -231,8 +514,13 @@ instance : Coe Z_w Int where coe := Z_w_to_Int
 instance : Coe Int Z_w where coe := Int_to_Z_w
 
 -- Canonical bridges between Middle Way finite ℕ_ω and native Lean Nat:
-axiom N_w_finite_to_Nat : { n : N_w // n ≠ N_w_omega } → Nat
-axiom Nat_to_N_w : Nat → N_w
+def N_w_finite_to_Nat (n : { n : N_w // n ≠ N_w_omega }) : Nat :=
+  match h : n.val with
+  | .ofTree1 t => Tree1.toNat t
+  | .omega => False.elim (n.property h)
+
+def Nat_to_N_w (n : Nat) : N_w :=
+  N_w.ofTree1 (Nat_to_T1 n)
 
 -- Bridge between Middle Way 𝔹 and native Lean Bool:
 def B_w.toBool : B_w → Bool

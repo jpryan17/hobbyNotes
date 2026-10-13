@@ -204,6 +204,49 @@
     .tb-select:hover { background: #f1f5f9; border-color: #cbd5e1; }
     .tb-divider { width: 1px; height: 18px; background: var(--border-color); margin: 0 4px; }
 
+    /* Script Level Control Group */
+    .script-level-btn {
+      font-family: var(--font-content), "Times New Roman", Times, Georgia, serif;
+      font-size: 13px;
+      padding: 3px 6px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+    }
+    .script-level-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+    .script-level-btn.active sub,
+    .script-level-btn.active sup {
+      color: #ffffff;
+    }
+
+    /* Subscript & Superscript Modest Size Gradient */
+    #wysiwyg-pane sub, sub {
+      font-size: 0.8em;
+      vertical-align: -0.25em;
+      line-height: 0;
+    }
+    #wysiwyg-pane sub sub, sub sub, .sub-sub {
+      font-size: 0.72em;
+      vertical-align: -0.36em;
+      line-height: 0;
+    }
+    #wysiwyg-pane sup, sup {
+      font-size: 0.8em;
+      vertical-align: 0.42em;
+      line-height: 0;
+    }
+    #wysiwyg-pane sup sup, sup sup, .sup-sup {
+      font-size: 0.72em;
+      vertical-align: 0.52em;
+      line-height: 0;
+    }
+
     /* Unicode Character Palette Strip */
     .unicode-palette {
       background: #f8fafc;
@@ -485,6 +528,17 @@
 
     <div class="tb-divider"></div>
 
+    <!-- Script Level Control Group: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2) -->
+    <div class="tb-group" id="tb-script-group" title="Script level: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2)">
+      <button id="tb-script-sub2" class="tb-btn script-level-btn" data-level="-2" title="Sub-subscript (level -2, e.g. a_{i_k})">x<sub><sub>2</sub></sub></button>
+      <button id="tb-script-sub1" class="tb-btn script-level-btn" data-level="-1" title="Subscript (level -1, e.g. x_i, Ctrl+,)">x<sub>1</sub></button>
+      <button id="tb-script-base" class="tb-btn script-level-btn active" data-level="0" title="Base text (level 0, normal baseline)">x</button>
+      <button id="tb-script-sup1" class="tb-btn script-level-btn" data-level="1" title="Superscript (level +1, e.g. x², Ctrl+.)">x<sup>1</sup></button>
+      <button id="tb-script-sup2" class="tb-btn script-level-btn" data-level="2" title="Super-superscript (level +2, e.g. 2^{2^n})">x<sup><sup>2</sup></sup></button>
+    </div>
+
+    <div class="tb-divider"></div>
+
     <div class="tb-group">
       <button id="tb-h1" class="tb-btn" title="Heading 1">H1</button>
       <button id="tb-h2" class="tb-btn" title="Heading 2">H2</button>
@@ -579,6 +633,8 @@
       <button class="u-btn u-bold" data-char="ℚ" title="Rational numbers (Q)">ℚ</button>
       <button class="u-btn u-bold" data-char="ℂ" title="Complex numbers (C)">ℂ</button>
       <button class="u-btn u-bold" data-char="𝔹" title="Booleans (B)">𝔹</button>
+      <button class="u-btn u-bold" data-char="𝔻" title="Dyadic rationals / Blackboard D (D)">𝔻</button>
+      <button class="u-btn u-bold" data-char="ⅆ" title="Differential d (d)">ⅆ</button>
 
       <span class="palette-sep"></span>
 
@@ -678,6 +734,7 @@
           <button class="m-chip" data-tex="\begin{bmatrix} a & b \\ c & d \end{bmatrix}" title="Matrix (brackets)">bmatrix</button>
           <button class="m-chip" data-tex="\mathbf{v}" title="Bold vector">\mathbf{v}</button>
           <button class="m-chip" data-tex="\mathbb{R}" title="Blackboard R">\mathbb{R}</button>
+          <button class="m-chip" data-tex="\mathbb{D}" title="Blackboard D (Dyadics)">\mathbb{D}</button>
           <button class="m-chip" data-tex="\partial" title="Partial derivative">\partial</button>
           <button class="m-chip" data-tex="\nabla" title="Gradient / Nabla">\nabla</button>
           <button class="m-chip" data-tex="\infty" title="Infinity">\infty</button>
@@ -836,6 +893,10 @@
     body { font-family: "Times New Roman", Times, Georgia, serif; line-height: 1.6; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #1e293b; }
     h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; }
     svg { max-width: 100%; height: auto; display: block; margin: 16px auto; }
+    sub { font-size: 0.8em; vertical-align: -0.25em; line-height: 0; }
+    sub sub, sub.sub-sub { font-size: 0.72em; vertical-align: -0.36em; line-height: 0; }
+    sup { font-size: 0.8em; vertical-align: 0.42em; line-height: 0; }
+    sup sup, sup.sup-sup { font-size: 0.72em; vertical-align: 0.52em; line-height: 0; }
   </style>
 </head>
 <body>
@@ -1041,11 +1102,17 @@ ${bodyContent}
     document.getElementById('btn-save').onclick = saveFile;
     document.getElementById('btn-save-as').onclick = saveAsPicker;
 
-    // Keyboard Shortcuts (Ctrl+S)
+    // Keyboard Shortcuts (Ctrl+S, Ctrl+., Ctrl+,)
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
         saveFile();
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === '.' || e.key === '>')) {
+        e.preventDefault();
+        stepScriptLevel(1);
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === ',' || e.key === '<')) {
+        e.preventDefault();
+        stepScriptLevel(-1);
       }
     });
 
@@ -1188,11 +1255,266 @@ ${bodyContent}
       }
     };
 
+    // -----------------------------------------------------------------
+    // Selection Preservation & Script Level Handlers (-2, -1, 0, 1, 2)
+    // -----------------------------------------------------------------
+    let lastWysiwygRange = null;
+    let lastSourceSelection = null;
+
+    function saveEditorSelection() {
+      if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+        lastSourceSelection = {
+          start: sourceTextarea.selectionStart,
+          end: sourceTextarea.selectionEnd
+        };
+      } else {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount > 0) {
+          const r = sel.getRangeAt(0);
+          if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
+            lastWysiwygRange = r.cloneRange();
+          }
+        }
+      }
+    }
+
+    function getSelectionScriptLevel() {
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return 0;
+      let node = sel.getRangeAt(0).commonAncestorContainer;
+      if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+      if (!node || !wysiwygPane.contains(node)) return 0;
+
+      let supCount = 0;
+      let subCount = 0;
+      let curr = node;
+      while (curr && curr !== wysiwygPane) {
+        if (curr.nodeName === 'SUP') supCount++;
+        if (curr.nodeName === 'SUB') subCount++;
+        curr = curr.parentElement;
+      }
+      if (supCount >= 2) return 2;
+      if (supCount === 1) return 1;
+      if (subCount >= 2) return -2;
+      if (subCount === 1) return -1;
+      return 0;
+    }
+
+    function updateScriptLevelUI(forceLevel = null) {
+      const level = forceLevel !== null ? forceLevel : getSelectionScriptLevel();
+      document.querySelectorAll('.script-level-btn').forEach(btn => {
+        const btnLevel = parseInt(btn.getAttribute('data-level'), 10);
+        if (btnLevel === level) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function applyScriptLevelSource(level) {
+      sourceTextarea.focus();
+      const start = sourceTextarea.selectionStart;
+      const end = sourceTextarea.selectionEnd;
+      const val = sourceTextarea.value;
+      const selText = val.substring(start, end);
+      const cleanSelText = selText.replace(/<\/?(sup|sub)>/gi, '');
+
+      let replacement = cleanSelText;
+      if (level === 2) replacement = `<sup><sup>${cleanSelText}</sup></sup>`;
+      else if (level === 1) replacement = `<sup>${cleanSelText}</sup>`;
+      else if (level === -1) replacement = `<sub>${cleanSelText}</sub>`;
+      else if (level === -2) replacement = `<sub><sub>${cleanSelText}</sub></sub>`;
+
+      sourceTextarea.value = val.substring(0, start) + replacement + val.substring(end);
+      if (start === end) {
+        const offset = (level === 2 || level === -2) ? 10 : (level === 1 || level === -1 ? 5 : 0);
+        sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + offset;
+      } else {
+        sourceTextarea.selectionStart = start;
+        sourceTextarea.selectionEnd = start + replacement.length;
+      }
+      saveEditorSelection();
+      setDirty(true);
+      updateScriptLevelUI(level);
+    }
+
+    function applyScriptLevel(targetLevel) {
+      if (activeMode === 'source') {
+        applyScriptLevelSource(targetLevel);
+        return;
+      }
+
+      wysiwygPane.focus();
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return;
+      const range = sel.getRangeAt(0);
+
+      // Collapsed cursor (no selection)
+      if (range.collapsed) {
+        if (targetLevel === 0) {
+          let node = range.startContainer;
+          let el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+          let scriptParent = el ? el.closest('sub, sup') : null;
+          if (scriptParent && wysiwygPane.contains(scriptParent)) {
+            const afterRange = document.createRange();
+            afterRange.setStartAfter(scriptParent);
+            afterRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(afterRange);
+            saveEditorSelection();
+            updateScriptLevelUI(0);
+            return;
+          }
+        } else {
+          let html = '';
+          if (targetLevel === 2) html = '<sup><sup>&#8203;</sup></sup>';
+          else if (targetLevel === 1) html = '<sup>&#8203;</sup>';
+          else if (targetLevel === -1) html = '<sub>&#8203;</sub>';
+          else if (targetLevel === -2) html = '<sub><sub>&#8203;</sub></sub>';
+
+          const temp = document.createElement('span');
+          temp.innerHTML = html;
+          const frag = document.createDocumentFragment();
+          const node = temp.firstChild;
+          frag.appendChild(node);
+          range.insertNode(frag);
+
+          let inner = node;
+          while (inner && inner.firstElementChild) {
+            inner = inner.firstElementChild;
+          }
+          const newRange = document.createRange();
+          newRange.selectNodeContents(inner);
+          newRange.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+          saveEditorSelection();
+          setDirty(true);
+          updateScriptLevelUI(targetLevel);
+          return;
+        }
+      }
+
+      // Selection has text
+      const contents = range.extractContents();
+      const scripts = contents.querySelectorAll('sub, sup');
+      scripts.forEach(s => {
+        const p = s.parentNode;
+        while (s.firstChild) p.insertBefore(s.firstChild, s);
+        p.removeChild(s);
+      });
+
+      let container = range.startContainer;
+      let el = container.nodeType === Node.ELEMENT_NODE ? container : container.parentElement;
+      let scriptAncestor = el ? el.closest('sub, sup') : null;
+
+      let wrapperNode = null;
+      if (targetLevel === 2) {
+        const s1 = document.createElement('sup');
+        const s2 = document.createElement('sup');
+        s2.appendChild(contents);
+        s1.appendChild(s2);
+        wrapperNode = s1;
+      } else if (targetLevel === 1) {
+        const s = document.createElement('sup');
+        s.appendChild(contents);
+        wrapperNode = s;
+      } else if (targetLevel === -1) {
+        const s = document.createElement('sub');
+        s.appendChild(contents);
+        wrapperNode = s;
+      } else if (targetLevel === -2) {
+        const s1 = document.createElement('sub');
+        const s2 = document.createElement('sub');
+        s2.appendChild(contents);
+        s1.appendChild(s2);
+        wrapperNode = s1;
+      } else {
+        wrapperNode = contents;
+      }
+
+      if (scriptAncestor && wysiwygPane.contains(scriptAncestor)) {
+        const afterRange = document.createRange();
+        afterRange.setStart(range.startContainer, range.startOffset);
+        afterRange.setEndAfter(scriptAncestor);
+        const afterFrag = afterRange.extractContents();
+
+        scriptAncestor.parentNode.insertBefore(wrapperNode, scriptAncestor.nextSibling);
+        if (afterFrag.textContent.length > 0) {
+          scriptAncestor.parentNode.insertBefore(afterFrag, wrapperNode.nextSibling);
+        }
+      } else {
+        range.insertNode(wrapperNode);
+      }
+
+      const newRange = document.createRange();
+      if (wrapperNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+        newRange.setStartAfter(wrapperNode);
+        newRange.collapse(true);
+      } else {
+        newRange.selectNodeContents(wrapperNode);
+      }
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+      saveEditorSelection();
+      setDirty(true);
+      if (activeMode === 'split') {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+      updateScriptLevelUI(targetLevel);
+    }
+
+    function stepScriptLevel(delta) {
+      const curr = getSelectionScriptLevel();
+      const next = Math.max(-2, Math.min(2, curr + delta));
+      applyScriptLevel(next);
+    }
+
+    // Connect script level buttons
+    document.querySelectorAll('.script-level-btn').forEach(btn => {
+      btn.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        saveEditorSelection();
+      });
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const lvl = parseInt(btn.getAttribute('data-level'), 10);
+        applyScriptLevel(lvl);
+      });
+    });
+
+    // Track selections across editor events
+    ['keyup', 'mouseup', 'click'].forEach(evt => {
+      wysiwygPane.addEventListener(evt, () => {
+        saveEditorSelection();
+        updateScriptLevelUI();
+      });
+      sourceTextarea.addEventListener(evt, saveEditorSelection);
+    });
+
+    document.addEventListener('selectionchange', () => {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0) {
+        const r = sel.getRangeAt(0);
+        if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
+          lastWysiwygRange = r.cloneRange();
+          updateScriptLevelUI();
+        }
+      }
+    });
+
     // Insert arbitrary text/character at cursor
     function insertTextAtCursor(text) {
       if (activeMode === 'wysiwyg' || activeMode === 'split') {
         wysiwygPane.focus();
+        const sel = window.getSelection();
+        if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+          sel.removeAllRanges();
+          sel.addRange(lastWysiwygRange);
+        }
         document.execCommand('insertText', false, text);
+        saveEditorSelection();
         setDirty(true);
         if (activeMode === 'split') {
           sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
@@ -1204,12 +1526,17 @@ ${bodyContent}
         const val = sourceTextarea.value;
         sourceTextarea.value = val.substring(0, start) + text + val.substring(end);
         sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
+        saveEditorSelection();
         setDirty(true);
       }
     }
 
     // Unicode character palette buttons
     document.querySelectorAll('.u-btn').forEach(btn => {
+      btn.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        saveEditorSelection();
+      });
       btn.onclick = (e) => {
         e.preventDefault();
         const ch = btn.getAttribute('data-char');
@@ -1246,6 +1573,7 @@ ${bodyContent}
     }
 
     function openMathEditor(existingTarget = null) {
+      saveEditorSelection();
       editingMathElement = existingTarget;
       if (existingTarget) {
         const rawLatex = decodeURIComponent(existingTarget.getAttribute('data-latex') || '');
@@ -1272,6 +1600,9 @@ ${bodyContent}
       editingMathElement = null;
     }
 
+    document.getElementById('tb-insert-latex').addEventListener('mousedown', (e) => {
+      saveEditorSelection();
+    });
     document.getElementById('tb-insert-latex').onclick = () => openMathEditor(null);
     document.getElementById('btn-close-math').onclick = closeMathEditor;
     document.getElementById('btn-cancel-math').onclick = closeMathEditor;
@@ -1319,9 +1650,74 @@ ${bodyContent}
           ? `\n<div class="latex-math-block" data-latex="${encodeURIComponent(tex)}" data-display="true" contenteditable="false" style="cursor: pointer; text-align: center; margin: 12px 0; padding: 4px;" title="Double-click to edit LaTeX">\\[ ${tex} \\]</div>\n<p><br></p>\n`
           : `<span class="latex-math" data-latex="${encodeURIComponent(tex)}" data-display="false" contenteditable="false" style="cursor: pointer; display: inline-block; padding: 1px 4px; border-radius: 3px;" title="Double-click to edit LaTeX">\\( ${tex} \\)</span> `;
 
+        if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+          sourceTextarea.focus();
+          const start = lastSourceSelection ? lastSourceSelection.start : sourceTextarea.selectionStart;
+          const end = lastSourceSelection ? lastSourceSelection.end : sourceTextarea.selectionEnd;
+          const val = sourceTextarea.value;
+          sourceTextarea.value = val.substring(0, start) + formulaHtml + val.substring(end);
+          sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + formulaHtml.length;
+          lastSourceSelection = {
+            start: sourceTextarea.selectionStart,
+            end: sourceTextarea.selectionEnd
+          };
+          setDirty(true);
+          if (activeMode === 'split') {
+            wysiwygPane.innerHTML = sourceTextarea.value;
+            attachMathListeners();
+            typesetMath();
+          }
+          showToast('✓ LaTeX formula inserted');
+          return;
+        }
+
         wysiwygPane.focus();
-        document.execCommand('insertHTML', false, formulaHtml);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+
+        let targetRange = lastWysiwygRange;
+        if (!targetRange || !wysiwygPane.contains(targetRange.commonAncestorContainer)) {
+          targetRange = document.createRange();
+          targetRange.selectNodeContents(wysiwygPane);
+          targetRange.collapse(false);
+        }
+        sel.addRange(targetRange);
+
+        let inserted = false;
+        try {
+          inserted = document.execCommand('insertHTML', false, formulaHtml);
+        } catch (e) {
+          console.warn('execCommand insertHTML failed:', e);
+        }
+
+        if (!inserted) {
+          targetRange.deleteContents();
+          const temp = document.createElement('div');
+          temp.innerHTML = formulaHtml;
+          const frag = document.createDocumentFragment();
+          let node, lastChild;
+          while ((node = temp.firstChild)) {
+            lastChild = frag.appendChild(node);
+          }
+          targetRange.insertNode(frag);
+          if (lastChild) {
+            const newRange = document.createRange();
+            newRange.setStartAfter(lastChild);
+            newRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(newRange);
+            lastWysiwygRange = newRange.cloneRange();
+          }
+        } else {
+          if (sel.rangeCount > 0) {
+            lastWysiwygRange = sel.getRangeAt(0).cloneRange();
+          }
+        }
+
         setDirty(true);
+        if (activeMode === 'split') {
+          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
         attachMathListeners();
         typesetMath();
         showToast('✓ LaTeX formula inserted');
