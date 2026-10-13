@@ -6,10 +6,12 @@ import { Index } from './navIndex.js';
 import { SI } from './serverInterface.js';
 import { initAnyDJSI } from './ida.js';
 import { initDrawioEditor, openNewDrawioModal } from './drawioBridge.js';
-import { fetchNavItems, publishStaticSiteApi, syncDevStateToDbApi, fetchSegmentByIdOrKey, fetchConsolidatedSegmentsApi } from './db/clientQueries.js';
+import { fetchNavItems, publishStaticSiteApi, syncDevStateToDbApi, fetchConsolidatedSegmentsApi, fetchAllPseudocodeAlgorithms, fetchSegmentByIdOrKey } from './db/clientQueries.js';
 import { getApiBaseUrl } from './db/api.js';
 import { ttd } from './ttd.js';
 import { fsd, setFSD } from './fsd.js';
+import { pseudoViewer, setPseudoViewer } from './pseudoViewer.js';
+import { MODULE_CATALOG } from './pseudoCatalog.js';
 export class StudioOverlay {
     // Mode State: false = View (reader simulation), true = Edit (in-situ popups & tools)
     static isEditModeActive = false;
@@ -22,6 +24,7 @@ export class StudioOverlay {
     static dbWidget;
     static contentWidget;
     static stencilWidget;
+    static pseudoWidget;
     static reloadWidget;
     static consoleWidget;
     static helpWidget;
@@ -78,6 +81,9 @@ export class StudioOverlay {
         // 3. Stencil Insertion Helper
         StudioOverlay.stencilWidget = createButton('[+ Stencil]', () => StudioOverlay.openStencilPicker());
         createSpacer();
+        // 3b. Pseudocode Catalog & Review Environment
+        StudioOverlay.pseudoWidget = createButton('[📜 Pseudocode]', () => StudioOverlay.openPseudocodeStudio());
+        createSpacer();
         // 4. Live Reload Segment
         StudioOverlay.reloadWidget = createButton('[🔄 Reload]', () => StudioOverlay.handleReload());
         createSpacer();
@@ -116,8 +122,8 @@ export class StudioOverlay {
     }
     static updateWidth() {
         const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 stagedSegs (0)]';
-        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
-        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 130;
+        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [📜 Pseudocode] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
+        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 150;
     }
     // Toggle between View mode (normal student navigation) and Edit mode (in-situ outline editing)
     static toggleMode() {
@@ -743,6 +749,7 @@ export class StudioOverlay {
                     <!-- Stencils & Mathematical Notation -->
                     <div class="studio-tb-group">
                         <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
+                        <button id="tb-insert-pseudo" class="studio-tb-btn" style="color: #0d9488; border-color: #99f6e4; font-weight: 700; background: #f0fdfa;" title="Insert Structured Pseudocode Reference Tag">📜 + Alg</button>
                         <button id="tb-insert-ttd" class="studio-tb-btn" style="color: #b91c1c; border-color: #fca5a5; font-weight: 700;" title="Insert Truth Table Demo (TTD) Expression Tag">⚖️ + TTD</button>
                         <button id="tb-insert-fsd" class="studio-tb-btn" style="color: #be185d; border-color: #fbcfe8; font-weight: 700;" title="Insert Formal Statement Demo (FSD) Tag">📐 + FSD</button>
                         <button id="tb-insert-diagram" class="studio-tb-btn" style="color: #0284c7; border-color: #7dd3fc; font-weight: 700; background: #f0f9ff;" title="Draw &amp; Embed a New Draw.io Diagram">🎨 + Diagram</button>
@@ -936,6 +943,7 @@ export class StudioOverlay {
         const btnCard = document.getElementById('tb-box-card');
         const btnInsertTable = document.getElementById('tb-insert-table');
         const btnInsertStencil = document.getElementById('tb-insert-stencil');
+        const btnInsertPseudo = document.getElementById('tb-insert-pseudo');
         const btnInsertTtd = document.getElementById('tb-insert-ttd');
         const btnInsertFsd = document.getElementById('tb-insert-fsd');
         const btnInsertMath = document.getElementById('tb-insert-math');
@@ -1311,6 +1319,11 @@ export class StudioOverlay {
         // Toolbar: Stencils & Mathematical Notation
         btnInsertStencil.addEventListener('click', () => {
             StudioOverlay.openStencilPicker((tag) => {
+                insertHtmlSnippet(tag);
+            });
+        });
+        btnInsertPseudo?.addEventListener('click', () => {
+            StudioOverlay.openPseudocodeStudio((tag) => {
                 insertHtmlSnippet(tag);
             });
         });
@@ -2115,6 +2128,263 @@ export class StudioOverlay {
         });
     }
     // =========================================================================
+    // 5a. MWM PSEUDOCODE ALGORITHM STUDIO & REVIEW ENVIRONMENT
+    // =========================================================================
+    static async openPseudocodeStudio(onSelect) {
+        const existing = document.getElementById('studio-pseudo-modal');
+        if (existing)
+            existing.remove();
+        let algos = [];
+        try {
+            algos = await fetchAllPseudocodeAlgorithms();
+        }
+        catch {
+            algos = [];
+        }
+        if (!algos || algos.length === 0) {
+            // Fallback to in-memory/static catalog if DB query failed or offline
+            algos = Object.values(MODULE_CATALOG).map((m) => ({
+                id: m.id,
+                algo_key: m.id,
+                func_name: m.funcName || m.id,
+                name: m.name,
+                badge: m.badge,
+                category: (m.badge || '').toLowerCase().includes('tree') ? 'tree_topology' :
+                    (m.badge || '').toLowerCase().includes('arithmetic') ? 'arithmetic' :
+                        (m.badge || '').toLowerCase().includes('order') ? 'order_theory' :
+                            (m.badge || '').toLowerCase().includes('analysis') ? 'analysis' :
+                                (m.badge || '').toLowerCase().includes('trig') || (m.badge || '').toLowerCase().includes('rotor') ? 'rotor_trig' :
+                                    (m.badge || '').toLowerCase().includes('quantum') || (m.badge || '').toLowerCase().includes('bayes') ? 'quantum_bayes' :
+                                        (m.badge || '').toLowerCase().includes('primitive') ? 'primitives' : 'arithmetic',
+                algo_kind: (m.signature || '').includes('→ Boolean') ? 'predicate' : 'operation',
+                signature: m.signature || null,
+                summary: m.summary || null,
+                domain: m.domain || '',
+                scaffold_key: null,
+                primitives: m.primitives || [],
+                tree_complexity: m.complexity?.tree || null,
+                dyadic_complexity: m.complexity?.dyadic || null,
+                code: m.code || '',
+                explanation: m.explanation || [],
+                example: m.example || null,
+                presets: []
+            }));
+        }
+        const categoryLabels = {
+            all: '🌐 All',
+            tree_topology: '🌲 Tree Topology',
+            arithmetic: '🔢 Arithmetic',
+            order_theory: '⚖️ Order Theory',
+            analysis: '📐 Analysis',
+            rotor_trig: '🔄 Rotors & Trig',
+            quantum_bayes: '⚛️ Quantum & Bayes',
+            primitives: '🛠️ Primitives'
+        };
+        const modal = document.createElement('div');
+        modal.id = 'studio-pseudo-modal';
+        modal.className = 'studio-modal-backdrop';
+        modal.innerHTML = `
+            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
+                <!-- Header -->
+                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">📜</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">MWM Pseudocode &amp; Algorithm Studio</h3>
+                            <span style="font-size: 12px; color: #64748b;">Discrete Machine Catalog • In-Situ Review &amp; Stepper</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
+                        <input type="text" id="studio-pseudo-search" placeholder="🔍 Search algorithms by name, signature, primitive..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
+                        <button class="studio-close-btn" id="pseudo-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
+                    </div>
+                </div>
+
+                <!-- Category Filtering Bar -->
+                <div style="display: flex; align-items: center; gap: 6px; padding: 8px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; overflow-x: auto; flex-shrink: 0;">
+                    ${Object.entries(categoryLabels).map(([catKey, label]) => `
+                        <button type="button" class="studio-pseudo-cat-pill ${catKey === 'all' ? 'active' : ''}" data-cat="${catKey}" style="border: 1px solid ${catKey === 'all' ? '#6366f1' : '#e2e8f0'}; background: ${catKey === 'all' ? '#eef2ff' : '#ffffff'}; color: ${catKey === 'all' ? '#4338ca' : '#475569'}; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.15s ease;">
+                            ${label}
+                        </button>
+                    `).join('')}
+                    <span id="studio-pseudo-counter" style="margin-left: auto; font-size: 12px; color: #64748b; white-space: nowrap;">Showing ${algos.length} algorithms</span>
+                </div>
+
+                <!-- Algorithm Cards Grid -->
+                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f1f5f9; display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 16px; align-content: start;">
+                    ${algos.map((algo) => {
+            const scaffoldHtml = algo.scaffold_key ? `<span style="font-size: 11px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 2px 6px; border-radius: 4px; font-weight: 600;">🏛️ Lean Scaffold: <code>${algo.scaffold_key}</code></span>` : '';
+            const kindBadge = algo.algo_kind ? `<span style="font-size: 10.5px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 700;">${algo.algo_kind}</span>` : '';
+            const categoryBadge = `<span style="font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${algo.badge || algo.category}</span>`;
+            const explanationItems = Array.isArray(algo.explanation) && algo.explanation.length > 0
+                ? `<div style="margin-top: 8px; font-size: 12px; color: #334155;"><strong>Explanation:</strong><ul style="margin: 4px 0 0 16px; padding: 0;">${algo.explanation.map((e) => `<li>${StudioOverlay.escapeHtml(e)}</li>`).join('')}</ul></div>`
+                : '';
+            const exampleHtml = algo.example
+                ? `<div style="margin-top: 8px; font-size: 12px; color: #334155; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid #e2e8f0;"><strong>Worked Example:</strong><br><span style="color:#64748b;">Inputs:</span> ${algo.example.inputs ? algo.example.inputs.join(', ') : ''}<br><span style="color:#059669; font-weight:600;">Result:</span> ${algo.example.result || ''}</div>`
+                : '';
+            const complexityHtml = algo.tree_complexity || algo.dyadic_complexity
+                ? `<div style="font-size: 11px; color: #64748b; margin-top: 6px;"><strong>Complexity:</strong> Tree: ${algo.tree_complexity || 'O(d)'} • Dyadic: ${algo.dyadic_complexity || 'O(1)'}</div>`
+                : '';
+            return `
+                            <div class="studio-pseudo-card" data-key="${algo.algo_key}" data-cat="${algo.category || 'arithmetic'}" data-name="${StudioOverlay.escapeHtml((algo.name + ' ' + (algo.func_name || '') + ' ' + (algo.summary || '') + ' ' + algo.code).toLowerCase())}" style="background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: box-shadow 0.15s ease;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 8px;">
+                                        <div>
+                                            <span style="font-size: 15px; font-weight: 700; color: #0f172a;">${algo.name}</span>
+                                            ${algo.func_name ? `<code style="font-size: 12.5px; color: #4338ca; background: #eef2ff; padding: 1px 6px; border-radius: 4px; margin-left: 6px; font-weight: 600;">${algo.func_name}</code>` : ''}
+                                        </div>
+                                        <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                                            ${kindBadge}
+                                            ${categoryBadge}
+                                        </div>
+                                    </div>
+
+                                    ${algo.signature ? `
+                                        <div style="font-family: monospace; font-size: 12px; font-weight: 600; color: #3730a3; margin-bottom: 8px; background: #f8fafc; padding: 4px 8px; border-radius: 4px; border-left: 3px solid #6366f1;">
+                                            ${algo.signature}
+                                        </div>
+                                    ` : ''}
+
+                                    <div style="font-size: 13px; color: #334155; line-height: 1.45; margin-bottom: 6px;">
+                                        ${algo.summary || ''}
+                                    </div>
+
+                                    ${algo.domain ? `
+                                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">
+                                            <strong>Domain:</strong> <code style="color: #0f172a; background: #f1f5f9; padding: 1px 4px; border-radius: 3px;">${algo.domain}</code>
+                                        </div>
+                                    ` : ''}
+
+                                    ${scaffoldHtml ? `<div style="margin-bottom: 6px;">${scaffoldHtml}</div>` : ''}
+                                    ${complexityHtml}
+
+                                    <details style="margin-top: 10px; margin-bottom: 8px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                                        <summary style="font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; user-select: none;">🔍 View Structured Pseudocode &amp; Logic</summary>
+                                        <pre style="background: #0f172a; color: #e2e8f0; padding: 10px; border-radius: 6px; font-size: 11.5px; overflow-x: auto; max-height: 200px; margin-top: 8px; line-height: 1.4; border: 1px solid #334155;"><code>${StudioOverlay.escapeHtml(algo.code)}</code></pre>
+                                        ${explanationItems}
+                                        ${exampleHtml}
+                                    </details>
+                                </div>
+
+                                <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 6px; flex-wrap: wrap;">
+                                    <button class="studio-btn small emerald btn-step-algo" data-key="${algo.algo_key}" style="font-weight: 600;" title="Launch interactive step-by-step debugger with live dyadic machine values">▶ Step in Debugger</button>
+                                    ${onSelect ? `
+                                        <button class="studio-btn small primary btn-insert-pseudo" data-key="${algo.algo_key}" data-name="${StudioOverlay.escapeHtml(algo.name)}" title="Insert &lt;pseudo-ref&gt; tag at cursor in active chapter editor">➕ Insert Tag</button>
+                                    ` : `
+                                        <button class="studio-btn small secondary btn-copy-pseudo-ref" data-key="${algo.algo_key}" data-name="${StudioOverlay.escapeHtml(algo.name)}" title="Copy &lt;pseudo-ref&gt; HTML tag to clipboard">📋 Copy Tag</button>
+                                    `}
+                                    <button class="studio-btn small secondary btn-copy-algo-code" data-code="${StudioOverlay.escapeHtml(algo.code)}" title="Copy raw pseudocode to clipboard">📄 Copy Code</button>
+                                </div>
+                            </div>
+                        `;
+        }).join('')}
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        const cards = Array.from(modal.querySelectorAll('.studio-pseudo-card'));
+        const searchInput = document.getElementById('studio-pseudo-search');
+        const counter = document.getElementById('studio-pseudo-counter');
+        const catPills = Array.from(modal.querySelectorAll('.studio-pseudo-cat-pill'));
+        let activeCat = 'all';
+        const updateVisibility = () => {
+            const query = (searchInput?.value || '').toLowerCase().trim();
+            let visibleCount = 0;
+            cards.forEach((card) => {
+                const cardCat = card.getAttribute('data-cat') || '';
+                const cardName = card.getAttribute('data-name') || '';
+                const matchesCat = activeCat === 'all' || cardCat === activeCat;
+                const matchesQuery = !query || cardName.includes(query);
+                if (matchesCat && matchesQuery) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                }
+                else {
+                    card.style.display = 'none';
+                }
+            });
+            if (counter) {
+                counter.textContent = `Showing ${visibleCount} of ${cards.length} algorithms`;
+            }
+        };
+        searchInput?.addEventListener('input', updateVisibility);
+        catPills.forEach((pill) => {
+            pill.addEventListener('click', () => {
+                catPills.forEach((p) => {
+                    p.classList.remove('active');
+                    p.style.borderColor = '#e2e8f0';
+                    p.style.background = '#ffffff';
+                    p.style.color = '#475569';
+                });
+                pill.classList.add('active');
+                pill.style.borderColor = '#6366f1';
+                pill.style.background = '#eef2ff';
+                pill.style.color = '#4338ca';
+                activeCat = pill.getAttribute('data-cat') || 'all';
+                updateVisibility();
+            });
+        });
+        const closeModal = () => modal.remove();
+        document.getElementById('pseudo-close-btn')?.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal)
+                closeModal();
+        });
+        modal.querySelectorAll('.btn-step-algo').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const algoKey = btn.getAttribute('data-key') || '';
+                closeModal();
+                if (!pseudoViewer)
+                    setPseudoViewer();
+                pseudoViewer.showAlgorithm(algoKey);
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                Nav.setLastVisit();
+                Nav.addNavLineBackButton('back to editor');
+                Nav.fo.removeChildren();
+                Nav.fo.elt.scrollTop = 0;
+                Nav.fo.append(pseudoViewer);
+                Nav.display();
+                pseudoViewer.layout();
+                if (typeof requestAnimationFrame !== 'undefined') {
+                    requestAnimationFrame(() => pseudoViewer.layout());
+                }
+            });
+        });
+        modal.querySelectorAll('.btn-insert-pseudo').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const algoKey = btn.getAttribute('data-key') || '';
+                const algoName = btn.getAttribute('data-name') || algoKey;
+                const tag = `<pseudo-ref id="${algoKey}">${algoName}</pseudo-ref>`;
+                if (onSelect) {
+                    onSelect(tag);
+                    closeModal();
+                }
+                else {
+                    navigator.clipboard.writeText(tag);
+                    StudioOverlay.showToast('Copied <pseudo-ref> tag to clipboard!');
+                    closeModal();
+                }
+            });
+        });
+        modal.querySelectorAll('.btn-copy-pseudo-ref').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const algoKey = btn.getAttribute('data-key') || '';
+                const algoName = btn.getAttribute('data-name') || algoKey;
+                const tag = `<pseudo-ref id="${algoKey}">${algoName}</pseudo-ref>`;
+                navigator.clipboard.writeText(tag);
+                StudioOverlay.showToast(`Copied <pseudo-ref id="${algoKey}"> tag!`);
+            });
+        });
+        modal.querySelectorAll('.btn-copy-algo-code').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const code = btn.getAttribute('data-code') || '';
+                navigator.clipboard.writeText(code);
+                StudioOverlay.showToast('Copied pseudocode to clipboard!');
+            });
+        });
+    }
     // 5b. NATIVE FULL TTD CANVAS STAGE DISPATCH & RETURN
     // =========================================================================
     static openTtdInFullCanvas(initialExp = '', onReturn, isEditingExisting = false) {

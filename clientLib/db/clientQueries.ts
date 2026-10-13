@@ -76,6 +76,40 @@ export interface DbVerifiedPreset {
     notes: string | null;
 }
 
+export interface DbPseudocodeAlgorithm {
+    id: number | string;
+    algo_key: string;
+    func_name: string | null;
+    name: string;
+    badge: string;
+    category: string;
+    algo_kind: string;
+    signature: string | null;
+    summary: string | null;
+    domain: string;
+    scaffold_key: string | null;
+    primitives: string[];
+    tree_complexity: string | null;
+    dyadic_complexity: string | null;
+    code: string;
+    explanation: string[];
+    example: any;
+    presets: any[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export async function fetchAllPseudocodeAlgorithms(): Promise<DbPseudocodeAlgorithm[]> {
+    const sql = `
+        SELECT id, algo_key, func_name, name, badge, category, algo_kind, signature,
+               summary, domain, scaffold_key, primitives, tree_complexity, dyadic_complexity,
+               code, explanation, example, presets, created_at, updated_at
+        FROM pseudocode_algorithms
+        ORDER BY category ASC, id ASC;
+    `;
+    return queryDatabase<DbPseudocodeAlgorithm>(sql);
+}
+
 // =====================================================================
 // CURRICULUM REPOSITORY QUERIES
 // =====================================================================

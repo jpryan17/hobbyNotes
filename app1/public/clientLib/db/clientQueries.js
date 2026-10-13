@@ -2,6 +2,16 @@
 // Domain query definitions executed by client-side browser logic.
 // Normalized for system-generated BIGINT Identity Primary Keys.
 import { queryDatabase, executeSql, getApiBaseUrl } from './api.js';
+export async function fetchAllPseudocodeAlgorithms() {
+    const sql = `
+        SELECT id, algo_key, func_name, name, badge, category, algo_kind, signature,
+               summary, domain, scaffold_key, primitives, tree_complexity, dyadic_complexity,
+               code, explanation, example, presets, created_at, updated_at
+        FROM pseudocode_algorithms
+        ORDER BY category ASC, id ASC;
+    `;
+    return queryDatabase(sql);
+}
 // =====================================================================
 // CURRICULUM REPOSITORY QUERIES
 // =====================================================================
