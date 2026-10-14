@@ -1,8 +1,10 @@
 /-
   MiddleWay.Scaffold: Foundational Middle Way Mathematics in Lean 4
   
-  Establishes the Day ω Transfinite Continuum (ℝ_ω), the 1D Discrete
-  Transect, the 2D Complex Grid (ℂ_ω), and the Telescoping Calculus Theorem.
+  Establishes the Ordinal-Driven Successor Trees (Tree1, Tree2, Tree4)
+  whose finite initial stretch (α < ω) grounds computable machine arithmetic (ℕ, 𝔻),
+  whose limit horizon (α = ω) generates the physical continuum (ℝ_ω, ℂ_ω, dx = 1/ω),
+  and whose ambient proof-theoretic roof (α = ε₀) provides algebraic field closure.
 -/
 
 noncomputable section
@@ -10,15 +12,19 @@ noncomputable section
 namespace MiddleWay
 
 -- ============================================================================
--- 0. The 4 Primitive Set-Types (Finite Induction)
+-- 0. The Successor Trees: Finite Inductive Initial Stretch (α < ω)
 -- ============================================================================
+-- The primitive number structures are ordinal-driven successor trees Tree_k(α).
+-- On the finite initial segment (α ∈ ℕ ⊂ Ord), these trees are strictly inductive,
+-- computable prefix structures whose paths evaluate to discrete machine arithmetic.
 
 -- 1. The binary domain of Boolean truth values: 𝔹
 inductive B_w where
   | ff : B_w
   | tt : B_w
 
--- 2. Set defined by 1-successor finite induction: Tree1 (The Unary Counting Spine)
+-- 2. 1-Successor Counting Spine: Initial finite stretch Tree1 ≡ ℕ
+-- Measures clock ticks / path depth for all higher branching trees.
 inductive Tree1 where
   | zero : Tree1
   | succ : Tree1 → Tree1
@@ -172,7 +178,8 @@ def midpoint (a b : Dyad) : Dyad :=
 
 end Dyad
 
--- 3. Set defined by 2-successor finite induction: Tree2 (Binary Tree: Branching { -, + })
+-- 3. 2-Successor Binary Tree: Initial finite stretch Tree2 (Branching { -, + })
+-- Paths evaluate to the dyadic rationals 𝔻 ≡ No(ω).
 inductive Tree2 where
   | root   : Tree2
   | branch : B_w → Tree2 → Tree2
@@ -197,7 +204,8 @@ def toDyad : Tree2 → Dyad
 
 end Tree2
 
--- 4. Set defined by 4-successor finite induction: Tree4 (Quadtree: Branching { +1, -1, +i, -i })
+-- 4. 4-Successor Quadtree: Initial finite stretch Tree4 (Branching { +1, -1, +i, -i })
+-- Paths evaluate to discrete 2D Gaussian dyadics (re, im, exp).
 inductive QuadDir where
   | east  : QuadDir  -- +1
   | west  : QuadDir  -- -1
@@ -239,8 +247,13 @@ def toGaussianDyad : Tree4 → GaussianDyad
 end Tree4
 
 -- ============================================================================
--- 0.5. The Constructive Ordinal Spine (Ord) & The 4-Tier Continuum Hierarchy
+-- 0.5. The Constructive Ordinal Spine (Ord) & The 3-Tier Continuum Hierarchy
 -- ============================================================================
+-- An Ordinal α acts as the universal depth / birthday clock driving the trees.
+-- Every tree family Tree_k is parameterized by α ∈ Ord:
+--   • Initial Stretch (α < ω): Finite inductive prefix trees (Tree1 ≡ ℕ, Tree2 ≡ 𝔻)
+--   • Horizon (α = ω): The continuous limit sets (ℝ_ω ≡ Tree2(ω), ℂ_ω ≡ Tree4(ω))
+--   • Ceiling (α = ε₀): Ambient real-closed field No(ε₀) ≡ Tree2(ε₀)
 
 -- The constructive type of tree depths / birthdays:
 axiom Ord : Type
@@ -267,24 +280,21 @@ axiom Ord.omega : Ord
 axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega
 axiom Ord.omega_not_finite : ¬ Ord.is_finite Ord.omega
 
--- 3. Level 3: The Geometric Stage ω + 1 (2D Geometry, Curvature dx², & ℂ_ω)
-axiom Ord.omega_succ : Ord
-axiom Ord.omega_lt_omega_succ : Ord.omega < Ord.omega_succ
-
--- 4. Level 4: The Proof-Theoretic Roof ε₀ (Well-Founded Structural Induction Ceiling)
+-- 3. Level 3: The Proof-Theoretic Roof ε₀ (Well-Founded Structural Induction Ceiling)
 axiom Ord.eps0 : Ord
-axiom Ord.omega_succ_lt_eps0 : Ord.omega_succ < Ord.eps0
+axiom Ord.omega_lt_eps0 : Ord.omega < Ord.eps0
 axiom Ord.wf : WellFounded Ord.lt
 
--- 5. The 2-Tree as the Universal Number Engine: Tree2_at(α) & Tree4_at(α)
+-- 4. The Universal Ordinal-Driven Successor Trees: Tree2_at(α) & Tree4_at(α)
+-- Extends the finite inductive initial stretch across transfinite ordinal stages.
 axiom Tree2_at : Ord → Type
 axiom Tree4_at : Ord → Type
 
--- Core Isomorphism (Level 1): Finite stages are the Dyadic Numbers 𝔻:
+-- Core Isomorphism (Level 1): The initial finite stretch (α < ω) recovers the computable types:
 axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad
 axiom Tree4_finite_is_gaussian (t : Tree1) : Tree4_at (Tree1.toOrd t) = Tree4.GaussianDyad
 
--- Level 4: The Ambient Stage ε₀ is the Real-Closed Field No(ε₀) ≡ Tree2(ε₀):
+-- Level 3: The Ambient Stage ε₀ is the Real-Closed Field No(ε₀) ≡ Tree2(ε₀):
 abbrev No_eps0 : Type := Tree2_at Ord.eps0
 
 axiom No_eps0_zero : No_eps0
@@ -306,15 +316,14 @@ instance : LE No_eps0 where le := No_eps0_le
 -- Order structure on the ε₀ 2-tree instance:
 axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le
 
--- 6. The 4-Tier Stage Filtration No(α)
+-- 5. The 3-Tier Stage Filtration No(α)
 -- Each ordinal α defines the set of Conway numbers born on or before Day α
 axiom No_stage : Ord → Type
 axiom No_stage_embedding (α β : Ord) (h : α ≤ β) : No_stage α → No_stage β
 
 -- The strict stage hierarchy follows directly from the ordinal spine:
 axiom No_finite_subset_omega (t : Tree1) : Tree1.toOrd t < Ord.omega
-axiom No_omega_subset_omega_succ : Ord.omega < Ord.omega_succ
-axiom No_omega_succ_subset_eps0 : Ord.omega_succ < Ord.eps0
+axiom No_omega_subset_eps0 : Ord.omega < Ord.eps0
 
 -- Backwards compatibility aliases for existing references:
 abbrev Ordinal : Type := Ord
@@ -455,8 +464,8 @@ instance : OfNat N_w (nat_lit 0) where
 instance : OfNat N_w (nat_lit 1) where
   ofNat := Nat_to_Nw 1
 
--- 2> ℝ_ω ≡ {2-successor finite induction} ∪ {2-successor transfinite induction at birthday ω}
--- Level 2 of the 4-tier hierarchy: ℝ_ω ≡ Tree2_at Ord.omega
+-- 2> ℝ_ω ≡ Continuous 1D transect: the 2-successor tree at the transfinite limit horizon ω:
+-- Level 2 of the 3-tier hierarchy: ℝ_ω ≡ Tree2_at Ord.omega ≡ No(ω+1)
 axiom R_w : Type
 axiom R_w_is_Tree2_omega : R_w = Tree2_at Ord.omega
 axiom R_w_from_T2 : Tree2 → R_w
@@ -905,8 +914,8 @@ structure C_w where
   re : R_w
   im : R_w
 
--- Level 3: The Geometric Stage ω + 1 is the 2D Complex Continuum ℂ_ω:
-axiom C_w_is_Tree4_omega_succ : C_w = Tree4_at Ord.omega_succ
+-- The 2D Complex Continuum ℂ_ω: 4-successor tree at horizon ω:
+axiom C_w_is_Tree4_omega : C_w = Tree4_at Ord.omega
 
 namespace C_w
 
