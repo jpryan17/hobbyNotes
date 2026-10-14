@@ -2,7 +2,7 @@ import { Nav } from "./navFW.js";
 import { Elt } from "./elt.js";
 import { fsd, setFSD, QuantifierBinding, DomainType, parseDomainSpec, formatDomainSpec } from "./fsd.js";
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
-import { getScaffoldReflection } from "./scaffoldReflection.js";
+import { getScaffoldReflection, SCAFFOLD_REGISTRY } from "./scaffoldReflection.js";
 import { FS_CATALOG } from "./fsCatalog.js";
 import { MODULE_CATALOG } from "./pseudoCatalog.js";
 
@@ -154,7 +154,7 @@ export class FSDRef extends HTMLElement {
   public static openScaffoldCard(
     scaffoldOrId: string,
     titleAttr?: string,
-    options?: { autoOpenCalc?: boolean; presetKey?: string; activeModeId?: string; disableCalculator?: boolean }
+    options?: { autoOpenCalc?: boolean; presetKey?: string; activeModeId?: string; disableCalculator?: boolean; algoKey?: string }
   ) {
     const cleanId = scaffoldOrId.trim().toLowerCase();
     const isNumeric = /^\d+$/.test(cleanId);
@@ -174,22 +174,66 @@ export class FSDRef extends HTMLElement {
              s.scaffoldKey.toLowerCase() === cleanId
     );
 
+    // FAIL-FAST: Under Middle Way Architecture, if the ID doesn't work, it fails!
+    const hasKnownScaffold = !!catalogStmt || !!matchedMode || !!matchedExample || !!options?.algoKey || !!MODULE_CATALOG[cleanId] || !!SCAFFOLD_REGISTRY[scaffoldOrId] || !!SCAFFOLD_REGISTRY[cleanId];
+    if (!hasKnownScaffold) {
+      console.error(`[FSDRef.openScaffoldCard] Fail-Fast: Unknown Formal Statement ID "${scaffoldOrId}"`);
+      alert(`❌ Unresolved Formal Statement [id="${scaffoldOrId}"]\n\nThis ID does not exist in FS_CATALOG or Lean Scaffold.\n\nUnder Middle Way Architecture, formal statements must be constructed, verified against the Lean Scaffold, and registered in the database before they can be referenced.`);
+      return;
+    }
+
     const index = Nav.indices[Nav.currentIndex];
     const choice = index ? index.choices[index.chosen] : null;
     const buttonText = `back to ${choice && choice[0] ? choice[0].topic : 'lecture'}`;
 
     const effectiveScaffold = catalogStmt?.scaffoldKey || scaffoldOrId;
     const formalArg = getScaffoldReflection(effectiveScaffold, titleAttr || catalogStmt?.title);
-    if (catalogStmt && !formalArg.expression) {
+    if (catalogStmt?.expression) {
       formalArg.expression = catalogStmt.expression;
+      formalArg.target = catalogStmt.title;
     }
 
     const stmtModes = FS_CATALOG.calculationModes.filter(m => m.statementId === catalogStmt?.id);
     const stmtExamples = FS_CATALOG.examples.filter(ex => ex.statementId === catalogStmt?.id);
-    const stmtAlgoKey = catalogStmt?.pseudoAlgoId || (MODULE_CATALOG[catalogStmt?.scaffoldKey || ''] ? catalogStmt?.scaffoldKey : undefined);
-    const stmtAlgo = stmtAlgoKey
-      ? (MODULE_CATALOG[String(stmtAlgoKey)] || Object.values(MODULE_CATALOG).find(m => m.id === String(stmtAlgoKey) || m.funcName.toLowerCase() === String(stmtAlgoKey).toLowerCase()))
+    const explicitAlgoKey = options?.algoKey || (MODULE_CATALOG[cleanId] ? cleanId : '');
+    const descLower = (titleAttr || '').toLowerCase();
+
+    let matchedAlgo = explicitAlgoKey
+      ? (MODULE_CATALOG[explicitAlgoKey] || Object.values(MODULE_CATALOG).find(m => m.id === explicitAlgoKey || m.funcName.toLowerCase() === explicitAlgoKey.toLowerCase()))
       : undefined;
+
+    if (!matchedAlgo && descLower) {
+      if (descLower.includes('conwaysort') || descLower.includes('total sort') || (descLower.includes('conway') && descLower.includes('sort'))) {
+        matchedAlgo = MODULE_CATALOG['conway_sort'];
+      } else if (descLower.includes('lesseq') || (descLower.includes('inductive order') && !descLower.includes('totally_ordered'))) {
+        matchedAlgo = MODULE_CATALOG['conway_order'];
+      } else if (descLower.includes('conwayadd') || (descLower.includes('conway') && descLower.includes('addition'))) {
+        matchedAlgo = MODULE_CATALOG['conway_add'];
+      } else if (descLower.includes('conwaymul') || (descLower.includes('conway') && descLower.includes('multiplication'))) {
+        matchedAlgo = MODULE_CATALOG['conway_mul'];
+      } else if (descLower.includes('conwaysub') || (descLower.includes('conway') && descLower.includes('subtraction'))) {
+        matchedAlgo = MODULE_CATALOG['conway_sub'];
+      } else if (descLower.includes('conway cut') || descLower.includes('cut(')) {
+        matchedAlgo = MODULE_CATALOG['cut'];
+      } else if (descLower.includes('simpleroptions') || descLower.includes('simpler options')) {
+        matchedAlgo = MODULE_CATALOG['simpler_options'];
+      } else if (descLower.includes('cordic') || descLower.includes('rotor')) {
+        matchedAlgo = MODULE_CATALOG['rotor_trig_cordic'];
+      } else if (descLower.includes('kinematic')) {
+        matchedAlgo = MODULE_CATALOG['kinematics_step'];
+      } else if (descLower.includes('heat') || descLower.includes('laplacian')) {
+        matchedAlgo = MODULE_CATALOG['laplacian_heat_step'];
+      } else if (descLower.includes('bayes')) {
+        matchedAlgo = MODULE_CATALOG['bayes_discrete_update'];
+      } else if (descLower.includes('euler')) {
+        matchedAlgo = MODULE_CATALOG['euler_compounding'];
+      }
+    }
+
+    const stmtAlgoKey = matchedAlgo?.id || catalogStmt?.pseudoAlgoId || (MODULE_CATALOG[catalogStmt?.scaffoldKey || ''] ? catalogStmt?.scaffoldKey : undefined);
+    const stmtAlgo = matchedAlgo || (stmtAlgoKey
+      ? (MODULE_CATALOG[String(stmtAlgoKey)] || Object.values(MODULE_CATALOG).find(m => m.id === String(stmtAlgoKey) || m.funcName.toLowerCase() === String(stmtAlgoKey).toLowerCase()))
+      : undefined);
 
     const hasActiveDimensions = (stmtModes.length > 0) || (stmtExamples.length > 0) || !!stmtAlgo || (catalogStmt?.statementKind === 'directed_equality') || !!matchedMode || !!matchedExample;
 
@@ -206,7 +250,11 @@ export class FSDRef extends HTMLElement {
       formalArg.docstring = catalogStmt.description;
       if (stmtAlgo) {
         formalArg.pseudocode = stmtAlgo;
+        formalArg.statementKind = 'directed_equality';
       }
+    } else if (stmtAlgo) {
+      formalArg.pseudocode = stmtAlgo;
+      formalArg.statementKind = 'directed_equality';
     }
 
     window.scrollTo(0, 0);

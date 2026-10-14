@@ -47,6 +47,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scanCurricularReferences = scanCurricularReferences;
+exports.validateCurricularReferences = validateCurricularReferences;
 exports.buildCurricularCatalog = buildCurricularCatalog;
 exports.writeCatalogFiles = writeCatalogFiles;
 const fs = __importStar(require("fs"));
@@ -58,13 +59,15 @@ function scanCurricularReferences() {
     if (!fs.existsSync(app1SegsDir))
         return refMap;
     const segFiles = fs.readdirSync(app1SegsDir).filter(f => f.endsWith('.html'));
-    const fsRefRegex = /<fs-ref\b[^>]*\bid=["']?([^"'\s>]+)["']?[^>]*>/gi;
+    const fsTagRegex = /<fs-ref\b([^>]*)>/gi;
     for (const file of segFiles) {
         const segId = file.replace(/\.html$/, '');
         const content = fs.readFileSync(path.join(app1SegsDir, file), 'utf8');
         let match;
-        while ((match = fsRefRegex.exec(content)) !== null) {
-            const rawId = match[1];
+        while ((match = fsTagRegex.exec(content)) !== null) {
+            const attrs = match[1];
+            const idMatch = /\b(?:id|scaffold|statement-id)=["']?([^"'\s>]+)["']?/i.exec(attrs);
+            const rawId = idMatch ? idMatch[1].trim() : '__MISSING_ID__';
             if (!refMap[rawId]) {
                 refMap[rawId] = new Set();
             }
@@ -72,6 +75,63 @@ function scanCurricularReferences() {
         }
     }
     return refMap;
+}
+/**
+ * FAIL-FAST VALIDATOR:
+ * Since HTML is no longer scrubbed to synthesize statements, every <fs-ref> in
+ * curricular segments must reference an authoritative Formal Statement constructed
+ * and verified in the Dev environment. If an ID does not work, the build fails.
+ */
+function validateCurricularReferences(formalStatements, segmentRefs) {
+    const validNumIds = new Set();
+    const validStringIds = new Set();
+    const validScaffolds = new Set();
+    for (const stmt of formalStatements) {
+        if (stmt.numId !== undefined) {
+            validNumIds.add(String(stmt.numId));
+        }
+        validStringIds.add(stmt.id.toLowerCase());
+        if (stmt.scaffoldKey) {
+            validScaffolds.add(stmt.scaffoldKey.toLowerCase());
+        }
+    }
+    const errors = [];
+    for (const [rawId, segs] of Object.entries(segmentRefs)) {
+        const segList = Array.from(segs).join(', ');
+        if (rawId === '__MISSING_ID__') {
+            errors.push(`  • <fs-ref> tag missing 'id' attribute in segment(s): [${segList}]`);
+            continue;
+        }
+        const cleanId = rawId.trim().toLowerCase();
+        const isNum = /^\d+$/.test(cleanId);
+        const isValid = (isNum && validNumIds.has(cleanId)) ||
+            validStringIds.has(cleanId) ||
+            validScaffolds.has(cleanId);
+        if (!isValid) {
+            errors.push(`  • ID "${rawId}" referenced in: [${segList}]`);
+        }
+    }
+    if (errors.length > 0) {
+        const banner = [
+            '',
+            '========================================================================',
+            '🚨 [buildCatalog FATAL ERROR] UNRESOLVED FORMAL STATEMENT REFERENCES',
+            '========================================================================',
+            'The following <fs-ref> reference(s) do not resolve to any registered Formal Statement:',
+            ...errors,
+            '',
+            'Middle Way Architecture Invariant:',
+            'HTML segments are no longer scrubbed to synthesize statements.',
+            'The Dev environment is where Formal Statements must be constructed,',
+            'verified against the Lean 4 Scaffold, and registered before reference.',
+            'If the ID does not work, it fails.',
+            '========================================================================',
+            ''
+        ].join('\n');
+        console.error(banner);
+        throw new Error(`Build failed: ${errors.length} unresolved formal statement reference(s).`);
+    }
+    console.log(`[buildCatalog] Strict ID Check Passed: ${Object.keys(segmentRefs).length} formal statement reference(s) verified across all segments.`);
 }
 function buildCurricularCatalog() {
     const segmentRefs = scanCurricularReferences();
@@ -694,6 +754,8 @@ function buildCurricularCatalog() {
             notes: 'Low prior prevalence dampens positive predictive value.'
         }
     ];
+    // Strictly enforce fail-fast invariant: if any ID referenced in HTML cannot be resolved, halt build!
+    validateCurricularReferences(formalStatements, segmentRefs);
     return {
         generatedAt: new Date().toISOString(),
         version: '2.0.0',

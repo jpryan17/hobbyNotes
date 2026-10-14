@@ -34,13 +34,29 @@ export class FSRef extends HTMLElement {
       s.id.toLowerCase() === cleanId.toLowerCase()
     );
 
-    const isActive = stmt?.statementKind === 'directed_equality' ||
-      FS_CATALOG.calculationModes.some(m => m.statementId === stmt?.id) ||
-      !!stmt?.pseudoAlgoId;
+    // FAIL-FAST: If ID does not exist in FS_CATALOG, fail visibly with an error badge
+    if (!stmt) {
+      const errLabel = desc || (cleanId ? `ID "${cleanId}"` : 'Missing ID');
+      this.innerHTML = `<span style="font-size:0.88em;margin-right:3px;">⚠️</span><span style="opacity:0.85;">${errLabel}</span><span style="margin-left:5px;font-size:0.75em;background:#fee2e2;color:#991b1b;padding:1px 5px;border-radius:10px;font-weight:700;">Unresolved FS</span>`;
+      this.setAttribute(
+        'style',
+        'display:inline-flex;align-items:center;gap:3px;color:#991b1b;background:#fef2f2;border:1.5px dashed #f87171;font-weight:600;font-size:0.92em;cursor:not-allowed;padding:2px 8px;border-radius:6px;line-height:1.4;margin:1px 2px;'
+      );
+      this.setAttribute('title', `Error: Formal Statement id="${cleanId}" is not registered in FS_CATALOG. Statements must be constructed and verified in Dev/DB first.`);
+      this.addEventListener('click', (e) => {
+        e.stopPropagation();
+        alert(`❌ Unresolved Formal Statement [id="${cleanId}"]\n\nThis ID does not exist in FS_CATALOG.\n\nUnder Middle Way Architecture, formal statements must be constructed, verified against the Lean Scaffold, and registered in the database before they can be referenced.`);
+      });
+      return;
+    }
+
+    const isActive = stmt.statementKind === 'directed_equality' ||
+      FS_CATALOG.calculationModes.some(m => m.statementId === stmt.id) ||
+      !!stmt.pseudoAlgoId;
 
     const icon = isActive ? '⚡' : '📜';
-    const displayLabel = desc || stmt?.title || (cleanId ? `Statement #${cleanId}` : 'Formal Statement');
-    const badgeLabel = stmt?.numId ? `#${stmt.numId}` : (isNum ? `#${cleanId}` : '');
+    const displayLabel = desc || stmt.title || (cleanId ? `Statement #${cleanId}` : 'Formal Statement');
+    const badgeLabel = stmt.numId ? `#${stmt.numId}` : (isNum ? `#${cleanId}` : '');
 
     const rawHtml = this.innerHTML.trim();
     if (!rawHtml) {
@@ -74,7 +90,8 @@ export class FSRef extends HTMLElement {
 
     this.addEventListener('click', (e) => {
       e.stopPropagation();
-      FSDRef.openScaffoldCard(cleanId || rawId, desc);
+      const algoAttr = this.getAttribute('algo') || '';
+      FSDRef.openScaffoldCard(cleanId || rawId, desc, { algoKey: algoAttr });
     });
   }
 }

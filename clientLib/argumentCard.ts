@@ -351,6 +351,11 @@ export class ArgumentCard extends Elt {
       body.append(casWrap);
     }
 
+    // Discrete Machine Algorithm & Pseudocode Panel
+    if (arg.pseudocode) {
+      body.append(this.buildPseudocodePanel(arg.pseudocode));
+    }
+
     this.append(body);
 
     // Footer
@@ -641,6 +646,10 @@ export class ArgumentCard extends Elt {
       "style",
       "margin-top: 14px; background: #f8fafc; border: 1.5px solid #6366f1; border-radius: 6px; padding: 10px 14px;"
     );
+    wrap.elt.setAttribute("open", "true");
+    wrap.elt.addEventListener("toggle", () => {
+      Nav.updateReturnControlVisibility();
+    });
 
     const summary = new Elt("summary");
     summary.setA(

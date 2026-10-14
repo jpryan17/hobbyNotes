@@ -232,6 +232,10 @@ export class ArgumentCard extends Elt {
             });
             body.append(casWrap);
         }
+        // Discrete Machine Algorithm & Pseudocode Panel
+        if (arg.pseudocode) {
+            body.append(this.buildPseudocodePanel(arg.pseudocode));
+        }
         this.append(body);
         // Footer
         const footer = new Elt("div");
@@ -425,6 +429,10 @@ export class ArgumentCard extends Elt {
     buildPseudocodePanel(algo) {
         const wrap = new Elt("details");
         wrap.setA("style", "margin-top: 14px; background: #f8fafc; border: 1.5px solid #6366f1; border-radius: 6px; padding: 10px 14px;");
+        wrap.elt.setAttribute("open", "true");
+        wrap.elt.addEventListener("toggle", () => {
+            Nav.updateReturnControlVisibility();
+        });
         const summary = new Elt("summary");
         summary.setA("style", "font-weight: 700; font-size: 12.5px; color: #4338ca; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;");
         const summaryLeft = new Elt("span");

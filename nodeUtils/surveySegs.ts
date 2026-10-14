@@ -56,8 +56,8 @@ const equationToStatementMap: Record<number, number> = {
 const algoToStatementMap: Record<string, number> = {
   'conway_add': 22,
   'conway_mul': 22,
-  'conway_order': 22,
-  'conway_sort': 22,
+  'conway_order': 15,
+  'conway_sort': 15,
   'conway_sub': 22,
   'kinematics_step': 2,
   'laplacian_heat_step': 5,
