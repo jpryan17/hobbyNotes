@@ -11,8 +11,10 @@ import { Nav } from "./navFW.js";
 export function getFsCatalogStatement(scaffoldKeyOrTarget: string): FsCatalogStatement | undefined {
   if (!scaffoldKeyOrTarget) return undefined;
   const clean = scaffoldKeyOrTarget.replace(/^scaffold:/, "").trim().toLowerCase();
+  const isNum = /^\d+$/.test(clean);
+  const numVal = isNum ? parseInt(clean, 10) : -1;
   return FS_CATALOG.formalStatements.find(
-    (s) => s.scaffoldKey.toLowerCase() === clean || s.id.toLowerCase() === clean
+    (s, idx) => (isNum && (s.numId === numVal || idx === numVal - 1)) || s.scaffoldKey.toLowerCase() === clean || s.id.toLowerCase() === clean
   );
 }
 

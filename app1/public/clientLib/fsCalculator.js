@@ -10,7 +10,9 @@ export function getFsCatalogStatement(scaffoldKeyOrTarget) {
     if (!scaffoldKeyOrTarget)
         return undefined;
     const clean = scaffoldKeyOrTarget.replace(/^scaffold:/, "").trim().toLowerCase();
-    return FS_CATALOG.formalStatements.find((s) => s.scaffoldKey.toLowerCase() === clean || s.id.toLowerCase() === clean);
+    const isNum = /^\d+$/.test(clean);
+    const numVal = isNum ? parseInt(clean, 10) : -1;
+    return FS_CATALOG.formalStatements.find((s, idx) => (isNum && (s.numId === numVal || idx === numVal - 1)) || s.scaffoldKey.toLowerCase() === clean || s.id.toLowerCase() === clean);
 }
 export function getFsCatalogExamplesForMode(modeId) {
     return FS_CATALOG.examples.filter((ex) => ex.modeId === modeId);

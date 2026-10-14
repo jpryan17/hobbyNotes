@@ -4,6 +4,7 @@ import { fsd, setFSD, QuantifierBinding, DomainType, parseDomainSpec, formatDoma
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
 import { getScaffoldReflection } from "./scaffoldReflection.js";
 import { FS_CATALOG } from "./fsCatalog.js";
+import { MODULE_CATALOG } from "./pseudoCatalog.js";
 
 export class FSDRef extends HTMLElement {
   static stdColor = "firebrick";
@@ -158,6 +159,7 @@ export class FSDRef extends HTMLElement {
     const cleanId = scaffoldOrId.trim().toLowerCase();
     const isNumeric = /^\d+$/.test(cleanId);
     const numIndex = isNumeric ? parseInt(cleanId, 10) - 1 : -1;
+    const numVal = isNumeric ? parseInt(cleanId, 10) : -1;
     const matchedExample = FS_CATALOG.examples.find(
       (ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId
     );
@@ -165,7 +167,7 @@ export class FSDRef extends HTMLElement {
       (m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId
     );
     const catalogStmt = FS_CATALOG.formalStatements.find(
-      (s, idx) => (isNumeric && idx === numIndex) ||
+      (s, idx) => (isNumeric && (s.numId === numVal || s.id === cleanId || idx === numIndex)) ||
              s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
              s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
              s.id.toLowerCase() === cleanId ||
@@ -182,13 +184,30 @@ export class FSDRef extends HTMLElement {
       formalArg.expression = catalogStmt.expression;
     }
 
-    const isPureTheorem = options?.disableCalculator ?? (
-      !options?.activeModeId &&
-      !options?.presetKey &&
-      !matchedMode &&
-      !matchedExample &&
-      (catalogStmt?.tier === "theorem" || catalogStmt?.tier === "axiom" || catalogStmt?.tier === "constitutional" || effectiveScaffold.includes("scaffold") || effectiveScaffold.includes("telescoping_ftc"))
-    );
+    const stmtModes = FS_CATALOG.calculationModes.filter(m => m.statementId === catalogStmt?.id);
+    const stmtExamples = FS_CATALOG.examples.filter(ex => ex.statementId === catalogStmt?.id);
+    const stmtAlgoKey = catalogStmt?.pseudoAlgoId || (MODULE_CATALOG[catalogStmt?.scaffoldKey || ''] ? catalogStmt?.scaffoldKey : undefined);
+    const stmtAlgo = stmtAlgoKey
+      ? (MODULE_CATALOG[String(stmtAlgoKey)] || Object.values(MODULE_CATALOG).find(m => m.id === String(stmtAlgoKey) || m.funcName.toLowerCase() === String(stmtAlgoKey).toLowerCase()))
+      : undefined;
+
+    const hasActiveDimensions = (stmtModes.length > 0) || (stmtExamples.length > 0) || !!stmtAlgo || (catalogStmt?.statementKind === 'directed_equality') || !!matchedMode || !!matchedExample;
+
+    const isPureTheorem = options?.disableCalculator !== undefined
+      ? options.disableCalculator
+      : (!hasActiveDimensions);
+
+    if (catalogStmt) {
+      formalArg.statementId = catalogStmt.numId || catalogStmt.id;
+      formalArg.statementKind = catalogStmt.statementKind || (hasActiveDimensions ? 'directed_equality' : 'theorem');
+      formalArg.tier = catalogStmt.tier;
+      formalArg.scaffoldKey = catalogStmt.scaffoldKey;
+      formalArg.leanSignature = catalogStmt.leanSignature;
+      formalArg.docstring = catalogStmt.description;
+      if (stmtAlgo) {
+        formalArg.pseudocode = stmtAlgo;
+      }
+    }
 
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;

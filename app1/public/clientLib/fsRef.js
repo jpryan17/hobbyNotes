@@ -1,7 +1,10 @@
 // clientLib/fsRef.ts
-// FSRef: Custom Element for inline or block references to Middle Way Formal Statements & Theorems.
-// Syntax: <fs-ref id="3" desc="Telescoping Fundamental Theorem of Calculus"></fs-ref>
+// FSRef: Unified Custom Element for inline or block references to Middle Way Formal Statements & Theorems.
+// Syntax:
+//   <fs-ref id="3" desc="Telescoping Fundamental Theorem of Calculus"></fs-ref>
+//   <fs-ref id="22" desc="The Core Dyadic Isomorphism (Tree2 ≡ 𝔻)"></fs-ref>
 import { FSDRef } from './fsdRef.js';
+import { FS_CATALOG } from './fsCatalog.js';
 export class FSRef extends HTMLElement {
     static stdColor = '#0369a1';
     static overColor = '#0284c7';
@@ -13,25 +16,41 @@ export class FSRef extends HTMLElement {
         super();
     }
     connectedCallback() {
-        const stmtId = this.getAttribute('id') || this.getAttribute('scaffold') || this.getAttribute('statement-id') || '';
+        const rawId = this.getAttribute('id') || this.getAttribute('scaffold') || this.getAttribute('statement-id') || '';
         const desc = this.getAttribute('desc') || this.getAttribute('title') || '';
+        const cleanId = rawId.trim();
+        const isNum = /^\d+$/.test(cleanId);
+        const numVal = isNum ? parseInt(cleanId, 10) : -1;
+        // Look up in catalog to determine active vs. inactive and canonical title
+        const stmt = FS_CATALOG.formalStatements.find((s, idx) => (isNum && (s.numId === numVal || idx === numVal - 1)) ||
+            s.id === cleanId ||
+            s.scaffoldKey === cleanId ||
+            s.id.toLowerCase() === cleanId.toLowerCase());
+        const isActive = stmt?.statementKind === 'directed_equality' ||
+            FS_CATALOG.calculationModes.some(m => m.statementId === stmt?.id) ||
+            !!stmt?.pseudoAlgoId;
+        const icon = isActive ? '⚡' : '📜';
+        const displayLabel = desc || stmt?.title || (cleanId ? `Statement #${cleanId}` : 'Formal Statement');
+        const badgeLabel = stmt?.numId ? `#${stmt.numId}` : (isNum ? `#${cleanId}` : '');
         const rawHtml = this.innerHTML.trim();
         if (!rawHtml) {
-            const displayLabel = desc || (stmtId ? `Theorem #${stmtId}` : 'Formal Statement');
-            this.innerHTML = `<span style="font-size:0.88em;opacity:0.9;margin-right:3px;">📜</span><span>${displayLabel}</span>`;
+            this.innerHTML = `<span style="font-size:0.88em;opacity:0.9;margin-right:3px;">${icon}</span><span>${displayLabel}</span>${badgeLabel ? `<span style="margin-left:5px;font-size:0.75em;background:${isActive ? '#ede9fe' : '#e0f2fe'};color:${isActive ? '#6b21a8' : '#0369a1'};padding:1px 5px;border-radius:10px;font-weight:700;">${badgeLabel}</span>` : ''}`;
         }
-        this.setAttribute('style', `display:inline-flex;align-items:center;gap:4px;color:${FSRef.stdColor};background:${FSRef.stdBg};border:1px solid ${FSRef.stdBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;text-decoration:none;line-height:1.4;margin:1px 2px;`);
+        const baseBg = isActive ? '#faf5ff' : FSRef.stdBg;
+        const baseBorder = isActive ? '#e9d5ff' : FSRef.stdBorder;
+        const baseColor = isActive ? '#6b21a8' : FSRef.stdColor;
+        const hoverBg = isActive ? '#f3e8ff' : FSRef.overBg;
+        const hoverBorder = isActive ? '#d8b4fe' : FSRef.overBorder;
+        this.setAttribute('style', `display:inline-flex;align-items:center;gap:3px;color:${baseColor};background:${baseBg};border:1px solid ${baseBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;text-decoration:none;line-height:1.4;margin:1px 2px;`);
         this.addEventListener('mouseover', () => {
-            this.setAttribute('style', `display:inline-flex;align-items:center;gap:4px;color:${FSRef.overColor};background:${FSRef.overBg};border:1px solid ${FSRef.overBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;box-shadow:0 1px 3px rgba(3,105,161,0.12);text-decoration:none;line-height:1.4;margin:1px 2px;`);
+            this.setAttribute('style', `display:inline-flex;align-items:center;gap:3px;color:${baseColor};background:${hoverBg};border:1px solid ${hoverBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-decoration:none;line-height:1.4;margin:1px 2px;`);
         });
         this.addEventListener('mouseout', () => {
-            this.setAttribute('style', `display:inline-flex;align-items:center;gap:4px;color:${FSRef.stdColor};background:${FSRef.stdBg};border:1px solid ${FSRef.stdBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;text-decoration:none;line-height:1.4;margin:1px 2px;`);
+            this.setAttribute('style', `display:inline-flex;align-items:center;gap:3px;color:${baseColor};background:${baseBg};border:1px solid ${baseBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all 0.15s ease;text-decoration:none;line-height:1.4;margin:1px 2px;`);
         });
         this.addEventListener('click', (e) => {
             e.stopPropagation();
-            FSDRef.openScaffoldCard(stmtId, desc, {
-                disableCalculator: true
-            });
+            FSDRef.openScaffoldCard(cleanId || rawId, desc);
         });
     }
 }

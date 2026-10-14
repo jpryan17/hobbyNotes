@@ -28,6 +28,13 @@ export interface FormalArgument {
     simplified: string;
     slots?: Record<string, string>;
   };
+  statementId?: string | number;
+  statementKind?: 'theorem' | 'directed_equality';
+  tier?: string;
+  scaffoldKey?: string;
+  leanSignature?: string;
+  docstring?: string;
+  pseudocode?: any;
 }
 
 export interface ArgumentCardOptions {
@@ -75,14 +82,34 @@ export class ArgumentCard extends Elt {
     );
 
     const titleWrap = new Elt("div");
-    titleWrap.setA("style", "display: flex; align-items: center; gap: 8px;");
+    titleWrap.setA("style", "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;");
     const icon = new Elt("span");
-    icon.setV("📜");
+    icon.setV(arg.statementKind === "directed_equality" ? "⚡" : "📜");
     const title = new Elt("span");
     title.setA("style", "font-weight: 700; font-size: 13px; color: #1e293b; letter-spacing: 0.5px; text-transform: uppercase;");
     title.setV(arg.title || "Formal Reasoning");
     titleWrap.append(icon);
     titleWrap.append(title);
+
+    if (arg.statementId) {
+      const idBadge = new Elt("span");
+      idBadge.setA(
+        "style",
+        "font-size: 10.5px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 1px 7px; border-radius: 10px;"
+      );
+      idBadge.setV(`#${arg.statementId}`);
+      titleWrap.append(idBadge);
+    }
+
+    if (arg.tier) {
+      const tierBadge = new Elt("span");
+      tierBadge.setA(
+        "style",
+        "font-size: 10px; font-weight: 700; background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;"
+      );
+      tierBadge.setV(arg.tier);
+      titleWrap.append(tierBadge);
+    }
 
     const rightWrap = new Elt("div");
     rightWrap.setA("style", "display: flex; align-items: center; gap: 8px;");
@@ -234,6 +261,11 @@ export class ArgumentCard extends Elt {
     const cachedLineage = this.getCachedVerification();
     if (cachedLineage && ((cachedLineage.uses && cachedLineage.uses.length > 0) || (cachedLineage.usedBy && cachedLineage.usedBy.length > 0))) {
       body.append(this.buildLineagePanel(cachedLineage));
+    }
+
+    // Algorithmic Pseudocode & Complexity Trace (for Active / Computational FS)
+    if (arg.pseudocode) {
+      body.append(this.buildPseudocodePanel(arg.pseudocode));
     }
 
     // Collapsible Algebraic Reduction & Invariant Evaluation (NavFW Compatible)
@@ -600,6 +632,104 @@ export class ArgumentCard extends Elt {
       wrap.append(row);
     }
 
+    return wrap;
+  }
+
+  private buildPseudocodePanel(algo: any): Elt {
+    const wrap = new Elt("details");
+    wrap.setA(
+      "style",
+      "margin-top: 14px; background: #f8fafc; border: 1.5px solid #6366f1; border-radius: 6px; padding: 10px 14px;"
+    );
+
+    const summary = new Elt("summary");
+    summary.setA(
+      "style",
+      "font-weight: 700; font-size: 12.5px; color: #4338ca; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;"
+    );
+    const summaryLeft = new Elt("span");
+    summaryLeft.setA("style", "display: inline-flex; align-items: center; gap: 6px;");
+    summaryLeft.setV(`<span>💻</span> <b>Discrete Machine Algorithm: ${algo.name || algo.funcName}</b>`);
+    const summaryPrompt = new Elt("span");
+    summaryPrompt.setA("style", "font-size: 11px; font-weight: normal; color: #6366f1; opacity: 0.85;");
+    summaryPrompt.setV("(Click to Expand Algorithm)");
+    summary.append(summaryLeft);
+    summary.append(summaryPrompt);
+    wrap.append(summary);
+
+    const content = new Elt("div");
+    content.setA("style", "margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 12px; color: #334155;");
+
+    // Metadata Bar (Badge & Signature)
+    const metaRow = new Elt("div");
+    metaRow.setA("style", "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;");
+    const badgeSpan = new Elt("span");
+    badgeSpan.setA("style", "background: #ede9fe; color: #4338ca; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px;");
+    badgeSpan.setV(algo.badge || "Discrete Machine Algorithm");
+    const sigSpan = new Elt("code");
+    sigSpan.setA("style", "font-family: monospace; font-size: 11.5px; color: #1e1b4b; background: #e0e7ff; padding: 2px 6px; border-radius: 4px;");
+    sigSpan.setV(algo.signature || "");
+    metaRow.append(badgeSpan);
+    metaRow.append(sigSpan);
+    content.append(metaRow);
+
+    // Summary description
+    if (algo.summary) {
+      const sumDiv = new Elt("div");
+      sumDiv.setA("style", "color: #475569; font-size: 12px; line-height: 1.5; margin-bottom: 10px;");
+      sumDiv.setV(algo.summary);
+      content.append(sumDiv);
+    }
+
+    // Complexity Contrast (Conway Tree vs. Dyadic Machine)
+    if (algo.complexity) {
+      const compWrap = new Elt("div");
+      compWrap.setA("style", "display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;");
+
+      const treeBox = new Elt("div");
+      treeBox.setA("style", "background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 5px; padding: 6px 8px; font-size: 11px;");
+      treeBox.setV(`<strong style="color:#1e3a8a;">🌲 Tree Induction:</strong><br/><span style="color:#334155;">${algo.complexity.tree || "Recursive ancestor option induction"}</span>`);
+
+      const dyadBox = new Elt("div");
+      dyadBox.setA("style", "background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 5px; padding: 6px 8px; font-size: 11px;");
+      dyadBox.setV(`<strong style="color:#065f46;">⚙️ Dyadic Machine:</strong><br/><span style="color:#334155;">${algo.complexity.dyadic || "O(1) CPU machine bit-shifts"}</span>`);
+
+      compWrap.append(treeBox);
+      compWrap.append(dyadBox);
+      content.append(compWrap);
+    }
+
+    // Structured Code Block
+    if (algo.code) {
+      const codeBox = new Elt("div");
+      codeBox.setA("style", "background: #0f172a; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; overflow-x: auto;");
+      const pre = new Elt("pre");
+      pre.setA("style", "margin: 0; font-family: 'Fira Code', monospace; font-size: 11.5px; line-height: 1.45; color: #a5f3fc;");
+      pre.setV(algo.code);
+      codeBox.append(pre);
+      content.append(codeBox);
+    }
+
+    // Simulator Button
+    const actRow = new Elt("div");
+    actRow.setA("style", "display: flex; justify-content: flex-end;");
+    const simBtn = new Elt("button");
+    simBtn.setA("style", "background: #4f46e5; color: #ffffff; border: none; padding: 4px 12px; font-size: 11.5px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: background 0.15s;");
+    simBtn.setV("▶️ Step-by-Step Simulation in Discrete Machine Simulator");
+    simBtn.elt.addEventListener("click", async () => {
+      const { pseudoViewer, setPseudoViewer } = await import("./pseudoViewer.js");
+      if (!pseudoViewer) setPseudoViewer();
+      pseudoViewer.showAlgorithm(algo.id);
+      Nav.fo.removeChildren();
+      Nav.fo.elt.scrollTop = 0;
+      Nav.fo.append(pseudoViewer);
+      Nav.display();
+      pseudoViewer.layout();
+    });
+    actRow.append(simBtn);
+    content.append(actRow);
+
+    wrap.append(content);
     return wrap;
   }
 

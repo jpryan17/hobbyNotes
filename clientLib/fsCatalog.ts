@@ -1,14 +1,17 @@
 /**
- * Pre-harvested Relational Catalog of Curricular Formal Statements,
+ * Pre-compiled Relational Catalog of Curricular Formal Statements,
  * Directional Calculation Modes, and Verified Presets.
  *
- * Generated automatically by nodeUtils/harvestStencils.ts
+ * Generated automatically by nodeUtils/buildCatalog.ts
  */
 
 export type FsStatementType = 'math' | 'physics' | 'information';
 
 export interface FsCatalogStatement {
   id: string;
+  numId?: number;
+  statementKind?: 'theorem' | 'directed_equality';
+  pseudoAlgoId?: string | number;
   parentId?: string;
   type: FsStatementType;
   tier: 'constitutional' | 'axiom' | 'theorem' | 'scenario' | 'corollary' | 'law';
@@ -76,41 +79,61 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-14T21:02:04.814Z",
-  "version": "1.0.0",
+  "generatedAt": "2026-10-14T21:59:52.383Z",
+  "version": "2.0.0",
   "formalStatements": [
     {
+      "numId": 1,
       "id": "fs_newtonian_mechanics",
       "type": "physics",
       "tier": "law",
+      "statementKind": "theorem",
       "governingSeed": "boundary_law",
       "title": "Newtonian Dynamics & Boundary Acceleration",
       "description": "Foundational relation between force, inertia, and momentum conservation on ℝ_ω.",
       "scaffoldKey": "newtonian_mechanics",
       "expression": "F = m · a  ∧  p = m · v",
       "referencedInSegments": [
-        "stemNewtonianBridge"
+        "stemNewtonianBridge",
+        "analysis1DLecture2",
+        "analysis1DLecture3",
+        "analysis2DIntro",
+        "analysis2DLecture2",
+        "analysis2DLecture3",
+        "bayesianInferenceLecture4",
+        "quantumBayesianInferenceLecture1",
+        "quantumBayesianInferenceLecture2",
+        "quantumLogicLecture3",
+        "vectorsLecture1",
+        "vectorsLecture2",
+        "vectorsLecture3"
       ]
     },
     {
+      "numId": 2,
       "id": "fs_free_fall_accel",
       "parentId": "fs_newtonian_mechanics",
       "type": "physics",
       "tier": "scenario",
+      "statementKind": "directed_equality",
       "governingSeed": "boundary_law",
       "title": "Uniform Free Fall Kinematics",
       "description": "Motion under constant gravitational acceleration g on ℝ_ω.",
       "scaffoldKey": "free_fall_accel",
       "expression": "v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²",
       "leanSignature": "theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t",
+      "pseudoAlgoId": "kinematics_step",
       "referencedInSegments": [
-        "stemNewtonianBridge"
+        "stemNewtonianBridge",
+        "vectorsLecture3"
       ]
     },
     {
+      "numId": 3,
       "id": "fs_telescoping_ftc",
       "type": "math",
       "tier": "theorem",
+      "statementKind": "theorem",
       "governingSeed": "boundary_law",
       "title": "Telescoping Fundamental Theorem of Calculus",
       "description": "Discrete interior cancellation collapsing whole-transect sums to boundary differences.",
@@ -119,14 +142,18 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
       "referencedInSegments": [
         "analysis1DLecture3",
-        "stemHeatDiffusion"
+        "stemHeatDiffusion",
+        "modelsOverview",
+        "stemTrigFoundations"
       ]
     },
     {
+      "numId": 4,
       "id": "fs_work_energy",
       "parentId": "fs_telescoping_ftc",
       "type": "physics",
       "tier": "law",
+      "statementKind": "directed_equality",
       "governingSeed": "boundary_law",
       "title": "Telescoping Work-Energy Principle",
       "description": "Exact cancellation of interior work increments yielding net kinetic energy change.",
@@ -134,250 +161,360 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k",
       "leanSignature": "theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum",
       "referencedInSegments": [
-        "stemNewtonianBridge"
+        "stemNewtonianBridge",
+        "analysis1DLecture3",
+        "formalStatementsIntro"
       ]
     },
     {
+      "numId": 5,
       "id": "fs_heat_flux",
       "parentId": "fs_telescoping_ftc",
       "type": "physics",
       "tier": "scenario",
+      "statementKind": "directed_equality",
       "governingSeed": "boundary_law",
-      "title": "Thermal Flux Balance & Discrete Laplacian Stencil",
-      "description": "Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.",
+      "title": "Discrete Thermal Diffusion Balance",
+      "description": "Conservation of thermal energy across discrete boundaries governed by second differences.",
       "scaffoldKey": "heat_flux",
-      "expression": "∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²",
-      "leanSignature": "theorem heat_flux_conservation (alpha dx dt : R_w) : conserved",
+      "expression": "u_j(t + Δt) = u_j(t) + α · (Δt / Δx²) · [u_{j+1}(t) - 2·u_j(t) + u_{j-1}(t)]",
+      "leanSignature": "theorem heat_stencil_conservation (alpha dt dx u_L u_C u_R : R_w) : u_new = heat_step alpha dt dx u_L u_C u_R",
+      "pseudoAlgoId": "laplacian_heat_step",
       "referencedInSegments": [
         "stemHeatDiffusion"
       ]
     },
     {
-      "id": "fs_quartic_diff",
-      "parentId": "fs_telescoping_ftc",
-      "type": "math",
-      "tier": "corollary",
-      "governingSeed": "shadow_map",
-      "title": "Hyperfinite Quartic Derivative",
-      "description": "Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.",
-      "scaffoldKey": "r_quartic",
-      "expression": "diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²",
-      "referencedInSegments": [
-        "analysis1DLecture2"
-      ]
-    },
-    {
-      "id": "fs_complex_arithmetic",
-      "type": "math",
-      "tier": "axiom",
-      "governingSeed": "conway_cut",
-      "title": "Hyperfinite Complex Arithmetic & Cell Loop",
-      "description": "2D tensor product algebra ℂ_ω = ℝ_ω ⊗ ℝ_ω and Cauchy cell edge cancellation.",
-      "scaffoldKey": "cauchy_edge_cancel",
-      "expression": "z₁ · z₂ = (x₁·x₂ - y₁·y₂) + i·(x₁·y₂ + x₂·y₁)",
-      "leanSignature": "axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩",
-      "referencedInSegments": [
-        "analysis2DLecture1"
-      ]
-    },
-    {
-      "id": "fs_cauchy_riemann",
-      "parentId": "fs_complex_arithmetic",
+      "numId": 6,
+      "id": "fs_hyperfinite_derivative",
       "type": "math",
       "tier": "theorem",
+      "statementKind": "directed_equality",
       "governingSeed": "shadow_map",
-      "title": "Cauchy-Riemann Conformal Symmetries",
-      "description": "Direction-independent complex derivative enforcing angle preservation and zero shear.",
-      "scaffoldKey": "cauchy_riemann",
+      "title": "Hyperfinite Difference Quotient Derivative",
+      "description": "Standard part of hyperfinite difference quotients matching classical derivative values.",
+      "scaffoldKey": "hyperfinite_derivative",
+      "expression": "f'(x) = st([f(x + dx) - f(x)] / dx)  for infinitesimal dx ≠ 0",
+      "leanSignature": "theorem nonstandard_derivative (f : R_w → R_w) (x : R_w) (dx : Infinitesimal) : f_prime x = st ((f (x + dx) - f x) / dx)",
+      "pseudoAlgoId": "euler_compounding",
+      "referencedInSegments": [
+        "analysis1DLecture1",
+        "analysis1DLecture2",
+        "formalStatementsIntro"
+      ]
+    },
+    {
+      "numId": 7,
+      "id": "fs_complex_step_invariance",
+      "type": "math",
+      "tier": "theorem",
+      "statementKind": "directed_equality",
+      "governingSeed": "shadow_map",
+      "title": "2D Complex Step & Modulus Invariance on ℂ_ω",
+      "description": "Isotropic step invariance of hypercomplex numbers preserving holomorphic geometry.",
+      "scaffoldKey": "complex_step_invariance",
+      "expression": "|z + dz|² = |z|² + 2·Re(z̄·dz) + |dz|²",
+      "leanSignature": "theorem complex_step_modulus (z dz : C_w) : norm_sq (z + dz) = norm_sq z + 2 * Re (conj z * dz) + norm_sq dz",
+      "referencedInSegments": [
+        "analysis2DLecture1",
+        "analysis1DLecture3",
+        "analysis2DIntro",
+        "analysis2DLecture2",
+        "formalStatementsIntro",
+        "haloSoupSeminar",
+        "quantumLogicLecture2"
+      ]
+    },
+    {
+      "numId": 8,
+      "id": "fs_cauchy_riemann_symmetry",
+      "parentId": "fs_complex_step_invariance",
+      "type": "math",
+      "tier": "theorem",
+      "statementKind": "theorem",
+      "governingSeed": "shadow_map",
+      "title": "Cauchy-Riemann Coordinate Symmetry",
+      "description": "Equalities of partial derivatives underpinning hypercomplex conformal mappings.",
+      "scaffoldKey": "cauchy_riemann_symmetry",
       "expression": "∂u/∂x = ∂v/∂y  ∧  ∂u/∂y = -∂v/∂x",
+      "leanSignature": "theorem cauchy_riemann_orthogonality (u v : R_w → R_w → R_w) : du_dx = dv_dy ∧ du_dy = -dv_dx",
       "referencedInSegments": [
-        "analysis2DLecture1"
+        "analysis2DLecture1",
+        "analysis2DIntro"
       ]
     },
     {
-      "id": "fs_residue_integral",
-      "parentId": "fs_complex_arithmetic",
+      "numId": 9,
+      "id": "fs_contour_cauchy_goursat",
+      "parentId": "fs_cauchy_riemann_symmetry",
       "type": "math",
       "tier": "theorem",
-      "governingSeed": "boundary_law",
-      "title": "Residue Theorem & Vortex Circulation",
-      "description": "Punctured closed loop integral evaluating to integer vortex winding residues.",
-      "scaffoldKey": "residue_theorem",
-      "expression": "∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)",
+      "statementKind": "theorem",
+      "governingSeed": "shadow_map",
+      "title": "Hyperfinite Cauchy-Goursat Loop Vanishing",
+      "description": "Sum of holomorphic increments along a closed discrete polygon collapses to zero.",
+      "scaffoldKey": "contour_cauchy_goursat",
+      "expression": "∮_γ f(z) dz = ∑_{k=0}^{N-1} f(z_k)·(z_{k+1} - z_k) ≃ 0",
+      "leanSignature": "theorem cauchy_goursat_loop (f : C_w → C_w) (gamma : ClosedContour) : hyper_sum (eval_step f gamma) = 0",
       "referencedInSegments": [
-        "analysis2DLecture2"
+        "analysis2DLecture2",
+        "analysis2DIntro"
       ]
     },
     {
-      "id": "fs_lee_yang",
-      "parentId": "fs_complex_arithmetic",
+      "numId": 10,
+      "id": "fs_lee_yang_circle",
+      "parentId": "fs_complex_step_invariance",
       "type": "physics",
       "tier": "theorem",
-      "governingSeed": "conway_cut",
-      "title": "Lee-Yang Zero Circle & Critical Phase Transition",
-      "description": "Partition function zeros on complex unit circle pinching real axis at Day ω.",
-      "scaffoldKey": "lee_yang",
-      "expression": "dist(z*, ℝ) = |T - T_c| + 1 / √N",
+      "statementKind": "theorem",
+      "governingSeed": "shadow_map",
+      "title": "The Lee-Yang Unit Circle Partition Theorem",
+      "description": "All partition function zeros of ferromagnetic Ising systems lie precisely on the unit circle |z| = 1.",
+      "scaffoldKey": "lee_yang_circle",
+      "expression": "Z_N(z) = 0 ⟹ |z| = 1  in the complex fugacity plane",
+      "leanSignature": "theorem lee_yang_circle (N : Nat) (z : C_w) (hZ : ising_partition N z = 0) : norm z = 1",
       "referencedInSegments": [
-        "stemHeatDiffusion",
-        "cosmologyAsInformation"
+        "analysis2DLecture3",
+        "analysis2DIntro"
       ]
     },
     {
-      "id": "fs_unitary_isometry",
+      "numId": 11,
+      "id": "fs_harmonic_oscillator",
       "type": "physics",
-      "tier": "law",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
       "governingSeed": "boundary_law",
-      "title": "Unitary Evolution & Norm Isometry",
-      "description": "Norm-preserving probability evolution under self-adjoint operators U† · U = I.",
-      "scaffoldKey": "unitary_isometry",
-      "expression": "⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩  ∧  ∥U ψ∥ = ∥ψ∥ = 1",
-      "leanSignature": "axiom unitary_isometry (U : C_w) : norm_sq U = 1",
+      "title": "Harmonic Leapfrog Phase Space Orbit",
+      "description": "Exact energy preservation in discrete symplectic integration of harmonic oscillators.",
+      "scaffoldKey": "harmonic_oscillator",
+      "expression": "x(t + dt) = x(t) + v(t + dt/2)·dt  ∧  v(t + dt/2) = v(t - dt/2) - ω²·x(t)·dt",
+      "leanSignature": "theorem harmonic_leapfrog_energy (x0 v0 omega dt : R_w) : leapfrog_energy x0 v0 = initial_energy",
+      "pseudoAlgoId": "kinematics_step",
       "referencedInSegments": [
+        "stemNewtonianBridge",
         "vectorsLecture2",
+        "analysis2DIntro",
+        "analysis2DLecture3",
         "vectorsLecture3"
       ]
     },
     {
-      "id": "fs_three_polarizer",
-      "parentId": "fs_unitary_isometry",
+      "numId": 12,
+      "id": "fs_three_polarizer_quantum",
       "type": "physics",
       "tier": "scenario",
-      "governingSeed": "boundary_law",
-      "title": "Three-Polarizer Sequential Projection",
-      "description": "Quantum state projection through non-commuting measurement operators via Born rule.",
-      "scaffoldKey": "born_rule",
-      "expression": "I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)",
+      "statementKind": "directed_equality",
+      "governingSeed": "shadow_map",
+      "title": "Three-Polarizer Geometric Quantum Transmission",
+      "description": "Quantum state projection through intermediate non-orthogonal polarization filters.",
+      "scaffoldKey": "three_polarizer_quantum",
+      "expression": "I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁)",
+      "leanSignature": "theorem three_polarizer_transmission (I0 theta1 theta2 : R_w) : I_trans = I0 * (cos theta1)^2 * (cos (theta2 - theta1))^2",
       "referencedInSegments": [
+        "quantumLogicLecture1",
+        "quantumLogicLecture3",
         "vectorsLecture3",
-        "editedQuantumLogicLecture1V1"
+        "quantumLogicLecture2"
       ]
     },
     {
-      "id": "fs_probability_foundations",
-      "type": "math",
-      "tier": "axiom",
-      "governingSeed": "shadow_map",
-      "title": "Discrete Probability Measure & Conditioning",
-      "description": "Non-negative measure on finite state spaces with unit total mass.",
-      "scaffoldKey": "discrete_probability",
-      "expression": "P(A ∩ B) = P(A|B) · P(B)",
-      "referencedInSegments": [
-        "bayesianInferenceIntro"
-      ]
-    },
-    {
-      "id": "fs_bayes_updating",
-      "parentId": "fs_probability_foundations",
+      "numId": 13,
+      "id": "fs_hyperfinite_probability",
       "type": "information",
-      "tier": "theorem",
+      "tier": "axiom",
+      "statementKind": "theorem",
       "governingSeed": "shadow_map",
-      "title": "Bayesian Posterior Updating (P(H|D))",
-      "description": "Prior belief update under sensory observation with probability normalization.",
-      "scaffoldKey": "bayes_rule",
-      "expression": "P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]",
+      "title": "Hyperfinite Normalized Probability Space",
+      "description": "Uniform hyperfinite counting probability with infinitesimal resolution and no null sets.",
+      "scaffoldKey": "hyperfinite_probability",
+      "expression": "P(A) = st(|A| / |Ω|)  where |Ω| = H ∈ *ℕ \\ ℕ",
+      "leanSignature": "theorem hyperfinite_probability_measure (Omega : HyperfiniteSampleSpace) (A : Event Omega) : P A = st (card A / card Omega)",
       "referencedInSegments": [
-        "editedBayesianInferenceLecture1V1"
+        "bayesianInferenceLecture1"
       ]
     },
     {
-      "id": "fs_scale_reciprocity",
+      "numId": 14,
+      "id": "fs_bayes_updating",
+      "parentId": "fs_hyperfinite_probability",
+      "type": "information",
+      "tier": "law",
+      "statementKind": "directed_equality",
+      "governingSeed": "shadow_map",
+      "title": "Hyperfinite Bayesian Likelihood Inversion",
+      "description": "Strictly positive hyperfinite updating preserving order under evidence accumulation.",
+      "scaffoldKey": "bayes_updating",
+      "expression": "P(H|E) = [P(E|H) · P(H)] / [P(E|H)·P(H) + P(E|¬H)·P(¬H)]",
+      "leanSignature": "theorem bayes_rule (pH pE_H pE_notH : R_w) : p_posterior = (pE_H * pH) / (pE_H * pH + pE_notH * (1 - pH))",
+      "pseudoAlgoId": "bayes_discrete_update",
+      "referencedInSegments": [
+        "bayesianInferenceLecture2",
+        "bayesianInferenceLecture3",
+        "quantumBayesianInferenceLecture1",
+        "formalStatementsIntro"
+      ]
+    },
+    {
+      "numId": 15,
+      "id": "fs_tree2_totally_ordered",
       "type": "math",
       "tier": "constitutional",
+      "statementKind": "theorem",
       "governingSeed": "conway_cut",
-      "title": "Scale Horizon & Infinitesimal Reciprocity",
-      "description": "Fundamental scale axiom: Day ω cosmic horizon and grid step dx are mutual inverses ω · dx = 1.",
-      "scaffoldKey": "omega_inv",
-      "expression": "ω · dx = 1  ∧  dx = 1/ω",
+      "title": "Total Ordering on Conway Sign Sequences (Tree2)",
+      "description": "Strict trichotomy and transitivity of Conway sign sequences representing Surreal dyadics.",
+      "scaffoldKey": "D_w_is_totally_ordered",
+      "expression": "∀ x y ∈ Tree2, (x < y) ∨ (x = y) ∨ (y < x)",
+      "leanSignature": "theorem Tree2.totally_ordered (x y : Tree2) : x < y ∨ x = y ∨ y < x",
+      "pseudoAlgoId": "conway_order",
       "referencedInSegments": [
+        "numbersLecture2"
+      ]
+    },
+    {
+      "numId": 16,
+      "id": "fs_ptolemaic_half_angle",
+      "type": "math",
+      "tier": "theorem",
+      "statementKind": "directed_equality",
+      "governingSeed": "conway_cut",
+      "title": "Dyadic Ptolemaic Half-Angle Root Bisection",
+      "description": "Algebraic calculation of sine and chord values via iterative nested square root bisections.",
+      "scaffoldKey": "dyadic_ptolemaic_sine",
+      "expression": "sin(θ/2) = √((1 - cos(θ)) / 2)",
+      "leanSignature": "theorem ptolemaic_half_angle (theta : R_w) : sin (theta / 2) = sqrt ((1 - cos theta) / 2)",
+      "pseudoAlgoId": "rotor_trig_cordic",
+      "referencedInSegments": [
+        "stemTrigFoundations",
         "analysis1DLecture1"
       ]
     },
     {
-      "id": "fs_discrete_ivt",
-      "parentId": "fs_scale_reciprocity",
+      "numId": 17,
+      "id": "fs_standard_part_homomorphism",
       "type": "math",
-      "tier": "theorem",
-      "governingSeed": "conway_cut",
-      "title": "Discrete Intermediate Value Theorem Bisection",
-      "description": "Constructive root isolation through dyadic interval halving on sign change.",
-      "scaffoldKey": "discrete_ivt",
-      "expression": "f(a)·f(b) < 0  ⇒  c = (a + b)/2",
-      "referencedInSegments": [
-        "analysis1DLecture2"
-      ]
-    },
-    {
-      "id": "fs_nucleus_halo_decomposition",
-      "parentId": "fs_scale_reciprocity",
-      "type": "math",
-      "tier": "theorem",
+      "tier": "constitutional",
+      "statementKind": "theorem",
       "governingSeed": "shadow_map",
-      "title": "Nucleus-Halo Decomposition Theorem",
-      "description": "Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.",
-      "scaffoldKey": "nucleus_halo_decomposition",
-      "expression": "x = st(x) + ε  ∧  ε ∈ μ(0)",
-      "leanSignature": "axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε",
+      "title": "Standard Part Ring Homomorphism st(·)",
+      "description": "Preservation of addition and multiplication under standard part shadow projection from finite ℝ_ω to ℝ.",
+      "scaffoldKey": "standard_part_homomorphism",
+      "expression": "st(x + y) = st(x) + st(y)  ∧  st(x · y) = st(x) · st(y)",
+      "leanSignature": "theorem standard_part_is_homomorphism (x y : R_w_fin) : st (x + y) = st x + st y ∧ st (x * y) = st x * st y",
       "referencedInSegments": [
-        "analysis1DLecture1"
+        "analysis1DLecture1",
+        "analysis2DLecture1",
+        "vectorsLecture1",
+        "formalStatementsIntro",
+        "haloSoupSeminar"
       ]
     },
     {
-      "id": "fs_dyadic_angle_bisection",
+      "numId": 18,
+      "id": "fs_cauchy_schwarz_discrete",
       "type": "math",
       "tier": "theorem",
+      "statementKind": "theorem",
+      "governingSeed": "boundary_law",
+      "title": "Discrete Cauchy-Schwarz Inner Product Inequality",
+      "description": "Fundamental geometric bound on hyperfinite Euclidean and Hilbert space projections.",
+      "scaffoldKey": "cauchy_schwarz_discrete",
+      "expression": "|⟨u, v⟩|² ≤ ⟨u, u⟩ · ⟨v, v⟩",
+      "leanSignature": "theorem cauchy_schwarz_hyperfinite (u v : HyperVector N) : (inner_product u v)^2 ≤ inner_product u u * inner_product v v",
+      "referencedInSegments": [
+        "vectorsLecture3",
+        "stemTrigFoundations"
+      ]
+    },
+    {
+      "numId": 19,
+      "id": "fs_polygonal_rim_chord",
+      "type": "math",
+      "tier": "theorem",
+      "statementKind": "directed_equality",
       "governingSeed": "conway_cut",
-      "title": "Dyadic Angle Bisection & Unit Rotor Generation",
-      "description": "Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.",
-      "scaffoldKey": "dyadic_angle",
-      "expression": "θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1",
-      "leanSignature": "def dyadic_angle (m : Int) (n : Nat) : R_w",
+      "title": "Dyadic Polygonal Rim Chord Law",
+      "description": "Calculation of regular polygonal rim segment lengths on the discrete circle.",
+      "scaffoldKey": "polygonal_rim_chord",
+      "expression": "c_n = 2 · sin(π / n)",
+      "leanSignature": "theorem rim_chord_length (n : Nat) : chord_len n = 2 * sin (pi / n)",
+      "pseudoAlgoId": "rotor_trig_cordic",
       "referencedInSegments": [
         "stemTrigFoundations"
       ]
     },
     {
-      "id": "fs_polygonal_horn_chord",
-      "parentId": "fs_dyadic_angle_bisection",
+      "numId": 20,
+      "id": "fs_euler_identity_rotor",
+      "type": "math",
+      "tier": "theorem",
+      "statementKind": "directed_equality",
+      "governingSeed": "shadow_map",
+      "title": "Euler Polar Rotor Decomposition",
+      "description": "Representation of complex units as exponential orthogonal phase rotators.",
+      "scaffoldKey": "euler_identity_rotor",
+      "expression": "e^{iθ} = cos(θ) + i · sin(θ)",
+      "leanSignature": "theorem euler_rotor_identity (theta : R_w) : exp_i theta = Complex.mk (cos theta) (sin theta)",
+      "pseudoAlgoId": "rotor_trig_cordic",
+      "referencedInSegments": [
+        "stemTrigFoundations",
+        "formalStatementsIntro"
+      ]
+    },
+    {
+      "numId": 21,
+      "id": "fs_unit_rotor_projection",
+      "parentId": "fs_euler_identity_rotor",
       "type": "math",
       "tier": "scenario",
-      "governingSeed": "boundary_law",
-      "title": "Polygonal Horn Rim Chord & Inward Deflection",
-      "description": "Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.",
-      "scaffoldKey": "chord_length",
-      "expression": "c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]",
-      "leanSignature": "axiom chord_length (delta_theta : R_w) : R_w",
+      "statementKind": "directed_equality",
+      "governingSeed": "shadow_map",
+      "title": "Unit Rotor Sine & Cosine Projection",
+      "description": "Orthogonal coordinate projection of 2D unit rotors under angle parameterization.",
+      "scaffoldKey": "unit_rotor_projection",
+      "expression": "x = cos(θ),  y = sin(θ)  with  x² + y² = 1",
+      "leanSignature": "theorem unit_rotor_norm (theta : R_w) : (cos theta)^2 + (sin theta)^2 = 1",
+      "pseudoAlgoId": "rotor_trig_cordic",
       "referencedInSegments": [
         "stemTrigFoundations"
       ]
     },
     {
-      "id": "fs_sin_dyadic_bisection",
-      "parentId": "fs_dyadic_angle_bisection",
+      "numId": 22,
+      "id": "fs_dyadic_isomorphism",
+      "parentId": "fs_tree2_totally_ordered",
       "type": "math",
       "tier": "theorem",
+      "statementKind": "directed_equality",
       "governingSeed": "conway_cut",
-      "title": "Dyadic Tree Sine Function & CORDIC Bisection",
-      "description": "Directed pair 𝔻 → [-1, 1] mapping Conway binary angle tree nodes to standard sine coordinates.",
-      "scaffoldKey": "sin_dyadic_fn",
-      "expression": "sin_dyadic_fn(d) = sin(2π · d.val) ∈ [-1, 1]",
-      "leanSignature": "def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic",
+      "title": "The Core Dyadic Isomorphism Tree2 ≡ 𝔻",
+      "description": "Order and ring isomorphism between sign-sequence trees and dyadic rationals.",
+      "scaffoldKey": "D_w_dense_in_R_w",
+      "expression": "Tree2(s) ≅ m / 2^n  ∧  Tree2 ↪ ℝ_ω",
+      "leanSignature": "theorem dyadic_tree_iso (s : Tree2) : ∃ (m : Int) (n : Nat), to_dyadic s = (m : R_w) / 2^n",
+      "pseudoAlgoId": "conway_add",
       "referencedInSegments": [
-        "stemTrigFoundations"
+        "numbersLecture2",
+        "stemExpLogFoundations"
       ]
     },
     {
-      "id": "fs_sin_rotor_projection",
+      "numId": 23,
+      "id": "fs_van_den_dries_ehrlich",
+      "parentId": "fs_tree2_totally_ordered",
       "type": "math",
-      "tier": "axiom",
+      "tier": "theorem",
+      "statementKind": "theorem",
       "governingSeed": "conway_cut",
-      "title": "Unit Rotor Group Sine Projection",
-      "description": "Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.",
-      "scaffoldKey": "sin_rotor_fn",
-      "expression": "sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1",
-      "leanSignature": "def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule",
+      "title": "van den Dries–Ehrlich Subfield Theorem (2001)",
+      "description": "Proof that the surreal numbers No(ε₀) formed at stage ε₀ constitute a real-closed field.",
+      "scaffoldKey": "van_den_dries_ehrlich_field",
+      "expression": "No(ε₀) is a real-closed field  ∧  No(ω) ⊂ No(ε₀) ⊂ No",
+      "leanSignature": "theorem van_den_dries_ehrlich_2001 : IsRealClosedField (No_stage epsilon_0)",
       "referencedInSegments": [
-        "stemTrigFoundations"
+        "numbersLecture2"
       ]
     }
   ],
@@ -385,7 +522,7 @@ export const FS_CATALOG: FsCatalog = {
     {
       "id": "ff_v_from_v0_g_t",
       "statementId": "fs_free_fall_accel",
-      "label": "(v₀, g, t) → v",
+      "label": "Compute Terminal Velocity v(t)",
       "targetSymbol": "v",
       "targetDomain": "ℝ_ω",
       "targetUnit": "m/s",
@@ -398,11 +535,8 @@ export const FS_CATALOG: FsCatalog = {
           "symbol": "v₀",
           "domain": "ℝ_ω",
           "unit": "m/s",
-          "defaultValue": 20,
-          "min": -100,
-          "max": 200,
-          "step": 1,
-          "description": "Initial velocity"
+          "defaultValue": 0,
+          "description": "Initial vertical velocity"
         },
         {
           "name": "g",
@@ -410,56 +544,49 @@ export const FS_CATALOG: FsCatalog = {
           "domain": "ℝ_ω",
           "unit": "m/s²",
           "defaultValue": 9.8,
-          "min": 0.1,
+          "min": 0,
           "max": 50,
           "step": 0.1,
-          "description": "Gravitational acceleration"
+          "description": "Uniform gravitational acceleration"
         },
         {
           "name": "t",
           "symbol": "t",
           "domain": "ℝ_ω",
           "unit": "s",
-          "defaultValue": 1.5,
+          "defaultValue": 2,
           "min": 0,
-          "max": 50,
+          "max": 100,
           "step": 0.1,
-          "description": "Elapsed time"
+          "description": "Elapsed duration"
         }
       ]
     },
     {
       "id": "ff_t_from_v_v0_g",
       "statementId": "fs_free_fall_accel",
-      "label": "(v, v₀, g) → t",
+      "label": "Compute Fall Duration t",
       "targetSymbol": "t",
       "targetDomain": "ℝ_ω",
       "targetUnit": "s",
       "formulaDescription": "t = (v₀ - v) / g",
       "formulaExpr": "(v0 - v) / g",
-      "hasSimulation": true,
       "inputs": [
+        {
+          "name": "v0",
+          "symbol": "v₀",
+          "domain": "ℝ_ω",
+          "unit": "m/s",
+          "defaultValue": 10,
+          "description": "Initial velocity"
+        },
         {
           "name": "v",
           "symbol": "v",
           "domain": "ℝ_ω",
           "unit": "m/s",
           "defaultValue": 0,
-          "min": -100,
-          "max": 200,
-          "step": 1,
-          "description": "Current velocity"
-        },
-        {
-          "name": "v0",
-          "symbol": "v₀",
-          "domain": "ℝ_ω",
-          "unit": "m/s",
-          "defaultValue": 20,
-          "min": -100,
-          "max": 200,
-          "step": 1,
-          "description": "Initial velocity"
+          "description": "Current/Target velocity"
         },
         {
           "name": "g",
@@ -477,12 +604,12 @@ export const FS_CATALOG: FsCatalog = {
     {
       "id": "ff_s_from_v0_g_t",
       "statementId": "fs_free_fall_accel",
-      "label": "(v₀, g, t) → s",
+      "label": "Compute Vertical Displacement s(t)",
       "targetSymbol": "s",
       "targetDomain": "ℝ_ω",
       "targetUnit": "m",
-      "formulaDescription": "s = v₀ · t - (1/2) · g · t²",
-      "formulaExpr": "v0 * t - 0.5 * g * (t ** 2)",
+      "formulaDescription": "s = v₀ · t - 0.5 · g · t²",
+      "formulaExpr": "v0 * t - 0.5 * g * t * t",
       "hasSimulation": true,
       "inputs": [
         {
@@ -490,11 +617,8 @@ export const FS_CATALOG: FsCatalog = {
           "symbol": "v₀",
           "domain": "ℝ_ω",
           "unit": "m/s",
-          "defaultValue": 20,
-          "min": -100,
-          "max": 200,
-          "step": 1,
-          "description": "Initial velocity"
+          "defaultValue": 0,
+          "description": "Initial vertical velocity"
         },
         {
           "name": "g",
@@ -502,7 +626,7 @@ export const FS_CATALOG: FsCatalog = {
           "domain": "ℝ_ω",
           "unit": "m/s²",
           "defaultValue": 9.8,
-          "min": 0.1,
+          "min": 0,
           "max": 50,
           "step": 0.1,
           "description": "Gravitational acceleration"
@@ -512,24 +636,23 @@ export const FS_CATALOG: FsCatalog = {
           "symbol": "t",
           "domain": "ℝ_ω",
           "unit": "s",
-          "defaultValue": 1.5,
+          "defaultValue": 2,
           "min": 0,
-          "max": 50,
+          "max": 100,
           "step": 0.1,
-          "description": "Elapsed time"
+          "description": "Elapsed duration"
         }
       ]
     },
     {
       "id": "we_ke_from_m_v",
       "statementId": "fs_work_energy",
-      "label": "(m, v) → KE",
+      "label": "Compute Kinetic Energy KE",
       "targetSymbol": "KE",
       "targetDomain": "ℝ_ω",
       "targetUnit": "J",
-      "formulaDescription": "KE = (1/2) · m · v²",
-      "formulaExpr": "0.5 * m * (v ** 2)",
-      "hasSimulation": true,
+      "formulaDescription": "KE = 0.5 · m · v²",
+      "formulaExpr": "0.5 * m * v * v",
       "inputs": [
         {
           "name": "m",
@@ -538,44 +661,39 @@ export const FS_CATALOG: FsCatalog = {
           "unit": "kg",
           "defaultValue": 2,
           "min": 0.01,
-          "max": 100,
           "step": 0.1,
-          "description": "Mass"
+          "description": "Particle inertial mass"
         },
         {
           "name": "v",
           "symbol": "v",
           "domain": "ℝ_ω",
           "unit": "m/s",
-          "defaultValue": 10,
-          "min": 0,
-          "max": 200,
+          "defaultValue": 5,
           "step": 0.5,
-          "description": "Velocity"
+          "description": "Instantaneous speed"
         }
       ]
     },
     {
       "id": "we_v_from_ke_m",
       "statementId": "fs_work_energy",
-      "label": "(KE, m) → v",
+      "label": "Compute Velocity from Kinetic Energy",
       "targetSymbol": "v",
       "targetDomain": "ℝ_ω",
       "targetUnit": "m/s",
       "formulaDescription": "v = √(2 · KE / m)",
-      "formulaExpr": "Math.sqrt((2 * KE) / m)",
-      "hasSimulation": true,
+      "formulaExpr": "Math.sqrt(2 * KE / m)",
       "inputs": [
         {
           "name": "KE",
           "symbol": "KE",
           "domain": "ℝ_ω",
           "unit": "J",
-          "defaultValue": 100,
+          "defaultValue": 25,
           "min": 0,
-          "max": 10000,
-          "step": 5,
-          "description": "Kinetic Energy"
+          "step": 1,
+          "description": "Kinetic energy"
         },
         {
           "name": "m",
@@ -584,7 +702,6 @@ export const FS_CATALOG: FsCatalog = {
           "unit": "kg",
           "defaultValue": 2,
           "min": 0.01,
-          "max": 100,
           "step": 0.1,
           "description": "Mass"
         }
@@ -593,12 +710,12 @@ export const FS_CATALOG: FsCatalog = {
     {
       "id": "diff_heat_step",
       "statementId": "fs_heat_flux",
-      "label": "(α, Δt, Δx, u_L, u_C, u_R) → u_new",
+      "label": "Compute Next Center Temperature u_C(t + Δt)",
       "targetSymbol": "u_new",
       "targetDomain": "ℝ_ω",
       "targetUnit": "°C",
       "formulaDescription": "u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)",
-      "formulaExpr": "u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)",
+      "formulaExpr": "u_C + alpha * (dt / (dx * dx)) * (u_L - 2 * u_C + u_R)",
       "hasSimulation": true,
       "inputs": [
         {
@@ -606,9 +723,9 @@ export const FS_CATALOG: FsCatalog = {
           "symbol": "α",
           "domain": "ℝ_ω",
           "unit": "m²/s",
-          "defaultValue": 0.15,
-          "min": 0.01,
-          "max": 2,
+          "defaultValue": 0.1,
+          "min": 0.001,
+          "max": 1,
           "step": 0.01,
           "description": "Thermal diffusivity"
         },
@@ -617,11 +734,11 @@ export const FS_CATALOG: FsCatalog = {
           "symbol": "Δt",
           "domain": "ℝ_ω",
           "unit": "s",
-          "defaultValue": 0.02,
+          "defaultValue": 0.01,
           "min": 0.001,
-          "max": 0.5,
+          "max": 1,
           "step": 0.005,
-          "description": "Time step"
+          "description": "Time step increment"
         },
         {
           "name": "dx",
@@ -630,498 +747,268 @@ export const FS_CATALOG: FsCatalog = {
           "unit": "m",
           "defaultValue": 0.1,
           "min": 0.01,
-          "max": 1,
+          "max": 2,
           "step": 0.01,
-          "description": "Spatial grid step"
+          "description": "Spatial mesh spacing"
         },
         {
           "name": "u_L",
-          "symbol": "u_{i-1}",
+          "symbol": "u_L",
           "domain": "ℝ_ω",
           "unit": "°C",
           "defaultValue": 100,
-          "min": -50,
-          "max": 300,
           "step": 5,
-          "description": "Left neighbor"
+          "description": "Left neighbor temperature"
         },
         {
           "name": "u_C",
-          "symbol": "u_i",
+          "symbol": "u_C",
           "domain": "ℝ_ω",
           "unit": "°C",
           "defaultValue": 50,
-          "min": -50,
-          "max": 300,
           "step": 5,
-          "description": "Center node"
+          "description": "Center node temperature"
         },
         {
           "name": "u_R",
-          "symbol": "u_{i+1}",
+          "symbol": "u_R",
           "domain": "ℝ_ω",
           "unit": "°C",
           "defaultValue": 20,
-          "min": -50,
-          "max": 300,
           "step": 5,
-          "description": "Right neighbor"
+          "description": "Right neighbor temperature"
         }
       ]
     },
     {
-      "id": "complex_mult_eval",
-      "statementId": "fs_complex_arithmetic",
-      "label": "(x₁, y₁, x₂, y₂) → z₁ · z₂",
-      "targetSymbol": "z₁ · z₂",
-      "targetDomain": "ℂ_ω",
-      "formulaDescription": "z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)",
-      "formulaExpr": "[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]",
-      "hasSimulation": true,
+      "id": "diff_poly_square",
+      "statementId": "fs_hyperfinite_derivative",
+      "label": "Hyperfinite Derivative of f(x) = x²",
+      "targetSymbol": "f'(x)",
+      "targetDomain": "ℝ_ω",
+      "formulaDescription": "f'(x) = [(x + dx)² - x²] / dx = 2x + dx  ⟹  st(f'(x)) = 2x",
+      "formulaExpr": "((x + dx) * (x + dx) - x * x) / dx",
       "inputs": [
         {
-          "name": "x1",
-          "symbol": "x₁",
-          "domain": "ℝ_ω",
-          "defaultValue": 1,
-          "step": 0.5
-        },
-        {
-          "name": "y1",
-          "symbol": "y₁",
-          "domain": "ℝ_ω",
-          "defaultValue": 2,
-          "step": 0.5
-        },
-        {
-          "name": "x2",
-          "symbol": "x₂",
+          "name": "x",
+          "symbol": "x",
           "domain": "ℝ_ω",
           "defaultValue": 3,
-          "step": 0.5
+          "step": 0.5,
+          "description": "Base evaluation point"
         },
         {
-          "name": "y2",
-          "symbol": "y₂",
-          "domain": "ℝ_ω",
-          "defaultValue": 4,
-          "step": 0.5
+          "name": "dx",
+          "symbol": "dx",
+          "domain": "Infinitesimal",
+          "defaultValue": 0.0001,
+          "min": 0.000001,
+          "max": 0.01,
+          "step": 0.0001,
+          "description": "Nonstandard infinitesimal step"
         }
       ]
     },
     {
-      "id": "polarizer_transmission",
-      "statementId": "fs_three_polarizer",
-      "label": "(θ₁, θ₂, I₀) → I_final",
-      "targetSymbol": "I_final",
+      "id": "cplx_step_norm",
+      "statementId": "fs_complex_step_invariance",
+      "label": "Compute 2D Step Modulus |z + dz|²",
+      "targetSymbol": "|z + dz|²",
       "targetDomain": "ℝ_ω",
-      "formulaDescription": "I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)",
-      "formulaExpr": "I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)",
-      "hasSimulation": true,
+      "formulaDescription": "|z + dz|² = (x + dx)² + (y + dy)²",
+      "formulaExpr": "(x + dx) * (x + dx) + (y + dy) * (y + dy)",
       "inputs": [
         {
-          "name": "theta1",
-          "symbol": "θ₁",
+          "name": "x",
+          "symbol": "Re(z)",
           "domain": "ℝ_ω",
-          "unit": "°",
-          "defaultValue": 30,
-          "min": 0,
-          "max": 90,
-          "step": 5,
-          "description": "First filter angle"
+          "defaultValue": 3,
+          "step": 0.5,
+          "description": "Real component of z"
         },
         {
-          "name": "theta2",
-          "symbol": "θ₂",
+          "name": "y",
+          "symbol": "Im(z)",
           "domain": "ℝ_ω",
-          "unit": "°",
-          "defaultValue": 60,
-          "min": 0,
-          "max": 90,
-          "step": 5,
-          "description": "Second filter angle"
+          "defaultValue": 4,
+          "step": 0.5,
+          "description": "Imaginary component of z"
         },
         {
-          "name": "I0",
-          "symbol": "I₀",
+          "name": "dx",
+          "symbol": "Re(dz)",
           "domain": "ℝ_ω",
-          "defaultValue": 1,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "description": "Initial beam intensity"
+          "defaultValue": 0.01,
+          "step": 0.005,
+          "description": "Real step increment"
+        },
+        {
+          "name": "dy",
+          "symbol": "Im(dz)",
+          "domain": "ℝ_ω",
+          "defaultValue": 0.02,
+          "step": 0.005,
+          "description": "Imaginary step increment"
         }
       ]
     },
     {
       "id": "bayes_posterior",
       "statementId": "fs_bayes_updating",
-      "label": "(P(H), P(D|H), P(D|¬H)) → P(H|D)",
-      "targetSymbol": "P(H|D)",
+      "label": "Compute Posterior P(H | E)",
+      "targetSymbol": "P(H|E)",
       "targetDomain": "[0, 1]",
-      "formulaDescription": "P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]",
-      "formulaExpr": "(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))",
+      "formulaDescription": "P(H|E) = (P(E|H) · P(H)) / [P(E|H)·P(H) + P(E|¬H)·(1 - P(H))]",
+      "formulaExpr": "(pE_H * pH) / (pE_H * pH + pE_notH * (1.0 - pH))",
       "hasSimulation": true,
       "inputs": [
         {
           "name": "pH",
           "symbol": "P(H)",
           "domain": "[0, 1]",
-          "defaultValue": 0.1,
+          "defaultValue": 0.5,
           "min": 0.001,
           "max": 0.999,
-          "step": 0.01,
-          "description": "Prior probability"
+          "step": 0.05,
+          "description": "Prior probability of hypothesis H"
         },
         {
-          "name": "pD_H",
-          "symbol": "P(D|H)",
+          "name": "pE_H",
+          "symbol": "P(E|H)",
           "domain": "[0, 1]",
-          "defaultValue": 0.9,
-          "min": 0.001,
+          "defaultValue": 0.8,
+          "min": 0,
           "max": 1,
-          "step": 0.01,
-          "description": "Sensitivity / True positive"
+          "step": 0.05,
+          "description": "Likelihood: P(Evidence | H is True)"
         },
         {
-          "name": "pD_notH",
-          "symbol": "P(D|¬H)",
+          "name": "pE_notH",
+          "symbol": "P(E|¬H)",
           "domain": "[0, 1]",
-          "defaultValue": 0.05,
+          "defaultValue": 0.2,
           "min": 0,
-          "max": 0.999,
-          "step": 0.01,
-          "description": "False positive rate"
+          "max": 1,
+          "step": 0.05,
+          "description": "False Alarm: P(Evidence | H is False)"
         }
       ]
     },
     {
-      "id": "scale_reciprocity_eval",
-      "statementId": "fs_scale_reciprocity",
-      "label": "(ω, dx) → Balance Product ω · dx",
-      "targetSymbol": "ω · dx",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "ω · dx = 1.0",
-      "formulaExpr": "omega * dx",
+      "id": "quantum_three_polarizer",
+      "statementId": "fs_three_polarizer_quantum",
+      "label": "Compute Quantum Transmission Intensity I",
+      "targetSymbol": "I / I₀",
+      "targetDomain": "[0, 1]",
+      "formulaDescription": "I / I₀ = cos²(θ₁) · cos²(θ₂ - θ₁)",
+      "formulaExpr": "Math.cos(theta1 * Math.PI / 180)**2 * Math.cos((theta2 - theta1) * Math.PI / 180)**2",
       "hasSimulation": true,
       "inputs": [
         {
-          "name": "omega",
-          "symbol": "Scale Horizon ω",
-          "domain": "ℝ_ω",
-          "defaultValue": 1000,
-          "min": 10,
-          "max": 100000,
-          "step": 100
-        },
-        {
-          "name": "dx",
-          "symbol": "Infinitesimal Step dx",
-          "domain": "ℝ_ω",
-          "defaultValue": 0.001,
-          "min": 0.00001,
-          "max": 0.1,
-          "step": 0.0001
-        }
-      ]
-    },
-    {
-      "id": "diff_x4_st",
-      "statementId": "fs_quartic_diff",
-      "label": "(x, dx) → st(Δ(x⁴)/dx) = 4x³",
-      "targetSymbol": "f'(x)",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³",
-      "formulaExpr": "4 * (x ** 3)",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "x",
-          "symbol": "Point x",
-          "domain": "ℝ_ω",
-          "defaultValue": 2,
-          "min": -10,
-          "max": 10,
-          "step": 0.5
-        },
-        {
-          "name": "dx",
-          "symbol": "Step dx",
-          "domain": "ℝ_ω",
-          "defaultValue": 0.001,
-          "min": 0.0001,
-          "max": 0.05,
-          "step": 0.0005
-        }
-      ]
-    },
-    {
-      "id": "ivt_root_bisection",
-      "statementId": "fs_discrete_ivt",
-      "label": "(a, b) → Midpoint c = (a + b)/2",
-      "targetSymbol": "c",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "c = (a + b) / 2",
-      "formulaExpr": "(a + b) / 2",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "a",
-          "symbol": "Left Bound a",
-          "domain": "ℝ_ω",
-          "defaultValue": 1,
-          "step": 0.5
-        },
-        {
-          "name": "b",
-          "symbol": "Right Bound b",
-          "domain": "ℝ_ω",
-          "defaultValue": 2,
-          "step": 0.5
-        }
-      ]
-    },
-    {
-      "id": "trig_dyadic_angle",
-      "statementId": "fs_dyadic_angle_bisection",
-      "label": "(m, n) → θ",
-      "targetSymbol": "θ",
-      "targetDomain": "[0, 2π)",
-      "targetUnit": "rad",
-      "formulaDescription": "θ = 2π · (m / 2ⁿ)",
-      "formulaExpr": "2 * Math.PI * (m / (2 ** n))",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "m",
-          "symbol": "Numerator m",
-          "domain": "ℤ",
-          "defaultValue": 1,
-          "min": 0,
-          "max": 64,
-          "step": 1,
-          "description": "Dyadic numerator"
-        },
-        {
-          "name": "n",
-          "symbol": "Birthday n",
-          "domain": "ℕ",
-          "defaultValue": 3,
-          "min": 0,
-          "max": 10,
-          "step": 1,
-          "description": "Tree birthday / depth"
-        }
-      ]
-    },
-    {
-      "id": "trig_chord_length",
-      "statementId": "fs_polygonal_horn_chord",
-      "label": "(Δθ, R) → Chord c",
-      "targetSymbol": "c",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "c = 2 · R · sin(Δθ / 2)",
-      "formulaExpr": "2 * R * Math.sin((dtheta * Math.PI / 180) / 2)",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "dtheta",
-          "symbol": "Central Turn Δθ",
-          "domain": "ℝ_ω",
-          "unit": "°",
-          "defaultValue": 45,
-          "min": 0.1,
-          "max": 180,
-          "step": 1,
-          "description": "Central turning angle in degrees"
-        },
-        {
-          "name": "R",
-          "symbol": "Radius R",
-          "domain": "ℝ_ω",
-          "defaultValue": 1,
-          "min": 0.1,
-          "max": 10,
-          "step": 0.5,
-          "description": "Circle radius"
-        }
-      ]
-    },
-    {
-      "id": "trig_sin_dyadic_eval",
-      "statementId": "fs_sin_dyadic_bisection",
-      "label": "(m, n) → sin(θ)",
-      "targetSymbol": "sin(θ)",
-      "targetDomain": "[-1, 1]",
-      "formulaDescription": "sin(θ) = sin(2π · m / 2ⁿ)",
-      "formulaExpr": "Math.sin(2 * Math.PI * (m / (2 ** n)))",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "m",
-          "symbol": "Numerator m",
-          "domain": "ℤ",
-          "defaultValue": 1,
-          "min": 0,
-          "max": 64,
-          "step": 1,
-          "description": "Dyadic numerator"
-        },
-        {
-          "name": "n",
-          "symbol": "Birthday n",
-          "domain": "ℕ",
-          "defaultValue": 3,
-          "min": 0,
-          "max": 12,
-          "step": 1,
-          "description": "Tree depth / birthday (2ⁿ bisections)"
-        }
-      ]
-    },
-    {
-      "id": "trig_sin_rotor_eval",
-      "statementId": "fs_sin_rotor_projection",
-      "label": "(θ) → (cos θ, sin θ)",
-      "targetSymbol": "sin(θ)",
-      "targetDomain": "[-1, 1]",
-      "formulaDescription": "sin(U) = Im(U) = sin(θ) ∈ [-1, 1]",
-      "formulaExpr": "Math.sin(theta * Math.PI / 180)",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "theta",
-          "symbol": "Rotor Angle θ",
-          "domain": "ℝ_ω",
-          "unit": "°",
+          "name": "theta1",
+          "symbol": "θ₁",
+          "domain": "[0°, 90°]",
+          "unit": "deg",
           "defaultValue": 45,
           "min": 0,
-          "max": 360,
+          "max": 90,
           "step": 1,
-          "description": "Rotor orientation angle"
+          "description": "Angle of intermediate polarizer"
+        },
+        {
+          "name": "theta2",
+          "symbol": "θ₂",
+          "domain": "[0°, 90°]",
+          "unit": "deg",
+          "defaultValue": 90,
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "description": "Angle of final analyzer"
         }
       ]
     },
     {
-      "id": "nucleus_halo_decomp_eval",
-      "statementId": "fs_nucleus_halo_decomposition",
-      "label": "(x₀, k) → x = x₀ + k·dx",
-      "targetSymbol": "x",
-      "targetDomain": "ℝ_ω",
-      "formulaDescription": "x = st(x) + ε = x₀ + k · dx",
-      "formulaExpr": "x0 + k * dx",
+      "id": "ptolemaic_sine_half",
+      "statementId": "fs_ptolemaic_half_angle",
+      "label": "Compute Dyadic Half-Angle Sine sin(θ/2)",
+      "targetSymbol": "sin(θ/2)",
+      "targetDomain": "[-1, 1]",
+      "formulaDescription": "sin(θ/2) = √((1 - cos(θ)) / 2)",
+      "formulaExpr": "Math.sqrt(Math.max(0, (1 - cosTheta) / 2))",
       "inputs": [
         {
-          "name": "x0",
-          "symbol": "x₀",
-          "domain": "ℝ",
-          "defaultValue": 4,
-          "min": -100,
-          "max": 100,
-          "step": 0.5,
-          "description": "Standard nucleus shadow"
-        },
+          "name": "cosTheta",
+          "symbol": "cos(θ)",
+          "domain": "[-1, 1]",
+          "defaultValue": 0.5,
+          "min": -1,
+          "max": 1,
+          "step": 0.05,
+          "description": "Cosine of parent angle θ"
+        }
+      ]
+    },
+    {
+      "id": "polygonal_chord_calc",
+      "statementId": "fs_polygonal_rim_chord",
+      "label": "Compute Regular Polygon Rim Chord Length",
+      "targetSymbol": "c_n",
+      "targetDomain": "ℝ_ω",
+      "formulaDescription": "c_n = 2 · sin(π / n)",
+      "formulaExpr": "2 * Math.sin(Math.PI / n)",
+      "inputs": [
         {
-          "name": "k",
-          "symbol": "k",
-          "domain": "ℤ",
-          "defaultValue": 3,
-          "min": -50,
-          "max": 50,
+          "name": "n",
+          "symbol": "n",
+          "domain": "ℕ",
+          "defaultValue": 6,
+          "min": 3,
+          "max": 128,
           "step": 1,
-          "description": "Halo step multiplier (dx = 1/ω)"
+          "description": "Number of polygon sides"
+        }
+      ]
+    },
+    {
+      "id": "rotor_phase_projection",
+      "statementId": "fs_unit_rotor_projection",
+      "label": "Compute Unit Rotor (x, y) = (cos θ, sin θ)",
+      "targetSymbol": "(x, y)",
+      "targetDomain": "ℂ_ω",
+      "formulaDescription": "x = cos(θ),  y = sin(θ)  with x² + y² = 1",
+      "formulaExpr": "Math.cos(thetaRad)",
+      "inputs": [
+        {
+          "name": "thetaRad",
+          "symbol": "θ",
+          "domain": "[0, 2π]",
+          "unit": "rad",
+          "defaultValue": 0.785398,
+          "min": 0,
+          "max": 6.283185,
+          "step": 0.05,
+          "description": "Rotor angle in radians"
         }
       ]
     }
   ],
   "examples": [
     {
-      "id": "ex_halo_point_4_plus_3dx",
-      "modeId": "nucleus_halo_decomp_eval",
-      "statementId": "fs_nucleus_halo_decomposition",
-      "presetKey": "point_4_plus_3dx",
-      "title": "Hyperreal Point Decomposition (x = 4 + 3·dx)",
-      "values": {
-        "x0": 4,
-        "k": 3
-      },
-      "displayResult": "st(x) = 4, ε = 3·dx",
-      "formattedFormula": "x = 4 + 3·dx = st(x) + ε",
-      "domainBadge": "x ∈ ℝ_ω",
-      "notes": "Decomposes point into hard integer nucleus 4 and infinitesimal Day ω halo perturbation 3·dx."
-    },
-    {
-      "id": "ex_dyadic_45deg",
-      "modeId": "trig_dyadic_angle",
-      "statementId": "fs_dyadic_angle_bisection",
-      "title": "Day 3 Diagonal Bisection (π/4)",
-      "values": {
-        "m": 1,
-        "n": 3
-      },
-      "displayResult": "0.785 rad (45.0°)",
-      "formattedFormula": "θ = 2π · (1 / 2³) = π/4",
-      "domainBadge": "∈ [0, 2π)",
-      "notes": "Generated on Day 3 of the Conway angle tree."
-    },
-    {
-      "id": "ex_chord_square",
-      "modeId": "trig_chord_length",
-      "statementId": "fs_polygonal_horn_chord",
-      "title": "Quadrant Inscribed Chord (90°)",
-      "values": {
-        "dtheta": 90,
-        "R": 1
-      },
-      "displayResult": "1.414 (√2)",
-      "formattedFormula": "c = 2 · 1.0 · sin(45°) = √2",
-      "domainBadge": "∈ ℝ_ω",
-      "notes": "First inward chord step across quadrant boundary."
-    },
-    {
-      "id": "ex_dyadic_sin_45",
-      "modeId": "trig_sin_dyadic_eval",
-      "statementId": "fs_sin_dyadic_bisection",
-      "title": "Day 3 Dyadic Sine (π/4 = 45°)",
-      "presetKey": "sin_dyadic_fn",
-      "values": {
-        "m": 1,
-        "n": 3
-      },
-      "displayResult": "0.7071 (1/√2)",
-      "formattedFormula": "sin(2π · 1/2³) = sin(π/4) = 1/√2",
-      "domainBadge": "∈ [-1, 1]",
-      "notes": "Generated by 3 Conway bisections down the angle tree."
-    },
-    {
-      "id": "ex_rotor_sin_90",
-      "modeId": "trig_sin_rotor_eval",
-      "statementId": "fs_sin_rotor_projection",
-      "title": "Unit Rotor North Pole (90° = π/2)",
-      "presetKey": "sin_rotor_fn",
-      "values": {
-        "theta": 90
-      },
-      "displayResult": "1.0000 (Top Pole)",
-      "formattedFormula": "sin(⟨0, 1⟩) = 1.0",
-      "domainBadge": "∈ [-1, 1]",
-      "notes": "Rotor lies directly on imaginary axis (U = ⟨0, 1⟩ = i)."
-    },
-    {
       "id": "ex_earth_free_fall",
       "modeId": "ff_v_from_v0_g_t",
       "statementId": "fs_free_fall_accel",
-      "presetKey": "newton_free_fall",
-      "title": "Earth Surface Free Fall Apex Transit",
+      "presetKey": "cas_free_fall_kinematics",
+      "title": "Earth Gravity Drop from Rest",
       "values": {
-        "v0": 20,
+        "v0": 0,
         "g": 9.8,
-        "t": 1.5
+        "t": 3
       },
-      "displayResult": "5.300 m/s",
-      "formattedFormula": "v = (20.00) - (9.80) · (1.50)",
+      "displayResult": "-29.400 m/s",
+      "formattedFormula": "v = (0.00) - (9.80) · (3.00)",
       "domainBadge": "∈ ℝ_ω",
-      "notes": "v > 0 indicates particle is still climbing toward apex."
+      "notes": "Constant acceleration drops velocity linearly over 3 seconds."
     },
     {
       "id": "ex_mars_free_fall",

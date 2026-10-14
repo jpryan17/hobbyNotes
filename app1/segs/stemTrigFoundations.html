@@ -1144,7 +1144,7 @@
         d ↦ d.val   where   d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
       </div>
       • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Dyadic Real Embedding"></fs-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
-      • <b>Interactive Dyadic Sine Stencil:</b> <eq-ref id="15" desc="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"></eq-ref>
+      • <b>Interactive Dyadic Sine Stencil:</b> <fs-ref id="16" desc="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"></fs-ref>
     </div>
 
     <!-- Formal Statement 2: Rotor & Coordinate Projection -->
@@ -1160,7 +1160,7 @@
         d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
       </div>
       • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Angle to Certified Unit Rotor"></fs-ref> and <fs-ref id="18" desc="Dyadic to Unit Rotor"></fs-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
-      • <b>Interactive Rotor Projection Stencil:</b> <eq-ref id="16" desc="Unit Rotor Sine Projection Calculator"></eq-ref>
+      • <b>Interactive Rotor Projection Stencil:</b> <fs-ref id="21" desc="Unit Rotor Sine Projection Calculator"></fs-ref>
     </div>
 
     <!-- Formal Statement 2B: Circle Quotient Isomorphism -->
@@ -1182,7 +1182,7 @@
       <div class="formula-box" style="margin: 8px 0;">
         c ↦ √[ (1 + c) / 2 ]   satisfying   cos_half_angle(cos θ) = cos(θ / 2)
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fs-ref id="1" desc="Ptolemaic Half-Angle Bisection"></fs-ref> governs recursive Viète radical propagation down the positive spine.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="16" desc="Ptolemaic Half-Angle Bisection"></fs-ref> governs recursive Viète radical propagation down the positive spine.
     </div>
 
     <!-- Formal Statement 4: Polygonal Horn Rim Chord -->
@@ -1194,7 +1194,7 @@
         c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ]   (for R = 1)
       </div>
       • <b>Polygonal Horn Curvature:</b> While the radial position vectors <code>(O → p_k)</code> are unturning rays fanning out from the root to frame the upper half-plane, each rim chord <code>(p_k → p_k+1)</code> undergoes an <b>inward angular deflection</b> of <code>Δθ</code> at every vertex, causing the polygonal boundary to curve tightly and wrap around the origin into a polygonal horn.<br>
-      • <b>Lean Scaffold Grounding:</b> <fs-ref id="1" desc="Polygonal Rim Chord"></fs-ref> grounds the Ptolemaic and Archimedean chord transformations.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="19" desc="Polygonal Rim Chord"></fs-ref> grounds the Ptolemaic and Archimedean chord transformations.
     </div>
 
     <h3 style="margin-top: 36px;">3. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>
