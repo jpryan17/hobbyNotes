@@ -460,9 +460,9 @@ export function buildCurricularCatalog(): FsCatalog {
       governingSeed: 'conway_cut',
       title: 'The Core Dyadic Isomorphism Tree2 ≡ 𝔻',
       description: 'Order and ring isomorphism between sign-sequence trees and dyadic rationals.',
-      scaffoldKey: 'D_w_dense_in_R_w',
+      scaffoldKey: 'Tree2_finite_is_dyad',
       expression: 'Tree2(s) ≅ m / 2^n  ∧  Tree2 ↪ ℝ_ω',
-      leanSignature: 'theorem dyadic_tree_iso (s : Tree2) : ∃ (m : Int) (n : Nat), to_dyadic s = (m : R_w) / 2^n',
+      leanSignature: 'axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad',
       pseudoAlgoId: 'conway_add',
       referencedInSegments: getRefs('fs_dyadic_isomorphism', 22, ['numbersLecture2', 'stemExpLogFoundations'])
     },
@@ -476,9 +476,9 @@ export function buildCurricularCatalog(): FsCatalog {
       governingSeed: 'conway_cut',
       title: 'van den Dries–Ehrlich Subfield Theorem (2001)',
       description: 'Proof that the surreal numbers No(ε₀) formed at stage ε₀ constitute a real-closed field.',
-      scaffoldKey: 'van_den_dries_ehrlich_field',
+      scaffoldKey: 'No_eps0_totally_ordered',
       expression: 'No(ε₀) is a real-closed field  ∧  No(ω) ⊂ No(ε₀) ⊂ No',
-      leanSignature: 'theorem van_den_dries_ehrlich_2001 : IsRealClosedField (No_stage epsilon_0)',
+      leanSignature: 'axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le',
       referencedInSegments: getRefs('fs_van_den_dries_ehrlich', 23, ['numbersLecture2'])
     }
   ];
