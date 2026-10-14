@@ -54,11 +54,11 @@ const equationToStatementMap: Record<number, number> = {
 
 // Map pseudocode algo key -> formal statement id
 const algoToStatementMap: Record<string, number> = {
-  'conway_add': 22,
-  'conway_mul': 22,
+  'conway_add': 24,
+  'conway_mul': 25,
   'conway_order': 15,
   'conway_sort': 15,
-  'conway_sub': 22,
+  'conway_sub': 24,
   'kinematics_step': 2,
   'laplacian_heat_step': 5,
   'bayes_discrete_update': 14,

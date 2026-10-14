@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T23:24:21.315Z",
+  "generatedAt": "2026-10-14T23:47:56.718Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -119,7 +119,8 @@
       "referencedInSegments": [
         "analysis1DLecture1",
         "analysis1DLecture2",
-        "formalStatementsIntro"
+        "formalStatementsIntro",
+        "stemExpLogFoundations"
       ]
     },
     {
@@ -415,10 +416,8 @@
       "scaffoldKey": "Tree2_finite_is_dyad",
       "expression": "Tree2(s) ≅ m / 2^n  ∧  Tree2 ↪ ℝ_ω",
       "leanSignature": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
-      "pseudoAlgoId": "conway_add",
       "referencedInSegments": [
-        "numbersLecture2",
-        "stemExpLogFoundations"
+        "numbersLecture2"
       ]
     },
     {
@@ -434,6 +433,42 @@
       "scaffoldKey": "No_eps0_totally_ordered",
       "expression": "No(ε₀) is a real-closed field  ∧  No(ω) ⊂ No(ε₀) ⊂ No",
       "leanSignature": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le",
+      "referencedInSegments": [
+        "numbersLecture2"
+      ]
+    },
+    {
+      "numId": 24,
+      "id": "fs_conway_addition",
+      "parentId": "fs_tree2_totally_ordered",
+      "type": "math",
+      "tier": "constitutional",
+      "statementKind": "directed_equality",
+      "governingSeed": "conway_cut",
+      "title": "Conway Inductive Addition (+)",
+      "description": "Recursive bilateral addition on tree options choosing the simplest number born in the resulting cut gap.",
+      "scaffoldKey": "conway_addition",
+      "expression": "x + y = { xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }",
+      "leanSignature": "def Conway.add (x y : Tree2) : Tree2",
+      "pseudoAlgoId": "conway_add",
+      "referencedInSegments": [
+        "numbersLecture2"
+      ]
+    },
+    {
+      "numId": 25,
+      "id": "fs_conway_multiplication",
+      "parentId": "fs_tree2_totally_ordered",
+      "type": "math",
+      "tier": "constitutional",
+      "statementKind": "directed_equality",
+      "governingSeed": "conway_cut",
+      "title": "Conway Inductive Multiplication (·)",
+      "description": "Recursive 4-way cross-product multiplication on tree options ensuring (x - xᴸ)(y - yᴸ) > 0.",
+      "scaffoldKey": "conway_multiplication",
+      "expression": "x · y = { xᴸ·y + x·yᴸ - xᴸ·yᴸ, xᴿ·y + x·yᴿ - xᴿ·yᴿ | xᴸ·y + x·yᴿ - xᴸ·yᴿ, xᴿ·y + x·yᴸ - xᴿ·yᴸ }",
+      "leanSignature": "def Conway.mul (x y : Tree2) : Tree2",
+      "pseudoAlgoId": "conway_mul",
       "referencedInSegments": [
         "numbersLecture2"
       ]
