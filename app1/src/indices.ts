@@ -364,11 +364,6 @@ export const level1Index: IndexItemDesc[] = [
     indexDesc: formalStatementsIndex,
   },
   {
-    type: "html",
-    topic: "fsd test",
-    htmlSegmentId: "fsdTest",
-  },
-  {
     type: "index",
     topic: "numbers & trees",
     navTopic: "numbers",
