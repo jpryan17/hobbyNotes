@@ -177,6 +177,26 @@ inductive Tree2 where
   | root   : Tree2
   | branch : B_w → Tree2 → Tree2
 
+namespace Tree2
+
+-- Finite path depth (counting clock ticks in Tree1)
+def depth : Tree2 → Tree1
+  | root => Tree1.zero
+  | branch _ rest => Tree1.succ (depth rest)
+
+-- Constructive evaluation of finite 2-tree paths to dyadic rationals:
+-- Core Isomorphism: Finite Tree2 Paths ≡ Dyadic Machine Arithmetic
+def toDyad : Tree2 → Dyad
+  | root => ⟨0, 0⟩
+  | branch B_w.tt rest =>
+    let d := toDyad rest
+    ⟨d.num * 2 + 1, d.exp + 1⟩
+  | branch B_w.ff rest =>
+    let d := toDyad rest
+    ⟨d.num * 2 - 1, d.exp + 1⟩
+
+end Tree2
+
 -- 4. Set defined by 4-successor finite induction: Tree4 (Quadtree: Branching { +1, -1, +i, -i })
 inductive QuadDir where
   | east  : QuadDir  -- +1
@@ -188,21 +208,121 @@ inductive Tree4 where
   | root   : Tree4
   | branch : QuadDir → Tree4 → Tree4
 
+namespace Tree4
+
+def depth : Tree4 → Tree1
+  | root => Tree1.zero
+  | branch _ rest => Tree1.succ (depth rest)
+
+-- Evaluation of finite quadtree paths to discrete 2D Gaussian Dyadics (re, im, exp)
+structure GaussianDyad where
+  re  : Int
+  im  : Int
+  exp : Nat
+deriving Repr, DecidableEq
+
+def toGaussianDyad : Tree4 → GaussianDyad
+  | root => ⟨0, 0, 0⟩
+  | branch QuadDir.east rest =>
+    let g := toGaussianDyad rest
+    ⟨g.re * 2 + 1, g.im * 2, g.exp + 1⟩
+  | branch QuadDir.west rest =>
+    let g := toGaussianDyad rest
+    ⟨g.re * 2 - 1, g.im * 2, g.exp + 1⟩
+  | branch QuadDir.north rest =>
+    let g := toGaussianDyad rest
+    ⟨g.re * 2, g.im * 2 + 1, g.exp + 1⟩
+  | branch QuadDir.south rest =>
+    let g := toGaussianDyad rest
+    ⟨g.re * 2, g.im * 2 - 1, g.exp + 1⟩
+
+end Tree4
+
 -- ============================================================================
--- 0.5. The Class-Type Ordinal & The Transfinite Supremum ω
+-- 0.5. The Constructive Ordinal Spine (Ord) & The 4-Tier Continuum Hierarchy
 -- ============================================================================
 
--- The class-type of tree depths / birthdays:
-axiom Ordinal : Type
-axiom Ordinal_lt : Ordinal → Ordinal → Prop
-instance : LT Ordinal where lt := Ordinal_lt
+-- The constructive type of tree depths / birthdays:
+axiom Ord : Type
+axiom Ord.lt : Ord → Ord → Prop
+axiom Ord.le : Ord → Ord → Prop
 
--- Birthday of 1-successor finite induction sets:
-axiom birthday_T1 : Tree1 → Ordinal
+instance : LT Ord where lt := Ord.lt
+instance : LE Ord where le := Ord.le
 
--- The supremum of sets defined by 1-successor finite induction: Day ω
-axiom omega_ord : Ordinal
-axiom omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord
+-- 1. Level 1: Finite Ordinals (Embedding of Tree1 / ℕ into Ord)
+axiom Ord.zero : Ord
+axiom Ord.succ : Ord → Ord
+axiom Tree1.toOrd : Tree1 → Ord
+
+-- Natural numbers ℕ are precisely the finite initial segment of Ord
+def Ord.is_finite (α : Ord) : Prop := ∃ t : Tree1, Tree1.toOrd t = α
+
+-- Strict order on the finite spine
+axiom Tree1.toOrd_inj : ∀ {a b : Tree1}, Tree1.toOrd a = Tree1.toOrd b → a = b
+axiom Tree1.toOrd_mono : ∀ {a b : Tree1}, Tree1.lt a b ↔ Tree1.toOrd a < Tree1.toOrd b
+
+-- 2. Level 2: The First Limit Ordinal ω (1D Real Continuum Horizon)
+axiom Ord.omega : Ord
+axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega
+axiom Ord.omega_not_finite : ¬ Ord.is_finite Ord.omega
+
+-- 3. Level 3: The Geometric Stage ω + 1 (2D Geometry, Curvature dx², & ℂ_ω)
+axiom Ord.omega_succ : Ord
+axiom Ord.omega_lt_omega_succ : Ord.omega < Ord.omega_succ
+
+-- 4. Level 4: The Proof-Theoretic Roof ε₀ (Well-Founded Structural Induction Ceiling)
+axiom Ord.eps0 : Ord
+axiom Ord.omega_succ_lt_eps0 : Ord.omega_succ < Ord.eps0
+axiom Ord.wf : WellFounded Ord.lt
+
+-- 5. The 2-Tree as the Universal Number Engine: Tree2_at(α) & Tree4_at(α)
+axiom Tree2_at : Ord → Type
+axiom Tree4_at : Ord → Type
+
+-- Core Isomorphism (Level 1): Finite stages are the Dyadic Numbers 𝔻:
+axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad
+axiom Tree4_finite_is_gaussian (t : Tree1) : Tree4_at (Tree1.toOrd t) = Tree4.GaussianDyad
+
+-- Level 4: The Ambient Stage ε₀ is the Real-Closed Field No(ε₀) ≡ Tree2(ε₀):
+abbrev No_eps0 : Type := Tree2_at Ord.eps0
+
+axiom No_eps0_zero : No_eps0
+axiom No_eps0_one  : No_eps0
+axiom No_eps0_add  : No_eps0 → No_eps0 → No_eps0
+axiom No_eps0_neg  : No_eps0 → No_eps0
+axiom No_eps0_sub  : No_eps0 → No_eps0 → No_eps0
+axiom No_eps0_mul  : No_eps0 → No_eps0 → No_eps0
+axiom No_eps0_le   : No_eps0 → No_eps0 → Prop
+
+instance : Zero No_eps0 where zero := No_eps0_zero
+instance : One No_eps0 where one := No_eps0_one
+instance : Add No_eps0 where add := No_eps0_add
+instance : Neg No_eps0 where neg := No_eps0_neg
+instance : Sub No_eps0 where sub := No_eps0_sub
+instance : Mul No_eps0 where mul := No_eps0_mul
+instance : LE No_eps0 where le := No_eps0_le
+
+-- Order structure on the ε₀ 2-tree instance:
+axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le
+
+-- 6. The 4-Tier Stage Filtration No(α)
+-- Each ordinal α defines the set of Conway numbers born on or before Day α
+axiom No_stage : Ord → Type
+axiom No_stage_embedding (α β : Ord) (h : α ≤ β) : No_stage α → No_stage β
+
+-- The strict stage hierarchy follows directly from the ordinal spine:
+axiom No_finite_subset_omega (t : Tree1) : Tree1.toOrd t < Ord.omega
+axiom No_omega_subset_omega_succ : Ord.omega < Ord.omega_succ
+axiom No_omega_succ_subset_eps0 : Ord.omega_succ < Ord.eps0
+
+-- Backwards compatibility aliases for existing references:
+abbrev Ordinal : Type := Ord
+def Ordinal_lt : Ordinal → Ordinal → Prop := Ord.lt
+instance : LT Ordinal where lt := Ord.lt
+def birthday_T1 (t : Tree1) : Ordinal := Tree1.toOrd t
+def omega_ord : Ordinal := Ord.omega
+theorem omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord := Ord.omega_is_sup t
 
 -- ============================================================================
 -- 1. The Three Base Number Sets (ℕ_ω, ℝ_ω, ℂ_ω) & Intrinsic Order Types
@@ -336,7 +456,9 @@ instance : OfNat N_w (nat_lit 1) where
   ofNat := Nat_to_Nw 1
 
 -- 2> ℝ_ω ≡ {2-successor finite induction} ∪ {2-successor transfinite induction at birthday ω}
+-- Level 2 of the 4-tier hierarchy: ℝ_ω ≡ Tree2_at Ord.omega
 axiom R_w : Type
+axiom R_w_is_Tree2_omega : R_w = Tree2_at Ord.omega
 axiom R_w_from_T2 : Tree2 → R_w
 
 -- Recursive definitions establish ℝ_ω as totally ordered:
@@ -385,6 +507,12 @@ axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
 -- Absolute value metric on ℝ_ω
 axiom R_w_abs : R_w → R_w
 def abs (x : R_w) : R_w := R_w_abs x
+
+-- Subtree Embedding: ℝ_ω inherits its operations by restriction from the ambient field No(ε₀):
+axiom R_w_to_eps0 : R_w → No_eps0
+axiom R_w_to_eps0_inj : ∀ {x y : R_w}, R_w_to_eps0 x = R_w_to_eps0 y → x = y
+axiom R_w_add_compat (x y : R_w) : R_w_to_eps0 (x + y) = R_w_to_eps0 x + R_w_to_eps0 y
+axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_eps0 y
 
 -- ============================================================================
 -- 1.2. Constructed Subtypes & Arithmetic Restrictions (𝔻, ℤ, R_w_pos, etc.)
@@ -777,6 +905,9 @@ structure C_w where
   re : R_w
   im : R_w
 
+-- Level 3: The Geometric Stage ω + 1 is the 2D Complex Continuum ℂ_ω:
+axiom C_w_is_Tree4_omega_succ : C_w = Tree4_at Ord.omega_succ
+
 namespace C_w
 
 def add (z1 z2 : C_w) : C_w :=
@@ -990,6 +1121,9 @@ structure Field (F : Type) extends AbelianGroup F where
 -- 2> Constructive Model Grounding: (ℝ_ω, +, ·) is a Field
 -- Established constructively over the Day ω Conway surreal continuum
 axiom R_w_is_field : Field R_w
+
+-- Ambient Conway Field Grounding: No(ε₀) ≡ Tree2(ε₀) is a Field:
+axiom No_eps0_is_field : Field No_eps0
 
 -- Backward compatibility alias
 axiom field_axioms : True

@@ -19,7 +19,14 @@ DROP TABLE IF EXISTS segment_references CASCADE;
 DROP TABLE IF EXISTS curriculum_nav_items CASCADE;
 DROP TABLE IF EXISTS verified_presets CASCADE;
 DROP TABLE IF EXISTS mode_slots CASCADE;
-DROP TABLE IF EXISTS calculation_modes CASCADE;
+DO $$ 
+BEGIN
+    EXECUTE 'DROP VIEW IF EXISTS calculation_modes CASCADE';
+EXCEPTION WHEN wrong_object_type THEN
+    EXECUTE 'DROP TABLE IF EXISTS calculation_modes CASCADE';
+END $$;
+DROP TABLE IF EXISTS equation_statement_links CASCADE;
+DROP TABLE IF EXISTS directed_equations CASCADE;
 DROP TABLE IF EXISTS formal_statements CASCADE;
 DROP TABLE IF EXISTS pseudocode_algorithms CASCADE;
 DROP TABLE IF EXISTS formalisms CASCADE;
@@ -143,7 +150,9 @@ CREATE TABLE formal_statements (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     statement_key VARCHAR(64) UNIQUE NOT NULL,   -- e.g. 'fs_free_fall_accel'
     scaffold_key VARCHAR(64) NOT NULL,
-    domain_category VARCHAR(64) NOT NULL DEFAULT 'discrete_analysis', -- e.g. 'logic', 'number_tree', 'discrete_analysis', 'complex_analysis', 'quantum_logic', 'kinematics'
+    domain_category VARCHAR(64) NOT NULL DEFAULT 'discrete_analysis', -- e.g. 'tree_topology', 'arithmetic', 'order_theory', 'discrete_analysis', 'complex_analysis', 'rotor_trig', 'quantum_bayes'
+    subject_type statement_type NOT NULL DEFAULT 'math',              -- 'math', 'physics', 'information'
+    structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'defn', 'scenario', 'corollary', 'law'
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
     statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'theorem' (Lean 4 proof) vs. 'directed_equality' (computational rule)
     pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
@@ -164,27 +173,62 @@ CREATE TABLE formal_statements (
 COMMENT ON TABLE formal_statements IS 'Middle Way Math formal axiomatic statements, definitions, theorems, and identities.';
 
 -- ---------------------------------------------------------------------
--- 6. Calculation Modes / Function Rules (Directional Inverted Stencils)
+-- 6. Active Directed Equations (Stencils / Computational Rules)
 -- ---------------------------------------------------------------------
 
-CREATE TABLE calculation_modes (
+CREATE TABLE directed_equations (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    mode_key VARCHAR(64) UNIQUE NOT NULL,         -- e.g. 'ff_v_from_v0_g_t'
-    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
-    pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
-    function_rule_name VARCHAR(128),              -- e.g. 'Kinematic Velocity Decrement'
-    function_signature VARCHAR(255),              -- e.g. '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ v: 𝔻'
+    equation_key VARCHAR(64) UNIQUE NOT NULL,    -- e.g. 'ff_v_from_v0_g_t'
+    title VARCHAR(255) NOT NULL,                 -- e.g. 'Kinematic Velocity Decrement'
     label VARCHAR(128) NOT NULL,                 -- e.g. '(v₀, g, t) → v'
+    formula_expr TEXT NOT NULL,                  -- e.g. 'v0 - g * t'
     target_symbol VARCHAR(32) NOT NULL,          -- e.g. 'v'
     target_domain VARCHAR(32) NOT NULL,          -- e.g. 'ℝ_ω'
     target_unit VARCHAR(32),                     -- e.g. 'm/s'
+    pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
     formula_description TEXT NOT NULL,
-    formula_expr TEXT NOT NULL,                  -- e.g. 'v0 - g * t'
     has_simulation BOOLEAN NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE calculation_modes IS 'Directional stencils and inverted calculation modes (computational function rules).';
+COMMENT ON TABLE directed_equations IS 'Active directed equations and calculation stencils operating on the discrete dyadic machine.';
+
+-- ---------------------------------------------------------------------
+-- 6b. Equation-to-Statement Links (Instantiates & Has-Properties)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE equation_statement_links (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
+    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
+    relation_type VARCHAR(32) NOT NULL DEFAULT 'instantiates', -- 'instantiates' | 'has_property' | 'derived_from'
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_eq_stmt_rel UNIQUE(equation_id, statement_id, relation_type)
+);
+
+COMMENT ON TABLE equation_statement_links IS 'Relational bridge connecting active directed equations to their governing inactive formal statements.';
+
+-- Backward-compatibility view for legacy calculation_modes consumers
+CREATE OR REPLACE VIEW calculation_modes AS
+SELECT 
+    e.id,
+    e.equation_key AS mode_key,
+    COALESCE(l.statement_id, (SELECT statement_id FROM equation_statement_links WHERE equation_id = e.id LIMIT 1)) AS statement_id,
+    e.pseudo_algo_id,
+    e.title AS function_rule_name,
+    NULL::VARCHAR(255) AS function_signature,
+    e.label,
+    e.target_symbol,
+    e.target_domain,
+    e.target_unit,
+    e.formula_description,
+    e.formula_expr,
+    e.has_simulation,
+    e.created_at
+FROM directed_equations e
+LEFT JOIN equation_statement_links l ON l.equation_id = e.id AND l.relation_type = 'instantiates';
 
 -- ---------------------------------------------------------------------
 -- 7. Mode Slots (Input Variable Parameter Specs)
@@ -192,7 +236,7 @@ COMMENT ON TABLE calculation_modes IS 'Directional stencils and inverted calcula
 
 CREATE TABLE mode_slots (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    mode_id BIGINT NOT NULL REFERENCES calculation_modes(id) ON DELETE CASCADE,
+    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
     slot_order INTEGER NOT NULL DEFAULT 0,
     name VARCHAR(64) NOT NULL,
     symbol VARCHAR(32) NOT NULL,
@@ -203,7 +247,7 @@ CREATE TABLE mode_slots (
     max_val NUMERIC,
     step_val NUMERIC,
     description TEXT,
-    CONSTRAINT uq_mode_slot_order UNIQUE(mode_id, slot_order)
+    CONSTRAINT uq_mode_slot_order UNIQUE(equation_id, slot_order)
 );
 
 COMMENT ON TABLE mode_slots IS 'Ordered input parameters with boundary ranges for calculation modes.';
@@ -215,7 +259,7 @@ COMMENT ON TABLE mode_slots IS 'Ordered input parameters with boundary ranges fo
 CREATE TABLE verified_presets (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     preset_key VARCHAR(64) UNIQUE NOT NULL,       -- e.g. 'ex_earth_free_fall'
-    mode_id BIGINT NOT NULL REFERENCES calculation_modes(id) ON DELETE CASCADE,
+    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
     input_values JSONB NOT NULL DEFAULT '{}'::jsonb,
     display_result VARCHAR(128) NOT NULL,
@@ -234,8 +278,8 @@ COMMENT ON TABLE verified_presets IS 'Concrete numerical scenarios grounding MWM
 CREATE TABLE segment_references (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
-    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
-    mode_id BIGINT REFERENCES calculation_modes(id) ON DELETE SET NULL,
+    statement_id BIGINT REFERENCES formal_statements(id) ON DELETE CASCADE,
+    equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
     preset_id BIGINT REFERENCES verified_presets(id) ON DELETE SET NULL,
     initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
@@ -301,18 +345,21 @@ CREATE INDEX idx_formal_statements_key ON formal_statements(statement_key);
 CREATE INDEX idx_formal_statements_scaffold ON formal_statements(scaffold_key);
 CREATE INDEX idx_formal_statements_pseudo_algo ON formal_statements(pseudo_algo_id);
 
-CREATE INDEX idx_calculation_modes_statement ON calculation_modes(statement_id);
-CREATE INDEX idx_calculation_modes_key ON calculation_modes(mode_key);
-CREATE INDEX idx_calculation_modes_pseudo_algo ON calculation_modes(pseudo_algo_id);
+CREATE INDEX idx_directed_equations_key ON directed_equations(equation_key);
+CREATE INDEX idx_directed_equations_pseudo_algo ON directed_equations(pseudo_algo_id);
 
-CREATE INDEX idx_mode_slots_mode ON mode_slots(mode_id);
+CREATE INDEX idx_eq_stmt_links_eq ON equation_statement_links(equation_id);
+CREATE INDEX idx_eq_stmt_links_stmt ON equation_statement_links(statement_id);
+CREATE INDEX idx_eq_stmt_links_rel ON equation_statement_links(relation_type);
 
-CREATE INDEX idx_verified_presets_mode ON verified_presets(mode_id);
+CREATE INDEX idx_mode_slots_eq ON mode_slots(equation_id);
+
+CREATE INDEX idx_verified_presets_eq ON verified_presets(equation_id);
 CREATE INDEX idx_verified_presets_key ON verified_presets(preset_key);
 
 CREATE INDEX idx_segment_refs_segment ON segment_references(segment_id);
 CREATE INDEX idx_segment_refs_statement ON segment_references(statement_id);
-CREATE INDEX idx_segment_refs_mode ON segment_references(mode_id);
+CREATE INDEX idx_segment_refs_equation ON segment_references(equation_id);
 CREATE INDEX idx_segment_refs_preset ON segment_references(preset_id);
 
 CREATE INDEX idx_lean_verif_statement ON lean_verifications(statement_id);

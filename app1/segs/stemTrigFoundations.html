@@ -856,12 +856,12 @@
       Perimeter = ∑[k=1 to ω] ds = ∑[k=1 to ω] (2π / ω) = ω · (2π / ω) = 2π
     </div>
     <p>
-      By Lean's fundamental theorem of calculus scaffold (<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.telescoping_ftc</code></fsd-ref>), total accumulation along the 1-successor path is exact discrete algebra: <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code>. 
+      By Lean's fundamental theorem of calculus scaffold (<fs-ref id="3" desc="Fundamental Theorem of Calculus"></fs-ref>), total accumulation along the 1-successor path is exact discrete algebra: <code>∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</code>. 
       The 1-successor trunk thus parameterizes the boundary of the unit circle <code>S¹_ω ≡ ℝ_ω / (2π ℤ)</code> as a uniform march of <code>ω</code> infinitesimal steps.
     </p>
 
     <p>
-      • <b>Theorem Instance Calculator:</b> <fsd-ref scaffold="telescoping_ftc" instance="unit_circle_rim" title="Unit Circle Rim Circumference Accumulation" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;">🎯 Launch Unit Circle Rim Circumference Accumulation (Domain Member Derivation)</fsd-ref>
+      • <b>Theorem Instance Calculator:</b> <fs-ref id="3" desc="Unit Circle Rim Circumference Accumulation"></fs-ref>
     </p>
 
     <h3>3. Complex Loop Circulation &amp; The Cauchy Winding Integral</h3>
@@ -1132,7 +1132,7 @@
       <div class="formula-box" style="margin: 8px 0;">
         θ_{m, n} = 2π · (m / 2ⁿ)   where   m ∈ ℤ, &nbsp; n ∈ ℕ
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_angle" title="Dyadic Angle Generator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_angle (m : Z_w) (n : N_w) : R_w</code></fsd-ref> establishes the discrete tree grounding of circular angles.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Dyadic Angle Generator"></fs-ref> establishes the discrete tree grounding of circular angles.
     </div>
 
     <!-- Formal Statement 1B: Dyadic Continuum Embedding -->
@@ -1143,8 +1143,8 @@
       <div class="formula-box" style="margin: 8px 0;">
         d ↦ d.val   where   d ∈ 𝔻 = { m / 2ᵏ | m ∈ ℤ, k ∈ ℕ }
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:dyadic_to_real" title="Dyadic Real Embedding" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_to_real (d : D_w) : R_w</code></fsd-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
-      • <b>Interactive Dyadic Sine Stencil:</b> <fsd-ref tier="3" scaffold="sin_dyadic_fn" auto-calc="" title="Dyadic Tree Sine Calculator &amp; CORDIC Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_dyadic_fn : 𝔻 → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Dyadic Real Embedding"></fs-ref> maps discrete binary tree nodes into the Day ω continuum.<br>
+      • <b>Interactive Dyadic Sine Stencil:</b> <eq-ref id="15" desc="Dyadic Tree Sine Calculator &amp; CORDIC Bisection"></eq-ref>
     </div>
 
     <!-- Formal Statement 2: Rotor & Coordinate Projection -->
@@ -1159,8 +1159,8 @@
       <div class="formula-box" style="margin: 8px 0;">
         d ↦ angle_to_rotor(2π · d.val) ∈ UnitRotor ⊂ ℂ_ω
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:angle_to_rotor" title="Angle to Certified Unit Rotor" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.angle_to_rotor (theta : R_w) : UnitRotor</code></fsd-ref> and <fsd-ref tier="3" scaffold="scaffold:dyadic_to_rotor" title="Dyadic to Unit Rotor" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.dyadic_to_rotor (d : D_w) : UnitRotor</code></fsd-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
-      • <b>Interactive Rotor Projection Stencil:</b> <fsd-ref tier="3" scaffold="sin_rotor_fn" auto-calc="" title="Unit Rotor Sine Projection Calculator" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>sin_rotor_fn : UnitRotor → [-1, 1]</code> (Launch Interactive Stencil &amp; Maxima CAS)</fsd-ref>
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Angle to Certified Unit Rotor"></fs-ref> and <fs-ref id="18" desc="Dyadic to Unit Rotor"></fs-ref> prove that angle rotation strictly lands on the unit group <code>S¹_ω</code>.<br>
+      • <b>Interactive Rotor Projection Stencil:</b> <eq-ref id="16" desc="Unit Rotor Sine Projection Calculator"></eq-ref>
     </div>
 
     <!-- Formal Statement 2B: Circle Quotient Isomorphism -->
@@ -1171,7 +1171,7 @@
       <div class="formula-box" style="margin: 8px 0;">
         θ ∈ [0, 2π) ↦ ⟨⟨cos(θ), sin(θ)⟩, pythagorean_identity(θ)⟩ ∈ UnitRotor
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:R_w_circle" title="Quotient Circle S¹_ω" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.R_w_circle</code></fsd-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="18" desc="Quotient Circle S¹_ω"></fs-ref> models the circular topological quotient <code>ℝ_ω / (2πℤ)</code>.
     </div>
 
     <!-- Formal Statement 3: Ptolemaic Half-Angle Bisection -->
@@ -1182,7 +1182,7 @@
       <div class="formula-box" style="margin: 8px 0;">
         c ↦ √[ (1 + c) / 2 ]   satisfying   cos_half_angle(cos θ) = cos(θ / 2)
       </div>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:cos_half_angle" title="Ptolemaic Half-Angle Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.cos_half_angle (c : R_w) : R_w</code></fsd-ref> governs recursive Viète radical propagation down the positive spine.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="1" desc="Ptolemaic Half-Angle Bisection"></fs-ref> governs recursive Viète radical propagation down the positive spine.
     </div>
 
     <!-- Formal Statement 4: Polygonal Horn Rim Chord -->
@@ -1194,7 +1194,7 @@
         c(Δθ) = 2 · R · sin(Δθ / 2) = √[ 2 - 2·cos(Δθ) ]   (for R = 1)
       </div>
       • <b>Polygonal Horn Curvature:</b> While the radial position vectors <code>(O → p_k)</code> are unturning rays fanning out from the root to frame the upper half-plane, each rim chord <code>(p_k → p_k+1)</code> undergoes an <b>inward angular deflection</b> of <code>Δθ</code> at every vertex, causing the polygonal boundary to curve tightly and wrap around the origin into a polygonal horn.<br>
-      • <b>Lean Scaffold Grounding:</b> <fsd-ref tier="3" scaffold="scaffold:chord_length" title="Polygonal Rim Chord" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>MiddleWay.chord_length (delta_theta : R_w) : R_w</code></fsd-ref> grounds the Ptolemaic and Archimedean chord transformations.
+      • <b>Lean Scaffold Grounding:</b> <fs-ref id="1" desc="Polygonal Rim Chord"></fs-ref> grounds the Ptolemaic and Archimedean chord transformations.
     </div>
 
     <h3 style="margin-top: 36px;">3. The CORDIC Algorithm: How Hardware Traverses the Tree</h3>

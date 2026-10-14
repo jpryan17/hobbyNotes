@@ -77,9 +77,7 @@
       • <b>Generator Set:</b> The 4-successor quad-tree branches on generator alphabet <code>Σ₄ = { +1, -1, +i, -i }</code>.<br>
       • <b>Lattice ℂ_ω:</b> The uniform 2D square lattice of grid spacing <code>dx = dy = 1/ω = ε &gt; 0</code>:
       <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="C_w" title="The 4-Successor Complex Grid (ℂ_ω)">
-          ℂ_ω = { z = (k_x + i k_y) · ε &nbsp;|&nbsp; k_x, k_y ∈ *ℤ, -ω ≤ k_x, k_y ≤ ω }
-        </fsd-ref>
+        <fs-ref id="7" desc="The 4-Successor Complex Grid (ℂ_ω)"></fs-ref>
       </div>
       • <b>Inner Product &amp; Modulus:</b> For any <code>z = x + iy ∈ ℂ_ω</code>, its conjugate is <code>z* = x - iy</code>, and its squared norm is <code>|z|² = z · z* = x² + y² ≥ 0</code>.
     </div>
@@ -100,9 +98,7 @@
       <font size="+1" color="#92400e"><b>The Born Rule:</b></font><br>
       The probability <code>P</code> of detecting an outcome with amplitude arrow <code>z = x + iy</code> is the <b>squared modulus</b> of the arrow:
       <div align="center" style="font-family: monospace; font-size: 17px; margin-top: 8px; font-weight: bold;">
-        <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²">
-          P = |z|² = x² + y² = z · z*
-        </fsd-ref>
+        <fs-ref id="12" desc="The Born Probability Rule: P = |z|²"></fs-ref>
       </div>
       <p style="text-align: center; font-size: 12px; color: #92400e; margin-top: 4px; margin-bottom: 0;">
         <i>(Click above to inspect the Born Rule proof in Lean 4 or evaluate probability in the Dev Calculator)</i>
@@ -189,9 +185,7 @@
       • <b>Superposition Principle:</b> For mutually exclusive pathways with amplitudes <code>z₁, z₂ ∈ ℂ_ω</code>, the combined amplitude is the linear sum <code>z = z₁ + z₂</code>.<br>
       • <b>Interference Expansion:</b>
       <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="quantum_interference" title="Superposition &amp; Wave Interference Cross-Term">
-          P(z₁ + z₂) = |z₁ + z₂|² = |z₁|² + |z₂|² + 2 · |z₁| · |z₂| · cos(θ₁ - θ₂)
-        </fsd-ref>
+        <fs-ref id="12" desc="Superposition &amp; Wave Interference Cross-Term"></fs-ref>
       </div>
       <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 2px;">
         <i>(Click above to inspect the Lean 4 proof or simulate constructive/destructive wave interference)</i>

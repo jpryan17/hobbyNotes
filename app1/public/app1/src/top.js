@@ -1,6 +1,7 @@
 import { Nav } from '../../clientLib/navFW.js';
 import { TTDRef } from '../../clientLib/ttdRef.js';
 import { FSDRef } from '../../clientLib/fsdRef.js';
+import { FSRef } from '../../clientLib/fsRef.js';
 import { BTDRef } from '../../clientLib/btdRef.js';
 import { BIDRef } from '../../clientLib/bidRef.js';
 import { StemCard } from '../../clientLib/stemCard.js';
@@ -19,6 +20,8 @@ export function top(edit = false) {
         customElements.define('ttd-ref', TTDRef);
     if (!customElements.get('fsd-ref'))
         customElements.define('fsd-ref', FSDRef);
+    if (!customElements.get('fs-ref'))
+        customElements.define('fs-ref', FSRef);
     if (!customElements.get('btd-ref'))
         customElements.define('btd-ref', BTDRef);
     if (!customElements.get('bid-ref'))

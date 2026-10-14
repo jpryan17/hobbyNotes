@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Applied STEM Bridge: The Newtonian Calculation Review</title>
+</head>
+
+<body>
+<div align="center">
+    <font size="+2"><i><b>Applied STEM Bridge: The Newtonian Calculation Review</b></i></font><br>
+    <font size="+1"><i>— Historical Difference Ledgers, Jane’s Stencil, Telescoping Work-Energy &amp; Hooke's Oscillator —</i></font>
+  </div>
+  <br>
+
+  <p>
+    Before starting the multi-node thermal conduction experiment in the applied engineering laboratory, 
+    Professor James gathered Jill, Marcus, and their lab team around the demonstration bench.
+  </p>
+
+  <hr>
+
+  <h3>1. Tracing Historical Calculation: From Galileo’s Odd-Number Tables to Leibniz &amp; Euler</h3>
+
+  <p>
+    “Before we turn on thermal imaging cameras and model continuous heat diffusion across an N-node rod,” 
+    Professor James said, leaning against the bench, 
+    “we need to examine how mathematical physics actually computes. 
+    Marcus, in your applied mechanics work, how did natural philosophers first calculate motion before nineteenth-century limit formalisms?”
+  </p>
+
+  <p>
+    Marcus, an applied physics student known across the lab for his sharp computational intuition, set down his tablet: 
+    “Natural philosophers didn’t start with limits of indeterminate ratios. They started with <b>discrete difference ledgers</b>. 
+    In 1638, when Galileo investigated accelerated motion in his <i>Two New Sciences</i>, he didn't write differential equations. 
+    He rolled polished bronze balls down grooved inclined planes, timed them with water clocks over equal ticks <code>Δt</code>, 
+    and recorded the spatial displacements.”
+  </p>
+
+  <p>
+    “And what did Galileo’s difference table reveal?” James asked.
+  </p>
+
+  <p>
+    “Galileo discovered the <b>odd-number rule</b>,” Marcus replied. 
+    “Over successive equal time intervals, the incremental distances fallen were proportional to consecutive odd integers: 
+    <code>1, 3, 5, 7, 9, ...</code>, or <code>Δs_k ∝ (2k - 1)</code>. 
+    When you sum consecutive odd numbers, you get perfect squares: 
+    <code>∑_{k=1}^n (2k - 1) = n²</code>. 
+    The total distance grew as the square of time: <code>s(t) ∝ t²</code>. 
+    The first difference was linear in time—velocity. And the second difference was strictly constant—acceleration.”
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 13.5px; margin: 14px auto; max-width: 680px; line-height: 1.8;">
+    <b>Galileo’s Tabular Difference Ledger (Equal Time Ticks Δt):</b><br>
+    Interval Index (k): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp; ... &nbsp;&nbsp; k<br>
+    Incremental Step (Δs): &nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 5 &nbsp;&nbsp;&nbsp; 7 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; ... &nbsp;&nbsp; 2k - 1 &nbsp; (Velocity)<br>
+    Total Position (s): &nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 9 &nbsp;&nbsp; 16 &nbsp;&nbsp; 25 &nbsp;&nbsp; ... &nbsp;&nbsp; k² &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Quadratic Position)<br>
+    Second Difference (Δ²s): &nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp; ... &nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Constant Acceleration)
+  </div>
+
+  <p>
+    “Exactly,” James nodded. 
+    “This was the very intuition Leibniz championed when establishing his calculus: 
+    differentiation is fundamentally the <b>algebra of differences</b> across an infinitesimal step <code>dt</code>, 
+    and integration is the <b>summation of those differences</b>. 
+    In 1755, when Euler published his landmark <i>Foundations of Differential Calculus</i> (<i>Institutiones Calculi Differentialis</i>), 
+    he opened not with epsilon-delta definitions, but with the <b>calculus of finite differences</b>. 
+    Euler treated the differential calculus as the systematic algebra of differences.”
+  </p>
+
+  <p>
+    Jill smiled: 
+    “In Jack’s formal science class, we built our foundations on honest discrete ledgers—truth tables, number trees, and dyadic coordinates. 
+    And in Jane’s university calculus, we learned that on <code>ℝ_ω</code>, with a hyperfinite tick <code>dt = 1/ω</code>, 
+    these difference ledgers are not approximations. They are <b>exact algebraic identities</b>.”
+  </p>
+
+  <p>
+    “Precisely,” James said. “And in modern scientific computing, our computer algebra systems (CAS) and symplectic numerical integrators 
+    execute these exact difference structures. Let’s exercise our symbolic calculator on the classical Newtonian problems!”
+  </p>
+
+  <hr>
+
+  <h3>2. Exercising the Calculator: Free Fall Trajectory, Velocity &amp; Acceleration</h3>
+
+  <p>
+    “Consider a particle launched upward with initial velocity <code>v₀</code> under constant downward gravitational acceleration <code>g</code>,” 
+    James said, writing the position polynomial on the board:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 24px; font-family: monospace; font-size: 15px; margin: 14px auto; width: fit-content; max-width: 90%; color: #1e3a8a;">
+    s(t) = v₀·t - (1/2)·g·t²
+  </div>
+
+  <p>
+    “On our hyperfinite scaffold <code>ℝ_ω</code>,” James continued, “time advances by step <code>dt = 1/ω</code>. 
+    What is the displacement over a single tick?”
+  </p>
+
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap;">
+    s(t + dt) - s(t) &nbsp;=&nbsp; [ v₀·(t + dt) - (1/2)·g·(t + dt)² ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; [ v₀·t + v₀·dt - (1/2)·g·(t² + 2t·dt + dt²) ] &nbsp;-&nbsp; [ v₀·t - (1/2)·g·t² ]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>(v₀ - g·t)·dt &nbsp;-&nbsp; (1/2)·g·dt²</b>
+  </div>
+
+  <p>
+    “Now divide by <code>dt</code>,” Marcus noted. “Because <code>dt</code> is a genuine non-zero hyperreal element on <code>ℝ_ω</code>, 
+    the quotient is standard algebra:”
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="free_fall_accel" title="Free Fall Velocity & Acceleration Invariance">
+      v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect formal invariance proof in Lean 4 or explore with <fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>)</i>
+  </p>
+
+  <p>
+    Taking the standard shadow <code>st(·)</code> discards the infinitesimal term <code>(1/2)·g·dt</code>, 
+    leaving the exact velocity <code>v(t) = v₀ - g·t</code>.
+  </p>
+
+  <p>
+    “And what about acceleration?” Jill asked. “We use Jane’s symmetric 3-point stencil <code>[1, -2, 1]</code>!”
+  </p>
+
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 14px auto; width: fit-content; max-width: 95%; line-height: 1.8; overflow-x: auto; white-space: nowrap; text-align: center;">
+    s(t - dt) - 2·s(t) + s(t + dt) &nbsp;=&nbsp; <b>-g · dt²</b><br><br>
+    a(t) &nbsp;=&nbsp; st( [ s(t - dt) - 2·s(t) + s(t + dt) ] / dt² ) &nbsp;=&nbsp; st( -g·dt² / dt² ) &nbsp;=&nbsp; <b>-g</b>
+  </div>
+
+  <p>
+    All the terms in <code>t</code> and <code>v₀</code> cancel identically. 
+    Acceleration is an <b>exact constant <code>-g</code></b> with strictly zero residual error. 
+    Newton’s Second Law for constant gravity is the statement that the discrete temporal curvature of position is invariant.
+  </p>
+
+  <hr>
+
+  <h3>3. The Work-Energy Theorem: Exact Telescoping Summation</h3>
+
+  <p>
+    “Next,” James continued, “let’s examine the <b>Work-Kinetic Energy Theorem</b>. 
+    In classical mechanics, work is defined as force integrated over distance: <code>W = ∫ F dx</code>. 
+    Marcus, how does our discrete ledger compute work over a succession of discrete steps?”
+  </p>
+
+  <p>
+    “On <code>ℝ_ω</code>, displacement is a sequence of discrete steps <code>Δx_k</code>,” Marcus explained. 
+    “At each step, force is mass times acceleration: <code>F_k = m · (Δv_k / Δt)</code>. 
+    The incremental work done during step <code>k</code> is:
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
+    W_k &nbsp;=&nbsp; F_k · Δx_k &nbsp;=&nbsp; [ m · (Δv_k / Δt) ] · [ v_k · Δt ] &nbsp;=&nbsp; <b>m · v_k · Δv_k</b>
+  </div>
+
+  <p>
+    Now apply the fundamental algebraic identity:
+    <br>
+    <code>v_k · Δv_k &nbsp;=&nbsp; (1/2)·[ (v_k + Δv_k)² - v_k² - (Δv_k)² ]</code>.
+  </p>
+
+  <p>
+    “The second term is of order <code>O(dt²)</code>. Summing over all <code>n</code> time steps from initial state to final state:”
+  </p>
+
+  <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="work_energy" title="Telescoping Work-Energy Theorem">
+      ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect telescoping sum in Lean 4 or explore with <fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>)</i>
+  </p>
+
+  <p>
+    “It’s a <b>telescoping sum</b>,” Marcus observed. 
+    “Every intermediate velocity square <code>v_k²</code> cancels against <code>-v_k²</code> of the adjacent step. 
+    This is the discrete Fundamental Theorem of Calculus: total work done equals the net change in kinetic energy.”
+  </p>
+
+  <p>
+    “And for conservative fields where work is the negative difference of potential energy <code>-Δ(PE)</code>,” James added, 
+    “we immediately get <code>Δ(KE) + Δ(PE) = 0</code>, or <code>KE + PE = E_{total} = \text{constant}</code>. 
+    Energy conservation is an algebraic property of telescoping difference ledgers.”
+  </p>
+
+  <hr>
+
+  <h3>4. Exercising the Leapfrog Stencil: Hooke’s Law &amp; Unitary Phase Roots</h3>
+
+  <p>
+    “Finally,” James said, “what happens when the force is non-constant and position-dependent, 
+    such as a restoring spring <code>F = -k·x</code>?”
+  </p>
+
+  <p>
+    Applying Newton’s Second Law with Jane’s symmetric 3-point temporal stencil gives:
+  </p>
+
+  <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; overflow-x: auto;">
+    m · [ x(t - dt) - 2·x(t) + x(t + dt) ] / dt² &nbsp;=&nbsp; -k · x(t)
+  </div>
+
+  <p>
+    Rearranging to solve explicitly for the next future time step <code>x(t + dt)</code>:
+  </p>
+
+  <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
+    <fsd-ref tier="3" scaffold="unitary_preservation" title="Hooke's Law Leapfrog & Unitary Phase Invariance">
+      x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
+    </fsd-ref>
+  </div>
+  <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <fsd-ref tier="3" scaffold="unitary_preservation" auto-calc title="Harmonic Leapfrog Stencil &amp; Unitary Phase Roots">Harmonic Leapfrog Stencil &amp; Unitary Phase Roots</fsd-ref>)</i>
+  </p>
+
+  <p>
+    Marcus examined the recurrence:
+  </p>
+  <ul>
+    <li><b>Explicit and Symplectic:</b> This is the classic <i>Verlet leapfrog integrator</i> widely used in celestial mechanics and molecular dynamics. It requires no matrix inversion and is exactly time-reversible.</li>
+    <li><b>Unitary Phase Roots:</b> The characteristic equation is <code>λ² - (2 - ω₀²·dt²)·λ + 1 = 0</code>. 
+      For any stable time step <code>dt &lt; 2/ω₀</code>, the discriminant is negative, and the roots on <code>ℂ_ω</code> are complex conjugates with <b>exact unit modulus</b>: 
+      <code>|λ| = 1</code>, representing pure phase rotations <code>λ = e^{\pm i·ω₀·dt}</code>.</li>
+    <li><b>Exact Stability:</b> Because <code>|λ| = 1</code>, the discrete numerical oscillation neither dampens nor blows up over time. 
+      Lean 4 validates this invariant through <code>Scaffold.unitary_preservation</code>.</li>
+  </ul>
+
+  <hr>
+
+  <h3>5. Scaling From 1-Particle Time Stencils to N-Node Spatial Diffusion</h3>
+
+  <p>
+    Professor James turned from the chalkboard back to the laboratory bench:
+  </p>
+
+  <p>
+    “In these three classical calculations, we tracked a <b>single particle</b> through time:
+    its velocity was a first temporal difference, its acceleration was Jane’s <code>[1, -2, 1]</code> stencil in time, 
+    and its energy conservation was a telescoping sum.
+  </p>
+
+  <p>
+    Now, look at the steel rod on our bench. 
+    It is not a single particle; it is an arrangement of <b>N coupled control slices</b> along space. 
+    How do neighboring slices transfer thermal energy? By direct thermal contact—Jack’s <code>NEAR</code> adjacency relation! 
+    The exact same <code>[1, -2, 1]</code> stencil that computed acceleration in time for one particle will now compute 
+    <b>spatial thermal curvature and diffusion across all N slices simultaneously</b>.”
+  </p>
+
+  <p>
+    “Let’s heat the rod and run the multi-node solver,” Marcus said, opening the thermal data monitor.
+  </p>
+</body>
+</html>

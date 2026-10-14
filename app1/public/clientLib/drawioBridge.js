@@ -174,8 +174,11 @@ export async function openDrawioModal(svgOrOptions, appArg, segIdArg, diagramNam
         }
     }
     if (!rawContent) {
-        // Clean blank canvas template for new diagrams
-        rawContent = '<mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>';
+        // Clean blank canvas template for new diagrams wrapped in standard mxfile envelope
+        rawContent = '<mxfile host="embed.diagrams.net"><diagram id="page-1" name="Page-1"><mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel></diagram></mxfile>';
+    }
+    else if (!rawContent.includes('<mxfile') && rawContent.includes('<mxGraphModel')) {
+        rawContent = `<mxfile host="embed.diagrams.net"><diagram id="page-1" name="Page-1">${rawContent}</diagram></mxfile>`;
     }
     // Create modal overlay
     const overlay = document.createElement('div');
@@ -254,7 +257,9 @@ export async function openDrawioModal(svgOrOptions, appArg, segIdArg, diagramNam
     // Draw.io embed iframe: noSaveBtn=1 replaces standard cloud Save with direct Embed/Apply
     const iframe = document.createElement('iframe');
     iframe.id = 'drawio-embed-frame';
-    iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
+    iframe.referrerPolicy = 'no-referrer';
+    iframe.setAttribute('referrerpolicy', 'no-referrer');
+    iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
     iframe.style.cssText = `
     flex: 1;
     width: 100%;

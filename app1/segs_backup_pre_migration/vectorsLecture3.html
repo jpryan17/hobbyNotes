@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Linear Algebra Lecture 3: Vector Spaces, Linear Maps &amp; Duality</title>
+</head>
+
+<body>
+<div align="center">
+    <i><font size="+2"><b>Linear Algebra Lecture 3</b></font></i><br>
+    <i><font size="+1">Vector Spaces, Linear Maps &amp; Duality: From Classical Geometry to Dirac Bra-Ket Inference</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began the lecture by drawing a single bold arrow with white chalk across the blackboard:
+  </p>
+
+  <div align="center" style="margin: 15px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" style="width: 100%; max-width: 400px; height: auto; background: #1e293b; border-radius: 6px;">
+      <line x1="60" y1="45" x2="330" y2="35" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <polygon points="345,34 325,25 328,45" fill="#f8fafc" />
+      <text x="200" y="68" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">v  (from here to there)</text>
+    </svg>
+  </div>
+
+  <p>
+    “None of us have much trouble understanding a geometric arrow like this,” Jane began. “Its message is as clear as day: <i>from here to there</i>.”
+  </p>
+
+  <p>
+    Jill looked around the room: “And it's easy to picture in 3D space. In the cubicle of this classroom, the nice 90-degree angles in the corner are practically beckoning us to choose them as our origin.”
+  </p>
+
+  <p>
+    “We certainly tip our hat to René Descartes for making it so convenient to reason about space quantitatively,” Jane replied. “Though in historical fairness, the crisp, orthogonal 90-degree axes we take for granted came well after Descartes. Today, we recognize those three perpendicular corner edges for what they truly are: <b>three distinguished vectors chosen from the space</b> &mdash; a basis &mdash; from which every other displacement can be built.”
+  </p>
+
+  <p>
+    “So what is it about our two previous concepts &mdash; the <b>Abelian group</b> and the <b>scalar field</b> &mdash; that makes them so natural for modeling these geometric vectors, and so much more?”
+  </p>
+
+  <hr>
+
+  <h3>1. Why Groups &amp; Fields Naturally Model Arrows “And More”</h3>
+
+  <p>
+    Jane broke down the physical geometry of displacement into pure algebraic operations:
+  </p>
+
+  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; border-color: #cbd5e1; font-size: 13.5px; margin: 10px 0;">
+    <tr bgcolor="#f8fafc">
+      <th width="45%" align="left">Physical Geometric Intuition</th>
+      <th width="30%" align="center">Algebraic Structure</th>
+      <th width="25%" align="left">Mathematical Meaning</th>
+    </tr>
+    <tr>
+      <td><b>Combining steps:</b> Walking from A to B (<code>v</code>), then B to C (<code>w</code>), equals one net direct step.</td>
+      <td align="center"><code>u + v ∈ V</code></td>
+      <td>Vector Addition (Group Closure)</td>
+    </tr>
+    <tr>
+      <td><b>Order independence:</b> Walking 3m East then 4m North lands at the exact same spot as 4m North then 3m East.</td>
+      <td align="center"><code>u + v = v + u</code></td>
+      <td>Commutativity (Parallelogram Law)</td>
+    </tr>
+    <tr>
+      <td><b>Standing still:</b> Taking zero displacement.</td>
+      <td align="center"><code>v + 0 = v</code></td>
+      <td>Group Identity (The Origin)</td>
+    </tr>
+    <tr>
+      <td><b>Walking back:</b> Walking the exact reverse step back to where you started.</td>
+      <td align="center"><code>v + (-v) = 0</code></td>
+      <td>Group Inverse (Opposite Vector)</td>
+    </tr>
+    <tr>
+      <td><b>Stretching / shrinking:</b> Walking twice as far, half as far, or reversing along the same line.</td>
+      <td align="center"><code>c · v ∈ V</code> &nbsp; (for <code>c ∈ F</code>)</td>
+      <td>Scalar Scaling (Field Dilation)</td>
+    </tr>
+  </table>
+
+  <p>
+    “Notice,” Jane pointed out, “because we abstracted these properties into addition and field scaling, the structure models far more than arrows on a chalkboard:”
+  </p>
+  <ul>
+    <li><b>Sound Waves &amp; Functions:</b> Adding two audio signals <code>f(t) + g(t)</code> (polyphony) and turning up the volume <code>c · f(t)</code>.</li>
+    <li><b>Quantum Superpositions:</b> Combining two state amplitudes <code>|ψ₁⟩ + |ψ₂⟩</code> (wave interference) and rotating phase <code>e^(iθ) · |ψ⟩</code>.</li>
+    <li><b>Infinitesimal Grid Displacements:</b> <code>dz = dx + i·dy</code> on <code>ℂ_ω</code>.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, F, +, ·) as Group &amp; Field Synergy</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fsd-ref tier="3" scaffold="vector_distributivity" title="The Constructive Vector Space (V, F, +, ·)"><b>Vector Space Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;• <b>Pillar 1 — Additive Abelian Group (V, +):</b> The vectors form an Abelian group (Closure, Associativity, Zero Origin <code>0_V</code>, Inverses <code>-v</code>, Commutativity) governing step addition.<br>
+    &nbsp;&nbsp;• <b>Pillar 2 — Scalar Field (F, +, ·):</b> The scalars form an algebraic field (Continuous scaling, identities <code>0_F, 1_F</code>, non-zero reciprocals, field distributivity).<br>
+    &nbsp;&nbsp;• <b>Pillar 3 — Linear Compatibility Action:</b> Scalar multiplication <code>· : F × V → V</code> knits the field to the group via 4 axioms:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;1. <b>Scalar Distributivity over Vectors:</b> <code>∀ c ∈ F, ∀ u, v ∈ V, c · (u + v) = c · u + c · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;2. <b>Field Distributivity over Scalars:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a + b) · v = a · v + b · v</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;3. <b>Scalar Action Associativity:</b> <code>∀ a, b ∈ F, ∀ v ∈ V, (a · b) · v = a · (b · v)</code>.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;4. <b>Unit Scalar Identity:</b> <code>∀ v ∈ V, 1_F · v = v</code>.<br>
+    • <b>Constructive Model Grounding:</b> The hyperfinite continuum <code>ℝ_ω</code> and coordinate spaces <code>ℝ_ω^n</code> are certified canonical vector spaces over the scalar field <code>ℝ_ω</code>.
+  </div>
+
+  <hr>
+
+  <h3>2. The Relational Nature of a Vector</h3>
+
+  <p>
+    Jane then paused and looked at the arrow on the blackboard:
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>“A vector has no meaning outside of its membership in a vector or linear space.”</b>
+  </div>
+
+  <p>
+    Jill looked puzzled: “What do you mean? The arrow is right there on the board!”
+  </p>
+
+  <p>
+    “An isolated arrow on an empty board is just a lonely mark of chalk,” Jane explained. “It only becomes a <b>vector</b> through the <b>network of relationships</b> it shares with every other vector in the space:”
+  </p>
+
+  <ol>
+    <li>It knows how to combine with <i>every other</i> member in the space via addition (<code>u + v</code>).</li>
+    <li>It can be scaled by <i>every</i> scalar in the field <code>F</code> (<code>c · v</code>).</li>
+    <li>It has an established direction and distance relative to the origin (<code>0</code>).</li>
+    <li>It can be uniquely resolved into independent basis directions: <code>v = v_x e₁ + v_y e₂ + v_z e₃</code>.</li>
+  </ol>
+
+  <p>
+    “A vector is not an isolated object,” Jane emphasized. “<b>It is a citizen of a linear space</b>.”
+  </p>
+
+  <hr>
+
+  <h3>3. Linear Maps: Preserving the Vector Space</h3>
+
+  <p>
+    “Now,” Jane said, “with our two-pillar definition of a vector space in hand, what does it mean to map one vector space to another? A function between vector spaces <code>T : V &rarr; W</code> is a <b>Linear Map</b> if and only if it preserves <i>both foundational pillars simultaneously</i>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>1. Group Homomorphism: T( u + v ) = T(u) + T(v) &emsp;&amp;&emsp; 2. Field Scaling Homogeneity: T( c · v ) = c · T(v)</b></fsd-ref>
+  </div>
+
+  <p>
+    “Decorating functions with linearity is what powers all of calculus and modern physics:”
+  </p>
+  <ul>
+    <li><b>The Derivative Operator <code>D = d/dx</code>:</b> <code>D(f + g) = D(f) + D(g)</code> and <code>D(c·f) = c·D(f)</code>.</li>
+    <li><b>The Integral Functional <code>∫</code>:</b> <code>∫ (f + g) dx = ∫ f dx + ∫ g dx</code> and <code>∫ (c·f) dx = c · ∫ f dx</code>.</li>
+    <li><b>Local Linear Approximation:</b> Calculus replaces a difficult curved curve with its local linear operator: <code>Δy ≈ f'(x) · dx</code>.</li>
+    <li><b>Quantum Unitary Operators:</b> State evolution <code>U |ψ⟩</code> preserves quantum superposition and norm geometry.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.2): The Linear Map T : V → W as Vector Space Homomorphism</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>Vector Space Homomorphism Axioms (in Lean 4)</b></fsd-ref>:<br>
+    &nbsp;&nbsp;1. <b>Additive Group Preservation:</b> <code>∀ u, v ∈ V, T(u + v) = T(u) + T(v)</code> (preserves the vector Abelian group).<br>
+    &nbsp;&nbsp;2. <b>Scalar Action Preservation:</b> <code>∀ c ∈ F, ∀ v ∈ V, T(c · v) = c · T(v)</code> (preserves scalar field dilation).<br>
+    &nbsp;&nbsp;3. <b>Combined Superposition Principle:</b> <code>∀ a, b ∈ F, ∀ u, v ∈ V, T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
+    • <b>Forced Invariants:</b> Linearity strictly forces origin preservation <code>T(0_V) = 0_W</code> and inverse reflection <code>T(-v) = -T(v)</code>.<br>
+    • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
+    • <b>Calculus Realization:</b> The differential operator <code>D = d/dx</code> and definite integral <code>∫</code> are certified linear maps on smooth function spaces over <code>ℝ_ω</code>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" auto-calc title="Matrix Action &amp; Linear Superposition Preservation">Matrix Action &amp; Linear Superposition Preservation</fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Vector / Covector Duality: The Algebraic Dual Space V*</h3>
+
+  <p>
+    “In standard textbooks,” Jane remarked, “duality is often rushed through as 'row vectors times column vectors' or jumped straight into physical measurement. But mathematically, <b>duality is one of the deepest and most elegant concepts in all of algebra</b>.”
+  </p>
+
+  <p>
+    “Let <code>V</code> be a vector space over field <code>F</code>. We can ask: what is the set of all possible scalar-valued linear functions from <code>V</code> into <code>F</code>? This set is called the <b>Dual Space</b>, denoted <code>V* = Hom(V, F)</code>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <b>V* &nbsp;=&nbsp; Hom( V, F ) &nbsp;=&nbsp; { f : V &rarr; F &nbsp;|&nbsp; f is linear }</b><br><br>
+    (f + g)(v) = f(v) + g(v) &emsp;&emsp;and&emsp;&emsp; (c · f)(v) = c · f(v)
+  </div>
+
+  <p>
+    “Notice the immediate mathematical consequence,” Jane emphasized: “Because linear functions can be added pointwise and scaled by field elements, <b>the dual space <code>V*</code> is itself an authentic Vector Space over <code>F</code></b>!”
+  </p>
+
+  <p>
+    “Between the vector space <code>V</code> and its dual space <code>V*</code> lies a fundamental algebraic bridge: the <b>Canonical Bilinear Evaluation Pairing</b>:”
+  </p>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>⟨ · , · ⟩ : V* × V &rarr; F &emsp;where&emsp; ⟨f, v⟩ &nbsp;=&nbsp; f(v)</b></fsd-ref>
+  </div>
+
+  <p>
+    “This pairing is <b>bilinear</b> (linear in <code>f</code> and linear in <code>v</code>) and completely <b>non-degenerate</b>: no non-zero vector can hide from every functional, and no non-zero functional is blind to every vector. Furthermore, every vector <code>v ∈ V</code> naturally acts as a linear functional on <code>V*</code> via <code>ev_v(f) = f(v)</code>, establishing the canonical isomorphism into the double dual: <code>V ≅ V**</code>.”
+  </p>
+
+  <p>
+    “<b>How Humans Realize This Pure Algebra:</b> While duality is fundamentally this pure algebraic pairing <code>Hom(V, F)</code>, humans naturally visualize and physically embody it in two vivid ways:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 580px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 140" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Left: Vector Arrow -->
+        <rect x="20" y="20" width="250" height="100" rx="6" fill="#eff6ff" stroke="#93c5fd" />
+        <text x="145" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">Vector (v ∈ V): The State / Arrow</text>
+        <line x1="50" y1="90" x2="220" y2="70" stroke="#2563eb" stroke-width="3" />
+        <polygon points="230,68 215,62 218,78" fill="#2563eb" />
+
+        <!-- Right: Covector Lines -->
+        <rect x="310" y="20" width="250" height="100" rx="6" fill="#faf5ff" stroke="#d8b4fe" />
+        <text x="435" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6b21a8">Covector (f ∈ V*): Linear Form / Meter</text>
+        <line x1="340" y1="60" x2="340" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="380" y1="60" x2="380" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="420" y1="60" x2="420" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="460" y1="60" x2="460" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+        <line x1="500" y1="60" x2="500" y2="105" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3,3" />
+      </svg>
+    </div>
+  </div>
+
+  <ul>
+    <li><b>Geometric Realization (Contour Piercing):</b> Vectors are directed displacements (arrows), while covectors are parallel level-hyperplanes <code>f(x) = c</code>. The scalar evaluation <code>⟨f, v⟩</code> counts how many contour sheets the arrow pierces.</li>
+    <li><b>Physical Realization (Measurement &amp; Detectors):</b> Vectors represent physical configurations or states, while covectors represent linear detector responses measuring properties of those states.</li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>Linear Functional Axioms (in Lean 4)</b></fsd-ref>.<br>
+    • <b>Bilinear Canonical Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code> is bilinear, non-degenerate, and canonically reflexive (<code>V ≅ V**</code>).<br>
+    • <b>Part 2 — Geometric &amp; Physical Realizations:</b> Level-surface piercing in geometry, linear measurement detectors in physics, and the <b>Riesz Representation Theorem</b> on Hilbert spaces <code>ℋ_ω</code> where every continuous functional is represented by an inner product with a vector: <code>f(v) = (u, v)</code>.<br>
+    • <b>Dirac Notation Mapping:</b> State vectors are Kets <code>|v⟩ ∈ ℋ_ω</code>, dual functionals are Bras <code>⟨u| ∈ ℋ_ω*</code>, and evaluation is the Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="dual_pairing" auto-calc title="Canonical Bilinear Pairing ⟨f, v⟩ Evaluation">Canonical Bilinear Pairing ⟨f, v⟩ Evaluation</fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>5. The Physical Realization: Dirac Bra-Ket Quantum Inference</h3>
+
+  <p>
+    “In classical mechanics, physical states are tracked by isolated scalar numbers,” Jane said. “In modern quantum theory, physical states live in vector spaces, and observable measurements emerge from <b>vector evaluation pairings</b> in a complex Hilbert space <code>ℋ_ω</code>:”
+  </p>
+
+  <ul>
+    <li>
+      <b>State Vectors are Kets (<code>|ψ⟩ ∈ ℋ_ω</code>):</b> The physical quantum state living in complex Hilbert space <code>(ℋ_ω, +, ·, ⟨·,·⟩)</code>.
+    </li>
+    <li>
+      <b>Measurement Detectors are Bras (<code>⟨ϕ| ∈ ℋ_ω*</code>):</b> A covector in the dual space representing a linear detector apparatus.
+    </li>
+    <li>
+      <b>The Bracket as Dual Evaluation (<code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>):</b> The covector <code>⟨ϕ|</code> acts on the state vector <code>|ψ⟩</code> via canonical evaluation, yielding the complex transition amplitude!
+    </li>
+    <li>
+      <b>The Born Rule Re-Envisioned:</b> The observable detector probability is the squared magnitude of this linear functional evaluation:
+      <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+        <b>P(ϕ | ψ) &nbsp;=&nbsp; |⟨ϕ | ψ⟩|²</b>
+      </div>
+      By linking our duality pairing directly to <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>, every physical measurement is grounded in the geometry of complex vectors!
+    </li>
+    <li>
+      <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that tests for state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>.
+    </li>
+    <li>
+      <b>Unitary Transformations &amp; Isometry:</b> When a state evolves under a linear operator <code>|ψ⟩ &rarr; U |ψ⟩</code>, its dual covector transforms as <code>⟨ψ| &rarr; ⟨ψ| U†</code>. Because <code>U† U = I</code>, the inner product is strictly preserved:
+      <div align="center" style="font-family: monospace; font-size: 14px; margin: 6px 0; color: #1e3a8a;">
+        <b>⟨ψ| U† U |ψ⟩ &nbsp;=&nbsp; ⟨ψ | ψ⟩ &nbsp;=&nbsp; 1 (Exact 100% Probability Conservation!)</b>
+      </div>
+    </li>
+  </ul>
+
+  <h4>Formal Statement (FS-LA-3.4): Dirac Bra-Ket Quantum Inference &amp; Probability Conservation</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Part 1 — State &amp; Detector Duality:</b> Physical states are vectors <code>|ψ⟩ ∈ ℋ_ω</code>; measurement detectors are continuous linear functionals (covectors) <code>⟨ϕ| ∈ ℋ_ω*</code>. Canonical evaluation yields the complex probability amplitude <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>.<br>
+    • <b>Part 2 — The Born Transition Probability:</b> The observable transition probability is the modulus squared of the dual pairing:
+    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>.<br>
+    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>.<br>
+    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>
+  </div>
+
+  <p>
+    Jill beamed: “So Dirac's bra-ket notation is simply the physical language of vector/covector duality and unitary probability conservation!”
+  </p>
+
+  <p>
+    “Exactly!” Jane concluded. “We have completed the foundations of linear spaces and geometric duality. Next, in <b>Course 2: Trigonometry &amp; Rotor Geometry</b>, we will explore continuous planar rotations, circular dynamics, and complex exponential angles!”
+  </p>
+</body>
+</html>

@@ -1,7 +1,7 @@
 -- =====================================================================
 -- HobbyNotes / Middle Way Mathematics
 -- Canonical Seed Data (MWM-DB Normalized Single Source of Truth)
--- Generated At: 2026-10-13T18:56:35.489Z
+-- Generated At: 2026-10-13T23:08:15.018Z
 -- =====================================================================
 
 -- 0. Clean Table Reset for Idempotent Seeding
@@ -11,7 +11,8 @@ TRUNCATE TABLE
   curriculum_nav_items,
   verified_presets,
   mode_slots,
-  calculation_modes,
+  equation_statement_links,
+  directed_equations,
   lean_verifications,
   formal_statements,
   pseudocode_algorithms,
@@ -23160,34 +23161,36 @@ ON CONFLICT (id) DO UPDATE SET
 
 -- 4. Formal Statements (Axiomatic Engine)
 INSERT INTO formal_statements (
-  id, statement_key, scaffold_key, domain_category, parent_id, statement_kind, pseudo_algo_id, type, tier, governing_seed,
+  id, statement_key, scaffold_key, domain_category, subject_type, structure_kind, parent_id, statement_kind, pseudo_algo_id, type, tier, governing_seed,
   title, description, expression, lean_signature, lean_snippet, status, referenced_segments
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'fs_newtonian_mechanics', 'newtonian_mechanics', 'kinematics_and_dynamics', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Newtonian Dynamics & Boundary Acceleration', 'Foundational relation between force, inertia, and momentum conservation on ℝ_ω.', 'F = m · a  ∧  p = m · v', NULL, NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 1, 'theorem', 10, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'modelsOverview', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
-  (4, 'fs_work_energy', 'work_energy', 'kinematics_and_dynamics', 3, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Telescoping Work-Energy Principle', 'Exact cancellation of interior work increments yielding net kinetic energy change.', 'Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k', 'theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
-  (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 3, 'theorem', 13, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
-  (6, 'fs_quartic_diff', 'r_quartic', 'discrete_analysis', 3, 'theorem', NULL, 'math', 'corollary', 'shadow_map', 'Hyperfinite Quartic Derivative', 'Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.', 'diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²', NULL, NULL, 'published', ARRAY['analysis1DLecture2']::text[]),
-  (7, 'fs_complex_arithmetic', 'cauchy_edge_cancel', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'axiom', 'conway_cut', 'Hyperfinite Complex Arithmetic & Cell Loop', '2D tensor product algebra ℂ_ω = ℝ_ω ⊗ ℝ_ω and Cauchy cell edge cancellation.', 'z₁ · z₂ = (x₁·x₂ - y₁·y₂) + i·(x₁·y₂ + x₂·y₁)', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', NULL, 'published', ARRAY['analysis2DLecture2']::text[]),
-  (8, 'fs_cauchy_riemann', 'cauchy_riemann', 'discrete_analysis', 7, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Cauchy-Riemann Conformal Symmetries', 'Direction-independent complex derivative enforcing angle preservation and zero shear.', '∂u/∂x = ∂v/∂y  ∧  ∂u/∂y = -∂v/∂x', NULL, NULL, 'published', ARRAY['analysis2DLecture1']::text[]),
-  (9, 'fs_residue_integral', 'residue_theorem', 'discrete_analysis', 7, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Residue Theorem & Vortex Circulation', 'Punctured closed loop integral evaluating to integer vortex winding residues.', '∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)', NULL, NULL, 'published', ARRAY['analysis2DIntro', 'analysis2DLecture2']::text[]),
-  (10, 'fs_lee_yang', 'lee_yang', 'kinematics_and_dynamics', 7, 'theorem', NULL, 'physics', 'theorem', 'conway_cut', 'Lee-Yang Zero Circle & Critical Phase Transition', 'Partition function zeros on complex unit circle pinching real axis at Day ω.', 'dist(z*, ℝ) = |T - T_c| + 1 / √N', NULL, NULL, 'published', ARRAY['stemHeatDiffusion', 'cosmologyAsInformation']::text[]),
-  (11, 'fs_unitary_isometry', 'unitary_isometry', 'kinematics_and_dynamics', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Unitary Evolution & Norm Isometry', 'Norm-preserving probability evolution under self-adjoint operators U† · U = I.', '⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩  ∧  ∥U ψ∥ = ∥ψ∥ = 1', 'axiom unitary_isometry (U : C_w) : norm_sq U = 1', NULL, 'published', ARRAY['vectorsLecture2', 'vectorsLecture3']::text[]),
-  (12, 'fs_three_polarizer', 'born_rule', 'kinematics_and_dynamics', 11, 'theorem', NULL, 'physics', 'scenario', 'boundary_law', 'Three-Polarizer Sequential Projection', 'Quantum state projection through non-commuting measurement operators via Born rule.', 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', NULL, NULL, 'published', ARRAY['quantumLogicLecture2', 'vectorsLecture3']::text[]),
-  (13, 'fs_probability_foundations', 'discrete_probability', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'axiom', 'shadow_map', 'Discrete Probability Measure & Conditioning', 'Non-negative measure on finite state spaces with unit total mass.', 'P(A ∩ B) = P(A|B) · P(B)', NULL, NULL, 'published', ARRAY['bayesianInferenceIntro']::text[]),
-  (14, 'fs_bayes_updating', 'bayes_rule', 'information_and_signals', 13, 'theorem', 14, 'information', 'theorem', 'shadow_map', 'Bayesian Posterior Updating (P(H|D))', 'Prior belief update under sensory observation with probability normalization.', 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]', NULL, NULL, 'published', ARRAY['editedBayesianInferenceLecture1V1']::text[]),
-  (15, 'fs_scale_reciprocity', 'omega_inv', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'constitutional', 'conway_cut', 'Scale Horizon & Infinitesimal Reciprocity', 'Fundamental scale axiom: Day ω cosmic horizon and grid step dx are mutual inverses ω · dx = 1.', 'ω · dx = 1  ∧  dx = 1/ω', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
-  (16, 'fs_discrete_ivt', 'discrete_ivt', 'discrete_analysis', 15, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Discrete Intermediate Value Theorem Bisection', 'Constructive root isolation through dyadic interval halving on sign change.', 'f(a)·f(b) < 0  ⇒  c = (a + b)/2', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
-  (17, 'fs_nucleus_halo_decomposition', 'nucleus_halo_decomposition', 'discrete_analysis', 15, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Nucleus-Halo Decomposition Theorem', 'Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.', 'x = st(x) + ε  ∧  ε ∈ μ(0)', 'axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε', NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
-  (18, 'fs_dyadic_angle_bisection', 'dyadic_angle', 'discrete_analysis', NULL, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Angle Bisection & Unit Rotor Generation', 'Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.', 'θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1', 'def dyadic_angle (m : Int) (n : Nat) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
-  (19, 'fs_polygonal_horn_chord', 'chord_length', 'discrete_analysis', 18, 'theorem', NULL, 'math', 'scenario', 'boundary_law', 'Polygonal Horn Rim Chord & Inward Deflection', 'Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
-  (20, 'fs_sin_dyadic_bisection', 'sin_dyadic_fn', 'discrete_analysis', 18, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Tree Sine Function & CORDIC Bisection', 'Directed pair 𝔻 → [-1, 1] mapping Conway binary angle tree nodes to standard sine coordinates.', 'sin_dyadic_fn(d) = sin(2π · d.val) ∈ [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
-  (21, 'fs_sin_rotor_projection', 'sin_rotor_fn', 'discrete_analysis', NULL, 'theorem', 12, 'math', 'axiom', 'conway_cut', 'Unit Rotor Group Sine Projection', 'Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.', 'sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', NULL, 'published', ARRAY['stemTrigFoundations']::text[])
+  (1, 'fs_newtonian_mechanics', 'newtonian_mechanics', 'kinematics_and_dynamics', 'physics', 'law', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Newtonian Dynamics & Boundary Acceleration', 'Foundational relation between force, inertia, and momentum conservation on ℝ_ω.', 'F = m · a  ∧  p = m · v', NULL, NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
+  (2, 'fs_free_fall_accel', 'free_fall_accel', 'kinematics_and_dynamics', 'physics', 'scenario', 1, 'theorem', 10, 'physics', 'scenario', 'boundary_law', 'Uniform Free Fall Kinematics', 'Motion under constant gravitational acceleration g on ℝ_ω.', 'v(t) = v₀ - g · t  ∧  s(t) = v₀·t - (1/2)·g·t²', 'theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
+  (3, 'fs_telescoping_ftc', 'telescoping_ftc', 'discrete_analysis', 'math', 'theorem', NULL, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Telescoping Fundamental Theorem of Calculus', 'Discrete interior cancellation collapsing whole-transect sums to boundary differences.', '∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', 'theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0', NULL, 'published', ARRAY['analysis1DLecture3', 'modelsOverview', 'stemHeatDiffusion', 'stemTrigFoundations']::text[]),
+  (4, 'fs_work_energy', 'work_energy', 'kinematics_and_dynamics', 'physics', 'law', 3, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Telescoping Work-Energy Principle', 'Exact cancellation of interior work increments yielding net kinetic energy change.', 'Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k', 'theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum', NULL, 'published', ARRAY['stemNewtonianBridge']::text[]),
+  (5, 'fs_heat_flux', 'heat_flux', 'kinematics_and_dynamics', 'physics', 'scenario', 3, 'theorem', 13, 'physics', 'scenario', 'boundary_law', 'Thermal Flux Balance & Discrete Laplacian Stencil', 'Net thermal flux balance across spatial slices with tridiagonal Toeplitz Laplacian operator.', '∂u/∂t = α · [u_{i-1} - 2u_i + u_{i+1}] / Δx²', 'theorem heat_flux_conservation (alpha dx dt : R_w) : conserved', NULL, 'published', ARRAY['stemHeatDiffusion']::text[]),
+  (6, 'fs_quartic_diff', 'r_quartic', 'discrete_analysis', 'math', 'corollary', 3, 'theorem', NULL, 'math', 'corollary', 'shadow_map', 'Hyperfinite Quartic Derivative', 'Algebraic derivative of f(x) = x⁴ with 3-point difference curvature stencil.', 'diff_w(x⁴, x) = 4x³  ∧  st( [f(x+dx)-2f(x)+f(x-dx)]/dx² ) = 12x²', NULL, NULL, 'published', ARRAY['analysis1DLecture2']::text[]),
+  (7, 'fs_complex_arithmetic', 'cauchy_edge_cancel', 'discrete_analysis', 'math', 'axiom', NULL, 'theorem', NULL, 'math', 'axiom', 'conway_cut', 'Hyperfinite Complex Arithmetic & Cell Loop', '2D tensor product algebra ℂ_ω = ℝ_ω ⊗ ℝ_ω and Cauchy cell edge cancellation.', 'z₁ · z₂ = (x₁·x₂ - y₁·y₂) + i·(x₁·y₂ + x₂·y₁)', 'axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩', NULL, 'published', ARRAY['analysis2DLecture2']::text[]),
+  (8, 'fs_cauchy_riemann', 'cauchy_riemann', 'discrete_analysis', 'math', 'theorem', 7, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Cauchy-Riemann Conformal Symmetries', 'Direction-independent complex derivative enforcing angle preservation and zero shear.', '∂u/∂x = ∂v/∂y  ∧  ∂u/∂y = -∂v/∂x', NULL, NULL, 'published', ARRAY['analysis2DLecture1']::text[]),
+  (9, 'fs_residue_integral', 'residue_theorem', 'discrete_analysis', 'math', 'theorem', 7, 'theorem', NULL, 'math', 'theorem', 'boundary_law', 'Residue Theorem & Vortex Circulation', 'Punctured closed loop integral evaluating to integer vortex winding residues.', '∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)', NULL, NULL, 'published', ARRAY['analysis2DIntro', 'analysis2DLecture2']::text[]),
+  (10, 'fs_lee_yang', 'lee_yang', 'kinematics_and_dynamics', 'physics', 'theorem', 7, 'theorem', NULL, 'physics', 'theorem', 'conway_cut', 'Lee-Yang Zero Circle & Critical Phase Transition', 'Partition function zeros on complex unit circle pinching real axis at Day ω.', 'dist(z*, ℝ) = |T - T_c| + 1 / √N', NULL, NULL, 'published', ARRAY['stemHeatDiffusion', 'cosmologyAsInformation']::text[]),
+  (11, 'fs_unitary_isometry', 'unitary_isometry', 'kinematics_and_dynamics', 'physics', 'law', NULL, 'directed_equality', NULL, 'physics', 'law', 'boundary_law', 'Unitary Evolution & Norm Isometry', 'Norm-preserving probability evolution under self-adjoint operators U† · U = I.', '⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩  ∧  ∥U ψ∥ = ∥ψ∥ = 1', 'axiom unitary_isometry (U : C_w) : norm_sq U = 1', NULL, 'published', ARRAY['vectorsLecture2', 'vectorsLecture3']::text[]),
+  (12, 'fs_three_polarizer', 'born_rule', 'kinematics_and_dynamics', 'physics', 'scenario', 11, 'theorem', NULL, 'physics', 'scenario', 'boundary_law', 'Three-Polarizer Sequential Projection', 'Quantum state projection through non-commuting measurement operators via Born rule.', 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', NULL, NULL, 'published', ARRAY['quantumLogicLecture2', 'vectorsLecture3']::text[]),
+  (13, 'fs_probability_foundations', 'discrete_probability', 'discrete_analysis', 'math', 'axiom', NULL, 'theorem', NULL, 'math', 'axiom', 'shadow_map', 'Discrete Probability Measure & Conditioning', 'Non-negative measure on finite state spaces with unit total mass.', 'P(A ∩ B) = P(A|B) · P(B)', NULL, NULL, 'published', ARRAY['bayesianInferenceIntro']::text[]),
+  (14, 'fs_bayes_updating', 'bayes_rule', 'information_and_signals', 'information', 'theorem', 13, 'theorem', 14, 'information', 'theorem', 'shadow_map', 'Bayesian Posterior Updating (P(H|D))', 'Prior belief update under sensory observation with probability normalization.', 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·P(¬H) ]', NULL, NULL, 'published', ARRAY['editedBayesianInferenceLecture1V1']::text[]),
+  (15, 'fs_scale_reciprocity', 'omega_inv', 'discrete_analysis', 'math', 'constitutional', NULL, 'theorem', NULL, 'math', 'constitutional', 'conway_cut', 'Scale Horizon & Infinitesimal Reciprocity', 'Fundamental scale axiom: Day ω cosmic horizon and grid step dx are mutual inverses ω · dx = 1.', 'ω · dx = 1  ∧  dx = 1/ω', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
+  (16, 'fs_discrete_ivt', 'discrete_ivt', 'discrete_analysis', 'math', 'theorem', 15, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Discrete Intermediate Value Theorem Bisection', 'Constructive root isolation through dyadic interval halving on sign change.', 'f(a)·f(b) < 0  ⇒  c = (a + b)/2', NULL, NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
+  (17, 'fs_nucleus_halo_decomposition', 'nucleus_halo_decomposition', 'discrete_analysis', 'math', 'theorem', 15, 'theorem', NULL, 'math', 'theorem', 'shadow_map', 'Nucleus-Halo Decomposition Theorem', 'Unique splitting of every finite hyperreal into standard real nucleus and infinitesimal Day ω halo dust.', 'x = st(x) + ε  ∧  ε ∈ μ(0)', 'axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε', NULL, 'published', ARRAY['analysis1DLecture1']::text[]),
+  (18, 'fs_dyadic_angle_bisection', 'dyadic_angle', 'discrete_analysis', 'math', 'theorem', NULL, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Angle Bisection & Unit Rotor Generation', 'Directed pair (ℤ × ℕ) → ℝ_ω generating all dyadic angles via recursive bisection and unit rotors on ℂ_ω.', 'θ_{m,n} = 2π · (m / 2ⁿ)  ∧  cos(θ/2) = √[(1 + cos θ)/2]  ∧  |U(θ)|² = 1', 'def dyadic_angle (m : Int) (n : Nat) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (19, 'fs_polygonal_horn_chord', 'chord_length', 'discrete_analysis', 'math', 'scenario', 18, 'theorem', NULL, 'math', 'scenario', 'boundary_law', 'Polygonal Horn Rim Chord & Inward Deflection', 'Directed pair ℝ_ω → ℝ_ω mapping central angle Δθ to Euclidean rim chord length wrapping around the origin.', 'c(Δθ) = 2 · sin(Δθ / 2) = √[2 - 2·cos(Δθ)]', 'axiom chord_length (delta_theta : R_w) : R_w', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (20, 'fs_sin_dyadic_bisection', 'sin_dyadic_fn', 'discrete_analysis', 'math', 'theorem', 18, 'theorem', NULL, 'math', 'theorem', 'conway_cut', 'Dyadic Tree Sine Function & CORDIC Bisection', 'Directed pair 𝔻 → [-1, 1] mapping Conway binary angle tree nodes to standard sine coordinates.', 'sin_dyadic_fn(d) = sin(2π · d.val) ∈ [-1, 1]', 'def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic', NULL, 'published', ARRAY['stemTrigFoundations']::text[]),
+  (21, 'fs_sin_rotor_projection', 'sin_rotor_fn', 'discrete_analysis', 'math', 'axiom', NULL, 'theorem', 12, 'math', 'axiom', 'conway_cut', 'Unit Rotor Group Sine Projection', 'Directed pair UnitRotor → [-1, 1] projecting 4-successor complex unit rotor U ∈ ℂ_ω to vertical imaginary coordinate.', 'sin_rotor_fn(U) = U.val.im ∈ [-1, 1]  where  |U|² = 1', 'def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule', NULL, 'published', ARRAY['stemTrigFoundations']::text[])
 ON CONFLICT (id) DO UPDATE SET
   statement_key = EXCLUDED.statement_key,
   scaffold_key = EXCLUDED.scaffold_key,
   domain_category = EXCLUDED.domain_category,
+  subject_type = EXCLUDED.subject_type,
+  structure_kind = EXCLUDED.structure_kind,
   parent_id = EXCLUDED.parent_id,
   statement_kind = EXCLUDED.statement_kind,
   pseudo_algo_id = EXCLUDED.pseudo_algo_id,
@@ -23198,46 +23201,71 @@ ON CONFLICT (id) DO UPDATE SET
   lean_snippet = EXCLUDED.lean_snippet,
   referenced_segments = EXCLUDED.referenced_segments;
 
--- 5. Calculation Modes (Directional Stencils / Function Rules)
-INSERT INTO calculation_modes (
-  id, mode_key, statement_id, pseudo_algo_id, function_rule_name, function_signature, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation
+-- 5. Active Directed Equations (Stencils / Computational Rules)
+INSERT INTO directed_equations (
+  id, equation_key, title, label, formula_expr, target_symbol, target_domain, target_unit, pseudo_algo_id, formula_description, has_simulation
 ) OVERRIDING SYSTEM VALUE VALUES
-  (1, 'ff_v_from_v0_g_t', 2, 10, 'Kinematic Step ↦ v', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ v: 𝔻', '(v₀, g, t) → v', 'v', 'ℝ_ω', 'm/s', 'v = v₀ - g · t', 'v0 - g * t', TRUE),
-  (2, 'ff_t_from_v_v0_g', 2, 10, 'Kinematic Step ↦ t', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ t: 𝔻', '(v, v₀, g) → t', 't', 'ℝ_ω', 's', 't = (v₀ - v) / g', '(v0 - v) / g', TRUE),
-  (3, 'ff_s_from_v0_g_t', 2, 10, 'Kinematic Step ↦ s', '(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ s: 𝔻', '(v₀, g, t) → s', 's', 'ℝ_ω', 'm', 's = v₀ · t - (1/2) · g · t²', 'v0 * t - 0.5 * g * (t ** 2)', TRUE),
-  (4, 'we_ke_from_m_v', 4, NULL, NULL, NULL, '(m, v) → KE', 'KE', 'ℝ_ω', 'J', 'KE = (1/2) · m · v²', '0.5 * m * (v ** 2)', TRUE),
-  (5, 'we_v_from_ke_m', 4, NULL, NULL, NULL, '(KE, m) → v', 'v', 'ℝ_ω', 'm/s', 'v = √(2 · KE / m)', 'Math.sqrt((2 * KE) / m)', TRUE),
-  (6, 'diff_heat_step', 5, 13, 'Discrete Thermal Diffusion ↦ u_new', '(T: 𝔻[], α: 𝔻) ↦ u_new: 𝔻[]', '(α, Δt, Δx, u_L, u_C, u_R) → u_new', 'u_new', 'ℝ_ω', '°C', 'u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)', 'u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)', TRUE),
-  (7, 'complex_mult_eval', 7, NULL, NULL, NULL, '(x₁, y₁, x₂, y₂) → z₁ · z₂', 'z₁ · z₂', 'ℂ_ω', NULL, 'z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)', '[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]', TRUE),
-  (8, 'polarizer_transmission', 12, NULL, NULL, NULL, '(θ₁, θ₂, I₀) → I_final', 'I_final', 'ℝ_ω', NULL, 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', 'I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)', TRUE),
-  (9, 'bayes_posterior', 14, 14, 'Discrete Bayesian Update ↦ P(H|D)', '(P(H): 𝔻, P(E|H): 𝔻) ↦ P(H|D): 𝔻', '(P(H), P(D|H), P(D|¬H)) → P(H|D)', 'P(H|D)', '[0, 1]', NULL, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', TRUE),
-  (10, 'scale_reciprocity_eval', 15, NULL, NULL, NULL, '(ω, dx) → Balance Product ω · dx', 'ω · dx', 'ℝ_ω', NULL, 'ω · dx = 1.0', 'omega * dx', TRUE),
-  (11, 'diff_x4_st', 6, NULL, NULL, NULL, '(x, dx) → st(Δ(x⁴)/dx) = 4x³', 'f''(x)', 'ℝ_ω', NULL, 'st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³', '4 * (x ** 3)', TRUE),
-  (12, 'ivt_root_bisection', 16, NULL, NULL, NULL, '(a, b) → Midpoint c = (a + b)/2', 'c', 'ℝ_ω', NULL, 'c = (a + b) / 2', '(a + b) / 2', TRUE),
-  (13, 'trig_dyadic_angle', 18, 12, 'Dyadic Rotor Projection ↦ θ', '(θ: 𝔻, N: ℕ) ↦ θ: 𝔻', '(m, n) → θ', 'θ', '[0, 2π)', 'rad', 'θ = 2π · (m / 2ⁿ)', '2 * Math.PI * (m / (2 ** n))', TRUE),
-  (14, 'trig_chord_length', 19, 12, 'Dyadic Rotor Projection ↦ c', '(θ: 𝔻, N: ℕ) ↦ c: 𝔻', '(Δθ, R) → Chord c', 'c', 'ℝ_ω', NULL, 'c = 2 · R · sin(Δθ / 2)', '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)', TRUE),
-  (15, 'trig_sin_dyadic_eval', 20, 12, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(m, n) → sin(θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(θ) = sin(2π · m / 2ⁿ)', 'Math.sin(2 * Math.PI * (m / (2 ** n)))', TRUE),
-  (16, 'trig_sin_rotor_eval', 21, 12, 'Dyadic Rotor Projection ↦ sin(θ)', '(θ: 𝔻, N: ℕ) ↦ sin(θ): 𝔻', '(θ) → (cos θ, sin θ)', 'sin(θ)', '[-1, 1]', NULL, 'sin(U) = Im(U) = sin(θ) ∈ [-1, 1]', 'Math.sin(theta * Math.PI / 180)', TRUE),
-  (17, 'nucleus_halo_decomp_eval', 17, NULL, NULL, NULL, '(x₀, k) → x = x₀ + k·dx', 'x', 'ℝ_ω', NULL, 'x = st(x) + ε = x₀ + k · dx', 'x0 + k * dx', FALSE)
+  (1, 'ff_v_from_v0_g_t', '(v₀, g, t) → v', '(v₀, g, t) → v', 'v0 - g * t', 'v', 'ℝ_ω', 'm/s', 10, 'v = v₀ - g · t', TRUE),
+  (2, 'ff_t_from_v_v0_g', '(v, v₀, g) → t', '(v, v₀, g) → t', '(v0 - v) / g', 't', 'ℝ_ω', 's', 10, 't = (v₀ - v) / g', TRUE),
+  (3, 'ff_s_from_v0_g_t', '(v₀, g, t) → s', '(v₀, g, t) → s', 'v0 * t - 0.5 * g * (t ** 2)', 's', 'ℝ_ω', 'm', 10, 's = v₀ · t - (1/2) · g · t²', TRUE),
+  (4, 'we_ke_from_m_v', '(m, v) → KE', '(m, v) → KE', '0.5 * m * (v ** 2)', 'KE', 'ℝ_ω', 'J', NULL, 'KE = (1/2) · m · v²', TRUE),
+  (5, 'we_v_from_ke_m', '(KE, m) → v', '(KE, m) → v', 'Math.sqrt((2 * KE) / m)', 'v', 'ℝ_ω', 'm/s', NULL, 'v = √(2 · KE / m)', TRUE),
+  (6, 'diff_heat_step', '(α, Δt, Δx, u_L, u_C, u_R) → u_new', '(α, Δt, Δx, u_L, u_C, u_R) → u_new', 'u_C + alpha * (dt / (dx ** 2)) * (u_L - 2 * u_C + u_R)', 'u_new', 'ℝ_ω', '°C', 13, 'u_new = u_C + α · (Δt / Δx²) · (u_L - 2·u_C + u_R)', TRUE),
+  (7, 'complex_mult_eval', '(x₁, y₁, x₂, y₂) → z₁ · z₂', '(x₁, y₁, x₂, y₂) → z₁ · z₂', '[(x1*x2 - y1*y2), (x1*y2 + x2*y1)]', 'z₁ · z₂', 'ℂ_ω', NULL, NULL, 'z₁ · z₂ = (x₁x₂ - y₁y₂) + i·(x₁y₂ + x₂y₁)', TRUE),
+  (8, 'polarizer_transmission', '(θ₁, θ₂, I₀) → I_final', '(θ₁, θ₂, I₀) → I_final', 'I0 * (Math.cos(t1 * Math.PI/180)**2) * (Math.cos((t2-t1)*Math.PI/180)**2) * (Math.cos((90-t2)*Math.PI/180)**2)', 'I_final', 'ℝ_ω', NULL, NULL, 'I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)', TRUE),
+  (9, 'bayes_posterior', '(P(H), P(D|H), P(D|¬H)) → P(H|D)', '(P(H), P(D|H), P(D|¬H)) → P(H|D)', '(pD_H * pH) / (pD_H * pH + pD_notH * (1 - pH))', 'P(H|D)', '[0, 1]', NULL, 14, 'P(H|D) = [ P(D|H) · P(H) ] / [ P(D|H)·P(H) + P(D|¬H)·(1 - P(H)) ]', TRUE),
+  (10, 'scale_reciprocity_eval', '(ω, dx) → Balance Product ω · dx', '(ω, dx) → Balance Product ω · dx', 'omega * dx', 'ω · dx', 'ℝ_ω', NULL, NULL, 'ω · dx = 1.0', TRUE),
+  (11, 'diff_x4_st', '(x, dx) → st(Δ(x⁴)/dx) = 4x³', '(x, dx) → st(Δ(x⁴)/dx) = 4x³', '4 * (x ** 3)', 'f''(x)', 'ℝ_ω', NULL, NULL, 'st( [ (x+dx)⁴ - x⁴ ] / dx ) = 4x³', TRUE),
+  (12, 'ivt_root_bisection', '(a, b) → Midpoint c = (a + b)/2', '(a, b) → Midpoint c = (a + b)/2', '(a + b) / 2', 'c', 'ℝ_ω', NULL, NULL, 'c = (a + b) / 2', TRUE),
+  (13, 'trig_dyadic_angle', '(m, n) → θ', '(m, n) → θ', '2 * Math.PI * (m / (2 ** n))', 'θ', '[0, 2π)', 'rad', 12, 'θ = 2π · (m / 2ⁿ)', TRUE),
+  (14, 'trig_chord_length', '(Δθ, R) → Chord c', '(Δθ, R) → Chord c', '2 * R * Math.sin((dtheta * Math.PI / 180) / 2)', 'c', 'ℝ_ω', NULL, 12, 'c = 2 · R · sin(Δθ / 2)', TRUE),
+  (15, 'trig_sin_dyadic_eval', '(m, n) → sin(θ)', '(m, n) → sin(θ)', 'Math.sin(2 * Math.PI * (m / (2 ** n)))', 'sin(θ)', '[-1, 1]', NULL, 12, 'sin(θ) = sin(2π · m / 2ⁿ)', TRUE),
+  (16, 'trig_sin_rotor_eval', '(θ) → (cos θ, sin θ)', '(θ) → (cos θ, sin θ)', 'Math.sin(theta * Math.PI / 180)', 'sin(θ)', '[-1, 1]', NULL, 12, 'sin(U) = Im(U) = sin(θ) ∈ [-1, 1]', TRUE),
+  (17, 'nucleus_halo_decomp_eval', '(x₀, k) → x = x₀ + k·dx', '(x₀, k) → x = x₀ + k·dx', 'x0 + k * dx', 'x', 'ℝ_ω', NULL, NULL, 'x = st(x) + ε = x₀ + k · dx', FALSE)
 ON CONFLICT (id) DO UPDATE SET
-  mode_key = EXCLUDED.mode_key,
-  statement_id = EXCLUDED.statement_id,
-  pseudo_algo_id = EXCLUDED.pseudo_algo_id,
-  function_rule_name = EXCLUDED.function_rule_name,
-  function_signature = EXCLUDED.function_signature,
+  equation_key = EXCLUDED.equation_key,
+  title = EXCLUDED.title,
   label = EXCLUDED.label,
+  formula_expr = EXCLUDED.formula_expr,
   target_symbol = EXCLUDED.target_symbol,
   target_domain = EXCLUDED.target_domain,
   target_unit = EXCLUDED.target_unit,
+  pseudo_algo_id = EXCLUDED.pseudo_algo_id,
   formula_description = EXCLUDED.formula_description,
-  formula_expr = EXCLUDED.formula_expr,
   has_simulation = EXCLUDED.has_simulation;
 
--- 6. Mode Slots
+-- 5b. Equation-to-Statement Links (Instantiates & Has-Properties)
+INSERT INTO equation_statement_links (
+  id, equation_id, statement_id, relation_type, notes
+) OVERRIDING SYSTEM VALUE VALUES
+  (1, 1, 2, 'instantiates', 'Active calculation stencil instantiates fs_free_fall_accel'),
+  (2, 2, 2, 'instantiates', 'Active calculation stencil instantiates fs_free_fall_accel'),
+  (3, 3, 2, 'instantiates', 'Active calculation stencil instantiates fs_free_fall_accel'),
+  (4, 4, 4, 'instantiates', 'Active calculation stencil instantiates fs_work_energy'),
+  (5, 5, 4, 'instantiates', 'Active calculation stencil instantiates fs_work_energy'),
+  (6, 6, 5, 'instantiates', 'Active calculation stencil instantiates fs_heat_flux'),
+  (7, 7, 7, 'instantiates', 'Active calculation stencil instantiates fs_complex_arithmetic'),
+  (8, 8, 12, 'instantiates', 'Active calculation stencil instantiates fs_three_polarizer'),
+  (9, 9, 14, 'instantiates', 'Active calculation stencil instantiates fs_bayes_updating'),
+  (10, 10, 15, 'instantiates', 'Active calculation stencil instantiates fs_scale_reciprocity'),
+  (11, 11, 6, 'instantiates', 'Active calculation stencil instantiates fs_quartic_diff'),
+  (12, 12, 16, 'instantiates', 'Active calculation stencil instantiates fs_discrete_ivt'),
+  (13, 13, 18, 'instantiates', 'Active calculation stencil instantiates fs_dyadic_angle_bisection'),
+  (14, 14, 19, 'instantiates', 'Active calculation stencil instantiates fs_polygonal_horn_chord'),
+  (15, 15, 20, 'instantiates', 'Active calculation stencil instantiates fs_sin_dyadic_bisection'),
+  (16, 16, 21, 'instantiates', 'Active calculation stencil instantiates fs_sin_rotor_projection'),
+  (17, 17, 17, 'instantiates', 'Active calculation stencil instantiates fs_nucleus_halo_decomposition')
+ON CONFLICT (id) DO UPDATE SET
+  equation_id = EXCLUDED.equation_id,
+  statement_id = EXCLUDED.statement_id,
+  relation_type = EXCLUDED.relation_type,
+  notes = EXCLUDED.notes;
+
+-- 6. Mode Slots (Input Parameters)
 DELETE FROM mode_slots;
 
 INSERT INTO mode_slots (
-  id, mode_id, slot_order, name, symbol, domain, unit, default_value, min_val, max_val, step_val, description
+  id, equation_id, slot_order, name, symbol, domain, unit, default_value, min_val, max_val, step_val, description
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 1, 0, 'v0', 'v₀', 'ℝ_ω', 'm/s', 20, -100, 200, 1, 'Initial velocity'),
   (2, 1, 1, 'g', 'g', 'ℝ_ω', 'm/s²', 9.8, 0.1, 50, 0.1, 'Gravitational acceleration'),
@@ -23287,7 +23315,7 @@ INSERT INTO mode_slots (
 
 -- 7. Verified Presets
 INSERT INTO verified_presets (
-  id, preset_key, mode_id, title, input_values, display_result, formatted_formula, domain_badge, notes
+  id, preset_key, equation_id, title, input_values, display_result, formatted_formula, domain_badge, notes
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 'ex_halo_point_4_plus_3dx', 17, 'Hyperreal Point Decomposition (x = 4 + 3·dx)', '{"x0":4,"k":3}'::jsonb, 'st(x) = 4, ε = 3·dx', 'x = 4 + 3·dx = st(x) + ε', 'x ∈ ℝ_ω', 'Decomposes point into hard integer nucleus 4 and infinitesimal Day ω halo perturbation 3·dx.'),
   (2, 'ex_dyadic_45deg', 13, 'Day 3 Diagonal Bisection (π/4)', '{"m":1,"n":3}'::jsonb, '0.785 rad (45.0°)', 'θ = 2π · (1 / 2³) = π/4', '∈ [0, 2π)', 'Generated on Day 3 of the Conway angle tree.'),
@@ -23301,7 +23329,7 @@ INSERT INTO verified_presets (
   (10, 'ex_medical_test', 9, 'Medical Diagnostic Screen Update', '{"pH":0.05,"pD_H":0.95,"pD_notH":0.1}'::jsonb, '0.333', 'P(H|D) = (0.95 · 0.05) / [ (0.95 · 0.05) + (0.10 · 0.95) ]', '∈ [0, 1]', 'Low prior prevalence dampens positive predictive value.')
 ON CONFLICT (id) DO UPDATE SET
   preset_key = EXCLUDED.preset_key,
-  mode_id = EXCLUDED.mode_id,
+  equation_id = EXCLUDED.equation_id,
   input_values = EXCLUDED.input_values,
   display_result = EXCLUDED.display_result,
   formatted_formula = EXCLUDED.formatted_formula,
@@ -23311,7 +23339,7 @@ ON CONFLICT (id) DO UPDATE SET
 DELETE FROM segment_references;
 
 INSERT INTO segment_references (
-  id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
+  id, segment_id, statement_id, equation_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag
 ) OVERRIDING SYSTEM VALUE VALUES
   (1, 2, 3, NULL, NULL, 'proof', 0, 'telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)', '<fsd-ref tier="3" scaffold="telescoping_ftc" title="Fundamental Theorem of Calculus" style="color:#0284c7;font-weight:bold;cursor:pointer;">telescoping_ftc: ∑_{k=0}^{n-1} ΔF(k) = F(n) - F(0)</fsd-ref>'),
   (2, 18, 11, NULL, NULL, 'proof', 0, '∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩', '<fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance & Isometry"><code>∀ |ϕ⟩, |ψ⟩ ∈ ℋ_ω, ⟨ U ϕ | U ψ ⟩ = ⟨ ϕ | U† U | ψ ⟩ = ⟨ ϕ | ψ ⟩</code></fsd-ref>'),

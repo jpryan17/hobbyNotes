@@ -1,0 +1,352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>STEM Bridge: 1D Thermal Diffusion &amp; Fourier Duality</title>
+  </head>
+  <body>
+<div align="center">
+      <i><font size="+2"><b>STEM Bridge: Applied Mathematics &amp; Computational CAS</b></font></i><br>
+      <i><font size="+1">1D Thermal Diffusion, The Tridiagonal Discrete Laplacian, Maxima CAS &amp; Lean 4 Conservation</font></i>
+    </div>
+    <br>
+
+    <p>
+      Professor James set a long, gleaming steel rod across two insulated support blocks on the laboratory demonstration bench. 
+      Beside it, an infrared thermal imaging camera pointed directly at the rod, feeding a live display onto the large overhead monitor. 
+      A small electric heating element clamped near the one-third mark glowed dull orange. On the monitor, a vivid false-color heat map showed a sharp, brilliant peak of thermal color where the clamp sat, flanked by cool blues and purples along the rest of the bar.
+    </p>
+
+    <p>
+      Sitting in the front row was Jill, notebook open alongside Liam. 
+      Jack had been her teacher throughout foundational formal science, instilling in her the foundational discipline of propositional logic, set theory, binary trees, and Conway games. 
+      Jane had been her instructor for general continuous mathematics, guiding her through continuous curves, discrete differences, and hyperfinite structures on <code>ℝ_ω</code>. 
+      Now, stepping across the quad into Professor James's applied engineering laboratory, she watched the glowing monitor with keen interest, eager to see how that lifelong mathematical arc connected to physical matter.
+    </p>
+
+    <p>
+      Professor James switched off the electric heater and turned to the class, gesturing toward the bench:
+      <br>
+      <b>“Before we write down any formulas or touch a computer: How are we going to model this rod?”</b>
+    </p>
+
+    <p>
+      The room was quiet for a moment. James caught Jill's eye and smiled: 
+      “Jill, you’ve spent your university years with Jane studying continuous structures, built on Jack's formal science foundation from school. When you look at that thermal camera display and the steel bar on the bench, what does your mathematical training tell you to do?”
+    </p>
+
+    <p>
+      Jill looked up at the overhead monitor:
+      “On the screen, the temperature looks like a continuous curve—a function <code>T(x)</code> giving the temperature at every point from <code>x = 0</code> to <code>x = L</code>. In Professor Jane’s class, we learned that we can think of continuous curves on <code>ℝ_ω</code> as smooth progressions through an ultra-dense transect of points.”
+    </p>
+
+    <p>
+      “That is the classical mathematician's continuum view,” James nodded approvingly. 
+      “A continuous function <code>T(x, t)</code>. But now look at the monitor as time passes. What is actually happening to that sharp thermal peak?”
+    </p>
+
+    <p>
+      Jill watched the live display: 
+      “The orange peak is sinking. The hot spot is cooling down, while the cooler metal immediately next to it is warming up. The heat is spreading outward and flattening.”
+    </p>
+
+    <p>
+      “Why?” James asked. “Can an engineer track every one of the <code>10²⁴</code> vibrating iron atoms inside that bar? Or can our computers calculate values at an uncountably infinite number of points?”
+    </p>
+
+    <p>
+      “No,” Jill laughed. “The thermal camera itself has a finite grid of sensor pixels. And our computers only have finite floating-point memory.”
+    </p>
+
+    <p>
+      “Exactly,” said James. “To model this rod physically and computationally, we need to choose our fundamental building blocks. We don't track individual atoms, nor do we drown in uncomputable infinites. How should we represent the rod?”
+    </p>
+
+    <p>
+      Jill considered the setup: 
+      “We divide the length of the rod into small finite slices—little segments or control volumes of width <code>Δx</code>.”
+    </p>
+
+    <div align="center" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 13.5px; margin: 12px auto; width: fit-content; max-width: 95%; line-height: 1.6; overflow-x: auto; white-space: nowrap;">
+      Slice: &nbsp; &nbsp; [ 0 ] &nbsp;───Δx───&gt; &nbsp;[ i - 1 ] &nbsp;&lt;── flux ──&gt; [ i ] &nbsp;&lt;── flux ──&gt; [ i + 1 ] &nbsp;───Δx───&gt; &nbsp;[ N - 1 ]<br>
+      Temp: &nbsp; &nbsp; &nbsp;u₀(t) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i-1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{i+1} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; u_{N-1}(t)
+    </div>
+
+    <hr>
+
+    <h3>1. Isolating a Single Slice: Contact Physics &amp; Energy Conservation</h3>
+    <p>
+      James stepped to the blackboard: 
+      “Let's slow down and look at just <b>one single slice</b>—slice <code>i</code> at temperature <code>u_i(t)</code>. 
+      What determines whether the temperature inside slice <code>i</code> rises or falls?”
+    </p>
+
+    <p>
+      Jill answered from first principles: 
+      “Energy conservation. Heat is thermal energy. Energy cannot be created or destroyed. 
+      The only way the heat energy inside slice <code>i</code> can change is if thermal energy flows in or out across its physical boundaries.”
+    </p>
+
+    <p>
+      “And who does slice <code>i</code> touch?” James asked.
+    </p>
+
+    <p>
+      “Only its immediate neighbors,” Jill replied. “Slice <code>i-1</code> on its left, and slice <code>i+1</code> on its right. 
+      In Jack's foundational classes, that was our fundamental adjacency relation: <b><code>NEAR(x₁, x₂)</code> (<code>≈</code>)</b>. 
+      Heat cannot teleport across space; it can only cross boundaries through direct physical contact with adjacent slices.”
+    </p>
+
+    <p>
+      “And which way does it flow across those boundaries?” James asked.
+    </p>
+
+    <p>
+      “From hotter to colder,” Jill said. “If slice <code>i-1</code> is hotter than slice <code>i</code>, thermal energy flows into slice <code>i</code> from the left. 
+      If slice <code>i</code> is hotter than slice <code>i+1</code>, thermal energy flows out to the right.”
+    </p>
+
+    <p>
+      “That is <b>Fourier's Law of Thermal Conduction</b>,” James explained. 
+      “The rate of heat flux across a boundary is proportional to the temperature difference divided by the slice width <code>Δx</code>, scaled by the material's thermal conductivity <code>k</code>. 
+      When we account for the steel's density <code>ρ</code> and specific heat capacity <code>c</code>, they bundle into a single material constant: the <b>thermal diffusivity</b> <code>α = k / (ρ · c)</code> (with units of <code>length² / time</code>).”
+    </p>
+
+    <p>
+      “Now,” James continued, “let's write the energy ledger for slice <code>i</code>. 
+      The net rate of temperature change is incoming heat flux minus outgoing heat flux:”
+    </p>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 22px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto; white-space: nowrap;">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Thermal Flux Balance & Discrete Laplacian Stencil">
+        du_i / dt = (α / Δx²) · [ (u_{i-1} - u_i) - (u_i - u_{i+1}) ] = (α / Δx²) · [ u_{i-1} - 2u_i + u_{i+1} ]
+      </fsd-ref>
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Click the formula above to inspect the formal stencil proof in Lean 4)</i>
+    </p>
+
+    <p>
+      Jill stared at the right-hand side, a smile breaking across her face: 
+      “Wait! Look at that algebraic grouping: <code>u_{i-1} - 2u_i + u_{i+1}</code>. 
+      That is the <b>second discrete difference <code>Δ²u</code></b> from Jane's analysis course! 
+      It measures curvature—whether <code>u_i</code> sits above or below the average of its neighbors!”
+    </p>
+
+    <p>
+      “Spot on!” James beamed. 
+      “If slice <code>i</code> is hotter than the average of its neighbors—a local peak—then <code>Δ²u &lt; 0</code>, so it cools down. 
+      If it is colder than its neighbors—a local valley—then <code>Δ²u &gt; 0</code>, so it warms up. 
+      Nature is computing a discrete second difference at every slice on the rod to smooth out thermal curvature!”
+    </p>
+
+    <hr>
+
+    <h3>2. Assembling All Slices: How the Matrix Emerges</h3>
+    <p>
+      “Now,” James said, “what happens when we step back and look at the entire rod? 
+      We don't have just one slice; we have <code>N</code> slices along the rod, from slice <code>0</code> to slice <code>N-1</code>.”
+    </p>
+
+    <p>
+      He wrote out the balance for each slice on the board:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; margin: 14px auto; width: fit-content; max-width: 95%; font-family: monospace; font-size: 13.5px; line-height: 1.8; color: #0f172a; overflow-x: auto; white-space: nowrap;">
+      For slice 1: &nbsp; du₁/dt = (α / Δx²) · [ &nbsp;1·u₀ - 2·u₁ + 1·u₂ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 2: &nbsp; du₂/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; 1·u₁ - 2·u₂ + 1·u₃ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      For slice 3: &nbsp; du₃/dt = (α / Δx²) · [ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1·u₂ - 2·u₃ + 1·u₄ &nbsp; &nbsp; &nbsp; &nbsp;]<br>
+      ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+      For slice i: &nbsp; du_i/dt = (α / Δx²) · [ ... &nbsp;1·u_{i-1} - 2·u_i + 1·u_{i+1} ... ]
+    </div>
+
+    <p>
+      “If we have 50 or 500 slices,” James said, “writing 500 separate equations would drown us in paperwork. 
+      How can we package the temperatures of all <code>N</code> slices together?”
+    </p>
+
+    <p>
+      “With linear algebra,” Jill suggested. 
+      “We stack all <code>N</code> temperatures into a single state vector 
+      <code>u(t) = [ u₀(t), u₁(t), ... , u_{N-1}(t) ]^T ∈ ℝ^N</code>, 
+      and collect all the coefficients into a single matrix <code><b>A</b></code>:”
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 16px; margin: 10px 0; color: #0f172a; font-weight: bold;">
+      d<b>u</b>/dt = <b>A</b> · <b>u</b>
+    </div>
+
+    <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 14px; margin: 12px auto; max-width: 580px;">
+      <fsd-ref tier="3" scaffold="heat_flux" title="Toeplitz Laplacian Matrix Assembly">
+        <b>A</b> = (α / Δx²) · Tridiagonal(1, -2, 1)
+      </fsd-ref><br><br>
+      [ -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; &nbsp;0 &nbsp; ... &nbsp; 0 ]<br>
+      [ &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 &nbsp; ... &nbsp; 0 ]<br>
+      [ ... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;1 &nbsp; -2 &nbsp; &nbsp;1 ]<br>
+      [ &nbsp;0 &nbsp; ... &nbsp; 0 &nbsp; &nbsp;0 &nbsp; &nbsp;1 &nbsp; -2 ]
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
+      <i>(Inspect verified Toeplitz structure in Lean 4 or explore with <fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref>)</i>
+    </p>
+
+    <p>
+      James stepped back and tapped the board:
+      “In applied mathematics and computational engineering, you will see this matrix given a formal name: 
+      the <b>tridiagonal Toeplitz discrete Laplacian</b>.”
+    </p>
+
+    <p>
+      “When students see those words on an exam without physical context, they panic. But look at what each word actually means from the model we just built together:
+    </p>
+
+    <ul>
+      <li><b>'Discrete Laplacian':</b> It is simply the discrete counterpart of the spatial second derivative <code>∂²u / ∂x²</code> (the Laplacian operator <code>∇²</code>)—measuring local curvature across space.</li>
+      <li><b>'Tridiagonal' is Locality:</b> There are only three non-zero bands: the main diagonal (<code>-2</code>) and the two immediate neighbor bands (<code>+1</code>). Why? Because physical contact is strictly local! A slice only touches its immediate left and right neighbors. Slices farther away have zeros because heat cannot jump across space without passing through the slices in between.</li>
+      <li><b>'Toeplitz' is Uniformity:</b> In linear algebra, a matrix where every diagonal contains identical constant entries is named after Otto Toeplitz. Why is it constant here? Because <b>the steel rod is uniform</b>! The material diffusivity <code>α</code> is identical everywhere, and we sliced the rod into equal widths <code>Δx</code>.</li>
+    </ul>
+
+    <p>
+      Jill smiled: “So 'tridiagonal Toeplitz' isn't some arbitrary academic puzzle—it's just the exact mathematical fingerprint of local contact physics on a uniform bar!”
+    </p>
+
+    <p>
+      “Precisely,” James affirmed. “Physics dictates the geometry of the matrix.”
+    </p>
+
+    <hr>
+
+    <h3>3. The Engineering Dilemma: The Curse of Coupling</h3>
+    <p>
+      James paused, leaning forward: 
+      “Now, Jill—here is the central problem of applied engineering. 
+      Look at <code>d<b>u</b>/dt = <b>A</b> · <b>u</b></code>. Can we just solve each node's temperature independently?”
+    </p>
+
+    <p>
+      Jill shook her head: 
+      “No! They are all tangled together. To compute <code>u₁</code>, you need <code>u₂</code>. But to compute <code>u₂</code>, you need <code>u₁</code> and <code>u₃</code>. If you touch one spot on the rod, ripples spread through every single node.”
+    </p>
+
+    <p>
+      “Exactly—<b>the physical system is coupled</b>!” James affirmed. 
+      “In pure mathematics, you can write the formal solution <code>u(t) = exp(A · t) · u₀</code> and declare the proof complete. 
+      In applied engineering, computing a matrix exponential of thousands of coupled nodes is brutal. 
+      How do we untangle them?”
+    </p>
+
+    <p>
+      Liam raised his hand from his laptop: 
+      “In Mini-Seminar 1 with Jane, we saw that whenever a linear system is shift-invariant and coupled across spatial neighbors, you can <b>rotate coordinates into the Fourier basis</b>!”
+    </p>
+
+    <p>
+      “That is the master stroke!” James beamed. 
+      “Because matrix <code><b>A</b></code> is tridiagonal and Toeplitz, its eigenvectors are none other than <b>pure Fourier sine waves</b>: 
+      <code>v_k = [sin(k·π·x_i / L)]</code>. 
+      When we rotate into the Fourier basis via unitary matrix <code>F</code> (where <code>F† · F = I</code>), the coupled matrix collapses into a <b>pure diagonal matrix</b>:
+    </p>
+
+    <div align="center" style="font-family: monospace; font-size: 15px; font-weight: bold; margin: 8px 0; color: #166534;">
+      F · A · F† = diag( -λ₁, -λ₂, -λ₃, ... , -λ_N )
+    </div>
+
+    <p>
+      “In Fourier mode coordinates, all <code>N</code> nodes uncouple into independent exponential decays: 
+      <code>û_k(t) = û_k(0) · exp(-λ_k · t)</code>! 
+      The hardest problem in continuum physics is solved by choosing the right coordinate basis.”
+    </p>
+
+    <hr>
+
+    <h3>4. Interactive STEM Card: Maxima CAS Derivation &amp; Live Simulation</h3>
+    <p>
+      James turned to Liam’s laptop: “Let's test this directly. We'll have <b>Maxima CAS</b> derive the exact eigensystem and compute the transient simulation, while <b>Lean 4</b> verifies that no energy is lost.”
+    </p>
+
+    <!-- Embedded STEM Card -->
+    <stem-card entry-id="heat_diffusion_1d"></stem-card>
+
+    <hr>
+
+    <h3>5. The Fundamental Conservation Law: Machine-Verified in Lean 4</h3>
+    <p>
+      While individual temperatures drop and flatten, what happens to the <b>total thermal energy</b> across the rod?
+    </p>
+    <p>
+      Under insulated boundary conditions (zero flux at the rod ends: <code>q₀ = q_N = 0</code>), the rate of total energy change is:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
+      d/dt [ ∑_{i=1}^{N} u_i(t) · Δx ] = ∑_{i=1}^{N} [ q_{i - 1/2} - q_{i + 1/2} ]
+    </div>
+
+    <p>
+      Notice the right-hand side: it is a <b>telescoping sum</b>! Every internal boundary term cancels exactly:
+    </p>
+    <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a; font-weight: bold;">
+      <fsd-ref tier="3" scaffold="telescoping_ftc" title="Telescoping Boundary Flux Cancellation">
+        (q_{1/2} - q_{3/2}) + (q_{3/2} - q_{5/2}) + ... + (q_{N - 1/2} - q_{N + 1/2}) = q_{1/2} - q_{N + 1/2} ≡ 0
+      </fsd-ref>
+    </div>
+    <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -4px;">
+      <i>(View machine-verified boundary cancellation in Lean 4 or explore with <fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref>)</i>
+    </p>
+
+    <p>
+      This is the physical manifestation of our core formal theorem in <b>MiddleWayLean</b>:
+    </p>
+
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px 18px; margin: 16px auto; max-width: 720px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-family: monospace; font-weight: bold; color: #1e3a8a; font-size: 13.5px;">
+          MiddleWayLean / Scaffold.lean: telescoping_ftc
+        </span>
+        <span style="background: #22c55e; color: #ffffff; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px;">
+          ✓ Machine-Verified
+        </span>
+      </div>
+      <div style="font-family: monospace; font-size: 12.5px; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; color: #334155; margin-bottom: 8px;">
+        theorem telescoping_ftc (F : Int → R_w) (n : Nat) :<br>
+        &nbsp;&nbsp;hyper_sum (fun i =&gt; F (i + 1) - F i) 0 n = F (n : Int) - F (0 : Int)
+      </div>
+      <p style="margin: 0; font-size: 12.5px; color: #475569; line-height: 1.5;">
+        <b>The Structural Invariance:</b> The computer algebra system (Maxima) provides the exact numbers and time curves, but Lean 4 guarantees that no numerical discretization or thermal dissipation can ever violate the fundamental conservation of energy.
+      </p>
+    </div>
+
+    <hr>
+
+    <h3>6. Middle Way Mathematics (MWM) CAS Interactivity</h3>
+    <p>
+      Professor James motioned toward the lab console: 
+      “Rather than forcing our thinking into the limit machinery of standard textbooks, we use <b>Middle Way Mathematics (MWM) semantics and syntax</b> directly as an operational calculation language. Maxima CAS performs the symbolic expansions and substitutions, while Lean 4 bounds the structural invariants.”
+    </p>
+    <p>
+      Explore these concrete heat diffusion models directly in the CAS workbench:
+    </p>
+    <ul>
+      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="Single-Slice Net Thermal Flux Balance">Single-Slice Net Thermal Flux Balance</fsd-ref> &mdash; Inflow minus outflow simplifies to the discrete second difference Δ²u.</li>
+      <li><fsd-ref tier="3" scaffold="heat_flux" auto-calc title="5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem">5x5 Tridiagonal Toeplitz Laplacian &amp; Eigensystem</fsd-ref> &mdash; Demonstrates negative real eigenvalues and asymptotic thermal stability.</li>
+      <li><fsd-ref tier="3" scaffold="telescoping_ftc" auto-calc title="Total Thermal Energy Conservation via Telescoping Sum">Total Thermal Energy Conservation via Telescoping Sum</fsd-ref> &mdash; Proves zero heat loss under insulated boundaries without integral approximations.</li>
+    </ul>
+
+    <hr>
+
+    <h3>7. Summary &amp; Looking Forward</h3>
+    <p>
+      By connecting the Middle Way discrete transect <code>ℝ_ω</code> with Maxima CAS and Lean 4, we have shown:
+    </p>
+    <ul>
+      <li><b>Computational Engineering is not an Approximation:</b> The discrete mesh and difference operators are mathematically exact structures on <code>ℝ_ω</code>.</li>
+      <li><b>Fourier Duality is an Engineering Tool:</b> Rotating coordinates diagonalizes the discrete Laplacian, turning coupled spatial heat diffusion into independent harmonic decays.</li>
+      <li><b>CAS and Proof Engines are Natural Partners:</b> Maxima handles symbolic calculation, while Lean 4 proves foundational conservation.</li>
+    </ul>
+    <p>
+      “Jack spent our foundational years showing us that logical structure and truth never change,” Jill reflected to Liam and her lab peers. “Then Jane showed us how continuous change blossoms from hyperfinite halos on ℝ_ω. And here in Professor James's engineering lab, we see how computational algebra (Maxima) and foundational proof (Lean 4) drive real-world physical modeling.”
+    </p>
+    <p>
+      “Spot on, Jill,” Professor James smiled. “In our upcoming STEM bridge modules, we will apply this exact pipeline to <b>wave propagation</b>, <b>complex aerodynamic potential flow</b>, and <b>Bayesian state estimation</b>!”
+    </p>
+</body>
+</html>

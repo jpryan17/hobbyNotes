@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/harvestStencils.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-10-13T19:17:37.936Z",
+    "generatedAt": "2026-10-14T06:36:43.620Z",
     "version": "1.0.0",
     "formalStatements": [
         {
@@ -48,9 +48,7 @@ export const FS_CATALOG = {
             "leanSignature": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
             "referencedInSegments": [
                 "analysis1DLecture3",
-                "modelsOverview",
-                "stemHeatDiffusion",
-                "stemTrigFoundations"
+                "stemHeatDiffusion"
             ]
         },
         {
@@ -108,7 +106,7 @@ export const FS_CATALOG = {
             "expression": "z₁ · z₂ = (x₁·x₂ - y₁·y₂) + i·(x₁·y₂ + x₂·y₁)",
             "leanSignature": "axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = ⟨0, 0⟩",
             "referencedInSegments": [
-                "analysis2DLecture2"
+                "analysis2DLecture1"
             ]
         },
         {
@@ -136,7 +134,6 @@ export const FS_CATALOG = {
             "scaffoldKey": "residue_theorem",
             "expression": "∮_γ f(z) dz = 2π i · ∑ Res(f, z_k)",
             "referencedInSegments": [
-                "analysis2DIntro",
                 "analysis2DLecture2"
             ]
         },
@@ -181,8 +178,8 @@ export const FS_CATALOG = {
             "scaffoldKey": "born_rule",
             "expression": "I = I₀ · cos²(θ₁) · cos²(θ₂ - θ₁) · cos²(90° - θ₂)",
             "referencedInSegments": [
-                "quantumLogicLecture2",
-                "vectorsLecture3"
+                "vectorsLecture3",
+                "editedQuantumLogicLecture1V1"
             ]
         },
         {
@@ -236,7 +233,7 @@ export const FS_CATALOG = {
             "scaffoldKey": "discrete_ivt",
             "expression": "f(a)·f(b) < 0  ⇒  c = (a + b)/2",
             "referencedInSegments": [
-                "analysis1DLecture1"
+                "analysis1DLecture2"
             ]
         },
         {

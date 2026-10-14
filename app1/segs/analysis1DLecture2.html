@@ -103,10 +103,10 @@
         <b style="color: #1e3a8a;">The Derivative Value</b>
       </div>
       <div align="center" style="font-family: monospace; font-size: 15px; color: #1e3a8a; background: #ffffff; padding: 8px 14px; border: 1.5px solid #3b82f6; border-radius: 6px; margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f'(x) : 𝔻 &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
+        <fs-ref id="1" desc="Nonstandard Difference Quotient &amp; Derivative Shadow"></fs-ref>
       </div>
       <div style="margin-top: 8px; font-size: 12.5px; color: #475569;">
-        • <b>Interactive Evaluator:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x ℝ_ω Derivative &amp; Extrema</eq-ref>
+        • <b>Interactive Evaluator:</b> <eq-ref id="11" desc="f(x) = x³ - 3x ℝ_ω Derivative &amp; Extrema"></eq-ref>
       </div>
     </div>
 
@@ -158,17 +158,17 @@
     Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b></fsd-ref>
+    <fs-ref id="1" desc="Algebraic Product Rule"></fs-ref>
   </div>
 
   <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)' = u·v' + v·u'</code></fsd-ref>.<br>
+    • <b>Product Rule:</b> <fs-ref id="1" desc="Algebraic Product Rule"></fs-ref>.<br>
     • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
     <div align="center" style="margin: 4px 0; font-family: monospace;">
-      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
+      <fs-ref id="1" desc="Algebraic Chain Rule"></fs-ref>
     </div>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
+    • <b>CAS Example:</b> <eq-ref id="11" desc="Nonstandard Product Rule on (x² + 1)(x³ - 1)"></eq-ref>
   </div>
 
   <hr>
@@ -194,7 +194,7 @@
     Taking standard parts yields the classical Chain Rule:
   </p>
   <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
+    <fs-ref id="1" desc="Algebraic Chain Rule"></fs-ref>
   </div>
 
   <hr>
@@ -214,7 +214,7 @@
     “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by this dominant <b>linear scaling map</b>:”
   </p>
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f'(x) · dx</b></fsd-ref>
+    <fs-ref id="1" desc="Differential 1-Form"></fs-ref>
   </div>
   <p>
     Jill’s eyes lit up: “And in our exploration of duality, a covector was a linear measurement detector that ingests a vector and returns a scalar number. So <code>df</code> is literally a covector on the tangent space!”
@@ -226,9 +226,9 @@
   <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
-    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f'(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
-    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
+    • <b>Differential Form:</b> The differential <fs-ref id="1" desc="Differential 1-Form"></fs-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <fs-ref id="1" desc="Local Linearity Error Bound"></fs-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
+    • <b>CAS Example:</b> <eq-ref id="11" desc="Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow"></eq-ref>
   </div>
 
   <hr>
@@ -302,10 +302,10 @@
 
   <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
+    • <b>Symmetric Stencil:</b> <fs-ref id="1" desc="Curvature Stencil [1, -2, 1]"></fs-ref>.<br>
     • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
-    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
+    • <b>Second Derivative Shadow:</b> <fs-ref id="1" desc="Second Derivative Shadow"></fs-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref id="11" desc="Curvature Stencil &amp; Second Derivative on f(x) = x⁴"></eq-ref>
   </div>
 
   <hr>

@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Analysis 1D Lecture 2: Algebraic Derivatives &amp; Local Linearity</title>
+</head>
+
+<body>
+<div align="center">
+    <i><font size="+2"><b>Analysis 1D Lecture 2</b></font></i><br>
+    <i><font size="+1">Algebraic Derivatives &amp; Local Linearity: Rates of Change as Algebraic Division, Product Rules &amp; Differential Forms</font></i>
+  </div>
+  <br>
+
+  <p>
+    Jane began Lecture 2 by writing two contrasting typed directed equalities on the blackboard:
+  </p>
+
+  <div style="background: #0f172a; color: #f8fafc; border-radius: 8px; padding: 18px 24px; margin: 16px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);">
+    <div style="color: #94a3b8; font-size: 11.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+      The Opening Contrast on Jane's Blackboard
+    </div>
+    <div style="margin-bottom: 14px;">
+      <span style="color: #38bdf8; font-weight: 700;">Standard Limit Definition:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_std( f : ℝ → ℝ, x : ℝ ) : ℝ ≔ lim (Δx → 0) [ (f(x + Δx) - f(x)) / Δx ]</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Indirect limit of secant difference quotients as standard Δx shrinks toward 0, conditioned on ε-δ existence)</span>
+    </div>
+    <div style="border-top: 1px dashed #334155; padding-top: 12px;">
+      <span style="color: #4ade80; font-weight: 700;">Nonstandard Algebraic Rule:</span><br>
+      <span style="color: #f1f5f9; font-size: 14px;">rule D_ω( f : ℝ_ω → ℝ_ω, x : ℝ, dx : ℝ_ω ) : 𝔻 ≔ st( [ f(x + dx) - f(x) ] / dx )</span><br>
+      <span style="color: #94a3b8; font-size: 12px;">(Direct polynomial division with an actual step dx ∈ ℝ_ω, dx ≠ 0, followed by shadow resolution to dyadic rationals 𝔻)</span>
+    </div>
+  </div>
+
+  <p>
+    “In standard calculus,” Jane said, “the derivative is defined indirectly as the limit of secant difference quotients as the step size <code>Δx</code> shrinks toward zero. But on our scaffold <code>ℝ_ω</code>, we have an actual nonzero infinitesimal step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jill looked closely at the typing on the board: “I notice the codomain of our rule is <code>𝔻</code> rather than <code>ℝ</code>. I suppose that's for the dyadic arithmetic machine we discussed last time?”
+  </p>
+
+  <p>
+    “Yes, exactly,” Jane said. “Standard calculus typically considers derivatives landing in <code>ℝ</code>, and the standard reals are a legitimate subset of our scaffold <code>ℝ_ω</code>. But who knows the ultimate ontological reality of any mathematics? Think back to our discussion of where <code>1/3</code> lives &mdash; it sits comfortably in the halo of dyadics, enveloped to whatever precision we dial in. For us, it's simply a matter of convenience to have a codomain already primed for calculation. On <code>ℝ_ω</code>, we perform straightforward polynomial division algebraically, and let <code>st</code> resolve the shadow into <code>𝔻</code> at whatever precision our arithmetic machine needs.”
+  </p>
+
+  <hr>
+
+  <h3>1. Deriving Rates of Change by Pure Algebra</h3>
+
+  <h4>Example 1: The Parabola f(x) = x²</h4>
+  <p>
+    Let <code>f(x) = x²</code> and take an infinitesimal step <code>dx &gt; 0</code>:
+  </p>
+  <ol>
+    <li>Evaluate at <code>x + dx</code>: &nbsp; <code>f(x + dx) = (x + dx)² = x² + 2x·dx + dx²</code></li>
+    <li>Compute the difference: &nbsp; <code>Δy = f(x + dx) - f(x) = 2x·dx + dx²</code></li>
+    <li>Divide by <code>dx</code>: &nbsp; <code>Δy / dx = (2x·dx + dx²) / dx = 2x + dx</code></li>
+    <li>Take the standard part: &nbsp; <code>f'(x) = st(2x + dx) = 2x</code></li>
+  </ol>
+  <p>
+    No limits, no inequalities &mdash; just straightforward polynomial division!
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.1): The Algebraic Derivative on ℝ_ω</h4>
+  <div style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; font-size: 13.5px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+
+    <!-- Step 1: The Difference Quotient in the Scaffold Field -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 1: Difference Quotient</span>
+        <b style="color: #1e3a8a;">Field Division on ℝ_ω</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        For a real function <code>f : ℝ_ω → ℝ_ω</code>, standard base point <code>x ∈ ℝ</code>, and nonzero infinitesimal step <code>dx ∈ μ(0) \ {0}</code>, the difference ratio:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 14px; color: #1e3a8a; background: #ffffff; padding: 6px 12px; border: 1px solid #e2e8f0; border-radius: 4px; margin: 4px 0;">
+        Δy / dx &nbsp;= &nbsp;[ f(x + dx) - f(x) ] / dx &nbsp;∈&nbsp; ℝ_ω
+      </div>
+      <p style="margin: 4px 0 0 0; color: #64748b; font-size: 12px;">
+        This is a genuine, well-defined arithmetic operation inside the field <code>ℝ_ω</code>. No division by zero occurs because <code>dx ≠ 0</code>.
+      </p>
+    </div>
+
+    <!-- Step 2: Invariance Across the Halo -->
+    <div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 2: Differentiability Condition</span>
+        <b style="color: #1e3a8a;">Halo Invariance</b>
+      </div>
+      <p style="margin: 4px 0 6px 0; color: #334155; font-size: 13px;">
+        The function <code>f</code> is <b>differentiable</b> at <code>x</code> if the standard shadow of the difference ratio is completely invariant under the choice of nonzero infinitesimal <code>dx ≈ 0</code>:
+      </p>
+      <div align="center" style="font-family: monospace; font-size: 13.5px; color: #0f172a; margin: 4px 0;">
+        <code>f'(x) = L &nbsp;⟺&nbsp; ∀ dx ≈ 0 &nbsp;( dx ≠ 0 ⇒ [ f(x + dx) - f(x) ] / dx ≈ L )</code>
+      </div>
+    </div>
+
+    <!-- Step 3: The Derivative Value & Shadow Map -->
+    <div style="margin-bottom: 6px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Step 3: Shadow Extraction</span>
+        <b style="color: #1e3a8a;">The Derivative Value</b>
+      </div>
+      <div align="center" style="font-family: monospace; font-size: 15px; color: #1e3a8a; background: #ffffff; padding: 8px 14px; border: 1.5px solid #3b82f6; border-radius: 6px; margin: 8px 0;">
+        <fsd-ref tier="3" scaffold="nonstandard_derivative" title="Nonstandard Difference Quotient &amp; Derivative Shadow"><b>f'(x) : 𝔻 &nbsp;≔&nbsp; st( [ f(x + dx) - f(x) ] / dx )</b></fsd-ref>
+      </div>
+      <div style="margin-top: 8px; font-size: 12.5px; color: #475569;">
+        • <b>Interactive Evaluator:</b> <eq-ref eq-id="cas_derivative_cubic" formula="DIFF_W(x^3 - 3*x, x)">f(x) = x³ - 3x ℝ_ω Derivative &amp; Extrema</eq-ref>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h3>2. The Product Rule: Microscopic Rectangle Geometry</h3>
+
+  <p>
+    “Consider the product of two functions <code>u(x) · v(x)</code>,” Jane said. “Imagine an infinitesimal rectangle of dimensions <code>u</code> and <code>v</code>:”
+  </p>
+
+  <div style="display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 500px; text-align: center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 160" style="width: 100%; height: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <!-- Base Box -->
+        <rect x="50" y="40" width="260" height="90" fill="#eff6ff" stroke="#3b82f6" />
+        <text x="180" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af">u · v</text>
+
+        <!-- Right Strip: u · dv -->
+        <rect x="310" y="40" width="70" height="90" fill="#faf5ff" stroke="#a855f7" />
+        <text x="345" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">u · dv</text>
+
+        <!-- Top Strip: v · du -->
+        <rect x="50" y="15" width="260" height="25" fill="#faf5ff" stroke="#a855f7" />
+        <text x="180" y="32" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#6b21a8">v · du</text>
+
+        <!-- Corner: du · dv -->
+        <rect x="310" y="15" width="70" height="25" fill="#f1f5f9" stroke="#94a3b8" />
+        <text x="345" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748b">du·dv</text>
+      </svg>
+    </div>
+  </div>
+
+  <p>
+    When <code>x</code> increases by <code>dx</code>, <code>u</code> grows by <code>du</code> and <code>v</code> grows by <code>dv</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 8px 0; color: #1e3a8a;">
+    Δ(u · v) = (u + du)(v + dv) - uv &nbsp;=&nbsp; u·dv + v·du + du·dv
+  </div>
+  <p>
+    Dividing by <code>dx</code>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 6px 0;">
+    Δ(u·v) / dx = u · (dv/dx) + v · (du/dx) + (du/dx) · dv
+  </div>
+  <p>
+    Because <code>dv</code> is infinitesimal, <code>st((du/dx) · dv) = 0</code>. Taking the standard part immediately yields:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><b>( u · v )' &nbsp;=&nbsp; u · v' + v · u'</b></fsd-ref>
+  </div>
+
+  <h4>Formal Statement (FS-A1D-2.2): The Algebraic Product &amp; Chain Rules</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Product Rule:</b> <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Product Rule"><code>(uv)' = u·v' + v·u'</code></fsd-ref>.<br>
+    • <b>Chain Rule:</b> For composite <code>y = f(u)</code> with <code>u = g(x)</code>:
+    <div align="center" style="margin: 4px 0; font-family: monospace;">
+      <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><code>( f ∘ g )'(x) = f'(g(x)) · g'(x)</code></fsd-ref>
+    </div>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_product_rule" formula="PRODUCT_RULE(x^2 + 1, x^3 - 1)">Nonstandard Product Rule on (x² + 1)(x³ - 1)</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>3. The Chain Rule: Genuine Fraction Cancellation</h3>
+
+  <p>
+    “In standard calculus,” Jane noted, “students are strictly warned: <i>'dy/dx is not a fraction; you cannot cancel dx!'</i>”
+  </p>
+  <p>
+    “On <code>ℝ_ω</code>, <code>dy</code> and <code>dx</code> <b>are genuine numbers on our scaffold</b>. For composite functions <code>y = f(u)</code> where <code>u = g(x)</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 10px 0; color: #1e3a8a;">
+    <b>dy / dx &nbsp;=&nbsp; (dy / du) · (du / dx)</b>
+  </div>
+  <p>
+    Because these are non-zero numbers in the field <code>ℝ_ω</code>, the intermediate increment <code>du</code> <b>cancels identically</b>:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0;">
+    [ (dy / du) · du ] / dx &nbsp;=&nbsp; dy / dx
+  </div>
+  <p>
+    Taking standard parts yields the classical Chain Rule:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 15px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+    <fsd-ref tier="3" scaffold="algebraic_product_rule" title="Algebraic Chain Rule"><b>( f ∘ g )'(x) &nbsp;=&nbsp; f'(g(x)) · g'(x)</b></fsd-ref>
+  </div>
+
+  <hr>
+
+  <h3>4. Differential 1-Forms &amp; Local Linearity</h3>
+
+  <p>
+    Jill paused, reflecting on the difference quotient: “Wait &mdash; in our foundational study of algebraic structures and vector spaces, a 1D linear map was simply a structure-preserving scalar multiplication <code>L(v) = c·v</code> satisfying <code>L(u + v) = L(u) + L(v)</code> and <code>L(a·v) = a·L(v)</code>. If we multiply both sides of <code>Δy/dx ≈ f'(x)</code> by <code>dx</code>, are we just applying a linear map?”
+  </p>
+  <p>
+    “That is the profound heart of calculus!” Jane answered excitedly. “Every smooth curve is infinitesimally straight. Inside the halo <code>μ(x)</code>, the complicated nonlinear curve <code>f</code> collapses into the simplest possible structure-preserving map &mdash; the linear transformation <code>dx &rarr; f'(x)·dx</code>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    Δf &nbsp;=&nbsp; f(x + dx) - f(x) &nbsp;=&nbsp; <b>f'(x) · dx &nbsp;+&nbsp; ε · dx</b> &emsp; (where ε ≈ 0)
+  </div>
+  <p>
+    “Over any infinitesimal step <code>dx</code> inside the halo <code>μ(x)</code>, the curved function is faithfully approximated by this dominant <b>linear scaling map</b>:”
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><b>df &nbsp;=&nbsp; f'(x) · dx</b></fsd-ref>
+  </div>
+  <p>
+    Jill’s eyes lit up: “And in our exploration of duality, a covector was a linear measurement detector that ingests a vector and returns a scalar number. So <code>df</code> is literally a covector on the tangent space!”
+  </p>
+  <p>
+    “Spot on, Jill!” Jane beamed. “The differential <code>df</code> is a <b>Differential 1-Form</b> &mdash; a linear functional evaluating the infinitesimal displacement vector <code>dx</code> to return the scalar height increment <code>f'(x)·dx</code>. The derivative <code>f'(x)</code> is nothing other than the scalar multiplier of that linear map.”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.3): Differential 1-Forms &amp; Local Linearity</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Infinitesimal Increment:</b> <code>Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx</code> where <code>ε ≈ 0</code>.<br>
+    • <b>Differential Form:</b> The differential <fsd-ref tier="3" scaffold="local_linearity" title="Differential 1-Form"><code>df = f'(x)·dx</code></fsd-ref> is the dominant linear shadow of <code>Δf</code> on the tangent space.<br>
+    • <b>Error Bound:</b> <fsd-ref tier="3" scaffold="local_linearity" title="Local Linearity Error Bound"><code>|Δf - df| / dx ≈ 0</code></fsd-ref>, confirming that every differentiable curve is infinitesimally straight.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_diff_forms" formula="DF(x^3 - 3*x, x)">Differential 1-Form df = (3x² - 3) dx &amp; Linear Shadow</eq-ref>
+  </div>
+
+  <hr>
+
+  <h3>5. Higher Differences: Concavity &amp; The Second Discrete Difference</h3>
+
+  <p>
+    “Now,” Jane said, turning back to the blackboard with a twinkle in her eye, “linear maps <code>df = f'(x)·dx</code> tell us which direction the tangent line points at any point <code>x</code>. But what tells us how the curve <b>bends away</b> from that straight line?”
+  </p>
+
+  <p>
+    Jill raised her hand: “If the first derivative comes from the difference of function values, shouldn't curvature come from the <i>difference of the differences</i>?”
+  </p>
+
+  <p>
+    “Precisely, Jill!” Jane beamed. “Let's compute the difference of consecutive rates of change across our grid step <code>dx = 1/ω</code>.”
+  </p>
+
+  <p>
+    Jane set up the 3-point stencil across three adjacent grid nodes on <code>ℝ_ω</code>: the point itself <code>x</code>, its left neighbor <code>x - dx</code>, and its right neighbor <code>x + dx</code> (Jack’s <code>NEAR</code> adjacency relation from formal logic):
+  </p>
+
+  <ol>
+    <li>Forward difference leaving <code>x</code>: &nbsp; <code>Δf(x) = f(x + dx) - f(x)</code></li>
+    <li>Forward difference arriving at <code>x</code>: &nbsp; <code>Δf(x - dx) = f(x) - f(x - dx)</code></li>
+    <li><b>The Second Discrete Difference:</b></li>
+  </ol>
+
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 12px; border: 1.5px solid #3b82f6; border-radius: 8px;">
+    <b>Δ²f(x) &nbsp;=&nbsp; Δf(x) - Δf(x - dx) &nbsp;=&nbsp; f(x - dx) - 2f(x) + f(x + dx)</b>
+  </div>
+
+  <h4>Example: Second Difference of the Parabola f(x) = x²</h4>
+  <p>
+    Let's test this directly on our parabola from Section 1:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 13.5px; margin: 10px auto; max-width: 620px; background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; line-height: 1.8;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; (x - dx)² - 2x² + (x + dx)²<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; (x² - 2x·dx + dx²) - 2x² + (x² + 2x·dx + dx²)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; <b>2·dx²</b>
+  </div>
+
+  <p>
+    Dividing by <code>dx²</code> to obtain the second algebraic derivative:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 8px 0; color: #1e3a8a;">
+    <b>f''(x) &nbsp;=&nbsp; st( Δ²f(x) / dx² ) &nbsp;=&nbsp; st( 2·dx² / dx² ) &nbsp;=&nbsp; 2</b>
+  </div>
+  <p>
+    The linear terms <code>±2x·dx</code> cancel out completely, leaving an exact constant second difference—zero residual dust!
+  </p>
+
+  <h4>Geometric Meaning: The Discrete Curvature Stencil [1, -2, 1]</h4>
+  <p>
+    “Notice the structure of this formula,” Jane emphasized, highlighting the coefficients:
+  </p>
+  <div align="center" style="font-family: monospace; font-size: 14px; margin: 8px 0; color: #0f172a;">
+    f(x - dx) - 2f(x) + f(x + dx) &nbsp;=&nbsp; 2 · [ <b>(f(x - dx) + f(x + dx)) / 2 &nbsp;-&nbsp; f(x)</b> ]
+  </div>
+  <p>
+    “<code>Δ²f(x)</code> is twice the difference between the <b>average of the neighbors</b> and the point itself:”
+  </p>
+  <ul>
+    <li>If <code>f(x)</code> is higher than the average of its neighbors (a local crest), then <code>Δ²f &lt; 0</code> (concave down).</li>
+    <li>If <code>f(x)</code> is lower than the average of its neighbors (a local trough), then <code>Δ²f &gt; 0</code> (concave up).</li>
+    <li>If <code>f(x)</code> equals the average of its neighbors, then <code>Δ²f = 0</code> (pure local linearity).</li>
+  </ul>
+  <p>
+    “Remember this symmetric 3-point stencil <code>[1, -2, 1]</code>,” Jane smiled. “Whenever physical systems diffuse, smooth out heat, or seek equilibrium between adjacent neighbors, this discrete second difference will be the engine driving them!”
+  </p>
+
+  <h4>Formal Statement (FS-A1D-2.4): The Second Discrete Difference &amp; Curvature Stencil</h4>
+  <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
+    • <b>Symmetric Stencil:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Curvature Stencil [1, -2, 1]"><code>Δ²f(x) = f(x - dx) - 2f(x) + f(x + dx)</code></fsd-ref>.<br>
+    • <b>Neighbor Average Gap:</b> <code>Δ²f(x) = 2 · [ (f(x - dx) + f(x + dx))/2 - f(x) ]</code>.<br>
+    • <b>Second Derivative Shadow:</b> <fsd-ref tier="3" scaffold="discrete_curvature" title="Second Derivative Shadow"><code>f''(x) = st( Δ²f(x) / dx² )</code></fsd-ref>.<br>
+    • <b>CAS Example:</b> <eq-ref eq-id="cas_second_diff" formula="DIFF2_W(x^4, x)">Curvature Stencil &amp; Second Derivative on f(x) = x⁴</eq-ref>
+  </div>
+
+  <hr>
+
+  <p>
+    “In our next lecture,” Jane concluded, “we will see how adding uncountably many of these linear pieces builds <b>continuous integration and the telescoping Fundamental Theorem of Calculus</b>!”
+  </p>
+</body>
+</html>

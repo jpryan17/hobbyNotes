@@ -36,9 +36,12 @@ export class FSDRef extends HTMLElement {
             const presetAttr = this.getAttribute("preset") || undefined;
             const modeAttr = this.getAttribute("calc-mode") || undefined;
             const cleanId = scaffoldOrId.trim().toLowerCase();
+            const isNumeric = /^\d+$/.test(cleanId);
+            const numIndex = isNumeric ? parseInt(cleanId, 10) - 1 : -1;
             const matchedExample = FS_CATALOG.examples.find((ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId);
             const matchedMode = FS_CATALOG.calculationModes.find((m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId);
-            const catalogStmt = FS_CATALOG.formalStatements.find((s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
+            const catalogStmt = FS_CATALOG.formalStatements.find((s, idx) => (isNumeric && idx === numIndex) ||
+                s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
                 s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
                 s.id.toLowerCase() === cleanId ||
                 s.scaffoldKey.toLowerCase() === cleanId);
@@ -103,9 +106,12 @@ export class FSDRef extends HTMLElement {
     }
     static openScaffoldCard(scaffoldOrId, titleAttr, options) {
         const cleanId = scaffoldOrId.trim().toLowerCase();
+        const isNumeric = /^\d+$/.test(cleanId);
+        const numIndex = isNumeric ? parseInt(cleanId, 10) - 1 : -1;
         const matchedExample = FS_CATALOG.examples.find((ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId);
         const matchedMode = FS_CATALOG.calculationModes.find((m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId);
-        const catalogStmt = FS_CATALOG.formalStatements.find((s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
+        const catalogStmt = FS_CATALOG.formalStatements.find((s, idx) => (isNumeric && idx === numIndex) ||
+            s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
             s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
             s.id.toLowerCase() === cleanId ||
             s.scaffoldKey.toLowerCase() === cleanId);

@@ -46,30 +46,7 @@
       operator <code>H</code> through a <b>continuous unitary group map</b>:”
     </p>
 
-    <fsd-ref
-      tier="3"
-      scaffold="unitary_preservation"
-      title="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)"
-    >
-      <div
-        align="center"
-        style="
-          font-family: monospace;
-          font-size: 16px;
-          margin: 12px 0;
-          color: #1e3a8a;
-          background-color: #f8fafc;
-          padding: 12px;
-          border: 1px solid #cbd5e1;
-          border-radius: 6px;
-        "
-      >
-        <b
-          >|ψ(t)⟩ &nbsp;=&nbsp; U(t) |ψ(0)⟩ &nbsp;=&nbsp; e^(-i H t / ħ)
-          |ψ(0)⟩</b
-        >
-      </div>
-    </fsd-ref>
+    <fs-ref id="11" desc="Unitary State Evolution (|ψ(t)⟩ = U(t)|ψ(0)⟩)"></fs-ref>
 
     <p>
       Jane pointed to the exponent: “Notice how the mathematical pieces we've
@@ -143,79 +120,7 @@
       </li>
     </ul>
 
-    <fsd-ref
-      tier="3"
-      scaffold="unitary_preservation"
-      title="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation"
-    >
-      <div
-        style="
-          margin: 14px 0;
-          padding: 12px 16px;
-          background-color: #f8fafc;
-          border-left: 4px solid #0284c7;
-          border-top: 1px solid #e2e8f0;
-          border-right: 1px solid #e2e8f0;
-          border-bottom: 1px solid #e2e8f0;
-          border-radius: 4px;
-        "
-      >
-        <b
-          >Formal Statement FS-A2D-3.1 (Unitary Evolution &amp; The Schrödinger
-          Equation):</b
-        ><br />
-        Let <code>H = H†</code> be an observable Hamiltonian on Hilbert space
-        <code>H</code>.
-        <ol style="margin: 6px 0 0 18px">
-          <li>
-            <b>Unitary Group Map:</b> The continuous time operator
-            <code>U(t) = e^{-i H t / ħ}</code> satisfies:
-            <div
-              align="center"
-              style="
-                font-family: monospace;
-                font-size: 13px;
-                margin: 4px 0;
-                color: #1e3a8a;
-              "
-            >
-              <b
-                >U(t)† · U(t) &nbsp;=&nbsp; U(t) · U(t)† &nbsp;=&nbsp; I
-                &emsp;⇒&emsp; ∥ |ψ(t)⟩ ∥² &nbsp;=&nbsp; ∥ |ψ(0)⟩ ∥²
-                &nbsp;=&nbsp; 1</b
-              >
-            </div>
-          </li>
-          <li>
-            <b>Infinitesimal Generator:</b> Taking the time derivative at
-            <code>dt = 1/ω</code> yields the differential Schrödinger equation:
-            <div
-              align="center"
-              style="
-                font-family: monospace;
-                font-size: 13px;
-                margin: 4px 0;
-                color: #1e3a8a;
-              "
-            >
-              <b>i ħ · (d/dt) |ψ(t)⟩ &nbsp;=&nbsp; H |ψ(t)⟩</b>
-            </div>
-          </li>
-          <li>
-            <b>Probability Conservation:</b> Continuous state dynamics preserves
-            total probability along the unit sphere without dissipation.
-          </li>
-          <li>
-            <b>CAS Example:</b>
-            <eq-ref
-              eq-id="cas_unitary_schrodinger"
-              formula="SCHRODINGER_EXP(-i*H*t/hbar)"
-              >Unitary Time Evolution &amp; Probability Conservation</eq-ref
-            >
-          </li>
-        </ol>
-      </div>
-    </fsd-ref>
+    <fs-ref id="11" desc="FS-A2D-3.1: Unitary Evolution & Schrödinger Equation"></fs-ref>
 
     <hr />
 
@@ -228,26 +133,7 @@
     </p>
 
     <p>The total probability is normalized through our hyperfinite integral:</p>
-    <fsd-ref
-      tier="3"
-      scaffold="hyper_sum"
-      title="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)"
-    >
-      <div
-        align="center"
-        style="
-          font-family: monospace;
-          font-size: 14.5px;
-          margin: 8px 0;
-          color: #1e3a8a;
-        "
-      >
-        <b
-          >∫[all space] |ψ(x)|² dx &nbsp;=&nbsp; st( ∑[k] |ψ(x_k)|² · dx )
-          &nbsp;=&nbsp; 1</b
-        >
-      </div>
-    </fsd-ref>
+    <fs-ref id="1" desc="Continuous Wavepacket Normalization (∫ |ψ|² dx = 1)"></fs-ref>
 
     <p>
       “When an observation is made at position <code>x</code>, the continuous
@@ -396,70 +282,7 @@
       </li>
     </ol>
 
-    <fsd-ref
-      tier="3"
-      scaffold="lee_yang_zero_pinch"
-      title="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions"
-    >
-      <div
-        style="
-          margin: 14px 0;
-          padding: 12px 16px;
-          background-color: #f8fafc;
-          border-left: 4px solid #0284c7;
-          border-top: 1px solid #e2e8f0;
-          border-right: 1px solid #e2e8f0;
-          border-bottom: 1px solid #e2e8f0;
-          border-radius: 4px;
-        "
-      >
-        <b
-          >Formal Statement FS-A2D-3.2 (The Lee-Yang Circle Theorem &amp;
-          Emergent Phase Transitions):</b
-        ><br />
-        Let <code>Z_N(T) = ∑_{E} g(E) e^{-E / (k_B T)}</code> be the partition
-        function of an <code>N</code>-particle system.
-        <ol style="margin: 6px 0 0 18px">
-          <li>
-            <b>Analyticity on Real Axis:</b> For all finite
-            <code>N &lt; ω</code>, <code>Z_N(T) &gt; 0</code> for all
-            <code>T &gt; 0</code>; zeros <code>{z_j}</code> lie strictly in
-            <code>ℂ_ω \ ℝ</code>.
-          </li>
-          <li>
-            <b>Transfinite Accumulation:</b> In the thermodynamic limit
-            <code>N → ω</code>, the zero locus accumulates into continuous
-            curves pinching the real axis:
-            <div
-              align="center"
-              style="
-                font-family: monospace;
-                font-size: 13px;
-                margin: 4px 0;
-                color: #1e3a8a;
-              "
-            >
-              <b
-                >lim_{N → ω} &nbsp; dist({z_j}, ℝ) &nbsp;=&nbsp; 0 &emsp; at
-                &emsp; T = T_c</b
-              >
-            </div>
-          </li>
-          <li>
-            <b>Macroscopic Singularity:</b> The free energy per particle
-            <code>f(T) = -st((k_B T / N) ln Z_N(T))</code> exhibits a
-            non-analytic derivative singularity at <code>T_c</code>, giving rise
-            to physical latent heat and spontaneous symmetry breaking.
-          </li>
-          <li>
-            <b>CAS Example:</b>
-            <eq-ref eq-id="cas_lee_yang" formula="LEE_YANG_ZEROS(N)"
-              >Lee-Yang Circle Zeros &amp; Thermodynamic Pinch at T_c</eq-ref
-            >
-          </li>
-        </ol>
-      </div>
-    </fsd-ref>
+    <fs-ref id="1" desc="FS-A2D-3.2: The Lee-Yang Circle Theorem & Emergent Phase Transitions"></fs-ref>
 
     <p>
       Jill beamed: “A physical phase transition in our real world is literally

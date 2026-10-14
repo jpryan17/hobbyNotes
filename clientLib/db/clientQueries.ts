@@ -38,6 +38,9 @@ export interface DbFormalStatement {
     statement_key: string;
     scaffold_key: string;
     domain_category: string;
+    subject_type?: string;
+    structure_kind?: string;
+    statement_kind?: string;
     parent_id: number | string | null;
     type: string;
     tier: string;
@@ -48,6 +51,33 @@ export interface DbFormalStatement {
     lean_signature: string | null;
     lean_snippet: string | null;
     status: string;
+    referenced_segments?: string[];
+}
+
+export interface DbDirectedEquation {
+    id: number | string;
+    equation_key: string;
+    title: string;
+    label: string;
+    formula_expr: string;
+    target_symbol: string;
+    target_domain: string;
+    target_unit: string | null;
+    pseudo_algo_id?: number | string | null;
+    formula_description: string;
+    has_simulation: boolean;
+    created_at?: string;
+    updated_at?: string;
+    statement_id?: number | string | null;
+    statement_title?: string | null;
+}
+
+export interface DbEquationStatementLink {
+    id: number | string;
+    equation_id: number | string;
+    statement_id: number | string;
+    relation_type: 'instantiates' | 'has_property' | 'derived_from';
+    notes?: string | null;
 }
 
 export interface DbCalculationMode {
@@ -272,11 +302,65 @@ export function buildNavTree(items: DbCurriculumNavItem[], parentId: number | st
 
 export async function fetchFormalStatements(): Promise<DbFormalStatement[]> {
     const sql = `
-        SELECT id, statement_key, scaffold_key, domain_category, parent_id, type, tier, governing_seed, title, description, expression, lean_signature, lean_snippet, status
+        SELECT id, statement_key, scaffold_key, domain_category, subject_type, structure_kind, statement_kind,
+               parent_id, type, tier, governing_seed, title, description, expression, lean_signature, lean_snippet, status, referenced_segments
         FROM formal_statements
         ORDER BY tier, id;
     `;
     return queryDatabase<DbFormalStatement>(sql);
+}
+
+export async function fetchFormalStatementByIdOrKey(idOrKey: string | number): Promise<DbFormalStatement | null> {
+    const isNum = typeof idOrKey === 'number' || /^\d+$/.test(String(idOrKey));
+    const sql = isNum
+        ? `SELECT * FROM formal_statements WHERE id = $1;`
+        : `SELECT * FROM formal_statements WHERE statement_key = $1 OR scaffold_key = $1;`;
+    const rows = await queryDatabase<DbFormalStatement>(sql, [idOrKey]);
+    return rows.length > 0 ? rows[0] : null;
+}
+
+export async function fetchAllDirectedEquations(): Promise<DbDirectedEquation[]> {
+    const sql = `
+        SELECT 
+            e.id, e.equation_key, e.title, e.label, e.formula_expr,
+            e.target_symbol, e.target_domain, e.target_unit, e.pseudo_algo_id,
+            e.formula_description, e.has_simulation, e.created_at, e.updated_at,
+            l.statement_id, s.title AS statement_title
+        FROM directed_equations e
+        LEFT JOIN equation_statement_links l ON l.equation_id = e.id AND l.relation_type = 'instantiates'
+        LEFT JOIN formal_statements s ON s.id = l.statement_id
+        ORDER BY e.id ASC;
+    `;
+    return queryDatabase<DbDirectedEquation>(sql);
+}
+
+export async function fetchDirectedEquationByIdOrKey(idOrKey: string | number): Promise<DbDirectedEquation | null> {
+    const isNum = typeof idOrKey === 'number' || /^\d+$/.test(String(idOrKey));
+    const sql = isNum
+        ? `
+            SELECT 
+                e.id, e.equation_key, e.title, e.label, e.formula_expr,
+                e.target_symbol, e.target_domain, e.target_unit, e.pseudo_algo_id,
+                e.formula_description, e.has_simulation, e.created_at, e.updated_at,
+                l.statement_id, s.title AS statement_title
+            FROM directed_equations e
+            LEFT JOIN equation_statement_links l ON l.equation_id = e.id AND l.relation_type = 'instantiates'
+            LEFT JOIN formal_statements s ON s.id = l.statement_id
+            WHERE e.id = $1;
+        `
+        : `
+            SELECT 
+                e.id, e.equation_key, e.title, e.label, e.formula_expr,
+                e.target_symbol, e.target_domain, e.target_unit, e.pseudo_algo_id,
+                e.formula_description, e.has_simulation, e.created_at, e.updated_at,
+                l.statement_id, s.title AS statement_title
+            FROM directed_equations e
+            LEFT JOIN equation_statement_links l ON l.equation_id = e.id AND l.relation_type = 'instantiates'
+            LEFT JOIN formal_statements s ON s.id = l.statement_id
+            WHERE e.equation_key = $1;
+        `;
+    const rows = await queryDatabase<DbDirectedEquation>(sql, [idOrKey]);
+    return rows.length > 0 ? rows[0] : null;
 }
 
 export async function fetchModesForStatement(statementId: number | string): Promise<DbCalculationMode[]> {

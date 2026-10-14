@@ -191,7 +191,7 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 6px; padding: 12px 14px;">
         <div style="font-weight: 700; color: #0284c7; font-size: 13px; margin-bottom: 4px;">2. The Halo Envelope (Microscopic Closeness)</div>
         <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-          • <b>Infinitesimal Relation:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Infinitesimal Halo Relation ≈" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x ≈ y ⟺ |x - y| &lt; 1/n for all standard n ∈ ℕ</code></fsd-ref><br>
+          • <b>Infinitesimal Relation:</b> <fs-ref id="17" desc="Infinitesimal Halo Relation ≈"></fs-ref><br>
           <span style="color: #64748b; font-size: 12px;">Defines two hyperreals as infinitely close when their distance is smaller than every standard reciprocal fraction.</span><br>
           • <b>Halo Definition:</b> The halo (monad) of a standard dyadic point <code>x₀ ∈ 𝔻</code> is <code>μ(x₀) = { x ∈ ℝ_ω | x ≈ x₀ }</code>.<br>
           <span style="color: #64748b; font-size: 12px;">The cluster of all continuum points differing from <code>x₀</code> by infinitesimal Day <code>ω</code> branching steps.</span>
@@ -202,9 +202,9 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #16a34a; border-radius: 6px; padding: 12px 14px;">
         <div style="font-weight: 700; color: #16a34a; font-size: 13px; margin-bottom: 4px;">3. The Computational Bridge (Standard Part &amp; Ring Homomorphism)</div>
         <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-          • <b>Standard Part Operator:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Operator st" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>st : { x ∈ ℝ_ω | is_finite(x) } → 𝔻 assigns to each finite hyperreal x the unique standard dyadic shadow x₀ satisfying x ≈ x₀</code></fsd-ref>.<br>
+          • <b>Standard Part Operator:</b> <fs-ref id="1" desc="Standard Part Operator st"></fs-ref>.<br>
           <span style="color: #64748b; font-size: 12px;">Prunes transfinite dust to the earliest dyadic ancestor, preparing values for the pseudocode calculation machine.</span><br>
-          • <b>Nucleus-Halo Decomposition:</b> <fsd-ref tier="3" scaffold="nucleus_halo_decomposition" title="Nucleus-Halo Decomposition Theorem" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>x = st(x) + ε  where  ε ∈ μ(0)</code></fsd-ref><br>
+          • <b>Nucleus-Halo Decomposition:</b> <fs-ref id="17" desc="Nucleus-Halo Decomposition Theorem"></fs-ref><br>
           <span style="color: #64748b; font-size: 12px;">Every finite hyperreal splits uniquely into its standard dyadic nucleus and an infinitesimal Day <code>ω</code> halo perturbation.</span><br>
           • <b>Ring Homomorphism:</b> <code>st(x + y) = st(x) + st(y)</code> and <code>st(x · y) = st(x) · st(y)</code>.<br>
           <span style="color: #64748b; font-size: 12px;">Guarantees that high-school algebra with infinitesimals produces exact results on the machine without distortion.</span>
@@ -213,8 +213,8 @@
 
       <!-- Concrete Instance & Interactive Evaluation -->
       <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 14px; font-size: 12.5px; color: #1e3a8a;">
-        • <b>Theorem Instance:</b> <fsd-ref scaffold="nucleus_halo_decomposition" instance="point_4_plus_3dx" title="Point Decomposition 4 + 3·dx" style="color:#0284c7;font-weight:bold;cursor:pointer;text-decoration:underline;"><code>x = 4 + 3·dx ∈ ℝ_ω ⟹ st(x) = 4, ε = 3·dx</code></fsd-ref>.<br>
-        • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="nucleus_halo_1d" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: x = x₀ + k·dx»</eq-ref>.
+        • <b>Theorem Instance:</b> <fs-ref id="17" desc="Point Decomposition 4 + 3·dx"></fs-ref>.<br>
+        • <b>Interactive Equation Evaluation:</b> <eq-ref id="17" desc="x = x₀ + k·dx"></eq-ref>.
       </div>
 
     </div>
@@ -263,7 +263,7 @@
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 16px; margin: 12px 0; color: #1e3a8a; background-color: #eff6ff; padding: 14px; border: 1.5px solid #3b82f6; border-radius: 8px;">
-    <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Continuous Halo Mapping" style="color:#0284c7;font-weight:bold;cursor:pointer;"><b>f( μ(x₀) ) &nbsp;⊆&nbsp; μ( f(x₀) )</b></fsd-ref>
+    <fs-ref id="17" desc="Continuous Halo Mapping"></fs-ref>
   </div>
 
   <p>
@@ -284,8 +284,8 @@
   <h4>Formal Statement (FS-A1D-1.2): Nonstandard Halo Continuity</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Pointwise Continuity:</b> A real function <code>f : ℝ → ℝ</code> is continuous at <code>x₀ ∈ ℝ</code> if and only if its nonstandard extension satisfies <code>f(μ(x₀)) ⊆ μ(f(x₀))</code>.<br>
-    • <b>Uniform Continuity:</b> <fsd-ref tier="3" scaffold="infinitesimal_halo" title="Uniform Halo Continuity" style="color:#0284c7;font-weight:bold;cursor:pointer;"><code>∀ x, y ∈ *I : x ≈ y ⇒ f(x) ≈ f(y)</code></fsd-ref> (no separate delta bound needed).<br>
-    • <b>Interactive Equation Evaluation:</b> <eq-ref eq-id="quadratic_halo_diff" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: Δf = (x + k·dx)² - x²»</eq-ref>
+    • <b>Uniform Continuity:</b> <fs-ref id="17" desc="Uniform Halo Continuity"></fs-ref> (no separate delta bound needed).<br>
+    • <b>Interactive Equation Evaluation:</b> <eq-ref id="11" desc="Δf = (x + k·dx)² - x²"></eq-ref>
   </div>
 
   <hr>
@@ -324,9 +324,9 @@
   <h4>Formal Statement (FS-A1D-1.3): The Discrete Intermediate Value Theorem</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Hyperfinite Grid Partition:</b> <code>G_ω = { x_k = a + k·dx | k ∈ {0, ..., ω}, dx = (b - a)/ω }</code>.<br>
-    • <b>Discrete Crossing Lemma:</b> <fsd-ref tier="3" scaffold="discrete_ivt" title="Discrete Intermediate Value Theorem &amp; Bisection" style="color:#0284c7;font-weight:bold;cursor:pointer;">For internal sequence <code>f(x_k)</code> with <code>f(x₀) &lt; 0</code> and <code>f(x_ω) &gt; 0</code>, the index <code>m = min { k | f(x_k) ≥ 0 }</code> exists by hyperfinite induction</fsd-ref>.<br>
+    • <b>Discrete Crossing Lemma:</b> <fs-ref id="16" desc="Discrete Intermediate Value Theorem &amp; Bisection"></fs-ref>.<br>
     • <b>Standard Root Existence:</b> <code>c = st(x_m) ∈ [a, b]</code> satisfies <code>f(c) = st(f(x_m)) = 0</code>.<br>
-    • <b>CAS Example:</b> <eq-ref eq-id="cas_ivt_bisection" formula="BISECTION(x^3 - 2, 1, 2)" style="display:inline-block;color:#047857;font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;">«Eq: Discrete Grid March for f(x) = x³ - 2 = 0»</eq-ref>
+    • <b>CAS Example:</b> <eq-ref id="12" desc="Discrete Grid March for f(x) = x³ - 2 = 0"></eq-ref>
   </div>
 
   <hr>

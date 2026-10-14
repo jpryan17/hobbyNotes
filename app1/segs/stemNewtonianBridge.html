@@ -110,12 +110,10 @@
   </p>
 
   <div align="center" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 20px; font-family: monospace; font-size: 14px; margin: 12px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="free_fall_accel" title="Free Fall Velocity & Acceleration Invariance">
-      v(t) = st( [s(t + dt) - s(t)] / dt ) = st( (v₀ - g·t) - (1/2)·g·dt ) = v₀ - g·t
-    </fsd-ref>
+    <fs-ref id="2" desc="Free Fall Velocity & Acceleration Invariance"></fs-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect formal invariance proof in Lean 4 or explore with <fsd-ref tier="3" scaffold="free_fall_accel" auto-calc title="Free Fall Kinematics &amp; Acceleration Stencil">Free Fall Kinematics &amp; Acceleration Stencil</fsd-ref>)</i>
+    <i>(Inspect formal invariance proof in Lean 4 or explore with <eq-ref id="1" desc="Free Fall Kinematics &amp; Acceleration Stencil"></eq-ref>)</i>
   </p>
 
   <p>
@@ -169,12 +167,10 @@
   </p>
 
   <div align="center" style="background-color: #eff6ff; border: 1.5px solid #3b82f6; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="work_energy" title="Telescoping Work-Energy Theorem">
-      ∑_{k=0}^{n-1} F_k · Δx_k &nbsp;=&nbsp; (1/2)·m·v_n² &nbsp;-&nbsp; (1/2)·m·v₀² &nbsp;≡&nbsp; Δ(KE)
-    </fsd-ref>
+    <fs-ref id="4" desc="Telescoping Work-Energy Theorem"></fs-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect telescoping sum in Lean 4 or explore with <fsd-ref tier="3" scaffold="work_energy" auto-calc title="Telescoping Work-Kinetic Energy Conservation">Telescoping Work-Kinetic Energy Conservation</fsd-ref>)</i>
+    <i>(Inspect telescoping sum in Lean 4 or explore with <eq-ref id="4" desc="Telescoping Work-Kinetic Energy Conservation"></eq-ref>)</i>
   </p>
 
   <p>
@@ -211,12 +207,10 @@
   </p>
 
   <div align="center" style="background-color: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 22px; font-family: monospace; font-size: 14.5px; margin: 14px auto; width: fit-content; max-width: 95%; color: #1e3a8a; overflow-x: auto;">
-    <fsd-ref tier="3" scaffold="unitary_preservation" title="Hooke's Law Leapfrog & Unitary Phase Invariance">
-      x(t + dt) &nbsp;=&nbsp; (2 - ω₀²·dt²) · x(t) &nbsp;-&nbsp; x(t - dt) &nbsp; &nbsp; [ where ω₀² = k/m ]
-    </fsd-ref>
+    <fs-ref id="11" desc="Hooke"></fs-ref>
   </div>
   <p style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: -6px;">
-    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <fsd-ref tier="3" scaffold="unitary_preservation" auto-calc title="Harmonic Leapfrog Stencil &amp; Unitary Phase Roots">Harmonic Leapfrog Stencil &amp; Unitary Phase Roots</fsd-ref>)</i>
+    <i>(Inspect unitary eigenvalue roots on ℂ_ω in Lean 4 or explore with <eq-ref id="7" desc="Harmonic Leapfrog Stencil &amp; Unitary Phase Roots"></eq-ref>)</i>
   </p>
 
   <p>

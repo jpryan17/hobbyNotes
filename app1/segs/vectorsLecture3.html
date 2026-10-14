@@ -92,7 +92,7 @@
 
   <h4>Formal Statement (FS-LA-3.1): The Vector Space (V, F, +, ·) as Group &amp; Field Synergy</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fsd-ref tier="3" scaffold="vector_distributivity" title="The Constructive Vector Space (V, F, +, ·)"><b>Vector Space Axioms (in Lean 4)</b></fsd-ref>:<br>
+    • <b>Vector Space Specification:</b> A quadruple <code>(V, F, +, ·)</code> constructed from two foundational pillars linked by the <fs-ref id="1" desc="The Constructive Vector Space (V, F, +, ·)"></fs-ref>:<br>
     &nbsp;&nbsp;• <b>Pillar 1 — Additive Abelian Group (V, +):</b> The vectors form an Abelian group (Closure, Associativity, Zero Origin <code>0_V</code>, Inverses <code>-v</code>, Commutativity) governing step addition.<br>
     &nbsp;&nbsp;• <b>Pillar 2 — Scalar Field (F, +, ·):</b> The scalars form an algebraic field (Continuous scaling, identities <code>0_F, 1_F</code>, non-zero reciprocals, field distributivity).<br>
     &nbsp;&nbsp;• <b>Pillar 3 — Linear Compatibility Action:</b> Scalar multiplication <code>· : F × V → V</code> knits the field to the group via 4 axioms:<br>
@@ -143,7 +143,7 @@
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>1. Group Homomorphism: T( u + v ) = T(u) + T(v) &emsp;&amp;&emsp; 2. Field Scaling Homogeneity: T( c · v ) = c · T(v)</b></fsd-ref>
+    <fs-ref id="1" desc="The Constructive Linear Map (T : V → W)"></fs-ref>
   </div>
 
   <p>
@@ -158,14 +158,14 @@
 
   <h4>Formal Statement (FS-LA-3.2): The Linear Map T : V → W as Vector Space Homomorphism</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fsd-ref tier="3" scaffold="linear_map_preservation" title="The Constructive Linear Map (T : V → W)"><b>Vector Space Homomorphism Axioms (in Lean 4)</b></fsd-ref>:<br>
+    • <b>Homomorphism Definition:</b> A map <code>T : V → W</code> between vector spaces over field <code>F</code> satisfying the <fs-ref id="1" desc="The Constructive Linear Map (T : V → W)"></fs-ref>:<br>
     &nbsp;&nbsp;1. <b>Additive Group Preservation:</b> <code>∀ u, v ∈ V, T(u + v) = T(u) + T(v)</code> (preserves the vector Abelian group).<br>
     &nbsp;&nbsp;2. <b>Scalar Action Preservation:</b> <code>∀ c ∈ F, ∀ v ∈ V, T(c · v) = c · T(v)</code> (preserves scalar field dilation).<br>
     &nbsp;&nbsp;3. <b>Combined Superposition Principle:</b> <code>∀ a, b ∈ F, ∀ u, v ∈ V, T(a·u + b·v) = a·T(u) + b·T(v)</code>.<br>
     • <b>Forced Invariants:</b> Linearity strictly forces origin preservation <code>T(0_V) = 0_W</code> and inverse reflection <code>T(-v) = -T(v)</code>.<br>
     • <b>Rank-Nullity Theorem:</b> For finite-dimensional <code>V</code>, <code>dim(ker(T)) + dim(im(T)) = dim(V)</code>.<br>
     • <b>Calculus Realization:</b> The differential operator <code>D = d/dx</code> and definite integral <code>∫</code> are certified linear maps on smooth function spaces over <code>ℝ_ω</code>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="linear_map_preservation" auto-calc title="Matrix Action &amp; Linear Superposition Preservation">Matrix Action &amp; Linear Superposition Preservation</fsd-ref>
+    • <b>Interactive Stencil:</b> <eq-ref id="1" desc="Matrix Action &amp; Linear Superposition Preservation"></eq-ref>
   </div>
 
   <hr>
@@ -194,7 +194,7 @@
   </p>
 
   <div align="center" style="font-family: monospace; font-size: 14.5px; margin: 10px 0; color: #1e3a8a; background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
-    <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>⟨ · , · ⟩ : V* × V &rarr; F &emsp;where&emsp; ⟨f, v⟩ &nbsp;=&nbsp; f(v)</b></fsd-ref>
+    <fs-ref id="1" desc="The Constructive Dual Space V* &amp; Evaluation Pairing"></fs-ref>
   </div>
 
   <p>
@@ -233,11 +233,11 @@
 
   <h4>Formal Statement (FS-LA-3.3): Vector / Covector Duality &amp; Bra-Ket Pairing</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fsd-ref tier="3" scaffold="dual_pairing" title="The Constructive Dual Space V* &amp; Evaluation Pairing"><b>Linear Functional Axioms (in Lean 4)</b></fsd-ref>.<br>
+    • <b>Part 1 — Pure Algebraic Dual Space:</b> <code>V* = Hom(V, F)</code> is the vector space of all linear functionals <code>f : V → F</code>, satisfying the <fs-ref id="1" desc="The Constructive Dual Space V* &amp; Evaluation Pairing"></fs-ref>.<br>
     • <b>Bilinear Canonical Pairing:</b> <code>⟨ · , · ⟩ : V* × V → F</code> where <code>⟨f, v⟩ = f(v)</code> is bilinear, non-degenerate, and canonically reflexive (<code>V ≅ V**</code>).<br>
     • <b>Part 2 — Geometric &amp; Physical Realizations:</b> Level-surface piercing in geometry, linear measurement detectors in physics, and the <b>Riesz Representation Theorem</b> on Hilbert spaces <code>ℋ_ω</code> where every continuous functional is represented by an inner product with a vector: <code>f(v) = (u, v)</code>.<br>
     • <b>Dirac Notation Mapping:</b> State vectors are Kets <code>|v⟩ ∈ ℋ_ω</code>, dual functionals are Bras <code>⟨u| ∈ ℋ_ω*</code>, and evaluation is the Bracket <code>⟨u|v⟩ ∈ ℂ_ω</code>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="dual_pairing" auto-calc title="Canonical Bilinear Pairing ⟨f, v⟩ Evaluation">Canonical Bilinear Pairing ⟨f, v⟩ Evaluation</fsd-ref>
+    • <b>Interactive Stencil:</b> <eq-ref id="1" desc="Canonical Bilinear Pairing ⟨f, v⟩ Evaluation"></eq-ref>
   </div>
 
   <hr>
@@ -263,7 +263,7 @@
       <div align="center" style="font-family: monospace; font-size: 15px; margin: 8px 0; color: #1e3a8a;">
         <b>P(ϕ | ψ) &nbsp;=&nbsp; |⟨ϕ | ψ⟩|²</b>
       </div>
-      By linking our duality pairing directly to <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Rule (P = |z|²)</b></fsd-ref>, every physical measurement is grounded in the geometry of complex vectors!
+      By linking our duality pairing directly to <fs-ref id="12" desc="The Born Probability Rule: P = |z|²"></fs-ref>, every physical measurement is grounded in the geometry of complex vectors!
     </li>
     <li>
       <b>Operators as State &otimes; Detector (<code>|ϕ⟩⟨ψ|</code>):</b> An outer product (vector &otimes; covector) is a linear projection operator that tests for state <code>|ψ⟩</code> and prepares state <code>|ϕ⟩</code>.
@@ -280,9 +280,9 @@
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
     • <b>Part 1 — State &amp; Detector Duality:</b> Physical states are vectors <code>|ψ⟩ ∈ ℋ_ω</code>; measurement detectors are continuous linear functionals (covectors) <code>⟨ϕ| ∈ ℋ_ω*</code>. Canonical evaluation yields the complex probability amplitude <code>⟨ϕ|ψ⟩ ∈ ℂ_ω</code>.<br>
     • <b>Part 2 — The Born Transition Probability:</b> The observable transition probability is the modulus squared of the dual pairing:
-    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fsd-ref tier="3" scaffold="born_rule" title="The Born Probability Rule: P = |z|²"><b>The Born Probability Law in Lean 4</b></fsd-ref>.<br>
-    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fsd-ref tier="3" scaffold="unitary_isometry" title="Unitary Inner Product Invariance &amp; Norm Isometry"><b>Unitary Norm Isometry in Lean 4</b></fsd-ref>.<br>
-    • <b>Interactive Stencil:</b> <fsd-ref tier="3" scaffold="born_rule" auto-calc title="Three-Polarizer Quantum Transmission &amp; Venn Breakdown">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</fsd-ref>
+    <code>P(ϕ | ψ) = |⟨ϕ | ψ⟩|²</code>, verified via <fs-ref id="12" desc="The Born Probability Rule: P = |z|²"></fs-ref>.<br>
+    • <b>Part 3 — Unitary Probability Conservation:</b> Time evolution operators <code>U : ℋ_ω → ℋ_ω</code> satisfy <code>U† U = I</code>, forming an isometry that preserves the dual evaluation pairing and vector norm identically: <code>⟨U ϕ | U ψ⟩ = ⟨ϕ | ψ⟩</code>, verified via <fs-ref id="11" desc="Unitary Inner Product Invariance &amp; Norm Isometry"></fs-ref>.<br>
+    • <b>Interactive Stencil:</b> <eq-ref id="1" desc="Three-Polarizer Quantum Transmission &amp; Venn Breakdown"></eq-ref>
   </div>
 
   <p>

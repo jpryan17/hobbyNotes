@@ -13,10 +13,11 @@ export class EqRef extends HTMLElement {
     }
     connectedCallback() {
         const rawHtml = this.innerHTML.trim();
-        const eqId = this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || '';
+        const eqId = this.getAttribute('id') || this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || '';
+        const desc = this.getAttribute('desc') || this.getAttribute('title') || '';
         const formula = this.getAttribute('formula') || this.getAttribute('expr') || '';
         if (!rawHtml) {
-            const displayLabel = formula || eqId || 'Equation';
+            const displayLabel = desc || formula || (eqId ? `Eq #${eqId}` : 'Equation');
             this.innerHTML = `«Eq: ${displayLabel}»`;
         }
         else if (!rawHtml.startsWith('«') && !rawHtml.startsWith('&laquo;') && !rawHtml.startsWith('<<')) {

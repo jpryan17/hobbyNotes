@@ -146,6 +146,11 @@ export class ArgumentCard extends Elt {
             codeWrap.append(pre);
             body.append(codeWrap);
         }
+        // Deductive Lineage Panel (Lean 4 DAG Upstream & Downstream References)
+        const cachedLineage = this.getCachedVerification();
+        if (cachedLineage && ((cachedLineage.uses && cachedLineage.uses.length > 0) || (cachedLineage.usedBy && cachedLineage.usedBy.length > 0))) {
+            body.append(this.buildLineagePanel(cachedLineage));
+        }
         // Collapsible Algebraic Reduction & Invariant Evaluation (NavFW Compatible)
         if (arg.casCalculation) {
             const casWrap = new Elt("details");
@@ -263,11 +268,143 @@ export class ArgumentCard extends Elt {
             return LEAN_CACHE[targetKey];
         if (this.arg.expression && LEAN_CACHE[this.arg.expression])
             return LEAN_CACHE[this.arg.expression];
+        const pickVal = this.arg.testOrPickValue || "";
+        const arrowMatch = pickVal.match(/→\s*([a-zA-Z0-9_'.]+)/);
+        if (arrowMatch && LEAN_CACHE[arrowMatch[1]]) {
+            return LEAN_CACHE[arrowMatch[1]];
+        }
         // Search by key substring or target match
         const entries = Object.values(LEAN_CACHE);
         return entries.find((c) => (c.target && targetKey.includes(c.target)) ||
-            (c.key && targetKey.includes(c.key)) ||
+            (c.key && (targetKey.includes(c.key) || pickVal.includes(c.key))) ||
             (c.expression && this.arg.expression && c.expression === this.arg.expression));
+    }
+    buildLineagePanel(cached) {
+        const wrap = new Elt("div");
+        wrap.setA("style", "margin-top: 12px; padding: 12px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);");
+        const header = new Elt("div");
+        header.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;");
+        const headerLeft = new Elt("div");
+        headerLeft.setA("style", "display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11.5px; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px;");
+        headerLeft.setV("<span>🌿</span> Deductive Lineage (Lean 4 DAG)");
+        const headerRight = new Elt("div");
+        headerRight.setA("style", "font-size: 11px; color: #64748b; font-weight: 500;");
+        const usesCount = cached.uses?.length || 0;
+        const usedByCount = cached.usedBy?.length || 0;
+        headerRight.setV(`${usesCount} Upstream · ${usedByCount} Downstream`);
+        header.append(headerLeft);
+        header.append(headerRight);
+        wrap.append(header);
+        // Detail Drawer Container (dynamically populated on chip click)
+        const drawer = new Elt("div");
+        drawer.setA("style", "display: none; margin-bottom: 10px; padding: 10px 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; border: 1px solid #334155; font-size: 11.5px;");
+        wrap.append(drawer);
+        const showSymbolDetail = (symName) => {
+            const sym = LEAN_CACHE[symName];
+            drawer.elt.innerHTML = "";
+            drawer.setA("style", "display: block; margin-bottom: 10px; padding: 10px 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; border: 1px solid #334155; font-size: 11.5px;");
+            const topRow = new Elt("div");
+            topRow.setA("style", "display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px;");
+            const symTitle = new Elt("div");
+            symTitle.setA("style", "display: flex; align-items: center; gap: 6px;");
+            const kindBadge = new Elt("span");
+            const kind = sym?.kind || "declaration";
+            const icon = kind === "theorem" ? "🏆" : kind === "axiom" ? "📜" : kind === "structure" ? "🧱" : kind === "inductive" ? "🧬" : "⚙️";
+            kindBadge.setA("style", "font-weight: 700; color: #38bdf8; text-transform: uppercase; font-size: 10.5px;");
+            kindBadge.setV(`${icon} ${kind}:`);
+            const nameSpan = new Elt("span");
+            nameSpan.setA("style", "font-family: monospace; font-weight: 700; color: #f8fafc; font-size: 12.5px;");
+            nameSpan.setV(symName);
+            symTitle.append(kindBadge);
+            symTitle.append(nameSpan);
+            const closeBtn = new Elt("button");
+            closeBtn.setA("style", "border: none; background: transparent; color: #94a3b8; font-size: 14px; font-weight: bold; cursor: pointer; padding: 0 4px;");
+            closeBtn.setV("✕");
+            closeBtn.elt.addEventListener("click", () => {
+                drawer.setA("style", "display: none;");
+            });
+            topRow.append(symTitle);
+            topRow.append(closeBtn);
+            drawer.append(topRow);
+            if (sym) {
+                if (sym.signature) {
+                    const sigDiv = new Elt("div");
+                    sigDiv.setA("style", "font-family: monospace; color: #7dd3fc; margin-bottom: 6px; line-height: 1.4; word-break: break-word;");
+                    sigDiv.setV(sym.signature);
+                    drawer.append(sigDiv);
+                }
+                if (sym.summary) {
+                    const sumDiv = new Elt("div");
+                    sumDiv.setA("style", "color: #cbd5e1; font-style: italic; margin-bottom: 6px; font-size: 11px;");
+                    sumDiv.setV(sym.summary);
+                    drawer.append(sumDiv);
+                }
+                if (sym.leanSnippet && sym.leanSnippet !== sym.signature) {
+                    const pre = new Elt("pre");
+                    pre.setA("style", "margin: 4px 0 0 0; padding: 6px 8px; background: #020617; border-radius: 4px; color: #a5f3fc; font-family: monospace; font-size: 11px; line-height: 1.4; overflow-x: auto;");
+                    pre.setV(sym.leanSnippet);
+                    drawer.append(pre);
+                }
+                if (sym.lineNo) {
+                    const locDiv = new Elt("div");
+                    locDiv.setA("style", "margin-top: 6px; font-size: 10px; color: #64748b; text-align: right;");
+                    locDiv.setV(`MiddleWayLean/Scaffold.lean (line ${sym.lineNo})`);
+                    drawer.append(locDiv);
+                }
+            }
+            else {
+                const notFound = new Elt("div");
+                notFound.setA("style", "color: #94a3b8; font-style: italic;");
+                notFound.setV("Constitutional identifier referenced in formal proof.");
+                drawer.append(notFound);
+            }
+        };
+        const renderChip = (symName, isDownstream = false) => {
+            const sym = LEAN_CACHE[symName];
+            const kind = sym?.kind || "declaration";
+            const icon = kind === "theorem" ? "🏆" : kind === "axiom" ? "📜" : kind === "structure" ? "🧱" : kind === "inductive" ? "🧬" : "⚙️";
+            const btn = new Elt("button");
+            btn.setA("style", `display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; margin: 2px 4px 2px 0; font-size: 11px; font-family: monospace; background: #ffffff; border: 1px solid ${isDownstream ? "#bae6fd" : "#cbd5e1"}; border-radius: 4px; cursor: pointer; color: ${isDownstream ? "#0369a1" : "#1e293b"}; font-weight: 500; transition: all 0.15s ease;`);
+            btn.setV(`<span>${icon}</span> <span>${symName}</span>`);
+            btn.setA("title", `Click to inspect ${kind} ${symName}${sym?.signature ? ": " + sym.signature : ""}`);
+            btn.elt.addEventListener("mouseenter", () => {
+                btn.setA("style", `display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; margin: 2px 4px 2px 0; font-size: 11px; font-family: monospace; background: #f0fdf4; border: 1px solid #16a34a; border-radius: 4px; cursor: pointer; color: #15803d; font-weight: 600;`);
+            });
+            btn.elt.addEventListener("mouseleave", () => {
+                btn.setA("style", `display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; margin: 2px 4px 2px 0; font-size: 11px; font-family: monospace; background: #ffffff; border: 1px solid ${isDownstream ? "#bae6fd" : "#cbd5e1"}; border-radius: 4px; cursor: pointer; color: ${isDownstream ? "#0369a1" : "#1e293b"}; font-weight: 500;`);
+            });
+            btn.elt.addEventListener("click", () => showSymbolDetail(symName));
+            return btn;
+        };
+        // Upstream Prerequisites
+        if (cached.uses && cached.uses.length > 0) {
+            const row = new Elt("div");
+            row.setA("style", "margin-bottom: 6px;");
+            const label = new Elt("div");
+            label.setA("style", "font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 3px;");
+            label.setV("▲ Proved Using (Prerequisites):");
+            row.append(label);
+            const chipsWrap = new Elt("div");
+            chipsWrap.setA("style", "display: flex; flex-wrap: wrap; align-items: center;");
+            cached.uses.forEach((sym) => chipsWrap.append(renderChip(sym, false)));
+            row.append(chipsWrap);
+            wrap.append(row);
+        }
+        // Downstream Usages
+        if (cached.usedBy && cached.usedBy.length > 0) {
+            const row = new Elt("div");
+            row.setA("style", "margin-top: 6px; padding-top: 6px; border-top: 1px dashed #e2e8f0;");
+            const label = new Elt("div");
+            label.setA("style", "font-size: 11px; font-weight: 700; color: #0284c7; margin-bottom: 3px;");
+            label.setV("▼ Powers &amp; Validates (Downstream Applications):");
+            row.append(label);
+            const chipsWrap = new Elt("div");
+            chipsWrap.setA("style", "display: flex; flex-wrap: wrap; align-items: center;");
+            cached.usedBy.forEach((sym) => chipsWrap.append(renderChip(sym, true)));
+            row.append(chipsWrap);
+            wrap.append(row);
+        }
+        return wrap;
     }
     isDevMode() {
         return typeof Nav !== "undefined" && Boolean(Nav.editMode || Nav.edit);

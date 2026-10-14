@@ -69,7 +69,7 @@
     • <b>Field Axiom:</b> Let <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> be the first Cantor ordinal satisfying <code>ω^(ε₀) = ε₀</code>. The surreal carrier <code>No(ε₀)</code> (and its complexification <code>ℂ_{&lt;ε₀}</code>) is an algebraically closed field.<br>
     • <b>Inherited Operations on ℝ_ω:</b> The transect <code>ℝ_ω</code> is not an algebraic structure in isolation (it lacks transfinite arithmetic closure), but inherits its ordering and field operations directly from <code>No(ε₀)</code>.<br>
     • <b>Algebraic Closure of G:</b> The carrier set <code>G = ℂ_{&lt;ε₀}</code> is algebraically closed under field arithmetic, roots, and finite linear combinations.<br>
-    • <b>Observable Shadow Map:</b> <fsd-ref tier="3" scaffold="st" title="Standard Part Shadow Map st(·)">The standard part map <code>st : ℂ_{&lt;ε₀} → ℂ_ω</code> projects transfinite numbers to their unique closest Day-<code>ω</code> coordinates.</fsd-ref>
+    • <b>Observable Shadow Map:</b> <fs-ref id="1" desc="Standard Part Shadow Map st(·)"></fs-ref>
   </div>
 
   <hr>
@@ -125,7 +125,7 @@
 
   <h4>Formal Statement (FS-LA-1.2): The Constructive Abelian Group (G, +)</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Abstract Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies the <fsd-ref tier="3" scaffold="abelian_group" title="The Constructive Abelian Group (G, +)"><b>Abelian Group Axioms (in Lean 4)</b></fsd-ref>:<br>
+    • <b>Part 1 — Abstract Group Definition:</b> A pair <code>(G, +)</code> where <code>+ : G × G → G</code> satisfies the <fs-ref id="1" desc="The Constructive Abelian Group (G, +)"></fs-ref>:<br>
     &nbsp;&nbsp;1. <b>Closure:</b> <code>∀ a, b ∈ G, (a + b) ∈ G</code>.<br>
     &nbsp;&nbsp;2. <b>Associativity:</b> <code>∀ a, b, c ∈ G, (a + b) + c = a + (b + c)</code>.<br>
     &nbsp;&nbsp;3. <b>Identity Element:</b> <code>∃ 0 ∈ G : ∀ a ∈ G, a + 0 = 0 + a = a</code>.<br>
@@ -175,7 +175,7 @@
 
   <h4>Formal Statement (FS-LA-1.3): The Field (F, +, ·) &amp; The Two-Group Marvel</h4>
   <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 13px; margin-bottom: 15px;">
-    • <b>Part 1 — Abstract Field Definition:</b> A triple <code>(F, +, ·)</code> satisfying the <fsd-ref tier="3" scaffold="field_structure" title="The Field (F, +, ·) &amp; Multiplicative Inverses"><b>Constitutional Field Axioms (in Lean 4)</b></fsd-ref>:<br>
+    • <b>Part 1 — Abstract Field Definition:</b> A triple <code>(F, +, ·)</code> satisfying the <fs-ref id="1" desc="The Field (F, +, ·) &amp; Multiplicative Inverses"></fs-ref>:<br>
     &nbsp;&nbsp;1. <b>Additive Group:</b> <code>(F, +)</code> forms an Abelian group with identity <code>0</code>.<br>
     &nbsp;&nbsp;2. <b>Multiplicative Group:</b> Non-zero elements <code>(F \ {0}, ·)</code> form an Abelian group with unit <code>1 ≠ 0</code>.<br>
     &nbsp;&nbsp;3. <b>Distributive Peace Treaty:</b> Multiplication distributes over addition: <code>∀ a, b, c ∈ F, a · (b + c) = a · b + a · c</code>.<br>

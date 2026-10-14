@@ -94,7 +94,8 @@ export async function generateSeedSql(): Promise<string> {
   sql.push(`  curriculum_nav_items,`);
   sql.push(`  verified_presets,`);
   sql.push(`  mode_slots,`);
-  sql.push(`  calculation_modes,`);
+  sql.push(`  equation_statement_links,`);
+  sql.push(`  directed_equations,`);
   sql.push(`  lean_verifications,`);
   sql.push(`  formal_statements,`);
   sql.push(`  pseudocode_algorithms,`);
@@ -438,8 +439,13 @@ export async function generateSeedSql(): Promise<string> {
     }
     const pseudoAlgoId = stmtPseudoKey && pseudoAlgoKeyToId[stmtPseudoKey] ? pseudoAlgoKeyToId[stmtPseudoKey] : null;
 
+    const structureKind = stmt.tier || 'theorem';
+    const subjectType = stmt.type || 'math';
+    const subjectDomain = domainCategory;
+
     statementInserts.push(
       `  (${stId}, ${escapeSql(stmt.id)}, ${escapeSql(stmt.scaffoldKey)}, ${escapeSql(domainCategory)}, ` +
+      `${escapeSql(subjectType)}, ${escapeSql(structureKind)}, ` +
       `${parentId !== null ? parentId : 'NULL'}, '${statementKind}', ${pseudoAlgoId !== null ? pseudoAlgoId : 'NULL'}, ` +
       `${escapeSql(stmt.type)}, ${escapeSql(stmt.tier)}, ` +
       `${escapeSql(stmt.governingSeed || null)}, ${escapeSql(stmt.title)}, ${escapeSql(stmt.description || null)}, ` +
@@ -450,7 +456,7 @@ export async function generateSeedSql(): Promise<string> {
 
   if (statementInserts.length > 0) {
     sql.push(`INSERT INTO formal_statements (`);
-    sql.push(`  id, statement_key, scaffold_key, domain_category, parent_id, statement_kind, pseudo_algo_id, type, tier, governing_seed,`);
+    sql.push(`  id, statement_key, scaffold_key, domain_category, subject_type, structure_kind, parent_id, statement_kind, pseudo_algo_id, type, tier, governing_seed,`);
     sql.push(`  title, description, expression, lean_signature, lean_snippet, status, referenced_segments`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
     sql.push(statementInserts.join(',\n'));
@@ -458,6 +464,8 @@ export async function generateSeedSql(): Promise<string> {
     sql.push(`  statement_key = EXCLUDED.statement_key,`);
     sql.push(`  scaffold_key = EXCLUDED.scaffold_key,`);
     sql.push(`  domain_category = EXCLUDED.domain_category,`);
+    sql.push(`  subject_type = EXCLUDED.subject_type,`);
+    sql.push(`  structure_kind = EXCLUDED.structure_kind,`);
     sql.push(`  parent_id = EXCLUDED.parent_id,`);
     sql.push(`  statement_kind = EXCLUDED.statement_kind,`);
     sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
@@ -469,76 +477,89 @@ export async function generateSeedSql(): Promise<string> {
     sql.push(`  referenced_segments = EXCLUDED.referenced_segments;\n`);
   }
 
-  // 5. Calculation Modes (Directional Stencils / Function Rules)
-  sql.push(`-- 5. Calculation Modes (Directional Stencils / Function Rules)`);
+  // 5. Active Directed Equations & Equation-to-Statement Links
+  sql.push(`-- 5. Active Directed Equations (Stencils / Computational Rules)`);
   catalog.calculationModes.forEach((mode: any, idx: number) => {
     modeKeyToId[mode.id] = idx + 1;
   });
 
-  const modeInserts: string[] = [];
+  const eqInserts: string[] = [];
+  const linkInserts: string[] = [];
+  let linkCounter = 1;
+
   catalog.calculationModes.forEach((mode: any, idx: number) => {
-    const mId = idx + 1;
+    const eqId = idx + 1;
     const stmtId = statementKeyToId[mode.statementId] || 1;
 
     let pseudoAlgoKey: string | null = mode.pseudoAlgoId || null;
-    let ruleName: string | null = mode.functionRuleName || null;
-    let ruleSig: string | null = mode.functionSignature || null;
+    let ruleName: string | null = mode.functionRuleName || mode.label || null;
 
     if (!pseudoAlgoKey) {
       if (mode.id.startsWith('ff_') || mode.id.includes('fall') || mode.id.includes('kinematic')) {
         pseudoAlgoKey = 'kinematics_step';
         ruleName = ruleName || `Kinematic Step ↦ ${mode.targetSymbol}`;
-        ruleSig = ruleSig || `(v₀: 𝔻, g: 𝔻, t: 𝔻) ↦ ${mode.targetSymbol}: 𝔻`;
       } else if (mode.id.includes('cordic') || mode.id.includes('trig') || mode.id.includes('angle') || mode.id.includes('rotor')) {
         pseudoAlgoKey = 'rotor_trig_cordic';
         ruleName = ruleName || `Dyadic Rotor Projection ↦ ${mode.targetSymbol}`;
-        ruleSig = ruleSig || `(θ: 𝔻, N: ℕ) ↦ ${mode.targetSymbol}: 𝔻`;
       } else if (mode.id.includes('heat') || mode.id.includes('diffusion')) {
         pseudoAlgoKey = 'laplacian_heat_step';
         ruleName = ruleName || `Discrete Thermal Diffusion ↦ ${mode.targetSymbol}`;
-        ruleSig = ruleSig || `(T: 𝔻[], α: 𝔻) ↦ ${mode.targetSymbol}: 𝔻[]`;
       } else if (mode.id.includes('bayes') || mode.id.includes('probability')) {
         pseudoAlgoKey = 'bayes_discrete_update';
         ruleName = ruleName || `Discrete Bayesian Update ↦ ${mode.targetSymbol}`;
-        ruleSig = ruleSig || `(P(H): 𝔻, P(E|H): 𝔻) ↦ ${mode.targetSymbol}: 𝔻`;
       } else if (mode.id.includes('exp') || mode.id.includes('euler') || mode.id.includes('growth')) {
         pseudoAlgoKey = 'euler_compounding';
         ruleName = ruleName || `Euler Compounding ↦ ${mode.targetSymbol}`;
-        ruleSig = ruleSig || `(x: 𝔻, K: ℕ) ↦ ${mode.targetSymbol}: 𝔻`;
       }
     }
     const pseudoAlgoId = pseudoAlgoKey && pseudoAlgoKeyToId[pseudoAlgoKey] ? pseudoAlgoKeyToId[pseudoAlgoKey] : null;
 
-    modeInserts.push(
-      `  (${mId}, ${escapeSql(mode.id)}, ${stmtId}, ${pseudoAlgoId !== null ? pseudoAlgoId : 'NULL'}, ` +
-      `${escapeSql(ruleName)}, ${escapeSql(ruleSig)}, ${escapeSql(mode.label)}, ` +
-      `${escapeSql(mode.targetSymbol)}, ${escapeSql(mode.targetDomain)}, ${escapeSql(mode.targetUnit || null)}, ` +
-      `${escapeSql(mode.formulaDescription)}, ${escapeSql(mode.formulaExpr)}, ${escapeSql(!!mode.hasSimulation)})`
+    eqInserts.push(
+      `  (${eqId}, ${escapeSql(mode.id)}, ${escapeSql(ruleName || mode.id)}, ${escapeSql(mode.label)}, ` +
+      `${escapeSql(mode.formulaExpr)}, ${escapeSql(mode.targetSymbol)}, ${escapeSql(mode.targetDomain)}, ` +
+      `${escapeSql(mode.targetUnit || null)}, ${pseudoAlgoId !== null ? pseudoAlgoId : 'NULL'}, ` +
+      `${escapeSql(mode.formulaDescription)}, ${escapeSql(!!mode.hasSimulation)})`
+    );
+
+    // Link: Active Directed Equation instantiates governing Formal Statement
+    linkInserts.push(
+      `  (${linkCounter++}, ${eqId}, ${stmtId}, 'instantiates', ${escapeSql(`Active calculation stencil instantiates ${mode.statementId}`)})`
     );
   });
 
-  if (modeInserts.length > 0) {
-    sql.push(`INSERT INTO calculation_modes (`);
-    sql.push(`  id, mode_key, statement_id, pseudo_algo_id, function_rule_name, function_signature, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation`);
+  if (eqInserts.length > 0) {
+    sql.push(`INSERT INTO directed_equations (`);
+    sql.push(`  id, equation_key, title, label, formula_expr, target_symbol, target_domain, target_unit, pseudo_algo_id, formula_description, has_simulation`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
-    sql.push(modeInserts.join(',\n'));
+    sql.push(eqInserts.join(',\n'));
     sql.push(`ON CONFLICT (id) DO UPDATE SET`);
-    sql.push(`  mode_key = EXCLUDED.mode_key,`);
-    sql.push(`  statement_id = EXCLUDED.statement_id,`);
-    sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
-    sql.push(`  function_rule_name = EXCLUDED.function_rule_name,`);
-    sql.push(`  function_signature = EXCLUDED.function_signature,`);
+    sql.push(`  equation_key = EXCLUDED.equation_key,`);
+    sql.push(`  title = EXCLUDED.title,`);
     sql.push(`  label = EXCLUDED.label,`);
+    sql.push(`  formula_expr = EXCLUDED.formula_expr,`);
     sql.push(`  target_symbol = EXCLUDED.target_symbol,`);
     sql.push(`  target_domain = EXCLUDED.target_domain,`);
     sql.push(`  target_unit = EXCLUDED.target_unit,`);
+    sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
     sql.push(`  formula_description = EXCLUDED.formula_description,`);
-    sql.push(`  formula_expr = EXCLUDED.formula_expr,`);
     sql.push(`  has_simulation = EXCLUDED.has_simulation;\n`);
   }
 
-  // 6. Mode Slots
-  sql.push(`-- 6. Mode Slots`);
+  if (linkInserts.length > 0) {
+    sql.push(`-- 5b. Equation-to-Statement Links (Instantiates & Has-Properties)`);
+    sql.push(`INSERT INTO equation_statement_links (`);
+    sql.push(`  id, equation_id, statement_id, relation_type, notes`);
+    sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
+    sql.push(linkInserts.join(',\n'));
+    sql.push(`ON CONFLICT (id) DO UPDATE SET`);
+    sql.push(`  equation_id = EXCLUDED.equation_id,`);
+    sql.push(`  statement_id = EXCLUDED.statement_id,`);
+    sql.push(`  relation_type = EXCLUDED.relation_type,`);
+    sql.push(`  notes = EXCLUDED.notes;\n`);
+  }
+
+  // 6. Mode Slots (Belonging to Directed Equations)
+  sql.push(`-- 6. Mode Slots (Input Parameters)`);
   sql.push(`DELETE FROM mode_slots;\n`);
   const slotInserts: string[] = [];
   let slotCounter = 1;
@@ -559,13 +580,13 @@ export async function generateSeedSql(): Promise<string> {
 
   if (slotInserts.length > 0) {
     sql.push(`INSERT INTO mode_slots (`);
-    sql.push(`  id, mode_id, slot_order, name, symbol, domain, unit, default_value, min_val, max_val, step_val, description`);
+    sql.push(`  id, equation_id, slot_order, name, symbol, domain, unit, default_value, min_val, max_val, step_val, description`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
     sql.push(slotInserts.join(',\n'));
     sql.push(`;\n`);
   }
 
-  // 7. Verified Presets (Belonging to Calculation Modes)
+  // 7. Verified Presets (Belonging to Directed Equations)
   sql.push(`-- 7. Verified Presets`);
   const presetInserts: string[] = [];
   catalog.examples.forEach((ex: any, idx: number) => {
@@ -583,12 +604,12 @@ export async function generateSeedSql(): Promise<string> {
 
   if (presetInserts.length > 0) {
     sql.push(`INSERT INTO verified_presets (`);
-    sql.push(`  id, preset_key, mode_id, title, input_values, display_result, formatted_formula, domain_badge, notes`);
+    sql.push(`  id, preset_key, equation_id, title, input_values, display_result, formatted_formula, domain_badge, notes`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
     sql.push(presetInserts.join(',\n'));
     sql.push(`ON CONFLICT (id) DO UPDATE SET`);
     sql.push(`  preset_key = EXCLUDED.preset_key,`);
-    sql.push(`  mode_id = EXCLUDED.mode_id,`);
+    sql.push(`  equation_id = EXCLUDED.equation_id,`);
     sql.push(`  input_values = EXCLUDED.input_values,`);
     sql.push(`  display_result = EXCLUDED.display_result,`);
     sql.push(`  formatted_formula = EXCLUDED.formatted_formula,`);
@@ -606,66 +627,70 @@ export async function generateSeedSql(): Promise<string> {
     const segId = segKeyToId[item.id];
     let occurrence = 0;
 
-    // Scan for fsd-ref tags (deductive emphasis: initial_focus = 'proof')
-    const fsdRegex = /<fsd-ref\s+([^>]*?)>(.*?)<\/fsd-ref>/gi;
+    // Scan for fs-ref and fsd-ref tags (deductive emphasis: initial_focus = 'proof')
+    const fsRegex = /<(?:fsd-ref|fs-ref)\s+([^>]*?)>(.*?)<\/(?:fsd-ref|fs-ref)>/gi;
     let match: RegExpExecArray | null;
-    while ((match = fsdRegex.exec(html)) !== null) {
+    while ((match = fsRegex.exec(html)) !== null) {
       const attrs = match[1];
-      const anchor = match[2].replace(/<[^>]*>/g, '').trim();
+      const descMatch = /desc=["']([^"']*)["']/i.exec(attrs);
+      const titleMatch = /title=["']([^"']*)["']/i.exec(attrs);
+      const anchor = descMatch ? descMatch[1] : (titleMatch ? titleMatch[1] : match[2].replace(/<[^>]*>/g, '').trim());
 
       const idMatch = /id=["']([^"']+)["']/i.exec(attrs);
       const scaffoldMatch = /scaffold=["']([^"']+)["']/i.exec(attrs);
-      let stmtKey: string | null = null;
+      let stId: number | null = null;
 
-      if (idMatch && catalog.formalStatements.some((s: any) => s.id === idMatch[1])) {
-        stmtKey = idMatch[1];
+      if (idMatch && /^\d+$/.test(idMatch[1])) {
+        stId = parseInt(idMatch[1], 10);
+      } else if (idMatch && catalog.formalStatements.some((s: any) => s.id === idMatch[1])) {
+        stId = statementKeyToId[idMatch[1]] || null;
       } else if (scaffoldMatch) {
         const found = catalog.formalStatements.find((s: any) => s.scaffoldKey === scaffoldMatch[1]);
-        if (found) stmtKey = found.id;
+        if (found) stId = statementKeyToId[found.id] || null;
       }
 
-      if (stmtKey && statementKeyToId[stmtKey]) {
-        const stId = statementKeyToId[stmtKey];
+      if (stId) {
         const isCalc = /auto-calc|open-calc/i.test(attrs);
         const focus = isCalc ? 'calculator' : 'proof';
-        const mode = catalog.calculationModes.find((m: any) => m.statementId === stmtKey);
-        const mId = isCalc && mode ? (modeKeyToId[mode.id] || null) : null;
         refInserts.push(
-          `  (${refCounter++}, ${segId}, ${stId}, ${mId !== null ? mId : 'NULL'}, NULL, '${focus}', ${occurrence++}, ${escapeSql(anchor)}, ${escapeSql(match[0])})`
+          `  (${refCounter++}, ${segId}, ${stId}, NULL, NULL, '${focus}', ${occurrence++}, ${escapeSql(anchor || 'Formal Statement')}, ${escapeSql(match[0])})`
         );
       }
     }
 
-    // Scan for eq-ref tags (computational emphasis: initial_focus = 'calculator')
+    // Scan for eq-ref and cas-ref tags (computational emphasis: initial_focus = 'calculator')
     const eqRegex = /<(?:cas-ref|eq-ref)\s+([^>]*?)>(.*?)<\/(?:cas-ref|eq-ref)>/gi;
     while ((match = eqRegex.exec(html)) !== null) {
       const attrs = match[1];
-      const anchor = match[2].replace(/<[^>]*>/g, '').trim();
+      const descMatch = /desc=["']([^"']*)["']/i.exec(attrs);
+      const titleMatch = /title=["']([^"']*)["']/i.exec(attrs);
+      const anchor = descMatch ? descMatch[1] : (titleMatch ? titleMatch[1] : match[2].replace(/<[^>]*>/g, '').trim());
+      const numIdMatch = /id=["'](\d+)["']/i.exec(attrs);
       const calcMatch = /(?:calc-id|eq-id)=["']([^"']+)["']/i.exec(attrs);
       const calcId = calcMatch ? calcMatch[1] : null;
 
+      let eqId: number | null = null;
       let stId: number | null = null;
-      let mId: number | null = null;
-      let pId: number | null = null;
 
-      if (calcId) {
+      if (numIdMatch) {
+        eqId = parseInt(numIdMatch[1], 10);
+      } else if (calcId) {
         const preset = catalog.examples.find((p: any) => p.presetKey === calcId || p.id === calcId);
         if (preset) {
-          pId = presetKeyToId[preset.id] || null;
-          mId = modeKeyToId[preset.modeId] || null;
+          eqId = modeKeyToId[preset.modeId] || null;
           stId = statementKeyToId[preset.statementId] || null;
         } else {
           const mode = catalog.calculationModes.find((m: any) => m.id === calcId);
           if (mode) {
-            mId = modeKeyToId[mode.id] || null;
+            eqId = modeKeyToId[mode.id] || null;
             stId = statementKeyToId[mode.statementId] || null;
           }
         }
       }
 
-      if (stId) {
+      if (eqId !== null || stId !== null) {
         refInserts.push(
-          `  (${refCounter++}, ${segId}, ${stId}, ${mId !== null ? mId : 'NULL'}, ${pId !== null ? pId : 'NULL'}, 'calculator', ${occurrence++}, ${escapeSql(anchor)}, ${escapeSql(match[0])})`
+          `  (${refCounter++}, ${segId}, ${stId !== null ? stId : 'NULL'}, ${eqId !== null ? eqId : 'NULL'}, NULL, 'calculator', ${occurrence++}, ${escapeSql(anchor || 'Equation Stencil')}, ${escapeSql(match[0])})`
         );
       }
     }
@@ -673,7 +698,7 @@ export async function generateSeedSql(): Promise<string> {
 
   if (refInserts.length > 0) {
     sql.push(`INSERT INTO segment_references (`);
-    sql.push(`  id, segment_id, statement_id, mode_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag`);
+    sql.push(`  id, segment_id, statement_id, equation_id, preset_id, initial_focus, occurrence_order, anchor_text, raw_tag`);
     sql.push(`) OVERRIDING SYSTEM VALUE VALUES`);
     sql.push(refInserts.join(',\n'));
     sql.push(`;\n`);

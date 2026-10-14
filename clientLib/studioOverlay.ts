@@ -20,14 +20,22 @@ import {
     DbCurriculumNavItem,
     DbPseudocodeAlgorithm,
     fetchAllPseudocodeAlgorithms,
-    fetchSegmentByIdOrKey
+    fetchSegmentByIdOrKey,
+    DbDirectedEquation,
+    DbFormalStatement,
+    fetchAllDirectedEquations,
+    fetchFormalStatements
 } from './db/clientQueries.js';
 import { getApiBaseUrl } from './db/api.js';
 import { PXE } from './pxe.js';
 import { ttd } from './ttd.js';
 import { fsd, setFSD } from './fsd.js';
+import { FSDRef } from './fsdRef.js';
+import { eqDemo, setEqDemo } from './eqDemo.js';
 import { pseudoViewer, setPseudoViewer } from './pseudoViewer.js';
 import { MODULE_CATALOG } from './pseudoCatalog.js';
+import { FS_CATALOG } from './fsCatalog.js';
+import { LEAN_CACHE } from './leanCache.js';
 
 type NavColors = { bg: string; std: string; active: string; over: string; busy: string };
 
@@ -44,6 +52,7 @@ export class StudioOverlay {
     public static dbWidget: SVGTSpan;
     public static contentWidget: SVGTSpan;
     public static stencilWidget: SVGTSpan;
+    public static fsWidget: SVGTSpan;
     public static pseudoWidget: SVGTSpan;
     public static reloadWidget: SVGTSpan;
     public static consoleWidget: SVGTSpan;
@@ -112,12 +121,16 @@ export class StudioOverlay {
         StudioOverlay.contentWidget = createButton('[✏️ Content]', () => StudioOverlay.openContentEditor());
         createSpacer();
 
-        // 3. Stencil Insertion Helper
-        StudioOverlay.stencilWidget = createButton('[+ Stencil]', () => StudioOverlay.openStencilPicker());
+        // 3. Directed Equations & Active Stencils Workbench
+        StudioOverlay.stencilWidget = createButton('[📐 Stencils]', () => StudioOverlay.openStencilWorkbench());
         createSpacer();
 
-        // 3b. Pseudocode Catalog & Review Environment
-        StudioOverlay.pseudoWidget = createButton('[📜 Pseudocode]', () => StudioOverlay.openPseudocodeStudio());
+        // 3b. Middle Way Formal Statements & Lean Theorems Studio
+        StudioOverlay.fsWidget = createButton('[📜 Statements]', () => StudioOverlay.openFormalStatementStudio());
+        createSpacer();
+
+        // 3c. Pseudocode Catalog & Review Environment
+        StudioOverlay.pseudoWidget = createButton('[💻 Pseudocode]', () => StudioOverlay.openPseudocodeStudio());
         createSpacer();
 
         // 4. Live Reload Segment
@@ -169,8 +182,8 @@ export class StudioOverlay {
 
     private static updateWidth(): void {
         const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 stagedSegs (0)]';
-        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [+ Stencil] [📜 Pseudocode] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
-        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 150;
+        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [📐 Stencils] [📜 Statements] [💻 Pseudocode] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
+        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 160;
     }
 
     // Toggle between View mode (normal student navigation) and Edit mode (in-situ outline editing)
@@ -839,10 +852,11 @@ export class StudioOverlay {
 
                     <!-- Stencils & Mathematical Notation -->
                     <div class="studio-tb-group">
-                        <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" title="Insert Verified Stencil Tag">🧮 + Stencil</button>
-                        <button id="tb-insert-pseudo" class="studio-tb-btn" style="color: #0d9488; border-color: #99f6e4; font-weight: 700; background: #f0fdfa;" title="Insert Structured Pseudocode Reference Tag">📜 + Alg</button>
+                        <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #047857; border-color: #a7f3d0; font-weight: 700; background: #ecfdf5;" title="Insert Active Directed Equation Stencil (<eq-ref>)">📐 + Stencil</button>
+                        <button id="tb-insert-theorem" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd; font-weight: 700; background: #f0f9ff;" title="Insert Governed Formal Statement / Theorem (<fs-ref>)">📜 + Theorem</button>
+                        <button id="tb-insert-pseudo" class="studio-tb-btn" style="color: #0d9488; border-color: #99f6e4; font-weight: 700; background: #f0fdfa;" title="Insert Structured Pseudocode Reference Tag">💻 + Alg</button>
                         <button id="tb-insert-ttd" class="studio-tb-btn" style="color: #b91c1c; border-color: #fca5a5; font-weight: 700;" title="Insert Truth Table Demo (TTD) Expression Tag">⚖️ + TTD</button>
-                        <button id="tb-insert-fsd" class="studio-tb-btn" style="color: #be185d; border-color: #fbcfe8; font-weight: 700;" title="Insert Formal Statement Demo (FSD) Tag">📐 + FSD</button>
+                        <button id="tb-insert-fsd" class="studio-tb-btn" style="color: #be185d; border-color: #fbcfe8; font-weight: 700;" title="Insert Formal Structure Diagram (FSD) Stage Visualizer">📐 + FSD Stage</button>
                         <button id="tb-insert-diagram" class="studio-tb-btn" style="color: #0284c7; border-color: #7dd3fc; font-weight: 700; background: #f0f9ff;" title="Draw &amp; Embed a New Draw.io Diagram">🎨 + Diagram</button>
                         <button id="tb-insert-math" class="studio-tb-btn" title="Insert Inline Math Formula">∑ Math</button>
                         <button id="tb-render-math" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd;" title="Typeset MathJax in Visual View">🔄 Render Math</button>
@@ -1038,6 +1052,7 @@ export class StudioOverlay {
         const btnCard = document.getElementById('tb-box-card') as HTMLButtonElement;
         const btnInsertTable = document.getElementById('tb-insert-table') as HTMLButtonElement;
         const btnInsertStencil = document.getElementById('tb-insert-stencil') as HTMLButtonElement;
+        const btnInsertTheorem = document.getElementById('tb-insert-theorem') as HTMLButtonElement;
         const btnInsertPseudo = document.getElementById('tb-insert-pseudo') as HTMLButtonElement;
         const btnInsertTtd = document.getElementById('tb-insert-ttd') as HTMLButtonElement;
         const btnInsertFsd = document.getElementById('tb-insert-fsd') as HTMLButtonElement;
@@ -1063,7 +1078,7 @@ export class StudioOverlay {
         wysiwygDiv.addEventListener('mouseup', saveWysiwygRange);
 
         const protectStencils = (root: HTMLElement) => {
-            root.querySelectorAll('fsd-ref, eq-ref, ttd-ref').forEach((el) => {
+            root.querySelectorAll('fsd-ref, fs-ref, eq-ref, ttd-ref').forEach((el) => {
                 el.setAttribute('contenteditable', 'false');
                 if (el.tagName.toLowerCase() === 'ttd-ref' && !el.querySelector('.ttd-chip-del')) {
                     const delBtn = document.createElement('span');
@@ -1073,10 +1088,10 @@ export class StudioOverlay {
                     delBtn.textContent = '✕';
                     el.appendChild(delBtn);
                 }
-                if (el.tagName.toLowerCase() === 'fsd-ref' && !el.querySelector('.fsd-chip-del')) {
+                if ((el.tagName.toLowerCase() === 'fsd-ref' || el.tagName.toLowerCase() === 'fs-ref' || el.tagName.toLowerCase() === 'eq-ref') && !el.querySelector('.fsd-chip-del')) {
                     const delBtn = document.createElement('span');
                     delBtn.className = 'fsd-chip-del';
-                    delBtn.title = 'Delete FSD tag';
+                    delBtn.title = `Delete <${el.tagName.toLowerCase()}> tag`;
                     delBtn.setAttribute('contenteditable', 'false');
                     delBtn.textContent = '✕';
                     el.appendChild(delBtn);
@@ -1118,7 +1133,7 @@ export class StudioOverlay {
         textarea.value = currentHtml;
         updateStats();
 
-        // In-situ click on ttd-ref and fsd-ref chips inside visual editor to modify or delete
+        // In-situ click on ttd-ref, fs-ref, eq-ref, and fsd-ref chips inside visual editor to modify or delete
         wysiwygDiv.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
 
@@ -1139,19 +1154,20 @@ export class StudioOverlay {
                 return;
             }
 
-            // Direct click on inline delete button (✕) for FSD
+            // Direct click on inline delete button (✕) for FSD, FS, or EQ
             if (target.classList.contains('fsd-chip-del') || target.closest('.fsd-chip-del')) {
                 e.preventDefault();
                 e.stopPropagation();
-                const chip = target.closest('fsd-ref') as HTMLElement;
+                const chip = target.closest('fsd-ref, fs-ref, eq-ref') as HTMLElement;
                 if (chip) {
+                    const tag = chip.tagName.toLowerCase();
                     chip.remove();
                     isWysiwygDirty = true;
                     if (currentMode === 'split') {
                         textarea.value = cleanWysiwygHtml(wysiwygDiv.innerHTML);
                     }
                     updateStats();
-                    StudioOverlay.showToast('✓ Deleted <fsd-ref> tag.');
+                    StudioOverlay.showToast(`✓ Deleted <${tag}> tag.`);
                 }
                 return;
             }
@@ -1437,6 +1453,12 @@ export class StudioOverlay {
         // Toolbar: Stencils & Mathematical Notation
         btnInsertStencil.addEventListener('click', () => {
             StudioOverlay.openStencilPicker((tag) => {
+                insertHtmlSnippet(tag);
+            });
+        });
+
+        btnInsertTheorem?.addEventListener('click', () => {
+            StudioOverlay.openFormalStatementStudio((tag) => {
                 insertHtmlSnippet(tag);
             });
         });
@@ -2192,56 +2214,100 @@ export class StudioOverlay {
     }
 
     // =========================================================================
-    // 5. STENCIL CATALOG PICKER MODAL
+    // 5. DIRECTED EQUATIONS & ACTIVE STENCILS WORKBENCH
     // =========================================================================
 
-    public static async openStencilPicker(onSelect?: (tag: string) => void): Promise<void> {
+    public static async openStencilWorkbench(onSelect?: (tag: string) => void): Promise<void> {
         const existing = document.getElementById('studio-stencil-modal');
         if (existing) existing.remove();
 
-        let stencils: any[] = [];
+        let equations: DbDirectedEquation[] = [];
         try {
-            const resp = await fetch('./public/fsCatalog.json');
-            if (resp.ok) {
-                const catalog = await resp.json();
-                stencils = catalog.formalStatements || [];
-            }
+            equations = await fetchAllDirectedEquations();
         } catch {
-            stencils = [];
+            equations = [];
+        }
+
+        if (!equations || equations.length === 0) {
+            equations = (FS_CATALOG.calculationModes || []).map((m: any, idx: number) => ({
+                id: idx + 1,
+                equation_key: m.id,
+                title: m.label || m.formulaDescription || m.id,
+                label: m.label || m.id,
+                formula_expr: m.formulaExpr || '',
+                target_symbol: m.targetSymbol || 'y',
+                target_domain: m.targetDomain || 'ℝ_ω',
+                target_unit: m.targetUnit || null,
+                pseudo_algo_id: null,
+                formula_description: m.formulaDescription || '',
+                has_simulation: !!m.hasSimulation,
+                statement_id: null,
+                statement_title: null
+            }));
         }
 
         const modal = document.createElement('div');
         modal.id = 'studio-stencil-modal';
         modal.className = 'studio-modal-backdrop';
 
-        const listItems = stencils.map((s) => {
-            const scaffold = s.scaffoldKey || s.id.replace(/^fs_/, '');
-            const tag = `<fsd-ref scaffold="${scaffold}" tier="${s.tier || '3'}" auto-calc>${s.title}</fsd-ref>`;
-            return `
-                <div class="studio-stencil-card" data-tag="${StudioOverlay.escapeHtml(tag)}">
-                    <div class="studio-stencil-title">
-                        <strong>${s.title}</strong>
-                        <span class="studio-stencil-badge">${s.type || 'math'} • tier ${s.tier || '3'}</span>
+        const renderCards = (eqList: DbDirectedEquation[]) => {
+            if (eqList.length === 0) {
+                return '<div style="padding: 30px; text-align: center; color: #64748b;">No directed equations match your search query.</div>';
+            }
+            return eqList.map(eq => {
+                const tag = `<eq-ref id="${eq.id}" desc="${StudioOverlay.escapeHtml(eq.title)}"></eq-ref>`;
+                return `
+                    <div class="studio-stencil-card" data-id="${eq.id}" data-tag="${StudioOverlay.escapeHtml(tag)}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; margin-bottom:12px; transition:border-color 0.15s, box-shadow 0.15s;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:#047857; color:#ffffff; font-size:11px; font-weight:800; padding:2px 7px; border-radius:12px;">#${eq.id}</span>
+                                <strong style="font-size:14.5px; color:#0f172a;">${StudioOverlay.escapeHtml(eq.title)}</strong>
+                            </div>
+                            <span style="background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(eq.target_symbol)} ∈ ${StudioOverlay.escapeHtml(eq.target_domain)}</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; font-family:monospace; font-size:13px; color:#1e293b; margin-bottom:8px; overflow-x:auto;">
+                            <strong>Formula:</strong> <code>${StudioOverlay.escapeHtml(eq.formula_expr)}</code>
+                        </div>
+                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:10px;">
+                            ${StudioOverlay.escapeHtml(eq.formula_description || 'Active computational stencil executable on the discrete dyadic machine.')}
+                        </div>
+                        ${eq.statement_title ? `
+                            <div style="font-size:12px; color:#0369a1; background:#f0f9ff; border:1px solid #bae6fd; border-radius:4px; padding:4px 8px; margin-bottom:10px; display:inline-flex; align-items:center; gap:5px;">
+                                <span>📜 Governed by Formal Statement:</span>
+                                <strong>${StudioOverlay.escapeHtml(eq.statement_title)}</strong>
+                            </div>
+                        ` : ''}
+                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
+                            <button class="studio-btn small secondary btn-test-stencil" data-id="${eq.id}">▶ Test Stencil</button>
+                            <button class="studio-btn small primary btn-insert-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert Tag'}</button>
+                            <button class="studio-btn small secondary btn-copy-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy Tag</button>
+                        </div>
                     </div>
-                    <div class="studio-stencil-expr"><code>${s.expression || ''}</code></div>
-                    <div class="studio-stencil-actions">
-                        <button class="studio-btn small primary btn-insert-tag">Insert Stencil</button>
-                        <button class="studio-btn small secondary btn-copy-tag">Copy Tag</button>
-                    </div>
-                </div>
-            `;
-        }).join('');
+                `;
+            }).join('');
+        };
 
         modal.innerHTML = `
-            <div class="studio-modal-dialog">
-                <div class="studio-modal-header">
-                    <h3>🧮 Mathematical Stencils Catalog</h3>
-                    <button class="studio-close-btn" id="stencil-close-btn">✕</button>
+            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
+                <!-- Header -->
+                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">📐</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Directed Equations &amp; Active Stencils Workbench</h3>
+                            <span style="font-size: 12px; color: #64748b;">PostgreSQL Database-First &bull; Primary Identity Keys &bull; Computational Stencils</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
+                        <input type="text" id="studio-stencil-search" placeholder="🔍 Search stencils by title, formula, variable..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
+                        <button class="studio-close-btn" id="stencil-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
+                    </div>
                 </div>
-                <div class="studio-modal-body">
-                    <p class="studio-hint">Browse deductive theorems and algebraic calculation stencils. Click "Insert" to embed directly into the chapter.</p>
-                    <div class="studio-stencil-list">
-                        ${listItems || '<div class="empty">No stencils found in catalog.</div>'}
+
+                <!-- Body -->
+                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc;">
+                    <div id="studio-stencil-container">
+                        ${renderCards(equations)}
                     </div>
                 </div>
             </div>
@@ -2255,23 +2321,263 @@ export class StudioOverlay {
             if (e.target === modal) closeModal();
         });
 
-        modal.querySelectorAll('.studio-stencil-card').forEach((card) => {
-            const tag = card.getAttribute('data-tag') || '';
-            card.querySelector('.btn-insert-tag')?.addEventListener('click', () => {
-                if (onSelect) {
-                    onSelect(tag);
-                    closeModal();
-                } else {
+        // Search Filter
+        const searchInput = document.getElementById('studio-stencil-search') as HTMLInputElement;
+        const container = document.getElementById('studio-stencil-container') as HTMLDivElement;
+
+        const attachActions = () => {
+            container.querySelectorAll('.btn-insert-tag').forEach((btn) => {
+                const tag = btn.getAttribute('data-tag') || '';
+                btn.addEventListener('click', () => {
+                    if (onSelect) {
+                        onSelect(tag);
+                        closeModal();
+                    } else {
+                        navigator.clipboard.writeText(tag);
+                        StudioOverlay.showToast(`Copied stencil tag: ${tag}`);
+                        closeModal();
+                    }
+                });
+            });
+
+            container.querySelectorAll('.btn-copy-tag').forEach((btn) => {
+                const tag = btn.getAttribute('data-tag') || '';
+                btn.addEventListener('click', () => {
                     navigator.clipboard.writeText(tag);
-                    StudioOverlay.showToast('Copied stencil tag to clipboard!');
+                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
+                });
+            });
+
+            container.querySelectorAll('.btn-test-stencil').forEach((btn) => {
+                const id = btn.getAttribute('data-id') || '';
+                btn.addEventListener('click', () => {
                     closeModal();
-                }
+                    if (!eqDemo) setEqDemo();
+                    const index = Nav.indices[Nav.currentIndex];
+                    const choice = index ? index.choices[index.chosen] : null;
+                    const topicName = choice && choice[0] ? choice[0].topic : 'lecture';
+                    const buttonText = `back to ${topicName}`;
+
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                    Nav.setLastVisit();
+                    Nav.addNavLineBackButton(buttonText);
+                    Nav.fo.removeChildren();
+                    Nav.fo.elt.scrollTop = 0;
+                    Nav.fo.append(eqDemo);
+                    Nav.display();
+
+                    eqDemo.loadEquation(id);
+                    eqDemo.layout();
+                    if (typeof requestAnimationFrame !== 'undefined') {
+                        requestAnimationFrame(() => eqDemo.layout());
+                    }
+                });
             });
-            card.querySelector('.btn-copy-tag')?.addEventListener('click', () => {
-                navigator.clipboard.writeText(tag);
-                StudioOverlay.showToast('Copied stencil tag to clipboard!');
-            });
+        };
+
+        attachActions();
+
+        searchInput?.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const filtered = equations.filter(eq =>
+                eq.title.toLowerCase().includes(query) ||
+                eq.formula_expr.toLowerCase().includes(query) ||
+                eq.equation_key.toLowerCase().includes(query) ||
+                (eq.target_symbol && eq.target_symbol.toLowerCase().includes(query)) ||
+                (eq.formula_description && eq.formula_description.toLowerCase().includes(query)) ||
+                (eq.statement_title && eq.statement_title.toLowerCase().includes(query))
+            );
+            container.innerHTML = renderCards(filtered);
+            attachActions();
         });
+    }
+
+    public static async openStencilPicker(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openStencilWorkbench(onSelect);
+    }
+
+    // =========================================================================
+    // 5b. FORMAL STATEMENTS & LEAN 4 THEOREMS STUDIO
+    // =========================================================================
+
+    public static async openFormalStatementStudio(onSelect?: (tag: string) => void): Promise<void> {
+        const existing = document.getElementById('studio-fs-modal');
+        if (existing) existing.remove();
+
+        let statements: DbFormalStatement[] = [];
+        try {
+            statements = await fetchFormalStatements();
+        } catch {
+            statements = [];
+        }
+
+        if (!statements || statements.length === 0) {
+            statements = (FS_CATALOG.formalStatements || []).map((s: any, idx: number) => ({
+                id: idx + 1,
+                statement_key: s.id,
+                scaffold_key: s.scaffoldKey || s.id,
+                domain_category: 'discrete_analysis',
+                subject_type: s.type || 'math',
+                structure_kind: s.tier || 'theorem',
+                statement_kind: 'theorem',
+                parent_id: null,
+                type: s.type || 'math',
+                tier: s.tier || 'theorem',
+                governing_seed: s.governingSeed || null,
+                title: s.title,
+                description: s.description || null,
+                expression: s.expression,
+                lean_signature: s.leanSignature || null,
+                lean_snippet: s.leanSnippet || null,
+                status: 'published'
+            }));
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'studio-fs-modal';
+        modal.className = 'studio-modal-backdrop';
+
+        const renderCards = (stmtList: DbFormalStatement[]) => {
+            if (stmtList.length === 0) {
+                return '<div style="padding: 30px; text-align: center; color: #64748b;">No formal statements match your search query.</div>';
+            }
+            return stmtList.map(st => {
+                const tag = `<fs-ref id="${st.id}" desc="${StudioOverlay.escapeHtml(st.title)}"></fs-ref>`;
+                const cached = LEAN_CACHE[st.scaffold_key] || LEAN_CACHE[st.statement_key] || LEAN_CACHE[`scaffold:${st.scaffold_key}`];
+                const leanSig = st.lean_signature || cached?.signature;
+                const qedBadge = cached?.qed
+                    ? `<span style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; font-size:11px; font-weight:700; padding:2px 7px; border-radius:12px;">🟢 Q.E.D. (${cached.timeMs}ms)</span>`
+                    : '';
+                const lineageBadge = (cached?.uses?.length || cached?.usedBy?.length)
+                    ? `<span style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-size:11px; font-weight:600; padding:2px 7px; border-radius:12px;" title="${cached.uses?.length || 0} Upstream Prerequisites, ${cached.usedBy?.length || 0} Downstream Dependents">🌿 ${cached.uses?.length || 0} In &bull; ${cached.usedBy?.length || 0} Out</span>`
+                    : '';
+
+                return `
+                    <div class="studio-stencil-card" data-id="${st.id}" data-tag="${StudioOverlay.escapeHtml(tag)}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; margin-bottom:12px; transition:border-color 0.15s, box-shadow 0.15s;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:#0284c7; color:#ffffff; font-size:11px; font-weight:800; padding:2px 7px; border-radius:12px;">#${st.id}</span>
+                                <strong style="font-size:14.5px; color:#0f172a;">${StudioOverlay.escapeHtml(st.title)}</strong>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                ${qedBadge}
+                                ${lineageBadge}
+                                <span style="background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(st.tier || 'theorem')} &bull; ${StudioOverlay.escapeHtml(st.type || 'math')}</span>
+                            </div>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; font-family:monospace; font-size:13px; color:#1e293b; margin-bottom:8px; overflow-x:auto;">
+                            <strong>Expression:</strong> <code>${StudioOverlay.escapeHtml(st.expression)}</code>
+                        </div>
+                        ${leanSig ? `
+                            <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:6px; padding:6px 12px; font-family:monospace; font-size:12px; color:#6b21a8; margin-bottom:8px; overflow-x:auto;">
+                                <strong>Lean 4:</strong> <code>${StudioOverlay.escapeHtml(leanSig)}</code>
+                            </div>
+                        ` : ''}
+                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:10px;">
+                            ${StudioOverlay.escapeHtml(st.description || 'Machine-checked formal theorem verified on the Middle Way discrete foundation.')}
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
+                            <button class="studio-btn small secondary btn-view-proof" data-id="${st.id}">📖 View Formal Proof</button>
+                            <button class="studio-btn small primary btn-insert-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert Tag'}</button>
+                            <button class="studio-btn small secondary btn-copy-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy Tag</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        modal.innerHTML = `
+            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
+                <!-- Header -->
+                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">📜</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Middle Way Formal Statements &amp; Axiomatic Studio</h3>
+                            <span style="font-size: 12px; color: #64748b;">Lean 4 Verified Scaffolds &bull; Primary Identity Keys &bull; Inactive Governing Theorems</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
+                        <input type="text" id="studio-fs-search" placeholder="🔍 Search formal statements by title, Lean signature, expression..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
+                        <button class="studio-close-btn" id="fs-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc;">
+                    <div id="studio-fs-container">
+                        ${renderCards(statements)}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        const closeModal = () => modal.remove();
+        document.getElementById('fs-close-btn')?.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Search Filter
+        const searchInput = document.getElementById('studio-fs-search') as HTMLInputElement;
+        const container = document.getElementById('studio-fs-container') as HTMLDivElement;
+
+        const attachActions = () => {
+            container.querySelectorAll('.btn-insert-tag').forEach((btn) => {
+                const tag = btn.getAttribute('data-tag') || '';
+                btn.addEventListener('click', () => {
+                    if (onSelect) {
+                        onSelect(tag);
+                        closeModal();
+                    } else {
+                        navigator.clipboard.writeText(tag);
+                        StudioOverlay.showToast(`Copied statement tag: ${tag}`);
+                        closeModal();
+                    }
+                });
+            });
+
+            container.querySelectorAll('.btn-copy-tag').forEach((btn) => {
+                const tag = btn.getAttribute('data-tag') || '';
+                btn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(tag);
+                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
+                });
+            });
+
+            container.querySelectorAll('.btn-view-proof').forEach((btn) => {
+                const id = btn.getAttribute('data-id') || '';
+                btn.addEventListener('click', () => {
+                    closeModal();
+                    FSDRef.openScaffoldCard(id);
+                });
+            });
+        };
+
+        attachActions();
+
+        searchInput?.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const filtered = statements.filter(st =>
+                st.title.toLowerCase().includes(query) ||
+                st.expression.toLowerCase().includes(query) ||
+                st.statement_key.toLowerCase().includes(query) ||
+                st.scaffold_key.toLowerCase().includes(query) ||
+                (st.lean_signature && st.lean_signature.toLowerCase().includes(query)) ||
+                (st.description && st.description.toLowerCase().includes(query)) ||
+                (st.tier && st.tier.toLowerCase().includes(query))
+            );
+            container.innerHTML = renderCards(filtered);
+            attachActions();
+        });
+    }
+
+    public static async openFormalStatementPicker(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementStudio(onSelect);
     }
 
     // =========================================================================
@@ -3538,7 +3844,7 @@ export class StudioOverlay {
             .studio-wysiwyg-editor th { background: #1e3a8a; color: white; padding: 8px 12px; text-align: left; }
             .studio-wysiwyg-editor td { border-bottom: 1px solid #e2e8f0; padding: 8px 12px; }
             /* Atomic Stencil Chips in WYSIWYG */
-            .studio-wysiwyg-editor fsd-ref, .studio-wysiwyg-editor eq-ref {
+            .studio-wysiwyg-editor fsd-ref, .studio-wysiwyg-editor fs-ref, .studio-wysiwyg-editor eq-ref {
                 display: inline-block;
                 background: #eff6ff;
                 border: 1.5px solid #3b82f6;
@@ -3554,6 +3860,27 @@ export class StudioOverlay {
                 background: #ecfdf5;
                 border-color: #10b981;
                 color: #064e3b;
+            }
+            .studio-wysiwyg-editor fs-ref {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: #f0f9ff;
+                border: 1.5px solid #0284c7;
+                border-radius: 6px;
+                padding: 2px 8px;
+                margin: 2px 4px;
+                font-weight: 700;
+                color: #0369a1;
+                cursor: pointer;
+                user-select: all;
+                transition: all 0.15s ease;
+                vertical-align: middle;
+            }
+            .studio-wysiwyg-editor fs-ref:hover {
+                background: #e0f2fe;
+                border-color: #0369a1;
+                box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
             }
             .studio-wysiwyg-editor ttd-ref {
                 display: inline-flex;

@@ -54,6 +54,8 @@ export class FSDRef extends HTMLElement {
       const modeAttr = this.getAttribute("calc-mode") || undefined;
 
       const cleanId = scaffoldOrId.trim().toLowerCase();
+      const isNumeric = /^\d+$/.test(cleanId);
+      const numIndex = isNumeric ? parseInt(cleanId, 10) - 1 : -1;
       const matchedExample = FS_CATALOG.examples.find(
         (ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId
       );
@@ -61,7 +63,8 @@ export class FSDRef extends HTMLElement {
         (m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId
       );
       const catalogStmt = FS_CATALOG.formalStatements.find(
-        (s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
+        (s, idx) => (isNumeric && idx === numIndex) ||
+               s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
                s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
                s.id.toLowerCase() === cleanId ||
                s.scaffoldKey.toLowerCase() === cleanId
@@ -153,6 +156,8 @@ export class FSDRef extends HTMLElement {
     options?: { autoOpenCalc?: boolean; presetKey?: string; activeModeId?: string; disableCalculator?: boolean }
   ) {
     const cleanId = scaffoldOrId.trim().toLowerCase();
+    const isNumeric = /^\d+$/.test(cleanId);
+    const numIndex = isNumeric ? parseInt(cleanId, 10) - 1 : -1;
     const matchedExample = FS_CATALOG.examples.find(
       (ex) => (ex.presetKey && ex.presetKey.toLowerCase() === cleanId) || ex.id.toLowerCase() === cleanId
     );
@@ -160,7 +165,8 @@ export class FSDRef extends HTMLElement {
       (m) => m.id.toLowerCase() === cleanId || m.id === matchedExample?.modeId
     );
     const catalogStmt = FS_CATALOG.formalStatements.find(
-      (s) => s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
+      (s, idx) => (isNumeric && idx === numIndex) ||
+             s.id === scaffoldOrId || s.scaffoldKey === scaffoldOrId ||
              s.id === (matchedExample?.statementId || matchedMode?.statementId) ||
              s.id.toLowerCase() === cleanId ||
              s.scaffoldKey.toLowerCase() === cleanId

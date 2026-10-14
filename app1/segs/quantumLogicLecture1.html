@@ -105,9 +105,7 @@
     </ol>
 
     <div align="center" style="background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; padding: 14px; margin: 15px auto; width: 85%;">
-      <fsd-ref tier="3" scaffold="quantum_interference" title="Quantum Breakdown of Classical Distributivity">
-        <font size="+1" color="#991b1b"><b>The Breakdown: A ∧ (B ∨ C) [True] ≠ (A ∧ B) ∨ (A ∧ C) [False]!</b></font>
-      </fsd-ref><br>
+      <fs-ref id="12" desc="Quantum Breakdown of Classical Distributivity"></fs-ref><br>
       The Distributive Law of classical Boolean logic is physically violated by quantum reality!
       <p style="text-align: center; font-size: 12px; color: #7f1d1d; margin-top: 6px; margin-bottom: 0;">
         <i>(Click above to inspect the subspace lattice proof in Lean 4 or evaluate quantum superposition)</i>
@@ -193,13 +191,11 @@
       • <b>Operations:</b> Meet <code>V ∧ W = V ⋂ W</code>, Join <code>V ∨ W = span(V ⋃ W)</code>, and Orthocomplement <code>V^⊥ = { u ∈ ℋ | ⟨u | v⟩ = 0, ∀ v ∈ V }</code>.<br>
       • <b>Failure of Distributivity:</b> For 1D rays <code>A = span(|45°⟩)</code>, <code>B = span(|0°⟩)</code>, <code>C = span(|90°⟩)</code>:
       <div align="center" style="margin: 8px 0;">
-        <fsd-ref tier="3" scaffold="quantum_interference" title="The Non-Distributive Subspace Lattice &amp; Venn Breakdown">
-          A ∧ (B ∨ C) = A ∧ ℋ = A ≠ {0} &nbsp;&nbsp; while &nbsp;&nbsp; (A ∧ B) ∨ (A ∧ C) = {0} ∨ {0} = {0}
-        </fsd-ref>
+        <fs-ref id="12" desc="The Non-Distributive Subspace Lattice &amp; Venn Breakdown"></fs-ref>
       </div>
       • <b>The Orthomodular Law:</b> While distributivity fails, <code>L(ℋ)</code> satisfies orthomodularity:<br>
       &nbsp;&nbsp;<code>∀ V, W ∈ L(ℋ) : &nbsp; V ⊆ W &nbsp;⇒&nbsp; V ∨ (V^⊥ ∧ W) = W</code>.<br>
-      • <b>CAS Example:</b> <eq-ref eq-id="cas_three_polarizer" formula="THREE_POLARIZER(45)">Three-Polarizer Quantum Transmission &amp; Venn Breakdown</eq-ref>
+      • <b>CAS Example:</b> <eq-ref id="8" desc="Three-Polarizer Quantum Transmission &amp; Venn Breakdown"></eq-ref>
     </div>
 
     <hr>
