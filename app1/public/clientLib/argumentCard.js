@@ -228,13 +228,11 @@ export class ArgumentCard extends Elt {
             casWrap.append(content);
             // NavFW integration: notify return control on toggle
             casWrap.elt.addEventListener("toggle", () => {
+                const isOpen = casWrap.elt.open;
+                summaryPrompt.setV(isOpen ? "(Click to Collapse)" : "(Click to Expand / Collapse)");
                 Nav.updateReturnControlVisibility();
             });
             body.append(casWrap);
-        }
-        // Discrete Machine Algorithm & Pseudocode Panel
-        if (arg.pseudocode) {
-            body.append(this.buildPseudocodePanel(arg.pseudocode));
         }
         this.append(body);
         // Footer
@@ -429,10 +427,6 @@ export class ArgumentCard extends Elt {
     buildPseudocodePanel(algo) {
         const wrap = new Elt("details");
         wrap.setA("style", "margin-top: 14px; background: #f8fafc; border: 1.5px solid #6366f1; border-radius: 6px; padding: 10px 14px;");
-        wrap.elt.setAttribute("open", "true");
-        wrap.elt.addEventListener("toggle", () => {
-            Nav.updateReturnControlVisibility();
-        });
         const summary = new Elt("summary");
         summary.setA("style", "font-weight: 700; font-size: 12.5px; color: #4338ca; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;");
         const summaryLeft = new Elt("span");
@@ -444,6 +438,11 @@ export class ArgumentCard extends Elt {
         summary.append(summaryLeft);
         summary.append(summaryPrompt);
         wrap.append(summary);
+        wrap.elt.addEventListener("toggle", () => {
+            const isOpen = wrap.elt.open;
+            summaryPrompt.setV(isOpen ? "(Click to Collapse Algorithm)" : "(Click to Expand Algorithm)");
+            Nav.updateReturnControlVisibility();
+        });
         const content = new Elt("div");
         content.setA("style", "margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 12px; color: #334155;");
         // Metadata Bar (Badge & Signature)
