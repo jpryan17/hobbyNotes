@@ -365,22 +365,49 @@ export async function fetchDirectedEquationByIdOrKey(idOrKey: string | number): 
 
 export async function fetchModesForStatement(statementId: number | string): Promise<DbCalculationMode[]> {
     const sql = `
-        SELECT id, mode_key, statement_id, label, target_symbol, target_domain, target_unit, formula_description, formula_expr, has_simulation
-        FROM calculation_modes
-        WHERE statement_id = $1
-        ORDER BY id;
+        SELECT 
+            e.id, 
+            e.equation_key AS mode_key, 
+            l.statement_id, 
+            e.label, 
+            e.target_symbol, 
+            e.target_domain, 
+            e.target_unit, 
+            e.formula_description, 
+            e.formula_expr, 
+            e.has_simulation
+        FROM directed_equations e
+        JOIN equation_statement_links l ON l.equation_id = e.id
+        WHERE l.statement_id = $1
+        ORDER BY e.id;
     `;
     return queryDatabase<DbCalculationMode>(sql, [statementId]);
 }
 
-export async function fetchPresetsForMode(modeId: number | string): Promise<DbVerifiedPreset[]> {
+export async function fetchEquationsForStatement(statementId: number | string): Promise<DbDirectedEquation[]> {
     const sql = `
-        SELECT id, preset_key, mode_id, title, input_values, display_result, formatted_formula, domain_badge, notes
+        SELECT 
+            e.id, e.equation_key, e.title, e.label, e.formula_expr, e.target_symbol,
+            e.target_domain, e.target_unit, e.pseudo_algo_id, e.formula_description,
+            e.has_simulation, e.created_at, e.updated_at,
+            l.statement_id, s.title AS statement_title
+        FROM directed_equations e
+        JOIN equation_statement_links l ON l.equation_id = e.id
+        LEFT JOIN formal_statements s ON s.id = l.statement_id
+        WHERE l.statement_id = $1
+        ORDER BY e.id;
+    `;
+    return queryDatabase<DbDirectedEquation>(sql, [statementId]);
+}
+
+export async function fetchPresetsForMode(modeOrEquationId: number | string): Promise<DbVerifiedPreset[]> {
+    const sql = `
+        SELECT id, preset_key, equation_id AS mode_id, title, input_values, display_result, formatted_formula, domain_badge, notes
         FROM verified_presets
-        WHERE mode_id = $1
+        WHERE equation_id = $1
         ORDER BY id;
     `;
-    return queryDatabase<DbVerifiedPreset>(sql, [modeId]);
+    return queryDatabase<DbVerifiedPreset>(sql, [modeOrEquationId]);
 }
 
 

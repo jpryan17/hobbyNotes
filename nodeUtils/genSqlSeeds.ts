@@ -773,9 +773,11 @@ export async function generateSeedSql(): Promise<string> {
     'curriculum_nav_items',
     'pseudocode_algorithms',
     'formal_statements',
-    'calculation_modes',
+    'directed_equations',
+    'equation_statement_links',
     'mode_slots',
     'verified_presets',
+    'interactive_demos',
     'segment_references',
     'segment_prerequisites'
   ];

@@ -53,20 +53,20 @@ ORDER BY tier, id;`
     },
     {
         category: 'Foundations & Stencils',
-        name: 'Directional Calculation Modes & Function Rules',
-        description: 'Computational stencils with function rules and linked pseudocode modules',
-        sql: `SELECT cm.id, cm.mode_key, cm.function_rule_name, cm.function_signature, pa.algo_key AS pseudocode_module, cm.formula_expr
-FROM calculation_modes cm
-LEFT JOIN pseudocode_algorithms pa ON pa.id = cm.pseudo_algo_id
-ORDER BY cm.statement_id, cm.id;`
+        name: 'Directed Equations & Computational Stencils',
+        description: 'Directional computational stencils with formulas and linked pseudocode modules',
+        sql: `SELECT e.id, e.equation_key, e.title, e.target_symbol, e.target_domain, pa.algo_key AS pseudocode_module, e.formula_expr
+FROM directed_equations e
+LEFT JOIN pseudocode_algorithms pa ON pa.id = e.pseudo_algo_id
+ORDER BY e.id;`
     },
     {
         category: 'Foundations & Stencils',
         name: 'Pseudocode Algorithms (Discrete Machine)',
-        description: 'Discrete algorithmic function rules linked to calculation modes and formal statements',
-        sql: `SELECT pa.id, pa.algo_key, pa.title, pa.complexity, pa.pure_function, count(cm.id) AS linked_modes
+        description: 'Discrete algorithmic function rules linked to directed equations and formal statements',
+        sql: `SELECT pa.id, pa.algo_key, pa.title, pa.complexity, pa.pure_function, count(e.id) AS linked_equations
 FROM pseudocode_algorithms pa
-LEFT JOIN calculation_modes cm ON cm.pseudo_algo_id = pa.id
+LEFT JOIN directed_equations e ON e.pseudo_algo_id = pa.id
 GROUP BY pa.id, pa.algo_key, pa.title, pa.complexity, pa.pure_function
 ORDER BY pa.id;`
     },
@@ -74,19 +74,19 @@ ORDER BY pa.id;`
         category: 'Foundations & Stencils',
         name: 'Verified Presets (JSONB)',
         description: 'Concrete numerical test cases grounding stencils',
-        sql: `SELECT vp.id, vp.preset_key, vp.mode_id, vp.title, vp.display_result, vp.domain_badge, vp.input_values
+        sql: `SELECT vp.id, vp.preset_key, vp.equation_id, vp.title, vp.display_result, vp.domain_badge, vp.input_values
 FROM verified_presets vp
-ORDER BY vp.mode_id;`
+ORDER BY vp.equation_id;`
     },
     {
         category: 'Cross-References',
         name: 'Embedded Stencil Citations',
         description: 'Scans interactive stencil links embedded in segment chapters',
-        sql: `SELECT sr.id, s.seg_key, sr.initial_focus, fs.statement_key, cm.mode_key, sr.anchor_text
+        sql: `SELECT sr.id, s.seg_key, sr.initial_focus, fs.statement_key, e.equation_key, sr.anchor_text
 FROM segment_references sr
 JOIN segments s ON s.id = sr.segment_id
 LEFT JOIN formal_statements fs ON fs.id = sr.statement_id
-LEFT JOIN calculation_modes cm ON cm.id = sr.mode_id
+LEFT JOIN directed_equations e ON e.id = sr.equation_id
 ORDER BY sr.segment_id, sr.occurrence_order
 LIMIT 30;`
     },
@@ -415,7 +415,7 @@ class DatabaseConsoleApp {
     private async handleReseedDb() {
         const confirmed = confirm(
             'Are you sure you want to RESET the PostgreSQL database to the clean Git baseline (db/seed.sql)?\n\n' +
-            'This will re-initialize all curriculum navigation items, segments, formal statements, calculation modes, and verified presets from source control.'
+            'This will re-initialize all curriculum navigation items, segments, formal statements, directed equations, and verified presets from source control.'
         );
         if (!confirmed) return;
 

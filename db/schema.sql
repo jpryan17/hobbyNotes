@@ -19,15 +19,11 @@ DROP TABLE IF EXISTS segment_references CASCADE;
 DROP TABLE IF EXISTS curriculum_nav_items CASCADE;
 DROP TABLE IF EXISTS verified_presets CASCADE;
 DROP TABLE IF EXISTS mode_slots CASCADE;
-DO $$ 
-BEGIN
-    EXECUTE 'DROP VIEW IF EXISTS calculation_modes CASCADE';
-EXCEPTION WHEN wrong_object_type THEN
-    EXECUTE 'DROP TABLE IF EXISTS calculation_modes CASCADE';
-END $$;
+DROP VIEW IF EXISTS calculation_modes CASCADE;
 DROP TABLE IF EXISTS equation_statement_links CASCADE;
 DROP TABLE IF EXISTS directed_equations CASCADE;
 DROP TABLE IF EXISTS formal_statements CASCADE;
+DROP TABLE IF EXISTS interactive_demos CASCADE;
 DROP TABLE IF EXISTS pseudocode_algorithms CASCADE;
 DROP TABLE IF EXISTS formalisms CASCADE;
 DROP TABLE IF EXISTS situations CASCADE;
@@ -143,6 +139,23 @@ CREATE TABLE pseudocode_algorithms (
 COMMENT ON TABLE pseudocode_algorithms IS 'Middle Way structured pseudocode algorithms executable on the discrete dyadic machine.';
 
 -- ---------------------------------------------------------------------
+-- 4b. Interactive Visual Demonstrations (BTD, BID, TTD Sandboxes)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE interactive_demos (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    demo_key VARCHAR(64) UNIQUE NOT NULL,        -- e.g. 'btd_order', 'btd_addition', 'btd_labeled', 'bid_euler'
+    engine VARCHAR(32) NOT NULL,                 -- 'btd' (Binary Tree), 'bid' (Binary Interval), 'ttd' (Truth Table)
+    mode VARCHAR(64) NOT NULL,                   -- e.g. 'order', 'addition', 'multiplication', 'isomorphism', 'labeled'
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE interactive_demos IS 'Independent interactive visual demonstrations and simulation sandboxes for intrinsic mathematical structures.';
+
+-- ---------------------------------------------------------------------
 -- 5. Middle Way Math Formal Statements (The Axiomatic Engine)
 -- ---------------------------------------------------------------------
 
@@ -156,6 +169,7 @@ CREATE TABLE formal_statements (
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
     statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'theorem' (Lean 4 proof) vs. 'directed_equality' (computational rule)
     pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
+    demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
     type statement_type NOT NULL DEFAULT 'math',
     tier statement_tier NOT NULL DEFAULT 'theorem',
     governing_seed governing_seed,
@@ -210,25 +224,6 @@ CREATE TABLE equation_statement_links (
 
 COMMENT ON TABLE equation_statement_links IS 'Relational bridge connecting active directed equations to their governing inactive formal statements.';
 
--- Backward-compatibility view for legacy calculation_modes consumers
-CREATE OR REPLACE VIEW calculation_modes AS
-SELECT 
-    e.id,
-    e.equation_key AS mode_key,
-    COALESCE(l.statement_id, (SELECT statement_id FROM equation_statement_links WHERE equation_id = e.id LIMIT 1)) AS statement_id,
-    e.pseudo_algo_id,
-    e.title AS function_rule_name,
-    NULL::VARCHAR(255) AS function_signature,
-    e.label,
-    e.target_symbol,
-    e.target_domain,
-    e.target_unit,
-    e.formula_description,
-    e.formula_expr,
-    e.has_simulation,
-    e.created_at
-FROM directed_equations e
-LEFT JOIN equation_statement_links l ON l.equation_id = e.id AND l.relation_type = 'instantiates';
 
 -- ---------------------------------------------------------------------
 -- 7. Mode Slots (Input Variable Parameter Specs)
@@ -281,7 +276,8 @@ CREATE TABLE segment_references (
     statement_id BIGINT REFERENCES formal_statements(id) ON DELETE CASCADE,
     equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
     preset_id BIGINT REFERENCES verified_presets(id) ON DELETE SET NULL,
-    initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator'
+    demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
+    initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator', 'demo'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
     anchor_text TEXT,
     raw_tag TEXT,
@@ -344,6 +340,10 @@ CREATE INDEX idx_formal_statements_domain ON formal_statements(domain_category);
 CREATE INDEX idx_formal_statements_key ON formal_statements(statement_key);
 CREATE INDEX idx_formal_statements_scaffold ON formal_statements(scaffold_key);
 CREATE INDEX idx_formal_statements_pseudo_algo ON formal_statements(pseudo_algo_id);
+CREATE INDEX idx_formal_statements_demo ON formal_statements(demo_id);
+
+CREATE INDEX idx_interactive_demos_key ON interactive_demos(demo_key);
+CREATE INDEX idx_interactive_demos_engine ON interactive_demos(engine);
 
 CREATE INDEX idx_directed_equations_key ON directed_equations(equation_key);
 CREATE INDEX idx_directed_equations_pseudo_algo ON directed_equations(pseudo_algo_id);
@@ -361,6 +361,7 @@ CREATE INDEX idx_segment_refs_segment ON segment_references(segment_id);
 CREATE INDEX idx_segment_refs_statement ON segment_references(statement_id);
 CREATE INDEX idx_segment_refs_equation ON segment_references(equation_id);
 CREATE INDEX idx_segment_refs_preset ON segment_references(preset_id);
+CREATE INDEX idx_segment_refs_demo ON segment_references(demo_id);
 
 CREATE INDEX idx_lean_verif_statement ON lean_verifications(statement_id);
 

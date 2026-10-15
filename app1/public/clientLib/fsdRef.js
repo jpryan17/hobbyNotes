@@ -193,6 +193,9 @@ export class FSDRef extends HTMLElement {
             formalArg.scaffoldKey = catalogStmt.scaffoldKey;
             formalArg.leanSignature = catalogStmt.leanSignature;
             formalArg.docstring = catalogStmt.description;
+            if (catalogStmt.demoRef) {
+                formalArg.demoRef = catalogStmt.demoRef;
+            }
             if (stmtAlgo) {
                 formalArg.pseudocode = stmtAlgo;
                 formalArg.statementKind = 'directed_equality';

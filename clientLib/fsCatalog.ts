@@ -7,11 +7,18 @@
 
 export type FsStatementType = 'math' | 'physics' | 'information';
 
+export interface FsCatalogDemoRef {
+  engine: 'btd' | 'bid' | 'ttd';
+  mode: string;
+  label: string;
+}
+
 export interface FsCatalogStatement {
   id: string;
   numId?: number;
   statementKind?: 'theorem' | 'directed_equality';
   pseudoAlgoId?: string | number;
+  demoRef?: FsCatalogDemoRef;
   parentId?: string;
   type: FsStatementType;
   tier: 'constitutional' | 'axiom' | 'theorem' | 'scenario' | 'corollary' | 'law';
@@ -79,7 +86,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-14T23:47:56.718Z",
+  "generatedAt": "2026-10-15T00:58:28.066Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -196,6 +203,11 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "f'(x) = st([f(x + dx) - f(x)] / dx)  for infinitesimal dx ≠ 0",
       "leanSignature": "theorem nonstandard_derivative (f : R_w → R_w) (x : R_w) (dx : Infinitesimal) : f_prime x = st ((f (x + dx) - f x) / dx)",
       "pseudoAlgoId": "euler_compounding",
+      "demoRef": {
+        "engine": "bid",
+        "mode": "eulerCompounding",
+        "label": "Euler Compounding in BID"
+      },
       "referencedInSegments": [
         "analysis1DLecture1",
         "analysis1DLecture2",
@@ -371,6 +383,11 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "∀ x y ∈ Tree2, (x < y) ∨ (x = y) ∨ (y < x)",
       "leanSignature": "theorem Tree2.totally_ordered (x y : Tree2) : x < y ∨ x = y ∨ y < x",
       "pseudoAlgoId": "conway_order",
+      "demoRef": {
+        "engine": "btd",
+        "mode": "order",
+        "label": "Conway Tree Order Relations"
+      },
       "referencedInSegments": [
         "numbersLecture2"
       ]
@@ -496,6 +513,11 @@ export const FS_CATALOG: FsCatalog = {
       "scaffoldKey": "Tree2_finite_is_dyad",
       "expression": "Tree2(s) ≅ m / 2^n  ∧  Tree2 ↪ ℝ_ω",
       "leanSignature": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
+      "demoRef": {
+        "engine": "btd",
+        "mode": "isomorphism",
+        "label": "Operation Isomorphism in BTD"
+      },
       "referencedInSegments": [
         "numbersLecture2"
       ]
@@ -531,6 +553,11 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "x + y = { xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }",
       "leanSignature": "def Conway.add (x y : Tree2) : Tree2",
       "pseudoAlgoId": "conway_add",
+      "demoRef": {
+        "engine": "btd",
+        "mode": "addition",
+        "label": "Conway Inductive Addition in BTD"
+      },
       "referencedInSegments": [
         "numbersLecture2"
       ]
@@ -549,6 +576,11 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "x · y = { xᴸ·y + x·yᴸ - xᴸ·yᴸ, xᴿ·y + x·yᴿ - xᴿ·yᴿ | xᴸ·y + x·yᴿ - xᴸ·yᴿ, xᴿ·y + x·yᴸ - xᴿ·yᴸ }",
       "leanSignature": "def Conway.mul (x y : Tree2) : Tree2",
       "pseudoAlgoId": "conway_mul",
+      "demoRef": {
+        "engine": "btd",
+        "mode": "multiplication",
+        "label": "Conway Inductive Multiplication in BTD"
+      },
       "referencedInSegments": [
         "numbersLecture2"
       ]

@@ -10,7 +10,7 @@ The schema models the entire Middle Way Mathematics & HobbyNotes ecosystem acros
 
 1. **Curriculum & Narrative**: `apps`, `curriculum_tracks`, `segments` (52 chapters), `segment_references` (embedded `<fsd-ref>` and `<cas-ref>` links), `segment_prerequisites` (pedagogical progression DAG).
 2. **Subject Matter & Formalisms**: `situations` (invariant physical/mathematical phenomena), `formalisms` (`mwm`, `standard_analysis`, `discrete_symplectic`), `formal_statements` (the intersection with parent-child hierarchies and Lean signatures).
-3. **Discrete Algorithms & Computational Stencils**: `pseudocode_algorithms` (the discrete machine library), `calculation_modes` (directional inputs → output stencils with function rule signatures), `mode_slots` (parameter ranges, symbols, units), `verified_presets` (concrete grounding examples).
+3. **Discrete Algorithms & Computational Stencils**: `pseudocode_algorithms` (the discrete machine library), `directed_equations` (directional input → output stencils with formula expressions), `equation_statement_links` (relational bridge to formal statements), `mode_slots` (parameter ranges, symbols, units), `verified_presets` (concrete grounding examples), `interactive_demos` (interactive visual applications).
 4. **Verification Proof Caches**: `lean_verifications` (Lean 4 machine-certified proof verdicts, kernel execution times, and summaries).
 
 ---
@@ -44,7 +44,7 @@ One of the greatest benefits of DBeaver is its automatic **Entity-Relationship (
 3. Switch to the **ER Diagram** tab.
 4. You will see every table with all foreign-key connecting arrows:
    * See `segments` connecting to `curriculum_tracks` and `apps`.
-   * See `segment_references` linking segments to `formal_statements` and `calculation_modes`.
+   * See `segment_references` linking segments to `formal_statements`, `directed_equations`, and `interactive_demos`.
    * See `formal_statements` linking to `situations` and `formalisms`.
    * See self-referential arrows on `formal_statements.parent_id` for theorem hierarchies!
 
@@ -87,11 +87,12 @@ SELECT
     fs.id AS statement_id,
     fs.tier,
     fs.expression,
-    cm.label AS calculation_mode
+    de.label AS directed_equation
 FROM situations sit
 JOIN formal_statements fs ON fs.situation_id = sit.id
 JOIN formalisms f ON fs.formalism_id = f.id
-LEFT JOIN calculation_modes cm ON cm.statement_id = fs.id
+LEFT JOIN equation_statement_links esl ON esl.statement_id = fs.id
+LEFT JOIN directed_equations de ON de.id = esl.equation_id
 ORDER BY sit.domain_category, sit.title;
 ```
 

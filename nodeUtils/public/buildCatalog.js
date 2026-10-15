@@ -236,6 +236,7 @@ function buildCurricularCatalog() {
             expression: 'f\'(x) = st([f(x + dx) - f(x)] / dx)  for infinitesimal dx ≠ 0',
             leanSignature: 'theorem nonstandard_derivative (f : R_w → R_w) (x : R_w) (dx : Infinitesimal) : f_prime x = st ((f (x + dx) - f x) / dx)',
             pseudoAlgoId: 'euler_compounding',
+            demoRef: { engine: 'bid', mode: 'eulerCompounding', label: 'Euler Compounding in BID' },
             referencedInSegments: getRefs('fs_hyperfinite_derivative', 6, ['analysis1DLecture1', 'analysis1DLecture2'])
         },
         {
@@ -372,6 +373,7 @@ function buildCurricularCatalog() {
             expression: '∀ x y ∈ Tree2, (x < y) ∨ (x = y) ∨ (y < x)',
             leanSignature: 'theorem Tree2.totally_ordered (x y : Tree2) : x < y ∨ x = y ∨ y < x',
             pseudoAlgoId: 'conway_order',
+            demoRef: { engine: 'btd', mode: 'order', label: 'Conway Tree Order Relations' },
             referencedInSegments: getRefs('fs_tree2_totally_ordered', 15, ['numbersLecture2'])
         },
         {
@@ -476,6 +478,7 @@ function buildCurricularCatalog() {
             scaffoldKey: 'Tree2_finite_is_dyad',
             expression: 'Tree2(s) ≅ m / 2^n  ∧  Tree2 ↪ ℝ_ω',
             leanSignature: 'axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad',
+            demoRef: { engine: 'btd', mode: 'isomorphism', label: 'Operation Isomorphism in BTD' },
             referencedInSegments: getRefs('fs_dyadic_isomorphism', 22, ['numbersLecture2'])
         },
         {
@@ -507,6 +510,7 @@ function buildCurricularCatalog() {
             expression: 'x + y = { xᴸ + y, x + yᴸ | xᴿ + y, x + yᴿ }',
             leanSignature: 'def Conway.add (x y : Tree2) : Tree2',
             pseudoAlgoId: 'conway_add',
+            demoRef: { engine: 'btd', mode: 'addition', label: 'Conway Inductive Addition in BTD' },
             referencedInSegments: getRefs('fs_conway_addition', 24, ['numbersLecture2'])
         },
         {
@@ -523,6 +527,7 @@ function buildCurricularCatalog() {
             expression: 'x · y = { xᴸ·y + x·yᴸ - xᴸ·yᴸ, xᴿ·y + x·yᴿ - xᴿ·yᴿ | xᴸ·y + x·yᴿ - xᴸ·yᴿ, xᴿ·y + x·yᴸ - xᴿ·yᴸ }',
             leanSignature: 'def Conway.mul (x y : Tree2) : Tree2',
             pseudoAlgoId: 'conway_mul',
+            demoRef: { engine: 'btd', mode: 'multiplication', label: 'Conway Inductive Multiplication in BTD' },
             referencedInSegments: getRefs('fs_conway_multiplication', 25, ['numbersLecture2'])
         }
     ];
@@ -812,11 +817,18 @@ function writeCatalogFiles() {
 
 export type FsStatementType = 'math' | 'physics' | 'information';
 
+export interface FsCatalogDemoRef {
+  engine: 'btd' | 'bid' | 'ttd';
+  mode: string;
+  label: string;
+}
+
 export interface FsCatalogStatement {
   id: string;
   numId?: number;
   statementKind?: 'theorem' | 'directed_equality';
   pseudoAlgoId?: string | number;
+  demoRef?: FsCatalogDemoRef;
   parentId?: string;
   type: FsStatementType;
   tier: 'constitutional' | 'axiom' | 'theorem' | 'scenario' | 'corollary' | 'law';

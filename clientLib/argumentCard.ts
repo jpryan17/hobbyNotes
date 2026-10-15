@@ -10,6 +10,12 @@ export interface ArgumentCheck {
   detail?: string;
 }
 
+export interface ArgumentDemoRef {
+  engine: 'btd' | 'bid' | 'ttd';
+  mode: string;
+  label: string;
+}
+
 export interface FormalArgument {
   title: string;
   verdict: boolean;
@@ -35,6 +41,7 @@ export interface FormalArgument {
   leanSignature?: string;
   docstring?: string;
   pseudocode?: any;
+  demoRef?: ArgumentDemoRef;
 }
 
 export interface ArgumentCardOptions {
@@ -412,6 +419,19 @@ export class ArgumentCard extends Elt {
       devBtnGroup.append(this.calcBtn);
     }
 
+    // Interactive Visual Demo Button (Available whenever companion demoRef is configured)
+    if (arg.demoRef) {
+      const demoBtn = new Elt("button");
+      const icon = arg.demoRef.engine === "btd" ? "🌳" : "📊";
+      demoBtn.setA(
+        "style",
+        "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #059669; background: #059669; color: #ffffff; border-radius: 4px; transition: background 0.15s ease;"
+      );
+      demoBtn.setV(`${icon} ${arg.demoRef.label || "Interactive Demo"}`);
+      demoBtn.elt.addEventListener("click", () => this.launchDemo());
+      devBtnGroup.append(demoBtn);
+    }
+
     footer.append(devBtnGroup);
     this.append(footer);
 
@@ -424,6 +444,44 @@ export class ArgumentCard extends Elt {
     }
 
     this.detectEnvironment();
+  }
+
+  private async launchDemo() {
+    if (!this.arg.demoRef) return;
+    const { engine, mode } = this.arg.demoRef;
+
+    const topicName = this.arg.title || "Formal Statement";
+    const buttonText = `back to ${topicName}`;
+
+    if (engine === "btd") {
+      const { btd, setBTD } = await import("./btd.js");
+      if (!btd) setBTD();
+      btd.setMode(mode as any);
+
+      Nav.setLastVisit();
+      Nav.addNavLineBackButton(buttonText);
+      Nav.fo.removeChildren();
+      Nav.fo.append(btd);
+      Nav.display();
+      btd.layout();
+      if (typeof requestAnimationFrame !== "undefined") {
+        requestAnimationFrame(() => btd.layout());
+      }
+    } else if (engine === "bid") {
+      const { bid, setBID } = await import("./bid.js");
+      if (!bid) setBID();
+      bid.setMode(mode as any);
+
+      Nav.setLastVisit();
+      Nav.addNavLineBackButton(buttonText);
+      Nav.fo.removeChildren();
+      Nav.fo.append(bid);
+      Nav.display();
+      bid.layout();
+      if (typeof requestAnimationFrame !== "undefined") {
+        requestAnimationFrame(() => bid.layout());
+      }
+    }
   }
 
   private getCachedVerification(): LeanCacheEntry | undefined {

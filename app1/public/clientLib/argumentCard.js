@@ -270,6 +270,15 @@ export class ArgumentCard extends Elt {
             this.calcBtn.elt.addEventListener("click", () => this.toggleCalculator());
             devBtnGroup.append(this.calcBtn);
         }
+        // Interactive Visual Demo Button (Available whenever companion demoRef is configured)
+        if (arg.demoRef) {
+            const demoBtn = new Elt("button");
+            const icon = arg.demoRef.engine === "btd" ? "🌳" : "📊";
+            demoBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #059669; background: #059669; color: #ffffff; border-radius: 4px; transition: background 0.15s ease;");
+            demoBtn.setV(`${icon} ${arg.demoRef.label || "Interactive Demo"}`);
+            demoBtn.elt.addEventListener("click", () => this.launchDemo());
+            devBtnGroup.append(demoBtn);
+        }
         footer.append(devBtnGroup);
         this.append(footer);
         this.calcContainer = new Elt("div");
@@ -279,6 +288,43 @@ export class ArgumentCard extends Elt {
             this.toggleCalculator(options.presetKey, options.activeModeId);
         }
         this.detectEnvironment();
+    }
+    async launchDemo() {
+        if (!this.arg.demoRef)
+            return;
+        const { engine, mode } = this.arg.demoRef;
+        const topicName = this.arg.title || "Formal Statement";
+        const buttonText = `back to ${topicName}`;
+        if (engine === "btd") {
+            const { btd, setBTD } = await import("./btd.js");
+            if (!btd)
+                setBTD();
+            btd.setMode(mode);
+            Nav.setLastVisit();
+            Nav.addNavLineBackButton(buttonText);
+            Nav.fo.removeChildren();
+            Nav.fo.append(btd);
+            Nav.display();
+            btd.layout();
+            if (typeof requestAnimationFrame !== "undefined") {
+                requestAnimationFrame(() => btd.layout());
+            }
+        }
+        else if (engine === "bid") {
+            const { bid, setBID } = await import("./bid.js");
+            if (!bid)
+                setBID();
+            bid.setMode(mode);
+            Nav.setLastVisit();
+            Nav.addNavLineBackButton(buttonText);
+            Nav.fo.removeChildren();
+            Nav.fo.append(bid);
+            Nav.display();
+            bid.layout();
+            if (typeof requestAnimationFrame !== "undefined") {
+                requestAnimationFrame(() => bid.layout());
+            }
+        }
     }
     getCachedVerification() {
         const targetKey = this.arg.target || "";
