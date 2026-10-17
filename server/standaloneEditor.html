@@ -869,9 +869,96 @@
     }
 
     function cleanHtml(html) {
-      return html
+      if (!html) return '';
+      const temp = document.createElement('div');
+      temp.innerHTML = html;
+
+      // Restore raw LaTeX content for math elements so mjx-container is never saved
+      const mathEls = temp.querySelectorAll('.latex-math, .latex-math-block');
+      mathEls.forEach(el => {
+        const rawTex = decodeURIComponent(el.getAttribute('data-latex') || '');
+        const isDisplay = el.getAttribute('data-display') === 'true' || el.classList.contains('latex-math-block');
+        if (rawTex) {
+          el.innerHTML = isDisplay ? `\\[ ${rawTex} \\]` : `\\( ${rawTex} \\)`;
+        }
+      });
+
+      // Remove any lingering or orphan MathJax internal elements
+      temp.querySelectorAll('mjx-container, mjx-assistive-mml').forEach(mjx => {
+        if (!mjx.closest('.latex-math, .latex-math-block')) {
+          mjx.remove();
+        }
+      });
+
+      return temp.innerHTML
         .replace(/\s*contenteditable="false"/gi, '')
         .replace(/\s*onclick="[^"]*"/gi, '');
+    }
+
+    // Dynamic Document Style Injection for WYSIWYG
+    function updateDocumentInjectedStyles(rawHtml) {
+      let styleTag = document.getElementById('injected-doc-styles');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'injected-doc-styles';
+        document.head.appendChild(styleTag);
+      }
+      if (!rawHtml) {
+        styleTag.textContent = '';
+        return;
+      }
+      const styleMatch = rawHtml.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+      let css = styleMatch ? styleMatch[1] : '';
+
+      // Adapt body rules to #wysiwyg-pane so font, line-height, and colors apply directly in editor
+      if (css) {
+        css = css.replace(/(^|\})\s*body\s*\{/gi, '$1 #wysiwyg-pane {');
+      }
+
+      // Add high-fidelity default styles for code and preview cards inside WYSIWYG
+      const editorEnhancements = `
+        #wysiwyg-pane code {
+          background: #f1f5f9;
+          color: #0f172a;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+          font-size: 0.9em;
+          border: 1px solid #e2e8f0;
+        }
+        #wysiwyg-pane .calc-box {
+          background: #fdf2f8;
+          border: 1px solid #fbcfe8;
+          border-radius: 8px;
+          padding: 14px 20px;
+          margin: 16px 0;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+        #wysiwyg-pane .axiom-box {
+          background: #eff6ff;
+          border-left: 4px solid #2563eb;
+          padding: 12px 18px;
+          margin: 18px 0;
+          border-radius: 0 6px 6px 0;
+        }
+        #wysiwyg-pane .demo-box {
+          background: #ecfdf5;
+          border: 1px solid #a7f3d0;
+          border-radius: 8px;
+          padding: 16px 20px;
+          margin: 18px 0;
+        }
+        #wysiwyg-pane .project-links-card {
+          background: #f1f5f9;
+          border: 1px solid #e2e8f0;
+          border-left: 4px solid #2563eb;
+          border-radius: 8px;
+          padding: 20px 24px;
+          margin-top: 24px;
+        }
+      `;
+
+      styleTag.textContent = css + editorEnhancements;
     }
 
     // Assemble complete HTML document
@@ -947,6 +1034,7 @@ ${bodyContent}
       sourceTextarea.value = activeMode === 'source' ? rawHtml : innerHtml;
       setDirty(false);
 
+      updateDocumentInjectedStyles(rawHtml);
       attachDrawioListeners();
       attachMathListeners();
       typesetMath();
@@ -1119,9 +1207,12 @@ ${bodyContent}
     // Typeset MathJax
     function typesetMath() {
       if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise([wysiwygPane]).then(() => {
-          attachMathListeners();
-        }).catch(err => console.log('MathJax error:', err));
+        const mathElements = wysiwygPane.querySelectorAll('.latex-math, .latex-math-block');
+        if (mathElements.length > 0) {
+          window.MathJax.typesetPromise(Array.from(mathElements)).then(() => {
+            attachMathListeners();
+          }).catch(err => console.log('MathJax error:', err));
+        }
       }
     }
 
@@ -1144,6 +1235,7 @@ ${bodyContent}
         } else {
           wysiwygPane.innerHTML = newContent;
         }
+        updateDocumentInjectedStyles(newContent);
         attachDrawioListeners();
         attachMathListeners();
         typesetMath();

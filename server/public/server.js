@@ -836,25 +836,6 @@ app.post('/api/editor/save', (req, res) => {
                 console.warn('[server Warning] genSegsFiles app2 error:', genErr);
             }
         }
-        // Overview / modelsOverview bidirectional synchronization
-        if (relPath === 'app1/segs/modelsOverview.html') {
-            const rootOverview = (0, path_1.resolve)(process.cwd(), 'overview.html');
-            if ((0, fs_1.existsSync)(rootOverview)) {
-                const rootExisting = (0, fs_1.readFileSync)(rootOverview, 'utf8');
-                const formattedOverview = formatSegmentFileHtml(rootExisting, content, 'overview');
-                (0, fs_1.writeFileSync)(rootOverview, formattedOverview, 'utf8');
-                console.log('[server] Auto-synced modelsOverview to overview.html');
-            }
-        }
-        else if (relPath === 'overview.html') {
-            const modelsOverview = (0, path_1.resolve)(process.cwd(), 'app1/segs/modelsOverview.html');
-            if ((0, fs_1.existsSync)(modelsOverview)) {
-                const segExisting = (0, fs_1.readFileSync)(modelsOverview, 'utf8');
-                const formattedSeg = formatSegmentFileHtml(segExisting, content, 'modelsOverview');
-                (0, fs_1.writeFileSync)(modelsOverview, formattedSeg, 'utf8');
-                console.log('[server] Auto-synced overview.html to modelsOverview.html');
-            }
-        }
         res.json({
             status: 'success',
             ok: true,
@@ -928,14 +909,6 @@ app.post('/api/save-segment-direct', (req, res) => {
         }
         const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, String(segId));
         (0, fs_1.writeFileSync)(fullPath, formattedHtml, 'utf8');
-        if (segId === 'modelsOverview') {
-            const rootOverview = (0, path_1.resolve)(process.cwd(), 'overview.html');
-            if ((0, fs_1.existsSync)(rootOverview)) {
-                let existingOverview = (0, fs_1.readFileSync)(rootOverview, 'utf8');
-                const formattedOverview = formatSegmentFileHtml(existingOverview, contentHtml, 'overview');
-                (0, fs_1.writeFileSync)(rootOverview, formattedOverview, 'utf8');
-            }
-        }
         if (relPath.startsWith('app1/segs/')) {
             try {
                 (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });

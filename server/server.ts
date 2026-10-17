@@ -894,25 +894,6 @@ app.post('/api/editor/save', (req: Request, res: Response) => {
             }
         }
 
-        // Overview / modelsOverview bidirectional synchronization
-        if (relPath === 'app1/segs/modelsOverview.html') {
-            const rootOverview = resolve(process.cwd(), 'overview.html');
-            if (existsSync(rootOverview)) {
-                const rootExisting = readFileSync(rootOverview, 'utf8');
-                const formattedOverview = formatSegmentFileHtml(rootExisting, content, 'overview');
-                writeFileSync(rootOverview, formattedOverview, 'utf8');
-                console.log('[server] Auto-synced modelsOverview to overview.html');
-            }
-        } else if (relPath === 'overview.html') {
-            const modelsOverview = resolve(process.cwd(), 'app1/segs/modelsOverview.html');
-            if (existsSync(modelsOverview)) {
-                const segExisting = readFileSync(modelsOverview, 'utf8');
-                const formattedSeg = formatSegmentFileHtml(segExisting, content, 'modelsOverview');
-                writeFileSync(modelsOverview, formattedSeg, 'utf8');
-                console.log('[server] Auto-synced overview.html to modelsOverview.html');
-            }
-        }
-
         res.json({
             status: 'success',
             ok: true,
@@ -990,15 +971,6 @@ app.post('/api/save-segment-direct', (req: Request, res: Response) => {
 
         const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, String(segId));
         writeFileSync(fullPath, formattedHtml, 'utf8');
-
-        if (segId === 'modelsOverview') {
-            const rootOverview = resolve(process.cwd(), 'overview.html');
-            if (existsSync(rootOverview)) {
-                let existingOverview = readFileSync(rootOverview, 'utf8');
-                const formattedOverview = formatSegmentFileHtml(existingOverview, contentHtml, 'overview');
-                writeFileSync(rootOverview, formattedOverview, 'utf8');
-            }
-        }
 
         if (relPath.startsWith('app1/segs/')) {
             try {
