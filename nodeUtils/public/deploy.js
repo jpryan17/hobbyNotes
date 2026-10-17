@@ -47,6 +47,16 @@ try {
     else {
         console.log('[deploy] Verified existing dist/index.html. Skipping redundant build step (use --build to force).');
     }
+    // Always ensure standalone overview.html is synced to dist before staging
+    const rootOverview = path.join(rootDir, 'overview.html');
+    const distOverview = path.join(rootDir, 'app1', 'dist', 'overview.html');
+    if (fs.existsSync(rootOverview)) {
+        const distDir = path.dirname(distOverview);
+        if (!fs.existsSync(distDir))
+            fs.mkdirSync(distDir, { recursive: true });
+        fs.copyFileSync(rootOverview, distOverview);
+        console.log('[deploy] Synced latest overview.html to app1/dist/overview.html');
+    }
     console.log('[deploy] Staging changes in git...');
     (0, child_process_1.execSync)('git add .', { cwd: rootDir, stdio: 'inherit' });
     try {

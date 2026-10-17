@@ -10,6 +10,7 @@
     "compile": "cd ./app1 && npx tsc",
     "deploy": "node ./nodeUtils/public/deploy.js",
     "deploy:build": "node ./nodeUtils/public/deploy.js --build",
+    "sync:overview": "node -e \"const fs = require('fs'); fs.copyFileSync('overview.html', 'app1/dist/overview.html'); console.log('[sync:overview] overview.html synced to app1/dist/overview.html');\"",
     "leanCache": "node ./nodeUtils/public/genLeanCache.js",
     "leanCache:force": "node ./nodeUtils/public/genLeanCache.js --force",
     "catalog": "node ./nodeUtils/public/buildCatalog.js",
