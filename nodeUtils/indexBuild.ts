@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync, mkdirSync, cpSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, cpSync, copyFileSync } from 'fs';
 import { resolve } from 'path';
 import { build } from 'esbuild';
 import { getRequiredSegIds } from './indexUtils.js';
@@ -34,6 +34,14 @@ async function buildIndex(app: string) {
     const distDiagramsFolder = resolve(distFolder, 'diagrams');
     if (existsSync(diagramsFolder)) {
         cpSync(diagramsFolder, distDiagramsFolder, { recursive: true });
+    }
+
+    // Ensure standalone overview is synced to dist
+    const rootDir = resolve(__dirname, '../../');
+    const rootOverview = resolve(rootDir, 'overview.html');
+    if (existsSync(rootOverview)) {
+        copyFileSync(rootOverview, resolve(distFolder, 'overview.html'));
+        console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
     }
 
     try {

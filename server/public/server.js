@@ -1109,6 +1109,7 @@ app.use('/diagrams', express_1.default.static((0, path_1.resolve)(process.cwd(),
 // 5. Static Console & Documentation Hosting
 // ---------------------------------------------------------------------
 app.use('/console', express_1.default.static((0, path_1.resolve)(process.cwd(), 'console')));
+app.use('/crud', express_1.default.static((0, path_1.resolve)(process.cwd(), 'crud')));
 app.get('/', (_req, res) => {
     res.redirect('/console');
 });
@@ -1119,6 +1120,7 @@ const HTTP_PORT = parseInt(process.env.DB_SERVER_PORT || '3000');
 http_1.default.createServer(app).listen(HTTP_PORT, () => {
     console.log(`[dbBridge] HTTP server listening on http://localhost:${HTTP_PORT}`);
     console.log(`[dbBridge] Interactive Database Console at http://localhost:${HTTP_PORT}/console`);
+    console.log(`[dbBridge] Database CRUD Studio at http://localhost:${HTTP_PORT}/crud`);
 });
 const sslKeyPath = (0, path_1.resolve)(process.cwd(), '../ssl/localhost+1-key.pem');
 const sslCertPath = (0, path_1.resolve)(process.cwd(), '../ssl/localhost+1.pem');

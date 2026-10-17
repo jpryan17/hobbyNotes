@@ -33,6 +33,13 @@ async function buildIndex(app) {
     if ((0, fs_1.existsSync)(diagramsFolder)) {
         (0, fs_1.cpSync)(diagramsFolder, distDiagramsFolder, { recursive: true });
     }
+    // Ensure standalone overview is synced to dist
+    const rootDir = (0, path_1.resolve)(__dirname, '../../');
+    const rootOverview = (0, path_1.resolve)(rootDir, 'overview.html');
+    if ((0, fs_1.existsSync)(rootOverview)) {
+        (0, fs_1.copyFileSync)(rootOverview, (0, path_1.resolve)(distFolder, 'overview.html'));
+        console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
+    }
     try {
         const segIds = await (0, indexUtils_js_1.getRequiredSegIds)(app);
         console.log(`[indexBuild] Extracted ${segIds.length} segIds from mainIndex for ${app}:`, segIds);

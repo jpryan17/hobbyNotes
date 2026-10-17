@@ -1178,6 +1178,7 @@ app.use('/diagrams', express.static(resolve(process.cwd(), 'app1/diagrams')));
 // ---------------------------------------------------------------------
 
 app.use('/console', express.static(resolve(process.cwd(), 'console')));
+app.use('/crud', express.static(resolve(process.cwd(), 'crud')));
 
 app.get('/', (_req: Request, res: Response) => {
     res.redirect('/console');
@@ -1191,6 +1192,7 @@ const HTTP_PORT = parseInt(process.env.DB_SERVER_PORT || '3000');
 http.createServer(app).listen(HTTP_PORT, () => {
     console.log(`[dbBridge] HTTP server listening on http://localhost:${HTTP_PORT}`);
     console.log(`[dbBridge] Interactive Database Console at http://localhost:${HTTP_PORT}/console`);
+    console.log(`[dbBridge] Database CRUD Studio at http://localhost:${HTTP_PORT}/crud`);
 });
 
 const sslKeyPath = resolve(process.cwd(), '../ssl/localhost+1-key.pem');

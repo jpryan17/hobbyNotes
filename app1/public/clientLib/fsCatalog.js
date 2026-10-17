@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/buildCatalog.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-10-15T00:58:28.066Z",
+    "generatedAt": "2026-10-17T07:28:49.994Z",
     "version": "2.0.0",
     "formalStatements": [
         {

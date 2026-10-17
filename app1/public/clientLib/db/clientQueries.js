@@ -265,6 +265,22 @@ export async function fetchPresetsForMode(modeOrEquationId) {
     `;
     return queryDatabase(sql, [modeOrEquationId]);
 }
+export async function fetchAllInteractiveDemos() {
+    const sql = `
+        SELECT id, demo_key, engine, mode, title, description, created_at, updated_at
+        FROM interactive_demos
+        ORDER BY id ASC;
+    `;
+    return queryDatabase(sql);
+}
+export async function fetchInteractiveDemoByIdOrKey(idOrKey) {
+    const isNum = typeof idOrKey === 'number' || /^\d+$/.test(String(idOrKey));
+    const sql = isNum
+        ? `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE id = $1;`
+        : `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE demo_key = $1;`;
+    const rows = await queryDatabase(sql, [idOrKey]);
+    return rows.length > 0 ? rows[0] : null;
+}
 // =====================================================================
 // STATIC SITE PUBLISHER API (STUDIO ONE-CLICK BUILD)
 // =====================================================================

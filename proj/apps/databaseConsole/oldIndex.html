@@ -1,0 +1,214 @@
+<!-- client/index.html (TRUE Rewound State) -->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LEM Database SQL Console</title>
+
+        <!-- Include Quill for the rich text editor -->
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+
+        <!-- Basic Styling for the Application Layout -->
+        <style>
+            /* 1. Basic Reset & Box Model */
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                height: 100%; /* Make the document fill the viewport height */
+                margin: 0;
+            }
+
+            /* 2. Main App Styling */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                background-color: #f4f4f9;
+                color: #333;
+                padding: 2rem; /* Give space around the main container */
+            }
+
+            .main-container {
+                max-width: 1200px;
+                margin: auto;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                padding: 2rem;
+
+                /* This makes the container fill the padded body and stack its children */
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            header,
+            .controls {
+                flex-shrink: 0; /* Prevent header and controls from shrinking */
+            }
+
+            header {
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .controls {
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                position: relative;
+            }
+
+            .button {
+                padding: 8px 12px;
+                font-size: 16px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                cursor: pointer;
+                background-color: #e7e7e7;
+            }
+            .button:hover {
+                background-color: #ddd;
+            }
+
+            /* 3. The Flexible Editor Area */
+            .editor-ui-container {
+                flex-grow: 1; /* This is the key: it grows to fill all remaining vertical space */
+                min-height: 200px; /* Prevent it from becoming too small */
+                display: flex;
+                flex-direction: column;
+            }
+
+            .editor-containers {
+                min-height: 0; /* <-- THIS IS THE FIX */
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            #resizer {
+                /* <-- Important: We are now styling the ID */
+                flex: 0 0 10px; /* Do not grow, do not shrink, be 10px tall */
+                cursor: ns-resize;
+                background-color: #e0e0e0;
+                border-top: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+
+            hr {
+                flex-shrink: 0; /* Prevent the divider from shrinking */
+                margin: 1rem 0;
+            }
+
+            /* --- History Dropdown Styles --- */
+            .history-dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+                min-width: 300px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            /* ... other history styles are correct and remain the same ... */
+            .history-dropdown.visible {
+                display: block;
+            }
+            .history-dropdown ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .history-dropdown li {
+                padding: 8px 12px;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border-bottom: 1px solid #eee;
+            }
+            .history-dropdown li:last-child {
+                border-bottom: none;
+            }
+            .history-dropdown li:hover {
+                background-color: #f4f4f9;
+            }
+            .history-dropdown .no-history {
+                padding: 8px 12px;
+                color: #888;
+            }
+            .templates-dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                /* Position it next to the history dropdown */
+                left: 320px; /* Adjust this value if needed */
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+                min-width: 300px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            .templates-dropdown.visible {
+                display: block;
+            }
+            .templates-dropdown ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .templates-dropdown li {
+                padding: 8px 12px;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border-bottom: 1px solid #eee;
+            }
+            .templates-dropdown li:last-child {
+                border-bottom: none;
+            }
+            .templates-dropdown li:hover {
+                background-color: #f4f4f9;
+            }
+            .templates-dropdown .message {
+                padding: 8px 12px;
+                color: #888;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <header>
+                <h2>LEM Database SQL Console</h2>
+            </header>
+
+            <div class="controls">
+                <button class="button" id="submit-button">submit</button>
+                <button class="button" id="clear-button">clear</button>
+                <button class="button" id="history-button">History</button>
+                <button class="button" id="templates-button">Templates</button>
+                <div id="history-dropdown" class="history-dropdown"></div>
+                <div id="templates-dropdown" class="templates-dropdown"></div>
+            </div>
+
+            <div class="editor-ui-container">
+                <div class="editor-containers" id="edit-area"></div>
+                <!-- Give the hr an ID -->
+                <hr id="resizer" />
+                <div class="editor-containers" id="result-area"></div>
+            </div>
+        </div>
+
+        <script type="module" src="/src/main.ts"></script>
+    </body>
+</html>

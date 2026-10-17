@@ -23,8 +23,11 @@ import {
     fetchSegmentByIdOrKey,
     DbDirectedEquation,
     DbFormalStatement,
+    DbInteractiveDemo,
     fetchAllDirectedEquations,
-    fetchFormalStatements
+    fetchFormalStatements,
+    fetchAllInteractiveDemos,
+    fetchInteractiveDemoByIdOrKey
 } from './db/clientQueries.js';
 import { getApiBaseUrl } from './db/api.js';
 import { PXE } from './pxe.js';
@@ -36,6 +39,8 @@ import { pseudoViewer, setPseudoViewer } from './pseudoViewer.js';
 import { MODULE_CATALOG } from './pseudoCatalog.js';
 import { FS_CATALOG } from './fsCatalog.js';
 import { LEAN_CACHE } from './leanCache.js';
+import { btd, setBTD } from './btd.js';
+import { bid, setBID } from './bid.js';
 
 type NavColors = { bg: string; std: string; active: string; over: string; busy: string };
 
@@ -43,20 +48,26 @@ export class StudioOverlay {
     // Mode State: false = View (reader simulation), true = Edit (in-situ popups & tools)
     public static isEditModeActive: boolean = false;
 
-    // SVG Nav Line Controls
+    // SVG Nav Line Controls - Streamlined 6-Button Studio Bar:
+    // 🛠️ STUDIO: [✏️ Edit/View] [✏️ Content] [📜 FS Editor] [🕹️ Demos] [💾 Commit (n)] [ℹ️ Guide]
     public static controlsContainer: SVGTSpan;
     public static controlsWidth: number = 0;
     public static modeWidget: SVGTSpan;
-    public static buildWidget: SVGTSpan;
-    public static stagedWidget: SVGTSpan;
-    public static dbWidget: SVGTSpan;
     public static contentWidget: SVGTSpan;
-    public static stencilWidget: SVGTSpan;
     public static fsWidget: SVGTSpan;
-    public static pseudoWidget: SVGTSpan;
-    public static reloadWidget: SVGTSpan;
-    public static consoleWidget: SVGTSpan;
+    public static demoWidget: SVGTSpan;
+    public static commitWidget: SVGTSpan;
+    public static crudWidget: SVGTSpan;
     public static helpWidget: SVGTSpan;
+
+    // Backward-compatibility references
+    public static buildWidget?: SVGTSpan;
+    public static stagedWidget?: SVGTSpan;
+    public static dbWidget?: SVGTSpan;
+    public static stencilWidget?: SVGTSpan;
+    public static pseudoWidget?: SVGTSpan;
+    public static reloadWidget?: SVGTSpan;
+    public static consoleWidget?: SVGTSpan;
 
     private static isBuilding: boolean = false;
     private static cachedSegments: { id: string | number; seg_key: string; title: string }[] = [];
@@ -121,41 +132,30 @@ export class StudioOverlay {
         StudioOverlay.contentWidget = createButton('[✏️ Content]', () => StudioOverlay.openContentEditor());
         createSpacer();
 
-        // 3. Directed Equations & Active Stencils Workbench
-        StudioOverlay.stencilWidget = createButton('[📐 Stencils]', () => StudioOverlay.openStencilWorkbench());
+        // 3. Middle Way Formal Statements & Axiomatic Editor (Unified FS, Stencils & Pseudocode)
+        StudioOverlay.fsWidget = createButton('[📜 FS Editor]', () => StudioOverlay.openFormalStatementEditor());
+        StudioOverlay.stencilWidget = StudioOverlay.fsWidget;
+        StudioOverlay.pseudoWidget = StudioOverlay.fsWidget;
         createSpacer();
 
-        // 3b. Middle Way Formal Statements & Lean Theorems Studio
-        StudioOverlay.fsWidget = createButton('[📜 Statements]', () => StudioOverlay.openFormalStatementStudio());
+        // 4. Interactive Demo Initialization Packets & Sandboxes (BTD, BID, TTD)
+        StudioOverlay.demoWidget = createButton('[🕹️ Demos]', () => StudioOverlay.openDemoEditor());
         createSpacer();
 
-        // 3c. Pseudocode Catalog & Review Environment
-        StudioOverlay.pseudoWidget = createButton('[💻 Pseudocode]', () => StudioOverlay.openPseudocodeStudio());
+        // 5. Unified Staging Review & DB Commit Hub
+        StudioOverlay.commitWidget = createButton('[💾 Commit]', () => StudioOverlay.openCommitModal());
+        StudioOverlay.stagedWidget = StudioOverlay.commitWidget;
+        StudioOverlay.dbWidget = StudioOverlay.commitWidget;
         createSpacer();
 
-        // 4. Live Reload Segment
-        StudioOverlay.reloadWidget = createButton('[🔄 Reload]', () => StudioOverlay.handleReload());
-        createSpacer();
-
-        // 5. One-Click Static Site Publisher
-        StudioOverlay.buildWidget = createButton('[🚀 Build Page]', () => StudioOverlay.handleBuildPage());
-        createSpacer();
-
-        // 5b. Update Established Segments & DB from stagedSegs/
-        StudioOverlay.stagedWidget = createButton('[📦 stagedSegs (0)]', () => StudioOverlay.openStagedReviewModal());
-        createSpacer();
-
-        // 6. Commit Dev State to Database
-        StudioOverlay.dbWidget = createButton('[💾 Update DB]', () => StudioOverlay.openUpdateDbModal());
-        createSpacer();
-
-        // 7. DB Console Quick Link
-        StudioOverlay.consoleWidget = createButton('[📊 Console]', () => {
-            window.open(`${getApiBaseUrl()}/console`, '_blank');
+        // 6. Standalone Dedicated Database CRUD Studio
+        StudioOverlay.crudWidget = createButton('[🗄️ DB CRUD]', () => {
+            const crudUrl = `${getApiBaseUrl() || 'http://localhost:3000'}/crud`;
+            window.open(crudUrl, '_blank');
         });
         createSpacer();
 
-        // 8. Dev Studio Help & Quick Reference Guide
+        // 7. Dev Studio Help & Quick Reference Guide
         StudioOverlay.helpWidget = createButton('[ℹ️ Guide]', () => {
             StudioOverlay.openHelpModal();
         });
@@ -181,9 +181,10 @@ export class StudioOverlay {
     }
 
     private static updateWidth(): void {
-        const stagedText = StudioOverlay.stagedWidget ? StudioOverlay.stagedWidget.getV() : '[📦 stagedSegs (0)]';
-        const text = `🛠️ STUDIO: ${StudioOverlay.modeWidget.getV()} [✏️ Content] [📐 Stencils] [📜 Statements] [💻 Pseudocode] [🔄 Reload] [🚀 Build Page] ${stagedText} [💾 Update DB] [📊 Console] [ℹ️ Guide]`;
-        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 160;
+        const commitText = StudioOverlay.commitWidget ? StudioOverlay.commitWidget.getV() : '[💾 Commit]';
+        const modeText = StudioOverlay.modeWidget ? StudioOverlay.modeWidget.getV() : '[👁️ View]';
+        const text = `🛠️ STUDIO: ${modeText} [✏️ Content] [📜 FS Editor] [🕹️ Demos] ${commitText} [🗄️ DB CRUD] [ℹ️ Guide]`;
+        StudioOverlay.controlsWidth = textWidth(text, Nav.fontSize - 2) + 120;
     }
 
     // Toggle between View mode (normal student navigation) and Edit mode (in-situ outline editing)
@@ -299,8 +300,8 @@ export class StudioOverlay {
 
         if (StudioOverlay.isBuilding) return;
         StudioOverlay.isBuilding = true;
-        StudioOverlay.buildWidget.setV('[Building...]');
-        StudioOverlay.buildWidget.setA('stroke', Nav.color.busy);
+        StudioOverlay.buildWidget?.setV('[Building...]');
+        StudioOverlay.buildWidget?.setA('stroke', Nav.color.busy);
         StudioOverlay.showToast(`Compiling snapshot of active Dev state into app1/builds/${customPageName}...`);
 
         try {
@@ -319,23 +320,23 @@ export class StudioOverlay {
             if (res.success) {
                 const kb = res.byteSize ? `${Math.round(res.byteSize / 1024)} KB` : '';
                 const emittedName = res.pageName || customPageName;
-                StudioOverlay.buildWidget.setV(`[✓ Built (${duration}ms)]`);
-                StudioOverlay.buildWidget.setA('stroke', '#16a34a');
+                StudioOverlay.buildWidget?.setV(`[✓ Built (${duration}ms)]`);
+                StudioOverlay.buildWidget?.setA('stroke', '#16a34a');
                 StudioOverlay.showToast(`✓ Built ${emittedName} in ${duration}ms! ${kb} written to app1/builds/${emittedName}. (Database untouched)`);
             } else {
-                StudioOverlay.buildWidget.setV('[❌ Failed]');
-                StudioOverlay.buildWidget.setA('stroke', 'red');
+                StudioOverlay.buildWidget?.setV('[❌ Failed]');
+                StudioOverlay.buildWidget?.setA('stroke', 'red');
                 StudioOverlay.showToast(`Build failed: ${res.message}`, true);
             }
         } catch (err: any) {
-            StudioOverlay.buildWidget.setV('[❌ Error]');
-            StudioOverlay.buildWidget.setA('stroke', 'red');
+            StudioOverlay.buildWidget?.setV('[❌ Error]');
+            StudioOverlay.buildWidget?.setA('stroke', 'red');
             StudioOverlay.showToast(`Build error: ${err.message}`, true);
         } finally {
             setTimeout(() => {
                 StudioOverlay.isBuilding = false;
-                StudioOverlay.buildWidget.setV('[🚀 Build Page]');
-                StudioOverlay.buildWidget.setA('stroke', Nav.color.active);
+                StudioOverlay.buildWidget?.setV('[🚀 Build Page]');
+                StudioOverlay.buildWidget?.setA('stroke', Nav.color.active);
                 StudioOverlay.updateWidth();
             }, 3000);
         }
@@ -346,99 +347,7 @@ export class StudioOverlay {
     // =========================================================================
 
     public static openUpdateDbModal(): void {
-        const existing = document.getElementById('studio-update-db-modal');
-        if (existing) {
-            existing.remove();
-            return;
-        }
-
-        const outlineTree = StudioOverlay.exportCurrentOutlineTree();
-        const segOverrides = StudioOverlay.collectSegmentOverrides();
-        const rootCount = outlineTree.length;
-        const editedSegCount = Object.keys(segOverrides).length;
-
-        const modalOverlay = document.createElement('div');
-        modalOverlay.id = 'studio-update-db-modal';
-        modalOverlay.className = 'studio-modal-backdrop';
-
-        modalOverlay.innerHTML = `
-            <div class="studio-modal-dialog" style="max-width: 540px;">
-                <div class="studio-modal-header">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 1.3rem;">💾</span>
-                        <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;">Commit Dev State to PostgreSQL</h3>
-                    </div>
-                    <button class="studio-close-btn" id="db-modal-close-btn">✕</button>
-                </div>
-                <div class="studio-modal-body" style="gap: 16px;">
-                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px; font-size: 0.88rem; color: #166534; line-height: 1.5;">
-                        <b>Database Safety:</b> Normal Dev edits and builds leave PostgreSQL untouched. Clicking <b>Commit to DB</b> will synchronize your current in-memory outline hierarchy and segment edits into the established database.
-                    </div>
-
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 0.85rem; color: #334155;">
-                        <div style="font-weight: 600; margin-bottom: 6px; color: #0f172a;">Payload Summary:</div>
-                        <ul style="margin: 0; padding-left: 18px; line-height: 1.6;">
-                            <li>Curriculum outline: <b>${rootCount} root sections</b></li>
-                            <li>In-memory modified segments: <b>${editedSegCount} chapters</b></li>
-                            <li>Target Database: <b>hobbynotes (app1)</b></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="studio-modal-footer" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px;">
-                    <button class="studio-btn secondary" id="db-cancel-btn">Cancel</button>
-                    <button class="studio-btn primary" id="db-confirm-btn" style="background: #16a34a; border-color: #15803d;">✓ Commit to DB</button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modalOverlay);
-
-        const closeModal = () => modalOverlay.remove();
-        document.getElementById('db-modal-close-btn')?.addEventListener('click', closeModal);
-        document.getElementById('db-cancel-btn')?.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-        const onEsc = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                window.removeEventListener('keydown', onEsc);
-            }
-        };
-        window.addEventListener('keydown', onEsc);
-
-        const confirmBtn = document.getElementById('db-confirm-btn') as HTMLButtonElement;
-        confirmBtn?.addEventListener('click', async () => {
-            confirmBtn.disabled = true;
-            confirmBtn.textContent = 'Committing...';
-            StudioOverlay.dbWidget.setV('[Saving...]');
-            StudioOverlay.dbWidget.setA('stroke', Nav.color.busy);
-
-            try {
-                const res = await syncDevStateToDbApi('app1', outlineTree, segOverrides);
-                closeModal();
-                if (res.status === 'success') {
-                    StudioOverlay.dbWidget.setV('[✓ DB Updated]');
-                    StudioOverlay.dbWidget.setA('stroke', '#16a34a');
-                    StudioOverlay.showToast('✓ Successfully committed Dev state to PostgreSQL database!');
-                } else {
-                    StudioOverlay.dbWidget.setV('[❌ Sync Error]');
-                    StudioOverlay.dbWidget.setA('stroke', 'red');
-                    StudioOverlay.showToast(`Database commit failed: ${res.message}`, true);
-                }
-            } catch (err: any) {
-                closeModal();
-                StudioOverlay.dbWidget.setV('[❌ Error]');
-                StudioOverlay.dbWidget.setA('stroke', 'red');
-                StudioOverlay.showToast(`Database commit error: ${err.message}`, true);
-            } finally {
-                setTimeout(() => {
-                    StudioOverlay.dbWidget.setV('[💾 Update DB]');
-                    StudioOverlay.dbWidget.setA('stroke', Nav.color.active);
-                    StudioOverlay.updateWidth();
-                }, 3000);
-            }
-        });
+        StudioOverlay.openCommitModal();
     }
 
     public static exportCurrentOutlineTree(): any[] {
@@ -485,8 +394,8 @@ export class StudioOverlay {
             return;
         }
 
-        StudioOverlay.reloadWidget.setV('[Reloading...]');
-        StudioOverlay.reloadWidget.setA('stroke', Nav.color.busy);
+        StudioOverlay.reloadWidget?.setV('[Reloading...]');
+        StudioOverlay.reloadWidget?.setA('stroke', Nav.color.busy);
 
         try {
             // First attempt to fetch updated content from database
@@ -505,15 +414,15 @@ export class StudioOverlay {
             }
             Nav.setSegPos();
 
-            StudioOverlay.reloadWidget.setV('[✓ Reloaded]');
-            StudioOverlay.reloadWidget.setA('stroke', '#16a34a');
+            StudioOverlay.reloadWidget?.setV('[✓ Reloaded]');
+            StudioOverlay.reloadWidget?.setA('stroke', '#16a34a');
             StudioOverlay.showToast(`✓ Chapter '${Nav.segId}' reloaded & re-typeset.`);
         } catch (err: any) {
             StudioOverlay.showToast(`Reload error: ${err.message}`, true);
         } finally {
             setTimeout(() => {
-                StudioOverlay.reloadWidget.setV('[🔄 Reload]');
-                StudioOverlay.reloadWidget.setA('stroke', Nav.color.active);
+                StudioOverlay.reloadWidget?.setV('[🔄 Reload]');
+                StudioOverlay.reloadWidget?.setA('stroke', Nav.color.active);
             }, 1800);
         }
     }
@@ -584,6 +493,7 @@ export class StudioOverlay {
 
                     <div class="studio-btn-row">
                         <button class="studio-btn primary" id="btn-save-item">✓ Save Changes</button>
+                        <button class="studio-btn primary" id="btn-open-content-editor" style="background: #2563eb; border-color: #1d4ed8;">✏️ Open in Content Editor</button>
                         <button class="studio-btn secondary" id="btn-insert-before">+ Insert Before</button>
                         <button class="studio-btn secondary" id="btn-insert-after">+ Insert After</button>
                         <button class="studio-btn secondary" id="btn-add-child">+ Add Child</button>
@@ -645,6 +555,47 @@ export class StudioOverlay {
             closeModal();
             StudioOverlay.refreshIndexView(indexInstance);
             StudioOverlay.showToast(`Updated outline item: "${item.topic}" (dev session only)`);
+        });
+
+        // Action: Open directly in Content Editor (with auto-scaffolding if node has no segment)
+        document.getElementById('btn-open-content-editor')?.addEventListener('click', async () => {
+            const topicInput = document.getElementById('outline-topic') as HTMLInputElement;
+            const navTopicInput = document.getElementById('outline-nav-topic') as HTMLInputElement;
+            const segSelect = document.getElementById('outline-segment') as HTMLSelectElement;
+
+            item.topic = topicInput.value.trim() || item.topic;
+            item.navTopic = navTopicInput.value.trim() || undefined;
+            item.type = typeSelect.value as any;
+            if (item.type === 'html') {
+                item.htmlSegmentId = segSelect.value || undefined;
+            }
+
+            if (item.type === 'html' && item.htmlSegmentId) {
+                Nav.segId = item.htmlSegmentId;
+                closeModal();
+                StudioOverlay.refreshIndexView(indexInstance);
+                StudioOverlay.openContentEditor();
+            } else {
+                // If item has no segment, prompt/offer to scaffold a clean chapter template
+                const slug = (item.navTopic || item.topic || 'newChapter')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9_-]/g, '');
+                const defaultKey = (slug ? slug : 'newChapter') + '.html';
+                const enteredKey = prompt(`Enter new segment filename for "${item.topic}":`, defaultKey);
+                if (!enteredKey) return;
+                const segKey = enteredKey.trim().endsWith('.html') ? enteredKey.trim() : enteredKey.trim() + '.html';
+                item.type = 'html';
+                item.htmlSegmentId = segKey;
+
+                const scaffoldHtml = `\n<div class="middle-way-segment">\n  <h2>${StudioOverlay.escapeHtml(item.topic)}</h2>\n  <p>Introductory narrative and formal foundations for ${StudioOverlay.escapeHtml(item.topic)}...</p>\n</div>\n`;
+                Nav.segMap.set(segKey, scaffoldHtml);
+                Nav.segId = segKey;
+
+                closeModal();
+                StudioOverlay.refreshIndexView(indexInstance);
+                StudioOverlay.showToast(`Scaffolded chapter segment '${segKey}'`);
+                StudioOverlay.openContentEditor();
+            }
         });
 
         // Action: Insert Before
@@ -783,6 +734,17 @@ export class StudioOverlay {
         const stagedCount = allStaged.length;
         const currentHtml = establishedHtml;
 
+        let activeTopicTitle = '';
+        let activeNavTopic = '';
+        if (Nav.indices && Nav.currentIndex >= 0 && Nav.indices[Nav.currentIndex]) {
+            const curIndex = Nav.indices[Nav.currentIndex];
+            const choice = curIndex.choices[curIndex.chosen];
+            if (choice && choice[0]) {
+                activeTopicTitle = choice[0].topic || '';
+                activeNavTopic = choice[0].navTopic || '';
+            }
+        }
+
         const modal = document.createElement('div');
         modal.id = 'studio-content-modal';
         modal.className = 'studio-modal-backdrop';
@@ -791,7 +753,7 @@ export class StudioOverlay {
             <div class="studio-modal-dialog xlarge">
                 <div class="studio-modal-header">
                     <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                        <h3 style="margin:0;">✏️ Edit Content: <code>${Nav.segId}</code></h3>
+                        <h3 style="margin:0;">✏️ Edit Content: <code>${Nav.segId}</code>${activeTopicTitle ? ` &bull; <span style="font-weight:600; color:#334155; font-size: 0.95rem;">${StudioOverlay.escapeHtml(activeTopicTitle)}${activeNavTopic ? ` (${StudioOverlay.escapeHtml(activeNavTopic)})` : ''}</span>` : ''}</h3>
                         <div style="display: flex; align-items: center; gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 8px;">
                             <label for="editor-version-select" style="font-size: 0.8rem; font-weight: 600; color: #475569;">Displaying:</label>
                             <select id="editor-version-select" class="studio-tb-select" style="font-size: 0.82rem; font-weight: 600; color: #0f172a; padding: 3px 6px; border: none; background: transparent; cursor: pointer;">
@@ -852,6 +814,8 @@ export class StudioOverlay {
 
                     <!-- Stencils & Mathematical Notation -->
                     <div class="studio-tb-group">
+                        <button id="tb-insert-fs" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd; font-weight: 700; background: #f0f9ff;" title="Open FS Editor &amp; Insert Formal Statement (<fs-ref>)">📜 + FS</button>
+                        <button id="tb-insert-demo" class="studio-tb-btn" style="color: #b45309; border-color: #fde68a; font-weight: 700; background: #fffbeb;" title="Open Demo Editor &amp; Insert Demo Packet (<b-ref>, <bid-ref>, <ttd-ref>)">🕹️ + Demo</button>
                         <button id="tb-insert-stencil" class="studio-tb-btn" style="color: #047857; border-color: #a7f3d0; font-weight: 700; background: #ecfdf5;" title="Insert Active Directed Equation Stencil (<eq-ref>)">📐 + Stencil</button>
                         <button id="tb-insert-theorem" class="studio-tb-btn" style="color: #0369a1; border-color: #bae6fd; font-weight: 700; background: #f0f9ff;" title="Insert Governed Formal Statement / Theorem (<fs-ref>)">📜 + Theorem</button>
                         <button id="tb-insert-pseudo" class="studio-tb-btn" style="color: #0d9488; border-color: #99f6e4; font-weight: 700; background: #f0fdfa;" title="Insert Structured Pseudocode Reference Tag">💻 + Alg</button>
@@ -1051,6 +1015,8 @@ export class StudioOverlay {
         const btnBoxAmber = document.getElementById('tb-box-amber') as HTMLButtonElement;
         const btnCard = document.getElementById('tb-box-card') as HTMLButtonElement;
         const btnInsertTable = document.getElementById('tb-insert-table') as HTMLButtonElement;
+        const btnInsertFs = document.getElementById('tb-insert-fs') as HTMLButtonElement;
+        const btnInsertDemo = document.getElementById('tb-insert-demo') as HTMLButtonElement;
         const btnInsertStencil = document.getElementById('tb-insert-stencil') as HTMLButtonElement;
         const btnInsertTheorem = document.getElementById('tb-insert-theorem') as HTMLButtonElement;
         const btnInsertPseudo = document.getElementById('tb-insert-pseudo') as HTMLButtonElement;
@@ -1450,7 +1416,19 @@ export class StudioOverlay {
             insertHtmlSnippet('\n<div class="card">\n  <h3>Section Header</h3>\n  <p>Enter narrative content here...</p>\n</div>\n<p><br></p>');
         });
 
-        // Toolbar: Stencils & Mathematical Notation
+        // Toolbar: Stencils, Formal Statements & Demos
+        btnInsertFs?.addEventListener('click', () => {
+            StudioOverlay.openFormalStatementEditor((tag) => {
+                insertHtmlSnippet(tag);
+            });
+        });
+
+        btnInsertDemo?.addEventListener('click', () => {
+            StudioOverlay.openDemoEditor((tag) => {
+                insertHtmlSnippet(tag);
+            });
+        });
+
         btnInsertStencil.addEventListener('click', () => {
             StudioOverlay.openStencilPicker((tag) => {
                 insertHtmlSnippet(tag);
@@ -2214,205 +2192,23 @@ export class StudioOverlay {
     }
 
     // =========================================================================
-    // 5. DIRECTED EQUATIONS & ACTIVE STENCILS WORKBENCH
+    // 5. UNIFIED MIDDLE WAY FORMAL STATEMENT & AXIOMATIC EDITOR (FS, STENCILS & PSEUDOCODE)
     // =========================================================================
 
-    public static async openStencilWorkbench(onSelect?: (tag: string) => void): Promise<void> {
-        const existing = document.getElementById('studio-stencil-modal');
+    public static async openFormalStatementEditor(
+        onSelect?: (tag: string) => void,
+        initialStatementKeyOrId?: string | number
+    ): Promise<void> {
+        const existing = document.getElementById('studio-fs-unified-modal');
         if (existing) existing.remove();
 
-        let equations: DbDirectedEquation[] = [];
-        try {
-            equations = await fetchAllDirectedEquations();
-        } catch {
-            equations = [];
-        }
-
-        if (!equations || equations.length === 0) {
-            equations = (FS_CATALOG.calculationModes || []).map((m: any, idx: number) => ({
-                id: idx + 1,
-                equation_key: m.id,
-                title: m.label || m.formulaDescription || m.id,
-                label: m.label || m.id,
-                formula_expr: m.formulaExpr || '',
-                target_symbol: m.targetSymbol || 'y',
-                target_domain: m.targetDomain || 'ℝ_ω',
-                target_unit: m.targetUnit || null,
-                pseudo_algo_id: null,
-                formula_description: m.formulaDescription || '',
-                has_simulation: !!m.hasSimulation,
-                statement_id: null,
-                statement_title: null
-            }));
-        }
-
-        const modal = document.createElement('div');
-        modal.id = 'studio-stencil-modal';
-        modal.className = 'studio-modal-backdrop';
-
-        const renderCards = (eqList: DbDirectedEquation[]) => {
-            if (eqList.length === 0) {
-                return '<div style="padding: 30px; text-align: center; color: #64748b;">No directed equations match your search query.</div>';
-            }
-            return eqList.map(eq => {
-                const tag = `<eq-ref id="${eq.id}" desc="${StudioOverlay.escapeHtml(eq.title)}"></eq-ref>`;
-                return `
-                    <div class="studio-stencil-card" data-id="${eq.id}" data-tag="${StudioOverlay.escapeHtml(tag)}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; margin-bottom:12px; transition:border-color 0.15s, box-shadow 0.15s;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <span style="background:#047857; color:#ffffff; font-size:11px; font-weight:800; padding:2px 7px; border-radius:12px;">#${eq.id}</span>
-                                <strong style="font-size:14.5px; color:#0f172a;">${StudioOverlay.escapeHtml(eq.title)}</strong>
-                            </div>
-                            <span style="background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(eq.target_symbol)} ∈ ${StudioOverlay.escapeHtml(eq.target_domain)}</span>
-                        </div>
-                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; font-family:monospace; font-size:13px; color:#1e293b; margin-bottom:8px; overflow-x:auto;">
-                            <strong>Formula:</strong> <code>${StudioOverlay.escapeHtml(eq.formula_expr)}</code>
-                        </div>
-                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:10px;">
-                            ${StudioOverlay.escapeHtml(eq.formula_description || 'Active computational stencil executable on the discrete dyadic machine.')}
-                        </div>
-                        ${eq.statement_title ? `
-                            <div style="font-size:12px; color:#0369a1; background:#f0f9ff; border:1px solid #bae6fd; border-radius:4px; padding:4px 8px; margin-bottom:10px; display:inline-flex; align-items:center; gap:5px;">
-                                <span>📜 Governed by Formal Statement:</span>
-                                <strong>${StudioOverlay.escapeHtml(eq.statement_title)}</strong>
-                            </div>
-                        ` : ''}
-                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
-                            <button class="studio-btn small secondary btn-test-stencil" data-id="${eq.id}">▶ Test Stencil</button>
-                            <button class="studio-btn small primary btn-insert-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert Tag'}</button>
-                            <button class="studio-btn small secondary btn-copy-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy Tag</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-
-        modal.innerHTML = `
-            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
-                <!-- Header -->
-                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 20px;">📐</span>
-                        <div>
-                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Directed Equations &amp; Active Stencils Workbench</h3>
-                            <span style="font-size: 12px; color: #64748b;">PostgreSQL Database-First &bull; Primary Identity Keys &bull; Computational Stencils</span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
-                        <input type="text" id="studio-stencil-search" placeholder="🔍 Search stencils by title, formula, variable..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
-                        <button class="studio-close-btn" id="stencil-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
-                    </div>
-                </div>
-
-                <!-- Body -->
-                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc;">
-                    <div id="studio-stencil-container">
-                        ${renderCards(equations)}
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        const closeModal = () => modal.remove();
-        document.getElementById('stencil-close-btn')?.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Search Filter
-        const searchInput = document.getElementById('studio-stencil-search') as HTMLInputElement;
-        const container = document.getElementById('studio-stencil-container') as HTMLDivElement;
-
-        const attachActions = () => {
-            container.querySelectorAll('.btn-insert-tag').forEach((btn) => {
-                const tag = btn.getAttribute('data-tag') || '';
-                btn.addEventListener('click', () => {
-                    if (onSelect) {
-                        onSelect(tag);
-                        closeModal();
-                    } else {
-                        navigator.clipboard.writeText(tag);
-                        StudioOverlay.showToast(`Copied stencil tag: ${tag}`);
-                        closeModal();
-                    }
-                });
-            });
-
-            container.querySelectorAll('.btn-copy-tag').forEach((btn) => {
-                const tag = btn.getAttribute('data-tag') || '';
-                btn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(tag);
-                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
-                });
-            });
-
-            container.querySelectorAll('.btn-test-stencil').forEach((btn) => {
-                const id = btn.getAttribute('data-id') || '';
-                btn.addEventListener('click', () => {
-                    closeModal();
-                    if (!eqDemo) setEqDemo();
-                    const index = Nav.indices[Nav.currentIndex];
-                    const choice = index ? index.choices[index.chosen] : null;
-                    const topicName = choice && choice[0] ? choice[0].topic : 'lecture';
-                    const buttonText = `back to ${topicName}`;
-
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                    Nav.setLastVisit();
-                    Nav.addNavLineBackButton(buttonText);
-                    Nav.fo.removeChildren();
-                    Nav.fo.elt.scrollTop = 0;
-                    Nav.fo.append(eqDemo);
-                    Nav.display();
-
-                    eqDemo.loadEquation(id);
-                    eqDemo.layout();
-                    if (typeof requestAnimationFrame !== 'undefined') {
-                        requestAnimationFrame(() => eqDemo.layout());
-                    }
-                });
-            });
-        };
-
-        attachActions();
-
-        searchInput?.addEventListener('input', () => {
-            const query = searchInput.value.trim().toLowerCase();
-            const filtered = equations.filter(eq =>
-                eq.title.toLowerCase().includes(query) ||
-                eq.formula_expr.toLowerCase().includes(query) ||
-                eq.equation_key.toLowerCase().includes(query) ||
-                (eq.target_symbol && eq.target_symbol.toLowerCase().includes(query)) ||
-                (eq.formula_description && eq.formula_description.toLowerCase().includes(query)) ||
-                (eq.statement_title && eq.statement_title.toLowerCase().includes(query))
-            );
-            container.innerHTML = renderCards(filtered);
-            attachActions();
-        });
-    }
-
-    public static async openStencilPicker(onSelect?: (tag: string) => void): Promise<void> {
-        return StudioOverlay.openStencilWorkbench(onSelect);
-    }
-
-    // =========================================================================
-    // 5b. FORMAL STATEMENTS & LEAN 4 THEOREMS STUDIO
-    // =========================================================================
-
-    public static async openFormalStatementStudio(onSelect?: (tag: string) => void): Promise<void> {
-        const existing = document.getElementById('studio-fs-modal');
-        if (existing) existing.remove();
-
+        // 1. Fetch Statements
         let statements: DbFormalStatement[] = [];
         try {
             statements = await fetchFormalStatements();
         } catch {
             statements = [];
         }
-
         if (!statements || statements.length === 0) {
             statements = (FS_CATALOG.formalStatements || []).map((s: any, idx: number) => ({
                 id: idx + 1,
@@ -2435,168 +2231,39 @@ export class StudioOverlay {
             }));
         }
 
-        const modal = document.createElement('div');
-        modal.id = 'studio-fs-modal';
-        modal.className = 'studio-modal-backdrop';
+        // 2. Fetch Directed Equations (Stencils)
+        let equations: DbDirectedEquation[] = [];
+        try {
+            equations = await fetchAllDirectedEquations();
+        } catch {
+            equations = [];
+        }
+        if (!equations || equations.length === 0) {
+            equations = (FS_CATALOG.calculationModes || []).map((m: any, idx: number) => ({
+                id: idx + 1,
+                equation_key: m.id,
+                title: m.label || m.formulaDescription || m.id,
+                label: m.label || m.id,
+                formula_expr: m.formulaExpr || '',
+                target_symbol: m.targetSymbol || 'y',
+                target_domain: m.targetDomain || 'ℝ_ω',
+                target_unit: m.targetUnit || null,
+                pseudo_algo_id: null,
+                formula_description: m.formulaDescription || '',
+                has_simulation: !!m.hasSimulation,
+                statement_id: null,
+                statement_title: null
+            }));
+        }
 
-        const renderCards = (stmtList: DbFormalStatement[]) => {
-            if (stmtList.length === 0) {
-                return '<div style="padding: 30px; text-align: center; color: #64748b;">No formal statements match your search query.</div>';
-            }
-            return stmtList.map(st => {
-                const tag = `<fs-ref id="${st.id}" desc="${StudioOverlay.escapeHtml(st.title)}"></fs-ref>`;
-                const cached = LEAN_CACHE[st.scaffold_key] || LEAN_CACHE[st.statement_key] || LEAN_CACHE[`scaffold:${st.scaffold_key}`];
-                const leanSig = st.lean_signature || cached?.signature;
-                const qedBadge = cached?.qed
-                    ? `<span style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; font-size:11px; font-weight:700; padding:2px 7px; border-radius:12px;">🟢 Q.E.D. (${cached.timeMs}ms)</span>`
-                    : '';
-                const lineageBadge = (cached?.uses?.length || cached?.usedBy?.length)
-                    ? `<span style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-size:11px; font-weight:600; padding:2px 7px; border-radius:12px;" title="${cached.uses?.length || 0} Upstream Prerequisites, ${cached.usedBy?.length || 0} Downstream Dependents">🌿 ${cached.uses?.length || 0} In &bull; ${cached.usedBy?.length || 0} Out</span>`
-                    : '';
-
-                return `
-                    <div class="studio-stencil-card" data-id="${st.id}" data-tag="${StudioOverlay.escapeHtml(tag)}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; margin-bottom:12px; transition:border-color 0.15s, box-shadow 0.15s;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <span style="background:#0284c7; color:#ffffff; font-size:11px; font-weight:800; padding:2px 7px; border-radius:12px;">#${st.id}</span>
-                                <strong style="font-size:14.5px; color:#0f172a;">${StudioOverlay.escapeHtml(st.title)}</strong>
-                            </div>
-                            <div style="display:flex; align-items:center; gap:6px;">
-                                ${qedBadge}
-                                ${lineageBadge}
-                                <span style="background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(st.tier || 'theorem')} &bull; ${StudioOverlay.escapeHtml(st.type || 'math')}</span>
-                            </div>
-                        </div>
-                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; font-family:monospace; font-size:13px; color:#1e293b; margin-bottom:8px; overflow-x:auto;">
-                            <strong>Expression:</strong> <code>${StudioOverlay.escapeHtml(st.expression)}</code>
-                        </div>
-                        ${leanSig ? `
-                            <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:6px; padding:6px 12px; font-family:monospace; font-size:12px; color:#6b21a8; margin-bottom:8px; overflow-x:auto;">
-                                <strong>Lean 4:</strong> <code>${StudioOverlay.escapeHtml(leanSig)}</code>
-                            </div>
-                        ` : ''}
-                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:10px;">
-                            ${StudioOverlay.escapeHtml(st.description || 'Machine-checked formal theorem verified on the Middle Way discrete foundation.')}
-                        </div>
-                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
-                            <button class="studio-btn small secondary btn-view-proof" data-id="${st.id}">📖 View Formal Proof</button>
-                            <button class="studio-btn small primary btn-insert-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert Tag'}</button>
-                            <button class="studio-btn small secondary btn-copy-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy Tag</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-
-        modal.innerHTML = `
-            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
-                <!-- Header -->
-                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 20px;">📜</span>
-                        <div>
-                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Middle Way Formal Statements &amp; Axiomatic Studio</h3>
-                            <span style="font-size: 12px; color: #64748b;">Lean 4 Verified Scaffolds &bull; Primary Identity Keys &bull; Inactive Governing Theorems</span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
-                        <input type="text" id="studio-fs-search" placeholder="🔍 Search formal statements by title, Lean signature, expression..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
-                        <button class="studio-close-btn" id="fs-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
-                    </div>
-                </div>
-
-                <!-- Body -->
-                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc;">
-                    <div id="studio-fs-container">
-                        ${renderCards(statements)}
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        const closeModal = () => modal.remove();
-        document.getElementById('fs-close-btn')?.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Search Filter
-        const searchInput = document.getElementById('studio-fs-search') as HTMLInputElement;
-        const container = document.getElementById('studio-fs-container') as HTMLDivElement;
-
-        const attachActions = () => {
-            container.querySelectorAll('.btn-insert-tag').forEach((btn) => {
-                const tag = btn.getAttribute('data-tag') || '';
-                btn.addEventListener('click', () => {
-                    if (onSelect) {
-                        onSelect(tag);
-                        closeModal();
-                    } else {
-                        navigator.clipboard.writeText(tag);
-                        StudioOverlay.showToast(`Copied statement tag: ${tag}`);
-                        closeModal();
-                    }
-                });
-            });
-
-            container.querySelectorAll('.btn-copy-tag').forEach((btn) => {
-                const tag = btn.getAttribute('data-tag') || '';
-                btn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(tag);
-                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
-                });
-            });
-
-            container.querySelectorAll('.btn-view-proof').forEach((btn) => {
-                const id = btn.getAttribute('data-id') || '';
-                btn.addEventListener('click', () => {
-                    closeModal();
-                    FSDRef.openScaffoldCard(id);
-                });
-            });
-        };
-
-        attachActions();
-
-        searchInput?.addEventListener('input', () => {
-            const query = searchInput.value.trim().toLowerCase();
-            const filtered = statements.filter(st =>
-                st.title.toLowerCase().includes(query) ||
-                st.expression.toLowerCase().includes(query) ||
-                st.statement_key.toLowerCase().includes(query) ||
-                st.scaffold_key.toLowerCase().includes(query) ||
-                (st.lean_signature && st.lean_signature.toLowerCase().includes(query)) ||
-                (st.description && st.description.toLowerCase().includes(query)) ||
-                (st.tier && st.tier.toLowerCase().includes(query))
-            );
-            container.innerHTML = renderCards(filtered);
-            attachActions();
-        });
-    }
-
-    public static async openFormalStatementPicker(onSelect?: (tag: string) => void): Promise<void> {
-        return StudioOverlay.openFormalStatementStudio(onSelect);
-    }
-
-    // =========================================================================
-    // 5a. MWM PSEUDOCODE ALGORITHM STUDIO & REVIEW ENVIRONMENT
-    // =========================================================================
-
-    public static async openPseudocodeStudio(onSelect?: (tag: string) => void): Promise<void> {
-        const existing = document.getElementById('studio-pseudo-modal');
-        if (existing) existing.remove();
-
+        // 3. Fetch Pseudocode Algorithms
         let algos: DbPseudocodeAlgorithm[] = [];
         try {
             algos = await fetchAllPseudocodeAlgorithms();
         } catch {
             algos = [];
         }
-
         if (!algos || algos.length === 0) {
-            // Fallback to in-memory/static catalog if DB query failed or offline
             algos = Object.values(MODULE_CATALOG).map((m: any) => ({
                 id: m.id,
                 algo_key: m.id,
@@ -2625,233 +2292,779 @@ export class StudioOverlay {
             }));
         }
 
-        const categoryLabels: Record<string, string> = {
-            all: '🌐 All',
-            tree_topology: '🌲 Tree Topology',
-            arithmetic: '🔢 Arithmetic',
-            order_theory: '⚖️ Order Theory',
-            analysis: '📐 Analysis',
-            rotor_trig: '🔄 Rotors & Trig',
-            quantum_bayes: '⚛️ Quantum & Bayes',
-            primitives: '🛠️ Primitives'
-        };
-
         const modal = document.createElement('div');
-        modal.id = 'studio-pseudo-modal';
+        modal.id = 'studio-fs-unified-modal';
         modal.className = 'studio-modal-backdrop';
+
+        // Render Formal Statement Cards (Embedding supporting stencils & pseudocode)
+        const renderStatementCards = (stmtList: DbFormalStatement[]) => {
+            if (stmtList.length === 0) {
+                return '<div style="padding: 30px; text-align: center; color: #64748b; font-size: 13.5px;">No formal statements match your selection or search query.</div>';
+            }
+            return stmtList.map(st => {
+                const tag = `<fs-ref id="${st.id}" desc="${StudioOverlay.escapeHtml(st.title)}"></fs-ref>`;
+                const cached = LEAN_CACHE[st.scaffold_key] || LEAN_CACHE[st.statement_key] || LEAN_CACHE[`scaffold:${st.scaffold_key}`];
+                const leanSig = st.lean_signature || cached?.signature;
+                const qedBadge = cached?.qed
+                    ? `<span style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; font-size:11px; font-weight:700; padding:2px 7px; border-radius:12px;">🟢 Q.E.D. (${cached.timeMs}ms)</span>`
+                    : '';
+                const lineageBadge = (cached?.uses?.length || cached?.usedBy?.length)
+                    ? `<span style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-size:11px; font-weight:600; padding:2px 7px; border-radius:12px;" title="${cached.uses?.length || 0} Upstream Prerequisites, ${cached.usedBy?.length || 0} Downstream Dependents">🌿 ${cached.uses?.length || 0} In &bull; ${cached.usedBy?.length || 0} Out</span>`
+                    : '';
+
+                // Matching supporting directed equations (stencils)
+                const stmtKeyClean = (st.statement_key || '').toLowerCase().replace(/^(fs_|scaffold:)/, '');
+                const scafKeyClean = (st.scaffold_key || '').toLowerCase().replace(/^(fs_|scaffold:)/, '');
+
+                const linkedEquations = equations.filter(eq => {
+                    if (eq.statement_id && String(eq.statement_id) === String(st.id)) return true;
+                    if (eq.statement_title && eq.statement_title.toLowerCase() === st.title.toLowerCase()) return true;
+                    const eqKey = (eq.equation_key || '').toLowerCase();
+                    if (stmtKeyClean && eqKey.includes(stmtKeyClean)) return true;
+                    if (scafKeyClean && eqKey.includes(scafKeyClean)) return true;
+                    return false;
+                });
+
+                // Matching supporting pseudocode algorithms
+                const linkedAlgos = algos.filter(a => {
+                    if (a.scaffold_key && (a.scaffold_key === st.scaffold_key || a.scaffold_key === st.statement_key)) return true;
+                    const aKey = (a.algo_key || String(a.id) || '').toLowerCase().replace(/^(algo_|m_)/, '');
+                    if (stmtKeyClean && (aKey === stmtKeyClean || aKey.includes(stmtKeyClean))) return true;
+                    if (scafKeyClean && (aKey === scafKeyClean || aKey.includes(scafKeyClean))) return true;
+                    if (a.name && (a.name.toLowerCase().includes(st.title.toLowerCase()) || st.title.toLowerCase().includes(a.name.toLowerCase()))) return true;
+                    return false;
+                });
+
+                const friendlyKey = st.scaffold_key || st.statement_key;
+
+                return `
+                    <div class="studio-stencil-card" data-id="${st.id}" data-tag="${StudioOverlay.escapeHtml(tag)}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px 20px; margin-bottom:14px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: border-color 0.15s, box-shadow 0.15s;">
+                        <!-- Card Header -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                <span style="background:#0284c7; color:#ffffff; font-size:11px; font-weight:800; padding:2px 8px; border-radius:12px;">#${st.id}</span>
+                                <code style="background:#f1f5f9; color:#0f172a; border:1px solid #cbd5e1; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(friendlyKey)}</code>
+                                <strong style="font-size:15px; color:#0f172a;">${StudioOverlay.escapeHtml(st.title)}</strong>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                ${qedBadge}
+                                ${lineageBadge}
+                                <span style="background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px;">${StudioOverlay.escapeHtml(st.tier || 'theorem')} &bull; ${StudioOverlay.escapeHtml(st.type || 'math')}</span>
+                            </div>
+                        </div>
+
+                        <!-- Formal Expression -->
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; font-family:monospace; font-size:13px; color:#1e293b; margin-bottom:8px; overflow-x:auto;">
+                            <strong>Expression:</strong> <code>${StudioOverlay.escapeHtml(st.expression)}</code>
+                        </div>
+
+                        <!-- Lean 4 Signature -->
+                        ${leanSig ? `
+                            <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:6px; padding:6px 12px; font-family:monospace; font-size:12px; color:#6b21a8; margin-bottom:8px; overflow-x:auto;">
+                                <strong>Lean 4:</strong> <code>${StudioOverlay.escapeHtml(leanSig)}</code>
+                            </div>
+                        ` : ''}
+
+                        <!-- Description -->
+                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:12px;">
+                            ${StudioOverlay.escapeHtml(st.description || 'Machine-checked formal theorem verified on the Middle Way discrete foundation.')}
+                        </div>
+
+                        <!-- Supporting Stencils (Computational Directed Equations) -->
+                        ${linkedEquations.length > 0 ? `
+                            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:10px 14px; margin-bottom:10px;">
+                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                    <strong style="color:#15803d; font-size:12.5px; display:flex; align-items:center; gap:6px;">
+                                        📐 Supporting Stencil${linkedEquations.length > 1 ? 's' : ''} (${linkedEquations.length})
+                                    </strong>
+                                    <span style="font-size:11px; color:#166534; font-weight:600;">Interactive CAS Evaluator</span>
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    ${linkedEquations.map(eq => {
+                                        const eqTag = `<eq-ref id="${eq.id}" desc="${StudioOverlay.escapeHtml(eq.title)}"></eq-ref>`;
+                                        return `
+                                            <div style="background:#ffffff; border:1px solid #dcfce7; border-radius:6px; padding:8px 12px; display:flex; flex-direction:column; gap:5px;">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                                                    <div style="display:flex; align-items:center; gap:6px;">
+                                                        <strong style="font-size:13px; color:#0f172a;">${StudioOverlay.escapeHtml(eq.title)}</strong>
+                                                        <span style="background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:11px; font-weight:700; padding:1px 6px; border-radius:4px;">${StudioOverlay.escapeHtml(eq.target_symbol)} ∈ ${StudioOverlay.escapeHtml(eq.target_domain || 'ℝ_ω')}</span>
+                                                    </div>
+                                                    <div style="display:flex; align-items:center; gap:6px;">
+                                                        <button class="studio-btn small secondary btn-open-eq-demo" data-key="${StudioOverlay.escapeHtml(eq.equation_key)}" data-formula="${StudioOverlay.escapeHtml(eq.formula_expr)}" data-domain="${StudioOverlay.escapeHtml(eq.target_domain || 'ℝ')}">📐 Launch Calculator</button>
+                                                        <button class="studio-btn small primary btn-insert-eq-tag" data-tag="${StudioOverlay.escapeHtml(eqTag)}">+ Insert &lt;eq-ref&gt;</button>
+                                                        <button class="studio-btn small secondary btn-copy-eq-tag" data-tag="${StudioOverlay.escapeHtml(eqTag)}" title="Copy &lt;eq-ref&gt;">📋</button>
+                                                    </div>
+                                                </div>
+                                                <div style="font-family:monospace; font-size:12px; color:#065f46; background:#f0fdf4; padding:4px 8px; border-radius:4px; overflow-x:auto;">
+                                                    <code>${StudioOverlay.escapeHtml(eq.formula_expr)}</code>
+                                                </div>
+                                                ${eq.formula_description ? `<div style="font-size:11.5px; color:#475569;">${StudioOverlay.escapeHtml(eq.formula_description)}</div>` : ''}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <!-- Supporting Pseudocode Algorithms -->
+                        ${linkedAlgos.length > 0 ? `
+                            <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:6px; padding:10px 14px; margin-bottom:10px;">
+                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                    <strong style="color:#6b21a8; font-size:12.5px; display:flex; align-items:center; gap:6px;">
+                                        💻 Supporting Pseudocode (${linkedAlgos.length})
+                                    </strong>
+                                    <span style="font-size:11px; color:#581c87; font-weight:600;">Discrete Stepper Debugger</span>
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    ${linkedAlgos.map(algo => {
+                                        const pseudoTag = `<pseudo-ref id="${StudioOverlay.escapeHtml(String(algo.algo_key || algo.id))}">${StudioOverlay.escapeHtml(algo.name)}</pseudo-ref>`;
+                                        return `
+                                            <div style="background:#ffffff; border:1px solid #ede9fe; border-radius:6px; padding:8px 12px; display:flex; flex-direction:column; gap:5px;">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                                                    <div style="display:flex; align-items:center; gap:6px;">
+                                                        <strong style="font-size:13px; color:#0f172a;">${StudioOverlay.escapeHtml(algo.name)}</strong>
+                                                        ${algo.func_name ? `<code style="font-size:11.5px; color:#4338ca; background:#eef2ff; padding:1px 6px; border-radius:4px; font-weight:600;">${algo.func_name}</code>` : ''}
+                                                        <span style="font-size:10.5px; background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; padding:1px 6px; border-radius:4px; font-weight:600;">${algo.badge || algo.category}</span>
+                                                    </div>
+                                                    <div style="display:flex; align-items:center; gap:6px;">
+                                                        <button class="studio-btn small emerald btn-step-algo" data-key="${StudioOverlay.escapeHtml(String(algo.algo_key || algo.id))}">▶ Step in Debugger</button>
+                                                        <button class="studio-btn small primary btn-insert-pseudo-tag" data-tag="${StudioOverlay.escapeHtml(pseudoTag)}">+ Insert &lt;pseudo-ref&gt;</button>
+                                                        <button class="studio-btn small secondary btn-copy-pseudo-tag" data-tag="${StudioOverlay.escapeHtml(pseudoTag)}" title="Copy &lt;pseudo-ref&gt;">📋</button>
+                                                    </div>
+                                                </div>
+                                                ${algo.signature ? `
+                                                    <div style="font-family:monospace; font-size:11.5px; font-weight:600; color:#3730a3; background:#f8fafc; padding:3px 8px; border-radius:4px; border-left:3px solid #6366f1;">
+                                                        ${StudioOverlay.escapeHtml(algo.signature)}
+                                                    </div>
+                                                ` : ''}
+                                                ${algo.summary ? `<div style="font-size:11.5px; color:#334155; line-height:1.4;">${StudioOverlay.escapeHtml(algo.summary)}</div>` : ''}
+                                                ${algo.code ? `
+                                                    <details style="margin-top:4px; background:#fafafa; border:1px solid #f1f5f9; border-radius:4px; padding:4px 8px;">
+                                                        <summary style="font-size:11px; font-weight:600; color:#64748b; cursor:pointer;">🔍 View Pseudocode Listing</summary>
+                                                        <pre style="background:#0f172a; color:#e2e8f0; padding:8px 10px; border-radius:4px; font-size:11px; overflow-x:auto; max-height:140px; margin-top:6px; line-height:1.35;"><code>${StudioOverlay.escapeHtml(algo.code)}</code></pre>
+                                                    </details>
+                                                ` : ''}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <!-- Action Footer -->
+                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
+                            <button class="studio-btn small secondary btn-view-proof" data-id="${st.id}">📖 View Formal Proof</button>
+                            <button class="studio-btn small primary btn-insert-stmt-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert &lt;fs-ref&gt;'}</button>
+                            <button class="studio-btn small secondary btn-copy-stmt-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy &lt;fs-ref&gt;</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
 
         modal.innerHTML = `
             <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
                 <!-- Header -->
-                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff; flex-wrap: wrap; gap: 10px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <span style="font-size: 20px;">📜</span>
                         <div>
-                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">MWM Pseudocode &amp; Algorithm Studio</h3>
-                            <span style="font-size: 12px; color: #64748b;">Discrete Machine Catalog • In-Situ Review &amp; Stepper</span>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Middle Way Formal Statement Studio</h3>
+                            <span style="font-size: 12px; color: #64748b;">Lean 4 Verified Theorems &bull; Supporting Stencils &bull; Discrete Pseudocode</span>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
-                        <input type="text" id="studio-pseudo-search" placeholder="🔍 Search algorithms by name, signature, primitive..." style="width: 320px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
-                        <button class="studio-close-btn" id="pseudo-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
+
+                    <!-- Friendly Key Dropdown Selector -->
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1; max-width: 460px; margin: 0 12px;">
+                        <label for="fs-select-dropdown" style="font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap;">Jump to FS:</label>
+                        <select id="fs-select-dropdown" style="width: 100%; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12.5px; font-weight: 600; color: #1e293b; background: #f8fafc; cursor: pointer; outline: none;">
+                            <option value="all">🌐 All Formal Statements (${statements.length})</option>
+                            ${statements.map(st => `
+                                <option value="${st.id}">[${st.scaffold_key || st.statement_key}] ${StudioOverlay.escapeHtml(st.title)}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+
+                    <!-- Search Input & Close Button -->
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <input type="text" id="studio-fs-unified-search" placeholder="🔍 Search expressions, theorems..." style="width: 220px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
+                        <button class="studio-close-btn" id="fs-unified-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
                     </div>
                 </div>
 
-                <!-- Category Filtering Bar -->
-                <div style="display: flex; align-items: center; gap: 6px; padding: 8px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; overflow-x: auto; flex-shrink: 0;">
-                    ${Object.entries(categoryLabels).map(([catKey, label]) => `
-                        <button type="button" class="studio-pseudo-cat-pill ${catKey === 'all' ? 'active' : ''}" data-cat="${catKey}" style="border: 1px solid ${catKey === 'all' ? '#6366f1' : '#e2e8f0'}; background: ${catKey === 'all' ? '#eef2ff' : '#ffffff'}; color: ${catKey === 'all' ? '#4338ca' : '#475569'}; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.15s ease;">
-                            ${label}
-                        </button>
-                    `).join('')}
-                    <span id="studio-pseudo-counter" style="margin-left: auto; font-size: 12px; color: #64748b; white-space: nowrap;">Showing ${algos.length} algorithms</span>
-                </div>
-
-                <!-- Algorithm Cards Grid -->
-                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f1f5f9; display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 16px; align-content: start;">
-                    ${algos.map((algo) => {
-                        const scaffoldHtml = algo.scaffold_key ? `<span style="font-size: 11px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 2px 6px; border-radius: 4px; font-weight: 600;">🏛️ Lean Scaffold: <code>${algo.scaffold_key}</code></span>` : '';
-                        const kindBadge = algo.algo_kind ? `<span style="font-size: 10.5px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 700;">${algo.algo_kind}</span>` : '';
-                        const categoryBadge = `<span style="font-size: 11px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${algo.badge || algo.category}</span>`;
-                        const explanationItems = Array.isArray(algo.explanation) && algo.explanation.length > 0
-                            ? `<div style="margin-top: 8px; font-size: 12px; color: #334155;"><strong>Explanation:</strong><ul style="margin: 4px 0 0 16px; padding: 0;">${algo.explanation.map((e: string) => `<li>${StudioOverlay.escapeHtml(e)}</li>`).join('')}</ul></div>`
-                            : '';
-                        const exampleHtml = algo.example
-                            ? `<div style="margin-top: 8px; font-size: 12px; color: #334155; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid #e2e8f0;"><strong>Worked Example:</strong><br><span style="color:#64748b;">Inputs:</span> ${algo.example.inputs ? algo.example.inputs.join(', ') : ''}<br><span style="color:#059669; font-weight:600;">Result:</span> ${algo.example.result || ''}</div>`
-                            : '';
-                        const complexityHtml = algo.tree_complexity || algo.dyadic_complexity
-                            ? `<div style="font-size: 11px; color: #64748b; margin-top: 6px;"><strong>Complexity:</strong> Tree: ${algo.tree_complexity || 'O(d)'} • Dyadic: ${algo.dyadic_complexity || 'O(1)'}</div>`
-                            : '';
-
-                        return `
-                            <div class="studio-pseudo-card" data-key="${algo.algo_key}" data-cat="${algo.category || 'arithmetic'}" data-name="${StudioOverlay.escapeHtml((algo.name + ' ' + (algo.func_name || '') + ' ' + (algo.summary || '') + ' ' + algo.code).toLowerCase())}" style="background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: box-shadow 0.15s ease;">
-                                <div>
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 8px;">
-                                        <div>
-                                            <span style="font-size: 15px; font-weight: 700; color: #0f172a;">${algo.name}</span>
-                                            ${algo.func_name ? `<code style="font-size: 12.5px; color: #4338ca; background: #eef2ff; padding: 1px 6px; border-radius: 4px; margin-left: 6px; font-weight: 600;">${algo.func_name}</code>` : ''}
-                                        </div>
-                                        <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
-                                            ${kindBadge}
-                                            ${categoryBadge}
-                                        </div>
-                                    </div>
-
-                                    ${algo.signature ? `
-                                        <div style="font-family: monospace; font-size: 12px; font-weight: 600; color: #3730a3; margin-bottom: 8px; background: #f8fafc; padding: 4px 8px; border-radius: 4px; border-left: 3px solid #6366f1;">
-                                            ${algo.signature}
-                                        </div>
-                                    ` : ''}
-
-                                    <div style="font-size: 13px; color: #334155; line-height: 1.45; margin-bottom: 6px;">
-                                        ${algo.summary || ''}
-                                    </div>
-
-                                    ${algo.domain ? `
-                                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">
-                                            <strong>Domain:</strong> <code style="color: #0f172a; background: #f1f5f9; padding: 1px 4px; border-radius: 3px;">${algo.domain}</code>
-                                        </div>
-                                    ` : ''}
-
-                                    ${scaffoldHtml ? `<div style="margin-bottom: 6px;">${scaffoldHtml}</div>` : ''}
-                                    ${complexityHtml}
-
-                                    <details style="margin-top: 10px; margin-bottom: 8px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
-                                        <summary style="font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; user-select: none;">🔍 View Structured Pseudocode &amp; Logic</summary>
-                                        <pre style="background: #0f172a; color: #e2e8f0; padding: 10px; border-radius: 6px; font-size: 11.5px; overflow-x: auto; max-height: 200px; margin-top: 8px; line-height: 1.4; border: 1px solid #334155;"><code>${StudioOverlay.escapeHtml(algo.code)}</code></pre>
-                                        ${explanationItems}
-                                        ${exampleHtml}
-                                    </details>
-                                </div>
-
-                                <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 6px; flex-wrap: wrap;">
-                                    <button class="studio-btn small emerald btn-step-algo" data-key="${algo.algo_key}" style="font-weight: 600;" title="Launch interactive step-by-step debugger with live dyadic machine values">▶ Step in Debugger</button>
-                                    ${onSelect ? `
-                                        <button class="studio-btn small primary btn-insert-pseudo" data-key="${algo.algo_key}" data-name="${StudioOverlay.escapeHtml(algo.name)}" title="Insert &lt;pseudo-ref&gt; tag at cursor in active chapter editor">➕ Insert Tag</button>
-                                    ` : `
-                                        <button class="studio-btn small secondary btn-copy-pseudo-ref" data-key="${algo.algo_key}" data-name="${StudioOverlay.escapeHtml(algo.name)}" title="Copy &lt;pseudo-ref&gt; HTML tag to clipboard">📋 Copy Tag</button>
-                                    `}
-                                    <button class="studio-btn small secondary btn-copy-algo-code" data-code="${StudioOverlay.escapeHtml(algo.code)}" title="Copy raw pseudocode to clipboard">📄 Copy Code</button>
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
+                <!-- Body Pane -->
+                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc;">
+                    <div id="fs-cards-container">
+                        ${renderStatementCards(statements)}
+                    </div>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
 
-        const cards = Array.from(modal.querySelectorAll('.studio-pseudo-card')) as HTMLElement[];
-        const searchInput = document.getElementById('studio-pseudo-search') as HTMLInputElement;
-        const counter = document.getElementById('studio-pseudo-counter') as HTMLElement;
-        const catPills = Array.from(modal.querySelectorAll('.studio-pseudo-cat-pill')) as HTMLButtonElement[];
-        let activeCat = 'all';
-
-        const updateVisibility = () => {
-            const query = (searchInput?.value || '').toLowerCase().trim();
-            let visibleCount = 0;
-
-            cards.forEach((card) => {
-                const cardCat = card.getAttribute('data-cat') || '';
-                const cardName = card.getAttribute('data-name') || '';
-                const matchesCat = activeCat === 'all' || cardCat === activeCat;
-                const matchesQuery = !query || cardName.includes(query);
-
-                if (matchesCat && matchesQuery) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (counter) {
-                counter.textContent = `Showing ${visibleCount} of ${cards.length} algorithms`;
-            }
-        };
-
-        searchInput?.addEventListener('input', updateVisibility);
-
-        catPills.forEach((pill) => {
-            pill.addEventListener('click', () => {
-                catPills.forEach((p) => {
-                    p.classList.remove('active');
-                    p.style.borderColor = '#e2e8f0';
-                    p.style.background = '#ffffff';
-                    p.style.color = '#475569';
-                });
-                pill.classList.add('active');
-                pill.style.borderColor = '#6366f1';
-                pill.style.background = '#eef2ff';
-                pill.style.color = '#4338ca';
-                activeCat = pill.getAttribute('data-cat') || 'all';
-                updateVisibility();
-            });
-        });
-
         const closeModal = () => modal.remove();
-        document.getElementById('pseudo-close-btn')?.addEventListener('click', closeModal);
+        document.getElementById('fs-unified-close-btn')?.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
-        modal.querySelectorAll('.btn-step-algo').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const algoKey = btn.getAttribute('data-key') || '';
-                closeModal();
-                if (!pseudoViewer) setPseudoViewer();
-                pseudoViewer.showAlgorithm(algoKey);
-                window.scrollTo(0, 0);
-                document.documentElement.scrollTop = 0;
-                document.body.scrollTop = 0;
-                Nav.setLastVisit();
-                Nav.addNavLineBackButton('back to editor');
-                Nav.fo.removeChildren();
-                Nav.fo.elt.scrollTop = 0;
-                Nav.fo.append(pseudoViewer);
-                Nav.display();
-                pseudoViewer.layout();
-                if (typeof requestAnimationFrame !== 'undefined') {
-                    requestAnimationFrame(() => pseudoViewer.layout());
-                }
-            });
-        });
+        const fsDropdown = document.getElementById('fs-select-dropdown') as HTMLSelectElement;
+        const searchInput = document.getElementById('studio-fs-unified-search') as HTMLInputElement;
+        const cardsContainer = document.getElementById('fs-cards-container') as HTMLDivElement;
 
-        modal.querySelectorAll('.btn-insert-pseudo').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const algoKey = btn.getAttribute('data-key') || '';
-                const algoName = btn.getAttribute('data-name') || algoKey;
-                const tag = `<pseudo-ref id="${algoKey}">${algoName}</pseudo-ref>`;
-                if (onSelect) {
-                    onSelect(tag);
+        // Action Handlers
+        const attachActionHandlers = () => {
+            // View formal proof
+            modal.querySelectorAll('.btn-view-proof').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id') || '';
                     closeModal();
-                } else {
+                    FSDRef.openScaffoldCard(id);
+                });
+            });
+
+            // Open Directed Equation Demo (CAS Calculator)
+            modal.querySelectorAll('.btn-open-eq-demo').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const key = btn.getAttribute('data-key') || '';
+                    const formula = btn.getAttribute('data-formula') || '';
+                    const domain = btn.getAttribute('data-domain') || 'ℝ';
+                    closeModal();
+                    if (!eqDemo) setEqDemo();
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                    Nav.setLastVisit();
+                    Nav.addNavLineBackButton('back to editor');
+                    Nav.fo.removeChildren();
+                    Nav.fo.elt.scrollTop = 0;
+                    Nav.fo.append(eqDemo);
+                    Nav.display();
+                    eqDemo.loadEquation(key, formula, domain);
+                    eqDemo.layout();
+                    if (typeof requestAnimationFrame !== 'undefined') {
+                        requestAnimationFrame(() => eqDemo.layout());
+                    }
+                });
+            });
+
+            // Launch Pseudocode Stepper in Debugger
+            modal.querySelectorAll('.btn-step-algo').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const algoKey = btn.getAttribute('data-key') || '';
+                    closeModal();
+                    if (!pseudoViewer) setPseudoViewer();
+                    pseudoViewer.showAlgorithm(algoKey);
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                    Nav.setLastVisit();
+                    Nav.addNavLineBackButton('back to editor');
+                    Nav.fo.removeChildren();
+                    Nav.fo.elt.scrollTop = 0;
+                    Nav.fo.append(pseudoViewer);
+                    Nav.display();
+                    pseudoViewer.layout();
+                    if (typeof requestAnimationFrame !== 'undefined') {
+                        requestAnimationFrame(() => pseudoViewer.layout());
+                    }
+                });
+            });
+
+            // Insert Tag handlers (statement, equation, or pseudocode)
+            modal.querySelectorAll('.btn-insert-stmt-tag, .btn-insert-eq-tag, .btn-insert-pseudo-tag').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.getAttribute('data-tag') || '';
+                    if (onSelect) {
+                        onSelect(tag);
+                        closeModal();
+                    } else {
+                        navigator.clipboard.writeText(tag);
+                        StudioOverlay.showToast(`✓ Copied tag: ${tag}`);
+                        closeModal();
+                    }
+                });
+            });
+
+            // Copy Tag handlers
+            modal.querySelectorAll('.btn-copy-stmt-tag, .btn-copy-eq-tag, .btn-copy-pseudo-tag').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.getAttribute('data-tag') || '';
                     navigator.clipboard.writeText(tag);
-                    StudioOverlay.showToast('Copied <pseudo-ref> tag to clipboard!');
-                    closeModal();
+                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
+                });
+            });
+        };
+
+        attachActionHandlers();
+
+        // Search & Dropdown Navigation Filter
+        const applyFilter = () => {
+            const selectedVal = fsDropdown?.value || 'all';
+            const query = (searchInput?.value || '').trim().toLowerCase();
+
+            let filtered = statements;
+            if (selectedVal !== 'all') {
+                filtered = filtered.filter(st => String(st.id) === selectedVal || st.statement_key === selectedVal || st.scaffold_key === selectedVal);
+            }
+            if (query) {
+                filtered = filtered.filter(st =>
+                    st.title.toLowerCase().includes(query) ||
+                    st.expression.toLowerCase().includes(query) ||
+                    (st.statement_key && st.statement_key.toLowerCase().includes(query)) ||
+                    (st.scaffold_key && st.scaffold_key.toLowerCase().includes(query)) ||
+                    (st.lean_signature && st.lean_signature.toLowerCase().includes(query)) ||
+                    (st.description && st.description.toLowerCase().includes(query)) ||
+                    (st.tier && st.tier.toLowerCase().includes(query))
+                );
+            }
+            if (cardsContainer) {
+                cardsContainer.innerHTML = renderStatementCards(filtered);
+            }
+            attachActionHandlers();
+        };
+
+        fsDropdown?.addEventListener('change', () => {
+            if (searchInput) searchInput.value = '';
+            applyFilter();
+        });
+
+        searchInput?.addEventListener('input', () => {
+            if (fsDropdown && searchInput.value.trim().length > 0) {
+                fsDropdown.value = 'all';
+            }
+            applyFilter();
+        });
+
+        // Initialize to specific statement if requested
+        if (initialStatementKeyOrId && fsDropdown) {
+            const match = statements.find(s =>
+                String(s.id) === String(initialStatementKeyOrId) ||
+                s.statement_key === initialStatementKeyOrId ||
+                s.scaffold_key === initialStatementKeyOrId
+            );
+            if (match) {
+                fsDropdown.value = String(match.id);
+                applyFilter();
+            }
+        }
+    }
+
+    public static async openStencilWorkbench(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementEditor(onSelect);
+    }
+
+    public static async openStencilPicker(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementEditor(onSelect);
+    }
+
+    // =========================================================================
+    // 5b. INTERACTIVE DEMO PACKET EDITOR & EMBEDDER (BTD, BID, TTD SANDBOXES)
+    // =========================================================================
+
+    public static async openDemoEditor(onSelect?: (tag: string) => void): Promise<void> {
+        const existing = document.getElementById('studio-demo-modal');
+        if (existing) existing.remove();
+
+        let demos: DbInteractiveDemo[] = [];
+        try {
+            demos = await fetchAllInteractiveDemos();
+        } catch {
+            demos = [];
+        }
+
+        // Built-in foundational Middle Way Math demo packets if DB empty or starting up
+        const defaultDemos: DbInteractiveDemo[] = [
+            {
+                id: 1,
+                demo_key: 'btd_order',
+                engine: 'btd',
+                mode: 'order',
+                title: 'Binary Tree In-Order Traversal & Dyadic Ordering',
+                description: 'Interactive visual stepping through binary tree order relations, subtree comparisons, and Archimedean cuts.'
+            },
+            {
+                id: 2,
+                demo_key: 'btd_addition',
+                engine: 'btd',
+                mode: 'addition',
+                title: 'Dyadic Surreal Addition & Sign Expansion',
+                description: 'Recursive subtree expansion demonstrating intrinsic arithmetic on signed dyadic tree coordinates.'
+            },
+            {
+                id: 3,
+                demo_key: 'btd_labeled',
+                engine: 'btd',
+                mode: 'labeled',
+                title: 'Birthday & Dyadic Node Labels',
+                description: 'Visualizes finite birthday generation and dyadic rational values across tree depths.'
+            },
+            {
+                id: 4,
+                demo_key: 'btd_isomorphism',
+                engine: 'btd',
+                mode: 'isomorphism',
+                title: 'Tree-to-Continuous Structural Isomorphism',
+                description: 'Interactive mapping between binary tree topologies and continuous coordinate intervals.'
+            },
+            {
+                id: 5,
+                demo_key: 'bid_euler',
+                engine: 'bid',
+                mode: 'eulerCompounding',
+                title: 'Euler Compounding & Binary Interval Limits',
+                description: 'Visual compounding of dyadic intervals demonstrating convergence to the discrete Euler base limit.'
+            },
+            {
+                id: 6,
+                demo_key: 'bid_mosaic',
+                engine: 'bid',
+                mode: 'mosaic',
+                title: 'Binary Interval Mosaic Decomposition',
+                description: 'Decomposes unit intervals into dyadic partitions with live probability and measure tracking.'
+            },
+            {
+                id: 7,
+                demo_key: 'ttd_tautology',
+                engine: 'ttd',
+                mode: '(p -> q) & (q -> r) -> (p -> r)',
+                title: 'Transitivity of Implication (Propositional Logic)',
+                description: 'Interactive truth table generator validating logical transitivity across boolean truth assignments.'
+            }
+        ];
+
+        if (!demos || demos.length === 0) {
+            demos = defaultDemos;
+        } else {
+            // Merge defaults if not present
+            for (const d of defaultDemos) {
+                if (!demos.some(existing => existing.demo_key === d.demo_key)) {
+                    demos.push(d);
                 }
-            });
+            }
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'studio-demo-modal';
+        modal.className = 'studio-modal-backdrop';
+
+        const launchDemo = (engine: string, mode: string) => {
+            const index = Nav.indices && Nav.currentIndex >= 0 ? Nav.indices[Nav.currentIndex] : null;
+            const choice = index && index.choices[index.chosen];
+            const topicName = choice && choice[0] ? choice[0].topic : 'chapter';
+            const buttonText = `back to ${topicName}`;
+
+            if (engine === 'btd') {
+                if (!btd) setBTD();
+                btd.setMode(mode as any);
+                Nav.setLastVisit();
+                Nav.addNavLineBackButton(buttonText);
+                Nav.fo.removeChildren();
+                Nav.fo.append(btd);
+                Nav.display();
+                btd.layout();
+                if (typeof requestAnimationFrame !== 'undefined') {
+                    requestAnimationFrame(() => btd.layout());
+                }
+            } else if (engine === 'bid') {
+                if (!bid) setBID();
+                Nav.setLastVisit();
+                Nav.addNavLineBackButton(buttonText);
+                Nav.fo.removeChildren();
+                Nav.fo.append(bid);
+                Nav.display();
+                bid.layout();
+                if (typeof requestAnimationFrame !== 'undefined') {
+                    requestAnimationFrame(() => bid.layout());
+                }
+            } else if (engine === 'ttd') {
+                ttd.pxe.exp = mode;
+                Nav.setLastVisit();
+                Nav.addNavLineBackButton(buttonText);
+                Nav.fo.removeChildren();
+                Nav.fo.append(ttd);
+                ttd.layoutEditor();
+                ttd.displayTable();
+                Nav.display();
+            }
+        };
+
+        const constructDemoTag = (d: { engine: string; mode: string; demo_key: string; title: string }) => {
+            if (d.engine === 'btd') {
+                return `<b-ref mode="${StudioOverlay.escapeHtml(d.mode)}">${StudioOverlay.escapeHtml(d.title)}</b-ref>`;
+            } else if (d.engine === 'bid') {
+                return `<bid-ref mode="${StudioOverlay.escapeHtml(d.mode)}">${StudioOverlay.escapeHtml(d.title)}</bid-ref>`;
+            } else if (d.engine === 'ttd') {
+                return `<ttd-ref exp="${StudioOverlay.escapeHtml(d.mode)}">${StudioOverlay.escapeHtml(d.title)}</ttd-ref>`;
+            } else {
+                return `<demo-ref key="${StudioOverlay.escapeHtml(d.demo_key)}" engine="${StudioOverlay.escapeHtml(d.engine)}" mode="${StudioOverlay.escapeHtml(d.mode)}">${StudioOverlay.escapeHtml(d.title)}</demo-ref>`;
+            }
+        };
+
+        const renderDemoCards = (list: DbInteractiveDemo[]) => {
+            if (list.length === 0) {
+                return '<div style="padding: 30px; text-align: center; color: #64748b;">No interactive demo packets match your search.</div>';
+            }
+            return list.map(d => {
+                const tag = constructDemoTag(d);
+                const engineBadgeColor = d.engine === 'btd' ? '#047857' : d.engine === 'bid' ? '#0284c7' : '#b91c1c';
+                const engineBg = d.engine === 'btd' ? '#ecfdf5' : d.engine === 'bid' ? '#f0f9ff' : '#fef2f2';
+
+                return `
+                    <div class="studio-demo-card" data-key="${d.demo_key}" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; margin-bottom:12px; transition:border-color 0.15s, box-shadow 0.15s;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:${engineBg}; color:${engineBadgeColor}; border:1px solid ${engineBadgeColor}40; font-size:11px; font-weight:800; padding:2px 7px; border-radius:12px; text-transform:uppercase;">${d.engine}</span>
+                                <strong style="font-size:14.5px; color:#0f172a;">${StudioOverlay.escapeHtml(d.title)}</strong>
+                            </div>
+                            <span style="font-family:monospace; background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px;">mode: ${StudioOverlay.escapeHtml(d.mode)}</span>
+                        </div>
+                        <div style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:8px;">
+                            ${StudioOverlay.escapeHtml(d.description || 'Interactive simulation sandbox.')}
+                        </div>
+                        <div style="font-family:monospace; font-size:11px; color:#64748b; margin-bottom:8px; background:#f8fafc; padding:4px 8px; border-radius:4px; overflow-x:auto;">
+                            Tag: <code>${StudioOverlay.escapeHtml(tag)}</code>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #f1f5f9; padding-top:10px;">
+                            <button class="studio-btn small emerald btn-launch-demo" data-engine="${d.engine}" data-mode="${StudioOverlay.escapeHtml(d.mode)}">▶ Launch Demo</button>
+                            <button class="studio-btn small primary btn-insert-demo-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">${onSelect ? '✓ Insert into Segment' : '✓ Insert Tag'}</button>
+                            <button class="studio-btn small secondary btn-copy-demo-tag" data-tag="${StudioOverlay.escapeHtml(tag)}">📋 Copy Tag</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        modal.innerHTML = `
+            <div class="studio-modal-dialog xlarge" style="display: flex; flex-direction: column; height: 90vh;">
+                <!-- Header -->
+                <div class="studio-modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">🕹️</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Middle Way Math — Interactive Demo Packets</h3>
+                            <span style="font-size: 12px; color: #64748b;">Declare, Decorate &amp; Embed Mathematical Sandboxes (BTD, BID, TTD)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; justify-content: flex-end;">
+                        <input type="text" id="studio-demo-search" placeholder="🔍 Search demos by title, engine, mode..." style="width: 280px; max-width: 100%; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; outline: none;">
+                        <button class="studio-close-btn" id="demo-close-btn" style="font-size: 18px; padding: 4px 8px; cursor: pointer; border: none; background: transparent; color: #64748b;">✕</button>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="studio-modal-body" style="flex: 1; overflow-y: auto; padding: 16px 20px; background: #f8fafc; gap: 16px;">
+                    <!-- Declaration Panel (Decorate New Demo Packet) -->
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                        <h4 style="margin:0 0 12px 0; font-size:13.5px; color:#0f172a; text-transform:uppercase; letter-spacing:0.04em;">
+                            ✨ Declare / Decorate New Demo Packet
+                        </h4>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
+                            <div class="studio-field-group">
+                                <label style="font-size:12px; font-weight:600; color:#475569;">Target Engine:</label>
+                                <select id="decl-demo-engine" class="studio-select" style="font-size:13px;">
+                                    <option value="btd">🌳 Binary Tree Demo (BTD)</option>
+                                    <option value="bid">📊 Binary Interval Demo (BID)</option>
+                                    <option value="ttd">⚖️ Truth Table Demo (TTD)</option>
+                                </select>
+                            </div>
+                            <div class="studio-field-group">
+                                <label style="font-size:12px; font-weight:600; color:#475569;">Mode / Expression:</label>
+                                <input type="text" id="decl-demo-mode" list="decl-mode-suggestions" class="studio-input" value="order" style="font-size:13px;" placeholder="Mode or TTD formula">
+                                <datalist id="decl-mode-suggestions">
+                                    <option value="order">In-Order Traversal</option>
+                                    <option value="addition">Dyadic Addition</option>
+                                    <option value="multiplication">Dyadic Multiplication</option>
+                                    <option value="isomorphism">Continuous Isomorphism</option>
+                                    <option value="birthday">Birthday Tree</option>
+                                    <option value="labeled">Labeled Dyadics</option>
+                                    <option value="eulerCompounding">Euler Compounding</option>
+                                </datalist>
+                            </div>
+                            <div class="studio-field-group">
+                                <label style="font-size:12px; font-weight:600; color:#475569;">Demo Key (ID):</label>
+                                <input type="text" id="decl-demo-key" class="studio-input" value="btd_custom_demo" style="font-size:13px;" placeholder="e.g. btd_tree_stepping">
+                            </div>
+                        </div>
+
+                        <div class="studio-field-group" style="margin-bottom:12px;">
+                            <label style="font-size:12px; font-weight:600; color:#475569;">Title:</label>
+                            <input type="text" id="decl-demo-title" class="studio-input" value="Custom Binary Tree Demonstration" style="font-size:13px;" placeholder="Human readable title">
+                        </div>
+
+                        <div class="studio-field-group" style="margin-bottom:14px;">
+                            <label style="font-size:12px; font-weight:600; color:#475569;">Pedagogical Intent &amp; Description:</label>
+                            <input type="text" id="decl-demo-desc" class="studio-input" value="Interactive pedagogical simulation exploring Middle Way foundational discrete structures." style="font-size:13px;" placeholder="Pedagogical notes">
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; gap:8px;">
+                            <button class="studio-btn secondary" id="decl-btn-test-run">▶️ Test Run Demo</button>
+                            <button class="studio-btn primary" id="decl-btn-insert-tag">${onSelect ? '✓ Insert into Segment' : '✓ Copy Declaration Tag'}</button>
+                        </div>
+                    </div>
+
+                    <!-- Established Demos Catalog -->
+                    <div>
+                        <h4 style="margin:0 0 10px 0; font-size:13.5px; color:#0f172a; text-transform:uppercase; letter-spacing:0.04em;">
+                            📚 Registered Demo Initialization Packets
+                        </h4>
+                        <div id="studio-demos-container">
+                            ${renderDemoCards(demos)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        const closeModal = () => modal.remove();
+        document.getElementById('demo-close-btn')?.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
         });
 
-        modal.querySelectorAll('.btn-copy-pseudo-ref').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const algoKey = btn.getAttribute('data-key') || '';
-                const algoName = btn.getAttribute('data-name') || algoKey;
-                const tag = `<pseudo-ref id="${algoKey}">${algoName}</pseudo-ref>`;
+        // Dynamic Mode Datalist based on engine
+        const engineSelect = document.getElementById('decl-demo-engine') as HTMLSelectElement;
+        const modeInput = document.getElementById('decl-demo-mode') as HTMLInputElement;
+        const modeSuggestions = document.getElementById('decl-mode-suggestions') as HTMLDataListElement;
+
+        engineSelect.addEventListener('change', () => {
+            const eng = engineSelect.value;
+            if (eng === 'btd') {
+                modeSuggestions.innerHTML = `
+                    <option value="order">In-Order Traversal</option>
+                    <option value="addition">Dyadic Addition</option>
+                    <option value="multiplication">Dyadic Multiplication</option>
+                    <option value="isomorphism">Continuous Isomorphism</option>
+                    <option value="birthday">Birthday Tree</option>
+                    <option value="labeled">Labeled Dyadics</option>
+                    <option value="subtree">Subtree Decomposition</option>
+                    <option value="cut">Archimedean Cut</option>
+                    <option value="simplicity">Simplicity Ordering</option>
+                    <option value="eulerCompounding">Euler Compounding</option>
+                `;
+                modeInput.value = 'order';
+            } else if (eng === 'bid') {
+                modeSuggestions.innerHTML = `
+                    <option value="eulerCompounding">Euler Compounding</option>
+                    <option value="mosaic">Mosaic Partition</option>
+                    <option value="transect">Transect Interval</option>
+                    <option value="filter">Filter Sieve</option>
+                    <option value="treeProjection">Tree Projection</option>
+                    <option value="stateTree">State Tree</option>
+                    <option value="oddsGauge">Odds Gauge</option>
+                `;
+                modeInput.value = 'eulerCompounding';
+            } else if (eng === 'ttd') {
+                modeSuggestions.innerHTML = `
+                    <option value="(p -> q) & (q -> r) -> (p -> r)">Transitivity of Implication</option>
+                    <option value="!(p & q) <-> (!p | !q)">De Morgan Law</option>
+                    <option value="(p | q) & (!p | r) -> (q | r)">Resolution Principle</option>
+                    <option value="p -> (q -> p)">Axiom 1 (Weakening)</option>
+                `;
+                modeInput.value = '(p -> q) & (q -> r) -> (p -> r)';
+            }
+        });
+
+        // Test Run Button
+        document.getElementById('decl-btn-test-run')?.addEventListener('click', () => {
+            const eng = engineSelect.value;
+            const mode = modeInput.value.trim() || 'plain';
+            closeModal();
+            launchDemo(eng, mode);
+        });
+
+        // Insert Tag Button from Declaration Form
+        document.getElementById('decl-btn-insert-tag')?.addEventListener('click', () => {
+            const eng = engineSelect.value;
+            const mode = modeInput.value.trim() || 'plain';
+            const key = (document.getElementById('decl-demo-key') as HTMLInputElement).value.trim() || `${eng}_demo`;
+            const title = (document.getElementById('decl-demo-title') as HTMLInputElement).value.trim() || 'Interactive Demonstration';
+            const tag = constructDemoTag({ engine: eng, mode, demo_key: key, title });
+
+            if (onSelect) {
+                onSelect(tag);
+                closeModal();
+            } else {
                 navigator.clipboard.writeText(tag);
-                StudioOverlay.showToast(`Copied <pseudo-ref id="${algoKey}"> tag!`);
-            });
+                StudioOverlay.showToast(`✓ Copied tag: ${tag}`);
+                closeModal();
+            }
         });
 
-        modal.querySelectorAll('.btn-copy-algo-code').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const code = btn.getAttribute('data-code') || '';
-                navigator.clipboard.writeText(code);
-                StudioOverlay.showToast('Copied pseudocode to clipboard!');
+        // Attach action handlers for registered demos cards
+        const attachDemoCardHandlers = () => {
+            modal.querySelectorAll('.btn-launch-demo').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const eng = btn.getAttribute('data-engine') || 'btd';
+                    const mode = btn.getAttribute('data-mode') || 'plain';
+                    closeModal();
+                    launchDemo(eng, mode);
+                });
             });
+
+            modal.querySelectorAll('.btn-insert-demo-tag').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.getAttribute('data-tag') || '';
+                    if (onSelect) {
+                        onSelect(tag);
+                        closeModal();
+                    } else {
+                        navigator.clipboard.writeText(tag);
+                        StudioOverlay.showToast(`✓ Copied tag: ${tag}`);
+                        closeModal();
+                    }
+                });
+            });
+
+            modal.querySelectorAll('.btn-copy-demo-tag').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.getAttribute('data-tag') || '';
+                    navigator.clipboard.writeText(tag);
+                    StudioOverlay.showToast(`✓ Copied: ${tag}`);
+                });
+            });
+        };
+
+        attachDemoCardHandlers();
+
+        // Search Filter for Demos
+        const searchInput = document.getElementById('studio-demo-search') as HTMLInputElement;
+        const container = document.getElementById('studio-demos-container') as HTMLDivElement;
+
+        searchInput?.addEventListener('input', () => {
+            const query = (searchInput?.value || '').trim().toLowerCase();
+            const filtered = demos.filter(d =>
+                d.title.toLowerCase().includes(query) ||
+                d.demo_key.toLowerCase().includes(query) ||
+                d.engine.toLowerCase().includes(query) ||
+                d.mode.toLowerCase().includes(query) ||
+                (d.description && d.description.toLowerCase().includes(query))
+            );
+            container.innerHTML = renderDemoCards(filtered);
+            attachDemoCardHandlers();
         });
     }
+
+    // =========================================================================
+    // 5c. FORMAL STATEMENTS & PSEUDOCODE STUDIO DELEGATES
+    // =========================================================================
+
+    public static async openFormalStatementStudio(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementEditor(onSelect);
+    }
+
+    public static async openFormalStatementPicker(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementEditor(onSelect);
+    }
+
+    public static async openPseudocodeStudio(onSelect?: (tag: string) => void): Promise<void> {
+        return StudioOverlay.openFormalStatementEditor(onSelect);
+    }
+
+    // =========================================================================
     // 5b. NATIVE FULL TTD CANVAS STAGE DISPATCH & RETURN
     // =========================================================================
 
@@ -3134,48 +3347,38 @@ export class StudioOverlay {
                         <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
                             
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[👁️ View / ✏️ Edit]</div>
-                                <div><strong>Mode Toggle:</strong> Switch between standard reader simulation and in-situ tree editing. In <em>Edit</em> mode, click any chapter item in the left outline to edit title, re-parent, change order, or create new chapters.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 125px;">[👁️ View / ✏️ Edit]</div>
+                                <div><strong>Mode Toggle:</strong> Switch between standard student reader simulation and in-situ tree editing. In <em>Edit</em> mode, click any chapter item in the left outline to edit title, re-parent, change order, open in Content Editor, or scaffold new chapters.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[✏️ Content]</div>
-                                <div><strong>In-Situ Content Editor:</strong> Edit the active chapter segment's raw HTML, dialogue markup, and embedded templates in a full modal editor with live in-situ reload.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 125px;">[✏️ Content]</div>
+                                <div><strong>In-Situ Content Editor:</strong> Edit the active chapter segment's raw HTML, dialogue markup, and embedded templates in a full modal editor with live in-situ reload and quick toolbar insert for Formal Statements and Demos.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[+ Stencil]</div>
-                                <div><strong>Interactive Stencil Picker:</strong> Search and insert reusable mathematical scaffolds directly into content: Lean 4 formal statements (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;fsd-ref&gt;</code>), equation evaluators (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;eq-ref&gt;</code>), and STEM cards.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 125px;">[📜 FS Editor]</div>
+                                <div><strong>Formal Statements &amp; Axiomatic Studio:</strong> Unified mathematical catalog with 3 tabs: Lean 4 verified scaffolds &amp; theorems (read strictly from pre-verified <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">LEAN_CACHE</code>), Directed Equation stencils (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;fsd-ref&gt;</code>), and discrete machine pseudocode algorithms (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;pseudo-ref&gt;</code>).</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[🔄 Reload]</div>
-                                <div><strong>Instant Live Reload:</strong> Re-fetches the active chapter segment from PostgreSQL and re-runs MathJax typography without losing navigation state or reloading the window.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 125px;">[🕹️ Demos]</div>
+                                <div><strong>Interactive Demo Packets:</strong> Declare, decorate, live-test, and embed simulation sandboxes: Binary Tree Demo (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;b-ref&gt;</code>), Binary Interval Demo (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;bid-ref&gt;</code>), and Truth Table Demo (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">&lt;ttd-ref&gt;</code>).</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[🚀 Build Page]</div>
-                                <div><strong>Build Page Snapshot:</strong> Emits a standalone static HTML page (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/builds/&lt;name&gt;.html</code>) snapshotting your active in-memory Dev outline and segment edits without touching PostgreSQL.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #d97706; min-width: 125px;">[💾 Commit (n)]</div>
+                                <div><strong>Commit &amp; Persistence Hub:</strong> Review pending staged chapter drafts (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">stagedSegs/</code>), verify outline link connections, synchronize <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">indices.ts</code>, update canonical source files (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/segs/</code>), regenerate seeds, and reseed PostgreSQL in one coordinated operation.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #d97706; min-width: 110px;">[📦 Staged]</div>
-                                <div><strong>2-Phase Staging & Promotion:</strong> Review drafts saved in <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">stagedSegs/</code> before modifying source code. Promote drafts directly into canonical source files (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/segs/</code>), regenerate seeds, update PostgreSQL, and rebuild <code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">app1/dist/index.html</code> in one coordinated operation.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #0284c7; min-width: 125px;">[🗄️ DB CRUD]</div>
+                                <div><strong>Database CRUD Studio:</strong> Dedicated, schema-aware relational data maintenance suite (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">/crud</code>) for managing all 12 database tables, parent-child dependencies, foreign key linkages, and enum types.</div>
                             </div>
 
                             <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[💾 Update DB]</div>
-                                <div><strong>Commit to Database:</strong> Explicitly writes your active in-memory Dev outline hierarchy and segment content into PostgreSQL. Normal dev edits and builds leave the database completely alone.</div>
-                            </div>
-
-                            <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[📊 Console]</div>
-                                <div><strong>Database Console:</strong> Opens the interactive PostgreSQL query console in a new tab (<code style="background:#f1f5f9; padding:2px 5px; border-radius:4px;">/console</code>) to run queries against curriculum tables.</div>
-                            </div>
-
-                            <div style="display: flex; gap: 12px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px;">
-                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 110px;">[ℹ️ Guide]</div>
-                                <div><strong>Studio Guide:</strong> Displays this in-situ documentation and architecture overview.</div>
+                                <div style="font-family: monospace; font-weight: 700; color: #2563eb; min-width: 125px;">[ℹ️ Guide]</div>
+                                <div><strong>Studio Guide:</strong> Displays this in-situ documentation, keyboard navigation hints, and architectural overview.</div>
                             </div>
 
                         </div>
@@ -3218,7 +3421,7 @@ export class StudioOverlay {
     }
 
     // =========================================================================
-    // 9. STAGED SEGMENTS REVIEW & PROMOTION MODAL
+    // 9. UNIFIED STAGING REVIEW & DB COMMIT HUB
     // =========================================================================
 
     public static async checkStagedCount(): Promise<void> {
@@ -3227,13 +3430,12 @@ export class StudioOverlay {
             const data = await res.json();
             if (data && data.status === 'success' && Array.isArray(data.staged)) {
                 const count = data.staged.length;
-                if (StudioOverlay.stagedWidget) {
+                if (StudioOverlay.commitWidget) {
+                    StudioOverlay.commitWidget.setV(`[💾 Commit (${count})]`);
                     if (count > 0) {
-                        StudioOverlay.stagedWidget.setV(`[🚀 Update from stagedSegs (${count})]`);
-                        StudioOverlay.stagedWidget.setAA(['stroke', '#d97706', 'font-weight', 'bold']);
+                        StudioOverlay.commitWidget.setAA(['stroke', '#d97706', 'font-weight', 'bold']);
                     } else {
-                        StudioOverlay.stagedWidget.setV(`[📦 stagedSegs (0)]`);
-                        StudioOverlay.stagedWidget.setAA(['stroke', '#64748b', 'font-weight', 'normal']);
+                        StudioOverlay.commitWidget.setAA(['stroke', Nav.color.active, 'font-weight', 'normal']);
                     }
                     StudioOverlay.updateWidth();
                 }
@@ -3244,48 +3446,72 @@ export class StudioOverlay {
     }
 
     public static async openStagedReviewModal(): Promise<void> {
-        const existing = document.getElementById('studio-staged-modal');
+        return StudioOverlay.openCommitModal();
+    }
+
+    public static async openCommitModal(): Promise<void> {
+        const existing = document.getElementById('studio-commit-modal');
         if (existing) {
             existing.remove();
             return;
         }
 
         const modalOverlay = document.createElement('div');
-        modalOverlay.id = 'studio-staged-modal';
+        modalOverlay.id = 'studio-commit-modal';
         modalOverlay.className = 'studio-modal-backdrop';
 
         modalOverlay.innerHTML = `
-            <div class="studio-modal-dialog large" style="max-height: 85vh;">
+            <div class="studio-modal-dialog large" style="max-height: 85vh; width: 720px;">
                 <div class="studio-modal-header">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 1.4rem;">📦</span>
+                        <span style="font-size: 1.4rem;">💾</span>
                         <div>
-                            <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;" id="staged-modal-title">Update Established Segments &amp; DB from stagedSegs/</h3>
-                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Promote drafted chapters from stagedSegs/ into canonical source files (app1/segs/) and PostgreSQL</div>
+                            <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;" id="commit-modal-title">Middle Way Math — Commit &amp; Persistence Hub</h3>
+                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Synchronize In-Memory Curriculum, Staged Drafts &amp; PostgreSQL Database</div>
                         </div>
                     </div>
-                    <button class="studio-close-btn" id="staged-close-btn">✕</button>
+                    <button class="studio-close-btn" id="commit-close-btn">✕</button>
                 </div>
                 <div class="studio-modal-body" style="gap: 16px;">
                     
-                    <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #92400e;">
-                        <strong>2-Phase Staging Workflow:</strong> Drafts saved in <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">stagedSegs/</code> allow you to draft, diff, and review edits without touching canonical source files. When ready, click <strong>Update Established Segments &amp; Reseed DB</strong> below to copy all stagedSegs to <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/segs/</code>, regenerate <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">db/seed.sql</code>, update PostgreSQL, rebuild <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">index.html</code>, and clear the staged directory.
+                    <!-- Overview Metrics Bar -->
+                    <div id="commit-metrics-bar" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; text-align: center;">
+                            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748b; display: block;">Staged Drafts</span>
+                            <strong id="metric-staged-count" style="font-size: 18px; color: #0f172a;">...</strong>
+                            <span style="font-size: 11px; color: #64748b; display: block;">in stagedSegs/</span>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; text-align: center;">
+                            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748b; display: block;">Outline Tree</span>
+                            <strong id="metric-outline-count" style="font-size: 18px; color: #0f172a;">...</strong>
+                            <span style="font-size: 11px; color: #64748b; display: block;">curriculum nodes</span>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 12px; text-align: center;">
+                            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748b; display: block;">Session Overrides</span>
+                            <strong id="metric-overrides-count" style="font-size: 18px; color: #0f172a;">...</strong>
+                            <span style="font-size: 11px; color: #64748b; display: block;">chapters modified</span>
+                        </div>
+                    </div>
+
+                    <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #92400e; line-height: 1.45;">
+                        <strong>Coordinated Persistence:</strong> Committing updates canonical source files (<code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/segs/</code>), synchronizes <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">indices.ts</code>, regenerates <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">db/seed.sql</code>, updates PostgreSQL, and rebuilds <code style="background:#fef3c7; padding:2px 5px; border-radius:4px; font-weight:600;">app1/dist/index.html</code>.
                     </div>
 
                     <div id="staged-list-container" class="studio-staged-list">
                         <div style="text-align: center; padding: 30px; color: #94a3b8;">
-                            ⏳ Loading staged segments...
+                            ⏳ Loading staged drafts &amp; repository state...
                         </div>
                     </div>
 
                 </div>
-                <div class="studio-modal-footer" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                <div class="studio-modal-footer" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                     <div>
-                        <button class="studio-btn danger small" id="btn-discard-all" style="display: none;">🗑️ Discard All</button>
+                        <button class="studio-btn danger small" id="btn-discard-all" style="display: none;">🗑️ Discard All Drafts</button>
                     </div>
                     <div class="studio-btn-group" style="gap: 10px;">
                         <button class="studio-btn secondary" id="btn-close-staged">Close</button>
-                        <button class="studio-btn emerald" id="btn-promote-all" style="display: none; font-weight: 700; padding: 10px 18px; font-size: 0.95rem;">🚀 Update Established Segments &amp; Reseed DB (Clears stagedSegs/)</button>
+                        <button class="studio-btn secondary" id="btn-sync-outline-only" style="font-weight: 600;">✓ Sync Outline Only</button>
+                        <button class="studio-btn emerald" id="btn-promote-all" style="font-weight: 700; padding: 8px 16px;">🚀 Commit All Changes</button>
                     </div>
                 </div>
             </div>
@@ -3298,7 +3524,7 @@ export class StudioOverlay {
             StudioOverlay.checkStagedCount();
         };
 
-        document.getElementById('staged-close-btn')?.addEventListener('click', closeModal);
+        document.getElementById('commit-close-btn')?.addEventListener('click', closeModal);
         document.getElementById('btn-close-staged')?.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
@@ -3306,8 +3532,26 @@ export class StudioOverlay {
 
         const listContainer = document.getElementById('staged-list-container') as HTMLDivElement;
         const btnPromoteAll = document.getElementById('btn-promote-all') as HTMLButtonElement;
+        const btnSyncOutlineOnly = document.getElementById('btn-sync-outline-only') as HTMLButtonElement;
         const btnDiscardAll = document.getElementById('btn-discard-all') as HTMLButtonElement;
-        const modalTitle = document.getElementById('staged-modal-title') as HTMLElement;
+        const metricStaged = document.getElementById('metric-staged-count') as HTMLElement;
+        const metricOutline = document.getElementById('metric-outline-count') as HTMLElement;
+        const metricOverrides = document.getElementById('metric-overrides-count') as HTMLElement;
+
+        const currentOutline = StudioOverlay.exportCurrentOutlineTree();
+        const overrides = StudioOverlay.collectSegmentOverrides();
+
+        let totalOutlineNodes = 0;
+        const countNodes = (nodes: any[]) => {
+            for (const n of nodes) {
+                totalOutlineNodes++;
+                if (n.indexDesc && Array.isArray(n.indexDesc)) countNodes(n.indexDesc);
+            }
+        };
+        countNodes(currentOutline);
+
+        if (metricOutline) metricOutline.textContent = String(totalOutlineNodes);
+        if (metricOverrides) metricOverrides.textContent = String(Object.keys(overrides).length);
 
         const loadStagedList = async () => {
             try {
@@ -3318,28 +3562,27 @@ export class StudioOverlay {
                 }
 
                 const staged = data.staged;
-                modalTitle.textContent = `Staged Segments (${staged.length})`;
+                if (metricStaged) metricStaged.textContent = String(staged.length);
 
                 if (staged.length === 0) {
                     listContainer.innerHTML = `
-                        <div style="text-align: center; padding: 40px 20px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
-                            <span style="font-size: 2.2rem; display: block; margin-bottom: 8px;">📭</span>
-                            <strong style="color: #475569; font-size: 1rem; display: block;">No Staged Segments in stagedSegs/</strong>
-                            <p style="color: #64748b; font-size: 0.85rem; margin: 6px 0 0 0;">
-                                To stage an edit, open any chapter in the Content Editor (<code style="background:#e2e8f0; padding:1px 4px; border-radius:3px;">[✏️ Content]</code>) and click <strong>💾 Save to stagedSegs</strong>.
+                        <div style="text-align: center; padding: 36px 20px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
+                            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">✅</span>
+                            <strong style="color: #475569; font-size: 0.98rem; display: block;">No Pending Chapter Drafts in stagedSegs/</strong>
+                            <p style="color: #64748b; font-size: 0.84rem; margin: 6px 0 0 0;">
+                                Outline hierarchy changes and in-memory chapter edits can be committed directly to PostgreSQL with <strong>Commit All Changes</strong>, or you can stage drafts via <strong>[✏️ Content]</strong> &rarr; <em>Save to stagedSegs</em>.
                             </p>
                         </div>
                     `;
-                    btnPromoteAll.style.display = 'none';
                     btnDiscardAll.style.display = 'none';
+                    btnPromoteAll.textContent = '🚀 Commit Outline & In-Memory State to DB';
                     StudioOverlay.checkStagedCount();
                     return;
                 }
 
-                btnPromoteAll.style.display = 'inline-block';
+                btnPromoteAll.textContent = `🚀 Promote ${staged.length} Staged Chapter(s) & Reseed DB`;
                 btnDiscardAll.style.display = 'inline-block';
 
-                const currentOutline = StudioOverlay.exportCurrentOutlineTree();
                 const findLinkPath = (segId: string, nodes: any[], path: string[] = []): string | null => {
                     for (const node of nodes) {
                         const currentPath = [...path, node.topic];
@@ -3463,9 +3706,35 @@ export class StudioOverlay {
             }
         });
 
-        // Promote all handler
+        // Sync Outline Only handler
+        btnSyncOutlineOnly.addEventListener('click', async () => {
+            btnSyncOutlineOnly.disabled = true;
+            btnSyncOutlineOnly.textContent = '⏳ Syncing Outline...';
+            try {
+                const res = await fetch(`${getApiBaseUrl()}/api/sync-to-db`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        app: 'app1',
+                        outlineTree: currentOutline,
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    StudioOverlay.showToast(`✓ Outline hierarchy synchronized to database.`);
+                    closeModal();
+                } else {
+                    throw new Error(data.message || 'Sync failed');
+                }
+            } catch (e: any) {
+                StudioOverlay.showToast(`❌ Sync error: ${e.message}`, true);
+                btnSyncOutlineOnly.disabled = false;
+                btnSyncOutlineOnly.textContent = '✓ Sync Outline Only';
+            }
+        });
+
+        // Promote all / Commit all handler
         btnPromoteAll.addEventListener('click', async () => {
-            const currentOutline = StudioOverlay.exportCurrentOutlineTree();
             const findLink = (segId: string, nodes: any[]): boolean => {
                 for (const node of nodes) {
                     if (node.htmlSegmentId === segId) return true;
@@ -3474,47 +3743,74 @@ export class StudioOverlay {
                 return false;
             };
 
-            // Ensure all staged segments are connected to the outline before promoting
+            let stagedList: any[] = [];
             try {
                 const checkRes = await fetch(`${getApiBaseUrl()}/api/staged-segments`);
                 const checkData = await checkRes.json();
-                if (checkData?.staged && Array.isArray(checkData.staged)) {
-                    const unlinked = checkData.staged.filter((s: any) => !findLink(s.segId, currentOutline));
-                    if (unlinked.length > 0) {
-                        alert(`Cannot promote: All staged segments must be connected to an index entry first.\n\nPlease link the following segment(s) in Outline Edit mode:\n• ` + unlinked.map((u: any) => u.segId).join('\n• '));
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.warn('Pre-promotion check error:', err);
+                stagedList = (checkData && checkData.staged) || [];
+            } catch {
+                stagedList = [];
             }
 
-            btnPromoteAll.disabled = true;
-            btnPromoteAll.textContent = '⏳ Promoting, Reseeding & Building...';
-            try {
-                const res = await fetch(`${getApiBaseUrl()}/api/promote-staged-segments`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        app: 'app1',
-                        outlineTree: currentOutline
-                    })
-                });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    StudioOverlay.showToast(`🎉 ${data.message}`);
-                    closeModal();
-                    StudioOverlay.checkStagedCount();
-                    // Reload active chapter from database to reflect changes live
-                    StudioOverlay.handleReload();
-                } else {
-                    throw new Error(data.message || 'Failed to promote staged segments');
+            if (stagedList.length > 0) {
+                const unlinked = stagedList.filter((s: any) => !findLink(s.segId, currentOutline));
+                if (unlinked.length > 0) {
+                    alert(`Cannot promote: All staged segments must be connected to an index entry first.\n\nPlease link the following segment(s) in Outline Edit mode:\n• ` + unlinked.map((u: any) => u.segId).join('\n• '));
+                    return;
                 }
-            } catch (e: any) {
-                console.error('Promotion error:', e);
-                StudioOverlay.showToast(`❌ Promotion failed: ${e.message}`, true);
-                btnPromoteAll.disabled = false;
-                btnPromoteAll.textContent = '🚀 Update Established Segments & Reseed DB (Clears stagedSegs/)';
+
+                btnPromoteAll.disabled = true;
+                btnPromoteAll.textContent = '⏳ Promoting, Reseeding & Building...';
+                try {
+                    const res = await fetch(`${getApiBaseUrl()}/api/promote-staged-segments`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            app: 'app1',
+                            outlineTree: currentOutline
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        StudioOverlay.showToast(`🎉 ${data.message}`);
+                        closeModal();
+                        StudioOverlay.checkStagedCount();
+                        StudioOverlay.handleReload();
+                    } else {
+                        throw new Error(data.message || 'Failed to promote staged segments');
+                    }
+                } catch (e: any) {
+                    StudioOverlay.showToast(`❌ Promotion failed: ${e.message}`, true);
+                    btnPromoteAll.disabled = false;
+                    btnPromoteAll.textContent = `🚀 Promote ${stagedList.length} Staged Chapter(s) & Reseed DB`;
+                }
+            } else {
+                // No staged files; perform direct sync of outline and session overrides
+                btnPromoteAll.disabled = true;
+                btnPromoteAll.textContent = '⏳ Syncing Outline & Chapters to DB...';
+                try {
+                    const res = await fetch(`${getApiBaseUrl()}/api/sync-to-db`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            app: 'app1',
+                            outlineTree: currentOutline,
+                            segOverrides: overrides,
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        StudioOverlay.showToast(`🎉 Dev state, source files & database fully synchronized.`);
+                        closeModal();
+                        StudioOverlay.handleReload();
+                    } else {
+                        throw new Error(data.message || 'Sync failed');
+                    }
+                } catch (e: any) {
+                    StudioOverlay.showToast(`❌ Sync failed: ${e.message}`, true);
+                    btnPromoteAll.disabled = false;
+                    btnPromoteAll.textContent = '🚀 Commit All Changes';
+                }
             }
         });
 

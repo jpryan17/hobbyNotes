@@ -129,3 +129,29 @@ export async function rollbackTransaction(transactionId: string): Promise<ApiRes
         };
     }
 }
+
+export interface HealthResponse {
+    status: 'connected' | 'disconnected' | 'error';
+    database?: string;
+    user?: string;
+    error?: string;
+}
+
+export async function getDatabaseHealth(): Promise<HealthResponse> {
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/health`);
+        if (!response.ok) {
+            return { status: 'error', error: `HTTP ${response.status}` };
+        }
+        const data = await response.json();
+        return {
+            status: data.status === 'connected' ? 'connected' : 'disconnected',
+            database: data.database,
+            user: data.user,
+            error: data.error,
+        };
+    } catch (err: any) {
+        return { status: 'error', error: err?.message || String(err) };
+    }
+}
+

@@ -108,3 +108,21 @@ export async function rollbackTransaction(transactionId) {
         };
     }
 }
+export async function getDatabaseHealth() {
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/health`);
+        if (!response.ok) {
+            return { status: 'error', error: `HTTP ${response.status}` };
+        }
+        const data = await response.json();
+        return {
+            status: data.status === 'connected' ? 'connected' : 'disconnected',
+            database: data.database,
+            user: data.user,
+            error: data.error,
+        };
+    }
+    catch (err) {
+        return { status: 'error', error: err?.message || String(err) };
+    }
+}

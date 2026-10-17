@@ -1,0 +1,45 @@
+{
+    "name": "lem-configuree",
+    "version": "20001.0.0",
+    "private": true,
+    "description": "LEM configur.",
+    "workspaces": [
+        "client",
+        "server",
+        "crud"
+    ],
+    "scripts": {
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "icons:generate": "npm run icons:generate -w server",
+        "codebase:backup": "ts-node utils/src/codebaseBackup.ts",
+        "db:backup": "ts-node utils/src/runDbBackup.ts",
+        "backup:all": "npm run crudCode:backup && npm run db:backup",
+        "snapshot:code": "ts-node server/src/utils/create_code_snapshot.ts",
+        "snapshot:db": "ts-node server/src/utils/create_db_snapshot.ts",
+        "db:populate:classifiers": "ts-node server/src/utils/run-population.ts",
+        "db:populate:symbols": "ts-node server/src/utils/run-symbol-population.ts"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "glob": "^11.0.3",
+        "parchment": "^3.0.0",
+        "pg": "^8.11.5"
+    },
+    "devDependencies": {
+        "@types/quill": "^2.0.14",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^4.17.21",
+        "@types/fs-extra": "^11.0.4",
+        "@types/glob": "^8.1.0",
+        "@types/node": "^20.12.12",
+        "@types/pg": "^8.11.6",
+        "fs-extra": "^11.3.0",
+        "prettier": "^3.5.3",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.8.3",
+        "vite": "^5.2.0"
+    }
+}

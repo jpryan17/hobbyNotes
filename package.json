@@ -19,6 +19,8 @@
     "serverC": "cd ./server && npx tsc",
     "consoleC": "node ./node_modules/esbuild/bin/esbuild console/console.ts --bundle --outfile=console/public/bundle.js --format=esm --sourcemap",
     "console": "npm run utilsC && npm run consoleC && node ./nodeUtils/public/startConsole.js",
+    "crudC": "node ./node_modules/esbuild/bin/esbuild crud/src/main.ts --bundle --outfile=crud/public/bundle.js --format=esm --sourcemap",
+    "crud": "npm run utilsC && npm run crudC && node ./nodeUtils/public/startCrud.js",
     "server": "node ./server/public/server.js",
     "utilsC": "cd ./nodeUtils && npx tsc",
     "segs": "cd ./nodeUtils && node ./public/genSegsFiles.js",

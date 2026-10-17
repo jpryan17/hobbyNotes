@@ -80,6 +80,17 @@ export interface DbEquationStatementLink {
     notes?: string | null;
 }
 
+export interface DbInteractiveDemo {
+    id: number | string;
+    demo_key: string;
+    engine: 'btd' | 'bid' | 'ttd' | string;
+    mode: string;
+    title: string;
+    description: string | null;
+    created_at?: string;
+    updated_at?: string;
+}
+
 export interface DbCalculationMode {
     id: number | string;
     mode_key: string;
@@ -409,6 +420,25 @@ export async function fetchPresetsForMode(modeOrEquationId: number | string): Pr
     `;
     return queryDatabase<DbVerifiedPreset>(sql, [modeOrEquationId]);
 }
+
+export async function fetchAllInteractiveDemos(): Promise<DbInteractiveDemo[]> {
+    const sql = `
+        SELECT id, demo_key, engine, mode, title, description, created_at, updated_at
+        FROM interactive_demos
+        ORDER BY id ASC;
+    `;
+    return queryDatabase<DbInteractiveDemo>(sql);
+}
+
+export async function fetchInteractiveDemoByIdOrKey(idOrKey: string | number): Promise<DbInteractiveDemo | null> {
+    const isNum = typeof idOrKey === 'number' || /^\d+$/.test(String(idOrKey));
+    const sql = isNum
+        ? `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE id = $1;`
+        : `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE demo_key = $1;`;
+    const rows = await queryDatabase<DbInteractiveDemo>(sql, [idOrKey]);
+    return rows.length > 0 ? rows[0] : null;
+}
+
 
 
 // =====================================================================
