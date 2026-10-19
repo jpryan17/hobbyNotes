@@ -1,5 +1,5 @@
 import { Elt } from './elt.js';
-import { EquationEvaluator, EQUATION_PRESETS } from './equationEvaluator.js';
+import { EquationEvaluator, EQUATION_REGISTRY, EQUATION_PRESETS } from './equationEvaluator.js';
 /**
  * EqDemo: Interactive Full-Stage Demo Container for Equation Evaluation.
  * Serves as an indexed NavFW Demo stage (like TTD, FSD, BTD, BID) where students
@@ -52,14 +52,18 @@ export class EqDemo extends Elt {
     }
     loadEquation(presetIdOrKey, formula, domain) {
         const key = (presetIdOrKey || '').trim();
+        if (key && (EQUATION_REGISTRY.has(key) || EquationEvaluator.getEquation(key))) {
+            this.evaluator.selectEquation(key, 4);
+            return;
+        }
         if (key && EQUATION_PRESETS[key]) {
             this.evaluator.selectPreset(key, 4);
             return;
         }
         if (key && ID_TO_PRESET_OR_FORMULA[key]) {
             const entry = ID_TO_PRESET_OR_FORMULA[key];
-            if (entry.preset && EQUATION_PRESETS[entry.preset]) {
-                this.evaluator.selectPreset(entry.preset, 4);
+            if (entry.preset && (EQUATION_REGISTRY.has(entry.preset) || EQUATION_PRESETS[entry.preset])) {
+                this.evaluator.selectEquation(entry.preset, 4);
                 return;
             }
             if (entry.formula) {

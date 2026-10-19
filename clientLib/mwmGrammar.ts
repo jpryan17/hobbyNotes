@@ -6,7 +6,7 @@
  * construct valid, type-safe expressions anchored directly to Scaffold.lean.
  */
 
-export type MwmDomainType = 'R_w' | 'C_w' | 'Matrix' | 'Real' | 'Array(R_w)';
+export type MwmDomainType = 'R_w' | 'C_w' | 'Matrix' | 'D_w' | 'Tree1' | 'Tree2' | 'Tree4' | 'Z' | 'B_w' | 'Frequency' | 'Unit' | 'Array(R_w)' | 'Ord';
 
 export interface MwmDomainDef {
   id: MwmDomainType;

@@ -16,12 +16,12 @@ export interface FsCatalogDemoRef {
 export interface FsCatalogStatement {
   id: string;
   numId?: number;
-  statementKind?: 'theorem' | 'directed_equality';
+  statementKind?: 'axiom' | 'theorem' | 'directed_equality';
   pseudoAlgoId?: string | number;
   demoRef?: FsCatalogDemoRef;
   parentId?: string;
   type: FsStatementType;
-  tier: 'constitutional' | 'axiom' | 'theorem' | 'scenario' | 'corollary' | 'law';
+  tier: 'constitutional' | 'law' | 'scenario';
   title: string;
   description?: string;
   governingSeed?: 'conway_cut' | 'shadow_map' | 'boundary_law';
@@ -86,7 +86,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-17T09:15:14.543Z",
+  "generatedAt": "2026-10-19T09:20:28.461Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -138,7 +138,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 3,
       "id": "fs_telescoping_ftc",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "theorem",
       "governingSeed": "boundary_law",
       "title": "Telescoping Fundamental Theorem of Calculus",
@@ -194,7 +194,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 6,
       "id": "fs_hyperfinite_derivative",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "directed_equality",
       "governingSeed": "shadow_map",
       "title": "Hyperfinite Difference Quotient Derivative",
@@ -219,7 +219,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 7,
       "id": "fs_complex_step_invariance",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "directed_equality",
       "governingSeed": "shadow_map",
       "title": "2D Complex Step & Modulus Invariance on ℂ_ω",
@@ -242,7 +242,7 @@ export const FS_CATALOG: FsCatalog = {
       "id": "fs_cauchy_riemann_symmetry",
       "parentId": "fs_complex_step_invariance",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "theorem",
       "governingSeed": "shadow_map",
       "title": "Cauchy-Riemann Coordinate Symmetry",
@@ -260,7 +260,7 @@ export const FS_CATALOG: FsCatalog = {
       "id": "fs_contour_cauchy_goursat",
       "parentId": "fs_cauchy_riemann_symmetry",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "theorem",
       "governingSeed": "shadow_map",
       "title": "Hyperfinite Cauchy-Goursat Loop Vanishing",
@@ -278,7 +278,7 @@ export const FS_CATALOG: FsCatalog = {
       "id": "fs_lee_yang_circle",
       "parentId": "fs_complex_step_invariance",
       "type": "physics",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "theorem",
       "governingSeed": "shadow_map",
       "title": "The Lee-Yang Unit Circle Partition Theorem",
@@ -335,8 +335,8 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 13,
       "id": "fs_hyperfinite_probability",
       "type": "information",
-      "tier": "axiom",
-      "statementKind": "theorem",
+      "tier": "constitutional",
+      "statementKind": "axiom",
       "governingSeed": "shadow_map",
       "title": "Hyperfinite Normalized Probability Space",
       "description": "Uniform hyperfinite counting probability with infinitesimal resolution and no null sets.",
@@ -396,7 +396,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 16,
       "id": "fs_ptolemaic_half_angle",
       "type": "math",
-      "tier": "theorem",
+      "tier": "scenario",
       "statementKind": "directed_equality",
       "governingSeed": "conway_cut",
       "title": "Dyadic Ptolemaic Half-Angle Root Bisection",
@@ -434,7 +434,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 18,
       "id": "fs_cauchy_schwarz_discrete",
       "type": "math",
-      "tier": "theorem",
+      "tier": "law",
       "statementKind": "theorem",
       "governingSeed": "boundary_law",
       "title": "Discrete Cauchy-Schwarz Inner Product Inequality",
@@ -451,7 +451,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 19,
       "id": "fs_polygonal_rim_chord",
       "type": "math",
-      "tier": "theorem",
+      "tier": "scenario",
       "statementKind": "directed_equality",
       "governingSeed": "conway_cut",
       "title": "Dyadic Polygonal Rim Chord Law",
@@ -468,7 +468,7 @@ export const FS_CATALOG: FsCatalog = {
       "numId": 20,
       "id": "fs_euler_identity_rotor",
       "type": "math",
-      "tier": "theorem",
+      "tier": "constitutional",
       "statementKind": "directed_equality",
       "governingSeed": "shadow_map",
       "title": "Euler Polar Rotor Decomposition",
@@ -505,8 +505,8 @@ export const FS_CATALOG: FsCatalog = {
       "id": "fs_dyadic_isomorphism",
       "parentId": "fs_tree2_totally_ordered",
       "type": "math",
-      "tier": "theorem",
-      "statementKind": "directed_equality",
+      "tier": "constitutional",
+      "statementKind": "axiom",
       "governingSeed": "conway_cut",
       "title": "The Core Dyadic Isomorphism Tree2 ≡ 𝔻",
       "description": "Order and ring isomorphism between sign-sequence trees and dyadic rationals.",
@@ -527,8 +527,8 @@ export const FS_CATALOG: FsCatalog = {
       "id": "fs_van_den_dries_ehrlich",
       "parentId": "fs_tree2_totally_ordered",
       "type": "math",
-      "tier": "theorem",
-      "statementKind": "theorem",
+      "tier": "constitutional",
+      "statementKind": "axiom",
       "governingSeed": "conway_cut",
       "title": "van den Dries–Ehrlich Subfield Theorem (2001)",
       "description": "Proof that the surreal numbers No(ε₀) formed at stage ε₀ constitute a real-closed field.",

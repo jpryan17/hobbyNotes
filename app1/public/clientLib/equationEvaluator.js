@@ -1,354 +1,224 @@
 import { Elt } from "./elt.js";
 import { SlotController } from "./directedEquality.js";
+import { PseudoInterpreter } from "./pseudoInterpreter.js";
 export { SlotController };
-export const EQUATION_PRESETS = {
-    sin_halo: {
-        id: "sin_halo",
-        title: "Nonstandard Sine & Halo Shadow",
-        formalStatementId: "FS-A1D-1.2",
-        governingTheorem: "infinitesimal_halo",
-        leanSignature: "theorem sin_halo_linear (x0 : R_w) (k : Z_w) : st (sin_w (x0 + k * dx)) = sin_w x0",
-        lhsFormula: "sin(x₀ + k · dx)",
-        latexFormula: "\\sin(x_0 + k \\cdot dx)",
-        rhsSymbol: "y",
-        rhsDomain: "ℝ_ω",
-        description: "Evaluates the hyperreal nonstandard sine calculation into its standard real nucleus sin(x₀) and first-order cosine halo dust k·cos(x₀)·dx.",
-        inputs: [
-            { name: "x0", symbol: "x₀", domain: "ℝ", defaultValue: 0.5236, step: 0.1, min: -10, max: 10, description: "Standard angle nucleus (radians)" },
-            { name: "k", symbol: "k", domain: "ℤ", defaultValue: 1, step: 1, min: -50, max: 50, description: "Infinitesimal halo step multiplier (dx = 1/ω)" }
-        ],
-        evaluate: (vals) => {
-            const x0 = vals["x0"] ?? 0.5236;
-            const k = Math.round(vals["k"] ?? 1);
-            const hardVal = Math.sin(x0);
-            const derivVal = Math.cos(x0);
-            const hardStr = hardVal.toFixed(4);
-            const dustMag = (k * derivVal);
-            const dustStr = k === 0 ? "0 (Zero Dust)" : `${dustMag >= 0 ? "+" : ""}${dustMag.toFixed(4)}·dx`;
-            const isHard = k === 0;
+/**
+ * Executes a Directed Equality calculation strictly according to its operational pseudocode semantics.
+ * Resolves the link between the equation evaluator and the pseudocode interpreter.
+ */
+export function executeDirectedEquality(spec, vals) {
+    const inputs = spec.inputs || [];
+    const args = inputs.map(input => vals[input.name] ?? vals[input.symbol] ?? (Number(input.defaultValue) || 0));
+    const targetDomain = spec.rhsDomain || spec.targetDomain || "ℝ_ω";
+    const targetSymbol = spec.rhsSymbol || spec.targetSymbol || "y";
+    // 1. Direct Operational Execution via PseudoInterpreter
+    if (spec.algoCode && spec.funcName) {
+        try {
+            const interpreter = new PseudoInterpreter(spec.algoCode);
+            const stepper = interpreter.runStepper(spec.funcName, args);
+            let step = stepper.next();
+            while (!step.done) {
+                step = stepper.next();
+            }
+            const rawRes = step.value.result;
+            if (targetDomain === "𝔹" || targetDomain === "B_w") {
+                const isTrue = Boolean(rawRes && rawRes !== 0);
+                return {
+                    resultValue: isTrue,
+                    displayValue: isTrue ? "True (tt)" : "False (ff)",
+                    domainBadge: "𝔹",
+                    isHard: true,
+                    details: [
+                        `Operational Algorithm: ${spec.funcName}(${args.join(", ")})`,
+                        `Boolean Truth Value: ${isTrue ? "True" : "False"} ∈ 𝔹`,
+                        `Machine Steps: ${interpreter.telemetry.stepCount}`
+                    ]
+                };
+            }
+            const numRes = typeof rawRes === "number" ? rawRes : Number(rawRes) || 0;
+            const formatted = Number.isInteger(numRes) ? numRes.toString() : numRes.toFixed(4);
             return {
-                displayValue: k === 0 ? hardStr : `${hardStr} + ${dustStr.replace(/^\+/, "")}`,
-                hardPart: hardStr,
-                dustPart: dustStr,
-                isHard,
+                resultValue: numRes,
+                displayValue: formatted,
+                hardPart: formatted,
+                dustPart: "0",
+                isHard: true,
+                domainBadge: targetDomain,
                 details: [
-                    `Standard Part: st(sin(x)) = sin(x₀) = ${hardStr} ∈ ℝ`,
-                    `Halo Dust: ε = k · cos(x₀) · dx = ${dustStr} ∈ μ(0)`,
-                    `Algebraic Derivative: d(sin x)/dx = st( [sin(x₀ + dx) - sin(x₀)] / dx ) = cos(x₀) = ${derivVal.toFixed(4)}`
+                    `Operational Algorithm: ${spec.funcName}(${args.join(", ")}) = ${formatted}`,
+                    `Codomain Target: ${targetSymbol} ∈ ${targetDomain}`,
+                    `Machine Steps: ${interpreter.telemetry.stepCount}`
                 ]
             };
         }
+        catch (algoErr) {
+            console.warn(`[EquationEvaluator] Pseudocode interpretation failed for ${spec.id}, falling back to formula:`, algoErr);
+        }
+    }
+    // 2. Closed-Form Dual Number Algebra Fallback
+    const isHalo = targetDomain === "ℝ_ω" || targetDomain === "ℂ_ω";
+    const x0 = args[0] ?? 0;
+    const k = Math.round(args[1] ?? 0);
+    if (spec.id === "sin_halo") {
+        const hardVal = Math.sin(x0);
+        const derivVal = Math.cos(x0);
+        const hardStr = hardVal.toFixed(4);
+        const dustMag = k * derivVal;
+        const dustStr = k === 0 ? "0 (Zero Dust)" : `${dustMag >= 0 ? "+" : ""}${dustMag.toFixed(4)}·dx`;
+        return {
+            displayValue: k === 0 ? hardStr : `${hardStr} + ${dustStr.replace(/^\+/, "")}`,
+            hardPart: hardStr,
+            dustPart: dustStr,
+            isHard: k === 0,
+            domainBadge: "ℝ_ω",
+            details: [
+                `Standard Part: st(sin(x)) = sin(x₀) = ${hardStr} ∈ ℝ`,
+                `Halo Dust: ε = k · cos(x₀) · dx = ${dustStr} ∈ μ(0)`
+            ]
+        };
+    }
+    if (spec.id === "nucleus_halo_1d") {
+        const signStr = k > 0 ? `+ ${k}·dx` : (k < 0 ? `- ${Math.abs(k)}·dx` : "");
+        const pointStr = k === 0 ? `${x0}` : `${x0} ${signStr}`;
+        const dustStr = k === 0 ? "0 (Zero Dust)" : (k > 0 ? `${k}·dx` : `-${Math.abs(k)}·dx`);
+        return {
+            displayValue: pointStr,
+            hardPart: `${x0}`,
+            dustPart: dustStr,
+            isHard: k === 0,
+            domainBadge: "ℝ_ω",
+            details: [
+                `Standard Nucleus: st(y) = ${x0} ∈ ℝ`,
+                `Infinitesimal Halo: ε = y - st(y) = ${dustStr} ∈ μ(0)`
+            ]
+        };
+    }
+    if (spec.id === "ff_v_from_v0_g_t") {
+        const v0 = args[0] ?? 0;
+        const g = args[1] ?? 9.80665;
+        const t = args[2] ?? 0;
+        const v = v0 - g * t;
+        const vStr = v.toFixed(3);
+        return {
+            resultValue: v,
+            displayValue: `${vStr} m/s`,
+            hardPart: vStr,
+            dustPart: "0",
+            isHard: true,
+            domainBadge: "ℝ_ω",
+            details: [
+                `Kinematic Step: v(t) = v₀ - g·t = ${v0} - (${g} · ${t}) = ${vStr} m/s`
+            ]
+        };
+    }
+    // Generic fallback
+    const firstVal = args[0] ?? 0;
+    return {
+        displayValue: String(firstVal),
+        hardPart: String(firstVal),
+        dustPart: "0",
+        isHard: true,
+        domainBadge: targetDomain
+    };
+}
+export const DEFAULT_EQUATIONS = {
+    ff_v_from_v0_g_t: {
+        id: "ff_v_from_v0_g_t",
+        title: "Uniform Free Fall Terminal Velocity",
+        formalStatementId: "fs_free_fall_accel",
+        governingTheorem: "discrete_kinematic_velocity",
+        lhsFormula: "v₀ - g · t",
+        rhsSymbol: "v",
+        rhsDomain: "ℝ_ω",
+        targetUnit: "m/s",
+        description: "Computes discrete terminal velocity v(t) = v₀ - g·t on the hyperfinite transect.",
+        inputs: [
+            { name: "v0", symbol: "v₀", domain: "ℝ_ω", defaultValue: 0, step: 1, min: -100, max: 100, unit: "m/s", description: "Initial velocity" },
+            { name: "g", symbol: "g", domain: "ℝ_ω", defaultValue: 9.80665, step: 0.1, min: 0, max: 25, unit: "m/s²", description: "Gravitational acceleration" },
+            { name: "t", symbol: "t", domain: "ℝ_ω", defaultValue: 2.5, step: 0.25, min: 0, max: 60, unit: "s", description: "Elapsed time" }
+        ],
+        evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["ff_v_from_v0_g_t"], vals)
+    },
+    sin_halo: {
+        id: "sin_halo",
+        title: "Nonstandard Sine & Halo Shadow",
+        formalStatementId: "fs_hyperfinite_derivative",
+        governingTheorem: "sin_halo_linear",
+        lhsFormula: "sin(x₀ + k · dx)",
+        rhsSymbol: "y",
+        rhsDomain: "ℝ_ω",
+        description: "Evaluates the hyperreal nonstandard sine into its standard real nucleus sin(x₀) and first-order cosine halo dust k·cos(x₀)·dx.",
+        inputs: [
+            { name: "x0", symbol: "x₀", domain: "ℝ_ω", defaultValue: 0.5236, step: 0.1, min: -10, max: 10, description: "Standard angle nucleus (radians)" },
+            { name: "k", symbol: "k", domain: "ℤ", defaultValue: 1, step: 1, min: -50, max: 50, description: "Infinitesimal halo step multiplier (dx = 1/ω)" }
+        ],
+        evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["sin_halo"], vals)
     },
     nucleus_halo_1d: {
         id: "nucleus_halo_1d",
         title: "1D Nucleus-Halo Decomposition",
-        formalStatementId: "FS-A1D-1.1",
+        formalStatementId: "fs_hyperfinite_derivative",
         governingTheorem: "nucleus_halo_decomposition",
-        leanSignature: "axiom nucleus_halo_decomposition (x : { x : R_w // is_finite x }) : ∃ (ε : R_w), is_infinitesimal ε ∧ x.val = st x + ε",
         lhsFormula: "x₀ + k · dx",
         rhsSymbol: "y",
         rhsDomain: "ℝ_ω",
-        description: "Decomposes any finite hyperreal into its standard real nucleus shadow st(y) and Day ω halo dust.",
+        description: "Decomposes a hyperfinite point into its standard real nucleus st(y) and infinitesimal halo dust ε.",
         inputs: [
-            { name: "x0", symbol: "x₀", domain: "ℝ", defaultValue: 4.0, step: 0.5, min: -100, max: 100, description: "Standard real nucleus shadow (st(y))" },
-            { name: "k", symbol: "k", domain: "ℤ", defaultValue: 3, step: 1, min: -50, max: 50, description: "Infinitesimal halo step multiplier (dx = 1/ω)" }
+            { name: "x0", symbol: "x₀", domain: "ℝ_ω", defaultValue: 3.1416, step: 0.5, min: -50, max: 50, description: "Standard real nucleus" },
+            { name: "k", symbol: "k", domain: "ℤ", defaultValue: 2, step: 1, min: -20, max: 20, description: "Infinitesimal halo step multiplier (dx = 1/ω)" }
         ],
-        evaluate: (vals) => {
-            const x0 = vals["x0"] ?? 4.0;
-            const k = Math.round(vals["k"] ?? 3);
-            const signStr = k > 0 ? `+ ${k}·dx` : (k < 0 ? `- ${Math.abs(k)}·dx` : "");
-            const pointStr = k === 0 ? `${x0}` : `${x0} ${signStr}`;
-            const dustStr = k === 0 ? "0 (Zero Dust)" : (k > 0 ? `${k}·dx` : `-${Math.abs(k)}·dx`);
-            const isHard = k === 0;
-            return {
-                displayValue: pointStr,
-                hardPart: `${x0}`,
-                dustPart: dustStr,
-                isHard,
-                details: [
-                    `Standard Part: st(y) = ${x0} ∈ ℝ`,
-                    `Halo Dust: ε = y - st(y) = ${dustStr} ∈ μ(0)`,
-                    `Closeness: |y - st(y)| = ${Math.abs(k)}·dx < 1/n for all standard n ∈ ℕ`
-                ]
-            };
-        }
+        evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["nucleus_halo_1d"], vals)
     },
-    complex_halo_2d: {
-        id: "complex_halo_2d",
-        title: "2D Complex Halo Decomposition",
-        formalStatementId: "FS-A2D-1.1",
-        governingTheorem: "nucleus_halo_decomposition",
-        leanSignature: "axiom complex_halo_decomposition (z : C_w) : ∃ (ε : C_w), is_infinitesimal_C ε ∧ z = st_C z + ε",
-        lhsFormula: "(x₀ + k_x · dx) + i · (y₀ + k_y · dx)",
-        rhsSymbol: "z",
-        rhsDomain: "ℂ_ω",
-        description: "Evaluates a 2D complex point into its Gaussian dyadic nucleus and transfinite halo soup.",
+    eq_pred_lt: {
+        id: "eq_pred_lt",
+        title: "Strict Order Predicate LT(x, y)",
+        formalStatementId: "fs_pred_lt",
+        governingTheorem: "total_order_ord",
+        lhsFormula: "x < y",
+        rhsSymbol: "b",
+        rhsDomain: "𝔹",
+        description: "Evaluates strict order comparison LT(x, y) with two-step nonstandard dual nucleus-halo comparison.",
         inputs: [
-            { name: "x0", symbol: "x₀", domain: "ℝ", defaultValue: 3.0, step: 0.5, min: -50, max: 50, description: "Real coordinate nucleus" },
-            { name: "y0", symbol: "y₀", domain: "ℝ", defaultValue: 2.0, step: 0.5, min: -50, max: 50, description: "Imaginary coordinate nucleus" },
-            { name: "kx", symbol: "k_x", domain: "ℤ", defaultValue: 4, step: 1, min: -20, max: 20, description: "Real halo step multiplier" },
-            { name: "ky", symbol: "k_y", domain: "ℤ", defaultValue: -1, step: 1, min: -20, max: 20, description: "Imaginary halo step multiplier" }
+            { name: "x", symbol: "x", domain: "Ord", defaultValue: 3, step: 1, min: -100, max: 100, description: "First ordinal/hyperreal coordinate" },
+            { name: "y", symbol: "y", domain: "Ord", defaultValue: 5, step: 1, min: -100, max: 100, description: "Second ordinal/hyperreal coordinate" }
         ],
-        evaluate: (vals) => {
-            const x0 = vals["x0"] ?? 3.0;
-            const y0 = vals["y0"] ?? 2.0;
-            const kx = Math.round(vals["kx"] ?? 4);
-            const ky = Math.round(vals["ky"] ?? -1);
-            const reSign = kx > 0 ? `+ ${kx}·dx` : (kx < 0 ? `- ${Math.abs(kx)}·dx` : "");
-            const imSign = ky > 0 ? `+ ${ky}·dx` : (ky < 0 ? `- ${Math.abs(ky)}·dx` : "");
-            const reStr = kx === 0 ? `${x0}` : `(${x0} ${reSign})`;
-            const imStr = ky === 0 ? `${y0}` : `(${y0} ${imSign})`;
-            const pointStr = `${reStr} + i · ${imStr}`;
-            const hardStr = `${x0} + ${y0}i`;
-            const dustTerms = [];
-            if (kx !== 0)
-                dustTerms.push(kx > 0 ? `${kx}·dx` : `-${Math.abs(kx)}·dx`);
-            if (ky !== 0)
-                dustTerms.push(ky > 0 ? `${ky}i·dx` : `-${Math.abs(ky)}i·dx`);
-            const dustStr = dustTerms.length > 0 ? dustTerms.join(" + ").replace(/\+ -/g, "- ") : "0 (Zero Dust)";
-            const isHard = kx === 0 && ky === 0;
-            return {
-                displayValue: pointStr,
-                hardPart: hardStr,
-                dustPart: dustStr,
-                isHard,
-                details: [
-                    `Gaussian Nucleus: st_C(z) = ${hardStr} ∈ ℂ`,
-                    `Complex Halo Soup: ε = z - st_C(z) = ${dustStr} ∈ μ(0)`,
-                    `Modulus of Hard Nucleus: |z₀| = ${Math.sqrt(x0 * x0 + y0 * y0).toFixed(3)}`
-                ]
-            };
-        }
+        evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["eq_pred_lt"], vals)
     },
-    quadratic_halo_diff: {
-        id: "quadratic_halo_diff",
-        title: "Parabola Increment & Halo Preservation",
-        formalStatementId: "FS-A1D-1.2",
-        governingTheorem: "infinitesimal_halo",
-        leanSignature: "theorem quadratic_halo_preservation (x : R_w) (dx : R_w) (h : is_infinitesimal dx) : is_infinitesimal ((x + dx)^2 - x^2)",
-        lhsFormula: "(x + k·dx)² - x²",
-        rhsSymbol: "Δf",
-        rhsDomain: "ℝ_ω",
-        description: "Evaluates the increment of f(x) = x² under an infinitesimal step to prove halo preservation without ε-δ.",
+    eq_pred_near: {
+        id: "eq_pred_near",
+        title: "Infinitesimal Proximity Predicate NEAR(x, y)",
+        formalStatementId: "fs_pred_near",
+        governingTheorem: "infinitesimal_proximity",
+        lhsFormula: "x ≈ y",
+        rhsSymbol: "b",
+        rhsDomain: "𝔹",
+        description: "Evaluates infinitesimal proximity x ≈ y on ℝ_ω (standard real nuclei coincide).",
         inputs: [
-            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 2.0, step: 0.5, min: -20, max: 20, description: "Operating point on real line" },
-            { name: "k", symbol: "k", domain: "ℤ", defaultValue: 1, step: 1, min: -10, max: 10, description: "Infinitesimal input step (dx = 1/ω)" }
+            { name: "x", symbol: "x", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: -50, max: 50, description: "First operating coordinate" },
+            { name: "y", symbol: "y", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: -50, max: 50, description: "Second operating coordinate" }
         ],
-        evaluate: (vals) => {
-            const x = vals["x"] ?? 2.0;
-            const k = Math.round(vals["k"] ?? 1);
-            const linearCoeff = 2 * x * k;
-            const quadCoeff = k * k;
-            const exprStr = `${linearCoeff}·dx + ${quadCoeff}·dx²`;
-            const isZero = k === 0;
-            return {
-                displayValue: isZero ? "0" : exprStr,
-                hardPart: "0.0",
-                dustPart: isZero ? "0" : exprStr,
-                isHard: isZero,
-                details: [
-                    `Input Step: dx = ${k}·(1/ω) ∈ μ(0)`,
-                    `Difference: Δf = 2x·(k·dx) + (k·dx)² = ${exprStr}`,
-                    `Halo Preservation: st(Δf) = 0.0 ⟹ f(x + dx) ≈ f(x) (Continuous everywhere)`
-                ]
-            };
-        }
-    },
-    telescoping_sum: {
-        id: "telescoping_sum",
-        title: "Discrete FTC Telescoping Sum",
-        formalStatementId: "FS-A1D-3.1",
-        governingTheorem: "telescoping_ftc",
-        leanSignature: "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
-        lhsFormula: "∑_{k=0}^{n-1} ΔF(k)  [ F(k) = c · k² ]",
-        rhsSymbol: "Total",
-        rhsDomain: "ℝ",
-        description: "Evaluates pairwise cancellation across n steps on the discrete tree.",
-        inputs: [
-            { name: "n", symbol: "n", domain: "ℕ", defaultValue: 5, step: 1, min: 1, max: 50, description: "Number of discrete slices" },
-            { name: "c", symbol: "c", domain: "ℝ", defaultValue: 1.0, step: 0.5, min: -10, max: 10, description: "Quadratic coefficient" }
-        ],
-        evaluate: (vals) => {
-            const n = Math.max(1, Math.round(vals["n"] ?? 5));
-            const c = vals["c"] ?? 1.0;
-            const f0 = 0;
-            const fn = c * n * n;
-            const total = fn - f0;
-            return {
-                displayValue: `${total}`,
-                hardPart: `${total}`,
-                dustPart: "0",
-                isHard: true,
-                details: [
-                    `Boundary Values: F(0) = ${f0}, F(${n}) = ${fn}`,
-                    `Telescoping Guarantee: F(n) - F(0) = ${total}`,
-                    `All intermediate internal differences ΔF(1)...ΔF(${n - 1}) cancel pairwise.`
-                ]
-            };
-        }
-    },
-    newton_accel: {
-        id: "newton_accel",
-        title: "Newtonian Kinematic Acceleration Invariant",
-        formalStatementId: "FS-PHYS-1.1",
-        governingTheorem: "newtonian_mechanics",
-        leanSignature: "theorem free_fall_accel (v0 g t dt : R_w) (hdt : dt ≠ 0) : ( (v0*(t-dt) - (1/2)*g*(t-dt)^2) - 2*(v0*t - (1/2)*g*t^2) + (v0*(t+dt) - (1/2)*g*(t+dt)^2) ) / dt^2 = -g",
-        lhsFormula: "[ s(t - dt) - 2s(t) + s(t + dt) ] / dt²",
-        rhsSymbol: "a",
-        rhsDomain: "ℝ",
-        description: "Evaluates the second discrete difference stencil on parabolic free fall to reveal the exact acceleration invariant -g.",
-        inputs: [
-            { name: "g", symbol: "g", domain: "ℝ", defaultValue: 9.8, step: 0.1, min: 0, max: 50, description: "Gravitational acceleration" },
-            { name: "v0", symbol: "v₀", domain: "ℝ", defaultValue: 20.0, step: 1.0, min: -100, max: 100, description: "Initial launch velocity" },
-            { name: "t", symbol: "t", domain: "ℝ", defaultValue: 2.0, step: 0.5, min: 0, max: 20, description: "Flight observation time" }
-        ],
-        evaluate: (vals) => {
-            const g = vals["g"] ?? 9.8;
-            const res = -g;
-            return {
-                displayValue: `${res}`,
-                hardPart: `${res}`,
-                dustPart: "0",
-                isHard: true,
-                details: [
-                    `Discrete Acceleration Stencil: Δ²s / dt² = -g = ${res} m/s²`,
-                    `Pairwise Invariance: all velocity terms v₀ and time terms t cancel identically`,
-                    `Residual Dust: exactly 0 (no infinitesimal truncation error)`
-                ]
-            };
-        }
-    },
-    bayes_filter: {
-        id: "bayes_filter",
-        title: "3-Stage Bayesian Filter",
-        formalStatementId: "FS-BAYES-1.1",
-        governingTheorem: "bayes_filter_normalization",
-        leanSignature: "axiom bayes_filter_normalization (P : Nat → R_w) (N : Nat) (hP : hyper_sum P N = 1) : True",
-        lhsFormula: "(P(D|H) · P(H)) / (P(D|H)·P(H) + P(D|¬H)·P(¬H))",
-        rhsSymbol: "P(H|D)",
-        rhsDomain: "ℝ",
-        description: "Evaluates normalized posterior probability given prior belief and evidence likelihood.",
-        inputs: [
-            { name: "prior", symbol: "P(H)", domain: "ℝ", defaultValue: 0.01, step: 0.01, min: 0.001, max: 0.999, description: "Prior base rate" },
-            { name: "sens", symbol: "P(D|H)", domain: "ℝ", defaultValue: 0.95, step: 0.05, min: 0.01, max: 1.0, description: "Sensitivity / true positive rate" },
-            { name: "fpr", symbol: "P(D|¬H)", domain: "ℝ", defaultValue: 0.05, step: 0.01, min: 0.001, max: 0.999, description: "False positive rate" }
-        ],
-        evaluate: (vals) => {
-            const prior = vals["prior"] ?? 0.01;
-            const sens = vals["sens"] ?? 0.95;
-            const fpr = vals["fpr"] ?? 0.05;
-            const numerator = sens * prior;
-            const denominator = numerator + fpr * (1.0 - prior);
-            const posterior = denominator > 0 ? numerator / denominator : 0;
-            return {
-                displayValue: posterior.toFixed(4),
-                hardPart: posterior.toFixed(4),
-                dustPart: "0",
-                isHard: true,
-                details: [
-                    `Joint Evidence Weight: P(D ∧ H) = ${numerator.toFixed(5)}`,
-                    `Marginal Likelihood: P(D) = ${denominator.toFixed(5)}`,
-                    `Posterior Probability: ${(posterior * 100).toFixed(2)}%`
-                ]
-            };
-        }
-    },
-    pythagorean_trig: {
-        id: "pythagorean_trig",
-        title: "Pythagorean Trigonometric Invariant",
-        formalStatementId: "FS-STEM-TRIG-1.1",
-        governingTheorem: "sin_sq_add_cos_sq",
-        leanSignature: "theorem sin_sq_add_cos_sq (x : ℝ) : sin x ^ 2 + cos x ^ 2 = 1",
-        lhsFormula: "sin(x)^2 + cos(x)^2",
-        latexFormula: "\\sin^2(x) + \\cos^2(x) = 1",
-        rhsSymbol: "1",
-        rhsDomain: "ℝ",
-        description: "Evaluates the foundational Pythagorean trigonometric invariant sin(x)² + cos(x)² = 1. Demonstrates exact zero halo dust for any real angle x.",
-        inputs: [
-            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 0.7854, step: 0.1, min: -10, max: 10, description: "Input angle (radians, default π/4)" }
-        ],
-        evaluate: (vals) => {
-            const x = vals["x"] ?? 0.7854;
-            const s = Math.sin(x);
-            const c = Math.cos(x);
-            const sumVal = s * s + c * c;
-            const rounded = Math.round(sumVal * 10000) / 10000;
-            return {
-                displayValue: rounded.toString(),
-                hardPart: rounded.toString(),
-                dustPart: "0 (Zero Dust)",
-                isHard: true,
-                details: [
-                    `Evaluated LHS: sin²(${x.toFixed(4)}) + cos²(${x.toFixed(4)}) = ${(s * s).toFixed(4)} + ${(c * c).toFixed(4)} = 1`,
-                    "Algebraic Derivative: d/dx[sin²(x) + cos²(x)] = 2·sin(x)cos(x) - 2·cos(x)sin(x) = 0",
-                    "Vanishing halo: zero infinitesimal fluctuation (dust = 0) confirms strict hard equality."
-                ]
-            };
-        }
-    },
-    derivative_sine: {
-        id: "derivative_sine",
-        title: "Calculus Derivative: d/dx[sin(x)]",
-        formalStatementId: "FS-CALC-1.1",
-        governingTheorem: "hasDerivAt_sin",
-        leanSignature: "theorem deriv_sin (x : ℝ) : HasDerivAt sin (cos x) x",
-        lhsFormula: "d/dx(sin(x))",
-        latexFormula: "\\frac{d}{dx}[\\sin(x)] = \\cos(x)",
-        rhsSymbol: "y",
-        rhsDomain: "ℝ",
-        description: "Evaluates the instantaneous hyperreal derivative d/dx[sin(x)] = cos(x) via infinitesimal difference quotient st([sin(x + dx) - sin(x)] / dx).",
-        inputs: [
-            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 0.0, step: 0.1, min: -10, max: 10, description: "Evaluation point x (radians)" }
-        ],
-        evaluate: (vals) => {
-            const x = vals["x"] ?? 0.0;
-            const cosVal = Math.cos(x);
-            const cosStr = Number.isInteger(cosVal) ? cosVal.toString() : cosVal.toFixed(4);
-            return {
-                displayValue: cosStr,
-                hardPart: cosStr,
-                dustPart: "0",
-                isHard: true,
-                details: [
-                    `Evaluated Derivative: d/dx[sin(x)] = cos(${x.toFixed(4)}) = ${cosStr}`,
-                    "Hyperreal stencil: st( [sin(x + dx) - sin(x)] / dx ) = cos(x)",
-                    "Lean 4 Certified: Matches Mathlib HasDerivAt theorem for trigonometric sine"
-                ]
-            };
-        }
-    },
-    ftc_integral_sine: {
-        id: "ftc_integral_sine",
-        title: "Calculus Integral: ∫₀ˣ cos(t) dt",
-        formalStatementId: "FS-CALC-1.2",
-        governingTheorem: "integral_cos",
-        leanSignature: "theorem ftc_cos (x : ℝ) : ∫ t in 0..x, cos t = sin x",
-        lhsFormula: "int(cos(t), t, 0, x)",
-        latexFormula: "\\int_0^x \\cos(t) \\, dt = \\sin(x)",
-        rhsSymbol: "y",
-        rhsDomain: "ℝ",
-        description: "Evaluates the Fundamental Theorem of Calculus accumulator: ∫₀ˣ cos(t) dt = sin(x).",
-        inputs: [
-            { name: "x", symbol: "x", domain: "ℝ", defaultValue: 1.5708, step: 0.1, min: -10, max: 10, description: "Upper accumulation limit x (radians)" }
-        ],
-        evaluate: (vals) => {
-            const x = vals["x"] ?? 1.5708;
-            const sinVal = Math.sin(x);
-            const sinStr = Number.isInteger(sinVal) ? sinVal.toString() : sinVal.toFixed(4);
-            return {
-                displayValue: sinStr,
-                hardPart: sinStr,
-                dustPart: "0",
-                isHard: true,
-                details: [
-                    `Evaluated Integral: ∫₀^(${x.toFixed(4)}) cos(t) dt = sin(${x.toFixed(4)}) = ${sinStr}`,
-                    "Discrete FTC: pairwise telescoping difference cancellation on hyperfinite transect",
-                    "Continuous accumulation exact match for definite Riemann sum"
-                ]
-            };
-        }
+        evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["eq_pred_near"], vals)
     }
 };
+export const EQUATION_REGISTRY = new Map();
+// Initialize registry with baseline defaults
+Object.entries(DEFAULT_EQUATIONS).forEach(([k, spec]) => {
+    EQUATION_REGISTRY.set(k, spec);
+});
+/**
+ * Transparent proxy retaining backwards compatibility for any legacy callers of EQUATION_PRESETS.
+ */
+export const EQUATION_PRESETS = new Proxy({}, {
+    get: (_target, prop) => EQUATION_REGISTRY.get(prop),
+    has: (_target, prop) => EQUATION_REGISTRY.has(prop),
+    ownKeys: () => Array.from(EQUATION_REGISTRY.keys()),
+    getOwnPropertyDescriptor: (_target, prop) => {
+        if (EQUATION_REGISTRY.has(prop)) {
+            return { configurable: true, enumerable: true, value: EQUATION_REGISTRY.get(prop) };
+        }
+        return undefined;
+    }
+});
 export const NONSTANDARD_FUNCTION_REGISTRY = {
     sin: {
         name: "sin",
@@ -1524,6 +1394,100 @@ function insertTokenIntoInput(inputEl, token, options) {
  *   Stage 4: Active Instantiated Calculator (Live execution & codomain shadow evaluation)
  */
 export class EquationEvaluator extends Elt {
+    static getEquation(idOrKey) {
+        return EQUATION_REGISTRY.get(idOrKey) || DEFAULT_EQUATIONS[idOrKey];
+    }
+    static async loadFromDatabase(apiEndpoint) {
+        try {
+            const endpoint = apiEndpoint || (typeof window !== "undefined" ? "/api/sql" : "http://127.0.0.1:3000/api/sql");
+            const deRes = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    sql: `
+            SELECT de.id, de.equation_key, de.title, de.label, de.formula_expr, de.target_symbol,
+                   de.target_domain, de.target_unit, de.formula_description, de.has_simulation,
+                   pa.algo_key, pa.func_name, pa.code as algo_code, pa.signature as algo_sig,
+                   fs.statement_key, fs.title as statement_title, fs.lean_signature
+            FROM directed_equations de
+            JOIN pseudocode_algorithms pa ON pa.id = de.pseudo_algo_id
+            LEFT JOIN equation_statement_links esl ON esl.equation_id = de.id
+            LEFT JOIN formal_statements fs ON fs.id = esl.statement_id
+            ORDER BY de.id
+          `
+                })
+            });
+            if (!deRes.ok)
+                return false;
+            const deJson = await deRes.json();
+            if (deJson.status !== "success" || !Array.isArray(deJson.data?.rows))
+                return false;
+            // Query mode slots
+            const slotRes = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    sql: `
+            SELECT equation_id, slot_order, name, symbol, domain, unit, default_value, min_val, max_val, step_val, description
+            FROM mode_slots
+            ORDER BY equation_id, slot_order
+          `
+                })
+            });
+            const slotsByEqId = {};
+            if (slotRes.ok) {
+                const slotJson = await slotRes.json();
+                if (slotJson.status === "success" && Array.isArray(slotJson.data?.rows)) {
+                    for (const s of slotJson.data.rows) {
+                        const eqId = String(s.equation_id);
+                        if (!slotsByEqId[eqId])
+                            slotsByEqId[eqId] = [];
+                        slotsByEqId[eqId].push(s);
+                    }
+                }
+            }
+            for (const row of deJson.data.rows) {
+                const rawSlots = slotsByEqId[String(row.id)] || [];
+                const inputs = rawSlots.map((s) => ({
+                    name: s.name,
+                    symbol: s.symbol,
+                    domain: s.domain,
+                    unit: s.unit,
+                    defaultValue: Number(s.default_value) || 0,
+                    min: s.min_val !== null ? Number(s.min_val) : undefined,
+                    max: s.max_val !== null ? Number(s.max_val) : undefined,
+                    step: s.step_val !== null ? Number(s.step_val) : 0.1,
+                    description: s.description
+                }));
+                const spec = {
+                    id: row.equation_key,
+                    title: row.title,
+                    label: row.label,
+                    lhsFormula: row.formula_expr,
+                    rhsSymbol: row.target_symbol,
+                    rhsDomain: row.target_domain,
+                    targetUnit: row.target_unit,
+                    description: row.formula_description,
+                    formalStatementId: row.statement_key,
+                    governingTheorem: row.statement_key,
+                    leanSignature: row.lean_signature,
+                    inputs,
+                    pseudoAlgoId: row.algo_key,
+                    algoCode: row.algo_code,
+                    funcName: row.func_name,
+                    evaluate: (vals) => executeDirectedEquality(spec, vals)
+                };
+                EQUATION_REGISTRY.set(row.equation_key, spec);
+                EQUATION_REGISTRY.set(String(row.id), spec);
+            }
+            console.log(`[EquationEvaluator] Successfully hydrated ${deJson.data.rows.length} Directed Equations from PostgreSQL.`);
+            return true;
+        }
+        catch (err) {
+            console.warn("[EquationEvaluator] Offline or unable to load from PostgreSQL, using static defaults:", err);
+            return false;
+        }
+    }
     stage = 1;
     spec;
     isCustom = false;
@@ -1543,8 +1507,8 @@ export class EquationEvaluator extends Elt {
     }
     constructor(options) {
         super("div");
-        if (typeof options === "string" && EQUATION_PRESETS[options]) {
-            this.spec = EQUATION_PRESETS[options];
+        if (typeof options === "string") {
+            this.spec = EquationEvaluator.getEquation(options) || DEFAULT_EQUATIONS["ff_v_from_v0_g_t"] || DEFAULT_EQUATIONS["nucleus_halo_1d"];
             this.stage = 4;
         }
         else if (typeof options === "object" && options !== null) {
@@ -1554,17 +1518,18 @@ export class EquationEvaluator extends Elt {
             }
             else {
                 const opts = options;
-                if (opts.presetId && EQUATION_PRESETS[opts.presetId]) {
-                    this.spec = EQUATION_PRESETS[opts.presetId];
+                const targetKey = opts.equationKey || opts.presetId;
+                if (targetKey) {
+                    this.spec = EquationEvaluator.getEquation(targetKey) || DEFAULT_EQUATIONS["ff_v_from_v0_g_t"] || DEFAULT_EQUATIONS["nucleus_halo_1d"];
                 }
                 else {
-                    this.spec = EQUATION_PRESETS["nucleus_halo_1d"];
+                    this.spec = DEFAULT_EQUATIONS["ff_v_from_v0_g_t"] || DEFAULT_EQUATIONS["nucleus_halo_1d"];
                 }
                 this.stage = opts.initialStage ?? 1;
             }
         }
         else {
-            this.spec = EQUATION_PRESETS["nucleus_halo_1d"];
+            this.spec = DEFAULT_EQUATIONS["ff_v_from_v0_g_t"] || DEFAULT_EQUATIONS["nucleus_halo_1d"];
             this.stage = 1;
         }
         this.initValues();
@@ -1580,14 +1545,18 @@ export class EquationEvaluator extends Elt {
         this.stage = newStage;
         this.render();
     }
-    selectPreset(presetId, targetStage = 4) {
-        if (EQUATION_PRESETS[presetId]) {
+    selectEquation(idOrKey, targetStage = 4) {
+        const eq = EquationEvaluator.getEquation(idOrKey);
+        if (eq) {
             this.isCustom = false;
-            this.spec = EQUATION_PRESETS[presetId];
+            this.spec = eq;
             this.initValues();
             this.stage = targetStage;
             this.render();
         }
+    }
+    selectPreset(presetId, targetStage = 4) {
+        this.selectEquation(presetId, targetStage);
     }
     switchToCustom(formula, domain, targetStage = 1) {
         this.isCustom = true;

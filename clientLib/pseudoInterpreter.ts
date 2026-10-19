@@ -39,6 +39,7 @@ const KEYWORDS = new Set([
   'or',
   'and',
   'not',
+  'mod',
 ]);
 
 export function tokenize(source: string): IToken[] {
@@ -74,14 +75,31 @@ export function tokenize(source: string): IToken[] {
       }
 
       const two = line.substring(col, col + 2);
-      if ([':=', '<=', '>=', '++', '..'].includes(two)) {
+      if ([':=', '<=', '>=', '!=', '<>', '++', '..'].includes(two)) {
         tokens.push({ type: 'OPERATOR', value: two, line: lineNum });
         col += 2;
         continue;
       }
 
+      // Unicode logical keywords
+      if (ch === '∧') {
+        tokens.push({ type: 'KEYWORD', value: 'and', line: lineNum });
+        col++;
+        continue;
+      }
+      if (ch === '∨') {
+        tokens.push({ type: 'KEYWORD', value: 'or', line: lineNum });
+        col++;
+        continue;
+      }
+      if (ch === '¬') {
+        tokens.push({ type: 'KEYWORD', value: 'not', line: lineNum });
+        col++;
+        continue;
+      }
+
       // Single character operators & special Unicode math
-      if (['≔', '≫', '≪', '⊕', '⊖', '⊗', '⊘', '+', '-', '*', '/', '<', '>', '='].includes(ch)) {
+      if (['≔', '≫', '≪', '⊕', '⊖', '⊗', '⊘', '≠', '≤', '≥', '+', '-', '*', '/', '%', '<', '>', '='].includes(ch)) {
         tokens.push({ type: 'OPERATOR', value: ch, line: lineNum });
         col++;
         continue;
@@ -533,7 +551,7 @@ export class PseudoParser {
 
   private parseComparison(): ASTExpr {
     let expr = this.parseAdditive();
-    while (['<', '<=', '>', '>=', '='].includes(this.peek().value)) {
+    while (['<', '<=', '>', '>=', '=', '!=', '<>', '≠', '≤', '≥'].includes(this.peek().value)) {
       const op = this.advance().value;
       const right = this.parseAdditive();
       expr = { type: 'BINARY', op, left: expr, right, line: expr.line };
@@ -553,7 +571,7 @@ export class PseudoParser {
 
   private parseMultiplicative(): ASTExpr {
     let expr = this.parsePrimary();
-    while (['*', '/', '≫', '≪', '⊗', '⊘'].includes(this.peek().value)) {
+    while (['*', '/', '%', 'mod', '≫', '≪', '⊗', '⊘'].includes(this.peek().value)) {
       const op = this.advance().value;
       const right = this.parsePrimary();
       expr = { type: 'BINARY', op, left: expr, right, line: expr.line };
@@ -975,6 +993,10 @@ export class PseudoInterpreter {
       case 'IDENT': {
         if (expr.name === '[]') return dyadicMachine.root();
         if (expr.name === 'nil' || expr.name === 'null') return null;
+        if (expr.name === 'pi' || expr.name === 'PI' || expr.name === 'π') return Math.PI;
+        if (expr.name === 'e' || expr.name === 'E') return Math.E;
+        if (expr.name === 'true' || expr.name === 'TRUE') return true;
+        if (expr.name === 'false' || expr.name === 'FALSE') return false;
         const val = scope.get(expr.name);
         if (val !== undefined) return val;
         // Ambient system resource ledger variables
@@ -1017,8 +1039,8 @@ export class PseudoInterpreter {
           return String(left) + String(right);
         }
 
-        // Comparison (<, <=, >, >=, =)
-        if (['<', '<=', '>', '>=', '='].includes(expr.op)) {
+        // Comparison (<, <=, >, >=, =, !=, <>, ≠, ≤, ≥)
+        if (['<', '<=', '>', '>=', '=', '!=', '<>', '≠', '≤', '≥'].includes(expr.op)) {
           if (
             left &&
             right &&
@@ -1029,16 +1051,18 @@ export class PseudoInterpreter {
           ) {
             const cmp = dyadicMachine.compare(left, right);
             if (expr.op === '<') return cmp === -1;
-            if (expr.op === '<=') return cmp <= 0;
+            if (expr.op === '<=' || expr.op === '≤') return cmp <= 0;
             if (expr.op === '>') return cmp === 1;
-            if (expr.op === '>=') return cmp >= 0;
+            if (expr.op === '>=' || expr.op === '≥') return cmp >= 0;
             if (expr.op === '=') return cmp === 0;
+            if (expr.op === '!=' || expr.op === '<>' || expr.op === '≠') return cmp !== 0;
           }
           if (expr.op === '<') return left < right;
-          if (expr.op === '<=') return left <= right;
+          if (expr.op === '<=' || expr.op === '≤') return left <= right;
           if (expr.op === '>') return left > right;
-          if (expr.op === '>=') return left >= right;
+          if (expr.op === '>=' || expr.op === '≥') return left >= right;
           if (expr.op === '=') return left === right;
+          if (expr.op === '!=' || expr.op === '<>' || expr.op === '≠') return left !== right;
         }
 
         // Math & Dyadic Ops
@@ -1076,6 +1100,7 @@ export class PseudoInterpreter {
         if (expr.op === '⊘') return dyadicMachine.div(left, right);
         if (expr.op === '*') return left * right;
         if (expr.op === '/') return left / right;
+        if (expr.op === 'mod' || expr.op === '%') return left % right;
         if (expr.op === '≫') return dyadicMachine.shift(left, -right);
         if (expr.op === '≪') return dyadicMachine.shift(left, right);
 
@@ -1140,6 +1165,38 @@ export class PseudoInterpreter {
         if (name === 'sqr') return dyadicMachine.mul(evaluatedArgs[0], evaluatedArgs[0]);
         if (name === 'val' || name === 'to_dyadic') return evaluatedArgs[0];
         if (name === 'node' || name === 'to_node') return dyadicMachine.node(evaluatedArgs[0]);
+
+        // Standard Math & Nonstandard Analysis Primitives
+        if (name === 'sin') return Math.sin(Number(evaluatedArgs[0]));
+        if (name === 'cos') return Math.cos(Number(evaluatedArgs[0]));
+        if (name === 'tan') return Math.tan(Number(evaluatedArgs[0]));
+        if (name === 'sqrt') return Math.sqrt(Number(evaluatedArgs[0]));
+        if (name === 'abs') return Math.abs(Number(evaluatedArgs[0]));
+        if (name === 'st') {
+          const v = evaluatedArgs[0];
+          if (v && typeof v === 'object' && 'st' in v) return v.st;
+          return Number(v);
+        }
+        if (name === 'eps') {
+          const v = evaluatedArgs[0];
+          if (v && typeof v === 'object' && 'eps' in v) return v.eps;
+          return 0;
+        }
+        if (name === 'near') {
+          const tol = evaluatedArgs[2] !== undefined ? Number(evaluatedArgs[2]) : 1e-7;
+          return Math.abs(Number(evaluatedArgs[0]) - Number(evaluatedArgs[1])) <= tol;
+        }
+        if (name === 'divides' || name === 'div') {
+          const d = Number(evaluatedArgs[0]);
+          const n = Number(evaluatedArgs[1]);
+          return d !== 0 && (n % d === 0);
+        }
+        if (name === 'even') return Math.round(Number(evaluatedArgs[0])) % 2 === 0;
+        if (name === 'odd') return Math.abs(Math.round(Number(evaluatedArgs[0])) % 2) === 1;
+        if (name === 'succ') return Number(evaluatedArgs[0]) + 1;
+        if (name === 'pred') return Number(evaluatedArgs[0]) - 1;
+        if (name === 'min') return Math.min(...evaluatedArgs.map(Number));
+        if (name === 'max') return Math.max(...evaluatedArgs.map(Number));
 
         if (name === 'CordicAngle' || name === 'CordicAngleTable' || name === 'lookup_angle') {
           const idx = Number(evaluatedArgs[0]);

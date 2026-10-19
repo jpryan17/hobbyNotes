@@ -26,7 +26,10 @@
     "utilsC": "cd ./nodeUtils && npx tsc",
     "segs": "cd ./nodeUtils && node ./public/genSegsFiles.js",
     "index": "node ./nodeUtils/public/indexBuild.js",
-    "db:seed": "npm run utilsC && node ./nodeUtils/public/genSqlSeeds.js",
+    "db:harvest-lean": "npm run utilsC && node ./nodeUtils/public/harvestLeanToDb.js",
+    "db:backup": "npm run utilsC && node ./nodeUtils/public/dbBackup.js",
+    "db:restore": "npm run utilsC && node ./nodeUtils/public/dbRestore.js",
+    "db:seed": "node -e \"console.log('[ARCHIVED] db:seed has been retired. Use npm run db:backup and db:restore.');\"",
     "publish:db": "npm run utilsC && node ./nodeUtils/public/dbPublisher.js app1",
     "publish:db:dist": "npm run utilsC && node ./nodeUtils/public/dbPublisher.js app1 index.html dist",
     "dist": "cd ./app1/dist && live-server"

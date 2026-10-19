@@ -12,7 +12,7 @@
  * - RHS: Codomain value (CalculationResult) in ℝ_ω, 𝔻, ℂ_ω, ℕ, ℤ, or 𝔹.
  */
 
-export type CalculationDomain = "ℝ" | "ℝ_ω" | "ℂ" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔻" | "𝔹" | string;
+export type CalculationDomain = "ℝ_ω" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔻" | "𝔹" | string;
 
 /**
  * Option for discrete dropdown-style parameter slots.

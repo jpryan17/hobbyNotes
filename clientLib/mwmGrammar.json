@@ -20,10 +20,10 @@
       "description": "Tridiagonal Toeplitz stencils and discrete contact Laplacians."
     },
     {
-      "id": "Real",
-      "symbol": "ℝ",
-      "name": "Standard Observable Shadow",
-      "description": "Standard real numbers extracted via the standard part shadow map st(·) dropping O(dx) dust."
+      "id": "D_w",
+      "symbol": "𝔻",
+      "name": "Dyadic Rationals (Fraction Model)",
+      "description": "Constructive dyadic fractions num / 2^exp forming binary interval trees and machine arithmetic."
     }
   ],
   "constructors": [
@@ -102,8 +102,8 @@
       "symbol": "st",
       "label": "Standard Part Shadow Map",
       "domain": "R_w",
-      "outputType": "Real",
-      "description": "Extracts standard real observable by dropping infinitesimal O(dx) hyperfinite dust.",
+      "outputType": "D_w",
+      "description": "Extracts dyadic observable by dropping infinitesimal O(dx) hyperfinite dust.",
       "slots": [
         {
           "name": "expr",

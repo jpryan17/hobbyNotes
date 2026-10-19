@@ -414,7 +414,7 @@ async function generateSeedSql() {
         const parentId = stmt.parentId ? (statementKeyToId[stmt.parentId] || null) : null;
         const domainCategory = stmt.type === 'physics' ? 'kinematics_and_dynamics' :
             stmt.type === 'information' ? 'information_and_signals' : 'discrete_analysis';
-        const statementKind = stmt.statementKind || (stmt.type === 'physics' && (stmt.scaffoldKey?.includes('calc') || stmt.tier === 'law') ? 'directed_equality' : 'theorem');
+        const statementKind = stmt.statementKind || 'theorem';
         let stmtPseudoKey = stmt.pseudoAlgoId || null;
         if (!stmtPseudoKey) {
             if (stmt.id.includes('free_fall') || stmt.id.includes('projectile') || stmt.id.includes('kinematic')) {
@@ -437,7 +437,7 @@ async function generateSeedSql() {
             }
         }
         const pseudoAlgoId = stmtPseudoKey && pseudoAlgoKeyToId[stmtPseudoKey] ? pseudoAlgoKeyToId[stmtPseudoKey] : null;
-        const structureKind = stmt.tier || 'theorem';
+        const structureKind = stmt.statementKind || 'theorem';
         const subjectType = stmt.type || 'math';
         const subjectDomain = domainCategory;
         statementInserts.push(`  (${stId}, ${escapeSql(stmt.id)}, ${escapeSql(stmt.scaffoldKey)}, ${escapeSql(domainCategory)}, ` +
@@ -463,6 +463,9 @@ async function generateSeedSql() {
         sql.push(`  parent_id = EXCLUDED.parent_id,`);
         sql.push(`  statement_kind = EXCLUDED.statement_kind,`);
         sql.push(`  pseudo_algo_id = EXCLUDED.pseudo_algo_id,`);
+        sql.push(`  type = EXCLUDED.type,`);
+        sql.push(`  tier = EXCLUDED.tier,`);
+        sql.push(`  governing_seed = EXCLUDED.governing_seed,`);
         sql.push(`  title = EXCLUDED.title,`);
         sql.push(`  description = EXCLUDED.description,`);
         sql.push(`  expression = EXCLUDED.expression,`);

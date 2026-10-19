@@ -15,16 +15,46 @@ export const tables: TableConfig[] = [
             { column: 'statement_key', label: 'Unique Key', canModify: true, len: 32 },
             { column: 'scaffold_key', label: 'Scaffold Key', canModify: true, len: 32 },
             { column: 'title', label: 'Statement Title', canModify: true, len: 45 },
-            { column: 'tier', label: 'Axiomatic Tier', canModify: true, len: 20 },
+            { column: 'tier', label: 'Epistemic Tier (Role)', canModify: true, len: 20 },
             { column: 'type', label: 'Subject Type', canModify: true, len: 18 },
-            { column: 'statement_kind', label: 'Statement Kind', canModify: true, len: 20 },
+            { column: 'statement_kind', label: 'Syntactic Kind (Form)', canModify: true, len: 20 },
             { column: 'domain_category', label: 'Domain Category', canModify: true, len: 24 },
             { column: 'governing_seed', label: 'Governing Seed', canModify: true, len: 20 },
             { column: 'expression', label: 'Mathematical Expression', canModify: true, len: 60, rows: 2 },
             { column: 'description', label: 'Conceptual Summary', canModify: true, len: 60, rows: 3, useHints: true },
             { column: 'lean_signature', label: 'Lean 4 Signature', canModify: true, len: 60, rows: 2 },
             { column: 'lean_snippet', label: 'Lean Code Snippet', canModify: true, len: 60, rows: 4 },
+            { column: 'lean_decl_id', label: 'Governing Lean Declaration', canModify: true, len: 28 },
             { column: 'status', label: 'Editorial Status', canModify: true, len: 16 }
+        ]
+    },
+    {
+        table: 'lean_declarations',
+        label: 'Lean 4 Formal Declarations',
+        singularLabel: 'Lean Declaration',
+        columns: [
+            { column: 'name', label: 'Declaration Name', canModify: true, len: 32 },
+            { column: 'kind', label: 'Kind (inductive/def/theorem/structure)', canModify: true, len: 18 },
+            { column: 'signature', label: 'Lean Signature', canModify: true, len: 60, rows: 2 },
+            { column: 'doc_comment', label: 'Docstring / Commentary', canModify: true, len: 60, rows: 3 },
+            { column: 'line_no', label: 'Line in Scaffold.lean', canModify: false, len: 10 },
+            { column: 'qed_status', label: 'Q.E.D. Verified', canModify: true, len: 10 },
+            { column: 'decl_key', label: 'Unique Identifier', canModify: true, len: 32 }
+        ]
+    },
+    {
+        table: 'domains',
+        label: 'Mathematical & Physical Domains',
+        singularLabel: 'Domain',
+        columns: [
+            { column: 'domain_key', label: 'Domain Key', canModify: true, len: 24 },
+            { column: 'symbol', label: 'Mathematical Symbol', canModify: true, len: 16 },
+            { column: 'name', label: 'Domain Name', canModify: true, len: 36 },
+            { column: 'category', label: 'Domain Category', canModify: true, len: 20 },
+            { column: 'lean_type', label: 'Lean 4 Type Name', canModify: true, len: 28 },
+            { column: 'lean_decl_id', label: 'Grounded Lean Declaration', canModify: true, len: 28 },
+            { column: 'base_unit', label: 'Physical Base Unit', canModify: true, len: 16 },
+            { column: 'description', label: 'Domain Description', canModify: true, len: 60, rows: 3 }
         ]
     },
     {
@@ -77,20 +107,6 @@ export const tables: TableConfig[] = [
             { column: 'max_val', label: 'Maximum Range', canModify: true, len: 14 },
             { column: 'step_val', label: 'Step Precision', canModify: true, len: 14 },
             { column: 'unit', label: 'Unit', canModify: true, len: 16 }
-        ]
-    },
-    {
-        table: 'verified_presets',
-        label: 'Verified Presets (Test Vectors)',
-        singularLabel: 'Verified Preset',
-        columns: [
-            { column: 'preset_key', label: 'Preset Key', canModify: true, len: 32 },
-            { column: 'equation_id', label: 'Parent Equation', canModify: false, len: 24 },
-            { column: 'title', label: 'Preset Scenario Title', canModify: true, len: 36 },
-            { column: 'domain_badge', label: 'Domain Badge', canModify: true, len: 16 },
-            { column: 'display_result', label: 'Expected Display Result', canModify: true, len: 24 },
-            { column: 'input_values', label: 'JSON Input Vector Map', canModify: true, len: 50, rows: 3 },
-            { column: 'is_canonical', label: 'Is Canonical Baseline', canModify: true, len: 10 }
         ]
     },
 
@@ -203,6 +219,21 @@ export const tables: TableConfig[] = [
             { column: 'prereq_type', label: 'Prerequisite Dependency Kind', canModify: true, len: 20 },
             { column: 'rationale', label: 'Pedagogical Rationale', canModify: true, len: 55, rows: 2 }
         ]
+    },
+    {
+        table: 'domains',
+        label: 'Mathematical & Physical Domains',
+        singularLabel: 'Domain',
+        columns: [
+            { column: 'domain_key', label: 'Domain Key', canModify: true, len: 24 },
+            { column: 'symbol', label: 'Unicode Symbol', canModify: true, len: 12 },
+            { column: 'name', label: 'Domain Name', canModify: true, len: 36 },
+            { column: 'category', label: 'Category', canModify: true, len: 20 },
+            { column: 'lean_type', label: 'Lean 4 Type / Structure', canModify: true, len: 32 },
+            { column: 'lean_file', label: 'Lean Source File', canModify: true, len: 45 },
+            { column: 'base_unit', label: 'Base Unit', canModify: true, len: 16 },
+            { column: 'description', label: 'Semantic Description', canModify: true, len: 60, rows: 3 }
+        ]
     }
 ];
 
@@ -210,7 +241,6 @@ export const dependents: Dependent[] = [
     { table: 'directed_equations', parent: 'formal_statements', displayColumns: ['equation_key', 'title'] },
     { table: 'lean_verifications', parent: 'formal_statements', displayColumns: ['theorem_name', 'proof_status'] },
     { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_index', 'symbol', 'label'] },
-    { table: 'verified_presets', parent: 'directed_equations', displayColumns: ['preset_key', 'title'] },
     { table: 'curriculum_nav_items', parent: 'apps', displayColumns: ['sequence_order', 'topic'] },
     { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'target_key'] },
     { table: 'segment_prerequisites', parent: 'segments', displayColumns: ['prerequisite_segment_id', 'prereq_type'] }
@@ -228,8 +258,7 @@ export const navigations: TableNavigationPath[] = [
         label: '📐 Computational Stencils',
         children: [
             { table: 'directed_equations' },
-            { table: 'mode_slots' },
-            { table: 'verified_presets' }
+            { table: 'mode_slots' }
         ]
     },
     {

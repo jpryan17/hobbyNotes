@@ -47,7 +47,7 @@ export class FSDRef extends HTMLElement {
                 s.id.toLowerCase() === cleanId ||
                 s.scaffoldKey.toLowerCase() === cleanId);
             if (tier === "3" || catalogStmt || matchedMode || matchedExample) {
-                const isPureTheorem = !matchedMode && !matchedExample && (tier === "3" || catalogStmt?.tier === "theorem" || catalogStmt?.tier === "axiom" || catalogStmt?.tier === "constitutional");
+                const isPureTheorem = !matchedMode && !matchedExample && (tier === "3" || catalogStmt?.statementKind === "theorem" || catalogStmt?.statementKind === "axiom" || catalogStmt?.tier === "constitutional");
                 FSDRef.openScaffoldCard(scaffoldOrId, titleAttr, {
                     autoOpenCalc: isPureTheorem ? false : autoOpenCalc,
                     disableCalculator: isPureTheorem,

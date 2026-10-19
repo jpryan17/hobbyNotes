@@ -889,7 +889,7 @@ export class FSD extends PXEParent {
             const pred = PredicateRegistry.getPredicate(ch);
             if (pred) {
                 pred.signature.forEach((sigDomain, slotIdx) => {
-                    const domainType = sigDomain === "P_N" ? "𝒫(ℕ)" : "ℕ";
+                    const domainType = (sigDomain === "P_N" || sigDomain === "P_Tree1") ? "𝒫(ℕ)" : "ℕ";
                     this.slots.push({
                         predCode: pred.code,
                         predName: pred.symbol,

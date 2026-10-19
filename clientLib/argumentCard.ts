@@ -35,7 +35,7 @@ export interface FormalArgument {
     slots?: Record<string, string>;
   };
   statementId?: string | number;
-  statementKind?: 'theorem' | 'directed_equality';
+  statementKind?: 'axiom' | 'theorem' | 'directed_equality';
   tier?: string;
   scaffoldKey?: string;
   leanSignature?: string;

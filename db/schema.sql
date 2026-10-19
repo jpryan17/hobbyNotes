@@ -17,7 +17,6 @@ DROP TABLE IF EXISTS lean_verifications CASCADE;
 DROP TABLE IF EXISTS segment_prerequisites CASCADE;
 DROP TABLE IF EXISTS segment_references CASCADE;
 DROP TABLE IF EXISTS curriculum_nav_items CASCADE;
-DROP TABLE IF EXISTS verified_presets CASCADE;
 DROP TABLE IF EXISTS mode_slots CASCADE;
 DROP VIEW IF EXISTS calculation_modes CASCADE;
 DROP TABLE IF EXISTS equation_statement_links CASCADE;
@@ -30,6 +29,7 @@ DROP TABLE IF EXISTS situations CASCADE;
 DROP TABLE IF EXISTS segments CASCADE;
 DROP TABLE IF EXISTS curriculum_tracks CASCADE;
 DROP TABLE IF EXISTS apps CASCADE;
+DROP TABLE IF EXISTS domains CASCADE;
 
 DROP TYPE IF EXISTS statement_kind CASCADE;
 DROP TYPE IF EXISTS statement_type CASCADE;
@@ -42,9 +42,9 @@ DROP TYPE IF EXISTS prerequisite_type CASCADE;
 -- 1. Custom Enumerations & Types
 -- ---------------------------------------------------------------------
 
-CREATE TYPE statement_kind AS ENUM ('theorem', 'directed_equality');
+CREATE TYPE statement_kind AS ENUM ('axiom', 'theorem', 'directed_equality');
 CREATE TYPE statement_type AS ENUM ('math', 'physics', 'information');
-CREATE TYPE statement_tier AS ENUM ('constitutional', 'axiom', 'theorem', 'scenario', 'corollary', 'law');
+CREATE TYPE statement_tier AS ENUM ('constitutional', 'law', 'scenario');
 CREATE TYPE governing_seed AS ENUM ('conway_cut', 'shadow_map', 'boundary_law');
 CREATE TYPE editorial_status AS ENUM ('draft', 'staged', 'under_review', 'verified', 'published');
 CREATE TYPE prerequisite_type AS ENUM ('foundational', 'recommended', 'historical');
@@ -64,6 +64,51 @@ CREATE TABLE apps (
 );
 
 COMMENT ON TABLE apps IS 'Web application publication targets (e.g. app1, app2).';
+
+-- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------
+-- 2b. Lean 4 Formal Scaffold Declarations (The Verified Proof Engine)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE lean_declarations (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    decl_key VARCHAR(255) UNIQUE NOT NULL,       -- e.g. 'MiddleWay.Tree1', 'MiddleWay.Tree2.totally_ordered'
+    name VARCHAR(255) NOT NULL,                  -- e.g. 'Tree1', 'Tree2.totally_ordered'
+    kind VARCHAR(32) NOT NULL,                   -- 'inductive', 'structure', 'def', 'theorem', 'axiom', 'class', 'instance'
+    signature TEXT NOT NULL,
+    body TEXT,
+    doc_comment TEXT,
+    line_no INTEGER,
+    file_path VARCHAR(255) NOT NULL DEFAULT 'MiddleWayLean/Scaffold.lean',
+    uses TEXT[] NOT NULL DEFAULT '{}',           -- Upstream Lean prerequisites
+    used_by TEXT[] NOT NULL DEFAULT '{}',        -- Downstream Lean dependents
+    qed_status BOOLEAN NOT NULL DEFAULT TRUE,    -- Machine-checked verdict
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE lean_declarations IS 'Machine-checked Lean 4 declarations, inductive types, and theorems parsed from MiddleWayLean/Scaffold.lean.';
+
+-- ---------------------------------------------------------------------
+-- 2c. Mathematical & Physical Domains (Directly Tied to Lean 4 Scaffold)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE domains (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    domain_key VARCHAR(64) UNIQUE NOT NULL,       -- e.g. 'D_w', 'Tree1', 'R_w', 'Frequency'
+    symbol VARCHAR(32) NOT NULL,                   -- e.g. '𝔻', 'ℕ', 'ℝ_ω', 'Hz'
+    name VARCHAR(128) NOT NULL,                    -- e.g. 'Dyadic Rationals (Fraction Model)'
+    category VARCHAR(32) NOT NULL DEFAULT 'mathematical', -- 'inductive_tree', 'continuum', 'physical', 'operator'
+    lean_type VARCHAR(128),                        -- e.g. 'MiddleWay.Dyad', 'MiddleWay.Tree1', 'MiddleWay.R_w'
+    lean_file VARCHAR(255) DEFAULT 'MiddleWayLean/Scaffold.lean',
+    lean_decl_id BIGINT REFERENCES lean_declarations(id) ON DELETE SET NULL,
+    base_unit VARCHAR(32),                         -- e.g. 'Hz', 'm/s', NULL
+    description TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE domains IS 'Mathematical domains and physical grounded spaces anchored directly to Lean 4 types in Scaffold.lean.';
 
 -- ---------------------------------------------------------------------
 -- 3. Curricular Segments (The 52 Modular Chapters)
@@ -167,17 +212,18 @@ CREATE TABLE formal_statements (
     subject_type statement_type NOT NULL DEFAULT 'math',              -- 'math', 'physics', 'information'
     structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'defn', 'scenario', 'corollary', 'law'
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
-    statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'theorem' (Lean 4 proof) vs. 'directed_equality' (computational rule)
+    statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'axiom', 'theorem' (Lean 4 proof), 'directed_equality' (computational rule)
     pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
     demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
     type statement_type NOT NULL DEFAULT 'math',
-    tier statement_tier NOT NULL DEFAULT 'theorem',
+    tier statement_tier NOT NULL DEFAULT 'law',                        -- 'constitutional', 'law', 'scenario'
     governing_seed governing_seed,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     expression TEXT NOT NULL,
     lean_signature TEXT,
     lean_snippet TEXT,
+    lean_decl_id BIGINT REFERENCES lean_declarations(id) ON DELETE SET NULL,
     status editorial_status NOT NULL DEFAULT 'published',
     referenced_segments TEXT[] NOT NULL DEFAULT '{}',
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -199,7 +245,7 @@ CREATE TABLE directed_equations (
     target_symbol VARCHAR(32) NOT NULL,          -- e.g. 'v'
     target_domain VARCHAR(32) NOT NULL,          -- e.g. 'ℝ_ω'
     target_unit VARCHAR(32),                     -- e.g. 'm/s'
-    pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
+    pseudo_algo_id BIGINT NOT NULL REFERENCES pseudocode_algorithms(id) ON DELETE RESTRICT,
     formula_description TEXT NOT NULL,
     has_simulation BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -248,26 +294,7 @@ CREATE TABLE mode_slots (
 COMMENT ON TABLE mode_slots IS 'Ordered input parameters with boundary ranges for calculation modes.';
 
 -- ---------------------------------------------------------------------
--- 8. Verified Presets (Grounding Examples)
--- ---------------------------------------------------------------------
-
-CREATE TABLE verified_presets (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    preset_key VARCHAR(64) UNIQUE NOT NULL,       -- e.g. 'ex_earth_free_fall'
-    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
-    input_values JSONB NOT NULL DEFAULT '{}'::jsonb,
-    display_result VARCHAR(128) NOT NULL,
-    formatted_formula TEXT NOT NULL,
-    domain_badge VARCHAR(32) NOT NULL,
-    notes TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-COMMENT ON TABLE verified_presets IS 'Concrete numerical scenarios grounding MWM stencils in verified numbers.';
-
--- ---------------------------------------------------------------------
--- 9. Relational Segment References (Embedded Stencil Links)
+-- 8. Relational Segment References (Embedded Stencil Links)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE segment_references (
@@ -275,7 +302,6 @@ CREATE TABLE segment_references (
     segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
     statement_id BIGINT REFERENCES formal_statements(id) ON DELETE CASCADE,
     equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
-    preset_id BIGINT REFERENCES verified_presets(id) ON DELETE SET NULL,
     demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
     initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator', 'demo'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
