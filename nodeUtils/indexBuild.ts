@@ -131,6 +131,7 @@ async function buildIndex(app: string) {
         indexFileContent = indexFileContent.concat(scriptTag, `\n</body>\n</html>`);
 
         writeFileSync(outputFilePath, indexFileContent, 'utf8');
+
         const durationMs = Date.now() - startTime;
         const bytes = Buffer.byteLength(indexFileContent, 'utf8');
         console.log(`[indexBuild] index.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);

@@ -240,6 +240,145 @@
     .project-links-card a:hover {
       color: var(--primary-dark);
     }
+
+    /* Start App Hero Action */
+    .start-app-container {
+      text-align: center;
+      margin: 26px 0 34px 0;
+    }
+
+    .start-app-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 34px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .start-app-btn:hover {
+      background: var(--primary-dark);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .start-app-hint {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Curriculum Grid Cards */
+    .curriculum-overview {
+      margin: 28px 0 36px 0;
+    }
+
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .level-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px 16px;
+      border-top: 3px solid var(--primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .level-card h4 {
+      margin: 0 0 6px 0;
+      font-size: 0.95rem;
+      color: var(--heading-color);
+    }
+
+    .level-card p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Outer Technical Foundations Card */
+    details.tech-card {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-left: 5px solid #1e3a8a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 36px 0 24px 0;
+      transition: background 0.15s ease;
+    }
+
+    details.tech-card[open] {
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    }
+
+    details.tech-card summary {
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #1e3a8a;
+      outline: none;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    details.tech-card .tech-content {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Nested Lean Verification Card */
+    details.lean-card {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-left: 4px solid #16a34a;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 26px 0 16px 0;
+      transition: background 0.15s ease;
+    }
+
+    details.lean-card[open] {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.08);
+    }
+
+    details.lean-card summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #15803d;
+      outline: none;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details.lean-card .lean-content {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #bbf7d0;
+      font-size: 0.96rem;
+      color: #14532d;
+      line-height: 1.65;
+    }
   </style>
 </head>
 <body>
@@ -248,6 +387,43 @@
   </header>
 
   <p><strong style="color: rgb(30, 41, 59); font-size: medium;">Middle Way Mathematics (MWM)</strong><span style="color: rgb(30, 41, 59); font-size: medium;"> is a curriculum and foundational framework for a general education in mathematics. The curriculum targets all motivated students, providing a clear overview of the nature of modern mathematical thought. It is not designed to prepare students for technical STEM tracks; rather, its goal is to provide a conceptual and formal literacy that enables lifelong, thoughtful engagement with formal descriptions - offered in more sophisticated popular science literature and video lectures - of modern physical theories.</span></p>
+
+  <!-- Start the App Action Button -->
+  <div class="start-app-container">
+    <a href="./index.html" class="start-app-btn">
+      <span>🚀 Start the App</span>
+    </a>
+    <div class="start-app-hint">
+      Enter the interactive lecture viewer and dynamic visualizers
+    </div>
+  </div>
+
+  <!-- Curriculum Roadmap at a Glance -->
+  <div class="curriculum-overview">
+    <h3 style="margin-top: 0; color: var(--heading-color);">Curriculum Overview (Levels 1–5 at a Glance)</h3>
+    <div class="curriculum-grid">
+      <div class="level-card" style="border-top-color: #2563eb;">
+        <h4>Level 1: Logic &amp; Truth</h4>
+        <p>Single-sorted propositions (TTD), predicates as Directed Equalities, and 2D matrix quantification (FSD).</p>
+      </div>
+      <div class="level-card" style="border-top-color: #059669;">
+        <h4>Level 2: Numbers &amp; Trees</h4>
+        <p>Unary Counting Spine (ℕ), Binary Dyadics (𝔻), Quadtrees (ℂ_ω), and arithmetic vs. geometric stepping.</p>
+      </div>
+      <div class="level-card" style="border-top-color: #7c3aed;">
+        <h4>Level 3: Linear &amp; Continuous</h4>
+        <p>Discrete sequences, telescoping FTC, hyperfinite derivatives, and nonstandard 1D/2D analysis.</p>
+      </div>
+      <div class="level-card" style="border-top-color: #d97706;">
+        <h4>Level 4: Physics &amp; Dynamic Models</h4>
+        <p>Kinematic trajectories, Newtonian gravitation, energy conservation, heat diffusion, and wave propagation.</p>
+      </div>
+      <div class="level-card" style="border-top-color: #dc2626;">
+        <h4>Level 5: Quantum &amp; Applied Horizons</h4>
+        <p>Quantum ortholattices, Bayesian inference, and the physical universe modeled as an information processor.</p>
+      </div>
+    </div>
+  </div>
 
   <h2>1. Mathematics as a Formal Science</h2>
 
@@ -264,6 +440,16 @@
     <li><em>What physical theories can be modeled?</em></li>
     <li><em>At what level of depth can the modeling mathematics be understood?</em></li>
   </ol><div>MWM expresses its concepts formally, embedded in natural language explanations, using single-sorted first-order logic and ZF set theory as its foundational baseline.<i></i></div>
+
+  <!-- Outer Hide/Show Section: Technical Foundations & Lean Verification -->
+  <details class="tech-card">
+    <summary>
+      <span>📐 Technical Foundations: Fundamental Assumptions and Lean Verification</span>
+    </summary>
+    <div class="tech-content">
+      <p style="margin-top: 0; font-size: 0.96rem; color: #475569; line-height: 1.6;">
+        The sections below detail the formal, non-Archimedean axiomatic bedrock of Middle Way Mathematics for mathematicians, curriculum architects, and system evaluators.
+      </p>
 
   <h2>2. The Cornerstone Axiom, Ordinals, and Number Trees</h2>
 
@@ -614,14 +800,46 @@ mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
 </div>
 </div>
 
+    <!-- Nested Hide/Show Section: Lean 4 Verification Architecture -->
+    <details class="lean-card">
+      <summary>
+        <span>🛡️ Lean 4 Verification Architecture: Scaffolding, Inductive Types &amp; Proof Tiers</span>
+      </summary>
+      <div class="lean-content">
+        <p>
+          To ensure that the discrete computational models of Middle Way Mathematics are mathematically sound and free from circularity, the foundations are formally grounded and machine-certified in <strong>Lean 4</strong> (see <code>MiddleWayLean/DyadicRing.lean</code>). This verification architecture operates with zero noncomputable axioms, establishing a constructive bridge across three parallel perspectives:
+        </p>
+
+        <h4 style="margin: 16px 0 8px 0; color: #166534;">1. Triangulating the Three Models</h4>
+        <ul>
+          <li><strong>The Geometric Model:</strong> Visual and spatial representations of numbers as finite paths on rooted binary trees (<code>Tree2</code>) and 2D quadtrees (<code>Tree4</code>), directly explored in the interactive engine visualizers.</li>
+          <li><strong>The Executable Model:</strong> Deterministic algorithms in TypeScript/JavaScript for tree navigation, interval bisection (Conway cuts), and directed equality resolution (FSD/TTD).</li>
+          <li><strong>The Certified Formal Model:</strong> Zero-axiom inductive types in Lean 4 proving ring properties, decidable order, and midpoint density via finite structural induction.</li>
+        </ul>
+
+        <h4 style="margin: 16px 0 8px 0; color: #166534;">2. Inductive Base Types</h4>
+        <ul>
+          <li><code>Tree1 ≡ ℕ</code>: Unary counting spine encoding discrete clock ticks, depth stages, and well-ordered birthdays.</li>
+          <li><code>Dyad ≡ 𝔻</code>: Dyadic rationals <code>m / 2^k</code> (with <code>m ∈ ℤ</code>, <code>k ∈ ℕ</code>) forming the certified computable commutative ring <code>(𝔻, +, ·)</code>.</li>
+          <li><code>Tree2 ≡ 𝔻</code>: 2-successor binary trees isomorphic to the dyadic rationals via recursive left/right branch signs.</li>
+          <li><code>Tree4 ≡ 𝔻[i]</code>: 4-successor quadtrees isomorphic to Gaussian dyadics in 2D discrete analysis.</li>
+        </ul>
+
+        <h4 style="margin: 16px 0 8px 0; color: #166534;">3. Three Verification Proof Tiers</h4>
+        <ul>
+          <li><strong>Tier 1 — Commutative Ring &amp; Decidable Order:</strong> Lean-certified proofs that <code>(𝔻, +, ·)</code> satisfies all commutative ring axioms, possesses a decidable linear order (<code>≤</code> and <code>&lt;</code>), and satisfies constructive midpoint density: <code>∀ a &lt; b, ∃ m, a &lt; m ∧ m &lt; b</code>.</li>
+          <li><strong>Tier 2 — Structural Isomorphisms:</strong> Constructive bidirectional mappings (<code>toTree2</code>, <code>fromTree2</code>) certifying that tree node paths correspond 1-to-1 with canonical dyadic values.</li>
+          <li><strong>Tier 3 — Executable Pseudocode Mirrors:</strong> Lean executable definitions (such as <code>SimplerOptions</code> and the <code>ConwayCut</code> bisection walk) that mirror the TypeScript runtime line-for-line, proving termination and exact arithmetic preservation without floating-point drift.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+</details>
+
   <div class="project-links-card">
     <h3>Project Artifacts</h3>
     <ul>
-      <li>
-        <strong>Interactive Curriculum &amp; Learning Engines:</strong> 
-        <a href="https://middlewaymath.app" target="_blank" rel="noopener">middlewaymath.app</a> — 
-        Explore the full interactive curriculum, including the Binary Tree Demo (BTD), Binary Interval Demo (BID), and dynamic lecture modules.
-      </li>
       <li>
         <strong>Lean 4 Computable Ring Formalization:</strong> 
         <a href="https://github.com/jpryan17/hobbyNotes/blob/master/MiddleWayLean/DyadicRing.lean" target="_blank" rel="noopener">DyadicRing.lean on GitHub</a> — 
