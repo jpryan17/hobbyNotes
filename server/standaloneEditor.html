@@ -78,18 +78,6 @@
       gap: 8px;
     }
 
-    .badge-protected {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #34d399;
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      user-select: none;
-    }
 
     .path-input {
       background: #1e293b;
@@ -142,6 +130,24 @@
     }
     .pill.active { background: #0284c7; color: #ffffff; }
 
+    #tb-spell {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    #tb-spell.active {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+    #tb-spell:not(.active) {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+    }
+
     .status-pill {
       font-size: 12px;
       font-weight: 600;
@@ -166,13 +172,28 @@
       padding: 6px 16px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
+    }
+    .tb-section {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 3px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tb-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      user-select: none;
     }
     .tb-group { display: flex; align-items: center; gap: 3px; }
     .tb-btn {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       color: #334155;
       padding: 4px 8px;
       border-radius: 4px;
@@ -182,16 +203,17 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      line-height: 1.2;
     }
-    .tb-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .tb-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
     .tb-btn.active {
       background: #0284c7;
       color: #ffffff;
       border-color: #0284c7;
     }
     .tb-select {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       color: #334155;
       padding: 3px 6px;
       border-radius: 4px;
@@ -201,8 +223,53 @@
       outline: none;
       font-family: var(--font-ui);
     }
-    .tb-select:hover { background: #f1f5f9; border-color: #cbd5e1; }
-    .tb-divider { width: 1px; height: 18px; background: var(--border-color); margin: 0 4px; }
+    .tb-select:hover { background: #f1f5f9; border-color: #94a3b8; }
+    .tb-divider { width: 1px; height: 18px; background: #cbd5e1; margin: 0 4px; }
+
+    /* Dropdowns */
+    .tb-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+    .tb-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      padding: 4px;
+      min-width: 175px;
+      z-index: 1000;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .tb-dropdown.open .tb-dropdown-menu {
+      display: flex;
+    }
+    .tb-dropdown-item {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1e293b;
+      font-weight: 500;
+      font-family: var(--font-ui);
+      white-space: nowrap;
+      transition: background 0.1s ease;
+    }
+    .tb-dropdown-item:hover {
+      background: #f1f5f9;
+      color: #0284c7;
+    }
 
     /* Script Level Control Group */
     .script-level-btn {
@@ -247,6 +314,17 @@
       line-height: 0;
     }
 
+    /* Header Zoom Controls */
+    .header-zoom {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
     /* Unicode Character Palette Strip */
     .unicode-palette {
       background: #f8fafc;
@@ -254,7 +332,7 @@
       padding: 5px 16px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
       white-space: nowrap;
     }
@@ -267,13 +345,26 @@
       margin-right: 2px;
       user-select: none;
     }
-    .palette-chips {
-      display: flex;
+    .u-section {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 2px 6px;
+      display: inline-flex;
       align-items: center;
       gap: 3px;
     }
+    .u-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-right: 2px;
+      user-select: none;
+    }
     .u-btn {
-      background: #ffffff;
+      background: #f8fafc;
       border: 1px solid #cbd5e1;
       color: #0f172a;
       padding: 2px 7px;
@@ -281,7 +372,7 @@
       font-size: 13px;
       line-height: 1.25;
       cursor: pointer;
-      font-family: var(--font-ui), "Cambria Math", sans-serif;
+      font-family: var(--font-content), "Cambria Math", sans-serif;
       transition: all 0.1s ease;
       user-select: none;
     }
@@ -298,12 +389,107 @@
     .u-btn.u-bold:hover {
       color: #ffffff;
     }
-    .palette-sep {
+    .u-divider {
       width: 1px;
       height: 16px;
       background: #cbd5e1;
-      margin: 0 4px;
+      margin: 0 3px;
       display: inline-block;
+    }
+
+    /* Unicode Dropdowns & Popovers */
+    .u-dropdown {
+      position: relative;
+      display: inline-flex;
+    }
+    .u-dropdown-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #0369a1;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      user-select: none;
+      font-family: var(--font-ui);
+      transition: all 0.1s ease;
+    }
+    .u-dropdown-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+    .u-dropdown-popover {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      padding: 8px;
+      z-index: 2000;
+      min-width: 260px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .u-dropdown-popover.popover-right {
+      left: auto;
+      right: 0;
+    }
+    .u-dropdown.open .u-dropdown-popover {
+      display: block;
+    }
+    .u-popover-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .u-popover-subtitle {
+      font-size: 10px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin: 6px 0 3px 0;
+      text-transform: uppercase;
+    }
+    .u-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .u-grid-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 14px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: var(--font-content), "Cambria Math", serif;
+      transition: all 0.1s ease;
+      color: #0f172a;
+    }
+    .u-grid-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      transform: scale(1.15);
+      z-index: 2;
     }
 
     /* Main Workspace */
@@ -486,117 +672,502 @@
 
   <!-- Top Header Navigation -->
   <header>
-    <div class="brand">
-      📝 HTML Composer
-      <span>• Web & Diagram Editor</span>
-    </div>
-
-    <div class="file-controls">
-      <div class="badge-protected" title="hobbyNotes repository curriculum files are protected against accidental overwrites">
-        🛡️ hobbyNotes Protected
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <div class="brand">
+        📝 HTML Composer
       </div>
 
-      <button id="btn-open-file" class="btn btn-secondary" title="Pick an HTML file from your computer">📂 Open File...</button>
-      <input type="file" id="fallback-file-input" accept=".html,.htm,.svg,.txt" style="display: none;" />
+      <div class="file-controls">
+        <button id="btn-open-file" class="btn btn-secondary" title="Pick an HTML file from your computer">📂 Open...</button>
+        <input type="file" id="fallback-file-input" accept=".html,.htm,.svg,.txt" style="display: none;" />
 
-      <input id="file-path-input" class="path-input" type="text" placeholder="Untitled.html" title="Current file name or path. Press Enter to load if typing a path." />
+        <button id="btn-new-file" class="btn btn-secondary" title="Start a fresh blank document">+ New</button>
+        <button id="btn-save" class="btn btn-primary" title="Save file directly to disk (Ctrl+S)">💾 Save</button>
+        <button id="btn-save-as" class="btn btn-secondary" title="Save with native folder/file picker">💾 Save As...</button>
 
-      <button id="btn-new-file" class="btn btn-secondary" title="Start a fresh blank document">+ New</button>
-      <div id="status-pill" class="status-pill">✓ Ready</div>
+        <input id="file-path-input" class="path-input" type="text" placeholder="Untitled.html" title="Current file name or path. Press Enter to load if typing a path." />
+
+        <div id="status-pill" class="status-pill">✓ Ready</div>
+      </div>
     </div>
 
     <div style="display: flex; align-items: center; gap: 8px;">
+      <!-- Zoom Controls in Header Line -->
+      <div class="header-zoom" title="Zoom In / Out for both editors">
+        <span style="font-size: 11px; font-weight: 700; color: #94a3b8; user-select: none;">Zoom:</span>
+        <button id="btn-zoom-out" class="btn btn-secondary" style="padding: 2px 7px; font-size: 12px;" title="Zoom Out (−)">−</button>
+        <button id="btn-zoom-reset" class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px; font-weight: 700; min-width: 44px; text-align: center; color: #38bdf8;" title="Reset Zoom (100%)">100%</button>
+        <button id="btn-zoom-in" class="btn btn-secondary" style="padding: 2px 7px; font-size: 12px;" title="Zoom In (+)">+</button>
+      </div>
+
+      <button id="tb-spell" class="btn btn-secondary active" title="Toggle spell check (red underlines & right-click suggestions)">🔤 Spell: ON</button>
       <div class="view-pills">
         <button id="pill-wysiwyg" class="pill active">👁️ Normal</button>
         <button id="pill-source" class="pill">📝 HTML Source</button>
         <button id="pill-split" class="pill">🌓 Split</button>
       </div>
-
-      <button id="btn-save" class="btn btn-primary" title="Save file directly to disk (Ctrl+S)">💾 Save</button>
-      <button id="btn-save-as" class="btn btn-secondary" title="Save with native folder/file picker">💾 Save As...</button>
     </div>
   </header>
 
   <!-- Formatting Toolbar (Composer Actions) -->
   <div class="toolbar">
-    <div class="tb-group">
-      <button id="tb-bold" class="tb-btn" title="Bold (Ctrl+B)"><b>B</b></button>
-      <button id="tb-italic" class="tb-btn" title="Italic (Ctrl+I)"><i>I</i></button>
-      <button id="tb-underline" class="tb-btn" title="Underline (Ctrl+U)"><u>U</u></button>
-      <button id="tb-strike" class="tb-btn" title="Strikethrough"><s>S</s></button>
+    <!-- 1> Styles Section with Modest Border -->
+    <div class="tb-section" id="tb-section-styles" title="Text Styles">
+      <div class="tb-group">
+        <button id="tb-bold" class="tb-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button id="tb-italic" class="tb-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <!-- Script Level Controls: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2) -->
+      <div class="tb-group" id="tb-script-group" title="Script level: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2)">
+        <button id="tb-script-sub2" class="tb-btn script-level-btn" data-level="-2" title="Sub-subscript (level -2, e.g. a_{i_k})">x<sub><sub>2</sub></sub></button>
+        <button id="tb-script-sub1" class="tb-btn script-level-btn" data-level="-1" title="Subscript (level -1, e.g. x_i, Ctrl+,)">x<sub>1</sub></button>
+        <button id="tb-script-base" class="tb-btn script-level-btn active" data-level="0" title="Base text (level 0, normal baseline)">x</button>
+        <button id="tb-script-sup1" class="tb-btn script-level-btn" data-level="1" title="Superscript (level +1, e.g. x², Ctrl+.)">x<sup>1</sup></button>
+        <button id="tb-script-sup2" class="tb-btn script-level-btn" data-level="2" title="Super-superscript (level +2, e.g. 2^{2^n})">x<sup><sup>2</sup></sup></button>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <!-- Font Size Controls -->
+      <div class="tb-group">
+        <select id="tb-font-size" class="tb-select" title="Font size of selected text">
+          <option value="" disabled selected>Size</option>
+          <option value="1">10px (Tiny)</option>
+          <option value="2">13px (Small)</option>
+          <option value="3">16px (Normal)</option>
+          <option value="4">18px (Medium)</option>
+          <option value="5">24px (Large)</option>
+          <option value="6">32px (X-Large)</option>
+          <option value="7">48px (Huge)</option>
+        </select>
+        <button id="tb-size-down" class="tb-btn" title="Decrease font size (A⁻)">A⁻</button>
+        <button id="tb-size-up" class="tb-btn" title="Increase font size (A⁺)">A⁺</button>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <!-- Heading Dropdown [ H ▾ ] -->
+      <div class="tb-dropdown" id="dropdown-heading">
+        <button id="btn-dropdown-h" class="tb-btn" title="Heading Level (Paragraph, H1, H2, H3, H4, Code)">
+          <span><b>H</b></span> ▾
+        </button>
+        <div class="tb-dropdown-menu" id="menu-heading">
+          <button class="tb-dropdown-item" data-action="format-block" data-val="p">¶ Paragraph (Normal)</button>
+          <button class="tb-dropdown-item" data-action="format-block" data-val="h1" style="font-weight: 700; font-size: 14px;">H1 Heading 1</button>
+          <button class="tb-dropdown-item" data-action="format-block" data-val="h2" style="font-weight: 700; font-size: 13px;">H2 Heading 2</button>
+          <button class="tb-dropdown-item" data-action="format-block" data-val="h3" style="font-weight: 600; font-size: 12px;">H3 Heading 3</button>
+          <button class="tb-dropdown-item" data-action="format-block" data-val="h4" style="font-weight: 600; font-size: 11px;">H4 Heading 4</button>
+          <button class="tb-dropdown-item" data-action="format-block" data-val="pre" style="font-family: var(--font-mono);">&lt;/&gt; Preformatted Code</button>
+        </div>
+      </div>
+
+      <!-- Expanded Styles Selection Dropdown [ ▾ ] -->
+      <div class="tb-dropdown" id="dropdown-more-styles">
+        <button id="btn-dropdown-more-styles" class="tb-btn" title="More Styles (Underline, Strikethrough, Code, Color, Clear)">
+          <span>Styles</span> ▾
+        </button>
+        <div class="tb-dropdown-menu" id="menu-more-styles">
+          <button class="tb-dropdown-item" data-action="underline"><u>U</u> Underline</button>
+          <button class="tb-dropdown-item" data-action="strike"><s>S</s> Strikethrough</button>
+          <button class="tb-dropdown-item" data-action="code"><code>&lt;&gt;</code> Inline Code</button>
+          <button class="tb-dropdown-item" data-action="foreColor">🎨 Text Color...</button>
+          <button class="tb-dropdown-item" data-action="hiliteColor">🖍️ Highlight Color...</button>
+          <div style="border-top: 1px solid #e2e8f0; margin: 2px 0;"></div>
+          <button class="tb-dropdown-item" data-action="removeFormat">🧹 Clear Formatting</button>
+        </div>
+      </div>
     </div>
 
-    <div class="tb-divider"></div>
+    <!-- 2> Structures Section with Modest Border -->
+    <div class="tb-section" id="tb-section-structure" title="Structure & Alignment">
+      <div class="tb-group">
+        <button id="tb-align-left" class="tb-btn" title="Align Left">⯇</button>
+        <button id="tb-align-center" class="tb-btn" title="Align Center">☰</button>
+        <button id="tb-align-right" class="tb-btn" title="Align Right">⯈</button>
+      </div>
 
-    <!-- Script Level Control Group: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2) -->
-    <div class="tb-group" id="tb-script-group" title="Script level: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2)">
-      <button id="tb-script-sub2" class="tb-btn script-level-btn" data-level="-2" title="Sub-subscript (level -2, e.g. a_{i_k})">x<sub><sub>2</sub></sub></button>
-      <button id="tb-script-sub1" class="tb-btn script-level-btn" data-level="-1" title="Subscript (level -1, e.g. x_i, Ctrl+,)">x<sub>1</sub></button>
-      <button id="tb-script-base" class="tb-btn script-level-btn active" data-level="0" title="Base text (level 0, normal baseline)">x</button>
-      <button id="tb-script-sup1" class="tb-btn script-level-btn" data-level="1" title="Superscript (level +1, e.g. x², Ctrl+.)">x<sup>1</sup></button>
-      <button id="tb-script-sup2" class="tb-btn script-level-btn" data-level="2" title="Super-superscript (level +2, e.g. 2^{2^n})">x<sup><sup>2</sup></sup></button>
+      <div class="tb-divider"></div>
+
+      <div class="tb-group">
+        <button id="tb-ul" class="tb-btn" title="Bullet List">• List</button>
+        <button id="tb-ol" class="tb-btn" title="Numbered List">1. List</button>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <div class="tb-group">
+        <button id="tb-outdent" class="tb-btn" title="Outdent / Decrease Indent (Shift+Tab)">⇤ Outdent</button>
+        <button id="tb-indent" class="tb-btn" title="Indent / Increase Indent (Tab)">⇥ Indent</button>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <!-- Expanded Structures Dropdown [ ▾ ] -->
+      <div class="tb-dropdown" id="dropdown-more-structures">
+        <button id="btn-dropdown-more-structures" class="tb-btn" title="More Structures (Blockquote, Collapsible, Callout Box)">
+          <span>Blocks</span> ▾
+        </button>
+        <div class="tb-dropdown-menu" id="menu-more-structures">
+          <button class="tb-dropdown-item" data-action="blockquote">❝ Blockquote</button>
+          <button class="tb-dropdown-item" data-action="details">🗋 Collapsible Details</button>
+          <button class="tb-dropdown-item" data-action="callout-note">📦 Callout Note Box</button>
+          <button class="tb-dropdown-item" data-action="callout-def">🏷️ Definition Box</button>
+        </div>
+      </div>
     </div>
 
-    <div class="tb-divider"></div>
+    <!-- 3> Inserts Section with Dropdown & Signature Action Pills -->
+    <div class="tb-section" id="tb-section-inserts" title="Insert Elements">
+      <!-- Insert Dropdown -->
+      <div class="tb-dropdown" id="dropdown-insert">
+        <button id="btn-dropdown-insert" class="tb-btn" title="Insert Media, Tables & Content">
+          <span>⨁ Insert</span> ▾
+        </button>
+        <div class="tb-dropdown-menu" id="menu-insert">
+          <button class="tb-dropdown-item" data-action="insert-link">🔗 Hyperlink</button>
+          <button class="tb-dropdown-item" data-action="insert-image">🖼️ Image</button>
+          <button class="tb-dropdown-item" data-action="insert-table">📊 Table (Rows × Cols)</button>
+          <button class="tb-dropdown-item" data-action="insert-hr">― Horizontal Divider</button>
+        </div>
+      </div>
 
-    <div class="tb-group">
-      <button id="tb-h1" class="tb-btn" title="Heading 1">H1</button>
-      <button id="tb-h2" class="tb-btn" title="Heading 2">H2</button>
-      <button id="tb-h3" class="tb-btn" title="Heading 3">H3</button>
-      <button id="tb-p" class="tb-btn" title="Normal Paragraph">¶</button>
-      <button id="tb-ul" class="tb-btn" title="Bullet List">• List</button>
-      <button id="tb-ol" class="tb-btn" title="Numbered List">1. List</button>
+      <div class="tb-divider"></div>
+
+      <div class="tb-group">
+        <button id="tb-insert-latex" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px; background: #059669;" title="Insert or edit LaTeX formula">∑ + LaTeX Math</button>
+        <button id="tb-insert-diagram" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;" title="Draw and embed a new Draw.io diagram">🎨 + Diagram</button>
+      </div>
     </div>
 
-    <div class="tb-divider"></div>
-
-    <div class="tb-group">
-      <button id="tb-align-left" class="tb-btn" title="Align Left">⯇</button>
-      <button id="tb-align-center" class="tb-btn" title="Align Center">☰</button>
-      <button id="tb-align-right" class="tb-btn" title="Align Right">⯈</button>
-    </div>
-
-    <div class="tb-divider"></div>
-
-    <!-- Text Size Controls (SeaMonkey Composer style) -->
-    <div class="tb-group">
-      <select id="tb-font-size" class="tb-select" title="Font size of selected text">
-        <option value="" disabled selected>Size</option>
-        <option value="1">10px (Tiny)</option>
-        <option value="2">13px (Small)</option>
-        <option value="3">16px (Normal)</option>
-        <option value="4">18px (Medium)</option>
-        <option value="5">24px (Large)</option>
-        <option value="6">32px (X-Large)</option>
-        <option value="7">48px (Huge)</option>
-      </select>
-      <button id="tb-size-down" class="tb-btn" title="Decrease font size (A⁻)">A⁻</button>
-      <button id="tb-size-up" class="tb-btn" title="Increase font size (A⁺)">A⁺</button>
-    </div>
-
-    <div class="tb-divider"></div>
-
-    <!-- Links, Images, Tables & Diagrams -->
-    <div class="tb-group">
-      <button id="tb-link" class="tb-btn" title="Insert hyperlink">🔗 Link</button>
-      <button id="tb-image" class="tb-btn" title="Insert image">🖼️ Image</button>
-      <button id="tb-table" class="tb-btn" style="color: #0284c7; font-weight: 700; border-color: #bae6fd;" title="Insert or construct HTML table">📊 Table</button>
-      <button id="tb-hr" class="tb-btn" title="Insert horizontal rule">― Line</button>
-      <button id="tb-insert-latex" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px; background: #059669;" title="Insert or edit LaTeX formula">∑ + LaTeX Math</button>
-      <button id="tb-insert-diagram" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;" title="Draw and embed a new Draw.io diagram">🎨 + Diagram</button>
-    </div>
-
-    <div class="tb-group" style="margin-left: auto;">
-      <button id="tb-spell" class="tb-btn active" title="Toggle spell check (red underlines & right-click suggestions)">🔤 Spell: ON</button>
-      <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">💡 Double-click any embedded diagram to edit</span>
-    </div>
   </div>
 
   <!-- Unicode Character Palette Strip -->
   <div class="unicode-palette">
     <span class="palette-label">Unicode:</span>
-    <div class="palette-chips">
-      <!-- Logic & Arrows -->
+
+    <!-- 1. Typesets (Blackboard, Script, Fraktur) -->
+    <div class="u-section">
+      <span class="u-section-label">Typesets:</span>
+      <button class="u-btn u-bold" data-char="ℝ" title="Real numbers (R)">ℝ</button>
+      <button class="u-btn u-bold" data-char="ℕ" title="Natural numbers (N)">ℕ</button>
+      <button class="u-btn u-bold" data-char="ℤ" title="Integers (Z)">ℤ</button>
+      <button class="u-btn u-bold" data-char="ℚ" title="Rational numbers (Q)">ℚ</button>
+      <button class="u-btn u-bold" data-char="ℂ" title="Complex numbers (C)">ℂ</button>
+      <button class="u-btn u-bold" data-char="𝔹" title="Booleans (B)">𝔹</button>
+      <button class="u-btn u-bold" data-char="𝔻" title="Dyadic rationals / D">𝔻</button>
+      <button class="u-btn u-bold" data-char="ⅆ" title="Differential d">ⅆ</button>
+
+      <!-- Blackboard Bold Full Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Full Blackboard Bold set">BB ▾</button>
+        <div class="u-dropdown-popover">
+          <div class="u-popover-title"><span>Blackboard Bold</span><span style="font-size:10px;color:#94a3b8;">Double-Struck</span></div>
+          <div class="u-popover-subtitle">Uppercase (A-Z)</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝔸">𝔸</button>
+            <button class="u-grid-btn" data-char="𝔹">𝔹</button>
+            <button class="u-grid-btn" data-char="ℂ">ℂ</button>
+            <button class="u-grid-btn" data-char="𝔻">𝔻</button>
+            <button class="u-grid-btn" data-char="𝔼">𝔼</button>
+            <button class="u-grid-btn" data-char="𝔽">𝔽</button>
+            <button class="u-grid-btn" data-char="𝔾">𝔾</button>
+            <button class="u-grid-btn" data-char="ℍ">ℍ</button>
+            <button class="u-grid-btn" data-char="𝕀">𝕀</button>
+            <button class="u-grid-btn" data-char="𝕁">𝕁</button>
+            <button class="u-grid-btn" data-char="𝕂">𝕂</button>
+            <button class="u-grid-btn" data-char="𝕃">𝕃</button>
+            <button class="u-grid-btn" data-char="𝕄">𝕄</button>
+            <button class="u-grid-btn" data-char="ℕ">ℕ</button>
+            <button class="u-grid-btn" data-char="𝕆">𝕆</button>
+            <button class="u-grid-btn" data-char="ℙ">ℙ</button>
+            <button class="u-grid-btn" data-char="ℚ">ℚ</button>
+            <button class="u-grid-btn" data-char="ℝ">ℝ</button>
+            <button class="u-grid-btn" data-char="𝕊">𝕊</button>
+            <button class="u-grid-btn" data-char="𝕋">𝕋</button>
+            <button class="u-grid-btn" data-char="𝕌">𝕌</button>
+            <button class="u-grid-btn" data-char="𝕍">𝕍</button>
+            <button class="u-grid-btn" data-char="𝕎">𝕎</button>
+            <button class="u-grid-btn" data-char="𝕏">𝕏</button>
+            <button class="u-grid-btn" data-char="𝕐">𝕐</button>
+            <button class="u-grid-btn" data-char="ℤ">ℤ</button>
+          </div>
+          <div class="u-popover-subtitle">Lowercase (a-z) & Digits</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝕒">𝕒</button>
+            <button class="u-grid-btn" data-char="𝕓">𝕓</button>
+            <button class="u-grid-btn" data-char="𝕔">𝕔</button>
+            <button class="u-grid-btn" data-char="𝕕">𝕕</button>
+            <button class="u-grid-btn" data-char="𝕖">𝕖</button>
+            <button class="u-grid-btn" data-char="𝕗">𝕗</button>
+            <button class="u-grid-btn" data-char="𝕘">𝕘</button>
+            <button class="u-grid-btn" data-char="𝕙">𝕙</button>
+            <button class="u-grid-btn" data-char="𝕚">𝕚</button>
+            <button class="u-grid-btn" data-char="𝕛">𝕛</button>
+            <button class="u-grid-btn" data-char="𝕜">𝕜</button>
+            <button class="u-grid-btn" data-char="𝕝">𝕝</button>
+            <button class="u-grid-btn" data-char="𝕞">𝕞</button>
+            <button class="u-grid-btn" data-char="𝕟">𝕟</button>
+            <button class="u-grid-btn" data-char="𝕠">𝕠</button>
+            <button class="u-grid-btn" data-char="𝕡">𝕡</button>
+            <button class="u-grid-btn" data-char="𝕢">𝕢</button>
+            <button class="u-grid-btn" data-char="𝕣">𝕣</button>
+            <button class="u-grid-btn" data-char="𝕤">𝕤</button>
+            <button class="u-grid-btn" data-char="𝕥">𝕥</button>
+            <button class="u-grid-btn" data-char="𝕦">𝕦</button>
+            <button class="u-grid-btn" data-char="𝕧">𝕧</button>
+            <button class="u-grid-btn" data-char="𝕨">𝕨</button>
+            <button class="u-grid-btn" data-char="𝕩">𝕩</button>
+            <button class="u-grid-btn" data-char="𝕪">𝕪</button>
+            <button class="u-grid-btn" data-char="𝕫">𝕫</button>
+            <button class="u-grid-btn" data-char="ⅆ">ⅆ</button>
+            <button class="u-grid-btn" data-char="𝟘">𝟘</button>
+            <button class="u-grid-btn" data-char="𝟙">𝟙</button>
+            <button class="u-grid-btn" data-char="𝟚">𝟚</button>
+            <button class="u-grid-btn" data-char="𝟛">𝟛</button>
+            <button class="u-grid-btn" data-char="𝟜">𝟜</button>
+            <button class="u-grid-btn" data-char="𝟝">𝟝</button>
+            <button class="u-grid-btn" data-char="𝟞">𝟞</button>
+            <button class="u-grid-btn" data-char="𝟟">𝟟</button>
+            <button class="u-grid-btn" data-char="𝟠">𝟠</button>
+            <button class="u-grid-btn" data-char="𝟡">𝟡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Script / Calligraphic Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Script / Calligraphic mathematical letters">𝒫 Script ▾</button>
+        <div class="u-dropdown-popover">
+          <div class="u-popover-title"><span>Script / Calligraphic</span><span style="font-size:10px;color:#94a3b8;">𝒜-𝓏</span></div>
+          <div class="u-popover-subtitle">Uppercase (A-Z)</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝒜">𝒜</button>
+            <button class="u-grid-btn" data-char="ℬ">ℬ</button>
+            <button class="u-grid-btn" data-char="𝒞">𝒞</button>
+            <button class="u-grid-btn" data-char="𝒟">𝒟</button>
+            <button class="u-grid-btn" data-char="ℰ">ℰ</button>
+            <button class="u-grid-btn" data-char="ℱ">ℱ</button>
+            <button class="u-grid-btn" data-char="𝒢">𝒢</button>
+            <button class="u-grid-btn" data-char="ℋ">ℋ</button>
+            <button class="u-grid-btn" data-char="ℐ">ℐ</button>
+            <button class="u-grid-btn" data-char="𝒥">𝒥</button>
+            <button class="u-grid-btn" data-char="𝒦">𝒦</button>
+            <button class="u-grid-btn" data-char="ℒ">ℒ</button>
+            <button class="u-grid-btn" data-char="ℳ">ℳ</button>
+            <button class="u-grid-btn" data-char="𝒩">𝒩</button>
+            <button class="u-grid-btn" data-char="𝒪">𝒪</button>
+            <button class="u-grid-btn" data-char="𝒫">𝒫</button>
+            <button class="u-grid-btn" data-char="𝒬">𝒬</button>
+            <button class="u-grid-btn" data-char="ℛ">ℛ</button>
+            <button class="u-grid-btn" data-char="𝒮">𝒮</button>
+            <button class="u-grid-btn" data-char="𝒯">𝒯</button>
+            <button class="u-grid-btn" data-char="𝒰">𝒰</button>
+            <button class="u-grid-btn" data-char="𝒱">𝒱</button>
+            <button class="u-grid-btn" data-char="𝒲">𝒲</button>
+            <button class="u-grid-btn" data-char="𝒳">𝒳</button>
+            <button class="u-grid-btn" data-char="𝒴">𝒴</button>
+            <button class="u-grid-btn" data-char="𝒵">𝒵</button>
+          </div>
+          <div class="u-popover-subtitle">Lowercase (a-z)</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝒶">𝒶</button>
+            <button class="u-grid-btn" data-char="𝒷">𝒷</button>
+            <button class="u-grid-btn" data-char="𝒸">𝒸</button>
+            <button class="u-grid-btn" data-char="𝒹">𝒹</button>
+            <button class="u-grid-btn" data-char="ℯ">ℯ</button>
+            <button class="u-grid-btn" data-char="𝒻">𝒻</button>
+            <button class="u-grid-btn" data-char="ℊ">ℊ</button>
+            <button class="u-grid-btn" data-char="𝒽">𝒽</button>
+            <button class="u-grid-btn" data-char="𝒾">𝒾</button>
+            <button class="u-grid-btn" data-char="𝒿">𝒿</button>
+            <button class="u-grid-btn" data-char="𝓀">𝓀</button>
+            <button class="u-grid-btn" data-char="𝓁">𝓁</button>
+            <button class="u-grid-btn" data-char="𝓂">𝓂</button>
+            <button class="u-grid-btn" data-char="𝓃">𝓃</button>
+            <button class="u-grid-btn" data-char="ℴ">ℴ</button>
+            <button class="u-grid-btn" data-char="𝓅">𝓅</button>
+            <button class="u-grid-btn" data-char="𝓆">𝓆</button>
+            <button class="u-grid-btn" data-char="𝓇">𝓇</button>
+            <button class="u-grid-btn" data-char="𝓈">𝓈</button>
+            <button class="u-grid-btn" data-char="𝓉">𝓉</button>
+            <button class="u-grid-btn" data-char="𝓊">𝓊</button>
+            <button class="u-grid-btn" data-char="𝓋">𝓋</button>
+            <button class="u-grid-btn" data-char="𝓌">𝓌</button>
+            <button class="u-grid-btn" data-char="𝓍">𝓍</button>
+            <button class="u-grid-btn" data-char="𝓎">𝓎</button>
+            <button class="u-grid-btn" data-char="𝓏">𝓏</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fraktur / Blackletter Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Fraktur / Blackletter mathematical letters">𝔉 Fraktur ▾</button>
+        <div class="u-dropdown-popover">
+          <div class="u-popover-title"><span>Fraktur / Blackletter</span><span style="font-size:10px;color:#94a3b8;">𝔄-𝔷</span></div>
+          <div class="u-popover-subtitle">Uppercase (A-Z)</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝔄">𝔄</button>
+            <button class="u-grid-btn" data-char="𝔅">𝔅</button>
+            <button class="u-grid-btn" data-char="ℭ">ℭ</button>
+            <button class="u-grid-btn" data-char="𝔇">𝔇</button>
+            <button class="u-grid-btn" data-char="𝔈">𝔈</button>
+            <button class="u-grid-btn" data-char="𝔉">𝔉</button>
+            <button class="u-grid-btn" data-char="𝔊">𝔊</button>
+            <button class="u-grid-btn" data-char="ℌ">ℌ</button>
+            <button class="u-grid-btn" data-char="ℑ">ℑ</button>
+            <button class="u-grid-btn" data-char="𝔍">𝔍</button>
+            <button class="u-grid-btn" data-char="𝔎">𝔎</button>
+            <button class="u-grid-btn" data-char="𝔏">𝔏</button>
+            <button class="u-grid-btn" data-char="𝔐">𝔐</button>
+            <button class="u-grid-btn" data-char="𝔑">𝔑</button>
+            <button class="u-grid-btn" data-char="𝔒">𝔒</button>
+            <button class="u-grid-btn" data-char="𝔓">𝔓</button>
+            <button class="u-grid-btn" data-char="𝔔">𝔔</button>
+            <button class="u-grid-btn" data-char="ℜ">ℜ</button>
+            <button class="u-grid-btn" data-char="𝔖">𝔖</button>
+            <button class="u-grid-btn" data-char="𝔗">𝔗</button>
+            <button class="u-grid-btn" data-char="𝔘">𝔘</button>
+            <button class="u-grid-btn" data-char="𝔙">𝔙</button>
+            <button class="u-grid-btn" data-char="𝔚">𝔚</button>
+            <button class="u-grid-btn" data-char="𝔛">𝔛</button>
+            <button class="u-grid-btn" data-char="𝔜">𝔜</button>
+            <button class="u-grid-btn" data-char="ℨ">ℨ</button>
+          </div>
+          <div class="u-popover-subtitle">Lowercase (a-z)</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="𝔞">𝔞</button>
+            <button class="u-grid-btn" data-char="𝔟">𝔟</button>
+            <button class="u-grid-btn" data-char="𝔠">𝔠</button>
+            <button class="u-grid-btn" data-char="𝔡">𝔡</button>
+            <button class="u-grid-btn" data-char="𝔢">𝔢</button>
+            <button class="u-grid-btn" data-char="𝔣">𝔣</button>
+            <button class="u-grid-btn" data-char="𝔤">𝔤</button>
+            <button class="u-grid-btn" data-char="𝔥">𝔥</button>
+            <button class="u-grid-btn" data-char="𝔦">𝔦</button>
+            <button class="u-grid-btn" data-char="𝔧">𝔧</button>
+            <button class="u-grid-btn" data-char="𝔨">𝔨</button>
+            <button class="u-grid-btn" data-char="𝔩">𝔩</button>
+            <button class="u-grid-btn" data-char="𝔪">𝔪</button>
+            <button class="u-grid-btn" data-char="𝔫">𝔫</button>
+            <button class="u-grid-btn" data-char="𝔬">𝔬</button>
+            <button class="u-grid-btn" data-char="𝔭">𝔭</button>
+            <button class="u-grid-btn" data-char="𝔮">𝔮</button>
+            <button class="u-grid-btn" data-char="𝔯">𝔯</button>
+            <button class="u-grid-btn" data-char="𝔰">𝔰</button>
+            <button class="u-grid-btn" data-char="𝔱">𝔱</button>
+            <button class="u-grid-btn" data-char="𝔲">𝔲</button>
+            <button class="u-grid-btn" data-char="𝔳">𝔳</button>
+            <button class="u-grid-btn" data-char="𝔴">𝔴</button>
+            <button class="u-grid-btn" data-char="𝔵">𝔵</button>
+            <button class="u-grid-btn" data-char="𝔶">𝔶</button>
+            <button class="u-grid-btn" data-char="𝔷">𝔷</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Greek Alphabet -->
+    <div class="u-section">
+      <span class="u-section-label">Greek:</span>
+      <button class="u-btn" data-char="α" title="alpha (α)">α</button>
+      <button class="u-btn" data-char="β" title="beta (β)">β</button>
+      <button class="u-btn" data-char="γ" title="gamma (γ)">γ</button>
+      <button class="u-btn" data-char="δ" title="delta (δ)">δ</button>
+      <button class="u-btn" data-char="ε" title="epsilon (ε)">ε</button>
+      <button class="u-btn" data-char="θ" title="theta (θ)">θ</button>
+      <button class="u-btn" data-char="λ" title="lambda (λ)">λ</button>
+      <button class="u-btn" data-char="μ" title="mu (μ)">μ</button>
+      <button class="u-btn" data-char="π" title="pi (π)">π</button>
+      <button class="u-btn" data-char="σ" title="sigma (σ)">σ</button>
+      <button class="u-btn" data-char="τ" title="tau (τ)">τ</button>
+      <button class="u-btn" data-char="φ" title="phi (φ)">φ</button>
+      <button class="u-btn" data-char="ψ" title="psi (ψ)">ψ</button>
+      <button class="u-btn" data-char="ω" title="omega (ω)">ω</button>
+      <button class="u-btn" data-char="Δ" title="Delta (Δ)">Δ</button>
+      <button class="u-btn" data-char="Γ" title="Gamma (Γ)">Γ</button>
+      <button class="u-btn" data-char="Ω" title="Omega (Ω)">Ω</button>
+
+      <!-- Complete Greek Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Complete Greek alphabet & symbols">Greek ▾</button>
+        <div class="u-dropdown-popover">
+          <div class="u-popover-title"><span>Greek Alphabet</span><span style="font-size:10px;color:#94a3b8;">All Letters & Variants</span></div>
+          <div class="u-popover-subtitle">Lowercase</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="α" title="alpha">α</button>
+            <button class="u-grid-btn" data-char="β" title="beta">β</button>
+            <button class="u-grid-btn" data-char="γ" title="gamma">γ</button>
+            <button class="u-grid-btn" data-char="δ" title="delta">δ</button>
+            <button class="u-grid-btn" data-char="ε" title="epsilon">ε</button>
+            <button class="u-grid-btn" data-char="ζ" title="zeta">ζ</button>
+            <button class="u-grid-btn" data-char="η" title="eta">η</button>
+            <button class="u-grid-btn" data-char="θ" title="theta">θ</button>
+            <button class="u-grid-btn" data-char="ι" title="iota">ι</button>
+            <button class="u-grid-btn" data-char="κ" title="kappa">κ</button>
+            <button class="u-grid-btn" data-char="λ" title="lambda">λ</button>
+            <button class="u-grid-btn" data-char="μ" title="mu">μ</button>
+            <button class="u-grid-btn" data-char="ν" title="nu">ν</button>
+            <button class="u-grid-btn" data-char="ξ" title="xi">ξ</button>
+            <button class="u-grid-btn" data-char="ο" title="omicron">ο</button>
+            <button class="u-grid-btn" data-char="π" title="pi">π</button>
+            <button class="u-grid-btn" data-char="ρ" title="rho">ρ</button>
+            <button class="u-grid-btn" data-char="ς" title="final sigma">ς</button>
+            <button class="u-grid-btn" data-char="σ" title="sigma">σ</button>
+            <button class="u-grid-btn" data-char="τ" title="tau">τ</button>
+            <button class="u-grid-btn" data-char="υ" title="upsilon">υ</button>
+            <button class="u-grid-btn" data-char="φ" title="phi">φ</button>
+            <button class="u-grid-btn" data-char="χ" title="chi">χ</button>
+            <button class="u-grid-btn" data-char="ψ" title="psi">ψ</button>
+            <button class="u-grid-btn" data-char="ω" title="omega">ω</button>
+          </div>
+          <div class="u-popover-subtitle">Uppercase</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="Α">Α</button>
+            <button class="u-grid-btn" data-char="Β">Β</button>
+            <button class="u-grid-btn" data-char="Γ">Γ</button>
+            <button class="u-grid-btn" data-char="Δ">Δ</button>
+            <button class="u-grid-btn" data-char="Ε">Ε</button>
+            <button class="u-grid-btn" data-char="Ζ">Ζ</button>
+            <button class="u-grid-btn" data-char="Η">Η</button>
+            <button class="u-grid-btn" data-char="Θ">Θ</button>
+            <button class="u-grid-btn" data-char="Ι">Ι</button>
+            <button class="u-grid-btn" data-char="Κ">Κ</button>
+            <button class="u-grid-btn" data-char="Λ">Λ</button>
+            <button class="u-grid-btn" data-char="Μ">Μ</button>
+            <button class="u-grid-btn" data-char="Ν">Ν</button>
+            <button class="u-grid-btn" data-char="Ξ">Ξ</button>
+            <button class="u-grid-btn" data-char="Ο">Ο</button>
+            <button class="u-grid-btn" data-char="Π">Π</button>
+            <button class="u-grid-btn" data-char="Ρ">Ρ</button>
+            <button class="u-grid-btn" data-char="Σ">Σ</button>
+            <button class="u-grid-btn" data-char="Τ">Τ</button>
+            <button class="u-grid-btn" data-char="Υ">Υ</button>
+            <button class="u-grid-btn" data-char="Φ">Φ</button>
+            <button class="u-grid-btn" data-char="Χ">Χ</button>
+            <button class="u-grid-btn" data-char="Ψ">Ψ</button>
+            <button class="u-grid-btn" data-char="Ω">Ω</button>
+          </div>
+          <div class="u-popover-subtitle">Variants & Symbols</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="ϕ" title="phi symbol">ϕ</button>
+            <button class="u-grid-btn" data-char="ϵ" title="lunate epsilon">ϵ</button>
+            <button class="u-grid-btn" data-char="ϑ" title="theta symbol">ϑ</button>
+            <button class="u-grid-btn" data-char="ϰ" title="kappa symbol">ϰ</button>
+            <button class="u-grid-btn" data-char="ϖ" title="pi symbol / omega-pi">ϖ</button>
+            <button class="u-grid-btn" data-char="ϱ" title="rho symbol">ϱ</button>
+            <button class="u-grid-btn" data-char="ϒ" title="upsilon with hook">ϒ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Logic & Sets -->
+    <div class="u-section">
+      <span class="u-section-label">Logic & Sets:</span>
       <button class="u-btn" data-char="→" title="Right arrow">→</button>
       <button class="u-btn" data-char="⇒" title="Implies">⇒</button>
       <button class="u-btn" data-char="↔" title="Left-right arrow">↔</button>
@@ -607,10 +1178,7 @@
       <button class="u-btn" data-char="∨" title="Or (logical disjunction)">∨</button>
       <button class="u-btn" data-char="∀" title="For all">∀</button>
       <button class="u-btn" data-char="∃" title="There exists">∃</button>
-
-      <span class="palette-sep"></span>
-
-      <!-- Set Theory & Relations -->
+      <span class="u-divider"></span>
       <button class="u-btn" data-char="∈" title="Element of">∈</button>
       <button class="u-btn" data-char="∉" title="Not an element of">∉</button>
       <button class="u-btn" data-char="⊆" title="Subset of or equal to">⊆</button>
@@ -624,25 +1192,74 @@
       <button class="u-btn" data-char="≈" title="Approximately equal">≈</button>
       <button class="u-btn" data-char="≡" title="Identical / congruent">≡</button>
 
-      <span class="palette-sep"></span>
+      <!-- Extended Logic & Sets Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Extended logic, arrows & relations">Logic ▾</button>
+        <div class="u-dropdown-popover">
+          <div class="u-popover-title"><span>Logic & Set Theory</span><span style="font-size:10px;color:#94a3b8;">Extended</span></div>
+          <div class="u-popover-subtitle">Proof & Deduction</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="⊢" title="Turnstile / proves">⊢</button>
+            <button class="u-grid-btn" data-char="⊨" title="Double turnstile / models">⊨</button>
+            <button class="u-grid-btn" data-char="⊣" title="Left turnstile">⊣</button>
+            <button class="u-grid-btn" data-char="⊩" title="Forces">⊩</button>
+            <button class="u-grid-btn" data-char="⊤" title="Top / true / tautology">⊤</button>
+            <button class="u-grid-btn" data-char="⊥" title="Bottom / false / contradiction">⊥</button>
+            <button class="u-grid-btn" data-char="∴" title="Therefore">∴</button>
+            <button class="u-grid-btn" data-char="∵" title="Because">∵</button>
+            <button class="u-grid-btn" data-char="∄" title="There does not exist">∄</button>
+            <button class="u-grid-btn" data-char="∎" title="Q.E.D. / Halmos">∎</button>
+            <button class="u-grid-btn" data-char="⊪" title="True">⊪</button>
+            <button class="u-grid-btn" data-char="⊬" title="Does not prove">⊬</button>
+            <button class="u-grid-btn" data-char="⊭" title="Does not model">⊭</button>
+            <button class="u-grid-btn" data-char="⊕" title="XOR / direct sum">⊕</button>
+          </div>
+          <div class="u-popover-subtitle">Extended Arrows & Mappings</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="←" title="Left arrow">←</button>
+            <button class="u-grid-btn" data-char="⇐" title="Left double arrow">⇐</button>
+            <button class="u-grid-btn" data-char="⇑" title="Up double arrow">⇑</button>
+            <button class="u-grid-btn" data-char="⇓" title="Down double arrow">⇓</button>
+            <button class="u-grid-btn" data-char="⇄" title="Right-left arrows">⇄</button>
+            <button class="u-grid-btn" data-char="⇅" title="Up-down arrows">⇅</button>
+            <button class="u-grid-btn" data-char="↺" title="Counterclockwise">↺</button>
+            <button class="u-grid-btn" data-char="↻" title="Clockwise">↻</button>
+            <button class="u-grid-btn" data-char="↛" title="Does not lead to">↛</button>
+            <button class="u-grid-btn" data-char="⇏" title="Does not imply">⇏</button>
+            <button class="u-grid-btn" data-char="↪" title="Hook right / injection">↪</button>
+            <button class="u-grid-btn" data-char="↩" title="Hook left">↩</button>
+            <button class="u-grid-btn" data-char="↠" title="Two heads / surjection">↠</button>
+            <button class="u-grid-btn" data-char="⇝" title="Squiggly arrow">⇝</button>
+          </div>
+          <div class="u-popover-subtitle">Extended Relations & Sets</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="⊇" title="Superset of or equal">⊇</button>
+            <button class="u-grid-btn" data-char="⊃" title="Proper superset">⊃</button>
+            <button class="u-grid-btn" data-char="⊄" title="Not subset">⊄</button>
+            <button class="u-grid-btn" data-char="⊅" title="Not superset">⊅</button>
+            <button class="u-grid-btn" data-char="⊈" title="Neither subset nor equal">⊈</button>
+            <button class="u-grid-btn" data-char="⊊" title="Subset not equal">⊊</button>
+            <button class="u-grid-btn" data-char="⊋" title="Superset not equal">⊋</button>
+            <button class="u-grid-btn" data-char="℘" title="Power set (Weierstrass p)">℘</button>
+            <button class="u-grid-btn" data-char="∖" title="Set minus">∖</button>
+            <button class="u-grid-btn" data-char="∁" title="Complement">∁</button>
+            <button class="u-grid-btn" data-char="∝" title="Proportional to">∝</button>
+            <button class="u-grid-btn" data-char="≔" title="Defined as / colon equal">≔</button>
+            <button class="u-grid-btn" data-char="≅" title="Congruent / isomorphic">≅</button>
+            <button class="u-grid-btn" data-char="≇" title="Not isomorphic">≇</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <!-- Number Systems / Blackboard -->
-      <button class="u-btn u-bold" data-char="ℝ" title="Real numbers (R)">ℝ</button>
-      <button class="u-btn u-bold" data-char="ℕ" title="Natural numbers (N)">ℕ</button>
-      <button class="u-btn u-bold" data-char="ℤ" title="Integers (Z)">ℤ</button>
-      <button class="u-btn u-bold" data-char="ℚ" title="Rational numbers (Q)">ℚ</button>
-      <button class="u-btn u-bold" data-char="ℂ" title="Complex numbers (C)">ℂ</button>
-      <button class="u-btn u-bold" data-char="𝔹" title="Booleans (B)">𝔹</button>
-      <button class="u-btn u-bold" data-char="𝔻" title="Dyadic rationals / Blackboard D (D)">𝔻</button>
-      <button class="u-btn u-bold" data-char="ⅆ" title="Differential d (d)">ⅆ</button>
-
-      <span class="palette-sep"></span>
-
-      <!-- Math Operators & Calculus -->
+    <!-- 4. Operators & Brackets -->
+    <div class="u-section">
+      <span class="u-section-label">Ops & Delims:</span>
       <button class="u-btn" data-char="·" title="Center dot">·</button>
       <button class="u-btn" data-char="×" title="Multiplication">×</button>
       <button class="u-btn" data-char="÷" title="Division">÷</button>
       <button class="u-btn" data-char="±" title="Plus-minus">±</button>
+      <button class="u-btn" data-char="∓" title="Minus-plus">∓</button>
       <button class="u-btn" data-char="√" title="Square root">√</button>
       <button class="u-btn" data-char="∞" title="Infinity">∞</button>
       <button class="u-btn" data-char="∂" title="Partial derivative">∂</button>
@@ -650,10 +1267,7 @@
       <button class="u-btn" data-char="∫" title="Integral">∫</button>
       <button class="u-btn" data-char="∑" title="Summation">∑</button>
       <button class="u-btn" data-char="∏" title="Product">∏</button>
-
-      <span class="palette-sep"></span>
-
-      <!-- Brackets & Delimiters -->
+      <span class="u-divider"></span>
       <button class="u-btn" data-char="⟨" title="Left angle bracket">⟨</button>
       <button class="u-btn" data-char="⟩" title="Right angle bracket">⟩</button>
       <button class="u-btn" data-char="⟦" title="Left double bracket">⟦</button>
@@ -663,27 +1277,62 @@
       <button class="u-btn" data-char="⌊" title="Left floor">⌊</button>
       <button class="u-btn" data-char="⌋" title="Right floor">⌋</button>
 
-      <span class="palette-sep"></span>
-
-      <!-- Common Greek Letters -->
-      <button class="u-btn" data-char="α" title="alpha">α</button>
-      <button class="u-btn" data-char="β" title="beta">β</button>
-      <button class="u-btn" data-char="γ" title="gamma">γ</button>
-      <button class="u-btn" data-char="δ" title="delta">δ</button>
-      <button class="u-btn" data-char="ε" title="epsilon">ε</button>
-      <button class="u-btn" data-char="θ" title="theta">θ</button>
-      <button class="u-btn" data-char="λ" title="lambda">λ</button>
-      <button class="u-btn" data-char="μ" title="mu">μ</button>
-      <button class="u-btn" data-char="π" title="pi">π</button>
-      <button class="u-btn" data-char="σ" title="sigma">σ</button>
-      <button class="u-btn" data-char="τ" title="tau">τ</button>
-      <button class="u-btn" data-char="φ" title="phi">φ</button>
-      <button class="u-btn" data-char="ψ" title="psi">ψ</button>
-      <button class="u-btn" data-char="ω" title="omega">ω</button>
-      <button class="u-btn" data-char="Δ" title="Delta">Δ</button>
-      <button class="u-btn" data-char="Γ" title="Gamma">Γ</button>
-      <button class="u-btn" data-char="Ω" title="Omega">Ω</button>
+      <!-- Extended Operators & Delimiters Dropdown -->
+      <div class="u-dropdown">
+        <button class="u-dropdown-btn" title="Extended calculus, algebra & bracket operators">Ops ▾</button>
+        <div class="u-dropdown-popover popover-right">
+          <div class="u-popover-title"><span>Operators & Delimiters</span><span style="font-size:10px;color:#94a3b8;">Extended</span></div>
+          <div class="u-popover-subtitle">Calculus & Integrals</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="∬" title="Double integral">∬</button>
+            <button class="u-grid-btn" data-char="∭" title="Triple integral">∭</button>
+            <button class="u-grid-btn" data-char="∮" title="Contour integral">∮</button>
+            <button class="u-grid-btn" data-char="∯" title="Surface integral">∯</button>
+            <button class="u-grid-btn" data-char="∰" title="Volume integral">∰</button>
+            <button class="u-grid-btn" data-char="∛" title="Cube root">∛</button>
+            <button class="u-grid-btn" data-char="∜" title="Fourth root">∜</button>
+          </div>
+          <div class="u-popover-subtitle">Algebraic & Tensor Operators</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="⊗" title="Tensor product">⊗</button>
+            <button class="u-grid-btn" data-char="⊕" title="Direct sum">⊕</button>
+            <button class="u-grid-btn" data-char="⊙" title="Circled dot / Hadamard">⊙</button>
+            <button class="u-grid-btn" data-char="⊚" title="Circled ring">⊚</button>
+            <button class="u-grid-btn" data-char="⊞" title="Squared plus">⊞</button>
+            <button class="u-grid-btn" data-char="⊠" title="Squared times">⊠</button>
+            <button class="u-grid-btn" data-char="⋆" title="Star operator">⋆</button>
+            <button class="u-grid-btn" data-char="∘" title="Composition / ring">∘</button>
+            <button class="u-grid-btn" data-char="∙" title="Bullet operator">∙</button>
+            <button class="u-grid-btn" data-char="⋄" title="Diamond operator">⋄</button>
+            <button class="u-grid-btn" data-char="⋅" title="Dot operator">⋅</button>
+            <button class="u-grid-btn" data-char="⋇" title="Division times">⋇</button>
+            <button class="u-grid-btn" data-char="⋈" title="Natural join / bowtie">⋈</button>
+            <button class="u-grid-btn" data-char="⋉" title="Left semijoin">⋉</button>
+          </div>
+          <div class="u-popover-subtitle">Physics & Constants</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="ℏ" title="Reduced Planck constant (h-bar)">ℏ</button>
+            <button class="u-grid-btn" data-char="ℵ" title="Aleph">ℵ</button>
+            <button class="u-grid-btn" data-char="ℶ" title="Beth">ℶ</button>
+            <button class="u-grid-btn" data-char="†" title="Dagger / Hermitian conjugate">†</button>
+            <button class="u-grid-btn" data-char="‡" title="Double dagger">‡</button>
+            <button class="u-grid-btn" data-char="⟂" title="Perpendicular / orthogonal">⟂</button>
+            <button class="u-grid-btn" data-char="∥" title="Parallel">∥</button>
+          </div>
+          <div class="u-popover-subtitle">Specialized Delimiters</div>
+          <div class="u-grid">
+            <button class="u-grid-btn" data-char="⟪" title="Left mathematical angle bracket">⟪</button>
+            <button class="u-grid-btn" data-char="⟫" title="Right mathematical angle bracket">⟫</button>
+            <button class="u-grid-btn" data-char="⦃" title="Left white curly bracket">⦃</button>
+            <button class="u-grid-btn" data-char="⦄" title="Right white curly bracket">⦄</button>
+            <button class="u-grid-btn" data-char="⦅" title="Left white parenthesis">⦅</button>
+            <button class="u-grid-btn" data-char="⦆" title="Right white parenthesis">⦆</button>
+            <button class="u-grid-btn" data-char="‖" title="Double vertical line / norm">‖</button>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 
   <!-- Main Workspace -->
@@ -1376,48 +2025,307 @@ ${bodyContent}
       }
     });
 
-    // Formatting Toolbar Handlers (Composer style)
-    document.getElementById('tb-bold').onclick = () => document.execCommand('bold');
-    document.getElementById('tb-italic').onclick = () => document.execCommand('italic');
-    document.getElementById('tb-underline').onclick = () => document.execCommand('underline');
-    document.getElementById('tb-strike').onclick = () => document.execCommand('strikeThrough');
-    document.getElementById('tb-p').onclick = () => document.execCommand('formatBlock', false, 'p');
-    document.getElementById('tb-h1').onclick = () => document.execCommand('formatBlock', false, 'h1');
-    document.getElementById('tb-h2').onclick = () => document.execCommand('formatBlock', false, 'h2');
-    document.getElementById('tb-h3').onclick = () => document.execCommand('formatBlock', false, 'h3');
-    document.getElementById('tb-ul').onclick = () => document.execCommand('insertUnorderedList');
-    document.getElementById('tb-ol').onclick = () => document.execCommand('insertOrderedList');
-    document.getElementById('tb-align-left').onclick = () => document.execCommand('justifyLeft');
-    document.getElementById('tb-align-center').onclick = () => document.execCommand('justifyCenter');
-    document.getElementById('tb-align-right').onclick = () => document.execCommand('justifyRight');
+    // Helper to insert HTML fragment at WYSIWYG selection
+    function insertHtmlAtWysiwygCursor(html) {
+      wysiwygPane.focus();
+      let inserted = false;
+      try {
+        inserted = document.execCommand('insertHTML', false, html);
+      } catch (e) {
+        console.warn('execCommand insertHTML fallback', e);
+      }
+      if (!inserted) {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const r = sel.getRangeAt(0);
+          r.deleteContents();
+          const temp = document.createElement('div');
+          temp.innerHTML = html;
+          const frag = document.createDocumentFragment();
+          let node;
+          while ((node = temp.firstChild)) frag.appendChild(node);
+          r.insertNode(frag);
+        }
+      }
+    }
 
-    document.getElementById('tb-link').onclick = () => {
-      const url = prompt('Enter hyperlink URL:', 'https://');
-      if (url) document.execCommand('createLink', false, url);
-    };
+    // Unified Command Execution for Both Editors (WYSIWYG & Source Textarea)
+    function execEditorCommand(action, opt = null) {
+      if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+        sourceTextarea.focus();
+        const start = sourceTextarea.selectionStart;
+        const end = sourceTextarea.selectionEnd;
+        const val = sourceTextarea.value;
+        const selText = val.substring(start, end);
 
-    document.getElementById('tb-image').onclick = () => {
-      const src = prompt('Enter image URL or path:');
-      if (src) document.execCommand('insertImage', false, src);
-    };
+        let before = '';
+        let after = '';
+        let replacement = null;
 
-    document.getElementById('tb-hr').onclick = () => {
-      document.execCommand('insertHorizontalRule');
-    };
+        switch (action) {
+          case 'bold': before = '<b>'; after = '</b>'; break;
+          case 'italic': before = '<i>'; after = '</i>'; break;
+          case 'underline': before = '<u>'; after = '</u>'; break;
+          case 'strike': before = '<s>'; after = '</s>'; break;
+          case 'code': before = '<code>'; after = '</code>'; break;
+          case 'formatBlock': {
+            const tag = (opt || 'p').toLowerCase();
+            before = `<${tag}>`; after = `</${tag}>`;
+            break;
+          }
+          case 'justifyLeft':
+          case 'justifyCenter':
+          case 'justifyRight': {
+            const align = action.replace('justify', '').toLowerCase();
+            before = `<div style="text-align: ${align};">`; after = '</div>';
+            break;
+          }
+          case 'insertUnorderedList': {
+            const lines = selText ? selText.split('\n') : ['List item'];
+            replacement = '<ul>\n' + lines.map(l => `  <li>${l}</li>`).join('\n') + '\n</ul>\n';
+            break;
+          }
+          case 'insertOrderedList': {
+            const lines = selText ? selText.split('\n') : ['List item'];
+            replacement = '<ol>\n' + lines.map(l => `  <li>${l}</li>`).join('\n') + '\n</ol>\n';
+            break;
+          }
+          case 'indent': {
+            if (selText) {
+              const lines = selText.split('\n');
+              replacement = lines.map(l => '  ' + l).join('\n');
+            } else {
+              replacement = '  ';
+            }
+            break;
+          }
+          case 'outdent': {
+            if (selText) {
+              const lines = selText.split('\n');
+              replacement = lines.map(l => l.replace(/^ {1,2}/, '')).join('\n');
+            }
+            break;
+          }
+          case 'blockquote':
+            before = '<blockquote>\n'; after = '\n</blockquote>';
+            break;
+          case 'details':
+            replacement = `<details style="margin: 12px 0; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">\n  <summary style="cursor: pointer; font-weight: 600;">${selText || 'Summary Title'}</summary>\n  <p style="margin-top: 8px;">Details content...</p>\n</details>\n`;
+            break;
+          case 'callout-note':
+            replacement = `<div style="background: #f1f5f9; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;">\n  <strong>Note:</strong> ${selText || 'Content...'}\n</div>\n`;
+            break;
+          case 'callout-def':
+            replacement = `<div style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;">\n  <strong>Definition:</strong> ${selText || 'Term definition...'}\n</div>\n`;
+            break;
+          case 'insert-link': {
+            const url = opt || prompt('Enter hyperlink URL:', 'https://');
+            if (url) replacement = `<a href="${url}">${selText || url}</a>`;
+            break;
+          }
+          case 'insert-image': {
+            const src = opt || prompt('Enter image URL or path:');
+            if (src) replacement = `<img src="${src}" alt="Image" style="max-width: 100%; height: auto;" />`;
+            break;
+          }
+          case 'insert-hr':
+            replacement = '\n<hr style="margin: 20px 0; border: none; border-top: 1px solid #cbd5e1;" />\n';
+            break;
+          case 'insert-table':
+            replacement = opt;
+            break;
+          case 'removeFormat':
+            replacement = selText.replace(/<[^>]*>/g, '');
+            break;
+        }
+
+        if (replacement === null) {
+          const inner = selText || 'text';
+          replacement = before + inner + after;
+        }
+
+        sourceTextarea.value = val.substring(0, start) + replacement + val.substring(end);
+        sourceTextarea.selectionStart = start;
+        sourceTextarea.selectionEnd = start + replacement.length;
+        saveEditorSelection();
+        setDirty(true);
+        if (activeMode === 'split') {
+          wysiwygPane.innerHTML = sourceTextarea.value;
+          attachDrawioListeners();
+          typesetMath();
+        }
+      } else {
+        // WYSIWYG Mode
+        wysiwygPane.focus();
+        switch (action) {
+          case 'bold': document.execCommand('bold'); break;
+          case 'italic': document.execCommand('italic'); break;
+          case 'underline': document.execCommand('underline'); break;
+          case 'strike': document.execCommand('strikeThrough'); break;
+          case 'code': {
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount) {
+              const r = sel.getRangeAt(0);
+              const el = document.createElement('code');
+              el.textContent = r.toString() || 'code';
+              r.deleteContents();
+              r.insertNode(el);
+            }
+            break;
+          }
+          case 'formatBlock': document.execCommand('formatBlock', false, opt || 'p'); break;
+          case 'justifyLeft': document.execCommand('justifyLeft'); break;
+          case 'justifyCenter': document.execCommand('justifyCenter'); break;
+          case 'justifyRight': document.execCommand('justifyRight'); break;
+          case 'insertUnorderedList': document.execCommand('insertUnorderedList'); break;
+          case 'insertOrderedList': document.execCommand('insertOrderedList'); break;
+          case 'indent': document.execCommand('indent'); break;
+          case 'outdent': document.execCommand('outdent'); break;
+          case 'foreColor': {
+            const color = prompt('Enter color name or hex code (e.g. #0284c7 or red):', '#0284c7');
+            if (color) document.execCommand('foreColor', false, color);
+            break;
+          }
+          case 'hiliteColor': {
+            const color = prompt('Enter highlight color name or hex code (e.g. #fef08a):', '#fef08a');
+            if (color) document.execCommand('hiliteColor', false, color);
+            break;
+          }
+          case 'removeFormat': document.execCommand('removeFormat'); break;
+          case 'blockquote': document.execCommand('formatBlock', false, 'blockquote'); break;
+          case 'details': {
+            const sel = window.getSelection();
+            const text = (sel && sel.rangeCount) ? sel.getRangeAt(0).toString() : 'Summary Title';
+            insertHtmlAtWysiwygCursor(`<details style="margin: 12px 0; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;"><summary style="cursor: pointer; font-weight: 600;">${text}</summary><p style="margin-top: 8px;">Details content...</p></details><p><br></p>`);
+            break;
+          }
+          case 'callout-note': {
+            const sel = window.getSelection();
+            const text = (sel && sel.rangeCount) ? sel.getRangeAt(0).toString() : 'Important context or note here.';
+            insertHtmlAtWysiwygCursor(`<div style="background: #f1f5f9; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0;"><strong>Note:</strong> ${text}</div><p><br></p>`);
+            break;
+          }
+          case 'callout-def': {
+            const sel = window.getSelection();
+            const text = (sel && sel.rangeCount) ? sel.getRangeAt(0).toString() : 'Definition of terms and axioms.';
+            insertHtmlAtWysiwygCursor(`<div style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0;"><strong>Definition:</strong> ${text}</div><p><br></p>`);
+            break;
+          }
+          case 'insert-link': {
+            const url = opt || prompt('Enter hyperlink URL:', 'https://');
+            if (url) document.execCommand('createLink', false, url);
+            break;
+          }
+          case 'insert-image': {
+            const src = opt || prompt('Enter image URL or path:');
+            if (src) document.execCommand('insertImage', false, src);
+            break;
+          }
+          case 'insert-hr': document.execCommand('insertHorizontalRule'); break;
+          case 'insert-table': {
+            if (opt) insertHtmlAtWysiwygCursor(opt);
+            break;
+          }
+        }
+        saveEditorSelection();
+        setDirty(true);
+        if (activeMode === 'split') {
+          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
+      }
+    }
+
+    // Interactive HTML Table Inserter
+    function promptInsertTable() {
+      const rows = parseInt(prompt('Number of rows (including header):', '3'), 10) || 3;
+      const cols = parseInt(prompt('Number of columns:', '3'), 10) || 3;
+      if (rows <= 0 || cols <= 0) return;
+
+      let ths = '';
+      for (let c = 1; c <= cols; c++) {
+        ths += `<th style="padding: 8px 12px; border: 1px solid #cbd5e1; background: #f8fafc; font-weight: 600; text-align: left;">Header ${c}</th>`;
+      }
+      let bodyRows = '';
+      for (let r = 1; r < rows; r++) {
+        let tds = '';
+        for (let c = 1; c <= cols; c++) {
+          tds += `<td style="padding: 8px 12px; border: 1px solid #cbd5e1;">Cell ${r},${c}</td>`;
+        }
+        bodyRows += `<tr>${tds}</tr>\n`;
+      }
+
+      const tableHtml = `\n<table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;" border="1">\n  <thead>\n    <tr>${ths}</tr>\n  </thead>\n  <tbody>\n    ${bodyRows}  </tbody>\n</table>\n<p><br></p>\n`;
+
+      execEditorCommand('insert-table', tableHtml);
+      showToast(`✓ Table inserted (${rows}×${cols})`);
+    }
+
+    // Primary formatting button bindings
+    document.getElementById('tb-bold').onclick = () => execEditorCommand('bold');
+    document.getElementById('tb-italic').onclick = () => execEditorCommand('italic');
+    document.getElementById('tb-align-left').onclick = () => execEditorCommand('justifyLeft');
+    document.getElementById('tb-align-center').onclick = () => execEditorCommand('justifyCenter');
+    document.getElementById('tb-align-right').onclick = () => execEditorCommand('justifyRight');
+    document.getElementById('tb-ul').onclick = () => execEditorCommand('insertUnorderedList');
+    document.getElementById('tb-ol').onclick = () => execEditorCommand('insertOrderedList');
+    document.getElementById('tb-outdent').onclick = () => execEditorCommand('outdent');
+    document.getElementById('tb-indent').onclick = () => execEditorCommand('indent');
+
+    // Dropdown toggles & outside click dismiss
+    document.querySelectorAll('.tb-dropdown').forEach(dropdown => {
+      const trigger = dropdown.querySelector('.tb-btn');
+      if (!trigger) return;
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('.tb-dropdown.open').forEach(d => d.classList.remove('open'));
+        if (!isOpen) dropdown.classList.add('open');
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.tb-dropdown.open').forEach(d => d.classList.remove('open'));
+    });
+
+    // Dropdown item action dispatcher
+    document.querySelectorAll('.tb-dropdown-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = item.getAttribute('data-action');
+        const val = item.getAttribute('data-val');
+        const dropdown = item.closest('.tb-dropdown');
+        if (dropdown) dropdown.classList.remove('open');
+
+        if (action === 'insert-table') {
+          promptInsertTable();
+        } else if (action === 'format-block') {
+          execEditorCommand('formatBlock', val);
+        } else if (action) {
+          execEditorCommand(action, val);
+        }
+      });
+    });
 
     // Text Size Handlers (dropdown and A-/A+ buttons)
     const tbFontSize = document.getElementById('tb-font-size');
     tbFontSize.onchange = () => {
       const val = tbFontSize.value;
       if (val) {
-        wysiwygPane.focus();
-        document.execCommand('fontSize', false, val);
-        setDirty(true);
+        if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+          execEditorCommand('font-size', val);
+        } else {
+          wysiwygPane.focus();
+          document.execCommand('fontSize', false, val);
+          setDirty(true);
+        }
         tbFontSize.value = '';
       }
     };
 
     function stepFontSize(delta) {
+      if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+        return;
+      }
       wysiwygPane.focus();
       let current = parseInt(document.queryCommandValue('fontSize')) || 3;
       let next = Math.max(1, Math.min(7, current + delta));
@@ -1427,6 +2335,39 @@ ${bodyContent}
 
     document.getElementById('tb-size-down').onclick = () => stepFontSize(-1);
     document.getElementById('tb-size-up').onclick = () => stepFontSize(1);
+
+    // Zoom Controls (RLS)
+    let currentZoom = 1.0;
+    const zoomLevels = [0.75, 0.85, 1.0, 1.15, 1.25, 1.5, 1.75, 2.0];
+
+    function setZoom(zoom) {
+      currentZoom = Math.max(0.6, Math.min(2.5, Math.round(zoom * 100) / 100));
+      document.getElementById('btn-zoom-reset').textContent = `${Math.round(currentZoom * 100)}%`;
+      wysiwygPane.style.zoom = currentZoom;
+      sourceTextarea.style.fontSize = `${Math.round(13 * currentZoom)}px`;
+    }
+
+    document.getElementById('btn-zoom-in').onclick = () => {
+      const next = zoomLevels.find(z => z > currentZoom + 0.01) || (currentZoom + 0.25);
+      setZoom(next);
+    };
+
+    document.getElementById('btn-zoom-out').onclick = () => {
+      const prev = [...zoomLevels].reverse().find(z => z < currentZoom - 0.01) || (currentZoom - 0.25);
+      setZoom(prev);
+    };
+
+    document.getElementById('btn-zoom-reset').onclick = () => {
+      setZoom(1.0);
+    };
+
+    // Tab key handling in source textarea (Tab to indent, Shift+Tab to outdent)
+    sourceTextarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        execEditorCommand(e.shiftKey ? 'outdent' : 'indent');
+      }
+    });
 
     // Spell Check Toggle Handler
     let spellCheckActive = true;
@@ -1722,8 +2663,8 @@ ${bodyContent}
       }
     }
 
-    // Unicode character palette buttons
-    document.querySelectorAll('.u-btn').forEach(btn => {
+    // Unicode character palette buttons (direct strip buttons + popover grid buttons)
+    document.querySelectorAll('.u-btn, .u-grid-btn').forEach(btn => {
       btn.addEventListener('mousedown', (e) => {
         e.preventDefault();
         saveEditorSelection();
@@ -1733,6 +2674,22 @@ ${bodyContent}
         const ch = btn.getAttribute('data-char');
         if (ch) insertTextAtCursor(ch);
       };
+    });
+
+    // Unicode popovers toggle & outside click dismiss
+    document.querySelectorAll('.u-dropdown').forEach(dropdown => {
+      const trigger = dropdown.querySelector('.u-dropdown-btn');
+      if (!trigger) return;
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('.u-dropdown.open, .tb-dropdown.open').forEach(d => d.classList.remove('open'));
+        if (!isOpen) dropdown.classList.add('open');
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.u-dropdown.open').forEach(d => d.classList.remove('open'));
     });
 
     // -----------------------------------------------------------------

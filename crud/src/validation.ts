@@ -89,8 +89,14 @@ export async function validateAndBuildMetadata(): Promise<AppMetadata> {
                 (fk) => fk.source_table === tableConfig.table && fk.source_column === colConfig.column
             );
 
-            const isEnum = enumMap.hasOwnProperty(dbCol.udt_name);
-            const enumValues = isEnum ? enumMap[dbCol.udt_name] : [];
+            const isExplicitOptions = Array.isArray(colConfig.options) && colConfig.options.length > 0;
+            const isDbEnum = enumMap.hasOwnProperty(dbCol.udt_name);
+            const isEnum = isExplicitOptions || isDbEnum;
+            const enumValues = isExplicitOptions
+                ? (typeof colConfig.options![0] === 'string'
+                    ? (colConfig.options as string[])
+                    : (colConfig.options as { value: string; label: string }[]).map((o) => o.value))
+                : (isDbEnum ? enumMap[dbCol.udt_name] : []);
 
             const enrichedCol: EnrichedColumn = {
                 ...colConfig,

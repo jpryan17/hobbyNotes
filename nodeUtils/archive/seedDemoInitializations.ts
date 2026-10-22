@@ -207,19 +207,22 @@ export const DEMO_INITIALIZATIONS: DemoInitRecord[] = [
 
 export async function seedInteractiveDemos(): Promise<void> {
     console.log(`[seedDemoInitializations] Seeding ${DEMO_INITIALIZATIONS.length} demo initializations into interactive_demos...`);
-
     for (const d of DEMO_INITIALIZATIONS) {
+        const exp = d.init_packet?.exp || null;
+        const st = d.init_packet?.status || (d.init_packet?.isTautology !== undefined ? (d.init_packet.isTautology ? 'taut' : 'cont') : null);
         await pool.query(
-            `INSERT INTO interactive_demos (demo_key, engine, mode, title, description, init_packet, updated_at)
-             VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
+            `INSERT INTO interactive_demos (demo_key, engine, mode, title, description, expression, status, init_packet, updated_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP)
              ON CONFLICT (demo_key) DO UPDATE SET
                 engine = EXCLUDED.engine,
                 mode = EXCLUDED.mode,
                 title = EXCLUDED.title,
                 description = EXCLUDED.description,
+                expression = EXCLUDED.expression,
+                status = EXCLUDED.status,
                 init_packet = EXCLUDED.init_packet,
                 updated_at = CURRENT_TIMESTAMP;`,
-            [d.demo_key, d.engine, d.mode, d.title, d.description, JSON.stringify(d.init_packet)]
+            [d.demo_key, d.engine, d.mode, d.title, d.description, exp, st, JSON.stringify(d.init_packet)]
         );
     }
 

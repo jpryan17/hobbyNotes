@@ -1,0 +1,251 @@
+/**
+ * Canonical Interactive Demos & Propositions Catalog
+ * Generated automatically by nodeUtils/buildCatalog.ts
+ */
+
+export interface DemoCatalogItem {
+  id: number;
+  engine: 'ttd' | 'btd' | 'bid' | 'fsd' | string;
+  mode: string;
+  title: string;
+  description?: string;
+  expression?: string;
+  status?: 'taut' | 'cont' | 'unsat' | string;
+  init_packet?: any;
+}
+
+export const DEMO_CATALOG: DemoCatalogItem[] = [
+  {
+    "id": 2,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "De Morgan's First Law",
+    "description": "Equivalence between negation of conjunction and disjunction of negations: ¬(p ∧ q) ↔ (¬p ∨ ¬q).",
+    "expression": "n[paq]e[nponq]",
+    "status": "taut",
+    "init_packet": {
+      "exp": "n[paq]e[nponq]",
+      "fmt": "¬(𝑝 ∧ 𝑞) ↔ (¬𝑝 ∨ ¬𝑞)",
+      "variables": [
+        "p",
+        "q"
+      ],
+      "isTautology": true
+    }
+  },
+  {
+    "id": 3,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Modus Ponens (Rule of Detachment)",
+    "description": "Classical deductive validity: if p and p → q are true, then q must be true: ((p → q) ∧ p) → q.",
+    "expression": "[[piq]ap]iq",
+    "status": "taut",
+    "init_packet": {
+      "exp": "[[piq]ap]iq",
+      "fmt": "((𝑝 → 𝑞) ∧ 𝑝) → 𝑞",
+      "variables": [
+        "p",
+        "q"
+      ],
+      "isTautology": true
+    }
+  },
+  {
+    "id": 4,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Law of Excluded Middle",
+    "description": "Classical dichotomy: for any proposition p, either p or ¬p holds: p ∨ ¬p.",
+    "expression": "ponp",
+    "status": "taut",
+    "init_packet": {
+      "exp": "ponp",
+      "fmt": "𝑝 ∨ ¬𝑝",
+      "variables": [
+        "p"
+      ],
+      "isTautology": true
+    }
+  },
+  {
+    "id": 5,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Principle of Non-Contradiction",
+    "description": "No statement can be both true and false simultaneously: ¬(p ∧ ¬p).",
+    "expression": "n[panp]",
+    "status": "taut",
+    "init_packet": {
+      "exp": "n[panp]",
+      "fmt": "¬(𝑝 ∧ ¬𝑝)",
+      "variables": [
+        "p"
+      ],
+      "isTautology": true
+    }
+  },
+  {
+    "id": 6,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Material Conditional (Implication)",
+    "description": "Standard truth table for conditional statement p → q.",
+    "expression": "piq",
+    "status": "cont",
+    "init_packet": {
+      "exp": "piq",
+      "fmt": "𝑝 → 𝑞",
+      "variables": [
+        "p",
+        "q"
+      ],
+      "isTautology": false
+    }
+  },
+  {
+    "id": 7,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Material Biconditional (Equivalence)",
+    "description": "Standard truth table for equivalence statement p ↔ q.",
+    "expression": "peq",
+    "status": "cont",
+    "init_packet": {
+      "exp": "peq",
+      "fmt": "𝑝 ↔ 𝑞",
+      "variables": [
+        "p",
+        "q"
+      ],
+      "isTautology": false
+    }
+  },
+  {
+    "id": 8,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Hypothetical Syllogism (Chain Rule)",
+    "description": "Transitivity of implication: ((p → q) ∧ (q → r)) → (p → r).",
+    "expression": "[[piq]a[qir]]i[pir]",
+    "status": "taut",
+    "init_packet": {
+      "exp": "[[piq]a[qir]]i[pir]",
+      "fmt": "((𝑝 → 𝑞) ∧ (𝑞 → 𝑟)) → (𝑝 → 𝑟)",
+      "variables": [
+        "p",
+        "q",
+        "r"
+      ],
+      "isTautology": true
+    }
+  },
+  {
+    "id": 9,
+    "engine": "btd",
+    "mode": "order",
+    "title": "Surreal Tree Total Order",
+    "description": "Visual navigation of the binary tree total order comparison algorithm on Surreal numbers.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "maxDepth": 4,
+      "defaultLeft": "[-]",
+      "defaultRight": "[+]"
+    }
+  },
+  {
+    "id": 10,
+    "engine": "btd",
+    "mode": "addition",
+    "title": "Conway Inductive Tree Addition (+)",
+    "description": "Inductive construction of Conway Surreal addition on binary branching trees.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "defaultA": "[+]",
+      "defaultB": "[-]",
+      "maxDepth": 4
+    }
+  },
+  {
+    "id": 11,
+    "engine": "btd",
+    "mode": "multiplication",
+    "title": "Conway Inductive Tree Multiplication (·)",
+    "description": "Recursive cross-product construction of Conway Surreal multiplication.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "maxDepth": 3
+    }
+  },
+  {
+    "id": 12,
+    "engine": "btd",
+    "mode": "labeled",
+    "title": "Labeled Dyadic Sequences",
+    "description": "Structural labeling of paths in the binary tree corresponding to dyadic rationals.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "maxDepth": 5
+    }
+  },
+  {
+    "id": 13,
+    "engine": "bid",
+    "mode": "subdivision",
+    "title": "Dyadic Interval Subdivision",
+    "description": "Recursive interval bisection and standard part projection on dyadic intervals.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "interval": [
+        0,
+        1
+      ],
+      "bisections": 4
+    }
+  },
+  {
+    "id": 14,
+    "engine": "bid",
+    "mode": "rotor",
+    "title": "Unit Rotor Circle Projection",
+    "description": "Geometric projection of unit rotor components onto the dyadic trigonometric unit circle.",
+    "expression": null,
+    "status": null,
+    "init_packet": {
+      "initialAngle": 0.785398
+    }
+  },
+  {
+    "id": 15,
+    "engine": "fsd",
+    "mode": "stage_visualizer",
+    "title": "Formal Structure Stage Visualizer",
+    "description": "Interactive visualizer for the hierarchical stages of Conway surreal tree construction.",
+    "expression": "r",
+    "status": null,
+    "init_packet": {
+      "exp": "r",
+      "slots": "x₁,x₂",
+      "stage": "4",
+      "stages": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "quantifiers": "∀x₁:ℕ ∃x₂:ℕ"
+    }
+  }
+];
+
+export function getDemoCatalogItem(idOrTitle: string | number): DemoCatalogItem | undefined {
+  const raw = String(idOrTitle).trim().toLowerCase();
+  const isNum = /^\d+$/.test(raw);
+  const num = isNum ? parseInt(raw, 10) : -1;
+  return DEMO_CATALOG.find(d => (isNum && d.id === num) || d.title.toLowerCase() === raw || String(d.id) === raw);
+}

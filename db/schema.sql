@@ -189,11 +189,12 @@ COMMENT ON TABLE pseudocode_algorithms IS 'Middle Way structured pseudocode algo
 
 CREATE TABLE interactive_demos (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    demo_key VARCHAR(64) UNIQUE NOT NULL,        -- e.g. 'btd_order', 'btd_addition', 'btd_labeled', 'bid_euler'
     engine VARCHAR(32) NOT NULL,                 -- 'btd' (Binary Tree), 'bid' (Binary Interval), 'ttd' (Truth Table)
     mode VARCHAR(64) NOT NULL,                   -- e.g. 'order', 'addition', 'multiplication', 'isomorphism', 'labeled'
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    expression TEXT,                             -- Propositional formula (for TTD) or canonical expression
+    status VARCHAR(16),                          -- 'taut' | 'cont' | 'unsat' (for TTD)
     init_packet JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -304,6 +305,8 @@ CREATE TABLE segment_references (
     statement_id BIGINT REFERENCES formal_statements(id) ON DELETE CASCADE,
     equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
     demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
+    algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
+    ref_type VARCHAR(16) NOT NULL DEFAULT 'fs',  -- 'fs', 'stencil', 'ttd', 'demo', 'algo'
     initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator', 'demo'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
     anchor_text TEXT,
@@ -369,7 +372,6 @@ CREATE INDEX idx_formal_statements_scaffold ON formal_statements(scaffold_key);
 CREATE INDEX idx_formal_statements_pseudo_algo ON formal_statements(pseudo_algo_id);
 CREATE INDEX idx_formal_statements_demo ON formal_statements(demo_id);
 
-CREATE INDEX idx_interactive_demos_key ON interactive_demos(demo_key);
 CREATE INDEX idx_interactive_demos_engine ON interactive_demos(engine);
 
 CREATE INDEX idx_directed_equations_key ON directed_equations(equation_key);

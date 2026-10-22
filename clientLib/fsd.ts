@@ -962,16 +962,18 @@ export class FSD extends PXEParent {
             this.slots[0].assignedVar = "x₁";
             this.slots[1].assignedVar = "y₁";
           }
-        } else if (exp === "ras" || exp === "r" || exp === "s" || exp === "k" || exp === "nk") {
+        } else if (exp === "ras" || exp === "r" || exp === "s" || exp === "k" || exp === "nk" || exp === "l" || exp === "u" || exp === "w" || exp === "c" || exp === "j") {
           this.slots.forEach((s, idx) => {
             s.assignedVar = (idx % 2 === 0) ? "x₁" : "x₂";
           });
         } else {
+          let yCount = 1;
           this.slots.forEach((s, idx) => {
             if (s.domainType === "𝒫(ℕ)") {
-              s.assignedVar = "y₁";
+              s.assignedVar = yCount === 1 ? "y₁" : (yCount === 2 ? "y₂" : `y${yCount}`);
+              yCount++;
             } else {
-              s.assignedVar = idx === 0 ? "x₁" : "x₂";
+              s.assignedVar = (idx % 2 === 0) ? "x₁" : "x₂";
             }
           });
         }
@@ -1186,8 +1188,11 @@ export class FSD extends PXEParent {
 
   getVariableDomainValues(v: string, context: { [k: string]: number }, N: number): number[] {
     const spec = this.getVarDomain(v);
+    if (spec.base === "𝒫(ℕ)") {
+      const start = spec.filterPred === "NONEMPTY" ? 1 : 0;
+      return Array.from({ length: 16 - start }, (_, i) => i + start);
+    }
     const allN = Array.from({ length: N }, (_, i) => i + 1);
-    if (spec.base === "𝒫(ℕ)") return allN;
     if (!spec.filterPred) return allN;
     if (spec.filterPred === "EVEN") return allN.filter((x) => x % 2 === 0);
     if (spec.filterPred === "GT") {
@@ -1273,15 +1278,31 @@ export class FSD extends PXEParent {
       } else if (ch === "k") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `EQ(${v0}, ${v1})` : "=";
+        display += this.stage >= 2 ? `(${v0} = ${v1})` : "=";
       } else if (ch === "l") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `LE(${v0}, ${v1})` : "≤";
+        display += this.stage >= 2 ? `(${v0} ≤ ${v1})` : "≤";
       } else if (ch === "u") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         display += this.stage >= 2 ? `SUCC(${v0}, ${v1})` : "+1";
+      } else if (ch === "b") {
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        display += this.stage >= 2 ? `(${v0} ⊆ ${v1})` : "⊆";
+      } else if (ch === "w") {
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        display += this.stage >= 2 ? `(${v0} ≈ ${v1})` : "≈";
+      } else if (ch === "c") {
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        display += this.stage >= 2 ? `(${v0} ∣ ${v1})` : "∣";
+      } else if (ch === "j") {
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+        display += this.stage >= 2 ? `(${v0} ≔ ${v1})` : "≔";
       } else if (ch === "[") {
         display += "[\u2009";
       } else if (ch === "]") {
@@ -1297,7 +1318,21 @@ export class FSD extends PXEParent {
       } else if (ch === "e") {
         display += "\u205f\u205f↔\u205f\u205f";
       } else {
-        display += ch;
+        const pred = PredicateRegistry.getPredicate(ch);
+        if (pred) {
+          if (pred.arity === 1) {
+            const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+            display += this.stage >= 2 ? (pred.displayTemplate ? pred.displayTemplate.replace("${s1}", v0) : `${pred.symbol}(${v0})`) : pred.symbol;
+          } else if (pred.arity === 2) {
+            const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+            const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
+            display += this.stage >= 2 ? (pred.displayTemplate ? pred.displayTemplate.replace("${s1}", v0).replace("${s2}", v1) : `(${v0} ${pred.symbol} ${v1})`) : pred.symbol;
+          } else {
+            display += pred.symbol;
+          }
+        } else {
+          display += ch;
+        }
       }
     }
 
@@ -1621,6 +1656,10 @@ export class FSD extends PXEParent {
       else if (ch === "k") cols.push({ label: "=", val: predValues["k"] ?? true });
       else if (ch === "l") cols.push({ label: "≤", val: predValues["l"] ?? true });
       else if (ch === "u") cols.push({ label: "+1", val: predValues["u"] ?? true });
+      else if (ch === "b") cols.push({ label: "⊆", val: predValues["b"] ?? true });
+      else if (ch === "w") cols.push({ label: "≈", val: predValues["w"] ?? true });
+      else if (ch === "c") cols.push({ label: "∣", val: predValues["c"] ?? true });
+      else if (ch === "j") cols.push({ label: "≔", val: predValues["j"] ?? true });
       else if (ch === "a") {
         const left = cols[cols.length - 1]?.val ?? true;
         const rightCode = exp[i + 1];
@@ -1649,6 +1688,11 @@ export class FSD extends PXEParent {
         cols.push({ label: "[", val: true });
       } else if (ch === "]") {
         cols.push({ label: "]", val: true });
+      } else {
+        const dynPred = PredicateRegistry.getPredicate(ch);
+        if (dynPred) {
+          cols.push({ label: dynPred.symbol, val: predValues[ch] ?? true });
+        }
       }
     }
 
@@ -1657,7 +1701,7 @@ export class FSD extends PXEParent {
 
   evaluateFullStatement(): boolean {
     const N = this.gridResolution;
-    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && !this.pxe.exp.includes("k") && !this.pxe.exp.includes("l") && !this.pxe.exp.includes("u") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
+    const isSingleVar = this.quantifierBindings.length <= 1;
 
     if (this.slots.some((s) => s.assignedVar?.startsWith("y"))) {
       const predM = this.evaluatePredicate("∈");
@@ -1773,7 +1817,7 @@ export class FSD extends PXEParent {
   buildFormalArgument(finalStatementTruth: boolean, colLabel?: string, domX1?: DomainSpec, domX2?: DomainSpec): FormalArgument {
     const expStr = this.formatFSDExp(this.pxe.exp);
     const N = Math.min(this.gridResolution || 16, 64);
-    const isSingleVar = !this.pxe.exp.includes("r") && !this.pxe.exp.includes("s") && !this.pxe.exp.includes("k") && !this.pxe.exp.includes("l") && !this.pxe.exp.includes("u") && this.slots.every((s) => s.assignedVar === "x₁" || s.assignedVar === "GT5" || s.assignedVar === "LT10" || s.assignedVar === "EMPTY" || s.assignedVar === "∅");
+    const isSingleVar = this.quantifierBindings.length <= 1;
 
     // Discrete Successor / Transect Step
     if (this.pxe.exp.includes("u")) {
@@ -1871,6 +1915,23 @@ export class FSD extends PXEParent {
         ],
         conclusion: "Divisibility is reflexive on natural numbers.",
         leanSnippet: `-- Divisibility reflexivity certified\ntheorem fsd_dvd_refl : ∀ (x : Nat), x ∣ x := by intro x; exact Nat.dvd_refl x`
+      };
+    }
+
+    // Directed Equality / Assignment ≔
+    if (this.pxe.exp.includes("j")) {
+      return {
+        title: "Formal Reasoning (Directed Equality ≔)",
+        verdict: finalStatementTruth,
+        target: expStr,
+        expression: expStr,
+        testOrPickLabel: "Scenario",
+        testOrPickValue: "Equality evaluation on the domain coordinate lattice",
+        checks: [
+          { label: "Assignment Evaluation", question: "Do the left and right values evaluate identically?", passed: finalStatementTruth, detail: finalStatementTruth ? "→ Yes" : "→ No" }
+        ],
+        conclusion: finalStatementTruth ? "Directed equality assignment verified." : "Directed equality rejected (mismatched coordinates).",
+        leanSnippet: `-- Directed equality verified\ntheorem fsd_assign_refl : ∀ (x : Nat), x = x := by intro x; rfl`
       };
     }
 
@@ -2374,4 +2435,10 @@ export let fsd: FSD;
 
 export function setFSD() {
   fsd = new FSD();
+  // Asynchronously sync with DB predicates if backend is online
+  PredicateRegistry.loadFromDatabase().then((loaded) => {
+    if (loaded && fsd && fsd.stage === 1) {
+      fsd.renderStageControls();
+    }
+  }).catch(() => {});
 }

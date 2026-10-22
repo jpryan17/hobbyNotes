@@ -183,10 +183,11 @@ export const tables: TableConfig[] = [
         label: 'Interactive Sandbox Demos',
         singularLabel: 'Interactive Demo',
         columns: [
-            { column: 'demo_key', label: 'Demo Key', canModify: true, len: 32 },
             { column: 'title', label: 'Demo Title', canModify: true, len: 45 },
-            { column: 'engine', label: 'Engine Type (ttd/btd/bid/fsd)', canModify: true, len: 16 },
-            { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
+            { column: 'engine', label: 'Engine Type', canModify: false, len: 16 },
+            { column: 'mode', label: 'Canvas / Operational Mode', canModify: false, len: 24 },
+            { column: 'expression', label: 'Proposition Formula / Expression', canModify: true, len: 45 },
+            { column: 'status', label: 'Logical Status', canModify: true, len: 16, options: ['taut', 'cont', 'unsat'] },
             { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
             { column: 'description', label: 'Instructional Description', canModify: true, len: 60, rows: 3 }
         ]
@@ -201,10 +202,12 @@ export const tables: TableConfig[] = [
         singularLabel: 'Segment Reference',
         columns: [
             { column: 'segment_id', label: 'Source Segment Chapter', canModify: false, len: 24 },
-            { column: 'ref_type', label: 'Reference Tag Type (fs/eq/pseudo)', canModify: true, len: 18 },
+            { column: 'ref_type', label: 'Reference Tag Type (fs/stencil/ttd/demo/algo)', canModify: true, len: 18 },
             { column: 'target_key', label: 'Target Referenced Key', canModify: true, len: 32 },
             { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
             { column: 'equation_id', label: 'Linked Stencil Equation', canModify: true, len: 24 },
+            { column: 'demo_id', label: 'Linked Interactive Demo / TTD', canModify: true, len: 24 },
+            { column: 'algo_id', label: 'Linked Pseudocode Algorithm', canModify: true, len: 24 },
             { column: 'anchor_text', label: 'Embedded Anchor Text', canModify: true, len: 36 },
             { column: 'occurrence_order', label: 'Occurrence Order (#)', canModify: true, len: 8 }
         ]
@@ -243,6 +246,7 @@ export const dependents: Dependent[] = [
     { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_index', 'symbol', 'label'] },
     { table: 'curriculum_nav_items', parent: 'apps', displayColumns: ['sequence_order', 'topic'] },
     { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'target_key'] },
+    { table: 'segment_references', parent: 'interactive_demos', displayColumns: ['ref_type', 'segment_id'] },
     { table: 'segment_prerequisites', parent: 'segments', displayColumns: ['prerequisite_segment_id', 'prereq_type'] }
 ];
 

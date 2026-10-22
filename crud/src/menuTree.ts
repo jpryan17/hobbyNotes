@@ -1,6 +1,7 @@
 // crud/src/menuTree.ts
 // Hierarchical Navigation Tree specification for Middle Way Mathematics CRUD Studio.
-// Mimics the canonical curriculum course index and organizes custom elements and auxiliary tables.
+// Organizes curriculum index entries, formal statements (axioms, theorems, directed equalities),
+// and interactive demo initializations, with first-class Subject Domain tagging & filtering.
 
 export interface MenuItem {
     label: string;
@@ -9,6 +10,7 @@ export interface MenuItem {
     filterKind?: { column: string; value: string };
     instanceKey?: string;
     instanceId?: string | number;
+    subject?: string; // 'logic' | 'numbers_trees' | 'algebra' | 'analysis' | 'physics' | 'information' | 'all'
     children?: MenuItem[];
 }
 
@@ -23,123 +25,138 @@ export const navigationMenuTree: MenuItem[] = [
         children: [
             {
                 label: 'Introduction & Overview',
+                subject: 'all',
                 children: [
-                    { label: 'Mission & Epistemology', typeKey: 'curriculum_nav_item', instanceKey: 'introduction' },
-                    { label: 'The Three Architectural Models', typeKey: 'curriculum_nav_item', instanceKey: 'modelsOverview' },
-                    { label: 'Conceptual History & Methodological Notes', typeKey: 'curriculum_nav_item', instanceKey: 'conceptualHistoryIntro' }
+                    { label: 'Mission & Epistemology', typeKey: 'curriculum_nav_item', instanceKey: 'introduction', subject: 'all' },
+                    { label: 'The Three Architectural Models', typeKey: 'curriculum_nav_item', instanceKey: 'modelsOverview', subject: 'all' },
+                    { label: 'Conceptual History & Methodological Notes', typeKey: 'curriculum_nav_item', instanceKey: 'conceptualHistoryIntro', subject: 'all' }
                 ]
             },
             {
                 label: 'Level 1: Logic & Number',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'level1Overview' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'level1Overview', subject: 'logic' },
                     {
                         label: 'Propositional Logic',
+                        subject: 'logic',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'propLogicIntro' },
-                            { label: 'Truth Tables & Paradoxes', typeKey: 'curriculum_nav_item', instanceKey: 'propLogicLecture' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'propLogicIntro', subject: 'logic' },
+                            { label: 'Truth Tables & Paradoxes', typeKey: 'curriculum_nav_item', instanceKey: 'propLogicLecture', subject: 'logic' }
                         ]
                     },
                     {
                         label: 'Formal Statements',
+                        subject: 'logic',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsIntro' },
-                            { label: 'Sets, Tuples & Constructors', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsLecture1' },
-                            { label: 'Algebra of Sets', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsLecture2' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsIntro', subject: 'logic' },
+                            { label: 'Sets, Tuples & Constructors', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsLecture1', subject: 'logic' },
+                            { label: 'Algebra of Sets', typeKey: 'curriculum_nav_item', instanceKey: 'formalStatementsLecture2', subject: 'logic' }
                         ]
                     },
                     {
                         label: 'Numbers & Conway Trees',
+                        subject: 'numbers_trees',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'numbersIntro' },
-                            { label: 'Binary Sequences & Counting', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture1' },
-                            { label: 'Surreal Number Line & Growth', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture2' },
-                            { label: 'Infinitesimal Arithmetic & STEM Spaces', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture3' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'numbersIntro', subject: 'numbers_trees' },
+                            { label: 'Binary Sequences & Counting', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture1', subject: 'numbers_trees' },
+                            { label: 'Surreal Number Line & Growth', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture2', subject: 'numbers_trees' },
+                            { label: 'Infinitesimal Arithmetic & STEM Spaces', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture3', subject: 'numbers_trees' }
                         ]
                     }
                 ]
             },
             {
                 label: 'Level 2: Algebraic Structure & Linearity',
+                subject: 'algebra',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'lamOverview' },
-                    { label: 'Sequences & Progressions', typeKey: 'curriculum_nav_item', instanceKey: 'sequencesAndSums' },
-                    { label: 'Vector Foundations Overview', typeKey: 'curriculum_nav_item', instanceKey: 'vectorFoundationsIntro' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'lamOverview', subject: 'algebra' },
+                    { label: 'Sequences & Progressions', typeKey: 'curriculum_nav_item', instanceKey: 'sequencesAndSums', subject: 'algebra' },
+                    { label: 'Vector Foundations Overview', typeKey: 'curriculum_nav_item', instanceKey: 'vectorFoundationsIntro', subject: 'algebra' },
                     {
                         label: 'Linear Algebra & Symmetries',
+                        subject: 'algebra',
                         children: [
-                            { label: 'Emergent Groups & Fields', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture1' },
-                            { label: 'Structure-Preserving Maps', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture2' },
-                            { label: 'Vector Spaces & Duality', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture3' }
+                            { label: 'Emergent Groups & Fields', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture1', subject: 'algebra' },
+                            { label: 'Structure-Preserving Maps', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture2', subject: 'algebra' },
+                            { label: 'Vector Spaces & Duality', typeKey: 'curriculum_nav_item', instanceKey: 'vectorsLecture3', subject: 'algebra' }
                         ]
                     }
                 ]
             },
             {
                 label: 'Level 3: Continuum & Calculus',
+                subject: 'analysis',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DIntro' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DIntro', subject: 'analysis' },
                     {
                         label: '1D Analysis',
+                        subject: 'analysis',
                         children: [
-                            { label: 'Continuum & Continuity', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture1' },
-                            { label: 'Derivatives & Linearity', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture2' },
-                            { label: 'Accumulation & Calculus', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture3' }
+                            { label: 'Continuum & Continuity', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture1', subject: 'analysis' },
+                            { label: 'Derivatives & Linearity', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture2', subject: 'analysis' },
+                            { label: 'Accumulation & Calculus', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DLecture3', subject: 'analysis' }
                         ]
                     },
                     {
                         label: '2D Analysis',
+                        subject: 'analysis',
                         children: [
-                            { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DIntro' },
-                            { label: '2D Grid & Conformal Maps', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture1' },
-                            { label: 'Contour Integrals & Residues', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture2' },
-                            { label: 'State Evolution & Phase', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture3' }
+                            { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DIntro', subject: 'analysis' },
+                            { label: '2D Grid & Conformal Maps', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture1', subject: 'analysis' },
+                            { label: 'Contour Integrals & Residues', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture2', subject: 'analysis' },
+                            { label: 'State Evolution & Phase', typeKey: 'curriculum_nav_item', instanceKey: 'analysis2DLecture3', subject: 'analysis' }
                         ]
                     }
                 ]
             },
             {
                 label: 'Level 4: Space & Growth',
+                subject: 'analysis',
                 children: [
-                    { label: 'Trigonometry & Rotor Foundations', typeKey: 'curriculum_nav_item', instanceKey: 'stemTrigFoundations' },
+                    { label: 'Trigonometry & Rotor Foundations', typeKey: 'curriculum_nav_item', instanceKey: 'stemTrigFoundations', subject: 'analysis' },
                     {
                         label: 'Transcendental Engine',
+                        subject: 'analysis',
                         children: [
-                            { label: 'Exponential & Logarithmic Foundations', typeKey: 'curriculum_nav_item', instanceKey: 'stemExpLogFoundations' },
-                            { label: 'Circular Dynamics & Trigonometric Derivatives', typeKey: 'curriculum_nav_item', instanceKey: 'stemTrigDerivatives' }
+                            { label: 'Exponential & Logarithmic Foundations', typeKey: 'curriculum_nav_item', instanceKey: 'stemExpLogFoundations', subject: 'analysis' },
+                            { label: 'Circular Dynamics & Trigonometric Derivatives', typeKey: 'curriculum_nav_item', instanceKey: 'stemTrigDerivatives', subject: 'analysis' }
                         ]
                     }
                 ]
             },
             {
                 label: 'Level 5: Quantum & Information',
+                subject: 'information',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'level5Overview' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'level5Overview', subject: 'information' },
                     {
                         label: 'Bayesian Inference',
+                        subject: 'information',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceIntro' },
-                            { label: 'Normalized Probability Space', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture1' },
-                            { label: 'Conditional Probability & Bayes Filter', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture2' },
-                            { label: 'Sequential Updating & Evidence Streams', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture3' },
-                            { label: 'State Spaces & Entropy', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture4' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceIntro', subject: 'information' },
+                            { label: 'Normalized Probability Space', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture1', subject: 'information' },
+                            { label: 'Conditional Probability & Bayes Filter', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture2', subject: 'information' },
+                            { label: 'Sequential Updating & Evidence Streams', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture3', subject: 'information' },
+                            { label: 'State Spaces & Entropy', typeKey: 'curriculum_nav_item', instanceKey: 'bayesianInferenceLecture4', subject: 'information' }
                         ]
                     },
                     {
                         label: 'Quantum Logic',
+                        subject: 'information',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicIntro' },
-                            { label: 'Three Polarizers & Venn Failure', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture1' },
-                            { label: 'Complex Amplitudes & Projection', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture2' },
-                            { label: 'Orthomodular Lattice Geometry', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture3' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicIntro', subject: 'information' },
+                            { label: 'Three Polarizers & Venn Failure', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture1', subject: 'information' },
+                            { label: 'Complex Amplitudes & Projection', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture2', subject: 'information' },
+                            { label: 'Orthomodular Lattice Geometry', typeKey: 'curriculum_nav_item', instanceKey: 'quantumLogicLecture3', subject: 'information' }
                         ]
                     },
                     {
                         label: 'Quantum Bayesian Inference',
+                        subject: 'information',
                         children: [
-                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceIntro' },
-                            { label: 'Density Operators & Lüders Rule', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceLecture1' },
-                            { label: 'Entanglement & Macroscopic Emergence', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceLecture2' }
+                            { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceIntro', subject: 'information' },
+                            { label: 'Density Operators & Lüders Rule', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceLecture1', subject: 'information' },
+                            { label: 'Entanglement & Macroscopic Emergence', typeKey: 'curriculum_nav_item', instanceKey: 'quantumBayesianInferenceLecture2', subject: 'information' }
                         ]
                     }
                 ]
@@ -147,48 +164,52 @@ export const navigationMenuTree: MenuItem[] = [
             {
                 label: 'Level 6: Applied Seminars',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'satelliteSeminarsIntro' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'satelliteSeminarsIntro', subject: 'physics' },
                     {
                         label: 'Applied Physics',
+                        subject: 'physics',
                         children: [
-                            { label: 'Newtonian Kinematics & Conservation', typeKey: 'curriculum_nav_item', instanceKey: 'stemNewtonianBridge' },
-                            { label: '1D Heat Diffusion', typeKey: 'curriculum_nav_item', instanceKey: 'stemHeatDiffusion' }
+                            { label: 'Newtonian Kinematics & Conservation', typeKey: 'curriculum_nav_item', instanceKey: 'stemNewtonianBridge', subject: 'physics' },
+                            { label: '1D Heat Diffusion', typeKey: 'curriculum_nav_item', instanceKey: 'stemHeatDiffusion', subject: 'physics' }
                         ]
                     },
                     {
                         label: 'Mini-Seminars',
+                        subject: 'analysis',
                         children: [
-                            { label: 'Fourier Transforms', typeKey: 'curriculum_nav_item', instanceKey: 'fourierTransformSeminar' },
-                            { label: 'Halo Soup & Cosmology', typeKey: 'curriculum_nav_item', instanceKey: 'haloSoupSeminar' },
-                            { label: 'Holographic Principle & Boundary Codings', typeKey: 'curriculum_nav_item', instanceKey: 'holographicPrincipleSeminar' },
-                            { label: 'Higher Successors & Transfinite Hierarchies', typeKey: 'curriculum_nav_item', instanceKey: 'higherSuccessorsSeminar' },
-                            { label: 'Cosmology as Information', typeKey: 'curriculum_nav_item', instanceKey: 'cosmologyAsInformation' }
+                            { label: 'Fourier Transforms', typeKey: 'curriculum_nav_item', instanceKey: 'fourierTransformSeminar', subject: 'analysis' },
+                            { label: 'Halo Soup & Cosmology', typeKey: 'curriculum_nav_item', instanceKey: 'haloSoupSeminar', subject: 'analysis' },
+                            { label: 'Holographic Principle & Boundary Codings', typeKey: 'curriculum_nav_item', instanceKey: 'holographicPrincipleSeminar', subject: 'physics' },
+                            { label: 'Higher Successors & Transfinite Hierarchies', typeKey: 'curriculum_nav_item', instanceKey: 'higherSuccessorsSeminar', subject: 'numbers_trees' },
+                            { label: 'Cosmology as Information', typeKey: 'curriculum_nav_item', instanceKey: 'cosmologyAsInformation', subject: 'information' }
                         ]
                     },
                     {
                         label: 'Satellite Masterclasses',
+                        subject: 'physics',
                         children: [
-                            { label: 'Particle Zoo Logic', typeKey: 'curriculum_nav_item', instanceKey: 'particleZooSeminar' },
-                            { label: 'Quantum Entanglement & Tensor Networks', typeKey: 'curriculum_nav_item', instanceKey: 'quantumEntanglementSeminar' },
-                            { label: 'Algebraic Geometry on Dyadic Rings', typeKey: 'curriculum_nav_item', instanceKey: 'algebraicGeometrySeminar' }
+                            { label: 'Particle Zoo Logic', typeKey: 'curriculum_nav_item', instanceKey: 'particleZooSeminar', subject: 'physics' },
+                            { label: 'Quantum Entanglement & Tensor Networks', typeKey: 'curriculum_nav_item', instanceKey: 'quantumEntanglementSeminar', subject: 'information' },
+                            { label: 'Algebraic Geometry on Dyadic Rings', typeKey: 'curriculum_nav_item', instanceKey: 'algebraicGeometrySeminar', subject: 'numbers_trees' }
                         ]
                     }
                 ]
             },
             {
                 label: 'Research & Proposals',
+                subject: 'all',
                 children: [
-                    { label: 'Lean 4 General Education Curriculum', typeKey: 'curriculum_nav_item', instanceKey: 'lean4GenEdProposal' },
-                    { label: 'Dual-Agent Academic Pair Programming', typeKey: 'curriculum_nav_item', instanceKey: 'dualAgentAcademicProposal' },
-                    { label: 'Minimal Axiomatic Core for General Science', typeKey: 'curriculum_nav_item', instanceKey: 'minimalAxiomaticCoreProposal' }
+                    { label: 'Lean 4 General Education Curriculum', typeKey: 'curriculum_nav_item', instanceKey: 'lean4GenEdProposal', subject: 'all' },
+                    { label: 'Dual-Agent Academic Pair Programming', typeKey: 'curriculum_nav_item', instanceKey: 'dualAgentAcademicProposal', subject: 'all' },
+                    { label: 'Minimal Axiomatic Core for General Science', typeKey: 'curriculum_nav_item', instanceKey: 'minimalAxiomaticCoreProposal', subject: 'all' }
                 ]
             },
-            { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item' }
+            { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' }
         ]
     },
 
     // -------------------------------------------------------------------------
-    // 2. Formal Axiomatic Statements (Dual-Axis Taxonomy)
+    // 2. Formal Axiomatic Statements (Tier 1: Declarative Statements & DE Rules)
     // -------------------------------------------------------------------------
     {
         label: 'Formal Statements',
@@ -200,10 +221,10 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'axiom',
                 filterKind: { column: 'statement_kind', value: 'axiom' },
                 children: [
-                    { label: 'Hyperfinite Probability Space', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_probability' },
-                    { label: 'Core Dyadic Isomorphism', typeKey: 'formal_statement', instanceKey: 'fs_dyadic_isomorphism' },
-                    { label: 'van den Dries–Ehrlich Subfield', typeKey: 'formal_statement', instanceKey: 'fs_van_den_dries_ehrlich' },
-                    { label: 'Browse All Axioms', typeKey: 'axiom' }
+                    { label: 'Hyperfinite Probability Space', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_probability', subject: 'information' },
+                    { label: 'Core Dyadic Isomorphism', typeKey: 'formal_statement', instanceKey: 'fs_dyadic_isomorphism', subject: 'numbers_trees' },
+                    { label: 'van den Dries–Ehrlich Subfield', typeKey: 'formal_statement', instanceKey: 'fs_van_den_dries_ehrlich', subject: 'numbers_trees' },
+                    { label: 'Browse All Axioms', typeKey: 'axiom', subject: 'all' }
                 ]
             },
             {
@@ -211,15 +232,15 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'theorem',
                 filterKind: { column: 'statement_kind', value: 'theorem' },
                 children: [
-                    { label: 'Newtonian Dynamics & Acceleration', typeKey: 'formal_statement', instanceKey: 'fs_newtonian_mechanics' },
-                    { label: 'Telescoping FTC', typeKey: 'formal_statement', instanceKey: 'fs_telescoping_ftc' },
-                    { label: 'Cauchy-Riemann Coordinate Symmetry', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_riemann_symmetry' },
-                    { label: 'Hyperfinite Cauchy-Goursat Loop Vanishing', typeKey: 'formal_statement', instanceKey: 'fs_contour_cauchy_goursat' },
-                    { label: 'Lee-Yang Unit Circle Partition', typeKey: 'formal_statement', instanceKey: 'fs_lee_yang_circle' },
-                    { label: 'Total Ordering on Tree2', typeKey: 'formal_statement', instanceKey: 'fs_tree2_totally_ordered' },
-                    { label: 'Standard Part Ring Homomorphism', typeKey: 'formal_statement', instanceKey: 'fs_standard_part_homomorphism' },
-                    { label: 'Discrete Cauchy-Schwarz Inequality', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_schwarz_discrete' },
-                    { label: 'Browse All Theorems', typeKey: 'theorem' }
+                    { label: 'Newtonian Dynamics & Acceleration', typeKey: 'formal_statement', instanceKey: 'fs_newtonian_mechanics', subject: 'physics' },
+                    { label: 'Telescoping FTC', typeKey: 'formal_statement', instanceKey: 'fs_telescoping_ftc', subject: 'analysis' },
+                    { label: 'Cauchy-Riemann Coordinate Symmetry', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_riemann_symmetry', subject: 'analysis' },
+                    { label: 'Hyperfinite Cauchy-Goursat Loop Vanishing', typeKey: 'formal_statement', instanceKey: 'fs_contour_cauchy_goursat', subject: 'analysis' },
+                    { label: 'Lee-Yang Unit Circle Partition', typeKey: 'formal_statement', instanceKey: 'fs_lee_yang_circle', subject: 'physics' },
+                    { label: 'Total Ordering on Tree2', typeKey: 'formal_statement', instanceKey: 'fs_tree2_totally_ordered', subject: 'numbers_trees' },
+                    { label: 'Standard Part Ring Homomorphism', typeKey: 'formal_statement', instanceKey: 'fs_standard_part_homomorphism', subject: 'analysis' },
+                    { label: 'Discrete Cauchy-Schwarz Inequality', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_schwarz_discrete', subject: 'algebra' },
+                    { label: 'Browse All Theorems', typeKey: 'theorem', subject: 'all' }
                 ]
             },
             {
@@ -227,29 +248,51 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'directed_equality',
                 filterKind: { column: 'statement_kind', value: 'directed_equality' },
                 children: [
-                    { label: 'Uniform Free Fall Kinematics', typeKey: 'formal_statement', instanceKey: 'fs_free_fall_accel' },
-                    { label: 'Telescoping Work-Energy Principle', typeKey: 'formal_statement', instanceKey: 'fs_work_energy' },
-                    { label: 'Discrete Thermal Diffusion Balance', typeKey: 'formal_statement', instanceKey: 'fs_heat_flux' },
-                    { label: 'Hyperfinite Difference Quotient Derivative', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_derivative' },
-                    { label: '2D Complex Step & Modulus Invariance', typeKey: 'formal_statement', instanceKey: 'fs_complex_step_invariance' },
-                    { label: 'Harmonic Leapfrog Phase Space Orbit', typeKey: 'formal_statement', instanceKey: 'fs_harmonic_oscillator' },
-                    { label: 'Three-Polarizer Geometric Transmission', typeKey: 'formal_statement', instanceKey: 'fs_three_polarizer_quantum' },
-                    { label: 'Hyperfinite Bayesian Likelihood Inversion', typeKey: 'formal_statement', instanceKey: 'fs_bayes_updating' },
-                    { label: 'Dyadic Ptolemaic Half-Angle Root Bisection', typeKey: 'formal_statement', instanceKey: 'fs_ptolemaic_half_angle' },
-                    { label: 'Dyadic Polygonal Rim Chord Law', typeKey: 'formal_statement', instanceKey: 'fs_polygonal_rim_chord' },
-                    { label: 'Euler Polar Rotor Decomposition', typeKey: 'formal_statement', instanceKey: 'fs_euler_identity_rotor' },
-                    { label: 'Unit Rotor Sine & Cosine Projection', typeKey: 'formal_statement', instanceKey: 'fs_unit_rotor_projection' },
-                    { label: 'Conway Inductive Addition (+)', typeKey: 'formal_statement', instanceKey: 'fs_conway_addition' },
-                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'formal_statement', instanceKey: 'fs_conway_multiplication' },
-                    { label: 'Browse All Directed Equalities', typeKey: 'directed_equality' }
+                    // Logic & Order Predicates (Codomain 𝔹)
+                    { label: 'Definitional Assignment (:=)', typeKey: 'formal_statement', instanceKey: 'fs_pred_assign', subject: 'logic' },
+                    { label: 'Greater-Than (GT / >)', typeKey: 'formal_statement', instanceKey: 'fs_pred_gt', subject: 'logic' },
+                    { label: 'Less-Than (LT / <)', typeKey: 'formal_statement', instanceKey: 'fs_pred_lt', subject: 'logic' },
+                    { label: 'Identity / Equality (EQ / =)', typeKey: 'formal_statement', instanceKey: 'fs_pred_eq', subject: 'logic' },
+                    { label: 'Less-Than-or-Equal (LE / ≤)', typeKey: 'formal_statement', instanceKey: 'fs_pred_le', subject: 'logic' },
+                    { label: 'Set Membership (MEM / ∈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_mem', subject: 'logic' },
+                    { label: 'Subset Inclusion (SUBSET / ⊆)', typeKey: 'formal_statement', instanceKey: 'fs_pred_subset', subject: 'logic' },
+
+                    // Numbers, Trees & Arithmetic
+                    { label: 'Conway Inductive Addition (+)', typeKey: 'formal_statement', instanceKey: 'fs_conway_addition', subject: 'numbers_trees' },
+                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'formal_statement', instanceKey: 'fs_conway_multiplication', subject: 'numbers_trees' },
+                    { label: 'Divisibility (DIV / ∣)', typeKey: 'formal_statement', instanceKey: 'fs_pred_div', subject: 'numbers_trees' },
+                    { label: 'Even Parity (EVEN)', typeKey: 'formal_statement', instanceKey: 'fs_pred_even', subject: 'numbers_trees' },
+                    { label: 'Odd Parity (ODD)', typeKey: 'formal_statement', instanceKey: 'fs_pred_odd', subject: 'numbers_trees' },
+                    { label: 'Successor Step (SUCC / +1)', typeKey: 'formal_statement', instanceKey: 'fs_pred_succ', subject: 'numbers_trees' },
+
+                    // Discrete Analysis & Continuum Stencils
+                    { label: 'Hyperfinite Difference Quotient Derivative', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_derivative', subject: 'analysis' },
+                    { label: '2D Complex Step & Modulus Invariance', typeKey: 'formal_statement', instanceKey: 'fs_complex_step_invariance', subject: 'analysis' },
+                    { label: 'Infinitesimal Proximity (NEAR / ≈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_near', subject: 'analysis' },
+                    { label: 'Dyadic Ptolemaic Half-Angle Root Bisection', typeKey: 'formal_statement', instanceKey: 'fs_ptolemaic_half_angle', subject: 'analysis' },
+                    { label: 'Dyadic Polygonal Rim Chord Law', typeKey: 'formal_statement', instanceKey: 'fs_polygonal_rim_chord', subject: 'analysis' },
+                    { label: 'Euler Polar Rotor Decomposition', typeKey: 'formal_statement', instanceKey: 'fs_euler_identity_rotor', subject: 'analysis' },
+                    { label: 'Unit Rotor Sine & Cosine Projection', typeKey: 'formal_statement', instanceKey: 'fs_unit_rotor_projection', subject: 'analysis' },
+
+                    // Physics & Dynamics Stencils
+                    { label: 'Uniform Free Fall Kinematics', typeKey: 'formal_statement', instanceKey: 'fs_free_fall_accel', subject: 'physics' },
+                    { label: 'Telescoping Work-Energy Principle', typeKey: 'formal_statement', instanceKey: 'fs_work_energy', subject: 'physics' },
+                    { label: 'Discrete Thermal Diffusion Balance', typeKey: 'formal_statement', instanceKey: 'fs_heat_flux', subject: 'physics' },
+                    { label: 'Harmonic Leapfrog Phase Space Orbit', typeKey: 'formal_statement', instanceKey: 'fs_harmonic_oscillator', subject: 'physics' },
+                    { label: 'Three-Polarizer Geometric Transmission', typeKey: 'formal_statement', instanceKey: 'fs_three_polarizer_quantum', subject: 'physics' },
+
+                    // Information & Signals
+                    { label: 'Hyperfinite Bayesian Likelihood Inversion', typeKey: 'formal_statement', instanceKey: 'fs_bayes_updating', subject: 'information' },
+
+                    { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
                 ]
             },
-            { label: 'Browse All Formal Statements', typeKey: 'formal_statement' }
+            { label: 'Browse All Formal Statements', typeKey: 'formal_statement', subject: 'all' }
         ]
     },
 
     // -------------------------------------------------------------------------
-    // 3. Demo Initializations (Interactive Sandbox Demos & Presets)
+    // 3. Demo Initializations (Tier 2: Interactive Sandbox Demos & Presets)
     // -------------------------------------------------------------------------
     {
         label: 'Demo Initializations',
@@ -259,49 +302,100 @@ export const navigationMenuTree: MenuItem[] = [
             {
                 label: 'Truth Table Demo (TTD)',
                 typeKey: 'ttd',
+                subject: 'logic',
                 children: [
-                    { label: "De Morgan's First Law", typeKey: 'interactive_demo', instanceKey: 'ttd_demorgan' },
-                    { label: 'Modus Ponens (Detachment)', typeKey: 'interactive_demo', instanceKey: 'ttd_modus_ponens' },
-                    { label: 'Law of Excluded Middle', typeKey: 'interactive_demo', instanceKey: 'ttd_excluded_middle' },
-                    { label: 'Principle of Non-Contradiction', typeKey: 'interactive_demo', instanceKey: 'ttd_non_contradiction' },
-                    { label: 'Material Implication (→)', typeKey: 'interactive_demo', instanceKey: 'ttd_implication' },
-                    { label: 'Material Equivalence (↔)', typeKey: 'interactive_demo', instanceKey: 'ttd_equivalence' },
-                    { label: 'Hypothetical Syllogism', typeKey: 'interactive_demo', instanceKey: 'ttd_hypothetical_syllogism' },
-                    { label: 'Browse All TTD Initializations', typeKey: 'ttd' }
+                    { label: "De Morgan's First Law", typeKey: 'ttd', instanceId: 2, subject: 'logic' },
+                    { label: 'Modus Ponens (Detachment)', typeKey: 'ttd', instanceId: 3, subject: 'logic' },
+                    { label: 'Law of Excluded Middle', typeKey: 'ttd', instanceId: 4, subject: 'logic' },
+                    { label: 'Principle of Non-Contradiction', typeKey: 'ttd', instanceId: 5, subject: 'logic' },
+                    { label: 'Material Implication (→)', typeKey: 'ttd', instanceId: 6, subject: 'logic' },
+                    { label: 'Material Equivalence (↔)', typeKey: 'ttd', instanceId: 7, subject: 'logic' },
+                    { label: 'Hypothetical Syllogism', typeKey: 'ttd', instanceId: 8, subject: 'logic' },
+                    { label: 'Browse All TTD Initializations', typeKey: 'ttd', subject: 'logic' }
                 ]
             },
             {
                 label: 'Binary Tree Demo (BTD)',
                 typeKey: 'btd',
+                subject: 'numbers_trees',
                 children: [
-                    { label: 'Surreal Tree Total Order', typeKey: 'interactive_demo', instanceKey: 'btd_order' },
-                    { label: 'Conway Inductive Addition (+)', typeKey: 'interactive_demo', instanceKey: 'btd_addition' },
-                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'interactive_demo', instanceKey: 'btd_multiplication' },
-                    { label: 'Labeled Dyadic Sequences', typeKey: 'interactive_demo', instanceKey: 'btd_labeled' },
-                    { label: 'Browse All BTD Initializations', typeKey: 'btd' }
+                    { label: 'Surreal Tree Total Order', typeKey: 'btd', instanceId: 9, subject: 'numbers_trees' },
+                    { label: 'Conway Inductive Addition (+)', typeKey: 'btd', instanceId: 10, subject: 'numbers_trees' },
+                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'btd', instanceId: 11, subject: 'numbers_trees' },
+                    { label: 'Labeled Dyadic Sequences', typeKey: 'btd', instanceId: 12, subject: 'numbers_trees' },
+                    { label: 'Browse All BTD Initializations', typeKey: 'btd', subject: 'numbers_trees' }
                 ]
             },
             {
                 label: 'Binary Interval Demo (BID)',
                 typeKey: 'bid',
+                subject: 'analysis',
                 children: [
-                    { label: 'Dyadic Interval Subdivision', typeKey: 'interactive_demo', instanceKey: 'bid_euler' },
-                    { label: 'Unit Rotor Circle Projection', typeKey: 'interactive_demo', instanceKey: 'bid_rotor' },
-                    { label: 'Browse All BID Initializations', typeKey: 'bid' }
+                    { label: 'Dyadic Interval Subdivision', typeKey: 'bid', instanceId: 13, subject: 'analysis' },
+                    { label: 'Unit Rotor Circle Projection', typeKey: 'bid', instanceId: 14, subject: 'analysis' },
+                    { label: 'Browse All BID Initializations', typeKey: 'bid', subject: 'analysis' }
                 ]
             },
             {
                 label: 'Formal Statements Demo (FSD)',
                 typeKey: 'fsd',
+                subject: 'all',
                 children: [
-                    { label: 'Formal Structure Stage Visualizer', typeKey: 'interactive_demo', instanceKey: 'fsd_stage' },
-                    { label: 'Browse All FSD Initializations', typeKey: 'fsd' }
+                    { label: 'Formal Structure Stage Visualizer', typeKey: 'fsd', instanceId: 15, subject: 'all' },
+                    { label: 'Browse All FSD Initializations', typeKey: 'fsd', subject: 'all' }
                 ]
             },
-            { label: 'Browse All Demo Initializations', typeKey: 'interactive_demos' }
+            { label: 'Browse All Demo Initializations', typeKey: 'interactive_demos', subject: 'all' }
         ]
     }
 ];
+
+/**
+ * Filter the navigation tree by subject domain.
+ * If subject === 'all', returns full tree.
+ * Otherwise, prunes branches that do not match the requested subject domain.
+ */
+export function getFilteredMenuTree(subject: string = 'all'): MenuItem[] {
+    if (!subject || subject === 'all') {
+        return navigationMenuTree;
+    }
+
+    function filterItem(item: MenuItem): MenuItem | null {
+        // If leaf item
+        if (!item.children || item.children.length === 0) {
+            if (!item.subject || item.subject === 'all' || item.subject === subject) {
+                return item;
+            }
+            return null;
+        }
+
+        // If parent item with children, recursively filter
+        const filteredChildren = item.children
+            .map(filterItem)
+            .filter((c): c is MenuItem => c !== null);
+
+        // Keep parent if it has matching children or is explicitly tagged with this subject
+        if (filteredChildren.length > 0) {
+            return {
+                ...item,
+                children: filteredChildren
+            };
+        }
+
+        if (item.subject && (item.subject === subject || item.subject === 'all')) {
+            return {
+                ...item,
+                children: []
+            };
+        }
+
+        return null;
+    }
+
+    return navigationMenuTree
+        .map(filterItem)
+        .filter((c): c is MenuItem => c !== null);
+}
 
 /**
  * Recursively renders the multi-level cascading HTML markup.
@@ -315,6 +409,7 @@ export function renderMenuHierarchy(items: MenuItem[]): string {
             item.typeKey ? `data-type="${item.typeKey}"` : '',
             item.instanceKey ? `data-instance-key="${item.instanceKey}"` : '',
             item.instanceId !== undefined ? `data-instance-id="${item.instanceId}"` : '',
+            item.subject ? `data-subject="${item.subject}"` : '',
             `data-label="${item.label.replace(/"/g, '&quot;')}"`,
             hasChildren ? 'data-has-submenu="true"' : '',
         ].filter(Boolean).join(' ');

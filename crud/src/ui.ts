@@ -3,7 +3,8 @@
 
 import { AppMetadata, TableNavigationPath, Dependent, EnrichedTable, EnrichedColumn } from './types.js';
 import { queryDatabase, executeSql } from '../../clientLib/db/api.js';
-import { navigationMenuTree, renderMenuHierarchy } from './menuTree.js';
+import { navigationMenuTree, renderMenuHierarchy, getFilteredMenuTree } from './menuTree.js';
+import { PxeEngine, mountPxeBuilderComponent } from '../../clientLib/pxeEngine.js';
 
 export type CrudMode = 'create' | 'read' | 'update' | 'delete';
 
@@ -87,6 +88,10 @@ let currentModeLabel: HTMLElement | null = null;
 let typeBtn: HTMLElement | null = null;
 let typeDropdownMenu: HTMLElement | null = null;
 let currentTypeLabel: HTMLElement | null = null;
+let subjectBtn: HTMLElement | null = null;
+let subjectDropdownMenu: HTMLElement | null = null;
+let currentSubjectLabel: HTMLElement | null = null;
+let currentSubject: string = 'all';
 let breadcrumbActiveType: HTMLElement | null = null;
 let navBackBtn: HTMLElement | null = null;
 let displayArea: HTMLElement | null = null;
@@ -109,7 +114,6 @@ export function getDisplayColumnName(tableName: string): string {
     if (cols.includes('statement_key')) return 'statement_key';
     if (cols.includes('equation_key')) return 'equation_key';
     if (cols.includes('algo_key')) return 'algo_key';
-    if (cols.includes('demo_key')) return 'demo_key';
     if (cols.includes('seg_key')) return 'seg_key';
     if (cols.includes('label')) return 'label';
     if (cols.includes('symbol')) return 'symbol';
@@ -145,8 +149,26 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
             return `${record.title || record.slug || 'Chapter'} (Seq: ${record.sequence_order || record.id})`;
         case 'apps':
             return `${record.name || 'App'} (${record.app_code || record.id})`;
-        case 'interactive_demos':
-            return `${record.title || record.demo_key} (${record.engine || 'demo'}${record.mode ? ` - ${record.mode}` : ''})`;
+        case 'interactive_demos': {
+            if (record.engine === 'ttd') {
+                let initObj: any = null;
+                try {
+                    initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
+                } catch (e) {
+                    initObj = {};
+                }
+                const exp = record.expression || initObj?.exp || '';
+                const fmt = initObj?.fmt || (exp ? PxeEngine.fmt(exp) : '');
+                let status = record.status || initObj?.status;
+                if (!status && exp) {
+                    const evalRes = PxeEngine.evalTruthTable(exp);
+                    status = evalRes?.isTautology ? 'taut' : (evalRes?.isContradiction ? 'unsat' : 'cont');
+                }
+                const statusSuffix = status ? ` [${status}]` : '';
+                return `${fmt || exp || record.title || 'TTD'}${statusSuffix}`;
+            }
+            return `${record.title || 'Demo #' + record.id} (${record.engine || 'demo'}${record.mode ? ` - ${record.mode}` : ''})`;
+        }
         default: {
             const col = getDisplayColumnName(tableName);
             const val = record[col];
@@ -176,6 +198,9 @@ export function initializeUI(
     typeBtn = document.getElementById('type-btn');
     typeDropdownMenu = document.getElementById('type-dropdown-menu');
     currentTypeLabel = document.getElementById('current-type-label');
+    subjectBtn = document.getElementById('subject-btn');
+    subjectDropdownMenu = document.getElementById('subject-dropdown-menu');
+    currentSubjectLabel = document.getElementById('current-subject-label');
     breadcrumbActiveType = document.getElementById('breadcrumb-active-type');
     navBackBtn = document.getElementById('nav-back-btn');
     displayArea = document.getElementById('display-area');
@@ -188,15 +213,17 @@ export function initializeUI(
     currentTypeKey = null;
     currentSelectedId = null;
     currentTitle = '';
+    currentSubject = 'all';
 
     if (currentModeLabel) currentModeLabel.textContent = 'Read';
     if (currentTypeLabel) currentTypeLabel.textContent = 'Select Type';
+    if (currentSubjectLabel) currentSubjectLabel.textContent = 'All';
 
     updateBreadcrumbs();
     setupControlListeners();
     renderCurrentView();
 
-    setStatus('Ready • Mode: Read (default) • Select mode and instance');
+    setStatus('Ready • Mode: Read (default) • Select mode, type, or subject');
 }
 
 /**
@@ -313,6 +340,26 @@ function setupControlListeners() {
         });
     }
 
+    // Subject dropdown toggle
+    if (subjectBtn && subjectDropdownMenu) {
+        subjectBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (modeDropdownMenu) modeDropdownMenu.classList.remove('show');
+            if (typeDropdownMenu) typeDropdownMenu.classList.remove('show');
+            subjectDropdownMenu?.classList.toggle('show');
+        });
+
+        // Subject items selection
+        subjectDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const subj = (item as HTMLElement).getAttribute('data-subject') || 'all';
+                setSubject(subj);
+                subjectDropdownMenu?.classList.remove('show');
+            });
+        });
+    }
+
     // Close dropdowns on outside click
     document.addEventListener('click', () => {
         if (modeDropdownMenu) modeDropdownMenu.classList.remove('show');
@@ -320,6 +367,7 @@ function setupControlListeners() {
             typeDropdownMenu.classList.remove('show');
             typeDropdownMenu.querySelectorAll('.open-submenu').forEach((el) => el.classList.remove('open-submenu'));
         }
+        if (subjectDropdownMenu) subjectDropdownMenu.classList.remove('show');
     });
 
     // Back button
@@ -334,6 +382,95 @@ function setupControlListeners() {
     if (modalClose && mainModal) {
         modalClose.addEventListener('click', closeModal);
     }
+}
+
+/**
+ * Filter predicate evaluating whether a record belongs to the currently active Subject filter.
+ */
+export function matchesCurrentSubject(tableName: string, record: any): boolean {
+    if (!currentSubject || currentSubject === 'all') return true;
+    if (!record) return false;
+
+    if (tableName === 'formal_statements') {
+        const cat = record.domain_category || '';
+        const subj = record.subject_type || '';
+        const key = record.statement_key || '';
+
+        switch (currentSubject) {
+            case 'logic':
+                return ['logic', 'set_theory', 'order_theory'].includes(cat) || key.startsWith('fs_pred_');
+            case 'numbers_trees':
+                return cat === 'arithmetic' || ['fs_tree2_totally_ordered', 'fs_dyadic_isomorphism', 'fs_van_den_dries_ehrlich', 'fs_conway_addition', 'fs_conway_multiplication'].includes(key);
+            case 'algebra':
+                return ['fs_cauchy_schwarz_discrete', 'fs_unit_rotor_projection', 'fs_euler_identity_rotor'].includes(key) || cat === 'linear_algebra';
+            case 'analysis':
+                return cat === 'discrete_analysis';
+            case 'physics':
+                return subj === 'physics' || cat === 'kinematics_and_dynamics';
+            case 'information':
+                return subj === 'information' || cat === 'information_and_signals';
+            default:
+                return true;
+        }
+    }
+
+    if (tableName === 'interactive_demos') {
+        const engine = record.engine || '';
+        switch (currentSubject) {
+            case 'logic':
+                return engine === 'ttd';
+            case 'numbers_trees':
+                return engine === 'btd';
+            case 'analysis':
+                return engine === 'bid' || engine === 'fsd';
+            case 'physics':
+                return false;
+            case 'information':
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Updates the global subject filter lens, re-pruning the type menu and re-rendering active views.
+ */
+export function setSubject(subject: string) {
+    currentSubject = subject;
+    const labelMap: Record<string, string> = {
+        all: 'All',
+        logic: 'Logic & Set Theory',
+        numbers_trees: 'Numbers & Trees',
+        algebra: 'Vectors & Algebra',
+        analysis: 'Continuum Analysis',
+        physics: 'Applied Physics',
+        information: 'Quantum & Bayesian Info'
+    };
+
+    if (currentSubjectLabel) {
+        currentSubjectLabel.textContent = labelMap[subject] || subject;
+    }
+
+    if (subjectDropdownMenu) {
+        subjectDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+            if ((item as HTMLElement).getAttribute('data-subject') === subject) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    // Refresh Hierarchical Type Menu using the filtered tree
+    if (typeDropdownMenu) {
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject));
+    }
+
+    renderCurrentView();
+    setStatus(`Subject Scope: ${labelMap[subject] || subject}`);
 }
 
 /**
@@ -470,15 +607,35 @@ export async function selectInstanceDirectly(typeKey: string, instanceKeyOrId: s
     let record: any = null;
     const strKey = String(instanceKeyOrId);
 
+    // Legacy demo key lookup fallback (backwards compatibility for bookmarked slugs)
+    const legacyDemoMap: Record<string, number> = {
+        ttd_demorgan: 2,
+        ttd_modus_ponens: 3,
+        ttd_excluded_middle: 4,
+        ttd_non_contradiction: 5,
+        ttd_implication: 6,
+        ttd_equivalence: 7,
+        ttd_hypothetical_syllogism: 8,
+        btd_order: 9,
+        btd_addition: 10,
+        btd_multiplication: 11,
+        btd_labeled: 12,
+        bid_euler: 13,
+        bid_rotor: 14,
+        fsd_stage: 15
+    };
+
     if (/^\d+$/.test(strKey)) {
         record = await fetchRecordById(tableName, strKey);
+    } else if (tableName === 'interactive_demos' && legacyDemoMap[strKey]) {
+        record = await fetchRecordById(tableName, legacyDemoMap[strKey].toString());
     }
 
     if (!record) {
         const tableCols = appMetadata[tableName] ? Object.keys(appMetadata[tableName].columns) : [];
         const candidateKeys = [
-            'nav_key', 'seg_key', 'statement_key', 'equation_key', 'demo_key', 'algo_key',
-            'preset_key', 'app_code', 'symbol', 'target_key', 'slug', 'name', 'title'
+            'nav_key', 'seg_key', 'statement_key', 'equation_key', 'algo_key',
+            'expression', 'preset_key', 'app_code', 'symbol', 'target_key', 'slug', 'name', 'title'
         ];
 
         for (const col of candidateKeys) {
@@ -523,6 +680,8 @@ export async function selectInstanceDirectly(typeKey: string, instanceKeyOrId: s
     // If this is a formal statement, align the specific typeKey to its statement_kind
     if (tableName === 'formal_statements' && record.statement_kind) {
         resolvedTypeKey = record.statement_kind;
+    } else if (tableName === 'interactive_demos' && record.engine && typeMap[record.engine]) {
+        resolvedTypeKey = record.engine;
     }
 
     currentTypeKey = resolvedTypeKey;
@@ -537,8 +696,8 @@ export async function selectInstanceDirectly(typeKey: string, instanceKeyOrId: s
     if (typeDropdownMenu) {
         typeDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
             const itemType = (item as HTMLElement).getAttribute('data-type');
-            const itemInst = (item as HTMLElement).getAttribute('data-instance-key');
-            if (itemInst === strKey || (itemType === currentTypeKey && !itemInst)) {
+            const itemInst = (item as HTMLElement).getAttribute('data-instance-key') || (item as HTMLElement).getAttribute('data-instance-id');
+            if (itemInst === strKey || itemInst === currentSelectedId || (itemType === currentTypeKey && !itemInst)) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');
@@ -697,9 +856,10 @@ async function renderEntityInstancePickerForAction(
         }
         sql += ` ORDER BY "${displayCol}" ASC;`;
 
-        const records = await queryDatabase<any>(sql, params);
+        const allRecords = (await queryDatabase<any>(sql, params)) || [];
+        const records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
 
-        if (!records || records.length === 0) {
+        if (allRecords.length === 0) {
             selectEl.innerHTML = `<option value="">No records found in table ${tableName}</option>`;
             targetEl.innerHTML = `
                 <div style="padding: 30px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
@@ -709,13 +869,32 @@ async function renderEntityInstancePickerForAction(
             return;
         }
 
+        if (records.length === 0) {
+            selectEl.innerHTML = `<option value="">No records matching Subject '${currentSubject}' (${allRecords.length} total in table)</option>`;
+            targetEl.innerHTML = `
+                <div style="padding: 36px 24px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">
+                        No ${tableInfo.label} to ${actionVerb.toLowerCase()} matching Subject scope: <strong>${currentSubjectLabel?.textContent || currentSubject}</strong>
+                    </div>
+                    <div style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                        There are ${allRecords.length} records in this table under other subjects.
+                    </div>
+                    <button type="button" id="btn-reset-subject-scope-action" class="btn btn-sm" style="padding: 6px 14px; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                        🌐 Clear Subject Filter (Show All)
+                    </button>
+                </div>
+            `;
+            document.getElementById('btn-reset-subject-scope-action')?.addEventListener('click', () => setSubject('all'));
+            return;
+        }
+
         selectEl.innerHTML = `
-            <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} to ${actionVerb} (${records.length} available) --</option>
+            <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} to ${actionVerb} (${records.length}${currentSubject !== 'all' ? ` of ${allRecords.length}` : ''} available) --</option>
             ${records
                 .map(
                     (r) =>
                         `<option value="${r.id}">
-                            ${escapeHtml(r[displayCol] || '(Unnamed)')} (ID: ${r.id})
+                            ${escapeHtml(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                         </option>`
                 )
                 .join('')}
@@ -723,7 +902,7 @@ async function renderEntityInstancePickerForAction(
 
         const triggerActionOnRecord = async (record: any) => {
             currentSelectedId = record.id.toString();
-            currentTitle = record[displayCol] || `ID: ${record.id}`;
+            currentTitle = getRecordFriendlyName(tableName, record);
             updateBreadcrumbs();
 
             if (action === 'update') {
@@ -733,10 +912,22 @@ async function renderEntityInstancePickerForAction(
             }
         };
 
+        const filterScopeBanner = currentSubject !== 'all' ? `
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
+                <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
+                    Filtered by Subject: <strong>${escapeHtml(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                </span>
+                <button type="button" id="btn-clear-active-filter-action" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
+                    ✕ Clear Scope
+                </button>
+            </div>
+        ` : '';
+
         targetEl.innerHTML = `
             <div class="instance-menu-card">
+                ${filterScopeBanner}
                 <div class="instance-menu-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
-                    <h3 style="color: ${actionColor};">${actionIcon} Select a Record to ${actionVerb} (${records.length} Available)</h3>
+                    <h3 style="color: ${actionColor};">${actionIcon} Select a Record to ${actionVerb} (${records.length}${currentSubject !== 'all' ? ` filtered from ${allRecords.length}` : ''} Available)</h3>
                     <p style="color: #64748b; font-size: 13px; margin: 4px 0 0 0;">
                         Click any item below or choose from the dropdown above to immediately initiate the ${actionVerb.toLowerCase()} workflow.
                     </p>
@@ -745,7 +936,7 @@ async function renderEntityInstancePickerForAction(
                     ${records
                         .map((r) => {
                             const friendlyTitle = r[displayCol] || `ID: ${r.id}`;
-                            const key = r.equation_key || r.statement_key || r.algo_key || r.seg_key || r.demo_key || r.symbol || r.preset_key || '';
+                            const key = r.equation_key || r.statement_key || r.algo_key || r.seg_key || r.symbol || r.preset_key || '';
                             const desc = r.formula_description || r.description || r.summary || '';
                             return `
                                 <div class="instance-menu-item" data-id="${r.id}" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; background: #ffffff;">
@@ -767,6 +958,10 @@ async function renderEntityInstancePickerForAction(
                 </div>
             </div>
         `;
+
+        targetEl.querySelector('#btn-clear-active-filter-action')?.addEventListener('click', () => {
+            setSubject('all');
+        });
 
         targetEl.querySelectorAll('.instance-menu-item').forEach((item) => {
             item.addEventListener('click', () => {
@@ -890,9 +1085,10 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
         }
         sql += ` ORDER BY "${displayCol}" ASC;`;
 
-        const records = await queryDatabase<any>(sql, params);
+        const allRecords = (await queryDatabase<any>(sql, params)) || [];
+        const records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
 
-        if (!records || records.length === 0) {
+        if (allRecords.length === 0) {
             selectEl.innerHTML = `<option value="">No records found in table ${tableName}</option>`;
             cardTarget.innerHTML = `
                 <div style="padding: 30px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
@@ -902,13 +1098,32 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
             return;
         }
 
+        if (records.length === 0) {
+            selectEl.innerHTML = `<option value="">No records matching Subject '${currentSubject}' (${allRecords.length} total in table)</option>`;
+            cardTarget.innerHTML = `
+                <div style="padding: 36px 24px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">
+                        No ${tableInfo.label} matching Subject scope: <strong>${currentSubjectLabel?.textContent || currentSubject}</strong>
+                    </div>
+                    <div style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                        There are ${allRecords.length} records in this table under other subjects.
+                    </div>
+                    <button type="button" id="btn-reset-subject-scope" class="btn btn-sm" style="padding: 6px 14px; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                        🌐 Clear Subject Filter (Show All)
+                    </button>
+                </div>
+            `;
+            document.getElementById('btn-reset-subject-scope')?.addEventListener('click', () => setSubject('all'));
+            return;
+        }
+
         selectEl.innerHTML = `
-            <option value="" ${!currentSelectedId ? 'selected' : ''}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length} available) --</option>
+            <option value="" ${!currentSelectedId ? 'selected' : ''}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length}${currentSubject !== 'all' ? ` of ${allRecords.length}` : ''} available) --</option>
             ${records
                 .map(
                     (r) =>
                         `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? 'selected' : ''}>
-                            ${escapeHtml(r[displayCol] || '(Unnamed)')} (ID: ${r.id})
+                            ${escapeHtml(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                         </option>`
                 )
                 .join('')}
@@ -920,17 +1135,29 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
             const mapping = typeMap[currentTypeKey] || { table: tableName, label: tableInfo.label };
             currentTitle = mapping.label;
             updateBreadcrumbs();
+            const filterScopeBanner = currentSubject !== 'all' ? `
+                <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
+                    <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
+                        Filtered by Subject: <strong>${escapeHtml(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                    </span>
+                    <button type="button" id="btn-clear-active-filter" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
+                        ✕ Clear Scope
+                    </button>
+                </div>
+            ` : '';
+
             cardTarget.innerHTML = `
                 <div class="instance-menu-card">
+                    ${filterScopeBanner}
                     <div class="instance-menu-header">
-                        <h3>Available ${tableInfo.label} (${records.length})</h3>
+                        <h3>Available ${tableInfo.label} (${records.length}${currentSubject !== 'all' ? ` filtered from ${allRecords.length}` : ''})</h3>
                         <p>Select an instance below or from the dropdown menu above to inspect its complete database attributes.</p>
                     </div>
                     <div class="instance-menu-list">
                         ${records
                             .map((r) => {
-                                const friendlyTitle = r[displayCol] || `ID: ${r.id}`;
-                                const key = r.equation_key || r.statement_key || r.algo_key || r.seg_key || r.demo_key || r.symbol || r.preset_key || '';
+                                const friendlyTitle = getRecordFriendlyName(tableName, r);
+                                const key = r.equation_key || r.statement_key || r.algo_key || r.seg_key || r.symbol || r.preset_key || '';
                                 const formula = r.formula_expr || r.expression || r.signature || '';
                                 const desc = r.formula_description || r.description || r.summary || '';
                                 return `
@@ -957,6 +1184,10 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
                 </div>
             `;
 
+            cardTarget.querySelector('#btn-clear-active-filter')?.addEventListener('click', () => {
+                setSubject('all');
+            });
+
             cardTarget.querySelectorAll('.instance-menu-item').forEach((item) => {
                 item.addEventListener('click', () => {
                     const id = (item as HTMLElement).getAttribute('data-id')!;
@@ -970,7 +1201,7 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
             selectEl.value = id;
             const fullRecord = records.find((r: any) => r.id.toString() === id) || (await fetchRecordById(tableName, id));
             if (fullRecord) {
-                currentTitle = fullRecord[displayCol] || `ID: ${fullRecord.id}`;
+                currentTitle = getRecordFriendlyName(tableName, fullRecord);
                 updateBreadcrumbs();
                 cardTarget.innerHTML = `
                     <button class="back-to-menu-btn" id="btn-back-to-menu">
@@ -1018,7 +1249,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
     card.className = 'attribute-card';
 
     // Header bar
-    const titleVal = record[displayCol] || `Record #${record.id}`;
+    const titleVal = getRecordFriendlyName(tableName, record);
     card.innerHTML = `
         <div class="card-header-bar">
             <div>
@@ -1113,6 +1344,71 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                     }
                 })
                 .catch(() => {});
+        } else if (tableName === 'interactive_demos' && colName === 'expression') {
+            const expStr = rawVal ? rawVal.toString() : '';
+            const isFsd = record.engine === 'fsd';
+
+            if (isFsd) {
+                let initObj: any = null;
+                try {
+                    initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
+                } catch (e) {}
+
+                const quantifiers = initObj?.quantifiers || '';
+                const slots = initObj?.slots ? `(${initObj.slots})` : '';
+                const predSym = PxeEngine.charDisplayMap[expStr] || expStr;
+                const innerPred = slots ? `${predSym}${slots}` : predSym;
+                const displayFormula = quantifiers ? `${quantifiers} [ ${innerPred} ]` : innerPred;
+
+                tdVal.innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                            <code style="font-family: var(--font-mono); font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 4px; font-size: 13px;">Predicate: ${escapeHtml(expStr || '—')}</code>
+                            <span style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml(displayFormula)}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #64748b;">
+                            <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 600;">
+                                Active: Stage ${escapeHtml(initObj?.stage || '4')} (Matrix Visualizer)
+                            </span>
+                            ${initObj?.slots ? `<span>Bound Slots: <strong style="color: #334155;">${escapeHtml(initObj.slots)}</strong></span>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                const fmtStr = expStr ? PxeEngine.fmt(expStr) : '';
+                tdVal.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                        <code style="font-family: var(--font-mono); font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; font-size: 13px;">${escapeHtml(expStr || '—')}</code>
+                        <span style="font-size: 19px; font-weight: 700; color: firebrick; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml(fmtStr)}</span>
+                    </div>
+                `;
+            }
+        } else if (tableName === 'interactive_demos' && colName === 'status') {
+            const st = rawVal ? rawVal.toString() : '';
+            let badgeBg = '#f1f5f9';
+            let badgeColor = '#475569';
+            let badgeLabel = st || 'None';
+            if (st === 'taut') {
+                badgeBg = '#ecfdf5';
+                badgeColor = '#047857';
+                badgeLabel = '⚖️ Tautology [taut]';
+            } else if (st === 'unsat') {
+                badgeBg = '#fef2f2';
+                badgeColor = '#dc2626';
+                badgeLabel = '⚠️ Unsatisfiable [unsat]';
+            } else if (st === 'cont') {
+                badgeBg = '#f1f5f9';
+                badgeColor = '#0284c7';
+                badgeLabel = 'Contingent [cont]';
+            }
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml(badgeLabel)}</span>`;
+        } else if (tableName === 'interactive_demos' && colName === 'init_packet') {
+            tdVal.innerHTML = `
+                <details style="font-size: 11px; color: #64748b;">
+                    <summary style="cursor: pointer; font-weight: 600;">View Raw JSON Packet</summary>
+                    <pre class="raw-code-box" style="margin-top: 4px;">${escapeHtml(typeof rawVal === 'object' ? JSON.stringify(rawVal, null, 2) : (rawVal || '').toString())}</pre>
+                </details>
+            `;
         } else if (typeof rawVal === 'object') {
             tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml(JSON.stringify(rawVal, null, 2))}</pre>`;
         } else if (colName === 'content_html') {
@@ -1403,7 +1699,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
         if (record.diagram_key) {
             try {
                 const demos = await queryDatabase<any>(
-                    `SELECT id, demo_key, title FROM interactive_demos WHERE demo_key = $1 LIMIT 1;`,
+                    `SELECT id, title, engine FROM interactive_demos WHERE engine = $1 LIMIT 1;`,
                     [record.diagram_key]
                 );
                 if (demos && demos.length > 0) {
@@ -1412,7 +1708,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                     relRowsHtml += `
                         <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
                             <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Interactive Demo:</span>
-                            <input type="text" readonly value="${escapeHtml(demo.title)} (${escapeHtml(demo.demo_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
+                            <input type="text" readonly value="${escapeHtml(demo.title)} [${escapeHtml(demo.engine)}]" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
                             <button type="button" class="btn btn-sm btn-nav-demo" data-id="${demo.id}" data-title="${escapeHtml(demo.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
                                 Inspect Demo ↗
                             </button>
@@ -1647,7 +1943,125 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
         }
     }
 
-    // 6. Generic Dependent Child Tables (lean_verifications, mode_slots, etc.)
+    // 6. If Interactive Demo (interactive_demos):
+    if (tableName === 'interactive_demos') {
+        try {
+            let exp = record.expression || '';
+            if (!exp) {
+                try {
+                    const initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
+                    exp = initObj?.exp || '';
+                } catch (e) {}
+            }
+
+            let query = `
+                SELECT DISTINCT s.id, s.seg_key, s.title
+                FROM segments s
+                LEFT JOIN segment_references sr ON sr.segment_id = s.id AND sr.demo_id = $1
+                WHERE sr.id IS NOT NULL
+                   OR s.content_html LIKE $2
+                   OR s.content_html LIKE $3
+            `;
+            const params: any[] = [
+                record.id,
+                `%id="${record.id}"%`,
+                `%demo-id="${record.id}"%`
+            ];
+            if (exp) {
+                params.push(`%${exp}%`);
+                query += ` OR s.content_html LIKE $${params.length}`;
+            }
+            query += ` ORDER BY s.id ASC;`;
+
+            const citingSegs = await queryDatabase<any>(query, params);
+
+            if (citingSegs && citingSegs.length > 0) {
+                hasRelations = true;
+                if (citingSegs.length === 1) {
+                    const cseg = citingSegs[0];
+                    relRowsHtml += `
+                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapter (Segment):</span>
+                            <input type="text" readonly value="${escapeHtml(cseg.title || cseg.seg_key)} (${escapeHtml(cseg.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
+                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${cseg.id}" data-title="${escapeHtml(cseg.title || cseg.seg_key)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
+                                Inspect Segment ↗
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    relRowsHtml += `
+                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapters (${citingSegs.length}):</span>
+                            <select id="select-citing-segs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
+                                ${citingSegs.map((s: any) => `<option value="${s.id}" data-title="${escapeHtml(s.title || s.seg_key)}">${escapeHtml(s.title || s.seg_key)} (${escapeHtml(s.seg_key)})</option>`).join('')}
+                            </select>
+                            <button type="button" id="btn-nav-citing-seg" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
+                                Inspect Selected ↗
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        } catch (err) {
+            console.error('[renderAttributeCompleteCard] Error querying citing segments for demo:', err);
+        }
+
+        // B. Governing Predicate Directed Equality (if FSD)
+        if (record.engine === 'fsd') {
+            try {
+                let predKey = record.expression || '';
+                if (!predKey) {
+                    try {
+                        const initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
+                        predKey = initObj?.exp || '';
+                    } catch (e) {}
+                }
+
+                // Map PXE code to equation_key
+                const codeToEqMap: Record<string, string> = {
+                    'j': 'eq_pred_assign',
+                    'r': 'eq_pred_gt',
+                    's': 'eq_pred_lt',
+                    'k': 'eq_pred_eq',
+                    'l': 'eq_pred_le',
+                    'm': 'eq_pred_mem',
+                    'b': 'eq_pred_subset',
+                    'v': 'eq_pred_even',
+                    'd': 'eq_pred_odd',
+                    'u': 'eq_pred_succ',
+                    'w': 'eq_pred_near',
+                    'c': 'eq_pred_div'
+                };
+                const mappedEqKey = codeToEqMap[predKey] || `eq_pred_${predKey}`;
+
+                const predRows = await queryDatabase<any>(
+                    `SELECT id, equation_key, title, formula_expr 
+                     FROM directed_equations 
+                     WHERE target_domain IN ('B_w', '𝔹', 'B') 
+                       AND (equation_key = $1 OR equation_key LIKE '%' || $2 OR target_symbol = $2)
+                     LIMIT 1;`,
+                    [mappedEqKey, predKey]
+                );
+                if (predRows && predRows.length > 0) {
+                    hasRelations = true;
+                    const pde = predRows[0];
+                    relRowsHtml += `
+                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Governing Predicate (DE):</span>
+                            <input type="text" readonly value="${escapeHtml(pde.title)} (${escapeHtml(pde.equation_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
+                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${pde.id}" data-title="${escapeHtml(pde.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
+                                Inspect Predicate DE ↗
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error('[renderAttributeCompleteCard] Error querying predicate DE for FSD:', err);
+            }
+        }
+    }
+
+    // 7. Generic Dependent Child Tables (lean_verifications, mode_slots, etc.)
     const dependentsForTable = tableInfo.dependents || [];
     for (const dep of dependentsForTable) {
         // Skip tables already handled explicitly above to prevent redundant duplication
@@ -1774,6 +2188,17 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                 navigateToEntity('segments', id, title);
             });
         });
+
+        const btnNavCitingSeg = relContainer.querySelector('#btn-nav-citing-seg');
+        if (btnNavCitingSeg) {
+            btnNavCitingSeg.addEventListener('click', () => {
+                const selectEl = relContainer.querySelector('#select-citing-segs') as HTMLSelectElement;
+                if (selectEl && selectEl.value) {
+                    const opt = selectEl.selectedOptions[0];
+                    navigateToEntity('segments', selectEl.value, opt?.getAttribute('data-title') || 'Segment');
+                }
+            });
+        }
 
         relContainer.querySelectorAll('.btn-nav-index-entry').forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -2086,7 +2511,15 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
         // Skip auto-generated primary key on create
         if (colMeta.isPrimaryKey && isNew) continue;
 
-        const val = record ? record[colName] : '';
+        let val = record ? record[colName] : '';
+        if (isNew && tableName === 'interactive_demos') {
+            if (colName === 'engine' && (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table')) {
+                val = 'ttd';
+            }
+            if (colName === 'mode' && (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table')) {
+                val = 'propositional_logic';
+            }
+        }
 
         const fieldGroup = document.createElement('div');
         fieldGroup.className = 'form-field-group';
@@ -2104,7 +2537,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
         let inputElement: HTMLElement;
 
-        if (colMeta.isPrimaryKey) {
+        if (colMeta.isPrimaryKey || !colMeta.canModify) {
             const input = document.createElement('input');
             input.type = 'text';
             input.id = `field-${colName}`;
@@ -2112,6 +2545,9 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             input.value = val !== null && val !== undefined ? val.toString() : '';
             input.readOnly = true;
             input.className = 'form-input';
+            input.style.backgroundColor = '#f1f5f9';
+            input.style.color = '#64748b';
+            input.style.cursor = 'not-allowed';
             inputElement = input;
         } else if (colMeta.isEnum) {
             const select = document.createElement('select');
@@ -2129,7 +2565,13 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             colMeta.enumValues.forEach((ev) => {
                 const opt = document.createElement('option');
                 opt.value = ev;
-                opt.textContent = ev;
+                let optLabel = ev;
+                if (colName === 'status' && tableName === 'interactive_demos') {
+                    if (ev === 'taut') optLabel = 'taut (Tautology)';
+                    else if (ev === 'unsat') optLabel = 'unsat (Unsatisfiable / Contradiction)';
+                    else if (ev === 'cont') optLabel = 'cont (Contingent)';
+                }
+                opt.textContent = optLabel;
                 if (val === ev) opt.selected = true;
                 select.appendChild(opt);
             });
@@ -2251,6 +2693,15 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 : '';
             inputElement = textarea;
 
+            // Interactive demo init_packet: clean collapsible details
+            if (tableName === 'interactive_demos' && colName === 'init_packet') {
+                const details = document.createElement('details');
+                details.style.cssText = 'margin-top: 4px; font-size: 12px; color: #64748b;';
+                details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw JSON Packet</summary>`;
+                details.appendChild(textarea);
+                inputElement = details;
+            }
+
             // If Segment HTML content, provide Citation & Custom Element insertion palette
             if (tableName === 'segments' && colName === 'content_html') {
                 const paletteBar = document.createElement('div');
@@ -2329,83 +2780,44 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
                 paletteBar.querySelector('.btn-insert-ttd')?.addEventListener('click', async () => {
                     const ttdDemos = await queryDatabase<any>(
-                        "SELECT id, demo_key, title, engine, mode, init_packet, description FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
+                        "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
                     );
                     showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px; color: #991b1b;">Insert Truth Table Demo (&lt;ttd-ref&gt;)</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a pre-configured propositional initialization from the database or enter an expression:</p>
+                        <h3 style="margin-bottom: 8px; font-size: 15px; color: #991b1b;">⚖️ Insert Truth Table Custom Element (&lt;ttd-ref&gt;)</h3>
+                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an authoritative proposition from the database to embed as a canonical reference:</p>
                         
-                        <div style="margin-bottom: 12px;">
-                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Configured TTD Presets (from Database):</label>
-                            <select id="modal-select-ttd-preset" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;">
-                                <option value="">-- Select a preset or type below --</option>
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Registered Propositional Expressions (${ttdDemos?.length || 0}):</label>
+                            <select id="modal-select-ttd-id" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;">
                                 ${(ttdDemos || []).map((d: any) => {
-                                    const init = typeof d.init_packet === 'string' ? JSON.parse(d.init_packet || '{}') : (d.init_packet || {});
-                                    const expVal = init.exp || '';
-                                    const fmtVal = init.fmt || formatTtdDisplay(expVal);
-                                    return `<option value="${escapeHtml(expVal)}" data-fmt="${escapeHtml(fmtVal)}" data-title="${escapeHtml(d.title)}">${escapeHtml(d.title)} [${escapeHtml(fmtVal)}]</option>`;
+                                    const friendly = getRecordFriendlyName('interactive_demos', d);
+                                    return `<option value="${d.id}">[#${d.id}] ${escapeHtml(friendly)}</option>`;
                                 }).join('')}
                             </select>
                         </div>
 
-                        <div style="margin-bottom: 12px;">
-                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Propositional Expression (Internal Code):</label>
-                            <input type="text" id="modal-input-ttd-exp" placeholder="e.g. n[paq]e[nponq]" style="width: 100%; padding: 8px; font-size: 13px; font-family: var(--font-mono); border: 1px solid var(--border-color); border-radius: 4px;" />
-                            <div style="font-size: 11px; color: #94a3b8; margin-top: 3px;">Keys: <code>p, q, r, s</code>, <code>n</code> (¬), <code>a</code> (∧), <code>o</code> (∨), <code>i</code> (→), <code>e</code> (↔), <code>[ ]</code></div>
-                        </div>
-
-                        <div style="margin-bottom: 16px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
-                            <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px;">LIVE FORMATTED PREVIEW:</div>
-                            <div id="modal-ttd-preview" style="font-size: 16px; font-weight: 700; color: firebrick; min-height: 24px;">—</div>
-                        </div>
-
                         <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-ttd">Insert Tag</button>
+                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-ttd">Insert &lt;ttd-ref id="..."&gt;</button>
                             <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
                         </div>
                     `);
 
-                    const presetSelect = document.getElementById('modal-select-ttd-preset') as HTMLSelectElement;
-                    const expInput = document.getElementById('modal-input-ttd-exp') as HTMLInputElement;
-                    const previewEl = document.getElementById('modal-ttd-preview') as HTMLElement;
-
-                    const updatePreview = () => {
-                        const raw = expInput.value.trim();
-                        if (!raw) {
-                            previewEl.textContent = '—';
-                        } else {
-                            previewEl.textContent = formatTtdDisplay(raw);
-                        }
-                    };
-
-                    presetSelect?.addEventListener('change', () => {
-                        const opt = presetSelect.selectedOptions[0];
-                        if (opt && opt.value) {
-                            expInput.value = opt.value;
-                            const customFmt = opt.getAttribute('data-fmt');
-                            previewEl.textContent = customFmt || formatTtdDisplay(opt.value);
-                        }
-                    });
-
-                    expInput?.addEventListener('input', updatePreview);
-
                     document.getElementById('btn-modal-confirm-insert-ttd')?.addEventListener('click', () => {
-                        const exp = expInput.value.trim();
-                        if (exp) {
-                            const fmt = previewEl.textContent !== '—' ? previewEl.textContent : formatTtdDisplay(exp);
-                            insertAtCursor(`<ttd-ref exp="${escapeHtml(exp)}" style="color:firebrick;font-weight:bold">${escapeHtml(fmt)}</ttd-ref>`);
+                        const sel = document.getElementById('modal-select-ttd-id') as HTMLSelectElement;
+                        if (sel && sel.value) {
+                            insertAtCursor(`\n<ttd-ref id="${sel.value}"></ttd-ref>\n`);
                         }
                         closeModal();
                     });
                 });
 
                 paletteBar.querySelector('.btn-insert-demo')?.addEventListener('click', async () => {
-                    const demos = await queryDatabase<any>("SELECT id, demo_key, title, engine FROM interactive_demos ORDER BY id ASC;");
+                    const demos = await queryDatabase<any>("SELECT id, title, engine FROM interactive_demos ORDER BY id ASC;");
                     showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Interactive Demo</h3>
+                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Interactive Demo (&lt;visual-demo&gt;)</h3>
                         <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an interactive demonstration to embed:</p>
                         <select id="modal-select-demo" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(demos || []).map((d: any) => `<option value="${escapeHtml(d.demo_key)}">[${escapeHtml(d.engine.toUpperCase())}] ${escapeHtml(d.title)} (${escapeHtml(d.demo_key)})</option>`).join('')}
+                            ${(demos || []).map((d: any) => `<option value="${d.id}">[${escapeHtml(d.engine.toUpperCase())}] ${escapeHtml(d.title)} (#${d.id})</option>`).join('')}
                         </select>
                         <div style="display: flex; justify-content: flex-end; gap: 8px;">
                             <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-demo">Insert Tag</button>
@@ -2415,7 +2827,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                     document.getElementById('btn-modal-confirm-insert-demo')?.addEventListener('click', () => {
                         const sel = document.getElementById('modal-select-demo') as HTMLSelectElement;
                         if (sel && sel.value) {
-                            insertAtCursor(`\n<demo-embed demo-key="${sel.value}"></demo-embed>\n`);
+                            insertAtCursor(`\n<visual-demo id="${sel.value}"></visual-demo>\n`);
                         }
                         closeModal();
                     });
@@ -2423,7 +2835,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
                 paletteBar.querySelector('.btn-review-elements')?.addEventListener('click', () => {
                     const text = textarea.value;
-                    const tagRegex = /(<ttd-ref[\s\S]*?<\/ttd-ref>|<fs-ref[^>]*>(?:<\/fs-ref>)?|<interactive-stencil[^>]*>(?:<\/interactive-stencil>)?|<demo-embed[^>]*>(?:<\/demo-embed>)?)/gi;
+                    const tagRegex = /(<ttd-ref[\s\S]*?<\/ttd-ref>|<ttd-ref[^>]*>(?:<\/ttd-ref>)?|<fs-ref[^>]*>(?:<\/fs-ref>)?|<interactive-stencil[^>]*>(?:<\/interactive-stencil>)?|<stencil-ref[^>]*>(?:<\/stencil-ref>)?|<visual-demo[^>]*>(?:<\/visual-demo>)?|<demo-embed[^>]*>(?:<\/demo-embed>)?|<pseudo-ref[^>]*>(?:<\/pseudo-ref>)?)/gi;
                     const matches: string[] = [];
                     let m: RegExpExecArray | null;
                     while ((m = tagRegex.exec(text)) !== null) {
@@ -2433,7 +2845,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                     if (matches.length === 0) {
                         showModal(`
                             <h3 style="margin-bottom: 8px; font-size: 15px;">Review Embedded Custom Elements</h3>
-                            <p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">No custom element tags (&lt;ttd-ref&gt;, &lt;fs-ref&gt;, &lt;interactive-stencil&gt;, &lt;demo-embed&gt;) found in this segment's content.</p>
+                            <p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">No custom element tags (&lt;ttd-ref&gt;, &lt;fs-ref&gt;, &lt;interactive-stencil&gt;, &lt;visual-demo&gt;) found in this segment's content.</p>
                             <div style="display: flex; justify-content: flex-end;">
                                 <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
                             </div>
@@ -2482,6 +2894,334 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
                 fieldGroup.appendChild(paletteBar);
             }
+        } else if (tableName === 'interactive_demos' && colName === 'expression') {
+            const expWrapper = document.createElement('div');
+            expWrapper.style.cssText = 'display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px;';
+            const expVal = val !== null && val !== undefined ? val.toString() : '';
+            const isFsd = (record && record.engine === 'fsd') || currentTypeKey === 'fsd';
+
+            let initObj: any = null;
+            try {
+                initObj = typeof record?.init_packet === 'object' ? record.init_packet : JSON.parse(record?.init_packet || '{}');
+            } catch (e) {}
+
+            let initialDisplay = '—';
+            if (isFsd) {
+                const quantifiers = initObj?.quantifiers || '∀x₁:ℕ ∃x₂:ℕ';
+                const slots = initObj?.slots ? `(${initObj.slots})` : '';
+                const predSym = PxeEngine.charDisplayMap[expVal] || expVal || 'GT';
+                initialDisplay = `${quantifiers} [ ${predSym}${slots} ]`;
+            } else {
+                initialDisplay = expVal ? PxeEngine.fmt(expVal) : '—';
+            }
+
+            expWrapper.innerHTML = `
+                <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml(expVal)}" readonly
+                    style="width: 220px; padding: 7px 10px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;"
+                    title="Click to open ${isFsd ? 'FSD Quantified Statement' : 'Propositional Expression'} Editor" />
+                <div id="preview-field-${colName}" style="font-size: 18px; font-weight: 700; color: ${isFsd ? '#1e3a8a' : 'firebrick'}; font-family: 'Cambria Math', Georgia, serif; min-width: 140px; cursor: pointer;" title="Live mathematical display">
+                    ${escapeHtml(initialDisplay)}
+                </div>
+                <button type="button" id="btn-open-pxe-editor" class="action-btn secondary" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                    ${isFsd ? '📐 Edit FSD Statement' : '✎ Edit Proposition'}
+                </button>
+            `;
+
+            const openEditor = async () => {
+                const expInput = expWrapper.querySelector(`#field-${colName}`) as HTMLInputElement;
+                let curExp = expInput ? expInput.value : expVal;
+
+                if (isFsd) {
+                    // 1. Load constructed formal statements from Tier 1 for direct selection
+                    let constructedStmts: any[] = [];
+                    try {
+                        constructedStmts = (await queryDatabase<any>(
+                            "SELECT id, statement_key, title, statement_kind, expression, description FROM formal_statements ORDER BY statement_kind ASC, id ASC;"
+                        )) || [];
+                    } catch (e) {
+                        console.error('[openEditor] Error loading constructed formal statements:', e);
+                    }
+
+                    // 2. Load all Boolean Directed Equalities from PostgreSQL
+                    let predEquations: any[] = [];
+                    try {
+                        predEquations = (await queryDatabase<any>(
+                            "SELECT id, equation_key, title, formula_expr, target_symbol FROM directed_equations WHERE target_domain IN ('B_w', '𝔹', 'B') ORDER BY id ASC;"
+                        )) || [];
+                    } catch (e) {
+                        console.error('[openEditor] Error loading predicate DEs:', e);
+                    }
+
+                    // Map code <-> equation_key
+                    const codeToEqMap: Record<string, string> = {
+                        'j': 'eq_pred_assign',
+                        'r': 'eq_pred_gt',
+                        's': 'eq_pred_lt',
+                        'k': 'eq_pred_eq',
+                        'l': 'eq_pred_le',
+                        'm': 'eq_pred_mem',
+                        'b': 'eq_pred_subset',
+                        'v': 'eq_pred_even',
+                        'd': 'eq_pred_odd',
+                        'u': 'eq_pred_succ',
+                        'w': 'eq_pred_near',
+                        'c': 'eq_pred_div'
+                    };
+                    const eqToCodeMap: Record<string, string> = {};
+                    Object.entries(codeToEqMap).forEach(([k, v]) => { eqToCodeMap[v] = k; });
+
+                    let currentCode = curExp || 'r';
+                    let currentQuantifiers = initObj?.quantifiers || '∀x₁:ℕ ∃x₂:ℕ';
+                    let currentSlots = initObj?.slots || 'x₁,x₂';
+                    let currentStage = initObj?.stage || '4';
+
+                    const updateLivePreview = () => {
+                        const previewTarget = document.getElementById('modal-fsd-live-preview');
+                        if (!previewTarget) return;
+                        const quant = (document.getElementById('modal-fsd-quantifiers') as HTMLInputElement)?.value || '';
+                        const sl = (document.getElementById('modal-fsd-slots') as HTMLInputElement)?.value || '';
+                        const predSel = document.getElementById('modal-fsd-pred-select') as HTMLSelectElement;
+                        const selectedCode = predSel?.value || currentCode;
+                        const symbol = PxeEngine.charDisplayMap[selectedCode] || selectedCode;
+                        const slotsPart = sl ? `(${sl})` : '';
+                        previewTarget.textContent = `${quant} [ ${symbol}${slotsPart} ]`;
+                    };
+
+                    showModal(`
+                        <h3 style="margin-bottom: 6px; font-size: 16px; color: #0f172a;">📐 Formal Statement Demo (FSD) Quantified Statement Builder</h3>
+                        <p style="color: #64748b; font-size: 12px; margin-bottom: 14px;">
+                            In Middle Way Math, a predicate <strong>is</strong> a Directed Equality with codomain 𝔹. Select an existing constructed formal statement from Tier 1, or configure the predicate DE and quantifier bindings manually:
+                        </p>
+                        <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px;">
+                            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 6px; padding: 10px 14px;">
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 4px;">
+                                    🏛️ Initialize from Constructed Formal Statement (Tier 1):
+                                </label>
+                                <select id="modal-fsd-constructed-fs-select" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #86efac; border-radius: 4px; background: #ffffff; color: #14532d; font-weight: 600;">
+                                    <option value="">-- Choose a constructed FS / DE to initialize FSD (${constructedStmts.length} available) --</option>
+                                    ${constructedStmts.map((s) => `
+                                        <option value="${s.id}" data-key="${escapeHtml(s.statement_key)}" data-kind="${escapeHtml(s.statement_kind)}" data-title="${escapeHtml(s.title)}" data-expr="${escapeHtml(s.expression || '')}" data-desc="${escapeHtml(s.description || '')}">
+                                            [${escapeHtml(s.statement_kind.toUpperCase())}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})
+                                        </option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                    1. Governing Predicate (Directed Equality with Codomain 𝔹):
+                                </label>
+                                <select id="modal-fsd-pred-select" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 600; background: #ffffff; color: #0f172a;">
+                                    ${predEquations.map((pe) => {
+                                        const code = eqToCodeMap[pe.equation_key] || pe.equation_key.replace('eq_pred_', '').toLowerCase();
+                                        const isSel = code === currentCode || pe.equation_key === currentCode;
+                                        const sym = PxeEngine.charDisplayMap[code] || pe.target_symbol || code;
+                                        return `<option value="${escapeHtml(code)}" ${isSel ? 'selected' : ''}>
+                                            ${escapeHtml(sym)} — ${escapeHtml(pe.title)} [${escapeHtml(pe.equation_key)}]
+                                        </option>`;
+                                    }).join('')}
+                                </select>
+                            </div>
+                            <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 240px;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                        2. Quantifier Bindings:
+                                    </label>
+                                    <input type="text" id="modal-fsd-quantifiers" value="${escapeHtml(currentQuantifiers)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
+                                        <button type="button" class="btn btn-sm btn-quick-quant" data-val="∀x₁:ℕ" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">∀x₁:ℕ</button>
+                                        <button type="button" class="btn btn-sm btn-quick-quant" data-val="∃x₁:ℕ" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">∃x₁:ℕ</button>
+                                        <button type="button" class="btn btn-sm btn-quick-quant" data-val="∀x₁:ℕ ∃x₂:ℕ" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">∀x₁:ℕ ∃x₂:ℕ</button>
+                                        <button type="button" class="btn btn-sm btn-quick-quant" data-val="∃x₁:ℕ ∀y₁:𝒫(ℕ)" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">∃x₁:ℕ ∀y₁:𝒫(ℕ)</button>
+                                        <button type="button" class="btn btn-sm btn-quick-quant" data-val="∀x₁:[ℕ|GT(11)]" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">∀x₁:[ℕ|GT(11)]</button>
+                                    </div>
+                                </div>
+                                <div style="width: 200px;">
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                        3. Bound Slots:
+                                    </label>
+                                    <input type="text" id="modal-fsd-slots" value="${escapeHtml(currentSlots)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
+                                        <button type="button" class="btn btn-sm btn-quick-slot" data-val="x₁,x₂" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x₁,x₂</button>
+                                        <button type="button" class="btn btn-sm btn-quick-slot" data-val="x₁" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x₁</button>
+                                        <button type="button" class="btn btn-sm btn-quick-slot" data-val="x₁,y₁" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x₁,y₁</button>
+                                        <button type="button" class="btn btn-sm btn-quick-slot" data-val="A,B" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">A,B</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                    4. Default Visualizer Stage:
+                                </label>
+                                <select id="modal-fsd-stage" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff;">
+                                    <option value="4" ${currentStage === '4' ? 'selected' : ''}>Stage 4: 2D Matrix Visualizer (Truth &amp; Incidence Grid)</option>
+                                    <option value="3" ${currentStage === '3' ? 'selected' : ''}>Stage 3: Quantifier Prefix Evaluation</option>
+                                    <option value="2" ${currentStage === '2' ? 'selected' : ''}>Stage 2: Slot &amp; Variable Domain Binding</option>
+                                    <option value="1" ${currentStage === '1' ? 'selected' : ''}>Stage 1: Raw Predicate Assembly</option>
+                                </select>
+                            </div>
+                            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 12px 16px; margin-top: 4px;">
+                                <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">
+                                    Mathematical Quantified Statement Preview
+                                </div>
+                                <div id="modal-fsd-live-preview" style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                            <button type="button" class="action-btn primary" id="btn-modal-apply-fsd">Apply Statement</button>
+                            <button type="button" class="action-btn secondary" id="btn-modal-cancel-fsd">Cancel</button>
+                        </div>
+                    `);
+
+                    updateLivePreview();
+
+                    document.getElementById('modal-fsd-constructed-fs-select')?.addEventListener('change', () => {
+                        const sel = document.getElementById('modal-fsd-constructed-fs-select') as HTMLSelectElement;
+                        if (!sel || !sel.value) return;
+                        const opt = sel.selectedOptions[0];
+                        const key = opt?.getAttribute('data-key') || '';
+                        const title = opt?.getAttribute('data-title') || '';
+                        const expr = opt?.getAttribute('data-expr') || '';
+
+                        // If key matches a predicate code
+                        const matchedCode = Object.keys(codeToEqMap).find((c) => {
+                            const eqKey = codeToEqMap[c];
+                            return eqKey === key || key.replace('fs_pred_', 'eq_pred_') === eqKey || key.includes(c);
+                        });
+                        if (matchedCode) {
+                            const predSel = document.getElementById('modal-fsd-pred-select') as HTMLSelectElement;
+                            if (predSel) predSel.value = matchedCode;
+                        }
+
+                        // Try extracting quantifiers from expression
+                        const quantMatch = expr.match(/([∀∃][^\[:=]+)/);
+                        if (quantMatch) {
+                            const qInput = document.getElementById('modal-fsd-quantifiers') as HTMLInputElement;
+                            if (qInput) qInput.value = quantMatch[1].trim();
+                        }
+
+                        // If demo title input exists on page, update it
+                        const titleInput = document.getElementById('field-title') as HTMLInputElement;
+                        if (titleInput && (!titleInput.value || titleInput.value.startsWith('Formal Structure') || titleInput.value.startsWith('[FSD]'))) {
+                            titleInput.value = `[FSD] ${title}`;
+                        }
+
+                        updateLivePreview();
+                    });
+
+                    document.getElementById('modal-fsd-pred-select')?.addEventListener('change', updateLivePreview);
+                    document.getElementById('modal-fsd-quantifiers')?.addEventListener('input', updateLivePreview);
+                    document.getElementById('modal-fsd-slots')?.addEventListener('input', updateLivePreview);
+
+                    document.querySelectorAll('.btn-quick-quant').forEach((b) => {
+                        b.addEventListener('click', () => {
+                            const qInput = document.getElementById('modal-fsd-quantifiers') as HTMLInputElement;
+                            if (qInput) {
+                                qInput.value = (b as HTMLElement).getAttribute('data-val') || '';
+                                updateLivePreview();
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.btn-quick-slot').forEach((b) => {
+                        b.addEventListener('click', () => {
+                            const sInput = document.getElementById('modal-fsd-slots') as HTMLInputElement;
+                            if (sInput) {
+                                sInput.value = (b as HTMLElement).getAttribute('data-val') || '';
+                                updateLivePreview();
+                            }
+                        });
+                    });
+
+                    document.getElementById('btn-modal-apply-fsd')?.addEventListener('click', () => {
+                        const predSel = document.getElementById('modal-fsd-pred-select') as HTMLSelectElement;
+                        const qInput = document.getElementById('modal-fsd-quantifiers') as HTMLInputElement;
+                        const sInput = document.getElementById('modal-fsd-slots') as HTMLInputElement;
+                        const stSel = document.getElementById('modal-fsd-stage') as HTMLSelectElement;
+
+                        const chosenCode = predSel ? predSel.value : currentCode;
+                        const finalQuant = qInput ? qInput.value.trim() : '';
+                        const finalSlots = sInput ? sInput.value.trim() : '';
+                        const finalStage = stSel ? stSel.value : '4';
+
+                        if (expInput) expInput.value = chosenCode;
+
+                        const previewEl = expWrapper.querySelector(`#preview-field-${colName}`);
+                        const sym = PxeEngine.charDisplayMap[chosenCode] || chosenCode;
+                        const slotsPart = finalSlots ? `(${finalSlots})` : '';
+                        const fullFormula = finalQuant ? `${finalQuant} [ ${sym}${slotsPart} ]` : `${sym}${slotsPart}`;
+                        if (previewEl) previewEl.textContent = fullFormula;
+
+                        const newPacket = {
+                            exp: chosenCode,
+                            quantifiers: finalQuant,
+                            slots: finalSlots,
+                            stage: finalStage,
+                            stages: [0, 1, 2, 3]
+                        };
+
+                        const initTextarea = document.getElementById('field-init_packet') as HTMLTextAreaElement;
+                        if (initTextarea) {
+                            initTextarea.value = JSON.stringify(newPacket, null, 2);
+                        }
+
+                        closeModal();
+                    });
+
+                    document.getElementById('btn-modal-cancel-fsd')?.addEventListener('click', () => {
+                        closeModal();
+                    });
+                } else {
+                    showModal(`
+                        <h3 style="margin-bottom: 8px; font-size: 16px; color: #0f172a;">⚖️ Propositional Expression (PXE) Editor</h3>
+                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Construct or modify the propositional expression using atomic variables and logical connectives:</p>
+                        <div id="modal-pxe-builder-container"></div>
+                        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+                            <button type="button" class="action-btn primary" id="btn-modal-apply-pxe">Apply Expression</button>
+                            <button type="button" class="action-btn secondary" id="btn-modal-cancel-pxe">Cancel</button>
+                        </div>
+                    `);
+
+                    const modalTarget = document.getElementById('modal-pxe-builder-container')!;
+                    let latestPacket: any = null;
+                    let latestExp = curExp;
+
+                    mountPxeBuilderComponent(modalTarget, curExp, (packet, rawExp) => {
+                        latestPacket = packet;
+                        latestExp = rawExp;
+                    });
+
+                    document.getElementById('btn-modal-apply-pxe')?.addEventListener('click', () => {
+                        if (expInput) expInput.value = latestExp;
+                        const previewEl = expWrapper.querySelector(`#preview-field-${colName}`);
+                        if (previewEl) previewEl.textContent = latestExp ? PxeEngine.fmt(latestExp) : '—';
+
+                        // Update status dropdown
+                        const statusSelect = document.getElementById('field-status') as HTMLSelectElement;
+                        if (statusSelect && latestPacket?.status) {
+                            statusSelect.value = latestPacket.status;
+                        }
+
+                        // Update init_packet textarea if present
+                        const initTextarea = document.getElementById('field-init_packet') as HTMLTextAreaElement;
+                        if (initTextarea && latestPacket) {
+                            initTextarea.value = JSON.stringify(latestPacket, null, 2);
+                        }
+
+                        closeModal();
+                    });
+
+                    document.getElementById('btn-modal-cancel-pxe')?.addEventListener('click', () => {
+                        closeModal();
+                    });
+                }
+            };
+
+            expWrapper.querySelector('#btn-open-pxe-editor')?.addEventListener('click', openEditor);
+            expWrapper.querySelector(`#field-${colName}`)?.addEventListener('click', openEditor);
+            expWrapper.querySelector(`#preview-field-${colName}`)?.addEventListener('click', openEditor);
+
+            inputElement = expWrapper;
         } else {
             const input = document.createElement('input');
             input.type = colMeta.dbDataType.includes('int') ? 'number' : 'text';
@@ -2492,8 +3232,8 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             inputElement = input;
         }
 
-        // Quick Math Symbol Palette for expression and formula_expr
-        if (colName === 'expression' || colName === 'formula_expr') {
+        // Quick Math Symbol Palette (only for directed equations, never for interactive_demos)
+        if (tableName !== 'interactive_demos' && (colName === 'formula_expr' || colName === 'expression')) {
             const symBar = document.createElement('div');
             symBar.style.cssText = 'display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);';
             const syms = ['→', '⇒', 'ℝ_ω', '𝔻', 'ℤ', 'ℕ', '𝔹', '·', '≠', '∈', '∀', '∃', 'ω', 'dx', '≤', '≥', '≈', '≡', '×', 'λ'];

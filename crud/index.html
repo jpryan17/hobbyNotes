@@ -1049,6 +1049,25 @@
                     <!-- Populated dynamically by TypeScript menuTree engine -->
                 </div>
             </div>
+
+            <!-- Subject Filter Dropdown -->
+            <div class="dropdown-container">
+                <button id="subject-btn" class="control-pill-btn" aria-haspopup="true">
+                    <span class="pill-label">Subject:</span>
+                    <span class="pill-value" id="current-subject-label">All</span>
+                    <span>▾</span>
+                </button>
+                <div id="subject-dropdown-menu" class="control-dropdown-menu" style="min-width: 230px;">
+                    <div class="dropdown-header">Filter by Subject</div>
+                    <div class="dropdown-item active" data-subject="all"><span>🌐 All Subjects</span></div>
+                    <div class="dropdown-item" data-subject="logic"><span>🔣 Logic & Set Theory</span></div>
+                    <div class="dropdown-item" data-subject="numbers_trees"><span>🌲 Numbers & Conway Trees</span></div>
+                    <div class="dropdown-item" data-subject="algebra"><span>📐 Vectors & Linear Algebra</span></div>
+                    <div class="dropdown-item" data-subject="analysis"><span>📈 1D & 2D Continuum Analysis</span></div>
+                    <div class="dropdown-item" data-subject="physics"><span>⚛️ Applied Physics & Dynamics</span></div>
+                    <div class="dropdown-item" data-subject="information"><span>🎲 Quantum & Bayesian Info</span></div>
+                </div>
+            </div>
         </div>
 
         <!-- Breadcrumbs & Nav History -->

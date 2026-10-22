@@ -17,6 +17,7 @@ export interface ColumnConfig {
     rows?: number;
     useHints?: boolean;
     sufficientCondition?: SufficientCondition;
+    options?: string[] | { value: string; label: string }[];
 }
 
 export interface ExclusiveFieldSet {

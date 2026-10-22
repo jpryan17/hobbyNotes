@@ -267,18 +267,18 @@ export async function fetchPresetsForMode(modeOrEquationId) {
 }
 export async function fetchAllInteractiveDemos() {
     const sql = `
-        SELECT id, demo_key, engine, mode, title, description, created_at, updated_at
+        SELECT id, engine, mode, title, description, expression, status, init_packet, created_at, updated_at
         FROM interactive_demos
         ORDER BY id ASC;
     `;
     return queryDatabase(sql);
 }
-export async function fetchInteractiveDemoByIdOrKey(idOrKey) {
-    const isNum = typeof idOrKey === 'number' || /^\d+$/.test(String(idOrKey));
+export async function fetchInteractiveDemoByIdOrKey(idOrTitle) {
+    const isNum = typeof idOrTitle === 'number' || /^\d+$/.test(String(idOrTitle));
     const sql = isNum
-        ? `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE id = $1;`
-        : `SELECT id, demo_key, engine, mode, title, description, created_at, updated_at FROM interactive_demos WHERE demo_key = $1;`;
-    const rows = await queryDatabase(sql, [idOrKey]);
+        ? `SELECT id, engine, mode, title, description, expression, status, init_packet, created_at, updated_at FROM interactive_demos WHERE id = $1;`
+        : `SELECT id, engine, mode, title, description, expression, status, init_packet, created_at, updated_at FROM interactive_demos WHERE title = $1;`;
+    const rows = await queryDatabase(sql, [idOrTitle]);
     return rows.length > 0 ? rows[0] : null;
 }
 // =====================================================================

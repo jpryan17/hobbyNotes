@@ -50,9 +50,13 @@ exports.scanCurricularReferences = scanCurricularReferences;
 exports.validateCurricularReferences = validateCurricularReferences;
 exports.buildCurricularCatalog = buildCurricularCatalog;
 exports.writeCatalogFiles = writeCatalogFiles;
+exports.writeDemoCatalog = writeDemoCatalog;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const leanScaffoldParser_1 = require("./leanScaffoldParser");
+const dotenv = __importStar(require("dotenv"));
+const pg_1 = require("pg");
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const app1SegsDir = path.resolve(__dirname, '../../app1/segs');
 const clientLibDir = path.resolve(__dirname, '../../clientLib');
 function scanCurricularReferences() {
@@ -943,7 +947,74 @@ export const FS_CATALOG: FsCatalog = ${jsonContent};
     const pending = catalog.formalStatements.filter(s => s.leanStatus === 'pending').length;
     console.log(`[buildCatalog] Successfully emitted ${catalog.formalStatements.length} formal statements (${certified} certified Lean 4 theorems, ${pending} unconfirmed/pending scaffold stencils), ${catalog.calculationModes.length} calculation modes, and ${catalog.examples.length} examples.`);
 }
+async function writeDemoCatalog() {
+    const pool = new pg_1.Pool({
+        user: process.env.DB_USER || 'postgres',
+        host: process.env.DB_HOST || 'localhost',
+        database: process.env.DB_DATABASE || 'hobbynotes',
+        password: process.env.DB_PASSWORD || 'repj',
+        port: parseInt(process.env.DB_PORT || '5432', 10),
+        ssl: false,
+    });
+    try {
+        const res = await pool.query('SELECT id, engine, mode, title, description, expression, status, init_packet FROM interactive_demos ORDER BY id ASC;');
+        const demos = res.rows.map(r => ({
+            ...r,
+            id: Number(r.id),
+            init_packet: typeof r.init_packet === 'string' ? JSON.parse(r.init_packet) : r.init_packet
+        }));
+        const jsonContent = JSON.stringify(demos, null, 2);
+        const tsContent = `/**
+ * Canonical Interactive Demos & Propositions Catalog
+ * Generated automatically by nodeUtils/buildCatalog.ts
+ */
+
+export interface DemoCatalogItem {
+  id: number;
+  engine: 'ttd' | 'btd' | 'bid' | 'fsd' | string;
+  mode: string;
+  title: string;
+  description?: string;
+  expression?: string;
+  status?: 'taut' | 'cont' | 'unsat' | string;
+  init_packet?: any;
+}
+
+export const DEMO_CATALOG: DemoCatalogItem[] = ${jsonContent};
+
+export function getDemoCatalogItem(idOrTitle: string | number): DemoCatalogItem | undefined {
+  const raw = String(idOrTitle).trim().toLowerCase();
+  const isNum = /^\\d+$/.test(raw);
+  const num = isNum ? parseInt(raw, 10) : -1;
+  return DEMO_CATALOG.find(d => (isNum && d.id === num) || d.title.toLowerCase() === raw || String(d.id) === raw);
+}
+`;
+        // 1. Write clientLib/demoCatalog.json & .ts
+        const clientTsPath = path.join(clientLibDir, 'demoCatalog.ts');
+        const clientJsonPath = path.join(clientLibDir, 'demoCatalog.json');
+        fs.writeFileSync(clientTsPath, tsContent, 'utf8');
+        fs.writeFileSync(clientJsonPath, jsonContent, 'utf8');
+        console.log(`[buildCatalog] Wrote demo catalog TypeScript to: ${clientTsPath}`);
+        // 2. Write app1/public/demoCatalog.json
+        const app1PublicDir = path.resolve(__dirname, '../../app1/public');
+        if (fs.existsSync(app1PublicDir)) {
+            const app1JsonPath = path.join(app1PublicDir, 'demoCatalog.json');
+            fs.writeFileSync(app1JsonPath, jsonContent, 'utf8');
+            console.log(`[buildCatalog] Wrote app1 public demo catalog to: ${app1JsonPath}`);
+        }
+        console.log(`[buildCatalog] Successfully emitted ${demos.length} interactive demo records (${demos.filter(d => d.engine === 'ttd').length} TTD propositions).`);
+    }
+    catch (err) {
+        console.error('[buildCatalog] Error building demo catalog from PostgreSQL:', err);
+    }
+    finally {
+        await pool.end();
+    }
+}
 // Execute when invoked directly
 if (require.main === module) {
     writeCatalogFiles();
+    writeDemoCatalog().catch((err) => {
+        console.error('[buildCatalog] writeDemoCatalog error:', err);
+    });
 }

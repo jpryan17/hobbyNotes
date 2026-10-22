@@ -206,6 +206,16 @@ export const DEFAULT_DOMAINS_DATA = {
             displayTemplate: "${s1} ∣ ${s2}",
             evaluator: "(s1, s2) => s1 !== 0 && s2 % s1 === 0",
             equationKey: "eq_pred_div"
+        },
+        {
+            id: "ASSIGN",
+            code: "j",
+            symbol: "≔",
+            arity: 2,
+            signature: ["Ord", "Ord"],
+            displayTemplate: "${s1} ≔ ${s2}",
+            evaluator: "(s1, s2) => { const a = (typeof toDual !== 'undefined' ? toDual(s1) : { st: s1, eps: 0 }); const b = (typeof toDual !== 'undefined' ? toDual(s2) : { st: s2, eps: 0 }); return a.st === b.st && a.eps === b.eps; }",
+            equationKey: "eq_pred_assign"
         }
     ]
 };
@@ -289,6 +299,11 @@ export class PredicateRegistry {
                 else if (p.id === 'SUBSET') {
                     this.compiledPredicates.set('SUBSET', compiled);
                 }
+                else if (p.id === 'ASSIGN') {
+                    this.compiledPredicates.set(':=', compiled);
+                    this.compiledPredicates.set('≔', compiled);
+                    this.compiledPredicates.set('ASSIGN', compiled);
+                }
             }
             catch (err) {
                 console.error(`[PredicateRegistry] Failed compiling predicate evaluator for ${p.id}:`, err);
@@ -354,7 +369,7 @@ export class PredicateRegistry {
                 elements: (d.domain_key === 'B_w' || d.domain_key === 'B') ? [0, 1] : undefined
             }));
             this.data.baseSets = updatedBaseSets;
-            // Query database directed equations for predicate directed equalities (target_domain = 'B_w')
+            // Query database directed equations for predicate directed equalities (target_domain = 'B_w' or '𝔹')
             const deRes = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -365,7 +380,7 @@ export class PredicateRegistry {
             FROM directed_equations de
             LEFT JOIN equation_statement_links esl ON esl.equation_id = de.id
             LEFT JOIN formal_statements fs ON fs.id = esl.statement_id
-            WHERE de.target_domain = 'B_w'
+            WHERE de.target_domain IN ('B_w', '𝔹', 'B')
             ORDER BY de.id
           `
                 })
@@ -373,11 +388,26 @@ export class PredicateRegistry {
             if (deRes.ok) {
                 const deJson = await deRes.json();
                 if (deJson.status === 'success' && Array.isArray(deJson.data?.rows)) {
-                    // Link DB equation keys to predicates
+                    // Link DB equation keys to predicates and dynamically register any newly created DEs
                     deJson.data.rows.forEach((row) => {
                         const pred = this.data.predicates.find(p => p.equationKey === row.equation_key || p.id === row.equation_key?.replace('eq_pred_', '').toUpperCase());
                         if (pred) {
                             pred.equationKey = row.equation_key;
+                        }
+                        else {
+                            const cleanId = (row.equation_key || `PRED_${row.id}`).replace('eq_pred_', '').toUpperCase();
+                            const autoCode = cleanId.length === 1 ? cleanId.toLowerCase() : cleanId;
+                            const newPred = {
+                                id: cleanId,
+                                code: autoCode,
+                                symbol: row.target_symbol && row.target_symbol !== 'b' ? row.target_symbol : cleanId,
+                                arity: 2,
+                                signature: ['Ord', 'Ord'],
+                                displayTemplate: `${cleanId}(\${s1}, \${s2})`,
+                                evaluator: row.formula_expr ? `(s1, s2) => Boolean(${row.formula_expr.replace(/x/g, 's1').replace(/y/g, 's2')})` : '(s1, s2) => true',
+                                equationKey: row.equation_key
+                            };
+                            this.data.predicates.push(newPred);
                         }
                     });
                 }
