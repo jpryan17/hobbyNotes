@@ -24,56 +24,54 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--text-main);
       background-color: #ffffff;
-      margin: 0;
-      padding: 40px 20px 80px 20px;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px 80px 20px;
     }
 
-    .container {
-      max-width: 880px;
-      margin: 0 auto;
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--border-color);
+      background: transparent;
     }
 
     h1 {
-      font-size: 2.25rem;
+      font-size: 2.2rem;
       font-weight: 800;
       color: var(--heading-color);
-      text-align: center;
-      margin-bottom: 24px;
-      line-height: 1.3;
+      margin: 0 0 8px 0;
+      line-height: 1.25;
     }
 
     h1 .subtitle {
       display: block;
-      font-size: 1.4rem;
-      font-weight: 500;
+      font-size: 1.35rem;
+      font-weight: 600;
       color: var(--primary);
       margin-top: 6px;
     }
 
-    h2, h3, h4 {
-      color: var(--heading-color);
-      margin-top: 40px;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
-
     h2 {
-      font-size: 1.5rem;
-      border-bottom: 2px solid var(--border-color);
+      font-size: 1.4rem;
+      color: var(--heading-color);
+      margin-top: 38px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
       padding-bottom: 8px;
     }
 
     h3 {
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       color: var(--primary-dark);
-    }
-
-    h4 {
-      font-size: 1.1rem;
-      color: #334155;
+      margin-top: 26px;
+      margin-bottom: 12px;
+      font-weight: 700;
     }
 
     p {
@@ -82,7 +80,7 @@
     }
 
     ul, ol {
-      margin: 14px 0 18px 24px;
+      margin: 14px 0 20px 24px;
       font-size: 1.05rem;
     }
 
@@ -90,22 +88,18 @@
       margin-bottom: 8px;
     }
 
-    a {
-      color: var(--primary);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    a:hover {
-      color: var(--primary-dark);
-    }
-
     code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.9em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92em;
       background: #f1f5f9;
       padding: 2px 6px;
       border-radius: 4px;
+      color: #0f172a;
+    }
+
+    .math-formula {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 700;
       color: #0f172a;
     }
 
@@ -113,41 +107,41 @@
       background: #eff6ff;
       border-left: 4px solid var(--primary);
       border-radius: 0 8px 8px 0;
-      padding: 18px 20px;
+      padding: 18px 22px;
       margin: 22px 0;
+      font-size: 1.1rem;
     }
 
-    .axiom-box strong {
-      color: var(--primary-dark);
-      font-size: 1.15rem;
-      display: block;
-      margin-bottom: 6px;
+    .diagram-container {
+      margin: 28px 0;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      text-align: center;
+      overflow-x: auto;
     }
 
-    .demo-box {
-      background: #ecfdf5;
-      border-left: 4px solid var(--accent-emerald);
-      border-radius: 0 8px 8px 0;
-      padding: 18px 20px;
-      margin: 22px 0;
+    .math-display {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 18px;
+      margin: 16px 0;
+      text-align: center;
+      font-size: 1.1rem;
     }
 
-    .demo-box strong {
-      color: #065f46;
-      font-size: 1.15rem;
-      display: block;
-      margin-bottom: 6px;
+    sub {
+      font-size: 0.8em;
+      vertical-align: -0.25em;
+      line-height: 0;
     }
 
-    .calc-box {
-      background: #fdf2f8;
-      border: 1px solid #fbcfe8;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin: 20px 0;
-      font-family: ui-monospace, monospace;
-      font-size: 1.05rem;
-      color: #831843;
+    sup {
+      font-size: 0.8em;
+      vertical-align: 0.42em;
+      line-height: 0;
     }
 
     /* Collapsible History Section */
@@ -208,24 +202,9 @@
       color: #9d174d;
     }
 
-    .summary-badge-list {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 14px 20px;
-      margin: 20px 0;
-    }
-
-    /* Diagram Wrapper */
-    .diagram-wrapper {
-      margin: 32px 0;
-      text-align: center;
-      overflow-x: auto;
-      padding: 10px 0;
-    }
-
+    /* Project Artifacts Card */
     .project-links-card {
-      background: #f1f5f9;
+      background: #f8fafc;
       border: 1px solid var(--border-color);
       border-left: 4px solid var(--primary);
       border-radius: 8px;
@@ -241,63 +220,69 @@
       font-size: 1.25rem;
     }
 
-    .project-links-card p {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin-bottom: 14px;
-    }
-
     .project-links-card ul {
       margin: 10px 0 0 20px;
       padding: 0;
     }
 
     .project-links-card li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .project-links-card a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .project-links-card a:hover {
+      color: var(--primary-dark);
     }
   </style>
 </head>
 <body>
-<div class="container">
+<header style="background: transparent; border-top: none; border-left: none; border-right: none; box-shadow: none; padding: 0 0 24px 0; color: inherit; display: block;">
+    <h1>A General Education in Mathematics:&nbsp;<span class="subtitle">The Middle Way</span></h1>
+  </header>
 
-  <h1>Curriculum For&nbsp;<span style="font-size: 2.25rem;">A General Education&nbsp;</span></h1><h1><span style="font-size: 2.25rem;">in Mathematics</span></h1><h1><span class="subtitle">The Middle Way</span>
-  </h1>
+  <p><strong style="color: rgb(30, 41, 59); font-size: medium;">Middle Way Mathematics (MWM)</strong><span style="color: rgb(30, 41, 59); font-size: medium;"> is a curriculum and foundational framework for a general education in mathematics. The curriculum targets all motivated students, providing a clear overview of the nature of modern mathematical thought. It is not designed to prepare students for technical STEM tracks; rather, its goal is to provide a conceptual and formal literacy that enables lifelong, thoughtful engagement with formal descriptions - offered in more sophisticated popular science literature and video lectures - of modern physical theories.</span></p>
 
-  <p>Middle Way Mathematics (MWM) is a hobby level project whose goal is to develop a curriculum and curricular content for a general education in mathematics. The curriculum targets all students. The goal is to provide an overview of the role of mathematics in mathematical physics and the modern world. The curriculum does not address the prerequisite subjects a STEM oriented student will need for further study. Indeed, a goal of the curriculum is to provide the student a sense of closure.</p><p>Since many more years of study are required to achieve a practitioner level of knowledge of any area of mathematics, its obvious that the knowledge the overview provides isn't practical. On the other hand, the presentation is not just conceptual; significant areas of mathematical physics are formalized.</p><p><span style="font-size: 1.05rem;">Mathematics is assumed to be a formal science. This assumption provides the page's perspective on the ontological status of mathematics: it lives in a world of supposition, a bridge that connects our intuition with our experience, a world where we ask </span><em style="font-size: 1.05rem;">"what if?"</em><span style="font-size: 1.05rem;">, and see where it leads, and, eventually, how well it can fit.</span></p>
+  <h2>1. Mathematics as a Formal Science</h2>
 
   <p>
-    However, this ontological stance does not preclude the possibility that the formalism models something. In fact, this is assumed by the page. It allows Middle Way Mathematics to describe an effective model for a pedagogic description of modern mathematics.
+    Mathematics is treated as a formal science whose home is a world of supposition. It serves as a bridge linking human intuition with empirical experience—an arena where we ask <em>"What if?"</em>, trace deductive consequences, and evaluate how effectively the resulting structures model physical observations, as illustrated.</p>
+
+  <div class="diagram-container">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-diagram-name="epis" style="background: transparent; color-scheme: light dark; cursor: pointer;" version="1.1" width="481px" height="122px" viewBox="0 0 481 122" id="ge-svg-FwpDQrFpOL41G9hcYrI7" content="&lt;mxfile host=&quot;embed.diagrams.net&quot;&gt;&lt;diagram id=&quot;page-1&quot; name=&quot;Page-1&quot;&gt;7VhNc5swEP01PoYBxFeO9UfSTOr04Jkk7aUjgwKaAiJCBJxf38WIAAZ7HCeuk5n4oNE+rbTivV3JMEKTqLjkOAnmzCPhSFe9YoSmI10/d3RoS2BVAZaKKsDn1KsgrQEW9JlIUJVoRj2SdhwFY6GgSRd0WRwTV3QwzDnLu24PLOxGTbBPesDCxWEfvaOeCCrUMdUG/06oH9SRNVWORLh2lkAaYI/lLQjNRmjCGRNVLyomJCy5q3mp5l1sGX3ZGCex2GfCb/d2du0WFze2m+nL/O65wPMzvcMeXtaPrfZXlwFTsaqdfM6ypEKfcJhJVAKEC1K0ZspNXRIWEcFX4BK0easj5g3JhiMxuYxeUytTCdU2lhr7L2s3NEBHMjHMSqbFzn3+5/HqZ4aM2x83i+j68czoP/0u9lqUwOKQmWCM84AKskiwW47kUBuABSKCfUw16EI2JOQqTiG7JYLTpErgB1oQ2N343ZhV1PZP6xG9zaUOgmxFMyDn7bo9Eu3mF+0t2hEylDbp6O2sD7IpoxKvdxDuKQPLuEt2yGr15YJYC2kyLgLmsxiHswYdw8kSe6UcU7UrICmouG/1f5UuiimtaSFnrI1VbcTA033baM0qzWba2qrnyesGc5+IHc9nD2cDJyEW9KlL6rvXjHWKmhkoESuE6GOPPkHXF2ufClryTQSec8CvBc3v5tt8D6hEZCr6uaFptmXYquk4utWrRFtXWoUGbeee0TWlmYxM/dw+kpYaOnYp2p+1FD2cBus9aPvXpXPKurRPUZcDLL31Hju8euoY1sawdZricr4EkQtY6mkU0AZeKvaUAAgSXa6HpEgFZ3/JhIWMAxizuNTsgYbhBoRD6sdgurANAvi4lIDCO983ORBRzxs4+3oClu94BJpy7sA9xglEEqsPcZftV40WUsxOgGP91ddee7N9+FxIglX6efJg8xD4f8If/pL3QYWPyk9e6UEybjt62x9BNmU0Ojru/ue6LU1eoSqYzSeq9VjrOx+a/QM=&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-FwpDQrFpOL41G9hcYrI7 { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); --ge-adaptive-fg: light-dark(#000000, var(--ge-light-color, #ffffff)); } }</style><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="ZcVEKcxFN7cu2bwWzxaM-2"><g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-4"><g transform="translate(0.5,0.5)"><ellipse cx="197.14" cy="60" rx="60" ry="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-5"><g transform="translate(0.5,0.5)"><ellipse cx="394.29" cy="60" rx="60" ry="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="ZcVEKcxFN7cu2bwWzxaM-1"><g transform="translate(0.5,0.5)"><path d="M 72.86 38.82 L 156.49 38.82" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 161.74 38.82 L 154.74 42.32 L 156.49 38.82 L 154.74 35.32 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-6"><g transform="translate(0.5,0.5)"><ellipse cx="36.43" cy="38.82" rx="36.43" ry="17.65" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 71px; height: 1px; padding-top: 39px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div style="float:left;text-decoration:inherit;width:71px;height:43px;"><div data-shape-inside="1" style="float:left;width:35px;height:37px;shape-outside:polygon(0.05% 10.81%, 99.95% 10.81%, 83.56% 11.5%, 66.88% 13.48%, 51.5% 16.61%, 37.68% 20.73%, 25.64% 25.72%, 15.56% 31.41%, 7.58% 37.69%, 1.81% 44.39%, 0.05% 51.38%, 0.05% 58.51%, 0.05% 65.64%, 1.81% 72.62%, 7.58% 79.32%, 15.56% 85.6%, 25.64% 91.3%, 37.68% 96.28%, 50.14% 99.95%, 0.05% 99.95%);shape-margin:2px;pointer-events:none;"></div><div data-shape-inside="1" style="float:right;width:36px;height:37px;shape-outside:polygon(99.95% 10.81%, 1.19% 10.81%, 18.36% 11.5%, 34.58% 13.48%, 49.53% 16.61%, 62.97% 20.73%, 74.67% 25.72%, 84.47% 31.41%, 92.23% 37.69%, 97.85% 44.39%, 99.95% 51.38%, 99.95% 58.51%, 99.95% 65.64%, 97.85% 72.62%, 92.23% 79.32%, 84.47% 85.6%, 74.67% 91.3%, 62.97% 96.28%, 50.85% 99.95%, 99.95% 99.95%);shape-margin:2px;pointer-events:none;"></div><div><br></div><div>MWM</div></div></div></div></div></foreignObject><text x="36" y="21" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="36" y="21"></tspan><tspan x="36" y="35"></tspan><tspan x="36" y="49"></tspan><tspan x="36" y="63">MWM</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-13"><g transform="translate(0.5,0.5)"><path d="M 235.71 38.82 L 353.63 38.82" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 358.88 38.82 L 351.88 42.32 L 353.63 38.82 L 351.88 35.32 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-7"><g transform="translate(0.5,0.5)"><ellipse cx="199.29" cy="38.82" rx="36.43" ry="17.65" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-8"><g transform="translate(0.5,0.5)"><ellipse cx="396.43" cy="38.82" rx="36.43" ry="17.65" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-10"><g><rect x="162.86" y="63.53" width="72.86" height="35.29" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 71px; height: 1px; padding-top: 81px; margin-left: 164px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">mathematical<div>reality</div></div></div></div></foreignObject><text x="199" y="78" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="199" y="78">mathematical</tspan><tspan x="199" y="92">reality</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-11"><g><rect x="360" y="63.53" width="72.86" height="35.29" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 71px; height: 1px; padding-top: 81px; margin-left: 361px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">physical<div>reality</div></div></div></div></foreignObject><text x="396" y="78" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="396" y="78">physical</tspan><tspan x="396" y="92">reality</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-15"><g><rect x="72.86" y="35.29" width="42.86" height="21.18" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 41px; height: 1px; padding-top: 46px; margin-left: 74px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">models</div></div></div></foreignObject><text x="94" y="49" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);">models</text></switch></g></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+  </div>
+  <p>
+    MWM does not claim to model all of mathematics. It focuses specifically on the mathematics supporting <strong>mathematical physics</strong>, balancing two design parameters:
   </p>
+  <ol>
+    <li><em>What physical theories can be modeled?</em></li>
+    <li><em>At what level of depth can the modeling mathematics be understood?</em></li>
+  </ol><div>MWM expresses its concepts formally, embedded in natural language explanations, using single-sorted first-order logic and ZF set theory as its foundational baseline.<i></i></div>
+
+  <h2>2. The Cornerstone Axiom, Ordinals, and Number Trees</h2>
 
   <p>
-    The hallmark of any formal science is that it is expressed formally, not naturally, although the formality will be embedded in explanation. The formality a mathematical community adopts will impact its school of thought. The page assumes an unadorned single-sorted First-Order Logic (FOL) and Zermelo–Fraenkel (ZF) set theory as its formal foundation. That is, the page adopts about the simplest formal foundation possible. But it is important to note that the page makes no claim that this formalism has the expressive power to model all of mathematics.</p><p>An overview of MWM formalism follows.</p>
-
-  <h2>The Foundational Axiom: Ambient Field Closure at No(ε₀)</h2>
-
-  <p>
-    An effective model of mathematics takes as an axiomatic foundation an established mathematical fact. In the case of Middle Way Mathematics, this axiomatic foundation is the mathematical fact, fully established in 2001, that:
+    MWM operates as an <strong>effective model</strong>: rather than building foundational set-theoretic proofs from scratch, it asserts established mathematical structures as governing axioms. The cornerstone axiom of MWM is:
   </p>
 
   <div class="axiom-box">
-    <strong>Foundational Axiom:</strong>
-    <code>(No(ε₀), +, ·)</code> is an algebraic field.
+    <strong>(No(ε₀), +, ·) is a totally ordered algebraic field</strong>
   </div>
 
-  <p>
-    To describe the axiom, we type <code>ε₀</code> as an ordinal. An ordinal is a primitive type. Here too, the model becomes effective, as ordinals have been modeled by using von Neumann sets as class partition instances of <code>(set, well-order)</code> pairs. We merely assume the existence of a well-ordered spline that includes the natural numbers starting this spline, which also includes the supremum of ℕ, i.e. <code>ω</code>, and <code>ε₀</code>.
-  </p>
+  <p>where:</p>
+  <ul>
+    <li>The carrier set <code>No(ε₀)</code> consists of nodes on the <strong>2-successor number tree</strong> whose tree depth (birthday) is strictly less than the ordinal <code>ε₀</code>.</li>
+    <li>The total order (<code>≤</code>) and the arithmetic operations (<code>+</code>, <code>·</code>) are defined recursively with respect to the node's stage of creation, i.e. it's birthday.</li>
+  </ul>
 
   <p>
-    <code>No</code> is the class of nodes of a tree defined by 2-successor transfinite induction; <code>No</code> can be constructed in various ways. The page uses the ordinals for birthday values. Either implicitly or explicitly, each tree node, i.e. number, has a birthday.
-  </p>
-
-  <p>
-    One can consider all tree nodes whose birthday is less than some cutoff ordinal <code>α</code>; this is denoted <code>No(α)</code>. The field-level operations <code>+</code> and <code>·</code> are defined by transfinite recursive definitions originally described by John Conway, and <code>No</code> will sometimes be referred to as the Conway number tree.
-  </p>
-
-  <p>
-    What the foundational axiom claims is that there is an ordinal <code>ε₀</code>, greater than <code>ω</code>, which is the first ordinal which, when used as a cutoff, identifies an algebraic field: the ambient field for arithmetic. We do not use this field directly; <code>ε₀</code> may be unimaginably small by ordinal standards, but from a computational perspective, it is unimaginably large. However, we are now assured that any subset of <code>No(ε₀)</code> will inherit field-level arithmetic operations.
+    Because <code>No(ε₀)</code> is <strong>non-Archimedean</strong>, standard ε–δ analysis is set aside in favor of a <strong>constructive nonstandard analysis</strong>. <code>No(ε₀)</code> serves as the ambient field for all arithmetic and continuous modeling.
   </p>
 
   <!-- Collapsible Historical Note -->
@@ -310,211 +295,344 @@
       <div class="history-timeline">
         <div class="timeline-item">
           <strong>1976 — John H. Conway (<em>On Numbers and Games</em>):</strong>
-          Conway introduced the surreal numbers <code>No</code> and demonstrated that the full collection forms a proper-class real-closed field containing both the real numbers and the transfinite ordinals. However, because <code>No</code> as a whole is a proper class rather than a set, standard mathematical foundations and computational proof assistants require well-founded, set-sized subfields.
+          Conway introduced the <strong>surreal numbers</strong> <code>No</code> and demonstrated that the full collection forms a proper-class real-closed field containing both the real numbers and the transfinite ordinals. Conway formulated numbers game-theoretically as pairs of sets <code>x = { L | R }</code> where every element of <code>L</code> is strictly less than every element of <code>R</code>. However, because <code>No</code> as a whole is a proper class rather than a set, standard mathematical foundations and computational frameworks require well-founded, set-sized subfields.
         </div>
         <div class="timeline-item">
           <strong>1986 — Harry Gonshor (<em>An Introduction to the Theory of Surreal Numbers</em>):</strong>
-          Gonshor reformulated Conway numbers using transfinite sign-expansions (sequences of <code>+</code> and <code>-</code> steps). He proved foundational algebraic results for initial segments, identifying that certain cutoff subsets behave as ordered algebraic structures and exploring early conditions for subfields. However, the precise ordinal boundary where a birthday-truncated initial segment <code>No(α)</code> forms an authentic, self-contained subfield remained an open question.
+          Gonshor achieved a key homogenization by reformulating Conway's surreal numbers into standard <strong>2-successor tree terminology</strong>—defining numbers as transfinite sign-expansions (sequences of <code>+</code> and <code>-</code> branches along a binary tree). This structural homogenization replaced pair-of-sets cuts with explicit tree paths and birthdays, establishing foundational algebraic properties for initial segments while leaving open the question of which ordinal cutoffs yield closed subfields.
         </div>
         <div class="timeline-item">
           <strong>2001 — Lou van den Dries &amp; Philip Ehrlich (<em>"Fields of surreal numbers and exponentiation"</em>, Fund. Math. 167):</strong>
-          Logicians Lou van den Dries and Philip Ehrlich published the definitive classification theorem: <em>The birthday-truncated surreal numbers <code>No(α)</code> form an elementary subfield of <code>No</code> if and only if <code>α</code> is an ε-number</em> (an ordinal fixed point satisfying <code>ω^α = α</code>). Because Cantor's ordinal <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> is the very first non-zero ε-number, <code>No(ε₀)</code> is proven to be the <strong>unique minimal set-sized subfield</strong> of the Conway surreal numbers!
+          Working within this 2-successor sign-expansion framework, logicians Lou van den Dries and Philip Ehrlich published the definitive classification theorem: <em>The birthday-truncated collection <code>No(α)</code> forms an elementary subfield of <code>No</code> if and only if <code>α</code> is an ε-number</em> (an ordinal fixed point satisfying <code>ω^α = α</code>). Because Cantor's ordinal <code>ε₀ = sup { ω, ω^ω, ω^(ω^ω), ... }</code> is the very first non-zero ε-number, <code>No(ε₀)</code> is proven to be the <strong>unique minimal set-sized subfield</strong> of the Conway number tree!
         </div>
       </div>
       <p style="margin-top: 12px; font-size: 0.9em; color: #6b21a8;">
-        This historical milestone justifies Middle Way Mathematics adopting <code>(No(ε₀), +, ·)</code> as its foundational roof: it provides the minimal rigorous boundary where arithmetic is guaranteed algebraic closure without requiring a proper class.
+        This milestone justifies Middle Way Mathematics adopting <code>(No(ε₀), +, ·)</code> as its foundational cornerstone: it provides the minimal rigorous boundary where arithmetic is guaranteed algebraic field closure without requiring a proper class.
       </p>
     </div>
-  </details>
-
-  <h2>The Primary Subsets: Numbers, Continua, and the 2D Plane</h2>
-
+  </details>  <h3>The Ordinals</h3>
   <p>
-    Middle Way Mathematics identifies three essential stages along this ordinal spline:
+    The class of ordinal numbers plays an important role in modern mathematics, modeling the concept of a collection of well-ordered elements. While most graduates of a general education model well-ordered elements solely with the natural numbers, the ordinals provide a far more comprehensive framework. Like the cornerstone axiom, the ordinals are not formally modeled from scratch in MWM; instead they are assumed as mathematical fact. In natural language, the ordinals are the equivalence classes of isomorphic <code>(set, &lt;<sub>w</sub>)</code> pairs over the universe of sets and their possible well-orders, where the von Neumann ordinals provide a canonical class of representations consistent with ZF set theory.
+  </p>
+  <p>
+    The finite ordinals coincide with the natural numbers (as defined by finite induction). The ordinal <code>ω</code> is the supremum of the natural numbers, and the ordinal <code>ε₀</code> is greater than <code>ω+1</code>.
   </p>
 
-  <h3>1. No(ω) ≡ 𝔻: Finite Birthdays and the Dyadic Arithmetic Ring</h3>
+  <h3>Number Trees</h3>
   <p>
-    As <code>ω</code> is the first non-finite ordinal, <code>No(ω)</code> identifies the set of numbers with finite birthdays. Two foundational facts are established:
-  </p>
-  <ul>
-    <li>The recursive arithmetic definitions that hold for the whole tree, via transfinite induction, are described by <strong>pure finite induction</strong> for numbers whose birthdays are finite; and</li>
-    <li><code>(No(ω), +, ·)</code> is isomorphic to <code>(𝔻, +, ·)</code>, where operations for <code>No(ω)</code> are Conway's recursively defined tree operations, and <code>(𝔻, +, ·)</code> denotes standard dyadic arithmetic.</li>
-  </ul>
-  <p>
-    In Middle Way Mathematics, <strong>all numerical calculation occurs within the realm of the ring of dyadic arithmetic</strong>.
+    MWM considers numbers to be the elements of sets defined by 2- and 4-successor inductive definitions whose stages of creation are indexed by the ordinals. As elements in the 2-successor case are indexed by paths through a binary tree, the structure is referred to as a <strong>number tree</strong>. John Conway first formulated recursive definitions for a total order among elements (nodes) of a number tree, as well as recursive definitions for addition and multiplication. It is these recursive definitions that are adopted when defining the totally ordered algebraic field <code>(No(ε₀), +, ·)</code>.
   </p>
 
-  <p>
-    <strong>The Core Dyadic Isomorphism:</strong> While Conway's tree-inductive recursive definitions provide foundational ontological purity (constructing numbers out of simpler ancestral option sets <code>{ L | R }</code>), using recursive option evaluations for actual computation would be extremely impractical. For instance, computing a sum like <code>1/2 + 3/4</code> via tree options requires dozens of combinatorial recursive calls across earlier birthdays. The Core Dyadic Isomorphism proves that every finite tree path evaluates directly to an exact dyadic fraction <code>m / 2^k</code>, enabling the host machine to execute addition, subtraction, and multiplication in <code>O(1)</code> time via integer arithmetic and binary bit-shifts on CPU registers, without losing a single drop of precision.
-  </p>
-
-  <h3>2. ℝ_ω ≡ No(ω+1): The Pedagogical 1D Continuum</h3>
-  <p>
-    For Middle Way Mathematics, a 1D (non-complex) number is a member of <code>No(ω+1)</code>, where page notation assumes <code>ℝ_ω ≡ No(ω+1)</code>. The notation <code>ℝ_ω</code> suggests that, in Middle Way Mathematics, <code>ℝ_ω</code> plays the role of the real numbers in standard mathematical curricula. But <code>ℝ_ω</code> is not the classical real continuum. It is often said that <code>ℝ ⊂ ℝ_ω</code>; but no such claim is made: <code>ℝ</code> allows a grid size of zero, which is made sense of only by a theory of limits, a theory of continuity in an Archimedean field. <code>ℝ_ω</code> is what it is: nodes on the Conway number tree whose birthday is less than or equal to <code>ω</code>.
-  </p>
+  <h2>3. Key number tree number sets</h2>
 
   <p>
-    An interesting consequence is that, for Middle Way Mathematics, <strong>the ontological status of <code>1/3</code> and <code>1/ω</code> are equivalent</strong>. Both are numbers whose birthday is <code>ω</code>. Another thing to note is that:
+    Besides the ambient field <code>No(ε₀)</code>, MWM distinguishes two key initial segments. Letting <code>No(α)</code> denote the set of all number tree nodes whose birthday is strictly less than the ordinal <code>α</code>:
   </p>
   <ul>
-    <li><code>(ℝ_ω, +, ·)</code> is <strong>not</strong> a field, as it is not closed under arithmetic operations.</li>
+    <li><code>No(ω)</code> is the set of nodes created on finite days, and</li>
+    <li><code>No(ω+1)</code> is <code>No(ω) ∪ { nodes whose birthday is ω }</code>.</li>
   </ul>
   <p>
-    For example, multiplying two base infinitesimals <code>(1/ω · 1/ω = 1/ω²)</code> produces a number born on Day <code>ω+2</code>, which lies beyond <code>ℝ_ω</code>. However, the result of such operations will be a member of <code>No(ε₀)</code> and so will be a perfectly valid Conway tree number; it just happens the result is not in <code>ℝ_ω</code>. In this sense, we indirectly deal with numbers in <code>No(ε₀)</code>: we express mathematical statements using numbers in <code>ℝ_ω</code>. An actual number might not lie in <code>ℝ_ω</code>, but it is certainly a member of <code>No(ε₀)</code>.
+    We consider the commutative ring <code>(No(ω), +, ·)</code> with operations inherited from <code>No(ε₀)</code>. We demonstrate an algebraic isomorphism between <code>(No(ω), +, ·)</code> and <code>(𝔻, +, ·)</code>, where <code>𝔻</code> denotes the dyadic rationals and operations on <code>𝔻</code> are those of exact dyadic arithmetic. <code>𝔻</code> serves as the arena for all numeric calculation in MWM—numeric evaluation therefore occurs within an Euclidean domain rather than an abstract field.
+  </p>
+  <p>
+    We do not impose a dedicated algebraic structure on <code>No(ω+1)</code> as a carrier set. Instead, <code>No(ω+1)</code> serves as a vocabulary for terms in algebraic expressions. Because its numbers reside within <code>No(ε₀)</code>, they freely inherit field arithmetic. Notably, every standard real number embeds into <code>No(ω+1)</code> (<code>x ∈ ℝ ⇒ x ∈ No(ω+1)</code>), while <code>No(ω+1)</code> also accommodates non-finite numbers and infinitesimals—including the elementary step <code>dx = 1/ω</code>.
   </p>
 
+  <h3>The 4-Successor Tree: 2D Grids and Infinitesimal Area</h3>
   <p>
-    Since <code>ℝ_ω</code> is not used for numerical calculation—as stated above, all calculation is with respect to the ring <code>(𝔻, +, ·)</code>—the fact that <code>ℝ_ω</code> is not closed with respect to these operations is not particularly relevant. What is highly relevant is that, when mathematical structure is described using <code>ℝ_ω</code>, the description can include infinitesimal values with as much confidence as using <code>π</code> or <code>1/3</code>.
-  </p>
-
-  <h3>3. The 2D Planar Jump: Quadtrees (Tree4) and the Complex Horizon ℂ_ω</h3>
-  <p>
-    The 2-successor binary tree <code>Tree2</code> sweeps out the 1D real continuum like a polar flashlight beam, but it possesses an inherent <strong>180° half-space blindspot</strong>: it cannot natively rotate around an axis or represent 2D planar space without invoking square roots of negative numbers.
-  </p>
-  <p>
-    To model physical geometry, wave mechanics, electromagnetism, and rotational kinematics, Middle Way Mathematics generalizes the branching spine to the <strong>4-successor quadtree (<code>Tree4</code>)</strong>. Each node branches along the four cardinal compass directions:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 1.05rem; margin: 12px 0; color: var(--primary-dark);">
-    <b>QuadDir ≔ { East (+1), &nbsp;West (-1), &nbsp;North (+i), &nbsp;South (-i) }</b>
-  </div>
-  <p>
-    On finite birthdays <code>k &lt; ω</code>, paths on <code>Tree4</code> evaluate to the <strong>Gaussian Dyadics</strong>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 1.05rem; margin: 10px 0; color: #7c3aed;">
-    <b>𝔻[i] ≔ { (a + b · i) / 2^k &nbsp;∣&nbsp; a, b ∈ ℤ, &nbsp;k ∈ ℕ }</b>
-  </div>
-  <p>
-    At the limit horizon, <code>Tree4(ω+1)</code> generates the <strong>complex horizon ℂ_ω</strong>. Here, planar geometry and phase rotation operate directly through discrete directed pairs, eliminating the mysterious "imaginary" black box of standard algebra.
-  </p>
-
-  <h2>Calculus Without Limits: The Infinitesimal Derivative in Action</h2>
-
-  <p>
-    The greatest pedagogical dividend of this architecture is that <strong>differential calculus is rescued from the ε-δ limit thicket and returned to direct algebra</strong>.
-  </p>
-  <p>
-    With the base infinitesimal differential <code>dx ≔ 1/ω</code>, a student calculates the derivative of a function like <code>f(x) = x²</code> directly by finite difference:
-  </p>
-
-  <div class="calc-box">
-    [x + dx]² - x² &nbsp;=&nbsp; (x² + 2x·dx + dx²) - x²<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp; 2x·dx + dx²<br><br>
-    Dividing by dx:&nbsp;&nbsp;&nbsp; (2x·dx + dx²) / dx &nbsp;=&nbsp; 2x + dx
-  </div>
-
-  <p>
-    There is no dividing by zero, no pretending that <code>dx</code> is non-zero during division and then magically zero a moment later. The quotient <code>2x + dx</code> is an exact member of <code>No(ε₀)</code>. To obtain the observable, physical slope, one simply applies the <strong>standard part projection</strong>:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 1.15rem; margin: 14px 0; color: #0f172a;">
-    <b>st(2x + dx) &nbsp;=&nbsp; 2x &nbsp;∈ &nbsp;𝔻</b>
-  </div>
-  <p>
-    The infinitesimal tail <code>dx = 1/ω</code> drops away under standard part observation, leaving the exact derivative <code>2x</code>. The Fundamental Theorem of Calculus becomes a telescoping sum of finite rectangles, and integration becomes exact summation.
-  </p>
-
-  <h2>Trigonometry &amp; Discrete Rotors: The Ptolemaic &amp; CORDIC Tree</h2>
-
-  <p>
-    In standard general education, circular functions like <code>sin(θ)</code>, <code>cos(θ)</code>, and <code>e^x</code> are typically introduced either as opaque calculator buttons or as infinite Taylor series that non-majors never truly grasp.
-  </p>
-  <p>
-    Middle Way Mathematics constructs trigonometry through <strong>Ptolemaic chord laws and CORDIC bisection</strong> directly on the dyadic tree. An angle is not a continuous mystery; a dyadic angle is a certified rational fraction <code>θ = m / 2^k</code> born on day <code>k</code>. The sine and cosine of these angles are computed by successive half-angle root bisections:
-  </p>
-  <div align="center" style="font-family: monospace; font-size: 1.05rem; margin: 12px 0; color: #1e40af;">
-    <b>sin²(θ / 2) &nbsp;=&nbsp; (1 - cos(θ)) / 2</b>
-  </div>
-  <p>
-    Planar rotation is achieved by multiplying by <strong>unit rotors</strong> on the Gaussian dyadic grid <code>𝔻[i]</code>. Because every trigonometric value is bounded by certified bisection intervals, students can compute and visualize rotational physics without black-box approximations.
-  </p>
-
-  <h2>The Interactive Simulation Sandboxes (BTD, BID, TTD)</h2>
-
-  <p>
-    Middle Way Mathematics is not merely a philosophical manifesto or a static textbook; it is built as an <strong>interactive visual laboratory</strong> delivered directly to students through specialized interactive demo engines:
-  </p>
-
-  <div class="demo-box">
-    <strong>Interactive Learning Engines in Middle Way Math:</strong>
-    <ul>
-      <li><strong>BTD (Binary Tree Demo):</strong> Allows students to interactively explore Conway tree branching, birthday generations <code>d &lt; ω</code>, and the tree order geometry in real time.</li>
-      <li><strong>BID (Binary Interval Demo):</strong> Allows students to zoom continuously into interval subdivisions, witnessing how dyadic intervals <code>[m/2^k, (m+1)/2^k]</code> drill inward toward the infinitesimal horizon <code>dx = 1/ω</code>.</li>
-      <li><strong>TTD (Truth Table Demo):</strong> Provides an interactive truth-table deduction sandbox, verifying propositional logic and classical equivalences before algebraic numbers are introduced.</li>
-    </ul>
-  </div>
-
-  <h2>Why Equality is Directed: Mathematical Statements as Computational Stencils</h2>
-
-  <p>
-    In classical mathematics, equality is defined symmetrically: <code>A = B ⟺ B = A</code>. While mathematically pure, this static view obscures how mathematics functions in physics, engineering, and computer science.
-  </p>
-  <p>
-    In computation and the real world, an equation is an <strong>asymmetric operational transformation</strong>: given a set of known inputs, execute a rule to produce an updated output state. Middle Way Mathematics formalizes this by replacing static equations with <strong>Directed Equalities</strong>:
+    While 1D arithmetic and the 1D continuum are modeled along a 2-successor binary tree branching in opposing directions <code>{+1, -1}</code>, 2D geometry is modeled via a <strong>4-successor tree</strong> (a quadtree) branching along orthogonal directional choices: <code>{+1, -1, +i, -i}</code> (or cardinal grid directions <code>{+x, -x, +y, -y}</code>).
   </p>
   <ul>
-    <li>A <strong>Directed Equality</strong> expresses a mathematical relationship as a certified computational stencil.</li>
-    <li>It pairs a formal mathematical theorem in Lean 4 with an executable <strong>Rule Interpreter</strong> (a block of structured pseudocode).</li>
-    <li>The rule interpreter assigns an exact member of the codomain to any input in the domain using the host machine's native dyadic engine.</li>
+    <li>At finite stages (up to Day <code>ω</code>), the 4-successor tree spans the <strong>Gaussian dyadics</strong> <code>𝔻[i] = { a + b·i | a, b ∈ 𝔻 }</code>, providing exact machine arithmetic across the 2D plane.</li>
+    <li>At stage <code>ω+1</code>, orthogonal branching establishes infinitesimal resolution in both coordinate directions: an infinitesimal step <code>dx = 1/ω</code> along the real axis and <code>dy = 1/ω</code> along the imaginary axis.</li>
+    <li>Consequently, the 2D continuum is interpreted as an exact, discrete grid of elementary cells, each possessing an infinitesimal area:
+      <div class="math-display">
+        <code class="math-formula">dA = dx · dy = (1/ω) · (1/ω) = 1/ω²</code>
+      </div>
+    </li>
   </ul>
+  <p>
+    This grid interpretation provides a direct, algebraic grounding for 2D analysis, line integrals, and area integrals—bypassing the limiting processes, Lebesgue measure machinery, and continuum paradoxes of classical 2D analysis.
+  </p>
 
-  <div class="summary-badge-list">
-    <strong style="color: var(--primary-dark);">Summary of the Architecture:</strong>
-    <ul>
-      <li>This allows limit theory to be replaced by direct algebraic manipulation; and</li>
-      <li>A <strong>standard part function</strong> is established that defines a unique dyadic rational for any finite number in <code>No(ε₀)</code>. For any finite number, this standard part projection is realized concretely by <strong>finite prefix truncation and Conway Cut bisection</strong> down to day <code>k &lt; ω</code>.</li>
-    </ul>
-    <p style="margin-top: 8px; margin-bottom: 0;">
-      This approach achieves a clean, permanent separation of algebraic manipulation (in <code>ℝ_ω</code> and <code>ℂ_ω</code>) and numeric calculation (in <code>𝔻</code> and <code>𝔻[i]</code>).
-    </p>
+  <h2>4. The Precision Evaluation Function</h2>
+
+  <p>
+    To evaluate an algebraic expression <code>E</code> whose number terms belong to <code>No(ω+1)</code>, MWM defines a computable truncation map:
+  </p>
+  <div class="math-display">
+    <code class="math-formula">eval(E, p)</code>
   </div>
 
-  <h2>Dual-Engine Formal Verification in Lean 4</h2>
+  <p>Given a target precision <code>p ∈ ℕ</code>:</p>
+  <ol>
+    <li>Each number node in <code>E</code> is replaced by its 2-successor tree address truncated to the first <code>p</code> directional choices, yielding an exact element of <code>𝔻</code>.</li>
+    <li>Infinitesimal terms are bounded and resolved, reproducing the standard part map (<code>st</code>) of nonstandard analysis.</li>
+    <li>The expression resolves to an expression whose number terms are dyadic rationals.</li>
+  </ol><div>The following illustration summarizes the MWM approach outlined above.</div><div><div align="center" style="margin: 16px 0;">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-diagram-name="summary" style="background: transparent; color-scheme: light dark; cursor: pointer;" version="1.1" width="324px" height="519px" viewBox="0 0 324 519" id="ge-svg-jbFx7G-RTILyr-mdlxrS" content="&lt;mxfile host=&quot;embed.diagrams.net&quot;&gt;&lt;diagram id=&quot;page-1&quot; name=&quot;Page-1&quot;&gt;7Vldb6M4FP01kaYPY2G+eWzSTme0u92PPuzOvIwoOOAO4Mg4Demv32swBQfSZLMhq0pbqZF9fG2Te3zP9SUza5FXdzxcpb+wmGQz04irmXUzM83AN+FTAtsGcA2rARJO4wbCHfBAX4gCDYWuaUxKzVAwlgm60sGIFQWJhIaFnLONbrZkmb7rKkzIAHiIwmyI/kljkTao7xgd/pnQJG13xoYaycPWWC1RpmHMNg1U21i3M2vBGRNNK68WJJO+a/3SLPRpz+jrg3FSiGMm3H9hdyx7+iYq8vI7K52558cfzeEq7eOKbesDWAfcDZ35JqWCPKzCSI5sgHDAUpFn0MPQhK+4Il+KEihTSFiuGlaWtCLwIPNm8ecwW6vFFUC4IFXvAdR3uCMsJ4JvwSTtu9nCSM3cdKz0ULUUHLemr04fNhEQ1PsL1ElRpyR53a5zJDSUL/+BX62J/RqHZSr9WXdGfOpmQlrRZ2gmorZpoEcuv9gOCJBmegIjlon8ASF+gAzHdC3seH5ge5ank+NjZHg2hLqy8TSuYNTvU4Unoso+hipwhdA5GaOsFJz9IAuWMQ5gwQrJ7ZJm2Q4UZjQpoBvBjgTwuXQ2BdG5VgM5jWO59ZyzdRHXRBtjREuRIfAh546QzgnsJLZnpNm0kRP0/4akewFq+XZ9YBfrpAcGCtxuVKPcNi5DufOOKQ85FSm4gUanKaeL7AFlToAaNtpIdHY4c1CAexYaaYHx71mKn/74mOD86evLT59p8XNhrW2rDUwSDzL0kDa25hF5g3FvKL6w7IPqMi5SlrAizG47dIeI3jkgFRV/SRg5qvdVGcn2TdXvbNtOAS5pJtlB0AJyHka2h1ugm1z3tNm/EU7Bs/L09I6GCHlCxKHDPjwUnGSgG8+6axXhBsKm7U0UfN7EqXFvNpSpr5G+6/yRys3lFbGLJmNJCdwOB9avyFguHSTSoVULfLhnH2bOQv6TVUkzVnyfeXNj5t0AcnU1M8GfEEtz1Wgsoxjuh83w2BYnKICHkTVQABN7yAv0qAep8Iyh1LdXKf8McT96QIJ3rM65rH/KqVLrAZ22TBN5fQOdMGcqwrB1RqVuC78ppbodGZfqI3UV7+F0VFjPnhydd+byo7Ojo+XGg3kxvpZFfhfJgHyi0pX1eAksitYiysKyBKFXsDLDxzPuXYjwN0l6WxZ1Vg7kzoF6gfblIF4GW6oXGF1tYZBqxQn4jxVj1SUkqwo+aCFzVZ3GdpLfPRtLYG0+BB8lYTN1jq+67FeuH0siTltzPMeerRKyoczR5NodyLVlYtSvhAxbk2vs2sjHvVrJ0fTaMsypjtI5b9Z45PJ2Wb3eJx7GAfE4VufN/zTs36Cm83h9C4bmirMIgvRw6D+G0Y+kZuHXtchosffyTJ5H3yws10UkelpwmYDC2NcvODt1qusiCLrX9022Hk+BiSaLqKPeo15EnK3rKfX5f21uNvACpG1gT3TNc99xLdToy2nF0OhrqvZlflvudK/7FS3mCTUpdLvfYOqx3g9Z1u3f&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-jbFx7G-RTILyr-mdlxrS { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); --ge-adaptive-fg: light-dark(#000000, var(--ge-light-color, #ffffff)); } }</style><defs><style xmlns="http://www.w3.org/1999/xhtml" id="MJX-SVG-styles">
+mjx-container[overflow="scroll"][display] {
+  overflow: auto clip;
+  min-width: initial !important;
+}
 
-  <p>
-    Middle Way Mathematics uses Lean 4 to verify its formal statements. The project organizes its formal codebase into two complementary source files:
-  </p>
-  <ul>
-    <li><strong>The Semantic Scaffold (Noncomputable):</strong> Formal statements describing the axioms, definitions, and theorems of Middle Way Mathematics. This is where the primitive type ordinal, the fundamental axiom that <code>No(ε₀)</code> is an algebraic field, and the limit horizons (<code>ℝ_ω</code>, <code>ℂ_ω</code>, and infinitesimals <code>dx = 1/ω</code>) are described.</li>
-    <li><strong>The Computational Corner (Computable):</strong> Formal statements underlying concrete numeric calculation. This file implements dyadic arithmetic in a manner that exactly matches the formal description of Middle Way Mathematics: the number sets (<code>Tree1</code>, <code>Tree2</code>, <code>Tree4</code>) are defined by finite structural induction, while order and arithmetic operations are certified as an authentic commutative ring <code>(𝔻, +, ·)</code> with zero axioms.</li>
-  </ul>
+mjx-container[overflow="truncate"][display] {
+  overflow: hidden clip;
+  min-width: initial !important;
+}
 
-  <p>
-    The current Middle Way Mathematics website hosts a static page without a live runtime connection to Lean. Instead, the project includes a development environment with Node-based utilities that use a local installation of Lean to compile and cache information for the application. For this reason, the application does not rely on live Lean calculation of dyadic arithmetic. This is a minor inconvenience because, as established by the Core Dyadic Isomorphism, recursive definitions on trees are computationally mirrored by the host machine's native arithmetic. Nevertheless, the codebase includes rules to implement the recursive definitions, primarily to demonstrate their equivalence with dyadic arithmetic and to illustrate their calculational inefficiency.
-  </p>
+mjx-container[display] {
+  display: block;
+  text-align: center;
+  justify-content: center;
+  margin: .7em 0;
+  padding: .3em 2px;
+}
 
-  <p>
-    The primary arithmetic engine built into the application is a <strong>dyadic arithmetic machine</strong> that operates on the nodes of the Conway number tree whose birthdays are finite. This is the engine used by the application's rule interpreter, where a rule is a block of pseudocode responsible for assigning a member of the directed pair's codomain to any member of the directed pair's domain in a directed equality.</p>
+mjx-container[display][width="full"] {
+  display: flex;
+}
 
-  <p>
-    The following diagram illustrates Middle Way Mathematics terminology and the relationship between formal statements, directed equalities, predicates, and rule interpreters:
-  </p>
+mjx-container[justify="left"] {
+  text-align: left;
+  justify-content: left;
+}
 
-  <div class="diagram-wrapper">
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-diagram-name="ontologyModel" style="background: transparent; color-scheme: light dark; cursor: pointer;" version="1.1" width="580px" height="532px" viewBox="0 0 580 532" id="ge-svg-2fJnmTgXqPzf9C-g082_" content="&lt;mxfile host=&quot;embed.diagrams.net&quot; agent=&quot;Mozilla/5.0 (Windows NT         10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)         draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0         Safari/537.36&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;5oqYsMtTyfGbQJYCZnEy&quot;&gt;7V1bc5tIE/01efRUz33m0WvntsmuU7l82eRlCwssEUsgI5TY+fVfjwSWkJBli8GQrFOpihhggDl9ek73XPKMn0yuX2bBdPRXGkbjZwzC62f89Blj1HCG/7iSm2WJAr4sGGZxWFy0KvgQ/4yKQihK53EYzSoX5mk6zuNptXCQJkk0yCtlQZalP6qXXaTj6lOnwTDaKvgwCMbbpZ/jMB8tS42EVfmrKB6OyidTKM5MgvLiomA2CsL0x1oRf/6Mn2Rpmi9/Ta5PorFrvLJdlve92HH29sWyKMnvc8PX1+8/8/eXH54fn32/ev7t7ZtgJI64qTRfcF5+N2xXXzxxlt+UFw2zdD5dln4PxvOitCiIsjy6XruzeKuXUTqJ8uwGLxmtNZzkQLha3vpj1dBSFy9S1HTEi+PCnKgtjoMC5+Ft9aumwB9Fa9S3TH45GF/Rk3Tw4iyM/kyPBt//TI5KA4zCLQNZNcmdbTpL59mguNdcfIF4JN5cvL7++9WMnbzX9vJou0Hdwz4Uh2mWj9JhmgTj56vSP7DFkzByLw54tLrmbZpOsZBi4bcoz28KJgXzPMWiUT4ZF2ej6zj/x91OZHH0pajM/T69Xj+4KQ8SbNG1m9zhl7I+d7C6bXFU3jfLgyw/dix03zONkrLsRezAKO4IyyvCOJikSfhxFCfLE8Vl7jEF9YNsGOV3oVZvaVk0DvL4exXIJiZzF573N5A14Mdj9GgO4B+jOI8+TIOF5fxAp1qF7wKb5CQdpxkeJ2kS3TbNGgGnWTpNZ3Eep8lBXOSMGCO5VooZwY2VcouXlFJiOOBFBoSwjIkKTSnTRCsKxhphKJ6XVdZqJLvgYJSwVFFlVVskpq2TmD2RuAGJd/OoKxKznpD4ah4keXwRR1lXHAZBpAAGnBskMiu5VHCYaUOU5SjwrGJaspLi/jksWucw7w+H6UEchj0cXuPn+TgdXFaYCfdnpngkZtYbgvovGUI7zvyejvo+Pv9XcOa8J858mkVhPAjyqCNfzhUnihqgwCmT0paRVou+fLf/6AEeF/Nk0KE83gMHV4pIUNoYrSwwoVtyqKx9dSw7dajr7vTWue5xqHTdna55V389az0WUG94j9O1svY1VreW8FvGSY+lxu7Cs3NXHsZZNMij8GgaxF2FShw0UXhCqUWgVKZAC3cuOAZSxlj090JzbXlLiKieIDJDo+0GB2aJtYZrrEoagdVUu1WOvS4DK0FaKkRLKOjDUZiNgqn7Oc3SQTSb7UfjPBhcDhdO8myej2MHx8NQcnn/WZ7NB3l6GHeoJRo1DJNWa1Cc6wdDBopwLSmyxBiqDK9CJlGYSkOFlEID1x6o84/++u3N59Ov4bvhp9fn7z+fvBxeHFmf3V/thUw17v/2KZz1Xk0+dsQYBrPR4k3L13sXZTGCE2U7dVArfVpx67s0TvKVlQkj0EGDdOYoUFiLDQctCboFrSgFy6lSG75hCW5R5Yal3b7j4cbnN0n9GNZXq5U9GdJe06asYttC3tvgalv/IQZXWBMQaoTdY4P4rcHN2gVTZz6z3SaKHo4AigOMCYUwGIVXTVQrQrmQimKETi0r+sYXuyrT4PN27tw8w84ZqHtBtudujmpIaSYoX37P/evCH8t221EzADFKS1Ra3Fqodu+Px+L6EMr4ZHH90IRuzOKex1C+8tSqYS/SbASpgQT0KsST+eTcDR9BB4q8JKUQxCoJyo30AuWyLdldtuUhjY5Nkldbt67xUSenl9FGm9fAEIzjIXZrpwN8D9cZ/eEaPR4E4+PixCQOwxpqbsGXRVdzDG5nhwlzTqgUFFteohuW0rAt6KQklkqmjAUESlFWFeaMYTAFKOupYNYyvRHU4gOk1kYbtAtufYRTtW7VqzKvV5xPmakmmalOp+HU98T6P2Uz/R4x7rQnFn1JUv6RpuMoSG4LO0yPccW0Lf5UBTTlhlg3GKWlEtzd3xJBy57GD0HPvtDwxdnV+eDn8N/p8fH00/G1fppa+evOyroLz86JPE6HTsphIbZ5FhyaNvXAZYx2jXLyTAnGgG4kTpcj+gKZDIqC4B4mWNZmT7wyebeU8J437WcsW58e7FJL9YV3F2k2WdAOfVweTaKkqyGmxaxIDGOlBSlBSFPtQxUQYRVQZoBqrMMH8epFbvvMu1248tt2opVBi3t2g7rT0MZrONxH1PvollsJbA4aJKCKE8o1cA6LeXq22usLkERzoTXXUlNZjFHsytMbVBCWKV4qCHH/uqp5em8p9JpFZ530Nrej4mjSnWRPy4cITQRl1tBFFk/RDbgXE0ukFpajRUir2pqCzxsA09PkajwLDgJ1kVd1/T7DvxRYyZo1UDHMZloxaqhETJCqvKrcUZpzJiVXxrhBrI28qhTEMMusMBzrL8/6h5Q9QeoNUmncIAdFZ6oWqnBjdrUwxIBxbpZTq5lsaz4vbzDd/QnTDUyNIUxQgRRcOt/qeDw6Y4LqXhslQFjLPUxMOju9iVJlM/5Tn/w1+FfA8auPTeKvJ0Q3EEWVQ7QFvN95XalsFVFqiWASDJcUu2Qfk+5Pj74F0fTqjRhcvVXX0/+9PDtKmixJeUJ0A9HFMmOptZRUgNaGViEVGIxzAHcjQ3llPMij3RmaHsjWb/Nw2KfUiAftUtvexZv5CYJ3Twp7tMmavVuM8pCUY7kxB74dF3cgflC8i0ZEJLL7djJZhd9UUaLBJcGVcMk2um5ZW3Vxi/6mnFxnFHqE9ipDdWABXJLeMo50ohs23yx4rndCXlfHPiIr+rPqdU86sL7Z5QO40sQT1s/r9bpJTTeu8LD5C/sg34avthkea3ClHj2vOfyuKNspfuyR8LurcTvXfeUSOGdKV3PU9flNRxJQCEaww7N4SgrKNlLKVOPNwmUqUSRyocwdc+gbAdNgJdxTjLWZrnSzhhRHaIEjbqIKqQGCF0hADSQMUNoW1fxuAlP/iOabf7SzBt2PuGlB+vtHuS/7dbxdTtaLrqdZNJt1uFGE5GR9TVA1v0GRuYIDPkcASGXLJSj+cfE6o/YOHf2LBxfN5vnwTqnXl6my2DkO5vjFi61ImRq73jiMv+PPoftZw8zlNfjVa5cdxFdhCWeWc420Exoj93q6MrOK/HVV/gC4gaBVvqJCV5cU4IpiR6wVUt56yDDXQ/n7LYXpcNBAImplkgcVq6qOA0lGKHdDC8rNrLZGe5jvVYuV15zn7lC4Fw74F8h6ese3L2MI+ShKs2hyuN6xKEuERM3C7PZ2zsaQVcoU2VR1n8y6uQ9rVNMVrlmDZ4Eb0EYoaItoXqXO7pzFE9G6Srr1hGjLCWbzrMFioCZUo4pwdbtCX2xMWcFyIiRQpQBAgPKxbLcejQY5tL5qlWSWu617g7zJ0l0GVnAqOQqSUs+tL901VZ1ZHYvjy6zMjq0kqDvr9tuxRmlqfcjQemgbRBQ9hXaEjYQflLm1PwfmWBnKSUkBKSsok+rB2C4yrGu8rS4/YFQSBS4+kRyJa4WHKQ93bijTZJurwfz8Hr70fAnJ2/N9m16FQXZ5htW47LfrzUBWC9milNbhms1rY0309fMwHaRhtCvI3Lpl2S/6C0nVIoWkrEIv7hC3W+ZCqSZrVMfrqvbC3c4vZuNkOUEGrRGDXTBcaTeLxrbl5ksjblNVNd8cpaMtRCvDzu7gXZCjn3KOCT8eTK2wqm8D26my6sPWd1vcrpA4mLhqkvPZtJ6+sesgptliFyl/JN4v1vaQGDUAkQA78krColjTGBWBRKlmNHiYjHqHefUN4PAmCOOB+94szkf4pe5gC9koGbo6egSqOy3perzbDaq/4UqA+aw96c0tqWBaJiLKwEpKsqbdUIhVUMVThIG2IJURSnnQ3h/Mx+Tzp2RijsZjM9aTLy/Y336XZT9id1v+flB3e3uwPVqqNrR0pe/d1lbF2c2dBD120I+1HUo9uL9fRHbbYXcUaovFqoFd8tq5cNWA7Hi4+v8BlxNFV//LIn/+fw==&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><style type="text/css">@supports (color: light-dark(#000, #fff)) { #ge-svg-2fJnmTgXqPzf9C-g082_ { --ge-adaptive-bg: light-dark(#ffffff, var(--ge-dark-color, #121212)); } }</style><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-38"><g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-10"><g transform="translate(0.5,0.5)"><path d="M 183.68 168.11 L 183.7 131.9 L 160.5 131.9 L 160.46 101.37" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 180.18 162.22 L 183.68 169.23 L 187.18 162.23" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 160.45 94.37 L 162.52 97.86 L 160.46 101.37 L 158.4 97.87 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-1"><g transform="translate(0.5,0.5)"><ellipse cx="183.68" cy="186.79" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 187px; margin-left: 129px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">proposition</div></div></div></foreignObject><text x="184" y="190" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">proposition</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-11"><g transform="translate(0.5,0.5)"><path d="M 160.46 276.46 L 160.5 241 L 183.7 241 L 183.68 211.21" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 156.97 270.57 L 160.46 277.58 L 163.97 270.58" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 183.68 204.21 L 185.74 207.71 L 183.68 211.21 L 181.62 207.72 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-2"><g transform="translate(0.5,0.5)"><ellipse cx="160.46" cy="295.14" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 295px; margin-left: 106px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">quantifier</div></div></div></foreignObject><text x="160" y="299" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">quantifier</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-14"><g transform="translate(0.5,0.5)"><path d="M 419.53 311.58 L 419.53 358.39" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 419.53 365.39 L 416.03 358.39 L 423.03 358.39 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-16"><g transform="translate(0.5,0.5)"><path d="M 419.53 276.46 L 419.5 241 L 183.7 241 L 183.68 211.21" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 416.03 270.58 L 419.53 277.58 L 423.03 270.57" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 183.68 204.21 L 185.74 207.71 L 183.68 211.21 L 181.62 207.72 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-3"><g transform="translate(0.5,0.5)"><ellipse cx="419.53" cy="295.14" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 295px; margin-left: 365px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">predicate</div></div></div></foreignObject><text x="420" y="299" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">predicate</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-4"><g transform="translate(0.5,0.5)"><ellipse cx="419.53" cy="382.95" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 383px; margin-left: 365px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">function</div></div></div></foreignObject><text x="420" y="387" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">function</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-21"><g transform="translate(0.5,0.5)"><path d="M 307.6 451.03 L 267.36 451.03" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 260.36 451.03 L 267.36 447.53 L 267.36 454.53 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-24"><g transform="translate(0.5,0.5)"><path d="M 363.52 432.35 L 363.5 414.6 L 419.5 414.6 L 419.52 407.38" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 360.01 426.47 L 363.52 433.47 L 367.01 426.47" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 419.53 400.38 L 421.58 403.88 L 419.52 407.38 L 417.46 403.87 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-5"><g transform="translate(0.5,0.5)"><ellipse cx="363.52" cy="451.03" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 451px; margin-left: 309px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed-pair</div></div></div></foreignObject><text x="364" y="455" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed-pair</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-6"><g transform="translate(0.5,0.5)"><ellipse cx="85.91" cy="350.06" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 350px; margin-left: 31px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set</div></div></div></foreignObject><text x="86" y="354" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-7"><g transform="translate(0.5,0.5)"><rect x="206.38" y="358.66" width="111.83" height="19.73" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 217.38 358.66 L 217.38 378.39 M 307.21 358.66 L 307.21 378.39" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 369px; margin-left: 218px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">set constructor</div></div></div></foreignObject><text x="262" y="372" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">set constructor</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-9"><g transform="translate(0.5,0.5)"><path d="M 486.14 426.74 L 486.1 413.1 L 419.5 413.1 L 419.51 407.38" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 419.53 400.38 L 421.58 403.88 L 419.51 407.38 L 417.46 403.87 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-11"><g transform="translate(0.5,0.5)"><path d="M 556.14 471.74 L 554.1 471.7 L 554.1 476.1 L 570 476.1 L 570 319.7 L 537.9 319.7 L 537.9 207.84" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 537.9 200.84 L 539.96 204.34 L 537.9 207.84 L 535.85 204.34 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-28"><g transform="translate(0.5,0.5)"><path d="M 55.92 444.97 L 55.9 405.8 L 85.9 405.8 L 85.91 374.62" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 85.91 367.62 L 89.41 374.63 L 82.41 374.62 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-27"><g transform="translate(0.5,0.5)"><ellipse cx="55.92" cy="461.41" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 461px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">number set</div></div></div></foreignObject><text x="56" y="465" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">number set</text></switch></g></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-38"><g><rect x="222.99" y="413.58" width="55.92" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 54px; height: 1px; padding-top: 420px; margin-left: 224px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">requires</div></div></div></foreignObject><text x="251" y="424" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">requires</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-9"><g transform="translate(0.5,0.5)"><path d="M 85.91 136.72 L 85.9 116.2 L 160.5 116.2 L 160.47 101.37" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 82.41 130.84 L 85.91 137.84 L 89.41 130.84" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 160.45 94.37 L 162.52 97.86 L 160.47 101.37 L 158.4 97.87 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-27"><g transform="translate(0.5,0.5)"><path d="M 85.91 171.84 L 85.9 252.8 L 85.91 325.5" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 85.91 332.5 L 82.41 325.5 L 89.41 325.5 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="8fY0ih4KfIxNHs2CR79k-45"><g transform="translate(0.5,0.5)"><ellipse cx="85.91" cy="155.4" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 155px; margin-left: 31px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Boolean value</div></div></div></foreignObject><text x="86" y="159" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Boolean value</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-12"><g transform="translate(0.5,0.5)"><path d="M 291.78 276.46 L 291.8 241 L 183.7 241 L 183.68 211.21" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 288.28 270.57 L 291.78 277.58 L 295.28 270.58" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 183.68 204.21 L 185.74 207.71 L 183.68 211.21 L 181.62 207.72 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="OY1dFOqbczg_pAApUAx7-1"><g transform="translate(0.5,0.5)"><ellipse cx="291.78" cy="295.14" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 295px; margin-left: 237px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">logical operator</div></div></div></foreignObject><text x="292" y="299" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">logical operator</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-2"><g transform="translate(0.5,0.5)"><path d="M 160.45 60.5 L 160.45 41" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 160.45 34 L 163.95 41 L 156.95 41 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-1"><g transform="translate(0.5,0.5)"><ellipse cx="160.45" cy="76.94" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 77px; margin-left: 106px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">formal statement</div></div></div></foreignObject><text x="160" y="81" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">formal statement</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-22"><g transform="translate(0.5,0.5)"><path d="M 203.33 434.59 L 203.3 406.5 L 262.3 406.5 L 262.29 384.76" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 262.29 379.51 L 265.79 386.51 L 262.29 384.76 L 258.79 386.51 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-29"><g transform="translate(0.5,0.5)"><path d="M 163.58 439.46 L 163.6 405.7 L 85.9 405.7 L 85.91 374.62" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 85.91 367.62 L 89.41 374.63 L 82.41 374.62 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-20"><g transform="translate(0.5,0.5)"><ellipse cx="203.33" cy="451.03" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 451px; margin-left: 148px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">constructed set</div></div></div></foreignObject><text x="203" y="455" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">constructed set</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-30"><g><rect x="278.33" y="454.83" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 461px; margin-left: 279px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="293" y="465" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-32"><g><rect x="58.97" y="248.81" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 255px; margin-left: 60px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="74" y="259" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="tkclq1CocFOdeJo-cvJn-33"><g><rect x="88.24" y="376.37" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 383px; margin-left: 89px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="103" y="387" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="ODyeo69r3z7CMc_40AHT-1"><g><rect x="422.79" y="319.43" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 326px; margin-left: 424px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="437" y="330" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="D-jaepqK4cqL6xpVGO-n-3"><g><rect x="127.76" y="40.43" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 47px; margin-left: 129px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="142" y="51" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-1"><g transform="translate(0.5,0.5)"><ellipse cx="160.45" cy="16.44" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 16px; margin-left: 106px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">judgment</div></div></div></foreignObject><text x="160" y="20" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">judgment</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-5"><g transform="translate(0.5,0.5)"><path d="M 458.4 176.72 L 458.4 161.7 L 393.1 161.7 L 393.1 76.9 L 224.48 76.94" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 217.48 76.94 L 224.48 73.44 L 224.48 80.44 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-16"><g transform="translate(0.5,0.5)"><path d="M 498.15 171.84 L 498.2 149 L 456.9 149 L 456.89 134.25" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 456.88 127.25 L 458.94 130.75 L 456.89 134.25 L 454.82 130.75 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-20"><g transform="translate(0.5,0.5)"><path d="M 458.4 199.85 L 339.1 199.8 L 339.06 138.08" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 339.05 132.83 L 342.56 139.83 L 339.06 138.08 L 335.56 139.83 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-22"><g transform="translate(0.5,0.5)"><path d="M 498.15 204.73 L 498.2 214.7 L 260.6 214.7 L 260.59 176.71" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 260.59 171.46 L 264.09 178.46 L 260.59 176.71 L 257.09 178.46 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-4"><g transform="translate(0.5,0.5)"><ellipse cx="498.15" cy="188.29" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 188px; margin-left: 443px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">directed equality</div></div></div></foreignObject><text x="498" y="192" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">directed equality</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-6"><g><rect x="229.96" y="80.23" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 87px; margin-left: 231px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="245" y="90" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-14"><g transform="translate(0.5,0.5)"><path d="M 353.79 35.69 L 200.2 35.7 L 200.2 57.39" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 200.2 64.39 L 198.14 60.89 L 200.2 57.39 L 202.26 60.89 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-13"><g transform="translate(0.5,0.5)"><ellipse cx="409.71" cy="35.69" rx="55.92" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 36px; margin-left: 355px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Lean expression</div></div></div></foreignObject><text x="410" y="39" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">Lean expression</text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-17"><g transform="translate(0.5,0.5)"><path d="M 456.88 76.94 L 456.9 64.5 L 409.7 64.5 L 409.7 60.25" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 409.71 53.25 L 413.2 60.25 L 406.2 60.24 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-15"><g transform="translate(0.5,0.5)"><ellipse cx="456.88" cy="101.6" rx="55.91" ry="24.66" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 110px; height: 1px; padding-top: 102px; margin-left: 402px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">calculatable<div>Lean expression</div></div></div></div></foreignObject><text x="457" y="98" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"><tspan x="457" y="98">calculatable</tspan><tspan x="457" y="112">Lean expression</tspan></text></switch></g></g></g><g data-cell-id="X7ZjKWDZdPgUIbRWCGgf-18"><g><rect x="456.98" y="52.13" width="29.28" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 27px; height: 1px; padding-top: 59px; margin-left: 458px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">isa</div></div></div></foreignObject><text x="472" y="62" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">isa</text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-5"><g transform="translate(0.5,0.5)"><path d="M 339.05 98.82 L 339.1 76.9 L 224.48 76.94" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 217.48 76.94 L 224.48 73.44 L 224.49 80.44 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-1"><g transform="translate(0.5,0.5)"><ellipse cx="339.05" cy="115.26" rx="44.22" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 86px; height: 1px; padding-top: 115px; margin-left: 296px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">theorem</div></div></div></foreignObject><text x="339" y="119" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">theorem</text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-7"><g transform="translate(0.5,0.5)"><path d="M 260.59 137.45 L 260.6 76.9 L 224.48 76.93" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 217.48 76.94 L 224.48 73.43 L 224.49 80.43 Z" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-2"><g transform="translate(0.5,0.5)"><ellipse cx="260.59" cy="153.89" rx="44.22" ry="16.44" fill="none" stroke="#000000" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 86px; height: 1px; padding-top: 154px; margin-left: 217px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">structure</div></div></div></foreignObject><text x="261" y="157" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">structure</text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-24"><g><rect x="380.23" y="180.21" width="58.97" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 57px; height: 1px; padding-top: 187px; margin-left: 381px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">instantiates</div></div></div></foreignObject><text x="410" y="190" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">instantiates</text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-25"><g><rect x="442.24" y="215.61" width="58.97" height="26.95" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 57px; height: 1px; padding-top: 229px; margin-left: 443px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">has property</div></div></div></foreignObject><text x="472" y="226" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"><tspan x="472" y="226">has</tspan><tspan x="472" y="240">property</tspan></text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-26"><g transform="translate(0.5,0.5)"><path d="M 436.14 426.74 L 534.07 426.74 L 554.07 446.74 L 554.07 489.62 L 456.14 489.62 L 436.14 469.62 L 436.14 426.74 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 436.14 426.74 L 534.07 426.74 L 554.07 446.74 L 456.14 446.74 Z" fill-opacity="0.05" fill="#000000" stroke="none" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));"></path><path d="M 436.14 426.74 L 456.14 446.74 L 456.14 489.62 L 436.14 469.62 Z" fill-opacity="0.1" fill="#000000" stroke="none" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));"></path><path d="M 456.14 489.62 L 456.14 446.74 L 436.14 426.74 M 456.14 446.74 L 554.07 446.74" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 96px; height: 1px; padding-top: 468px; margin-left: 457px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">rule<div>pseudocode</div><div>block</div></div></div></div></foreignObject><text x="505" y="458" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"><tspan x="505" y="458">rule</tspan><tspan x="505" y="472">pseudocode</tspan><tspan x="505" y="486">block</tspan></text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-31"><g transform="translate(0.5,0.5)"><path d="M 301.5 513.92 L 241.82 513.92" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 236.57 513.92 L 243.57 510.42 L 241.82 513.92 L 243.57 517.42 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-27"><g transform="translate(0.5,0.5)"><rect x="301.5" y="497.47" width="117.93" height="32.89" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 313.5 497.47 L 313.5 530.36 M 407.43 497.47 L 407.43 530.36" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 92px; height: 1px; padding-top: 514px; margin-left: 315px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">pseudocode&nbsp;<div>interpreter</div></div></div></div></foreignObject><text x="360" y="511" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"><tspan x="360" y="511">pseudocode</tspan><tspan x="360" y="525">interpreter</tspan></text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-29"><g transform="translate(0.5,0.5)"><rect x="117.52" y="497.47" width="117.93" height="32.89" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></rect><path d="M 129.52 497.47 L 129.52 530.36 M 223.45 497.47 L 223.45 530.36" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 92px; height: 1px; padding-top: 514px; margin-left: 131px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">dyadic arithmetic<div>engine</div></div></div></div></foreignObject><text x="176" y="511" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"><tspan x="176" y="511">dyadic arithmetic</tspan><tspan x="176" y="525">engine</tspan></text></switch></g></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-32"><g><rect x="255.52" y="517.21" width="39.31" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 37px; height: 1px; padding-top: 524px; margin-left: 257px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">uses</div></div></div></foreignObject><text x="275" y="527" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">uses</text></switch></g></g></g><g data-cell-id="S8TnWUnm8-ll8l7mYF2N-2"><g transform="translate(0.5,0.5)"><path d="M 419.43 513.92 L 505.1 513.9 L 505.1 495.99" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path><path d="M 505.1 490.74 L 508.6 497.74 L 505.1 495.99 L 501.6 497.74 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"></path></g></g><g data-cell-id="ZIRW3RkSEAOvqEjLKah4-35"><g><rect x="419.43" y="497.47" width="58.97" height="13.15" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 57px; height: 1px; padding-top: 504px; margin-left: 420px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">interprets</div></div></div></foreignObject><text x="449" y="508" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));">interprets</text></switch></g></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
-  </div>
+mjx-container[justify="right"] {
+  text-align: right;
+  justify-content: right;
+}
+
+mjx-container[jax="SVG"] {
+  direction: ltr;
+  white-space: nowrap;
+}
+
+mjx-container[jax="SVG"] &gt; svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] &gt; svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+rect[data-sre-highlighter-added]:has(+ .mjx-selected), rect[data-sre-highlighter-bbox].mjx-selected {
+  stroke: black;
+  stroke-width: 80px;
+}
+
+@media (prefers-color-scheme: dark) {
+  rect[data-sre-highlighter-added]:has(+ .mjx-selected), rect[data-sre-highlighter-bbox].mjx-selected {
+    stroke: #C8C8C8;
+  }
+}
+
+mjx-container[jax="SVG"] mjx-break {
+  white-space: normal;
+  line-height: 0;
+  clip-path: rect(0 0 0 0);
+  font-family: MJX-ZERO ! important;
+}
+
+mjx-break[size="0"] {
+  letter-spacing: -0.999em;
+}
+
+mjx-break[size="1"] {
+  letter-spacing: -0.889em;
+}
+
+mjx-break[size="2"] {
+  letter-spacing: -0.833em;
+}
+
+mjx-break[size="3"] {
+  letter-spacing: -0.778em;
+}
+
+mjx-break[size="4"] {
+  letter-spacing: -0.722em;
+}
+
+mjx-break[size="5"] {
+  letter-spacing: -0.667em;
+}
+
+mjx-container[jax="SVG"] mjx-break[newline]::before {
+  white-space: pre;
+  content: "\A";
+}
+
+mjx-break[newline] + svg[width="0.054ex"] {
+  margin-right: -1px;
+}
+
+mjx-break[prebreak] {
+  letter-spacing: -.999em;
+}
+
+@font-face /* zero */ {
+  font-family: MJX-ZERO;
+  src: url(data:application/x-font-woff;charset=utf-8;base64,T1RUTwAJAIAAAwAQQ0ZGIGnFMZkAAARQAAAAlE9TLzJpUWOBAAABAAAAAGBjbWFwAAwAUwAABAQAAAAsaGVhZCFRvpAAAACcAAAANmhoZWEC8AD9AAAA1AAAACRobXR4A+gAAAAABOQAAAAIbWF4cAACUAAAAAD4AAAABm5hbWVNb8+2AAABYAAAAqNwb3N0AAMAAAAABDAAAAAgAAEAAAABAABVWOu4Xw889QADA+gAAAAA3ym+2AAAAADfKb7YAAAAAAPoAAAAAAADAAIAAAAAAAAAAQAAAu79EgAAA+gAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAIAAFAAAAIAAAADA+gB9AAFAAACigK7AAAAjAKKArsAAAHfADEBAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABYWFhYAEAAIAAgAu79EgAAAu4C7gAAAAEAAAAAAXcAAAAgACAAAAAAACIBngABAAAAAAAAAAEAQQABAAAAAAABAAsAAAABAAAAAAACAAcAIQABAAAAAAADABUAxgABAAAAAAAEABMANgABAAAAAAAFAAsApQABAAAAAAAGABIAbwABAAAAAAAHAAEAQQABAAAAAAAIAAEAQQABAAAAAAAJAAEAQQABAAAAAAAKAAEAQQABAAAAAAALAAEAQQABAAAAAAAMAAEAQQABAAAAAAANAAEAQQABAAAAAAAOAAEAQQABAAAAAAAQAAsAAAABAAAAAAARAAcAIQADAAEECQAAAAIAXwADAAEECQABABYACwADAAEECQACAA4AKAADAAEECQADACoA2wADAAEECQAEACYASQADAAEECQAFABYAsAADAAEECQAGACQAgQADAAEECQAHAAIAXwADAAEECQAIAAIAXwADAAEECQAJAAIAXwADAAEECQAKAAIAXwADAAEECQALAAIAXwADAAEECQAMAAIAXwADAAEECQANAAIAXwADAAEECQAOAAIAXwADAAEECQAQABYACwADAAEECQARAA4AKG1qeC1sbS16ZXJvAG0AagB4AC0AbABtAC0AegBlAHIAb1JlZ3VsYXIAUgBlAGcAdQBsAGEAcm1qeC1sbS16ZXJvIFJlZ3VsYXIAbQBqAHgALQBsAG0ALQB6AGUAcgBvACAAUgBlAGcAdQBsAGEAcm1qeC1sbS16ZXJvUmVndWxhcgBtAGoAeAAtAGwAbQAtAHoAZQByAG8AUgBlAGcAdQBsAGEAclZlcnNpb24gMC4xAFYAZQByAHMAaQBvAG4AIAAwAC4AMSA6bWp4LWxtLXplcm8gUmVndWxhcgAgADoAbQBqAHgALQBsAG0ALQB6AGUAcgBvACAAUgBlAGcAdQBsAGEAcgAAAAABAAMAAQAAAAwABAAgAAAABAAEAAEAAAAg//8AAAAg////4QABAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAEAQABAQETbWp4LWxtLXplcm9SZWd1bGFyAAEBASf4GwD4HAL4HQP4HgSLi/mC+nwFHQAAAIYPHQAAAIkRix0AAACUEgAFAQEMHyoxNlZlcnNpb24gMC4xbWp4LWxtLXplcm8gUmVndWxhcm1qeC1sbS16ZXJvUmVndWxhcnNwYWNlAAAAAYsAAgEBAwaLDvp8DgAAAAAD6AAA) format("woff");
+}
+
+g[data-mml-node="merror"] &gt; g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] &gt; rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] &gt; line[data-line], svg[data-table] &gt; g &gt; line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] &gt; rect[data-frame], svg[data-table] &gt; g &gt; rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] &gt; .mjx-dashed, svg[data-table] &gt; g &gt; .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] &gt; .mjx-dotted, svg[data-table] &gt; g &gt; .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] &gt; g &gt; svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool &gt; mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool &gt; mjx-tip {
+  display: inline-block;
+  line-height: 0;
+  padding: .2em;
+  border: 1px solid #888;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+g[data-mjx-collapsed] {
+  fill: #55F;
+}
+
+@media (prefers-color-scheme: dark) /* svg maction */ {
+  mjx-tool &gt; mjx-tip {
+    background-color: #303030;
+      color: #E0E0E0;
+      box-shadow: 2px 2px 5px #000;
+  }
+  mjx-status {
+    background-color: #303030;
+      color: #E0E0E0;
+  }
+  g[data-mjx-collapsed] {
+    fill: #88F;
+  }
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+foreignObject[data-mjx-html] {
+  overflow: visible;
+}
+
+mjx-measure-xml {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-block;
+  line-height: normal;
+  white-space: normal;
+}
+
+mjx-html {
+  display: inline-block;
+  line-height: normal;
+  text-align: initial;
+  white-space: initial;
+}
+
+mjx-html-holder {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+</style></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="NIoGoljZtxezQos5B78d-2"><g transform="translate(0.5,0.5)"><ellipse cx="160.6" cy="65.7" rx="65.6" ry="65.6" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-3"><g transform="translate(0.5,0.5)"><ellipse cx="160.6" cy="86.2" rx="44.53" ry="16.4" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 87px; height: 1px; padding-top: 86px; margin-left: 117px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div style="float:left;text-decoration:inherit;width:87px;height:29px;"><div data-shape-inside="1" style="float:left;width:43px;height:29px;shape-outside:polygon(51.68% 0.05%, 38% 4.87%, 26.03% 10.78%, 16% 17.53%, 8.06% 24.97%, 2.31% 32.92%, 0.05% 41.2%, 0.05% 49.66%, 0.05% 58.11%, 2.31% 66.39%, 8.06% 74.34%, 16% 81.78%, 26.03% 88.53%, 38% 94.44%, 51.75% 99.34%, 54.5% 99.95%, 0.05% 99.95%, 0.05% 0.05%);shape-margin:2px;pointer-events:none;"></div><div data-shape-inside="1" style="float:right;width:44px;height:29px;shape-outside:polygon(49.61% 0.05%, 62.98% 4.87%, 74.68% 10.78%, 84.48% 17.53%, 92.24% 24.97%, 97.86% 32.92%, 99.95% 41.2%, 99.95% 49.66%, 99.95% 58.11%, 97.86% 66.39%, 92.24% 74.34%, 84.48% 81.78%, 74.68% 88.53%, 62.98% 94.44%, 49.54% 99.34%, 46.86% 99.95%, 99.95% 99.95%, 99.95% 0.05%);shape-margin:2px;pointer-events:none;"></div><div><br></div></div></div></div></div></foreignObject><text x="161" y="76" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="161" y="76"></tspan><tspan x="161" y="90"></tspan><tspan x="161" y="104"></tspan></text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-4"><g><rect x="125.97" y="28.8" width="79.16" height="24.6" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 77px; height: 1px; padding-top: 41px; margin-left: 127px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">mathematical<div>reality</div></div></div></div></foreignObject><text x="166" y="38" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="166" y="38">mathematical</tspan><tspan x="166" y="52">reality</tspan></text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-5"><g><rect x="130.91" y="78" width="59.37" height="16.4" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 57px; height: 1px; padding-top: 86px; margin-left: 132px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">arithmetic</div></div></div></foreignObject><text x="161" y="90" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);">arithmetic</text></switch></g></g></g><g data-cell-id="djR-g1mjYzKHinLn3u43-4"><g transform="translate(0.5,0.5)"><path d="M 160.61 168 L 160.6 135.06 L 160.55 108.49" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 160.54 103.24 L 164.05 110.24 L 160.55 108.49 L 157.05 110.25 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-7"><g transform="translate(0.5,0.5)"><ellipse cx="160.61" cy="203.65" rx="108.89" ry="35.65" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 216px; height: 1px; padding-top: 204px; margin-left: 53px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; "><div style="float:left;text-decoration:inherit;width:216px;height:77px;"><div data-shape-inside="1" style="float:left;width:108px;height:72px;shape-outside:polygon(0.05% 4.17%, 99.9% 4.17%, 82.79% 4.88%, 66.63% 6.94%, 51.73% 10.18%, 38.34% 14.47%, 26.68% 19.64%, 16.92% 25.56%, 9.19% 32.07%, 3.59% 39.02%, 0.21% 46.28%, 0.05% 53.68%, 0.21% 61.08%, 3.59% 68.34%, 9.19% 75.29%, 16.92% 81.8%, 26.68% 87.72%, 38.34% 92.9%, 51.73% 97.18%, 64.7% 99.95%, 0.05% 99.95%);shape-margin:2px;pointer-events:none;"></div><div data-shape-inside="1" style="float:right;width:108px;height:72px;shape-outside:polygon(99.95% 4.17%, 0.05% 4.17%, 17.01% 4.88%, 33.17% 6.94%, 48.07% 10.18%, 61.46% 14.47%, 73.12% 19.64%, 82.89% 25.56%, 90.62% 32.07%, 96.21% 39.02%, 99.6% 46.28%, 99.95% 53.68%, 99.6% 61.08%, 96.21% 68.34%, 90.62% 75.29%, 82.89% 81.8%, 73.12% 87.72%, 61.46% 92.9%, 48.07% 97.18%, 35.11% 99.95%, 99.95% 99.95%);shape-margin:2px;pointer-events:none;"></div><br>Ambient arithmetic field<br><b><br></b><b>(No(), +, )</b></div></div></div></div></foreignObject><text x="161" y="186" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="161" y="186"></tspan><tspan x="161" y="200"></tspan><tspan x="161" y="214">Ambient arithmetic field</tspan><tspan x="161" y="228">(No(\(\epsilon_{0}\)), +, \(\cdot\))</tspan></text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-9"><g><rect x="157.74" y="138" width="59.37" height="24.6" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 57px; height: 1px; padding-top: 150px; margin-left: 159px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">models</div></div></div></foreignObject><text x="187" y="154" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);">models</text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-13"><g transform="translate(0.5,0.5)"><path d="M 160.6 339.2 L 160.6 359.7 L 160.6 373.83" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 160.6 379.08 L 157.1 372.08 L 160.6 373.83 L 164.1 372.08 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="djR-g1mjYzKHinLn3u43-5"><g transform="translate(0.5,0.5)"><path d="M 160.6 283.63 L 160.61 239.3" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 160.6 288.88 L 157.1 281.88 L 160.6 283.63 L 164.1 281.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-10"><g transform="translate(0.5,0.5)"><rect x="-0.19" y="290" width="321.58" height="49.2" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 320px; height: 1px; padding-top: 315px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">terms of mathematical expression<div> <b>No</b>(+1)  <b>No</b>()</div></div></div></div></foreignObject><text x="161" y="311" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="161" y="311">terms of mathematical expression</tspan><tspan x="161" y="325">\(x\in\) No(\(\omega\)+1) \(\subset\) No(\(\epsilon_{0}\))</tspan></text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-14"><g transform="translate(0.5,0.5)"><path d="M 160.6 429.4 L 160.6 461.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 160.6 466.88 L 157.1 459.88 L 160.6 461.63 L 164.1 459.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-11"><g transform="translate(0.5,0.5)"><rect x="101.23" y="380.2" width="118.74" height="49.2" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></rect><path d="M 113.23 380.2 L 113.23 429.4 M 207.97 380.2 L 207.97 429.4" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="stroke: var(--ge-adaptive-fg, #000000);"></path></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 93px; height: 1px; padding-top: 405px; margin-left: 114px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">eval<div>function</div></div></div></div></foreignObject><text x="161" y="401" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="161" y="401">eval</tspan><tspan x="161" y="415">function</tspan></text></switch></g></g></g><g data-cell-id="NIoGoljZtxezQos5B78d-12"><g transform="translate(0.5,0.5)"><rect x="-0.19" y="468" width="321.58" height="49.2" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 320px; height: 1px; padding-top: 493px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">terms of mathematical expression:<div> <b>No</b>()  <b>No</b>()</div></div></div></div></foreignObject><text x="161" y="489" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="161" y="489">terms of mathematical expression:</tspan><tspan x="161" y="503">\(x\in\) No(\(\omega\)) \(\subset\) No(\(\epsilon_{0}\))</tspan></text></switch></g></g></g><g data-cell-id="djR-g1mjYzKHinLn3u43-6"><g><rect x="166.2" y="268" width="60" height="16.4" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 276px; margin-left: 167px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">grounds</div></div></div></foreignObject><text x="196" y="280" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);">grounds</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+</div>
 
   <div class="project-links-card">
-    <h3>Project Vision &amp; Certified Machine Sources</h3>
-    <p>The project continues to fulfill it's primary mission of helping to clarifying the hobbyist's notions. But<span style="font-size: 1.05rem;">&nbsp;as the hobbyist has neither bona fides nor actual expertise, and since AI assistance played a crucial role in project development, the project remains unvetted. Indeed, the project is still in a state of flux.</span></p><p><span style="font-size: 1.05rem;">But the rather subjective hobbyist's opinion is that project artifacts have reached a state of maturity where they are worth professional vetting.</span></p>
+    <h3>Project Artifacts</h3>
     <ul>
       <li>
         <strong>Interactive Curriculum &amp; Learning Engines:</strong> 
-        <a href="https://middlewaymath.app" target="_blank">middlewaymath.app</a> — 
+        <a href="https://middlewaymath.app" target="_blank" rel="noopener">middlewaymath.app</a> — 
         Explore the full interactive curriculum, including the Binary Tree Demo (BTD), Binary Interval Demo (BID), and dynamic lecture modules.
       </li>
       <li>
         <strong>Lean 4 Computable Ring Formalization:</strong> 
-        <a href="https://github.com/jpryan17/hobbyNotes/blob/master/MiddleWayLean/DyadicRing.lean" target="_blank">DyadicRing.lean on GitHub</a> — 
+        <a href="https://github.com/jpryan17/hobbyNotes/blob/master/MiddleWayLean/DyadicRing.lean" target="_blank" rel="noopener">DyadicRing.lean on GitHub</a> — 
         View the zero-axiom Lean 4 source file defining <code>Tree1</code>, <code>Tree2</code>, <code>Tree4</code>, Gaussian dyadics <code>𝔻[i]</code>, and certifying <code>(𝔻, +, ·)</code> as a commutative ring with decidable order and midpoint density.
       </li>
       <li>
         <strong>Open Source Codebase:</strong> 
-        <a href="https://github.com/jpryan17/hobbyNotes" target="_blank">github.com/jpryan17/hobbyNotes</a> — 
+        <a href="https://github.com/jpryan17/hobbyNotes" target="_blank" rel="noopener">github.com/jpryan17/hobbyNotes</a> — 
         Complete repository containing the Lean proof files, database seeds, and TypeScript compiler architecture.
       </li>
     </ul>
   </div>
-
-</div>
 </body>
 </html>
