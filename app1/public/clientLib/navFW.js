@@ -15,6 +15,7 @@ export class Nav {
     static lineTopics;
     static textSizeControl;
     static returnControl;
+    static overviewControl;
     static index;
     static indexRect;
     static foRect;
@@ -69,6 +70,8 @@ export class Nav {
         Nav.textSizeControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.returnControl = new SVGTSpan(Nav.lineBlock);
         Nav.returnControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
+        Nav.overviewControl = new SVGTSpan(Nav.lineBlock);
+        Nav.overviewControl.setAA(['visibility', 'hidden', 'pointer-events', 'none']);
         Nav.index = new SVGElt('svg');
         Nav.indexRect = new SVGElt('rect');
         Nav.foRect = new SVGElt('rect');
@@ -102,6 +105,7 @@ export class Nav {
         //
         Nav.setTextSizeControl();
         Nav.setReturnControl();
+        Nav.setOverviewControl();
         if (Nav.parent) {
             Nav.addNavLineIndexItem('Banner', Nav.toBanner);
         }
@@ -157,6 +161,21 @@ export class Nav {
         Nav.returnControl.elt.addEventListener('click', (ev) => {
             ev.stopPropagation();
             Nav.scrollToLectureDialogue();
+        });
+    }
+    static setOverviewControl() {
+        Nav.overviewControl.setA('font-size', Nav.fontSize);
+        Nav.overviewControl.setV('[\u2302 Overview]');
+        Nav.overviewControl.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto', 'visibility', 'visible']);
+        Nav.overviewControl.elt.addEventListener('mouseover', () => {
+            Nav.overviewControl.setA('stroke', Nav.color.over);
+        });
+        Nav.overviewControl.elt.addEventListener('mouseout', () => {
+            Nav.overviewControl.setA('stroke', Nav.color.active);
+        });
+        Nav.overviewControl.elt.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            window.location.href = './overview.html';
         });
     }
     static onFoScroll = () => {
@@ -246,6 +265,13 @@ export class Nav {
         const xp = lineWidth - controlWidth - 10;
         Nav.textSizeControl.setA('x', xp);
         Nav.textSizeControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
+        if (Nav.overviewControl) {
+            const ovWidth = textWidth('[\u2302 Overview]', Nav.fontSize);
+            const ovXp = xp - ovWidth - 15;
+            Nav.overviewControl.setA('x', ovXp);
+            Nav.overviewControl.setAA(['visibility', 'visible', 'pointer-events', 'auto']);
+            return ovXp - 20;
+        }
         return xp - 20;
     }
     //
