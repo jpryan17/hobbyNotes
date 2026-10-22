@@ -150,9 +150,18 @@ export class FSD extends PXEParent {
     this.isEditingExistingTag = isEditingExisting;
   }
 
+  editorButtonLabel: string = "return to content editor";
+
+  setEditorButtonLabel(label: string) {
+    this.editorButtonLabel = label;
+    if (this.editorButton) {
+      this.editorButton.setV(label);
+    }
+  }
+
   setEditorButton() {
     const editorButton = new SVGText();
-    editorButton.setV("return to content editor");
+    editorButton.setV(this.editorButtonLabel || "return to content editor");
     editorButton.setAA([
       "stroke",
       "forestgreen",
@@ -306,14 +315,15 @@ export class FSD extends PXEParent {
     }
   }
 
-  getDataForRefTag(): { exp: string; quantifiers: string; slots: string; formattedText: string } {
+  getDataForRefTag(): { exp: string; quantifiers: string; slots: string; formattedText: string; fullStatement: string } {
     const exp = this.pxe.exp;
     const quantifiers = this.quantifierBindings
       .map((q) => `${q.quantifier}${q.variable}:${q.domainType}`)
       .join(" ");
     const slots = this.slots.map((s) => s.assignedVar || "").join(",");
     const formattedText = this.formatFSDExp(exp);
-    return { exp, quantifiers, slots, formattedText };
+    const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
+    return { exp, quantifiers, slots, formattedText, fullStatement };
   }
 
   // Stage 3 State: Quantifier Prefix
@@ -416,9 +426,9 @@ export class FSD extends PXEParent {
     this.renderStageControls();
   }
 
-  layoutEditor() {
-    const fow = Nav.foWidth || (window.innerWidth - 250);
-    const foh = Nav.foHeight || (window.innerHeight - 80);
+  layoutEditor(customWidth?: number, customHeight?: number) {
+    const fow = customWidth || (typeof Nav !== "undefined" && Nav.foWidth ? Nav.foWidth : (window.innerWidth - 250));
+    const foh = customHeight || (typeof Nav !== "undefined" && Nav.foHeight ? Nav.foHeight : (window.innerHeight - 80));
     this.setAA(["width", fow, "height", foh, "style", "display:block;"]);
     this.editorFrame.setAA(["width", fow, "height", foh]);
     this.controlsFrame.setA("width", fow - 2 * this.sideMargin);
@@ -2441,4 +2451,127 @@ export function setFSD() {
       fsd.renderStageControls();
     }
   }).catch(() => {});
+}
+
+export interface FsdCommitData {
+  exp: string;
+  quantifiers: string;
+  slots: string;
+  formattedText: string;
+  fullStatement: string;
+}
+
+export interface FsdMountOptions {
+  width?: number;
+  height?: number;
+  initialData?: { exp?: string; quantifiers?: string; slots?: string; stage?: string };
+  buttonLabel?: string;
+  onCommit?: (data: FsdCommitData) => void;
+  onCancel?: () => void;
+  onDelete?: () => void;
+  isEditingExisting?: boolean;
+}
+
+/**
+ * Mounts the 4-Stage Formal Statement (FSD) Constructor into an arbitrary HTML container.
+ * Canonical shared builder for the App, Content Editor, and CRUD Studio.
+ */
+export function mountFsdBuilder(container: HTMLElement, options: FsdMountOptions = {}): FSD {
+  if (!fsd) setFSD();
+
+  if (options.buttonLabel) {
+    fsd.setEditorButtonLabel(options.buttonLabel);
+  } else {
+    fsd.setEditorButtonLabel("Commit to Formal Statement ✓");
+  }
+
+  fsd.setContentEditorCallback((returnedData, action) => {
+    if (action === "save") {
+      const fullStatement = returnedData.quantifiers
+        ? `${returnedData.quantifiers} [ ${returnedData.formattedText} ]`
+        : returnedData.formattedText;
+      if (options.onCommit) {
+        options.onCommit({ ...returnedData, fullStatement });
+      }
+    } else if (action === "cancel") {
+      if (options.onCancel) options.onCancel();
+    } else if (action === "delete") {
+      if (options.onDelete) options.onDelete();
+    }
+  }, options.isEditingExisting ?? false);
+
+  container.innerHTML = "";
+  container.appendChild(fsd.elt);
+
+  const w = options.width || container.clientWidth || 920;
+  const h = options.height || container.clientHeight || 580;
+
+  fsd.loadFromRefData(options.initialData || {});
+  fsd.layoutEditor(w, h);
+
+  return fsd;
+}
+
+/**
+ * Helper to parse a formatted or raw formal statement string back into FSD initialData format.
+ */
+export function parseStatementToFsdData(expr: string): { exp?: string; quantifiers?: string; slots?: string; stage?: string } {
+  if (!expr) return {};
+  const trimmed = expr.trim();
+
+  // If already a raw code like 'paq', 'r', 'm', 'ras'
+  if (/^[pqrsmvkludbwcj\[\]naoe]+$/.test(trimmed)) {
+    return { exp: trimmed, stage: '4' };
+  }
+
+  // Check for pattern: Quantifiers [ Predicate(slots) ... ]
+  const bracketMatch = trimmed.match(/^(.*?)\s*\[\s*(.*?)\s*\]$/);
+  let quantifiersStr = "";
+  let innerExp = trimmed;
+
+  if (bracketMatch) {
+    quantifiersStr = bracketMatch[1].trim();
+    innerExp = bracketMatch[2].trim();
+  }
+
+  // Predicate symbol to code map
+  const symToCode: Record<string, string> = {
+    'GT': 'r', 'LT': 's', 'GT5': 'p', 'LT10': 'q', 'EVEN': 'v', 'ODD': 'd',
+    '=': 'k', '≤': 'l', '<=': 'l', '+1': 'u', '⊆': 'b', '≈': 'w', '~': 'w',
+    '∣': 'c', '|': 'c', '∈': 'm', 'in': 'm', '≔': 'j', ':=': 'j'
+  };
+
+  // Try extracting slots from parentheses e.g. "GT(x₁, x₂)" or "GT5(x₁) ∧ LT10(x₁)"
+  const slotMatches: string[] = [];
+  const slotRegex = /\(([^)]+)\)/g;
+  let sm: RegExpExecArray | null;
+  while ((sm = slotRegex.exec(innerExp)) !== null) {
+    const parts = sm[1].split(',').map((s) => s.trim());
+    slotMatches.push(...parts);
+  }
+
+  // Check for predicate prefix in innerExp
+  let expCode = "";
+  for (const [sym, code] of Object.entries(symToCode)) {
+    if (innerExp.startsWith(sym + "(") || innerExp === sym) {
+      expCode = code;
+      break;
+    }
+  }
+
+  if (expCode) {
+    return {
+      exp: expCode,
+      quantifiers: quantifiersStr || undefined,
+      slots: slotMatches.length > 0 ? slotMatches.join(',') : undefined,
+      stage: '4'
+    };
+  }
+
+  return {
+    exp: 'r',
+    quantifiers: quantifiersStr || undefined,
+    slots: slotMatches.length > 0 ? slotMatches.join(',') : undefined,
+    stage: '4'
+  };
 }

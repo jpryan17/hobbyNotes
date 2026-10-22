@@ -5,6 +5,7 @@ import { AppMetadata, TableNavigationPath, Dependent, EnrichedTable, EnrichedCol
 import { queryDatabase, executeSql } from '../../clientLib/db/api.js';
 import { navigationMenuTree, renderMenuHierarchy, getFilteredMenuTree } from './menuTree.js';
 import { PxeEngine, mountPxeBuilderComponent } from '../../clientLib/pxeEngine.js';
+import { mountFsdBuilder, parseStatementToFsdData, FsdCommitData } from '../../clientLib/fsd.js';
 
 export type CrudMode = 'create' | 'read' | 'update' | 'delete';
 
@@ -768,8 +769,13 @@ function setStatus(msg: string) {
     if (statusTiming) statusTiming.textContent = new Date().toLocaleTimeString();
 }
 
-function showModal(contentHtml: string) {
+function showModal(contentHtml: string, isWide: boolean = false) {
     if (modalBody && mainModal) {
+        const modalContent = mainModal.querySelector('.modal-content');
+        if (modalContent) {
+            if (isWide) modalContent.classList.add('wide');
+            else modalContent.classList.remove('wide');
+        }
         modalBody.innerHTML = contentHtml;
         mainModal.classList.add('open');
     }
@@ -3221,6 +3227,107 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             expWrapper.querySelector(`#field-${colName}`)?.addEventListener('click', openEditor);
             expWrapper.querySelector(`#preview-field-${colName}`)?.addEventListener('click', openEditor);
 
+            inputElement = expWrapper;
+        } else if (tableName === 'formal_statements' && colName === 'expression') {
+            const expWrapper = document.createElement('div');
+            expWrapper.className = 'fs-workbench-field-wrapper';
+            expWrapper.style.cssText = 'display: flex; flex-direction: column; gap: 8px; margin-top: 4px;';
+            const expVal = val !== null && val !== undefined ? val.toString() : '';
+
+            expWrapper.innerHTML = `
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml(expVal)}"
+                        class="form-input" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #0369a1; background: #f0f9ff; border: 1.5px solid #bae6fd; padding: 8px 12px; border-radius: 6px;"
+                        placeholder="e.g. ∀x₁:ℕ ∃x₂:ℕ [ x₁ < x₂ ]" />
+                    <button type="button" id="btn-open-fsd-workbench" class="action-btn primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 13px; font-weight: 700; background: #0284c7; border: none; border-radius: 6px; cursor: pointer; color: #ffffff; box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);">
+                        <span>📐</span>
+                        <span>4-Stage FS Constructor</span>
+                    </button>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Formula Preview:</span>
+                        <div id="preview-field-${colName}" style="font-size: 16px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">
+                            ${escapeHtml(expVal || '— (Empty Statement) —')}
+                        </div>
+                    </div>
+                    <span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">
+                        4-Stage Build: 1. Expression → 2. Slots &amp; Constants → 3. Quantifiers → 4. Verified FS
+                    </span>
+                </div>
+            `;
+
+            const inputEl = expWrapper.querySelector(`#field-${colName}`) as HTMLInputElement;
+            const previewEl = expWrapper.querySelector(`#preview-field-${colName}`) as HTMLElement;
+            if (inputEl && previewEl) {
+                inputEl.addEventListener('input', () => {
+                    previewEl.textContent = inputEl.value.trim() || '— (Empty Statement) —';
+                });
+            }
+
+            const openWorkbench = () => {
+                const curVal = inputEl ? inputEl.value.trim() : expVal;
+                const parsedData = parseStatementToFsdData(curVal);
+
+                showModal(`
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 18px;">📐</span>
+                                <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">
+                                    4-Stage Formal Statement (FS) Constructor
+                                </h3>
+                                <span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 600;">
+                                    Authoring Workbench
+                                </span>
+                            </div>
+                            <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+                                Construct any formal statement with predicates, connectives, slots, and quantifiers, then commit to PostgreSQL.
+                            </div>
+                        </div>
+                        <button type="button" class="action-btn secondary" id="btn-close-fsd-modal" style="padding: 5px 12px; font-size: 12px;">
+                            ✕ Cancel
+                        </button>
+                    </div>
+                    <div id="modal-fsd-workbench-container" style="width: 100%; height: 580px; overflow: hidden; background: #ffffff; border: 1.5px solid var(--border-color); border-radius: 6px;"></div>
+                `, true);
+
+                const container = document.getElementById('modal-fsd-workbench-container')!;
+                document.getElementById('btn-close-fsd-modal')?.addEventListener('click', () => closeModal());
+
+                mountFsdBuilder(container, {
+                    width: container.clientWidth || 980,
+                    height: 580,
+                    initialData: parsedData,
+                    buttonLabel: 'Commit to Formal Statement ✓',
+                    onCommit: (data: FsdCommitData) => {
+                        if (inputEl) {
+                            inputEl.value = data.fullStatement;
+                        }
+                        if (previewEl) {
+                            previewEl.textContent = data.fullStatement;
+                        }
+
+                        // Auto-suggest statement_key if empty
+                        const keyInput = document.getElementById('field-statement_key') as HTMLInputElement;
+                        if (keyInput && (!keyInput.value || keyInput.value.trim() === '')) {
+                            const cleanExp = data.exp.toLowerCase();
+                            keyInput.value = `fs_${cleanExp}_${Date.now().toString().slice(-4)}`;
+                        }
+
+                        // Auto-suggest title if empty
+                        const titleInput = document.getElementById('field-title') as HTMLInputElement;
+                        if (titleInput && (!titleInput.value || titleInput.value.trim() === '')) {
+                            titleInput.value = `Formal Statement: ${data.formattedText}`;
+                        }
+
+                        closeModal();
+                    },
+                    onCancel: () => closeModal()
+                });
+            };
+
+            expWrapper.querySelector('#btn-open-fsd-workbench')?.addEventListener('click', openWorkbench);
             inputElement = expWrapper;
         } else {
             const input = document.createElement('input');
