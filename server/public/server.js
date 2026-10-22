@@ -237,49 +237,11 @@ async function reseedPostgresFromSeedFile() {
         console.log('[dbBridge] Reseeded PostgreSQL database from updated seed.sql');
     }
 }
-app.post('/api/sync-to-db', async (req, res) => {
-    const { app: appName = 'app1', outlineTree, segOverrides } = req.body;
-    try {
-        let filesChanged = false;
-        // 1. Synchronize outline tree changes to indices.ts
-        if (Array.isArray(outlineTree) && outlineTree.length > 0) {
-            const outlineModified = syncOutlineToIndicesTs(outlineTree, appName);
-            if (outlineModified)
-                filesChanged = true;
-        }
-        // 2. Synchronize any edited segments back to source files
-        if (segOverrides && typeof segOverrides === 'object') {
-            for (const [segKey, newHtml] of Object.entries(segOverrides)) {
-                if (typeof newHtml === 'string' && newHtml.trim().length > 0) {
-                    const destPath = (0, path_1.resolve)(process.cwd(), `${appName}/segs/${segKey}.html`);
-                    let existingHtml = null;
-                    if ((0, fs_1.existsSync)(destPath)) {
-                        existingHtml = (0, fs_1.readFileSync)(destPath, 'utf8');
-                    }
-                    const formatted = formatSegmentFileHtml(existingHtml, newHtml, segKey);
-                    (0, fs_1.writeFileSync)(destPath, formatted, 'utf8');
-                    console.log(`[dbBridge] Wrote updated segment to ${destPath}`);
-                    filesChanged = true;
-                }
-            }
-        }
-        // 3. Regenerate segsFile.json & db/seed.sql
-        console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
-        (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-        console.log(`[dbBridge] Regenerating db/seed.sql...`);
-        (0, child_process_1.execSync)('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
-        // 4. Reseed PostgreSQL from freshly generated seed.sql
-        await reseedPostgresFromSeedFile();
-        console.log(`[dbBridge] Successfully committed Dev state: source files, seed.sql, and PostgreSQL in 100% sync.`);
-        res.json({
-            status: 'success',
-            message: `Successfully synchronized Dev state to source files, updated seed.sql, and reseeded PostgreSQL.`
-        });
-    }
-    catch (err) {
-        console.error('[dbBridge Error] Sync to DB failed:', err);
-        res.status(500).json({ status: 'error', message: err.message || String(err) });
-    }
+app.post('/api/sync-to-db', async (_req, res) => {
+    res.json({
+        status: 'success',
+        message: 'Dev mode in-situ sync is retired. Content is managed directly via PostgreSQL and CRUD Studio.'
+    });
 });
 // ---------------------------------------------------------------------
 // 3d. Reseed Database from Clean Git Baseline Endpoint
@@ -651,11 +613,6 @@ app.post('/api/promote-staged-segments', async (req, res) => {
         if (Array.isArray(outlineTree) && outlineTree.length > 0) {
             syncOutlineToIndicesTs(outlineTree, appName);
         }
-        console.log(`[dbBridge] Regenerating segsFile.json for ${appName}...`);
-        (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-        console.log(`[dbBridge] Regenerating db/seed.sql...`);
-        (0, child_process_1.execSync)('node ./nodeUtils/public/genSqlSeeds.js', { cwd: process.cwd() });
-        await reseedPostgresFromSeedFile();
         console.log(`[dbBridge] Rebuilding ${appName}/dist/index.html...`);
         (0, child_process_1.execSync)(`node ./nodeUtils/public/indexBuild.js ${appName}`, { cwd: process.cwd() });
         for (const f of files) {
@@ -670,7 +627,7 @@ app.post('/api/promote-staged-segments', async (req, res) => {
             status: 'success',
             promotedCount: files.length,
             durationMs,
-            message: `Successfully promoted ${files.length} segment(s) to source files, updated seed.sql, reseeded PostgreSQL, and rebuilt index.html in ${durationMs}ms.`
+            message: `Successfully promoted ${files.length} segment(s) and rebuilt index.html in ${durationMs}ms.`
         });
     }
     catch (err) {
@@ -817,25 +774,7 @@ app.post('/api/editor/save', (req, res) => {
         }
         (0, fs_1.writeFileSync)(fullPath, finalContent, 'utf8');
         console.log(`[server] Directly replaced file ${relPath} (${Buffer.byteLength(finalContent)} bytes)`);
-        // If the saved file is in app1/segs or app2/segs, auto-regenerate segsFile.json
-        if (relPath.startsWith('app1/segs/')) {
-            try {
-                (0, child_process_1.execSync)('node ./nodeUtils/public/genSegsFiles.js app1', { cwd: process.cwd() });
-                console.log('[server] Auto-regenerated segsFile.json for app1');
-            }
-            catch (genErr) {
-                console.warn('[server Warning] genSegsFiles app1 error:', genErr);
-            }
-        }
-        else if (relPath.startsWith('app2/segs/')) {
-            try {
-                (0, child_process_1.execSync)('node ./nodeUtils/public/genSegsFiles.js app2', { cwd: process.cwd() });
-                console.log('[server] Auto-regenerated segsFile.json for app2');
-            }
-            catch (genErr) {
-                console.warn('[server Warning] genSegsFiles app2 error:', genErr);
-            }
-        }
+        // File saved
         res.json({
             status: 'success',
             ok: true,
@@ -909,14 +848,7 @@ app.post('/api/save-segment-direct', (req, res) => {
         }
         const formattedHtml = formatSegmentFileHtml(existingHtml, contentHtml, String(segId));
         (0, fs_1.writeFileSync)(fullPath, formattedHtml, 'utf8');
-        if (relPath.startsWith('app1/segs/')) {
-            try {
-                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-            }
-            catch (genErr) {
-                console.warn(`[server Warning] Failed to regenerate segsFile.json:`, genErr);
-            }
-        }
+        // Saved directly to disk
         res.json({
             status: 'success',
             ok: true,
@@ -941,70 +873,11 @@ app.get(['/editor', '/editor/:app/:segment', '/startEditor/:app/:segment'], (_re
         res.redirect('/console');
     }
 });
-app.get(['/getSegs/:app', '/reload/:app', '/reload/:app/:seg'], (req, res) => {
-    const appName = req.params.app;
-    const seg = req.params.seg;
-    if (req.path.startsWith('/reload')) {
-        if (appName && seg) {
-            try {
-                console.log(`running ttdRefR for ${appName} seg ${seg}...`);
-                (0, child_process_1.execSync)(`npm run ttdRefR -- --app ${appName} --seg ${seg}`);
-            }
-            catch (e) {
-                console.error(`error running ttdRefR:`, e);
-            }
-        }
-        try {
-            (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`);
-        }
-        catch (e) {
-            console.error('error running genSegsFiles:', e);
-        }
-    }
-    else if (appName) {
-        try {
-            const fp = `./${appName}/segs/segsFile.json`;
-            const segDir = (0, path_1.resolve)(process.cwd(), `./${appName}/segs`);
-            let needsRegen = !(0, fs_1.existsSync)(fp);
-            if (!needsRegen && (0, fs_1.existsSync)(segDir)) {
-                const jsonMtime = (0, fs_1.statSync)(fp).mtimeMs;
-                const files = (0, fs_1.readdirSync)(segDir).filter(f => f.endsWith('.html'));
-                for (const file of files) {
-                    if ((0, fs_1.statSync)((0, path_1.resolve)(segDir, file)).mtimeMs > jsonMtime) {
-                        needsRegen = true;
-                        break;
-                    }
-                }
-            }
-            if (needsRegen) {
-                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-            }
-        }
-        catch (e) {
-            console.warn('[server Warning] Could not check or regen segsFile.json:', e);
-        }
-    }
-    const fn = 'segsFile.json';
-    const fp = `./${appName}/segs/${fn}`;
-    try {
-        const segs = (0, fs_1.readFileSync)(fp, 'utf8');
-        res.type('application/json').send(segs);
-    }
-    catch (err) {
-        res.status(404).send(`error reading ${fn} ${err}`);
-    }
+app.get(['/getSegs/:app', '/reload/:app', '/reload/:app/:seg'], (_req, res) => {
+    res.json([]);
 });
-app.get(['/getSegsDate/:app', '/getSegsDate/:app/:editFlag'], (req, res) => {
-    const { app: appName, editFlag } = req.params;
-    const fn = editFlag === 'true' ? 'segsEditFile.json' : 'segsFile.json';
-    const fp = `../${appName}/segs/${fn}`;
-    try {
-        const timestamp = (0, fs_1.statSync)(fp).mtimeMs;
-        res.type('application/json').send(timestamp.toString());
-    }
-    catch (err) {
-        res.status(404).send(`error finding modified time for ${fn} ${err}`);
-    }
+app.get(['/getSegsDate/:app', '/getSegsDate/:app/:editFlag'], (_req, res) => {
+    res.type('application/json').send(Date.now().toString());
 });
 app.post(['/svgPost/:app/:svgName', '/svgPostWithMeta'], (req, res) => {
     const appName = req.params.app || req.body?.app || 'app1';
@@ -1058,13 +931,6 @@ app.post(['/svgPost/:app/:svgName', '/svgPostWithMeta'], (req, res) => {
                         console.log(`[server] Updated inline SVG in root overview.html`);
                     }
                 }
-            }
-            try {
-                (0, child_process_1.execSync)(`node ./nodeUtils/public/genSegsFiles.js ${appName}`, { cwd: process.cwd() });
-                console.log(`[server] Regenerated segsFile.json after SVG update for ${appName}`);
-            }
-            catch (genErr) {
-                console.warn(`[server Warning] Failed to regenerate segsFile.json:`, genErr);
             }
         }
         console.log(`[server] Successfully saved diagram "${svgName}" for ${appName}`);

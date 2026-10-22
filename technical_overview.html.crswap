@@ -1,0 +1,151 @@
+<div class="container">
+
+  <header style="background: transparent; border-top: none; border-left: none; border-right: none; box-shadow: none; padding: 0 0 24px 0; color: inherit; display: block;">
+    <h1>A General Education in Mathematics<span class="subtitle">The Middle Way</span></h1>
+  </header>
+
+  <p>
+    <strong>Middle Way Mathematics (MWM)</strong> is a curriculum and foundational framework for a general education in mathematics. The curriculum targets all motivated students, providing a clear overview of the nature of modern mathematical thought. It is not designed to prepare students for technical STEM tracks; rather, its goal is to provide a conceptual and formal literacy that enables lifelong, thoughtful engagement with modern physical theories and popular science.
+  </p>
+
+  <h2>1. Epistemological Stance: Mathematics as a Formal Science</h2>
+
+  <p>
+    Mathematics is treated as a formal science whose home is a world of supposition. It serves as a bridge linking human intuition with empirical experience—an arena where we ask <em>"What if?"</em>, trace deductive consequences, and evaluate how effectively the resulting structures model physical observations.
+  </p>
+
+  <div class="diagram-container">
+    <svg data-diagram-name="epis" xmlns="http://www.w3.org/2000/svg" style="background: transparent; color-scheme: light dark; cursor: pointer;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="562px" height="292px" viewBox="0 0 562 292" id="ge-svg-SP9aN0nRxpVskQCmZwnt" content="&lt;mxfile host=&quot;embed.diagrams.net&quot;&gt;&lt;diagram id=&quot;page-1&quot; name=&quot;Page-1&quot;&gt;3VjbcpswEP0aPzbDxdjksb40zbRuO+OZxnnqqLAGTQUiQo5xv74rIwwY4tqp8bh5YbRHq5V0jnZB9OxxlN0JkoQz7gPrWYaf9exJz7JuXQufCtjkwMCwcyAQ1M8hswTm9Ddo0NDoivqQ1hwl50zSpA56PI7BkzWMCMHXdbclZ/VZExJAA5h7hDXRB+rLMEddxyjxj0CDsJjZNHRPRApnDaQh8fm6AtnTnj0WnMu8FWVjYIq7gpd83IcXencLExDLYwaszNhdrH883X9d2f3vn7/Mo09P7/rNKDpwKjcFBxgH6UZjtA6phHlCPNWzRsERC2XE0DKxiVtM4D5OUTKNkDTJVVnSDHAhozz4M2ErHVwDICRklQXoPdwBj0CKDbqEVZqHmtR1qckOK8IUxOuTZxWaEX0kgl3skjVsaOJOINF5uyQ65qVINPUmwG8kZJNWvhIeHAg2aNKPYefa5EKGPOAxYdMSHQm+in1F78SoCwIZlQsNq/ajat842ppkla7JpjBi5GRROirzsdpXDttaxThd4YgIQB7Y37BdXQGMSPpc508radwY5uC2K/H61y6eeQHxfJKG2zWY2vhGpAQRbxHLsI7X1z1B37OLOei4nLVUrwGTijL6jM1Abn1y6KfYR3BLLX4VaPYwe8n3FUXSadZI16kllt2vl0jT7qxE2mfMsuH1ZFktx8qUOybL/od8GnacTy2E/Ounwd9PvensfRi4XZ169y3S5/QvRZ9pHMMf7k7WiWrjMZWC/4IxZ1wgGPNYEb6kjO1BhNFAvfU8nBEQHyn+KF6q3uuOiPp+S0VpsK8uUYAPNbal1AvAmeTmouV+/+Dvyv/5lTtQ3a9euSTcpFek2n6+dajaUbfBK1UtUr9v0ldpYDc1cOp3yV2NKz6UBqdrgGb5x2TbV/ntZE//AA==&lt;/diagram&gt;&lt;/mxfile&gt;" title="Double-click to edit diagram in Draw.io"><defs></defs><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-4"><g transform="translate(0.5,0.5)"><ellipse cx="85" cy="205" rx="85" ry="85" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-5"><g transform="translate(0.5,0.5)"><ellipse cx="475" cy="205" rx="85" ry="85" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-12"><g transform="translate(0.5,0.5)"><path d="M 220 25 L 72.5 25 L 72.5 143.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 72.5 148.88 L 69 141.88 L 72.5 143.63 L 76 141.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-14"><g transform="translate(0.5,0.5)"><path d="M 305 25 L 462.5 25 L 462.5 143.63" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="1 2" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 462.5 148.88 L 459 141.88 L 462.5 143.63 L 466 141.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-6"><g transform="translate(0.5,0.5)"><ellipse cx="262.5" cy="25" rx="42.5" ry="25" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 83px; height: 1px; padding-top: 25px; margin-left: 221px;"><div style="font-size: 0px; text-align: center; color: rgb(0, 0, 0);"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; overflow-wrap: normal;"><div style="float:left;text-decoration:inherit;width:83px;height:46px;"><div data-shape-inside="1" style="float:left;width:41px;height:46px;shape-outside:polygon(61.4% 0.05%, 51.7% 2.26%, 37.93% 6.96%, 25.94% 12.64%, 15.91% 19.13%, 7.96% 26.28%, 2.21% 33.91%, 0.05% 41.88%, 0.05% 50%, 0.05% 58.13%, 2.21% 66.09%, 7.96% 73.72%, 15.91% 80.87%, 25.94% 87.36%, 37.93% 93.04%, 51.7% 97.74%, 61.4% 99.95%, 0.05% 99.95%, 0.05% 0.05%);shape-margin:2px;pointer-events:none;"></div><div data-shape-inside="1" style="float:right;width:42px;height:46px;shape-outside:polygon(40.06% 0.05%, 49.53% 2.26%, 62.97% 6.96%, 74.67% 12.64%, 84.47% 19.13%, 92.23% 26.28%, 97.85% 33.91%, 99.95% 41.88%, 99.95% 50%, 99.95% 58.13%, 97.85% 66.09%, 92.23% 73.72%, 84.47% 80.87%, 74.67% 87.36%, 62.97% 93.04%, 49.53% 97.74%, 40.06% 99.95%, 99.95% 99.95%, 99.95% 0.05%);shape-margin:2px;pointer-events:none;"></div><div data-shape-inside="1" style="height:2px;pointer-events:none;"></div><div><br></div><div>MWM</div></div></div></div></div></foreignObject><text x="263" y="1" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="263" y="1"></tspan><tspan x="263" y="15"></tspan><tspan x="263" y="29"></tspan><tspan x="263" y="43"></tspan><tspan x="263" y="57">MWM</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-13"><g transform="translate(0.5,0.5)"><path d="M 115 175 L 413.63 175" fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" style="stroke: var(--ge-adaptive-fg, #000000);"></path><path d="M 418.88 175 L 411.88 178.5 L 413.63 175 L 411.88 171.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: var(--ge-adaptive-fg, #000000); stroke: var(--ge-adaptive-fg, #000000);"></path></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-7"><g transform="translate(0.5,0.5)"><ellipse cx="72.5" cy="175" rx="42.5" ry="25" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-8"><g transform="translate(0.5,0.5)"><ellipse cx="462.5" cy="175" rx="42.5" ry="25" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all" style="fill: var(--ge-adaptive-bg, #ffffff); stroke: var(--ge-adaptive-fg, #000000);"></ellipse></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-10"><g><rect x="30" y="210" width="85" height="50" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 83px; height: 1px; padding-top: 235px; margin-left: 31px;"><div style="font-size: 0px; text-align: center; color: rgb(0, 0, 0);"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; overflow-wrap: normal;">mathematical<div>reality</div></div></div></div></foreignObject><text x="73" y="232" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="73" y="232">mathematical</tspan><tspan x="73" y="246">reality</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-11"><g><rect x="420" y="210" width="85" height="50" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 83px; height: 1px; padding-top: 235px; margin-left: 421px;"><div style="font-size: 0px; text-align: center; color: rgb(0, 0, 0);"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; overflow-wrap: normal;">physical<div>reality</div></div></div></div></foreignObject><text x="463" y="232" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);"><tspan x="463" y="232">physical</tspan><tspan x="463" y="246">reality</tspan></text></switch></g></g></g><g data-cell-id="u1n8Xw_qIOu34VLNSmKq-15"><g><rect x="160" y="30" width="50" height="30" fill="none" stroke="none" pointer-events="all"></rect></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 48px; height: 1px; padding-top: 45px; margin-left: 161px;"><div style="font-size: 0px; text-align: center; color: rgb(0, 0, 0);"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: var(--ge-adaptive-fg, #000000); line-height: 1.2; pointer-events: all; overflow-wrap: normal;">models</div></div></div></foreignObject><text x="185" y="49" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle" style="fill: var(--ge-adaptive-fg, #000000);">models</text></switch></g></g></g></g></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"></g><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+  </div>
+  <p>
+    MWM does not claim to model all of mathematics. It focuses specifically on the mathematics supporting <strong>mathematical physics</strong>, balancing two design parameters:
+  </p>
+  <ol>
+    <li><em>What physical theories can be modeled?</em></li>
+    <li><em>At what level of depth can the modeling mathematics be understood?</em></li>
+  </ol>
+
+  <h2>2. The 2-Successor Tree and the Cornerstone Axiom</h2>
+
+  <p>
+    MWM expresses its concepts formally, embedded in natural language explanations, using single-sorted first-order logic and ZF set theory as its foundational baseline.
+  </p>
+
+  <p>
+    MWM operates as an <strong>effective model</strong>: rather than building foundational set-theoretic proofs from scratch, it asserts established mathematical structures as governing axioms. The cornerstone axiom of MWM is:
+  </p>
+
+  <div class="axiom-box">
+    <strong>(No(ε₀), +, ·) is a totally ordered algebraic field</strong>
+  </div>
+
+  <p>where:</p>
+  <ul>
+    <li>The carrier set <code>No(ε₀)</code> consists of nodes on the <strong>2-successor tree</strong> whose tree depth (birthday) is strictly less than the transfinite ordinal <code>ε₀</code>.</li>
+    <li>The 2-successor tree is a rooted binary tree where every branch splits into two directed choices, conventionally denoted <code>[-]</code> (left) and <code>[+]</code> (right).</li>
+    <li>The total order (<code>≤</code>) and the arithmetic operations (<code>+</code>, <code>·</code>) are defined recursively with respect to the node's stage of creation.</li>
+  </ul>
+
+  <p>
+    Because <code>No(ε₀)</code> is <strong>non-Archimedean</strong>, standard ε–δ analysis is set aside in favor of a <strong>constructive nonstandard analysis</strong>. <code>No(ε₀)</code> serves as the ambient field for all arithmetic and continuous modeling.
+  </p>
+
+  <h2>3. Numbers Indexed by Finite Ordinals &amp; The Dyadic Isomorphism</h2>
+
+  <p>
+    Ordinals (<code>Ord</code>) index the growth stages of the 2-successor tree:
+  </p>
+  <ul>
+    <li>The natural numbers <code>ℕ</code> are identified with the finite ordinals.</li>
+    <li><code>ω</code> denotes the supremum of all finite ordinals.</li>
+    <li><code>ε₀</code> bounds our transfinite universe, with <code>ω + 1 &lt; ε₀</code>.</li>
+  </ul>
+
+  <p>
+    For any ordinal <code>α</code>, <code>No(α)</code> denotes the set of all 2-successor tree nodes whose depth is less than <code>α</code>. MWM establishes two key operational stages:
+  </p>
+
+  <h3>A. Finite-Stage Numbers: No(ω)</h3>
+
+  <p>
+    A node created at a finite ordinal stage <code>n &lt; ω</code> is uniquely identified by a finite sequence of binary branch choices of length <code>n</code>:
+  </p>
+  <div class="math-display">
+    <code class="math-formula">s = (s₁, s₂, …, sₙ), &nbsp; sᵢ ∈ { -, + }</code>
+  </div>
+
+  <p>
+    Inheriting the field operations of <code>No(ε₀)</code>, the finite-stage numbers form a commutative ring:
+  </p>
+  <div class="math-display">
+    <code class="math-formula">(No(ω), +, ·)</code>
+  </div>
+
+  <p>Every finite sign sequence maps directly to a sum of powers of 2. For example:</p>
+  <ul>
+    <li>The root <code>∅</code> at stage 0 is <code>0</code>.</li>
+    <li>At stage 1: <code>[+]</code> is <code>+1</code>, and <code>[-]</code> is <code>-1</code>.</li>
+    <li>At stage 2: <code>[+ -]</code> is <code>+1/2</code>, and <code>[+ +]</code> is <code>+2</code>.</li>
+  </ul>
+
+  <p>
+    MWM demonstrates that this ring is strictly isomorphic to the ring of <strong>dyadic rationals</strong>:
+  </p>
+  <div class="math-display">
+    <code class="math-formula">(No(ω), +, ·) ≅ (𝔻, +, ·)</code><br>
+    <code class="math-formula">𝔻 = { m / 2ᵏ &nbsp;∣&nbsp; m ∈ ℤ, &nbsp;k ∈ ℕ }</code>
+  </div>
+
+  <p>
+    Consequently, <strong><code>𝔻</code> becomes the arena of all concrete numeric calculation</strong>. Computation in MWM takes place within a <strong>Principal Ideal Domain (PID)</strong> rather than a field, directly reflecting how discrete digital systems perform exact arithmetic.
+  </p>
+
+  <h2>4. Transfinite Paths: No(ω+1) and Precision Evaluation</h2>
+
+  <p>
+    MWM does not assign an independent algebraic structure to the carrier set <code>No(ω+1)</code>. Instead, <code>No(ω+1)</code> is used as a <strong>syntactic vocabulary</strong> for algebraic expressions:
+  </p>
+  <ul>
+    <li>It includes all finite nodes <code>No(ω)</code> together with nodes created at stage <code>ω</code> (infinite binary paths).</li>
+    <li>All standard real numbers exist in <code>No(ω+1)</code> (<code>ℝ ⊂ No(ω+1)</code>).</li>
+    <li>In addition to <code>ℝ</code>, <code>No(ω+1)</code> naturally contains transfinite numbers (such as <code>ω = [+, +, +, …]</code>) and infinitesimals (such as <code>dx = [+ - - …] ≈ 1/ω</code>).</li>
+    <li>All such quantities exist in the ambient field <code>No(ε₀)</code>, ensuring valid algebraic manipulation.</li>
+  </ul>
+
+  <h3>The Precision Evaluation Function</h3>
+
+  <p>
+    To evaluate an algebraic expression <code>E</code> whose terms belong to <code>No(ω+1)</code>, MWM defines a computable truncation map:
+  </p>
+  <div class="math-display">
+    <code class="math-formula">eval(E, p)</code>
+  </div>
+
+  <p>Given a target precision <code>p ∈ ℕ</code>:</p>
+  <ol>
+    <li>Each number node in <code>E</code> is replaced by its 2-successor tree address truncated to the first <code>p</code> directional choices, yielding an exact element of <code>𝔻</code>.</li>
+    <li>Infinitesimal terms are bounded and resolved, reproducing the standard part map (<code>st</code>) of nonstandard analysis.</li>
+    <li>The expression resolves to an exact dyadic quantity in <code>𝔻</code> at precision <code>p</code>.</li>
+  </ol>
+
+  <div class="ascii-box">
+<pre style="margin: 0; display: inline-block; text-align: left;">
+       ┌───────────────────────────┐
+       │   Mathematical Reality    │
+       │   (Transfinite Space)     │
+       └─────────────▲─────────────┘
+                     │  Formal Grounding
+       ┌─────────────┴─────────────┐
+       │   Middle Way Mathematics  │
+       │   (Constructive Model)    │
+       └─────────────┬─────────────┘
+                     │  Phenomenological Modeling
+       ┌─────────────▼─────────────┐
+       │     Physical Reality      │
+       │   (Observed Phenomena)    │
+       └───────────────────────────┘
+</pre>
+  </div>
+
+etc.
+</div>

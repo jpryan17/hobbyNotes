@@ -206,4 +206,66 @@ export class MwmConstructorMachine {
       snippet: this.selectedConstructor.leanSnippet
     };
   }
+
+  /**
+   * Translates current expression into an exact Lean 4 AlgExpr AST term
+   */
+  public renderLeanAlgExpr(): string {
+    if (!this.selectedConstructor) return 'AlgExpr.constOmega';
+    return renderMwmToLeanAlgExpr({
+      constructorId: this.selectedConstructor.id,
+      slotValues: this.currentSlotValues
+    });
+  }
+}
+
+/**
+ * Universal AST bridge: converts an MWM UI expression node into an exact Lean 4 AlgExpr AST term.
+ */
+export function renderMwmToLeanAlgExpr(node: MwmExprNode): string {
+  const c = MWM_GRAMMAR.constructors.find(item => item.id === node.constructorId);
+  const slots = node.slotValues || {};
+
+  switch (node.constructorId) {
+    case 'omega_inv':
+      return 'AlgExpr.mul AlgExpr.constOmega AlgExpr.constDx';
+    case 'diff_w': {
+      const expr = slots['expr'] || 'x';
+      return `AlgExpr.sub (AlgExpr.to_R_w ${expr}) AlgExpr.constDx`;
+    }
+    case 'rat': {
+      const num = slots['num'] || '0';
+      const den = slots['den'] || '1';
+      return `AlgExpr.rat (${num}) (${den})`;
+    }
+    case 'dec': {
+      const m = slots['mantissa'] || '0';
+      const exp = slots['exp'] || '0';
+      return `AlgExpr.dec (${m}) (${exp})`;
+    }
+    case 'sqrt': {
+      const inner = slots['inner'] || '0';
+      return `AlgExpr.sqrt (${inner})`;
+    }
+    case 'pi':
+      return 'AlgExpr.piExpr';
+    case 'e':
+      return 'AlgExpr.eExpr';
+    case 'add': {
+      const a = slots['a'] || '0';
+      const b = slots['b'] || '0';
+      return `AlgExpr.add (${a}) (${b})`;
+    }
+    case 'mul': {
+      const a = slots['a'] || '0';
+      const b = slots['b'] || '0';
+      return `AlgExpr.mul (${a}) (${b})`;
+    }
+    default: {
+      if (c && c.leanTheorem) {
+        return c.leanTheorem;
+      }
+      return `AlgExpr.constDyad D_zero`;
+    }
+  }
 }

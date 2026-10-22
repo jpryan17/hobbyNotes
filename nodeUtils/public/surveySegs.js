@@ -137,8 +137,8 @@ function resolveStatementByDesc(desc) {
     return null;
 }
 function surveySegments(applyFix = false) {
-    const segsDir = path.resolve(rootDir, 'app1/segs');
-    const files = fs.readdirSync(segsDir).filter(f => f.endsWith('.html'));
+    const segsDir = path.resolve(rootDir, fs.existsSync(path.resolve(rootDir, 'app1/segs')) ? 'app1/segs' : 'archive/app1_segs');
+    const files = fs.existsSync(segsDir) ? fs.readdirSync(segsDir).filter(f => f.endsWith('.html')) : [];
     const findings = [];
     let filesModified = 0;
     let totalTagsReplaced = 0;

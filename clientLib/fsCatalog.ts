@@ -29,6 +29,7 @@ export interface FsCatalogStatement {
   expression: string;
   leanSignature?: string;
   leanSnippet?: string;
+  leanStatus?: 'certified' | 'pending';
   referencedInSegments: string[];
 }
 
@@ -86,7 +87,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-19T09:20:28.461Z",
+  "generatedAt": "2026-10-22T08:10:11.587Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -101,19 +102,9 @@ export const FS_CATALOG: FsCatalog = {
       "scaffoldKey": "newtonian_mechanics",
       "expression": "F = m · a  ∧  p = m · v",
       "referencedInSegments": [
-        "stemNewtonianBridge",
-        "analysis1DLecture2",
-        "analysis1DLecture3",
-        "analysis2DIntro",
-        "analysis2DLecture2",
-        "analysis2DLecture3",
-        "quantumBayesianInferenceLecture1",
-        "quantumBayesianInferenceLecture2",
-        "quantumLogicLecture3",
-        "vectorsLecture1",
-        "vectorsLecture2",
-        "vectorsLecture3"
-      ]
+        "stemNewtonianBridge"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 2,
@@ -130,9 +121,9 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t",
       "pseudoAlgoId": "kinematics_step",
       "referencedInSegments": [
-        "stemNewtonianBridge",
-        "vectorsLecture3"
-      ]
+        "stemNewtonianBridge"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 3,
@@ -148,10 +139,9 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "theorem telescoping_ftc (F : Nat → R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
       "referencedInSegments": [
         "analysis1DLecture3",
-        "stemHeatDiffusion",
-        "modelsOverview",
-        "stemTrigFoundations"
-      ]
+        "stemHeatDiffusion"
+      ],
+      "leanStatus": "certified"
     },
     {
       "numId": 4,
@@ -167,10 +157,9 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "Δ(KE) = (1/2)·m·v² - (1/2)·m·v₀² = ∑_{k=0}^{n-1} F_k · Δx_k",
       "leanSignature": "theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum",
       "referencedInSegments": [
-        "stemNewtonianBridge",
-        "analysis1DLecture3",
-        "formalStatementsIntro"
-      ]
+        "stemNewtonianBridge"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 5,
@@ -188,7 +177,8 @@ export const FS_CATALOG: FsCatalog = {
       "pseudoAlgoId": "laplacian_heat_step",
       "referencedInSegments": [
         "stemHeatDiffusion"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 6,
@@ -210,10 +200,9 @@ export const FS_CATALOG: FsCatalog = {
       },
       "referencedInSegments": [
         "analysis1DLecture1",
-        "analysis1DLecture2",
-        "formalStatementsIntro",
-        "stemExpLogFoundations"
-      ]
+        "analysis1DLecture2"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 7,
@@ -228,14 +217,9 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "|z + dz|² = |z|² + 2·Re(z̄·dz) + |dz|²",
       "leanSignature": "theorem complex_step_modulus (z dz : C_w) : norm_sq (z + dz) = norm_sq z + 2 * Re (conj z * dz) + norm_sq dz",
       "referencedInSegments": [
-        "analysis2DLecture1",
-        "analysis1DLecture3",
-        "analysis2DIntro",
-        "analysis2DLecture2",
-        "formalStatementsIntro",
-        "haloSoupSeminar",
-        "quantumLogicLecture2"
-      ]
+        "analysis2DLecture1"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 8,
@@ -253,7 +237,8 @@ export const FS_CATALOG: FsCatalog = {
       "referencedInSegments": [
         "analysis2DLecture1",
         "analysis2DIntro"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 9,
@@ -269,9 +254,9 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "∮_γ f(z) dz = ∑_{k=0}^{N-1} f(z_k)·(z_{k+1} - z_k) ≃ 0",
       "leanSignature": "theorem cauchy_goursat_loop (f : C_w → C_w) (gamma : ClosedContour) : hyper_sum (eval_step f gamma) = 0",
       "referencedInSegments": [
-        "analysis2DLecture2",
-        "analysis2DIntro"
-      ]
+        "analysis2DLecture2"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 10,
@@ -289,7 +274,8 @@ export const FS_CATALOG: FsCatalog = {
       "referencedInSegments": [
         "analysis2DLecture3",
         "analysis2DIntro"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 11,
@@ -306,11 +292,9 @@ export const FS_CATALOG: FsCatalog = {
       "pseudoAlgoId": "kinematics_step",
       "referencedInSegments": [
         "stemNewtonianBridge",
-        "vectorsLecture2",
-        "analysis2DIntro",
-        "analysis2DLecture3",
-        "vectorsLecture3"
-      ]
+        "vectorsLecture2"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 12,
@@ -327,9 +311,9 @@ export const FS_CATALOG: FsCatalog = {
       "referencedInSegments": [
         "quantumLogicLecture1",
         "quantumLogicLecture3",
-        "vectorsLecture3",
-        "quantumLogicLecture2"
-      ]
+        "vectorsLecture3"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 13,
@@ -344,10 +328,9 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "P(A) = st(|A| / |Ω|)  where |Ω| = H ∈ *ℕ \\ ℕ",
       "leanSignature": "theorem hyperfinite_probability_measure (Omega : HyperfiniteSampleSpace) (A : Event Omega) : P A = st (card A / card Omega)",
       "referencedInSegments": [
-        "bayesianInferenceLecture1",
-        "bayesianInferenceLecture4",
-        "quantumBayesianInferenceLecture1"
-      ]
+        "bayesianInferenceLecture1"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 14,
@@ -368,7 +351,8 @@ export const FS_CATALOG: FsCatalog = {
         "bayesianInferenceLecture3",
         "quantumBayesianInferenceLecture1",
         "formalStatementsIntro"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 15,
@@ -390,7 +374,8 @@ export const FS_CATALOG: FsCatalog = {
       },
       "referencedInSegments": [
         "numbersLecture2"
-      ]
+      ],
+      "leanStatus": "certified"
     },
     {
       "numId": 16,
@@ -406,9 +391,9 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "theorem ptolemaic_half_angle (theta : R_w) : sin (theta / 2) = sqrt ((1 - cos theta) / 2)",
       "pseudoAlgoId": "rotor_trig_cordic",
       "referencedInSegments": [
-        "stemTrigFoundations",
-        "analysis1DLecture1"
-      ]
+        "stemTrigFoundations"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 17,
@@ -426,9 +411,9 @@ export const FS_CATALOG: FsCatalog = {
         "analysis1DLecture1",
         "analysis2DLecture1",
         "vectorsLecture1",
-        "formalStatementsIntro",
-        "haloSoupSeminar"
-      ]
+        "formalStatementsIntro"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 18,
@@ -443,9 +428,9 @@ export const FS_CATALOG: FsCatalog = {
       "expression": "|⟨u, v⟩|² ≤ ⟨u, u⟩ · ⟨v, v⟩",
       "leanSignature": "theorem cauchy_schwarz_hyperfinite (u v : HyperVector N) : (inner_product u v)^2 ≤ inner_product u u * inner_product v v",
       "referencedInSegments": [
-        "vectorsLecture3",
-        "stemTrigFoundations"
-      ]
+        "vectorsLecture3"
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 19,
@@ -462,7 +447,8 @@ export const FS_CATALOG: FsCatalog = {
       "pseudoAlgoId": "rotor_trig_cordic",
       "referencedInSegments": [
         "stemTrigFoundations"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 20,
@@ -480,7 +466,8 @@ export const FS_CATALOG: FsCatalog = {
       "referencedInSegments": [
         "stemTrigFoundations",
         "formalStatementsIntro"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 21,
@@ -498,7 +485,8 @@ export const FS_CATALOG: FsCatalog = {
       "pseudoAlgoId": "rotor_trig_cordic",
       "referencedInSegments": [
         "stemTrigFoundations"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 22,
@@ -520,7 +508,8 @@ export const FS_CATALOG: FsCatalog = {
       },
       "referencedInSegments": [
         "numbersLecture2"
-      ]
+      ],
+      "leanStatus": "certified"
     },
     {
       "numId": 23,
@@ -537,7 +526,8 @@ export const FS_CATALOG: FsCatalog = {
       "leanSignature": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le",
       "referencedInSegments": [
         "numbersLecture2"
-      ]
+      ],
+      "leanStatus": "certified"
     },
     {
       "numId": 24,
@@ -560,7 +550,8 @@ export const FS_CATALOG: FsCatalog = {
       },
       "referencedInSegments": [
         "numbersLecture2"
-      ]
+      ],
+      "leanStatus": "pending"
     },
     {
       "numId": 25,
@@ -583,7 +574,8 @@ export const FS_CATALOG: FsCatalog = {
       },
       "referencedInSegments": [
         "numbersLecture2"
-      ]
+      ],
+      "leanStatus": "pending"
     }
   ],
   "calculationModes": [

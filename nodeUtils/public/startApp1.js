@@ -68,10 +68,10 @@ async function start() {
     console.log('[app1R] Checking if backend server is running on port 3000...');
     const running = await isServerRunning(SERVER_PORT, SERVER_HOST);
     if (running) {
-        console.log('[app1R] Backend edit-mode server is already running on port 3000.');
+        console.log('[app1R] Backend server is already running on port 3000.');
     }
     else {
-        console.log('[app1R] Starting backend edit-mode server (http://localhost:3000)...');
+        console.log('[app1R] Starting backend server (http://localhost:3000)...');
         serverProcess = (0, child_process_1.spawn)('node', [serverPath], {
             cwd: rootDir,
             stdio: 'inherit',
@@ -80,8 +80,8 @@ async function start() {
         // Brief pause to allow the server to bind to port 3000
         await new Promise((r) => setTimeout(r, 800));
     }
-    console.log('[app1R] Launching live-server for app1 (ignoring segs, dist, builds for manual control)...\n');
-    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app1', '--ignore=segs,dist,builds'], {
+    console.log('[app1R] Launching live-server for app1...\n');
+    const liveServerProcess = (0, child_process_1.spawn)('npx', ['live-server', './app1', '--ignore=dist,builds'], {
         cwd: rootDir,
         stdio: 'inherit',
         shell: true,

@@ -29,9 +29,15 @@ export const typeMap: Record<string, TypeMapping> = {
     computational_stencils: { table: 'directed_equations', label: 'Computational Stencils' },
     stencil: { table: 'directed_equations', label: 'Computational Stencil' },
     stencils: { table: 'directed_equations', label: 'Computational Stencils' },
-    truth_table: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Display' },
+    truth_table: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Display (TTD)' },
+    ttd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Demo (TTD)' },
+    btd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'btd' }, label: 'Binary Tree Demo (BTD)' },
+    bid: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'bid' }, label: 'Binary Interval Demo (BID)' },
+    fsd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'fsd' }, label: 'Formal Statements Demo (FSD)' },
     interactive_demo: { table: 'interactive_demos', label: 'Interactive Visual Demo' },
     interactive_demos: { table: 'interactive_demos', label: 'Interactive Demos' },
+    demo_initialization: { table: 'interactive_demos', label: 'Demo Initialization' },
+    demo_initializations: { table: 'interactive_demos', label: 'Demo Initializations' },
     pseudocode_algorithm: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithm' },
     pseudocode_algorithms: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithms' },
     algorithms: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithms' },
@@ -140,7 +146,7 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
         case 'apps':
             return `${record.name || 'App'} (${record.app_code || record.id})`;
         case 'interactive_demos':
-            return `${record.title || record.demo_key} (${record.sandbox_type || 'sandbox'})`;
+            return `${record.title || record.demo_key} (${record.engine || 'demo'}${record.mode ? ` - ${record.mode}` : ''})`;
         default: {
             const col = getDisplayColumnName(tableName);
             const val = record[col];
@@ -2250,15 +2256,21 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 const paletteBar = document.createElement('div');
                 paletteBar.style.cssText = 'display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);';
                 paletteBar.innerHTML = `
-                    <span style="font-size: 11.5px; font-weight: 700; color: #475569; align-self: center; margin-right: 4px;">INSERT ELEMENT:</span>
+                    <span style="font-size: 11.5px; font-weight: 700; color: #475569; align-self: center; margin-right: 4px;">CUSTOM ELEMENTS:</span>
                     <button type="button" class="btn btn-sm btn-insert-fs" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
                         ➕ Formal Statement Citation
                     </button>
                     <button type="button" class="btn btn-sm btn-insert-stencil" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
                         ➕ Stencil Calculation Mode
                     </button>
+                    <button type="button" class="btn btn-sm btn-insert-ttd" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #fca5a5; color: #b91c1c; font-weight: 600; border-radius: 4px; cursor: pointer;">
+                        ⚖️ Truth Table (TTD)
+                    </button>
                     <button type="button" class="btn btn-sm btn-insert-demo" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
                         ➕ Interactive Visual Demo
+                    </button>
+                    <button type="button" class="btn btn-sm btn-review-elements" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; border-radius: 4px; cursor: pointer; margin-left: auto;">
+                        🔍 Review / Remove Tags
                     </button>
                 `;
 
@@ -2315,6 +2327,78 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                     });
                 });
 
+                paletteBar.querySelector('.btn-insert-ttd')?.addEventListener('click', async () => {
+                    const ttdDemos = await queryDatabase<any>(
+                        "SELECT id, demo_key, title, engine, mode, init_packet, description FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
+                    );
+                    showModal(`
+                        <h3 style="margin-bottom: 8px; font-size: 15px; color: #991b1b;">Insert Truth Table Demo (&lt;ttd-ref&gt;)</h3>
+                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a pre-configured propositional initialization from the database or enter an expression:</p>
+                        
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Configured TTD Presets (from Database):</label>
+                            <select id="modal-select-ttd-preset" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <option value="">-- Select a preset or type below --</option>
+                                ${(ttdDemos || []).map((d: any) => {
+                                    const init = typeof d.init_packet === 'string' ? JSON.parse(d.init_packet || '{}') : (d.init_packet || {});
+                                    const expVal = init.exp || '';
+                                    const fmtVal = init.fmt || formatTtdDisplay(expVal);
+                                    return `<option value="${escapeHtml(expVal)}" data-fmt="${escapeHtml(fmtVal)}" data-title="${escapeHtml(d.title)}">${escapeHtml(d.title)} [${escapeHtml(fmtVal)}]</option>`;
+                                }).join('')}
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Propositional Expression (Internal Code):</label>
+                            <input type="text" id="modal-input-ttd-exp" placeholder="e.g. n[paq]e[nponq]" style="width: 100%; padding: 8px; font-size: 13px; font-family: var(--font-mono); border: 1px solid var(--border-color); border-radius: 4px;" />
+                            <div style="font-size: 11px; color: #94a3b8; margin-top: 3px;">Keys: <code>p, q, r, s</code>, <code>n</code> (¬), <code>a</code> (∧), <code>o</code> (∨), <code>i</code> (→), <code>e</code> (↔), <code>[ ]</code></div>
+                        </div>
+
+                        <div style="margin-bottom: 16px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                            <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px;">LIVE FORMATTED PREVIEW:</div>
+                            <div id="modal-ttd-preview" style="font-size: 16px; font-weight: 700; color: firebrick; min-height: 24px;">—</div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-ttd">Insert Tag</button>
+                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
+                        </div>
+                    `);
+
+                    const presetSelect = document.getElementById('modal-select-ttd-preset') as HTMLSelectElement;
+                    const expInput = document.getElementById('modal-input-ttd-exp') as HTMLInputElement;
+                    const previewEl = document.getElementById('modal-ttd-preview') as HTMLElement;
+
+                    const updatePreview = () => {
+                        const raw = expInput.value.trim();
+                        if (!raw) {
+                            previewEl.textContent = '—';
+                        } else {
+                            previewEl.textContent = formatTtdDisplay(raw);
+                        }
+                    };
+
+                    presetSelect?.addEventListener('change', () => {
+                        const opt = presetSelect.selectedOptions[0];
+                        if (opt && opt.value) {
+                            expInput.value = opt.value;
+                            const customFmt = opt.getAttribute('data-fmt');
+                            previewEl.textContent = customFmt || formatTtdDisplay(opt.value);
+                        }
+                    });
+
+                    expInput?.addEventListener('input', updatePreview);
+
+                    document.getElementById('btn-modal-confirm-insert-ttd')?.addEventListener('click', () => {
+                        const exp = expInput.value.trim();
+                        if (exp) {
+                            const fmt = previewEl.textContent !== '—' ? previewEl.textContent : formatTtdDisplay(exp);
+                            insertAtCursor(`<ttd-ref exp="${escapeHtml(exp)}" style="color:firebrick;font-weight:bold">${escapeHtml(fmt)}</ttd-ref>`);
+                        }
+                        closeModal();
+                    });
+                });
+
                 paletteBar.querySelector('.btn-insert-demo')?.addEventListener('click', async () => {
                     const demos = await queryDatabase<any>("SELECT id, demo_key, title, engine FROM interactive_demos ORDER BY id ASC;");
                     showModal(`
@@ -2335,6 +2419,65 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                         }
                         closeModal();
                     });
+                });
+
+                paletteBar.querySelector('.btn-review-elements')?.addEventListener('click', () => {
+                    const text = textarea.value;
+                    const tagRegex = /(<ttd-ref[\s\S]*?<\/ttd-ref>|<fs-ref[^>]*>(?:<\/fs-ref>)?|<interactive-stencil[^>]*>(?:<\/interactive-stencil>)?|<demo-embed[^>]*>(?:<\/demo-embed>)?)/gi;
+                    const matches: string[] = [];
+                    let m: RegExpExecArray | null;
+                    while ((m = tagRegex.exec(text)) !== null) {
+                        matches.push(m[0]);
+                    }
+
+                    if (matches.length === 0) {
+                        showModal(`
+                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review Embedded Custom Elements</h3>
+                            <p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">No custom element tags (&lt;ttd-ref&gt;, &lt;fs-ref&gt;, &lt;interactive-stencil&gt;, &lt;demo-embed&gt;) found in this segment's content.</p>
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                            </div>
+                        `);
+                        return;
+                    }
+
+                    const renderList = () => {
+                        showModal(`
+                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review &amp; Remove Custom Elements (${matches.length})</h3>
+                            <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Active custom elements in this segment. Click "Remove" to delete an instance:</p>
+                            <div style="max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; margin-bottom: 16px;">
+                                ${matches.map((tag, idx) => `
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; margin-bottom: 4px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px;">
+                                        <code style="font-size: 11.5px; color: #0f172a; word-break: break-all; flex: 1;">${escapeHtml(tag)}</code>
+                                        <button type="button" class="action-btn danger btn-remove-custom-tag" data-index="${idx}" style="padding: 3px 10px; font-size: 11px; white-space: nowrap;">
+                                            🗑️ Remove
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
+                            </div>
+                        `);
+
+                        document.querySelectorAll('.btn-remove-custom-tag').forEach((btn) => {
+                            btn.addEventListener('click', (e) => {
+                                const idx = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0', 10);
+                                const tagToRemove = matches[idx];
+                                if (tagToRemove) {
+                                    textarea.value = textarea.value.replace(tagToRemove, '');
+                                    matches.splice(idx, 1);
+                                    if (matches.length > 0) {
+                                        renderList();
+                                    } else {
+                                        closeModal();
+                                    }
+                                }
+                            });
+                        });
+                    };
+
+                    renderList();
                 });
 
                 fieldGroup.appendChild(paletteBar);
@@ -2545,4 +2688,25 @@ function escapeHtml(str: string | null | undefined): string {
 function capitalize(str: string): string {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function formatTtdDisplay(exp: string): string {
+    const codeMap: Record<string, string> = {
+        'p': '𝑝',
+        'q': '𝑞',
+        'r': '𝑟',
+        's': '𝑠',
+        '[': '(',
+        ']': ')',
+        'n': '¬',
+        'a': ' ∧ ',
+        'o': ' ∨ ',
+        'i': ' → ',
+        'e': ' ↔ '
+    };
+    let res = '';
+    for (const ch of exp) {
+        res += codeMap[ch] !== undefined ? codeMap[ch] : ch;
+    }
+    return res;
 }

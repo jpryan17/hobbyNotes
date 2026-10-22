@@ -101,17 +101,9 @@ export class SI {
     SI.log(`response ok ${response.ok} status ${response.status}`);
   }
   static logInit() {
-    if (Nav.editMode && !SI.logged) {
-      SI.logged = new Elt("div");
-      SI.logged.elt.innerHTML = "";
-    }
+    // No-op in reader mode
   }
   static log(msg: any) {
     console.log(msg);
-    if (Nav.editMode) {
-      const currentLog = SI.logged.getV();
-      const newLog = currentLog.concat("<br>", `${msg}`);
-      SI.logged.setV(newLog);
-    }
   }
 }

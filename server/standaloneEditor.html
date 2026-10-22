@@ -47,7 +47,7 @@
     }
 
     /* Top Navigation Bar */
-    header {
+    body > header {
       background: var(--bg-header);
       color: #f8fafc;
       padding: 8px 16px;
@@ -890,9 +890,17 @@
         }
       });
 
-      return temp.innerHTML
+      let res = temp.innerHTML
         .replace(/\s*contenteditable="false"/gi, '')
         .replace(/\s*onclick="[^"]*"/gi, '');
+
+      // Remove empty container artifacts (e.g. <div class="container"><br></div>)
+      res = res.replace(/<div[^>]*class="container"[^>]*>\s*(?:<br\s*\/?>|&nbsp;|\s)*<\/div>/gi, '');
+
+      // Strip trailing empty paragraphs, trailing empty divs, or trailing br tags inserted by contenteditable
+      res = res.replace(/(?:<p[^>]*>\s*(?:<br\s*\/?>|&nbsp;|\s)*<\/p>|<div[^>]*>\s*(?:<br\s*\/?>|&nbsp;|\s)*<\/div>|\s*<br\s*\/?>\s*)+$/gi, '');
+
+      return res.trim();
     }
 
     // Dynamic Document Style Injection for WYSIWYG
@@ -961,35 +969,77 @@
       styleTag.textContent = css + editorEnhancements;
     }
 
-    // Assemble complete HTML document
-    function getCompleteDocumentHtml() {
-      const bodyContent = cleanHtml(wysiwygPane.innerHTML);
-      if (activeMode === 'source') {
-        return sourceTextarea.value;
-      }
+    // Wrap body content into a full HTML document preserving original head/style if available
+    function wrapInCompleteDocument(bodyContent) {
       if (fullDocumentWrapper && /<body[^>]*>/i.test(fullDocumentWrapper)) {
         return fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, `$1\n${bodyContent}\n$3`);
       }
-      const title = activeFileName.replace(/\.html$/i, '');
+      if (fullDocumentWrapper && /<head[^>]*>([\s\S]*?)<\/head>/i.test(fullDocumentWrapper)) {
+        const headMatch = fullDocumentWrapper.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
+        return `<!DOCTYPE html>\n<html lang="en">\n<head>${headMatch[1]}</head>\n<body>\n${bodyContent}\n</body>\n</html>\n`;
+      }
+      const title = (activeFileName || 'Document').replace(/\.html$/i, '');
       return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
   <style>
-    body { font-family: "Times New Roman", Times, Georgia, serif; line-height: 1.6; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #1e293b; }
-    h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; }
+    :root {
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --heading-color: #0f172a;
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --accent-purple: #7c3aed;
+      --accent-emerald: #059669;
+      --bg-card: #f8fafc;
+      --border-color: #e2e8f0;
+      --border-accent: #cbd5e1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.75;
+      color: var(--text-main);
+      background-color: #ffffff;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px 80px 20px;
+    }
+    h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--heading-color); }
+    h1 { font-size: 2.2rem; font-weight: 800; margin: 0 0 8px 0; line-height: 1.25; }
+    h1 .subtitle { display: block; font-size: 1.35rem; font-weight: 600; color: var(--primary); margin-top: 6px; }
+    h2 { font-size: 1.4rem; color: var(--heading-color); margin-top: 38px; margin-bottom: 16px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+    h3 { font-size: 1.18rem; color: var(--primary-dark); margin-top: 26px; margin-bottom: 12px; font-weight: 700; }
     svg { max-width: 100%; height: auto; display: block; margin: 16px auto; }
     sub { font-size: 0.8em; vertical-align: -0.25em; line-height: 0; }
     sub sub, sub.sub-sub { font-size: 0.72em; vertical-align: -0.36em; line-height: 0; }
     sup { font-size: 0.8em; vertical-align: 0.42em; line-height: 0; }
     sup sup, sup.sup-sup { font-size: 0.72em; vertical-align: 0.52em; line-height: 0; }
+    .axiom-box { background: #eff6ff; border-left: 4px solid var(--primary); border-radius: 0 8px 8px 0; padding: 18px 22px; margin: 22px 0; font-size: 1.1rem; }
+    .math-display { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 18px; margin: 16px 0; text-align: center; font-size: 1.1rem; }
+    .diagram-container { margin: 28px 0; padding: 16px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 10px; text-align: center; overflow-x: auto; }
   </style>
 </head>
 <body>
 ${bodyContent}
 </body>
 </html>\n`;
+    }
+
+    // Assemble complete HTML document
+    function getCompleteDocumentHtml() {
+      if (activeMode === 'source') {
+        const src = sourceTextarea.value.trim();
+        if (/<body[^>]*>/i.test(src)) {
+          return src;
+        }
+        return wrapInCompleteDocument(src);
+      }
+      const bodyContent = cleanHtml(wysiwygPane.innerHTML);
+      return wrapInCompleteDocument(bodyContent);
     }
 
     // Start a clean, blank document
@@ -1025,16 +1075,22 @@ ${bodyContent}
       activeFileName = name;
       activeFilePath = fullPath || name;
       filePathInput.value = fullPath || name;
-      fullDocumentWrapper = rawHtml;
 
       const bodyMatch = rawHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-      const innerHtml = bodyMatch ? bodyMatch[1].trim() : rawHtml;
+      let innerHtml = '';
+      if (bodyMatch) {
+        fullDocumentWrapper = rawHtml;
+        innerHtml = bodyMatch[1].trim();
+      } else {
+        innerHtml = rawHtml.trim();
+        fullDocumentWrapper = wrapInCompleteDocument(innerHtml);
+      }
 
       wysiwygPane.innerHTML = innerHtml;
-      sourceTextarea.value = activeMode === 'source' ? rawHtml : innerHtml;
+      sourceTextarea.value = activeMode === 'source' ? fullDocumentWrapper : cleanHtml(innerHtml);
       setDirty(false);
 
-      updateDocumentInjectedStyles(rawHtml);
+      updateDocumentInjectedStyles(fullDocumentWrapper);
       attachDrawioListeners();
       attachMathListeners();
       typesetMath();
@@ -1107,12 +1163,52 @@ ${bodyContent}
       }
     });
 
+    // Bidirectionally synchronize content across visual and source representations
+    function syncContent(fromMode, toMode) {
+      if (fromMode === 'source') {
+        const src = sourceTextarea.value.trim();
+        const bodyMatch = src.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if (bodyMatch) {
+          fullDocumentWrapper = src;
+          wysiwygPane.innerHTML = bodyMatch[1].trim();
+        } else {
+          wysiwygPane.innerHTML = src;
+          if (fullDocumentWrapper && /<body[^>]*>/i.test(fullDocumentWrapper)) {
+            fullDocumentWrapper = fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, `$1\n${src}\n$3`);
+          } else {
+            fullDocumentWrapper = wrapInCompleteDocument(src);
+          }
+        }
+        updateDocumentInjectedStyles(fullDocumentWrapper);
+      } else {
+        // fromMode is 'wysiwyg' or 'split'
+        const bodyContent = cleanHtml(wysiwygPane.innerHTML);
+        if (fullDocumentWrapper && /<body[^>]*>/i.test(fullDocumentWrapper)) {
+          fullDocumentWrapper = fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, `$1\n${bodyContent}\n$3`);
+        } else {
+          fullDocumentWrapper = wrapInCompleteDocument(bodyContent);
+        }
+        if (toMode === 'source') {
+          sourceTextarea.value = fullDocumentWrapper;
+        } else if (toMode === 'split') {
+          sourceTextarea.value = bodyContent;
+        }
+      }
+    }
+
     // Save File (Ctrl+S or Save button)
     async function saveFile() {
+      syncContent(activeMode, activeMode);
+      const finalDoc = getCompleteDocumentHtml();
+      if (activeMode === 'source') {
+        sourceTextarea.value = finalDoc;
+      } else if (activeMode === 'split') {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+
       if (localFileHandle) {
         try {
           const writable = await localFileHandle.createWritable();
-          const finalDoc = getCompleteDocumentHtml();
           await writable.write(finalDoc);
           await writable.close();
           setDirty(false);
@@ -1129,6 +1225,14 @@ ${bodyContent}
 
     // Save As with native folder & file picker
     async function saveAsPicker() {
+      syncContent(activeMode, activeMode);
+      const finalDoc = getCompleteDocumentHtml();
+      if (activeMode === 'source') {
+        sourceTextarea.value = finalDoc;
+      } else if (activeMode === 'split') {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+
       if ('showSaveFilePicker' in window) {
         try {
           const defaultName = activeFileName && activeFileName !== 'Untitled.html'
@@ -1149,7 +1253,6 @@ ${bodyContent}
           filePathInput.value = handle.name;
 
           const writable = await handle.createWritable();
-          const finalDoc = getCompleteDocumentHtml();
           await writable.write(finalDoc);
           await writable.close();
           setDirty(false);
@@ -1167,7 +1270,7 @@ ${bodyContent}
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               path: dest.trim(),
-              content: getCompleteDocumentHtml(),
+              content: finalDoc,
               saveMode: 'full'
             })
           });
@@ -1218,8 +1321,12 @@ ${bodyContent}
 
     // Switch View Modes
     function setMode(mode) {
+      if (mode === activeMode) return;
+      const prevMode = activeMode;
       activeMode = mode;
       document.querySelectorAll('.view-pills .pill').forEach(p => p.classList.remove('active'));
+
+      syncContent(prevMode, mode);
 
       if (mode === 'wysiwyg') {
         document.getElementById('pill-wysiwyg').classList.add('active');
@@ -1227,15 +1334,6 @@ ${bodyContent}
         wysiwygPane.style.display = 'block';
         sourceTextarea.parentElement.style.display = 'none';
 
-        let newContent = sourceTextarea.value;
-        const bodyMatch = newContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-        if (bodyMatch) {
-          fullDocumentWrapper = newContent;
-          wysiwygPane.innerHTML = bodyMatch[1].trim();
-        } else {
-          wysiwygPane.innerHTML = newContent;
-        }
-        updateDocumentInjectedStyles(newContent);
         attachDrawioListeners();
         attachMathListeners();
         typesetMath();
@@ -1251,6 +1349,7 @@ ${bodyContent}
         workspace.classList.add('split-mode');
         wysiwygPane.style.display = 'block';
         sourceTextarea.parentElement.style.display = 'block';
+
         sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
         attachDrawioListeners();
         typesetMath();

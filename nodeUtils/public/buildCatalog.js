@@ -52,6 +52,7 @@ exports.buildCurricularCatalog = buildCurricularCatalog;
 exports.writeCatalogFiles = writeCatalogFiles;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const leanScaffoldParser_1 = require("./leanScaffoldParser");
 const app1SegsDir = path.resolve(__dirname, '../../app1/segs');
 const clientLibDir = path.resolve(__dirname, '../../clientLib');
 function scanCurricularReferences() {
@@ -531,6 +532,29 @@ function buildCurricularCatalog() {
             referencedInSegments: getRefs('fs_conway_multiplication', 25, ['numbersLecture2'])
         }
     ];
+    // Dynamic Lean 4 Scaffold Verification:
+    // Classify each Formal Statement as 'certified' (has exact verified Lean declaration)
+    // or 'pending' (conceptual / scenario statement awaiting further Lean formalization).
+    const scaffoldDecls = (0, leanScaffoldParser_1.parseScaffoldDeclarations)().declarations;
+    let certifiedCount = 0;
+    let pendingCount = 0;
+    for (const stmt of formalStatements) {
+        const key = stmt.scaffoldKey.replace(/^scaffold:/, '');
+        let sigName = '';
+        if (stmt.leanSignature) {
+            const m = /^(?:theorem|def|axiom|structure|inductive)\s+([a-zA-Z0-9_'.]+)/.exec(stmt.leanSignature);
+            if (m)
+                sigName = m[1];
+        }
+        if (scaffoldDecls[key] || (sigName && scaffoldDecls[sigName])) {
+            stmt.leanStatus = 'certified';
+            certifiedCount++;
+        }
+        else {
+            stmt.leanStatus = 'pending';
+            pendingCount++;
+        }
+    }
     const calculationModes = [
         // --- Physics: Uniform Free Fall ---
         {
@@ -839,6 +863,7 @@ export interface FsCatalogStatement {
   expression: string;
   leanSignature?: string;
   leanSnippet?: string;
+  leanStatus?: 'certified' | 'pending';
   referencedInSegments: string[];
 }
 
@@ -914,7 +939,9 @@ export const FS_CATALOG: FsCatalog = ${jsonContent};
         fs.writeFileSync(app1JsonPath, jsonContent, 'utf8');
         console.log(`[buildCatalog] Wrote app1 public catalog to: ${app1JsonPath}`);
     }
-    console.log(`[buildCatalog] Successfully emitted ${catalog.formalStatements.length} formal statements (with hierarchy & type), ${catalog.calculationModes.length} calculation modes, and ${catalog.examples.length} examples.`);
+    const certified = catalog.formalStatements.filter(s => s.leanStatus === 'certified').length;
+    const pending = catalog.formalStatements.filter(s => s.leanStatus === 'pending').length;
+    console.log(`[buildCatalog] Successfully emitted ${catalog.formalStatements.length} formal statements (${certified} certified Lean 4 theorems, ${pending} unconfirmed/pending scaffold stencils), ${catalog.calculationModes.length} calculation modes, and ${catalog.examples.length} examples.`);
 }
 // Execute when invoked directly
 if (require.main === module) {

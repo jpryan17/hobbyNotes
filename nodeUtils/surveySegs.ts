@@ -107,8 +107,8 @@ interface TagFinding {
 }
 
 export function surveySegments(applyFix: boolean = false): void {
-  const segsDir = path.resolve(rootDir, 'app1/segs');
-  const files = fs.readdirSync(segsDir).filter(f => f.endsWith('.html'));
+  const segsDir = path.resolve(rootDir, fs.existsSync(path.resolve(rootDir, 'app1/segs')) ? 'app1/segs' : 'archive/app1_segs');
+  const files = fs.existsSync(segsDir) ? fs.readdirSync(segsDir).filter(f => f.endsWith('.html')) : [];
 
   const findings: TagFinding[] = [];
   let filesModified = 0;

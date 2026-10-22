@@ -194,6 +194,7 @@ CREATE TABLE interactive_demos (
     mode VARCHAR(64) NOT NULL,                   -- e.g. 'order', 'addition', 'multiplication', 'isomorphism', 'labeled'
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    init_packet JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

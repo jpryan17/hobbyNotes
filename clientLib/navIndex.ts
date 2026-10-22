@@ -1,6 +1,5 @@
 import { SVGElt, SVGGrpElt, SVGText, SVGTSpan} from './svgElt.js'
 import {Nav} from './navFW.js'
-import {StudioOverlay} from './studioOverlay.js'
 
 export interface IndexItemDesc {
     type:'html'|'diagram'|'index',
@@ -53,11 +52,7 @@ export class Index extends SVGGrpElt{
                 const itemWidget = ev.target as SVGElement
                 this.chosen = this.choices.findIndex(c=>c[1].elt==itemWidget)
                 this.setSelectedItem()
-                if (Nav.editMode && StudioOverlay.isEditModeActive) {
-                    StudioOverlay.openOutlineModal(this, this.chosen)
-                } else {
-                    Nav.processSelection()
-                }
+                Nav.processSelection()
             })
         })
     }

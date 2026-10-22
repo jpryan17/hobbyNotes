@@ -214,9 +214,9 @@ export async function harvestLeanDeclarations(): Promise<void> {
     }
 
     if (!matchedName) {
-      // Fuzzy substring matching
+      // Exact case-insensitive match on statement key (without fs_ prefix)
       const keyClean = stmt.statement_key.replace(/^fs_/, '');
-      const found = Array.from(nameToId.keys()).find(n => n.toLowerCase() === keyClean.toLowerCase() || n.toLowerCase().includes(keyClean.toLowerCase()));
+      const found = Array.from(nameToId.keys()).find(n => n.toLowerCase() === keyClean.toLowerCase());
       if (found) matchedName = found;
     }
 

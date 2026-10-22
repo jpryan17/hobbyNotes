@@ -249,18 +249,56 @@ export const navigationMenuTree: MenuItem[] = [
     },
 
     // -------------------------------------------------------------------------
-    // 3. Interactive Demonstrations
+    // 3. Demo Initializations (Interactive Sandbox Demos & Presets)
     // -------------------------------------------------------------------------
     {
-        label: 'Interactive Demos',
+        label: 'Demo Initializations',
         icon: '🎛️',
-        typeKey: 'interactive_demo',
+        typeKey: 'demo_initializations',
         children: [
-            { label: 'Truth Table Demo (TTD)', typeKey: 'interactive_demo', instanceKey: 'ttd' },
-            { label: 'Formal Statements Demo (FSD)', typeKey: 'interactive_demo', instanceKey: 'fsd' },
-            { label: 'Binary Tree Demo (BTD)', typeKey: 'interactive_demo', instanceKey: 'btd' },
-            { label: 'Bayesian Inference Demo (BID)', typeKey: 'interactive_demo', instanceKey: 'bid' },
-            { label: 'Browse All Demos', typeKey: 'interactive_demo' }
+            {
+                label: 'Truth Table Demo (TTD)',
+                typeKey: 'ttd',
+                children: [
+                    { label: "De Morgan's First Law", typeKey: 'interactive_demo', instanceKey: 'ttd_demorgan' },
+                    { label: 'Modus Ponens (Detachment)', typeKey: 'interactive_demo', instanceKey: 'ttd_modus_ponens' },
+                    { label: 'Law of Excluded Middle', typeKey: 'interactive_demo', instanceKey: 'ttd_excluded_middle' },
+                    { label: 'Principle of Non-Contradiction', typeKey: 'interactive_demo', instanceKey: 'ttd_non_contradiction' },
+                    { label: 'Material Implication (→)', typeKey: 'interactive_demo', instanceKey: 'ttd_implication' },
+                    { label: 'Material Equivalence (↔)', typeKey: 'interactive_demo', instanceKey: 'ttd_equivalence' },
+                    { label: 'Hypothetical Syllogism', typeKey: 'interactive_demo', instanceKey: 'ttd_hypothetical_syllogism' },
+                    { label: 'Browse All TTD Initializations', typeKey: 'ttd' }
+                ]
+            },
+            {
+                label: 'Binary Tree Demo (BTD)',
+                typeKey: 'btd',
+                children: [
+                    { label: 'Surreal Tree Total Order', typeKey: 'interactive_demo', instanceKey: 'btd_order' },
+                    { label: 'Conway Inductive Addition (+)', typeKey: 'interactive_demo', instanceKey: 'btd_addition' },
+                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'interactive_demo', instanceKey: 'btd_multiplication' },
+                    { label: 'Labeled Dyadic Sequences', typeKey: 'interactive_demo', instanceKey: 'btd_labeled' },
+                    { label: 'Browse All BTD Initializations', typeKey: 'btd' }
+                ]
+            },
+            {
+                label: 'Binary Interval Demo (BID)',
+                typeKey: 'bid',
+                children: [
+                    { label: 'Dyadic Interval Subdivision', typeKey: 'interactive_demo', instanceKey: 'bid_euler' },
+                    { label: 'Unit Rotor Circle Projection', typeKey: 'interactive_demo', instanceKey: 'bid_rotor' },
+                    { label: 'Browse All BID Initializations', typeKey: 'bid' }
+                ]
+            },
+            {
+                label: 'Formal Statements Demo (FSD)',
+                typeKey: 'fsd',
+                children: [
+                    { label: 'Formal Structure Stage Visualizer', typeKey: 'interactive_demo', instanceKey: 'fsd_stage' },
+                    { label: 'Browse All FSD Initializations', typeKey: 'fsd' }
+                ]
+            },
+            { label: 'Browse All Demo Initializations', typeKey: 'interactive_demos' }
         ]
     }
 ];

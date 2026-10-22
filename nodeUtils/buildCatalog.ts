@@ -14,6 +14,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { parseScaffoldDeclarations } from './leanScaffoldParser';
 
 export type FsStatementType = 'math' | 'physics' | 'information';
 
@@ -39,6 +40,7 @@ export interface FsCatalogStatement {
   expression: string;
   leanSignature?: string;
   leanSnippet?: string;
+  leanStatus?: 'certified' | 'pending';
   referencedInSegments: string[];
 }
 
@@ -597,6 +599,29 @@ export function buildCurricularCatalog(): FsCatalog {
     }
   ];
 
+  // Dynamic Lean 4 Scaffold Verification:
+  // Classify each Formal Statement as 'certified' (has exact verified Lean declaration)
+  // or 'pending' (conceptual / scenario statement awaiting further Lean formalization).
+  const scaffoldDecls = parseScaffoldDeclarations().declarations;
+  let certifiedCount = 0;
+  let pendingCount = 0;
+
+  for (const stmt of formalStatements) {
+    const key = stmt.scaffoldKey.replace(/^scaffold:/, '');
+    let sigName = '';
+    if (stmt.leanSignature) {
+      const m = /^(?:theorem|def|axiom|structure|inductive)\s+([a-zA-Z0-9_'.]+)/.exec(stmt.leanSignature);
+      if (m) sigName = m[1];
+    }
+    if (scaffoldDecls[key] || (sigName && scaffoldDecls[sigName])) {
+      stmt.leanStatus = 'certified';
+      certifiedCount++;
+    } else {
+      stmt.leanStatus = 'pending';
+      pendingCount++;
+    }
+  }
+
   const calculationModes: FsCatalogMode[] = [
     // --- Physics: Uniform Free Fall ---
     {
@@ -920,6 +945,7 @@ export interface FsCatalogStatement {
   expression: string;
   leanSignature?: string;
   leanSnippet?: string;
+  leanStatus?: 'certified' | 'pending';
   referencedInSegments: string[];
 }
 
@@ -999,7 +1025,9 @@ export const FS_CATALOG: FsCatalog = ${jsonContent};
     console.log(`[buildCatalog] Wrote app1 public catalog to: ${app1JsonPath}`);
   }
 
-  console.log(`[buildCatalog] Successfully emitted ${catalog.formalStatements.length} formal statements (with hierarchy & type), ${catalog.calculationModes.length} calculation modes, and ${catalog.examples.length} examples.`);
+  const certified = catalog.formalStatements.filter(s => s.leanStatus === 'certified').length;
+  const pending = catalog.formalStatements.filter(s => s.leanStatus === 'pending').length;
+  console.log(`[buildCatalog] Successfully emitted ${catalog.formalStatements.length} formal statements (${certified} certified Lean 4 theorems, ${pending} unconfirmed/pending scaffold stencils), ${catalog.calculationModes.length} calculation modes, and ${catalog.examples.length} examples.`);
 }
 
 // Execute when invoked directly

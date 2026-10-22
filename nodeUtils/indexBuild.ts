@@ -1,22 +1,39 @@
-import { existsSync, readFileSync, writeFileSync, mkdirSync, cpSync, copyFileSync } from 'fs';
+import { existsSync, writeFileSync, mkdirSync, cpSync, copyFileSync } from 'fs';
 import { resolve } from 'path';
 import { build } from 'esbuild';
+import { Pool } from 'pg';
+import * as dotenv from 'dotenv';
 import { getRequiredSegIds } from './indexUtils.js';
 
-function getSegmentContent(content: string): string {
+// Load environment variables for PostgreSQL access
+const rootDir = resolve(__dirname, '../../');
+dotenv.config({ path: resolve(rootDir, '.env') });
+
+function createDbPool(): Pool {
+    return new Pool({
+        user: process.env.DB_USER || 'postgres',
+        host: process.env.DB_HOST || 'localhost',
+        database: process.env.DB_DATABASE || 'hobbynotes',
+        password: process.env.DB_PASSWORD || 'repj',
+        port: parseInt(process.env.DB_PORT || '5432', 10),
+        ssl: false,
+    });
+}
+
+function extractSegmentBody(content: string): string {
     const startMatch = /<body[^>]*>/i.exec(content);
     const endMatch = /<\/body>/i.exec(content);
-    if (!startMatch || !endMatch || endMatch.index < startMatch.index) {
-        throw new Error('Invalid <body> content');
+    if (startMatch && endMatch && endMatch.index > startMatch.index) {
+        const sp = startMatch.index + startMatch[0].length;
+        const ep = endMatch.index;
+        return content.substring(sp, ep);
     }
-    const sp = startMatch.index + startMatch[0].length;
-    const ep = endMatch.index;
-    return content.substring(sp, ep);
+    return content;
 }
 
 async function buildIndex(app: string) {
+    const startTime = Date.now();
     const appDir = resolve(__dirname, `../../${app}`);
-    const segFolder = resolve(appDir, 'segs');
     const distFolder = resolve(appDir, 'dist');
     const outputFilePath = resolve(distFolder, 'index.html');
 
@@ -37,18 +54,38 @@ async function buildIndex(app: string) {
     }
 
     // Ensure standalone overview is synced to dist
-    const rootDir = resolve(__dirname, '../../');
     const rootOverview = resolve(rootDir, 'overview.html');
     if (existsSync(rootOverview)) {
         copyFileSync(rootOverview, resolve(distFolder, 'overview.html'));
         console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
     }
 
+    const pool = createDbPool();
+
     try {
         const segIds = await getRequiredSegIds(app);
         console.log(`[indexBuild] Extracted ${segIds.length} segIds from mainIndex for ${app}:`, segIds);
 
-        // Bundle top.ts with top(false) for standalone index.html (non-edit mode)
+        // Fetch all segment contents directly from PostgreSQL (single source of truth)
+        console.log(`[indexBuild] Querying segments from PostgreSQL for ${app}...`);
+        const segRes = await pool.query<{
+            seg_key: string;
+            content_html: string;
+        }>(`
+            SELECT DISTINCT s.seg_key, s.content_html
+            FROM segments s
+            JOIN curriculum_nav_items n ON n.segment_id = s.id
+            JOIN apps a ON a.id = n.app_id
+            WHERE a.app_code = $1;
+        `, [app]);
+
+        const segMap = new Map<string, string>();
+        for (const row of segRes.rows) {
+            segMap.set(row.seg_key, row.content_html);
+        }
+        console.log(`[indexBuild] Loaded ${segMap.size} unique segment(s) from PostgreSQL.`);
+
+        // Bundle top.ts with top(false) for standalone index.html (pure reader mode)
         const result = await build({
             stdin: {
                 contents: `import { top } from './top.js'; top(false);`,
@@ -72,38 +109,36 @@ async function buildIndex(app: string) {
 
         let missingCount = 0;
         for (const segId of segIds) {
-            let filePath = resolve(segFolder, `${segId}.html`);
-            if (!existsSync(filePath)) {
-                console.error(`[indexBuild Error] Missing required segment file: ${filePath}`);
+            const rawContent = segMap.get(segId);
+            if (!rawContent) {
+                console.error(`[indexBuild Error] Missing required segment in PostgreSQL: ${segId}`);
                 missingCount++;
                 continue;
             }
 
-            try {
-                const body = readFileSync(filePath, 'utf8');
-                const segmentContent = getSegmentContent(body);
-                let seg = `\n<template id="${segId}">\n`;
-                seg = seg.concat(segmentContent, '\n</template>');
-                indexFileContent = indexFileContent.concat(seg);
-            } catch (err) {
-                console.error(`[indexBuild Error] Error processing ${filePath}:`, err);
-                missingCount++;
-            }
+            const segmentContent = extractSegmentBody(rawContent);
+            let seg = `\n<template id="${segId}">\n`;
+            seg = seg.concat(segmentContent, '\n</template>');
+            indexFileContent = indexFileContent.concat(seg);
         }
 
         if (missingCount > 0) {
-            console.error(`[indexBuild Error] Failed generation: ${missingCount} required segment file(s) missing or invalid.`);
+            console.error(`[indexBuild Error] Failed generation: ${missingCount} required segment(s) missing from PostgreSQL.`);
             process.exit(1);
         }
 
         const scriptTag = `<script type="module">${script}</script>`;
         indexFileContent = indexFileContent.concat(scriptTag, `\n</body>\n</html>`);
 
-        writeFileSync(outputFilePath, indexFileContent);
-        console.log(`[indexBuild] index.html generated successfully for ${app} (using top.ts with edit=false) at ${outputFilePath}.`);
+        writeFileSync(outputFilePath, indexFileContent, 'utf8');
+        const durationMs = Date.now() - startTime;
+        const bytes = Buffer.byteLength(indexFileContent, 'utf8');
+        console.log(`[indexBuild] index.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);
     } catch (err) {
         console.error(`[indexBuild Error] Error building index for ${app}:`, err);
         process.exit(1);
+    } finally {
+        await pool.end();
     }
 }
 

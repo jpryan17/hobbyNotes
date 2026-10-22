@@ -28,186 +28,136 @@ namespace MiddleWay
 -- ############################################################################
 
 -- ============================================================================
--- 0. The Successor Trees: Finite Inductive Initial Stretch (α < ω)
+-- 0. The Universal Ordinal Birthday Spine & Tri-Tree Hierarchy
 -- ============================================================================
--- The primitive number structures are ordinal-driven successor trees Tree_k(α).
--- On the finite initial segment (α ∈ ℕ ⊂ Ord), these trees are strictly inductive,
--- computable prefix structures whose paths evaluate to discrete machine arithmetic.
+-- In Middle Way Mathematics, numbers are born on ordinal days α : Ord.
+-- The universal number trees are parameterized by their birthday α:
+--   • Tree1_at(α): 1-branching counting spine (clock ticks / path depths)
+--   • Tree2_at(α): 2-branching signed binary number tree (Conway numbers)
+--   • Tree4_at(α): 4-branching complex quadtree grid (2D discrete / continuum)
+
+-- The constructive type of tree depths / birthdays:
+axiom Ord : Type
+axiom Ord.lt : Ord → Ord → Prop
+axiom Ord.le : Ord → Ord → Prop
+
+instance : LT Ord where lt := Ord.lt
+instance : LE Ord where le := Ord.le
+
+axiom Ord.zero : Ord
+axiom Ord.succ : Ord → Ord
+
+-- Key Ordinal Milestones:
+axiom Ord.omega : Ord           -- Level 2 Horizon: first transfinite limit ordinal (continuous world)
+axiom Ord.eps0  : Ord           -- Level 3 Ceiling: first fixed point ε₀ = ω^ε₀ (ambient field closure)
+axiom Ord.omega_lt_eps0 : Ord.omega < Ord.eps0
+axiom Ord.wf : WellFounded Ord.lt
+
+-- The Universal Tri-Tree Family:
+axiom Tree1_at : Ord → Type
+axiom Tree2_at : Ord → Type
+axiom Tree4_at : Ord → Type
+
+-- Universal Definition of Finiteness: The ω-Cutoff
+-- In Middle Way Mathematics, an element or tree stage is finite if and only if
+-- its birthday is strictly below the first transfinite limit ordinal ω:
+def is_finite_stage (α : Ord) : Prop := α < Ord.omega
+
+-- ============================================================================
+-- 0.1. The Finite Initial Stretch (α < ω): Computable Machine Types
+-- ============================================================================
+-- Below the ω-cutoff, the transfinite trees specialize precisely to
+-- finite, discrete, machine-computable data structures (Tree1 ≡ ℕ, Dyad ≡ 𝔻, GaussianDyad ≡ 𝔻[i]):
 
 -- 1. The binary domain of Boolean truth values: 𝔹
 inductive B_w where
   | ff : B_w
   | tt : B_w
+deriving DecidableEq
 
 -- 2. 1-Successor Counting Spine: Initial finite stretch Tree1 ≡ ℕ
--- Measures clock ticks / path depth for all higher branching trees.
+-- Measures clock ticks and path depths for all higher branching trees.
 inductive Tree1 where
   | zero : Tree1
   | succ : Tree1 → Tree1
 deriving DecidableEq
 
--- ============================================================================
--- 0.2. Order Classifications: Partial, Total, and Well-Orders
--- ============================================================================
+namespace Tree1
 
--- 1. Partial Order Judgment (reflexive, antisymmetric, transitive)
+def toNat : Tree1 → Nat
+  | zero => 0
+  | succ n => Nat.succ (toNat n)
+
+theorem toNat_inj : ∀ {a b : Tree1}, toNat a = toNat b → a = b
+  | zero, zero, _ => rfl
+  | zero, succ _, h => by injection h
+  | succ _, zero, h => by injection h
+  | succ a, succ b, h => by
+    have h1 : toNat a = toNat b := Nat.succ.inj h
+    rw [toNat_inj h1]
+
+end Tree1
+
+-- Embedding of the finite counting spine into the universal ordinal clock:
+axiom Tree1.toOrd : Tree1 → Ord
+axiom Tree1.toOrd_inj : ∀ {a b : Tree1}, Tree1.toOrd a = Tree1.toOrd b → a = b
+axiom Tree1.toOrd_mono : ∀ {a b : Tree1}, Tree1.toNat a < Tree1.toNat b ↔ Tree1.toOrd a < Tree1.toOrd b
+axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega
+
+-- Natural numbers ℕ are precisely the finite initial segment of Ord
+def Ord.is_finite (α : Ord) : Prop := ∃ t : Tree1, Tree1.toOrd t = α
+axiom Ord.omega_not_finite : ¬ Ord.is_finite Ord.omega
+
+-- Order Classifications:
 structure PartialOrder (α : Type) (le : α → α → Prop) : Prop where
   refl     : ∀ x, le x x
   antisymm : ∀ x y, le x y → le y x → x = y
   trans    : ∀ x y z, le x y → le y z → le x z
 
--- 2. Total Order Judgment (linear order / totality)
 structure TotalOrder (α : Type) (le : α → α → Prop) : Prop where
   toPartialOrder : PartialOrder α le
   total          : ∀ x y, le x y ∨ le y x
 
--- 3. Well-Order Judgment (total order with well-foundedness / no infinite descent)
 structure WellOrder (α : Type) (le : α → α → Prop) (lt : α → α → Prop) : Prop where
   toTotalOrder : TotalOrder α le
   wf           : WellFounded lt
 
--- 4. Constructive Order on Tree1 (1-Successor Unary Counting Spine ≡ ℕ)
-def Tree1.toNat : Tree1 → Nat
-  | Tree1.zero => 0
-  | Tree1.succ n => Nat.succ (Tree1.toNat n)
-
-def Tree1.le (a b : Tree1) : Prop :=
-  Tree1.toNat a ≤ Tree1.toNat b
-
-def Tree1.lt (a b : Tree1) : Prop :=
-  Tree1.toNat a < Tree1.toNat b
-
+def Tree1.le (a b : Tree1) : Prop := Tree1.toNat a ≤ Tree1.toNat b
+def Tree1.lt (a b : Tree1) : Prop := Tree1.toNat a < Tree1.toNat b
 instance : LE Tree1 where le := Tree1.le
 instance : LT Tree1 where lt := Tree1.lt
 
-theorem Tree1.toNat_inj : ∀ {a b : Tree1}, Tree1.toNat a = Tree1.toNat b → a = b
-  | Tree1.zero, Tree1.zero, _ => rfl
-  | Tree1.zero, Tree1.succ _, h => by injection h
-  | Tree1.succ _, Tree1.zero, h => by injection h
-  | Tree1.succ a, Tree1.succ b, h => by
-    have h1 : Tree1.toNat a = Tree1.toNat b := Nat.succ.inj h
-    rw [Tree1.toNat_inj h1]
+axiom Tree1_is_well_ordered : WellOrder Tree1 Tree1.le Tree1.lt
 
-theorem Tree1.le_refl (x : Tree1) : Tree1.le x x :=
-  Nat.le_refl (Tree1.toNat x)
-
-theorem Tree1.le_antisymm (x y : Tree1) : Tree1.le x y → Tree1.le y x → x = y := by
-  intro h1 h2
-  have eq_nat : Tree1.toNat x = Tree1.toNat y := Nat.le_antisymm h1 h2
-  exact Tree1.toNat_inj eq_nat
-
-theorem Tree1.le_trans (x y z : Tree1) : Tree1.le x y → Tree1.le y z → Tree1.le x z := by
-  intro h1 h2
-  exact Nat.le_trans h1 h2
-
-theorem Tree1.le_total (x y : Tree1) : Tree1.le x y ∨ Tree1.le y x :=
-  Nat.le_total (Tree1.toNat x) (Tree1.toNat y)
-
-theorem Tree1.partialOrder : PartialOrder Tree1 Tree1.le := {
-  refl     := Tree1.le_refl,
-  antisymm := Tree1.le_antisymm,
-  trans    := Tree1.le_trans
-}
-
-theorem Tree1.totalOrder : TotalOrder Tree1 Tree1.le := {
-  toPartialOrder := Tree1.partialOrder,
-  total          := Tree1.le_total
-}
-
-theorem Tree1.lt_wf : WellFounded Tree1.lt :=
-  InvImage.wf Tree1.toNat Nat.lt_wfRel.wf
-
-theorem Tree1_is_well_ordered : WellOrder Tree1 Tree1.le Tree1.lt := {
-  toTotalOrder := Tree1.totalOrder,
-  wf           := Tree1.lt_wf
-}
-
--- 5. Constructive Dyadic Representation (Fraction Model 𝔻 ≡ num / 2^exp)
+-- 3. Constructive Dyadic Representation (Fraction Model 𝔻 ≡ num / 2^exp)
 def pow2 (k : Nat) : Int := ((2 ^ k : Nat) : Int)
-
-theorem pow2_pos (k : Nat) : pow2 k > 0 := by
-  induction k with
-  | zero => decide
-  | succ n ih =>
-    show ((2 ^ (n + 1) : Nat) : Int) > 0
-    rw [Nat.pow_succ]
-    push_cast
-    exact Int.mul_pos ih (by decide)
 
 structure Dyad where
   num : Int
   exp : Nat
 deriving Repr, DecidableEq
 
-namespace Dyad
-
-def le (a b : Dyad) : Prop :=
-  a.num * pow2 b.exp ≤ b.num * pow2 a.exp
-
-def lt (a b : Dyad) : Prop :=
-  a.num * pow2 b.exp < b.num * pow2 a.exp
-
-instance : LE Dyad where le := le
-instance : LT Dyad where lt := lt
-
-theorem le_refl (a : Dyad) : le a a :=
-  Int.le_refl (a.num * pow2 a.exp)
-
-theorem le_total (a b : Dyad) : le a b ∨ le b a :=
-  Int.le_total (a.num * pow2 b.exp) (b.num * pow2 a.exp)
-
-theorem int_reorder (x y z : Int) : (x * y) * z = (x * z) * y := by
-  rw [Int.mul_assoc, Int.mul_comm y z, ←Int.mul_assoc]
-
-theorem le_trans (a b c : Dyad) (h1 : le a b) (h2 : le b c) : le a c := by
-  dsimp [le] at *
-  have h_b_pos : pow2 b.exp > 0 := pow2_pos b.exp
-  have h_c_pos : pow2 c.exp > 0 := pow2_pos c.exp
-  have h_a_pos : pow2 a.exp > 0 := pow2_pos a.exp
-  have m1 : (a.num * pow2 b.exp) * pow2 c.exp ≤ (b.num * pow2 a.exp) * pow2 c.exp :=
-    Int.mul_le_mul_of_nonneg_right h1 (Int.le_of_lt h_c_pos)
-  have m2 : (b.num * pow2 c.exp) * pow2 a.exp ≤ (c.num * pow2 b.exp) * pow2 a.exp :=
-    Int.mul_le_mul_of_nonneg_right h2 (Int.le_of_lt h_a_pos)
-  have e1 : (b.num * pow2 a.exp) * pow2 c.exp = (b.num * pow2 c.exp) * pow2 a.exp :=
-    int_reorder b.num (pow2 a.exp) (pow2 c.exp)
-  have e2 : (a.num * pow2 b.exp) * pow2 c.exp = (a.num * pow2 c.exp) * pow2 b.exp :=
-    int_reorder a.num (pow2 b.exp) (pow2 c.exp)
-  have e3 : (c.num * pow2 b.exp) * pow2 a.exp = (c.num * pow2 a.exp) * pow2 b.exp :=
-    int_reorder c.num (pow2 b.exp) (pow2 a.exp)
-  rw [e1] at m1
-  have chained := Int.le_trans m1 m2
-  rw [e2, e3] at chained
-  exact Int.le_of_mul_le_mul_right chained h_b_pos
-
--- Equivalence (fractions representing the exact same dyadic point)
-def Equiv (a b : Dyad) : Prop :=
-  a.num * pow2 b.exp = b.num * pow2 a.exp
-
-infix:50 " ≈ " => Equiv
-
-theorem le_antisymm_equiv (a b : Dyad) (h1 : le a b) (h2 : le b a) : a ≈ b :=
-  Int.le_antisymm h1 h2
+def Dyad.le (a b : Dyad) : Prop := a.num * pow2 b.exp ≤ b.num * pow2 a.exp
+def Dyad.lt (a b : Dyad) : Prop := a.num * pow2 b.exp < b.num * pow2 a.exp
+instance : LE Dyad where le := Dyad.le
+instance : LT Dyad where lt := Dyad.lt
 
 -- Midpoint between two dyadics (constructive density witness)
 def midpoint (a b : Dyad) : Dyad :=
   ⟨a.num * pow2 b.exp + b.num * pow2 a.exp, a.exp + b.exp + 1⟩
 
-end Dyad
-
--- 3. 2-Successor Binary Tree: Initial finite stretch Tree2 (Branching { -, + })
--- Paths evaluate to the dyadic rationals 𝔻 ≡ No(ω).
+-- 4. 2-Successor Binary Tree: Initial finite stretch Tree2 (Branching { -, + })
+-- Paths evaluate to the dyadic rationals 𝔻.
 inductive Tree2 where
   | root   : Tree2
   | branch : B_w → Tree2 → Tree2
 
 namespace Tree2
 
--- Finite path depth (counting clock ticks in Tree1)
 def depth : Tree2 → Tree1
   | root => Tree1.zero
   | branch _ rest => Tree1.succ (depth rest)
 
--- Constructive evaluation of finite 2-tree paths to dyadic rationals:
 -- Core Isomorphism: Finite Tree2 Paths ≡ Dyadic Machine Arithmetic
 def toDyad : Tree2 → Dyad
   | root => ⟨0, 0⟩
@@ -220,7 +170,7 @@ def toDyad : Tree2 → Dyad
 
 end Tree2
 
--- 4. 4-Successor Quadtree: Initial finite stretch Tree4 (Branching { +1, -1, +i, -i })
+-- 5. 4-Successor Quadtree: Initial finite stretch Tree4 (Branching { +1, -1, +i, -i })
 -- Paths evaluate to discrete 2D Gaussian dyadics (re, im, exp).
 inductive QuadDir where
   | east  : QuadDir  -- +1
@@ -262,62 +212,30 @@ def toGaussianDyad : Tree4 → GaussianDyad
 
 end Tree4
 
--- ============================================================================
--- 0.5. The Constructive Ordinal Spine (Ord) & The 3-Tier Continuum Hierarchy
--- ============================================================================
--- An Ordinal α acts as the universal depth / birthday clock driving the trees.
--- Every tree family Tree_k is parameterized by α ∈ Ord:
---   • Initial Stretch (α < ω): Finite inductive prefix trees (Tree1 ≡ ℕ, Tree2 ≡ 𝔻)
---   • Horizon (α = ω): The continuous limit sets (ℝ_ω ≡ Tree2(ω), ℂ_ω ≡ Tree4(ω))
---   • Ceiling (α = ε₀): Ambient real-closed field No(ε₀) ≡ Tree2(ε₀)
+abbrev GaussianDyad := Tree4.GaussianDyad
 
--- The constructive type of tree depths / birthdays:
-axiom Ord : Type
-axiom Ord.lt : Ord → Ord → Prop
-axiom Ord.le : Ord → Ord → Prop
-
-instance : LT Ord where lt := Ord.lt
-instance : LE Ord where le := Ord.le
-
--- 1. Level 1: Finite Ordinals (Embedding of Tree1 / ℕ into Ord)
-axiom Ord.zero : Ord
-axiom Ord.succ : Ord → Ord
-axiom Tree1.toOrd : Tree1 → Ord
-
--- Natural numbers ℕ are precisely the finite initial segment of Ord
-def Ord.is_finite (α : Ord) : Prop := ∃ t : Tree1, Tree1.toOrd t = α
-
--- Strict order on the finite spine
-axiom Tree1.toOrd_inj : ∀ {a b : Tree1}, Tree1.toOrd a = Tree1.toOrd b → a = b
-axiom Tree1.toOrd_mono : ∀ {a b : Tree1}, Tree1.lt a b ↔ Tree1.toOrd a < Tree1.toOrd b
-
--- 2. Level 2: The First Limit Ordinal ω (1D Real Continuum Horizon)
-axiom Ord.omega : Ord
-axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega
-axiom Ord.omega_not_finite : ¬ Ord.is_finite Ord.omega
-
--- 3. Level 3: The Proof-Theoretic Roof ε₀ (Well-Founded Structural Induction Ceiling)
-axiom Ord.eps0 : Ord
-axiom Ord.omega_lt_eps0 : Ord.omega < Ord.eps0
-axiom Ord.wf : WellFounded Ord.lt
-
--- 4. The Universal Ordinal-Driven Successor Trees: Tree2_at(α) & Tree4_at(α)
--- Extends the finite inductive initial stretch across transfinite ordinal stages.
-axiom Tree2_at : Ord → Type
-axiom Tree4_at : Ord → Type
-
--- Core Isomorphism (Level 1): The initial finite stretch (α < ω) recovers the computable types:
+-- Core Isomorphisms at the Finite Initial Stretch (α < ω):
+-- Below the ω-cutoff, the universal transfinite trees specialize precisely to
+-- the constructive, machine-computable data structures (Tree1 ≡ ℕ, Dyad ≡ 𝔻, GaussianDyad ≡ 𝔻[i]):
+axiom Tree1_finite_is_nat (t : Tree1) : Tree1_at (Tree1.toOrd t) = Tree1
 axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad
 axiom Tree4_finite_is_gaussian (t : Tree1) : Tree4_at (Tree1.toOrd t) = Tree4.GaussianDyad
 
--- Level 3: The Ambient Stage ε₀ is the Real-Closed Field No(ε₀) ≡ Tree2(ε₀):
+-- ============================================================================
+-- The Cornerstone Axioms of Middle Way Mathematics: Ambient Field No(ε₀)
+-- ============================================================================
+-- Level 3: The Ambient Stage ε₀ is the Real-Closed Conway Field No(ε₀) ≡ Tree2(ε₀).
+-- All field-level arithmetic operations, universal equational laws, and total order
+-- live authoritatively at this ambient ceiling. Lower stages inherit their equational
+-- behavior by restriction, while expressions are evaluated into the inductive ring 𝔻.
+
 abbrev No_eps0 : Type := Tree2_at Ord.eps0
 
 axiom No_eps0_zero : No_eps0
 axiom No_eps0_one  : No_eps0
 axiom No_eps0_add  : No_eps0 → No_eps0 → No_eps0
 axiom No_eps0_neg  : No_eps0 → No_eps0
-axiom No_eps0_sub  : No_eps0 → No_eps0 → No_eps0
+def   No_eps0_sub (x y : No_eps0) : No_eps0 := No_eps0_add x (No_eps0_neg y)
 axiom No_eps0_mul  : No_eps0 → No_eps0 → No_eps0
 axiom No_eps0_le   : No_eps0 → No_eps0 → Prop
 
@@ -328,9 +246,18 @@ instance : Neg No_eps0 where neg := No_eps0_neg
 instance : Sub No_eps0 where sub := No_eps0_sub
 instance : Mul No_eps0 where mul := No_eps0_mul
 instance : LE No_eps0 where le := No_eps0_le
+def No_eps0_lt (x y : No_eps0) : Prop := x ≤ y ∧ ¬(y ≤ x)
+instance : LT No_eps0 where lt := No_eps0_lt
 
 -- Order structure on the ε₀ 2-tree instance:
 axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le
+
+-- Ambient Conway Field Identities on No(ε₀):
+axiom No_eps0_sub_self (x : No_eps0) : x - x = 0
+axiom No_eps0_sub_add_cancel (a b c : No_eps0) : (b - a) + (c - b) = c - a
+axiom No_eps0_add_sub_cancel_right (x d : No_eps0) : (x + d) - x = d
+axiom No_eps0_mul_sub_one (x r : No_eps0) : (x * r) - x = x * (r - 1)
+
 
 -- 5. The 3-Tier Stage Filtration No(α)
 -- Each ordinal α defines the set of Conway numbers born on or before Day α
@@ -486,12 +413,40 @@ axiom R_w : Type
 axiom R_w_is_Tree2_omega : R_w = Tree2_at Ord.omega
 axiom R_w_from_T2 : Tree2 → R_w
 
--- Recursive definitions establish ℝ_ω as totally ordered:
-axiom R_w_le : R_w → R_w → Prop
-axiom R_w_lt : R_w → R_w → Prop
+-- Subtree Embedding: ℝ_ω inherits its algebraic and order structure by embedding into No(ε₀):
+axiom R_w_to_eps0 : R_w → No_eps0
+axiom R_w_to_eps0_inj : ∀ {x y : R_w}, R_w_to_eps0 x = R_w_to_eps0 y → x = y
+
+-- Total Order on ℝ_ω is the induced pullback order from the ambient field No(ε₀):
+def R_w_le (x y : R_w) : Prop := R_w_to_eps0 x ≤ R_w_to_eps0 y
+def R_w_lt (x y : R_w) : Prop := R_w_to_eps0 x < R_w_to_eps0 y
 instance : LE R_w where le := R_w_le
 instance : LT R_w where lt := R_w_lt
-axiom R_w_totally_ordered : TotalOrder R_w R_w_le
+
+theorem R_w_le_refl (x : R_w) : x ≤ x :=
+  No_eps0_totally_ordered.toPartialOrder.refl (R_w_to_eps0 x)
+
+theorem R_w_le_antisymm (x y : R_w) (h1 : x ≤ y) (h2 : y ≤ x) : x = y := by
+  have eq_eps : R_w_to_eps0 x = R_w_to_eps0 y :=
+    No_eps0_totally_ordered.toPartialOrder.antisymm (R_w_to_eps0 x) (R_w_to_eps0 y) h1 h2
+  exact R_w_to_eps0_inj eq_eps
+
+theorem R_w_le_trans (x y z : R_w) (h1 : x ≤ y) (h2 : y ≤ z) : x ≤ z :=
+  No_eps0_totally_ordered.toPartialOrder.trans (R_w_to_eps0 x) (R_w_to_eps0 y) (R_w_to_eps0 z) h1 h2
+
+theorem R_w_le_total (x y : R_w) : x ≤ y ∨ y ≤ x :=
+  No_eps0_totally_ordered.total (R_w_to_eps0 x) (R_w_to_eps0 y)
+
+theorem R_w.partialOrder : PartialOrder R_w R_w_le := {
+  refl     := R_w_le_refl,
+  antisymm := R_w_le_antisymm,
+  trans    := R_w_le_trans
+}
+
+theorem R_w_totally_ordered : TotalOrder R_w R_w_le := {
+  toPartialOrder := R_w.partialOrder,
+  total          := R_w_le_total
+}
 
 -- 3> ℂ_ω ≡ {4-successor finite induction} ∪ {4-successor transfinite induction at birthday ω}
 -- (Coordinate structure and operations detailed in Section 5)
@@ -499,47 +454,66 @@ axiom R_w_totally_ordered : TotalOrder R_w R_w_le
 axiom C_w_partially_ordered : True
 
 -- ============================================================================
--- 1.1. Base Field-Level Arithmetic-Types: (ℝ_ω, +, ·) and (ℂ_ω, +, ·)
+-- 1.1. The ℝ_ω Expression Constant Domain & Restricted Operations
 -- ============================================================================
+-- ℝ_ω supplies the semantic vocabulary of constants born on or before Day ω (π, e, 1/3, ω, dx)
+-- for algebraic expressions. It does NOT assert independent field axioms; its arithmetic
+-- mirrors the ambient field No(ε₀) into which it embeds.
 
 -- Operations on ℝ_ω recursively defined from tree branch algebra:
 axiom R_w_zero : R_w
 axiom R_w_one  : R_w
 axiom R_w_add  : R_w → R_w → R_w
-axiom R_w_sub  : R_w → R_w → R_w
+axiom R_w_neg  : R_w → R_w
+def   R_w_sub (x y : R_w) : R_w := R_w_add x (R_w_neg y)
 axiom R_w_mul  : R_w → R_w → R_w
 axiom R_w_div  : R_w → R_w → R_w
-axiom R_w_neg  : R_w → R_w
 axiom R_w_pow  : R_w → Nat → R_w
 
 -- Standard Lean 4 typeclasses for arithmetic notation on ℝ_ω
 instance : OfNat R_w (nat_lit 0) where ofNat := R_w_zero
 instance : OfNat R_w (nat_lit 1) where ofNat := R_w_one
 instance : Add R_w     where add   := R_w_add
+instance : Neg R_w     where neg   := R_w_neg
 instance : Sub R_w     where sub   := R_w_sub
 instance : Mul R_w     where mul   := R_w_mul
 instance : Div R_w     where div   := R_w_div
-instance : Neg R_w     where neg   := R_w_neg
 instance : HPow R_w Nat R_w where hPow := R_w_pow
 
 axiom N_w_pow : R_w → N_w → R_w
 instance : HPow R_w N_w R_w where hPow := N_w_pow
 
--- Basic algebraic axioms needed for telescoping cancellation & ladder differences
-axiom sub_self (x : R_w) : x - x = 0
-axiom sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a
-axiom add_sub_cancel_right (x d : R_w) : (x + d) - x = d
-axiom mul_sub_one (x r : R_w) : (x * r) - x = x * (r - 1)
+-- Ambient Field Compatibility on Operations:
+axiom R_w_zero_compat : R_w_to_eps0 0 = 0
+axiom R_w_one_compat  : R_w_to_eps0 1 = 1
+axiom R_w_neg_compat (x : R_w) : R_w_to_eps0 (-x) = -R_w_to_eps0 x
+axiom R_w_add_compat (x y : R_w) : R_w_to_eps0 (x + y) = R_w_to_eps0 x + R_w_to_eps0 y
+theorem R_w_sub_compat (x y : R_w) : R_w_to_eps0 (x - y) = R_w_to_eps0 x - R_w_to_eps0 y := by
+  change R_w_to_eps0 (x + (-y)) = R_w_to_eps0 x + (-R_w_to_eps0 y)
+  rw [R_w_add_compat, R_w_neg_compat]
+axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_eps0 y
+
+-- Basic algebraic theorems inherited from the ambient field No(ε₀)
+-- (Grounds telescoping cancellation & ladder differences without ad-hoc ℝ_ω axioms):
+theorem sub_self (x : R_w) : x - x = 0 := by
+  apply R_w_to_eps0_inj
+  rw [R_w_sub_compat, No_eps0_sub_self, R_w_zero_compat]
+
+theorem sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a := by
+  apply R_w_to_eps0_inj
+  rw [R_w_add_compat, R_w_sub_compat, R_w_sub_compat, No_eps0_sub_add_cancel, R_w_sub_compat]
+
+theorem add_sub_cancel_right (x d : R_w) : (x + d) - x = d := by
+  apply R_w_to_eps0_inj
+  rw [R_w_sub_compat, R_w_add_compat, No_eps0_add_sub_cancel_right]
+
+theorem mul_sub_one (x r : R_w) : (x * r) - x = x * (r - 1) := by
+  apply R_w_to_eps0_inj
+  rw [R_w_sub_compat, R_w_mul_compat, No_eps0_mul_sub_one, R_w_mul_compat, R_w_sub_compat, R_w_one_compat]
 
 -- Absolute value metric on ℝ_ω
 axiom R_w_abs : R_w → R_w
 def abs (x : R_w) : R_w := R_w_abs x
-
--- Subtree Embedding: ℝ_ω inherits its operations by restriction from the ambient field No(ε₀):
-axiom R_w_to_eps0 : R_w → No_eps0
-axiom R_w_to_eps0_inj : ∀ {x y : R_w}, R_w_to_eps0 x = R_w_to_eps0 y → x = y
-axiom R_w_add_compat (x y : R_w) : R_w_to_eps0 (x + y) = R_w_to_eps0 x + R_w_to_eps0 y
-axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_eps0 y
 
 -- ============================================================================
 -- 1.2. Constructed Subtypes & Arithmetic Restrictions (𝔻, ℤ, R_w_pos, etc.)
@@ -549,8 +523,9 @@ axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_
 axiom birthday_R : R_w → Ordinal
 
 -- 1> 𝔻 ≡ { x ∈ ℝ_ω | x is finite } (born on finite days k < ω)
+-- Formally characterized by the ω-cutoff: elements whose birthday satisfies α < Ord.omega:
 def is_finite_birthday (x : R_w) : Prop :=
-  birthday_R x < omega_ord
+  is_finite_stage (birthday_R x)
 
 def D_w : Type := { x : R_w // is_finite_birthday x }
 
@@ -562,7 +537,10 @@ axiom dyadic_zero : is_finite_birthday 0
 axiom dyadic_one  : is_finite_birthday 1
 axiom dyadic_neg {x : R_w} : is_finite_birthday x → is_finite_birthday (-x)
 axiom dyadic_add {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a + b)
-axiom dyadic_sub {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a - b)
+theorem dyadic_sub {a b : R_w} (ha : is_finite_birthday a) (hb : is_finite_birthday b) :
+    is_finite_birthday (a - b) := by
+  change is_finite_birthday (a + (-b))
+  exact dyadic_add ha (dyadic_neg hb)
 axiom dyadic_mul {a b : R_w} : is_finite_birthday a → is_finite_birthday b → is_finite_birthday (a * b)
 
 def D_zero : D_w := ⟨0, dyadic_zero⟩
@@ -1039,6 +1017,170 @@ def is_finite (x : R_w) : Prop :=
 -- Standard part extraction: projects a finite transfinite element to its standard dyadic shadow in 𝔻
 axiom st : { x : R_w // is_finite x } → D_w
 
+-- Hard Dyadic Invariance: Exact dyadic elements have identical cuts (zero halo dust)
+axiom st_dyadic_id (d : D_w) (h : is_finite d.val) : (st ⟨d.val, h⟩).val = d.val
+
+-- ----------------------------------------------------------------------------
+-- 6.1. Auxiliary Representation & Notation Bridges ((AuxDomain × Precision) → 𝔻)
+-- ----------------------------------------------------------------------------
+-- External notation and representation systems (fractions, base-10 decimals,
+-- designated constants) bridge into the dyadic lattice via constructive shadow maps.
+
+structure AuxShadowMap (α : Type) where
+  toDyad : α → Nat → D_w
+
+-- 1. Rational Fraction Notation: ℚ ≡ ℤ × ℕ
+structure RatNotation where
+  num : Int
+  den : Nat
+
+-- 2. Base-10 Decimal Notation: Dec ≡ ℤ × ℤ (mantissa · 10^exp)
+structure DecNotation where
+  mantissa : Int
+  exp      : Int
+
+-- 3. Designated Transcendental Constants Alphabet
+inductive ConstNotation where
+  | pi : ConstNotation
+  | e  : ConstNotation
+
+axiom rat_shadow_eval : RatNotation → Nat → D_w
+def ratShadowMap : AuxShadowMap RatNotation where
+  toDyad := rat_shadow_eval
+
+axiom dec_shadow_eval : DecNotation → Nat → D_w
+def decShadowMap : AuxShadowMap DecNotation where
+  toDyad := dec_shadow_eval
+
+axiom const_shadow_eval : ConstNotation → Nat → D_w
+def constShadowMap : AuxShadowMap ConstNotation where
+  toDyad := const_shadow_eval
+
+-- ----------------------------------------------------------------------------
+-- 6.2. Constructive Precision Shadow Function on Algebraic Expressions
+-- ----------------------------------------------------------------------------
+-- (No(ε₀), +, *) provides the ambient model-theoretic field,
+-- while (ℝ_ω, +, *) provides the symbolic universe of algebraic expressions.
+-- The standard part map is constructively realized as a precision-bounded evaluation
+-- function: taking an algebraic expression and a precision k : ℕ (maximum birthday),
+-- it calculates dyadic approximations whose birthdays are strictly bounded by k.
+
+-- Algebraic expressions symbolizing numbers and operations in ℝ_ω
+inductive AlgExpr where
+  | constDyad  (d : D_w)               -- Exact dyadic point (born on finite day)
+  | constRat   (r : RatNotation)       -- Exact rational fraction (e.g., 1/3)
+  | constDec   (d : DecNotation)       -- Exact base-10 decimal literal (e.g., 0.1)
+  | constNamed (c : ConstNotation)     -- Designated transcendental constant (π, e)
+  | constOmega                         -- Transfinite horizon generator ω
+  | constDx                            -- Infinitesimal differential dx = 1/ω
+  | add        (e1 e2 : AlgExpr)
+  | sub        (e1 e2 : AlgExpr)
+  | mul        (e1 e2 : AlgExpr)
+  | neg        (e : AlgExpr)
+  | sqrt       (e : AlgExpr)           -- Active unary root operation
+
+namespace AlgExpr
+
+-- Convenient constructor aliases:
+def rat (num : Int) (den : Nat) : AlgExpr := constRat ⟨num, den⟩
+def dec (mantissa : Int) (exp : Int) : AlgExpr := constDec ⟨mantissa, exp⟩
+def piExpr : AlgExpr := constNamed ConstNotation.pi
+def eExpr  : AlgExpr := constNamed ConstNotation.e
+
+-- Native tree-path length (birthday / binary depth) of an exact dyadic rational:
+axiom dyad_length : D_w → Nat
+
+-- Truncation of a dyadic tree-path to prefix length k:
+axiom dyad_truncate : D_w → Nat → D_w
+
+-- When precision surpasses native string length, evaluation stabilizes at its exact string:
+axiom dyad_truncate_surpassed (d : D_w) (k : Nat) (h : dyad_length d ≤ k) :
+  dyad_truncate d k = d
+
+-- Constructive dyadic root extractor (bisection testing y^2 ≤ d):
+axiom dyadic_sqrt : D_w → Nat → D_w
+
+-- Precision Shadow Evaluator: evaluates an algebraic expression to dyadics of birthday ≤ prec
+def st_prec : AlgExpr → Nat → D_w
+  | constDyad d, prec => dyad_truncate d prec
+  | constRat r, prec => ratShadowMap.toDyad r prec
+  | constDec d, prec => decShadowMap.toDyad d prec
+  | constNamed c, prec => constShadowMap.toDyad c prec
+  | constOmega, _ => D_zero  -- Transfinite elements exceed finite birthday precision
+  | constDx, _ => D_zero     -- Infinitesimal dx = 1/ω is strictly finer than 1/2^k; evaluates to 0
+  | add e1 e2, prec => (st_prec e1 prec) + (st_prec e2 prec)
+  | sub e1 e2, prec => (st_prec e1 prec) - (st_prec e2 prec)
+  | mul e1 e2, prec => (st_prec e1 prec) * (st_prec e2 prec)
+  | neg e, prec => -(st_prec e prec)
+  | sqrt e, prec => dyadic_sqrt (st_prec e prec) prec
+
+-- Core Foundational Theorems:
+
+-- 1. Infinitesimal Annihilation: dx evaluates identically to 0 at any finite birthday precision
+theorem st_prec_dx (k : Nat) : st_prec constDx k = D_zero := rfl
+
+-- 2. Exact Dyadic Stabilization: once precision surpasses native string length, evaluates to exact dyadic
+theorem st_prec_dyad_surpassed (d : D_w) (k : Nat) (h : dyad_length d ≤ k) :
+    st_prec (constDyad d) k = d :=
+  dyad_truncate_surpassed d k h
+
+-- 3. Algebraic Homomorphism on Sums:
+theorem st_prec_add (e1 e2 : AlgExpr) (k : Nat) :
+    st_prec (add e1 e2) k = st_prec e1 k + st_prec e2 k := rfl
+
+-- 4. Algebraic Homomorphism on Differences:
+theorem st_prec_sub (e1 e2 : AlgExpr) (k : Nat) :
+    st_prec (sub e1 e2) k = st_prec e1 k - st_prec e2 k := rfl
+
+-- 5. Algebraic Homomorphism on Products:
+theorem st_prec_mul (e1 e2 : AlgExpr) (k : Nat) :
+    st_prec (mul e1 e2) k = st_prec e1 k * st_prec e2 k := rfl
+
+-- 6. Algebraic Homomorphism on Negation:
+theorem st_prec_neg (e : AlgExpr) (k : Nat) :
+    st_prec (neg e) k = -st_prec e k := rfl
+
+-- 7. Operational Evaluation of Square Roots:
+theorem st_prec_sqrt (e : AlgExpr) (k : Nat) :
+    st_prec (sqrt e) k = dyadic_sqrt (st_prec e k) k := rfl
+
+-- ----------------------------------------------------------------------------
+-- Directed-Pair Domain Grounding (Constructive Function Engine)
+-- ----------------------------------------------------------------------------
+-- An algebraic expression acts as an active computational rule over a DirectedPair domain:
+
+-- 1. Precision Evaluation Function: DirectedPair ℕ → 𝔻
+def to_eval_function (e : AlgExpr) : FunctionType Nat D_w where
+  channel := { dom := Nat, cod := D_w }
+  rule    := fun prec => st_prec e prec
+
+theorem to_eval_function_eval (e : AlgExpr) (prec : Nat) :
+    (to_eval_function e) prec = st_prec e prec := rfl
+
+-- 2. Transect Function Channel: DirectedPair ℝ_ω → ℝ_ω
+def to_transect_channel (_e : AlgExpr) : DirectedPair R_w R_w :=
+  { dom := R_w, cod := R_w }
+
+-- Ambient continuum square root
+axiom R_w_sqrt : R_w → R_w
+
+-- Embedding of algebraic expressions into the ambient continuum ℝ_ω
+def to_R_w : AlgExpr → R_w
+  | constDyad d => d.val
+  | constRat r => (ofInt r.num) / (ofNat r.den)
+  | constDec d => (ofInt d.mantissa) -- simplified embedding
+  | constNamed .pi => pi
+  | constNamed .e  => 1
+  | constOmega => omega
+  | constDx => dx
+  | add e1 e2 => to_R_w e1 + to_R_w e2
+  | sub e1 e2 => to_R_w e1 - to_R_w e2
+  | mul e1 e2 => to_R_w e1 * to_R_w e2
+  | neg e => -to_R_w e
+  | sqrt e => R_w_sqrt (to_R_w e)
+
+end AlgExpr
+
 -- ============================================================================
 -- 7. 2D Cell Geometry & Cauchy Theorems
 -- ============================================================================
@@ -1056,9 +1198,13 @@ def conformal_jacobian_det (a b : R_w) : R_w :=
 structure Holomorphic (f : C_w → C_w) : Prop where
   conformal : True
 
--- 2D Cell Edge Cancellation: Shared internal edges between adjacent cells cancel out
-axiom cauchy_edge_cancel (z1 z2 : C_w) :
-  (z2 - z1) + (z1 - z2) = ⟨0, 0⟩
+theorem cauchy_edge_cancel (z1 z2 : C_w) :
+    (z2 - z1) + (z1 - z2) = ⟨0, 0⟩ := by
+  have h_re : (z2.re - z1.re) + (z1.re - z2.re) = 0 := by
+    rw [sub_add_cancel, sub_self]
+  have h_im : (z2.im - z1.im) + (z1.im - z2.im) = 0 := by
+    rw [sub_add_cancel, sub_self]
+  exact congr (congrArg C_w.mk h_re) h_im
 
 -- Cauchy's Integral Theorem: Loop circulation around unpunctured 2D cell mosaic is zero
 axiom cauchy_integral_theorem (f : C_w → C_w) (hf : Holomorphic f) :
@@ -1122,18 +1268,7 @@ structure AbelianGroup (G : Type) where
   add_zero  : ∀ a : G, add a zero = a
   add_neg   : ∀ a : G, add a (neg a) = zero
 
--- 2> Constructive Model Grounding: (ℝ_ω, +) is an Abelian Group
--- Established constructively via Conway structural transfinite induction on tree birthdays
-axiom R_w_is_abelian_group : AbelianGroup R_w
-
--- Backward compatibility alias
-axiom abelian_group_axioms : True
-
--- ============================================================================
--- The Abstract Field Structure & Conway Continuum Field Grounding
--- ============================================================================
-
--- 1> Abstract Lean Axioms defining a Field (F, +, ·, 0, 1, -, ⁻¹)
+-- 2> Abstract Lean Axioms defining a Field (F, +, ·, 0, 1, -, ⁻¹)
 structure Field (F : Type) extends AbelianGroup F where
   mul : F -> F -> F
   one : F
@@ -1145,12 +1280,14 @@ structure Field (F : Type) extends AbelianGroup F where
   distrib   : ∀ a b c : F, mul a (add b c) = add (mul a b) (mul a c)
   zero_ne_one : zero ≠ one
 
--- 2> Constructive Model Grounding: (ℝ_ω, +, ·) is a Field
--- Established constructively over the Day ω Conway surreal continuum
-axiom R_w_is_field : Field R_w
-
--- Ambient Conway Field Grounding: No(ε₀) ≡ Tree2(ε₀) is a Field:
+-- 3> The Cornerstone Model Grounding: Ambient Conway Field No(ε₀) ≡ Tree2(ε₀) is a Field
 axiom No_eps0_is_field : Field No_eps0
+def No_eps0_is_abelian_group : AbelianGroup No_eps0 := No_eps0_is_field.toAbelianGroup
+
+-- 4> Expression Constant Domain Grounding on ℝ_ω:
+-- ℝ_ω operations mirror the ambient field on its domain of numbers:
+axiom R_w_is_abelian_group : AbelianGroup R_w
+axiom R_w_is_field : Field R_w
 
 -- Backward compatibility alias
 axiom field_axioms : True

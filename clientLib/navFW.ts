@@ -1,9 +1,7 @@
 import {Elt} from './elt.js'
 import {SVGElt,SVGText,SVGTSpan, textWidth} from './svgElt.js'
 import {Index,IndexItemDesc} from './navIndex.js'
-import {Sed} from './editor.js'
 import { initAnyDJSI, displayAnyDJSI } from './ida.js'
-import { initDrawioEditor } from './drawioBridge.js'
 
 export class Nav {
     static app:string
@@ -29,13 +27,9 @@ export class Nav {
     static segId:string
     static segMap:Map<string,string> = new Map()
     static lastVisits = new Map<string,number>()
-    static editMode:boolean
+    static editMode:boolean = false
     static isReturning = false
     static returningScrollTop = 0
-    static devLine: SVGElt
-    static devLineRect: SVGElt
-    static devLineBlock: SVGText
-    static devLineHeight = 36
     
     static marginLeft:number
     static marginTop:number
@@ -57,7 +51,7 @@ export class Nav {
     static textFontSize = 16
 
     static getTextStyle(){
-        const bPad = Nav.editMode ? 95 : 50
+        const bPad = 50
         return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 5}px ${bPad}px ${Nav.foPadding + 5}px;font-size:${Nav.textFontSize}px;display:flow-root;`
     }
 
@@ -68,7 +62,7 @@ export class Nav {
         Nav.app = app
         Nav.parent = parent
         Nav.cb = cb
-        Nav.editMode = editMode
+        Nav.editMode = false
         Nav.segDiv = new Elt('div')
         Nav.segDiv.setA('style',Nav.getTextStyle())
         Nav.frame = new SVGElt('svg')
@@ -82,12 +76,6 @@ export class Nav {
         Nav.returnControl = new SVGTSpan(Nav.lineBlock)
         Nav.returnControl.setAA(['visibility','hidden','pointer-events','none'])
 
-        if (Nav.editMode) {
-            Nav.devLine = new SVGElt('g')
-            Nav.devLineRect = new SVGElt('rect')
-            Nav.devLineBlock = new SVGText()
-        }
-
         Nav.index = new SVGElt('svg')
         Nav.indexRect = new SVGElt('rect')
         Nav.foRect = new SVGElt('rect')
@@ -97,29 +85,18 @@ export class Nav {
         Nav.frame.append(Nav.line)
         Nav.line.append(Nav.lineRect)
         Nav.line.append(Nav.lineBlock)
-        if (Nav.editMode) {
-            Nav.frame.append(Nav.devLine)
-            Nav.devLine.append(Nav.devLineRect)
-            Nav.devLine.append(Nav.devLineBlock)
-        }
         Nav.frame.append(Nav.index)
         Nav.frame.append(Nav.foRect)
         Nav.frame.append(Nav.fo)
         //
         const fm = Nav.frameMargin
         const h = Nav.lineHeight
-        const devH = Nav.editMode ? Nav.devLineHeight : 0
-        const yDev = 2 * fm + h
-        const y = Nav.editMode ? (3 * fm + h + devH) : (2 * fm + h)
+        const y = 2 * fm + h
         const xp =  Nav.margin.start
         const yp = 1/2 * Nav.lineHeight + .6 * Nav.fontSize
         Nav.frame.setA('style',`background-color:${bgC}`)
         Nav.line.setA('height',h)
         Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`])
-        if (Nav.editMode) {
-            Nav.devLine.setA('height', devH)
-            Nav.devLineRect.setAA(['x', fm, 'y', yDev, 'height', devH, 'fill', '#fef9c3'])
-        }
         Nav.index.setAA(['x',fm,'y',y])
         Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`])
         Nav.foRect.setAA(['y',y,'fill',`${Nav.foBgColor}`])
@@ -135,7 +112,6 @@ export class Nav {
         //
         Nav.setTextSizeControl()
         Nav.setReturnControl()
-        if(Nav.editMode) { new Sed(Nav.color) }
         if(Nav.parent){ Nav.addNavLineIndexItem('Banner',Nav.toBanner) }
         //
         window.onresize = () => {Nav.display()}
@@ -289,23 +265,15 @@ export class Nav {
         const bw = window.innerWidth - Nav.offset
         const bh = window.innerHeight - Nav.offset
         const fm = Nav.frameMargin
-        const devH = Nav.editMode ? Nav.devLineHeight : 0
-        const y = Nav.editMode ? (3 * fm + Nav.lineHeight + devH) : (2 * fm + Nav.lineHeight)
+        const y = 2 * fm + Nav.lineHeight
         //
         Nav.frame.setAA(['width',bw,'height',bh])
         Nav.line.setA('width',bw-2*fm)
         Nav.lineRect.setA('width',bw-2*fm)
-        if (Nav.editMode && Nav.devLine) {
-            Nav.devLine.setA('width', bw - 2 * fm)
-            Nav.devLineRect.setA('width', bw - 2 * fm)
-        }
-        Nav.foHeight = bh - Nav.lineHeight - (Nav.editMode ? devH + 4 * fm : 3 * fm) 
+        Nav.foHeight = bh - Nav.lineHeight - 3 * fm 
 
         //
         const textSizeControlSize = Nav.setTextSizeControlPos(bw-2*fm)
-        if (Nav.editMode){ 
-            Sed.setEditControlsPos(bw - 2 * fm)
-        }
         //
         let indexWidth = 0
         let layoutCB = this.cb
@@ -375,7 +343,6 @@ export class Nav {
     //
     static processSelection(){
         Nav.textSizeControl.setAA(['visibility','hidden','pointer-events','none'])
-        if(Nav.editMode) {Sed.setEditControlStatus(false)}
         const index = Nav.indices[Nav.currentIndex]
         const selected = index.choices[index.chosen]
         const [c,w] = selected //[IndexItemDesc,SVGTSpan]
@@ -396,7 +363,6 @@ export class Nav {
                 Nav.loadSegment()
                 initAnyDJSI()
                 Nav.setSegPos()
-                if (Nav.editMode) {Sed.setEditControlStatus(true)}
             } else if (c.initCB){
                 const diagram = c.initCB()
                 Nav.fo.append(diagram)
@@ -427,11 +393,7 @@ export class Nav {
     static async loadSegment(){
         Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
         Nav.fo.setA('style', 'overflow-y:auto;overflow-x:hidden;')
-        let seg = (Nav.editMode) ? Nav.segMap.get(Nav.segId) 
-                                    : Nav.embeddedSeg(Nav.segId)  
-        if (!seg && Nav.editMode) {
-            seg = Nav.embeddedSeg(Nav.segId)
-        }
+        let seg = Nav.embeddedSeg(Nav.segId)  
         if (!seg) {
             try {
                 const res = await fetch(`/api/segment-content/${Nav.segId}`);
@@ -455,16 +417,13 @@ export class Nav {
             if ((window as any).MathJax?.typesetPromise) {
                 (window as any).MathJax.typesetPromise([Nav.segDiv.elt]).catch((err: any) => console.log('MathJax typeset error:', err));
             }
-            if (Nav.editMode) {
-                initDrawioEditor(Nav.segDiv.elt as HTMLElement, Nav.app, Nav.segId);
-            }
         } else {
             Nav.segDiv.elt.innerHTML = `
                 <div style="padding: 40px 20px; text-align: center; color: #64748b; font-family: sans-serif;">
                     <div style="font-size: 2.2rem; margin-bottom: 8px;">📄</div>
                     <h3 style="color: #0f172a; margin-bottom: 6px;">Segment "${Nav.segId || 'Unknown'}" Not Loaded</h3>
                     <p style="font-size: 0.92rem; max-width: 500px; margin: 0 auto 16px; line-height: 1.5;">
-                        The segment file <code>${Nav.segId}.html</code> was not found in active cache. Please verify that the file exists in <code>app1/segs/</code>.
+                        The segment template <code>${Nav.segId}</code> was not found in active cache.
                     </p>
                 </div>
             `;

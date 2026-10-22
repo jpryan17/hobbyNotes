@@ -63,7 +63,6 @@ export async function publishStaticSite(
     const shouldClosePool = !customPool;
 
     const appDir = resolve(rootDir, appCode);
-    const segFolder = resolve(appDir, 'segs');
     const outDirName = options?.outDir || 'builds';
     let rawPageName = (options?.pageName || 'enhanced_index.html').trim();
     if (!rawPageName.toLowerCase().endsWith('.html')) {
@@ -71,13 +70,9 @@ export async function publishStaticSite(
     }
     const buildsFolder = resolve(appDir, outDirName);
     const outputDistPath = resolve(buildsFolder, rawPageName);
-    const outputSegsPath = resolve(segFolder, 'segsFile.json');
 
     if (!existsSync(buildsFolder)) {
         mkdirSync(buildsFolder, { recursive: true });
-    }
-    if (!existsSync(segFolder)) {
-        mkdirSync(segFolder, { recursive: true });
     }
 
     try {
@@ -178,13 +173,6 @@ export async function publishStaticSite(
         const distBytes = Buffer.byteLength(indexFileContent, 'utf8');
         console.log(`[dbPublisher] Written ${outputDistPath} (${distBytes} bytes).`);
 
-        // 5. Synchronize segsFile.json for production builds (avoiding dev builds folder)
-        if (outDirName !== 'builds') {
-            const segArray = segments.map(s => ({ id: s.seg_key, seg: s.content_html }));
-            writeFileSync(outputSegsPath, JSON.stringify(segArray), 'utf8');
-            console.log(`[dbPublisher] Synchronized ${outputSegsPath} (${segArray.length} segments).`);
-        }
-
         const durationMs = Date.now() - startTime;
         console.log(`[dbPublisher] Successfully published ${appCode} in ${durationMs}ms!`);
 
@@ -195,7 +183,7 @@ export async function publishStaticSite(
             distBytes,
             distPath: outputDistPath,
             pageName: rawPageName,
-            segsFilePath: outputSegsPath,
+            segsFilePath: '',
             durationMs,
             timestamp: new Date().toISOString(),
         };
@@ -208,7 +196,7 @@ export async function publishStaticSite(
             distBytes: 0,
             distPath: outputDistPath,
             pageName: rawPageName,
-            segsFilePath: outputSegsPath,
+            segsFilePath: '',
             durationMs: Date.now() - startTime,
             timestamp: new Date().toISOString(),
             error: err.message || String(err),

@@ -116,9 +116,9 @@ async function runAlignment() {
         ['scaffold:r_w_circle', 'dyadic_angle'],
     ]);
     // 2. Backup app1/segs directory
-    const segsDir = path.resolve('app1/segs');
+    const segsDir = path.resolve(fs.existsSync('app1/segs') ? 'app1/segs' : 'archive/app1_segs');
     const backupDir = path.resolve('app1/segs_backup_pre_migration');
-    if (!fs.existsSync(backupDir)) {
+    if (!fs.existsSync(backupDir) && fs.existsSync(segsDir)) {
         fs.mkdirSync(backupDir, { recursive: true });
         const files = fs.readdirSync(segsDir).filter(f => f.endsWith('.html'));
         for (const f of files) {

@@ -70,7 +70,6 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
     const pool = customPool || createDbPool();
     const shouldClosePool = !customPool;
     const appDir = (0, path_1.resolve)(rootDir, appCode);
-    const segFolder = (0, path_1.resolve)(appDir, 'segs');
     const outDirName = options?.outDir || 'builds';
     let rawPageName = (options?.pageName || 'enhanced_index.html').trim();
     if (!rawPageName.toLowerCase().endsWith('.html')) {
@@ -78,12 +77,8 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
     }
     const buildsFolder = (0, path_1.resolve)(appDir, outDirName);
     const outputDistPath = (0, path_1.resolve)(buildsFolder, rawPageName);
-    const outputSegsPath = (0, path_1.resolve)(segFolder, 'segsFile.json');
     if (!(0, fs_1.existsSync)(buildsFolder)) {
         (0, fs_1.mkdirSync)(buildsFolder, { recursive: true });
-    }
-    if (!(0, fs_1.existsSync)(segFolder)) {
-        (0, fs_1.mkdirSync)(segFolder, { recursive: true });
     }
     try {
         console.log(`[dbPublisher] Querying segments from PostgreSQL for app: ${appCode}...`);
@@ -164,12 +159,6 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
         (0, fs_1.writeFileSync)(outputDistPath, indexFileContent, 'utf8');
         const distBytes = Buffer.byteLength(indexFileContent, 'utf8');
         console.log(`[dbPublisher] Written ${outputDistPath} (${distBytes} bytes).`);
-        // 5. Synchronize segsFile.json for production builds (avoiding dev builds folder)
-        if (outDirName !== 'builds') {
-            const segArray = segments.map(s => ({ id: s.seg_key, seg: s.content_html }));
-            (0, fs_1.writeFileSync)(outputSegsPath, JSON.stringify(segArray), 'utf8');
-            console.log(`[dbPublisher] Synchronized ${outputSegsPath} (${segArray.length} segments).`);
-        }
         const durationMs = Date.now() - startTime;
         console.log(`[dbPublisher] Successfully published ${appCode} in ${durationMs}ms!`);
         return {
@@ -179,7 +168,7 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
             distBytes,
             distPath: outputDistPath,
             pageName: rawPageName,
-            segsFilePath: outputSegsPath,
+            segsFilePath: '',
             durationMs,
             timestamp: new Date().toISOString(),
         };
@@ -193,7 +182,7 @@ async function publishStaticSite(appCode = 'app1', customPool, options) {
             distBytes: 0,
             distPath: outputDistPath,
             pageName: rawPageName,
-            segsFilePath: outputSegsPath,
+            segsFilePath: '',
             durationMs: Date.now() - startTime,
             timestamp: new Date().toISOString(),
             error: err.message || String(err),

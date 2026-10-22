@@ -185,9 +185,9 @@ export const tables: TableConfig[] = [
         columns: [
             { column: 'demo_key', label: 'Demo Key', canModify: true, len: 32 },
             { column: 'title', label: 'Demo Title', canModify: true, len: 45 },
-            { column: 'sandbox_type', label: 'Sandbox Type (btd/bid/ttd)', canModify: true, len: 16 },
-            { column: 'canvas_mode', label: 'Canvas Mode', canModify: true, len: 16 },
-            { column: 'init_packet', label: 'Initialization JSON Packet', canModify: true, len: 55, rows: 4 },
+            { column: 'engine', label: 'Engine Type (ttd/btd/bid/fsd)', canModify: true, len: 16 },
+            { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
+            { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
             { column: 'description', label: 'Instructional Description', canModify: true, len: 60, rows: 3 }
         ]
     },
