@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MWM Pseudocode Language &amp; Interpreter Specification</title>
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --heading: #0f172a;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --emerald: #059669;
+      --emerald-light: #ecfdf5;
+      --amber: #d97706;
+      --amber-light: #fffbeb;
+      --violet: #7c3aed;
+      --violet-light: #f5f3ff;
+      --border: #e2e8f0;
+      --border-accent: #cbd5e1;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 0 0 80px 0;
+    }
+
+    /* Top Nav */
+    #top-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--heading);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background: #f1f5f9;
+      color: var(--heading);
+      border-color: var(--border-accent);
+    }
+
+    .nav-btn.primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .nav-btn.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Container */
+    .container {
+      max-width: 920px;
+      margin: 36px auto 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 36px 30px 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .tag-badge {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Sections */
+    section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 22px 0 10px 0;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: var(--text-main);
+      font-size: 15px;
+    }
+
+    ul, ol {
+      margin: 12px 0 18px 24px;
+      font-size: 15px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.6;
+      padding: 18px 22px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 16px 0 20px 0;
+      border: 1px solid #1e293b;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    /* Syntax Highlighting in pre */
+    .kw { color: #38bdf8; font-weight: bold; }        /* cyan keywords */
+    .typ { color: #f472b6; font-weight: bold; }       /* pink types */
+    .fn { color: #fbbf24; font-weight: bold; }        /* yellow functions */
+    .op { color: #cbd5e1; }                           /* light grey operators */
+    .str { color: #a7f3d0; }                          /* mint strings */
+    .num { color: #c084fc; }                          /* violet numbers */
+    .com { color: #64748b; font-style: italic; }      /* slate comments */
+
+    /* Cards & Callouts */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 18px 0;
+      font-size: 14.5px;
+    }
+
+    .callout.emerald {
+      border-left-color: var(--emerald);
+      background: var(--emerald-light);
+    }
+
+    .callout.amber {
+      border-left-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    .callout.violet {
+      border-left-color: var(--violet);
+      background: var(--violet-light);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Comparison & Spec Tables */
+    table.spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px 0;
+      font-size: 13.5px;
+    }
+
+    table.spec-table th {
+      background: #f1f5f9;
+      color: var(--heading);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    table.spec-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    table.spec-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .badge-pill.typed {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-pill.dynamic {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    /* Flow Grid */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 18px 0;
+    }
+
+    @media (max-width: 768px) {
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flow-card {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .flow-card-header {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .flow-card-body {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav id="top-nav">
+    <a href="./overview.html" class="nav-brand">
+      <span>📐</span>
+      <span>Middle Way Mathematics — Language &amp; Architecture</span>
+    </a>
+    <div class="nav-links">
+      <a href="./overview.html" class="nav-btn">⌂ Curriculum Overview</a>
+      <a href="./technical_overview.html" class="nav-btn">⚙️ Technical Overview</a>
+      <a href="./index.html" class="nav-btn primary">🚀 Start App</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Header Card -->
+    <header>
+      <span class="tag-badge">Language &amp; Runtime Specification</span>
+      <h1>MWM Pseudocode &amp; Interpreter Rules</h1>
+      <p class="subtitle">
+        Bridging the strict typing of Directed Equations with the constructive, step-by-step operational execution of discrete tree machines.
+      </p>
+    </header>
+
+    <!-- SECTION 1: THE DUALITY -->
+    <section id="the-duality">
+      <h2><span>⚖️</span> 1. The Architectural Duality: Strict Signature vs. Dynamic Execution</h2>
+      
+      <p>
+        In Middle Way Mathematics, every computational algorithm possesses a <strong>dual identity</strong>. It is simultaneously an axiomatic, machine-certified mathematical identity and an executable, interactive stepper:
+      </p>
+
+      <div class="flow-grid">
+        <div class="flow-card" style="border-color: #bae6fd; background: #f0f9ff;">
+          <div class="flow-card-header" style="color: #0369a1;">
+            <span>The Outer Mathematical Layer</span>
+            <span class="badge-pill typed">Strictly Typed</span>
+          </div>
+          <div class="flow-card-body">
+            <strong>The Directed Equation (DE):</strong><br>
+            A formal statement asserting that for all typed inputs on a discrete domain, there exists a unique target in the codomain:
+            <div style="font-family: var(--font-mono); font-size: 13px; margin: 8px 0; color: #0369a1;">
+              ∀ (x₁, x₂) ∈ Domain₁ × Domain₂, ∃! y ∈ Codomain [ y ≔ Rule(x₁, x₂) ]
+            </div>
+            Anchored directly to <strong>Lean 4 / Mathlib</strong> formal proofs and domain boundary invariants.
+          </div>
+        </div>
+
+        <div class="flow-card" style="border-color: #fed7aa; background: #fffaf5;">
+          <div class="flow-card-header" style="color: #9a3412;">
+            <span>The Inner Operational Layer</span>
+            <span class="badge-pill dynamic">Dynamic Stepper</span>
+          </div>
+          <div class="flow-card-body">
+            <strong>The Pseudocode Interpreter:</strong><br>
+            The constructive witness demonstrating <em>how</em> the result <code>y</code> is obtained in finite mechanical steps:
+            <div style="font-family: var(--font-mono); font-size: 13px; margin: 8px 0; color: #9a3412;">
+              rule Cut(L: Node, R: Node) : Node ≔ ... begin while ... return candidate; end;
+            </div>
+            Operates as a generator-driven state machine recording machine telemetry (call depth, step count, tree cuts, additions).
+          </div>
+        </div>
+      </div>
+
+      <div class="callout emerald">
+        <div class="callout-title">
+          <span>💡</span> The Mathematical Opportunity of this Asymmetry
+        </div>
+        <p>
+          Why is the outer boundary strictly typed while the internal body is dynamically interpreted?
+        </p>
+        <ul style="margin-bottom: 0;">
+          <li><strong>Zero Educational Friction:</strong> Students and authors do not have to fight rigid type-inference compilers for simple loops, index slices, and set aggregations.</li>
+          <li><strong>Strict Boundary Invariants:</strong> The outer signature guarantees that inputs and outputs obey domain contracts (such as Conway Node paths <code>{+, -}*</code>, dyadic rationals <code>𝔻</code>, or hyperreals <code>ℝ_ω</code>), preventing invalid state transitions between curriculum levels.</li>
+          <li><strong>Constructive Witness:</strong> Every Directed Equation is not merely an abstract equality; it is grounded by an operational pseudocode algorithm that computes the value on the discrete tree.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SYNTAX & GRAMMAR -->
+    <section id="grammar-and-syntax">
+      <h2><span>📜</span> 2. Lexical Grammar &amp; Concrete Syntax</h2>
+      <p>
+        MWM Pseudocode uses a clean, Pascal-inspired structured syntax featuring explicit rule headers, local variable declarations, and <code>begin ... end;</code> statement blocks.
+      </p>
+
+      <h3>Rule Declaration Structure</h3>
+      <pre><code><span class="kw">rule</span> <span class="fn">RuleName</span>(param1: <span class="typ">Domain1</span>, param2: <span class="typ">Domain2</span>) : <span class="typ">Codomain</span> <span class="op">≔</span>
+<span class="kw">var</span>
+    localVar1, localVar2: <span class="typ">DomainType</span>;
+    counter: <span class="typ">Integer</span>;
+<span class="kw">begin</span>
+    <span class="com">// 1. Algorithmic assignments</span>
+    localVar1 <span class="op">:=</span> <span class="fn">EmptySet</span>();
+
+    <span class="com">// 2. Structured control flow</span>
+    <span class="kw">for</span> counter <span class="op">:=</span> <span class="num">0</span> <span class="kw">to</span> <span class="num">10</span> <span class="kw">do</span>
+    <span class="kw">begin</span>
+        <span class="kw">if</span> condition <span class="kw">then</span>
+            localVar1 <span class="op">:=</span> localVar1 <span class="op">++</span> <span class="str">'+'</span>
+        <span class="kw">else</span>
+            localVar1 <span class="op">:=</span> localVar1 <span class="op">++</span> <span class="str">'-'</span>;
+    <span class="kw">end</span>;
+
+    <span class="com">// 3. Constructive Return</span>
+    <span class="kw">return</span> localVar1;
+<span class="kw">end</span>;</code></pre>
+
+      <h3>Reserved Keywords</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th width="25%">Category</th>
+            <th width="35%">Keywords</th>
+            <th width="40%">Operational Semantics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Declaration</strong></td>
+            <td><code>rule</code>, <code>function</code>, <code>var</code></td>
+            <td>Defines the algorithm signature, input slots, and local variable scope frame.</td>
+          </tr>
+          <tr>
+            <td><strong>Block Delimiters</strong></td>
+            <td><code>begin</code>, <code>end</code>, <code>return</code></td>
+            <td>Encloses execution bodies; <code>return</code> halts execution and emits the output.</td>
+          </tr>
+          <tr>
+            <td><strong>Conditionals</strong></td>
+            <td><code>if</code>, <code>then</code>, <code>else</code></td>
+            <td>Binary branching based on Boolean truth (truth values in <code>𝔹 = {true, false}</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Counted Loops</strong></td>
+            <td><code>for</code>, <code>to</code>, <code>do</code></td>
+            <td>Deterministic iteration over discrete natural intervals <code>[start .. end] ⊂ ℕ</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Collection Loops</strong></td>
+            <td><code>for each</code>, <code>in</code>, <code>do</code></td>
+            <td>Iterates through items in a finite tree set (e.g. <code>for each xL in XL do</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>While Loops</strong></td>
+            <td><code>while</code>, <code>do</code></td>
+            <td>Guarded iteration (e.g. stepping down tree nodes until bounds are satisfied).</td>
+          </tr>
+          <tr>
+            <td><strong>Logical Words</strong></td>
+            <td><code>and</code>, <code>or</code>, <code>not</code>, <code>mod</code></td>
+            <td>Boolean connectives and modulo arithmetic; Unicode <code>∧</code>, <code>∨</code>, <code>¬</code> are also supported.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Special Operators &amp; Mathematical Unicode</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th width="15%">Symbol</th>
+            <th width="25%">ASCII / Name</th>
+            <th width="60%">Mathematical Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>≔</code> / <code>:=</code></td>
+            <td>Directed Assignment</td>
+            <td>Assigns an evaluated expression to a slot or target variable.</td>
+          </tr>
+          <tr>
+            <td><code>[]</code></td>
+            <td>Root Node</td>
+            <td>The Conway tree root node <code>0</code> born on Day 0 with empty path <code>""</code>.</td>
+          </tr>
+          <tr>
+            <td><code>++</code></td>
+            <td>Tree Branch / Concat</td>
+            <td>Extends a tree sign sequence by appending a <code>+</code> or <code>-</code> child branch.</td>
+          </tr>
+          <tr>
+            <td><code>⊕</code>, <code>⊖</code></td>
+            <td>Dyadic Add / Sub</td>
+            <td>Direct bit-level addition/subtraction on aligned 2-successor trees.</td>
+          </tr>
+          <tr>
+            <td><code>⊗</code>, <code>⊘</code></td>
+            <td>Dyadic Mul / Div</td>
+            <td>Direct bit-level multiplication/division on aligned 2-successor trees.</td>
+          </tr>
+          <tr>
+            <td><code>≫</code>, <code>≪</code></td>
+            <td>Dyadic Shift</td>
+            <td>Fast resolution scaling by powers of 2 (shifts bit-path precision).</td>
+          </tr>
+          <tr>
+            <td><code>X[a .. b]</code></td>
+            <td>Prefix Slice</td>
+            <td>Extracts the proper ancestral prefix of node <code>X</code> from birthday <code>a</code> to <code>b</code>.</td>
+          </tr>
+          <tr>
+            <td><code>≤</code>, <code>≥</code>, <code>≠</code></td>
+            <td>Relational Order</td>
+            <td>Lexicographical tree ordering comparing birthday depth and branch signs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 3: THE DOMAIN HIERARCHY -->
+    <section id="domains-and-typing">
+      <h2><span>🌐</span> 3. Domains, Values &amp; Runtime Type Coercion</h2>
+      <p>
+        The outer Directed Equation signature strictly restricts variables to specific foundational sets in the MWM curriculum hierarchy:
+      </p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th width="20%">Domain</th>
+            <th width="25%">Mathematical Symbol</th>
+            <th width="25%">Internal Runtime Value</th>
+            <th width="30%">Usage in Algorithms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tree Node</strong></td>
+            <td><code>Tree2</code> / <code>Node</code></td>
+            <td><code>IDyadicNode { path: "+-" }</code></td>
+            <td>Conway numbers, tree coordinates, state addresses.</td>
+          </tr>
+          <tr>
+            <td><strong>Natural Numbers</strong></td>
+            <td><code>ℕ</code> / <code>Integer</code></td>
+            <td>JavaScript <code>number</code> (integer)</td>
+            <td>Loop counters, birthday indices, discrete step counts.</td>
+          </tr>
+          <tr>
+            <td><strong>Dyadic Rationals</strong></td>
+            <td><code>𝔻</code></td>
+            <td><code>IDyadicNode</code> or dyadic float</td>
+            <td>Exact binary fractions <code>m / 2^n</code> without rounding errors.</td>
+          </tr>
+          <tr>
+            <td><strong>Hyperreals</strong></td>
+            <td><code>ℝ_ω</code></td>
+            <td><code>DualNumber { st, eps }</code></td>
+            <td>Standard nucleus with Day ω halo dust (<code>x₀ + k·dx</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Boolean Truth</strong></td>
+            <td><code>𝔹 = {0, 1}</code></td>
+            <td>JavaScript <code>boolean</code></td>
+            <td>Predicate evaluations, branch conditions, truth tables.</td>
+          </tr>
+          <tr>
+            <td><strong>Options Sets</strong></td>
+            <td><code>Set of Node</code> / <code>𝒫(Tree)</code></td>
+            <td>JavaScript <code>Set&lt;IDyadicNode&gt;</code></td>
+            <td>Left options <code>XL</code> and right options <code>XR</code> for Conway induction.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout violet">
+        <div class="callout-title">
+          <span>🔄</span> The Interpreter Boundary Adapter
+        </div>
+        <p>
+          When the <code>PseudoInterpreter</code> is invoked by the <strong>Equation Evaluator</strong> or <strong>CRUD Workbench</strong>, it performs automatic boundary adaptation:
+        </p>
+        <ol style="margin-bottom: 0;">
+          <li><strong>Input Casting:</strong> Numbers passed from slider inputs (e.g. <code>1.5</code>) are automatically mapped to their exact dyadic tree representation (e.g. <code>node([+ + -])</code>).</li>
+          <li><strong>Standard Part Extraction:</strong> If the target codomain is <code>ℝ</code> or <code>𝔻</code>, the interpreter applies the Middle Way <code>st(·)</code> projection, dropping any residual halo dust <code>O(dx)</code>.</li>
+          <li><strong>Boolean Normalization:</strong> Predicate rules returning numeric flags are converted to crisp Booleans <code>{true, false} ∈ 𝔹</code>.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SECTION 4: BUILT-IN PRIMITIVE LIBRARY -->
+    <section id="builtins">
+      <h2><span>🧰</span> 4. Standard Built-in Primitive Functions</h2>
+      <p>
+        The MWM interpreter provides an ambient standard library directly callable within any pseudocode block:
+      </p>
+
+      <h3>Tree Topology &amp; Conway Simplicity</h3>
+      <ul>
+        <li><code>EmptySet()</code>: Allocates a new, empty set of tree nodes.</li>
+        <li><code>Insert(set, node)</code>: Inserts a tree node into the set in-place.</li>
+        <li><code>Maximum(set)</code> / <code>Minimum(set)</code>: Returns the greatest / least tree node under Conway lexicographical order.</li>
+        <li><code>length(X)</code> / <code>birthday(X)</code>: Returns the tree depth (birthday) of node <code>X</code>.</li>
+        <li><code>SimplerOptions(X)</code>: Returns the pair <code>(XL, XR)</code> of all ancestral prefixes born on earlier days.</li>
+        <li><code>Cut(leftBound, rightBound)</code>: Walks from root <code>[]</code> to find the unique simplest node strictly between bounds.</li>
+      </ul>
+
+      <h3>Dyadic Arithmetic &amp; Bit Mechanics</h3>
+      <ul>
+        <li><code>DyadicAdd(x, y)</code>: Exact dyadic rational addition on binary tree structures.</li>
+        <li><code>sqr(x)</code>: Exact dyadic squaring (<code>x ⊗ x</code>).</li>
+        <li><code>to_dyadic(n)</code> / <code>node(path)</code>: Converts between sign strings and dyadic tree nodes.</li>
+      </ul>
+
+      <h3>Continuous &amp; Nonstandard Analysis</h3>
+      <ul>
+        <li><code>st(x)</code>: Extracts the real standard part nucleus from a hyperreal dual number.</li>
+        <li><code>eps(x)</code>: Extracts the infinitesimal halo dust magnitude (multiples of <code>dx ≔ 1/ω</code>).</li>
+        <li><code>near(a, b, [tol])</code>: Tests nonstandard infinitesimal proximity (<code>a ≈ b</code>).</li>
+      </ul>
+
+      <h3>Physical Dynamics, Rotation &amp; Bayesian Inference</h3>
+      <ul>
+        <li><code>KinematicStep(s, v, dt)</code>: Symplectic leapfrog update returning <code>[v_new, s_new]</code> with zero energy drift.</li>
+        <li><code>CordicRotor(theta, iterations)</code>: Computes exact trigonometric coordinates <code>[cos, sin]</code> via dyadic shift-and-add operations.</li>
+        <li><code>BayesUpdate(priorH, pE_H, pE_notH)</code>: Computes exact normalized posterior probability on the hyperfinite unit transect.</li>
+      </ul>
+    </section>
+
+    <!-- SECTION 5: STEPPER & TELEMETRY -->
+    <section id="stepper-and-telemetry">
+      <h2><span>⏱️</span> 5. The Interactive Stepper Engine &amp; Telemetry</h2>
+      
+      <p>
+        Unlike a standard "black box" code runner, the MWM <code>PseudoInterpreter</code> is compiled as an <strong>ES6 Generator</strong> (<code>runStepper(entryFunctionName, args)</code>). Each statement execution yields a snapshot containing:
+      </p>
+
+      <pre><code><span class="kw">export interface</span> <span class="typ">IStepState</span> {
+  currentLine: <span class="typ">number</span>;                <span class="com">// Source line currently executing</span>
+  callStack: <span class="typ">string</span>[];                <span class="com">// Nested call stack frames (e.g. ConwayAdd -> Cut)</span>
+  variables: <span class="typ">Record</span>&lt;<span class="typ">string</span>, <span class="typ">any</span>&gt;;     <span class="com">// Snapshot of all active local variables</span>
+  isDone: <span class="typ">boolean</span>;                    <span class="com">// Has the algorithm completed?</span>
+  result?: <span class="typ">any</span>;                       <span class="com">// Return value if finished</span>
+  error?: <span class="typ">string</span>;                     <span class="com">// Exception or stack trace if faulted</span>
+  telemetry: <span class="typ">IExecutionTelemetry</span>;     <span class="com">// Physical resource counters</span>
+}</code></pre>
+
+      <div class="callout amber">
+        <div class="callout-title">
+          <span>📊</span> The Ambient System Resource Ledger
+        </div>
+        <p>
+          To teach algorithmic complexity constructively, the interpreter maintains a hardware ledger:
+        </p>
+        <ul style="margin-bottom: 0;">
+          <li><code>stepCount</code>: Total atomic operations executed on the discrete tree.</li>
+          <li><code>cutCount</code>: Total Conway simplicity cuts invoked (measuring mediant walk costs).</li>
+          <li><code>maxCallDepth</code>: Maximum recursive stack depth (measuring spatial memory requirements).</li>
+          <li><code>addCount</code> / <code>mulCount</code>: Arithmetic operations in the underlying dyadic ring.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CANONICAL RULES -->
+    <section id="canonical-rules">
+      <h2><span>🏛️</span> 6. The Canonized MWM Pseudocode Rules</h2>
+      <p>
+        Here are three foundational rules illustrating how the Directed Equation signature maps directly to the operational code:
+      </p>
+
+      <h3>Rule 1: Conway Cut (Earliest Birthday Node Between Bounds)</h3>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">
+        <strong>Directed Equation Signature:</strong> <code>(leftBound: Node, rightBound: Node) ⟹ candidate: Node</code><br>
+        <strong>Lean 4 Theorem:</strong> <code>MiddleWay.D_w_dense_in_R_w</code>
+      </div>
+      <pre><code><span class="kw">rule</span> <span class="fn">Cut</span>(leftBound: <span class="typ">Node</span>, rightBound: <span class="typ">Node</span>) : <span class="typ">Node</span> <span class="op">≔</span>
+<span class="kw">var</span>
+    candidate: <span class="typ">Node</span>;
+<span class="kw">begin</span>
+    <span class="com">// Walk down the binary tree from the root []</span>
+    candidate <span class="op">:=</span> [];
+    <span class="kw">while</span> (candidate <span class="op">&lt;=</span> leftBound) <span class="kw">or</span> (candidate <span class="op">&gt;=</span> rightBound) <span class="kw">do</span>
+    <span class="kw">begin</span>
+        <span class="kw">if</span> candidate <span class="op">&lt;=</span> leftBound <span class="kw">then</span>
+            candidate <span class="op">:=</span> candidate <span class="op">++</span> <span class="str">'+'</span>      <span class="com">// Branch right to grow</span>
+        <span class="kw">else</span>
+            candidate <span class="op">:=</span> candidate <span class="op">++</span> <span class="str">'-'</span>;     <span class="com">// Branch left to shrink</span>
+    <span class="kw">end</span>;
+    <span class="kw">return</span> candidate;  <span class="com">// Unique simplest node strictly between bounds</span>
+<span class="kw">end</span>;</code></pre>
+
+      <h3>Rule 2: Simpler Ancestor Options</h3>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">
+        <strong>Directed Equation Signature:</strong> <code>(X: Node) ⟹ (XL: Set of Node, XR: Set of Node)</code><br>
+        <strong>Lean 4 Theorem:</strong> <code>MiddleWay.Tree1_is_well_ordered</code>
+      </div>
+      <pre><code><span class="kw">rule</span> <span class="fn">SimplerOptions</span>(X: <span class="typ">Node</span>) : (<span class="typ">Set of Node</span>, <span class="typ">Set of Node</span>) <span class="op">≔</span>
+<span class="kw">var</span>
+    XL, XR: <span class="typ">Set of Node</span>;
+    i: <span class="typ">Integer</span>;
+    prefix: <span class="typ">Node</span>;
+<span class="kw">begin</span>
+    XL <span class="op">:=</span> <span class="fn">EmptySet</span>();
+    XR <span class="op">:=</span> <span class="fn">EmptySet</span>();
+
+    <span class="com">// All proper prefixes are numbers born on earlier days</span>
+    <span class="kw">for</span> i <span class="op">:=</span> <span class="num">0</span> <span class="kw">to</span> <span class="fn">length</span>(X) <span class="op">-</span> <span class="num">1</span> <span class="kw">do</span>
+    <span class="kw">begin</span>
+        prefix <span class="op">:=</span> X[<span class="num">0</span> <span class="op">..</span> i];
+        <span class="kw">if</span> prefix <span class="op">&lt;</span> X <span class="kw">then</span>
+            <span class="fn">Insert</span>(XL, prefix)
+        <span class="kw">else</span>
+            <span class="fn">Insert</span>(XR, prefix);
+    <span class="kw">end</span>;
+
+    <span class="kw">return</span> (XL, XR);
+<span class="kw">end</span>;</code></pre>
+
+      <h3>Rule 3: Kinematic Velocity Decrement on ℝ_ω</h3>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">
+        <strong>Directed Equation Signature:</strong> <code>(v₀: ℝ_ω, g: ℝ_ω, t: ℝ_ω) ⟹ v: ℝ_ω</code><br>
+        <strong>Lean 4 Theorem:</strong> <code>MiddleWay.free_fall_stencil</code>
+      </div>
+      <pre><code><span class="kw">rule</span> <span class="fn">FreeFallVelocity</span>(v0: <span class="typ">ℝ_ω</span>, g: <span class="typ">ℝ_ω</span>, t: <span class="typ">ℝ_ω</span>) : <span class="typ">ℝ_ω</span> <span class="op">≔</span>
+<span class="kw">var</span>
+    v: <span class="typ">ℝ_ω</span>;
+<span class="kw">begin</span>
+    <span class="com">// Symplectic linear velocity update</span>
+    v <span class="op">:=</span> v0 <span class="op">-</span> (g <span class="op">*</span> t);
+    <span class="kw">return</span> v;
+<span class="kw">end</span>;</code></pre>
+    </section>
+
+    <!-- SECTION 7: SUMMARY MAPPING TABLE -->
+    <section id="mapping-summary">
+      <h2><span>🔗</span> 7. Summary: Shape of the Directed Equation vs. Pseudocode</h2>
+      <p>
+        The table below demonstrates the 1-to-1 isomorphism between the components of a Directed Equation and the MWM Pseudocode structure:
+      </p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th width="30%">Formal Directed Equation Component</th>
+            <th width="35%">MWM Pseudocode Counterpart</th>
+            <th width="35%">Lean 4 Machine Verification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Function Symbol &amp; Identifier</strong></td>
+            <td><code>rule RuleName(...)</code></td>
+            <td><code>def RuleName ...</code> or <code>theorem ...</code></td>
+          </tr>
+          <tr>
+            <td><strong>LHS Free Input Slots (Domains)</strong></td>
+            <td>Formal Parameter List: <code>(x₁: D₁, x₂: D₂)</code></td>
+            <td>Curried arguments: <code>(x1 : D1) (x2 : D2)</code></td>
+          </tr>
+          <tr>
+            <td><strong>Target Codomain Declaration</strong></td>
+            <td>Return Type Signature: <code>: Codomain</code></td>
+            <td>Function codomain: <code>: Codomain</code></td>
+          </tr>
+          <tr>
+            <td><strong>Directed Assignment Operator</strong></td>
+            <td>Token <code>≔</code> (or <code>:=</code>) before <code>var</code></td>
+            <td>Lean definition token <code>:=</code></td>
+          </tr>
+          <tr>
+            <td><strong>Algebraic Expression / Formula</strong></td>
+            <td>The executable <code>begin ... end;</code> block</td>
+            <td>The inductive proof body / constructive term</td>
+          </tr>
+          <tr>
+            <td><strong>Finite Normalization Guarantee</strong></td>
+            <td>Termination of loops / Well-founded recursion</td>
+            <td>Structural termination on ordinal birthday <code>Ord.omega</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Middle Way Mathematics — Architectural Reference Documentation</p>
+      <p style="margin-top: 6px; font-size: 12px; color: #94a3b8;">
+        Certified by the MWM Axiomatic Engine &amp; Lean 4 Scaffold Environment.
+      </p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
