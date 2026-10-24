@@ -1,0 +1,336 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "Middle Way Mathematics • CRUD Studio Affordance Model",
+  "version": "1.0.0",
+  "description": "Authoritative semantic mental model of the MWM CRUD Studio UI. Maps state dimensions, UI selectors, input event handlers, backend database behaviors, and output semantics to enable human and autonomous agent task execution.",
+  "last_updated": "2026-10-24T09:40:00Z",
+  "architecture": {
+    "dimensions": {
+      "modes": {
+        "read": "Authoritative inspection of an existing database entity record and its relational graph.",
+        "update": "Parameterized SQL mutation of an existing entity record with dirty tracking and foreign key assignment.",
+        "create": "Instantiation and persistence of a new entity record with schema-informed defaults.",
+        "delete": "Safeguarded entity deletion with dependency warning and cascade prevention."
+      },
+      "subjects": [
+        "all",
+        "foundations",
+        "analysis",
+        "probability_stats",
+        "quantum_physics",
+        "seminars"
+      ],
+      "entity_types": {
+        "segments": {
+          "table": "segments",
+          "label": "Curriculum Segments",
+          "primary_key": "id",
+          "display_col": "slug",
+          "has_content_editor": true
+        },
+        "interactive_demos": {
+          "table": "interactive_demos",
+          "label": "Interactive Demos & Truth Tables",
+          "primary_key": "id",
+          "display_col": "title",
+          "engine_filter": ["ttd", "standalone"]
+        },
+        "formal_statements": {
+          "table": "formal_statements",
+          "label": "Formal Statements (Lean 4)",
+          "primary_key": "id",
+          "display_col": "statement_key"
+        },
+        "directed_equations": {
+          "table": "directed_equations",
+          "label": "Directed Equations (Stencils)",
+          "primary_key": "id",
+          "display_col": "equation_key"
+        },
+        "pseudocode_algorithms": {
+          "table": "pseudocode_algorithms",
+          "label": "Pseudocode Algorithms",
+          "primary_key": "id",
+          "display_col": "algo_key"
+        },
+        "math_entities": {
+          "table": "math_entities",
+          "label": "Mathematical Entities",
+          "primary_key": "id",
+          "display_col": "name"
+        },
+        "proof_steps": {
+          "table": "proof_steps",
+          "label": "Proof Steps & Tactics",
+          "primary_key": "id",
+          "display_col": "label"
+        },
+        "mode_slots": {
+          "table": "mode_slots",
+          "label": "Calculation Mode Slots",
+          "primary_key": "id",
+          "display_col": "label"
+        }
+      }
+    }
+  },
+  "affordances": {
+    "header_bar": {
+      "db_health_badge": {
+        "selector": "#db-health-badge",
+        "type": "indicator",
+        "semantics": "Live verification of PostgreSQL database connection pool status on port 5432."
+      },
+      "sql_console_link": {
+        "selector": "a[href='/console']",
+        "type": "navigation",
+        "behavior": "Navigates to the Interactive Database SQL Console."
+      },
+      "reader_app_link": {
+        "selector": "a[href='http://localhost:8080']",
+        "type": "navigation",
+        "behavior": "Opens the Middle Way Mathematics curriculum reader in a new browser tab."
+      },
+      "btn_ops_backup": {
+        "selector": "#btn-ops-backup",
+        "action": "click",
+        "endpoint": "POST /api/ops/backup",
+        "behavior": "Executes pg_dump on PostgreSQL database 'hobbynotes', writes canonical db/backups/latest.sql, and saves a timestamped snapshot.",
+        "output_semantics": "Freezes complete PostgreSQL schema and data state into git-tracked files."
+      },
+      "btn_ops_prep": {
+        "selector": "#btn-ops-prep",
+        "action": "click",
+        "endpoint": "POST /api/ops/prep",
+        "behavior": "Runs database snapshot, verifies Lean 4 cache, extracts all 57 segments from PostgreSQL, and regenerates app1/dist/index.html.",
+        "output_semantics": "Static distribution bundle is fresh; reader is ready for a browser hard-refresh."
+      },
+      "btn_ops_deploy": {
+        "selector": "#btn-ops-deploy",
+        "action": "click",
+        "behavior": "Presents deployment confirmation modal; upon confirmation, triggers POST /api/ops/deploy to stage git changes, commit, and push to origin master.",
+        "output_semantics": "Publishes latest curriculum and database state live to middlewaymath.app."
+      }
+    },
+    "control_area": {
+      "mode_dropdown": {
+        "button_selector": "#mode-btn",
+        "menu_selector": "#mode-dropdown-menu",
+        "options": ["create", "read", "update", "delete"],
+        "behavior": "Sets active CRUD mode, closes dropdown, updates breadcrumbs, and renders appropriate view."
+      },
+      "type_dropdown": {
+        "button_selector": "#type-btn",
+        "menu_selector": "#type-dropdown-menu",
+        "behavior": "Selects active entity type; refreshes instance list and renders entity cards."
+      },
+      "subject_dropdown": {
+        "button_selector": "#subject-btn",
+        "menu_selector": "#subject-dropdown-menu",
+        "behavior": "Filters available instances across disciplinary subject domains."
+      },
+      "btn_reset_studio": {
+        "selector": "#btn-reset-studio",
+        "action": "click",
+        "behavior": "Clears navigation history, resets mode to Read, subject to All, and returns to landing state."
+      }
+    },
+    "entity_card_read_mode": {
+      "instance_selector": {
+        "selector": "#entity-instance-select",
+        "action": "change",
+        "behavior": "Queries PostgreSQL for chosen instance ID and renders full Attribute-Complete card."
+      },
+      "fk_navigation_arrow": {
+        "selector": ".fk-goto-btn",
+        "action": "click",
+        "behavior": "Smoothly transitions studio context to inspect the referenced child or parent record (pushes current view to nav history)."
+      },
+      "open_content_editor_button": {
+        "selector": ".btn-open-content-editor",
+        "action": "click",
+        "behavior": "Opens the Segment Content Authoring Surface in Read (inspection) mode."
+      }
+    },
+    "entity_form_update_create_mode": {
+      "fk_picker_button": {
+        "selector": ".btn-select-child-picker",
+        "action": "click",
+        "behavior": "Opens modal listing all valid candidate child records; selecting one updates the hidden foreign key field and displays its friendly key badge."
+      },
+      "fk_nav_button": {
+        "selector": ".fk-nav-btn",
+        "action": "click",
+        "behavior": "Pushes current edit form state and navigates directly to inspect the currently referenced child record."
+      },
+      "open_authoring_surface_button": {
+        "selector": ".btn-open-authoring-surface",
+        "action": "click",
+        "behavior": "Opens the Segment Content Authoring Surface in Update (authoring) mode."
+      },
+      "btn_submit_record": {
+        "selector": ".btn-save-record-footer",
+        "action": "submit",
+        "behavior": "Validates inputs, executes parameterized SQL (INSERT if isNew else UPDATE) via /api/sql, rebuilds catalogs in background, and switches to Read inspection of the saved entity.",
+        "output_semantics": "Record is permanently persisted to PostgreSQL."
+      },
+      "btn_cancel_record": {
+        "selector": ".btn-cancel-record-footer",
+        "action": "click",
+        "behavior": "Discards unsaved form changes and returns to Read inspection or instance selection menu."
+      }
+    },
+    "content_editor_surface": {
+      "btn_back_to_record": {
+        "selector": "#editor-btn-back",
+        "action": "click",
+        "behavior": "Confirms if dirty; returns to entity form or attribute card with updated content_html synced."
+      },
+      "editorial_status_select": {
+        "selector": "#editor-status-select",
+        "options": ["raw", "staged", "reviewed", "published"],
+        "behavior": "Updates target segment's status column value in PostgreSQL upon save."
+      },
+      "btn_insert_custom_element": {
+        "selector": "#btn-dropdown-custom-elems",
+        "menu_selector": "#menu-custom-elems",
+        "items": {
+          "insert_ttd": {
+            "label": "⚖️ Truth Table (<ttd-ref>)",
+            "tag": "<ttd-ref id=\"...\">",
+            "source_table": "interactive_demos WHERE engine = 'ttd'",
+            "behavior": "Queries database for truth table propositions, embeds canonical <ttd-ref> tag at cursor, renders live chip."
+          },
+          "insert_fs": {
+            "label": "📜 Formal Statement (<fs-ref>)",
+            "tag": "<fs-ref statement-key=\"...\">",
+            "source_table": "formal_statements",
+            "behavior": "Embeds formal statement citation chip linking to Lean 4 kernel theorems."
+          },
+          "insert_stencil": {
+            "label": "📐 Computational Stencil (<interactive-stencil>)",
+            "tag": "<interactive-stencil equation-key=\"...\">",
+            "source_table": "directed_equations",
+            "behavior": "Embeds interactive directed algebraic stencil."
+          },
+          "insert_demo": {
+            "label": "🎨 Interactive Visual Demo (<visual-demo>)",
+            "tag": "<visual-demo id=\"...\">",
+            "source_table": "interactive_demos WHERE engine != 'ttd'",
+            "behavior": "Embeds dynamic visual simulation or canvas widget."
+          },
+          "insert_pseudo": {
+            "label": "⚡ Pseudocode Algorithm (<pseudo-ref>)",
+            "tag": "<pseudo-ref algo-key=\"...\">",
+            "source_table": "pseudocode_algorithms",
+            "behavior": "Embeds discrete algorithm box with syntax-highlighted routine."
+          }
+        }
+      },
+      "btn_save_db": {
+        "selector": "#editor-btn-save-db",
+        "shortcut": "Ctrl+S",
+        "action": "click",
+        "behavior": "Synchronizes WYSIWYG/Source panes, sanitizes MathJax/chip decorations, and executes direct parameterized SQL: 'UPDATE segments SET content_html = $1, status = $2, updated_at = NOW() WHERE id = $3;'.",
+        "output_semantics": "Directly replaces the segment's content_html in PostgreSQL and updates saveStatusPill to '✓ Saved'."
+      },
+      "save_status_pill": {
+        "selector": "#editor-save-status-pill",
+        "states": {
+          "ready": "✓ Ready — Editor loaded with authoritative database content.",
+          "modified": "● Modified — Content has been altered in editor panes and is pending database save.",
+          "saving": "Saving... — Asynchronous SQL query executing against PostgreSQL bridge.",
+          "saved": "✓ Saved — Successfully written to PostgreSQL segments table."
+        }
+      },
+      "btn_toggle_mode": {
+        "selector": "#editor-btn-toggle-mode",
+        "action": "click",
+        "behavior": "Toggles between Read mode (inspection) and Edit mode (authoring toolbar active)."
+      },
+      "view_pills": {
+        "wysiwyg": { "selector": "#pill-wysiwyg", "behavior": "Shows visual rich-text canvas." },
+        "source": { "selector": "#pill-source", "behavior": "Shows raw HTML source textarea." },
+        "split": { "selector": "#pill-split", "behavior": "Shows synchronous side-by-side editing." }
+      },
+      "custom_ref_chips": {
+        "selector": "[data-custom-ref='true']",
+        "action": "click",
+        "behavior": "Opens the Authoritative Entity Inspector modal for the clicked custom element tag without navigating away from the segment."
+      }
+    }
+  },
+  "output_semantics": {
+    "toast_saved_content_html": "Confirms PostgreSQL has updated the content_html text column for the active segment row.",
+    "toast_prep_complete": "Confirms database dump completed to db/backups/latest.sql and all 57 segments were recompiled into app1/dist/index.html.",
+    "toast_deployed": "Confirms git commit created and pushed to origin master; remote server has received changes for middlewaymath.app."
+  },
+  "recipes": {
+    "create_and_link_truth_table": [
+      {
+        "step": 1,
+        "action": "Switch Mode to 'Create'",
+        "ui": "Click #mode-btn -> Select '➕ Create (New)'"
+      },
+      {
+        "step": 2,
+        "action": "Select Type 'Truth Table Demo (TTD)'",
+        "ui": "Click #type-btn -> Select 'Truth Table Demo (TTD)' under Interactive Demos"
+      },
+      {
+        "step": 3,
+        "action": "Fill Form Fields",
+        "fields": {
+          "title": "Proposition Title (e.g. Peirce's Law)",
+          "engine": "ttd",
+          "mode": "propositional_logic",
+          "expression": "PXE format formula (e.g. [[piq]ip]ipeponp)"
+        }
+      },
+      {
+        "step": 4,
+        "action": "Submit Form",
+        "ui": "Click .btn-save-record-footer ('💾 Create Record')",
+        "result": "Creates row in interactive_demos with a unique ID."
+      },
+      {
+        "step": 5,
+        "action": "Navigate to Target Segment",
+        "ui": "Switch Mode to 'Update', Type to 'Segments', and select target segment."
+      },
+      {
+        "step": 6,
+        "action": "Open Content Editor",
+        "ui": "Click .btn-open-authoring-surface ('✏️ Open in Full Authoring Surface')"
+      },
+      {
+        "step": 7,
+        "action": "Insert Proposition Chip",
+        "ui": "Click cursor in text -> Click '⨁ Insert Element' -> '⚖️ Truth Table (<ttd-ref>)' -> Choose the proposition -> Click 'Insert <ttd-ref>'"
+      },
+      {
+        "step": 8,
+        "action": "Save Segment Content",
+        "ui": "Click #editor-btn-save-db ('💾 Save' or Ctrl+S)",
+        "result": "Executes UPDATE segments SET content_html = $1 WHERE id = $2"
+      },
+      {
+        "step": 9,
+        "action": "Compile & Deploy",
+        "ui": "Click #btn-ops-prep (or #btn-ops-deploy)"
+      }
+    ],
+    "create_and_link_directed_equation": [
+      {
+        "step": 1,
+        "action": "Create Directed Equation Record",
+        "ui": "Mode: Create, Type: Directed Equations (Stencils). Provide equation_key, title, formula, variable slots."
+      },
+      {
+        "step": 2,
+        "action": "Embed in Segment",
+        "ui": "Open Segment Content Editor, click '⨁ Insert Element' -> '📐 Computational Stencil (<interactive-stencil>)', select the equation key, and save."
+      }
+    ]
+  }
+}

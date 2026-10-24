@@ -390,16 +390,11 @@
 
   <!-- Start the App Action Button -->
   <div class="start-app-container">
-    <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; align-items: center;">
-      <a href="./index.html" class="start-app-btn">
-        <span>🚀 Start the App</span>
-      </a>
-      <a href="./mwm_pseudocode_spec.html" class="start-app-btn" style="background: #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);">
-        <span>📜 Pseudocode Language Spec</span>
-      </a>
-    </div>
+    <a href="./index.html" class="start-app-btn">
+      <span>🚀 Start the App</span>
+    </a>
     <div class="start-app-hint">
-      Enter the interactive lecture viewer or inspect the formal discrete machine &amp; pseudocode interpreter specification
+      Launch the interactive lecture viewer to explore the curriculum
     </div>
   </div>
 
@@ -446,10 +441,10 @@
     <li><em>At what level of depth can the modeling mathematics be understood?</em></li>
   </ol><div>MWM expresses its concepts formally, embedded in natural language explanations, using single-sorted first-order logic and ZF set theory as its foundational baseline.<i></i></div>
 
-  <!-- Outer Hide/Show Section: Technical Foundations & Lean Verification -->
+  <!-- Outer Hide/Show Section: Mathematical Foundations & Lean Verification -->
   <details class="tech-card">
     <summary>
-      <span>📐 Technical Foundations: Fundamental Assumptions and Lean Verification</span>
+      <span>📐 Mathematical Foundations: Fundamental Assumptions and Lean Verification</span>
     </summary>
     <div class="tech-content">
       <p style="margin-top: 0; font-size: 0.96rem; color: #475569; line-height: 1.6;">
@@ -842,8 +837,23 @@ mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
   </div>
 </details>
 
+  <!-- Pseudocode Language Specification Action -->
+  <div class="start-app-container" style="margin: 28px 0 20px 0;">
+    <a href="./mwm_pseudocode_spec.html" class="start-app-btn" style="background: #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);">
+      <span>📜 Pseudocode Language Spec</span>
+    </a>
+    <div class="start-app-hint">
+      Inspect the formal discrete machine architecture, virtual registers, Conway cut stepping, and parser specification
+    </div>
+  </div>
+
   <div class="project-links-card">
     <h3>Project Artifacts &amp; Technical Specifications</h3><ul>
+      <li>
+        <strong>Discrete Machine &amp; Pseudocode Specification:</strong> 
+        <a href="./mwm_pseudocode_spec.html">mwm_pseudocode_spec.html</a> — 
+        Full language grammar, virtual machine model, Conway bisection stepping, and execution semantics.
+      </li>
       <li>
         <strong>Lean 4 Computable Ring Formalization:</strong> 
         <a href="https://github.com/jpryan17/hobbyNotes/blob/master/MiddleWayLean/DyadicRing.lean" target="_blank" rel="noopener">DyadicRing.lean on GitHub</a> — 

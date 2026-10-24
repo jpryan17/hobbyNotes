@@ -10,3 +10,9 @@
 
 ## Workflow & Deployment
 - **Stop at Build**: After completing code changes, compile and verify with `npm run build` and STOP. Do NOT automatically run `deploy` or push to git. Let the user decide whether they want quick local validation (`npm run dev`) or quick page refresh (`npm run deploy`).
+
+## CRUD Studio Mental Model & Task Execution
+- **Authoritative Affordance Model**: Maintain and consult `crud/crud_affordance_model.json` as the mental image and semantic affordance map of Middle Way Mathematics CRUD Studio.
+- **Agent Task Execution**: When the user requests a CRUD task (e.g., adding an entity, linking a truth table, editing segment markup, or updating foreign keys), follow the state machine, selectors, behaviors, and recipes defined in `crud/crud_affordance_model.json`.
+- **Bidirectional Synchronization**: When new controls, event handlers, or database behaviors are added to CRUD Studio, keep `crud/crud_affordance_model.json` updated so the mental model remains synchronized.
+
