@@ -42950,7 +42950,7 @@ function setSubject(subject) {
   renderCurrentView();
   setStatus(`Subject Scope: ${labelMap[subject] || subject}`);
 }
-function setMode(mode) {
+function setMode(mode, preserveSelection = false) {
   currentMode = mode;
   if (currentModeLabel) currentModeLabel.textContent = capitalize(mode);
   if (modeDropdownMenu) {
@@ -42962,18 +42962,22 @@ function setMode(mode) {
       }
     });
   }
-  currentTypeKey = null;
-  currentSelectedId = null;
-  currentTitle = "";
-  if (currentTypeLabel) currentTypeLabel.textContent = "Select Type";
-  if (typeDropdownMenu) {
-    typeDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
-      item.classList.remove("active");
-    });
+  if (preserveSelection) {
+  } else if (mode === "create") {
+    currentSelectedId = null;
+  } else if (!currentTypeKey) {
+    currentSelectedId = null;
+    currentTitle = "";
+    if (currentTypeLabel) currentTypeLabel.textContent = "Select Type";
+    if (typeDropdownMenu) {
+      typeDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.classList.remove("active");
+      });
+    }
   }
   updateBreadcrumbs();
   renderCurrentView();
-  setStatus(`Mode: ${capitalize(mode)} \u2022 Select mode and instance`);
+  setStatus(`Mode: ${capitalize(mode)} \u2022 ${currentTypeKey ? `Target: ${currentTypeKey}` : "Select type"}`);
 }
 function setType(typeKey, clearSelection = true) {
   currentTypeKey = typeKey;
@@ -45390,7 +45394,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
     fieldsTarget.appendChild(fieldGroup);
   }
   document.getElementById("btn-cancel-edit")?.addEventListener("click", () => {
-    setMode("read");
+    setMode("read", true);
   });
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -45423,7 +45427,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         const newId = res.data?.rows[0]?.id;
         setStatus(`\u2713 Record created successfully (#${newId})`);
         currentSelectedId = newId ? newId.toString() : null;
-        setMode("read");
+        setMode("read", true);
       } else {
         const cols = Object.keys(submitValues).filter((c) => c !== "id");
         const setClauses = cols.map((c, i) => `"${c}" = $${i + 1}`);
@@ -45433,7 +45437,8 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         const res = await executeSql(updateSql, params);
         if (res.status === "error") throw new Error(res.error || res.message);
         setStatus(`\u2713 Record #${record.id} updated successfully`);
-        setMode("read");
+        currentSelectedId = record.id.toString();
+        setMode("read", true);
       }
     } catch (saveErr) {
       console.error("Save error:", saveErr);

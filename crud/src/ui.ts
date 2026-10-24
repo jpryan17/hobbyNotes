@@ -475,9 +475,10 @@ export function setSubject(subject: string) {
 }
 
 /**
- * Switches the current CRUD mode and resets the type to generic so an instance selection initiates behavior.
+ * Switches the current CRUD mode.
+ * If an entity type is already active, preserves it so changing mode directly targets that entity.
  */
-export function setMode(mode: CrudMode) {
+export function setMode(mode: CrudMode, preserveSelection: boolean = false) {
     currentMode = mode;
     if (currentModeLabel) currentModeLabel.textContent = capitalize(mode);
 
@@ -491,20 +492,25 @@ export function setMode(mode: CrudMode) {
         });
     }
 
-    // Reset type to generic type anytime mode changes so a subsequent selection initiates behavior
-    currentTypeKey = null;
-    currentSelectedId = null;
-    currentTitle = '';
-    if (currentTypeLabel) currentTypeLabel.textContent = 'Select Type';
-    if (typeDropdownMenu) {
-        typeDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
-            item.classList.remove('active');
-        });
+    if (preserveSelection) {
+        // Keep currentTypeKey and currentSelectedId intact (e.g. after save/cancel)
+    } else if (mode === 'create') {
+        // If switching to Create mode, clear selected instance ID so a blank form is initialized
+        currentSelectedId = null;
+    } else if (!currentTypeKey) {
+        currentSelectedId = null;
+        currentTitle = '';
+        if (currentTypeLabel) currentTypeLabel.textContent = 'Select Type';
+        if (typeDropdownMenu) {
+            typeDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+                item.classList.remove('active');
+            });
+        }
     }
 
     updateBreadcrumbs();
     renderCurrentView();
-    setStatus(`Mode: ${capitalize(mode)} • Select mode and instance`);
+    setStatus(`Mode: ${capitalize(mode)} • ${currentTypeKey ? `Target: ${currentTypeKey}` : 'Select type'}`);
 }
 
 /**
@@ -3376,7 +3382,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
     // Cancel Button
     document.getElementById('btn-cancel-edit')?.addEventListener('click', () => {
-        setMode('read');
+        setMode('read', true);
     });
 
     // Form Submit
@@ -3417,7 +3423,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 const newId = res.data?.rows[0]?.id;
                 setStatus(`✓ Record created successfully (#${newId})`);
                 currentSelectedId = newId ? newId.toString() : null;
-                setMode('read');
+                setMode('read', true);
             } else {
                 // UPDATE
                 const cols = Object.keys(submitValues).filter((c) => c !== 'id');
@@ -3430,7 +3436,8 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 if (res.status === 'error') throw new Error(res.error || res.message);
 
                 setStatus(`✓ Record #${record.id} updated successfully`);
-                setMode('read');
+                currentSelectedId = record.id.toString();
+                setMode('read', true);
             }
         } catch (saveErr) {
             console.error('Save error:', saveErr);
