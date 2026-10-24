@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MWM Database CRUD Studio</title>
+    <!-- MathJax Configuration with TeX (LaTeX) + MathML Support -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -175,6 +189,17 @@
             color: #0369a1;
         }
 
+        .control-pill-btn.reset-btn {
+            color: #64748b;
+            gap: 6px;
+        }
+
+        .control-pill-btn.reset-btn:hover {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #b91c1c;
+        }
+
         .control-dropdown-menu {
             display: none;
             position: absolute;
@@ -332,6 +357,7 @@
             background: #e2e8f0;
             color: #0f172a;
         }
+
 
         /* Display Area */
         #display-area {
@@ -1022,6 +1048,17 @@
             <a href="http://localhost:8080" target="_blank" class="top-link-btn" title="Open Reader App">
                 <span>📖</span> Open Reader App
             </a>
+            <div class="ops-button-group" style="display: flex; align-items: center; gap: 6px; margin-left: 6px; border-left: 1px solid var(--border-color); padding-left: 10px;">
+                <button type="button" id="btn-ops-backup" class="top-link-btn" style="color: #0369a1; background: #f0f9ff; border-color: #bae6fd;" title="Snapshot live PostgreSQL database to db/backups/latest.sql">
+                    <span>📦</span> Backup DB
+                </button>
+                <button type="button" id="btn-ops-prep" class="top-link-btn" style="color: #4338ca; background: #eef2ff; border-color: #c7d2fe;" title="Run prep: snapshot database and compile all 57 segments into app1/dist/index.html">
+                    <span>⚙️</span> Prep / Build
+                </button>
+                <button type="button" id="btn-ops-deploy" class="top-link-btn" style="color: #ffffff; background: #059669; border-color: #047857; font-weight: 700;" title="Deploy site to middlewaymath.app (runs prep, commits, and pushes)">
+                    <span>🚀</span> Deploy...
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1074,6 +1111,11 @@
                     <div class="dropdown-item" data-subject="information"><span>🎲 Quantum & Bayesian Info</span></div>
                 </div>
             </div>
+
+            <!-- Single Reset Button -->
+            <button id="btn-reset-studio" class="control-pill-btn reset-btn" title="Reset all selections and start over">
+                <span>↺</span> Reset
+            </button>
         </div>
 
         <!-- Breadcrumbs & Nav History -->

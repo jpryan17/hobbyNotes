@@ -34,6 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
+const http = __importStar(require("http"));
 const net = __importStar(require("net"));
 const path_1 = require("path");
 const SERVER_PORT = 3000;
@@ -57,6 +58,45 @@ function isServerRunning(port, host) {
         socket.connect(port, host);
     });
 }
+function probeHealth(port, host) {
+    return new Promise((resolvePromise) => {
+        const req = http.get({
+            hostname: host,
+            port: port,
+            path: '/api/health',
+            timeout: 1000,
+        }, (res) => {
+            res.resume(); // consume response data to free up memory
+            if (res.statusCode && res.statusCode >= 200 && res.statusCode < 400) {
+                resolvePromise(true);
+            }
+            else {
+                resolvePromise(false);
+            }
+        });
+        req.on('error', () => {
+            resolvePromise(false);
+        });
+        req.on('timeout', () => {
+            req.destroy();
+            resolvePromise(false);
+        });
+    });
+}
+async function waitForServerReady(port, host, maxWaitMs = 15000) {
+    const startTime = Date.now();
+    while (Date.now() - startTime < maxWaitMs) {
+        const running = await isServerRunning(port, host);
+        if (running) {
+            const healthy = await probeHealth(port, host);
+            if (healthy) {
+                return true;
+            }
+        }
+        await new Promise((r) => setTimeout(r, 150));
+    }
+    return false;
+}
 function openBrowser(url) {
     const cmd = process.platform === 'win32'
         ? `start "" "${url}"`
@@ -74,10 +114,15 @@ async function start() {
     const serverPath = (0, path_1.resolve)(rootDir, 'server/public/server.js');
     let serverProcess = null;
     const crudUrl = `http://localhost:${SERVER_PORT}/crud`;
-    console.log('[crud] Checking if backend server is running on port 3000...');
+    console.log('[crud] Checking backend server status...');
     const running = await isServerRunning(SERVER_PORT, SERVER_HOST);
     if (running) {
         console.log('[crud] Backend server is already running on port 3000.');
+        const healthy = await probeHealth(SERVER_PORT, SERVER_HOST);
+        if (!healthy) {
+            console.log('[crud] Waiting for database connection pool to settle...');
+            await waitForServerReady(SERVER_PORT, SERVER_HOST, 6000);
+        }
         console.log(`[crud] Opening Database CRUD Studio: ${crudUrl}`);
         openBrowser(crudUrl);
     }
@@ -88,8 +133,14 @@ async function start() {
             stdio: 'inherit',
             shell: true,
         });
-        // Wait for server to bind
-        await new Promise((r) => setTimeout(r, 900));
+        console.log('[crud] Waiting for backend server and PostgreSQL connection...');
+        const ready = await waitForServerReady(SERVER_PORT, SERVER_HOST, 15000);
+        if (ready) {
+            console.log('[crud] Backend server & database ready.');
+        }
+        else {
+            console.warn('[crud] Warning: Server /api/health timed out after 15s; opening browser anyway.');
+        }
         console.log(`[crud] Opening Database CRUD Studio: ${crudUrl}`);
         openBrowser(crudUrl);
     }

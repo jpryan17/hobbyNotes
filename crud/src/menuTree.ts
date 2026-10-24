@@ -351,45 +351,62 @@ export const navigationMenuTree: MenuItem[] = [
 ];
 
 /**
- * Filter the navigation tree by subject domain.
- * If subject === 'all', returns full tree.
- * Otherwise, prunes branches that do not match the requested subject domain.
+ * Filter the single canonical navigation tree by subject domain and CRUD mode.
+ * - If mode is 'create':
+ *     Entity type nodes (such as TTD, BTD, Axioms, Theorems) have their instance children pruned,
+ *     so they appear directly without submenus and clicking them immediately launches the initialized creation form.
+ * - If mode is 'read', 'update', or 'delete':
+ *     Entity type nodes retain their instance children so the user can inspect, update, or delete existing records.
  */
-export function getFilteredMenuTree(subject: string = 'all'): MenuItem[] {
-    if (!subject || subject === 'all') {
-        return navigationMenuTree;
+export function getFilteredMenuTree(subject: string = 'all', mode: string = 'read'): MenuItem[] {
+    const isCreate = mode === 'create';
+
+    function matchesSubjectFilter(itemSubject?: string): boolean {
+        if (!subject || subject === 'all') return true;
+        if (!itemSubject || itemSubject === 'all') return true;
+        return itemSubject === subject;
     }
 
     function filterItem(item: MenuItem): MenuItem | null {
-        // If leaf item
-        if (!item.children || item.children.length === 0) {
-            if (!item.subject || item.subject === 'all' || item.subject === subject) {
-                return item;
-            }
+        // If the item has an explicit subject that does not match the active filter, prune it
+        if (!matchesSubjectFilter(item.subject)) {
             return null;
         }
 
-        // If parent item with children, recursively filter
-        const filteredChildren = item.children
-            .map(filterItem)
-            .filter((c): c is MenuItem => c !== null);
-
-        // Keep parent if it has matching children or is explicitly tagged with this subject
-        if (filteredChildren.length > 0) {
-            return {
-                ...item,
-                children: filteredChildren
-            };
+        // In Create mode, prune any direct instance items (records with instanceKey or instanceId or "Browse All")
+        if (isCreate && (item.instanceKey !== undefined || item.instanceId !== undefined || item.label.startsWith('Browse All'))) {
+            return null;
         }
 
-        if (item.subject && (item.subject === subject || item.subject === 'all')) {
-            return {
-                ...item,
-                children: []
-            };
+        // If an item has children:
+        if (item.children && item.children.length > 0) {
+            // In Create mode, if this item represents a concrete creatable entity type
+            // (e.g. typeKey is 'ttd', 'btd', 'bid', 'fsd', 'axiom', 'theorem', 'directed_equality', 'curriculum_nav_item'):
+            // prune its children so it becomes a terminal leaf that directly launches creation!
+            if (isCreate && item.typeKey && item.typeKey !== 'demo_initializations' && item.typeKey !== 'formal_statement') {
+                return {
+                    ...item,
+                    children: []
+                };
+            }
+
+            // Otherwise, recursively filter children
+            const filteredChildren = item.children
+                .map(filterItem)
+                .filter((c): c is MenuItem => c !== null);
+
+            if (filteredChildren.length > 0) {
+                return {
+                    ...item,
+                    children: filteredChildren
+                };
+            }
+
+            return null;
         }
 
-        return null;
+        // Leaf item
+        return item;
     }
 
     return navigationMenuTree
@@ -436,4 +453,85 @@ export function renderMenuHierarchy(items: MenuItem[]): string {
             `;
         }
     }).join('');
+}
+
+/**
+ * Dynamically synchronizes instance children in navigationMenuTree directly from the PostgreSQL database.
+ */
+export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, params?: any[]) => Promise<T[]>): Promise<void> {
+    try {
+        // 1. Fetch live interactive demos
+        const demos = await queryFn<any>('SELECT id, engine, mode, title FROM interactive_demos ORDER BY id ASC;');
+        if (demos && demos.length > 0) {
+            const demoInitializationsNode = navigationMenuTree.find((n) => n.typeKey === 'demo_initializations');
+            if (demoInitializationsNode && demoInitializationsNode.children) {
+                const engineSubjectMap: Record<string, string> = {
+                    ttd: 'logic',
+                    btd: 'numbers_trees',
+                    bid: 'analysis',
+                    fsd: 'all'
+                };
+                for (const engine of ['ttd', 'btd', 'bid', 'fsd']) {
+                    const engineNode = demoInitializationsNode.children.find((c) => c.typeKey === engine);
+                    if (engineNode) {
+                        const engineDemos = demos.filter((d) => d.engine === engine);
+                        const subj = engineSubjectMap[engine] || 'all';
+                        engineNode.children = [
+                            ...engineDemos.map((d) => ({
+                                label: d.title || `Demo #${d.id}`,
+                                typeKey: engine,
+                                instanceId: Number(d.id),
+                                subject: subj
+                            })),
+                            {
+                                label: `Browse All ${engine.toUpperCase()} Initializations`,
+                                typeKey: engine,
+                                subject: subj
+                            }
+                        ];
+                    }
+                }
+            }
+        }
+
+        // 2. Fetch live formal statements
+        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY id ASC;');
+        if (stmts && stmts.length > 0) {
+            const fsNode = navigationMenuTree.find((n) => n.typeKey === 'formal_statement');
+            if (fsNode && fsNode.children) {
+                for (const kind of ['axiom', 'theorem', 'directed_equality']) {
+                    const kindNode = fsNode.children.find((c) => c.typeKey === kind);
+                    if (kindNode) {
+                        const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+                        kindNode.children = [
+                            ...kindStmts.map((s) => {
+                                let subj = 'all';
+                                const dc = s.domain_category || '';
+                                if (dc.includes('logic') || dc.includes('order')) subj = 'logic';
+                                else if (dc.includes('tree') || dc.includes('arithmetic')) subj = 'numbers_trees';
+                                else if (dc.includes('algebra') || dc.includes('vector')) subj = 'algebra';
+                                else if (dc.includes('analysis') || dc.includes('trig') || dc.includes('rotor')) subj = 'analysis';
+                                else if (dc.includes('physic') || dc.includes('kinematic')) subj = 'physics';
+                                else if (dc.includes('bayes') || dc.includes('quantum') || dc.includes('info')) subj = 'information';
+
+                                return {
+                                    label: s.title || s.statement_key,
+                                    typeKey: 'formal_statement',
+                                    instanceKey: s.statement_key,
+                                    subject: subj
+                                };
+                            }),
+                            {
+                                label: `Browse All ${kind === 'directed_equality' ? 'Directed Equalities' : kind.charAt(0).toUpperCase() + kind.slice(1) + 's'}`,
+                                typeKey: kind,
+                                subject: 'all'
+                            }
+                        ];
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        console.warn('[syncMenuTreeFromDatabase] Could not sync menu tree from live database:', err);
+    }
 }

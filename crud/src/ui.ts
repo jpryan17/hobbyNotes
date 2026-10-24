@@ -3,9 +3,10 @@
 
 import { AppMetadata, TableNavigationPath, Dependent, EnrichedTable, EnrichedColumn } from './types.js';
 import { queryDatabase, executeSql } from '../../clientLib/db/api.js';
-import { navigationMenuTree, renderMenuHierarchy, getFilteredMenuTree } from './menuTree.js';
+import { navigationMenuTree, renderMenuHierarchy, getFilteredMenuTree, syncMenuTreeFromDatabase } from './menuTree.js';
 import { PxeEngine, mountPxeBuilderComponent } from '../../clientLib/pxeEngine.js';
 import { mountFsdBuilder, parseStatementToFsdData, FsdCommitData } from '../../clientLib/fsd.js';
+import { renderSegmentContentSurface } from './contentEditor.js';
 
 export type CrudMode = 'create' | 'read' | 'update' | 'delete';
 
@@ -166,7 +167,8 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
                     status = evalRes?.isTautology ? 'taut' : (evalRes?.isContradiction ? 'unsat' : 'cont');
                 }
                 const statusSuffix = status ? ` [${status}]` : '';
-                return `${fmt || exp || record.title || 'TTD'}${statusSuffix}`;
+                const titlePrefix = (record.title && record.title !== fmt && record.title !== exp) ? `${record.title} — ` : '';
+                return `${titlePrefix}${fmt || exp || record.title || 'TTD'}${statusSuffix}`;
             }
             return `${record.title || 'Demo #' + record.id} (${record.engine || 'demo'}${record.mode ? ` - ${record.mode}` : ''})`;
         }
@@ -179,6 +181,196 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
             return record.name || record.title || record.label || record.key || `Record #${record.id}`;
         }
     }
+}
+
+/**
+ * Returns the unique friendly key and title/label for a record.
+ */
+export function getRecordUniqueKeyDisplay(tableName: string, record: any): { key: string; label: string } {
+    if (!record) return { key: '', label: '' };
+    switch (tableName) {
+        case 'segments':
+            return {
+                key: record.slug || record.seg_key || `#${record.id}`,
+                label: record.title || record.slug || `Segment #${record.id}`
+            };
+        case 'formal_statements':
+            return {
+                key: record.statement_key || `#${record.id}`,
+                label: record.title || record.expression || `Statement #${record.id}`
+            };
+        case 'pseudocode_algorithms':
+            return {
+                key: record.algo_key || `#${record.id}`,
+                label: record.title || record.name || `Algorithm #${record.id}`
+            };
+        case 'interactive_demos':
+            return {
+                key: record.engine ? `${record.engine.toUpperCase()}: ${record.expression || record.id}` : `#${record.id}`,
+                label: record.title || `Demo #${record.id}`
+            };
+        case 'curriculum_nav_items':
+            return {
+                key: record.nav_key || `#${record.id}`,
+                label: record.topic || record.nav_topic || `Nav Item #${record.id}`
+            };
+        case 'apps':
+            return {
+                key: record.app_code || `#${record.id}`,
+                label: record.name || `App #${record.id}`
+            };
+        case 'lean_declarations':
+            return {
+                key: record.name || `#${record.id}`,
+                label: record.kind ? `[${record.kind}] ${record.name}` : record.name
+            };
+        case 'directed_equations':
+            return {
+                key: record.equation_key || `#${record.id}`,
+                label: record.title || record.label || `Equation #${record.id}`
+            };
+        default: {
+            const displayCol = getDisplayColumnName(tableName);
+            return {
+                key: record.key || record.slug || `#${record.id}`,
+                label: record[displayCol] || `ID: ${record.id}`
+            };
+        }
+    }
+}
+
+/**
+ * Formats a clean badge string combining the unique friendly key and readable label.
+ */
+export function formatFkBadgeText(tableName: string, record: any): string {
+    if (!record) return '-- None --';
+    const info = getRecordUniqueKeyDisplay(tableName, record);
+    if (info.key && info.label && info.key !== info.label) {
+        return `${info.key} · ${info.label}`;
+    }
+    return info.key || info.label || `ID: ${record.id}`;
+}
+
+/**
+ * Opens a modal picker to select a referenced child / parent entity.
+ */
+async function openChildRecordPickerModal(
+    parentTable: string,
+    colName: string,
+    fkTable: string,
+    isNullable: boolean,
+    currentValue: string,
+    onSelect: (record: any | null) => void
+) {
+    const tableInfo = appMetadata[fkTable];
+    const targetLabel = tableInfo?.singularLabel || tableInfo?.label || fkTable;
+
+    let orderCol = 'id';
+    const candidateCols = Object.keys(tableInfo?.columns || {});
+    if (candidateCols.includes('sequence_order')) orderCol = 'sequence_order';
+    else if (candidateCols.includes('slug')) orderCol = 'slug';
+    else if (candidateCols.includes('topic')) orderCol = 'topic';
+    else if (candidateCols.includes('title')) orderCol = 'title';
+    else if (candidateCols.includes('name')) orderCol = 'name';
+
+    let records: any[] = [];
+    try {
+        let sql = `SELECT * FROM ${fkTable}`;
+        if (parentTable === fkTable && currentSelectedId) {
+            sql += ` WHERE id != ${parseInt(currentSelectedId, 10)}`;
+        }
+        sql += ` ORDER BY "${orderCol}" ASC, id ASC;`;
+        records = (await queryDatabase<any>(sql)) || [];
+    } catch (e) {
+        console.error(`[openChildRecordPickerModal] Error fetching ${fkTable}:`, e);
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'crud-modal open';
+    modal.style.cssText = 'position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(2px);';
+
+    modal.innerHTML = `
+        <div style="background: #ffffff; border-radius: 8px; width: 680px; max-width: 92vw; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); border: 1px solid #cbd5e1; overflow: hidden;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Select ${escapeHtml(targetLabel)}</h3>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Table: <code style="font-family: var(--font-mono);">${fkTable}</code> • Total: ${records.length} records</div>
+                </div>
+                <button type="button" class="btn-close-picker-modal" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer; padding: 2px 8px; border-radius: 4px;">✕</button>
+            </div>
+            <div style="padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                <input type="text" id="picker-search-input" placeholder="🔍 Search by key, title, slug, or ID..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none;" />
+            </div>
+            <div id="picker-records-list" style="flex: 1; overflow-y: auto; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px;">
+                ${isNullable ? `
+                    <div class="picker-item" data-id="" style="padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 1px dashed #cbd5e1; color: #64748b; font-size: 13px; background: #f8fafc;">
+                        <span>-- None (Unlink / Clear Association) --</span>
+                        <span style="font-size: 11px; font-weight: 700; color: #94a3b8;">NULL</span>
+                    </div>
+                ` : ''}
+                ${records.map(r => {
+                    const info = getRecordUniqueKeyDisplay(fkTable, r);
+                    const isSelected = currentValue && currentValue.toString() === r.id.toString();
+                    return `
+                        <div class="picker-item" data-id="${r.id}" style="padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 1px solid ${isSelected ? '#38bdf8' : '#e2e8f0'}; background: ${isSelected ? '#f0f9ff' : '#ffffff'}; transition: all 0.1s ease;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; border: 1px solid #e2e8f0;">${escapeHtml(info.key)}</span>
+                                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">${escapeHtml(info.label)}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 11px; color: #94a3b8; font-family: var(--font-mono);">#${r.id}</span>
+                                ${isSelected ? `<span style="font-size: 11px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 2px 6px; border-radius: 4px;">Selected</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+            <div style="padding: 12px 20px; border-top: 1px solid #e2e8f0; background: #f8fafc; display: flex; justify-content: flex-end;">
+                <button type="button" class="btn-close-picker-modal action-btn secondary" style="padding: 6px 14px; font-size: 12px;">Cancel</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const closeModal = () => modal.remove();
+    modal.querySelectorAll('.btn-close-picker-modal').forEach(b => b.addEventListener('click', closeModal));
+
+    const searchInput = modal.querySelector('#picker-search-input') as HTMLInputElement;
+    const itemsList = modal.querySelector('#picker-records-list') as HTMLDivElement;
+    searchInput.focus();
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase().trim();
+        itemsList.querySelectorAll('.picker-item').forEach(el => {
+            const itemEl = el as HTMLElement;
+            const text = itemEl.textContent?.toLowerCase() || '';
+            itemEl.style.display = text.includes(query) ? 'flex' : 'none';
+        });
+    });
+
+    itemsList.querySelectorAll('.picker-item').forEach(el => {
+        const itemEl = el as HTMLElement;
+        itemEl.addEventListener('mouseenter', () => {
+            itemEl.style.borderColor = '#0284c7';
+            itemEl.style.background = '#f0f9ff';
+        });
+        itemEl.addEventListener('mouseleave', () => {
+            const isSel = itemEl.getAttribute('data-id') === currentValue;
+            itemEl.style.borderColor = isSel ? '#38bdf8' : '#e2e8f0';
+            itemEl.style.background = isSel ? '#f0f9ff' : '#ffffff';
+        });
+        itemEl.addEventListener('click', () => {
+            const chosenId = itemEl.getAttribute('data-id');
+            if (!chosenId) {
+                onSelect(null);
+            } else {
+                const found = records.find(r => r.id.toString() === chosenId);
+                onSelect(found || null);
+            }
+            closeModal();
+        });
+    });
 }
 
 /**
@@ -254,7 +446,7 @@ function setupControlListeners() {
 
     // Build Hierarchical Type Menu
     if (typeDropdownMenu) {
-        typeDropdownMenu.innerHTML = renderMenuHierarchy(navigationMenuTree);
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
     }
 
     // Type dropdown toggle
@@ -276,12 +468,26 @@ function setupControlListeners() {
             const instanceId = targetItem.getAttribute('data-instance-id');
             const label = targetItem.getAttribute('data-label') || '';
 
+            // In Create mode: if user clicks a leaf item with a typeKey (e.g. "Truth Table Demo (TTD)", "Axioms", etc.):
+            // immediately select that type and launch the create form!
+            if (currentMode === 'create' && typeKey && !hasSubmenu) {
+                e.stopPropagation();
+                typeDropdownMenu?.classList.remove('show');
+                typeDropdownMenu?.querySelectorAll('.open-submenu').forEach((el) => el.classList.remove('open-submenu'));
+                setType(typeKey);
+                return;
+            }
+
             // 1. Direct instance selection (leaf record)
             if (instanceKey || instanceId) {
                 e.stopPropagation();
                 typeDropdownMenu?.classList.remove('show');
                 typeDropdownMenu?.querySelectorAll('.open-submenu').forEach((el) => el.classList.remove('open-submenu'));
-                await selectInstanceDirectly(typeKey || currentTypeKey, instanceKey || instanceId!, label);
+                if (currentMode === 'create') {
+                    setType(typeKey || currentTypeKey);
+                } else {
+                    await selectInstanceDirectly(typeKey || currentTypeKey, instanceKey || instanceId!, label);
+                }
                 return;
             }
 
@@ -333,11 +539,12 @@ function setupControlListeners() {
             }
         };
 
-        // Dynamic Submenu positioning on hover
-        typeDropdownMenu.querySelectorAll('.dropdown-item.has-submenu').forEach((item) => {
-            item.addEventListener('mouseenter', () => {
-                positionSubmenu(item as HTMLElement);
-            });
+        // Dynamic Submenu positioning on hover via delegation (retains functionality across re-renders)
+        typeDropdownMenu.addEventListener('mouseover', (e) => {
+            const item = (e.target as HTMLElement).closest('.dropdown-item.has-submenu') as HTMLElement;
+            if (item && typeDropdownMenu.contains(item)) {
+                positionSubmenu(item);
+            }
         });
     }
 
@@ -378,11 +585,207 @@ function setupControlListeners() {
         });
     }
 
+    // Reset Studio button (follows Subject in control header)
+    const resetStudioBtn = document.getElementById('btn-reset-studio');
+    if (resetStudioBtn) {
+        resetStudioBtn.addEventListener('click', () => {
+            resetStudio();
+        });
+    }
+
     // Modal close
     const modalClose = document.getElementById('modal-close-button');
     if (modalClose && mainModal) {
         modalClose.addEventListener('click', closeModal);
     }
+
+    // Ops Buttons: Backup DB, Prep/Build, Deploy
+    const btnOpsBackup = document.getElementById('btn-ops-backup');
+    if (btnOpsBackup) {
+        btnOpsBackup.addEventListener('click', async () => {
+            const originalText = btnOpsBackup.innerHTML;
+            btnOpsBackup.innerHTML = '<span>⏳</span> Backing up...';
+            (btnOpsBackup as HTMLButtonElement).disabled = true;
+            setStatus('📦 Running PostgreSQL database backup...');
+            try {
+                const resp = await fetch('/api/ops/backup', { method: 'POST' });
+                const data = await resp.json();
+                if (data.status === 'success') {
+                    setStatus('✓ PostgreSQL database backed up to db/backups/latest.sql');
+                    showModal(`
+                        <h3 style="color: #0369a1; margin-bottom: 8px;">📦 Database Backup Complete</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            The PostgreSQL database was successfully dumped to:
+                            <br><code style="font-family: var(--font-mono); font-weight: 600;">db/backups/latest.sql</code>
+                        </p>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml(data.output || data.message)}</pre>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(data.message || 'Backup failed');
+                }
+            } catch (err: any) {
+                setStatus('⚠️ Database backup failed: ' + err.message);
+                alert('Backup error: ' + err.message);
+            } finally {
+                btnOpsBackup.innerHTML = originalText;
+                (btnOpsBackup as HTMLButtonElement).disabled = false;
+            }
+        });
+    }
+
+    const btnOpsPrep = document.getElementById('btn-ops-prep');
+    if (btnOpsPrep) {
+        btnOpsPrep.addEventListener('click', async () => {
+            const originalText = btnOpsPrep.innerHTML;
+            btnOpsPrep.innerHTML = '<span>⏳</span> Prepping...';
+            (btnOpsPrep as HTMLButtonElement).disabled = true;
+            setStatus('⚙️ Running prep (database backup + distribution build)...');
+            try {
+                const resp = await fetch('/api/ops/prep', { method: 'POST' });
+                const data = await resp.json();
+                if (data.status === 'success') {
+                    setStatus('✓ Prep complete: PostgreSQL backed up & app1/dist/index.html updated');
+                    showModal(`
+                        <h3 style="color: #4338ca; margin-bottom: 8px;">⚙️ Prep / Build Complete</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            PostgreSQL database backed up and distribution compiled into:
+                            <br><code style="font-family: var(--font-mono); font-weight: 600;">app1/dist/index.html</code> (57 segments loaded from PostgreSQL).
+                        </p>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml(data.output || data.message)}</pre>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(data.message || 'Prep build failed');
+                }
+            } catch (err: any) {
+                setStatus('⚠️ Prep build failed: ' + err.message);
+                alert('Prep build error: ' + err.message);
+            } finally {
+                btnOpsPrep.innerHTML = originalText;
+                (btnOpsPrep as HTMLButtonElement).disabled = false;
+            }
+        });
+    }
+
+    const btnOpsDeploy = document.getElementById('btn-ops-deploy');
+    if (btnOpsDeploy) {
+        btnOpsDeploy.addEventListener('click', () => {
+            showModal(`
+                <h3 style="color: #059669; margin-bottom: 8px;">🚀 Deploy to middlewaymath.app</h3>
+                <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 14px;">
+                    This will run <strong>prep</strong> (snapshot PostgreSQL database + compile all segments into <code>app1/dist/index.html</code>), sync overview and spec documents, and push directly to <strong>origin master</strong>.
+                </p>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+                    <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
+                    <button class="action-btn" id="modal-btn-confirm-deploy" style="background: #059669; color: #ffffff; border: 1px solid #047857; font-weight: 700;">
+                        🚀 Confirm &amp; Push to Production
+                    </button>
+                </div>
+            `);
+
+            document.getElementById('modal-btn-confirm-deploy')?.addEventListener('click', async () => {
+                const modalTarget = document.getElementById('modal-body-content');
+                if (modalTarget) {
+                    modalTarget.innerHTML = `
+                        <div style="text-align: center; padding: 24px 10px;">
+                            <div style="font-size: 32px; margin-bottom: 12px; animation: spin 1s infinite linear;">🚀</div>
+                            <h3 style="color: #059669; margin-bottom: 8px;">Deploying to Production...</h3>
+                            <p style="color: #64748b; font-size: 13px;">Running prep, staging files, committing, and pushing to origin master...</p>
+                        </div>
+                    `;
+                }
+                setStatus('🚀 Deploying Mathematics and the Middle Way to middlewaymath.app...');
+                try {
+                    const resp = await fetch('/api/ops/deploy', { method: 'POST' });
+                    const data = await resp.json();
+                    if (data.status === 'success') {
+                        setStatus('✓ Successfully deployed to middlewaymath.app!');
+                        showModal(`
+                            <h3 style="color: #059669; margin-bottom: 8px;">🎉 Deployment Succeeded!</h3>
+                            <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                                Changes have been pushed to <code>origin master</code> and deployed live to <strong>middlewaymath.app</strong>!
+                            </p>
+                            <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 200px; overflow-y: auto;">${escapeHtml(data.output || data.message)}</pre>
+                            <div style="margin-top: 14px; text-align: right;">
+                                <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
+                            </div>
+                        `);
+                    } else {
+                        throw new Error(data.message || 'Deployment error');
+                    }
+                } catch (err: any) {
+                    setStatus('⚠️ Deployment failed: ' + err.message);
+                    showModal(`
+                        <h3 style="color: #dc2626; margin-bottom: 8px;">⚠️ Deployment Failed</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            ${escapeHtml(err.message)}
+                        </p>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+                }
+            });
+        });
+    }
+}
+
+/**
+ * Fully resets CRUD Studio selection and navigation history, returning to initial clean landing state.
+ */
+export function resetStudio() {
+    navHistory.length = 0;
+    currentMode = 'read';
+    currentTypeKey = null;
+    currentSelectedId = null;
+    currentTitle = '';
+    currentSubject = 'all';
+
+    if (currentModeLabel) currentModeLabel.textContent = 'Read';
+    if (currentTypeLabel) currentTypeLabel.textContent = 'Select Type';
+    if (currentSubjectLabel) currentSubjectLabel.textContent = 'All';
+
+    // Close any open dropdowns
+    modeDropdownMenu?.classList.remove('show');
+    typeDropdownMenu?.classList.remove('show');
+    subjectDropdownMenu?.classList.remove('show');
+
+    if (modeDropdownMenu) {
+        modeDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+            if ((item as HTMLElement).getAttribute('data-mode') === 'read') {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    if (subjectDropdownMenu) {
+        subjectDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+            if ((item as HTMLElement).getAttribute('data-subject') === 'all') {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    if (typeDropdownMenu) {
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree('all', 'read'));
+        typeDropdownMenu.querySelectorAll('.dropdown-item').forEach((item) => {
+            item.classList.remove('active');
+        });
+    }
+
+    closeModal();
+    updateBreadcrumbs();
+    renderCurrentView();
+    setStatus('Ready • Selection reset to clean landing state');
 }
 
 /**
@@ -465,9 +868,9 @@ export function setSubject(subject: string) {
         });
     }
 
-    // Refresh Hierarchical Type Menu using the filtered tree
+    // Refresh Hierarchical Type Menu using the filtered tree for active subject and mode
     if (typeDropdownMenu) {
-        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject));
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
     }
 
     renderCurrentView();
@@ -490,6 +893,13 @@ export function setMode(mode: CrudMode, preserveSelection: boolean = false) {
                 item.classList.remove('active');
             }
         });
+    }
+
+    // Refresh Hierarchical Type Menu to reflect mode:
+    // In 'create' mode, the type menu strictly shows creatable types without instance children.
+    // In 'read' / 'update' mode, the type menu provides the full instance tree.
+    if (typeDropdownMenu) {
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
     }
 
     if (preserveSelection) {
@@ -918,7 +1328,7 @@ async function renderEntityInstancePickerForAction(
             updateBreadcrumbs();
 
             if (action === 'update') {
-                renderRecordForm(tableName, record, false);
+                await renderRecordForm(tableName, record, false);
             } else {
                 renderDeleteConfirmation(tableName, record);
             }
@@ -1031,7 +1441,7 @@ async function renderCurrentView() {
         if (currentSelectedId) {
             const record = await fetchRecordById(tableName, currentSelectedId);
             if (record) {
-                renderRecordForm(tableName, record, false);
+                await renderRecordForm(tableName, record, false);
                 return;
             }
         }
@@ -1249,6 +1659,36 @@ async function renderEntityInspectorView(tableName: string, filterKind?: { colum
 }
 
 // =============================================================================
+// SEGMENT AUTHORING & READER VIEW BRIDGE
+// =============================================================================
+
+/**
+ * Renders the full Segment Content authoring surface / reader inside #display-area.
+ */
+export async function renderSegmentAuthoringView(record: any, mode: 'read' | 'update' = 'read') {
+    if (!displayArea) return;
+    currentSelectedId = record.id.toString();
+    currentTitle = record.title || record.slug || `Segment #${record.id}`;
+    updateBreadcrumbs();
+
+    await renderSegmentContentSurface({
+        container: displayArea,
+        segmentRecord: record,
+        initialMode: mode,
+        onBack: () => {
+            renderCurrentView();
+        },
+        onSaved: (updatedRecord) => {
+            currentTitle = updatedRecord.title || updatedRecord.slug || `Segment #${updatedRecord.id}`;
+            updateBreadcrumbs();
+        },
+        onSwitchMode: (newMode) => {
+            setMode(newMode, true);
+        }
+    });
+}
+
+// =============================================================================
 // ATTRIBUTE COMPLETE CARD (Exposes Every DB Attribute, FK, and Child Rel)
 // =============================================================================
 
@@ -1328,34 +1768,152 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
         const tdVal = document.createElement('td');
         tdVal.className = 'attr-col-val';
 
-        if (rawVal === null || rawVal === undefined) {
+        if (colMeta.isForeignKey && colMeta.foreignKeyTable) {
+            // Foreign Key Resolution Link (with sparse down-arrow button - always present)
+            const fkTable = colMeta.foreignKeyTable;
+            const hasVal = rawVal !== null && rawVal !== undefined && rawVal !== '';
+
+            const group = document.createElement('div');
+            group.className = 'fk-field-group';
+            group.style.cssText = 'display: flex; align-items: center; gap: 8px; flex-wrap: wrap;';
+
+            const badge = document.createElement('span');
+            badge.className = 'fk-friendly-badge';
+            badge.style.cssText = 'font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; min-height: 28px;';
+            badge.textContent = hasVal ? `Loading ${fkTable} #${rawVal}...` : '-- None --';
+
+            const navBtn = document.createElement('button');
+            navBtn.type = 'button';
+            navBtn.className = 'btn-nav-child-arrow';
+            navBtn.setAttribute('data-table', fkTable);
+            navBtn.setAttribute('data-id', hasVal ? rawVal.toString() : '');
+            navBtn.textContent = '↓';
+
+            if (hasVal) {
+                navBtn.title = `Drill down to ${appMetadata[fkTable]?.singularLabel || fkTable} #${rawVal}`;
+                navBtn.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer; line-height: 1; transition: all 0.15s ease;';
+                navBtn.addEventListener('click', () => {
+                    navigateToEntity(fkTable, rawVal.toString(), badge.textContent || `${fkTable} #${rawVal}`);
+                });
+
+                queryDatabase<any>(`SELECT * FROM ${fkTable} WHERE id = $1;`, [rawVal])
+                    .then((rows) => {
+                        if (rows && rows.length > 0) {
+                            badge.textContent = formatFkBadgeText(fkTable, rows[0]);
+                        }
+                    })
+                    .catch(() => {});
+            } else {
+                navBtn.title = 'No referenced child linked';
+                navBtn.disabled = true;
+                navBtn.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #94a3b8; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; cursor: not-allowed; opacity: 0.5; line-height: 1;';
+            }
+
+            group.appendChild(badge);
+            group.appendChild(navBtn);
+            tdVal.appendChild(group);
+        } else if (rawVal === null || rawVal === undefined) {
             tdVal.innerHTML = `<span class="null-badge">NULL</span>`;
         } else if (typeof rawVal === 'boolean') {
             tdVal.innerHTML = rawVal
                 ? `<span style="color: var(--emerald); font-weight: 700;">TRUE</span>`
                 : `<span style="color: #64748b; font-weight: 700;">FALSE</span>`;
-        } else if (colMeta.isForeignKey && rawVal) {
-            // Foreign Key Resolution Link
-            const fkTable = colMeta.foreignKeyTable || 'unknown';
+        } else if (tableName === 'formal_statements' && colName === 'expression') {
+            const expStr = rawVal ? rawVal.toString() : '';
             tdVal.innerHTML = `
-                <span style="font-family: var(--font-mono); font-weight: 700;">${rawVal}</span>
-                <button class="fk-goto-btn" data-fktable="${fkTable}" data-fkid="${rawVal}">
-                    <span>↗ Go to ${fkTable} #${rawVal}</span>
-                </button>
+                <div style="padding: 10px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block; min-width: 320px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+                    <div style="font-size: 19px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif; letter-spacing: 0.5px;">
+                        ${escapeHtml(expStr || '—')}
+                    </div>
+                </div>
             `;
-
-            // Async name resolution
-            const targetCol = getDisplayColumnName(fkTable);
-            queryDatabase<any>(`SELECT "${targetCol}" as name FROM ${fkTable} WHERE id = $1;`, [rawVal])
-                .then((rows) => {
-                    if (rows && rows.length > 0) {
-                        const btn = tdVal.querySelector('.fk-goto-btn');
-                        if (btn) {
-                            btn.innerHTML = `<span>↗ Go to ${appMetadata[fkTable]?.singularLabel || fkTable}: ${escapeHtml(rows[0].name || '')} (#${rawVal})</span>`;
-                        }
-                    }
-                })
-                .catch(() => {});
+        } else if (tableName === 'formal_statements' && (colName === 'lean_signature' || colName === 'lean_snippet')) {
+            const code = rawVal ? rawVal.toString() : '';
+            if (!code) {
+                tdVal.innerHTML = `<span class="null-badge">NULL</span>`;
+            } else {
+                tdVal.innerHTML = `
+                    <pre class="raw-code-box" style="background: #0f172a; color: #38bdf8; font-family: var(--font-mono); font-size: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid #1e293b; white-space: pre-wrap; word-break: break-word; margin: 0; max-height: 240px; overflow-y: auto;">${escapeHtml(code)}</pre>
+                `;
+            }
+        } else if (tableName === 'formal_statements' && colName === 'status') {
+            const st = rawVal ? rawVal.toString() : '';
+            let badgeBg = '#f1f5f9';
+            let badgeColor = '#475569';
+            let badgeLabel = st || 'None';
+            if (st === 'published') {
+                badgeBg = '#ecfdf5';
+                badgeColor = '#047857';
+                badgeLabel = '✓ Published';
+            } else if (st === 'verified') {
+                badgeBg = '#ecfdf5';
+                badgeColor = '#059669';
+                badgeLabel = '🛡️ Verified';
+            } else if (st === 'under_review') {
+                badgeBg = '#eff6ff';
+                badgeColor = '#1d4ed8';
+                badgeLabel = '🔍 Under Review';
+            } else if (st === 'staged') {
+                badgeBg = '#fffbeb';
+                badgeColor = '#d97706';
+                badgeLabel = '⚡ Staged';
+            } else if (st === 'draft') {
+                badgeBg = '#f1f5f9';
+                badgeColor = '#475569';
+                badgeLabel = '📝 Draft';
+            }
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor}; display: inline-flex; align-items: center; gap: 4px;">${escapeHtml(badgeLabel)}</span>`;
+        } else if (tableName === 'formal_statements' && colName === 'tier') {
+            const trVal = rawVal ? rawVal.toString() : '';
+            let tBg = '#f1f5f9';
+            let tColor = '#475569';
+            let tIcon = '🏷️';
+            if (trVal === 'constitutional') {
+                tBg = '#faf5ff';
+                tColor = '#7e22ce';
+                tIcon = '🏛️';
+            } else if (trVal === 'law') {
+                tBg = '#eef2ff';
+                tColor = '#4338ca';
+                tIcon = '⚖️';
+            } else if (trVal === 'scenario') {
+                tBg = '#f0f9ff';
+                tColor = '#0369a1';
+                tIcon = '🌐';
+            }
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${tBg}; color: ${tColor}; display: inline-flex; align-items: center; gap: 4px;">${tIcon} ${escapeHtml(trVal)}</span>`;
+        } else if (tableName === 'formal_statements' && colName === 'statement_kind') {
+            const kVal = rawVal ? rawVal.toString() : '';
+            let kBg = '#f8fafc';
+            let kColor = '#334155';
+            let kIcon = '📌';
+            if (kVal === 'axiom') {
+                kBg = '#fffbeb';
+                kColor = '#b45309';
+                kIcon = '📜';
+            } else if (kVal === 'theorem') {
+                kBg = '#f0fdfa';
+                kColor = '#0f766e';
+                kIcon = '💎';
+            } else if (kVal === 'directed_equality') {
+                kBg = '#eff6ff';
+                kColor = '#1d4ed8';
+                kIcon = '⇌';
+            }
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml(kVal)}</span>`;
+        } else if (tableName === 'formal_statements' && colName === 'domain_category') {
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml(rawVal.toString())}</span>`;
+        } else if (tableName === 'formal_statements' && colName === 'referenced_segments') {
+            const segs = Array.isArray(rawVal) ? rawVal : (typeof rawVal === 'string' ? rawVal.replace(/[{}]/g, '').split(',').map((s: string) => s.trim()).filter(Boolean) : []);
+            if (segs.length === 0) {
+                tdVal.innerHTML = `<span style="color: #94a3b8; font-style: italic;">No segments citing this statement</span>`;
+            } else {
+                tdVal.innerHTML = `
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                        ${segs.map((s: string) => `<span style="font-size: 11px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">${escapeHtml(s)}</span>`).join('')}
+                    </div>
+                `;
+            }
         } else if (tableName === 'interactive_demos' && colName === 'expression') {
             const expStr = rawVal ? rawVal.toString() : '';
             const isFsd = record.engine === 'fsd';
@@ -1424,23 +1982,19 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
         } else if (typeof rawVal === 'object') {
             tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml(JSON.stringify(rawVal, null, 2))}</pre>`;
         } else if (colName === 'content_html') {
-            // Concise 1-line attribute metric with scroll button
             tdVal.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 10px; padding: 2px 0;">
                     <span style="font-size: 13px; font-weight: 600; color: #1e293b;">HTML Lecture Body</span>
                     <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
                         ${(rawVal.length / 1024).toFixed(1)} KB (${rawVal.length.toLocaleString()} chars)
                     </span>
-                    <button type="button" class="action-btn secondary btn-scroll-to-lecture-viewer" style="font-size: 11.5px; padding: 3px 10px; cursor: pointer;">
-                        📖 View &amp; Inspect Lecture Content ↓
+                    <button type="button" class="action-btn primary btn-open-content-editor" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                        📖 View &amp; Inspect in Content Editor
                     </button>
                 </div>
             `;
-            tdVal.querySelector('.btn-scroll-to-lecture-viewer')?.addEventListener('click', () => {
-                const viewerEl = card.querySelector('.lecture-content-viewer');
-                if (viewerEl) {
-                    viewerEl.scrollIntoView({ behavior: 'smooth' });
-                }
+            tdVal.querySelector('.btn-open-content-editor')?.addEventListener('click', () => {
+                renderSegmentAuthoringView(record, 'read');
             });
         } else if (colMeta.rows && colMeta.rows > 1) {
             tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml(rawVal.toString())}</pre>`;
@@ -1454,936 +2008,18 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
 
     card.appendChild(table);
 
-    // =========================================================================
-    // RELATIONAL MASTER-DETAIL: CONNECTED ENTITIES & CHILD DESCRIPTIONS
-    // Parent display does not inline child info; describes children via friendly
-    // names (single text field if 1 child, dropdown menu if multiple) + nav button.
-    // =========================================================================
-    const relContainer = document.createElement('div');
-    relContainer.className = 'connected-relations-container';
-    relContainer.style.cssText = 'margin: 20px 24px; padding: 18px 20px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);';
 
-    let hasRelations = false;
-    let relRowsHtml = '';
-
-    // 1. If Formal Statement (especially Directed Equality):
-    if (tableName === 'formal_statements') {
-        // A. Child Stencils (via equation_statement_links)
-        try {
-            const stencils = await queryDatabase<any>(
-                `SELECT de.id, de.equation_key, de.title, de.label
-                 FROM directed_equations de
-                 JOIN equation_statement_links esl ON esl.equation_id = de.id
-                 WHERE esl.statement_id = $1
-                 ORDER BY de.id ASC;`,
-                [record.id]
-            );
-
-            if (stencils && stencils.length > 0) {
-                hasRelations = true;
-                if (stencils.length === 1) {
-                    const st = stencils[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Computational Stencil:</span>
-                            <input type="text" readonly value="${escapeHtml(st.title)} (${escapeHtml(st.label)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${st.id}" data-title="${escapeHtml(st.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Computational Stencils (${stencils.length}):</span>
-                            <select id="select-rel-stencils" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${stencils.map((s: any) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.label)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-rel-stencil" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying stencils:', err);
-        }
-
-        // B. Child Pseudocode Block (via pseudo_algo_id or join)
-        try {
-            let algoRecord: any = null;
-            if (record.pseudo_algo_id) {
-                algoRecord = await fetchRecordById('pseudocode_algorithms', record.pseudo_algo_id.toString());
-            } else {
-                const algos = await queryDatabase<any>(
-                    `SELECT pa.id, pa.algo_key, pa.name, pa.title
-                     FROM pseudocode_algorithms pa
-                     JOIN directed_equations de ON de.pseudo_algo_id = pa.id
-                     JOIN equation_statement_links esl ON esl.equation_id = de.id
-                     WHERE esl.statement_id = $1 LIMIT 1;`,
-                    [record.id]
-                );
-                if (algos && algos.length > 0) algoRecord = algos[0];
-            }
-
-            if (algoRecord) {
-                hasRelations = true;
-                const algoTitle = algoRecord.title || algoRecord.name || algoRecord.algo_key;
-                relRowsHtml += `
-                    <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                        <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Pseudocode Algorithm:</span>
-                        <input type="text" readonly value="${escapeHtml(algoTitle)} (${escapeHtml(algoRecord.algo_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                        <button type="button" class="btn btn-sm btn-nav-algo" data-id="${algoRecord.id}" data-title="${escapeHtml(algoTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #4f46e5; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                            Inspect Pseudocode ↗
-                        </button>
-                    </div>
-                `;
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying pseudocode:', err);
-        }
-
-        // C. Parent Formal Statement (if this statement instantiates a parent theorem/axiom)
-        if (record.parent_id) {
-            try {
-                const parentStmt = await fetchRecordById('formal_statements', record.parent_id.toString());
-                if (parentStmt) {
-                    hasRelations = true;
-                    const pTitle = parentStmt.title || parentStmt.expression || parentStmt.statement_key;
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Instantiates (Parent FS):</span>
-                            <input type="text" readonly value="${escapeHtml(pTitle)} (${escapeHtml(parentStmt.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${parentStmt.id}" data-title="${escapeHtml(pTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent FS ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying parent formal statement:', err);
-            }
-        }
-    }
-
-    // 2. If Computational Stencil (directed_equations):
-    if (tableName === 'directed_equations') {
-        // Parent Directed Equality (Formal Statement)
-        try {
-            const parentStmts = await queryDatabase<any>(
-                `SELECT fs.id, fs.statement_key, fs.title
-                 FROM formal_statements fs
-                 JOIN equation_statement_links esl ON esl.statement_id = fs.id
-                 WHERE esl.equation_id = $1
-                 ORDER BY fs.id ASC;`,
-                [record.id]
-            );
-
-            if (parentStmts && parentStmts.length > 0) {
-                hasRelations = true;
-                if (parentStmts.length === 1) {
-                    const pst = parentStmts[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Directed Equality:</span>
-                            <input type="text" readonly value="${escapeHtml(pst.title)} (${escapeHtml(pst.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${pst.id}" data-title="${escapeHtml(pst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Statements (${parentStmts.length}):</span>
-                            <select id="select-parent-de" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${parentStmts.map((p: any) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.statement_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-parent-de" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying parent statements:', err);
-        }
-
-        // Associated Pseudocode Algorithm (if pointed to by pseudo_algo_id)
-        if (record.pseudo_algo_id) {
-            try {
-                const algoRecord = await fetchRecordById('pseudocode_algorithms', record.pseudo_algo_id.toString());
-                if (algoRecord) {
-                    hasRelations = true;
-                    const algoTitle = algoRecord.title || algoRecord.name || algoRecord.algo_key;
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Associated Pseudocode:</span>
-                            <input type="text" readonly value="${escapeHtml(algoTitle)} (${escapeHtml(algoRecord.algo_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-algo" data-id="${algoRecord.id}" data-title="${escapeHtml(algoTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #4f46e5; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Pseudocode ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying stencil pseudocode:', err);
-            }
-        }
-    }
-
-    // 3. If Pseudocode Algorithm (pseudocode_algorithms):
-    if (tableName === 'pseudocode_algorithms') {
-        try {
-            const parentStmts = await queryDatabase<any>(
-                `SELECT fs.id, fs.statement_key, fs.title
-                 FROM formal_statements fs
-                 WHERE fs.pseudo_algo_id = $1
-                    OR fs.id IN (
-                        SELECT esl.statement_id 
-                        FROM equation_statement_links esl 
-                        JOIN directed_equations de ON de.id = esl.equation_id 
-                        WHERE de.pseudo_algo_id = $1
-                    )
-                 LIMIT 5;`,
-                [record.id]
-            );
-
-            if (parentStmts && parentStmts.length > 0) {
-                hasRelations = true;
-                if (parentStmts.length === 1) {
-                    const pst = parentStmts[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Directed Equality:</span>
-                            <input type="text" readonly value="${escapeHtml(pst.title)} (${escapeHtml(pst.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${pst.id}" data-title="${escapeHtml(pst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Statements (${parentStmts.length}):</span>
-                            <select id="select-parent-de" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${parentStmts.map((p: any) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.statement_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-parent-de" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying parent statements for algorithm:', err);
-        }
-    }
-
-    // 4. If Index Entry (curriculum_nav_items):
-    if (tableName === 'curriculum_nav_items') {
-        // A. Associated Lecture Segment
-        if (record.segment_id) {
-            try {
-                const segRecord = await fetchRecordById('segments', record.segment_id.toString());
-                if (segRecord) {
-                    hasRelations = true;
-                    const segTitle = segRecord.title || segRecord.seg_key;
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Lecture Segment:</span>
-                            <input type="text" readonly value="${escapeHtml(segTitle)} (${escapeHtml(segRecord.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${segRecord.id}" data-title="${escapeHtml(segTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Segment ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying segment for nav item:', err);
-            }
-        }
-
-        // B. Associated Interactive Demo (if diagram_key present)
-        if (record.diagram_key) {
-            try {
-                const demos = await queryDatabase<any>(
-                    `SELECT id, title, engine FROM interactive_demos WHERE engine = $1 LIMIT 1;`,
-                    [record.diagram_key]
-                );
-                if (demos && demos.length > 0) {
-                    hasRelations = true;
-                    const demo = demos[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Interactive Demo:</span>
-                            <input type="text" readonly value="${escapeHtml(demo.title)} [${escapeHtml(demo.engine)}]" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-demo" data-id="${demo.id}" data-title="${escapeHtml(demo.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Demo ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying demo for nav item:', err);
-            }
-        }
-
-        // C. Parent Index Entry
-        if (record.parent_id) {
-            try {
-                const parentNav = await fetchRecordById('curriculum_nav_items', record.parent_id.toString());
-                if (parentNav) {
-                    hasRelations = true;
-                    const pTitle = parentNav.topic || parentNav.nav_key;
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(pTitle)} (${escapeHtml(parentNav.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${parentNav.id}" data-title="${escapeHtml(pTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent Entry ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying parent nav item:', err);
-            }
-        }
-
-        // D. Child Sub-Index Entries
-        try {
-            const childNavs = await queryDatabase<any>(
-                `SELECT id, nav_key, topic, sequence_order FROM curriculum_nav_items WHERE parent_id = $1 ORDER BY sequence_order ASC, id ASC;`,
-                [record.id]
-            );
-            if (childNavs && childNavs.length > 0) {
-                hasRelations = true;
-                if (childNavs.length === 1) {
-                    const c = childNavs[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Child Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(c.topic)} (${escapeHtml(c.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${c.id}" data-title="${escapeHtml(c.topic)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Index Entry ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Child Index Entries (${childNavs.length}):</span>
-                            <select id="select-child-navs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${childNavs.map((n: any) => `<option value="${n.id}" data-title="${escapeHtml(n.topic)}">${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-child-nav" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying child nav items:', err);
-        }
-    }
-
-    // 5. If Lecture Segment (segments):
-    if (tableName === 'segments') {
-        // A. Associated Index Entry (Curriculum Nav Item)
-        try {
-            const navItems = await queryDatabase<any>(
-                `SELECT id, nav_key, topic, sequence_order FROM curriculum_nav_items WHERE segment_id = $1 ORDER BY id ASC;`,
-                [record.id]
-            );
-            if (navItems && navItems.length > 0) {
-                hasRelations = true;
-                if (navItems.length === 1) {
-                    const n = navItems[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${n.id}" data-title="${escapeHtml(n.topic)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Index Entry ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Index Entries (${navItems.length}):</span>
-                            <select id="select-seg-navs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${navItems.map((n: any) => `<option value="${n.id}" data-title="${escapeHtml(n.topic)}">${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-seg-nav" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying nav items for segment:', err);
-        }
-
-        // B. Cited Formal Statements
-        try {
-            const citedStmts = await queryDatabase<any>(
-                `SELECT DISTINCT fs.id, fs.statement_key, fs.title, fs.statement_kind
-                 FROM segment_references sr
-                 JOIN formal_statements fs ON fs.id = sr.statement_id
-                 WHERE sr.segment_id = $1
-                 ORDER BY fs.id ASC;`,
-                [record.id]
-            );
-            if (citedStmts && citedStmts.length > 0) {
-                hasRelations = true;
-                if (citedStmts.length === 1) {
-                    const cs = citedStmts[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Formal Statement:</span>
-                            <input type="text" readonly value="${escapeHtml(cs.title)} (${escapeHtml(cs.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${cs.id}" data-title="${escapeHtml(cs.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Statement ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Formal Statements (${citedStmts.length}):</span>
-                            <select id="select-cited-stmts" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citedStmts.map((s: any) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-cited-stmt" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying cited statements for segment:', err);
-        }
-
-        // C. Cited Computational Stencils
-        try {
-            const citedStencils = await queryDatabase<any>(
-                `SELECT DISTINCT de.id, de.equation_key, de.title, de.label
-                 FROM segment_references sr
-                 JOIN directed_equations de ON de.id = sr.equation_id
-                 WHERE sr.segment_id = $1
-                 ORDER BY de.id ASC;`,
-                [record.id]
-            );
-            if (citedStencils && citedStencils.length > 0) {
-                hasRelations = true;
-                if (citedStencils.length === 1) {
-                    const cst = citedStencils[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Stencil:</span>
-                            <input type="text" readonly value="${escapeHtml(cst.title)} (${escapeHtml(cst.label)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${cst.id}" data-title="${escapeHtml(cst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Stencils (${citedStencils.length}):</span>
-                            <select id="select-cited-stencils" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citedStencils.map((s: any) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.label)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-cited-stencil" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying cited stencils for segment:', err);
-        }
-
-        // D. Prerequisite Chapters
-        try {
-            const prereqs = await queryDatabase<any>(
-                `SELECT s.id, s.seg_key, s.title, sp.prerequisite_type
-                 FROM segment_prerequisites sp
-                 JOIN segments s ON s.id = sp.depends_on_segment_id
-                 WHERE sp.segment_id = $1
-                 ORDER BY s.sequence_order ASC, s.id ASC;`,
-                [record.id]
-            );
-            if (prereqs && prereqs.length > 0) {
-                hasRelations = true;
-                if (prereqs.length === 1) {
-                    const pr = prereqs[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Prerequisite Chapter:</span>
-                            <input type="text" readonly value="${escapeHtml(pr.title)} (${escapeHtml(pr.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${pr.id}" data-title="${escapeHtml(pr.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Prerequisite ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Prerequisite Chapters (${prereqs.length}):</span>
-                            <select id="select-prereqs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${prereqs.map((p: any) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.seg_key)}) [${escapeHtml(p.prerequisite_type)}]</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-prereq" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying prerequisites for segment:', err);
-        }
-    }
-
-    // 6. If Interactive Demo (interactive_demos):
-    if (tableName === 'interactive_demos') {
-        try {
-            let exp = record.expression || '';
-            if (!exp) {
-                try {
-                    const initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
-                    exp = initObj?.exp || '';
-                } catch (e) {}
-            }
-
-            let query = `
-                SELECT DISTINCT s.id, s.seg_key, s.title
-                FROM segments s
-                LEFT JOIN segment_references sr ON sr.segment_id = s.id AND sr.demo_id = $1
-                WHERE sr.id IS NOT NULL
-                   OR s.content_html LIKE $2
-                   OR s.content_html LIKE $3
-            `;
-            const params: any[] = [
-                record.id,
-                `%id="${record.id}"%`,
-                `%demo-id="${record.id}"%`
-            ];
-            if (exp) {
-                params.push(`%${exp}%`);
-                query += ` OR s.content_html LIKE $${params.length}`;
-            }
-            query += ` ORDER BY s.id ASC;`;
-
-            const citingSegs = await queryDatabase<any>(query, params);
-
-            if (citingSegs && citingSegs.length > 0) {
-                hasRelations = true;
-                if (citingSegs.length === 1) {
-                    const cseg = citingSegs[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapter (Segment):</span>
-                            <input type="text" readonly value="${escapeHtml(cseg.title || cseg.seg_key)} (${escapeHtml(cseg.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${cseg.id}" data-title="${escapeHtml(cseg.title || cseg.seg_key)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Segment ↗
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapters (${citingSegs.length}):</span>
-                            <select id="select-citing-segs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citingSegs.map((s: any) => `<option value="${s.id}" data-title="${escapeHtml(s.title || s.seg_key)}">${escapeHtml(s.title || s.seg_key)} (${escapeHtml(s.seg_key)})</option>`).join('')}
-                            </select>
-                            <button type="button" id="btn-nav-citing-seg" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        } catch (err) {
-            console.error('[renderAttributeCompleteCard] Error querying citing segments for demo:', err);
-        }
-
-        // B. Governing Predicate Directed Equality (if FSD)
-        if (record.engine === 'fsd') {
-            try {
-                let predKey = record.expression || '';
-                if (!predKey) {
-                    try {
-                        const initObj = typeof record.init_packet === 'object' ? record.init_packet : JSON.parse(record.init_packet || '{}');
-                        predKey = initObj?.exp || '';
-                    } catch (e) {}
-                }
-
-                // Map PXE code to equation_key
-                const codeToEqMap: Record<string, string> = {
-                    'j': 'eq_pred_assign',
-                    'r': 'eq_pred_gt',
-                    's': 'eq_pred_lt',
-                    'k': 'eq_pred_eq',
-                    'l': 'eq_pred_le',
-                    'm': 'eq_pred_mem',
-                    'b': 'eq_pred_subset',
-                    'v': 'eq_pred_even',
-                    'd': 'eq_pred_odd',
-                    'u': 'eq_pred_succ',
-                    'w': 'eq_pred_near',
-                    'c': 'eq_pred_div'
-                };
-                const mappedEqKey = codeToEqMap[predKey] || `eq_pred_${predKey}`;
-
-                const predRows = await queryDatabase<any>(
-                    `SELECT id, equation_key, title, formula_expr 
-                     FROM directed_equations 
-                     WHERE target_domain IN ('B_w', '𝔹', 'B') 
-                       AND (equation_key = $1 OR equation_key LIKE '%' || $2 OR target_symbol = $2)
-                     LIMIT 1;`,
-                    [mappedEqKey, predKey]
-                );
-                if (predRows && predRows.length > 0) {
-                    hasRelations = true;
-                    const pde = predRows[0];
-                    relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Governing Predicate (DE):</span>
-                            <input type="text" readonly value="${escapeHtml(pde.title)} (${escapeHtml(pde.equation_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${pde.id}" data-title="${escapeHtml(pde.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Predicate DE ↗
-                            </button>
-                        </div>
-                    `;
-                }
-            } catch (err) {
-                console.error('[renderAttributeCompleteCard] Error querying predicate DE for FSD:', err);
-            }
-        }
-    }
-
-    // 7. Generic Dependent Child Tables (lean_verifications, mode_slots, etc.)
-    const dependentsForTable = tableInfo.dependents || [];
-    for (const dep of dependentsForTable) {
-        // Skip tables already handled explicitly above to prevent redundant duplication
-        if (tableName === 'formal_statements' && dep.table === 'directed_equations') continue;
-        if (tableName === 'curriculum_nav_items' && dep.table === 'curriculum_nav_items') continue;
-        if (tableName === 'segments' && (dep.table === 'segment_references' || dep.table === 'segment_prerequisites' || dep.table === 'curriculum_nav_items')) continue;
-
-        const depTableMeta = appMetadata[dep.table];
-        if (!depTableMeta) continue;
-
-        const fkToParent = Object.values(depTableMeta.columns).find(
-            (c) => c.isForeignKey && c.foreignKeyTable === tableName
-        );
-
-        if (fkToParent) {
-            try {
-                const childRows = await queryDatabase<any>(
-                    `SELECT * FROM ${dep.table} WHERE "${fkToParent.column}" = $1 ORDER BY id ASC;`,
-                    [record.id]
-                );
-
-                if (childRows && childRows.length > 0) {
-                    hasRelations = true;
-                    const childSingular = depTableMeta.singularLabel || depTableMeta.label;
-                    const childPlural = depTableMeta.label;
-
-                    if (childRows.length === 1) {
-                        const child = childRows[0];
-                        const friendlyName = getRecordFriendlyName(dep.table, child);
-                        relRowsHtml += `
-                            <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                                <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">${escapeHtml(childSingular)}:</span>
-                                <input type="text" readonly value="${escapeHtml(friendlyName)}" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                                <button type="button" class="btn btn-sm btn-nav-dep-child" data-table="${dep.table}" data-id="${child.id}" data-title="${escapeHtml(friendlyName)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                    Inspect ${escapeHtml(childSingular)} ↗
-                                </button>
-                            </div>
-                        `;
-                    } else {
-                        const selectId = `select-dep-${dep.table}`;
-                        relRowsHtml += `
-                            <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                                <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">${escapeHtml(childPlural)} (${childRows.length}):</span>
-                                <select id="${selectId}" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                    ${childRows
-                                        .map((r: any) => {
-                                            const fname = getRecordFriendlyName(dep.table, r);
-                                            return `<option value="${r.id}" data-title="${escapeHtml(fname)}">${escapeHtml(fname)}</option>`;
-                                        })
-                                        .join('')}
-                                </select>
-                                <button type="button" class="btn btn-sm btn-nav-dep-multi" data-select-id="${selectId}" data-table="${dep.table}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                    Inspect Selected ↗
-                                </button>
-                            </div>
-                        `;
-                    }
-                }
-            } catch (err) {
-                console.error(`[renderAttributeCompleteCard] Error querying dependent ${dep.table}:`, err);
-            }
-        }
-    }
-
-    if (hasRelations) {
-        relContainer.innerHTML = `
-            <div style="font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-                Connected Entities &amp; Child Relationships
-            </div>
-            <div>${relRowsHtml}</div>
-        `;
-
-        // Event delegation for navigation buttons
-        relContainer.querySelectorAll('.btn-nav-stencil').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const sid = (btn as HTMLElement).getAttribute('data-id')!;
-                const stitle = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('computational_stencil', sid, stitle);
-            });
-        });
-
-        const btnNavRelStencil = relContainer.querySelector('#btn-nav-rel-stencil');
-        if (btnNavRelStencil) {
-            btnNavRelStencil.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-rel-stencils') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('computational_stencil', selectEl.value, opt?.getAttribute('data-title') || 'Stencil');
-                }
-            });
-        }
-
-        relContainer.querySelectorAll('.btn-nav-algo').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const aid = (btn as HTMLElement).getAttribute('data-id')!;
-                const atitle = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('pseudocode_algorithms', aid, atitle);
-            });
-        });
-
-        relContainer.querySelectorAll('.btn-nav-parent-fs').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const pid = (btn as HTMLElement).getAttribute('data-id')!;
-                const ptitle = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('formal_statement', pid, ptitle);
-            });
-        });
-
-        const btnNavParentDe = relContainer.querySelector('#btn-nav-parent-de');
-        if (btnNavParentDe) {
-            btnNavParentDe.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-parent-de') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('formal_statement', selectEl.value, opt?.getAttribute('data-title') || 'Formal Statement');
-                }
-            });
-        }
-
-        relContainer.querySelectorAll('.btn-nav-segment').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const id = (btn as HTMLElement).getAttribute('data-id')!;
-                const title = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('segments', id, title);
-            });
-        });
-
-        const btnNavCitingSeg = relContainer.querySelector('#btn-nav-citing-seg');
-        if (btnNavCitingSeg) {
-            btnNavCitingSeg.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-citing-segs') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('segments', selectEl.value, opt?.getAttribute('data-title') || 'Segment');
-                }
-            });
-        }
-
-        relContainer.querySelectorAll('.btn-nav-index-entry').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const id = (btn as HTMLElement).getAttribute('data-id')!;
-                const title = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('curriculum_nav_item', id, title);
-            });
-        });
-
-        const btnNavChildNav = relContainer.querySelector('#btn-nav-child-nav');
-        if (btnNavChildNav) {
-            btnNavChildNav.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-child-navs') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('curriculum_nav_item', selectEl.value, opt?.getAttribute('data-title') || 'Index Entry');
-                }
-            });
-        }
-
-        const btnNavSegNav = relContainer.querySelector('#btn-nav-seg-nav');
-        if (btnNavSegNav) {
-            btnNavSegNav.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-seg-navs') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('curriculum_nav_item', selectEl.value, opt?.getAttribute('data-title') || 'Index Entry');
-                }
-            });
-        }
-
-        const btnNavCitedStmt = relContainer.querySelector('#btn-nav-cited-stmt');
-        if (btnNavCitedStmt) {
-            btnNavCitedStmt.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-cited-stmts') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('formal_statement', selectEl.value, opt?.getAttribute('data-title') || 'Statement');
-                }
-            });
-        }
-
-        const btnNavCitedStencil = relContainer.querySelector('#btn-nav-cited-stencil');
-        if (btnNavCitedStencil) {
-            btnNavCitedStencil.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-cited-stencils') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('computational_stencil', selectEl.value, opt?.getAttribute('data-title') || 'Stencil');
-                }
-            });
-        }
-
-        const btnNavPrereq = relContainer.querySelector('#btn-nav-prereq');
-        if (btnNavPrereq) {
-            btnNavPrereq.addEventListener('click', () => {
-                const selectEl = relContainer.querySelector('#select-prereqs') as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    navigateToEntity('segments', selectEl.value, opt?.getAttribute('data-title') || 'Prerequisite');
-                }
-            });
-        }
-
-        relContainer.querySelectorAll('.btn-nav-demo').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const did = (btn as HTMLElement).getAttribute('data-id')!;
-                const dtitle = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity('interactive_demos', did, dtitle);
-            });
-        });
-
-        relContainer.querySelectorAll('.btn-nav-dep-child').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const table = (btn as HTMLElement).getAttribute('data-table')!;
-                const id = (btn as HTMLElement).getAttribute('data-id')!;
-                const title = (btn as HTMLElement).getAttribute('data-title')!;
-                navigateToEntity(table, id, title);
-            });
-        });
-
-        relContainer.querySelectorAll('.btn-nav-dep-multi').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const selectId = (btn as HTMLElement).getAttribute('data-select-id')!;
-                const table = (btn as HTMLElement).getAttribute('data-table')!;
-                const selectEl = relContainer.querySelector(`#${selectId}`) as HTMLSelectElement;
-                if (selectEl && selectEl.value) {
-                    const opt = selectEl.selectedOptions[0];
-                    const title = opt?.getAttribute('data-title') || `${table} #${selectEl.value}`;
-                    navigateToEntity(table, selectEl.value, title);
-                }
-            });
-        });
-
-        card.appendChild(relContainer);
-    }
-
-    // =========================================================================
-    // DEDICATED LECTURE CONTENT VIEWER FOR SEGMENTS
-    // =========================================================================
-    if (tableName === 'segments' && record.content_html) {
-        const viewer = document.createElement('div');
-        viewer.className = 'lecture-content-viewer';
-        viewer.style.cssText = 'margin: 20px 24px; padding: 18px 20px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);';
-
-        viewer.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; flex-wrap: wrap; gap: 10px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em;">
-                        📖 Lecture Content &amp; HTML Viewer
-                    </span>
-                    <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
-                        ${(record.content_html.length / 1024).toFixed(1)} KB
-                    </span>
-                    <span style="font-size: 11px; color: #047857; background: #ecfdf5; padding: 2px 8px; border-radius: 12px; font-weight: 600; border: 1px solid #a7f3d0;">
-                        ${escapeHtml(record.status || 'published')}
-                    </span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <button type="button" class="btn btn-sm btn-lecture-tab-preview" style="padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 4px; border: 1px solid var(--primary); background: var(--primary); color: #ffffff; cursor: pointer;">
-                        👁️ Rendered Preview
-                    </button>
-                    <button type="button" class="btn btn-sm btn-lecture-tab-source" style="padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 4px; border: 1px solid var(--border-color); background: #ffffff; color: #475569; cursor: pointer;">
-                        ‹/› Raw HTML Source
-                    </button>
-                </div>
-            </div>
-            <div class="lecture-tab-body-preview" style="padding: 22px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; max-height: 600px; overflow-y: auto; line-height: 1.6; color: #1e293b;">
-                ${record.content_html}
-            </div>
-            <div class="lecture-tab-body-source" style="display: none; max-height: 600px; overflow-y: auto;">
-                <pre class="raw-code-box" style="margin: 0; max-height: 580px; overflow: auto; background: #f8fafc; border: 1px solid var(--border-color); padding: 14px; border-radius: 6px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; color: #0f172a;">${escapeHtml(record.content_html)}</pre>
-            </div>
-        `;
-
-        const btnPreview = viewer.querySelector('.btn-lecture-tab-preview') as HTMLButtonElement;
-        const btnSource = viewer.querySelector('.btn-lecture-tab-source') as HTMLButtonElement;
-        const bodyPreview = viewer.querySelector('.lecture-tab-body-preview') as HTMLElement;
-        const bodySource = viewer.querySelector('.lecture-tab-body-source') as HTMLElement;
-
-        btnPreview?.addEventListener('click', () => {
-            btnPreview.style.background = 'var(--primary)';
-            btnPreview.style.borderColor = 'var(--primary)';
-            btnPreview.style.color = '#ffffff';
-            btnSource.style.background = '#ffffff';
-            btnSource.style.borderColor = 'var(--border-color)';
-            btnSource.style.color = '#475569';
-            bodyPreview.style.display = 'block';
-            bodySource.style.display = 'none';
-        });
-
-        btnSource?.addEventListener('click', () => {
-            btnSource.style.background = 'var(--primary)';
-            btnSource.style.borderColor = 'var(--primary)';
-            btnSource.style.color = '#ffffff';
-            btnPreview.style.background = '#ffffff';
-            btnPreview.style.borderColor = 'var(--border-color)';
-            btnPreview.style.color = '#475569';
-            bodyPreview.style.display = 'none';
-            bodySource.style.display = 'block';
-        });
-
-        card.appendChild(viewer);
-    }
 
     container.appendChild(card);
 
-    // Attach click events for Foreign Key links
-    card.querySelectorAll('.fk-goto-btn').forEach((btn) => {
+    // Attach click events for Foreign Key links (and sparse down-arrow buttons)
+    card.querySelectorAll('.btn-nav-child-arrow, .fk-goto-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-            const fkTable = (btn as HTMLElement).getAttribute('data-fktable')!;
-            const fkId = (btn as HTMLElement).getAttribute('data-fkid')!;
-            navigateToEntity(fkTable, fkId, `${fkTable} #${fkId}`);
+            const fkTable = (btn as HTMLElement).getAttribute('data-table') || (btn as HTMLElement).getAttribute('data-fktable')!;
+            const fkId = (btn as HTMLElement).getAttribute('data-id') || (btn as HTMLElement).getAttribute('data-fkid')!;
+            if (fkId) {
+                navigateToEntity(fkTable, fkId, `${fkTable} #${fkId}`);
+            }
         });
     });
 
@@ -2483,39 +2119,119 @@ async function renderChildRecordsList(
 // EDIT & CREATE FORM (Full Parameterized SQL Mutation)
 // =============================================================================
 
-function renderRecordForm(tableName: string, record: any = null, isNew: boolean = false) {
+async function renderRecordForm(tableName: string, record: any = null, isNew: boolean = false) {
     if (!displayArea) return;
 
     const tableInfo = appMetadata[tableName];
     const displayCol = getDisplayColumnName(tableName);
+    const activeMapping = typeMap[currentTypeKey || ''];
+    const entityLabel = activeMapping?.label || tableInfo.singularLabel || tableInfo.label;
     const formTitle = isNew
-        ? `Create New ${tableInfo.singularLabel || tableInfo.label}`
-        : `Modify ${tableInfo.singularLabel || tableInfo.label}: ${record ? record[displayCol] || `ID: ${record.id}` : ''}`;
+        ? `Create New ${entityLabel}`
+        : `Modify ${entityLabel}: ${record ? getRecordFriendlyName(tableName, record) || `ID: ${record.id}` : ''}`;
+
+    // 1. Fetch available instances of this table (to support top instance-bar matching Read UI)
+    let records: any[] = [];
+    if (!isNew) {
+        try {
+            let sql = `SELECT * FROM ${tableName}`;
+            const params: any[] = [];
+            if (activeMapping?.filterKind) {
+                sql += ` WHERE "${activeMapping.filterKind.column}" = $1`;
+                params.push(activeMapping.filterKind.value);
+            }
+            sql += ` ORDER BY "${displayCol}" ASC;`;
+            const allRecords = (await queryDatabase<any>(sql, params)) || [];
+            records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
+        } catch (e) {
+            console.error('[renderRecordForm] Error fetching records:', e);
+        }
+    }
+
+    const instanceBarHtml = !isNew ? `
+        <div class="instance-bar">
+            <div class="instance-select-group">
+                <span class="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
+                <select id="entity-instance-select" class="instance-select">
+                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length} available) --</option>
+                    ${records
+                        .map(
+                            (r) =>
+                                `<option value="${r.id}" ${record && record.id === r.id ? 'selected' : ''}>
+                                    ${escapeHtml(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                </option>`
+                        )
+                        .join('')}
+                </select>
+            </div>
+        </div>
+    ` : '';
 
     displayArea.innerHTML = `
         <div class="entity-inspector-view">
-            <div class="form-container">
-                <h2 style="font-size: 18px; color: #0f172a; margin-bottom: 6px;">${escapeHtml(formTitle)}</h2>
-                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">
-                    Table: <strong>${tableName}</strong> ${isNew ? '• Mode: INSERT' : `• Mode: UPDATE (id = ${record.id})`}
+            <div class="inspector-container">
+                ${instanceBarHtml}
+                <div id="inspector-card-target">
+                    <form id="active-crud-form">
+                        <div class="attribute-card">
+                            <div class="card-header-bar">
+                                <div>
+                                    <h2 class="card-main-title">${escapeHtml(formTitle)}</h2>
+                                    <div class="card-meta-line">
+                                        <span>Table: <strong style="font-family: var(--font-mono); color: var(--primary);">${tableName}</strong></span>
+                                        <span>•</span>
+                                        <span>Primary Key: <strong>${record ? `id = ${record.id}` : 'New'}</strong></span>
+                                        <span>•</span>
+                                        <span>Mode: <strong style="color: var(--primary);">${isNew ? 'INSERT' : 'UPDATE'}</strong></span>
+                                        <span>•</span>
+                                        <span>Total Columns: <strong>${Object.keys(tableInfo.columns).length}</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="attr-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 220px;">DB Attribute (Column)</th>
+                                        <th style="width: 170px;">Data Type &amp; Constraint</th>
+                                        <th>Database Value &amp; Relationships (Editable)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="form-fields-target"></tbody>
+                            </table>
+                            <div class="form-actions-footer" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px;">
+                                <button type="submit" class="action-btn primary btn-save-record-footer" style="padding: 7px 18px; font-weight: 700;">
+                                    💾 ${isNew ? 'Create Record' : 'Save Changes'}
+                                </button>
+                                <button type="button" class="action-btn secondary btn-cancel-edit" style="padding: 7px 14px;">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form id="active-crud-form">
-                    <div id="form-fields-target"></div>
-                    <div class="form-actions-footer">
-                        <button type="submit" class="action-btn primary" id="btn-save-record">
-                            💾 ${isNew ? 'Create Record' : 'Save Changes'}
-                        </button>
-                        <button type="button" class="action-btn secondary" id="btn-cancel-edit">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     `;
 
     const fieldsTarget = document.getElementById('form-fields-target')!;
     const form = document.getElementById('active-crud-form') as HTMLFormElement;
+
+    // Instance dropdown switcher
+    const selectEl = document.getElementById('entity-instance-select') as HTMLSelectElement | null;
+    if (selectEl) {
+        selectEl.addEventListener('change', async () => {
+            const nextId = selectEl.value;
+            if (nextId) {
+                currentSelectedId = nextId;
+                const nextRec = await fetchRecordById(tableName, nextId);
+                if (nextRec) {
+                    currentTitle = getRecordFriendlyName(tableName, nextRec);
+                    updateBreadcrumbs();
+                    await renderRecordForm(tableName, nextRec, false);
+                }
+            }
+        });
+    }
 
     for (const colName of Object.keys(tableInfo.columns)) {
         const colMeta = tableInfo.columns[colName];
@@ -2525,47 +2241,101 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
         let val = record ? record[colName] : '';
         if (isNew && tableName === 'interactive_demos') {
-            if (colName === 'engine' && (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table')) {
-                val = 'ttd';
+            if (colName === 'engine') {
+                if (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table') val = 'ttd';
+                else if (currentTypeKey === 'btd') val = 'btd';
+                else if (currentTypeKey === 'bid') val = 'bid';
+                else if (currentTypeKey === 'fsd') val = 'fsd';
             }
-            if (colName === 'mode' && (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table')) {
-                val = 'propositional_logic';
+            if (colName === 'mode') {
+                if (currentTypeKey === 'ttd' || currentTypeKey === 'truth_table') val = 'propositional_logic';
+            }
+        }
+        if (isNew && tableName === 'formal_statements') {
+            if (colName === 'statement_kind') {
+                if (currentTypeKey === 'axiom') val = 'axiom';
+                else if (currentTypeKey === 'theorem') val = 'theorem';
+                else if (currentTypeKey === 'directed_equality') val = 'directed_equality';
             }
         }
 
-        const fieldGroup = document.createElement('div');
-        fieldGroup.className = 'form-field-group';
+        const tr = document.createElement('tr');
 
-        fieldGroup.innerHTML = `
-            <div class="form-field-header">
-                <label class="form-field-label" for="field-${colName}">
-                    ${escapeHtml(colMeta.label || colName)} ${!colMeta.isNullable ? '<span style="color: var(--danger);">*</span>' : ''}
-                </label>
-                <span class="form-field-type">
-                    ${escapeHtml(colName)} • ${colMeta.dbDataType.toUpperCase()} ${colMeta.isPrimaryKey ? '(PK)' : ''}
-                </span>
-            </div>
+        // Column Name
+        const tdName = document.createElement('td');
+        tdName.className = 'attr-col-name';
+        tdName.innerHTML = `
+            <div>${escapeHtml(colName)}</div>
+            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml(colMeta.label)}</div>` : ''}
         `;
+        tr.appendChild(tdName);
+
+        // Data Type & Constraints
+        const tdType = document.createElement('td');
+        tdType.className = 'attr-col-type';
+        const flags: string[] = [];
+        if (colMeta.isPrimaryKey) flags.push('<span style="color: var(--primary); font-weight: 700;">PK</span>');
+        if (colMeta.isForeignKey) flags.push('<span style="color: #7c3aed; font-weight: 700;">FK</span>');
+        if (!colMeta.isNullable) flags.push('NOT NULL');
+        else flags.push('NULLABLE');
+        if (colMeta.isEnum) flags.push('ENUM');
+
+        tdType.innerHTML = `
+            <div>${escapeHtml(colMeta.dbDataType.toUpperCase())}</div>
+            <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${flags.join(' • ')}</div>
+        `;
+        tr.appendChild(tdType);
+
+        // Value / Input cell
+        const tdVal = document.createElement('td');
+        tdVal.className = 'attr-col-val';
 
         let inputElement: HTMLElement;
 
         if (colMeta.isPrimaryKey || !colMeta.canModify) {
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.id = `field-${colName}`;
-            input.name = colName;
-            input.value = val !== null && val !== undefined ? val.toString() : '';
-            input.readOnly = true;
-            input.className = 'form-input';
-            input.style.backgroundColor = '#f1f5f9';
-            input.style.color = '#64748b';
-            input.style.cursor = 'not-allowed';
-            inputElement = input;
+            const pkContainer = document.createElement('div');
+            pkContainer.style.cssText = 'display: flex; align-items: center; gap: 8px;';
+            const pkVal = val !== null && val !== undefined ? val.toString() : 'Auto-generated';
+            pkContainer.innerHTML = `
+                <span style="font-family: var(--font-mono); font-weight: 700; color: #0f172a; background: #f1f5f9; padding: 3px 8px; border-radius: 4px; border: 1px solid #e2e8f0; display: inline-block;">
+                    ${escapeHtml(pkVal)}
+                </span>
+                <span style="font-size: 11px; color: #64748b;">(Immutable PK)</span>
+                ${!isNew && val !== null && val !== undefined ? `<input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml(val.toString())}" />` : ''}
+            `;
+            inputElement = pkContainer;
+        } else if (tableName === 'segments' && colName === 'content_html') {
+            const container = document.createElement('div');
+            const rawHtml = val !== null && val !== undefined ? val.toString() : '';
+            const kbSize = (rawHtml.length / 1024).toFixed(1);
+            const charCount = rawHtml.length.toLocaleString();
+
+            container.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 2px 0;">
+                    <span style="font-size: 13px; font-weight: 600; color: #1e293b;">HTML Lecture Body</span>
+                    <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
+                        ${kbSize} KB (${charCount} chars)
+                    </span>
+                    <button type="button" class="action-btn primary btn-open-authoring-surface" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                        ✏️ Open in Full Authoring Surface
+                    </button>
+                    <input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml(rawHtml)}" />
+                </div>
+            `;
+
+            container.querySelector('.btn-open-authoring-surface')?.addEventListener('click', () => {
+                if (record) {
+                    renderSegmentAuthoringView(record, 'update');
+                }
+            });
+
+            inputElement = container;
         } else if (colMeta.isEnum) {
             const select = document.createElement('select');
             select.id = `field-${colName}`;
             select.name = colName;
             select.className = 'form-select';
+            select.style.maxWidth = '320px';
 
             if (colMeta.isNullable) {
                 const opt = document.createElement('option');
@@ -2593,6 +2363,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             select.id = `field-${colName}`;
             select.name = colName;
             select.className = 'form-select';
+            select.style.maxWidth = '160px';
 
             const optTrue = document.createElement('option');
             optTrue.value = 'true';
@@ -2612,6 +2383,7 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             select.id = `field-${colName}`;
             select.name = colName;
             select.className = 'form-select';
+            select.style.maxWidth = '540px';
             select.innerHTML = `<option value="">Loading MWM domains from database...</option>`;
 
             queryDatabase<any>('SELECT domain_key, symbol, name, lean_type, base_unit FROM domains ORDER BY id ASC;')
@@ -2637,69 +2409,194 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 });
 
             inputElement = select;
-        } else if (tableName === 'formal_statements' && colName === 'parent_id') {
+        } else if (tableName === 'formal_statements' && colName === 'domain_category') {
             const select = document.createElement('select');
             select.id = `field-${colName}`;
             select.name = colName;
             select.className = 'form-select';
-            select.innerHTML = `<option value="">-- None (Top-Level Formal Statement) --</option>`;
-
-            queryDatabase<any>("SELECT id, statement_key, title, statement_kind FROM formal_statements WHERE statement_kind IN ('axiom', 'theorem') ORDER BY id ASC;")
-                .then((stmts) => {
-                    if (stmts && stmts.length > 0) {
-                        select.innerHTML = `
-                            <option value="">-- None (Top-Level Formal Statement) --</option>
-                            ${stmts
-                                .map((s: any) => {
-                                    const isSel = val && val.toString() === s.id.toString();
-                                    return `<option value="${s.id}" ${isSel ? 'selected' : ''}>
-                                        [${escapeHtml(s.statement_kind.toUpperCase())}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})
-                                    </option>`;
-                                })
-                                .join('')}
-                        `;
-                    }
-                })
-                .catch((err) => {
-                    console.error('[renderRecordForm] Error fetching parent statements:', err);
-                });
-
+            select.style.maxWidth = '360px';
+            const categories = [
+                { val: 'logic', label: 'Logic & Metamathematics (logic)' },
+                { val: 'arithmetic', label: 'Arithmetic & Number Spines (arithmetic)' },
+                { val: 'discrete_analysis', label: 'Discrete Analysis & Transects (discrete_analysis)' },
+                { val: 'order_theory', label: 'Order Theory & Lattices (order_theory)' },
+                { val: 'information_and_signals', label: 'Information & Signals (information_and_signals)' },
+                { val: 'set_theory', label: 'Set Theory & Hypersets (set_theory)' },
+                { val: 'kinematics_and_dynamics', label: 'Kinematics & Dynamics (kinematics_and_dynamics)' }
+            ];
+            categories.forEach((cat) => {
+                const opt = document.createElement('option');
+                opt.value = cat.val;
+                opt.textContent = cat.label;
+                if (val === cat.val) opt.selected = true;
+                select.appendChild(opt);
+            });
             inputElement = select;
-        } else if (colName === 'lean_decl_id') {
-            const select = document.createElement('select');
-            select.id = `field-${colName}`;
-            select.name = colName;
-            select.className = 'form-select';
-            select.innerHTML = `<option value="">-- None (Unlinked from Lean Kernel) --</option>`;
+        } else if (colMeta.isForeignKey && colMeta.foreignKeyTable) {
+            const fkTable = colMeta.foreignKeyTable;
+            const hasVal = val !== null && val !== undefined && val !== '';
 
-            queryDatabase<any>('SELECT id, name, kind, signature, line_no FROM lean_declarations ORDER BY name ASC;')
-                .then((decls) => {
-                    if (decls && decls.length > 0) {
-                        select.innerHTML = `
-                            <option value="">-- None (Unlinked from Lean Kernel) --</option>
-                            ${decls
-                                .map((d: any) => {
-                                    const isSel = val && val.toString() === d.id.toString();
-                                    const sigPreview = d.signature ? d.signature.slice(0, 70) : '';
-                                    return `<option value="${d.id}" ${isSel ? 'selected' : ''}>
-                                        [${escapeHtml(d.kind)}] ${escapeHtml(d.name)} : ${escapeHtml(sigPreview)} (line ${d.line_no})
-                                    </option>`;
-                                })
-                                .join('')}
-                        `;
+            const container = document.createElement('div');
+            container.className = 'fk-field-group';
+            container.style.cssText = 'display: flex; align-items: center; gap: 8px; flex-wrap: wrap;';
+
+            const badge = document.createElement('span');
+            badge.id = `field-${colName}-display`;
+            badge.className = 'fk-friendly-badge';
+            badge.style.cssText = 'font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; min-height: 28px;';
+            badge.textContent = hasVal ? `Loading ${fkTable} #${val}...` : '-- None --';
+
+            const navBtn = document.createElement('button');
+            navBtn.type = 'button';
+            navBtn.id = `field-${colName}-nav-btn`;
+            navBtn.className = 'btn-nav-child-arrow';
+            navBtn.setAttribute('data-table', fkTable);
+            navBtn.setAttribute('data-id', hasVal ? val.toString() : '');
+            navBtn.textContent = '↓';
+
+            const updateNavBtnState = (targetId: string | null) => {
+                if (targetId) {
+                    navBtn.disabled = false;
+                    navBtn.setAttribute('data-id', targetId);
+                    navBtn.title = `Drill down to ${appMetadata[fkTable]?.singularLabel || fkTable} #${targetId}`;
+                    navBtn.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer; line-height: 1; transition: all 0.15s ease;';
+                } else {
+                    navBtn.disabled = true;
+                    navBtn.setAttribute('data-id', '');
+                    navBtn.title = 'No referenced child linked';
+                    navBtn.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #94a3b8; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; cursor: not-allowed; opacity: 0.5; line-height: 1;';
+                }
+            };
+
+            updateNavBtnState(hasVal ? val.toString() : null);
+
+            navBtn.addEventListener('click', () => {
+                const targetId = navBtn.getAttribute('data-id');
+                if (targetId) {
+                    navigateToEntity(fkTable, targetId, badge.textContent || `${fkTable} #${targetId}`);
+                }
+            });
+
+            const pickerBtn = document.createElement('button');
+            pickerBtn.type = 'button';
+            pickerBtn.id = `field-${colName}-picker-btn`;
+            pickerBtn.className = 'action-btn secondary btn-open-fk-picker';
+            pickerBtn.style.cssText = 'padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: #ffffff; min-height: 28px;';
+            pickerBtn.innerHTML = '✎ Select Child';
+
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = `field-${colName}`;
+            hiddenInput.name = colName;
+            hiddenInput.value = hasVal ? val.toString() : '';
+
+            if (hasVal) {
+                queryDatabase<any>(`SELECT * FROM ${fkTable} WHERE id = $1;`, [val])
+                    .then((rows) => {
+                        if (rows && rows.length > 0) {
+                            badge.textContent = formatFkBadgeText(fkTable, rows[0]);
+                        }
+                    })
+                    .catch(() => {});
+            }
+
+            pickerBtn.addEventListener('click', () => {
+                openChildRecordPickerModal(
+                    tableName,
+                    colName,
+                    fkTable,
+                    colMeta.isNullable,
+                    hiddenInput.value,
+                    (selectedRecord) => {
+                        if (!selectedRecord) {
+                            hiddenInput.value = '';
+                            badge.textContent = '-- None --';
+                            updateNavBtnState(null);
+                        } else {
+                            hiddenInput.value = selectedRecord.id.toString();
+                            badge.textContent = formatFkBadgeText(fkTable, selectedRecord);
+                            updateNavBtnState(selectedRecord.id.toString());
+                        }
                     }
-                })
-                .catch((err) => {
-                    console.error('[renderRecordForm] Error fetching lean declarations:', err);
-                });
+                );
+            });
 
-            inputElement = select;
+            container.appendChild(badge);
+            container.appendChild(navBtn);
+            container.appendChild(pickerBtn);
+            container.appendChild(hiddenInput);
+
+            inputElement = container;
+        } else if (colName === 'content_html') {
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'display: flex; flex-direction: column; gap: 8px; max-width: 650px;';
+
+            const summaryRow = document.createElement('div');
+            summaryRow.style.cssText = 'display: flex; align-items: center; gap: 10px; padding: 2px 0;';
+
+            const strVal = val ? val.toString() : '';
+            summaryRow.innerHTML = `
+                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">HTML Lecture Body</span>
+                <span id="field-${colName}-stats" style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
+                    ${(strVal.length / 1024).toFixed(1)} KB (${strVal.length.toLocaleString()} chars)
+                </span>
+                <button type="button" class="action-btn primary btn-open-content-editor-update" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                    ✏️ Open in Content Editor
+                </button>
+            `;
+
+            const details = document.createElement('details');
+            details.style.cssText = 'margin-top: 4px; font-size: 12px; color: #64748b;';
+            details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw HTML</summary>`;
+
+            const textarea = document.createElement('textarea');
+            textarea.id = `field-${colName}`;
+            textarea.name = colName;
+            textarea.rows = colMeta.rows || 6;
+            textarea.className = 'form-textarea';
+            textarea.style.maxWidth = '650px';
+            textarea.value = strVal;
+
+            textarea.addEventListener('input', () => {
+                const stats = summaryRow.querySelector(`#field-${colName}-stats`);
+                if (stats) {
+                    const l = textarea.value.length;
+                    stats.textContent = `${(l / 1024).toFixed(1)} KB (${l.toLocaleString()} chars)`;
+                }
+            });
+
+            summaryRow.querySelector('.btn-open-content-editor-update')?.addEventListener('click', () => {
+                const tempRecord = { ...record, [colName]: textarea.value };
+                renderSegmentContentSurface({
+                    container: displayArea!,
+                    segmentRecord: tempRecord,
+                    initialMode: 'update',
+                    onBack: () => {
+                        renderRecordForm(tableName, record, isNew);
+                    },
+                    onSaved: (updatedRecord) => {
+                        textarea.value = updatedRecord.content_html || '';
+                        record.content_html = textarea.value;
+                        const stats = summaryRow.querySelector(`#field-${colName}-stats`);
+                        if (stats) {
+                            const l = textarea.value.length;
+                            stats.textContent = `${(l / 1024).toFixed(1)} KB (${l.toLocaleString()} chars)`;
+                        }
+                    }
+                });
+            });
+
+            details.appendChild(textarea);
+            wrapper.appendChild(summaryRow);
+            wrapper.appendChild(details);
+            inputElement = wrapper;
         } else if (colMeta.rows && colMeta.rows > 1) {
             const textarea = document.createElement('textarea');
             textarea.id = `field-${colName}`;
             textarea.name = colName;
-            textarea.rows = colMeta.rows || 4;
+            textarea.rows = colMeta.rows || 3;
             textarea.className = 'form-textarea';
+            textarea.style.maxWidth = '650px';
             textarea.value = val !== null && val !== undefined
                 ? (typeof val === 'object' ? JSON.stringify(val, null, 2) : val.toString())
                 : '';
@@ -2712,199 +2609,6 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw JSON Packet</summary>`;
                 details.appendChild(textarea);
                 inputElement = details;
-            }
-
-            // If Segment HTML content, provide Citation & Custom Element insertion palette
-            if (tableName === 'segments' && colName === 'content_html') {
-                const paletteBar = document.createElement('div');
-                paletteBar.style.cssText = 'display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);';
-                paletteBar.innerHTML = `
-                    <span style="font-size: 11.5px; font-weight: 700; color: #475569; align-self: center; margin-right: 4px;">CUSTOM ELEMENTS:</span>
-                    <button type="button" class="btn btn-sm btn-insert-fs" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        ➕ Formal Statement Citation
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-stencil" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        ➕ Stencil Calculation Mode
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-ttd" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #fca5a5; color: #b91c1c; font-weight: 600; border-radius: 4px; cursor: pointer;">
-                        ⚖️ Truth Table (TTD)
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-demo" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        ➕ Interactive Visual Demo
-                    </button>
-                    <button type="button" class="btn btn-sm btn-review-elements" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; border-radius: 4px; cursor: pointer; margin-left: auto;">
-                        🔍 Review / Remove Tags
-                    </button>
-                `;
-
-                const insertAtCursor = (txt: string) => {
-                    const start = textarea.selectionStart || 0;
-                    const end = textarea.selectionEnd || 0;
-                    const current = textarea.value;
-                    textarea.value = current.substring(0, start) + txt + current.substring(end);
-                    textarea.selectionStart = textarea.selectionEnd = start + txt.length;
-                    textarea.focus();
-                };
-
-                paletteBar.querySelector('.btn-insert-fs')?.addEventListener('click', async () => {
-                    const stmts = await queryDatabase<any>("SELECT id, statement_key, title, statement_kind FROM formal_statements ORDER BY id ASC;");
-                    showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Formal Statement Citation</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a formal statement or directed equality to cite:</p>
-                        <select id="modal-select-fs" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(stmts || []).map((s: any) => `<option value="${escapeHtml(s.statement_key)}">[${escapeHtml(s.statement_kind)}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})</option>`).join('')}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-fs">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-                    document.getElementById('btn-modal-confirm-insert-fs')?.addEventListener('click', () => {
-                        const sel = document.getElementById('modal-select-fs') as HTMLSelectElement;
-                        if (sel && sel.value) {
-                            insertAtCursor(`\n<fs-ref statement-key="${sel.value}"></fs-ref>\n`);
-                        }
-                        closeModal();
-                    });
-                });
-
-                paletteBar.querySelector('.btn-insert-stencil')?.addEventListener('click', async () => {
-                    const stencils = await queryDatabase<any>("SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;");
-                    showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Stencil Calculation Mode</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a computational stencil to embed:</p>
-                        <select id="modal-select-stencil" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(stencils || []).map((st: any) => `<option value="${escapeHtml(st.equation_key)}">${escapeHtml(st.title)} (${escapeHtml(st.label)}) [${escapeHtml(st.equation_key)}]</option>`).join('')}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-stencil">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-                    document.getElementById('btn-modal-confirm-insert-stencil')?.addEventListener('click', () => {
-                        const sel = document.getElementById('modal-select-stencil') as HTMLSelectElement;
-                        if (sel && sel.value) {
-                            insertAtCursor(`\n<interactive-stencil equation-key="${sel.value}"></interactive-stencil>\n`);
-                        }
-                        closeModal();
-                    });
-                });
-
-                paletteBar.querySelector('.btn-insert-ttd')?.addEventListener('click', async () => {
-                    const ttdDemos = await queryDatabase<any>(
-                        "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
-                    );
-                    showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px; color: #991b1b;">⚖️ Insert Truth Table Custom Element (&lt;ttd-ref&gt;)</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an authoritative proposition from the database to embed as a canonical reference:</p>
-                        
-                        <div style="margin-bottom: 16px;">
-                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Registered Propositional Expressions (${ttdDemos?.length || 0}):</label>
-                            <select id="modal-select-ttd-id" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;">
-                                ${(ttdDemos || []).map((d: any) => {
-                                    const friendly = getRecordFriendlyName('interactive_demos', d);
-                                    return `<option value="${d.id}">[#${d.id}] ${escapeHtml(friendly)}</option>`;
-                                }).join('')}
-                            </select>
-                        </div>
-
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-ttd">Insert &lt;ttd-ref id="..."&gt;</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-
-                    document.getElementById('btn-modal-confirm-insert-ttd')?.addEventListener('click', () => {
-                        const sel = document.getElementById('modal-select-ttd-id') as HTMLSelectElement;
-                        if (sel && sel.value) {
-                            insertAtCursor(`\n<ttd-ref id="${sel.value}"></ttd-ref>\n`);
-                        }
-                        closeModal();
-                    });
-                });
-
-                paletteBar.querySelector('.btn-insert-demo')?.addEventListener('click', async () => {
-                    const demos = await queryDatabase<any>("SELECT id, title, engine FROM interactive_demos ORDER BY id ASC;");
-                    showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Interactive Demo (&lt;visual-demo&gt;)</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an interactive demonstration to embed:</p>
-                        <select id="modal-select-demo" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(demos || []).map((d: any) => `<option value="${d.id}">[${escapeHtml(d.engine.toUpperCase())}] ${escapeHtml(d.title)} (#${d.id})</option>`).join('')}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-demo">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-                    document.getElementById('btn-modal-confirm-insert-demo')?.addEventListener('click', () => {
-                        const sel = document.getElementById('modal-select-demo') as HTMLSelectElement;
-                        if (sel && sel.value) {
-                            insertAtCursor(`\n<visual-demo id="${sel.value}"></visual-demo>\n`);
-                        }
-                        closeModal();
-                    });
-                });
-
-                paletteBar.querySelector('.btn-review-elements')?.addEventListener('click', () => {
-                    const text = textarea.value;
-                    const tagRegex = /(<ttd-ref[\s\S]*?<\/ttd-ref>|<ttd-ref[^>]*>(?:<\/ttd-ref>)?|<fs-ref[^>]*>(?:<\/fs-ref>)?|<interactive-stencil[^>]*>(?:<\/interactive-stencil>)?|<stencil-ref[^>]*>(?:<\/stencil-ref>)?|<visual-demo[^>]*>(?:<\/visual-demo>)?|<demo-embed[^>]*>(?:<\/demo-embed>)?|<pseudo-ref[^>]*>(?:<\/pseudo-ref>)?)/gi;
-                    const matches: string[] = [];
-                    let m: RegExpExecArray | null;
-                    while ((m = tagRegex.exec(text)) !== null) {
-                        matches.push(m[0]);
-                    }
-
-                    if (matches.length === 0) {
-                        showModal(`
-                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review Embedded Custom Elements</h3>
-                            <p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">No custom element tags (&lt;ttd-ref&gt;, &lt;fs-ref&gt;, &lt;interactive-stencil&gt;, &lt;visual-demo&gt;) found in this segment's content.</p>
-                            <div style="display: flex; justify-content: flex-end;">
-                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
-                            </div>
-                        `);
-                        return;
-                    }
-
-                    const renderList = () => {
-                        showModal(`
-                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review &amp; Remove Custom Elements (${matches.length})</h3>
-                            <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Active custom elements in this segment. Click "Remove" to delete an instance:</p>
-                            <div style="max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; margin-bottom: 16px;">
-                                ${matches.map((tag, idx) => `
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; margin-bottom: 4px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px;">
-                                        <code style="font-size: 11.5px; color: #0f172a; word-break: break-all; flex: 1;">${escapeHtml(tag)}</code>
-                                        <button type="button" class="action-btn danger btn-remove-custom-tag" data-index="${idx}" style="padding: 3px 10px; font-size: 11px; white-space: nowrap;">
-                                            🗑️ Remove
-                                        </button>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <div style="display: flex; justify-content: flex-end;">
-                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
-                            </div>
-                        `);
-
-                        document.querySelectorAll('.btn-remove-custom-tag').forEach((btn) => {
-                            btn.addEventListener('click', (e) => {
-                                const idx = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0', 10);
-                                const tagToRemove = matches[idx];
-                                if (tagToRemove) {
-                                    textarea.value = textarea.value.replace(tagToRemove, '');
-                                    matches.splice(idx, 1);
-                                    if (matches.length > 0) {
-                                        renderList();
-                                    } else {
-                                        closeModal();
-                                    }
-                                }
-                            });
-                        });
-                    };
-
-                    renderList();
-                });
-
-                fieldGroup.appendChild(paletteBar);
             }
         } else if (tableName === 'interactive_demos' && colName === 'expression') {
             const expWrapper = document.createElement('div');
@@ -3341,6 +3045,11 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             input.id = `field-${colName}`;
             input.name = colName;
             input.className = 'form-input';
+            if (colMeta.dbDataType.includes('int')) {
+                input.style.width = '140px';
+            } else {
+                input.style.maxWidth = '540px';
+            }
             input.value = val !== null && val !== undefined ? val.toString() : '';
             inputElement = input;
         }
@@ -3348,8 +3057,8 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
         // Quick Math Symbol Palette (only for directed equations, never for interactive_demos)
         if (tableName !== 'interactive_demos' && (colName === 'formula_expr' || colName === 'expression')) {
             const symBar = document.createElement('div');
-            symBar.style.cssText = 'display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);';
-            const syms = ['→', '⇒', 'ℝ_ω', '𝔻', 'ℤ', 'ℕ', '𝔹', '·', '≠', '∈', '∀', '∃', 'ω', 'dx', '≤', '≥', '≈', '≡', '×', 'λ'];
+            symBar.style.cssText = 'display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);';
+            const syms = ['→', '⇒', '↔', '∧', '∨', '¬', '⊢', '⊨', 'ℝ_ω', '𝔻', 'ℤ', 'ℕ', '𝔹', '·', '≠', '∈', '∀', '∃', 'ω', 'dx', '≤', '≥', '≈', '≡', '×', 'λ'];
             symBar.innerHTML = `
                 <span style="font-size: 11px; font-weight: 700; color: #64748b; align-self: center; margin-right: 4px;">SYMBOLS:</span>
                 ${syms
@@ -3365,24 +3074,31 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 b.addEventListener('click', () => {
                     const sym = (b as HTMLElement).getAttribute('data-sym')!;
                     const targetInput = inputElement as HTMLInputElement | HTMLTextAreaElement;
-                    const start = targetInput.selectionStart || 0;
-                    const end = targetInput.selectionEnd || 0;
-                    const cur = targetInput.value;
-                    targetInput.value = cur.substring(0, start) + sym + cur.substring(end);
-                    targetInput.selectionStart = targetInput.selectionEnd = start + sym.length;
-                    targetInput.focus();
+                    if (targetInput && 'selectionStart' in targetInput) {
+                        const start = targetInput.selectionStart || 0;
+                        const end = targetInput.selectionEnd || 0;
+                        const cur = targetInput.value;
+                        targetInput.value = cur.substring(0, start) + sym + cur.substring(end);
+                        targetInput.selectionStart = targetInput.selectionEnd = start + sym.length;
+                        targetInput.focus();
+                    }
                 });
             });
-            fieldGroup.appendChild(symBar);
+            tdVal.appendChild(inputElement);
+            tdVal.appendChild(symBar);
+        } else {
+            tdVal.appendChild(inputElement);
         }
 
-        fieldGroup.appendChild(inputElement);
-        fieldsTarget.appendChild(fieldGroup);
+        tr.appendChild(tdVal);
+        fieldsTarget.appendChild(tr);
     }
 
-    // Cancel Button
-    document.getElementById('btn-cancel-edit')?.addEventListener('click', () => {
-        setMode('read', true);
+    // Cancel Buttons (both header and footer)
+    document.querySelectorAll('.btn-cancel-edit').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            setMode('read', true);
+        });
     });
 
     // Form Submit
@@ -3409,6 +3125,11 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
             }
         }
 
+        if (tableName === 'formal_statements') {
+            if (submitValues['type']) submitValues['subject_type'] = submitValues['type'];
+            if (submitValues['statement_kind']) submitValues['structure_kind'] = submitValues['statement_kind'];
+        }
+
         try {
             if (isNew) {
                 // INSERT
@@ -3423,6 +3144,14 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
                 const newId = res.data?.rows[0]?.id;
                 setStatus(`✓ Record created successfully (#${newId})`);
                 currentSelectedId = newId ? newId.toString() : null;
+
+                // Dynamically sync menu instances from DB and rebuild catalogs in background
+                await syncMenuTreeFromDatabase(queryDatabase);
+                if (typeDropdownMenu) {
+                    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+                }
+                fetch('/api/rebuild-catalog', { method: 'POST' }).catch((e) => console.warn('[rebuild-catalog] background notice:', e));
+
                 setMode('read', true);
             } else {
                 // UPDATE
@@ -3437,6 +3166,14 @@ function renderRecordForm(tableName: string, record: any = null, isNew: boolean 
 
                 setStatus(`✓ Record #${record.id} updated successfully`);
                 currentSelectedId = record.id.toString();
+
+                // Dynamically sync menu instances from DB and rebuild catalogs in background
+                await syncMenuTreeFromDatabase(queryDatabase);
+                if (typeDropdownMenu) {
+                    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+                }
+                fetch('/api/rebuild-catalog', { method: 'POST' }).catch((e) => console.warn('[rebuild-catalog] background notice:', e));
+
                 setMode('read', true);
             }
         } catch (saveErr) {
@@ -3496,6 +3233,13 @@ async function renderDeleteConfirmation(tableName: string, record: any) {
 
             setStatus(`✓ Record #${record.id} permanently deleted.`);
             currentSelectedId = null;
+
+            await syncMenuTreeFromDatabase(queryDatabase);
+            if (typeDropdownMenu) {
+                typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+            }
+            fetch('/api/rebuild-catalog', { method: 'POST' }).catch((e) => console.warn('[rebuild-catalog] background notice:', e));
+
             setMode('read');
         } catch (delErr) {
             showModal(`

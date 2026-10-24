@@ -224,5 +224,24 @@
       ],
       "quantifiers": "∀x₁:ℕ ∃x₂:ℕ"
     }
+  },
+  {
+    "id": 16,
+    "engine": "ttd",
+    "mode": "propositional_logic",
+    "title": "Peirce's Law",
+    "description": null,
+    "expression": "[[piq]ip]ipeponp",
+    "status": "taut",
+    "init_packet": {
+      "exp": "[[piq]ip]ipeponp",
+      "fmt": "( ( 𝑝 → 𝑞 ) → 𝑝 ) → 𝑝  ↔  𝑝 ∨ ¬ 𝑝",
+      "status": "taut",
+      "variables": [
+        "p",
+        "q"
+      ],
+      "isTautology": true
+    }
   }
 ]

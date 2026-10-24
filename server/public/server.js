@@ -244,6 +244,29 @@ app.post('/api/sync-to-db', async (_req, res) => {
     });
 });
 // ---------------------------------------------------------------------
+// 3c-2. Rebuild Catalogs & Client Caches Endpoint
+// ---------------------------------------------------------------------
+app.post('/api/rebuild-catalog', async (_req, res) => {
+    try {
+        const catalogUrl = (0, url_1.pathToFileURL)((0, path_1.resolve)(process.cwd(), 'nodeUtils/public/buildCatalog.js')).href + `?t=${Date.now()}`;
+        // @ts-ignore
+        const { writeCatalogFiles, writeDemoCatalog } = (await import(catalogUrl));
+        if (typeof writeCatalogFiles === 'function')
+            await writeCatalogFiles();
+        if (typeof writeDemoCatalog === 'function')
+            await writeDemoCatalog();
+        console.log('[dbBridge] Successfully rebuilt formal statements and demo catalogs from PostgreSQL.');
+        res.json({
+            status: 'success',
+            message: 'Client catalogs and demo caches rebuilt successfully from PostgreSQL.'
+        });
+    }
+    catch (err) {
+        console.error('[dbBridge Error] Rebuilding catalog failed:', err);
+        res.status(500).json({ status: 'error', message: err.message || String(err) });
+    }
+});
+// ---------------------------------------------------------------------
 // 3d. Reseed Database from Clean Git Baseline Endpoint
 // ---------------------------------------------------------------------
 app.post('/api/reseed-db', async (_req, res) => {
@@ -720,12 +743,38 @@ app.get('/api/editor/files', (_req, res) => {
         res.status(500).json({ status: 'error', message: err.message });
     }
 });
-// Load any HTML file within the project umbrella
-app.get('/api/editor/file', (req, res) => {
+// Load any HTML file within the project umbrella or PostgreSQL segments
+app.get('/api/editor/file', async (req, res) => {
     try {
         const queryPath = (req.query.path || req.query.file || req.query.segId);
         if (!queryPath) {
             return res.status(400).json({ status: 'error', message: 'Parameter "path" or "file" is required.' });
+        }
+        // 1. Check PostgreSQL segments table first
+        try {
+            const segRes = await pool.query(`SELECT id, slug, seg_key, title, content_html, status 
+                 FROM segments 
+                 WHERE slug = $1 OR seg_key = $1 OR id::text = $1 
+                 LIMIT 1;`, [queryPath]);
+            if (segRes.rows && segRes.rows.length > 0) {
+                const s = segRes.rows[0];
+                return res.json({
+                    status: 'success',
+                    path: s.seg_key || s.slug,
+                    fullPath: `[PostgreSQL: segments (${s.seg_key})]`,
+                    rawHtml: s.content_html || '',
+                    isFullDoc: /<html[^>]*>/i.test(s.content_html || ''),
+                    isDbSegment: true,
+                    segId: s.id,
+                    slug: s.slug,
+                    segKey: s.seg_key,
+                    title: s.title,
+                    editorialStatus: s.status || 'published'
+                });
+            }
+        }
+        catch (dbErr) {
+            console.warn('[api/editor/file] DB check warning:', dbErr);
         }
         const { fullPath, relPath } = validateUmbrellaPath(queryPath);
         if (!(0, fs_1.existsSync)(fullPath)) {
@@ -744,13 +793,45 @@ app.get('/api/editor/file', (req, res) => {
         res.status(400).json({ status: 'error', message: err.message });
     }
 });
-// Save or replace any HTML file within the project umbrella
-app.post('/api/editor/save', (req, res) => {
-    const { path: queryPath, content, saveMode = 'body' } = req.body;
+// Save or replace any HTML file within the project umbrella or PostgreSQL segments
+app.post('/api/editor/save', async (req, res) => {
+    const { path: queryPath, content, saveMode = 'body', isDbSegment, segId } = req.body;
     if (!queryPath || typeof content !== 'string') {
         return res.status(400).json({ status: 'error', message: 'path and content are required.' });
     }
     try {
+        // 1. If explicit DB segment or matches segments table
+        if (isDbSegment || segId) {
+            await pool.query(`UPDATE segments SET content_html = $1, updated_at = NOW() WHERE id = $2 OR slug = $3 OR seg_key = $3;`, [content, segId || 0, queryPath]);
+            try {
+                // @ts-ignore
+                const { writeCatalogFiles, writeDemoCatalog } = await import('../nodeUtils/public/buildCatalog.js');
+                await writeCatalogFiles();
+                await writeDemoCatalog();
+            }
+            catch (e) { }
+            return res.json({
+                status: 'success',
+                ok: true,
+                path: queryPath,
+                isDbSegment: true,
+                message: `Database segment '${queryPath}' updated successfully in PostgreSQL.`
+            });
+        }
+        try {
+            const check = await pool.query(`SELECT id FROM segments WHERE slug = $1 OR seg_key = $1 LIMIT 1;`, [queryPath]);
+            if (check.rows && check.rows.length > 0) {
+                await pool.query(`UPDATE segments SET content_html = $1, updated_at = NOW() WHERE id = $2;`, [content, check.rows[0].id]);
+                return res.json({
+                    status: 'success',
+                    ok: true,
+                    path: queryPath,
+                    isDbSegment: true,
+                    message: `Database segment '${queryPath}' updated successfully in PostgreSQL.`
+                });
+            }
+        }
+        catch (e) { }
         const { fullPath, relPath } = validateUmbrellaPath(queryPath);
         // Protect hobbyNotes repository files from standalone editor overwrites
         if (fullPath.startsWith(UMBRELLA_DIR)) {
@@ -939,6 +1020,45 @@ app.post(['/svgPost/:app/:svgName', '/svgPostWithMeta'], (req, res) => {
     catch (err) {
         console.error(`[server Error] Error writing SVG:`, err);
         res.status(500).send(`error writing svg ${err}`);
+    }
+});
+// ---------------------------------------------------------------------
+// Project Operations: Backup, Prep/Build, Deploy
+// ---------------------------------------------------------------------
+app.post('/api/ops/backup', async (_req, res) => {
+    try {
+        const out = (0, child_process_1.execSync)('npm run db:backup', { cwd: process.cwd(), encoding: 'utf8' });
+        res.json({ status: 'success', message: 'Database backup completed.', output: out });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message, output: err.stdout?.toString() || err.stderr?.toString() });
+    }
+});
+app.post('/api/ops/build', async (_req, res) => {
+    try {
+        const out = (0, child_process_1.execSync)('npm run build', { cwd: process.cwd(), encoding: 'utf8' });
+        res.json({ status: 'success', message: 'Production build completed.', output: out });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message, output: err.stdout?.toString() || err.stderr?.toString() });
+    }
+});
+app.post('/api/ops/prep', async (_req, res) => {
+    try {
+        const out = (0, child_process_1.execSync)('npm run prep', { cwd: process.cwd(), encoding: 'utf8' });
+        res.json({ status: 'success', message: 'Prep (database backup + distribution build) completed.', output: out });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message, output: err.stdout?.toString() || err.stderr?.toString() });
+    }
+});
+app.post('/api/ops/deploy', async (_req, res) => {
+    try {
+        const out = (0, child_process_1.execSync)('npm run deploy', { cwd: process.cwd(), encoding: 'utf8' });
+        res.json({ status: 'success', message: 'Deployment to origin master completed successfully.', output: out });
+    }
+    catch (err) {
+        res.status(500).json({ status: 'error', message: err.message, output: err.stdout?.toString() || err.stderr?.toString() });
     }
 });
 // Static assets hosting

@@ -123,7 +123,12 @@ export async function validateAndBuildMetadata(): Promise<AppMetadata> {
         }
     }
 
-    console.log(`[crudValidation] Validation successful. Enriched ${Object.keys(enrichedMetadata).length} tables.`);
+    const tableCount = Object.keys(enrichedMetadata).length;
+    if (tableCount === 0) {
+        throw new Error('No tables could be loaded from PostgreSQL. Database connection may still be initializing or unavailable.');
+    }
+
+    console.log(`[crudValidation] Validation successful. Enriched ${tableCount} tables.`);
     return enrichedMetadata;
 }
 

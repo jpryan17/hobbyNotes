@@ -688,6 +688,12 @@
         <input id="file-path-input" class="path-input" type="text" placeholder="Untitled.html" title="Current file name or path. Press Enter to load if typing a path." />
 
         <div id="status-pill" class="status-pill">✓ Ready</div>
+        <div id="read-mode-pill" style="display: none; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+          <span>📖</span> Read Mode
+        </div>
+        <button id="btn-toggle-mode" class="btn btn-secondary" style="display: none; font-size: 12px; padding: 4px 10px;" title="Switch between Read Mode and Edit Mode">
+          ✏️ Switch to Edit Mode
+        </button>
       </div>
     </div>
 
@@ -1785,6 +1791,55 @@ ${bodyContent}
       showToast(`✓ Opened ${file.name}`);
     };
 
+    let isDbSegment = false;
+    let dbSegId = null;
+    let dbSegSlug = '';
+    let isReadMode = false;
+
+    function setReadMode(enable) {
+      isReadMode = !!enable;
+      const readPill = document.getElementById('read-mode-pill');
+      const toggleBtn = document.getElementById('btn-toggle-mode');
+      const saveBtn = document.getElementById('btn-save');
+      const saveAsBtn = document.getElementById('btn-save-as');
+      const toolbar = document.querySelector('.toolbar');
+      const unicodePalette = document.querySelector('.unicode-palette');
+
+      if (isReadMode) {
+        wysiwygPane.setAttribute('contenteditable', 'false');
+        sourceTextarea.setAttribute('readonly', 'true');
+        if (readPill) readPill.style.display = 'inline-flex';
+        if (toggleBtn) {
+          toggleBtn.style.display = 'inline-flex';
+          toggleBtn.textContent = '✏️ Switch to Edit Mode';
+          toggleBtn.className = 'btn btn-primary';
+        }
+        if (saveBtn) saveBtn.style.display = 'none';
+        if (saveAsBtn) saveAsBtn.style.display = 'none';
+        if (toolbar) toolbar.style.display = 'none';
+        if (unicodePalette) unicodePalette.style.display = 'none';
+        setStatus('📖 Read Mode (Inspection)', false);
+      } else {
+        wysiwygPane.setAttribute('contenteditable', 'true');
+        sourceTextarea.removeAttribute('readonly');
+        if (readPill) readPill.style.display = 'none';
+        if (toggleBtn) {
+          toggleBtn.style.display = 'inline-flex';
+          toggleBtn.textContent = '👁️ Switch to Read Mode';
+          toggleBtn.className = 'btn btn-secondary';
+        }
+        if (saveBtn) saveBtn.style.display = 'inline-flex';
+        if (saveAsBtn) saveAsBtn.style.display = isDbSegment ? 'none' : 'inline-flex';
+        if (toolbar) toolbar.style.display = 'flex';
+        if (unicodePalette) unicodePalette.style.display = 'flex';
+        setStatus('✓ Ready to Edit', false);
+      }
+    }
+
+    document.getElementById('btn-toggle-mode')?.addEventListener('click', () => {
+      setReadMode(!isReadMode);
+    });
+
     // Load file from server path (if typing full path)
     async function loadFromServerPath(path) {
       try {
@@ -1792,8 +1847,11 @@ ${bodyContent}
         const data = await resp.json();
         if (data.status === 'success') {
           localFileHandle = null;
+          isDbSegment = !!data.isDbSegment;
+          dbSegId = data.segId || null;
+          dbSegSlug = data.slug || data.segKey || path;
           loadDocumentContent(data.path.split(/[\/\\]/).pop(), data.rawHtml, data.fullPath);
-          showToast(`✓ Loaded ${data.path}`);
+          showToast(`✓ Loaded ${data.title || data.path}`);
         } else {
           alert('Error: ' + data.message);
         }
@@ -1847,12 +1905,44 @@ ${bodyContent}
 
     // Save File (Ctrl+S or Save button)
     async function saveFile() {
+      if (isReadMode) {
+        showToast('ℹ️ Read Mode: click "Switch to Edit Mode" to save changes.');
+        return;
+      }
       syncContent(activeMode, activeMode);
       const finalDoc = getCompleteDocumentHtml();
       if (activeMode === 'source') {
         sourceTextarea.value = finalDoc;
       } else if (activeMode === 'split') {
         sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+
+      if (isDbSegment) {
+        try {
+          const bodyHtml = (activeMode === 'source' ? wysiwygPane.innerHTML : cleanHtml(wysiwygPane.innerHTML)).trim();
+          const resp = await fetch('/api/editor/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              path: dbSegSlug || activeFileName,
+              content: bodyHtml,
+              isDbSegment: true,
+              segId: dbSegId
+            })
+          });
+          const data = await resp.json();
+          if (data.status === 'success') {
+            setDirty(false);
+            showToast('✓ Saved segment to PostgreSQL database');
+            return;
+          } else {
+            alert('Database save error: ' + data.message);
+            return;
+          }
+        } catch (e) {
+          alert('Save network error: ' + e.message);
+          return;
+        }
       }
 
       if (localFileHandle) {
@@ -3308,10 +3398,14 @@ ${bodyContent}
     (async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const requested = urlParams.get('path') || urlParams.get('file');
+      const mode = (urlParams.get('mode') || '').toLowerCase();
       if (requested) {
         await loadFromServerPath(requested);
       } else {
         newBlankDocument();
+      }
+      if (mode === 'read') {
+        setReadMode(true);
       }
     })();
   </script>

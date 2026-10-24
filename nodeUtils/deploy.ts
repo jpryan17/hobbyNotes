@@ -8,12 +8,8 @@ const distIndexPath = path.join(rootDir, 'app1', 'dist', 'index.html');
 const forceBuild = process.argv.includes('--build') || process.argv.includes('-b');
 
 try {
-  if (forceBuild || !fs.existsSync(distIndexPath)) {
-    console.log('[deploy] Building distribution...');
-    execSync('npm run build', { cwd: rootDir, stdio: 'inherit' });
-  } else {
-    console.log('[deploy] Verified existing dist/index.html. Skipping redundant build step (use --build to force).');
-  }
+  console.log('[deploy] Running prep (PostgreSQL backup + distribution build)...');
+  execSync('npm run prep', { cwd: rootDir, stdio: 'inherit' });
 
   // Always ensure standalone overview.html and mwm_pseudocode_spec.html are synced to dist before staging
   const rootOverview = path.join(rootDir, 'overview.html');

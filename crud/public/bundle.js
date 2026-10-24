@@ -9775,6 +9775,9 @@ var tables = [
       { column: "governing_seed", label: "Governing Seed", canModify: true, len: 20 },
       { column: "expression", label: "Mathematical Expression", canModify: true, len: 60, rows: 2 },
       { column: "description", label: "Conceptual Summary", canModify: true, len: 60, rows: 3, useHints: true },
+      { column: "parent_id", label: "Parent Theorem / Statement", canModify: true, len: 28 },
+      { column: "pseudo_algo_id", label: "Associated Pseudocode Algorithm", canModify: true, len: 28 },
+      { column: "demo_id", label: "Attached Interactive Demo / TTD", canModify: true, len: 28 },
       { column: "lean_signature", label: "Lean 4 Signature", canModify: true, len: 60, rows: 2 },
       { column: "lean_snippet", label: "Lean Code Snippet", canModify: true, len: 60, rows: 4 },
       { column: "lean_decl_id", label: "Governing Lean Declaration", canModify: true, len: 28 },
@@ -10107,7 +10110,11 @@ async function validateAndBuildMetadata() {
       enrichedMetadata[fk.source_table].parentColumn = fk.source_column;
     }
   }
-  console.log(`[crudValidation] Validation successful. Enriched ${Object.keys(enrichedMetadata).length} tables.`);
+  const tableCount = Object.keys(enrichedMetadata).length;
+  if (tableCount === 0) {
+    throw new Error("No tables could be loaded from PostgreSQL. Database connection may still be initializing or unavailable.");
+  }
+  console.log(`[crudValidation] Validation successful. Enriched ${tableCount} tables.`);
   return enrichedMetadata;
 }
 function validateInternalConfig() {
@@ -10504,31 +10511,37 @@ var navigationMenuTree = [
     ]
   }
 ];
-function getFilteredMenuTree(subject = "all") {
-  if (!subject || subject === "all") {
-    return navigationMenuTree;
+function getFilteredMenuTree(subject = "all", mode = "read") {
+  const isCreate = mode === "create";
+  function matchesSubjectFilter(itemSubject) {
+    if (!subject || subject === "all") return true;
+    if (!itemSubject || itemSubject === "all") return true;
+    return itemSubject === subject;
   }
   function filterItem(item) {
-    if (!item.children || item.children.length === 0) {
-      if (!item.subject || item.subject === "all" || item.subject === subject) {
-        return item;
+    if (!matchesSubjectFilter(item.subject)) {
+      return null;
+    }
+    if (isCreate && (item.instanceKey !== void 0 || item.instanceId !== void 0 || item.label.startsWith("Browse All"))) {
+      return null;
+    }
+    if (item.children && item.children.length > 0) {
+      if (isCreate && item.typeKey && item.typeKey !== "demo_initializations" && item.typeKey !== "formal_statement") {
+        return {
+          ...item,
+          children: []
+        };
+      }
+      const filteredChildren = item.children.map(filterItem).filter((c) => c !== null);
+      if (filteredChildren.length > 0) {
+        return {
+          ...item,
+          children: filteredChildren
+        };
       }
       return null;
     }
-    const filteredChildren = item.children.map(filterItem).filter((c) => c !== null);
-    if (filteredChildren.length > 0) {
-      return {
-        ...item,
-        children: filteredChildren
-      };
-    }
-    if (item.subject && (item.subject === subject || item.subject === "all")) {
-      return {
-        ...item,
-        children: []
-      };
-    }
-    return null;
+    return item;
   }
   return navigationMenuTree.map(filterItem).filter((c) => c !== null);
 }
@@ -10567,6 +10580,79 @@ function renderMenuHierarchy(items) {
             `;
     }
   }).join("");
+}
+async function syncMenuTreeFromDatabase(queryFn) {
+  try {
+    const demos = await queryFn("SELECT id, engine, mode, title FROM interactive_demos ORDER BY id ASC;");
+    if (demos && demos.length > 0) {
+      const demoInitializationsNode = navigationMenuTree.find((n) => n.typeKey === "demo_initializations");
+      if (demoInitializationsNode && demoInitializationsNode.children) {
+        const engineSubjectMap = {
+          ttd: "logic",
+          btd: "numbers_trees",
+          bid: "analysis",
+          fsd: "all"
+        };
+        for (const engine of ["ttd", "btd", "bid", "fsd"]) {
+          const engineNode = demoInitializationsNode.children.find((c) => c.typeKey === engine);
+          if (engineNode) {
+            const engineDemos = demos.filter((d) => d.engine === engine);
+            const subj = engineSubjectMap[engine] || "all";
+            engineNode.children = [
+              ...engineDemos.map((d) => ({
+                label: d.title || `Demo #${d.id}`,
+                typeKey: engine,
+                instanceId: Number(d.id),
+                subject: subj
+              })),
+              {
+                label: `Browse All ${engine.toUpperCase()} Initializations`,
+                typeKey: engine,
+                subject: subj
+              }
+            ];
+          }
+        }
+      }
+    }
+    const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY id ASC;");
+    if (stmts && stmts.length > 0) {
+      const fsNode = navigationMenuTree.find((n) => n.typeKey === "formal_statement");
+      if (fsNode && fsNode.children) {
+        for (const kind of ["axiom", "theorem", "directed_equality"]) {
+          const kindNode = fsNode.children.find((c) => c.typeKey === kind);
+          if (kindNode) {
+            const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+            kindNode.children = [
+              ...kindStmts.map((s) => {
+                let subj = "all";
+                const dc = s.domain_category || "";
+                if (dc.includes("logic") || dc.includes("order")) subj = "logic";
+                else if (dc.includes("tree") || dc.includes("arithmetic")) subj = "numbers_trees";
+                else if (dc.includes("algebra") || dc.includes("vector")) subj = "algebra";
+                else if (dc.includes("analysis") || dc.includes("trig") || dc.includes("rotor")) subj = "analysis";
+                else if (dc.includes("physic") || dc.includes("kinematic")) subj = "physics";
+                else if (dc.includes("bayes") || dc.includes("quantum") || dc.includes("info")) subj = "information";
+                return {
+                  label: s.title || s.statement_key,
+                  typeKey: "formal_statement",
+                  instanceKey: s.statement_key,
+                  subject: subj
+                };
+              }),
+              {
+                label: `Browse All ${kind === "directed_equality" ? "Directed Equalities" : kind.charAt(0).toUpperCase() + kind.slice(1) + "s"}`,
+                typeKey: kind,
+                subject: "all"
+              }
+            ];
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[syncMenuTreeFromDatabase] Could not sync menu tree from live database:", err);
+  }
 }
 
 // clientLib/pxeEngine.ts
@@ -35801,7 +35887,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-23T23:58:24.044Z",
+  "generatedAt": "2026-10-24T10:07:33.930Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -42580,6 +42666,2809 @@ function parseStatementToFsdData(expr) {
   };
 }
 
+// crud/src/contentEditor.ts
+async function renderSegmentContentSurface(options) {
+  const { container, segmentRecord, onBack, onSaved, onSwitchMode } = options;
+  let activeMode = "wysiwyg";
+  let isReadMode = options.initialMode === "read";
+  let isDirty = false;
+  let currentZoom = 1;
+  const zoomLevels = [0.75, 0.85, 1, 1.15, 1.25, 1.5, 1.75, 2];
+  let spellCheckActive = true;
+  let lastWysiwygRange = null;
+  let lastSourceSelection = null;
+  let activeTableContext = null;
+  const segId = segmentRecord.id;
+  if (segId && (segmentRecord.content_html === void 0 || segmentRecord.content_html === null)) {
+    try {
+      const rows = await queryDatabase("SELECT id, slug, seg_key, title, content_html, status FROM segments WHERE id = $1 LIMIT 1;", [segId]);
+      if (rows && rows.length > 0) {
+        const dbRow = rows[0];
+        if (!segmentRecord.title && dbRow.title) segmentRecord.title = dbRow.title;
+        if (!segmentRecord.slug && dbRow.slug) segmentRecord.slug = dbRow.slug;
+        if (!segmentRecord.status && dbRow.status) segmentRecord.status = dbRow.status;
+        segmentRecord.content_html = dbRow.content_html;
+      }
+    } catch (fetchErr) {
+      console.error("[contentEditor] Error querying segment from database:", fetchErr);
+    }
+  }
+  const segSlug = segmentRecord.slug || segmentRecord.seg_key || `segment_${segId}`;
+  const segTitle = segmentRecord.title || segSlug;
+  let currentStatus = segmentRecord.status || segmentRecord.editorial_status || "raw";
+  const rawContentHtml = segmentRecord.content_html || "<p></p>";
+  injectEditorStyles();
+  container.innerHTML = `
+        <div id="segment-authoring-surface" class="content-editor-container ${isReadMode ? "read-mode" : "edit-mode"}">
+            <!-- Top Control Bar -->
+            <header class="editor-header-bar">
+                <!-- Top-line LHS: Segment slug, title, status, custom elements, Save to DB -->
+                <div class="editor-header-lhs">
+                    <button id="editor-btn-back" class="btn btn-secondary" title="Return to entity attributes table">
+                        <span>\u2190 Back to Record</span>
+                    </button>
+
+                    <div class="editor-seg-meta">
+                        <span class="editor-seg-title">${escapeHtml(segTitle)}</span>
+                        <span class="editor-seg-slug">${escapeHtml(segSlug)}</span>
+                    </div>
+
+                    <!-- Editorial Status -->
+                    <div id="editor-status-container" class="editor-status-wrapper">
+                        ${isReadMode ? `<span class="editorial-status-pill status-${escapeHtml(currentStatus)}">Status: ${escapeHtml(currentStatus)}</span>` : `
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <label for="editor-status-select" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Status:</label>
+                                <select id="editor-status-select" class="tb-select" style="font-weight: 600; padding: 4px 8px;">
+                                    <option value="raw" ${currentStatus === "raw" ? "selected" : ""}>raw</option>
+                                    <option value="staged" ${currentStatus === "staged" ? "selected" : ""}>staged</option>
+                                    <option value="reviewed" ${currentStatus === "reviewed" ? "selected" : ""}>reviewed</option>
+                                    <option value="published" ${currentStatus === "published" ? "selected" : ""}>published</option>
+                                </select>
+                            </div>
+                            `}
+                    </div>
+
+                    <!-- Custom Element Insertion Dropdown (Visible in Edit Mode) -->
+                    <div class="tb-dropdown custom-elem-dropdown" id="dropdown-custom-elems" style="${isReadMode ? "display: none;" : "display: inline-flex;"}">
+                        <button id="btn-dropdown-custom-elems" class="btn btn-secondary" style="background: #fdf2f8; border-color: #fbcfe8; color: #be185d; font-weight: 700;" title="Insert Curricular Custom Elements (<ttd-ref>, <fs-ref>, etc.)">
+                            <span>\u2A01 Insert Element</span> \u25BE
+                        </button>
+                        <div class="tb-dropdown-menu" id="menu-custom-elems">
+                            <button class="tb-dropdown-item" data-action="insert-ttd">\u2696\uFE0F Truth Table (&lt;ttd-ref&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-fs">\u{1F4DC} Formal Statement (&lt;fs-ref&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-stencil">\u{1F4D0} Computational Stencil (&lt;interactive-stencil&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-demo">\u{1F3A8} Interactive Visual Demo (&lt;visual-demo&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-pseudo">\u26A1 Pseudocode Algorithm (&lt;pseudo-ref&gt;)...</button>
+                        </div>
+                    </div>
+
+                    <!-- Direct Save (Visible in Edit Mode) -->
+                    <button id="editor-btn-save-db" class="btn btn-primary" style="${isReadMode ? "display: none;" : "display: inline-flex;"} background: var(--emerald); font-weight: 700;" title="Save and replace content_html column value (Ctrl+S)">
+                        \u{1F4BE} Save
+                    </button>
+                    <div id="editor-save-status-pill" class="status-pill" style="${isReadMode ? "display: none;" : "display: inline-flex;"}">\u2713 Ready</div>
+
+                    <!-- Mode Toggle Button -->
+                    <button id="editor-btn-toggle-mode" class="btn ${isReadMode ? "btn-primary" : "btn-secondary"}" title="Toggle between Read mode and Edit mode">
+                        ${isReadMode ? "\u270F\uFE0F Switch to Edit Mode" : "\u{1F441}\uFE0F Switch to Read Mode"}
+                    </button>
+                </div>
+
+                <!-- Top-line RHS: Zoom, Spell check, View mode pills -->
+                <div class="editor-header-rhs">
+                    <div class="header-zoom" title="Zoom In / Out for content pane">
+                        <span style="font-size: 11px; font-weight: 700; color: #94a3b8; user-select: none;">Zoom:</span>
+                        <button id="btn-zoom-out" class="btn btn-secondary" style="padding: 2px 7px; font-size: 12px;">\u2212</button>
+                        <button id="btn-zoom-reset" class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px; font-weight: 700; min-width: 44px; text-align: center; color: #38bdf8;">100%</button>
+                        <button id="btn-zoom-in" class="btn btn-secondary" style="padding: 2px 7px; font-size: 12px;">+</button>
+                    </div>
+
+                    <button id="editor-tb-spell" class="btn btn-secondary active" style="${isReadMode ? "display: none;" : "display: inline-flex;"}" title="Toggle spell check">\u{1F524} Spell: ON</button>
+
+                    <div class="view-pills" style="${isReadMode ? "display: none;" : "display: inline-flex;"}">
+                        <button id="pill-wysiwyg" class="pill active">\u{1F441}\uFE0F Normal</button>
+                        <button id="pill-source" class="pill">\u{1F4DD} HTML Source</button>
+                        <button id="pill-split" class="pill">\u{1F313} Split</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Formatting Toolbar (Hidden in Read Mode) -->
+            <div id="editor-formatting-toolbar" class="toolbar" style="${isReadMode ? "display: none;" : "display: flex;"}">
+                <!-- 1. Text Styles -->
+                <div class="tb-section" title="Text Styles">
+                    <div class="tb-group">
+                        <button id="tb-bold" class="tb-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+                        <button id="tb-italic" class="tb-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <!-- Script Level Controls: x\u2082, x\u2081, x, x\xB9, x\xB2 -->
+                    <div class="tb-group" id="tb-script-group" title="Script level: sub-sub (-2), sub (-1), base (0), sup (+1), sup-sup (+2)">
+                        <button id="tb-script-sub2" class="tb-btn script-level-btn" data-level="-2" title="Sub-subscript (level -2)">x<sub><sub>2</sub></sub></button>
+                        <button id="tb-script-sub1" class="tb-btn script-level-btn" data-level="-1" title="Subscript (level -1)">x<sub>1</sub></button>
+                        <button id="tb-script-base" class="tb-btn script-level-btn active" data-level="0" title="Base text (level 0)">x</button>
+                        <button id="tb-script-sup1" class="tb-btn script-level-btn" data-level="1" title="Superscript (level +1)">x<sup>1</sup></button>
+                        <button id="tb-script-sup2" class="tb-btn script-level-btn" data-level="2" title="Super-superscript (level +2)">x<sup><sup>2</sup></sup></button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <!-- Font Size Controls -->
+                    <div class="tb-group">
+                        <select id="tb-font-size" class="tb-select" title="Font size of selected text">
+                            <option value="" disabled selected>Size</option>
+                            <option value="1">10px (Tiny)</option>
+                            <option value="2">13px (Small)</option>
+                            <option value="3">16px (Normal)</option>
+                            <option value="4">18px (Medium)</option>
+                            <option value="5">24px (Large)</option>
+                            <option value="6">32px (X-Large)</option>
+                            <option value="7">48px (Huge)</option>
+                        </select>
+                        <button id="tb-size-down" class="tb-btn" title="Decrease font size (A\u207B)">A\u207B</button>
+                        <button id="tb-size-up" class="tb-btn" title="Increase font size (A\u207A)">A\u207A</button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <!-- Heading Dropdown -->
+                    <div class="tb-dropdown" id="dropdown-heading">
+                        <button id="btn-dropdown-h" class="tb-btn" title="Heading Level (Paragraph, H1, H2, H3, H4, Code)">
+                            <span><b>H</b></span> \u25BE
+                        </button>
+                        <div class="tb-dropdown-menu" id="menu-heading">
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="p">\xB6 Paragraph (Normal)</button>
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="h1" style="font-weight: 700; font-size: 14px;">H1 Heading 1</button>
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="h2" style="font-weight: 700; font-size: 13px;">H2 Heading 2</button>
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="h3" style="font-weight: 600; font-size: 12px;">H3 Heading 3</button>
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="h4" style="font-weight: 600; font-size: 11px;">H4 Heading 4</button>
+                            <button class="tb-dropdown-item" data-action="format-block" data-val="pre" style="font-family: var(--font-mono);">&lt;/&gt; Preformatted Code</button>
+                        </div>
+                    </div>
+
+                    <!-- More Styles Dropdown -->
+                    <div class="tb-dropdown" id="dropdown-more-styles">
+                        <button id="btn-dropdown-more-styles" class="tb-btn" title="More Styles (Underline, Strikethrough, Code, Colors, Clear)">
+                            <span>Styles</span> \u25BE
+                        </button>
+                        <div class="tb-dropdown-menu" id="menu-more-styles">
+                            <button class="tb-dropdown-item" data-action="underline"><u>U</u> Underline</button>
+                            <button class="tb-dropdown-item" data-action="strike"><s>S</s> Strikethrough</button>
+                            <button class="tb-dropdown-item" data-action="code"><code>&lt;&gt;</code> Inline Code</button>
+                            <button class="tb-dropdown-item" data-action="foreColor">\u{1F3A8} Text Color...</button>
+                            <button class="tb-dropdown-item" data-action="hiliteColor">\u{1F58D}\uFE0F Highlight Color...</button>
+                            <div style="border-top: 1px solid #e2e8f0; margin: 2px 0;"></div>
+                            <button class="tb-dropdown-item" data-action="removeFormat">\u{1F9F9} Clear Formatting</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Structure & Alignment -->
+                <div class="tb-section" title="Structure & Alignment">
+                    <div class="tb-group">
+                        <button id="tb-align-left" class="tb-btn" title="Align Left">\u2BC7</button>
+                        <button id="tb-align-center" class="tb-btn" title="Align Center">\u2630</button>
+                        <button id="tb-align-right" class="tb-btn" title="Align Right">\u2BC8</button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <div class="tb-group">
+                        <button id="tb-ul" class="tb-btn" title="Bullet List">\u2022 List</button>
+                        <button id="tb-ol" class="tb-btn" title="Numbered List">1. List</button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <div class="tb-group">
+                        <button id="tb-outdent" class="tb-btn" title="Outdent / Decrease Indent">\u21E4 Outdent</button>
+                        <button id="tb-indent" class="tb-btn" title="Indent / Increase Indent">\u21E5 Indent</button>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <!-- Blocks Dropdown -->
+                    <div class="tb-dropdown" id="dropdown-more-structures">
+                        <button id="btn-dropdown-more-structures" class="tb-btn" title="More Blocks (Blockquote, Details, Callout, Definition)">
+                            <span>Blocks</span> \u25BE
+                        </button>
+                        <div class="tb-dropdown-menu" id="menu-more-structures">
+                            <button class="tb-dropdown-item" data-action="blockquote">\u275D Blockquote</button>
+                            <button class="tb-dropdown-item" data-action="details">\u{1F5CB} Collapsible Details</button>
+                            <button class="tb-dropdown-item" data-action="callout-note">\u{1F4E6} Callout Note Box</button>
+                            <button class="tb-dropdown-item" data-action="callout-def">\u{1F3F7}\uFE0F Definition Box</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Inserts Section -->
+                <div class="tb-section" title="Insert Elements">
+                    <div class="tb-dropdown" id="dropdown-insert">
+                        <button id="btn-dropdown-insert" class="tb-btn" title="Insert Media, Tables & Content">
+                            <span>\u2A01 Insert</span> \u25BE
+                        </button>
+                        <div class="tb-dropdown-menu" id="menu-insert">
+                            <button class="tb-dropdown-item" data-action="insert-link">\u{1F517} Hyperlink</button>
+                            <button class="tb-dropdown-item" data-action="insert-image">\u{1F5BC}\uFE0F Image</button>
+                            <button class="tb-dropdown-item" data-action="insert-table">\u{1F4CA} Table (Rows \xD7 Cols)</button>
+                            <button class="tb-dropdown-item" data-action="insert-hr">\u2015 Horizontal Divider</button>
+                        </div>
+                    </div>
+
+                    <div class="tb-divider"></div>
+
+                    <div class="tb-group">
+                        <button id="tb-insert-latex" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px; background: #059669;" title="Insert or edit LaTeX formula">\u2211 + LaTeX Math</button>
+                        <button id="tb-insert-diagram" class="btn btn-primary" style="padding: 4px 10px; font-size: 12px;" title="Draw and embed Draw.io diagram">\u{1F3A8} + Diagram</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unicode Character Palette Strip (Hidden in Read Mode) -->
+            <div id="editor-unicode-palette" class="unicode-palette" style="${isReadMode ? "display: none;" : "display: flex;"}">
+                <span class="palette-label">Unicode:</span>
+
+                <!-- 1. Typesets -->
+                <div class="u-section">
+                    <span class="u-section-label">Typesets:</span>
+                    <button class="u-btn u-bold" data-char="\u211D" title="Real numbers (R)">\u211D</button>
+                    <button class="u-btn u-bold" data-char="\u2115" title="Natural numbers (N)">\u2115</button>
+                    <button class="u-btn u-bold" data-char="\u2124" title="Integers (Z)">\u2124</button>
+                    <button class="u-btn u-bold" data-char="\u211A" title="Rational numbers (Q)">\u211A</button>
+                    <button class="u-btn u-bold" data-char="\u2102" title="Complex numbers (C)">\u2102</button>
+                    <button class="u-btn u-bold" data-char="\u{1D539}" title="Booleans (B)">\u{1D539}</button>
+                    <button class="u-btn u-bold" data-char="\u{1D53B}" title="Dyadic rationals (D)">\u{1D53B}</button>
+                    <button class="u-btn u-bold" data-char="\u2146" title="Differential d">\u2146</button>
+
+                    <!-- Blackboard Bold Dropdown -->
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Full Blackboard Bold set">BB \u25BE</button>
+                        <div class="u-dropdown-popover">
+                            <div class="u-popover-title"><span>Blackboard Bold</span><span style="font-size:10px;color:#94a3b8;">Double-Struck</span></div>
+                            <div class="u-popover-subtitle">Uppercase (A-Z)</div>
+                            <div class="u-grid">
+                                ${["\u{1D538}", "\u{1D539}", "\u2102", "\u{1D53B}", "\u{1D53C}", "\u{1D53D}", "\u{1D53E}", "\u210D", "\u{1D540}", "\u{1D541}", "\u{1D542}", "\u{1D543}", "\u{1D544}", "\u2115", "\u{1D546}", "\u2119", "\u211A", "\u211D", "\u{1D54A}", "\u{1D54B}", "\u{1D54C}", "\u{1D54D}", "\u{1D54E}", "\u{1D54F}", "\u{1D550}", "\u2124"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                            <div class="u-popover-subtitle">Lowercase & Digits</div>
+                            <div class="u-grid">
+                                ${["\u{1D552}", "\u{1D553}", "\u{1D554}", "\u{1D555}", "\u{1D556}", "\u{1D557}", "\u{1D558}", "\u{1D559}", "\u{1D55A}", "\u{1D55B}", "\u{1D55C}", "\u{1D55D}", "\u{1D55E}", "\u{1D55F}", "\u{1D560}", "\u{1D561}", "\u{1D562}", "\u{1D563}", "\u{1D564}", "\u{1D565}", "\u{1D566}", "\u{1D567}", "\u{1D568}", "\u{1D569}", "\u{1D56A}", "\u{1D56B}", "\u{1D7D8}", "\u{1D7D9}", "\u{1D7DA}", "\u{1D7DB}", "\u{1D7DC}", "\u{1D7DD}", "\u{1D7DE}", "\u{1D7DF}", "\u{1D7E0}", "\u{1D7E1}"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Script Dropdown -->
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Script / Calligraphic mathematical letters">\u{1D4AB} Script \u25BE</button>
+                        <div class="u-dropdown-popover">
+                            <div class="u-popover-title"><span>Script / Calligraphic</span></div>
+                            <div class="u-popover-subtitle">Uppercase</div>
+                            <div class="u-grid">
+                                ${["\u{1D49C}", "\u212C", "\u{1D49E}", "\u{1D49F}", "\u2130", "\u2131", "\u{1D4A2}", "\u210B", "\u2110", "\u{1D4A5}", "\u{1D4A6}", "\u2112", "\u2133", "\u{1D4A9}", "\u{1D4AA}", "\u{1D4AB}", "\u{1D4AC}", "\u211B", "\u{1D4AE}", "\u{1D4AF}", "\u{1D4B0}", "\u{1D4B1}", "\u{1D4B2}", "\u{1D4B3}", "\u{1D4B4}", "\u{1D4B5}"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                            <div class="u-popover-subtitle">Lowercase</div>
+                            <div class="u-grid">
+                                ${["\u{1D4B6}", "\u{1D4B7}", "\u{1D4B8}", "\u{1D4B9}", "\u212F", "\u{1D4BB}", "\u210A", "\u{1D4BD}", "\u{1D4BE}", "\u{1D4BF}", "\u{1D4C0}", "\u{1D4C1}", "\u{1D4C2}", "\u{1D4C3}", "\u2134", "\u{1D4C5}", "\u{1D4C6}", "\u{1D4C7}", "\u{1D4C8}", "\u{1D4C9}", "\u{1D4CA}", "\u{1D4CB}", "\u{1D4CC}", "\u{1D4CD}", "\u{1D4CE}", "\u{1D4CF}"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fraktur Dropdown -->
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Fraktur / Blackletter letters">\u{1D509} Fraktur \u25BE</button>
+                        <div class="u-dropdown-popover">
+                            <div class="u-popover-title"><span>Fraktur / Blackletter</span></div>
+                            <div class="u-popover-subtitle">Uppercase</div>
+                            <div class="u-grid">
+                                ${["\u{1D504}", "\u{1D505}", "\u212D", "\u{1D507}", "\u{1D508}", "\u{1D509}", "\u{1D50A}", "\u210C", "\u2111", "\u{1D50D}", "\u{1D50E}", "\u{1D50F}", "\u{1D510}", "\u{1D511}", "\u{1D512}", "\u{1D513}", "\u{1D514}", "\u211C", "\u{1D516}", "\u{1D517}", "\u{1D518}", "\u{1D519}", "\u{1D51A}", "\u{1D51B}", "\u{1D51C}", "\u2128"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                            <div class="u-popover-subtitle">Lowercase</div>
+                            <div class="u-grid">
+                                ${["\u{1D51E}", "\u{1D51F}", "\u{1D520}", "\u{1D521}", "\u{1D522}", "\u{1D523}", "\u{1D524}", "\u{1D525}", "\u{1D526}", "\u{1D527}", "\u{1D528}", "\u{1D529}", "\u{1D52A}", "\u{1D52B}", "\u{1D52C}", "\u{1D52D}", "\u{1D52E}", "\u{1D52F}", "\u{1D530}", "\u{1D531}", "\u{1D532}", "\u{1D533}", "\u{1D534}", "\u{1D535}", "\u{1D536}", "\u{1D537}"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Greek -->
+                <div class="u-section">
+                    <span class="u-section-label">Greek:</span>
+                    <button class="u-btn" data-char="\u03B1" title="alpha">\u03B1</button>
+                    <button class="u-btn" data-char="\u03B2" title="beta">\u03B2</button>
+                    <button class="u-btn" data-char="\u03B3" title="gamma">\u03B3</button>
+                    <button class="u-btn" data-char="\u03B4" title="delta">\u03B4</button>
+                    <button class="u-btn" data-char="\u03B5" title="epsilon">\u03B5</button>
+                    <button class="u-btn" data-char="\u03B8" title="theta">\u03B8</button>
+                    <button class="u-btn" data-char="\u03BB" title="lambda">\u03BB</button>
+                    <button class="u-btn" data-char="\u03BC" title="mu">\u03BC</button>
+                    <button class="u-btn" data-char="\u03C0" title="pi">\u03C0</button>
+                    <button class="u-btn" data-char="\u03C3" title="sigma">\u03C3</button>
+                    <button class="u-btn" data-char="\u03C4" title="tau">\u03C4</button>
+                    <button class="u-btn" data-char="\u03C6" title="phi">\u03C6</button>
+                    <button class="u-btn" data-char="\u03C8" title="psi">\u03C8</button>
+                    <button class="u-btn" data-char="\u03C9" title="omega">\u03C9</button>
+                    <button class="u-btn" data-char="\u0394" title="Delta">\u0394</button>
+                    <button class="u-btn" data-char="\u0393" title="Gamma">\u0393</button>
+                    <button class="u-btn" data-char="\u03A9" title="Omega">\u03A9</button>
+
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Complete Greek alphabet">Greek \u25BE</button>
+                        <div class="u-dropdown-popover">
+                            <div class="u-popover-title"><span>Greek Alphabet</span></div>
+                            <div class="u-popover-subtitle">Lowercase</div>
+                            <div class="u-grid">
+                                ${["\u03B1", "\u03B2", "\u03B3", "\u03B4", "\u03B5", "\u03B6", "\u03B7", "\u03B8", "\u03B9", "\u03BA", "\u03BB", "\u03BC", "\u03BD", "\u03BE", "\u03BF", "\u03C0", "\u03C1", "\u03C2", "\u03C3", "\u03C4", "\u03C5", "\u03C6", "\u03C7", "\u03C8", "\u03C9"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                            <div class="u-popover-subtitle">Uppercase</div>
+                            <div class="u-grid">
+                                ${["\u0391", "\u0392", "\u0393", "\u0394", "\u0395", "\u0396", "\u0397", "\u0398", "\u0399", "\u039A", "\u039B", "\u039C", "\u039D", "\u039E", "\u039F", "\u03A0", "\u03A1", "\u03A3", "\u03A4", "\u03A5", "\u03A6", "\u03A7", "\u03A8", "\u03A9"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Logic & Sets -->
+                <div class="u-section">
+                    <span class="u-section-label">Logic & Sets:</span>
+                    <button class="u-btn" data-char="\u2192" title="Right arrow">\u2192</button>
+                    <button class="u-btn" data-char="\u21D2" title="Implies">\u21D2</button>
+                    <button class="u-btn" data-char="\u2194" title="Equivalent">\u2194</button>
+                    <button class="u-btn" data-char="\u21D4" title="Iff">\u21D4</button>
+                    <button class="u-btn" data-char="\u21A6" title="Maps to">\u21A6</button>
+                    <button class="u-btn" data-char="\xAC" title="Not">\xAC</button>
+                    <button class="u-btn" data-char="\u2227" title="And">\u2227</button>
+                    <button class="u-btn" data-char="\u2228" title="Or">\u2228</button>
+                    <button class="u-btn" data-char="\u2200" title="For all">\u2200</button>
+                    <button class="u-btn" data-char="\u2203" title="There exists">\u2203</button>
+                    <span class="u-divider"></span>
+                    <button class="u-btn" data-char="\u2208" title="Element of">\u2208</button>
+                    <button class="u-btn" data-char="\u2209" title="Not element of">\u2209</button>
+                    <button class="u-btn" data-char="\u2286" title="Subset equal">\u2286</button>
+                    <button class="u-btn" data-char="\u2282" title="Proper subset">\u2282</button>
+                    <button class="u-btn" data-char="\u222A" title="Union">\u222A</button>
+                    <button class="u-btn" data-char="\u2229" title="Intersection">\u2229</button>
+                    <button class="u-btn" data-char="\u2205" title="Empty set">\u2205</button>
+                    <button class="u-btn" data-char="\u2260" title="Not equal">\u2260</button>
+                    <button class="u-btn" data-char="\u2264" title="Less equal">\u2264</button>
+                    <button class="u-btn" data-char="\u2265" title="Greater equal">\u2265</button>
+                    <button class="u-btn" data-char="\u2248" title="Approx equal">\u2248</button>
+                    <button class="u-btn" data-char="\u2261" title="Identical">\u2261</button>
+
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Extended logic, arrows & deduction">Logic \u25BE</button>
+                        <div class="u-dropdown-popover">
+                            <div class="u-popover-title"><span>Deduction & Relations</span></div>
+                            <div class="u-grid">
+                                ${["\u22A2", "\u22A8", "\u22A3", "\u22A9", "\u22A4", "\u22A5", "\u2234", "\u2235", "\u2204", "\u220E", "\u2295", "\u2190", "\u21D0", "\u21D1", "\u21D3", "\u21C4", "\u21C5", "\u21BA", "\u21BB", "\u21AA", "\u21A9", "\u21A0", "\u2287", "\u2283", "\u2284", "\u2285", "\u2288", "\u228A", "\u228B", "\u2118", "\u2216", "\u2201", "\u221D", "\u2254", "\u2245", "\u2247"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Ops & Delimiters -->
+                <div class="u-section">
+                    <span class="u-section-label">Ops & Delims:</span>
+                    <button class="u-btn" data-char="\xB7" title="Center dot">\xB7</button>
+                    <button class="u-btn" data-char="\xD7" title="Times">\xD7</button>
+                    <button class="u-btn" data-char="\xF7" title="Divide">\xF7</button>
+                    <button class="u-btn" data-char="\xB1" title="Plus minus">\xB1</button>
+                    <button class="u-btn" data-char="\u2213" title="Minus plus">\u2213</button>
+                    <button class="u-btn" data-char="\u221A" title="Sqrt">\u221A</button>
+                    <button class="u-btn" data-char="\u221E" title="Infinity">\u221E</button>
+                    <button class="u-btn" data-char="\u2202" title="Partial">\u2202</button>
+                    <button class="u-btn" data-char="\u2207" title="Nabla">\u2207</button>
+                    <button class="u-btn" data-char="\u222B" title="Integral">\u222B</button>
+                    <button class="u-btn" data-char="\u2211" title="Sum">\u2211</button>
+                    <button class="u-btn" data-char="\u220F" title="Product">\u220F</button>
+                    <span class="u-divider"></span>
+                    <button class="u-btn" data-char="\u27E8" title="Left angle">\u27E8</button>
+                    <button class="u-btn" data-char="\u27E9" title="Right angle">\u27E9</button>
+                    <button class="u-btn" data-char="\u27E6" title="Left double bracket">\u27E6</button>
+                    <button class="u-btn" data-char="\u27E7" title="Right double bracket">\u27E7</button>
+                    <button class="u-btn" data-char="\u2308" title="Left ceil">\u2308</button>
+                    <button class="u-btn" data-char="\u2309" title="Right ceil">\u2309</button>
+                    <button class="u-btn" data-char="\u230A" title="Left floor">\u230A</button>
+                    <button class="u-btn" data-char="\u230B" title="Right floor">\u230B</button>
+
+                    <div class="u-dropdown">
+                        <button class="u-dropdown-btn" title="Extended operators & calculus">Ops \u25BE</button>
+                        <div class="u-dropdown-popover popover-right">
+                            <div class="u-popover-title"><span>Extended Operators</span></div>
+                            <div class="u-grid">
+                                ${["\u222C", "\u222D", "\u222E", "\u222F", "\u2230", "\u221B", "\u221C", "\u2297", "\u2295", "\u2299", "\u229A", "\u229E", "\u22A0", "\u22C6", "\u2218", "\u2219", "\u22C4", "\u22C5", "\u22C7", "\u22C8", "\u22C9", "\u210F", "\u2135", "\u2136", "\u2020", "\u2021", "\u27C2", "\u2225", "\u27EA", "\u27EB", "\u2983", "\u2984", "\u2985", "\u2986", "\u2016"].map((c) => `<button class="u-grid-btn" data-char="${c}">${c}</button>`).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Editing / Reading Workspace -->
+            <div id="editor-workspace" class="editor-workspace">
+                <div id="editor-wysiwyg-pane" class="editor-pane" contenteditable="${!isReadMode}" spellcheck="true"></div>
+                <div id="editor-source-pane" class="editor-pane" style="display: none;">
+                    <textarea id="editor-source-textarea" spellcheck="false"></textarea>
+                </div>
+            </div>
+
+            <!-- LaTeX Math Modal -->
+            <div id="editor-math-modal" class="modal-backdrop">
+                <div class="modal-card">
+                    <div class="modal-header">
+                        <h3 id="editor-math-modal-title">\u{1F4D0} Insert LaTeX Math Formula</h3>
+                        <button id="btn-close-math" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">\u2715</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex; gap: 16px; align-items: center; font-size: 13px; color: #334155;">
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="radio" name="editor-math-mode" id="editor-math-mode-inline" checked />
+                                <span>Inline formula: <code>\\( ... \\)</code></span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="radio" name="editor-math-mode" id="editor-math-mode-display" />
+                                <span>Display (Centered block): <code>\\[ ... \\]</code></span>
+                            </label>
+                        </div>
+
+                        <!-- Chips -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            ${[
+    { l: "\\frac{a}{b}", t: "\\frac{a}{b}" },
+    { l: "\\sqrt{x}", t: "\\sqrt{x}" },
+    { l: "x^{2}", t: "x^{2}" },
+    { l: "x_{i}", t: "x_{i}" },
+    { l: "\\sum_{i=1}^{n}", t: "\\sum_{i=1}^{n}" },
+    { l: "\\int_{a}^{b}", t: "\\int_{a}^{b}" },
+    { l: "\\to", t: "\\to" },
+    { l: "\\Rightarrow", t: "\\Rightarrow" },
+    { l: "\\leftrightarrow", t: "\\leftrightarrow" },
+    { l: "\\land", t: "\\land" },
+    { l: "\\lor", t: "\\lor" },
+    { l: "\\neg", t: "\\neg" },
+    { l: "\\in", t: "\\in" },
+    { l: "\\subseteq", t: "\\subseteq" },
+    { l: "\\pi", t: "\\pi" },
+    { l: "\\sigma", t: "\\sigma" },
+    { l: "\\omega", t: "\\omega" }
+  ].map((ch) => `<button type="button" class="m-chip" data-tex="${escapeHtml(ch.t)}">${escapeHtml(ch.l)}</button>`).join("")}
+                        </div>
+
+                        <div>
+                            <label style="font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px; display: block;">LaTeX Expression:</label>
+                            <textarea id="editor-latex-input" rows="3" style="width: 100%; font-family: var(--font-mono); font-size: 13px; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; box-sizing: border-box; resize: vertical;" placeholder="e.g. \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"></textarea>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px; display: block;">Rendered Formula Preview:</label>
+                            <div id="editor-latex-preview-box" style="min-height: 56px; max-height: 120px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                                <span style="color: #94a3b8; font-size: 13px;">Type LaTeX above to see preview</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+                            <button id="btn-cancel-math" class="btn btn-secondary" style="padding: 6px 14px;">Cancel</button>
+                            <button id="btn-apply-math" class="btn btn-primary" style="padding: 6px 16px;">Insert Formula</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Modal -->
+            <div id="editor-table-modal" class="modal-backdrop">
+                <div class="modal-card" style="max-width: 480px;">
+                    <div class="modal-header">
+                        <h3 id="table-modal-title">\u{1F4CA} Insert &amp; Construct Table</h3>
+                        <button id="btn-close-table" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">\u2715</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="table-context-actions" style="display: none; background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #1e3a8a; margin-bottom: 6px;">Active Table Detected \u2014 Quick Actions:</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                <button type="button" id="btn-tbl-add-row-above" class="tb-btn">\u2B06 Row Above</button>
+                                <button type="button" id="btn-tbl-add-row-below" class="tb-btn">\u2B07 Row Below</button>
+                                <button type="button" id="btn-tbl-del-row" class="tb-btn" style="color: #b91c1c;">\u2715 Del Row</button>
+                                <button type="button" id="btn-tbl-add-col-left" class="tb-btn">\u2B05 Col Left</button>
+                                <button type="button" id="btn-tbl-add-col-right" class="tb-btn">\u27A1 Col Right</button>
+                                <button type="button" id="btn-tbl-del-col" class="tb-btn" style="color: #b91c1c;">\u2715 Del Col</button>
+                                <button type="button" id="btn-tbl-delete" class="tb-btn" style="color: #dc2626; font-weight: 700;">\u{1F5D1}\uFE0F Delete Table</button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Rows (body):</label>
+                                <input type="number" id="tbl-input-rows" min="1" max="50" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Columns:</label>
+                                <input type="number" id="tbl-input-cols" min="1" max="20" value="3" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;" />
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 12px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Table Visual Style:</label>
+                            <select id="tbl-select-style" style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; background: #ffffff; cursor: pointer; box-sizing: border-box;">
+                                <option value="mwm" selected>\u{1F4D8} MWM Curricular (Navy header, striped rows, clean borders)</option>
+                                <option value="grid">\u25A6 Clean Bordered Grid (Light header, full gridlines)</option>
+                                <option value="minimal">\u2015 Minimalist (Top/bottom dividing lines, no vertical borders)</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; font-size: 13px; color: #334155;">
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="tbl-check-header" checked />
+                                <span>Include header row (&lt;thead&gt; &lt;th&gt;)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="tbl-check-fullwidth" checked />
+                                <span>Full width (100%)</span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+                            <button id="btn-cancel-table" class="btn btn-secondary" style="padding: 6px 14px;">Cancel</button>
+                            <button id="btn-insert-table-apply" class="btn btn-primary" style="padding: 6px 16px;">Insert Table</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Element Selector Modal -->
+            <div id="editor-custom-elem-modal" class="modal-backdrop">
+                <div class="modal-card" style="max-width: 620px;">
+                    <div class="modal-header">
+                        <h3 id="custom-elem-modal-title">\u2A01 Insert Curricular Element</h3>
+                        <button id="btn-close-custom-elem" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">\u2715</button>
+                    </div>
+                    <div class="modal-body" id="custom-elem-modal-body">
+                        <!-- Populated dynamically per custom element type -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Element Quick Inspector Modal -->
+            <div id="editor-custom-inspector-modal" class="modal-backdrop">
+                <div class="modal-card" style="width: 760px; max-width: 95vw;">
+                    <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span id="inspector-modal-badge" class="inspector-badge"></span>
+                            <h3 id="inspector-modal-title" style="margin: 0; font-size: 15px; font-weight: 700;">Authoritative Entity Inspector</h3>
+                        </div>
+                        <button id="btn-close-inspector" class="btn btn-secondary" style="padding: 2px 8px; font-size: 12px;">\u2715</button>
+                    </div>
+                    <div class="modal-body" id="inspector-modal-body" style="padding: 16px; overflow-y: auto; max-height: 70vh;">
+                        <!-- Populated dynamically with .attr-table -->
+                    </div>
+                    <div class="modal-footer" id="inspector-modal-footer" style="padding: 12px 16px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                        <div id="inspector-mode-hint" style="font-size: 12px; color: #64748b; font-style: italic;">
+                            \u{1F4D6} Authoritative Read Mode
+                        </div>
+                        <div style="display: flex; gap: 8px;" id="inspector-action-buttons">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Hover Tooltip -->
+            <div id="custom-ref-tooltip" class="custom-ref-tooltip" style="display: none;"></div>
+
+            <!-- Toast Notification -->
+            <div id="editor-toast" class="editor-toast">Notification</div>
+        </div>
+    `;
+  const rootEl = container.querySelector("#segment-authoring-surface");
+  const wysiwygPane = container.querySelector("#editor-wysiwyg-pane");
+  const sourcePane = container.querySelector("#editor-source-pane");
+  const sourceTextarea = container.querySelector("#editor-source-textarea");
+  const workspace = container.querySelector("#editor-workspace");
+  const saveStatusPill = container.querySelector("#editor-save-status-pill");
+  const toast = container.querySelector("#editor-toast");
+  const mathModal = container.querySelector("#editor-math-modal");
+  const latexInput = container.querySelector("#editor-latex-input");
+  const latexPreviewBox = container.querySelector("#editor-latex-preview-box");
+  const mathModalTitle = container.querySelector("#editor-math-modal-title");
+  const btnApplyMath = container.querySelector("#btn-apply-math");
+  const tableModal = container.querySelector("#editor-table-modal");
+  const customElemModal = container.querySelector("#editor-custom-elem-modal");
+  const inspectorModal = container.querySelector("#editor-custom-inspector-modal");
+  const inspectorBadge = container.querySelector("#inspector-modal-badge");
+  const inspectorTitle = container.querySelector("#inspector-modal-title");
+  const inspectorBody = container.querySelector("#inspector-modal-body");
+  const inspectorModeHint = container.querySelector("#inspector-mode-hint");
+  const inspectorActions = container.querySelector("#inspector-action-buttons");
+  const tooltipEl = container.querySelector("#custom-ref-tooltip");
+  const entityMetaCache = /* @__PURE__ */ new Map();
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+  function setDirty(dirty) {
+    isDirty = dirty;
+    if (!saveStatusPill) return;
+    if (dirty) {
+      saveStatusPill.textContent = "\u25CF Modified";
+      saveStatusPill.classList.add("dirty");
+    } else {
+      saveStatusPill.textContent = "\u2713 Saved";
+      saveStatusPill.classList.remove("dirty");
+    }
+  }
+  function cleanHtml(html) {
+    if (!html) return "";
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+    const mathEls = temp.querySelectorAll(".latex-math, .latex-math-block");
+    mathEls.forEach((el) => {
+      const rawTex = decodeURIComponent(el.getAttribute("data-latex") || "");
+      const isDisplay = el.getAttribute("data-display") === "true" || el.classList.contains("latex-math-block");
+      if (rawTex) {
+        el.innerHTML = isDisplay ? `\\[ ${rawTex} \\]` : `\\( ${rawTex} \\)`;
+      }
+    });
+    temp.querySelectorAll("mjx-container, mjx-assistive-mml").forEach((mjx) => {
+      if (!mjx.closest(".latex-math, .latex-math-block")) {
+        mjx.remove();
+      }
+    });
+    temp.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref").forEach((el) => {
+      if (el.hasAttribute("data-orig-inner")) {
+        el.innerHTML = el.getAttribute("data-orig-inner") || "";
+      }
+      el.removeAttribute("contenteditable");
+      el.removeAttribute("data-custom-ref");
+      el.removeAttribute("data-orig-inner");
+      el.removeAttribute("data-resolved-title");
+      el.removeAttribute("data-resolved-subtitle");
+      el.removeAttribute("data-resolved-formula");
+      el.removeAttribute("data-resolved-status");
+      el.classList.remove("custom-ref-chip", "chip-ttd", "chip-fs", "chip-stencil", "chip-demo", "chip-pseudo");
+      if (!el.getAttribute("class")) {
+        el.removeAttribute("class");
+      }
+    });
+    let res = temp.innerHTML.replace(/\s*contenteditable="false"/gi, "").replace(/\s*onclick="[^"]*"/gi, "");
+    res = res.replace(/(?:<p[^>]*>\s*(?:<br\s*\/?>|&nbsp;|\s)*<\/p>|<div[^>]*>\s*(?:<br\s*\/?>|&nbsp;|\s)*<\/div>|\s*<br\s*\/?>\s*)+$/gi, "");
+    return res.trim();
+  }
+  async function resolveEntityRecord(tagName, el) {
+    const normTag = tagName.toLowerCase();
+    if (normTag === "ttd-ref") {
+      const id = el.getAttribute("id");
+      const exp = el.getAttribute("exp");
+      const cacheKey = id ? `ttd:id:${id}` : `ttd:exp:${exp}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      } else if (exp) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE expression = $1 OR init_packet LIKE $2 LIMIT 1;", [exp, `%"${exp}"%`]);
+        row = rows?.[0] || {
+          expression: exp,
+          title: PxeEngine.fmt(exp) || exp,
+          engine: "ttd",
+          status: "published"
+        };
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "fs-ref") {
+      const id = el.getAttribute("id");
+      const key = el.getAttribute("statement-key");
+      const desc = el.getAttribute("desc");
+      const algo = el.getAttribute("algo");
+      const cacheKey = id ? `fs:id:${id}` : `fs:key:${key || desc || algo}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      } else if (key) {
+        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE statement_key = $1 LIMIT 1;", [key]);
+        row = rows?.[0] || null;
+      }
+      if (!row && (desc || algo)) {
+        row = {
+          title: desc || algo,
+          statement_key: key || algo || `fs_${id || "ref"}`,
+          description: desc,
+          status: "published"
+        };
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "interactive-stencil") {
+      const eqKey = el.getAttribute("equation-key");
+      const id = el.getAttribute("id");
+      const cacheKey = eqKey ? `stencil:key:${eqKey}` : `stencil:id:${id}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (eqKey) {
+        const rows = await queryDatabase("SELECT * FROM directed_equations WHERE equation_key = $1 LIMIT 1;", [eqKey]);
+        row = rows?.[0] || null;
+      } else if (id) {
+        const rows = await queryDatabase("SELECT * FROM directed_equations WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "visual-demo") {
+      const id = el.getAttribute("id");
+      const cacheKey = `demo:id:${id}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "pseudo-ref") {
+      const algoKey = el.getAttribute("algo-key");
+      const id = el.getAttribute("id");
+      const cacheKey = algoKey ? `pseudo:key:${algoKey}` : `pseudo:id:${id}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (algoKey) {
+        const rows = await queryDatabase("SELECT * FROM pseudocode_algorithms WHERE algo_key = $1 LIMIT 1;", [algoKey]);
+        row = rows?.[0] || null;
+      } else if (id) {
+        const rows = await queryDatabase("SELECT * FROM pseudocode_algorithms WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    }
+    return null;
+  }
+  async function decorateCustomElements(pane) {
+    const customTags = pane.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref");
+    if (customTags.length === 0) return;
+    for (const el of Array.from(customTags)) {
+      const htmlEl = el;
+      const normTag = htmlEl.tagName.toLowerCase();
+      htmlEl.setAttribute("contenteditable", "false");
+      htmlEl.setAttribute("data-custom-ref", "true");
+      if (!htmlEl.hasAttribute("data-orig-inner")) {
+        htmlEl.setAttribute("data-orig-inner", htmlEl.innerHTML);
+      }
+      let icon = "\u2696\uFE0F";
+      let kindLabel = "TTD";
+      let chipThemeClass = "chip-ttd";
+      if (normTag === "fs-ref") {
+        icon = "\u{1F4DC}";
+        kindLabel = "FS";
+        chipThemeClass = "chip-fs";
+      } else if (normTag === "interactive-stencil") {
+        icon = "\u{1F4D0}";
+        kindLabel = "Stencil";
+        chipThemeClass = "chip-stencil";
+      } else if (normTag === "visual-demo") {
+        icon = "\u{1F52C}";
+        kindLabel = "Demo";
+        chipThemeClass = "chip-demo";
+      } else if (normTag === "pseudo-ref") {
+        icon = "\u26A1";
+        kindLabel = "Algo";
+        chipThemeClass = "chip-pseudo";
+      }
+      htmlEl.classList.add("custom-ref-chip", chipThemeClass);
+      const rec = await resolveEntityRecord(normTag, htmlEl);
+      let displayTitle = "";
+      let displaySubtitle = "";
+      let formulaPreview = "";
+      let statusBadge = "";
+      if (normTag === "ttd-ref") {
+        const exp = htmlEl.getAttribute("exp") || rec?.expression || "";
+        const id = htmlEl.getAttribute("id") || rec?.id || "";
+        const fmt = exp ? PxeEngine.fmt(exp) : "";
+        const rawInner = (htmlEl.getAttribute("data-orig-inner") || "").trim();
+        displayTitle = fmt || rawInner || rec?.title || (id ? `#${id}` : exp);
+        displaySubtitle = id ? `interactive_demos \xB7 ID ${id}` : "truth_table proposition";
+        formulaPreview = fmt || exp;
+        statusBadge = rec?.status || "published";
+      } else if (normTag === "fs-ref") {
+        const desc = htmlEl.getAttribute("desc") || "";
+        const key = htmlEl.getAttribute("statement-key") || "";
+        const id = htmlEl.getAttribute("id") || rec?.id || "";
+        const algo = htmlEl.getAttribute("algo") || "";
+        displayTitle = desc || rec?.title || key || (id ? `Statement #${id}` : "Formal Statement");
+        displaySubtitle = `formal_statements \xB7 ${key || (id ? `ID ${id}` : "")}`;
+        formulaPreview = rec?.expression || (algo ? `Algo: ${algo}` : "");
+        statusBadge = rec?.status || rec?.statement_kind || "formal";
+      } else if (normTag === "interactive-stencil") {
+        const eqKey = htmlEl.getAttribute("equation-key") || "";
+        const id = htmlEl.getAttribute("id") || rec?.id || "";
+        displayTitle = rec?.title || rec?.label || eqKey || `Stencil #${id}`;
+        displaySubtitle = `directed_equations \xB7 ${eqKey || `ID ${id}`}`;
+        formulaPreview = rec?.formula_expr || "";
+        statusBadge = "stencil";
+      } else if (normTag === "visual-demo") {
+        const id = htmlEl.getAttribute("id") || rec?.id || "";
+        displayTitle = rec?.title || (rec?.mode ? `Demo: ${rec.mode}` : `Demo #${id}`);
+        displaySubtitle = `interactive_demos \xB7 ID ${id} (${rec?.engine || "canvas"})`;
+        statusBadge = rec?.status || "active";
+      } else if (normTag === "pseudo-ref") {
+        const key = htmlEl.getAttribute("algo-key") || "";
+        const id = htmlEl.getAttribute("id") || rec?.id || "";
+        displayTitle = rec?.name || rec?.func_name || key || `Algorithm #${id}`;
+        displaySubtitle = `pseudocode_algorithms \xB7 ${key || `ID ${id}`}`;
+        formulaPreview = rec?.signature || "";
+        statusBadge = rec?.badge || "algo";
+      }
+      htmlEl.innerHTML = `
+                <span class="chip-icon">${icon}</span>
+                <span class="chip-badge">${kindLabel}</span>
+                <span class="chip-label">${escapeHtml(displayTitle)}</span>
+            `;
+      htmlEl.dataset.resolvedTitle = displayTitle;
+      htmlEl.dataset.resolvedSubtitle = displaySubtitle;
+      htmlEl.dataset.resolvedFormula = formulaPreview;
+      htmlEl.dataset.resolvedStatus = statusBadge;
+      htmlEl.title = "";
+    }
+  }
+  function attachTooltipListeners() {
+    if (!tooltipEl) return;
+    wysiwygPane.addEventListener("mouseover", (e) => {
+      const target = e.target?.closest('[data-custom-ref="true"]');
+      if (!target) {
+        tooltipEl.style.display = "none";
+        return;
+      }
+      const normTag = target.tagName.toLowerCase();
+      const title = target.dataset.resolvedTitle || target.textContent || "";
+      const subtitle = target.dataset.resolvedSubtitle || "";
+      const formula = target.dataset.resolvedFormula || "";
+      const status = target.dataset.resolvedStatus || "";
+      let badgeIcon = "\u2696\uFE0F";
+      let badgeColor = "#991b1b";
+      let badgeBg = "#fee2e2";
+      if (normTag === "fs-ref") {
+        badgeIcon = "\u{1F4DC}";
+        badgeColor = "#1d4ed8";
+        badgeBg = "#dbeafe";
+      } else if (normTag === "interactive-stencil") {
+        badgeIcon = "\u{1F4D0}";
+        badgeColor = "#166534";
+        badgeBg = "#dcfce7";
+      } else if (normTag === "visual-demo") {
+        badgeIcon = "\u{1F52C}";
+        badgeColor = "#6b21a8";
+        badgeBg = "#f3e8ff";
+      } else if (normTag === "pseudo-ref") {
+        badgeIcon = "\u26A1";
+        badgeColor = "#92400e";
+        badgeBg = "#fef3c7";
+      }
+      tooltipEl.innerHTML = `
+                <div class="tooltip-header">
+                    <span class="tooltip-badge" style="background:${badgeBg}; color:${badgeColor};">${badgeIcon} ${escapeHtml(subtitle || normTag)}</span>
+                    ${status ? `<span class="tooltip-status-pill">${escapeHtml(status)}</span>` : ""}
+                </div>
+                <div class="tooltip-title">${escapeHtml(title)}</div>
+                ${formula ? `<div class="tooltip-formula">${escapeHtml(formula)}</div>` : ""}
+                <div class="tooltip-footer">
+                    <span>\u{1F4A1} <strong>Click</strong> to inspect authoritative DB record</span>
+                </div>
+            `;
+      tooltipEl.style.display = "block";
+      const rect = target.getBoundingClientRect();
+      const tooltipRect = tooltipEl.getBoundingClientRect();
+      let top = rect.top - tooltipRect.height - 8;
+      if (top < 10) {
+        top = rect.bottom + 8;
+      }
+      let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+      if (left < 10) left = 10;
+      if (left + tooltipRect.width > window.innerWidth - 10) {
+        left = window.innerWidth - tooltipRect.width - 10;
+      }
+      tooltipEl.style.top = `${top}px`;
+      tooltipEl.style.left = `${left}px`;
+    });
+    wysiwygPane.addEventListener("mouseout", (e) => {
+      const related = e.relatedTarget;
+      if (!related || !related.closest('[data-custom-ref="true"]')) {
+        tooltipEl.style.display = "none";
+      }
+    });
+  }
+  function buildAttrTableHtml(tableName, record) {
+    const rows = Object.entries(record || {}).map(([col, val]) => {
+      let displayVal;
+      if (val === null || val === void 0) {
+        displayVal = '<span style="color: #94a3b8; font-style: italic;">NULL</span>';
+      } else if (typeof val === "object") {
+        displayVal = `<pre style="margin: 0; padding: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml(JSON.stringify(val, null, 2))}</pre>`;
+      } else if (col === "status" || col === "editorial_status") {
+        displayVal = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 11px;">${escapeHtml(String(val))}</span>`;
+      } else if (col === "expression" || col === "formula_expr") {
+        const expStr = String(val);
+        const fmt = PxeEngine.fmt(expStr);
+        displayVal = `<div style="font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: #0f172a; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: inline-block;">${escapeHtml(fmt || expStr)}</div>`;
+      } else if (col === "code") {
+        displayVal = `<pre style="margin: 0; padding: 6px; background: #0f172a; color: #f8fafc; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml(String(val))}</pre>`;
+      } else {
+        displayVal = `<span style="font-family: var(--font-mono); font-size: 12px; color: #334155;">${escapeHtml(String(val))}</span>`;
+      }
+      return `
+                <tr>
+                    <td style="font-weight: 700; color: #1e293b; width: 180px; font-family: var(--font-mono); font-size: 12px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(col)}</td>
+                    <td style="color: #64748b; font-size: 11px; font-family: var(--font-mono); width: 110px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${typeof val}</td>
+                    <td style="padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${displayVal}</td>
+                </tr>
+            `;
+    }).join("");
+    return `
+            <table class="attr-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; color: #64748b;">DB Attribute</th>
+                        <th style="padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; color: #64748b;">Data Type</th>
+                        <th style="padding: 8px 10px; text-align: left; font-size: 11px; text-transform: uppercase; color: #64748b;">Authoritative Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
+        `;
+  }
+  function closeQuickInspectorModal() {
+    inspectorModal.classList.remove("active");
+  }
+  container.querySelector("#btn-close-inspector")?.addEventListener("click", closeQuickInspectorModal);
+  inspectorModal.addEventListener("click", (e) => {
+    if (e.target === inspectorModal) closeQuickInspectorModal();
+  });
+  async function openQuickInspectorModal(chipEl) {
+    const normTag = chipEl.tagName.toLowerCase();
+    let kind = "ttd";
+    let tableName = "interactive_demos";
+    let badgeColor = "#991b1b";
+    let badgeBg = "#fee2e2";
+    let badgeText = "\u2696\uFE0F Truth Table Proposition";
+    if (normTag === "fs-ref") {
+      kind = "fs";
+      tableName = "formal_statements";
+      badgeColor = "#1d4ed8";
+      badgeBg = "#dbeafe";
+      badgeText = "\u{1F4DC} Formal Statement";
+    } else if (normTag === "interactive-stencil") {
+      kind = "stencil";
+      tableName = "directed_equations";
+      badgeColor = "#166534";
+      badgeBg = "#dcfce7";
+      badgeText = "\u{1F4D0} Computational Stencil";
+    } else if (normTag === "visual-demo") {
+      kind = "demo";
+      tableName = "interactive_demos";
+      badgeColor = "#6b21a8";
+      badgeBg = "#f3e8ff";
+      badgeText = "\u{1F52C} Interactive Demo";
+    } else if (normTag === "pseudo-ref") {
+      kind = "pseudo";
+      tableName = "pseudocode_algorithms";
+      badgeColor = "#92400e";
+      badgeBg = "#fef3c7";
+      badgeText = "\u26A1 Pseudocode Algorithm";
+    }
+    inspectorBadge.style.background = badgeBg;
+    inspectorBadge.style.color = badgeColor;
+    inspectorBadge.textContent = badgeText;
+    inspectorTitle.textContent = chipEl.dataset.resolvedTitle || "Loading record...";
+    inspectorBody.innerHTML = '<div style="padding: 24px; text-align: center; color: #64748b;">Loading authoritative record from PostgreSQL...</div>';
+    inspectorModeHint.innerHTML = isReadMode ? "\u{1F4D6} <strong>Read Mode:</strong> Authoritative PostgreSQL attributes inspection" : "\u270F\uFE0F <strong>Authoring Mode:</strong> Authoritative inspection & reference management";
+    inspectorModal.classList.add("active");
+    const rec = await resolveEntityRecord(normTag, chipEl);
+    if (!rec) {
+      inspectorBody.innerHTML = `
+                <div style="padding: 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; color: #991b1b;">
+                    <strong>Reference Unresolved:</strong> No matching database record found in <code>${tableName}</code>.
+                </div>
+            `;
+    } else {
+      inspectorTitle.textContent = rec.title || rec.name || rec.label || chipEl.dataset.resolvedTitle || `Record #${rec.id}`;
+      inspectorBody.innerHTML = buildAttrTableHtml(tableName, rec);
+    }
+    if (isReadMode) {
+      inspectorActions.innerHTML = `
+                <button type="button" class="btn btn-secondary" id="btn-inspector-close" style="padding: 6px 14px;">\u2715 Close</button>
+            `;
+      inspectorActions.querySelector("#btn-inspector-close")?.addEventListener("click", closeQuickInspectorModal);
+    } else {
+      inspectorActions.innerHTML = `
+                <button type="button" class="btn btn-secondary" id="btn-inspector-remove" style="color: #dc2626; border-color: #fca5a5; background: #fef2f2; font-weight: 600; padding: 6px 12px;" title="Remove this reference tag from content">
+                    \u{1F5D1}\uFE0F Remove Tag
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-inspector-switch" style="font-weight: 600; padding: 6px 14px;" title="Switch to a different reference in the database">
+                    \u270E Switch Reference
+                </button>
+                <button type="button" class="btn btn-secondary" id="btn-inspector-close" style="padding: 6px 14px;">\u2715 Close</button>
+            `;
+      inspectorActions.querySelector("#btn-inspector-close")?.addEventListener("click", closeQuickInspectorModal);
+      inspectorActions.querySelector("#btn-inspector-remove")?.addEventListener("click", () => {
+        if (confirm("Remove this custom element tag from the segment?")) {
+          chipEl.remove();
+          setDirty(true);
+          if (activeMode === "split") {
+            sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+          }
+          showToast("\u2713 Removed custom element tag");
+          closeQuickInspectorModal();
+        }
+      });
+      inspectorActions.querySelector("#btn-inspector-switch")?.addEventListener("click", () => {
+        closeQuickInspectorModal();
+        openCustomElementPicker(kind, chipEl);
+      });
+    }
+  }
+  function typesetMath() {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      const mathElements = wysiwygPane.querySelectorAll(".latex-math, .latex-math-block");
+      if (mathElements.length > 0) {
+        window.MathJax.typesetPromise(Array.from(mathElements)).then(() => {
+          attachMathClickListeners();
+        }).catch((err) => console.log("MathJax typeset notice:", err));
+      }
+    }
+  }
+  function attachMathClickListeners() {
+    if (isReadMode) return;
+    wysiwygPane.querySelectorAll(".latex-math, .latex-math-block").forEach((el) => {
+      el.setAttribute("title", "Double-click to edit LaTeX formula");
+      el.ondblclick = (e) => {
+        e.stopPropagation();
+        openMathEditor(el);
+      };
+    });
+  }
+  wysiwygPane.innerHTML = rawContentHtml;
+  sourceTextarea.value = rawContentHtml;
+  typesetMath();
+  decorateCustomElements(wysiwygPane);
+  attachTooltipListeners();
+  wysiwygPane.addEventListener("click", async (e) => {
+    const chip = e.target?.closest('[data-custom-ref="true"]');
+    if (!chip) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (tooltipEl) tooltipEl.style.display = "none";
+    await openQuickInspectorModal(chip);
+  });
+  function setReadMode(enable) {
+    isReadMode = enable;
+    rootEl.classList.toggle("read-mode", isReadMode);
+    rootEl.classList.toggle("edit-mode", !isReadMode);
+    const toolbar = container.querySelector("#editor-formatting-toolbar");
+    const unicodePalette = container.querySelector("#editor-unicode-palette");
+    const toggleBtn = container.querySelector("#editor-btn-toggle-mode");
+    const saveDbBtn = container.querySelector("#editor-btn-save-db");
+    const customDropdown = container.querySelector("#dropdown-custom-elems");
+    const spellBtn = container.querySelector("#editor-tb-spell");
+    const viewPills = container.querySelector(".view-pills");
+    const statusWrapper = container.querySelector("#editor-status-container");
+    if (isReadMode) {
+      wysiwygPane.setAttribute("contenteditable", "false");
+      sourceTextarea.setAttribute("readonly", "true");
+      if (toolbar) toolbar.style.display = "none";
+      if (unicodePalette) unicodePalette.style.display = "none";
+      if (saveDbBtn) saveDbBtn.style.display = "none";
+      if (saveStatusPill) saveStatusPill.style.display = "none";
+      if (customDropdown) customDropdown.style.display = "none";
+      if (spellBtn) spellBtn.style.display = "none";
+      if (viewPills) viewPills.style.display = "none";
+      if (statusWrapper) {
+        statusWrapper.innerHTML = `<span class="editorial-status-pill status-${escapeHtml(currentStatus)}">Status: ${escapeHtml(currentStatus)}</span>`;
+      }
+      if (toggleBtn) {
+        toggleBtn.textContent = "\u270F\uFE0F Switch to Edit Mode";
+        toggleBtn.className = "btn btn-primary";
+      }
+      setComposerViewMode("wysiwyg");
+      showToast("\u{1F4D6} Reader View (MathJax rendered, read-only)");
+    } else {
+      wysiwygPane.setAttribute("contenteditable", "true");
+      sourceTextarea.removeAttribute("readonly");
+      if (toolbar) toolbar.style.display = "flex";
+      if (unicodePalette) unicodePalette.style.display = "flex";
+      if (saveDbBtn) saveDbBtn.style.display = "inline-flex";
+      if (saveStatusPill) saveStatusPill.style.display = "inline-flex";
+      if (customDropdown) customDropdown.style.display = "inline-flex";
+      if (spellBtn) spellBtn.style.display = "inline-flex";
+      if (viewPills) viewPills.style.display = "inline-flex";
+      if (statusWrapper) {
+        statusWrapper.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <label for="editor-status-select" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Status:</label>
+                        <select id="editor-status-select" class="tb-select" style="font-weight: 600; padding: 4px 8px;">
+                            <option value="raw" ${currentStatus === "raw" ? "selected" : ""}>raw</option>
+                            <option value="staged" ${currentStatus === "staged" ? "selected" : ""}>staged</option>
+                            <option value="reviewed" ${currentStatus === "reviewed" ? "selected" : ""}>reviewed</option>
+                            <option value="published" ${currentStatus === "published" ? "selected" : ""}>published</option>
+                        </select>
+                    </div>
+                `;
+        const statusSelect = statusWrapper.querySelector("#editor-status-select");
+        if (statusSelect) {
+          statusSelect.addEventListener("change", () => {
+            currentStatus = statusSelect.value;
+            setDirty(true);
+          });
+        }
+      }
+      if (toggleBtn) {
+        toggleBtn.textContent = "\u{1F441}\uFE0F Switch to Read Mode";
+        toggleBtn.className = "btn btn-secondary";
+      }
+      showToast("\u270F\uFE0F Edit Mode: full authoring surface & controls active");
+    }
+    if (onSwitchMode) {
+      onSwitchMode(isReadMode ? "read" : "update");
+    }
+  }
+  container.querySelector("#editor-btn-toggle-mode")?.addEventListener("click", () => {
+    setReadMode(!isReadMode);
+  });
+  container.querySelector("#editor-btn-back")?.addEventListener("click", () => {
+    if (isDirty) {
+      if (!confirm("You have unsaved changes. Do you really want to leave this segment?")) {
+        return;
+      }
+    }
+    onBack();
+  });
+  async function saveToDatabase() {
+    if (isReadMode) {
+      showToast('\u2139\uFE0F Read Mode: click "Switch to Edit Mode" to save changes.');
+      return;
+    }
+    syncContent(activeMode, activeMode);
+    const finalContentHtml = activeMode === "source" ? sourceTextarea.value.trim() : cleanHtml(wysiwygPane.innerHTML);
+    const statusSelect = container.querySelector("#editor-status-select");
+    if (statusSelect) {
+      currentStatus = statusSelect.value;
+    }
+    try {
+      saveStatusPill.textContent = "Saving...";
+      let targetId = segId || segmentRecord.id;
+      let res = null;
+      if (targetId) {
+        res = await executeSql(
+          `UPDATE segments SET content_html = $1, status = $2, updated_at = NOW() WHERE id = $3 RETURNING id, status;`,
+          [finalContentHtml, currentStatus, targetId]
+        );
+      } else if (segSlug) {
+        res = await executeSql(
+          `UPDATE segments SET content_html = $1, status = $2, updated_at = NOW() WHERE slug = $3 OR seg_key = $3 RETURNING id, status;`,
+          [finalContentHtml, currentStatus, segSlug]
+        );
+      }
+      if (res && res.status === "success" && res.data && res.data.rowCount > 0) {
+        if (res.data.rows?.[0]?.id) {
+          segmentRecord.id = res.data.rows[0].id;
+        }
+        segmentRecord.content_html = finalContentHtml;
+        segmentRecord.status = currentStatus;
+        segmentRecord.editorial_status = currentStatus;
+        setDirty(false);
+        saveStatusPill.textContent = "\u2713 Saved";
+        saveStatusPill.classList.remove("dirty");
+        showToast("\u2713 Saved and replaced content_html in database");
+        if (onSaved) {
+          onSaved(segmentRecord);
+        }
+      } else if (!targetId) {
+        segmentRecord.content_html = finalContentHtml;
+        segmentRecord.status = currentStatus;
+        segmentRecord.editorial_status = currentStatus;
+        setDirty(false);
+        saveStatusPill.textContent = "\u2713 Saved";
+        saveStatusPill.classList.remove("dirty");
+        showToast("\u2713 Updated content_html draft (submit record form to persist)");
+        if (onSaved) {
+          onSaved(segmentRecord);
+        }
+      } else {
+        const errMsg = res ? res.error || res.message : "Unknown database error";
+        alert("Database save error: " + errMsg);
+        saveStatusPill.textContent = "\u25CF Save failed";
+      }
+    } catch (err) {
+      alert("Database save error: " + err.message);
+      saveStatusPill.textContent = "\u25CF Error";
+    }
+  }
+  container.querySelector("#editor-btn-save-db")?.addEventListener("click", saveToDatabase);
+  window.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+      if (!isReadMode && document.body.contains(rootEl)) {
+        e.preventDefault();
+        saveToDatabase();
+      }
+    }
+  });
+  function syncContent(fromMode, toMode) {
+    if (fromMode === "source") {
+      const src = sourceTextarea.value.trim();
+      wysiwygPane.innerHTML = src;
+      decorateCustomElements(wysiwygPane);
+    } else {
+      const html = cleanHtml(wysiwygPane.innerHTML);
+      sourceTextarea.value = html;
+    }
+  }
+  function setComposerViewMode(mode) {
+    if (mode === activeMode) return;
+    const prev = activeMode;
+    activeMode = mode;
+    container.querySelectorAll(".view-pills .pill").forEach((p) => p.classList.remove("active"));
+    syncContent(prev, mode);
+    if (mode === "wysiwyg") {
+      container.querySelector("#pill-wysiwyg")?.classList.add("active");
+      workspace.classList.remove("split-mode");
+      wysiwygPane.style.display = "block";
+      sourcePane.style.display = "none";
+      typesetMath();
+      decorateCustomElements(wysiwygPane);
+    } else if (mode === "source") {
+      container.querySelector("#pill-source")?.classList.add("active");
+      workspace.classList.remove("split-mode");
+      wysiwygPane.style.display = "none";
+      sourcePane.style.display = "block";
+      sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+    } else if (mode === "split") {
+      container.querySelector("#pill-split")?.classList.add("active");
+      workspace.classList.add("split-mode");
+      wysiwygPane.style.display = "block";
+      sourcePane.style.display = "block";
+      sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      typesetMath();
+      decorateCustomElements(wysiwygPane);
+    }
+  }
+  container.querySelector("#pill-wysiwyg")?.addEventListener("click", () => setComposerViewMode("wysiwyg"));
+  container.querySelector("#pill-source")?.addEventListener("click", () => setComposerViewMode("source"));
+  container.querySelector("#pill-split")?.addEventListener("click", () => setComposerViewMode("split"));
+  wysiwygPane.addEventListener("input", () => {
+    setDirty(true);
+    if (activeMode === "split") {
+      sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+    }
+  });
+  sourceTextarea.addEventListener("input", () => {
+    setDirty(true);
+    if (activeMode === "split") {
+      wysiwygPane.innerHTML = sourceTextarea.value;
+    }
+  });
+  function saveEditorSelection() {
+    if (activeMode === "source" || activeMode === "split" && document.activeElement === sourceTextarea) {
+      lastSourceSelection = {
+        start: sourceTextarea.selectionStart,
+        end: sourceTextarea.selectionEnd
+      };
+    } else {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0) {
+        const r = sel.getRangeAt(0);
+        if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
+          lastWysiwygRange = r.cloneRange();
+        }
+      }
+    }
+  }
+  ["keyup", "mouseup", "click"].forEach((evt) => {
+    wysiwygPane.addEventListener(evt, () => {
+      saveEditorSelection();
+      updateScriptLevelUI();
+    });
+    sourceTextarea.addEventListener(evt, saveEditorSelection);
+  });
+  function insertTextAtCursor(text) {
+    if (isReadMode) return;
+    if (activeMode === "wysiwyg" || activeMode === "split") {
+      wysiwygPane.focus();
+      const sel = window.getSelection();
+      if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+        sel?.removeAllRanges();
+        sel?.addRange(lastWysiwygRange);
+      }
+      document.execCommand("insertText", false, text);
+      saveEditorSelection();
+      setDirty(true);
+      if (activeMode === "split") {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+    } else if (activeMode === "source") {
+      sourceTextarea.focus();
+      const start = sourceTextarea.selectionStart;
+      const end = sourceTextarea.selectionEnd;
+      const val = sourceTextarea.value;
+      sourceTextarea.value = val.substring(0, start) + text + val.substring(end);
+      sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
+      saveEditorSelection();
+      setDirty(true);
+    }
+  }
+  function insertHtmlAtCursor(html) {
+    if (isReadMode) return;
+    if (activeMode === "wysiwyg" || activeMode === "split") {
+      wysiwygPane.focus();
+      let inserted = false;
+      try {
+        inserted = document.execCommand("insertHTML", false, html);
+      } catch (e) {
+        console.warn("execCommand fallback", e);
+      }
+      if (!inserted) {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const r = sel.getRangeAt(0);
+          r.deleteContents();
+          const temp = document.createElement("div");
+          temp.innerHTML = html;
+          const frag = document.createDocumentFragment();
+          let node;
+          while (node = temp.firstChild) frag.appendChild(node);
+          r.insertNode(frag);
+        }
+      }
+      saveEditorSelection();
+      decorateCustomElements(wysiwygPane);
+      setDirty(true);
+      if (activeMode === "split") {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+    } else if (activeMode === "source") {
+      sourceTextarea.focus();
+      const start = sourceTextarea.selectionStart;
+      const end = sourceTextarea.selectionEnd;
+      const val = sourceTextarea.value;
+      sourceTextarea.value = val.substring(0, start) + html + val.substring(end);
+      sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + html.length;
+      saveEditorSelection();
+      setDirty(true);
+    }
+  }
+  function getSelectionScriptLevel() {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return 0;
+    let node = sel.getRangeAt(0).commonAncestorContainer;
+    if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+    if (!node || !wysiwygPane.contains(node)) return 0;
+    let supCount = 0;
+    let subCount = 0;
+    let curr = node;
+    while (curr && curr !== wysiwygPane) {
+      if (curr.nodeName === "SUP") supCount++;
+      if (curr.nodeName === "SUB") subCount++;
+      curr = curr.parentElement;
+    }
+    if (supCount >= 2) return 2;
+    if (supCount === 1) return 1;
+    if (subCount >= 2) return -2;
+    if (subCount === 1) return -1;
+    return 0;
+  }
+  function updateScriptLevelUI(forceLevel = null) {
+    const level = forceLevel !== null ? forceLevel : getSelectionScriptLevel();
+    container.querySelectorAll(".script-level-btn").forEach((btn) => {
+      const btnLevel = parseInt(btn.getAttribute("data-level") || "0", 10);
+      if (btnLevel === level) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+  function applyScriptLevel(targetLevel) {
+    if (isReadMode) return;
+    wysiwygPane.focus();
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const currentLevel = getSelectionScriptLevel();
+    if (currentLevel === targetLevel) return;
+    document.execCommand("superscript", false);
+    document.execCommand("subscript", false);
+    if (targetLevel === 1) {
+      document.execCommand("superscript", false);
+    } else if (targetLevel === 2) {
+      document.execCommand("superscript", false);
+      const r = sel.getRangeAt(0);
+      const supEl = document.createElement("sup");
+      r.surroundContents(supEl);
+    } else if (targetLevel === -1) {
+      document.execCommand("subscript", false);
+    } else if (targetLevel === -2) {
+      document.execCommand("subscript", false);
+      const r = sel.getRangeAt(0);
+      const subEl = document.createElement("sub");
+      r.surroundContents(subEl);
+    }
+    updateScriptLevelUI(targetLevel);
+    setDirty(true);
+  }
+  container.querySelectorAll(".script-level-btn").forEach((btn) => {
+    btn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const lvl = parseInt(btn.getAttribute("data-level") || "0", 10);
+      applyScriptLevel(lvl);
+    });
+  });
+  container.querySelector("#tb-bold")?.addEventListener("click", () => {
+    document.execCommand("bold", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-italic")?.addEventListener("click", () => {
+    document.execCommand("italic", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-ul")?.addEventListener("click", () => {
+    document.execCommand("insertUnorderedList", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-ol")?.addEventListener("click", () => {
+    document.execCommand("insertOrderedList", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-indent")?.addEventListener("click", () => {
+    document.execCommand("indent", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-outdent")?.addEventListener("click", () => {
+    document.execCommand("outdent", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-align-left")?.addEventListener("click", () => {
+    document.execCommand("justifyLeft", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-align-center")?.addEventListener("click", () => {
+    document.execCommand("justifyCenter", false);
+    setDirty(true);
+  });
+  container.querySelector("#tb-align-right")?.addEventListener("click", () => {
+    document.execCommand("justifyRight", false);
+    setDirty(true);
+  });
+  const fontSizeSelect = container.querySelector("#tb-font-size");
+  fontSizeSelect?.addEventListener("change", () => {
+    const val = fontSizeSelect.value;
+    if (val) {
+      wysiwygPane.focus();
+      document.execCommand("fontSize", false, val);
+      setDirty(true);
+      fontSizeSelect.value = "";
+    }
+  });
+  container.querySelector("#tb-size-down")?.addEventListener("click", () => {
+    wysiwygPane.focus();
+    const cur = parseInt(document.queryCommandValue("fontSize")) || 3;
+    document.execCommand("fontSize", false, Math.max(1, cur - 1).toString());
+    setDirty(true);
+  });
+  container.querySelector("#tb-size-up")?.addEventListener("click", () => {
+    wysiwygPane.focus();
+    const cur = parseInt(document.queryCommandValue("fontSize")) || 3;
+    document.execCommand("fontSize", false, Math.min(7, cur + 1).toString());
+    setDirty(true);
+  });
+  function setZoom(zoom) {
+    currentZoom = Math.max(0.6, Math.min(2.5, Math.round(zoom * 100) / 100));
+    const resetBtn = container.querySelector("#btn-zoom-reset");
+    if (resetBtn) resetBtn.textContent = `${Math.round(currentZoom * 100)}%`;
+    wysiwygPane.style.zoom = currentZoom.toString();
+    sourceTextarea.style.fontSize = `${Math.round(13 * currentZoom)}px`;
+  }
+  container.querySelector("#btn-zoom-in")?.addEventListener("click", () => {
+    const next = zoomLevels.find((z) => z > currentZoom + 0.01) || currentZoom + 0.25;
+    setZoom(next);
+  });
+  container.querySelector("#btn-zoom-out")?.addEventListener("click", () => {
+    const prev = [...zoomLevels].reverse().find((z) => z < currentZoom - 0.01) || currentZoom - 0.25;
+    setZoom(prev);
+  });
+  container.querySelector("#btn-zoom-reset")?.addEventListener("click", () => setZoom(1));
+  const tbSpell = container.querySelector("#editor-tb-spell");
+  tbSpell?.addEventListener("click", () => {
+    spellCheckActive = !spellCheckActive;
+    wysiwygPane.setAttribute("spellcheck", spellCheckActive ? "true" : "false");
+    sourceTextarea.setAttribute("spellcheck", spellCheckActive ? "true" : "false");
+    if (spellCheckActive) {
+      tbSpell.classList.add("active");
+      tbSpell.textContent = "\u{1F524} Spell: ON";
+      showToast("\u2713 Spell check enabled");
+    } else {
+      tbSpell.classList.remove("active");
+      tbSpell.textContent = "\u{1F524} Spell: OFF";
+      showToast("Spell check disabled");
+    }
+  });
+  container.querySelectorAll(".tb-dropdown").forEach((dropdown) => {
+    const trigger = dropdown.querySelector("button");
+    if (!trigger) return;
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains("open");
+      container.querySelectorAll(".tb-dropdown.open, .u-dropdown.open").forEach((d) => d.classList.remove("open"));
+      if (!isOpen) dropdown.classList.add("open");
+    });
+  });
+  document.addEventListener("click", () => {
+    container.querySelectorAll(".tb-dropdown.open, .u-dropdown.open").forEach((d) => d.classList.remove("open"));
+  });
+  container.querySelectorAll(".tb-dropdown-item").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+      container.querySelectorAll(".tb-dropdown.open").forEach((d) => d.classList.remove("open"));
+      const action = item.getAttribute("data-action");
+      const val = item.getAttribute("data-val");
+      if (action === "format-block" && val) {
+        wysiwygPane.focus();
+        document.execCommand("formatBlock", false, val);
+        setDirty(true);
+      } else if (action === "underline") {
+        document.execCommand("underline", false);
+        setDirty(true);
+      } else if (action === "strike") {
+        document.execCommand("strikeThrough", false);
+        setDirty(true);
+      } else if (action === "code") {
+        insertHtmlAtCursor("<code>" + (window.getSelection()?.toString() || "code") + "</code>");
+      } else if (action === "foreColor") {
+        const color = prompt("Enter hex color or CSS color name:", "#0284c7");
+        if (color) {
+          document.execCommand("foreColor", false, color);
+          setDirty(true);
+        }
+      } else if (action === "hiliteColor") {
+        const color = prompt("Enter background highlight color:", "#fef08a");
+        if (color) {
+          document.execCommand("hiliteColor", false, color);
+          setDirty(true);
+        }
+      } else if (action === "removeFormat") {
+        document.execCommand("removeFormat", false);
+        setDirty(true);
+      } else if (action === "blockquote") {
+        insertHtmlAtCursor("<blockquote>" + (window.getSelection()?.toString() || "Quoted text") + "</blockquote>");
+      } else if (action === "details") {
+        insertHtmlAtCursor('<details style="margin: 12px 0; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 14px;"><summary style="cursor: pointer; font-weight: 700; color: #0369a1;">Click to expand details</summary><div style="margin-top: 8px;">Detailed content...</div></details>');
+      } else if (action === "callout-note") {
+        insertHtmlAtCursor('<div class="axiom-box" style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 18px; margin: 16px 0; border-radius: 0 6px 6px 0;"><strong>Note:</strong> Enter note text...</div>');
+      } else if (action === "callout-def") {
+        insertHtmlAtCursor('<div class="demo-box" style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin: 16px 0;"><strong>Definition:</strong> Enter definition...</div>');
+      } else if (action === "insert-link") {
+        const url = prompt("Enter URL to link to:", "https://");
+        if (url) {
+          document.execCommand("createLink", false, url);
+          setDirty(true);
+        }
+      } else if (action === "insert-image") {
+        const url = prompt("Enter image URL or asset path:", "");
+        if (url) {
+          insertHtmlAtCursor(`<img src="${escapeHtml(url)}" style="max-width: 100%; height: auto; border-radius: 6px;" alt="Image" />`);
+        }
+      } else if (action === "insert-table") {
+        openTableModal();
+      } else if (action === "insert-hr") {
+        insertHtmlAtCursor('<hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />');
+      } else if (action === "insert-ttd") {
+        openCustomElementPicker("ttd");
+      } else if (action === "insert-fs") {
+        openCustomElementPicker("fs");
+      } else if (action === "insert-stencil") {
+        openCustomElementPicker("stencil");
+      } else if (action === "insert-demo") {
+        openCustomElementPicker("demo");
+      } else if (action === "insert-pseudo") {
+        openCustomElementPicker("pseudo");
+      }
+    });
+  });
+  container.querySelectorAll(".u-btn, .u-grid-btn").forEach((btn) => {
+    btn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const ch = btn.getAttribute("data-char");
+      if (ch) insertTextAtCursor(ch);
+    });
+  });
+  async function openCustomElementPicker(kind, targetElemToReplace = null) {
+    saveEditorSelection();
+    const isReplace = !!targetElemToReplace;
+    const modalTitle = container.querySelector("#custom-elem-modal-title");
+    const modalBody2 = container.querySelector("#custom-elem-modal-body");
+    if (kind === "ttd") {
+      modalTitle.textContent = isReplace ? "\u2696\uFE0F Switch Truth Table Reference (<ttd-ref>)" : "\u2696\uFE0F Insert Truth Table Custom Element (<ttd-ref>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Querying authoritative propositions from PostgreSQL database...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const ttdRows = await queryDatabase(
+          "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">
+                        Select a proposition from the Truth Table database to link as a canonical <code>&lt;ttd-ref id="..."&gt;</code> reference:
+                    </p>
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">
+                            Authoritative Propositions (${ttdRows?.length || 0} registered):
+                        </label>
+                        <select id="modal-select-ttd-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; background: #ffffff;">
+                            ${(ttdRows || []).map((d) => {
+          const exp = d.expression || "";
+          const fmt = exp ? PxeEngine.fmt(exp) : "";
+          const statusSuffix = d.status ? ` [${d.status}]` : "";
+          const label = `[#${d.id}] ${d.title ? d.title + " \u2014 " : ""}${fmt || exp || "TTD"}${statusSuffix}`;
+          return `<option value="${d.id}">${escapeHtml(label)}</option>`;
+        }).join("")}
+                        </select>
+                    </div>
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #64748b; margin-bottom: 16px;">
+                        \u{1F4A1} <strong>Live Citation:</strong> The reader will dynamically embed the interactive truth table widget populated directly with this database proposition.
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-ttd">${isReplace ? "Update Reference" : "Insert &lt;ttd-ref&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-ttd")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-ttd-item");
+          if (sel && sel.value) {
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("id", sel.value);
+              targetElemToReplace.removeAttribute("exp");
+              targetElemToReplace.removeAttribute("style");
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <ttd-ref id="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<ttd-ref id="${sel.value}"></ttd-ref>
+`);
+              showToast(`\u2713 Inserted <ttd-ref id="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      }
+    } else if (kind === "fs") {
+      modalTitle.textContent = isReplace ? "\u{1F4DC} Switch Formal Statement Citation (<fs-ref>)" : "\u{1F4DC} Insert Formal Statement Citation (<fs-ref>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading formal statements from PostgreSQL...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const fsRows = await queryDatabase(
+          "SELECT id, statement_key, title, statement_kind FROM formal_statements ORDER BY id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a formal statement or directed equality to cite:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-fs-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(fsRows || []).map((s) => `
+                                <option value="${escapeHtml(s.statement_key)}">
+                                    [${escapeHtml((s.statement_kind || "fs").toUpperCase())}] ${escapeHtml(s.title || s.statement_key)} (${escapeHtml(s.statement_key)})
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-fs">${isReplace ? "Update Reference" : "Insert &lt;fs-ref&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-fs")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-fs-item");
+          if (sel && sel.value) {
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("statement-key", sel.value);
+              targetElemToReplace.removeAttribute("id");
+              targetElemToReplace.removeAttribute("desc");
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <fs-ref statement-key="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<fs-ref statement-key="${sel.value}"></fs-ref>
+`);
+              showToast(`\u2713 Inserted <fs-ref statement-key="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      }
+    } else if (kind === "stencil") {
+      modalTitle.textContent = isReplace ? "\u{1F4D0} Switch Computational Stencil (<interactive-stencil>)" : "\u{1F4D0} Insert Computational Stencil (<interactive-stencil>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading stencils from PostgreSQL...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const stencilRows = await queryDatabase(
+          "SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a computational stencil to embed:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-stencil-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(stencilRows || []).map((st) => `
+                                <option value="${escapeHtml(st.equation_key)}">
+                                    ${escapeHtml(st.title || st.label || st.equation_key)} [${escapeHtml(st.equation_key)}]
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-stencil">${isReplace ? "Update Reference" : "Insert &lt;interactive-stencil&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-stencil")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-stencil-item");
+          if (sel && sel.value) {
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("equation-key", sel.value);
+              targetElemToReplace.removeAttribute("id");
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <interactive-stencil equation-key="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<interactive-stencil equation-key="${sel.value}"></interactive-stencil>
+`);
+              showToast(`\u2713 Inserted <interactive-stencil equation-key="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      }
+    } else if (kind === "demo") {
+      modalTitle.textContent = isReplace ? "\u{1F3A8} Switch Interactive Demo (<visual-demo>)" : "\u{1F3A8} Insert Interactive Visual Demo (<visual-demo>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading interactive demos from PostgreSQL...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const demoRows = await queryDatabase(
+          "SELECT id, title, engine, mode FROM interactive_demos ORDER BY id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose an interactive demo to embed:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-demo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(demoRows || []).map((d) => `
+                                <option value="${d.id}">
+                                    [${escapeHtml((d.engine || "demo").toUpperCase())}] #${d.id} ${escapeHtml(d.title || d.mode || "Demo")}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-demo">${isReplace ? "Update Reference" : "Insert &lt;visual-demo&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-demo")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-demo-item");
+          if (sel && sel.value) {
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("id", sel.value);
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <visual-demo id="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<visual-demo id="${sel.value}"></visual-demo>
+`);
+              showToast(`\u2713 Inserted <visual-demo id="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      }
+    } else if (kind === "pseudo") {
+      modalTitle.textContent = isReplace ? "\u26A1 Switch Pseudocode Algorithm (<pseudo-ref>)" : "\u26A1 Insert Pseudocode Algorithm (<pseudo-ref>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading pseudocode algorithms from PostgreSQL...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const pseudoRows = await queryDatabase(
+          "SELECT id, algo_key, name, func_name, badge FROM pseudocode_algorithms ORDER BY id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pseudocode algorithm to reference:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-pseudo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(pseudoRows || []).map((p) => `
+                                <option value="${escapeHtml(p.algo_key)}">
+                                    [${escapeHtml((p.badge || "ALGO").toUpperCase())}] ${escapeHtml(p.name || p.func_name || p.algo_key)} (${escapeHtml(p.algo_key)})
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-pseudo">${isReplace ? "Update Reference" : "Insert &lt;pseudo-ref&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-pseudo")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-pseudo-item");
+          if (sel && sel.value) {
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("algo-key", sel.value);
+              targetElemToReplace.removeAttribute("id");
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <pseudo-ref algo-key="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<pseudo-ref algo-key="${sel.value}"></pseudo-ref>
+`);
+              showToast(`\u2713 Inserted <pseudo-ref algo-key="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      }
+    }
+  }
+  function closeCustomElemModal() {
+    customElemModal.classList.remove("active");
+  }
+  container.querySelector("#btn-close-custom-elem")?.addEventListener("click", closeCustomElemModal);
+  customElemModal.addEventListener("click", (e) => {
+    if (e.target === customElemModal) closeCustomElemModal();
+  });
+  let editingMathTarget = null;
+  async function updateLatexPreview() {
+    const tex = latexInput.value.trim();
+    const isDisplay = container.querySelector("#editor-math-mode-display")?.checked;
+    if (!tex) {
+      latexPreviewBox.innerHTML = '<span style="color: #94a3b8; font-size: 13px;">Type LaTeX above to see preview</span>';
+      return;
+    }
+    latexPreviewBox.innerHTML = isDisplay ? `\\[ ${tex} \\]` : `\\( ${tex} \\)`;
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      try {
+        await window.MathJax.typesetPromise([latexPreviewBox]);
+      } catch (err) {
+        console.warn("MathJax preview err", err);
+      }
+    }
+  }
+  function openMathEditor(target = null) {
+    saveEditorSelection();
+    editingMathTarget = target;
+    if (target) {
+      const rawTex = decodeURIComponent(target.getAttribute("data-latex") || "");
+      latexInput.value = rawTex;
+      const isDisplay = target.getAttribute("data-display") === "true" || target.classList.contains("latex-math-block");
+      container.querySelector("#editor-math-mode-display").checked = isDisplay;
+      container.querySelector("#editor-math-mode-inline").checked = !isDisplay;
+      mathModalTitle.textContent = "\u{1F4D0} Edit LaTeX Math Formula";
+      btnApplyMath.textContent = "Apply Changes";
+    } else {
+      latexInput.value = "\\frac{a}{b}";
+      container.querySelector("#editor-math-mode-inline").checked = true;
+      mathModalTitle.textContent = "\u{1F4D0} Insert LaTeX Math Formula";
+      btnApplyMath.textContent = "Insert Formula";
+    }
+    mathModal.classList.add("active");
+    latexInput.focus();
+    updateLatexPreview();
+  }
+  function closeMathEditor() {
+    mathModal.classList.remove("active");
+    editingMathTarget = null;
+  }
+  container.querySelector("#tb-insert-latex")?.addEventListener("click", () => openMathEditor(null));
+  container.querySelector("#btn-close-math")?.addEventListener("click", closeMathEditor);
+  container.querySelector("#btn-cancel-math")?.addEventListener("click", closeMathEditor);
+  latexInput.addEventListener("input", updateLatexPreview);
+  container.querySelector("#editor-math-mode-inline")?.addEventListener("change", updateLatexPreview);
+  container.querySelector("#editor-math-mode-display")?.addEventListener("change", updateLatexPreview);
+  container.querySelectorAll(".m-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const tex = chip.getAttribute("data-tex") || "";
+      const start = latexInput.selectionStart;
+      const end = latexInput.selectionEnd;
+      const val = latexInput.value;
+      latexInput.value = val.substring(0, start) + tex + val.substring(end);
+      latexInput.selectionStart = latexInput.selectionEnd = start + tex.length;
+      latexInput.focus();
+      updateLatexPreview();
+    });
+  });
+  btnApplyMath.addEventListener("click", () => {
+    const tex = latexInput.value.trim();
+    if (!tex) {
+      closeMathEditor();
+      return;
+    }
+    const isDisplay = container.querySelector("#editor-math-mode-display").checked;
+    closeMathEditor();
+    if (editingMathTarget && editingMathTarget.parentElement) {
+      editingMathTarget.setAttribute("data-latex", encodeURIComponent(tex));
+      editingMathTarget.setAttribute("data-display", isDisplay ? "true" : "false");
+      editingMathTarget.innerHTML = isDisplay ? `\\[ ${tex} \\]` : `\\( ${tex} \\)`;
+      setDirty(true);
+      typesetMath();
+      showToast("\u2713 Formula updated");
+    } else {
+      const formulaHtml = isDisplay ? `
+<div class="latex-math-block" data-latex="${encodeURIComponent(tex)}" data-display="true" contenteditable="false" style="cursor: pointer; text-align: center; margin: 12px 0; padding: 4px;" title="Double-click to edit LaTeX">\\[ ${tex} \\]</div>
+<p><br></p>
+` : `<span class="latex-math" data-latex="${encodeURIComponent(tex)}" data-display="false" contenteditable="false" style="cursor: pointer; display: inline-block; padding: 1px 4px; border-radius: 3px;" title="Double-click to edit LaTeX">\\( ${tex} \\)</span> `;
+      insertHtmlAtCursor(formulaHtml);
+      typesetMath();
+      showToast("\u2713 Formula inserted");
+    }
+  });
+  function openTableModal() {
+    saveEditorSelection();
+    const sel = window.getSelection();
+    let targetTable = null;
+    let targetRow = null;
+    let targetCell = null;
+    if (sel && sel.rangeCount > 0) {
+      let n = sel.getRangeAt(0).commonAncestorContainer;
+      if (n.nodeType === Node.TEXT_NODE) n = n.parentNode;
+      if (n && wysiwygPane.contains(n)) {
+        targetCell = n.closest("td, th");
+        targetRow = n.closest("tr");
+        targetTable = n.closest("table");
+      }
+    }
+    const contextBar = container.querySelector("#table-context-actions");
+    if (targetTable && targetRow && targetCell) {
+      activeTableContext = { table: targetTable, row: targetRow, cell: targetCell };
+      if (contextBar) contextBar.style.display = "block";
+    } else {
+      activeTableContext = null;
+      if (contextBar) contextBar.style.display = "none";
+    }
+    tableModal.classList.add("active");
+  }
+  function closeTableModal() {
+    tableModal.classList.remove("active");
+    activeTableContext = null;
+  }
+  container.querySelector("#btn-close-table")?.addEventListener("click", closeTableModal);
+  container.querySelector("#btn-cancel-table")?.addEventListener("click", closeTableModal);
+  container.querySelector("#btn-insert-table-apply")?.addEventListener("click", () => {
+    const rows = Math.max(1, parseInt(container.querySelector("#tbl-input-rows").value, 10) || 3);
+    const cols = Math.max(1, parseInt(container.querySelector("#tbl-input-cols").value, 10) || 3);
+    const hasHeader = container.querySelector("#tbl-check-header").checked;
+    const styleType = container.querySelector("#tbl-select-style").value;
+    const isFullWidth = container.querySelector("#tbl-check-fullwidth").checked;
+    const tableStyle = isFullWidth ? "width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;" : "border-collapse: collapse; margin: 16px 0; font-size: 14px;";
+    let html = `<table style="${tableStyle}">
+`;
+    if (hasHeader) {
+      html += '  <thead>\n    <tr style="background-color: #0f172a; color: #ffffff;">\n';
+      for (let c = 1; c <= cols; c++) {
+        html += `      <th style="padding: 10px 14px; text-align: left; font-weight: 600; border: 1px solid #cbd5e1;">Header ${c}</th>
+`;
+      }
+      html += "    </tr>\n  </thead>\n";
+    }
+    html += "  <tbody>\n";
+    for (let r = 1; r <= rows; r++) {
+      const trBg = styleType === "mwm" && r % 2 === 0 ? "background-color: #f8fafc;" : "background-color: #ffffff;";
+      html += `    <tr style="${trBg}">
+`;
+      for (let c = 1; c <= cols; c++) {
+        html += `      <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Cell ${r},${c}</td>
+`;
+      }
+      html += "    </tr>\n";
+    }
+    html += "  </tbody>\n</table>\n<p><br></p>\n";
+    closeTableModal();
+    insertHtmlAtCursor(html);
+    showToast("\u2713 Table inserted");
+  });
+  container.querySelector("#tb-insert-diagram")?.addEventListener("click", () => {
+    openDrawio({
+      diagramName: `${segSlug}_diagram`,
+      onEmbed: (svgXml) => {
+        insertHtmlAtCursor(`
+<div class="mwm-diagram-box" style="text-align: center; margin: 20px 0;">${svgXml}</div>
+<p><br></p>
+`);
+      }
+    });
+  });
+  function openDrawio({ diagramName = "diagram", onEmbed }) {
+    const rawContent = '<mxfile host="embed.diagrams.net"><diagram id="page-1" name="Page-1"><mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100"><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel></diagram></mxfile>';
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); z-index: 999999; display: flex; flex-direction: column; padding: 16px; box-sizing: border-box;`;
+    const header = document.createElement("div");
+    header.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: #1e293b; color: #f8fafc; padding: 10px 16px; border-radius: 8px 8px 0 0; font-family: var(--font-family); font-size: 14px;`;
+    header.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-weight: 700; color: #38bdf8;">Draw.io Diagram Editor</span>
+                <span style="color: #94a3b8;">\u2022</span>
+                <span style="color: #cbd5e1;">${escapeHtml(diagramName)}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <button id="drawio-save-btn" class="btn btn-primary" style="padding: 5px 12px; background: #0284c7;">\u{1F4BE} Embed Changes</button>
+                <button id="drawio-close-btn" class="btn btn-secondary" style="padding: 5px 10px;">\u2715 Close</button>
+            </div>
+        `;
+    const iframe = document.createElement("iframe");
+    iframe.referrerPolicy = "no-referrer";
+    iframe.src = "https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device";
+    iframe.style.cssText = "flex: 1; width: 100%; border: none; border-radius: 0 0 8px 8px; background: #ffffff;";
+    overlay.appendChild(header);
+    overlay.appendChild(iframe);
+    document.body.appendChild(overlay);
+    const closeOverlay = () => {
+      window.removeEventListener("message", onMsg);
+      overlay.remove();
+    };
+    header.querySelector("#drawio-close-btn")?.addEventListener("click", closeOverlay);
+    const triggerExport = () => {
+      iframe.contentWindow?.postMessage(JSON.stringify({ action: "export", format: "xmlsvg", spinKey: "saving" }), "*");
+    };
+    header.querySelector("#drawio-save-btn")?.addEventListener("click", triggerExport);
+    const onMsg = (ev) => {
+      if (ev.source !== iframe.contentWindow) return;
+      let msg = null;
+      try {
+        msg = typeof ev.data === "string" ? JSON.parse(ev.data) : ev.data;
+      } catch {
+        return;
+      }
+      if (!msg || !msg.event) return;
+      if (msg.event === "configure") {
+        iframe.contentWindow?.postMessage(JSON.stringify({ action: "configure", config: { defaultEdgeStyle: { edgeStyle: "orthogonalEdgeStyle", rounded: 0 }, compressXml: false } }), "*");
+      } else if (msg.event === "init") {
+        iframe.contentWindow?.postMessage(JSON.stringify({ action: "load", xml: rawContent, title: `${diagramName}.drawio`, autosave: 1 }), "*");
+      } else if (msg.event === "save") {
+        triggerExport();
+      } else if (msg.event === "export") {
+        const rawData = msg.data || "";
+        let decoded = "";
+        if (rawData.startsWith("data:image/svg+xml;base64,")) {
+          decoded = atob(rawData.substring("data:image/svg+xml;base64,".length));
+        } else if (rawData.includes("<svg")) {
+          decoded = rawData;
+        } else {
+          decoded = decodeURIComponent(rawData);
+        }
+        onEmbed(decoded);
+        setDirty(true);
+        showToast(`\u2713 Diagram embedded`);
+        setTimeout(closeOverlay, 200);
+      } else if (msg.event === "exit") {
+        closeOverlay();
+      }
+    };
+    window.addEventListener("message", onMsg);
+  }
+}
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+function injectEditorStyles() {
+  if (document.getElementById("content-editor-styles")) return;
+  const style = document.createElement("style");
+  style.id = "content-editor-styles";
+  style.textContent = `
+        .content-editor-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #ffffff;
+            color: #0f172a;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .editor-header-bar {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #1e293b;
+            z-index: 20;
+        }
+
+        .editor-header-lhs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .editor-header-rhs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .editor-seg-meta {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .editor-seg-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .editor-seg-slug {
+            font-size: 12px;
+            color: #94a3b8;
+            font-family: var(--font-mono);
+        }
+
+        .editorial-status-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .status-raw { background: #fef3c7; color: #92400e; }
+        .status-staged { background: #e0f2fe; color: #0369a1; }
+        .status-reviewed { background: #f3e8ff; color: #6b21a8; }
+        .status-published { background: #ecfdf5; color: #047857; }
+
+        .btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            font-family: var(--font-family);
+        }
+        .btn-primary { background: #0284c7; color: #ffffff; }
+        .btn-primary:hover { background: #0369a1; }
+        .btn-secondary { background: #334155; color: #f8fafc; }
+        .btn-secondary:hover { background: #475569; }
+
+        .header-zoom {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .view-pills {
+            display: flex;
+            background: #1e293b;
+            border-radius: 6px;
+            padding: 2px;
+            gap: 2px;
+        }
+        .pill {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .pill.active { background: #0284c7; color: #ffffff; }
+
+        .status-pill {
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .status-pill.dirty {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 5px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+        .tb-section {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 2px 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .tb-group { display: flex; align-items: center; gap: 2px; }
+        .tb-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+        }
+        .tb-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .tb-btn.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+        .tb-select {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+        .tb-divider { width: 1px; height: 16px; background: #cbd5e1; margin: 0 3px; }
+
+        .script-level-btn {
+            font-family: Georgia, serif;
+            font-size: 12px;
+            padding: 2px 5px;
+            min-width: 26px;
+            text-align: center;
+        }
+
+        /* Dropdowns */
+        .tb-dropdown { position: relative; display: inline-flex; }
+        .tb-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.15);
+            padding: 4px;
+            min-width: 175px;
+            z-index: 1000;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .tb-dropdown.open .tb-dropdown-menu { display: flex; }
+        .tb-dropdown-item {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e293b;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .tb-dropdown-item:hover { background: #f1f5f9; color: #0284c7; }
+
+        /* Unicode Character Strip */
+        .unicode-palette {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 4px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .palette-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 2px;
+            user-select: none;
+        }
+        .u-section {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 2px 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .u-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-right: 2px;
+            user-select: none;
+        }
+        .u-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.25;
+            cursor: pointer;
+            font-family: 'Cambria Math', Georgia, serif;
+            user-select: none;
+        }
+        .u-btn:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+        .u-btn.u-bold { font-weight: 700; color: #0369a1; }
+        .u-btn.u-bold:hover { color: #ffffff; }
+        .u-divider { width: 1px; height: 16px; background: #cbd5e1; margin: 0 3px; display: inline-block; }
+
+        .u-dropdown { position: relative; display: inline-flex; }
+        .u-dropdown-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #0369a1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .u-dropdown-btn:hover { background: #0284c7; color: #ffffff; }
+        .u-dropdown-popover {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            z-index: 2000;
+            min-width: 250px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        .u-dropdown-popover.popover-right { left: auto; right: 0; }
+        .u-dropdown.open .u-dropdown-popover { display: block; }
+        .u-popover-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .u-popover-subtitle { font-size: 10px; font-weight: 600; color: #94a3b8; margin: 6px 0 3px; text-transform: uppercase; }
+        .u-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+        .u-grid-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 13px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-family: 'Cambria Math', Georgia, serif;
+            color: #0f172a;
+        }
+        .u-grid-btn:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+
+        /* Workspace & Panes */
+        .editor-workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        .editor-pane {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        #editor-wysiwyg-pane {
+            background: #ffffff;
+            outline: none;
+            padding: 36px 48px;
+            font-family: "Times New Roman", Times, Georgia, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #0f172a;
+        }
+        .read-mode #editor-wysiwyg-pane {
+            background: #fafaf9;
+            padding: 40px 60px;
+        }
+
+        #editor-wysiwyg-pane h1, #editor-wysiwyg-pane h2, #editor-wysiwyg-pane h3 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #0f172a;
+            margin-top: 1.2em;
+            margin-bottom: 0.5em;
+        }
+        #editor-wysiwyg-pane p { margin-bottom: 1em; }
+        #editor-wysiwyg-pane ul, #editor-wysiwyg-pane ol { margin: 0.8em 0 1.2em 2em; }
+        #editor-wysiwyg-pane li { margin-bottom: 0.3em; }
+
+        #editor-source-pane {
+            background: #0f172a;
+            padding: 0;
+        }
+        #editor-source-textarea {
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            color: #f8fafc;
+            border: none;
+            padding: 24px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            tab-size: 2;
+            box-sizing: border-box;
+        }
+
+        .editor-workspace.split-mode #editor-wysiwyg-pane {
+            display: block;
+            width: 50%;
+            flex: 0 0 50%;
+            border-right: 1px solid #e2e8f0;
+        }
+        .editor-workspace.split-mode #editor-source-pane {
+            display: block;
+            width: 50%;
+            flex: 0 0 50%;
+        }
+
+        /* In-situ Math Styling */
+        .latex-math, .latex-math-block {
+            border: 1px dashed transparent;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .latex-math:hover, .latex-math-block:hover {
+            border-color: #0284c7;
+            background-color: rgba(2, 132, 199, 0.08);
+        }
+
+        /* Modal Backdrop & Cards */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(3px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-backdrop.active { display: flex; }
+        .modal-card {
+            background: #ffffff;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 92vw;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .modal-header {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header h3 { font-size: 15px; font-weight: 600; }
+        .modal-body {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .m-chip {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            user-select: none;
+        }
+        .m-chip:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+
+        /* Toast */
+        .editor-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 999999;
+            pointer-events: none;
+        }
+        .editor-toast.show { opacity: 1; transform: translateY(0); }
+
+        /* Custom Elements in WYSIWYG Pane */
+        ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, .custom-ref-chip {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 3px 10px !important;
+            border-radius: 6px !important;
+            font-family: var(--font-mono, monospace) !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            line-height: 1.4 !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            vertical-align: middle !important;
+            margin: 2px 4px !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06) !important;
+            white-space: nowrap !important;
+            text-decoration: none !important;
+        }
+
+        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
+            transform: translateY(-1.5px) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12) !important;
+            filter: brightness(0.97) !important;
+        }
+
+        /* Crimson Truth Table Theme */
+        ttd-ref, .chip-ttd {
+            background: #fef2f2 !important;
+            border: 1.5px solid #f87171 !important;
+            color: #991b1b !important;
+        }
+        .chip-ttd .chip-badge {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Royal Blue Formal Statement Theme */
+        fs-ref, .chip-fs {
+            background: #eff6ff !important;
+            border: 1.5px solid #60a5fa !important;
+            color: #1d4ed8 !important;
+        }
+        .chip-fs .chip-badge {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Emerald Computational Stencil Theme */
+        interactive-stencil, .chip-stencil {
+            background: #f0fdf4 !important;
+            border: 1.5px solid #4ade80 !important;
+            color: #166534 !important;
+        }
+        .chip-stencil .chip-badge {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* Violet Interactive Demo Theme */
+        visual-demo, .chip-demo {
+            background: #faf5ff !important;
+            border: 1.5px solid #c084fc !important;
+            color: #6b21a8 !important;
+        }
+        .chip-demo .chip-badge {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        /* Amber Pseudocode Algorithm Theme */
+        pseudo-ref, .chip-pseudo {
+            background: #fffbeb !important;
+            border: 1.5px solid #fbbf24 !important;
+            color: #92400e !important;
+        }
+        .chip-pseudo .chip-badge {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .chip-icon {
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .chip-badge {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 1px 5px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .chip-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Floating Hover Tooltip */
+        .custom-ref-tooltip {
+            position: fixed;
+            z-index: 1000000;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 10px 14px;
+            max-width: 380px;
+            box-shadow: 0 12px 24px -4px rgba(0,0,0,0.35);
+            pointer-events: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            animation: fadeInTooltip 0.15s ease;
+        }
+
+        @keyframes fadeInTooltip {
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tooltip-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .tooltip-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tooltip-status-pill {
+            font-size: 10px;
+            color: #94a3b8;
+            background: #1e293b;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tooltip-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-formula {
+            font-family: var(--font-mono, monospace);
+            font-size: 12px;
+            color: #38bdf8;
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 6px 0;
+            word-break: break-all;
+        }
+
+        .tooltip-footer {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #1e293b;
+        }
+
+        /* Quick Inspector Modal Customizations */
+        .inspector-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+    `;
+  document.head.appendChild(style);
+}
+
 // crud/src/ui.ts
 var typeMap = {
   segment: { table: "segments", label: "Segments" },
@@ -42711,7 +45600,8 @@ function getRecordFriendlyName(tableName, record) {
           status = evalRes?.isTautology ? "taut" : evalRes?.isContradiction ? "unsat" : "cont";
         }
         const statusSuffix = status ? ` [${status}]` : "";
-        return `${fmt || exp || record.title || "TTD"}${statusSuffix}`;
+        const titlePrefix = record.title && record.title !== fmt && record.title !== exp ? `${record.title} \u2014 ` : "";
+        return `${titlePrefix}${fmt || exp || record.title || "TTD"}${statusSuffix}`;
       }
       return `${record.title || "Demo #" + record.id} (${record.engine || "demo"}${record.mode ? ` - ${record.mode}` : ""})`;
     }
@@ -42724,6 +45614,168 @@ function getRecordFriendlyName(tableName, record) {
       return record.name || record.title || record.label || record.key || `Record #${record.id}`;
     }
   }
+}
+function getRecordUniqueKeyDisplay(tableName, record) {
+  if (!record) return { key: "", label: "" };
+  switch (tableName) {
+    case "segments":
+      return {
+        key: record.slug || record.seg_key || `#${record.id}`,
+        label: record.title || record.slug || `Segment #${record.id}`
+      };
+    case "formal_statements":
+      return {
+        key: record.statement_key || `#${record.id}`,
+        label: record.title || record.expression || `Statement #${record.id}`
+      };
+    case "pseudocode_algorithms":
+      return {
+        key: record.algo_key || `#${record.id}`,
+        label: record.title || record.name || `Algorithm #${record.id}`
+      };
+    case "interactive_demos":
+      return {
+        key: record.engine ? `${record.engine.toUpperCase()}: ${record.expression || record.id}` : `#${record.id}`,
+        label: record.title || `Demo #${record.id}`
+      };
+    case "curriculum_nav_items":
+      return {
+        key: record.nav_key || `#${record.id}`,
+        label: record.topic || record.nav_topic || `Nav Item #${record.id}`
+      };
+    case "apps":
+      return {
+        key: record.app_code || `#${record.id}`,
+        label: record.name || `App #${record.id}`
+      };
+    case "lean_declarations":
+      return {
+        key: record.name || `#${record.id}`,
+        label: record.kind ? `[${record.kind}] ${record.name}` : record.name
+      };
+    case "directed_equations":
+      return {
+        key: record.equation_key || `#${record.id}`,
+        label: record.title || record.label || `Equation #${record.id}`
+      };
+    default: {
+      const displayCol = getDisplayColumnName(tableName);
+      return {
+        key: record.key || record.slug || `#${record.id}`,
+        label: record[displayCol] || `ID: ${record.id}`
+      };
+    }
+  }
+}
+function formatFkBadgeText(tableName, record) {
+  if (!record) return "-- None --";
+  const info = getRecordUniqueKeyDisplay(tableName, record);
+  if (info.key && info.label && info.key !== info.label) {
+    return `${info.key} \xB7 ${info.label}`;
+  }
+  return info.key || info.label || `ID: ${record.id}`;
+}
+async function openChildRecordPickerModal(parentTable, colName, fkTable, isNullable, currentValue, onSelect) {
+  const tableInfo = appMetadata[fkTable];
+  const targetLabel = tableInfo?.singularLabel || tableInfo?.label || fkTable;
+  let orderCol = "id";
+  const candidateCols = Object.keys(tableInfo?.columns || {});
+  if (candidateCols.includes("sequence_order")) orderCol = "sequence_order";
+  else if (candidateCols.includes("slug")) orderCol = "slug";
+  else if (candidateCols.includes("topic")) orderCol = "topic";
+  else if (candidateCols.includes("title")) orderCol = "title";
+  else if (candidateCols.includes("name")) orderCol = "name";
+  let records = [];
+  try {
+    let sql = `SELECT * FROM ${fkTable}`;
+    if (parentTable === fkTable && currentSelectedId) {
+      sql += ` WHERE id != ${parseInt(currentSelectedId, 10)}`;
+    }
+    sql += ` ORDER BY "${orderCol}" ASC, id ASC;`;
+    records = await queryDatabase(sql) || [];
+  } catch (e) {
+    console.error(`[openChildRecordPickerModal] Error fetching ${fkTable}:`, e);
+  }
+  const modal = document.createElement("div");
+  modal.className = "crud-modal open";
+  modal.style.cssText = "position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(2px);";
+  modal.innerHTML = `
+        <div style="background: #ffffff; border-radius: 8px; width: 680px; max-width: 92vw; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); border: 1px solid #cbd5e1; overflow: hidden;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Select ${escapeHtml2(targetLabel)}</h3>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Table: <code style="font-family: var(--font-mono);">${fkTable}</code> \u2022 Total: ${records.length} records</div>
+                </div>
+                <button type="button" class="btn-close-picker-modal" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer; padding: 2px 8px; border-radius: 4px;">\u2715</button>
+            </div>
+            <div style="padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                <input type="text" id="picker-search-input" placeholder="\u{1F50D} Search by key, title, slug, or ID..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none;" />
+            </div>
+            <div id="picker-records-list" style="flex: 1; overflow-y: auto; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px;">
+                ${isNullable ? `
+                    <div class="picker-item" data-id="" style="padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 1px dashed #cbd5e1; color: #64748b; font-size: 13px; background: #f8fafc;">
+                        <span>-- None (Unlink / Clear Association) --</span>
+                        <span style="font-size: 11px; font-weight: 700; color: #94a3b8;">NULL</span>
+                    </div>
+                ` : ""}
+                ${records.map((r) => {
+    const info = getRecordUniqueKeyDisplay(fkTable, r);
+    const isSelected = currentValue && currentValue.toString() === r.id.toString();
+    return `
+                        <div class="picker-item" data-id="${r.id}" style="padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 1px solid ${isSelected ? "#38bdf8" : "#e2e8f0"}; background: ${isSelected ? "#f0f9ff" : "#ffffff"}; transition: all 0.1s ease;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; border: 1px solid #e2e8f0;">${escapeHtml2(info.key)}</span>
+                                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">${escapeHtml2(info.label)}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 11px; color: #94a3b8; font-family: var(--font-mono);">#${r.id}</span>
+                                ${isSelected ? `<span style="font-size: 11px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 2px 6px; border-radius: 4px;">Selected</span>` : ""}
+                            </div>
+                        </div>
+                    `;
+  }).join("")}
+            </div>
+            <div style="padding: 12px 20px; border-top: 1px solid #e2e8f0; background: #f8fafc; display: flex; justify-content: flex-end;">
+                <button type="button" class="btn-close-picker-modal action-btn secondary" style="padding: 6px 14px; font-size: 12px;">Cancel</button>
+            </div>
+        </div>
+    `;
+  document.body.appendChild(modal);
+  const closeModal2 = () => modal.remove();
+  modal.querySelectorAll(".btn-close-picker-modal").forEach((b) => b.addEventListener("click", closeModal2));
+  const searchInput = modal.querySelector("#picker-search-input");
+  const itemsList = modal.querySelector("#picker-records-list");
+  searchInput.focus();
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase().trim();
+    itemsList.querySelectorAll(".picker-item").forEach((el) => {
+      const itemEl = el;
+      const text = itemEl.textContent?.toLowerCase() || "";
+      itemEl.style.display = text.includes(query) ? "flex" : "none";
+    });
+  });
+  itemsList.querySelectorAll(".picker-item").forEach((el) => {
+    const itemEl = el;
+    itemEl.addEventListener("mouseenter", () => {
+      itemEl.style.borderColor = "#0284c7";
+      itemEl.style.background = "#f0f9ff";
+    });
+    itemEl.addEventListener("mouseleave", () => {
+      const isSel = itemEl.getAttribute("data-id") === currentValue;
+      itemEl.style.borderColor = isSel ? "#38bdf8" : "#e2e8f0";
+      itemEl.style.background = isSel ? "#f0f9ff" : "#ffffff";
+    });
+    itemEl.addEventListener("click", () => {
+      const chosenId = itemEl.getAttribute("data-id");
+      if (!chosenId) {
+        onSelect(null);
+      } else {
+        const found = records.find((r) => r.id.toString() === chosenId);
+        onSelect(found || null);
+      }
+      closeModal2();
+    });
+  });
 }
 function initializeUI(metadata, navs, deps) {
   appMetadata = metadata;
@@ -42777,7 +45829,7 @@ function setupControlListeners() {
     });
   }
   if (typeDropdownMenu) {
-    typeDropdownMenu.innerHTML = renderMenuHierarchy(navigationMenuTree);
+    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
   }
   if (typeBtn && typeDropdownMenu) {
     typeBtn.addEventListener("click", (e) => {
@@ -42793,11 +45845,22 @@ function setupControlListeners() {
       const instanceKey = targetItem.getAttribute("data-instance-key");
       const instanceId = targetItem.getAttribute("data-instance-id");
       const label = targetItem.getAttribute("data-label") || "";
+      if (currentMode === "create" && typeKey && !hasSubmenu) {
+        e.stopPropagation();
+        typeDropdownMenu?.classList.remove("show");
+        typeDropdownMenu?.querySelectorAll(".open-submenu").forEach((el) => el.classList.remove("open-submenu"));
+        setType(typeKey);
+        return;
+      }
       if (instanceKey || instanceId) {
         e.stopPropagation();
         typeDropdownMenu?.classList.remove("show");
         typeDropdownMenu?.querySelectorAll(".open-submenu").forEach((el) => el.classList.remove("open-submenu"));
-        await selectInstanceDirectly(typeKey || currentTypeKey, instanceKey || instanceId, label);
+        if (currentMode === "create") {
+          setType(typeKey || currentTypeKey);
+        } else {
+          await selectInstanceDirectly(typeKey || currentTypeKey, instanceKey || instanceId, label);
+        }
         return;
       }
       if (hasSubmenu) {
@@ -42838,10 +45901,11 @@ function setupControlListeners() {
         submenu.style.top = `${Math.max(-rect.height + 30, -4 - overflowY)}px`;
       }
     };
-    typeDropdownMenu.querySelectorAll(".dropdown-item.has-submenu").forEach((item) => {
-      item.addEventListener("mouseenter", () => {
+    typeDropdownMenu.addEventListener("mouseover", (e) => {
+      const item = e.target.closest(".dropdown-item.has-submenu");
+      if (item && typeDropdownMenu.contains(item)) {
         positionSubmenu(item);
-      });
+      }
     });
   }
   if (subjectBtn && subjectDropdownMenu) {
@@ -42873,10 +45937,188 @@ function setupControlListeners() {
       navigateBack();
     });
   }
+  const resetStudioBtn = document.getElementById("btn-reset-studio");
+  if (resetStudioBtn) {
+    resetStudioBtn.addEventListener("click", () => {
+      resetStudio();
+    });
+  }
   const modalClose = document.getElementById("modal-close-button");
   if (modalClose && mainModal) {
     modalClose.addEventListener("click", closeModal);
   }
+  const btnOpsBackup = document.getElementById("btn-ops-backup");
+  if (btnOpsBackup) {
+    btnOpsBackup.addEventListener("click", async () => {
+      const originalText = btnOpsBackup.innerHTML;
+      btnOpsBackup.innerHTML = "<span>\u23F3</span> Backing up...";
+      btnOpsBackup.disabled = true;
+      setStatus("\u{1F4E6} Running PostgreSQL database backup...");
+      try {
+        const resp = await fetch("/api/ops/backup", { method: "POST" });
+        const data = await resp.json();
+        if (data.status === "success") {
+          setStatus("\u2713 PostgreSQL database backed up to db/backups/latest.sql");
+          showModal(`
+                        <h3 style="color: #0369a1; margin-bottom: 8px;">\u{1F4E6} Database Backup Complete</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            The PostgreSQL database was successfully dumped to:
+                            <br><code style="font-family: var(--font-mono); font-weight: 600;">db/backups/latest.sql</code>
+                        </p>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+        } else {
+          throw new Error(data.message || "Backup failed");
+        }
+      } catch (err) {
+        setStatus("\u26A0\uFE0F Database backup failed: " + err.message);
+        alert("Backup error: " + err.message);
+      } finally {
+        btnOpsBackup.innerHTML = originalText;
+        btnOpsBackup.disabled = false;
+      }
+    });
+  }
+  const btnOpsPrep = document.getElementById("btn-ops-prep");
+  if (btnOpsPrep) {
+    btnOpsPrep.addEventListener("click", async () => {
+      const originalText = btnOpsPrep.innerHTML;
+      btnOpsPrep.innerHTML = "<span>\u23F3</span> Prepping...";
+      btnOpsPrep.disabled = true;
+      setStatus("\u2699\uFE0F Running prep (database backup + distribution build)...");
+      try {
+        const resp = await fetch("/api/ops/prep", { method: "POST" });
+        const data = await resp.json();
+        if (data.status === "success") {
+          setStatus("\u2713 Prep complete: PostgreSQL backed up & app1/dist/index.html updated");
+          showModal(`
+                        <h3 style="color: #4338ca; margin-bottom: 8px;">\u2699\uFE0F Prep / Build Complete</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            PostgreSQL database backed up and distribution compiled into:
+                            <br><code style="font-family: var(--font-mono); font-weight: 600;">app1/dist/index.html</code> (57 segments loaded from PostgreSQL).
+                        </p>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+        } else {
+          throw new Error(data.message || "Prep build failed");
+        }
+      } catch (err) {
+        setStatus("\u26A0\uFE0F Prep build failed: " + err.message);
+        alert("Prep build error: " + err.message);
+      } finally {
+        btnOpsPrep.innerHTML = originalText;
+        btnOpsPrep.disabled = false;
+      }
+    });
+  }
+  const btnOpsDeploy = document.getElementById("btn-ops-deploy");
+  if (btnOpsDeploy) {
+    btnOpsDeploy.addEventListener("click", () => {
+      showModal(`
+                <h3 style="color: #059669; margin-bottom: 8px;">\u{1F680} Deploy to middlewaymath.app</h3>
+                <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 14px;">
+                    This will run <strong>prep</strong> (snapshot PostgreSQL database + compile all segments into <code>app1/dist/index.html</code>), sync overview and spec documents, and push directly to <strong>origin master</strong>.
+                </p>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+                    <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
+                    <button class="action-btn" id="modal-btn-confirm-deploy" style="background: #059669; color: #ffffff; border: 1px solid #047857; font-weight: 700;">
+                        \u{1F680} Confirm &amp; Push to Production
+                    </button>
+                </div>
+            `);
+      document.getElementById("modal-btn-confirm-deploy")?.addEventListener("click", async () => {
+        const modalTarget = document.getElementById("modal-body-content");
+        if (modalTarget) {
+          modalTarget.innerHTML = `
+                        <div style="text-align: center; padding: 24px 10px;">
+                            <div style="font-size: 32px; margin-bottom: 12px; animation: spin 1s infinite linear;">\u{1F680}</div>
+                            <h3 style="color: #059669; margin-bottom: 8px;">Deploying to Production...</h3>
+                            <p style="color: #64748b; font-size: 13px;">Running prep, staging files, committing, and pushing to origin master...</p>
+                        </div>
+                    `;
+        }
+        setStatus("\u{1F680} Deploying Mathematics and the Middle Way to middlewaymath.app...");
+        try {
+          const resp = await fetch("/api/ops/deploy", { method: "POST" });
+          const data = await resp.json();
+          if (data.status === "success") {
+            setStatus("\u2713 Successfully deployed to middlewaymath.app!");
+            showModal(`
+                            <h3 style="color: #059669; margin-bottom: 8px;">\u{1F389} Deployment Succeeded!</h3>
+                            <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                                Changes have been pushed to <code>origin master</code> and deployed live to <strong>middlewaymath.app</strong>!
+                            </p>
+                            <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 200px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                            <div style="margin-top: 14px; text-align: right;">
+                                <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
+                            </div>
+                        `);
+          } else {
+            throw new Error(data.message || "Deployment error");
+          }
+        } catch (err) {
+          setStatus("\u26A0\uFE0F Deployment failed: " + err.message);
+          showModal(`
+                        <h3 style="color: #dc2626; margin-bottom: 8px;">\u26A0\uFE0F Deployment Failed</h3>
+                        <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                            ${escapeHtml2(err.message)}
+                        </p>
+                        <div style="margin-top: 14px; text-align: right;">
+                            <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
+                        </div>
+                    `);
+        }
+      });
+    });
+  }
+}
+function resetStudio() {
+  navHistory.length = 0;
+  currentMode = "read";
+  currentTypeKey = null;
+  currentSelectedId = null;
+  currentTitle = "";
+  currentSubject = "all";
+  if (currentModeLabel) currentModeLabel.textContent = "Read";
+  if (currentTypeLabel) currentTypeLabel.textContent = "Select Type";
+  if (currentSubjectLabel) currentSubjectLabel.textContent = "All";
+  modeDropdownMenu?.classList.remove("show");
+  typeDropdownMenu?.classList.remove("show");
+  subjectDropdownMenu?.classList.remove("show");
+  if (modeDropdownMenu) {
+    modeDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
+      if (item.getAttribute("data-mode") === "read") {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
+  }
+  if (subjectDropdownMenu) {
+    subjectDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
+      if (item.getAttribute("data-subject") === "all") {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
+  }
+  if (typeDropdownMenu) {
+    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree("all", "read"));
+    typeDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
+      item.classList.remove("active");
+    });
+  }
+  closeModal();
+  updateBreadcrumbs();
+  renderCurrentView();
+  setStatus("Ready \u2022 Selection reset to clean landing state");
 }
 function matchesCurrentSubject(tableName, record) {
   if (!currentSubject || currentSubject === "all") return true;
@@ -42945,7 +46187,7 @@ function setSubject(subject) {
     });
   }
   if (typeDropdownMenu) {
-    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject));
+    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
   }
   renderCurrentView();
   setStatus(`Subject Scope: ${labelMap[subject] || subject}`);
@@ -42961,6 +46203,9 @@ function setMode(mode, preserveSelection = false) {
         item.classList.remove("active");
       }
     });
+  }
+  if (typeDropdownMenu) {
+    typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
   }
   if (preserveSelection) {
   } else if (mode === "create") {
@@ -43172,9 +46417,9 @@ function updateBreadcrumbs() {
   if (breadcrumbActiveType) {
     if (currentSelectedId && currentTitle && currentTitle !== mapping.label) {
       breadcrumbActiveType.innerHTML = `
-                <span>${escapeHtml(mapping.label)}</span>
+                <span>${escapeHtml2(mapping.label)}</span>
                 <span style="color: #cbd5e1; margin: 0 4px;">/</span>
-                <span style="color: #0369a1; font-weight: 600;">${escapeHtml(currentTitle)}</span>
+                <span style="color: #0369a1; font-weight: 600;">${escapeHtml2(currentTitle)}</span>
             `;
     } else {
       breadcrumbActiveType.textContent = mapping.label;
@@ -43184,7 +46429,7 @@ function updateBreadcrumbs() {
     if (navHistory.length > 0) {
       const last = navHistory[navHistory.length - 1];
       navBackBtn.style.display = "inline-flex";
-      navBackBtn.innerHTML = `<span>\u2190 Back to ${escapeHtml(last.title || last.tableName)}</span>`;
+      navBackBtn.innerHTML = `<span>\u2190 Back to ${escapeHtml2(last.title || last.tableName)}</span>`;
     } else {
       navBackBtn.style.display = "none";
     }
@@ -43293,7 +46538,7 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
             <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} to ${actionVerb} (${records.length}${currentSubject !== "all" ? ` of ${allRecords.length}` : ""} available) --</option>
             ${records.map(
       (r) => `<option value="${r.id}">
-                            ${escapeHtml(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                            ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                         </option>`
     ).join("")}
         `;
@@ -43302,7 +46547,7 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
       currentTitle = getRecordFriendlyName(tableName, record);
       updateBreadcrumbs();
       if (action === "update") {
-        renderRecordForm(tableName, record, false);
+        await renderRecordForm(tableName, record, false);
       } else {
         renderDeleteConfirmation(tableName, record);
       }
@@ -43310,7 +46555,7 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
     const filterScopeBanner = currentSubject !== "all" ? `
             <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
                 <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
-                    Filtered by Subject: <strong>${escapeHtml(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                    Filtered by Subject: <strong>${escapeHtml2(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
                 </span>
                 <button type="button" id="btn-clear-active-filter-action" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
                     \u2715 Clear Scope
@@ -43335,11 +46580,11 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
                                 <div class="instance-menu-item" data-id="${r.id}" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; background: #ffffff;">
                                     <div style="flex: 1;">
                                         <div class="instance-item-title" style="display: flex; align-items: center; gap: 8px;">
-                                            <span style="font-weight: 600; color: #0f172a;">${escapeHtml(friendlyTitle)}</span>
-                                            ${key ? `<code class="instance-key-badge">${escapeHtml(key)}</code>` : ""}
+                                            <span style="font-weight: 600; color: #0f172a;">${escapeHtml2(friendlyTitle)}</span>
+                                            ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
                                             <span class="instance-id-badge">#${r.id}</span>
                                         </div>
-                                        ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 4px;">${escapeHtml(desc.slice(0, 120))}${desc.length > 120 ? "..." : ""}</div>` : ""}
+                                        ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 4px;">${escapeHtml2(desc.slice(0, 120))}${desc.length > 120 ? "..." : ""}</div>` : ""}
                                     </div>
                                     <button class="btn btn-sm" style="background: ${actionColor}; color: #ffffff; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer;">
                                         ${actionIcon} ${actionVerb}
@@ -43400,7 +46645,7 @@ async function renderCurrentView() {
     if (currentSelectedId) {
       const record = await fetchRecordById(tableName, currentSelectedId);
       if (record) {
-        renderRecordForm(tableName, record, false);
+        await renderRecordForm(tableName, record, false);
         return;
       }
     }
@@ -43484,7 +46729,7 @@ async function renderEntityInspectorView(tableName, filterKind) {
             <option value="" ${!currentSelectedId ? "selected" : ""}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length}${currentSubject !== "all" ? ` of ${allRecords.length}` : ""} available) --</option>
             ${records.map(
       (r) => `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? "selected" : ""}>
-                            ${escapeHtml(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                            ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                         </option>`
     ).join("")}
         `;
@@ -43497,7 +46742,7 @@ async function renderEntityInspectorView(tableName, filterKind) {
       const filterScopeBanner = currentSubject !== "all" ? `
                 <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
                     <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
-                        Filtered by Subject: <strong>${escapeHtml(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                        Filtered by Subject: <strong>${escapeHtml2(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
                     </span>
                     <button type="button" id="btn-clear-active-filter" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
                         \u2715 Clear Scope
@@ -43521,14 +46766,14 @@ async function renderEntityInspectorView(tableName, filterKind) {
                                     <div class="instance-menu-item" data-id="${r.id}">
                                         <div style="flex: 1;">
                                             <div class="instance-item-title">
-                                                <span>${escapeHtml(friendlyTitle)}</span>
-                                                ${key ? `<code class="instance-key-badge">${escapeHtml(key)}</code>` : ""}
-                                                ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml(r.statement_kind)}">${escapeHtml(r.statement_kind)}</span>` : ""}
-                                                ${r.tier ? `<span class="tier-badge tier-${escapeHtml(r.tier)}">${escapeHtml(r.tier)}</span>` : ""}
+                                                <span>${escapeHtml2(friendlyTitle)}</span>
+                                                ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
+                                                ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml2(r.statement_kind)}">${escapeHtml2(r.statement_kind)}</span>` : ""}
+                                                ${r.tier ? `<span class="tier-badge tier-${escapeHtml2(r.tier)}">${escapeHtml2(r.tier)}</span>` : ""}
                                                 <span class="instance-id-badge">#${r.id}</span>
                                             </div>
-                                            ${formula ? `<div class="instance-item-formula">${escapeHtml(formula)}</div>` : ""}
-                                            ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
+                                            ${formula ? `<div class="instance-item-formula">${escapeHtml2(formula)}</div>` : ""}
+                                            ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml2(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
                                         </div>
                                         <div style="color: var(--primary); font-size: 13px; font-weight: 700; margin-left: 12px;">
                                             Inspect \u2197
@@ -43585,6 +46830,27 @@ async function renderEntityInspectorView(tableName, filterKind) {
     cardTarget.innerHTML = `<div style="padding: 24px; color: #dc2626;">Error querying table ${tableName}: ${err.message}</div>`;
   }
 }
+async function renderSegmentAuthoringView(record, mode = "read") {
+  if (!displayArea) return;
+  currentSelectedId = record.id.toString();
+  currentTitle = record.title || record.slug || `Segment #${record.id}`;
+  updateBreadcrumbs();
+  await renderSegmentContentSurface({
+    container: displayArea,
+    segmentRecord: record,
+    initialMode: mode,
+    onBack: () => {
+      renderCurrentView();
+    },
+    onSaved: (updatedRecord) => {
+      currentTitle = updatedRecord.title || updatedRecord.slug || `Segment #${updatedRecord.id}`;
+      updateBreadcrumbs();
+    },
+    onSwitchMode: (newMode) => {
+      setMode(newMode, true);
+    }
+  });
+}
 async function renderAttributeCompleteCard(tableName, record) {
   const tableInfo = appMetadata[tableName];
   const displayCol = getDisplayColumnName(tableName);
@@ -43595,7 +46861,7 @@ async function renderAttributeCompleteCard(tableName, record) {
   card.innerHTML = `
         <div class="card-header-bar">
             <div>
-                <h2 class="card-main-title">${escapeHtml(titleVal)}</h2>
+                <h2 class="card-main-title">${escapeHtml2(titleVal)}</h2>
                 <div class="card-meta-line">
                     <span>Table: <strong style="font-family: var(--font-mono); color: var(--primary);">${tableName}</strong></span>
                     <span>\u2022</span>
@@ -43626,8 +46892,8 @@ async function renderAttributeCompleteCard(tableName, record) {
     const tdName = document.createElement("td");
     tdName.className = "attr-col-name";
     tdName.innerHTML = `
-            <div>${escapeHtml(colName)}</div>
-            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml(colMeta.label)}</div>` : ""}
+            <div>${escapeHtml2(colName)}</div>
+            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml2(colMeta.label)}</div>` : ""}
         `;
     tr.appendChild(tdName);
     const tdType = document.createElement("td");
@@ -43639,34 +46905,148 @@ async function renderAttributeCompleteCard(tableName, record) {
     else flags.push("NULLABLE");
     if (colMeta.isEnum) flags.push("ENUM");
     tdType.innerHTML = `
-            <div>${escapeHtml(colMeta.dbDataType.toUpperCase())}</div>
+            <div>${escapeHtml2(colMeta.dbDataType.toUpperCase())}</div>
             <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${flags.join(" \u2022 ")}</div>
         `;
     tr.appendChild(tdType);
     const tdVal = document.createElement("td");
     tdVal.className = "attr-col-val";
-    if (rawVal === null || rawVal === void 0) {
+    if (colMeta.isForeignKey && colMeta.foreignKeyTable) {
+      const fkTable = colMeta.foreignKeyTable;
+      const hasVal = rawVal !== null && rawVal !== void 0 && rawVal !== "";
+      const group = document.createElement("div");
+      group.className = "fk-field-group";
+      group.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;";
+      const badge = document.createElement("span");
+      badge.className = "fk-friendly-badge";
+      badge.style.cssText = "font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; min-height: 28px;";
+      badge.textContent = hasVal ? `Loading ${fkTable} #${rawVal}...` : "-- None --";
+      const navBtn = document.createElement("button");
+      navBtn.type = "button";
+      navBtn.className = "btn-nav-child-arrow";
+      navBtn.setAttribute("data-table", fkTable);
+      navBtn.setAttribute("data-id", hasVal ? rawVal.toString() : "");
+      navBtn.textContent = "\u2193";
+      if (hasVal) {
+        navBtn.title = `Drill down to ${appMetadata[fkTable]?.singularLabel || fkTable} #${rawVal}`;
+        navBtn.style.cssText = "display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer; line-height: 1; transition: all 0.15s ease;";
+        navBtn.addEventListener("click", () => {
+          navigateToEntity(fkTable, rawVal.toString(), badge.textContent || `${fkTable} #${rawVal}`);
+        });
+        queryDatabase(`SELECT * FROM ${fkTable} WHERE id = $1;`, [rawVal]).then((rows) => {
+          if (rows && rows.length > 0) {
+            badge.textContent = formatFkBadgeText(fkTable, rows[0]);
+          }
+        }).catch(() => {
+        });
+      } else {
+        navBtn.title = "No referenced child linked";
+        navBtn.disabled = true;
+        navBtn.style.cssText = "display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #94a3b8; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; cursor: not-allowed; opacity: 0.5; line-height: 1;";
+      }
+      group.appendChild(badge);
+      group.appendChild(navBtn);
+      tdVal.appendChild(group);
+    } else if (rawVal === null || rawVal === void 0) {
       tdVal.innerHTML = `<span class="null-badge">NULL</span>`;
     } else if (typeof rawVal === "boolean") {
       tdVal.innerHTML = rawVal ? `<span style="color: var(--emerald); font-weight: 700;">TRUE</span>` : `<span style="color: #64748b; font-weight: 700;">FALSE</span>`;
-    } else if (colMeta.isForeignKey && rawVal) {
-      const fkTable = colMeta.foreignKeyTable || "unknown";
+    } else if (tableName === "formal_statements" && colName === "expression") {
+      const expStr = rawVal ? rawVal.toString() : "";
       tdVal.innerHTML = `
-                <span style="font-family: var(--font-mono); font-weight: 700;">${rawVal}</span>
-                <button class="fk-goto-btn" data-fktable="${fkTable}" data-fkid="${rawVal}">
-                    <span>\u2197 Go to ${fkTable} #${rawVal}</span>
-                </button>
+                <div style="padding: 10px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block; min-width: 320px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+                    <div style="font-size: 19px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif; letter-spacing: 0.5px;">
+                        ${escapeHtml2(expStr || "\u2014")}
+                    </div>
+                </div>
             `;
-      const targetCol = getDisplayColumnName(fkTable);
-      queryDatabase(`SELECT "${targetCol}" as name FROM ${fkTable} WHERE id = $1;`, [rawVal]).then((rows) => {
-        if (rows && rows.length > 0) {
-          const btn = tdVal.querySelector(".fk-goto-btn");
-          if (btn) {
-            btn.innerHTML = `<span>\u2197 Go to ${appMetadata[fkTable]?.singularLabel || fkTable}: ${escapeHtml(rows[0].name || "")} (#${rawVal})</span>`;
-          }
-        }
-      }).catch(() => {
-      });
+    } else if (tableName === "formal_statements" && (colName === "lean_signature" || colName === "lean_snippet")) {
+      const code = rawVal ? rawVal.toString() : "";
+      if (!code) {
+        tdVal.innerHTML = `<span class="null-badge">NULL</span>`;
+      } else {
+        tdVal.innerHTML = `
+                    <pre class="raw-code-box" style="background: #0f172a; color: #38bdf8; font-family: var(--font-mono); font-size: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid #1e293b; white-space: pre-wrap; word-break: break-word; margin: 0; max-height: 240px; overflow-y: auto;">${escapeHtml2(code)}</pre>
+                `;
+      }
+    } else if (tableName === "formal_statements" && colName === "status") {
+      const st = rawVal ? rawVal.toString() : "";
+      let badgeBg = "#f1f5f9";
+      let badgeColor = "#475569";
+      let badgeLabel = st || "None";
+      if (st === "published") {
+        badgeBg = "#ecfdf5";
+        badgeColor = "#047857";
+        badgeLabel = "\u2713 Published";
+      } else if (st === "verified") {
+        badgeBg = "#ecfdf5";
+        badgeColor = "#059669";
+        badgeLabel = "\u{1F6E1}\uFE0F Verified";
+      } else if (st === "under_review") {
+        badgeBg = "#eff6ff";
+        badgeColor = "#1d4ed8";
+        badgeLabel = "\u{1F50D} Under Review";
+      } else if (st === "staged") {
+        badgeBg = "#fffbeb";
+        badgeColor = "#d97706";
+        badgeLabel = "\u26A1 Staged";
+      } else if (st === "draft") {
+        badgeBg = "#f1f5f9";
+        badgeColor = "#475569";
+        badgeLabel = "\u{1F4DD} Draft";
+      }
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor}; display: inline-flex; align-items: center; gap: 4px;">${escapeHtml2(badgeLabel)}</span>`;
+    } else if (tableName === "formal_statements" && colName === "tier") {
+      const trVal = rawVal ? rawVal.toString() : "";
+      let tBg = "#f1f5f9";
+      let tColor = "#475569";
+      let tIcon = "\u{1F3F7}\uFE0F";
+      if (trVal === "constitutional") {
+        tBg = "#faf5ff";
+        tColor = "#7e22ce";
+        tIcon = "\u{1F3DB}\uFE0F";
+      } else if (trVal === "law") {
+        tBg = "#eef2ff";
+        tColor = "#4338ca";
+        tIcon = "\u2696\uFE0F";
+      } else if (trVal === "scenario") {
+        tBg = "#f0f9ff";
+        tColor = "#0369a1";
+        tIcon = "\u{1F310}";
+      }
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${tBg}; color: ${tColor}; display: inline-flex; align-items: center; gap: 4px;">${tIcon} ${escapeHtml2(trVal)}</span>`;
+    } else if (tableName === "formal_statements" && colName === "statement_kind") {
+      const kVal = rawVal ? rawVal.toString() : "";
+      let kBg = "#f8fafc";
+      let kColor = "#334155";
+      let kIcon = "\u{1F4CC}";
+      if (kVal === "axiom") {
+        kBg = "#fffbeb";
+        kColor = "#b45309";
+        kIcon = "\u{1F4DC}";
+      } else if (kVal === "theorem") {
+        kBg = "#f0fdfa";
+        kColor = "#0f766e";
+        kIcon = "\u{1F48E}";
+      } else if (kVal === "directed_equality") {
+        kBg = "#eff6ff";
+        kColor = "#1d4ed8";
+        kIcon = "\u21CC";
+      }
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml2(kVal)}</span>`;
+    } else if (tableName === "formal_statements" && colName === "domain_category") {
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml2(rawVal.toString())}</span>`;
+    } else if (tableName === "formal_statements" && colName === "referenced_segments") {
+      const segs = Array.isArray(rawVal) ? rawVal : typeof rawVal === "string" ? rawVal.replace(/[{}]/g, "").split(",").map((s) => s.trim()).filter(Boolean) : [];
+      if (segs.length === 0) {
+        tdVal.innerHTML = `<span style="color: #94a3b8; font-style: italic;">No segments citing this statement</span>`;
+      } else {
+        tdVal.innerHTML = `
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                        ${segs.map((s) => `<span style="font-size: 11px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">${escapeHtml2(s)}</span>`).join("")}
+                    </div>
+                `;
+      }
     } else if (tableName === "interactive_demos" && colName === "expression") {
       const expStr = rawVal ? rawVal.toString() : "";
       const isFsd = record.engine === "fsd";
@@ -43684,14 +47064,14 @@ async function renderAttributeCompleteCard(tableName, record) {
         tdVal.innerHTML = `
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                            <code style="font-family: var(--font-mono); font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 4px; font-size: 13px;">Predicate: ${escapeHtml(expStr || "\u2014")}</code>
-                            <span style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml(displayFormula)}</span>
+                            <code style="font-family: var(--font-mono); font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 4px; font-size: 13px;">Predicate: ${escapeHtml2(expStr || "\u2014")}</code>
+                            <span style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml2(displayFormula)}</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #64748b;">
                             <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 600;">
-                                Active: Stage ${escapeHtml(initObj?.stage || "4")} (Matrix Visualizer)
+                                Active: Stage ${escapeHtml2(initObj?.stage || "4")} (Matrix Visualizer)
                             </span>
-                            ${initObj?.slots ? `<span>Bound Slots: <strong style="color: #334155;">${escapeHtml(initObj.slots)}</strong></span>` : ""}
+                            ${initObj?.slots ? `<span>Bound Slots: <strong style="color: #334155;">${escapeHtml2(initObj.slots)}</strong></span>` : ""}
                         </div>
                     </div>
                 `;
@@ -43699,8 +47079,8 @@ async function renderAttributeCompleteCard(tableName, record) {
         const fmtStr = expStr ? PxeEngine.fmt(expStr) : "";
         tdVal.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                        <code style="font-family: var(--font-mono); font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; font-size: 13px;">${escapeHtml(expStr || "\u2014")}</code>
-                        <span style="font-size: 19px; font-weight: 700; color: firebrick; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml(fmtStr)}</span>
+                        <code style="font-family: var(--font-mono); font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; font-size: 13px;">${escapeHtml2(expStr || "\u2014")}</code>
+                        <span style="font-size: 19px; font-weight: 700; color: firebrick; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml2(fmtStr)}</span>
                     </div>
                 `;
       }
@@ -43722,16 +47102,16 @@ async function renderAttributeCompleteCard(tableName, record) {
         badgeColor = "#0284c7";
         badgeLabel = "Contingent [cont]";
       }
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml(badgeLabel)}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml2(badgeLabel)}</span>`;
     } else if (tableName === "interactive_demos" && colName === "init_packet") {
       tdVal.innerHTML = `
                 <details style="font-size: 11px; color: #64748b;">
                     <summary style="cursor: pointer; font-weight: 600;">View Raw JSON Packet</summary>
-                    <pre class="raw-code-box" style="margin-top: 4px;">${escapeHtml(typeof rawVal === "object" ? JSON.stringify(rawVal, null, 2) : (rawVal || "").toString())}</pre>
+                    <pre class="raw-code-box" style="margin-top: 4px;">${escapeHtml2(typeof rawVal === "object" ? JSON.stringify(rawVal, null, 2) : (rawVal || "").toString())}</pre>
                 </details>
             `;
     } else if (typeof rawVal === "object") {
-      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml(JSON.stringify(rawVal, null, 2))}</pre>`;
+      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml2(JSON.stringify(rawVal, null, 2))}</pre>`;
     } else if (colName === "content_html") {
       tdVal.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 10px; padding: 2px 0;">
@@ -43739,19 +47119,16 @@ async function renderAttributeCompleteCard(tableName, record) {
                     <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
                         ${(rawVal.length / 1024).toFixed(1)} KB (${rawVal.length.toLocaleString()} chars)
                     </span>
-                    <button type="button" class="action-btn secondary btn-scroll-to-lecture-viewer" style="font-size: 11.5px; padding: 3px 10px; cursor: pointer;">
-                        \u{1F4D6} View &amp; Inspect Lecture Content \u2193
+                    <button type="button" class="action-btn primary btn-open-content-editor" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                        \u{1F4D6} View &amp; Inspect in Content Editor
                     </button>
                 </div>
             `;
-      tdVal.querySelector(".btn-scroll-to-lecture-viewer")?.addEventListener("click", () => {
-        const viewerEl = card.querySelector(".lecture-content-viewer");
-        if (viewerEl) {
-          viewerEl.scrollIntoView({ behavior: "smooth" });
-        }
+      tdVal.querySelector(".btn-open-content-editor")?.addEventListener("click", () => {
+        renderSegmentAuthoringView(record, "read");
       });
     } else if (colMeta.rows && colMeta.rows > 1) {
-      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml(rawVal.toString())}</pre>`;
+      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml2(rawVal.toString())}</pre>`;
     } else {
       tdVal.textContent = rawVal.toString();
     }
@@ -43759,919 +47136,205 @@ async function renderAttributeCompleteCard(tableName, record) {
     tbody.appendChild(tr);
   }
   card.appendChild(table);
-  const relContainer = document.createElement("div");
-  relContainer.className = "connected-relations-container";
-  relContainer.style.cssText = "margin: 20px 24px; padding: 18px 20px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);";
-  let hasRelations = false;
-  let relRowsHtml = "";
-  if (tableName === "formal_statements") {
-    try {
-      const stencils = await queryDatabase(
-        `SELECT de.id, de.equation_key, de.title, de.label
-                 FROM directed_equations de
-                 JOIN equation_statement_links esl ON esl.equation_id = de.id
-                 WHERE esl.statement_id = $1
-                 ORDER BY de.id ASC;`,
-        [record.id]
-      );
-      if (stencils && stencils.length > 0) {
-        hasRelations = true;
-        if (stencils.length === 1) {
-          const st = stencils[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Computational Stencil:</span>
-                            <input type="text" readonly value="${escapeHtml(st.title)} (${escapeHtml(st.label)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${st.id}" data-title="${escapeHtml(st.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Computational Stencils (${stencils.length}):</span>
-                            <select id="select-rel-stencils" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${stencils.map((s) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.label)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-rel-stencil" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying stencils:", err);
-    }
-    try {
-      let algoRecord = null;
-      if (record.pseudo_algo_id) {
-        algoRecord = await fetchRecordById("pseudocode_algorithms", record.pseudo_algo_id.toString());
-      } else {
-        const algos = await queryDatabase(
-          `SELECT pa.id, pa.algo_key, pa.name, pa.title
-                     FROM pseudocode_algorithms pa
-                     JOIN directed_equations de ON de.pseudo_algo_id = pa.id
-                     JOIN equation_statement_links esl ON esl.equation_id = de.id
-                     WHERE esl.statement_id = $1 LIMIT 1;`,
-          [record.id]
-        );
-        if (algos && algos.length > 0) algoRecord = algos[0];
-      }
-      if (algoRecord) {
-        hasRelations = true;
-        const algoTitle = algoRecord.title || algoRecord.name || algoRecord.algo_key;
-        relRowsHtml += `
-                    <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                        <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Pseudocode Algorithm:</span>
-                        <input type="text" readonly value="${escapeHtml(algoTitle)} (${escapeHtml(algoRecord.algo_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                        <button type="button" class="btn btn-sm btn-nav-algo" data-id="${algoRecord.id}" data-title="${escapeHtml(algoTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #4f46e5; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                            Inspect Pseudocode \u2197
-                        </button>
-                    </div>
-                `;
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying pseudocode:", err);
-    }
-    if (record.parent_id) {
-      try {
-        const parentStmt = await fetchRecordById("formal_statements", record.parent_id.toString());
-        if (parentStmt) {
-          hasRelations = true;
-          const pTitle = parentStmt.title || parentStmt.expression || parentStmt.statement_key;
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Instantiates (Parent FS):</span>
-                            <input type="text" readonly value="${escapeHtml(pTitle)} (${escapeHtml(parentStmt.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${parentStmt.id}" data-title="${escapeHtml(pTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent FS \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying parent formal statement:", err);
-      }
-    }
-  }
-  if (tableName === "directed_equations") {
-    try {
-      const parentStmts = await queryDatabase(
-        `SELECT fs.id, fs.statement_key, fs.title
-                 FROM formal_statements fs
-                 JOIN equation_statement_links esl ON esl.statement_id = fs.id
-                 WHERE esl.equation_id = $1
-                 ORDER BY fs.id ASC;`,
-        [record.id]
-      );
-      if (parentStmts && parentStmts.length > 0) {
-        hasRelations = true;
-        if (parentStmts.length === 1) {
-          const pst = parentStmts[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Directed Equality:</span>
-                            <input type="text" readonly value="${escapeHtml(pst.title)} (${escapeHtml(pst.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${pst.id}" data-title="${escapeHtml(pst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Statements (${parentStmts.length}):</span>
-                            <select id="select-parent-de" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${parentStmts.map((p) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.statement_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-parent-de" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying parent statements:", err);
-    }
-    if (record.pseudo_algo_id) {
-      try {
-        const algoRecord = await fetchRecordById("pseudocode_algorithms", record.pseudo_algo_id.toString());
-        if (algoRecord) {
-          hasRelations = true;
-          const algoTitle = algoRecord.title || algoRecord.name || algoRecord.algo_key;
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Associated Pseudocode:</span>
-                            <input type="text" readonly value="${escapeHtml(algoTitle)} (${escapeHtml(algoRecord.algo_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-algo" data-id="${algoRecord.id}" data-title="${escapeHtml(algoTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #4f46e5; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Pseudocode \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying stencil pseudocode:", err);
-      }
-    }
-  }
-  if (tableName === "pseudocode_algorithms") {
-    try {
-      const parentStmts = await queryDatabase(
-        `SELECT fs.id, fs.statement_key, fs.title
-                 FROM formal_statements fs
-                 WHERE fs.pseudo_algo_id = $1
-                    OR fs.id IN (
-                        SELECT esl.statement_id 
-                        FROM equation_statement_links esl 
-                        JOIN directed_equations de ON de.id = esl.equation_id 
-                        WHERE de.pseudo_algo_id = $1
-                    )
-                 LIMIT 5;`,
-        [record.id]
-      );
-      if (parentStmts && parentStmts.length > 0) {
-        hasRelations = true;
-        if (parentStmts.length === 1) {
-          const pst = parentStmts[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Directed Equality:</span>
-                            <input type="text" readonly value="${escapeHtml(pst.title)} (${escapeHtml(pst.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${pst.id}" data-title="${escapeHtml(pst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Statements (${parentStmts.length}):</span>
-                            <select id="select-parent-de" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${parentStmts.map((p) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.statement_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-parent-de" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent DE \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying parent statements for algorithm:", err);
-    }
-  }
-  if (tableName === "curriculum_nav_items") {
-    if (record.segment_id) {
-      try {
-        const segRecord = await fetchRecordById("segments", record.segment_id.toString());
-        if (segRecord) {
-          hasRelations = true;
-          const segTitle = segRecord.title || segRecord.seg_key;
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Lecture Segment:</span>
-                            <input type="text" readonly value="${escapeHtml(segTitle)} (${escapeHtml(segRecord.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${segRecord.id}" data-title="${escapeHtml(segTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Segment \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying segment for nav item:", err);
-      }
-    }
-    if (record.diagram_key) {
-      try {
-        const demos = await queryDatabase(
-          `SELECT id, title, engine FROM interactive_demos WHERE engine = $1 LIMIT 1;`,
-          [record.diagram_key]
-        );
-        if (demos && demos.length > 0) {
-          hasRelations = true;
-          const demo = demos[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Interactive Demo:</span>
-                            <input type="text" readonly value="${escapeHtml(demo.title)} [${escapeHtml(demo.engine)}]" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-demo" data-id="${demo.id}" data-title="${escapeHtml(demo.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Demo \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying demo for nav item:", err);
-      }
-    }
-    if (record.parent_id) {
-      try {
-        const parentNav = await fetchRecordById("curriculum_nav_items", record.parent_id.toString());
-        if (parentNav) {
-          hasRelations = true;
-          const pTitle = parentNav.topic || parentNav.nav_key;
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Parent Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(pTitle)} (${escapeHtml(parentNav.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${parentNav.id}" data-title="${escapeHtml(pTitle)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Parent Entry \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying parent nav item:", err);
-      }
-    }
-    try {
-      const childNavs = await queryDatabase(
-        `SELECT id, nav_key, topic, sequence_order FROM curriculum_nav_items WHERE parent_id = $1 ORDER BY sequence_order ASC, id ASC;`,
-        [record.id]
-      );
-      if (childNavs && childNavs.length > 0) {
-        hasRelations = true;
-        if (childNavs.length === 1) {
-          const c = childNavs[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Child Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(c.topic)} (${escapeHtml(c.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${c.id}" data-title="${escapeHtml(c.topic)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Index Entry \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Child Index Entries (${childNavs.length}):</span>
-                            <select id="select-child-navs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${childNavs.map((n) => `<option value="${n.id}" data-title="${escapeHtml(n.topic)}">${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-child-nav" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying child nav items:", err);
-    }
-  }
-  if (tableName === "segments") {
-    try {
-      const navItems = await queryDatabase(
-        `SELECT id, nav_key, topic, sequence_order FROM curriculum_nav_items WHERE segment_id = $1 ORDER BY id ASC;`,
-        [record.id]
-      );
-      if (navItems && navItems.length > 0) {
-        hasRelations = true;
-        if (navItems.length === 1) {
-          const n = navItems[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Index Entry:</span>
-                            <input type="text" readonly value="${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-index-entry" data-id="${n.id}" data-title="${escapeHtml(n.topic)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Index Entry \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Index Entries (${navItems.length}):</span>
-                            <select id="select-seg-navs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${navItems.map((n) => `<option value="${n.id}" data-title="${escapeHtml(n.topic)}">${escapeHtml(n.topic)} (${escapeHtml(n.nav_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-seg-nav" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #6366f1; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying nav items for segment:", err);
-    }
-    try {
-      const citedStmts = await queryDatabase(
-        `SELECT DISTINCT fs.id, fs.statement_key, fs.title, fs.statement_kind
-                 FROM segment_references sr
-                 JOIN formal_statements fs ON fs.id = sr.statement_id
-                 WHERE sr.segment_id = $1
-                 ORDER BY fs.id ASC;`,
-        [record.id]
-      );
-      if (citedStmts && citedStmts.length > 0) {
-        hasRelations = true;
-        if (citedStmts.length === 1) {
-          const cs = citedStmts[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Formal Statement:</span>
-                            <input type="text" readonly value="${escapeHtml(cs.title)} (${escapeHtml(cs.statement_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-parent-fs" data-id="${cs.id}" data-title="${escapeHtml(cs.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Statement \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Formal Statements (${citedStmts.length}):</span>
-                            <select id="select-cited-stmts" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citedStmts.map((s) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-cited-stmt" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #d97706; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying cited statements for segment:", err);
-    }
-    try {
-      const citedStencils = await queryDatabase(
-        `SELECT DISTINCT de.id, de.equation_key, de.title, de.label
-                 FROM segment_references sr
-                 JOIN directed_equations de ON de.id = sr.equation_id
-                 WHERE sr.segment_id = $1
-                 ORDER BY de.id ASC;`,
-        [record.id]
-      );
-      if (citedStencils && citedStencils.length > 0) {
-        hasRelations = true;
-        if (citedStencils.length === 1) {
-          const cst = citedStencils[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Stencil:</span>
-                            <input type="text" readonly value="${escapeHtml(cst.title)} (${escapeHtml(cst.label)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${cst.id}" data-title="${escapeHtml(cst.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Stencil \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Cited Stencils (${citedStencils.length}):</span>
-                            <select id="select-cited-stencils" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citedStencils.map((s) => `<option value="${s.id}" data-title="${escapeHtml(s.title)}">${escapeHtml(s.title)} (${escapeHtml(s.label)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-cited-stencil" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying cited stencils for segment:", err);
-    }
-    try {
-      const prereqs = await queryDatabase(
-        `SELECT s.id, s.seg_key, s.title, sp.prerequisite_type
-                 FROM segment_prerequisites sp
-                 JOIN segments s ON s.id = sp.depends_on_segment_id
-                 WHERE sp.segment_id = $1
-                 ORDER BY s.sequence_order ASC, s.id ASC;`,
-        [record.id]
-      );
-      if (prereqs && prereqs.length > 0) {
-        hasRelations = true;
-        if (prereqs.length === 1) {
-          const pr = prereqs[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Prerequisite Chapter:</span>
-                            <input type="text" readonly value="${escapeHtml(pr.title)} (${escapeHtml(pr.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${pr.id}" data-title="${escapeHtml(pr.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Prerequisite \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Prerequisite Chapters (${prereqs.length}):</span>
-                            <select id="select-prereqs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${prereqs.map((p) => `<option value="${p.id}" data-title="${escapeHtml(p.title)}">${escapeHtml(p.title)} (${escapeHtml(p.seg_key)}) [${escapeHtml(p.prerequisite_type)}]</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-prereq" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying prerequisites for segment:", err);
-    }
-  }
-  if (tableName === "interactive_demos") {
-    try {
-      let exp = record.expression || "";
-      if (!exp) {
-        try {
-          const initObj = typeof record.init_packet === "object" ? record.init_packet : JSON.parse(record.init_packet || "{}");
-          exp = initObj?.exp || "";
-        } catch (e) {
-        }
-      }
-      let query = `
-                SELECT DISTINCT s.id, s.seg_key, s.title
-                FROM segments s
-                LEFT JOIN segment_references sr ON sr.segment_id = s.id AND sr.demo_id = $1
-                WHERE sr.id IS NOT NULL
-                   OR s.content_html LIKE $2
-                   OR s.content_html LIKE $3
-            `;
-      const params = [
-        record.id,
-        `%id="${record.id}"%`,
-        `%demo-id="${record.id}"%`
-      ];
-      if (exp) {
-        params.push(`%${exp}%`);
-        query += ` OR s.content_html LIKE $${params.length}`;
-      }
-      query += ` ORDER BY s.id ASC;`;
-      const citingSegs = await queryDatabase(query, params);
-      if (citingSegs && citingSegs.length > 0) {
-        hasRelations = true;
-        if (citingSegs.length === 1) {
-          const cseg = citingSegs[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapter (Segment):</span>
-                            <input type="text" readonly value="${escapeHtml(cseg.title || cseg.seg_key)} (${escapeHtml(cseg.seg_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-segment" data-id="${cseg.id}" data-title="${escapeHtml(cseg.title || cseg.seg_key)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Segment \u2197
-                            </button>
-                        </div>
-                    `;
-        } else {
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Citing Chapters (${citingSegs.length}):</span>
-                            <select id="select-citing-segs" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                ${citingSegs.map((s) => `<option value="${s.id}" data-title="${escapeHtml(s.title || s.seg_key)}">${escapeHtml(s.title || s.seg_key)} (${escapeHtml(s.seg_key)})</option>`).join("")}
-                            </select>
-                            <button type="button" id="btn-nav-citing-seg" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Selected \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      }
-    } catch (err) {
-      console.error("[renderAttributeCompleteCard] Error querying citing segments for demo:", err);
-    }
-    if (record.engine === "fsd") {
-      try {
-        let predKey = record.expression || "";
-        if (!predKey) {
-          try {
-            const initObj = typeof record.init_packet === "object" ? record.init_packet : JSON.parse(record.init_packet || "{}");
-            predKey = initObj?.exp || "";
-          } catch (e) {
-          }
-        }
-        const codeToEqMap = {
-          "j": "eq_pred_assign",
-          "r": "eq_pred_gt",
-          "s": "eq_pred_lt",
-          "k": "eq_pred_eq",
-          "l": "eq_pred_le",
-          "m": "eq_pred_mem",
-          "b": "eq_pred_subset",
-          "v": "eq_pred_even",
-          "d": "eq_pred_odd",
-          "u": "eq_pred_succ",
-          "w": "eq_pred_near",
-          "c": "eq_pred_div"
-        };
-        const mappedEqKey = codeToEqMap[predKey] || `eq_pred_${predKey}`;
-        const predRows = await queryDatabase(
-          `SELECT id, equation_key, title, formula_expr 
-                     FROM directed_equations 
-                     WHERE target_domain IN ('B_w', '\u{1D539}', 'B') 
-                       AND (equation_key = $1 OR equation_key LIKE '%' || $2 OR target_symbol = $2)
-                     LIMIT 1;`,
-          [mappedEqKey, predKey]
-        );
-        if (predRows && predRows.length > 0) {
-          hasRelations = true;
-          const pde = predRows[0];
-          relRowsHtml += `
-                        <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">Governing Predicate (DE):</span>
-                            <input type="text" readonly value="${escapeHtml(pde.title)} (${escapeHtml(pde.equation_key)})" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                            <button type="button" class="btn btn-sm btn-nav-stencil" data-id="${pde.id}" data-title="${escapeHtml(pde.title)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #059669; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                Inspect Predicate DE \u2197
-                            </button>
-                        </div>
-                    `;
-        }
-      } catch (err) {
-        console.error("[renderAttributeCompleteCard] Error querying predicate DE for FSD:", err);
-      }
-    }
-  }
-  const dependentsForTable = tableInfo.dependents || [];
-  for (const dep of dependentsForTable) {
-    if (tableName === "formal_statements" && dep.table === "directed_equations") continue;
-    if (tableName === "curriculum_nav_items" && dep.table === "curriculum_nav_items") continue;
-    if (tableName === "segments" && (dep.table === "segment_references" || dep.table === "segment_prerequisites" || dep.table === "curriculum_nav_items")) continue;
-    const depTableMeta = appMetadata[dep.table];
-    if (!depTableMeta) continue;
-    const fkToParent = Object.values(depTableMeta.columns).find(
-      (c) => c.isForeignKey && c.foreignKeyTable === tableName
-    );
-    if (fkToParent) {
-      try {
-        const childRows = await queryDatabase(
-          `SELECT * FROM ${dep.table} WHERE "${fkToParent.column}" = $1 ORDER BY id ASC;`,
-          [record.id]
-        );
-        if (childRows && childRows.length > 0) {
-          hasRelations = true;
-          const childSingular = depTableMeta.singularLabel || depTableMeta.label;
-          const childPlural = depTableMeta.label;
-          if (childRows.length === 1) {
-            const child = childRows[0];
-            const friendlyName = getRecordFriendlyName(dep.table, child);
-            relRowsHtml += `
-                            <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                                <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">${escapeHtml(childSingular)}:</span>
-                                <input type="text" readonly value="${escapeHtml(friendlyName)}" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
-                                <button type="button" class="btn btn-sm btn-nav-dep-child" data-table="${dep.table}" data-id="${child.id}" data-title="${escapeHtml(friendlyName)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                    Inspect ${escapeHtml(childSingular)} \u2197
-                                </button>
-                            </div>
-                        `;
-          } else {
-            const selectId = `select-dep-${dep.table}`;
-            relRowsHtml += `
-                            <div class="rel-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
-                                <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">${escapeHtml(childPlural)} (${childRows.length}):</span>
-                                <select id="${selectId}" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
-                                    ${childRows.map((r) => {
-              const fname = getRecordFriendlyName(dep.table, r);
-              return `<option value="${r.id}" data-title="${escapeHtml(fname)}">${escapeHtml(fname)}</option>`;
-            }).join("")}
-                                </select>
-                                <button type="button" class="btn btn-sm btn-nav-dep-multi" data-select-id="${selectId}" data-table="${dep.table}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; cursor: pointer;">
-                                    Inspect Selected \u2197
-                                </button>
-                            </div>
-                        `;
-          }
-        }
-      } catch (err) {
-        console.error(`[renderAttributeCompleteCard] Error querying dependent ${dep.table}:`, err);
-      }
-    }
-  }
-  if (hasRelations) {
-    relContainer.innerHTML = `
-            <div style="font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-                Connected Entities &amp; Child Relationships
-            </div>
-            <div>${relRowsHtml}</div>
-        `;
-    relContainer.querySelectorAll(".btn-nav-stencil").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const sid = btn.getAttribute("data-id");
-        const stitle = btn.getAttribute("data-title");
-        navigateToEntity("computational_stencil", sid, stitle);
-      });
-    });
-    const btnNavRelStencil = relContainer.querySelector("#btn-nav-rel-stencil");
-    if (btnNavRelStencil) {
-      btnNavRelStencil.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-rel-stencils");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("computational_stencil", selectEl.value, opt?.getAttribute("data-title") || "Stencil");
-        }
-      });
-    }
-    relContainer.querySelectorAll(".btn-nav-algo").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const aid = btn.getAttribute("data-id");
-        const atitle = btn.getAttribute("data-title");
-        navigateToEntity("pseudocode_algorithms", aid, atitle);
-      });
-    });
-    relContainer.querySelectorAll(".btn-nav-parent-fs").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const pid = btn.getAttribute("data-id");
-        const ptitle = btn.getAttribute("data-title");
-        navigateToEntity("formal_statement", pid, ptitle);
-      });
-    });
-    const btnNavParentDe = relContainer.querySelector("#btn-nav-parent-de");
-    if (btnNavParentDe) {
-      btnNavParentDe.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-parent-de");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("formal_statement", selectEl.value, opt?.getAttribute("data-title") || "Formal Statement");
-        }
-      });
-    }
-    relContainer.querySelectorAll(".btn-nav-segment").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        const title = btn.getAttribute("data-title");
-        navigateToEntity("segments", id, title);
-      });
-    });
-    const btnNavCitingSeg = relContainer.querySelector("#btn-nav-citing-seg");
-    if (btnNavCitingSeg) {
-      btnNavCitingSeg.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-citing-segs");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("segments", selectEl.value, opt?.getAttribute("data-title") || "Segment");
-        }
-      });
-    }
-    relContainer.querySelectorAll(".btn-nav-index-entry").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        const title = btn.getAttribute("data-title");
-        navigateToEntity("curriculum_nav_item", id, title);
-      });
-    });
-    const btnNavChildNav = relContainer.querySelector("#btn-nav-child-nav");
-    if (btnNavChildNav) {
-      btnNavChildNav.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-child-navs");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("curriculum_nav_item", selectEl.value, opt?.getAttribute("data-title") || "Index Entry");
-        }
-      });
-    }
-    const btnNavSegNav = relContainer.querySelector("#btn-nav-seg-nav");
-    if (btnNavSegNav) {
-      btnNavSegNav.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-seg-navs");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("curriculum_nav_item", selectEl.value, opt?.getAttribute("data-title") || "Index Entry");
-        }
-      });
-    }
-    const btnNavCitedStmt = relContainer.querySelector("#btn-nav-cited-stmt");
-    if (btnNavCitedStmt) {
-      btnNavCitedStmt.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-cited-stmts");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("formal_statement", selectEl.value, opt?.getAttribute("data-title") || "Statement");
-        }
-      });
-    }
-    const btnNavCitedStencil = relContainer.querySelector("#btn-nav-cited-stencil");
-    if (btnNavCitedStencil) {
-      btnNavCitedStencil.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-cited-stencils");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("computational_stencil", selectEl.value, opt?.getAttribute("data-title") || "Stencil");
-        }
-      });
-    }
-    const btnNavPrereq = relContainer.querySelector("#btn-nav-prereq");
-    if (btnNavPrereq) {
-      btnNavPrereq.addEventListener("click", () => {
-        const selectEl = relContainer.querySelector("#select-prereqs");
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          navigateToEntity("segments", selectEl.value, opt?.getAttribute("data-title") || "Prerequisite");
-        }
-      });
-    }
-    relContainer.querySelectorAll(".btn-nav-demo").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const did = btn.getAttribute("data-id");
-        const dtitle = btn.getAttribute("data-title");
-        navigateToEntity("interactive_demos", did, dtitle);
-      });
-    });
-    relContainer.querySelectorAll(".btn-nav-dep-child").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const table2 = btn.getAttribute("data-table");
-        const id = btn.getAttribute("data-id");
-        const title = btn.getAttribute("data-title");
-        navigateToEntity(table2, id, title);
-      });
-    });
-    relContainer.querySelectorAll(".btn-nav-dep-multi").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const selectId = btn.getAttribute("data-select-id");
-        const table2 = btn.getAttribute("data-table");
-        const selectEl = relContainer.querySelector(`#${selectId}`);
-        if (selectEl && selectEl.value) {
-          const opt = selectEl.selectedOptions[0];
-          const title = opt?.getAttribute("data-title") || `${table2} #${selectEl.value}`;
-          navigateToEntity(table2, selectEl.value, title);
-        }
-      });
-    });
-    card.appendChild(relContainer);
-  }
-  if (tableName === "segments" && record.content_html) {
-    const viewer = document.createElement("div");
-    viewer.className = "lecture-content-viewer";
-    viewer.style.cssText = "margin: 20px 24px; padding: 18px 20px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);";
-    viewer.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; flex-wrap: wrap; gap: 10px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em;">
-                        \u{1F4D6} Lecture Content &amp; HTML Viewer
-                    </span>
-                    <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
-                        ${(record.content_html.length / 1024).toFixed(1)} KB
-                    </span>
-                    <span style="font-size: 11px; color: #047857; background: #ecfdf5; padding: 2px 8px; border-radius: 12px; font-weight: 600; border: 1px solid #a7f3d0;">
-                        ${escapeHtml(record.status || "published")}
-                    </span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <button type="button" class="btn btn-sm btn-lecture-tab-preview" style="padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 4px; border: 1px solid var(--primary); background: var(--primary); color: #ffffff; cursor: pointer;">
-                        \u{1F441}\uFE0F Rendered Preview
-                    </button>
-                    <button type="button" class="btn btn-sm btn-lecture-tab-source" style="padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 4px; border: 1px solid var(--border-color); background: #ffffff; color: #475569; cursor: pointer;">
-                        \u2039/\u203A Raw HTML Source
-                    </button>
-                </div>
-            </div>
-            <div class="lecture-tab-body-preview" style="padding: 22px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; max-height: 600px; overflow-y: auto; line-height: 1.6; color: #1e293b;">
-                ${record.content_html}
-            </div>
-            <div class="lecture-tab-body-source" style="display: none; max-height: 600px; overflow-y: auto;">
-                <pre class="raw-code-box" style="margin: 0; max-height: 580px; overflow: auto; background: #f8fafc; border: 1px solid var(--border-color); padding: 14px; border-radius: 6px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; color: #0f172a;">${escapeHtml(record.content_html)}</pre>
-            </div>
-        `;
-    const btnPreview = viewer.querySelector(".btn-lecture-tab-preview");
-    const btnSource = viewer.querySelector(".btn-lecture-tab-source");
-    const bodyPreview = viewer.querySelector(".lecture-tab-body-preview");
-    const bodySource = viewer.querySelector(".lecture-tab-body-source");
-    btnPreview?.addEventListener("click", () => {
-      btnPreview.style.background = "var(--primary)";
-      btnPreview.style.borderColor = "var(--primary)";
-      btnPreview.style.color = "#ffffff";
-      btnSource.style.background = "#ffffff";
-      btnSource.style.borderColor = "var(--border-color)";
-      btnSource.style.color = "#475569";
-      bodyPreview.style.display = "block";
-      bodySource.style.display = "none";
-    });
-    btnSource?.addEventListener("click", () => {
-      btnSource.style.background = "var(--primary)";
-      btnSource.style.borderColor = "var(--primary)";
-      btnSource.style.color = "#ffffff";
-      btnPreview.style.background = "#ffffff";
-      btnPreview.style.borderColor = "var(--border-color)";
-      btnPreview.style.color = "#475569";
-      bodyPreview.style.display = "none";
-      bodySource.style.display = "block";
-    });
-    card.appendChild(viewer);
-  }
   container.appendChild(card);
-  card.querySelectorAll(".fk-goto-btn").forEach((btn) => {
+  card.querySelectorAll(".btn-nav-child-arrow, .fk-goto-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const fkTable = btn.getAttribute("data-fktable");
-      const fkId = btn.getAttribute("data-fkid");
-      navigateToEntity(fkTable, fkId, `${fkTable} #${fkId}`);
+      const fkTable = btn.getAttribute("data-table") || btn.getAttribute("data-fktable");
+      const fkId = btn.getAttribute("data-id") || btn.getAttribute("data-fkid");
+      if (fkId) {
+        navigateToEntity(fkTable, fkId, `${fkTable} #${fkId}`);
+      }
     });
   });
   return container;
 }
-function renderRecordForm(tableName, record = null, isNew = false) {
+async function renderRecordForm(tableName, record = null, isNew = false) {
   if (!displayArea) return;
   const tableInfo = appMetadata[tableName];
   const displayCol = getDisplayColumnName(tableName);
-  const formTitle = isNew ? `Create New ${tableInfo.singularLabel || tableInfo.label}` : `Modify ${tableInfo.singularLabel || tableInfo.label}: ${record ? record[displayCol] || `ID: ${record.id}` : ""}`;
+  const activeMapping = typeMap[currentTypeKey || ""];
+  const entityLabel = activeMapping?.label || tableInfo.singularLabel || tableInfo.label;
+  const formTitle = isNew ? `Create New ${entityLabel}` : `Modify ${entityLabel}: ${record ? getRecordFriendlyName(tableName, record) || `ID: ${record.id}` : ""}`;
+  let records = [];
+  if (!isNew) {
+    try {
+      let sql = `SELECT * FROM ${tableName}`;
+      const params = [];
+      if (activeMapping?.filterKind) {
+        sql += ` WHERE "${activeMapping.filterKind.column}" = $1`;
+        params.push(activeMapping.filterKind.value);
+      }
+      sql += ` ORDER BY "${displayCol}" ASC;`;
+      const allRecords = await queryDatabase(sql, params) || [];
+      records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
+    } catch (e) {
+      console.error("[renderRecordForm] Error fetching records:", e);
+    }
+  }
+  const instanceBarHtml = !isNew ? `
+        <div class="instance-bar">
+            <div class="instance-select-group">
+                <span class="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
+                <select id="entity-instance-select" class="instance-select">
+                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length} available) --</option>
+                    ${records.map(
+    (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
+                                    ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                </option>`
+  ).join("")}
+                </select>
+            </div>
+        </div>
+    ` : "";
   displayArea.innerHTML = `
         <div class="entity-inspector-view">
-            <div class="form-container">
-                <h2 style="font-size: 18px; color: #0f172a; margin-bottom: 6px;">${escapeHtml(formTitle)}</h2>
-                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">
-                    Table: <strong>${tableName}</strong> ${isNew ? "\u2022 Mode: INSERT" : `\u2022 Mode: UPDATE (id = ${record.id})`}
+            <div class="inspector-container">
+                ${instanceBarHtml}
+                <div id="inspector-card-target">
+                    <form id="active-crud-form">
+                        <div class="attribute-card">
+                            <div class="card-header-bar">
+                                <div>
+                                    <h2 class="card-main-title">${escapeHtml2(formTitle)}</h2>
+                                    <div class="card-meta-line">
+                                        <span>Table: <strong style="font-family: var(--font-mono); color: var(--primary);">${tableName}</strong></span>
+                                        <span>\u2022</span>
+                                        <span>Primary Key: <strong>${record ? `id = ${record.id}` : "New"}</strong></span>
+                                        <span>\u2022</span>
+                                        <span>Mode: <strong style="color: var(--primary);">${isNew ? "INSERT" : "UPDATE"}</strong></span>
+                                        <span>\u2022</span>
+                                        <span>Total Columns: <strong>${Object.keys(tableInfo.columns).length}</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="attr-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 220px;">DB Attribute (Column)</th>
+                                        <th style="width: 170px;">Data Type &amp; Constraint</th>
+                                        <th>Database Value &amp; Relationships (Editable)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="form-fields-target"></tbody>
+                            </table>
+                            <div class="form-actions-footer" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px;">
+                                <button type="submit" class="action-btn primary btn-save-record-footer" style="padding: 7px 18px; font-weight: 700;">
+                                    \u{1F4BE} ${isNew ? "Create Record" : "Save Changes"}
+                                </button>
+                                <button type="button" class="action-btn secondary btn-cancel-edit" style="padding: 7px 14px;">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form id="active-crud-form">
-                    <div id="form-fields-target"></div>
-                    <div class="form-actions-footer">
-                        <button type="submit" class="action-btn primary" id="btn-save-record">
-                            \u{1F4BE} ${isNew ? "Create Record" : "Save Changes"}
-                        </button>
-                        <button type="button" class="action-btn secondary" id="btn-cancel-edit">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     `;
   const fieldsTarget = document.getElementById("form-fields-target");
   const form = document.getElementById("active-crud-form");
+  const selectEl = document.getElementById("entity-instance-select");
+  if (selectEl) {
+    selectEl.addEventListener("change", async () => {
+      const nextId = selectEl.value;
+      if (nextId) {
+        currentSelectedId = nextId;
+        const nextRec = await fetchRecordById(tableName, nextId);
+        if (nextRec) {
+          currentTitle = getRecordFriendlyName(tableName, nextRec);
+          updateBreadcrumbs();
+          await renderRecordForm(tableName, nextRec, false);
+        }
+      }
+    });
+  }
   for (const colName of Object.keys(tableInfo.columns)) {
     const colMeta = tableInfo.columns[colName];
     if (colMeta.isPrimaryKey && isNew) continue;
     let val = record ? record[colName] : "";
     if (isNew && tableName === "interactive_demos") {
-      if (colName === "engine" && (currentTypeKey === "ttd" || currentTypeKey === "truth_table")) {
-        val = "ttd";
+      if (colName === "engine") {
+        if (currentTypeKey === "ttd" || currentTypeKey === "truth_table") val = "ttd";
+        else if (currentTypeKey === "btd") val = "btd";
+        else if (currentTypeKey === "bid") val = "bid";
+        else if (currentTypeKey === "fsd") val = "fsd";
       }
-      if (colName === "mode" && (currentTypeKey === "ttd" || currentTypeKey === "truth_table")) {
-        val = "propositional_logic";
+      if (colName === "mode") {
+        if (currentTypeKey === "ttd" || currentTypeKey === "truth_table") val = "propositional_logic";
       }
     }
-    const fieldGroup = document.createElement("div");
-    fieldGroup.className = "form-field-group";
-    fieldGroup.innerHTML = `
-            <div class="form-field-header">
-                <label class="form-field-label" for="field-${colName}">
-                    ${escapeHtml(colMeta.label || colName)} ${!colMeta.isNullable ? '<span style="color: var(--danger);">*</span>' : ""}
-                </label>
-                <span class="form-field-type">
-                    ${escapeHtml(colName)} \u2022 ${colMeta.dbDataType.toUpperCase()} ${colMeta.isPrimaryKey ? "(PK)" : ""}
-                </span>
-            </div>
+    if (isNew && tableName === "formal_statements") {
+      if (colName === "statement_kind") {
+        if (currentTypeKey === "axiom") val = "axiom";
+        else if (currentTypeKey === "theorem") val = "theorem";
+        else if (currentTypeKey === "directed_equality") val = "directed_equality";
+      }
+    }
+    const tr = document.createElement("tr");
+    const tdName = document.createElement("td");
+    tdName.className = "attr-col-name";
+    tdName.innerHTML = `
+            <div>${escapeHtml2(colName)}</div>
+            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml2(colMeta.label)}</div>` : ""}
         `;
+    tr.appendChild(tdName);
+    const tdType = document.createElement("td");
+    tdType.className = "attr-col-type";
+    const flags = [];
+    if (colMeta.isPrimaryKey) flags.push('<span style="color: var(--primary); font-weight: 700;">PK</span>');
+    if (colMeta.isForeignKey) flags.push('<span style="color: #7c3aed; font-weight: 700;">FK</span>');
+    if (!colMeta.isNullable) flags.push("NOT NULL");
+    else flags.push("NULLABLE");
+    if (colMeta.isEnum) flags.push("ENUM");
+    tdType.innerHTML = `
+            <div>${escapeHtml2(colMeta.dbDataType.toUpperCase())}</div>
+            <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${flags.join(" \u2022 ")}</div>
+        `;
+    tr.appendChild(tdType);
+    const tdVal = document.createElement("td");
+    tdVal.className = "attr-col-val";
     let inputElement;
     if (colMeta.isPrimaryKey || !colMeta.canModify) {
-      const input = document.createElement("input");
-      input.type = "text";
-      input.id = `field-${colName}`;
-      input.name = colName;
-      input.value = val !== null && val !== void 0 ? val.toString() : "";
-      input.readOnly = true;
-      input.className = "form-input";
-      input.style.backgroundColor = "#f1f5f9";
-      input.style.color = "#64748b";
-      input.style.cursor = "not-allowed";
-      inputElement = input;
+      const pkContainer = document.createElement("div");
+      pkContainer.style.cssText = "display: flex; align-items: center; gap: 8px;";
+      const pkVal = val !== null && val !== void 0 ? val.toString() : "Auto-generated";
+      pkContainer.innerHTML = `
+                <span style="font-family: var(--font-mono); font-weight: 700; color: #0f172a; background: #f1f5f9; padding: 3px 8px; border-radius: 4px; border: 1px solid #e2e8f0; display: inline-block;">
+                    ${escapeHtml2(pkVal)}
+                </span>
+                <span style="font-size: 11px; color: #64748b;">(Immutable PK)</span>
+                ${!isNew && val !== null && val !== void 0 ? `<input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml2(val.toString())}" />` : ""}
+            `;
+      inputElement = pkContainer;
+    } else if (tableName === "segments" && colName === "content_html") {
+      const container = document.createElement("div");
+      const rawHtml = val !== null && val !== void 0 ? val.toString() : "";
+      const kbSize = (rawHtml.length / 1024).toFixed(1);
+      const charCount = rawHtml.length.toLocaleString();
+      container.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 2px 0;">
+                    <span style="font-size: 13px; font-weight: 600; color: #1e293b;">HTML Lecture Body</span>
+                    <span style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
+                        ${kbSize} KB (${charCount} chars)
+                    </span>
+                    <button type="button" class="action-btn primary btn-open-authoring-surface" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                        \u270F\uFE0F Open in Full Authoring Surface
+                    </button>
+                    <input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml2(rawHtml)}" />
+                </div>
+            `;
+      container.querySelector(".btn-open-authoring-surface")?.addEventListener("click", () => {
+        if (record) {
+          renderSegmentAuthoringView(record, "update");
+        }
+      });
+      inputElement = container;
     } else if (colMeta.isEnum) {
       const select = document.createElement("select");
       select.id = `field-${colName}`;
       select.name = colName;
       select.className = "form-select";
+      select.style.maxWidth = "320px";
       if (colMeta.isNullable) {
         const opt = document.createElement("option");
         opt.value = "";
@@ -44697,6 +47360,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
       select.id = `field-${colName}`;
       select.name = colName;
       select.className = "form-select";
+      select.style.maxWidth = "160px";
       const optTrue = document.createElement("option");
       optTrue.value = "true";
       optTrue.textContent = "TRUE";
@@ -44713,6 +47377,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
       select.id = `field-${colName}`;
       select.name = colName;
       select.className = "form-select";
+      select.style.maxWidth = "540px";
       select.innerHTML = `<option value="">Loading MWM domains from database...</option>`;
       queryDatabase("SELECT domain_key, symbol, name, lean_type, base_unit FROM domains ORDER BY id ASC;").then((domainRows) => {
         if (domainRows && domainRows.length > 0) {
@@ -44720,10 +47385,10 @@ function renderRecordForm(tableName, record = null, isNew = false) {
                             <option value="">-- Select Valid MWM Domain (Lean-Anchored) --</option>
                             ${domainRows.map((d) => {
             const isSel = val === d.domain_key || val === d.symbol;
-            const leanPart = d.lean_type ? ` [Lean: ${escapeHtml(d.lean_type)}]` : "";
-            const unitPart = d.base_unit ? ` (${escapeHtml(d.base_unit)})` : "";
-            return `<option value="${escapeHtml(d.domain_key)}" ${isSel ? "selected" : ""}>
-                                        ${escapeHtml(d.symbol)} \u2014 ${escapeHtml(d.name)}${unitPart}${leanPart}
+            const leanPart = d.lean_type ? ` [Lean: ${escapeHtml2(d.lean_type)}]` : "";
+            const unitPart = d.base_unit ? ` (${escapeHtml2(d.base_unit)})` : "";
+            return `<option value="${escapeHtml2(d.domain_key)}" ${isSel ? "selected" : ""}>
+                                        ${escapeHtml2(d.symbol)} \u2014 ${escapeHtml2(d.name)}${unitPart}${leanPart}
                                     </option>`;
           }).join("")}
                         `;
@@ -44732,57 +47397,174 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         console.error("[renderRecordForm] Error fetching domains:", err);
       });
       inputElement = select;
-    } else if (tableName === "formal_statements" && colName === "parent_id") {
+    } else if (tableName === "formal_statements" && colName === "domain_category") {
       const select = document.createElement("select");
       select.id = `field-${colName}`;
       select.name = colName;
       select.className = "form-select";
-      select.innerHTML = `<option value="">-- None (Top-Level Formal Statement) --</option>`;
-      queryDatabase("SELECT id, statement_key, title, statement_kind FROM formal_statements WHERE statement_kind IN ('axiom', 'theorem') ORDER BY id ASC;").then((stmts) => {
-        if (stmts && stmts.length > 0) {
-          select.innerHTML = `
-                            <option value="">-- None (Top-Level Formal Statement) --</option>
-                            ${stmts.map((s) => {
-            const isSel = val && val.toString() === s.id.toString();
-            return `<option value="${s.id}" ${isSel ? "selected" : ""}>
-                                        [${escapeHtml(s.statement_kind.toUpperCase())}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})
-                                    </option>`;
-          }).join("")}
-                        `;
-        }
-      }).catch((err) => {
-        console.error("[renderRecordForm] Error fetching parent statements:", err);
+      select.style.maxWidth = "360px";
+      const categories = [
+        { val: "logic", label: "Logic & Metamathematics (logic)" },
+        { val: "arithmetic", label: "Arithmetic & Number Spines (arithmetic)" },
+        { val: "discrete_analysis", label: "Discrete Analysis & Transects (discrete_analysis)" },
+        { val: "order_theory", label: "Order Theory & Lattices (order_theory)" },
+        { val: "information_and_signals", label: "Information & Signals (information_and_signals)" },
+        { val: "set_theory", label: "Set Theory & Hypersets (set_theory)" },
+        { val: "kinematics_and_dynamics", label: "Kinematics & Dynamics (kinematics_and_dynamics)" }
+      ];
+      categories.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat.val;
+        opt.textContent = cat.label;
+        if (val === cat.val) opt.selected = true;
+        select.appendChild(opt);
       });
       inputElement = select;
-    } else if (colName === "lean_decl_id") {
-      const select = document.createElement("select");
-      select.id = `field-${colName}`;
-      select.name = colName;
-      select.className = "form-select";
-      select.innerHTML = `<option value="">-- None (Unlinked from Lean Kernel) --</option>`;
-      queryDatabase("SELECT id, name, kind, signature, line_no FROM lean_declarations ORDER BY name ASC;").then((decls) => {
-        if (decls && decls.length > 0) {
-          select.innerHTML = `
-                            <option value="">-- None (Unlinked from Lean Kernel) --</option>
-                            ${decls.map((d) => {
-            const isSel = val && val.toString() === d.id.toString();
-            const sigPreview = d.signature ? d.signature.slice(0, 70) : "";
-            return `<option value="${d.id}" ${isSel ? "selected" : ""}>
-                                        [${escapeHtml(d.kind)}] ${escapeHtml(d.name)} : ${escapeHtml(sigPreview)} (line ${d.line_no})
-                                    </option>`;
-          }).join("")}
-                        `;
+    } else if (colMeta.isForeignKey && colMeta.foreignKeyTable) {
+      const fkTable = colMeta.foreignKeyTable;
+      const hasVal = val !== null && val !== void 0 && val !== "";
+      const container = document.createElement("div");
+      container.className = "fk-field-group";
+      container.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;";
+      const badge = document.createElement("span");
+      badge.id = `field-${colName}-display`;
+      badge.className = "fk-friendly-badge";
+      badge.style.cssText = "font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; min-height: 28px;";
+      badge.textContent = hasVal ? `Loading ${fkTable} #${val}...` : "-- None --";
+      const navBtn = document.createElement("button");
+      navBtn.type = "button";
+      navBtn.id = `field-${colName}-nav-btn`;
+      navBtn.className = "btn-nav-child-arrow";
+      navBtn.setAttribute("data-table", fkTable);
+      navBtn.setAttribute("data-id", hasVal ? val.toString() : "");
+      navBtn.textContent = "\u2193";
+      const updateNavBtnState = (targetId) => {
+        if (targetId) {
+          navBtn.disabled = false;
+          navBtn.setAttribute("data-id", targetId);
+          navBtn.title = `Drill down to ${appMetadata[fkTable]?.singularLabel || fkTable} #${targetId}`;
+          navBtn.style.cssText = "display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer; line-height: 1; transition: all 0.15s ease;";
+        } else {
+          navBtn.disabled = true;
+          navBtn.setAttribute("data-id", "");
+          navBtn.title = "No referenced child linked";
+          navBtn.style.cssText = "display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 14px; font-weight: 700; color: #94a3b8; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; cursor: not-allowed; opacity: 0.5; line-height: 1;";
         }
-      }).catch((err) => {
-        console.error("[renderRecordForm] Error fetching lean declarations:", err);
+      };
+      updateNavBtnState(hasVal ? val.toString() : null);
+      navBtn.addEventListener("click", () => {
+        const targetId = navBtn.getAttribute("data-id");
+        if (targetId) {
+          navigateToEntity(fkTable, targetId, badge.textContent || `${fkTable} #${targetId}`);
+        }
       });
-      inputElement = select;
+      const pickerBtn = document.createElement("button");
+      pickerBtn.type = "button";
+      pickerBtn.id = `field-${colName}-picker-btn`;
+      pickerBtn.className = "action-btn secondary btn-open-fk-picker";
+      pickerBtn.style.cssText = "padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: #ffffff; min-height: 28px;";
+      pickerBtn.innerHTML = "\u270E Select Child";
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.id = `field-${colName}`;
+      hiddenInput.name = colName;
+      hiddenInput.value = hasVal ? val.toString() : "";
+      if (hasVal) {
+        queryDatabase(`SELECT * FROM ${fkTable} WHERE id = $1;`, [val]).then((rows) => {
+          if (rows && rows.length > 0) {
+            badge.textContent = formatFkBadgeText(fkTable, rows[0]);
+          }
+        }).catch(() => {
+        });
+      }
+      pickerBtn.addEventListener("click", () => {
+        openChildRecordPickerModal(
+          tableName,
+          colName,
+          fkTable,
+          colMeta.isNullable,
+          hiddenInput.value,
+          (selectedRecord) => {
+            if (!selectedRecord) {
+              hiddenInput.value = "";
+              badge.textContent = "-- None --";
+              updateNavBtnState(null);
+            } else {
+              hiddenInput.value = selectedRecord.id.toString();
+              badge.textContent = formatFkBadgeText(fkTable, selectedRecord);
+              updateNavBtnState(selectedRecord.id.toString());
+            }
+          }
+        );
+      });
+      container.appendChild(badge);
+      container.appendChild(navBtn);
+      container.appendChild(pickerBtn);
+      container.appendChild(hiddenInput);
+      inputElement = container;
+    } else if (colName === "content_html") {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "display: flex; flex-direction: column; gap: 8px; max-width: 650px;";
+      const summaryRow = document.createElement("div");
+      summaryRow.style.cssText = "display: flex; align-items: center; gap: 10px; padding: 2px 0;";
+      const strVal = val ? val.toString() : "";
+      summaryRow.innerHTML = `
+                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">HTML Lecture Body</span>
+                <span id="field-${colName}-stats" style="font-size: 11px; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: 600;">
+                    ${(strVal.length / 1024).toFixed(1)} KB (${strVal.length.toLocaleString()} chars)
+                </span>
+                <button type="button" class="action-btn primary btn-open-content-editor-update" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+                    \u270F\uFE0F Open in Content Editor
+                </button>
+            `;
+      const details = document.createElement("details");
+      details.style.cssText = "margin-top: 4px; font-size: 12px; color: #64748b;";
+      details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw HTML</summary>`;
+      const textarea = document.createElement("textarea");
+      textarea.id = `field-${colName}`;
+      textarea.name = colName;
+      textarea.rows = colMeta.rows || 6;
+      textarea.className = "form-textarea";
+      textarea.style.maxWidth = "650px";
+      textarea.value = strVal;
+      textarea.addEventListener("input", () => {
+        const stats = summaryRow.querySelector(`#field-${colName}-stats`);
+        if (stats) {
+          const l = textarea.value.length;
+          stats.textContent = `${(l / 1024).toFixed(1)} KB (${l.toLocaleString()} chars)`;
+        }
+      });
+      summaryRow.querySelector(".btn-open-content-editor-update")?.addEventListener("click", () => {
+        const tempRecord = { ...record, [colName]: textarea.value };
+        renderSegmentContentSurface({
+          container: displayArea,
+          segmentRecord: tempRecord,
+          initialMode: "update",
+          onBack: () => {
+            renderRecordForm(tableName, record, isNew);
+          },
+          onSaved: (updatedRecord) => {
+            textarea.value = updatedRecord.content_html || "";
+            record.content_html = textarea.value;
+            const stats = summaryRow.querySelector(`#field-${colName}-stats`);
+            if (stats) {
+              const l = textarea.value.length;
+              stats.textContent = `${(l / 1024).toFixed(1)} KB (${l.toLocaleString()} chars)`;
+            }
+          }
+        });
+      });
+      details.appendChild(textarea);
+      wrapper.appendChild(summaryRow);
+      wrapper.appendChild(details);
+      inputElement = wrapper;
     } else if (colMeta.rows && colMeta.rows > 1) {
       const textarea = document.createElement("textarea");
       textarea.id = `field-${colName}`;
       textarea.name = colName;
-      textarea.rows = colMeta.rows || 4;
+      textarea.rows = colMeta.rows || 3;
       textarea.className = "form-textarea";
+      textarea.style.maxWidth = "650px";
       textarea.value = val !== null && val !== void 0 ? typeof val === "object" ? JSON.stringify(val, null, 2) : val.toString() : "";
       inputElement = textarea;
       if (tableName === "interactive_demos" && colName === "init_packet") {
@@ -44791,193 +47573,6 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw JSON Packet</summary>`;
         details.appendChild(textarea);
         inputElement = details;
-      }
-      if (tableName === "segments" && colName === "content_html") {
-        const paletteBar = document.createElement("div");
-        paletteBar.style.cssText = "display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);";
-        paletteBar.innerHTML = `
-                    <span style="font-size: 11.5px; font-weight: 700; color: #475569; align-self: center; margin-right: 4px;">CUSTOM ELEMENTS:</span>
-                    <button type="button" class="btn btn-sm btn-insert-fs" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        \u2795 Formal Statement Citation
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-stencil" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        \u2795 Stencil Calculation Mode
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-ttd" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #fca5a5; color: #b91c1c; font-weight: 600; border-radius: 4px; cursor: pointer;">
-                        \u2696\uFE0F Truth Table (TTD)
-                    </button>
-                    <button type="button" class="btn btn-sm btn-insert-demo" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                        \u2795 Interactive Visual Demo
-                    </button>
-                    <button type="button" class="btn btn-sm btn-review-elements" style="padding: 3px 8px; font-size: 11px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; border-radius: 4px; cursor: pointer; margin-left: auto;">
-                        \u{1F50D} Review / Remove Tags
-                    </button>
-                `;
-        const insertAtCursor = (txt) => {
-          const start = textarea.selectionStart || 0;
-          const end = textarea.selectionEnd || 0;
-          const current = textarea.value;
-          textarea.value = current.substring(0, start) + txt + current.substring(end);
-          textarea.selectionStart = textarea.selectionEnd = start + txt.length;
-          textarea.focus();
-        };
-        paletteBar.querySelector(".btn-insert-fs")?.addEventListener("click", async () => {
-          const stmts = await queryDatabase("SELECT id, statement_key, title, statement_kind FROM formal_statements ORDER BY id ASC;");
-          showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Formal Statement Citation</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a formal statement or directed equality to cite:</p>
-                        <select id="modal-select-fs" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(stmts || []).map((s) => `<option value="${escapeHtml(s.statement_key)}">[${escapeHtml(s.statement_kind)}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})</option>`).join("")}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-fs">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-          document.getElementById("btn-modal-confirm-insert-fs")?.addEventListener("click", () => {
-            const sel = document.getElementById("modal-select-fs");
-            if (sel && sel.value) {
-              insertAtCursor(`
-<fs-ref statement-key="${sel.value}"></fs-ref>
-`);
-            }
-            closeModal();
-          });
-        });
-        paletteBar.querySelector(".btn-insert-stencil")?.addEventListener("click", async () => {
-          const stencils = await queryDatabase("SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;");
-          showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Stencil Calculation Mode</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose a computational stencil to embed:</p>
-                        <select id="modal-select-stencil" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(stencils || []).map((st) => `<option value="${escapeHtml(st.equation_key)}">${escapeHtml(st.title)} (${escapeHtml(st.label)}) [${escapeHtml(st.equation_key)}]</option>`).join("")}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-stencil">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-          document.getElementById("btn-modal-confirm-insert-stencil")?.addEventListener("click", () => {
-            const sel = document.getElementById("modal-select-stencil");
-            if (sel && sel.value) {
-              insertAtCursor(`
-<interactive-stencil equation-key="${sel.value}"></interactive-stencil>
-`);
-            }
-            closeModal();
-          });
-        });
-        paletteBar.querySelector(".btn-insert-ttd")?.addEventListener("click", async () => {
-          const ttdDemos = await queryDatabase(
-            "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
-          );
-          showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px; color: #991b1b;">\u2696\uFE0F Insert Truth Table Custom Element (&lt;ttd-ref&gt;)</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an authoritative proposition from the database to embed as a canonical reference:</p>
-                        
-                        <div style="margin-bottom: 16px;">
-                            <label style="display: block; font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 4px;">Registered Propositional Expressions (${ttdDemos?.length || 0}):</label>
-                            <select id="modal-select-ttd-id" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;">
-                                ${(ttdDemos || []).map((d) => {
-            const friendly = getRecordFriendlyName("interactive_demos", d);
-            return `<option value="${d.id}">[#${d.id}] ${escapeHtml(friendly)}</option>`;
-          }).join("")}
-                            </select>
-                        </div>
-
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-ttd">Insert &lt;ttd-ref id="..."&gt;</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-          document.getElementById("btn-modal-confirm-insert-ttd")?.addEventListener("click", () => {
-            const sel = document.getElementById("modal-select-ttd-id");
-            if (sel && sel.value) {
-              insertAtCursor(`
-<ttd-ref id="${sel.value}"></ttd-ref>
-`);
-            }
-            closeModal();
-          });
-        });
-        paletteBar.querySelector(".btn-insert-demo")?.addEventListener("click", async () => {
-          const demos = await queryDatabase("SELECT id, title, engine FROM interactive_demos ORDER BY id ASC;");
-          showModal(`
-                        <h3 style="margin-bottom: 8px; font-size: 15px;">Insert Interactive Demo (&lt;visual-demo&gt;)</h3>
-                        <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Choose an interactive demonstration to embed:</p>
-                        <select id="modal-select-demo" style="width: 100%; padding: 8px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px;">
-                            ${(demos || []).map((d) => `<option value="${d.id}">[${escapeHtml(d.engine.toUpperCase())}] ${escapeHtml(d.title)} (#${d.id})</option>`).join("")}
-                        </select>
-                        <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button type="button" class="action-btn primary" id="btn-modal-confirm-insert-demo">Insert Tag</button>
-                            <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Cancel</button>
-                        </div>
-                    `);
-          document.getElementById("btn-modal-confirm-insert-demo")?.addEventListener("click", () => {
-            const sel = document.getElementById("modal-select-demo");
-            if (sel && sel.value) {
-              insertAtCursor(`
-<visual-demo id="${sel.value}"></visual-demo>
-`);
-            }
-            closeModal();
-          });
-        });
-        paletteBar.querySelector(".btn-review-elements")?.addEventListener("click", () => {
-          const text = textarea.value;
-          const tagRegex = /(<ttd-ref[\s\S]*?<\/ttd-ref>|<ttd-ref[^>]*>(?:<\/ttd-ref>)?|<fs-ref[^>]*>(?:<\/fs-ref>)?|<interactive-stencil[^>]*>(?:<\/interactive-stencil>)?|<stencil-ref[^>]*>(?:<\/stencil-ref>)?|<visual-demo[^>]*>(?:<\/visual-demo>)?|<demo-embed[^>]*>(?:<\/demo-embed>)?|<pseudo-ref[^>]*>(?:<\/pseudo-ref>)?)/gi;
-          const matches = [];
-          let m;
-          while ((m = tagRegex.exec(text)) !== null) {
-            matches.push(m[0]);
-          }
-          if (matches.length === 0) {
-            showModal(`
-                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review Embedded Custom Elements</h3>
-                            <p style="color: #64748b; font-size: 13px; margin-bottom: 16px;">No custom element tags (&lt;ttd-ref&gt;, &lt;fs-ref&gt;, &lt;interactive-stencil&gt;, &lt;visual-demo&gt;) found in this segment's content.</p>
-                            <div style="display: flex; justify-content: flex-end;">
-                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
-                            </div>
-                        `);
-            return;
-          }
-          const renderList = () => {
-            showModal(`
-                            <h3 style="margin-bottom: 8px; font-size: 15px;">Review &amp; Remove Custom Elements (${matches.length})</h3>
-                            <p style="color: #64748b; font-size: 12px; margin-bottom: 12px;">Active custom elements in this segment. Click "Remove" to delete an instance:</p>
-                            <div style="max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; margin-bottom: 16px;">
-                                ${matches.map((tag, idx) => `
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; margin-bottom: 4px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px;">
-                                        <code style="font-size: 11.5px; color: #0f172a; word-break: break-all; flex: 1;">${escapeHtml(tag)}</code>
-                                        <button type="button" class="action-btn danger btn-remove-custom-tag" data-index="${idx}" style="padding: 3px 10px; font-size: 11px; white-space: nowrap;">
-                                            \u{1F5D1}\uFE0F Remove
-                                        </button>
-                                    </div>
-                                `).join("")}
-                            </div>
-                            <div style="display: flex; justify-content: flex-end;">
-                                <button type="button" class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
-                            </div>
-                        `);
-            document.querySelectorAll(".btn-remove-custom-tag").forEach((btn) => {
-              btn.addEventListener("click", (e) => {
-                const idx = parseInt(e.target.getAttribute("data-index") || "0", 10);
-                const tagToRemove = matches[idx];
-                if (tagToRemove) {
-                  textarea.value = textarea.value.replace(tagToRemove, "");
-                  matches.splice(idx, 1);
-                  if (matches.length > 0) {
-                    renderList();
-                  } else {
-                    closeModal();
-                  }
-                }
-              });
-            });
-          };
-          renderList();
-        });
-        fieldGroup.appendChild(paletteBar);
       }
     } else if (tableName === "interactive_demos" && colName === "expression") {
       const expWrapper = document.createElement("div");
@@ -44999,11 +47594,11 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         initialDisplay = expVal ? PxeEngine.fmt(expVal) : "\u2014";
       }
       expWrapper.innerHTML = `
-                <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml(expVal)}" readonly
+                <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml2(expVal)}" readonly
                     style="width: 220px; padding: 7px 10px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;"
                     title="Click to open ${isFsd ? "FSD Quantified Statement" : "Propositional Expression"} Editor" />
                 <div id="preview-field-${colName}" style="font-size: 18px; font-weight: 700; color: ${isFsd ? "#1e3a8a" : "firebrick"}; font-family: 'Cambria Math', Georgia, serif; min-width: 140px; cursor: pointer;" title="Live mathematical display">
-                    ${escapeHtml(initialDisplay)}
+                    ${escapeHtml2(initialDisplay)}
                 </div>
                 <button type="button" id="btn-open-pxe-editor" class="action-btn secondary" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;">
                     ${isFsd ? "\u{1F4D0} Edit FSD Statement" : "\u270E Edit Proposition"}
@@ -45075,8 +47670,8 @@ function renderRecordForm(tableName, record = null, isNew = false) {
                                 <select id="modal-fsd-constructed-fs-select" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #86efac; border-radius: 4px; background: #ffffff; color: #14532d; font-weight: 600;">
                                     <option value="">-- Choose a constructed FS / DE to initialize FSD (${constructedStmts.length} available) --</option>
                                     ${constructedStmts.map((s) => `
-                                        <option value="${s.id}" data-key="${escapeHtml(s.statement_key)}" data-kind="${escapeHtml(s.statement_kind)}" data-title="${escapeHtml(s.title)}" data-expr="${escapeHtml(s.expression || "")}" data-desc="${escapeHtml(s.description || "")}">
-                                            [${escapeHtml(s.statement_kind.toUpperCase())}] ${escapeHtml(s.title)} (${escapeHtml(s.statement_key)})
+                                        <option value="${s.id}" data-key="${escapeHtml2(s.statement_key)}" data-kind="${escapeHtml2(s.statement_kind)}" data-title="${escapeHtml2(s.title)}" data-expr="${escapeHtml2(s.expression || "")}" data-desc="${escapeHtml2(s.description || "")}">
+                                            [${escapeHtml2(s.statement_kind.toUpperCase())}] ${escapeHtml2(s.title)} (${escapeHtml2(s.statement_key)})
                                         </option>
                                     `).join("")}
                                 </select>
@@ -45090,8 +47685,8 @@ function renderRecordForm(tableName, record = null, isNew = false) {
             const code = eqToCodeMap[pe.equation_key] || pe.equation_key.replace("eq_pred_", "").toLowerCase();
             const isSel = code === currentCode || pe.equation_key === currentCode;
             const sym = PxeEngine.charDisplayMap[code] || pe.target_symbol || code;
-            return `<option value="${escapeHtml(code)}" ${isSel ? "selected" : ""}>
-                                            ${escapeHtml(sym)} \u2014 ${escapeHtml(pe.title)} [${escapeHtml(pe.equation_key)}]
+            return `<option value="${escapeHtml2(code)}" ${isSel ? "selected" : ""}>
+                                            ${escapeHtml2(sym)} \u2014 ${escapeHtml2(pe.title)} [${escapeHtml2(pe.equation_key)}]
                                         </option>`;
           }).join("")}
                                 </select>
@@ -45101,7 +47696,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
                                     <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
                                         2. Quantifier Bindings:
                                     </label>
-                                    <input type="text" id="modal-fsd-quantifiers" value="${escapeHtml(currentQuantifiers)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <input type="text" id="modal-fsd-quantifiers" value="${escapeHtml2(currentQuantifiers)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
                                     <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
                                         <button type="button" class="btn btn-sm btn-quick-quant" data-val="\u2200x\u2081:\u2115" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">\u2200x\u2081:\u2115</button>
                                         <button type="button" class="btn btn-sm btn-quick-quant" data-val="\u2203x\u2081:\u2115" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">\u2203x\u2081:\u2115</button>
@@ -45114,7 +47709,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
                                     <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
                                         3. Bound Slots:
                                     </label>
-                                    <input type="text" id="modal-fsd-slots" value="${escapeHtml(currentSlots)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <input type="text" id="modal-fsd-slots" value="${escapeHtml2(currentSlots)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
                                     <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
                                         <button type="button" class="btn btn-sm btn-quick-slot" data-val="x\u2081,x\u2082" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x\u2081,x\u2082</button>
                                         <button type="button" class="btn btn-sm btn-quick-slot" data-val="x\u2081" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x\u2081</button>
@@ -45273,7 +47868,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
       const expVal = val !== null && val !== void 0 ? val.toString() : "";
       expWrapper.innerHTML = `
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml(expVal)}"
+                    <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml2(expVal)}"
                         class="form-input" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #0369a1; background: #f0f9ff; border: 1.5px solid #bae6fd; padding: 8px 12px; border-radius: 6px;"
                         placeholder="e.g. \u2200x\u2081:\u2115 \u2203x\u2082:\u2115 [ x\u2081 < x\u2082 ]" />
                     <button type="button" id="btn-open-fsd-workbench" class="action-btn primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 13px; font-weight: 700; background: #0284c7; border: none; border-radius: 6px; cursor: pointer; color: #ffffff; box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);">
@@ -45285,7 +47880,7 @@ function renderRecordForm(tableName, record = null, isNew = false) {
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Formula Preview:</span>
                         <div id="preview-field-${colName}" style="font-size: 16px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">
-                            ${escapeHtml(expVal || "\u2014 (Empty Statement) \u2014")}
+                            ${escapeHtml2(expVal || "\u2014 (Empty Statement) \u2014")}
                         </div>
                     </div>
                     <span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">
@@ -45361,13 +47956,18 @@ function renderRecordForm(tableName, record = null, isNew = false) {
       input.id = `field-${colName}`;
       input.name = colName;
       input.className = "form-input";
+      if (colMeta.dbDataType.includes("int")) {
+        input.style.width = "140px";
+      } else {
+        input.style.maxWidth = "540px";
+      }
       input.value = val !== null && val !== void 0 ? val.toString() : "";
       inputElement = input;
     }
     if (tableName !== "interactive_demos" && (colName === "formula_expr" || colName === "expression")) {
       const symBar = document.createElement("div");
-      symBar.style.cssText = "display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);";
-      const syms = ["\u2192", "\u21D2", "\u211D_\u03C9", "\u{1D53B}", "\u2124", "\u2115", "\u{1D539}", "\xB7", "\u2260", "\u2208", "\u2200", "\u2203", "\u03C9", "dx", "\u2264", "\u2265", "\u2248", "\u2261", "\xD7", "\u03BB"];
+      symBar.style.cssText = "display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);";
+      const syms = ["\u2192", "\u21D2", "\u2194", "\u2227", "\u2228", "\xAC", "\u22A2", "\u22A8", "\u211D_\u03C9", "\u{1D53B}", "\u2124", "\u2115", "\u{1D539}", "\xB7", "\u2260", "\u2208", "\u2200", "\u2203", "\u03C9", "dx", "\u2264", "\u2265", "\u2248", "\u2261", "\xD7", "\u03BB"];
       symBar.innerHTML = `
                 <span style="font-size: 11px; font-weight: 700; color: #64748b; align-self: center; margin-right: 4px;">SYMBOLS:</span>
                 ${syms.map(
@@ -45380,21 +47980,28 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         b.addEventListener("click", () => {
           const sym = b.getAttribute("data-sym");
           const targetInput = inputElement;
-          const start = targetInput.selectionStart || 0;
-          const end = targetInput.selectionEnd || 0;
-          const cur = targetInput.value;
-          targetInput.value = cur.substring(0, start) + sym + cur.substring(end);
-          targetInput.selectionStart = targetInput.selectionEnd = start + sym.length;
-          targetInput.focus();
+          if (targetInput && "selectionStart" in targetInput) {
+            const start = targetInput.selectionStart || 0;
+            const end = targetInput.selectionEnd || 0;
+            const cur = targetInput.value;
+            targetInput.value = cur.substring(0, start) + sym + cur.substring(end);
+            targetInput.selectionStart = targetInput.selectionEnd = start + sym.length;
+            targetInput.focus();
+          }
         });
       });
-      fieldGroup.appendChild(symBar);
+      tdVal.appendChild(inputElement);
+      tdVal.appendChild(symBar);
+    } else {
+      tdVal.appendChild(inputElement);
     }
-    fieldGroup.appendChild(inputElement);
-    fieldsTarget.appendChild(fieldGroup);
+    tr.appendChild(tdVal);
+    fieldsTarget.appendChild(tr);
   }
-  document.getElementById("btn-cancel-edit")?.addEventListener("click", () => {
-    setMode("read", true);
+  document.querySelectorAll(".btn-cancel-edit").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setMode("read", true);
+    });
   });
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -45416,6 +48023,10 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         submitValues[colName] = raw.toString();
       }
     }
+    if (tableName === "formal_statements") {
+      if (submitValues["type"]) submitValues["subject_type"] = submitValues["type"];
+      if (submitValues["statement_kind"]) submitValues["structure_kind"] = submitValues["statement_kind"];
+    }
     try {
       if (isNew) {
         const cols = Object.keys(submitValues);
@@ -45427,6 +48038,11 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         const newId = res.data?.rows[0]?.id;
         setStatus(`\u2713 Record created successfully (#${newId})`);
         currentSelectedId = newId ? newId.toString() : null;
+        await syncMenuTreeFromDatabase(queryDatabase);
+        if (typeDropdownMenu) {
+          typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+        }
+        fetch("/api/rebuild-catalog", { method: "POST" }).catch((e2) => console.warn("[rebuild-catalog] background notice:", e2));
         setMode("read", true);
       } else {
         const cols = Object.keys(submitValues).filter((c) => c !== "id");
@@ -45438,6 +48054,11 @@ function renderRecordForm(tableName, record = null, isNew = false) {
         if (res.status === "error") throw new Error(res.error || res.message);
         setStatus(`\u2713 Record #${record.id} updated successfully`);
         currentSelectedId = record.id.toString();
+        await syncMenuTreeFromDatabase(queryDatabase);
+        if (typeDropdownMenu) {
+          typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+        }
+        fetch("/api/rebuild-catalog", { method: "POST" }).catch((e2) => console.warn("[rebuild-catalog] background notice:", e2));
         setMode("read", true);
       }
     } catch (saveErr) {
@@ -45464,7 +48085,7 @@ async function renderDeleteConfirmation(tableName, record) {
                 <div style="font-size: 36px; margin-bottom: 12px;">\u26A0\uFE0F</div>
                 <h2 style="font-size: 18px; color: #991b1b; margin-bottom: 8px;">Confirm Record Deletion</h2>
                 <p style="color: #475569; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-                    Are you sure you want to permanently delete record <strong>${escapeHtml(titleVal)}</strong> (id = ${record.id}) from table <code>${tableName}</code>?
+                    Are you sure you want to permanently delete record <strong>${escapeHtml2(titleVal)}</strong> (id = ${record.id}) from table <code>${tableName}</code>?
                 </p>
                 <div style="display: flex; justify-content: center; gap: 12px;">
                     <button class="action-btn danger" id="btn-confirm-delete" style="padding: 8px 18px;">
@@ -45487,6 +48108,11 @@ async function renderDeleteConfirmation(tableName, record) {
       if (res.status === "error") throw new Error(res.error || res.message);
       setStatus(`\u2713 Record #${record.id} permanently deleted.`);
       currentSelectedId = null;
+      await syncMenuTreeFromDatabase(queryDatabase);
+      if (typeDropdownMenu) {
+        typeDropdownMenu.innerHTML = renderMenuHierarchy(getFilteredMenuTree(currentSubject, currentMode));
+      }
+      fetch("/api/rebuild-catalog", { method: "POST" }).catch((e) => console.warn("[rebuild-catalog] background notice:", e));
       setMode("read");
     } catch (delErr) {
       showModal(`
@@ -45514,7 +48140,7 @@ async function fetchRecordById(tableName, id) {
     return null;
   }
 }
-function escapeHtml(str) {
+function escapeHtml2(str) {
   if (!str) return "";
   return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
@@ -45524,69 +48150,100 @@ function capitalize(str) {
 }
 
 // crud/src/main.ts
+var isBootstrapping = false;
 async function bootstrap() {
+  if (isBootstrapping) return;
+  isBootstrapping = true;
   const healthBadge = document.getElementById("db-health-badge");
   const statusMessage2 = document.getElementById("status-message");
   const displayPanel = document.getElementById("display-panel");
-  try {
-    if (statusMessage2) statusMessage2.textContent = "Checking database connection...";
+  const MAX_RETRIES = 5;
+  const RETRY_INTERVAL_MS = 600;
+  let lastError = null;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const health = await getDatabaseHealth();
-      if (health.status === "connected") {
-        if (healthBadge) {
-          healthBadge.textContent = "\u{1F7E2} DB Connected";
-          healthBadge.style.background = "#ecfdf5";
-          healthBadge.style.borderColor = "#a7f3d0";
-          healthBadge.style.color = "#065f46";
+      if (statusMessage2) {
+        statusMessage2.textContent = attempt === 1 ? "Connecting to database & loading schema..." : `Connecting to database (attempt ${attempt}/${MAX_RETRIES})...`;
+        statusMessage2.style.color = "#718096";
+      }
+      try {
+        const health = await getDatabaseHealth();
+        if (health.status === "connected") {
+          if (healthBadge) {
+            healthBadge.textContent = "\u{1F7E2} DB Connected";
+            healthBadge.style.background = "#ecfdf5";
+            healthBadge.style.borderColor = "#a7f3d0";
+            healthBadge.style.color = "#065f46";
+          }
+        } else {
+          if (healthBadge) {
+            healthBadge.textContent = "\u{1F7E1} DB Disconnected";
+            healthBadge.style.background = "#fffbeb";
+            healthBadge.style.borderColor = "#fde68a";
+            healthBadge.style.color = "#92400e";
+          }
         }
-      } else {
+      } catch (healthErr) {
+        console.warn("[main] Database health probe non-critical warning:", healthErr);
         if (healthBadge) {
-          healthBadge.textContent = "\u{1F7E1} DB Disconnected";
+          healthBadge.textContent = "\u{1F7E1} DB Connecting...";
           healthBadge.style.background = "#fffbeb";
           healthBadge.style.borderColor = "#fde68a";
           healthBadge.style.color = "#92400e";
         }
       }
-    } catch (healthErr) {
-      console.warn("[main] Database health probe non-critical warning:", healthErr);
-      if (healthBadge) {
-        healthBadge.textContent = "\u{1F7E1} DB Probe Failed";
-        healthBadge.style.background = "#fffbeb";
-        healthBadge.style.borderColor = "#fde68a";
-        healthBadge.style.color = "#92400e";
+      const metadata = await validateAndBuildMetadata();
+      await syncMenuTreeFromDatabase(queryDatabase);
+      initializeUI(metadata, navigations, dependents);
+      if (statusMessage2) {
+        statusMessage2.textContent = "Ready";
+        statusMessage2.style.color = "#4a5568";
+      }
+      console.log("[main] MWM Database CRUD Studio successfully initialized.");
+      isBootstrapping = false;
+      return;
+    } catch (err) {
+      lastError = err;
+      console.warn(`[main] Connection attempt ${attempt}/${MAX_RETRIES} failed:`, err);
+      if (attempt < MAX_RETRIES) {
+        await new Promise((r) => setTimeout(r, RETRY_INTERVAL_MS));
       }
     }
-    if (statusMessage2) statusMessage2.textContent = "Validating schema & loading metadata...";
-    const metadata = await validateAndBuildMetadata();
-    initializeUI(metadata, navigations, dependents);
-    console.log("[main] MWM Database CRUD Studio successfully initialized.");
-  } catch (err) {
-    console.error("[main] Fatal error initializing MWM Database CRUD Studio:", err);
-    const errorMsg = err.message || String(err);
-    if (healthBadge) {
-      healthBadge.textContent = "\u{1F534} Schema Error";
-      healthBadge.style.background = "#fef2f2";
-      healthBadge.style.borderColor = "#fecaca";
-      healthBadge.style.color = "#991b1b";
-    }
-    if (statusMessage2) {
-      statusMessage2.textContent = "Initialization failed.";
-      statusMessage2.style.color = "#dc2626";
-    }
-    if (displayPanel) {
-      displayPanel.innerHTML = `
-                <div style="padding: 24px; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px;">
-                    <h3 style="color: #c53030; margin-bottom: 8px;">\u26A0\uFE0F Schema Validation Failed</h3>
-                    <p style="color: #4a5568; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
-                        The CRUD studio could not initialize because of a schema mismatch or database connectivity issue:
-                    </p>
-                    <pre style="background: #2d3748; color: #fc8181; padding: 12px; border-radius: 6px; font-size: 13px; overflow-x: auto; white-space: pre-wrap;">${errorMsg}</pre>
-                    <p style="margin-top: 14px; font-size: 13px; color: #718096;">
-                        Please ensure PostgreSQL is running and migrations have been executed.
-                    </p>
+  }
+  isBootstrapping = false;
+  console.error("[main] Fatal error initializing MWM Database CRUD Studio after retries:", lastError);
+  const errorMsg = lastError?.message || String(lastError);
+  if (healthBadge) {
+    healthBadge.textContent = "\u{1F534} Connection Error";
+    healthBadge.style.background = "#fef2f2";
+    healthBadge.style.borderColor = "#fecaca";
+    healthBadge.style.color = "#991b1b";
+  }
+  if (statusMessage2) {
+    statusMessage2.textContent = "Initialization failed.";
+    statusMessage2.style.color = "#dc2626";
+  }
+  if (displayPanel) {
+    displayPanel.innerHTML = `
+            <div style="padding: 24px; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px;">
+                <h3 style="color: #c53030; margin-bottom: 8px;">\u26A0\uFE0F Schema / Connection Issue</h3>
+                <p style="color: #4a5568; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
+                    The CRUD studio could not initialize because of a schema mismatch or database connectivity issue:
+                </p>
+                <pre style="background: #2d3748; color: #fc8181; padding: 12px; border-radius: 6px; font-size: 13px; overflow-x: auto; white-space: pre-wrap;">${errorMsg}</pre>
+                <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
+                    <button id="retry-bootstrap-btn" style="padding: 8px 16px; background: #3182ce; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer;">
+                        \u{1F504} Retry Connection
+                    </button>
+                    <span style="font-size: 13px; color: #718096;">
+                        Please ensure PostgreSQL is running and port 3000 is reachable.
+                    </span>
                 </div>
-            `;
-    }
+            </div>
+        `;
+    document.getElementById("retry-bootstrap-btn")?.addEventListener("click", () => {
+      bootstrap();
+    });
   }
 }
 if (document.readyState === "loading") {
