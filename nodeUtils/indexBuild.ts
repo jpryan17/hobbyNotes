@@ -53,11 +53,16 @@ async function buildIndex(app: string) {
         cpSync(diagramsFolder, distDiagramsFolder, { recursive: true });
     }
 
-    // Ensure standalone overview is synced to dist
+    // Ensure standalone overview and pseudocode spec are synced to dist
     const rootOverview = resolve(rootDir, 'overview.html');
     if (existsSync(rootOverview)) {
         copyFileSync(rootOverview, resolve(distFolder, 'overview.html'));
         console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
+    }
+    const rootSpec = resolve(rootDir, 'mwm_pseudocode_spec.html');
+    if (existsSync(rootSpec)) {
+        copyFileSync(rootSpec, resolve(distFolder, 'mwm_pseudocode_spec.html'));
+        console.log(`[indexBuild] Synced mwm_pseudocode_spec.html to ${distFolder}`);
     }
 
     const pool = createDbPool();

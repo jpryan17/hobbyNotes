@@ -390,11 +390,16 @@
 
   <!-- Start the App Action Button -->
   <div class="start-app-container">
-    <a href="./index.html" class="start-app-btn">
-      <span>🚀 Start the App</span>
-    </a>
+    <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; align-items: center;">
+      <a href="./index.html" class="start-app-btn">
+        <span>🚀 Start the App</span>
+      </a>
+      <a href="./mwm_pseudocode_spec.html" class="start-app-btn" style="background: #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);">
+        <span>📜 Pseudocode Language Spec</span>
+      </a>
+    </div>
     <div class="start-app-hint">
-      Enter the interactive lecture viewer and dynamic visualizers
+      Enter the interactive lecture viewer or inspect the formal discrete machine &amp; pseudocode interpreter specification
     </div>
   </div>
 
@@ -838,8 +843,13 @@ mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
 </details>
 
   <div class="project-links-card">
-    <h3>Project Artifacts</h3>
+    <h3>Project Artifacts &amp; Technical Specifications</h3>
     <ul>
+      <li>
+        <strong>MWM Pseudocode Language &amp; Interpreter Rules:</strong> 
+        <a href="./mwm_pseudocode_spec.html">mwm_pseudocode_spec.html</a> — 
+        Authoritative reference specification defining the discrete machine, lexical grammar, typed Directed Equations vs. dynamic runtime steppers, resource ledgers, and Lean 4 verification parity.
+      </li>
       <li>
         <strong>Lean 4 Computable Ring Formalization:</strong> 
         <a href="https://github.com/jpryan17/hobbyNotes/blob/master/MiddleWayLean/DyadicRing.lean" target="_blank" rel="noopener">DyadicRing.lean on GitHub</a> — 

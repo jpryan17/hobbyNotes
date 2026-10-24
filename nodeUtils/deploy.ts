@@ -15,7 +15,7 @@ try {
     console.log('[deploy] Verified existing dist/index.html. Skipping redundant build step (use --build to force).');
   }
 
-  // Always ensure standalone overview.html is synced to dist before staging
+  // Always ensure standalone overview.html and mwm_pseudocode_spec.html are synced to dist before staging
   const rootOverview = path.join(rootDir, 'overview.html');
   const distOverview = path.join(rootDir, 'app1', 'dist', 'overview.html');
   if (fs.existsSync(rootOverview)) {
@@ -23,6 +23,15 @@ try {
     if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
     fs.copyFileSync(rootOverview, distOverview);
     console.log('[deploy] Synced latest overview.html to app1/dist/overview.html');
+  }
+
+  const rootSpec = path.join(rootDir, 'mwm_pseudocode_spec.html');
+  const distSpec = path.join(rootDir, 'app1', 'dist', 'mwm_pseudocode_spec.html');
+  if (fs.existsSync(rootSpec)) {
+    const distDir = path.dirname(distSpec);
+    if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
+    fs.copyFileSync(rootSpec, distSpec);
+    console.log('[deploy] Synced latest mwm_pseudocode_spec.html to app1/dist/mwm_pseudocode_spec.html');
   }
 
   console.log('[deploy] Staging changes in git...');
