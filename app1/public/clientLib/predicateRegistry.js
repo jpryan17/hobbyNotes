@@ -443,11 +443,31 @@ export class PredicateRegistry {
             if (env.hasOwnProperty(slotSym)) {
                 return env[slotSym];
             }
-            // Check if slot references a constant subset (e.g. GT5, LT10)
+            // Check if slot references a constant subset (e.g. GT5, LT10, EMPTY)
             const subset = this.getConstantSubset(slotSym);
             if (subset && subset.fn) {
                 return subset.fn;
             }
+            if (slotSym === '∅' || slotSym === 'EMPTY') {
+                return () => false;
+            }
+            // Check if slot is a literal number term (e.g. "5", "0", "9.8")
+            const parsedNum = Number(slotSym);
+            if (!isNaN(parsedNum) && slotSym.trim() !== '') {
+                return parsedNum;
+            }
+            // Check if slot is a rational / dyadic fraction (e.g. "1/2", "3/4")
+            if (slotSym.includes('/')) {
+                const parts = slotSym.split('/').map(s => Number(s.trim()));
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+                    return parts[0] / parts[1];
+                }
+            }
+            // Check named mathematical constants
+            if (slotSym === 'π' || slotSym.toLowerCase() === 'pi')
+                return Math.PI;
+            if (slotSym === 'e')
+                return Math.E;
             // Default fallback
             return slotSym;
         });

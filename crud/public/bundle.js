@@ -11627,6 +11627,21 @@ var PredicateRegistry = class {
       if (subset && subset.fn) {
         return subset.fn;
       }
+      if (slotSym === "\u2205" || slotSym === "EMPTY") {
+        return () => false;
+      }
+      const parsedNum = Number(slotSym);
+      if (!isNaN(parsedNum) && slotSym.trim() !== "") {
+        return parsedNum;
+      }
+      if (slotSym.includes("/")) {
+        const parts = slotSym.split("/").map((s) => Number(s.trim()));
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+          return parts[0] / parts[1];
+        }
+      }
+      if (slotSym === "\u03C0" || slotSym.toLowerCase() === "pi") return Math.PI;
+      if (slotSym === "e") return Math.E;
       return slotSym;
     });
     try {
@@ -35786,7 +35801,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-22T20:23:02.032Z",
+  "generatedAt": "2026-10-23T23:58:24.044Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -40312,6 +40327,18 @@ function parseDomainSpec(str) {
   }
   return { base };
 }
+function isConstantTerm(v) {
+  if (!v) return false;
+  const trimmed = v.trim();
+  if (trimmed === "GT5" || trimmed === "LT10" || trimmed === "EMPTY" || trimmed === "\u2205") return true;
+  if (trimmed === "\u03C0" || trimmed.toLowerCase() === "pi" || trimmed === "e" || trimmed === "\u03C9") return true;
+  if (!isNaN(Number(trimmed)) && trimmed !== "") return true;
+  if (trimmed.includes("/")) {
+    const parts = trimmed.split("/").map((s) => Number(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) return true;
+  }
+  return false;
+}
 function evalFSDAST(node, leafLookup) {
   if (!node) return true;
   let val;
@@ -40356,8 +40383,9 @@ var FSD = class extends PXEParent {
   nextStageButton;
   // Stage 2 State: Variables & Slots
   elementVars = ["x\u2081", "x\u2082"];
-  setVars = ["y\u2081", "y\u2082", "GT5", "LT10"];
-  availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "GT5", "LT10"];
+  numberConstants = ["0", "1", "5", "10"];
+  setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
+  availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
   selectedVar = "x\u2081";
   slots = [];
   varDomains = {};
@@ -40797,7 +40825,40 @@ var FSD = class extends PXEParent {
       this.slots.length > 0
     );
     this.stageControls.push(newVarBtn);
-    if (activeSlot && activeSlot.assignedVar && !activeSlot.assignedVar.startsWith("y") && activeSlot.assignedVar !== "GT5" && activeSlot.assignedVar !== "LT10") {
+    if (!isPowerSet) {
+      this.numberConstants.forEach((numStr) => {
+        const isAssignedToActive = activeSlot && activeSlot.assignedVar === numStr;
+        const btn = new SVGSelectableText(
+          () => {
+            this.assignVarToActiveSlot(numStr);
+          },
+          numStr,
+          this.slots.length > 0,
+          void 0,
+          isAssignedToActive ? { std: "#047857", over: "#10b981", disabled: "grey", selected: "#047857" } : { std: "#065f46", over: "#059669", disabled: "grey", selected: "#065f46" }
+        );
+        this.stageControls.push(btn);
+      });
+      const newNumBtn = new SVGSelectableText(
+        () => {
+          const custom = window.prompt("Enter constant number term (e.g. 0, 1, 5, 440, 1/2, \u03C0):");
+          if (custom && custom.trim()) {
+            const clean = custom.trim();
+            if (!this.numberConstants.includes(clean)) {
+              this.numberConstants.push(clean);
+              this.availableVars.push(clean);
+            }
+            this.assignVarToActiveSlot(clean);
+          }
+        },
+        "+ Num",
+        this.slots.length > 0,
+        void 0,
+        { std: "#047857", over: "#10b981", disabled: "grey", selected: "#047857" }
+      );
+      this.stageControls.push(newNumBtn);
+    }
+    if (activeSlot && activeSlot.assignedVar && !isConstantTerm(activeSlot.assignedVar) && !activeSlot.assignedVar.startsWith("y")) {
       const curDomain = this.getVarDomain(activeSlot.assignedVar);
       const domLabel = `Dom(${activeSlot.assignedVar}): ${formatDomainSpec(curDomain)}`;
       const domChip = new SVGSelectableText(
@@ -40839,7 +40900,7 @@ var FSD = class extends PXEParent {
     this.stageControls.push(btnReset);
     const uniqueVars = Array.from(
       new Set(
-        this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")
+        this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))
       )
     );
     const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v)).sort((a, b) => {
@@ -40997,8 +41058,9 @@ var FSD = class extends PXEParent {
   clear() {
     this.stage = 1;
     this.elementVars = ["x\u2081", "x\u2082"];
-    this.setVars = ["y\u2081", "y\u2082", "GT5", "LT10"];
-    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "GT5", "LT10"];
+    this.numberConstants = ["0", "1", "5", "10"];
+    this.setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
+    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
     this.selectedVar = "x\u2081";
     this.slots = [];
     this.varDomains = {};
@@ -41142,7 +41204,7 @@ var FSD = class extends PXEParent {
           this.quantifierBindings.push({ quantifier: "\u2203", variable: "x\u2081", domainType: "\u2115" });
         }
       } else {
-        const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10" && v !== "EMPTY" && v !== "\u2205")));
+        const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
         this.quantifierBindings = uniqueVars.map((v) => ({
           quantifier: "\u2203",
           variable: v,
@@ -41164,8 +41226,9 @@ var FSD = class extends PXEParent {
     this.stage = 2;
     this.slots = [];
     this.elementVars = ["x\u2081", "x\u2082"];
-    this.setVars = ["y\u2081", "y\u2082", "GT5", "LT10"];
-    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "GT5", "LT10"];
+    this.numberConstants = ["0", "1", "5", "10"];
+    this.setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
+    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
     this.selectedSlotIndex = 0;
     for (let i = 0; i < this.pxe.exp.length; i++) {
       const ch = this.pxe.exp[i];
@@ -41204,7 +41267,7 @@ var FSD = class extends PXEParent {
   }
   cycleQuantifierVarSelection() {
     if (this.stage === 3) {
-      const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")));
+      const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
       const unquantifiedVars = uniqueVars.filter(
         (v) => !this.quantifierBindings.some((q) => q.variable === v)
       );
@@ -41219,7 +41282,7 @@ var FSD = class extends PXEParent {
   checkTypeMismatch() {
     const varTypes = {};
     for (const s of this.slots) {
-      if (s.assignedVar && s.assignedVar !== "GT5" && s.assignedVar !== "LT10") {
+      if (s.assignedVar && !isConstantTerm(s.assignedVar)) {
         if (varTypes[s.assignedVar] && varTypes[s.assignedVar] !== s.domainType) {
           return { hasMismatch: true, conflictingVar: s.assignedVar };
         }

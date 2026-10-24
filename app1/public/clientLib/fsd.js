@@ -53,6 +53,25 @@ export function parseDomainSpec(str) {
     }
     return { base };
 }
+export function isConstantTerm(v) {
+    if (!v)
+        return false;
+    const trimmed = v.trim();
+    if (trimmed === "GT5" || trimmed === "LT10" || trimmed === "EMPTY" || trimmed === "∅")
+        return true;
+    if (trimmed === "π" || trimmed.toLowerCase() === "pi" || trimmed === "e" || trimmed === "ω")
+        return true;
+    // Literal integer or float
+    if (!isNaN(Number(trimmed)) && trimmed !== "")
+        return true;
+    // Rational fraction e.g. 1/2, 3/4
+    if (trimmed.includes("/")) {
+        const parts = trimmed.split("/").map((s) => Number(s.trim()));
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0)
+            return true;
+    }
+    return false;
+}
 export function evalFSDAST(node, leafLookup) {
     if (!node)
         return true;
@@ -102,8 +121,9 @@ export class FSD extends PXEParent {
     nextStageButton;
     // Stage 2 State: Variables & Slots
     elementVars = ["x₁", "x₂"];
-    setVars = ["y₁", "y₂", "GT5", "LT10"];
-    availableVars = ["x₁", "x₂", "y₁", "y₂", "GT5", "LT10"];
+    numberConstants = ["0", "1", "5", "10"];
+    setVars = ["y₁", "y₂", "∅", "GT5", "LT10"];
+    availableVars = ["x₁", "x₂", "y₁", "y₂", "0", "1", "5", "10", "∅", "GT5", "LT10"];
     selectedVar = "x₁";
     slots = [];
     varDomains = {};
@@ -521,8 +541,32 @@ export class FSD extends PXEParent {
             }
         }, isPowerSet ? "+ yVar" : "+ xVar", this.slots.length > 0);
         this.stageControls.push(newVarBtn);
+        // For element slots (ℕ, Ord, ℝ_ω), provide first-class Number Term constants
+        if (!isPowerSet) {
+            this.numberConstants.forEach((numStr) => {
+                const isAssignedToActive = activeSlot && activeSlot.assignedVar === numStr;
+                const btn = new SVGSelectableText(() => {
+                    this.assignVarToActiveSlot(numStr);
+                }, numStr, this.slots.length > 0, undefined, isAssignedToActive
+                    ? { std: "#047857", over: "#10b981", disabled: "grey", selected: "#047857" }
+                    : { std: "#065f46", over: "#059669", disabled: "grey", selected: "#065f46" });
+                this.stageControls.push(btn);
+            });
+            const newNumBtn = new SVGSelectableText(() => {
+                const custom = window.prompt("Enter constant number term (e.g. 0, 1, 5, 440, 1/2, π):");
+                if (custom && custom.trim()) {
+                    const clean = custom.trim();
+                    if (!this.numberConstants.includes(clean)) {
+                        this.numberConstants.push(clean);
+                        this.availableVars.push(clean);
+                    }
+                    this.assignVarToActiveSlot(clean);
+                }
+            }, "+ Num", this.slots.length > 0, undefined, { std: "#047857", over: "#10b981", disabled: "grey", selected: "#047857" });
+            this.stageControls.push(newNumBtn);
+        }
         // If active slot has an assigned element variable (e.g. x₁), add domain configurator
-        if (activeSlot && activeSlot.assignedVar && !activeSlot.assignedVar.startsWith("y") && activeSlot.assignedVar !== "GT5" && activeSlot.assignedVar !== "LT10") {
+        if (activeSlot && activeSlot.assignedVar && !isConstantTerm(activeSlot.assignedVar) && !activeSlot.assignedVar.startsWith("y")) {
             const curDomain = this.getVarDomain(activeSlot.assignedVar);
             const domLabel = `Dom(${activeSlot.assignedVar}): ${formatDomainSpec(curDomain)}`;
             const domChip = new SVGSelectableText(() => this.cycleVarDomain(activeSlot.assignedVar), domLabel, true, undefined, { std: "#0d6efd", over: "#0b5ed7", disabled: "grey", selected: "#0d6efd" });
@@ -550,7 +594,7 @@ export class FSD extends PXEParent {
         // Unique unquantified variables used in Stage 2 (excluding constants)
         const uniqueVars = Array.from(new Set(this.slots
             .map((s) => s.assignedVar)
-            .filter((v) => v && v !== "GT5" && v !== "LT10")));
+            .filter((v) => v && !isConstantTerm(v))));
         // Sort unquantified variables topologically: independent variables first, dependent variables next
         const unquantifiedVars = uniqueVars
             .filter((v) => !this.quantifierBindings.some((q) => q.variable === v))
@@ -702,8 +746,9 @@ export class FSD extends PXEParent {
     clear() {
         this.stage = 1;
         this.elementVars = ["x₁", "x₂"];
-        this.setVars = ["y₁", "y₂", "GT5", "LT10"];
-        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "GT5", "LT10"];
+        this.numberConstants = ["0", "1", "5", "10"];
+        this.setVars = ["y₁", "y₂", "∅", "GT5", "LT10"];
+        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "0", "1", "5", "10", "∅", "GT5", "LT10"];
         this.selectedVar = "x₁";
         this.slots = [];
         this.varDomains = {};
@@ -865,7 +910,7 @@ export class FSD extends PXEParent {
                 }
             }
             else {
-                const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10" && v !== "EMPTY" && v !== "∅")));
+                const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
                 this.quantifierBindings = uniqueVars.map((v) => ({
                     quantifier: "∃",
                     variable: v,
@@ -890,8 +935,9 @@ export class FSD extends PXEParent {
         this.stage = 2;
         this.slots = [];
         this.elementVars = ["x₁", "x₂"];
-        this.setVars = ["y₁", "y₂", "GT5", "LT10"];
-        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "GT5", "LT10"];
+        this.numberConstants = ["0", "1", "5", "10"];
+        this.setVars = ["y₁", "y₂", "∅", "GT5", "LT10"];
+        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "0", "1", "5", "10", "∅", "GT5", "LT10"];
         this.selectedSlotIndex = 0;
         // Extract all predicate tokens from pxe.exp
         for (let i = 0; i < this.pxe.exp.length; i++) {
@@ -933,7 +979,7 @@ export class FSD extends PXEParent {
     }
     cycleQuantifierVarSelection() {
         if (this.stage === 3) {
-            const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")));
+            const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
             const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
             if (unquantifiedVars.length > 0) {
                 this.selectedQuantifierVarIndex = (this.selectedQuantifierVarIndex + 1) % unquantifiedVars.length;
@@ -946,7 +992,7 @@ export class FSD extends PXEParent {
     checkTypeMismatch() {
         const varTypes = {};
         for (const s of this.slots) {
-            if (s.assignedVar && s.assignedVar !== "GT5" && s.assignedVar !== "LT10") {
+            if (s.assignedVar && !isConstantTerm(s.assignedVar)) {
                 if (varTypes[s.assignedVar] && varTypes[s.assignedVar] !== s.domainType) {
                     return { hasMismatch: true, conflictingVar: s.assignedVar };
                 }
