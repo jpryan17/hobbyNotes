@@ -8,8 +8,11 @@ const distIndexPath = path.join(rootDir, 'app1', 'dist', 'index.html');
 const forceBuild = process.argv.includes('--build') || process.argv.includes('-b');
 
 try {
-  console.log('[deploy] Running prep (PostgreSQL backup + distribution build)...');
-  execSync('npm run prep', { cwd: rootDir, stdio: 'inherit' });
+  const runPrep = process.argv.includes('--prep') || process.argv.includes('--build') || process.argv.includes('-b');
+  if (runPrep) {
+    console.log('[deploy] Running prep (PostgreSQL backup + distribution build)...');
+    execSync('npm run prep', { cwd: rootDir, stdio: 'inherit' });
+  }
 
   // Always ensure standalone overview.html and mwm_pseudocode_spec.html are synced to dist before staging
   const rootOverview = path.join(rootDir, 'overview.html');
@@ -28,6 +31,13 @@ try {
     if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
     fs.copyFileSync(rootSpec, distSpec);
     console.log('[deploy] Synced latest mwm_pseudocode_spec.html to app1/dist/mwm_pseudocode_spec.html');
+  }
+
+  // Check if there are any working tree or staged changes
+  const gitStatus = execSync('git status --porcelain', { cwd: rootDir, encoding: 'utf8' }).trim();
+  if (!gitStatus) {
+    console.log('[deploy] Working tree is clean. Nothing new to commit or deploy.');
+    process.exit(0);
   }
 
   console.log('[deploy] Staging changes in git...');
