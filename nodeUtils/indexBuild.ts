@@ -64,6 +64,15 @@ async function buildIndex(app: string) {
         copyFileSync(rootSpec, resolve(distFolder, 'mwm_pseudocode_spec.html'));
         console.log(`[indexBuild] Synced mwm_pseudocode_spec.html to ${distFolder}`);
     }
+    const rootPapers = resolve(rootDir, 'papers');
+    const distPapers = resolve(distFolder, 'papers');
+    if (existsSync(rootPapers)) {
+        if (!existsSync(distPapers)) {
+            mkdirSync(distPapers, { recursive: true });
+        }
+        cpSync(rootPapers, distPapers, { recursive: true });
+        console.log(`[indexBuild] Synced papers/ to ${distPapers}`);
+    }
 
     const pool = createDbPool();
 

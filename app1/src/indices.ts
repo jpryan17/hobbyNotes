@@ -664,12 +664,6 @@ export const mainIndex: IndexItemDesc[] = [
     navTopic: "Applied Seminars",
     indexDesc: level6Index,
   },
-  {
-    type: "index",
-    topic: "Research & Proposals",
-    navTopic: "Proposals",
-    indexDesc: proposalsIndex,
-  },
 ];
 
 function initTTD() {

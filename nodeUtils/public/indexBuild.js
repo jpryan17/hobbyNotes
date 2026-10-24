@@ -92,6 +92,15 @@ async function buildIndex(app) {
         (0, fs_1.copyFileSync)(rootSpec, (0, path_1.resolve)(distFolder, 'mwm_pseudocode_spec.html'));
         console.log(`[indexBuild] Synced mwm_pseudocode_spec.html to ${distFolder}`);
     }
+    const rootPapers = (0, path_1.resolve)(rootDir, 'papers');
+    const distPapers = (0, path_1.resolve)(distFolder, 'papers');
+    if ((0, fs_1.existsSync)(rootPapers)) {
+        if (!(0, fs_1.existsSync)(distPapers)) {
+            (0, fs_1.mkdirSync)(distPapers, { recursive: true });
+        }
+        (0, fs_1.cpSync)(rootPapers, distPapers, { recursive: true });
+        console.log(`[indexBuild] Synced papers/ to ${distPapers}`);
+    }
     const pool = createDbPool();
     try {
         const segIds = await (0, indexUtils_js_1.getRequiredSegIds)(app);

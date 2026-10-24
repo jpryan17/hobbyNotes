@@ -1,16 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "name": "Middle Way Mathematics • CRUD Studio Affordance Model",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Authoritative semantic mental model of the MWM CRUD Studio UI. Maps state dimensions, UI selectors, input event handlers, backend database behaviors, and output semantics to enable human and autonomous agent task execution.",
-  "last_updated": "2026-10-24T09:40:00Z",
+  "last_updated": "2026-10-24T10:38:00Z",
   "architecture": {
     "dimensions": {
       "modes": {
         "read": "Authoritative inspection of an existing database entity record and its relational graph.",
         "update": "Parameterized SQL mutation of an existing entity record with dirty tracking and foreign key assignment.",
         "create": "Instantiation and persistence of a new entity record with schema-informed defaults.",
-        "delete": "Safeguarded entity deletion with dependency warning and cascade prevention."
+        "delete": {
+          "description": "Safeguarded entity deletion governed by two distinct relational policies.",
+          "policies": {
+            "restricted_guard": "Zero-Dependents Policy: Enforces that the entity has all empty 1:m relationships. If references exist in segment_references or FK tables, deletion is inhibited and referencing parents are displayed. No automatic attempt is made to delete children. (Applies to TTD/demos, formal statements, directed equations, pseudocode algorithms).",
+            "cascading_verified": "Impact Analysis & Dry Run Policy: Computes the structural blast radius across navigation items, segments, and junction tables. Displays an impact inventory modal and executes atomic cascading deletion only after positive user verification. (Applies to leaf index entries and curriculum segments)."
+          }
+        }
       },
       "subjects": [
         "all",
@@ -26,50 +32,65 @@
           "label": "Curriculum Segments",
           "primary_key": "id",
           "display_col": "slug",
-          "has_content_editor": true
+          "has_content_editor": true,
+          "delete_policy": "cascading_verified"
+        },
+        "curriculum_nav_items": {
+          "table": "curriculum_nav_items",
+          "label": "Curriculum Navigation Entries",
+          "primary_key": "id",
+          "display_col": "topic",
+          "delete_policy": "cascading_verified"
         },
         "interactive_demos": {
           "table": "interactive_demos",
           "label": "Interactive Demos & Truth Tables",
           "primary_key": "id",
           "display_col": "title",
-          "engine_filter": ["ttd", "standalone"]
+          "engine_filter": ["ttd", "standalone"],
+          "delete_policy": "restricted_guard"
         },
         "formal_statements": {
           "table": "formal_statements",
           "label": "Formal Statements (Lean 4)",
           "primary_key": "id",
-          "display_col": "statement_key"
+          "display_col": "statement_key",
+          "delete_policy": "restricted_guard"
         },
         "directed_equations": {
           "table": "directed_equations",
           "label": "Directed Equations (Stencils)",
           "primary_key": "id",
-          "display_col": "equation_key"
+          "display_col": "equation_key",
+          "delete_policy": "restricted_guard"
         },
         "pseudocode_algorithms": {
           "table": "pseudocode_algorithms",
           "label": "Pseudocode Algorithms",
           "primary_key": "id",
-          "display_col": "algo_key"
+          "display_col": "algo_key",
+          "delete_policy": "restricted_guard"
         },
         "math_entities": {
           "table": "math_entities",
           "label": "Mathematical Entities",
           "primary_key": "id",
-          "display_col": "name"
+          "display_col": "name",
+          "delete_policy": "restricted_guard"
         },
         "proof_steps": {
           "table": "proof_steps",
           "label": "Proof Steps & Tactics",
           "primary_key": "id",
-          "display_col": "label"
+          "display_col": "label",
+          "delete_policy": "restricted_guard"
         },
         "mode_slots": {
           "table": "mode_slots",
           "label": "Calculation Mode Slots",
           "primary_key": "id",
-          "display_col": "label"
+          "display_col": "label",
+          "delete_policy": "restricted_guard"
         }
       }
     }
@@ -258,12 +279,39 @@
         "action": "click",
         "behavior": "Opens the Authoritative Entity Inspector modal for the clicked custom element tag without navigating away from the segment."
       }
+    },
+    "deletion_surface": {
+      "btn_delete_record": {
+        "selector": ".btn-delete-record-footer",
+        "action": "click",
+        "behavior": "Inspects active entity type's delete_policy: triggers #modal-restricted-guard if 'restricted_guard', or #modal-cascade-impact if 'cascading_verified'."
+      },
+      "restricted_guard_modal": {
+        "selector": "#modal-restricted-guard",
+        "behavior": "Queries PostgreSQL segment_references and foreign keys. If dependent count > 0, renders warning banner, lists referencing segments with jump links, and disables confirmation. Makes zero effort to automatically delete dependents.",
+        "preflight_query": "SELECT sr.id, s.seg_key, s.title, sr.raw_tag FROM segment_references sr JOIN segments s ON s.id = sr.segment_id WHERE sr.demo_id = $1;",
+        "output_semantics": "Protects reusable assets by inhibiting deletion until all referencing 1:m relationships are cleared by the author."
+      },
+      "cascade_impact_modal": {
+        "selector": "#modal-cascade-impact",
+        "behavior": "Computes impact inventory (child nav items, bound segment, join links, prerequisite bindings). Displays color-coded impact summary and requires verified user confirmation.",
+        "preflight_query": "SELECT n.id, n.topic, s.id as segment_id, s.seg_key, COUNT(DISTINCT sr.id) as ref_count, COUNT(DISTINCT sp.id) as prereq_count FROM curriculum_nav_items n LEFT JOIN segments s ON s.id = n.segment_id LEFT JOIN segment_references sr ON sr.segment_id = s.id LEFT JOIN segment_prerequisites sp ON sp.segment_id = s.id WHERE n.id = $1 GROUP BY n.id, n.topic, s.id, s.seg_key;",
+        "output_semantics": "Provides complete transparency of relational blast radius prior to destructive execution."
+      },
+      "btn_confirm_cascade_delete": {
+        "selector": "#btn-confirm-cascade-delete",
+        "action": "click",
+        "behavior": "Executes atomic transaction in PostgreSQL: deletes junction rows, navigation item, and associated segment; triggers catalog and index rebuild in background.",
+        "output_semantics": "Removes leaf navigation item and bound segment cleanly from PostgreSQL without leaving orphaned relational records."
+      }
     }
   },
   "output_semantics": {
     "toast_saved_content_html": "Confirms PostgreSQL has updated the content_html text column for the active segment row.",
-    "toast_prep_complete": "Confirms database dump completed to db/backups/latest.sql and all 57 segments were recompiled into app1/dist/index.html.",
-    "toast_deployed": "Confirms git commit created and pushed to origin master; remote server has received changes for middlewaymath.app."
+    "toast_prep_complete": "Confirms database dump completed to db/backups/latest.sql and all 54 segments were recompiled into app1/dist/index.html.",
+    "toast_deployed": "Confirms git commit created and pushed to origin master; remote server has received changes for middlewaymath.app.",
+    "toast_deleted_restricted": "Confirms entity record deleted after verifying zero referencing dependents exist.",
+    "toast_deleted_cascaded": "Confirms leaf index entry and associated segment transactionally removed from PostgreSQL."
   },
   "recipes": {
     "create_and_link_truth_table": [
@@ -330,6 +378,75 @@
         "step": 2,
         "action": "Embed in Segment",
         "ui": "Open Segment Content Editor, click '⨁ Insert Element' -> '📐 Computational Stencil (<interactive-stencil>)', select the equation key, and save."
+      }
+    ],
+    "delete_ttd_restricted_flow": [
+      {
+        "step": 1,
+        "action": "Switch Mode to 'Delete'",
+        "ui": "Click #mode-btn -> Select '🗑️ Delete'"
+      },
+      {
+        "step": 2,
+        "action": "Select Entity Type 'Truth Table Demo (TTD)'",
+        "ui": "Click #type-btn -> Select 'Truth Table Demo (TTD)' under Interactive Demos"
+      },
+      {
+        "step": 3,
+        "action": "Choose Target Instance",
+        "ui": "Select instance from #entity-instance-select (e.g. Peirce's Law #16)"
+      },
+      {
+        "step": 4,
+        "action": "Trigger Deletion Pre-flight",
+        "ui": "Click .btn-delete-record-footer ('🗑️ Delete Record')"
+      },
+      {
+        "step": 5,
+        "action": "Pre-flight Relational Check (PostgreSQL)",
+        "sql": "SELECT sr.id, s.seg_key, s.title FROM segment_references sr JOIN segments s ON s.id = sr.segment_id WHERE sr.demo_id = $1;",
+        "result_branch": {
+          "has_dependents": "Modal #modal-restricted-guard lists referencing segments (e.g. 'propLogicLecture'). Deletion button is disabled. Author must first edit the segment to remove the reference.",
+          "zero_dependents": "Confirms zero dependencies; enables single-record deletion; executes 'DELETE FROM interactive_demos WHERE id = $1;'."
+        }
+      }
+    ],
+    "delete_leaf_index_entry_cascading_flow": [
+      {
+        "step": 1,
+        "action": "Switch Mode to 'Delete'",
+        "ui": "Click #mode-btn -> Select '🗑️ Delete'"
+      },
+      {
+        "step": 2,
+        "action": "Select Entity Type 'Curriculum Navigation Entries'",
+        "ui": "Click #type-btn -> Select 'Curriculum Navigation Entries'"
+      },
+      {
+        "step": 3,
+        "action": "Select Target Leaf Node",
+        "ui": "Select leaf navigation item bound to a segment (e.g. #85 'Proposal 1: Open Educational Service Hubs')"
+      },
+      {
+        "step": 4,
+        "action": "Pre-flight Impact Analysis (PostgreSQL)",
+        "ui": "Click .btn-delete-record-footer -> Modal #modal-cascade-impact appears",
+        "impact_inventory": {
+          "nav_item": "Node #85 (topic: 'proposal 1: open educational service hubs')",
+          "bound_segment": "Segment #55 (seg_key: 'lean4GenEdProposal', 31KB body)",
+          "dependent_joins": "Associated segment_references, formal_statement_segments, and demo links"
+        }
+      },
+      {
+        "step": 5,
+        "action": "Verified Confirmation",
+        "ui": "Author reviews inventory and clicks #btn-confirm-cascade-delete",
+        "sql_transaction": "BEGIN; DELETE FROM segment_references WHERE segment_id = $1; DELETE FROM curriculum_nav_items WHERE id = $2; DELETE FROM segments WHERE id = $1; COMMIT;"
+      },
+      {
+        "step": 6,
+        "action": "Catalog Sync",
+        "ui": "CRUD Studio executes background catalog sync and transitions view to adjacent navigation sibling."
       }
     ]
   }

@@ -33,6 +33,14 @@ try {
     console.log('[deploy] Synced latest mwm_pseudocode_spec.html to app1/dist/mwm_pseudocode_spec.html');
   }
 
+  const rootPapers = path.join(rootDir, 'papers');
+  const distPapers = path.join(rootDir, 'app1', 'dist', 'papers');
+  if (fs.existsSync(rootPapers)) {
+    if (!fs.existsSync(distPapers)) fs.mkdirSync(distPapers, { recursive: true });
+    fs.cpSync(rootPapers, distPapers, { recursive: true });
+    console.log('[deploy] Synced latest papers/ to app1/dist/papers');
+  }
+
   // Check if there are any working tree or staged changes
   const gitStatus = execSync('git status --porcelain', { cwd: rootDir, encoding: 'utf8' }).trim();
   if (!gitStatus) {

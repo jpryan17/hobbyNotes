@@ -379,6 +379,54 @@
       color: #14532d;
       line-height: 1.65;
     }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 16px 0 24px 0;
+    }
+
+    .paper-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 22px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .paper-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .paper-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .paper-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .paper-desc {
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
   </style>
 </head>
 <body>
@@ -847,12 +895,46 @@ mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
     </div>
   </div>
 
+  <!-- Research, Academic Papers & Institutional Proposals -->
+  <div class="research-section" style="margin: 36px 0 28px 0;">
+    <h3 style="color: var(--heading-color); font-size: 1.25rem; margin-bottom: 6px;">📚 Research, Academic Papers &amp; Proposals</h3>
+    <p style="color: #475569; font-size: 0.95rem; margin-bottom: 16px; line-height: 1.55;">
+      Standalone scholarly whitepapers, educational infrastructure proposals, and AI-assisted pedagogy publications framing the institutional and mathematical vision of Middle Way Mathematics:
+    </p>
+    <div class="research-grid">
+      <!-- Paper 1 -->
+      <a href="./papers/lean4GenEdProposal.html" class="paper-card" style="border-top: 4px solid #2563eb;">
+        <div class="paper-badge" style="color: #2563eb;">Civic Infrastructure &amp; OER</div>
+        <div class="paper-title">The Public Utility Model for Formal Science</div>
+        <div class="paper-desc">Prototyping an open civic infrastructure for formal verification (Lean 4), machine-checked proof, and federated curriculum hubs.</div>
+      </a>
+      <!-- Paper 2 -->
+      <a href="./papers/dualAgentAcademicProposal.html" class="paper-card" style="border-top: 4px solid #7c3aed;">
+        <div class="paper-badge" style="color: #7c3aed;">AI &amp; Socratic Pedagogy</div>
+        <div class="paper-title">Coupling Formal Verification with Conversational AI</div>
+        <div class="paper-desc">A multi-service grounded dual-layer architecture coupling Lean 4, symbolic CAS, and LLMs for hallucination-free intelligent tutoring.</div>
+      </a>
+      <!-- Paper 3 -->
+      <a href="./papers/minimalAxiomaticCoreProposal.html" class="paper-card" style="border-top: 4px solid #059669;">
+        <div class="paper-badge" style="color: #059669;">Foundations &amp; Analysis</div>
+        <div class="paper-title">The Inductive Continuum</div>
+        <div class="paper-desc">A minimal constructive scaffold reducing continuous modeling to three inductive seeds in Lean 4 without epsilon-delta machinery.</div>
+      </a>
+    </div>
+  </div>
+
   <div class="project-links-card">
     <h3>Project Artifacts &amp; Technical Specifications</h3><ul>
       <li>
         <strong>Discrete Machine &amp; Pseudocode Specification:</strong> 
         <a href="./mwm_pseudocode_spec.html">mwm_pseudocode_spec.html</a> — 
         Full language grammar, virtual machine model, Conway bisection stepping, and execution semantics.
+      </li>
+      <li>
+        <strong>Research Papers &amp; Proposals:</strong> 
+        <a href="./papers/lean4GenEdProposal.html">Public Utility Model (Lean 4 Hubs)</a>, 
+        <a href="./papers/dualAgentAcademicProposal.html">Dual-Agent AI Tutor</a>, and 
+        <a href="./papers/minimalAxiomaticCoreProposal.html">The Inductive Continuum</a>.
       </li>
       <li>
         <strong>Lean 4 Computable Ring Formalization:</strong> 
