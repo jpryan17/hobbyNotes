@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "name": "Middle Way Mathematics • CRUD Studio Affordance Model",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Authoritative semantic mental model of the MWM CRUD Studio UI. Maps state dimensions, UI selectors, input event handlers, backend database behaviors, and output semantics to enable human and autonomous agent task execution.",
-  "last_updated": "2026-10-24T10:38:00Z",
+  "last_updated": "2026-10-24T11:29:00Z",
   "architecture": {
     "dimensions": {
       "modes": {
@@ -371,13 +371,38 @@
     "create_and_link_directed_equation": [
       {
         "step": 1,
-        "action": "Create Directed Equation Record",
-        "ui": "Mode: Create, Type: Directed Equations (Stencils). Provide equation_key, title, formula, variable slots."
+        "action": "Ensure or Create Pseudocode Algorithm",
+        "rule": "Every directed equation enforces a NOT NULL foreign key pseudo_algo_id pointing to pseudocode_algorithms. Algorithms represent the executable discrete operational semantics.",
+        "ui": "Mode: Create, Type: 'Pseudocode Algorithms'. Provide algo_key, func_name, signature, and pseudocode block."
       },
       {
         "step": 2,
-        "action": "Embed in Segment",
-        "ui": "Open Segment Content Editor, click '⨁ Insert Element' -> '📐 Computational Stencil (<interactive-stencil>)', select the equation key, and save."
+        "action": "Ensure or Create Formal Statement",
+        "rule": "Every directed equation grounds a mathematical or physical formal statement (theorem or directed equality).",
+        "ui": "Mode: Create, Type: 'Formal Statements (Lean 4)'. Provide statement_key, scaffold_key, and expression."
+      },
+      {
+        "step": 3,
+        "action": "Create Directed Equation Record",
+        "ui": "Mode: Create, Type: 'Computational Stencils (Directed Equations)'. Provide equation_key, title, formula_expr, target_symbol, and select the pseudo_algo_id."
+      },
+      {
+        "step": 4,
+        "action": "Configure Parameter Mode Slots",
+        "rule": "Mode slots define input variables (f0, k, etc.), domains (R_w, N), physical units (Hz, m/s), defaults, and slider bounds.",
+        "ui": "In Directed Equations view, expand Mode Slots dependent table, click 'Add Slot', specify slot_order, name, symbol, domain, and default_value."
+      },
+      {
+        "step": 5,
+        "action": "Link Equation to Formal Statement",
+        "rule": "Creates junction record in equation_statement_links with relation_type = 'instantiates'.",
+        "ui": "In Formal Statements view, link directed equation via Computational Stencils dependent section."
+      },
+      {
+        "step": 6,
+        "action": "Embed Stencil in Curriculum Segment",
+        "rule": "Embeds <eq-ref id=\"...\"> or <interactive-stencil equation-key=\"...\"> and creates segment_references entry with ref_type = 'stencil'.",
+        "ui": "Open Segment Content Editor, click '⨁ Insert Element' -> '📐 Computational Stencil', select the equation key, and save."
       }
     ],
     "delete_ttd_restricted_flow": [

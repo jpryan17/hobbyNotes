@@ -16,7 +16,7 @@ export class EqRef extends HTMLElement {
 
   connectedCallback(): void {
     const rawHtml = this.innerHTML.trim();
-    const eqId = this.getAttribute('id') || this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || '';
+    const eqId = this.getAttribute('id') || this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || this.getAttribute('equation-key') || '';
     const desc = this.getAttribute('desc') || this.getAttribute('title') || '';
     const formula = this.getAttribute('formula') || this.getAttribute('expr') || '';
 

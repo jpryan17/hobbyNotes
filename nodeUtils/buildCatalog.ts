@@ -600,6 +600,20 @@ export function buildCurricularCatalog(): FsCatalog {
       pseudoAlgoId: 'conway_mul',
       demoRef: { engine: 'btd', mode: 'multiplication', label: 'Conway Inductive Multiplication in BTD' },
       referencedInSegments: getRefs('fs_conway_multiplication', 25, ['numbersLecture2'])
+    },
+    {
+      numId: 39,
+      id: 'fs_geometric_scale_step',
+      type: 'math',
+      tier: 'law',
+      statementKind: 'directed_equality',
+      governingSeed: 'boundary_law',
+      title: 'Chromatic Scale Geometric Progression',
+      description: 'In twelve-tone equal temperament (12-TET), each semitone step multiplies frequency by 2^(1/12), forming a geometric sequence with ratio r = 2^(1/12).',
+      scaffoldKey: 'geometric_scale_step',
+      expression: 'f_k = f_0 · (2^(1/12))^k',
+      pseudoAlgoId: 'algo_geometric_scale_step',
+      referencedInSegments: getRefs('fs_geometric_scale_step', 39, ['sequencesAndSums'])
     }
   ];
 
@@ -832,10 +846,35 @@ export function buildCurricularCatalog(): FsCatalog {
       inputs: [
         { name: 'thetaRad', symbol: 'θ', domain: '[0, 2π]', unit: 'rad', defaultValue: 0.785398, min: 0, max: 6.283185, step: 0.05, description: 'Rotor angle in radians' }
       ]
+    },
+    {
+      id: 'music_et_scale_step',
+      statementId: 'fs_geometric_scale_step',
+      label: 'Chromatic Frequency f_k = f₀ · (2^(1/12))^k',
+      targetSymbol: 'f_k',
+      targetDomain: 'ℝ_ω',
+      targetUnit: 'Hz',
+      formulaDescription: 'f_k = f₀ · (2^(1/12))^k',
+      formulaExpr: 'f0 * Math.pow(2, k / 12)',
+      inputs: [
+        { name: 'f0', symbol: 'f₀', domain: 'ℝ⁺', unit: 'Hz', defaultValue: 440.0, min: 20.0, max: 20000.0, step: 1.0, description: 'Reference base pitch (e.g., Concert A = 440 Hz)' },
+        { name: 'k', symbol: 'k', domain: 'ℕ', unit: 'semitones', defaultValue: 0, min: 0, max: 24, step: 1.0, description: 'Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)' }
+      ]
     }
   ];
 
   const examples: FsCatalogExample[] = [
+    {
+      id: 'ex_equal_temperament_c5',
+      modeId: 'music_et_scale_step',
+      statementId: 'fs_geometric_scale_step',
+      title: 'Concert Pitch A4 to Middle C5 (3 Semitones)',
+      values: { f0: 440.0, k: 3 },
+      displayResult: '523.251 Hz',
+      formattedFormula: 'f_3 = 440 · (2^(1/12))^3 ≈ 523.251 Hz',
+      domainBadge: '∈ ℝ_ω',
+      notes: 'Three semitones above Concert A4 (440 Hz) yields equal-tempered C5.'
+    },
     {
       id: 'ex_earth_free_fall',
       modeId: 'ff_v_from_v0_g_t',

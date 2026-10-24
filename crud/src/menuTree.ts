@@ -248,42 +248,34 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'directed_equality',
                 filterKind: { column: 'statement_kind', value: 'directed_equality' },
                 children: [
-                    // Logic & Order Predicates (Codomain 𝔹)
-                    { label: 'Definitional Assignment (:=)', typeKey: 'formal_statement', instanceKey: 'fs_pred_assign', subject: 'logic' },
-                    { label: 'Greater-Than (GT / >)', typeKey: 'formal_statement', instanceKey: 'fs_pred_gt', subject: 'logic' },
-                    { label: 'Less-Than (LT / <)', typeKey: 'formal_statement', instanceKey: 'fs_pred_lt', subject: 'logic' },
-                    { label: 'Identity / Equality (EQ / =)', typeKey: 'formal_statement', instanceKey: 'fs_pred_eq', subject: 'logic' },
-                    { label: 'Less-Than-or-Equal (LE / ≤)', typeKey: 'formal_statement', instanceKey: 'fs_pred_le', subject: 'logic' },
-                    { label: 'Set Membership (MEM / ∈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_mem', subject: 'logic' },
-                    { label: 'Subset Inclusion (SUBSET / ⊆)', typeKey: 'formal_statement', instanceKey: 'fs_pred_subset', subject: 'logic' },
-
-                    // Numbers, Trees & Arithmetic
-                    { label: 'Conway Inductive Addition (+)', typeKey: 'formal_statement', instanceKey: 'fs_conway_addition', subject: 'numbers_trees' },
-                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'formal_statement', instanceKey: 'fs_conway_multiplication', subject: 'numbers_trees' },
-                    { label: 'Divisibility (DIV / ∣)', typeKey: 'formal_statement', instanceKey: 'fs_pred_div', subject: 'numbers_trees' },
-                    { label: 'Even Parity (EVEN)', typeKey: 'formal_statement', instanceKey: 'fs_pred_even', subject: 'numbers_trees' },
-                    { label: 'Odd Parity (ODD)', typeKey: 'formal_statement', instanceKey: 'fs_pred_odd', subject: 'numbers_trees' },
-                    { label: 'Successor Step (SUCC / +1)', typeKey: 'formal_statement', instanceKey: 'fs_pred_succ', subject: 'numbers_trees' },
-
-                    // Discrete Analysis & Continuum Stencils
-                    { label: 'Hyperfinite Difference Quotient Derivative', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_derivative', subject: 'analysis' },
-                    { label: '2D Complex Step & Modulus Invariance', typeKey: 'formal_statement', instanceKey: 'fs_complex_step_invariance', subject: 'analysis' },
-                    { label: 'Infinitesimal Proximity (NEAR / ≈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_near', subject: 'analysis' },
-                    { label: 'Dyadic Ptolemaic Half-Angle Root Bisection', typeKey: 'formal_statement', instanceKey: 'fs_ptolemaic_half_angle', subject: 'analysis' },
-                    { label: 'Dyadic Polygonal Rim Chord Law', typeKey: 'formal_statement', instanceKey: 'fs_polygonal_rim_chord', subject: 'analysis' },
-                    { label: 'Euler Polar Rotor Decomposition', typeKey: 'formal_statement', instanceKey: 'fs_euler_identity_rotor', subject: 'analysis' },
-                    { label: 'Unit Rotor Sine & Cosine Projection', typeKey: 'formal_statement', instanceKey: 'fs_unit_rotor_projection', subject: 'analysis' },
-
-                    // Physics & Dynamics Stencils
-                    { label: 'Uniform Free Fall Kinematics', typeKey: 'formal_statement', instanceKey: 'fs_free_fall_accel', subject: 'physics' },
-                    { label: 'Telescoping Work-Energy Principle', typeKey: 'formal_statement', instanceKey: 'fs_work_energy', subject: 'physics' },
-                    { label: 'Discrete Thermal Diffusion Balance', typeKey: 'formal_statement', instanceKey: 'fs_heat_flux', subject: 'physics' },
-                    { label: 'Harmonic Leapfrog Phase Space Orbit', typeKey: 'formal_statement', instanceKey: 'fs_harmonic_oscillator', subject: 'physics' },
-                    { label: 'Three-Polarizer Geometric Transmission', typeKey: 'formal_statement', instanceKey: 'fs_three_polarizer_quantum', subject: 'physics' },
-
-                    // Information & Signals
-                    { label: 'Hyperfinite Bayesian Likelihood Inversion', typeKey: 'formal_statement', instanceKey: 'fs_bayes_updating', subject: 'information' },
-
+                    // Directed Equalities alphabetically sorted by unique friendly key (statement_key)
+                    { label: 'fs_bayes_updating — Hyperfinite Bayesian Likelihood Inversion', typeKey: 'formal_statement', instanceKey: 'fs_bayes_updating', subject: 'information' },
+                    { label: 'fs_complex_step_invariance — 2D Complex Step & Modulus Invariance', typeKey: 'formal_statement', instanceKey: 'fs_complex_step_invariance', subject: 'analysis' },
+                    { label: 'fs_conway_addition — Conway Inductive Addition (+)', typeKey: 'formal_statement', instanceKey: 'fs_conway_addition', subject: 'numbers_trees' },
+                    { label: 'fs_conway_multiplication — Conway Inductive Multiplication (·)', typeKey: 'formal_statement', instanceKey: 'fs_conway_multiplication', subject: 'numbers_trees' },
+                    { label: 'fs_euler_identity_rotor — Euler Polar Rotor Decomposition', typeKey: 'formal_statement', instanceKey: 'fs_euler_identity_rotor', subject: 'analysis' },
+                    { label: 'fs_free_fall_accel — Uniform Free Fall Kinematics', typeKey: 'formal_statement', instanceKey: 'fs_free_fall_accel', subject: 'physics' },
+                    { label: 'fs_geometric_scale_step — Chromatic Scale Geometric Progression', typeKey: 'formal_statement', instanceKey: 'fs_geometric_scale_step', subject: 'algebra' },
+                    { label: 'fs_harmonic_oscillator — Harmonic Leapfrog Phase Space Orbit', typeKey: 'formal_statement', instanceKey: 'fs_harmonic_oscillator', subject: 'physics' },
+                    { label: 'fs_heat_flux — Discrete Thermal Diffusion Balance', typeKey: 'formal_statement', instanceKey: 'fs_heat_flux', subject: 'physics' },
+                    { label: 'fs_hyperfinite_derivative — Hyperfinite Difference Quotient Derivative', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_derivative', subject: 'analysis' },
+                    { label: 'fs_polygonal_rim_chord — Dyadic Polygonal Rim Chord Law', typeKey: 'formal_statement', instanceKey: 'fs_polygonal_rim_chord', subject: 'analysis' },
+                    { label: 'fs_pred_assign — Definitional Assignment (:=)', typeKey: 'formal_statement', instanceKey: 'fs_pred_assign', subject: 'logic' },
+                    { label: 'fs_pred_div — Divisibility (DIV / ∣)', typeKey: 'formal_statement', instanceKey: 'fs_pred_div', subject: 'numbers_trees' },
+                    { label: 'fs_pred_eq — Identity / Equality (EQ / =)', typeKey: 'formal_statement', instanceKey: 'fs_pred_eq', subject: 'logic' },
+                    { label: 'fs_pred_even — Even Parity (EVEN)', typeKey: 'formal_statement', instanceKey: 'fs_pred_even', subject: 'numbers_trees' },
+                    { label: 'fs_pred_gt — Greater-Than (GT / >)', typeKey: 'formal_statement', instanceKey: 'fs_pred_gt', subject: 'logic' },
+                    { label: 'fs_pred_le — Less-Than-or-Equal (LE / ≤)', typeKey: 'formal_statement', instanceKey: 'fs_pred_le', subject: 'logic' },
+                    { label: 'fs_pred_lt — Less-Than (LT / <)', typeKey: 'formal_statement', instanceKey: 'fs_pred_lt', subject: 'logic' },
+                    { label: 'fs_pred_mem — Set Membership (MEM / ∈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_mem', subject: 'logic' },
+                    { label: 'fs_pred_near — Infinitesimal Proximity (NEAR / ≈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_near', subject: 'analysis' },
+                    { label: 'fs_pred_odd — Odd Parity (ODD)', typeKey: 'formal_statement', instanceKey: 'fs_pred_odd', subject: 'numbers_trees' },
+                    { label: 'fs_pred_subset — Subset Inclusion (SUBSET / ⊆)', typeKey: 'formal_statement', instanceKey: 'fs_pred_subset', subject: 'logic' },
+                    { label: 'fs_pred_succ — Successor Step (SUCC / +1)', typeKey: 'formal_statement', instanceKey: 'fs_pred_succ', subject: 'numbers_trees' },
+                    { label: 'fs_ptolemaic_half_angle — Dyadic Ptolemaic Half-Angle Root Bisection', typeKey: 'formal_statement', instanceKey: 'fs_ptolemaic_half_angle', subject: 'analysis' },
+                    { label: 'fs_three_polarizer_quantum — Three-Polarizer Geometric Transmission', typeKey: 'formal_statement', instanceKey: 'fs_three_polarizer_quantum', subject: 'physics' },
+                    { label: 'fs_unit_rotor_projection — Unit Rotor Sine & Cosine Projection', typeKey: 'formal_statement', instanceKey: 'fs_unit_rotor_projection', subject: 'analysis' },
+                    { label: 'fs_work_energy — Telescoping Work-Energy Principle', typeKey: 'formal_statement', instanceKey: 'fs_work_energy', subject: 'physics' },
                     { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
                 ]
             },
@@ -495,7 +487,8 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
         }
 
         // 2. Fetch live formal statements
-        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY id ASC;');
+        // 2. Fetch live formal statements sorted by unique friendly key (statement_key)
+        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
         if (stmts && stmts.length > 0) {
             const fsNode = navigationMenuTree.find((n) => n.typeKey === 'formal_statement');
             if (fsNode && fsNode.children) {
@@ -503,19 +496,24 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
                     const kindNode = fsNode.children.find((c) => c.typeKey === kind);
                     if (kindNode) {
                         const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+                        // Ensure strict alphabetical sorting by unique friendly key
+                        kindStmts.sort((a, b) => (a.statement_key || '').localeCompare(b.statement_key || ''));
                         kindNode.children = [
                             ...kindStmts.map((s) => {
                                 let subj = 'all';
                                 const dc = s.domain_category || '';
                                 if (dc.includes('logic') || dc.includes('order')) subj = 'logic';
                                 else if (dc.includes('tree') || dc.includes('arithmetic')) subj = 'numbers_trees';
-                                else if (dc.includes('algebra') || dc.includes('vector')) subj = 'algebra';
+                                else if (dc.includes('algebra') || dc.includes('vector') || dc.includes('sequence') || s.statement_key === 'fs_geometric_scale_step') subj = 'algebra';
                                 else if (dc.includes('analysis') || dc.includes('trig') || dc.includes('rotor')) subj = 'analysis';
                                 else if (dc.includes('physic') || dc.includes('kinematic')) subj = 'physics';
                                 else if (dc.includes('bayes') || dc.includes('quantum') || dc.includes('info')) subj = 'information';
 
+                                const key = s.statement_key || `fs_${s.id}`;
+                                const displayLabel = s.title ? `${key} — ${s.title}` : key;
+
                                 return {
-                                    label: s.title || s.statement_key,
+                                    label: displayLabel,
                                     typeKey: 'formal_statement',
                                     instanceKey: s.statement_key,
                                     subject: subj

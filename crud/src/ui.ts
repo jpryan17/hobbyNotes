@@ -109,13 +109,14 @@ export function getDisplayColumnName(tableName: string): string {
     const tableInfo = appMetadata[tableName];
     if (!tableInfo) return 'id';
     const cols = Object.keys(tableInfo.columns);
+    if (cols.includes('statement_key')) return 'statement_key';
+    if (cols.includes('equation_key')) return 'equation_key';
+    if (cols.includes('algo_key')) return 'algo_key';
+    if (cols.includes('nav_key')) return 'nav_key';
     if (cols.includes('title')) return 'title';
     if (cols.includes('name')) return 'name';
     if (cols.includes('topic')) return 'topic';
     if (cols.includes('theorem_name')) return 'theorem_name';
-    if (cols.includes('statement_key')) return 'statement_key';
-    if (cols.includes('equation_key')) return 'equation_key';
-    if (cols.includes('algo_key')) return 'algo_key';
     if (cols.includes('seg_key')) return 'seg_key';
     if (cols.includes('label')) return 'label';
     if (cols.includes('symbol')) return 'symbol';
@@ -132,11 +133,17 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
     if (!record) return '';
     switch (tableName) {
         case 'directed_equations':
-            return `${record.title || record.label || 'Equation'} (${record.equation_key || record.id})`;
+            return record.equation_key
+                ? `${record.equation_key} — ${record.title || record.label || 'Equation'}`
+                : `${record.title || record.label || 'Equation'} (ID: ${record.id})`;
         case 'formal_statements':
-            return `${record.title || record.expression || 'Statement'} (${record.statement_key || record.id})`;
+            return record.statement_key
+                ? `${record.statement_key} — ${record.title || record.expression || 'Statement'}`
+                : `${record.title || record.expression || 'Statement'} (ID: ${record.id})`;
         case 'pseudocode_algorithms':
-            return `${record.title || record.name || 'Algorithm'} (${record.algo_key || record.id})`;
+            return record.algo_key
+                ? `${record.algo_key} — ${record.title || record.name || 'Algorithm'}`
+                : `${record.title || record.name || 'Algorithm'} (ID: ${record.id})`;
         case 'mode_slots':
             return `Slot #${record.slot_index}: ${record.symbol} (${record.label || record.unit || 'parameter'})`;
         case 'lean_verifications':

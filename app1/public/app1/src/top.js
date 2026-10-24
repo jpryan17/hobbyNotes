@@ -30,6 +30,8 @@ export function top(edit = false) {
         customElements.define('stem-card', StemCard);
     if (!customElements.get('eq-ref'))
         customElements.define('eq-ref', EqRef);
+    if (!customElements.get('interactive-stencil'))
+        customElements.define('interactive-stencil', EqRef);
     if (!customElements.get('pseudo-ref'))
         customElements.define('pseudo-ref', PseudoRef);
     setTTD();

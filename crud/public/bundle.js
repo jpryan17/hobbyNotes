@@ -9841,7 +9841,6 @@ var tables = [
       { column: "target_symbol", label: "Target Output Symbol", canModify: true, len: 12 },
       { column: "target_domain", label: "Target Domain (e.g. \u211D_\u03C9, \u{1D539})", canModify: true, len: 16 },
       { column: "target_unit", label: "Target Unit", canModify: true, len: 16 },
-      { column: "statement_id", label: "Governing Formal Statement", canModify: true, len: 30 },
       { column: "pseudo_algo_id", label: "Linked Pseudocode Algorithm", canModify: true, len: 30 },
       { column: "formula_description", label: "Formula Description", canModify: true, len: 60, rows: 3 },
       { column: "has_simulation", label: "Simulation Sandbox Ready", canModify: true, len: 10 }
@@ -9853,15 +9852,16 @@ var tables = [
     singularLabel: "Mode Slot",
     columns: [
       { column: "equation_id", label: "Parent Equation", canModify: false, len: 24 },
-      { column: "slot_index", label: "Slot Index (#)", canModify: true, len: 8 },
+      { column: "slot_order", label: "Slot Order (#)", canModify: true, len: 8 },
+      { column: "name", label: "Parameter Variable Name", canModify: true, len: 16 },
       { column: "symbol", label: "Parameter Symbol", canModify: true, len: 12 },
-      { column: "label", label: "Parameter Label", canModify: true, len: 24 },
-      { column: "domain_set", label: "Parameter Domain", canModify: true, len: 16 },
-      { column: "default_val", label: "Default Value", canModify: true, len: 16 },
+      { column: "domain", label: "Parameter Domain", canModify: true, len: 16 },
+      { column: "unit", label: "Unit", canModify: true, len: 16 },
+      { column: "default_value", label: "Default Value", canModify: true, len: 16 },
       { column: "min_val", label: "Minimum Range", canModify: true, len: 14 },
       { column: "max_val", label: "Maximum Range", canModify: true, len: 14 },
       { column: "step_val", label: "Step Precision", canModify: true, len: 14 },
-      { column: "unit", label: "Unit", canModify: true, len: 16 }
+      { column: "description", label: "Description", canModify: true, len: 60, rows: 2 }
     ]
   },
   // -------------------------------------------------------------------------
@@ -9994,7 +9994,7 @@ var tables = [
 var dependents = [
   { table: "directed_equations", parent: "formal_statements", displayColumns: ["equation_key", "title"] },
   { table: "lean_verifications", parent: "formal_statements", displayColumns: ["theorem_name", "proof_status"] },
-  { table: "mode_slots", parent: "directed_equations", displayColumns: ["slot_index", "symbol", "label"] },
+  { table: "mode_slots", parent: "directed_equations", displayColumns: ["slot_order", "symbol", "name"] },
   { table: "curriculum_nav_items", parent: "apps", displayColumns: ["sequence_order", "topic"] },
   { table: "segment_references", parent: "segments", displayColumns: ["ref_type", "target_key"] },
   { table: "segment_references", parent: "interactive_demos", displayColumns: ["ref_type", "segment_id"] },
@@ -10416,37 +10416,34 @@ var navigationMenuTree = [
         typeKey: "directed_equality",
         filterKind: { column: "statement_kind", value: "directed_equality" },
         children: [
-          // Logic & Order Predicates (Codomain 𝔹)
-          { label: "Definitional Assignment (:=)", typeKey: "formal_statement", instanceKey: "fs_pred_assign", subject: "logic" },
-          { label: "Greater-Than (GT / >)", typeKey: "formal_statement", instanceKey: "fs_pred_gt", subject: "logic" },
-          { label: "Less-Than (LT / <)", typeKey: "formal_statement", instanceKey: "fs_pred_lt", subject: "logic" },
-          { label: "Identity / Equality (EQ / =)", typeKey: "formal_statement", instanceKey: "fs_pred_eq", subject: "logic" },
-          { label: "Less-Than-or-Equal (LE / \u2264)", typeKey: "formal_statement", instanceKey: "fs_pred_le", subject: "logic" },
-          { label: "Set Membership (MEM / \u2208)", typeKey: "formal_statement", instanceKey: "fs_pred_mem", subject: "logic" },
-          { label: "Subset Inclusion (SUBSET / \u2286)", typeKey: "formal_statement", instanceKey: "fs_pred_subset", subject: "logic" },
-          // Numbers, Trees & Arithmetic
-          { label: "Conway Inductive Addition (+)", typeKey: "formal_statement", instanceKey: "fs_conway_addition", subject: "numbers_trees" },
-          { label: "Conway Inductive Multiplication (\xB7)", typeKey: "formal_statement", instanceKey: "fs_conway_multiplication", subject: "numbers_trees" },
-          { label: "Divisibility (DIV / \u2223)", typeKey: "formal_statement", instanceKey: "fs_pred_div", subject: "numbers_trees" },
-          { label: "Even Parity (EVEN)", typeKey: "formal_statement", instanceKey: "fs_pred_even", subject: "numbers_trees" },
-          { label: "Odd Parity (ODD)", typeKey: "formal_statement", instanceKey: "fs_pred_odd", subject: "numbers_trees" },
-          { label: "Successor Step (SUCC / +1)", typeKey: "formal_statement", instanceKey: "fs_pred_succ", subject: "numbers_trees" },
-          // Discrete Analysis & Continuum Stencils
-          { label: "Hyperfinite Difference Quotient Derivative", typeKey: "formal_statement", instanceKey: "fs_hyperfinite_derivative", subject: "analysis" },
-          { label: "2D Complex Step & Modulus Invariance", typeKey: "formal_statement", instanceKey: "fs_complex_step_invariance", subject: "analysis" },
-          { label: "Infinitesimal Proximity (NEAR / \u2248)", typeKey: "formal_statement", instanceKey: "fs_pred_near", subject: "analysis" },
-          { label: "Dyadic Ptolemaic Half-Angle Root Bisection", typeKey: "formal_statement", instanceKey: "fs_ptolemaic_half_angle", subject: "analysis" },
-          { label: "Dyadic Polygonal Rim Chord Law", typeKey: "formal_statement", instanceKey: "fs_polygonal_rim_chord", subject: "analysis" },
-          { label: "Euler Polar Rotor Decomposition", typeKey: "formal_statement", instanceKey: "fs_euler_identity_rotor", subject: "analysis" },
-          { label: "Unit Rotor Sine & Cosine Projection", typeKey: "formal_statement", instanceKey: "fs_unit_rotor_projection", subject: "analysis" },
-          // Physics & Dynamics Stencils
-          { label: "Uniform Free Fall Kinematics", typeKey: "formal_statement", instanceKey: "fs_free_fall_accel", subject: "physics" },
-          { label: "Telescoping Work-Energy Principle", typeKey: "formal_statement", instanceKey: "fs_work_energy", subject: "physics" },
-          { label: "Discrete Thermal Diffusion Balance", typeKey: "formal_statement", instanceKey: "fs_heat_flux", subject: "physics" },
-          { label: "Harmonic Leapfrog Phase Space Orbit", typeKey: "formal_statement", instanceKey: "fs_harmonic_oscillator", subject: "physics" },
-          { label: "Three-Polarizer Geometric Transmission", typeKey: "formal_statement", instanceKey: "fs_three_polarizer_quantum", subject: "physics" },
-          // Information & Signals
-          { label: "Hyperfinite Bayesian Likelihood Inversion", typeKey: "formal_statement", instanceKey: "fs_bayes_updating", subject: "information" },
+          // Directed Equalities alphabetically sorted by unique friendly key (statement_key)
+          { label: "fs_bayes_updating \u2014 Hyperfinite Bayesian Likelihood Inversion", typeKey: "formal_statement", instanceKey: "fs_bayes_updating", subject: "information" },
+          { label: "fs_complex_step_invariance \u2014 2D Complex Step & Modulus Invariance", typeKey: "formal_statement", instanceKey: "fs_complex_step_invariance", subject: "analysis" },
+          { label: "fs_conway_addition \u2014 Conway Inductive Addition (+)", typeKey: "formal_statement", instanceKey: "fs_conway_addition", subject: "numbers_trees" },
+          { label: "fs_conway_multiplication \u2014 Conway Inductive Multiplication (\xB7)", typeKey: "formal_statement", instanceKey: "fs_conway_multiplication", subject: "numbers_trees" },
+          { label: "fs_euler_identity_rotor \u2014 Euler Polar Rotor Decomposition", typeKey: "formal_statement", instanceKey: "fs_euler_identity_rotor", subject: "analysis" },
+          { label: "fs_free_fall_accel \u2014 Uniform Free Fall Kinematics", typeKey: "formal_statement", instanceKey: "fs_free_fall_accel", subject: "physics" },
+          { label: "fs_geometric_scale_step \u2014 Chromatic Scale Geometric Progression", typeKey: "formal_statement", instanceKey: "fs_geometric_scale_step", subject: "algebra" },
+          { label: "fs_harmonic_oscillator \u2014 Harmonic Leapfrog Phase Space Orbit", typeKey: "formal_statement", instanceKey: "fs_harmonic_oscillator", subject: "physics" },
+          { label: "fs_heat_flux \u2014 Discrete Thermal Diffusion Balance", typeKey: "formal_statement", instanceKey: "fs_heat_flux", subject: "physics" },
+          { label: "fs_hyperfinite_derivative \u2014 Hyperfinite Difference Quotient Derivative", typeKey: "formal_statement", instanceKey: "fs_hyperfinite_derivative", subject: "analysis" },
+          { label: "fs_polygonal_rim_chord \u2014 Dyadic Polygonal Rim Chord Law", typeKey: "formal_statement", instanceKey: "fs_polygonal_rim_chord", subject: "analysis" },
+          { label: "fs_pred_assign \u2014 Definitional Assignment (:=)", typeKey: "formal_statement", instanceKey: "fs_pred_assign", subject: "logic" },
+          { label: "fs_pred_div \u2014 Divisibility (DIV / \u2223)", typeKey: "formal_statement", instanceKey: "fs_pred_div", subject: "numbers_trees" },
+          { label: "fs_pred_eq \u2014 Identity / Equality (EQ / =)", typeKey: "formal_statement", instanceKey: "fs_pred_eq", subject: "logic" },
+          { label: "fs_pred_even \u2014 Even Parity (EVEN)", typeKey: "formal_statement", instanceKey: "fs_pred_even", subject: "numbers_trees" },
+          { label: "fs_pred_gt \u2014 Greater-Than (GT / >)", typeKey: "formal_statement", instanceKey: "fs_pred_gt", subject: "logic" },
+          { label: "fs_pred_le \u2014 Less-Than-or-Equal (LE / \u2264)", typeKey: "formal_statement", instanceKey: "fs_pred_le", subject: "logic" },
+          { label: "fs_pred_lt \u2014 Less-Than (LT / <)", typeKey: "formal_statement", instanceKey: "fs_pred_lt", subject: "logic" },
+          { label: "fs_pred_mem \u2014 Set Membership (MEM / \u2208)", typeKey: "formal_statement", instanceKey: "fs_pred_mem", subject: "logic" },
+          { label: "fs_pred_near \u2014 Infinitesimal Proximity (NEAR / \u2248)", typeKey: "formal_statement", instanceKey: "fs_pred_near", subject: "analysis" },
+          { label: "fs_pred_odd \u2014 Odd Parity (ODD)", typeKey: "formal_statement", instanceKey: "fs_pred_odd", subject: "numbers_trees" },
+          { label: "fs_pred_subset \u2014 Subset Inclusion (SUBSET / \u2286)", typeKey: "formal_statement", instanceKey: "fs_pred_subset", subject: "logic" },
+          { label: "fs_pred_succ \u2014 Successor Step (SUCC / +1)", typeKey: "formal_statement", instanceKey: "fs_pred_succ", subject: "numbers_trees" },
+          { label: "fs_ptolemaic_half_angle \u2014 Dyadic Ptolemaic Half-Angle Root Bisection", typeKey: "formal_statement", instanceKey: "fs_ptolemaic_half_angle", subject: "analysis" },
+          { label: "fs_three_polarizer_quantum \u2014 Three-Polarizer Geometric Transmission", typeKey: "formal_statement", instanceKey: "fs_three_polarizer_quantum", subject: "physics" },
+          { label: "fs_unit_rotor_projection \u2014 Unit Rotor Sine & Cosine Projection", typeKey: "formal_statement", instanceKey: "fs_unit_rotor_projection", subject: "analysis" },
+          { label: "fs_work_energy \u2014 Telescoping Work-Energy Principle", typeKey: "formal_statement", instanceKey: "fs_work_energy", subject: "physics" },
           { label: "Browse All Directed Equalities", typeKey: "directed_equality", subject: "all" }
         ]
       },
@@ -10615,7 +10612,7 @@ async function syncMenuTreeFromDatabase(queryFn) {
         }
       }
     }
-    const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY id ASC;");
+    const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;");
     if (stmts && stmts.length > 0) {
       const fsNode = navigationMenuTree.find((n) => n.typeKey === "formal_statement");
       if (fsNode && fsNode.children) {
@@ -10623,18 +10620,21 @@ async function syncMenuTreeFromDatabase(queryFn) {
           const kindNode = fsNode.children.find((c) => c.typeKey === kind);
           if (kindNode) {
             const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+            kindStmts.sort((a, b) => (a.statement_key || "").localeCompare(b.statement_key || ""));
             kindNode.children = [
               ...kindStmts.map((s) => {
                 let subj = "all";
                 const dc = s.domain_category || "";
                 if (dc.includes("logic") || dc.includes("order")) subj = "logic";
                 else if (dc.includes("tree") || dc.includes("arithmetic")) subj = "numbers_trees";
-                else if (dc.includes("algebra") || dc.includes("vector")) subj = "algebra";
+                else if (dc.includes("algebra") || dc.includes("vector") || dc.includes("sequence") || s.statement_key === "fs_geometric_scale_step") subj = "algebra";
                 else if (dc.includes("analysis") || dc.includes("trig") || dc.includes("rotor")) subj = "analysis";
                 else if (dc.includes("physic") || dc.includes("kinematic")) subj = "physics";
                 else if (dc.includes("bayes") || dc.includes("quantum") || dc.includes("info")) subj = "information";
+                const key = s.statement_key || `fs_${s.id}`;
+                const displayLabel = s.title ? `${key} \u2014 ${s.title}` : key;
                 return {
-                  label: s.title || s.statement_key,
+                  label: displayLabel,
                   typeKey: "formal_statement",
                   instanceKey: s.statement_key,
                   subject: subj
@@ -35887,7 +35887,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-24T10:07:33.930Z",
+  "generatedAt": "2026-10-24T17:28:35.435Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -36376,6 +36376,23 @@ var FS_CATALOG = {
         "numbersLecture2"
       ],
       "leanStatus": "pending"
+    },
+    {
+      "numId": 39,
+      "id": "fs_geometric_scale_step",
+      "type": "math",
+      "tier": "law",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "Chromatic Scale Geometric Progression",
+      "description": "In twelve-tone equal temperament (12-TET), each semitone step multiplies frequency by 2^(1/12), forming a geometric sequence with ratio r = 2^(1/12).",
+      "scaffoldKey": "geometric_scale_step",
+      "expression": "f_k = f_0 \xB7 (2^(1/12))^k",
+      "pseudoAlgoId": "algo_geometric_scale_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
     }
   ],
   "calculationModes": [
@@ -36851,9 +36868,57 @@ var FS_CATALOG = {
           "description": "Rotor angle in radians"
         }
       ]
+    },
+    {
+      "id": "music_et_scale_step",
+      "statementId": "fs_geometric_scale_step",
+      "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
+      "targetSymbol": "f_k",
+      "targetDomain": "\u211D_\u03C9",
+      "targetUnit": "Hz",
+      "formulaDescription": "f_k = f\u2080 \xB7 (2^(1/12))^k",
+      "formulaExpr": "f0 * Math.pow(2, k / 12)",
+      "inputs": [
+        {
+          "name": "f0",
+          "symbol": "f\u2080",
+          "domain": "\u211D\u207A",
+          "unit": "Hz",
+          "defaultValue": 440,
+          "min": 20,
+          "max": 2e4,
+          "step": 1,
+          "description": "Reference base pitch (e.g., Concert A = 440 Hz)"
+        },
+        {
+          "name": "k",
+          "symbol": "k",
+          "domain": "\u2115",
+          "unit": "semitones",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "description": "Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)"
+        }
+      ]
     }
   ],
   "examples": [
+    {
+      "id": "ex_equal_temperament_c5",
+      "modeId": "music_et_scale_step",
+      "statementId": "fs_geometric_scale_step",
+      "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
+      "values": {
+        "f0": 440,
+        "k": 3
+      },
+      "displayResult": "523.251 Hz",
+      "formattedFormula": "f_3 = 440 \xB7 (2^(1/12))^3 \u2248 523.251 Hz",
+      "domainBadge": "\u2208 \u211D_\u03C9",
+      "notes": "Three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
+    },
     {
       "id": "ex_earth_free_fall",
       "modeId": "ff_v_from_v0_g_t",
@@ -45546,13 +45611,14 @@ function getDisplayColumnName(tableName) {
   const tableInfo = appMetadata[tableName];
   if (!tableInfo) return "id";
   const cols = Object.keys(tableInfo.columns);
+  if (cols.includes("statement_key")) return "statement_key";
+  if (cols.includes("equation_key")) return "equation_key";
+  if (cols.includes("algo_key")) return "algo_key";
+  if (cols.includes("nav_key")) return "nav_key";
   if (cols.includes("title")) return "title";
   if (cols.includes("name")) return "name";
   if (cols.includes("topic")) return "topic";
   if (cols.includes("theorem_name")) return "theorem_name";
-  if (cols.includes("statement_key")) return "statement_key";
-  if (cols.includes("equation_key")) return "equation_key";
-  if (cols.includes("algo_key")) return "algo_key";
   if (cols.includes("seg_key")) return "seg_key";
   if (cols.includes("label")) return "label";
   if (cols.includes("symbol")) return "symbol";
@@ -45565,11 +45631,11 @@ function getRecordFriendlyName(tableName, record) {
   if (!record) return "";
   switch (tableName) {
     case "directed_equations":
-      return `${record.title || record.label || "Equation"} (${record.equation_key || record.id})`;
+      return record.equation_key ? `${record.equation_key} \u2014 ${record.title || record.label || "Equation"}` : `${record.title || record.label || "Equation"} (ID: ${record.id})`;
     case "formal_statements":
-      return `${record.title || record.expression || "Statement"} (${record.statement_key || record.id})`;
+      return record.statement_key ? `${record.statement_key} \u2014 ${record.title || record.expression || "Statement"}` : `${record.title || record.expression || "Statement"} (ID: ${record.id})`;
     case "pseudocode_algorithms":
-      return `${record.title || record.name || "Algorithm"} (${record.algo_key || record.id})`;
+      return record.algo_key ? `${record.algo_key} \u2014 ${record.title || record.name || "Algorithm"}` : `${record.title || record.name || "Algorithm"} (ID: ${record.id})`;
     case "mode_slots":
       return `Slot #${record.slot_index}: ${record.symbol} (${record.label || record.unit || "parameter"})`;
     case "lean_verifications":

@@ -89,7 +89,6 @@ export const tables: TableConfig[] = [
             { column: 'target_symbol', label: 'Target Output Symbol', canModify: true, len: 12 },
             { column: 'target_domain', label: 'Target Domain (e.g. ℝ_ω, 𝔹)', canModify: true, len: 16 },
             { column: 'target_unit', label: 'Target Unit', canModify: true, len: 16 },
-            { column: 'statement_id', label: 'Governing Formal Statement', canModify: true, len: 30 },
             { column: 'pseudo_algo_id', label: 'Linked Pseudocode Algorithm', canModify: true, len: 30 },
             { column: 'formula_description', label: 'Formula Description', canModify: true, len: 60, rows: 3 },
             { column: 'has_simulation', label: 'Simulation Sandbox Ready', canModify: true, len: 10 }
@@ -101,15 +100,16 @@ export const tables: TableConfig[] = [
         singularLabel: 'Mode Slot',
         columns: [
             { column: 'equation_id', label: 'Parent Equation', canModify: false, len: 24 },
-            { column: 'slot_index', label: 'Slot Index (#)', canModify: true, len: 8 },
+            { column: 'slot_order', label: 'Slot Order (#)', canModify: true, len: 8 },
+            { column: 'name', label: 'Parameter Variable Name', canModify: true, len: 16 },
             { column: 'symbol', label: 'Parameter Symbol', canModify: true, len: 12 },
-            { column: 'label', label: 'Parameter Label', canModify: true, len: 24 },
-            { column: 'domain_set', label: 'Parameter Domain', canModify: true, len: 16 },
-            { column: 'default_val', label: 'Default Value', canModify: true, len: 16 },
+            { column: 'domain', label: 'Parameter Domain', canModify: true, len: 16 },
+            { column: 'unit', label: 'Unit', canModify: true, len: 16 },
+            { column: 'default_value', label: 'Default Value', canModify: true, len: 16 },
             { column: 'min_val', label: 'Minimum Range', canModify: true, len: 14 },
             { column: 'max_val', label: 'Maximum Range', canModify: true, len: 14 },
             { column: 'step_val', label: 'Step Precision', canModify: true, len: 14 },
-            { column: 'unit', label: 'Unit', canModify: true, len: 16 }
+            { column: 'description', label: 'Description', canModify: true, len: 60, rows: 2 }
         ]
     },
 
@@ -246,7 +246,7 @@ export const tables: TableConfig[] = [
 export const dependents: Dependent[] = [
     { table: 'directed_equations', parent: 'formal_statements', displayColumns: ['equation_key', 'title'] },
     { table: 'lean_verifications', parent: 'formal_statements', displayColumns: ['theorem_name', 'proof_status'] },
-    { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_index', 'symbol', 'label'] },
+    { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_order', 'symbol', 'name'] },
     { table: 'curriculum_nav_items', parent: 'apps', displayColumns: ['sequence_order', 'topic'] },
     { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'target_key'] },
     { table: 'segment_references', parent: 'interactive_demos', displayColumns: ['ref_type', 'segment_id'] },
