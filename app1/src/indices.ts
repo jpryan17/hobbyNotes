@@ -642,8 +642,8 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "index",
-    topic: "Series 4: Space, Trigonometry & The Transcendental Engine",
-    navTopic: "Space & Growth",
+    topic: "Series 4: Space, Angle & Transcendence",
+    navTopic: "Space & Angle",
     indexDesc: level4Index,
   },
   {
