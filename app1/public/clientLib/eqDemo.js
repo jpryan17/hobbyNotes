@@ -24,6 +24,7 @@ const ID_TO_PRESET_OR_FORMULA = {
     '16': { formula: 'cos(theta) + i*sin(theta)', domain: 'ℂ_ω', title: 'Unit Rotor Group Projection' },
     '17': { preset: 'nucleus_halo_1d', formula: 'x0 + k * dx', domain: 'ℝ_ω', title: '1D Nucleus-Halo Decomposition' },
     '29': { formula: 'f0 * (2^(1/12))^k', domain: 'ℝ_ω', title: '12-TET Musical Scale Step' },
+    '31': { formula: 'a * Math.pow(r, k)', domain: 'ℝ_ω', title: 'Geometric Ladder Step' },
     'ff_v_from_v0_g_t': { formula: 'v0 - g * t', domain: 'ℝ_ω' },
     'ff_t_from_v_v0_g': { formula: '(v0 - v) / g', domain: 'ℝ_ω' },
     'ff_s_from_v0_g_t': { formula: 'v0*t - 0.5*g*t^2', domain: 'ℝ_ω' },
@@ -41,7 +42,8 @@ const ID_TO_PRESET_OR_FORMULA = {
     'trig_sin_dyadic_eval': { preset: 'sin_halo' },
     'trig_sin_rotor_eval': { formula: 'cos(theta) + i*sin(theta)', domain: 'ℂ_ω' },
     'nucleus_halo_decomp_eval': { preset: 'nucleus_halo_1d' },
-    'music_et_scale_step': { formula: 'f0 * (2^(1/12))^k', domain: 'ℝ_ω', title: '12-TET Musical Scale Step' }
+    'music_et_scale_step': { formula: 'f0 * (2^(1/12))^k', domain: 'ℝ_ω', title: '12-TET Musical Scale Step' },
+    'geom_ladder_step': { formula: 'a * Math.pow(r, k)', domain: 'ℝ_ω', title: 'Geometric Ladder Step' }
 };
 export class EqDemo extends Elt {
     evaluator;

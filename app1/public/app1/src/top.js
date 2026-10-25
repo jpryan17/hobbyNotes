@@ -31,7 +31,8 @@ export function top(edit = false) {
     if (!customElements.get('eq-ref'))
         customElements.define('eq-ref', EqRef);
     if (!customElements.get('interactive-stencil'))
-        customElements.define('interactive-stencil', EqRef);
+        customElements.define('interactive-stencil', class extends EqRef {
+        });
     if (!customElements.get('pseudo-ref'))
         customElements.define('pseudo-ref', PseudoRef);
     setTTD();

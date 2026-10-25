@@ -35887,7 +35887,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-24T17:28:35.435Z",
+  "generatedAt": "2026-10-24T19:00:17.129Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -36379,16 +36379,15 @@ var FS_CATALOG = {
     },
     {
       "numId": 39,
-      "id": "fs_geometric_scale_step",
+      "id": "fs_geometric_ladder",
       "type": "math",
       "tier": "law",
-      "statementKind": "directed_equality",
+      "statementKind": "theorem",
       "governingSeed": "boundary_law",
-      "title": "Chromatic Scale Geometric Progression",
-      "description": "In twelve-tone equal temperament (12-TET), each semitone step multiplies frequency by 2^(1/12), forming a geometric sequence with ratio r = 2^(1/12).",
-      "scaffoldKey": "geometric_scale_step",
-      "expression": "f_k = f_0 \xB7 (2^(1/12))^k",
-      "pseudoAlgoId": "algo_geometric_scale_step",
+      "title": "The Geometric Ladder Law",
+      "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a \xB7 r^k.",
+      "scaffoldKey": "geometric_ladder",
+      "expression": "F(k + 1) = r \xB7 F(k)  \u27F9  F(k) = a \xB7 r^k",
       "referencedInSegments": [
         "sequencesAndSums"
       ],
@@ -36870,8 +36869,49 @@ var FS_CATALOG = {
       ]
     },
     {
+      "id": "geom_ladder_step",
+      "statementId": "fs_geometric_ladder",
+      "label": "Geometric Progression Step F_k = a \xB7 r^k",
+      "targetSymbol": "F_k",
+      "targetDomain": "\u211D_\u03C9",
+      "formulaDescription": "F_k = a \xB7 r^k",
+      "formulaExpr": "a * Math.pow(r, k)",
+      "inputs": [
+        {
+          "name": "a",
+          "symbol": "a",
+          "domain": "\u211D",
+          "defaultValue": 1,
+          "min": -1e3,
+          "max": 1e3,
+          "step": 0.1,
+          "description": "Initial seed value (F_0)"
+        },
+        {
+          "name": "r",
+          "symbol": "r",
+          "domain": "\u211D",
+          "defaultValue": 2,
+          "min": -100,
+          "max": 100,
+          "step": 0.05,
+          "description": "Common ratio per step"
+        },
+        {
+          "name": "k",
+          "symbol": "k",
+          "domain": "\u2115",
+          "defaultValue": 1,
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "description": "Step index"
+        }
+      ]
+    },
+    {
       "id": "music_et_scale_step",
-      "statementId": "fs_geometric_scale_step",
+      "statementId": "fs_geometric_ladder",
       "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
       "targetSymbol": "f_k",
       "targetDomain": "\u211D_\u03C9",
@@ -36908,7 +36948,7 @@ var FS_CATALOG = {
     {
       "id": "ex_equal_temperament_c5",
       "modeId": "music_et_scale_step",
-      "statementId": "fs_geometric_scale_step",
+      "statementId": "fs_geometric_ladder",
       "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
       "values": {
         "f0": 440,
@@ -45741,6 +45781,230 @@ function formatFkBadgeText(tableName, record) {
   }
   return info.key || info.label || `ID: ${record.id}`;
 }
+var activeFacetFilters = {};
+var BLACKLIST_FACET_COLUMNS = /* @__PURE__ */ new Set([
+  "id",
+  "uuid",
+  "created_at",
+  "updated_at",
+  "expression",
+  "description",
+  "content",
+  "code",
+  "lean_code",
+  "summary",
+  "explanation",
+  "example",
+  "presets",
+  "primitives",
+  "referenced_segments",
+  "metadata",
+  "formula",
+  "formula_expr",
+  "formula_description",
+  "notes",
+  "scaffold_key",
+  "title",
+  "name",
+  "topic",
+  "slug",
+  "statement_key",
+  "equation_key",
+  "algo_key",
+  "nav_key",
+  "seg_key",
+  "func_name",
+  "label",
+  "badge",
+  "time_complexity",
+  "space_complexity",
+  "tree_complexity",
+  "dyadic_complexity",
+  "governing_seed"
+]);
+var FACET_LABELS = {
+  statement_kind: "Kind",
+  structure_kind: "Structure",
+  tier: "Tier",
+  status: "Status",
+  type: "Type",
+  subject_type: "Subject Type",
+  codomain: "Codomain",
+  domain: "Domain",
+  engine: "Engine",
+  algo_kind: "Category",
+  category: "Category",
+  phase_id: "Phase",
+  course_id: "Course",
+  target_domain: "Target Domain",
+  __VIRTUAL_HAS_pseudo_algo_id: "Algorithm",
+  __VIRTUAL_HAS_demo_id: "Stencil"
+};
+function formatFacetVal(val) {
+  if (val === "ttd") return "TTD (Truth Table)";
+  if (val === "btd") return "BTD";
+  if (val === "bid") return "BID";
+  if (val === "fsd") return "FSD";
+  return capitalize(val.replace(/_/g, " "));
+}
+function detectFilterFacets(tableName, records) {
+  if (!records || records.length === 0) return [];
+  const facets = [];
+  const sample = records[0];
+  if ("pseudo_algo_id" in sample) {
+    let withAlgo = 0;
+    let withoutAlgo = 0;
+    for (const r of records) {
+      if (r.pseudo_algo_id) withAlgo++;
+      else withoutAlgo++;
+    }
+    if (withAlgo > 0 && withoutAlgo > 0) {
+      facets.push({
+        score: 95,
+        facet: {
+          column: "__VIRTUAL_HAS_pseudo_algo_id",
+          label: "Algorithm",
+          isVirtual: true,
+          totalCount: records.length,
+          options: [
+            { value: "yes", label: "With Pseudocode", count: withAlgo },
+            { value: "no", label: "Pure Invariant", count: withoutAlgo }
+          ]
+        }
+      });
+    }
+  }
+  if ("demo_id" in sample) {
+    let withDemo = 0;
+    let withoutDemo = 0;
+    for (const r of records) {
+      if (r.demo_id) withDemo++;
+      else withoutDemo++;
+    }
+    if (withDemo > 0 && withoutDemo > 0) {
+      facets.push({
+        score: 90,
+        facet: {
+          column: "__VIRTUAL_HAS_demo_id",
+          label: "Stencil",
+          isVirtual: true,
+          totalCount: records.length,
+          options: [
+            { value: "yes", label: "Interactive Stencil", count: withDemo },
+            { value: "no", label: "Declarative Only", count: withoutDemo }
+          ]
+        }
+      });
+    }
+  }
+  for (const col of Object.keys(sample)) {
+    if (BLACKLIST_FACET_COLUMNS.has(col)) continue;
+    if (col.startsWith("__")) continue;
+    const valCounts = /* @__PURE__ */ new Map();
+    let populatedCount = 0;
+    for (const r of records) {
+      const val = r[col];
+      if (val !== null && val !== void 0 && val !== "") {
+        const sVal = String(val);
+        valCounts.set(sVal, (valCounts.get(sVal) || 0) + 1);
+        populatedCount++;
+      }
+    }
+    const distinctCount = valCounts.size;
+    if (distinctCount >= 2 && distinctCount <= 7) {
+      const ratio = distinctCount / records.length;
+      let score = 0;
+      const isKnownFacet = col.endsWith("_kind") || col.endsWith("_type") || col.endsWith("_tier") || col === "tier" || col === "status" || col === "engine" || col === "codomain" || col === "domain" || col === "phase_id" || col === "course_id";
+      if (isKnownFacet) {
+        score = 100 - distinctCount;
+      } else if (ratio <= 0.35) {
+        score = 50 - distinctCount;
+      }
+      if (score > 0) {
+        const options = [...valCounts.entries()].sort((a, b) => b[1] - a[1]).map(([val, count]) => ({
+          value: val,
+          label: formatFacetVal(val),
+          count
+        }));
+        const friendlyLabel = FACET_LABELS[col] || capitalize(col.replace(/_/g, " "));
+        facets.push({
+          score,
+          facet: {
+            column: col,
+            label: friendlyLabel,
+            totalCount: populatedCount,
+            options
+          }
+        });
+      }
+    }
+  }
+  facets.sort((a, b) => b.score - a.score);
+  return facets.slice(0, 3).map((f) => f.facet);
+}
+function filterRecordsByActiveFacets(records) {
+  return records.filter((r) => {
+    for (const [col, val] of Object.entries(activeFacetFilters)) {
+      if (!val || val === "__ALL__") continue;
+      if (col.startsWith("__VIRTUAL_HAS_")) {
+        const actualCol = col.replace("__VIRTUAL_HAS_", "");
+        if (val === "yes" && !r[actualCol]) return false;
+        if (val === "no" && !!r[actualCol]) return false;
+      } else {
+        if (String(r[col]) !== val) return false;
+      }
+    }
+    return true;
+  });
+}
+function renderFacetPillBar(facets) {
+  if (facets.length === 0) return "";
+  return `
+        <div id="filter-facet-bar" class="filter-facet-bar">
+            ${facets.map((facet) => {
+    const activeVal = activeFacetFilters[facet.column] || "__ALL__";
+    return `
+                        <div class="filter-facet-strip" data-column="${escapeHtml2(facet.column)}">
+                            <span class="facet-label">${escapeHtml2(facet.label)}:</span>
+                            <div class="facet-pills">
+                                <button type="button" class="facet-pill ${activeVal === "__ALL__" ? "active" : ""}" data-col="${escapeHtml2(facet.column)}" data-val="__ALL__">
+                                    All <span class="pill-count">(${facet.totalCount})</span>
+                                </button>
+                                ${facet.options.map(
+      (opt) => `
+                                    <button type="button" class="facet-pill ${activeVal === opt.value ? "active" : ""}" data-col="${escapeHtml2(facet.column)}" data-val="${escapeHtml2(opt.value)}">
+                                        ${escapeHtml2(opt.label)} <span class="pill-count">(${opt.count})</span>
+                                    </button>
+                                `
+    ).join("")}
+                            </div>
+                        </div>
+                    `;
+  }).join("")}
+        </div>
+    `;
+}
+function bindFacetPillEvents(container, onFilterChange) {
+  container.querySelectorAll(".facet-pill").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const col = btn.getAttribute("data-col");
+      const val = btn.getAttribute("data-val");
+      if (!col || !val) return;
+      if (val === "__ALL__") {
+        delete activeFacetFilters[col];
+      } else {
+        activeFacetFilters[col] = val;
+      }
+      const strip = btn.closest(".filter-facet-strip");
+      if (strip) {
+        strip.querySelectorAll(".facet-pill").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+      }
+      onFilterChange();
+    });
+  });
+}
 async function openChildRecordPickerModal(parentTable, colName, fkTable, isNullable, currentValue, onSelect) {
   const tableInfo = appMetadata[fkTable];
   const targetLabel = tableInfo?.singularLabel || tableInfo?.label || fkTable;
@@ -45868,6 +46132,7 @@ function initializeUI(metadata, navs, deps) {
   currentSelectedId = null;
   currentTitle = "";
   currentSubject = "all";
+  activeFacetFilters = {};
   if (currentModeLabel) currentModeLabel.textContent = "Read";
   if (currentTypeLabel) currentTypeLabel.textContent = "Select Type";
   if (currentSubjectLabel) currentSubjectLabel.textContent = "All";
@@ -46231,6 +46496,7 @@ function matchesCurrentSubject(tableName, record) {
 }
 function setSubject(subject) {
   currentSubject = subject;
+  activeFacetFilters = {};
   const labelMap = {
     all: "All",
     logic: "Logic & Set Theory",
@@ -46260,6 +46526,7 @@ function setSubject(subject) {
 }
 function setMode(mode, preserveSelection = false) {
   currentMode = mode;
+  activeFacetFilters = {};
   if (currentModeLabel) currentModeLabel.textContent = capitalize(mode);
   if (modeDropdownMenu) {
     modeDropdownMenu.querySelectorAll(".dropdown-item").forEach((item) => {
@@ -46292,6 +46559,7 @@ function setMode(mode, preserveSelection = false) {
 }
 function setType(typeKey, clearSelection = true) {
   currentTypeKey = typeKey;
+  activeFacetFilters = {};
   const mapping = typeMap[typeKey] || { table: typeKey, label: typeKey };
   if (clearSelection) {
     currentSelectedId = null;
@@ -46738,22 +47006,12 @@ async function renderEntityInspectorView(tableName, filterKind) {
   displayArea.innerHTML = `
         <div class="entity-inspector-view">
             <div class="inspector-container">
-                <div class="instance-bar">
-                    <div class="instance-select-group">
-                        <span class="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
-                        <select id="entity-instance-select" class="instance-select">
-                            <option value="">Loading instances...</option>
-                        </select>
-                    </div>
-                </div>
                 <div id="inspector-card-target">
-                    <div style="padding: 24px; color: #64748b;">Loading record attributes...</div>
+                    <div style="padding: 24px; color: #64748b;">Loading ${tableInfo?.label || tableName}...</div>
                 </div>
             </div>
         </div>
     `;
-  const selectEl = document.getElementById("entity-instance-select");
-  const cardTarget = document.getElementById("inspector-card-target");
   try {
     let sql = `SELECT * FROM ${tableName}`;
     const params = [];
@@ -46764,41 +47022,73 @@ async function renderEntityInspectorView(tableName, filterKind) {
     sql += ` ORDER BY "${displayCol}" ASC;`;
     const allRecords = await queryDatabase(sql, params) || [];
     const records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
+    const cardTargetInitial = document.getElementById("inspector-card-target");
     if (allRecords.length === 0) {
-      selectEl.innerHTML = `<option value="">No records found in table ${tableName}</option>`;
-      cardTarget.innerHTML = `
-                <div style="padding: 30px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
-                    No records found in <strong>${tableName}</strong>.
-                </div>
-            `;
+      if (cardTargetInitial) {
+        cardTargetInitial.innerHTML = `
+                    <div style="padding: 30px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
+                        No records found in <strong>${tableName}</strong>.
+                    </div>
+                `;
+      }
       return;
     }
     if (records.length === 0) {
-      selectEl.innerHTML = `<option value="">No records matching Subject '${currentSubject}' (${allRecords.length} total in table)</option>`;
-      cardTarget.innerHTML = `
-                <div style="padding: 36px 24px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
-                    <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">
-                        No ${tableInfo.label} matching Subject scope: <strong>${currentSubjectLabel?.textContent || currentSubject}</strong>
+      if (cardTargetInitial) {
+        cardTargetInitial.innerHTML = `
+                    <div style="padding: 36px 24px; text-align: center; color: #64748b; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px;">
+                        <div style="font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">
+                            No ${tableInfo.label} matching Subject scope: <strong>${currentSubjectLabel?.textContent || currentSubject}</strong>
+                        </div>
+                        <div style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                            There are ${allRecords.length} records in this table under other subjects.
+                        </div>
+                        <button type="button" id="btn-reset-subject-scope" class="btn btn-sm" style="padding: 6px 14px; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                            \u{1F310} Clear Subject Filter (Show All)
+                        </button>
                     </div>
-                    <div style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
-                        There are ${allRecords.length} records in this table under other subjects.
-                    </div>
-                    <button type="button" id="btn-reset-subject-scope" class="btn btn-sm" style="padding: 6px 14px; background: #0284c7; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
-                        \u{1F310} Clear Subject Filter (Show All)
-                    </button>
-                </div>
-            `;
-      document.getElementById("btn-reset-subject-scope")?.addEventListener("click", () => setSubject("all"));
+                `;
+        document.getElementById("btn-reset-subject-scope")?.addEventListener("click", () => setSubject("all"));
+      }
       return;
     }
-    selectEl.innerHTML = `
-            <option value="" ${!currentSelectedId ? "selected" : ""}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length}${currentSubject !== "all" ? ` of ${allRecords.length}` : ""} available) --</option>
-            ${records.map(
-      (r) => `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? "selected" : ""}>
-                            ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
-                        </option>`
-    ).join("")}
+    const facets = detectFilterFacets(tableName, records);
+    let activeFilteredRecords = filterRecordsByActiveFacets(records);
+    displayArea.innerHTML = `
+            <div class="entity-inspector-view">
+                <div class="inspector-container">
+                    <div class="instance-bar">
+                        ${renderFacetPillBar(facets)}
+                        <div class="instance-select-group">
+                            <span class="instance-select-label" id="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
+                            <select id="entity-instance-select" class="instance-select">
+                                <option value="">Loading instances...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="inspector-card-target">
+                        <div style="padding: 24px; color: #64748b;">Loading record attributes...</div>
+                    </div>
+                </div>
+            </div>
         `;
+    const selectEl = document.getElementById("entity-instance-select");
+    const cardTarget = document.getElementById("inspector-card-target");
+    const labelEl = document.getElementById("instance-select-label");
+    const populateSelectOptions = (list) => {
+      selectEl.innerHTML = `
+                <option value="" ${!currentSelectedId ? "selected" : ""}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${list.length}${list.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
+                ${list.map(
+        (r) => `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? "selected" : ""}>
+                                ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                            </option>`
+      ).join("")}
+            `;
+      if (labelEl) {
+        labelEl.textContent = `Select ${tableInfo.singularLabel || tableInfo.label} (${list.length}${list.length !== records.length ? ` of ${records.length}` : ""}):`;
+      }
+    };
+    populateSelectOptions(activeFilteredRecords);
     const showInstanceSelectionMenu = () => {
       currentSelectedId = null;
       selectEl.value = "";
@@ -46815,38 +47105,43 @@ async function renderEntityInspectorView(tableName, filterKind) {
                     </button>
                 </div>
             ` : "";
-      cardTarget.innerHTML = `
-                <div class="instance-menu-card">
-                    ${filterScopeBanner}
-                    <div class="instance-menu-header">
-                        <h3>Available ${tableInfo.label} (${records.length}${currentSubject !== "all" ? ` filtered from ${allRecords.length}` : ""})</h3>
-                        <p>Select an instance below or from the dropdown menu above to inspect its complete database attributes.</p>
-                    </div>
-                    <div class="instance-menu-list">
-                        ${records.map((r) => {
+      const listItemsHtml = activeFilteredRecords.length > 0 ? activeFilteredRecords.map((r) => {
         const friendlyTitle = getRecordFriendlyName(tableName, r);
         const key = r.equation_key || r.statement_key || r.algo_key || r.seg_key || r.symbol || r.preset_key || "";
         const formula = r.formula_expr || r.expression || r.signature || "";
         const desc = r.formula_description || r.description || r.summary || "";
         return `
-                                    <div class="instance-menu-item" data-id="${r.id}">
-                                        <div style="flex: 1;">
-                                            <div class="instance-item-title">
-                                                <span>${escapeHtml2(friendlyTitle)}</span>
-                                                ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
-                                                ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml2(r.statement_kind)}">${escapeHtml2(r.statement_kind)}</span>` : ""}
-                                                ${r.tier ? `<span class="tier-badge tier-${escapeHtml2(r.tier)}">${escapeHtml2(r.tier)}</span>` : ""}
-                                                <span class="instance-id-badge">#${r.id}</span>
-                                            </div>
-                                            ${formula ? `<div class="instance-item-formula">${escapeHtml2(formula)}</div>` : ""}
-                                            ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml2(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
-                                        </div>
-                                        <div style="color: var(--primary); font-size: 13px; font-weight: 700; margin-left: 12px;">
-                                            Inspect \u2197
-                                        </div>
-                                    </div>
-                                `;
-      }).join("")}
+                        <div class="instance-menu-item" data-id="${r.id}">
+                            <div style="flex: 1;">
+                                <div class="instance-item-title">
+                                    <span>${escapeHtml2(friendlyTitle)}</span>
+                                    ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
+                                    ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml2(r.statement_kind)}">${escapeHtml2(r.statement_kind)}</span>` : ""}
+                                    ${r.tier ? `<span class="tier-badge tier-${escapeHtml2(r.tier)}">${escapeHtml2(r.tier)}</span>` : ""}
+                                    <span class="instance-id-badge">#${r.id}</span>
+                                </div>
+                                ${formula ? `<div class="instance-item-formula">${escapeHtml2(formula)}</div>` : ""}
+                                ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml2(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
+                            </div>
+                            <div style="color: var(--primary); font-size: 13px; font-weight: 700; margin-left: 12px;">
+                                Inspect \u2197
+                            </div>
+                        </div>
+                    `;
+      }).join("") : `
+                    <div style="padding: 24px; text-align: center; color: #64748b; background: #ffffff; border: 1px dashed var(--border-color); border-radius: 6px;">
+                        No records match the active filter criteria. Click <strong>All</strong> above to show all records.
+                    </div>
+                `;
+      cardTarget.innerHTML = `
+                <div class="instance-menu-card">
+                    ${filterScopeBanner}
+                    <div class="instance-menu-header">
+                        <h3>Available ${tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""})</h3>
+                        <p>Select an instance below or from the dropdown menu above to inspect its complete database attributes.</p>
+                    </div>
+                    <div class="instance-menu-list">
+                        ${listItemsHtml}
                     </div>
                 </div>
             `;
@@ -46879,6 +47174,25 @@ async function renderEntityInspectorView(tableName, filterKind) {
         });
       }
     };
+    const facetBar = displayArea.querySelector("#filter-facet-bar");
+    if (facetBar) {
+      bindFacetPillEvents(facetBar, () => {
+        activeFilteredRecords = filterRecordsByActiveFacets(records);
+        populateSelectOptions(activeFilteredRecords);
+        if (!currentSelectedId) {
+          showInstanceSelectionMenu();
+        } else {
+          const stillExists = activeFilteredRecords.some((r) => r.id.toString() === currentSelectedId);
+          if (!stillExists) {
+            if (activeFilteredRecords.length > 0) {
+              inspectInstance(activeFilteredRecords[0].id.toString());
+            } else {
+              showInstanceSelectionMenu();
+            }
+          }
+        }
+      });
+    }
     if (currentSelectedId) {
       await inspectInstance(currentSelectedId);
     } else {
@@ -46893,7 +47207,10 @@ async function renderEntityInspectorView(tableName, filterKind) {
     });
   } catch (err) {
     console.error(`[renderEntityInspectorView] Error loading ${tableName}:`, err);
-    cardTarget.innerHTML = `<div style="padding: 24px; color: #dc2626;">Error querying table ${tableName}: ${err.message}</div>`;
+    const cardTarget = document.getElementById("inspector-card-target");
+    if (cardTarget) {
+      cardTarget.innerHTML = `<div style="padding: 24px; color: #dc2626;">Error querying table ${tableName}: ${err.message}</div>`;
+    }
   }
 }
 async function renderSegmentAuthoringView(record, mode = "read") {
@@ -47237,13 +47554,16 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       console.error("[renderRecordForm] Error fetching records:", e);
     }
   }
+  const facets = !isNew ? detectFilterFacets(tableName, records) : [];
+  let activeFilteredRecords = !isNew ? filterRecordsByActiveFacets(records) : [];
   const instanceBarHtml = !isNew ? `
         <div class="instance-bar">
+            ${renderFacetPillBar(facets)}
             <div class="instance-select-group">
-                <span class="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
+                <span class="instance-select-label" id="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
                 <select id="entity-instance-select" class="instance-select">
-                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${records.length} available) --</option>
-                    ${records.map(
+                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
+                    ${activeFilteredRecords.map(
     (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
                                     ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                                 </option>`
@@ -47311,6 +47631,26 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
           updateBreadcrumbs();
           await renderRecordForm(tableName, nextRec, false);
         }
+      }
+    });
+  }
+  const facetBar = displayArea.querySelector("#filter-facet-bar");
+  if (facetBar && !isNew) {
+    bindFacetPillEvents(facetBar, () => {
+      activeFilteredRecords = filterRecordsByActiveFacets(records);
+      if (selectEl) {
+        selectEl.innerHTML = `
+                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
+                    ${activeFilteredRecords.map(
+          (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
+                                    ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                </option>`
+        ).join("")}
+                `;
+      }
+      const labelEl = document.getElementById("instance-select-label");
+      if (labelEl) {
+        labelEl.textContent = `Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` of ${records.length}` : ""}):`;
       }
     });
   }

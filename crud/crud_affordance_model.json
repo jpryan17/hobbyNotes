@@ -157,6 +157,13 @@
       }
     },
     "entity_card_read_mode": {
+      "filter_facet_bar": {
+        "selector": "#filter-facet-bar",
+        "pill_selector": ".facet-pill",
+        "type": "contextual_filter",
+        "behavior": "Automated facet detector scores table attributes (enums, booleans, and low-cardinality discriminators with 2 <= |V| <= 7) and mounts dynamic filter pills (e.g. Kind, Tier, Algorithm, Engine, Codomain). Clicking pills immediately filters the instance select options and card view in real time.",
+        "criteria": "Automated schema-driven selection based on column data type (enum/bool), distinct cardinality, and information entropy."
+      },
       "instance_selector": {
         "selector": "#entity-instance-select",
         "action": "change",

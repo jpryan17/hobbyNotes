@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T17:45:37.952Z",
+  "generatedAt": "2026-10-24T19:00:17.129Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -491,16 +491,15 @@
     },
     {
       "numId": 39,
-      "id": "fs_geometric_scale_step",
+      "id": "fs_geometric_ladder",
       "type": "math",
       "tier": "law",
-      "statementKind": "directed_equality",
+      "statementKind": "theorem",
       "governingSeed": "boundary_law",
-      "title": "Chromatic Scale Geometric Progression",
-      "description": "In twelve-tone equal temperament (12-TET), each semitone step multiplies frequency by 2^(1/12), forming a geometric sequence with ratio r = 2^(1/12).",
-      "scaffoldKey": "geometric_scale_step",
-      "expression": "f_k = f_0 · (2^(1/12))^k",
-      "pseudoAlgoId": "algo_geometric_scale_step",
+      "title": "The Geometric Ladder Law",
+      "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a · r^k.",
+      "scaffoldKey": "geometric_ladder",
+      "expression": "F(k + 1) = r · F(k)  ⟹  F(k) = a · r^k",
       "referencedInSegments": [
         "sequencesAndSums"
       ],
@@ -982,8 +981,49 @@
       ]
     },
     {
+      "id": "geom_ladder_step",
+      "statementId": "fs_geometric_ladder",
+      "label": "Geometric Progression Step F_k = a · r^k",
+      "targetSymbol": "F_k",
+      "targetDomain": "ℝ_ω",
+      "formulaDescription": "F_k = a · r^k",
+      "formulaExpr": "a * Math.pow(r, k)",
+      "inputs": [
+        {
+          "name": "a",
+          "symbol": "a",
+          "domain": "ℝ",
+          "defaultValue": 1,
+          "min": -1000,
+          "max": 1000,
+          "step": 0.1,
+          "description": "Initial seed value (F_0)"
+        },
+        {
+          "name": "r",
+          "symbol": "r",
+          "domain": "ℝ",
+          "defaultValue": 2,
+          "min": -100,
+          "max": 100,
+          "step": 0.05,
+          "description": "Common ratio per step"
+        },
+        {
+          "name": "k",
+          "symbol": "k",
+          "domain": "ℕ",
+          "defaultValue": 1,
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "description": "Step index"
+        }
+      ]
+    },
+    {
       "id": "music_et_scale_step",
-      "statementId": "fs_geometric_scale_step",
+      "statementId": "fs_geometric_ladder",
       "label": "Chromatic Frequency f_k = f₀ · (2^(1/12))^k",
       "targetSymbol": "f_k",
       "targetDomain": "ℝ_ω",
@@ -1020,7 +1060,7 @@
     {
       "id": "ex_equal_temperament_c5",
       "modeId": "music_et_scale_step",
-      "statementId": "fs_geometric_scale_step",
+      "statementId": "fs_geometric_ladder",
       "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
       "values": {
         "f0": 440,
