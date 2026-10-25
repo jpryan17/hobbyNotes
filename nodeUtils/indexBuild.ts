@@ -116,6 +116,7 @@ async function buildIndex(app: string) {
 `<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Formalizing Popular Science: Using Middle Way Mathematics to Describe Quantum Statistical Mechanics</title>
 </head>
 <body>
   <div id="main-slot"></div>

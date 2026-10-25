@@ -5,13 +5,13 @@ let realsBanner;
 let predLogicBanner;
 export function initOutlineBanner() {
     outlineBanner = new Banner([
-        { text: 'mathematics and the middle way', fontSize: 44, fontWeight: 'bold', color: '#0f172a' },
-        { text: 'foundational science & nonstandard analysis', fontSize: 30, fontStyle: 'italic', color: '#1e3a8a' },
-        { text: '— a sequential journey from logic to quantum reality', fontSize: 24, fontStyle: 'italic', color: '#64748b' }
+        { text: 'Formalizing Popular Science', fontSize: 44, fontWeight: 'bold', color: '#0f172a' },
+        { text: 'Using Middle Way Mathematics to Describe Quantum Statistical Mechanics', fontSize: 26, fontStyle: 'italic', color: '#1e3a8a' },
+        { text: '— an interactive constructible model from logic to thermal ensembles', fontSize: 22, fontStyle: 'italic', color: '#64748b' }
     ], {
         fontSize: 44,
         space: 20,
-        updateDate: 'September 2026',
+        updateDate: 'October 2026',
         dateCorner: 'BR'
     });
     return outlineBanner;

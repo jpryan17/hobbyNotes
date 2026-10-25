@@ -612,7 +612,7 @@ export const stemBridgeIndex = appliedPhysicsSeminarsIndex;
 export const seminarsIndex = level6Index;
 
 // =====================================================================
-// Main Curriculum Index
+// Main Lectures Index: Direct Runway to Quantum Statistical Mechanics
 // =====================================================================
 
 export const mainIndex: IndexItemDesc[] = [
@@ -624,45 +624,33 @@ export const mainIndex: IndexItemDesc[] = [
   },
   {
     type: "index",
-    topic: "Introduction & Overview",
-    navTopic: "Introduction",
-    indexDesc: curriculumIntroIndex,
-  },
-  {
-    type: "index",
-    topic: "Level 1: Logic & Number",
-    navTopic: "Logic & Number",
+    topic: "Series 1: Logic & Truth",
+    navTopic: "Logic",
     indexDesc: level1Index,
   },
   {
     type: "index",
-    topic: "Level 2: Algebraic Structure & Linearity",
-    navTopic: "Algebra & Linearity",
+    topic: "Series 2: Numbers, Cuts & Dyadic Trees",
+    navTopic: "Numbers & Trees",
     indexDesc: level2Index,
   },
   {
     type: "index",
-    topic: "Level 3: Continuum & Calculus",
-    navTopic: "Continuum & Calculus",
+    topic: "Series 3: Continuum Analysis & Halos",
+    navTopic: "Continuum & Halos",
     indexDesc: level3Index,
   },
   {
     type: "index",
-    topic: "Level 4: Space, Trigonometry & The Transcendental Engine",
-    navTopic: "Space & Growth",
+    topic: "Series 4: Rotors & Transcendental Growth",
+    navTopic: "Rotors & Growth",
     indexDesc: level4Index,
   },
   {
     type: "index",
-    topic: "Level 5: Quantum & Information",
-    navTopic: "Quantum & Information",
+    topic: "Series 5: Quantum Statistical Mechanics",
+    navTopic: "Quantum Stat-Mech",
     indexDesc: level5Index,
-  },
-  {
-    type: "index",
-    topic: "Level 6: Applied Seminars",
-    navTopic: "Applied Seminars",
-    indexDesc: level6Index,
   },
 ];
 
