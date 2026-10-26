@@ -2,7 +2,6 @@ import { ttd } from "../../clientLib/ttd.js";
 import { fsd } from "../../clientLib/fsd.js";
 import { initBTD, layoutBTD } from "../../clientLib/btd.js";
 import { initBID, layoutBID } from "../../clientLib/bid.js";
-import { eqDemo, initEqDemo, layoutEqDemo } from "../../clientLib/eqDemo.js";
 import { initOutlineBanner, layoutOutlineBanner } from "./appBanners.js";
 export const propLogicIndex = [
     {
@@ -43,12 +42,6 @@ export const formalStatementsIndex = [
         topic: "formal statement demo (FSD)",
         initCB: initFSD,
         layoutCB: layoutFSD,
-    },
-    {
-        type: "diagram",
-        topic: "equation evaluator demo (EED)",
-        initCB: initEED,
-        layoutCB: layoutEED,
     },
 ];
 export const numbersIndex = [
@@ -635,15 +628,6 @@ function initFSD() {
 function layoutFSD() {
     fsd.layoutEditor();
 }
-export function initEED() {
-    if (eqDemo) {
-        eqDemo.resetToBuilder();
-    }
-    return initEqDemo();
-}
-export function layoutEED() {
-    layoutEqDemo();
-}
 export function hydrateDiagramCallbacks(tree) {
     return tree.map((item) => {
         const cloned = { ...item };
@@ -658,12 +642,6 @@ export function hydrateDiagramCallbacks(tree) {
                 keyLower.includes("fsd")) {
                 cloned.initCB = initFSD;
                 cloned.layoutCB = layoutFSD;
-            }
-            else if (topicLower.includes("equation") ||
-                keyLower.includes("eed") ||
-                keyLower.includes("eqd")) {
-                cloned.initCB = initEED;
-                cloned.layoutCB = layoutEED;
             }
             else if (topicLower.includes("binary tree") ||
                 keyLower.includes("btd")) {
