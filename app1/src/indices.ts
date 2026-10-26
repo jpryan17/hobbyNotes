@@ -372,7 +372,7 @@ export const level1Index: IndexItemDesc[] = [
 export const linearAlgebraIndex: IndexItemDesc[] = [
   {
     type: "html",
-    topic: "overview: linear algebra",
+    topic: "overview: algebraic structure & linearity",
     htmlSegmentId: "vectorFoundationsIntro",
   },
   {
@@ -392,25 +392,7 @@ export const linearAlgebraIndex: IndexItemDesc[] = [
   },
 ];
 export const vectorsIndex = linearAlgebraIndex;
-
-export const level2Index: IndexItemDesc[] = [
-  {
-    type: "html",
-    topic: "overview: algebraic structure & linearity",
-    htmlSegmentId: "vectorFoundationsIntro",
-  },
-  {
-    type: "html",
-    topic: "sequences & progressions",
-    htmlSegmentId: "sequencesAndSums",
-  },
-  {
-    type: "index",
-    topic: "course 1: linear algebra & symmetries",
-    navTopic: "linear algebra",
-    indexDesc: linearAlgebraIndex,
-  },
-];
+export const level2Index = linearAlgebraIndex;
 
 // =====================================================================
 // Level 3: Continuum & Calculus
@@ -467,6 +449,11 @@ export const level3Index: IndexItemDesc[] = [
     type: "html",
     topic: "overview: continuous analysis",
     htmlSegmentId: "lamOverview",
+  },
+  {
+    type: "html",
+    topic: "sequences & progressions",
+    htmlSegmentId: "sequencesAndSums",
   },
   {
     type: "index",
