@@ -613,6 +613,36 @@ export function buildCurricularCatalog(): FsCatalog {
       scaffoldKey: 'geometric_ladder',
       expression: 'F(k + 1) = r · F(k)  ⟹  F(k) = a · r^k',
       referencedInSegments: getRefs('fs_geometric_ladder', 39, ['sequencesAndSums'])
+    },
+    {
+      numId: 40,
+      id: 'fs_music_et_scale',
+      parentId: 'fs_geometric_ladder',
+      type: 'physics',
+      tier: 'scenario',
+      statementKind: 'directed_equality',
+      governingSeed: 'boundary_law',
+      title: '12-TET Chromatic Pitch Scale Stepping',
+      description: 'Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).',
+      scaffoldKey: 'music_et_scale',
+      expression: 'f_{k+1} ≔ 2^(1/12) · f_k  ∧  f_k ≔ f₀ · (2^(1/12))^k',
+      pseudoAlgoId: 'algo_geometric_scale_step',
+      referencedInSegments: getRefs('fs_music_et_scale', 40, ['sequencesAndSums'])
+    },
+    {
+      numId: 41,
+      id: 'fs_geom_ladder_step',
+      parentId: 'fs_geometric_ladder',
+      type: 'math',
+      tier: 'scenario',
+      statementKind: 'directed_equality',
+      governingSeed: 'boundary_law',
+      title: 'General Geometric Ladder Step',
+      description: 'Discrete multiplicative scaling progression advancing by constant ratio r.',
+      scaffoldKey: 'geom_ladder_step',
+      expression: 'F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k',
+      pseudoAlgoId: 'algo_geometric_ladder_step',
+      referencedInSegments: getRefs('fs_geom_ladder_step', 41, ['sequencesAndSums'])
     }
   ];
 
@@ -848,7 +878,7 @@ export function buildCurricularCatalog(): FsCatalog {
     },
     {
       id: 'geom_ladder_step',
-      statementId: 'fs_geometric_ladder',
+      statementId: 'fs_geom_ladder_step',
       label: 'Geometric Progression Step F_k = a · r^k',
       targetSymbol: 'F_k',
       targetDomain: 'ℝ_ω',
@@ -862,7 +892,7 @@ export function buildCurricularCatalog(): FsCatalog {
     },
     {
       id: 'music_et_scale_step',
-      statementId: 'fs_geometric_ladder',
+      statementId: 'fs_music_et_scale',
       label: 'Chromatic Frequency f_k = f₀ · (2^(1/12))^k',
       targetSymbol: 'f_k',
       targetDomain: 'ℝ_ω',
@@ -880,7 +910,7 @@ export function buildCurricularCatalog(): FsCatalog {
     {
       id: 'ex_equal_temperament_c5',
       modeId: 'music_et_scale_step',
-      statementId: 'fs_geometric_ladder',
+      statementId: 'fs_music_et_scale',
       title: 'Concert Pitch A4 to Middle C5 (3 Semitones)',
       values: { f0: 440.0, k: 3 },
       displayResult: '523.251 Hz',

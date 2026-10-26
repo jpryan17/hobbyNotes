@@ -87,7 +87,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-10-26T05:41:32.861Z",
+  "generatedAt": "2026-10-26T22:00:56.762Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -592,6 +592,42 @@ export const FS_CATALOG: FsCatalog = {
         "sequencesAndSums"
       ],
       "leanStatus": "pending"
+    },
+    {
+      "numId": 40,
+      "id": "fs_music_et_scale",
+      "parentId": "fs_geometric_ladder",
+      "type": "physics",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "12-TET Chromatic Pitch Scale Stepping",
+      "description": "Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).",
+      "scaffoldKey": "music_et_scale",
+      "expression": "f_{k+1} ≔ 2^(1/12) · f_k  ∧  f_k ≔ f₀ · (2^(1/12))^k",
+      "pseudoAlgoId": "algo_geometric_scale_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
+    },
+    {
+      "numId": 41,
+      "id": "fs_geom_ladder_step",
+      "parentId": "fs_geometric_ladder",
+      "type": "math",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "General Geometric Ladder Step",
+      "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
+      "scaffoldKey": "geom_ladder_step",
+      "expression": "F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k",
+      "pseudoAlgoId": "algo_geometric_ladder_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
     }
   ],
   "calculationModes": [
@@ -1070,7 +1106,7 @@ export const FS_CATALOG: FsCatalog = {
     },
     {
       "id": "geom_ladder_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_geom_ladder_step",
       "label": "Geometric Progression Step F_k = a · r^k",
       "targetSymbol": "F_k",
       "targetDomain": "ℝ_ω",
@@ -1111,7 +1147,7 @@ export const FS_CATALOG: FsCatalog = {
     },
     {
       "id": "music_et_scale_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_music_et_scale",
       "label": "Chromatic Frequency f_k = f₀ · (2^(1/12))^k",
       "targetSymbol": "f_k",
       "targetDomain": "ℝ_ω",
@@ -1148,7 +1184,7 @@ export const FS_CATALOG: FsCatalog = {
     {
       "id": "ex_equal_temperament_c5",
       "modeId": "music_et_scale_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_music_et_scale",
       "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
       "values": {
         "f0": 440,
