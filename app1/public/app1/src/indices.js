@@ -426,7 +426,7 @@ export const analysis2DIndex = [
 export const level3Index = [
     {
         type: "html",
-        topic: "overview: continuous analysis",
+        topic: "overview: infinitesimal analysis",
         htmlSegmentId: "lamOverview",
     },
     {
@@ -583,8 +583,8 @@ export const mainIndex = [
     },
     {
         type: "index",
-        topic: "Series 3: Continuum & Calculus",
-        navTopic: "Continuum & Calculus",
+        topic: "Series 3: Infinitesimal Analysis",
+        navTopic: "Infinitesimal Analysis",
         indexDesc: level3Index,
     },
     {
