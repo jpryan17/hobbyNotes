@@ -2,9 +2,9 @@ import { SVGElt, SVGGrpElt, SVGText } from './svgElt.js';
 import { Nav } from './navFW.js';
 let that;
 export class Index extends SVGGrpElt {
-    static fontSize = 14;
-    static rowHeight = 32;
-    static margin = 14;
+    static fontSize = 16;
+    static rowHeight = 36;
+    static margin = 16;
     static stdColor = '#334155';
     static overColor = '#0284c7';
     static selectedColor = '#0369a1';
@@ -18,7 +18,7 @@ export class Index extends SVGGrpElt {
         this.chosen = initialSelection;
         this.setA('style', 'background-color: transparent;');
         const [m, fs] = [Index.margin, Index.fontSize];
-        let y = m + 18;
+        let y = m + 21;
         indexDesc.forEach((choice, idx) => {
             const indents = (choice.indents) ? choice.indents : 0;
             const text = choice.topic;
@@ -29,7 +29,7 @@ export class Index extends SVGGrpElt {
             rect.setAA([
                 'x', m - 8,
                 'y', rowY,
-                'height', Index.rowHeight - 4,
+                'height', Index.rowHeight - 6,
                 'rx', 6,
                 'ry', 6,
                 'fill', isSelected ? '#e0f2fe' : 'transparent',
@@ -40,7 +40,7 @@ export class Index extends SVGGrpElt {
             const item = new SVGText();
             item.setV(text);
             item.setAA([
-                'x', m + indents * 14,
+                'x', m + indents * 16,
                 'y', y,
                 'font-size', fs,
                 'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -55,7 +55,7 @@ export class Index extends SVGGrpElt {
                 try {
                     const bb = item.getBB();
                     if (bb && bb.width > 0) {
-                        rect.setA('width', Math.max(160, bb.width + indents * 14 + 20));
+                        rect.setA('width', Math.max(175, bb.width + indents * 16 + 24));
                     }
                 }
                 catch (e) { }

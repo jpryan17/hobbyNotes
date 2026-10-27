@@ -47,15 +47,15 @@ export class Nav {
     static foPadding = 14;
     static foBgColor = '#ffffff';
     static width;
-    static fontSize = 14;
-    static sideFontSize = 13.5;
-    static lineHeight = 44;
+    static fontSize = 16;
+    static sideFontSize = 15;
+    static lineHeight = 46;
     static offset = 24;
     static frameMargin = 6;
     static upArrow = '▶';
     static dnArrow = '☰';
     static isIndexVisible = true;
-    static arrowSize = 18;
+    static arrowSize = 20;
     static textFontSize = 16;
     static getTextStyle() {
         const bPad = 50;
