@@ -5,6 +5,7 @@
 
 import { executeSql, queryDatabase } from '../../clientLib/db/api.js';
 import { PxeEngine } from '../../clientLib/pxeEngine.js';
+import { BTD_MODE_METADATA } from '../../clientLib/btd.js';
 
 export interface SegmentEditorOptions {
     container: HTMLElement;
@@ -84,18 +85,65 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                         }
                     </div>
 
-                    <!-- Custom Element Insertion Dropdown (Visible in Edit Mode) -->
+                    <!-- Two-Tier Categorized Custom Element Insertion Dropdown (Visible in Edit Mode) -->
                     <div class="tb-dropdown custom-elem-dropdown" id="dropdown-custom-elems" style="${isReadMode ? 'display: none;' : 'display: inline-flex;'}">
-                        <button id="btn-dropdown-custom-elems" class="btn btn-secondary" style="background: #fdf2f8; border-color: #fbcfe8; color: #be185d; font-weight: 700;" title="Insert Curricular Custom Elements (<ttd-ref>, <fs-ref>, etc.)">
+                        <button id="btn-dropdown-custom-elems" class="btn btn-secondary" style="background: #fdf2f8; border-color: #fbcfe8; color: #be185d; font-weight: 700;" title="Insert Curricular Custom Elements (<ttd-ref>, <btd-ref>, <fs-ref>, etc.)">
                             <span>⨁ Insert Element</span> ▾
                         </button>
-                        <div class="tb-dropdown-menu" id="menu-custom-elems">
-                            <button class="tb-dropdown-item" data-action="insert-ttd">⚖️ Truth Table (&lt;ttd-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-fs">📜 Formal Statement (&lt;fs-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-stencil">📐 Computational Stencil (&lt;interactive-stencil&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-preset">🎛️ Stencil Preset (&lt;preset-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-demo">🎨 Interactive Visual Demo (&lt;visual-demo&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-pseudo">⚡ Pseudocode Algorithm (&lt;pseudo-ref&gt;)...</button>
+                        <div class="tb-dropdown-menu" id="menu-custom-elems" style="min-width: 285px; padding: 6px 8px;">
+                            <!-- Tier 1: Logic & Truth Evaluation -->
+                            <div class="tb-dropdown-header">⚖️ Logic & Truth Evaluation</div>
+                            <button class="tb-dropdown-item" data-action="insert-ttd">
+                                <span class="tb-item-name">⚖️ Truth Table</span>
+                                <code class="tb-item-tag">&lt;ttd-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-fsd">
+                                <span class="tb-item-name">🔬 Formal Stage Scaffold</span>
+                                <code class="tb-item-tag">&lt;fsd-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 2: Numbers & 2-Successor Trees -->
+                            <div class="tb-dropdown-header">🌲 Numbers & 2-Successor Trees</div>
+                            <button class="tb-dropdown-item" data-action="insert-btd">
+                                <span class="tb-item-name">🌲 Binary Tree Demo</span>
+                                <code class="tb-item-tag">&lt;btd-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-bid">
+                                <span class="tb-item-name">🔢 Dyadic Integer Demo</span>
+                                <code class="tb-item-tag">&lt;bid-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 3: Formal Reasoning & Stencils -->
+                            <div class="tb-dropdown-header">📜 Formal Reasoning & Stencils</div>
+                            <button class="tb-dropdown-item" data-action="insert-fs">
+                                <span class="tb-item-name">📜 Formal Statement</span>
+                                <code class="tb-item-tag">&lt;fs-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-stencil">
+                                <span class="tb-item-name">📐 Computational Stencil</span>
+                                <code class="tb-item-tag">&lt;interactive-stencil&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-preset">
+                                <span class="tb-item-name">🎛️ Stencil Preset</span>
+                                <code class="tb-item-tag">&lt;preset-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 4: Computation & Visuals -->
+                            <div class="tb-dropdown-header">⚡ Computation & Visuals</div>
+                            <button class="tb-dropdown-item" data-action="insert-pseudo">
+                                <span class="tb-item-name">⚡ Pseudocode Algorithm</span>
+                                <code class="tb-item-tag">&lt;pseudo-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-demo">
+                                <span class="tb-item-name">🎨 General Visual Demo</span>
+                                <code class="tb-item-tag">&lt;visual-demo&gt;</code>
+                            </button>
                         </div>
                     </div>
 
@@ -682,7 +730,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
         });
 
         // Restore custom elements so decorations are never saved to database or leaked into source mode
-        temp.querySelectorAll('ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref').forEach((el) => {
+        temp.querySelectorAll('ttd-ref, fsd-ref, btd-ref, bid-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref').forEach((el) => {
             if (el.hasAttribute('data-orig-inner')) {
                 el.innerHTML = el.getAttribute('data-orig-inner') || '';
             }
@@ -693,7 +741,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             el.removeAttribute('data-resolved-subtitle');
             el.removeAttribute('data-resolved-formula');
             el.removeAttribute('data-resolved-status');
-            el.classList.remove('custom-ref-chip', 'chip-ttd', 'chip-fs', 'chip-stencil', 'chip-demo', 'chip-pseudo', 'chip-preset');
+            el.classList.remove('custom-ref-chip', 'chip-ttd', 'chip-fsd', 'chip-btd', 'chip-bid', 'chip-fs', 'chip-stencil', 'chip-demo', 'chip-pseudo', 'chip-preset');
             if (!el.getAttribute('class')) {
                 el.removeAttribute('class');
             }
@@ -812,12 +860,77 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             }
             if (row) entityMetaCache.set(cacheKey, row);
             return row;
+        } else if (normTag === 'btd-ref') {
+            const id = el.getAttribute('id') || el.getAttribute('demo-id');
+            const mode = el.getAttribute('mode') || 'plain';
+            const cacheKey = id ? `btd:id:${id}` : `btd:mode:${mode}`;
+            if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+
+            let row = null;
+            if (id) {
+                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                row = rows?.[0] || null;
+            }
+            if (!row) {
+                const modeMeta = BTD_MODE_METADATA[mode];
+                row = {
+                    title: modeMeta ? modeMeta.title : `2-Successor Tree [${mode}]`,
+                    engine: 'btd',
+                    mode: mode,
+                    description: modeMeta ? modeMeta.desc : 'Binary 2-Successor Tree Demo',
+                    status: 'active'
+                };
+            }
+            if (row) entityMetaCache.set(cacheKey, row);
+            return row;
+        } else if (normTag === 'bid-ref') {
+            const id = el.getAttribute('id') || el.getAttribute('demo-id');
+            const mode = el.getAttribute('mode') || '';
+            const cacheKey = id ? `bid:id:${id}` : `bid:mode:${mode}`;
+            if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+
+            let row = null;
+            if (id) {
+                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                row = rows?.[0] || null;
+            }
+            if (!row) {
+                row = {
+                    title: 'Dyadic Integer Demo',
+                    engine: 'bid',
+                    mode: mode || 'subdivision',
+                    description: 'Binary Integer Dyadics & Rotor Projection',
+                    status: 'active'
+                };
+            }
+            if (row) entityMetaCache.set(cacheKey, row);
+            return row;
+        } else if (normTag === 'fsd-ref') {
+            const id = el.getAttribute('id') || el.getAttribute('demo-id');
+            const cacheKey = `fsd:id:${id}`;
+            if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+
+            let row = null;
+            if (id) {
+                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                row = rows?.[0] || null;
+            }
+            if (!row) {
+                row = {
+                    title: 'Formal Stage Scaffold',
+                    engine: 'fsd',
+                    description: 'Four-Stage Formal Structure Stage Visualizer',
+                    status: 'active'
+                };
+            }
+            if (row) entityMetaCache.set(cacheKey, row);
+            return row;
         }
         return null;
     }
 
     async function decorateCustomElements(pane: HTMLElement) {
-        const customTags = pane.querySelectorAll('ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref');
+        const customTags = pane.querySelectorAll('ttd-ref, fsd-ref, btd-ref, bid-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref');
         if (customTags.length === 0) return;
 
         for (const el of Array.from(customTags)) {
@@ -834,14 +947,20 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             let icon = '⚖️';
             let kindLabel = 'TTD';
             let chipThemeClass = 'chip-ttd';
-            if (normTag === 'fs-ref') {
+            if (normTag === 'fsd-ref') {
+                icon = '🔬'; kindLabel = 'FSD'; chipThemeClass = 'chip-fsd';
+            } else if (normTag === 'btd-ref') {
+                icon = '🌲'; kindLabel = 'BTD'; chipThemeClass = 'chip-btd';
+            } else if (normTag === 'bid-ref') {
+                icon = '🔢'; kindLabel = 'BID'; chipThemeClass = 'chip-bid';
+            } else if (normTag === 'fs-ref') {
                 icon = '📜'; kindLabel = 'FS'; chipThemeClass = 'chip-fs';
             } else if (normTag === 'interactive-stencil') {
                 icon = '📐'; kindLabel = 'Stencil'; chipThemeClass = 'chip-stencil';
             } else if (normTag === 'preset-ref') {
                 icon = '🎛️'; kindLabel = 'Preset'; chipThemeClass = 'chip-preset';
             } else if (normTag === 'visual-demo') {
-                icon = '🔬'; kindLabel = 'Demo'; chipThemeClass = 'chip-demo';
+                icon = '🎨'; kindLabel = 'Demo'; chipThemeClass = 'chip-demo';
             } else if (normTag === 'pseudo-ref') {
                 icon = '⚡'; kindLabel = 'Algo'; chipThemeClass = 'chip-pseudo';
             }
@@ -893,6 +1012,27 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 displayTitle = rec?.title || (rec?.mode ? `Demo: ${rec.mode}` : `Demo #${id}`);
                 displaySubtitle = `interactive_demos · ID ${id} (${rec?.engine || 'canvas'})`;
                 statusBadge = rec?.status || 'active';
+            } else if (normTag === 'fsd-ref') {
+                const id = htmlEl.getAttribute('id') || htmlEl.getAttribute('demo-id') || rec?.id || '';
+                const rawInner = (htmlEl.getAttribute('data-orig-inner') || '').trim();
+                displayTitle = rawInner || rec?.title || 'Formal Stage Scaffold';
+                displaySubtitle = id ? `interactive_demos · FSD · ID ${id}` : 'formal structure stage visualizer';
+                statusBadge = 'scaffold';
+            } else if (normTag === 'btd-ref') {
+                const mode = htmlEl.getAttribute('mode') || rec?.mode || 'plain';
+                const id = htmlEl.getAttribute('id') || htmlEl.getAttribute('demo-id') || rec?.id || '';
+                const rawInner = (htmlEl.getAttribute('data-orig-inner') || '').trim();
+                displayTitle = rawInner || rec?.title || (BTD_MODE_METADATA[mode]?.title) || `2-Successor Tree [${mode}]`;
+                displaySubtitle = id ? `interactive_demos · BTD · ID ${id}` : `2-successor tree · ${mode}`;
+                formulaPreview = BTD_MODE_METADATA[mode]?.desc || '';
+                statusBadge = 'tree';
+            } else if (normTag === 'bid-ref') {
+                const mode = htmlEl.getAttribute('mode') || rec?.mode || '';
+                const id = htmlEl.getAttribute('id') || htmlEl.getAttribute('demo-id') || rec?.id || '';
+                const rawInner = (htmlEl.getAttribute('data-orig-inner') || '').trim();
+                displayTitle = rawInner || rec?.title || `Dyadic Integer Demo [${mode || 'subdivision'}]`;
+                displaySubtitle = id ? `interactive_demos · BID · ID ${id}` : `dyadic integer demo · ${mode}`;
+                statusBadge = 'dyadic';
             } else if (normTag === 'pseudo-ref') {
                 const key = htmlEl.getAttribute('algo-key') || '';
                 const id = htmlEl.getAttribute('id') || rec?.id || '';
@@ -934,12 +1074,18 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             let badgeIcon = '⚖️';
             let badgeColor = '#991b1b';
             let badgeBg = '#fee2e2';
-            if (normTag === 'fs-ref') {
+            if (normTag === 'fsd-ref') {
+                badgeIcon = '🔬'; badgeColor = '#4338ca'; badgeBg = '#e0e7ff';
+            } else if (normTag === 'btd-ref') {
+                badgeIcon = '🌲'; badgeColor = '#0f766e'; badgeBg = '#ccfbf1';
+            } else if (normTag === 'bid-ref') {
+                badgeIcon = '🔢'; badgeColor = '#0369a1'; badgeBg = '#e0f2fe';
+            } else if (normTag === 'fs-ref') {
                 badgeIcon = '📜'; badgeColor = '#1d4ed8'; badgeBg = '#dbeafe';
             } else if (normTag === 'interactive-stencil') {
                 badgeIcon = '📐'; badgeColor = '#166534'; badgeBg = '#dcfce7';
             } else if (normTag === 'visual-demo') {
-                badgeIcon = '🔬'; badgeColor = '#6b21a8'; badgeBg = '#f3e8ff';
+                badgeIcon = '🎨'; badgeColor = '#6b21a8'; badgeBg = '#f3e8ff';
             } else if (normTag === 'pseudo-ref') {
                 badgeIcon = '⚡'; badgeColor = '#92400e'; badgeBg = '#fef3c7';
             }
@@ -1037,13 +1183,31 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
     async function openQuickInspectorModal(chipEl: HTMLElement) {
         const normTag = chipEl.tagName.toLowerCase();
-        let kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset' = 'ttd';
+        let kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset' | 'btd' | 'bid' | 'fsd' = 'ttd';
         let tableName = 'interactive_demos';
         let badgeColor = '#991b1b';
         let badgeBg = '#fee2e2';
         let badgeText = '⚖️ Truth Table Proposition';
 
-        if (normTag === 'fs-ref') {
+        if (normTag === 'fsd-ref') {
+            kind = 'fsd';
+            tableName = 'interactive_demos';
+            badgeColor = '#4338ca';
+            badgeBg = '#e0e7ff';
+            badgeText = '🔬 Formal Stage Visualizer';
+        } else if (normTag === 'btd-ref') {
+            kind = 'btd';
+            tableName = 'interactive_demos';
+            badgeColor = '#0f766e';
+            badgeBg = '#ccfbf1';
+            badgeText = '🌲 2-Successor Binary Tree';
+        } else if (normTag === 'bid-ref') {
+            kind = 'bid';
+            tableName = 'interactive_demos';
+            badgeColor = '#0369a1';
+            badgeBg = '#e0f2fe';
+            badgeText = '🔢 Dyadic Integer Demo';
+        } else if (normTag === 'fs-ref') {
             kind = 'fs';
             tableName = 'formal_statements';
             badgeColor = '#1d4ed8';
@@ -1066,7 +1230,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             tableName = 'interactive_demos';
             badgeColor = '#6b21a8';
             badgeBg = '#f3e8ff';
-            badgeText = '🔬 Interactive Demo';
+            badgeText = '🎨 Interactive Demo';
         } else if (normTag === 'pseudo-ref') {
             kind = 'pseudo';
             tableName = 'pseudocode_algorithms';
@@ -1800,6 +1964,12 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 insertHtmlAtCursor('<hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />');
             } else if (action === 'insert-ttd') {
                 openCustomElementPicker('ttd');
+            } else if (action === 'insert-fsd') {
+                openCustomElementPicker('fsd');
+            } else if (action === 'insert-btd') {
+                openCustomElementPicker('btd');
+            } else if (action === 'insert-bid') {
+                openCustomElementPicker('bid');
             } else if (action === 'insert-fs') {
                 openCustomElementPicker('fs');
             } else if (action === 'insert-stencil') {
@@ -1828,331 +1998,439 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
     });
 
     // -------------------------------------------------------------------------
-    // Custom Element Pickers (<ttd-ref>, <fs-ref>, <interactive-stencil>, <preset-ref>, <visual-demo>, <pseudo-ref>)
+    // Custom Element Pickers (<ttd-ref>, <fsd-ref>, <btd-ref>, <bid-ref>, <fs-ref>, <interactive-stencil>, <preset-ref>, <visual-demo>, <pseudo-ref>)
+    // Real-Time Filtered Architecture with keyboard navigation, live preview card, and instant search
     // -------------------------------------------------------------------------
-    async function openCustomElementPicker(kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset', targetElemToReplace: HTMLElement | null = null) {
+    interface PickerItem {
+        id: string;
+        label: string;
+        sublabel: string;
+        badge?: string;
+        badgeBg?: string;
+        badgeColor?: string;
+        tagPreview: string;
+        generateHtml: () => string;
+        applyToTarget: (target: HTMLElement) => void;
+    }
+
+    async function openCustomElementPicker(
+        kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset' | 'btd' | 'bid' | 'fsd',
+        targetElemToReplace: HTMLElement | null = null
+    ) {
         saveEditorSelection();
         const isReplace = !!targetElemToReplace;
         const modalTitle = container.querySelector('#custom-elem-modal-title') as HTMLElement;
         const modalBody = container.querySelector('#custom-elem-modal-body') as HTMLElement;
 
-        if (kind === 'ttd') {
-            modalTitle.textContent = isReplace ? '⚖️ Switch Truth Table Reference (<ttd-ref>)' : '⚖️ Insert Truth Table Custom Element (<ttd-ref>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Querying authoritative propositions from PostgreSQL database...</div>';
-            customElemModal.classList.add('active');
+        const titles: Record<string, { insert: string; replace: string }> = {
+            ttd: { insert: '⚖️ Insert Truth Table (<ttd-ref>)', replace: '⚖️ Switch Truth Table (<ttd-ref>)' },
+            fsd: { insert: '🔬 Insert Formal Stage Scaffold (<fsd-ref>)', replace: '🔬 Switch Stage Scaffold (<fsd-ref>)' },
+            btd: { insert: '🌲 Insert 2-Successor Binary Tree (<btd-ref>)', replace: '🌲 Switch Binary Tree (<btd-ref>)' },
+            bid: { insert: '🔢 Insert Dyadic Integer Demo (<bid-ref>)', replace: '🔢 Switch Dyadic Demo (<bid-ref>)' },
+            fs: { insert: '📜 Insert Formal Statement (<fs-ref>)', replace: '📜 Switch Formal Statement (<fs-ref>)' },
+            stencil: { insert: '📐 Insert Computational Stencil (<interactive-stencil>)', replace: '📐 Switch Stencil (<interactive-stencil>)' },
+            preset: { insert: '🎛️ Insert Stencil Preset (<preset-ref>)', replace: '🎛️ Switch Stencil Preset (<preset-ref>)' },
+            demo: { insert: '🎨 Insert Interactive Demo (<visual-demo>)', replace: '🎨 Switch Interactive Demo (<visual-demo>)' },
+            pseudo: { insert: '⚡ Insert Pseudocode Algorithm (<pseudo-ref>)', replace: '⚡ Switch Pseudocode (<pseudo-ref>)' },
+        };
 
-            try {
-                const ttdRows = await queryDatabase<any>(
+        const config = titles[kind] || { insert: '⨁ Insert Curricular Element', replace: '✎ Switch Reference' };
+        modalTitle.textContent = isReplace ? config.replace : config.insert;
+        modalBody.innerHTML = '<div style="padding: 24px; text-align: center; color: #64748b;">Loading authoritative records from database...</div>';
+        customElemModal.classList.add('active');
+
+        try {
+            const items: PickerItem[] = [];
+
+            if (kind === 'ttd') {
+                const rows = await queryDatabase<any>(
                     "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">
-                        Select a proposition from the Truth Table database to link as a canonical <code>&lt;ttd-ref id="..."&gt;</code> reference:
-                    </p>
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">
-                            Authoritative Propositions (${ttdRows?.length || 0} registered):
-                        </label>
-                        <select id="modal-select-ttd-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; background: #ffffff;">
-                            ${(ttdRows || []).map((d: any) => {
-                                const exp = d.expression || '';
-                                const fmt = exp ? PxeEngine.fmt(exp) : '';
-                                const statusSuffix = d.status ? ` [${d.status}]` : '';
-                                const label = `[#${d.id}] ${d.title ? d.title + ' — ' : ''}${fmt || exp || 'TTD'}${statusSuffix}`;
-                                return `<option value="${d.id}">${escapeHtml(label)}</option>`;
-                            }).join('')}
-                        </select>
-                    </div>
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #64748b; margin-bottom: 16px;">
-                        💡 <strong>Live Citation:</strong> The reader will dynamically embed the interactive truth table widget populated directly with this database proposition.
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-ttd">${isReplace ? 'Update Reference' : 'Insert &lt;ttd-ref&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-ttd')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-ttd-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('id', sel.value);
-                            targetElemToReplace.removeAttribute('exp');
-                            targetElemToReplace.removeAttribute('style');
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <ttd-ref id="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<ttd-ref id="${sel.value}"></ttd-ref>\n`);
-                            showToast(`✓ Inserted <ttd-ref id="${sel.value}">`);
+                (rows || []).forEach((d: any) => {
+                    const exp = d.expression || '';
+                    const fmt = exp ? PxeEngine.fmt(exp) : '';
+                    const label = d.title ? `${d.title} — ${fmt || exp}` : (fmt || exp || `TTD #${d.id}`);
+                    const statusStr = (d.status || 'TTD').toUpperCase();
+                    items.push({
+                        id: String(d.id),
+                        label: `[#${d.id}] ${label}`,
+                        sublabel: exp ? `Formula: ${fmt || exp} · [${d.mode || 'logic'}]` : `interactive_demos · ID ${d.id}`,
+                        badge: statusStr,
+                        badgeBg: '#fee2e2',
+                        badgeColor: '#991b1b',
+                        tagPreview: `<ttd-ref id="${d.id}"></ttd-ref>`,
+                        generateHtml: () => `\n<ttd-ref id="${d.id}"></ttd-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', String(d.id));
+                            target.removeAttribute('exp');
+                            target.removeAttribute('style');
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-            }
-        } else if (kind === 'fs') {
-            modalTitle.textContent = isReplace ? '📜 Switch Formal Statement Citation (<fs-ref>)' : '📜 Insert Formal Statement Citation (<fs-ref>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading formal statements from PostgreSQL...</div>';
-            customElemModal.classList.add('active');
-
-            try {
-                const fsRows = await queryDatabase<any>(
-                    "SELECT id, statement_key, title, statement_kind FROM formal_statements ORDER BY id ASC;"
+            } else if (kind === 'fsd') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'fsd' ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a formal statement or directed equality to cite:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-fs-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(fsRows || []).map((s: any) => `
-                                <option value="${escapeHtml(s.statement_key)}">
-                                    [${escapeHtml((s.statement_kind || 'fs').toUpperCase())}] ${escapeHtml(s.title || s.statement_key)} (${escapeHtml(s.statement_key)})
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-fs">${isReplace ? 'Update Reference' : 'Insert &lt;fs-ref&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-fs')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-fs-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('statement-key', sel.value);
-                            targetElemToReplace.removeAttribute('id');
-                            targetElemToReplace.removeAttribute('desc');
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <fs-ref statement-key="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<fs-ref statement-key="${sel.value}"></fs-ref>\n`);
-                            showToast(`✓ Inserted <fs-ref statement-key="${sel.value}">`);
+                (rows || []).forEach((d: any) => {
+                    items.push({
+                        id: String(d.id),
+                        label: `[#${d.id}] ${d.title || 'Formal Stage Scaffold'}`,
+                        sublabel: `interactive_demos · engine: FSD · mode: ${d.mode || 'stage_visualizer'}`,
+                        badge: 'FSD',
+                        badgeBg: '#e0e7ff',
+                        badgeColor: '#4338ca',
+                        tagPreview: `<fsd-ref id="${d.id}"></fsd-ref>`,
+                        generateHtml: () => `\n<fsd-ref id="${d.id}"></fsd-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', String(d.id));
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-            }
-        } else if (kind === 'stencil') {
-            modalTitle.textContent = isReplace ? '📐 Switch Computational Stencil (<interactive-stencil>)' : '📐 Insert Computational Stencil (<interactive-stencil>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading stencils from PostgreSQL...</div>';
-            customElemModal.classList.add('active');
-
-            try {
-                const stencilRows = await queryDatabase<any>(
-                    "SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;"
+            } else if (kind === 'btd') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'btd' ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a computational stencil to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-stencil-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(stencilRows || []).map((st: any) => `
-                                <option value="${escapeHtml(st.equation_key)}">
-                                    ${escapeHtml(st.title || st.label || st.equation_key)} [${escapeHtml(st.equation_key)}]
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-stencil">${isReplace ? 'Update Reference' : 'Insert &lt;interactive-stencil&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-stencil')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-stencil-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('equation-key', sel.value);
-                            targetElemToReplace.removeAttribute('id');
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <interactive-stencil equation-key="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<interactive-stencil equation-key="${sel.value}"></interactive-stencil>\n`);
-                            showToast(`✓ Inserted <interactive-stencil equation-key="${sel.value}">`);
+                (rows || []).forEach((d: any) => {
+                    items.push({
+                        id: String(d.id),
+                        label: `[#${d.id}] ${d.title || d.mode}`,
+                        sublabel: `Registered Demo (engine: BTD, mode: ${d.mode})`,
+                        badge: 'DEMO',
+                        badgeBg: '#ccfbf1',
+                        badgeColor: '#0f766e',
+                        tagPreview: `<btd-ref id="${d.id}" mode="${d.mode}">${escapeHtml(d.title)}</btd-ref>`,
+                        generateHtml: () => `\n<btd-ref id="${d.id}" mode="${d.mode}">${escapeHtml(d.title)}</btd-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', String(d.id));
+                            if (d.mode) target.setAttribute('mode', d.mode);
+                            target.textContent = d.title;
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-            }
-        } else if (kind === 'preset') {
-            modalTitle.textContent = isReplace ? '🎛️ Switch Stencil Preset (<preset-ref>)' : '🎛️ Insert Stencil Preset (<preset-ref>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading presets from PostgreSQL...</div>';
-            customElemModal.classList.add('active');
 
-            try {
-                const presetRows = await queryDatabase<any>(
-                    "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+                // Include all canonical BTree modes
+                Object.entries(BTD_MODE_METADATA).forEach(([modeKey, meta]) => {
+                    items.push({
+                        id: modeKey,
+                        label: `BTD Mode: ${meta.title} [${modeKey}]`,
+                        sublabel: meta.desc,
+                        badge: 'MODE',
+                        badgeBg: '#d1fae5',
+                        badgeColor: '#065f46',
+                        tagPreview: `<btd-ref mode="${modeKey}">${escapeHtml(meta.title)}</btd-ref>`,
+                        generateHtml: () => `\n<btd-ref mode="${modeKey}">${escapeHtml(meta.title)}</btd-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.removeAttribute('id');
+                            target.setAttribute('mode', modeKey);
+                            target.textContent = meta.title;
+                        }
+                    });
+                });
+            } else if (kind === 'bid') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'bid' ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pre-parameterized stencil preset to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-preset-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(presetRows || []).map((p: any) => `
-                                <option value="${escapeHtml(p.preset_key)}" data-title="${escapeHtml(p.title)}" data-stencil="${escapeHtml(p.equation_key || '')}">
-                                    ${escapeHtml(p.title || p.preset_key)} [${escapeHtml(p.preset_key)}] ${p.equation_key ? `(Stencil: ${escapeHtml(p.equation_key)})` : ''}
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-preset">${isReplace ? 'Update Reference' : 'Insert &lt;preset-ref&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-preset')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-preset-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        const opt = sel.selectedOptions[0];
-                        const title = opt?.getAttribute('data-title') || sel.value;
-                        const stencil = opt?.getAttribute('data-stencil') || '';
-                        const stencilAttr = stencil ? ` stencil="${stencil}"` : '';
-
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('id', sel.value);
-                            if (stencil) targetElemToReplace.setAttribute('stencil', stencil);
-                            targetElemToReplace.textContent = title;
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <preset-ref id="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<preset-ref id="${sel.value}"${stencilAttr}>${escapeHtml(title)}</preset-ref>\n`);
-                            showToast(`✓ Inserted <preset-ref id="${sel.value}">`);
+                (rows || []).forEach((d: any) => {
+                    items.push({
+                        id: String(d.id),
+                        label: `[#${d.id}] ${d.title || d.mode}`,
+                        sublabel: `interactive_demos · engine: BID · mode: ${d.mode}`,
+                        badge: 'BID',
+                        badgeBg: '#e0f2fe',
+                        badgeColor: '#0284c7',
+                        tagPreview: `<bid-ref id="${d.id}" mode="${d.mode}">${escapeHtml(d.title)}</bid-ref>`,
+                        generateHtml: () => `\n<bid-ref id="${d.id}" mode="${d.mode}">${escapeHtml(d.title)}</bid-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', String(d.id));
+                            if (d.mode) target.setAttribute('mode', d.mode);
+                            target.textContent = d.title;
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error loading presets: ${err.message}</div>`;
-            }
-        } else if (kind === 'demo') {
-            modalTitle.textContent = isReplace ? '🎨 Switch Interactive Demo (<visual-demo>)' : '🎨 Insert Interactive Visual Demo (<visual-demo>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading interactive demos from PostgreSQL...</div>';
-            customElemModal.classList.add('active');
-
-            try {
-                const demoRows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode FROM interactive_demos ORDER BY id ASC;"
+            } else if (kind === 'fs') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, statement_key, title, statement_kind, description, expression FROM formal_statements ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose an interactive demo to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-demo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(demoRows || []).map((d: any) => `
-                                <option value="${d.id}">
-                                    [${escapeHtml((d.engine || 'demo').toUpperCase())}] #${d.id} ${escapeHtml(d.title || d.mode || 'Demo')}
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-demo">${isReplace ? 'Update Reference' : 'Insert &lt;visual-demo&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-demo')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-demo-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('id', sel.value);
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <visual-demo id="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<visual-demo id="${sel.value}"></visual-demo>\n`);
-                            showToast(`✓ Inserted <visual-demo id="${sel.value}">`);
+                (rows || []).forEach((s: any) => {
+                    const kindStr = (s.statement_kind || 'fs').toUpperCase();
+                    items.push({
+                        id: s.statement_key,
+                        label: `[${kindStr}] ${s.title || s.statement_key} (${s.statement_key})`,
+                        sublabel: s.description || s.expression || `formal_statements · ID ${s.id}`,
+                        badge: kindStr,
+                        badgeBg: '#dbeafe',
+                        badgeColor: '#1e40af',
+                        tagPreview: `<fs-ref statement-key="${s.statement_key}"></fs-ref>`,
+                        generateHtml: () => `\n<fs-ref statement-key="${s.statement_key}"></fs-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('statement-key', s.statement_key);
+                            target.removeAttribute('id');
+                            target.removeAttribute('desc');
+                            target.removeAttribute('algo');
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-            }
-        } else if (kind === 'pseudo') {
-            modalTitle.textContent = isReplace ? '⚡ Switch Pseudocode Algorithm (<pseudo-ref>)' : '⚡ Insert Pseudocode Algorithm (<pseudo-ref>)';
-            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading pseudocode algorithms from PostgreSQL...</div>';
-            customElemModal.classList.add('active');
-
-            try {
-                const pseudoRows = await queryDatabase<any>(
-                    "SELECT id, algo_key, name, func_name, badge FROM pseudocode_algorithms ORDER BY id ASC;"
+            } else if (kind === 'stencil') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, equation_key, title, label, formula_expr FROM directed_equations ORDER BY id ASC;"
                 );
-
-                modalBody.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pseudocode algorithm to reference:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-pseudo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(pseudoRows || []).map((p: any) => `
-                                <option value="${escapeHtml(p.algo_key)}">
-                                    [${escapeHtml((p.badge || 'ALGO').toUpperCase())}] ${escapeHtml(p.name || p.func_name || p.algo_key)} (${escapeHtml(p.algo_key)})
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-pseudo">${isReplace ? 'Update Reference' : 'Insert &lt;pseudo-ref&gt;'}</button>
-                    </div>
-                `;
-
-                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
-                modalBody.querySelector('#btn-confirm-insert-pseudo')?.addEventListener('click', () => {
-                    const sel = modalBody.querySelector('#modal-select-pseudo-item') as HTMLSelectElement;
-                    if (sel && sel.value) {
-                        if (targetElemToReplace) {
-                            targetElemToReplace.setAttribute('algo-key', sel.value);
-                            targetElemToReplace.removeAttribute('id');
-                            decorateCustomElements(wysiwygPane);
-                            setDirty(true);
-                            if (activeMode === 'split') {
-                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-                            }
-                            showToast(`✓ Updated <pseudo-ref algo-key="${sel.value}">`);
-                        } else {
-                            insertHtmlAtCursor(`\n<pseudo-ref algo-key="${sel.value}"></pseudo-ref>\n`);
-                            showToast(`✓ Inserted <pseudo-ref algo-key="${sel.value}">`);
+                (rows || []).forEach((st: any) => {
+                    items.push({
+                        id: st.equation_key,
+                        label: `${st.title || st.label || st.equation_key} [${st.equation_key}]`,
+                        sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `directed_equations · ID ${st.id}`,
+                        badge: 'STENCIL',
+                        badgeBg: '#dcfce7',
+                        badgeColor: '#15803d',
+                        tagPreview: `<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>`,
+                        generateHtml: () => `\n<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('equation-key', st.equation_key);
+                            target.removeAttribute('id');
                         }
-                    }
-                    closeCustomElemModal();
+                    });
                 });
-            } catch (err: any) {
-                modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+            } else if (kind === 'preset') {
+                const rows = await queryDatabase<any>(
+                    "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key, sp.param_values FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+                );
+                (rows || []).forEach((p: any) => {
+                    const title = p.title || p.preset_key;
+                    const stencilAttr = p.equation_key ? ` stencil="${p.equation_key}"` : '';
+                    items.push({
+                        id: p.preset_key,
+                        label: `${title} [${p.preset_key}]`,
+                        sublabel: `${p.equation_key ? `Stencil: ${p.equation_key}` : `Preset #${p.id}`} ${p.param_values ? `· ${JSON.stringify(p.param_values)}` : ''}`,
+                        badge: 'PRESET',
+                        badgeBg: '#ede9fe',
+                        badgeColor: '#6d28d9',
+                        tagPreview: `<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml(title)}</preset-ref>`,
+                        generateHtml: () => `\n<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml(title)}</preset-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', p.preset_key);
+                            if (p.equation_key) target.setAttribute('stencil', p.equation_key);
+                            target.textContent = title;
+                        }
+                    });
+                });
+            } else if (kind === 'demo') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, title, engine, mode, status FROM interactive_demos ORDER BY id ASC;"
+                );
+                (rows || []).forEach((d: any) => {
+                    const engStr = (d.engine || 'demo').toUpperCase();
+                    items.push({
+                        id: String(d.id),
+                        label: `[#${d.id}] ${d.title || d.mode || 'Demo'}`,
+                        sublabel: `interactive_demos · engine: ${engStr} · mode: ${d.mode || 'default'}`,
+                        badge: engStr,
+                        badgeBg: '#f3e8ff',
+                        badgeColor: '#7e22ce',
+                        tagPreview: `<visual-demo id="${d.id}"></visual-demo>`,
+                        generateHtml: () => `\n<visual-demo id="${d.id}"></visual-demo>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('id', String(d.id));
+                        }
+                    });
+                });
+            } else if (kind === 'pseudo') {
+                const rows = await queryDatabase<any>(
+                    "SELECT id, algo_key, name, func_name, badge, signature, description FROM pseudocode_algorithms ORDER BY id ASC;"
+                );
+                (rows || []).forEach((p: any) => {
+                    const badgeStr = (p.badge || 'ALGO').toUpperCase();
+                    items.push({
+                        id: p.algo_key,
+                        label: `[${badgeStr}] ${p.name || p.func_name || p.algo_key} (${p.algo_key})`,
+                        sublabel: p.signature ? `Signature: ${p.signature}` : (p.description || `pseudocode_algorithms · ID ${p.id}`),
+                        badge: badgeStr,
+                        badgeBg: '#fef3c7',
+                        badgeColor: '#b45309',
+                        tagPreview: `<pseudo-ref algo-key="${p.algo_key}"></pseudo-ref>`,
+                        generateHtml: () => `\n<pseudo-ref algo-key="${p.algo_key}"></pseudo-ref>\n`,
+                        applyToTarget: (target) => {
+                            target.setAttribute('algo-key', p.algo_key);
+                            target.removeAttribute('id');
+                        }
+                    });
+                });
             }
+
+            modalBody.innerHTML = `
+                <div class="custom-elem-picker-container" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Filter Search Box -->
+                    <div>
+                        <div style="position: relative;">
+                            <input type="text" id="modal-filter-input" placeholder="🔍 Search by name, symbol, key, formula, or ID..." style="width: 100%; padding: 8px 12px; font-size: 13px; border: 1.5px solid #cbd5e1; border-radius: 6px; outline: none; box-sizing: border-box;" autocomplete="off" />
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; margin-top: 4px; padding: 0 2px;">
+                            <span>Showing <strong id="filter-shown-count">${items.length}</strong> of ${items.length} records</span>
+                            <span style="font-style: italic;">↑/↓ to navigate · Enter to insert · Esc to cancel</span>
+                        </div>
+                    </div>
+
+                    <!-- Items List / Selection Box -->
+                    <div id="modal-picker-list" style="max-height: 250px; overflow-y: auto; border: 1.5px solid #e2e8f0; border-radius: 6px; background: #ffffff;">
+                    </div>
+
+                    <!-- Live Preview Card -->
+                    <div id="modal-picker-preview" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; font-size: 12px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 700; color: #334155;">Preview Canonical Markup:</span>
+                            <span id="preview-badge" style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px;"></span>
+                        </div>
+                        <div id="preview-tag" style="font-family: var(--font-mono, monospace); font-size: 12px; color: #0f172a; background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 4px; word-break: break-all; margin-bottom: 6px;"></div>
+                        <div id="preview-desc" style="color: #64748b; font-size: 11.5px; line-height: 1.4;"></div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 2px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem" style="padding: 6px 14px;">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-picker" style="padding: 6px 16px; font-weight: 600;">${isReplace ? 'Update Reference' : 'Insert Element'}</button>
+                    </div>
+                </div>
+            `;
+
+            const filterInput = modalBody.querySelector('#modal-filter-input') as HTMLInputElement;
+            const shownCountEl = modalBody.querySelector('#filter-shown-count') as HTMLElement;
+            const listEl = modalBody.querySelector('#modal-picker-list') as HTMLElement;
+            const previewBadge = modalBody.querySelector('#preview-badge') as HTMLElement;
+            const previewTag = modalBody.querySelector('#preview-tag') as HTMLElement;
+            const previewDesc = modalBody.querySelector('#preview-desc') as HTMLElement;
+            const btnConfirm = modalBody.querySelector('#btn-confirm-picker') as HTMLButtonElement;
+            const btnCancel = modalBody.querySelector('#btn-cancel-custom-elem') as HTMLButtonElement;
+
+            let currentFiltered: PickerItem[] = [...items];
+            let activeIdx = 0;
+
+            function updatePreview(item: PickerItem | null) {
+                if (!item) {
+                    previewBadge.textContent = '';
+                    previewBadge.style.display = 'none';
+                    previewTag.textContent = 'No item selected';
+                    previewDesc.textContent = '';
+                    btnConfirm.disabled = true;
+                    return;
+                }
+                btnConfirm.disabled = false;
+                previewBadge.style.display = 'inline-block';
+                previewBadge.textContent = item.badge || 'REF';
+                previewBadge.style.background = item.badgeBg || '#e2e8f0';
+                previewBadge.style.color = item.badgeColor || '#334155';
+                previewTag.textContent = item.tagPreview;
+                previewDesc.textContent = item.sublabel;
+            }
+
+            function renderList() {
+                shownCountEl.textContent = String(currentFiltered.length);
+                if (currentFiltered.length === 0) {
+                    listEl.innerHTML = '<div style="padding: 24px; text-align: center; color: #94a3b8; font-size: 13px;">No matching records found.</div>';
+                    updatePreview(null);
+                    return;
+                }
+
+                if (activeIdx >= currentFiltered.length) activeIdx = currentFiltered.length - 1;
+                if (activeIdx < 0) activeIdx = 0;
+
+                listEl.innerHTML = currentFiltered.map((it, idx) => `
+                    <div class="modal-picker-item ${idx === activeIdx ? 'active' : ''}" data-idx="${idx}">
+                        <div class="modal-picker-item-main">
+                            <div class="modal-picker-item-title">${escapeHtml(it.label)}</div>
+                            <div class="modal-picker-item-sub">${escapeHtml(it.sublabel)}</div>
+                        </div>
+                        <span class="modal-picker-badge" style="background: ${it.badgeBg || '#f1f5f9'}; color: ${it.badgeColor || '#475569'};">${escapeHtml(it.badge || '')}</span>
+                    </div>
+                `).join('');
+
+                const activeItemEl = listEl.querySelector(`.modal-picker-item[data-idx="${activeIdx}"]`) as HTMLElement;
+                if (activeItemEl) {
+                    activeItemEl.scrollIntoView({ block: 'nearest' });
+                }
+
+                updatePreview(currentFiltered[activeIdx] || null);
+
+                listEl.querySelectorAll('.modal-picker-item').forEach((itemNode) => {
+                    itemNode.addEventListener('click', () => {
+                        const idx = parseInt(itemNode.getAttribute('data-idx') || '0', 10);
+                        activeIdx = idx;
+                        listEl.querySelectorAll('.modal-picker-item').forEach((n, i) => {
+                            n.classList.toggle('active', i === activeIdx);
+                        });
+                        updatePreview(currentFiltered[activeIdx]);
+                    });
+
+                    itemNode.addEventListener('dblclick', () => {
+                        const idx = parseInt(itemNode.getAttribute('data-idx') || '0', 10);
+                        activeIdx = idx;
+                        commitSelection();
+                    });
+                });
+            }
+
+            function commitSelection() {
+                const selected = currentFiltered[activeIdx];
+                if (!selected) return;
+
+                if (targetElemToReplace) {
+                    selected.applyToTarget(targetElemToReplace);
+                    decorateCustomElements(wysiwygPane);
+                    setDirty(true);
+                    if (activeMode === 'split') {
+                        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+                    }
+                    showToast(`✓ Updated ${selected.label}`);
+                } else {
+                    insertHtmlAtCursor(selected.generateHtml());
+                    decorateCustomElements(wysiwygPane);
+                    setDirty(true);
+                    showToast(`✓ Inserted ${selected.label}`);
+                }
+                closeCustomElemModal();
+            }
+
+            filterInput.addEventListener('input', () => {
+                const term = filterInput.value.toLowerCase().trim();
+                currentFiltered = items.filter((it) => {
+                    return !term ||
+                        it.label.toLowerCase().includes(term) ||
+                        it.sublabel.toLowerCase().includes(term) ||
+                        (it.badge && it.badge.toLowerCase().includes(term)) ||
+                        it.id.toLowerCase().includes(term);
+                });
+                activeIdx = 0;
+                renderList();
+            });
+
+            filterInput.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (activeIdx < currentFiltered.length - 1) {
+                        activeIdx++;
+                        renderList();
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (activeIdx > 0) {
+                        activeIdx--;
+                        renderList();
+                    }
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    commitSelection();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeCustomElemModal();
+                }
+            });
+
+            btnConfirm.addEventListener('click', commitSelection);
+            btnCancel.addEventListener('click', closeCustomElemModal);
+
+            renderList();
+            setTimeout(() => filterInput.focus(), 60);
+
+        } catch (err: any) {
+            modalBody.innerHTML = `<div style="color: #dc2626; padding: 16px;">Error querying database: ${err.message}</div>`;
         }
     }
 
@@ -2647,8 +2925,22 @@ function injectEditorStyles() {
             gap: 2px;
         }
         .tb-dropdown.open .tb-dropdown-menu { display: flex; }
+        .tb-dropdown-header {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #64748b;
+            padding: 6px 8px 3px;
+            user-select: none;
+        }
+        .tb-dropdown-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 0;
+        }
         .tb-dropdown-item {
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-size: 12px;
             border-radius: 4px;
             border: none;
@@ -2657,12 +2949,34 @@ function injectEditorStyles() {
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 10px;
             color: #1e293b;
             font-weight: 500;
             white-space: nowrap;
+            width: 100%;
         }
         .tb-dropdown-item:hover { background: #f1f5f9; color: #0284c7; }
+        .tb-dropdown-item .tb-item-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tb-dropdown-item .tb-item-tag {
+            font-family: var(--font-mono, monospace);
+            font-size: 10.5px;
+            color: #64748b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-weight: normal;
+        }
+        .tb-dropdown-item:hover .tb-item-tag {
+            color: #0284c7;
+            border-color: #bae6fd;
+            background: #f0f9ff;
+        }
 
         /* Unicode Character Strip */
         .unicode-palette {
@@ -2948,7 +3262,7 @@ function injectEditorStyles() {
             text-decoration: none !important;
         }
 
-        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
+        ttd-ref:hover, fsd-ref:hover, btd-ref:hover, bid-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
             transform: translateY(-1.5px) !important;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12) !important;
             filter: brightness(0.97) !important;
@@ -2963,6 +3277,39 @@ function injectEditorStyles() {
         .chip-ttd .chip-badge {
             background: #fee2e2;
             color: #b91c1c;
+        }
+
+        /* Indigo Formal Stage Scaffold Theme */
+        fsd-ref, .chip-fsd {
+            background: #eef2ff !important;
+            border: 1.5px solid #818cf8 !important;
+            color: #3730a3 !important;
+        }
+        .chip-fsd .chip-badge {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        /* Teal 2-Successor Binary Tree Theme */
+        btd-ref, .chip-btd {
+            background: #f0fdfa !important;
+            border: 1.5px solid #2dd4bf !important;
+            color: #0f766e !important;
+        }
+        .chip-btd .chip-badge {
+            background: #ccfbf1;
+            color: #0f766e;
+        }
+
+        /* Sky Blue Dyadic Integer Theme */
+        bid-ref, .chip-bid {
+            background: #f0f9ff !important;
+            border: 1.5px solid #38bdf8 !important;
+            color: #0369a1 !important;
+        }
+        .chip-bid .chip-badge {
+            background: #e0f2fe;
+            color: #0284c7;
         }
 
         /* Royal Blue Formal Statement Theme */
@@ -3018,6 +3365,58 @@ function injectEditorStyles() {
         .chip-pseudo .chip-badge {
             background: #fef3c7;
             color: #b45309;
+        }
+
+        /* Custom Element Filterable Picker Modal Styles */
+        .modal-picker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background 0.12s ease;
+            user-select: none;
+        }
+        .modal-picker-item:last-child {
+            border-bottom: none;
+        }
+        .modal-picker-item:hover {
+            background: #f8fafc;
+        }
+        .modal-picker-item.active {
+            background: #eff6ff;
+            border-left: 3px solid #2563eb;
+        }
+        .modal-picker-item-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+            padding-right: 8px;
+        }
+        .modal-picker-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-picker-item-sub {
+            font-size: 11px;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-picker-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .chip-icon {

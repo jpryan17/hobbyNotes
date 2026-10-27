@@ -229,43 +229,89 @@
       "btn_insert_custom_element": {
         "selector": "#btn-dropdown-custom-elems",
         "menu_selector": "#menu-custom-elems",
-        "items": {
-          "insert_ttd": {
-            "label": "⚖️ Truth Table (<ttd-ref>)",
-            "tag": "<ttd-ref id=\"...\">",
-            "source_table": "interactive_demos WHERE engine = 'ttd'",
-            "behavior": "Queries database for truth table propositions, embeds canonical <ttd-ref> tag at cursor, renders live chip."
+        "hierarchy": "Two-Tier Domain-Categorized Menu (Logic, Trees & Dyadics, Formal Reasoning, Computation & Visuals)",
+        "categories": {
+          "logic_and_truth": {
+            "header": "⚖️ Logic & Truth Evaluation",
+            "items": {
+              "insert_ttd": {
+                "label": "⚖️ Truth Table (<ttd-ref>)",
+                "tag": "<ttd-ref id=\"...\">",
+                "source_table": "interactive_demos WHERE engine = 'ttd'",
+                "behavior": "Queries database for truth table propositions, embeds canonical <ttd-ref> tag at cursor, renders live chip."
+              },
+              "insert_fsd": {
+                "label": "🔬 Formal Stage Scaffold (<fsd-ref>)",
+                "tag": "<fsd-ref id=\"...\">",
+                "source_table": "interactive_demos WHERE engine = 'fsd'",
+                "behavior": "Embeds four-stage formal structure stage visualizer widget."
+              }
+            }
           },
-          "insert_fs": {
-            "label": "📜 Formal Statement (<fs-ref>)",
-            "tag": "<fs-ref statement-key=\"...\">",
-            "source_table": "formal_statements",
-            "behavior": "Embeds formal statement citation chip linking to Lean 4 kernel theorems."
+          "numbers_and_trees": {
+            "header": "🌲 Numbers & 2-Successor Trees",
+            "items": {
+              "insert_btd": {
+                "label": "🌲 Binary Tree Demo (<btd-ref>)",
+                "tag": "<btd-ref id=\"...\" mode=\"...\">...</btd-ref>",
+                "source_table": "interactive_demos WHERE engine = 'btd' + BTD_MODE_METADATA",
+                "behavior": "Embeds 2-successor binary tree interactive demo linking to registered demo or standard Conway tree mode."
+              },
+              "insert_bid": {
+                "label": "🔢 Dyadic Integer Demo (<bid-ref>)",
+                "tag": "<bid-ref id=\"...\" mode=\"...\">...</bid-ref>",
+                "source_table": "interactive_demos WHERE engine = 'bid'",
+                "behavior": "Embeds binary integer dyadic and rotor projection demo."
+              }
+            }
           },
-          "insert_stencil": {
-            "label": "📐 Computational Stencil (<interactive-stencil>)",
-            "tag": "<interactive-stencil equation-key=\"...\">",
-            "source_table": "directed_equations",
-            "behavior": "Embeds interactive directed algebraic stencil."
+          "formal_reasoning": {
+            "header": "📜 Formal Reasoning & Stencils",
+            "items": {
+              "insert_fs": {
+                "label": "📜 Formal Statement (<fs-ref>)",
+                "tag": "<fs-ref statement-key=\"...\">",
+                "source_table": "formal_statements",
+                "behavior": "Embeds formal statement citation chip linking to Lean 4 kernel theorems."
+              },
+              "insert_stencil": {
+                "label": "📐 Computational Stencil (<interactive-stencil>)",
+                "tag": "<interactive-stencil equation-key=\"...\">",
+                "source_table": "directed_equations",
+                "behavior": "Embeds interactive directed algebraic stencil."
+              },
+              "insert_preset": {
+                "label": "🎛️ Stencil Preset (<preset-ref>)",
+                "tag": "<preset-ref id=\"...\">",
+                "source_table": "stencil_presets",
+                "behavior": "Embeds concrete parameter-configured stencil preset (e.g., 12-TET chromatic pitch scale) linking to directed equation execution."
+              }
+            }
           },
-          "insert_demo": {
-            "label": "🎨 Interactive Visual Demo (<visual-demo>)",
-            "tag": "<visual-demo id=\"...\">",
-            "source_table": "interactive_demos WHERE engine != 'ttd'",
-            "behavior": "Embeds dynamic visual simulation or canvas widget."
-          },
-          "insert_pseudo": {
-            "label": "⚡ Pseudocode Algorithm (<pseudo-ref>)",
-            "tag": "<pseudo-ref algo-key=\"...\">",
-            "source_table": "pseudocode_algorithms",
-            "behavior": "Embeds discrete algorithm box with syntax-highlighted routine."
-          },
-          "insert_preset": {
-            "label": "🎛️ Stencil Preset (<preset-ref>)",
-            "tag": "<preset-ref id=\"...\">",
-            "source_table": "stencil_presets",
-            "behavior": "Embeds concrete parameter-configured stencil preset (e.g., 12-TET chromatic pitch scale) linking to directed equation execution."
+          "computation_and_visuals": {
+            "header": "⚡ Computation & Visuals",
+            "items": {
+              "insert_pseudo": {
+                "label": "⚡ Pseudocode Algorithm (<pseudo-ref>)",
+                "tag": "<pseudo-ref algo-key=\"...\">",
+                "source_table": "pseudocode_algorithms",
+                "behavior": "Embeds discrete algorithm box with syntax-highlighted routine."
+              },
+              "insert_demo": {
+                "label": "🎨 General Visual Demo (<visual-demo>)",
+                "tag": "<visual-demo id=\"...\">",
+                "source_table": "interactive_demos",
+                "behavior": "Embeds dynamic visual simulation or canvas widget."
+              }
+            }
           }
+        },
+        "modal_picker": {
+          "modal_selector": "#editor-custom-elem-modal",
+          "filter_input_selector": "#modal-filter-input",
+          "list_selector": "#modal-picker-list",
+          "preview_selector": "#modal-picker-preview",
+          "behavior": "Universal real-time search filtering across title, symbol, key, formula, and ID. Supports ArrowUp/ArrowDown navigation, Enter to insert, Esc to close, and live preview card displaying canonical tag markup and database metadata."
         }
       },
       "btn_save_db": {
