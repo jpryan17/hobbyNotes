@@ -14,53 +14,112 @@ export interface IndexItemDesc {
   }
 let that:Index
 export class Index extends SVGGrpElt{
-    static fontSize=16
-    static margin =15
-    static stdColor='blue'
-    static overColor='purple'
-    static selectedColor = 'black'
-    chosen:number
-    choices:[IndexItemDesc,SVGText][]=[]
+    static fontSize = 14
+    static rowHeight = 32
+    static margin = 14
+    static stdColor = '#334155'
+    static overColor = '#0284c7'
+    static selectedColor = '#0369a1'
+    chosen: number
+    choices: [IndexItemDesc, SVGText, SVGElt][] = []
     public _rawIndexDesc: IndexItemDesc[]
-    //
-    constructor(indexDesc:IndexItemDesc[], initialSelection:number){
+
+    constructor(indexDesc: IndexItemDesc[], initialSelection: number){
         super()
         that = this
         this._rawIndexDesc = indexDesc
         this.chosen = initialSelection
-        this.setA('style',`background-color:aliceblue`)
-        const [m,fs,c] = [Index.margin, Index.fontSize, Index.stdColor]
-        let y = m + 2/3 * fs
-        indexDesc.forEach(choice=>{
-            const indents = (choice.indents)? choice.indents : 0
-            const shape = (choice.type=='html')? '\u25A0' :
-                          (choice.type=='index')? '\u25B6' : '\u25CF'
-            const text = '&nbsp;'.repeat(indents).concat(shape,' ',choice.topic)
+        this.setA('style', 'background-color: transparent;')
+        const [m, fs] = [Index.margin, Index.fontSize]
+        let y = m + 18
+        indexDesc.forEach((choice, idx) => {
+            const indents = (choice.indents) ? choice.indents : 0
+            const text = choice.topic
+            
+            // Background selection/hover pill rect
+            const rowY = y - fs - 3
+            const isSelected = (idx === this.chosen)
+            const rect = new SVGElt('rect')
+            rect.setAA([
+                'x', m - 8,
+                'y', rowY,
+                'height', Index.rowHeight - 4,
+                'rx', 6,
+                'ry', 6,
+                'fill', isSelected ? '#e0f2fe' : 'transparent',
+                'stroke', isSelected ? '#bae6fd' : 'none',
+                'stroke-width', 1
+            ])
+            this.append(rect)
+
             const item = new SVGText()
             item.setV(text)
-            item.setAA(['x',m,'y',y,'font-size',fs,'stroke',`${c}`])
-            this.choices.push([choice,item])
+            item.setAA([
+                'x', m + indents * 14,
+                'y', y,
+                'font-size', fs,
+                'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                'font-weight', isSelected ? '700' : '500',
+                'fill', isSelected ? Index.selectedColor : Index.stdColor,
+                'cursor', 'pointer'
+            ])
+            this.choices.push([choice, item, rect])
             this.append(item)
-            y = y + Index.fontSize + 10
-            item.elt.addEventListener('mouseover',()=>{item.setA('stroke',Index.overColor)})
-            item.elt.addEventListener('mouseout',()=>{
-                const ps = item.getA('pointer-events')
-                const c = (ps=='none')? Index.selectedColor :Index.stdColor
-                item.setA('stroke',c)
-            })
-            item.elt.addEventListener('click',(ev)=>{
-                const itemWidget = ev.target as SVGElement
-                this.chosen = this.choices.findIndex(c=>c[1].elt==itemWidget)
+
+            // Dynamic rect width based on item bounding box + padding
+            setTimeout(() => {
+                try {
+                    const bb = item.getBB()
+                    if (bb && bb.width > 0) {
+                        rect.setA('width', Math.max(160, bb.width + indents * 14 + 20))
+                    }
+                } catch(e) {}
+            }, 0)
+
+            const onHover = () => {
+                if (this.chosen !== idx) {
+                    rect.setA('fill', '#f1f5f9')
+                    item.setA('fill', Index.overColor)
+                }
+            }
+            const onOut = () => {
+                if (this.chosen !== idx) {
+                    rect.setAA(['fill', 'transparent', 'stroke', 'none'])
+                    item.setA('fill', Index.stdColor)
+                }
+            }
+            const onClick = () => {
+                this.chosen = idx
                 this.setSelectedItem()
                 Nav.processSelection()
-            })
+            }
+
+            rect.elt.addEventListener('mouseover', onHover)
+            rect.elt.addEventListener('mouseout', onOut)
+            rect.elt.addEventListener('click', onClick)
+
+            item.elt.addEventListener('mouseover', onHover)
+            item.elt.addEventListener('mouseout', onOut)
+            item.elt.addEventListener('click', onClick)
+
+            y += Index.rowHeight
         })
     }
+
     setSelectedItem(){
-        this.choices.forEach((c,i)=>{
-            const color = (i==this.chosen)? Index.selectedColor : Index.stdColor
-            const pstate = (i==this.chosen)? 'none' : 'auto'
-            c[1].setAA(['stroke',color,'pointer-events',pstate])
+        this.choices.forEach((c, i) => {
+            const isSel = (i == this.chosen)
+            const [choice, item, rect] = c
+            rect.setAA([
+                'fill', isSel ? '#e0f2fe' : 'transparent',
+                'stroke', isSel ? '#bae6fd' : 'none',
+                'stroke-width', isSel ? 1 : 0
+            ])
+            item.setAA([
+                'fill', isSel ? Index.selectedColor : Index.stdColor,
+                'font-weight', isSel ? '700' : '500',
+                'pointer-events', isSel ? 'none' : 'auto'
+            ])
         })
     }
 }

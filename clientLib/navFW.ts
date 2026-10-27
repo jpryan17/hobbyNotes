@@ -34,30 +34,40 @@ export class Nav {
     
     static marginLeft:number
     static marginTop:number
-    static color={bg:'beige',std:'black',active:'blue',over:'purple', busy:'orange'}
-    static margin={start:15,init:75,std:25,line:30}
-    static foWidth:number
-    static foHeight:number
-    static foPadding=10
-    static foBgColor='whitesmoke'
-    static width:number
-    static fontSize = 20
-    static sideFontSize = 14
-    static lineHeight = 40
-    static offset = 30
-    static frameMargin  = 5
-    static upArrow = '\u2B9D'
-    static dnArrow = '\u2B9F'
-    static arrowSize = 30
+    static color = {
+        bg: '#ffffff',
+        std: '#0f172a',
+        active: '#0284c7',
+        over: '#0369a1',
+        busy: '#d97706',
+        muted: '#64748b',
+        border: '#e2e8f0',
+        frame: '#f1f5f9'
+    }
+    static margin = { start: 16, init: 60, std: 14, line: 30 }
+    static foWidth: number
+    static foHeight: number
+    static foPadding = 14
+    static foBgColor = '#ffffff'
+    static width: number
+    static fontSize = 14
+    static sideFontSize = 13.5
+    static lineHeight = 44
+    static offset = 24
+    static frameMargin = 6
+    static upArrow = '▶'
+    static dnArrow = '☰'
+    static isIndexVisible = true
+    static arrowSize = 18
     static textFontSize = 16
 
     static getTextStyle(){
         const bPad = 50
-        return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 5}px ${bPad}px ${Nav.foPadding + 5}px;font-size:${Nav.textFontSize}px;display:flow-root;`
+        return `background-color:${Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${Nav.foPadding}px ${Nav.foPadding + 8}px ${bPad}px ${Nav.foPadding + 8}px;font-size:${Nav.textFontSize}px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;line-height:1.6;display:flow-root;`
     }
 
     constructor (app:string,parent:Elt|null=null,editMode=false,cb:Function|undefined=undefined,
-                  bgC='darkgoldenrod',lineC='beige',indexC='white',foC='aliceBlue'){
+                  bgC='#f1f5f9',lineC='#ffffff',indexC='#f8fafc',foC='#ffffff'){
         const mainSlot = document.getElementById('main-slot') as HTMLDivElement
          //
         Nav.app = app
@@ -95,23 +105,32 @@ export class Nav {
         const fm = Nav.frameMargin
         const h = Nav.lineHeight
         const y = 2 * fm + h
-        const xp =  Nav.margin.start
-        const yp = 1/2 * Nav.lineHeight + .6 * Nav.fontSize
+        const xp = Nav.margin.start
+        const yp = 1/2 * Nav.lineHeight + .35 * Nav.fontSize + fm
         Nav.frame.setA('style',`background-color:${bgC}`)
         Nav.line.setA('height',h)
-        Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`])
+        Nav.lineRect.setAA(['x',fm,'y',fm,'height',h,'fill',`${lineC}`,'rx',8,'ry',8,'stroke',Nav.color.border,'stroke-width',1])
         Nav.index.setAA(['x',fm,'y',y])
-        Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`])
-        Nav.foRect.setAA(['y',y,'fill',`${Nav.foBgColor}`])
+        Nav.indexRect.setAA(['x',0,'y',0,'fill',`${indexC}`,'rx',6,'ry',6,'stroke',Nav.color.border,'stroke-width',1])
+        Nav.foRect.setAA(['y',y,'fill',`${Nav.foBgColor}`,'rx',8,'ry',8,'stroke',Nav.color.border,'stroke-width',1])
         Nav.fo.setAA(['y',y,'style',`overflow-y:auto;overflow-x:hidden;`])
-        Nav.lineArrowButton.setAA(['x',xp,'y',yp,'stroke',Nav.color.std,'font-size',Nav.arrowSize])
-        Nav.lineArrowButton.setV(Nav.dnArrow)
+        Nav.isIndexVisible = true
+        Nav.lineArrowButton.setAA([
+            'x', xp,
+            'y', yp,
+            'fill', Nav.color.active,
+            'font-size', Nav.arrowSize,
+            'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            'font-weight', 'bold',
+            'cursor', 'pointer'
+        ])
+        Nav.updateArrowButton()
         Nav.lineArrowButton.elt.addEventListener('click',()=>
             {Nav.lineArrowButtonPressed()})
         Nav.lineArrowButton.elt.addEventListener('mouseover',()=>
-            {Nav.lineArrowButton.setA('stroke',Nav.color.over)})
+            {Nav.lineArrowButton.setA('fill',Nav.color.over)})
         Nav.lineArrowButton.elt.addEventListener('mouseout',()=>
-            {Nav.lineArrowButton.setA('stroke',Nav.color.std)})
+            {Nav.lineArrowButton.setA('fill',Nav.color.active)})
         //
         Nav.setTextSizeControl()
         Nav.setReturnControl()
@@ -130,39 +149,48 @@ export class Nav {
     }
     // text size control addition 
     static setTextSizeControl(){
-        const controls=['[\u2191]','A','[\u2193]']
-        controls.forEach(header=>{
+        const controls = ['A−', 'A+']
+        controls.forEach(header => {
             const widget = new SVGTSpan(Nav.textSizeControl)
-            widget.setA('font-size',Nav.fontSize)
-            widget.setV(header)
-            if (header == 'A'){
-                widget.setA('stroke',Nav.color.std)
+            widget.setAA([
+                'font-size', Nav.fontSize,
+                'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                'font-weight', '600',
+                'fill', Nav.color.muted,
+                'cursor', 'pointer'
+            ])
+            widget.setV(` ${header} `)
+            const titleElt = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+            titleElt.textContent = header === 'A−' ? 'Decrease text size' : 'Increase text size'
+            widget.elt.appendChild(titleElt)
+            widget.elt.addEventListener('mouseover', () => widget.setA('fill', Nav.color.active))
+            widget.elt.addEventListener('mouseout', () => widget.setA('fill', Nav.color.muted))
+            if (header === 'A−') {
+                widget.elt.addEventListener('click', () => Nav.changeTextSize('-'))
             } else {
-                widget.setA('stroke',Nav.color.active)
-                widget.elt.addEventListener('mouseover',(ev)=>{
-                    widget.setA('stroke',Nav.color.over)
-                })
-                widget.elt.addEventListener('mouseout',()=>{
-                    widget.setA('stroke',Nav.color.active)
-                })
-                //
-                if (header == '[\u2191]'){
-                    widget.elt.addEventListener('click',()=> {Nav.changeTextSize('+')})
-                }else if(header == '[\u2193]'){
-                    widget.elt.addEventListener('click',()=> {Nav.changeTextSize('-')})
-                }
+                widget.elt.addEventListener('click', () => Nav.changeTextSize('+'))
             }
         })
     }
     static setReturnControl(){
-        Nav.returnControl.setA('font-size', Nav.fontSize)
-        Nav.returnControl.setV('> [\u21BA Return]')
-        Nav.returnControl.setAA(['stroke', Nav.color.active, 'pointer-events', 'none', 'visibility', 'hidden'])
+        Nav.returnControl.setAA([
+            'font-size', Nav.fontSize,
+            'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            'font-weight', '700',
+            'fill', '#059669',
+            'pointer-events', 'none',
+            'visibility', 'hidden',
+            'cursor', 'pointer'
+        ])
+        Nav.returnControl.setV('↺ Return to Dialogue')
+        const retTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+        retTitle.textContent = 'Collapse open details and return to lecture text'
+        Nav.returnControl.elt.appendChild(retTitle)
         Nav.returnControl.elt.addEventListener('mouseover', () => {
-            Nav.returnControl.setA('stroke', Nav.color.over)
+            Nav.returnControl.setA('fill', '#047857')
         })
         Nav.returnControl.elt.addEventListener('mouseout', () => {
-            Nav.returnControl.setA('stroke', Nav.color.active)
+            Nav.returnControl.setA('fill', '#059669')
         })
         Nav.returnControl.elt.addEventListener('click', (ev: Event) => {
             ev.stopPropagation()
@@ -170,14 +198,24 @@ export class Nav {
         })
     }
     static setOverviewControl(){
-        Nav.overviewControl.setA('font-size', Nav.fontSize)
-        Nav.overviewControl.setV('[\u2302 Overview]')
-        Nav.overviewControl.setAA(['stroke', Nav.color.active, 'pointer-events', 'auto', 'visibility', 'visible'])
+        Nav.overviewControl.setAA([
+            'font-size', Nav.fontSize,
+            'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            'font-weight', '600',
+            'fill', Nav.color.muted,
+            'pointer-events', 'auto',
+            'visibility', 'visible',
+            'cursor', 'pointer'
+        ])
+        Nav.overviewControl.setV('⌂ Overview')
+        const ovTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+        ovTitle.textContent = 'Open Overview'
+        Nav.overviewControl.elt.appendChild(ovTitle)
         Nav.overviewControl.elt.addEventListener('mouseover', () => {
-            Nav.overviewControl.setA('stroke', Nav.color.over)
+            Nav.overviewControl.setA('fill', Nav.color.active)
         })
         Nav.overviewControl.elt.addEventListener('mouseout', () => {
-            Nav.overviewControl.setA('stroke', Nav.color.active)
+            Nav.overviewControl.setA('fill', Nav.color.muted)
         })
         Nav.overviewControl.elt.addEventListener('click', (ev: Event) => {
             ev.stopPropagation()
@@ -273,16 +311,15 @@ export class Nav {
         Nav.segDiv.setA('style',Nav.getTextStyle())
     }
     static setTextSizeControlPos(lineWidth:number){
-        const controlWidth = textWidth('[\u2191]A[\u2193]',Nav.fontSize)
-        const xp = lineWidth - controlWidth - 10
-        Nav.textSizeControl.setA('x',xp)
-        Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
+        const yp = 1/2 * Nav.lineHeight + .35 * Nav.fontSize + Nav.frameMargin
+        const controlWidth = textWidth('A− A+', Nav.fontSize)
+        const xp = lineWidth - controlWidth - 14
+        Nav.textSizeControl.setAA(['x', xp, 'y', yp, 'visibility', 'visible', 'pointer-events', 'auto'])
 
         if (Nav.overviewControl) {
-            const ovWidth = textWidth('[\u2302 Overview]', Nav.fontSize)
-            const ovXp = xp - ovWidth - 15
-            Nav.overviewControl.setA('x', ovXp)
-            Nav.overviewControl.setAA(['visibility', 'visible', 'pointer-events', 'auto'])
+            const ovWidth = textWidth('⌂ Overview', Nav.fontSize)
+            const ovXp = xp - ovWidth - 22
+            Nav.overviewControl.setAA(['x', ovXp, 'y', yp, 'visibility', 'visible', 'pointer-events', 'auto'])
             return ovXp - 20
         }
 
@@ -310,14 +347,17 @@ export class Nav {
             if(index.chosen != -1) {
                 layoutCB = index.choices[index.chosen][0].layoutCB 
             }
-            const indexVisible = Nav.lineArrowButton.getV() == Nav.dnArrow
-            if (indexVisible){
+            if (Nav.isIndexVisible){
                 Nav.index.removeChildren()
                 Nav.index.append(Nav.indexRect)
                 Nav.index.append(index)
                 indexWidth = index.getBB().width + 2 * Index.margin
                 Nav.indexRect.setAA(['width',indexWidth,'height',Nav.foHeight])
-             }
+                Nav.index.setAA(['visibility', 'visible'])
+            } else {
+                Nav.index.removeChildren()
+                Nav.index.setAA(['visibility', 'hidden'])
+            }
         }
         const foX = (indexWidth>0)?  2 * fm + indexWidth : fm
         Nav.foWidth = (indexWidth>0)? bw - 3 * fm - indexWidth : bw - 2 * fm 
@@ -328,16 +368,25 @@ export class Nav {
         if(layoutCB){
             layoutCB()
         }
+        window.dispatchEvent(new CustomEvent('nav-display-resize'));
     } 
     static addNavLineIndexItem(header:string,cb?:Function){
         const widget = new SVGTSpan(Nav.lineTopics)
         const [stdC,activeC] = [Nav.color.std,Nav.color.active]
-        widget.setAA(['font-size',Nav.fontSize,'stroke',stdC,'pointer-events','none'])
-        widget.setV(header)
-        widget.elt.addEventListener('mouseover',()=>{widget.setA('stroke',Nav.color.over)})
+        const isFirst = Nav.lineTopics.children().length === 0
+        const displayLabel = isFirst ? header : `›  ${header}`
+        widget.setAA([
+            'font-size', Nav.fontSize,
+            'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            'font-weight', '700',
+            'fill', stdC,
+            'pointer-events', 'none'
+        ])
+        widget.setV(displayLabel)
+        widget.elt.addEventListener('mouseover',()=>{widget.setA('fill',Nav.color.over)})
         widget.elt.addEventListener('mouseout',()=>{
             const color = (widget.getA('pointer-events')=='none')? stdC : activeC
-            widget.setA('stroke',color)
+            widget.setA('fill',color)
         })
         widget.elt.addEventListener('click',(ev)=>{
             if (cb) cb(ev)
@@ -345,15 +394,24 @@ export class Nav {
         })
         const lineElts = Nav.lineTopics.children()
         for(let i=0; i < lineElts.length-1; i++){
-            lineElts[i].setAA(['stroke',activeC,'pointer-events','auto'])
+            lineElts[i].setAA(['fill',activeC,'font-weight','600','pointer-events','auto','cursor','pointer'])
         }  
-        if (cb) lineElts[0].setAA(['stroke',activeC,'pointer-events','auto'])
+        if (cb) lineElts[0].setAA(['fill',activeC,'font-weight','600','pointer-events','auto','cursor','pointer'])
         Nav.showNavLine()
     }
 
+    static updateArrowButton(){
+        const glyph = Nav.isIndexVisible ? Nav.dnArrow : Nav.upArrow
+        const tooltip = Nav.isIndexVisible ? 'Collapse index' : 'Expand index'
+        Nav.lineArrowButton.setV(glyph)
+        const titleElt = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+        titleElt.textContent = tooltip
+        Nav.lineArrowButton.elt.appendChild(titleElt)
+    }
+
     static lineArrowButtonPressed(){
-        const v = (Nav.lineArrowButton.getV() == Nav.dnArrow)? Nav.upArrow : Nav.dnArrow
-        Nav.lineArrowButton.setV(v)
+        Nav.isIndexVisible = !Nav.isIndexVisible
+        Nav.updateArrowButton()
         Nav.display()
     }
 
@@ -485,12 +543,22 @@ export class Nav {
     static addNavLineBackButton(header:string){
         const widget = new SVGTSpan(Nav.lineTopics)
         const [stdC,activeC] = [Nav.color.std,Nav.color.active]
-        widget.setAA(['font-size',Nav.fontSize,'stroke',activeC,'pointer-events','auto'])
-        widget.setV(header)
-        widget.elt.addEventListener('mouseover',()=>{widget.setA('stroke',Nav.color.over)})
+        widget.setAA([
+            'font-size', Nav.fontSize,
+            'font-family', '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            'font-weight', '600',
+            'fill', activeC,
+            'pointer-events', 'auto',
+            'cursor', 'pointer'
+        ])
+        widget.setV(`‹  ${header}`)
+        const backTitle = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+        backTitle.textContent = `Back to ${header}`
+        widget.elt.appendChild(backTitle)
+        widget.elt.addEventListener('mouseover',()=>{widget.setA('fill',Nav.color.over)})
         widget.elt.addEventListener('mouseout',()=>{
             const color = (widget.getA('pointer-events')=='none')? stdC : activeC
-            widget.setA('stroke',color)
+            widget.setA('fill',color)
         })
         widget.elt.addEventListener('click',(ev)=>{Nav.backButtonSelectionHandler(ev)})
         Nav.showNavLine()
@@ -509,9 +577,9 @@ export class Nav {
             }
             const [stdC,activeC] = [Nav.color.std,Nav.color.active]
             Nav.currentIndex = widgetPos
-            lineElts[widgetPos].setAA(['stroke',stdC,'pointer-events','none'])
+            lineElts[widgetPos].setAA(['fill',stdC,'font-weight','700','pointer-events','none','cursor','default'])
             for (let i = 0; i < widgetPos; i++){
-                lineElts[i].setAA(['stroke',activeC,'pointer-events','auto'])
+                lineElts[i].setAA(['fill',activeC,'font-weight','600','pointer-events','auto','cursor','pointer'])
             }
         }
         Nav.setLastVisit()
@@ -530,7 +598,7 @@ export class Nav {
     }
     static showNavLine(){
         let xp = Nav.margin.init 
-        const yp = 1/2 * Nav.lineHeight + 1/4 * Nav.fontSize + Nav.frameMargin
+        const yp = 1/2 * Nav.lineHeight + .35 * Nav.fontSize + Nav.frameMargin
         const lineElts = Nav.lineTopics.children()
         lineElts.forEach(widget => {
             const svgElt = widget as SVGElt
@@ -539,7 +607,7 @@ export class Nav {
             xp += bb.width + Nav.margin.std  
         })
         if (Nav.returnControl) {
-            Nav.returnControl.setAA(['x', xp, 'y', yp])
+            Nav.returnControl.setAA(['x', xp + 10, 'y', yp])
         }
     }
     static clearNavLine(){

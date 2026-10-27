@@ -44,13 +44,12 @@ export class TTDRef extends HTMLElement {
             const index = Nav.indices[Nav.currentIndex];
             const choice = index.choices[index.chosen];
             const buttonText = `back to ${choice[0].topic}`;
-            ttd.pxe.exp = exp;
             Nav.setLastVisit();
             Nav.addNavLineBackButton(buttonText);
             Nav.fo.removeChildren();
             Nav.fo.append(ttd);
+            ttd.loadFormula(exp);
             ttd.layoutEditor();
-            ttd.displayTable();
             Nav.display();
         });
     }

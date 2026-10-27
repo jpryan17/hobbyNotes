@@ -289,6 +289,29 @@ export class FSDRef extends HTMLElement {
     }
 
     Nav.display();
+
+    const applyScaffoldCardScale = () => {
+      const cardEl = scrollWrap.elt?.firstElementChild as HTMLElement;
+      if (!cardEl || !document.body.contains(cardEl)) return;
+      let availW = Nav.foWidth || 0;
+      if (!availW || availW < 100) {
+        availW = window.innerWidth - (Nav.isIndexVisible ? 260 : 30);
+      }
+      const netAvailW = Math.max(280, availW - 40);
+      const targetW = 680;
+      const scale = netAvailW < targetW ? Math.max(0.45, netAvailW / targetW) : 1;
+      cardEl.style.transformOrigin = "top left";
+      const style = cardEl.style as any;
+      if ("zoom" in style) {
+        style.zoom = String(scale);
+        style.transform = "";
+      } else {
+        style.transform = `scale(${scale})`;
+      }
+    };
+    window.addEventListener("resize", applyScaffoldCardScale);
+    window.addEventListener("nav-display-resize", applyScaffoldCardScale);
+    setTimeout(applyScaffoldCardScale, 30);
   }
 
   /**
@@ -328,6 +351,29 @@ export class FSDRef extends HTMLElement {
     }
 
     Nav.display();
+
+    const applyInstanceScale = () => {
+      const cardEl = scrollWrap.elt?.firstElementChild as HTMLElement;
+      if (!cardEl || !document.body.contains(cardEl)) return;
+      let availW = Nav.foWidth || 0;
+      if (!availW || availW < 100) {
+        availW = window.innerWidth - (Nav.isIndexVisible ? 260 : 30);
+      }
+      const netAvailW = Math.max(280, availW - 40);
+      const targetW = 680;
+      const scale = netAvailW < targetW ? Math.max(0.45, netAvailW / targetW) : 1;
+      cardEl.style.transformOrigin = "top left";
+      const style = cardEl.style as any;
+      if ("zoom" in style) {
+        style.zoom = String(scale);
+        style.transform = "";
+      } else {
+        style.transform = `scale(${scale})`;
+      }
+    };
+    window.addEventListener("resize", applyInstanceScale);
+    window.addEventListener("nav-display-resize", applyInstanceScale);
+    setTimeout(applyInstanceScale, 30);
   }
 
   /**
