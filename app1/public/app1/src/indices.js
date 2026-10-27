@@ -61,11 +61,6 @@ export const numbersIndex = [
         htmlSegmentId: "numbersLecture2",
     },
     {
-        type: "html",
-        topic: "lecture 3: STEM & spaces",
-        htmlSegmentId: "numbersLecture3",
-    },
-    {
         type: "diagram",
         topic: "2-successor tree demo (BTD)",
         initCB: initBTD,

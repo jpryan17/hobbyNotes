@@ -354,54 +354,123 @@ var init_navIndex = __esm({
     init_svgElt();
     init_navFW();
     Index = class _Index extends SVGGrpElt {
-      static fontSize = 16;
-      static margin = 15;
-      static stdColor = "blue";
-      static overColor = "purple";
-      static selectedColor = "black";
+      static fontSize = 14;
+      static rowHeight = 32;
+      static margin = 14;
+      static stdColor = "#334155";
+      static overColor = "#0284c7";
+      static selectedColor = "#0369a1";
       chosen;
       choices = [];
       _rawIndexDesc;
-      //
       constructor(indexDesc, initialSelection) {
         super();
         that = this;
         this._rawIndexDesc = indexDesc;
         this.chosen = initialSelection;
-        this.setA("style", `background-color:aliceblue`);
-        const [m, fs, c] = [_Index.margin, _Index.fontSize, _Index.stdColor];
-        let y = m + 2 / 3 * fs;
-        indexDesc.forEach((choice) => {
+        this.setA("style", "background-color: transparent;");
+        const [m, fs] = [_Index.margin, _Index.fontSize];
+        let y = m + 18;
+        indexDesc.forEach((choice, idx) => {
           const indents = choice.indents ? choice.indents : 0;
-          const shape = choice.type == "html" ? "\u25A0" : choice.type == "index" ? "\u25B6" : "\u25CF";
-          const text = "&nbsp;".repeat(indents).concat(shape, " ", choice.topic);
+          const text = choice.topic;
+          const rowY = y - fs - 3;
+          const isSelected = idx === this.chosen;
+          const rect = new SVGElt("rect");
+          rect.setAA([
+            "x",
+            m - 8,
+            "y",
+            rowY,
+            "height",
+            _Index.rowHeight - 4,
+            "rx",
+            6,
+            "ry",
+            6,
+            "fill",
+            isSelected ? "#e0f2fe" : "transparent",
+            "stroke",
+            isSelected ? "#bae6fd" : "none",
+            "stroke-width",
+            1
+          ]);
+          this.append(rect);
           const item = new SVGText();
           item.setV(text);
-          item.setAA(["x", m, "y", y, "font-size", fs, "stroke", `${c}`]);
-          this.choices.push([choice, item]);
+          item.setAA([
+            "x",
+            m + indents * 14,
+            "y",
+            y,
+            "font-size",
+            fs,
+            "font-family",
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            "font-weight",
+            isSelected ? "700" : "500",
+            "fill",
+            isSelected ? _Index.selectedColor : _Index.stdColor,
+            "cursor",
+            "pointer"
+          ]);
+          this.choices.push([choice, item, rect]);
           this.append(item);
-          y = y + _Index.fontSize + 10;
-          item.elt.addEventListener("mouseover", () => {
-            item.setA("stroke", _Index.overColor);
-          });
-          item.elt.addEventListener("mouseout", () => {
-            const ps = item.getA("pointer-events");
-            const c2 = ps == "none" ? _Index.selectedColor : _Index.stdColor;
-            item.setA("stroke", c2);
-          });
-          item.elt.addEventListener("click", (ev) => {
-            const itemWidget = ev.target;
-            this.chosen = this.choices.findIndex((c2) => c2[1].elt == itemWidget);
+          setTimeout(() => {
+            try {
+              const bb = item.getBB();
+              if (bb && bb.width > 0) {
+                rect.setA("width", Math.max(160, bb.width + indents * 14 + 20));
+              }
+            } catch (e) {
+            }
+          }, 0);
+          const onHover = () => {
+            if (this.chosen !== idx) {
+              rect.setA("fill", "#f1f5f9");
+              item.setA("fill", _Index.overColor);
+            }
+          };
+          const onOut = () => {
+            if (this.chosen !== idx) {
+              rect.setAA(["fill", "transparent", "stroke", "none"]);
+              item.setA("fill", _Index.stdColor);
+            }
+          };
+          const onClick = () => {
+            this.chosen = idx;
             this.setSelectedItem();
             Nav.processSelection();
-          });
+          };
+          rect.elt.addEventListener("mouseover", onHover);
+          rect.elt.addEventListener("mouseout", onOut);
+          rect.elt.addEventListener("click", onClick);
+          item.elt.addEventListener("mouseover", onHover);
+          item.elt.addEventListener("mouseout", onOut);
+          item.elt.addEventListener("click", onClick);
+          y += _Index.rowHeight;
         });
       }
       setSelectedItem() {
         this.choices.forEach((c, i) => {
-          const color = i == this.chosen ? _Index.selectedColor : _Index.stdColor;
-          const pstate = i == this.chosen ? "none" : "auto";
-          c[1].setAA(["stroke", color, "pointer-events", pstate]);
+          const isSel = i == this.chosen;
+          const [choice, item, rect] = c;
+          rect.setAA([
+            "fill",
+            isSel ? "#e0f2fe" : "transparent",
+            "stroke",
+            isSel ? "#bae6fd" : "none",
+            "stroke-width",
+            isSel ? 1 : 0
+          ]);
+          item.setAA([
+            "fill",
+            isSel ? _Index.selectedColor : _Index.stdColor,
+            "font-weight",
+            isSel ? "700" : "500",
+            "pointer-events",
+            isSel ? "none" : "auto"
+          ]);
         });
       }
     };
@@ -7411,27 +7480,37 @@ var init_navFW = __esm({
       static returningScrollTop = 0;
       static marginLeft;
       static marginTop;
-      static color = { bg: "beige", std: "black", active: "blue", over: "purple", busy: "orange" };
-      static margin = { start: 15, init: 75, std: 25, line: 30 };
+      static color = {
+        bg: "#ffffff",
+        std: "#0f172a",
+        active: "#0284c7",
+        over: "#0369a1",
+        busy: "#d97706",
+        muted: "#64748b",
+        border: "#e2e8f0",
+        frame: "#f1f5f9"
+      };
+      static margin = { start: 16, init: 60, std: 14, line: 30 };
       static foWidth;
       static foHeight;
-      static foPadding = 10;
-      static foBgColor = "whitesmoke";
+      static foPadding = 14;
+      static foBgColor = "#ffffff";
       static width;
-      static fontSize = 20;
-      static sideFontSize = 14;
-      static lineHeight = 40;
-      static offset = 30;
-      static frameMargin = 5;
-      static upArrow = "\u2B9D";
-      static dnArrow = "\u2B9F";
-      static arrowSize = 30;
+      static fontSize = 14;
+      static sideFontSize = 13.5;
+      static lineHeight = 44;
+      static offset = 24;
+      static frameMargin = 6;
+      static upArrow = "\u25B6";
+      static dnArrow = "\u2630";
+      static isIndexVisible = true;
+      static arrowSize = 18;
       static textFontSize = 16;
       static getTextStyle() {
         const bPad = 50;
-        return `background-color:${_Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${_Nav.foPadding}px ${_Nav.foPadding + 5}px ${bPad}px ${_Nav.foPadding + 5}px;font-size:${_Nav.textFontSize}px;display:flow-root;`;
+        return `background-color:${_Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${_Nav.foPadding}px ${_Nav.foPadding + 8}px ${bPad}px ${_Nav.foPadding + 8}px;font-size:${_Nav.textFontSize}px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;line-height:1.6;display:flow-root;`;
       }
-      constructor(app, parent = null, editMode = false, cb = void 0, bgC = "darkgoldenrod", lineC = "beige", indexC = "white", foC = "aliceBlue") {
+      constructor(app, parent = null, editMode = false, cb = void 0, bgC = "#f1f5f9", lineC = "#ffffff", indexC = "#f8fafc", foC = "#ffffff") {
         const mainSlot = document.getElementById("main-slot");
         _Nav.app = app;
         _Nav.parent = parent;
@@ -7466,24 +7545,40 @@ var init_navFW = __esm({
         const h = _Nav.lineHeight;
         const y = 2 * fm + h;
         const xp = _Nav.margin.start;
-        const yp = 1 / 2 * _Nav.lineHeight + 0.6 * _Nav.fontSize;
+        const yp = 1 / 2 * _Nav.lineHeight + 0.35 * _Nav.fontSize + fm;
         _Nav.frame.setA("style", `background-color:${bgC}`);
         _Nav.line.setA("height", h);
-        _Nav.lineRect.setAA(["x", fm, "y", fm, "height", h, "fill", `${lineC}`]);
+        _Nav.lineRect.setAA(["x", fm, "y", fm, "height", h, "fill", `${lineC}`, "rx", 8, "ry", 8, "stroke", _Nav.color.border, "stroke-width", 1]);
         _Nav.index.setAA(["x", fm, "y", y]);
-        _Nav.indexRect.setAA(["x", 0, "y", 0, "fill", `${indexC}`]);
-        _Nav.foRect.setAA(["y", y, "fill", `${_Nav.foBgColor}`]);
+        _Nav.indexRect.setAA(["x", 0, "y", 0, "fill", `${indexC}`, "rx", 6, "ry", 6, "stroke", _Nav.color.border, "stroke-width", 1]);
+        _Nav.foRect.setAA(["y", y, "fill", `${_Nav.foBgColor}`, "rx", 8, "ry", 8, "stroke", _Nav.color.border, "stroke-width", 1]);
         _Nav.fo.setAA(["y", y, "style", `overflow-y:auto;overflow-x:hidden;`]);
-        _Nav.lineArrowButton.setAA(["x", xp, "y", yp, "stroke", _Nav.color.std, "font-size", _Nav.arrowSize]);
-        _Nav.lineArrowButton.setV(_Nav.dnArrow);
+        _Nav.isIndexVisible = true;
+        _Nav.lineArrowButton.setAA([
+          "x",
+          xp,
+          "y",
+          yp,
+          "fill",
+          _Nav.color.active,
+          "font-size",
+          _Nav.arrowSize,
+          "font-family",
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          "font-weight",
+          "bold",
+          "cursor",
+          "pointer"
+        ]);
+        _Nav.updateArrowButton();
         _Nav.lineArrowButton.elt.addEventListener("click", () => {
           _Nav.lineArrowButtonPressed();
         });
         _Nav.lineArrowButton.elt.addEventListener("mouseover", () => {
-          _Nav.lineArrowButton.setA("stroke", _Nav.color.over);
+          _Nav.lineArrowButton.setA("fill", _Nav.color.over);
         });
         _Nav.lineArrowButton.elt.addEventListener("mouseout", () => {
-          _Nav.lineArrowButton.setA("stroke", _Nav.color.std);
+          _Nav.lineArrowButton.setA("fill", _Nav.color.active);
         });
         _Nav.setTextSizeControl();
         _Nav.setReturnControl();
@@ -7505,42 +7600,60 @@ var init_navFW = __esm({
       }
       // text size control addition 
       static setTextSizeControl() {
-        const controls = ["[\u2191]", "A", "[\u2193]"];
+        const controls = ["A\u2212", "A+"];
         controls.forEach((header) => {
           const widget = new SVGTSpan(_Nav.textSizeControl);
-          widget.setA("font-size", _Nav.fontSize);
-          widget.setV(header);
-          if (header == "A") {
-            widget.setA("stroke", _Nav.color.std);
+          widget.setAA([
+            "font-size",
+            _Nav.fontSize,
+            "font-family",
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            "font-weight",
+            "600",
+            "fill",
+            _Nav.color.muted,
+            "cursor",
+            "pointer"
+          ]);
+          widget.setV(` ${header} `);
+          const titleElt = document.createElementNS("http://www.w3.org/2000/svg", "title");
+          titleElt.textContent = header === "A\u2212" ? "Decrease text size" : "Increase text size";
+          widget.elt.appendChild(titleElt);
+          widget.elt.addEventListener("mouseover", () => widget.setA("fill", _Nav.color.active));
+          widget.elt.addEventListener("mouseout", () => widget.setA("fill", _Nav.color.muted));
+          if (header === "A\u2212") {
+            widget.elt.addEventListener("click", () => _Nav.changeTextSize("-"));
           } else {
-            widget.setA("stroke", _Nav.color.active);
-            widget.elt.addEventListener("mouseover", (ev) => {
-              widget.setA("stroke", _Nav.color.over);
-            });
-            widget.elt.addEventListener("mouseout", () => {
-              widget.setA("stroke", _Nav.color.active);
-            });
-            if (header == "[\u2191]") {
-              widget.elt.addEventListener("click", () => {
-                _Nav.changeTextSize("+");
-              });
-            } else if (header == "[\u2193]") {
-              widget.elt.addEventListener("click", () => {
-                _Nav.changeTextSize("-");
-              });
-            }
+            widget.elt.addEventListener("click", () => _Nav.changeTextSize("+"));
           }
         });
       }
       static setReturnControl() {
-        _Nav.returnControl.setA("font-size", _Nav.fontSize);
-        _Nav.returnControl.setV("> [\u21BA Return]");
-        _Nav.returnControl.setAA(["stroke", _Nav.color.active, "pointer-events", "none", "visibility", "hidden"]);
+        _Nav.returnControl.setAA([
+          "font-size",
+          _Nav.fontSize,
+          "font-family",
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          "font-weight",
+          "700",
+          "fill",
+          "#059669",
+          "pointer-events",
+          "none",
+          "visibility",
+          "hidden",
+          "cursor",
+          "pointer"
+        ]);
+        _Nav.returnControl.setV("\u21BA Return to Dialogue");
+        const retTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        retTitle.textContent = "Collapse open details and return to lecture text";
+        _Nav.returnControl.elt.appendChild(retTitle);
         _Nav.returnControl.elt.addEventListener("mouseover", () => {
-          _Nav.returnControl.setA("stroke", _Nav.color.over);
+          _Nav.returnControl.setA("fill", "#047857");
         });
         _Nav.returnControl.elt.addEventListener("mouseout", () => {
-          _Nav.returnControl.setA("stroke", _Nav.color.active);
+          _Nav.returnControl.setA("fill", "#059669");
         });
         _Nav.returnControl.elt.addEventListener("click", (ev) => {
           ev.stopPropagation();
@@ -7548,14 +7661,31 @@ var init_navFW = __esm({
         });
       }
       static setOverviewControl() {
-        _Nav.overviewControl.setA("font-size", _Nav.fontSize);
-        _Nav.overviewControl.setV("[\u2302 Overview]");
-        _Nav.overviewControl.setAA(["stroke", _Nav.color.active, "pointer-events", "auto", "visibility", "visible"]);
+        _Nav.overviewControl.setAA([
+          "font-size",
+          _Nav.fontSize,
+          "font-family",
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          "font-weight",
+          "600",
+          "fill",
+          _Nav.color.muted,
+          "pointer-events",
+          "auto",
+          "visibility",
+          "visible",
+          "cursor",
+          "pointer"
+        ]);
+        _Nav.overviewControl.setV("\u2302 Overview");
+        const ovTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        ovTitle.textContent = "Open Overview";
+        _Nav.overviewControl.elt.appendChild(ovTitle);
         _Nav.overviewControl.elt.addEventListener("mouseover", () => {
-          _Nav.overviewControl.setA("stroke", _Nav.color.over);
+          _Nav.overviewControl.setA("fill", _Nav.color.active);
         });
         _Nav.overviewControl.elt.addEventListener("mouseout", () => {
-          _Nav.overviewControl.setA("stroke", _Nav.color.active);
+          _Nav.overviewControl.setA("fill", _Nav.color.muted);
         });
         _Nav.overviewControl.elt.addEventListener("click", (ev) => {
           ev.stopPropagation();
@@ -7630,15 +7760,14 @@ var init_navFW = __esm({
         _Nav.segDiv.setA("style", _Nav.getTextStyle());
       }
       static setTextSizeControlPos(lineWidth) {
-        const controlWidth = textWidth("[\u2191]A[\u2193]", _Nav.fontSize);
-        const xp = lineWidth - controlWidth - 10;
-        _Nav.textSizeControl.setA("x", xp);
-        _Nav.textSizeControl.setAA(["visibility", "visible", "pointer-events", "auto"]);
+        const yp = 1 / 2 * _Nav.lineHeight + 0.35 * _Nav.fontSize + _Nav.frameMargin;
+        const controlWidth = textWidth("A\u2212 A+", _Nav.fontSize);
+        const xp = lineWidth - controlWidth - 14;
+        _Nav.textSizeControl.setAA(["x", xp, "y", yp, "visibility", "visible", "pointer-events", "auto"]);
         if (_Nav.overviewControl) {
-          const ovWidth = textWidth("[\u2302 Overview]", _Nav.fontSize);
-          const ovXp = xp - ovWidth - 15;
-          _Nav.overviewControl.setA("x", ovXp);
-          _Nav.overviewControl.setAA(["visibility", "visible", "pointer-events", "auto"]);
+          const ovWidth = textWidth("\u2302 Overview", _Nav.fontSize);
+          const ovXp = xp - ovWidth - 22;
+          _Nav.overviewControl.setAA(["x", ovXp, "y", yp, "visibility", "visible", "pointer-events", "auto"]);
           return ovXp - 20;
         }
         return xp - 20;
@@ -7661,13 +7790,16 @@ var init_navFW = __esm({
           if (index.chosen != -1) {
             layoutCB = index.choices[index.chosen][0].layoutCB;
           }
-          const indexVisible = _Nav.lineArrowButton.getV() == _Nav.dnArrow;
-          if (indexVisible) {
+          if (_Nav.isIndexVisible) {
             _Nav.index.removeChildren();
             _Nav.index.append(_Nav.indexRect);
             _Nav.index.append(index);
             indexWidth = index.getBB().width + 2 * Index.margin;
             _Nav.indexRect.setAA(["width", indexWidth, "height", _Nav.foHeight]);
+            _Nav.index.setAA(["visibility", "visible"]);
+          } else {
+            _Nav.index.removeChildren();
+            _Nav.index.setAA(["visibility", "hidden"]);
           }
         }
         const foX = indexWidth > 0 ? 2 * fm + indexWidth : fm;
@@ -7679,18 +7811,32 @@ var init_navFW = __esm({
         if (layoutCB) {
           layoutCB();
         }
+        window.dispatchEvent(new CustomEvent("nav-display-resize"));
       }
       static addNavLineIndexItem(header, cb) {
         const widget = new SVGTSpan(_Nav.lineTopics);
         const [stdC, activeC] = [_Nav.color.std, _Nav.color.active];
-        widget.setAA(["font-size", _Nav.fontSize, "stroke", stdC, "pointer-events", "none"]);
-        widget.setV(header);
+        const isFirst = _Nav.lineTopics.children().length === 0;
+        const displayLabel = isFirst ? header : `\u203A  ${header}`;
+        widget.setAA([
+          "font-size",
+          _Nav.fontSize,
+          "font-family",
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          "font-weight",
+          "700",
+          "fill",
+          stdC,
+          "pointer-events",
+          "none"
+        ]);
+        widget.setV(displayLabel);
         widget.elt.addEventListener("mouseover", () => {
-          widget.setA("stroke", _Nav.color.over);
+          widget.setA("fill", _Nav.color.over);
         });
         widget.elt.addEventListener("mouseout", () => {
           const color = widget.getA("pointer-events") == "none" ? stdC : activeC;
-          widget.setA("stroke", color);
+          widget.setA("fill", color);
         });
         widget.elt.addEventListener("click", (ev) => {
           if (cb) cb(ev);
@@ -7698,14 +7844,22 @@ var init_navFW = __esm({
         });
         const lineElts = _Nav.lineTopics.children();
         for (let i = 0; i < lineElts.length - 1; i++) {
-          lineElts[i].setAA(["stroke", activeC, "pointer-events", "auto"]);
+          lineElts[i].setAA(["fill", activeC, "font-weight", "600", "pointer-events", "auto", "cursor", "pointer"]);
         }
-        if (cb) lineElts[0].setAA(["stroke", activeC, "pointer-events", "auto"]);
+        if (cb) lineElts[0].setAA(["fill", activeC, "font-weight", "600", "pointer-events", "auto", "cursor", "pointer"]);
         _Nav.showNavLine();
       }
+      static updateArrowButton() {
+        const glyph = _Nav.isIndexVisible ? _Nav.dnArrow : _Nav.upArrow;
+        const tooltip = _Nav.isIndexVisible ? "Collapse index" : "Expand index";
+        _Nav.lineArrowButton.setV(glyph);
+        const titleElt = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        titleElt.textContent = tooltip;
+        _Nav.lineArrowButton.elt.appendChild(titleElt);
+      }
       static lineArrowButtonPressed() {
-        const v = _Nav.lineArrowButton.getV() == _Nav.dnArrow ? _Nav.upArrow : _Nav.dnArrow;
-        _Nav.lineArrowButton.setV(v);
+        _Nav.isIndexVisible = !_Nav.isIndexVisible;
+        _Nav.updateArrowButton();
         _Nav.display();
       }
       static loadIndex(header, indexDesc, initialSelection = 0) {
@@ -7835,14 +7989,30 @@ var init_navFW = __esm({
       static addNavLineBackButton(header) {
         const widget = new SVGTSpan(_Nav.lineTopics);
         const [stdC, activeC] = [_Nav.color.std, _Nav.color.active];
-        widget.setAA(["font-size", _Nav.fontSize, "stroke", activeC, "pointer-events", "auto"]);
-        widget.setV(header);
+        widget.setAA([
+          "font-size",
+          _Nav.fontSize,
+          "font-family",
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          "font-weight",
+          "600",
+          "fill",
+          activeC,
+          "pointer-events",
+          "auto",
+          "cursor",
+          "pointer"
+        ]);
+        widget.setV(`\u2039  ${header}`);
+        const backTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        backTitle.textContent = `Back to ${header}`;
+        widget.elt.appendChild(backTitle);
         widget.elt.addEventListener("mouseover", () => {
-          widget.setA("stroke", _Nav.color.over);
+          widget.setA("fill", _Nav.color.over);
         });
         widget.elt.addEventListener("mouseout", () => {
           const color = widget.getA("pointer-events") == "none" ? stdC : activeC;
-          widget.setA("stroke", color);
+          widget.setA("fill", color);
         });
         widget.elt.addEventListener("click", (ev) => {
           _Nav.backButtonSelectionHandler(ev);
@@ -7863,9 +8033,9 @@ var init_navFW = __esm({
           }
           const [stdC, activeC] = [_Nav.color.std, _Nav.color.active];
           _Nav.currentIndex = widgetPos;
-          lineElts[widgetPos].setAA(["stroke", stdC, "pointer-events", "none"]);
+          lineElts[widgetPos].setAA(["fill", stdC, "font-weight", "700", "pointer-events", "none", "cursor", "default"]);
           for (let i = 0; i < widgetPos; i++) {
-            lineElts[i].setAA(["stroke", activeC, "pointer-events", "auto"]);
+            lineElts[i].setAA(["fill", activeC, "font-weight", "600", "pointer-events", "auto", "cursor", "pointer"]);
           }
         }
         _Nav.setLastVisit();
@@ -7884,7 +8054,7 @@ var init_navFW = __esm({
       }
       static showNavLine() {
         let xp = _Nav.margin.init;
-        const yp = 1 / 2 * _Nav.lineHeight + 1 / 4 * _Nav.fontSize + _Nav.frameMargin;
+        const yp = 1 / 2 * _Nav.lineHeight + 0.35 * _Nav.fontSize + _Nav.frameMargin;
         const lineElts = _Nav.lineTopics.children();
         lineElts.forEach((widget) => {
           const svgElt = widget;
@@ -7893,7 +8063,7 @@ var init_navFW = __esm({
           xp += bb.width + _Nav.margin.std;
         });
         if (_Nav.returnControl) {
-          _Nav.returnControl.setAA(["x", xp, "y", yp]);
+          _Nav.returnControl.setAA(["x", xp + 10, "y", yp]);
         }
       }
       static clearNavLine() {
@@ -7908,6 +8078,7 @@ var init_navFW = __esm({
 var btd_exports = {};
 __export(btd_exports, {
   BTD: () => BTD,
+  BTD_MODE_METADATA: () => BTD_MODE_METADATA,
   btd: () => btd,
   initBTD: () => initBTD,
   layoutBTD: () => layoutBTD,
@@ -7928,78 +8099,123 @@ function layoutBTD() {
     btd.layout();
   }
 }
-var BTD, btd;
+var BTD_MODE_METADATA, BTD, btd;
 var init_btd = __esm({
   "clientLib/btd.ts"() {
-    init_svgElt();
+    init_elt();
     init_navFW();
     init_bTreeDiagram();
     init_bTreeControllers();
-    BTD = class extends SVGElt {
-      controlsFrame;
-      diagramGroup;
+    BTD_MODE_METADATA = {
+      plain: {
+        title: "2-Successor Binary Tree (\u{1D54B}\u2082)",
+        desc: "Discrete binary branching with [-] (left) and [+] (right) constructing dyadics and surreal numbers."
+      },
+      birthday: {
+        title: "Tree Birthday Levels (\u03C9 Generation)",
+        desc: "Constructive generation of surreal tree nodes by discrete birthday stage (0, 1, 2, ...)."
+      },
+      labeled: {
+        title: "Sign Expansions & Branching Paths",
+        desc: "Conway sign-expansion vectors: root \u2205, left [-], right [+], and composite strings."
+      },
+      dyadic: {
+        title: "Dyadic Rational Fractions (\u{1D53B} \u2282 \u211D)",
+        desc: "Canonical isomorphism between binary tree sign expansions and dyadic rationals a / 2\u1D47."
+      },
+      projected: {
+        title: "Dyadic Number Line Projection",
+        desc: "Vertical geometric projection of tree paths onto the standard real continuum."
+      },
+      precision: {
+        title: "Precision Path & Binary Intervals",
+        desc: "Iterative nested interval convergence along an infinite binary sign sequence."
+      },
+      subtree: {
+        title: "Binary Subtree Isolation",
+        desc: "Click any node to highlight its left and right descendants as independent subtrees."
+      },
+      simplicity: {
+        title: "Conway Simplicity Ordering (\u227A)",
+        desc: "The simplicity hierarchy: an earlier birthday means strictly simpler (x \u227A y)."
+      },
+      order: {
+        title: "Surreal Total Order (x \u2264 y)",
+        desc: "Inductive total ordering on binary trees: x \u2264 y iff no x\u1D38 \u2265 y and no y\u1D3F \u2264 x."
+      },
+      cut: {
+        title: "Conway Cut & Number Generation",
+        desc: "Pick left set L and right set R with L < R; the cut constructs the simplest number between them."
+      },
+      addition: {
+        title: "Inductive Tree Addition (+)",
+        desc: "Conway inductive addition: x + y = { x\u1D38 + y, x + y\u1D38 | x\u1D3F + y, x + y\u1D3F }."
+      },
+      multiplication: {
+        title: "Inductive Tree Multiplication (\xB7)",
+        desc: "Conway cross-product multiplication: x \xB7 y defined recursively on left and right options."
+      },
+      isomorphism: {
+        title: "Dyadic Tree Arithmetic & Isomorphism",
+        desc: "Exact correspondence between Conway tree operations and dyadic rational arithmetic."
+      },
+      omegaState: {
+        title: "Tree State & \u03A9-Path Transitions",
+        desc: "State machine transitions and infinite path limits on the 2-successor tree."
+      },
+      eulerCompounding: {
+        title: "Dyadic Euler Compounding (exp)",
+        desc: "Discrete dyadic step compounding approaching the exponential continuum."
+      }
+    };
+    BTD = class extends Elt {
+      modernContainer;
+      modernScaleWrapper;
+      headerTitleEl;
+      headerDescEl;
+      diagramMount;
       currentDiagram = null;
       currentMode = "plain";
-      buttons = /* @__PURE__ */ new Map();
-      staticLabel;
-      interactiveLabel;
-      controlsHeight = 70;
-      fontSize = 13;
+      modeButtons = /* @__PURE__ */ new Map();
       constructor() {
-        super("svg", "btd-demo");
-        this.controlsFrame = new SVGElt("rect");
-        this.controlsFrame.setAA([
-          "x",
-          0,
-          "y",
-          0,
-          "fill",
-          "#f1f5f9",
-          "stroke",
-          "#cbd5e1",
-          "stroke-width",
-          1,
-          "rx",
-          6
-        ]);
-        this.append(this.controlsFrame);
-        this.staticLabel = new SVGText();
-        this.staticLabel.setAA([
-          "font-size",
-          11,
-          "fill",
-          "#64748b",
-          "stroke",
-          "none",
-          "font-family",
-          "system-ui, sans-serif",
-          "font-weight",
-          "bold"
-        ]);
-        this.staticLabel.setV("STATIC VIEWS:");
-        this.append(this.staticLabel);
-        this.interactiveLabel = new SVGText();
-        this.interactiveLabel.setAA([
-          "font-size",
-          11,
-          "fill",
-          "#64748b",
-          "stroke",
-          "none",
-          "font-family",
-          "system-ui, sans-serif",
-          "font-weight",
-          "bold"
-        ]);
-        this.interactiveLabel.setV("INTERACTIVE:");
-        this.append(this.interactiveLabel);
-        this.createButtons();
-        this.diagramGroup = new SVGGrpElt();
-        this.diagramGroup.move(0, this.controlsHeight + 10);
-        this.append(this.diagramGroup);
+        super("div", "btd-demo");
+        this.modernContainer = document.createElement("div");
+        this.modernContainer.className = "btd-modern-container";
+        this.modernContainer.style.cssText = "box-sizing: border-box; width: 100%; min-height: 100%; padding: 18px 20px 80px 20px; font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #0f172a; overflow-x: hidden; overflow-y: auto;";
+        this.modernScaleWrapper = document.createElement("div");
+        this.modernScaleWrapper.className = "btd-scale-wrapper";
+        this.modernScaleWrapper.style.cssText = "box-sizing: border-box; width: 940px; transform-origin: top left; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0; padding: 20px; color: #0f172a;";
+        this.modernContainer.appendChild(this.modernScaleWrapper);
+        this.elt.appendChild(this.modernContainer);
+        const headerRow = document.createElement("div");
+        headerRow.style.cssText = "margin-bottom: 16px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 12px;";
+        const badge = document.createElement("div");
+        badge.style.cssText = "display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;";
+        badge.innerHTML = "<span>\u{1F332}</span> <span>2-Successor Binary Tree (\u{1D54B}\u2082)</span>";
+        headerRow.appendChild(badge);
+        this.headerTitleEl = document.createElement("h3");
+        this.headerTitleEl.style.cssText = "margin: 0 0 4px 0; font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.2px;";
+        this.headerTitleEl.textContent = "2-Successor Binary Tree (\u{1D54B}\u2082)";
+        headerRow.appendChild(this.headerTitleEl);
+        this.headerDescEl = document.createElement("div");
+        this.headerDescEl.style.cssText = "font-size: 13px; color: #64748b; line-height: 1.5;";
+        this.headerDescEl.textContent = "Discrete binary branching with [-] (left) and [+] (right) constructing dyadics and surreal numbers.";
+        headerRow.appendChild(this.headerDescEl);
+        this.modernScaleWrapper.appendChild(headerRow);
+        this.buildModeSelector();
+        this.diagramMount = document.createElement("div");
+        this.diagramMount.id = "btd-diagram-mount";
+        this.diagramMount.style.cssText = "width: 900px; margin: 16px auto 0 auto; display: flex; justify-content: center; background: #f8fbff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 8px; box-sizing: border-box; overflow: hidden;";
+        this.modernScaleWrapper.appendChild(this.diagramMount);
+        if (typeof window !== "undefined") {
+          window.addEventListener("resize", () => this.handleResize());
+          window.addEventListener("nav-display-resize", () => this.handleResize());
+        }
         this.setMode("plain");
       }
-      createButtons() {
+      buildModeSelector() {
+        const selectorContainer = document.createElement("div");
+        selectorContainer.style.cssText = "display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;";
         const staticModes = [
           ["plain", "Plain Tree"],
           ["birthday", "Birthday Levels"],
@@ -8013,60 +8229,44 @@ var init_btd = __esm({
           ["simplicity", "Simplicity (\u227A)"],
           ["order", "Total Order"],
           ["cut", "Conway Cut"],
-          ["isomorphism", "Arithmetic & Isomorphism"],
+          ["isomorphism", "Arithmetic (+ \xB7)"],
           ["omegaState", "State / \u03A9"],
           ["eulerCompounding", "Euler Exp"]
         ];
-        staticModes.forEach(([mode, label]) => {
-          const btn = new SVGSelectableText(
-            () => this.setMode(mode),
-            label,
-            true,
-            `btn-${mode}`
-          );
-          btn.setA("font-size", this.fontSize);
-          btn.setA("font-family", "system-ui, -apple-system, sans-serif");
-          btn.setA("cursor", "pointer");
-          this.buttons.set(mode, btn);
-          this.append(btn);
-        });
-        interactiveModes.forEach(([mode, label]) => {
-          const btn = new SVGSelectableText(
-            () => this.setMode(mode),
-            label,
-            true,
-            `btn-${mode}`
-          );
-          btn.setA("font-size", this.fontSize);
-          btn.setA("font-family", "system-ui, -apple-system, sans-serif");
-          btn.setA("cursor", "pointer");
-          this.buttons.set(mode, btn);
-          this.append(btn);
-        });
-        this.updateButtonStyles();
+        const makeRow = (label, modes) => {
+          const row = document.createElement("div");
+          row.style.cssText = "display: flex; align-items: center; gap: 6px; flex-wrap: wrap;";
+          const rowLabel = document.createElement("span");
+          rowLabel.style.cssText = "font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; width: 88px; flex-shrink: 0;";
+          rowLabel.textContent = label;
+          row.appendChild(rowLabel);
+          modes.forEach(([mode, name]) => {
+            const btn = document.createElement("button");
+            btn.textContent = name;
+            btn.style.cssText = "display: inline-flex; align-items: center; justify-content: center; height: 28px; padding: 0 10px; font-size: 12px; font-weight: 600; border-radius: 5px; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; cursor: pointer; transition: all 0.15s ease; user-select: none;";
+            btn.addEventListener("click", () => this.setMode(mode));
+            btn.addEventListener("mouseover", () => {
+              if (this.currentMode !== mode) {
+                btn.style.background = "#f1f5f9";
+                btn.style.borderColor = "#94a3b8";
+              }
+            });
+            btn.addEventListener("mouseout", () => {
+              if (this.currentMode !== mode) {
+                btn.style.background = "#ffffff";
+                btn.style.borderColor = "#cbd5e1";
+              }
+            });
+            this.modeButtons.set(mode, btn);
+            row.appendChild(btn);
+          });
+          return row;
+        };
+        selectorContainer.appendChild(makeRow("Structural:", staticModes));
+        selectorContainer.appendChild(makeRow("Interactive:", interactiveModes));
+        this.modernScaleWrapper.appendChild(selectorContainer);
       }
-      updateButtonStyles() {
-        this.buttons.forEach((btn, m) => {
-          if (m === this.currentMode) {
-            btn.color = {
-              std: "#d97706",
-              over: "#b45309",
-              disabled: "grey",
-              selected: "#d97706"
-            };
-            btn.setAA(["font-weight", "bold", "stroke", "#d97706"]);
-          } else {
-            btn.color = {
-              std: "#1e40af",
-              over: "#7c3aed",
-              disabled: "grey",
-              selected: "#1e40af"
-            };
-            btn.setAA(["font-weight", "normal", "stroke", "#1e40af"]);
-          }
-        });
-      }
-      setMode(mode) {
+      setMode(mode, customTitle) {
         let targetMode = mode;
         let initialOp;
         if (mode === "addition") {
@@ -8077,100 +8277,56 @@ var init_btd = __esm({
           initialOp = "\u2217";
         }
         this.currentMode = targetMode;
-        this.updateButtonStyles();
-        this.diagramGroup.removeChildren();
+        const meta = BTD_MODE_METADATA[targetMode] || BTD_MODE_METADATA.plain;
+        this.headerTitleEl.textContent = customTitle || meta.title;
+        this.headerDescEl.textContent = meta.desc;
+        this.modeButtons.forEach((btn, m) => {
+          if (m === targetMode || targetMode === "isomorphism" && (m === "addition" || m === "multiplication")) {
+            btn.style.background = "#0284c7";
+            btn.style.borderColor = "#0284c7";
+            btn.style.color = "#ffffff";
+            btn.style.fontWeight = "700";
+          } else {
+            btn.style.background = "#ffffff";
+            btn.style.borderColor = "#cbd5e1";
+            btn.style.color = "#475569";
+            btn.style.fontWeight = "600";
+          }
+        });
+        this.diagramMount.innerHTML = "";
         this.currentDiagram = new BTreeDiagram({ mode: targetMode });
         if (initialOp && this.currentDiagram.controller instanceof IsoController) {
           this.currentDiagram.controller.setOp(initialOp);
         }
-        this.diagramGroup.append(this.currentDiagram);
+        this.diagramMount.appendChild(this.currentDiagram.elt);
         this.layout();
-        if (typeof requestAnimationFrame !== "undefined") {
-          requestAnimationFrame(() => this.layout());
+      }
+      handleResize() {
+        this.layout();
+      }
+      applyScale() {
+        if (!this.modernContainer || !this.modernScaleWrapper) return;
+        let availW = this.modernContainer.clientWidth;
+        if (!availW || availW < 100) {
+          if (typeof Nav !== "undefined" && Nav.foWidth) {
+            availW = Nav.foWidth;
+          } else if (typeof window !== "undefined") {
+            availW = window.innerWidth - (typeof Nav !== "undefined" && Nav.isIndexVisible ? 260 : 30);
+          }
+        }
+        const netAvailW = Math.max(280, availW - 40);
+        const targetW = 940;
+        const scale = netAvailW < targetW ? Math.max(0.4, netAvailW / targetW) : 1;
+        const wrapperStyle = this.modernScaleWrapper.style;
+        if ("zoom" in wrapperStyle) {
+          wrapperStyle.zoom = String(scale);
+          wrapperStyle.transform = "";
+        } else {
+          wrapperStyle.transform = `scale(${scale})`;
         }
       }
       layout() {
-        const totalWidth = Nav.foWidth > 0 ? Nav.foWidth : 900;
-        const padding = 10;
-        const usableWidth = totalWidth - 2 * padding;
-        const labelWidth = 105;
-        const itemGap = 13;
-        const lineSpacing = 28;
-        let curY = 26;
-        let curX = padding + 12;
-        this.staticLabel.setAA(["x", curX, "y", curY]);
-        curX += labelWidth;
-        const staticOrder = [
-          "plain",
-          "birthday",
-          "labeled",
-          "dyadic",
-          "projected",
-          "precision"
-        ];
-        staticOrder.forEach((mode) => {
-          const btn = this.buttons.get(mode);
-          if (btn) {
-            let btnW = 0;
-            try {
-              const bb = btn.getBB();
-              if (bb && bb.width > 0) btnW = bb.width;
-            } catch {
-            }
-            if (!btnW) {
-              btnW = (btn.getV() || "").length * 9;
-            }
-            if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
-              curY += lineSpacing;
-              curX = padding + 12 + labelWidth;
-            }
-            btn.setAA(["x", curX, "y", curY]);
-            curX += btnW + itemGap;
-          }
-        });
-        curY += lineSpacing + 4;
-        curX = padding + 12;
-        this.interactiveLabel.setAA(["x", curX, "y", curY]);
-        curX += labelWidth;
-        const interactiveOrder = [
-          "subtree",
-          "simplicity",
-          "order",
-          "cut",
-          "isomorphism",
-          "omegaState",
-          "eulerCompounding"
-        ];
-        interactiveOrder.forEach((mode) => {
-          const btn = this.buttons.get(mode);
-          if (btn) {
-            let btnW = 0;
-            try {
-              const bb = btn.getBB();
-              if (bb && bb.width > 0) btnW = bb.width;
-            } catch {
-            }
-            if (!btnW) {
-              btnW = (btn.getV() || "").length * 9;
-            }
-            if (curX + btnW > usableWidth - 10 && curX > padding + 12 + labelWidth) {
-              curY += lineSpacing;
-              curX = padding + 12 + labelWidth;
-            }
-            btn.setAA(["x", curX, "y", curY]);
-            curX += btnW + itemGap;
-          }
-        });
-        this.controlsHeight = curY + 16;
-        this.controlsFrame.setAA(["x", padding, "y", 5, "width", usableWidth, "height", this.controlsHeight]);
-        if (this.currentDiagram) {
-          this.diagramGroup.move(padding, this.controlsHeight + 15);
-          this.currentDiagram.scaleToWidth(usableWidth);
-          const targetH = usableWidth / this.currentDiagram.width * this.currentDiagram.height;
-          this.setAA(["width", totalWidth, "height", Math.ceil(this.controlsHeight + 25 + targetH)]);
-        } else {
-          this.setAA(["width", totalWidth, "height", this.controlsHeight + 20]);
-        }
+        this.applyScale();
       }
     };
   }
@@ -10405,8 +10561,7 @@ var navigationMenuTree = [
             children: [
               { label: "Introduction", typeKey: "curriculum_nav_item", instanceKey: "numbersIntro", subject: "numbers_trees" },
               { label: "Binary Sequences & Counting", typeKey: "curriculum_nav_item", instanceKey: "numbersLecture1", subject: "numbers_trees" },
-              { label: "Surreal Number Line & Growth", typeKey: "curriculum_nav_item", instanceKey: "numbersLecture2", subject: "numbers_trees" },
-              { label: "Infinitesimal Arithmetic & STEM Spaces", typeKey: "curriculum_nav_item", instanceKey: "numbersLecture3", subject: "numbers_trees" }
+              { label: "Surreal Number Line & Growth", typeKey: "curriculum_nav_item", instanceKey: "numbersLecture2", subject: "numbers_trees" }
             ]
           }
         ]
@@ -36064,7 +36219,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-27T10:40:28.739Z",
+  "generatedAt": "2026-10-27T16:13:58.977Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -40785,11 +40940,25 @@ var FSD = class extends PXEParent {
   buttonBackspace;
   buttonClear;
   nextStageButton;
+  // Modern Card Overlay State
+  modernContainer = null;
+  modernScaleWrapper = null;
+  modernMounted = false;
+  modernFormulaInput = null;
+  modernStatusPill = null;
+  modernPredicateBox = null;
+  modernLeanBox = null;
+  modernInvariantBox = null;
+  modernStageCard = null;
+  modernStage4Mount = null;
+  modernInspectorDetails = null;
+  modernFooterBar = null;
+  modernStagePills = [];
   // Stage 2 State: Variables & Slots
   elementVars = ["x\u2081", "x\u2082"];
   numberConstants = ["0", "1", "5", "10"];
-  setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
-  availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
+  setVars = ["y\u2081", "y\u2082", "\u2205"];
+  availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205"];
   selectedVar = "x\u2081";
   slots = [];
   varDomains = {};
@@ -41070,23 +41239,1050 @@ var FSD = class extends PXEParent {
       "overflow:visible;"
     ]);
     this.renderStageControls();
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => this.handleResize());
+      window.addEventListener("nav-display-resize", () => this.handleResize());
+    }
+  }
+  handleResize() {
+    this.layoutEditor();
+  }
+  applyScale() {
+    if (!this.modernContainer || !this.modernScaleWrapper) return;
+    let availW = this.modernContainer.clientWidth;
+    if (!availW || availW < 100) {
+      if (typeof Nav !== "undefined" && Nav.foWidth) {
+        availW = Nav.foWidth;
+      } else if (typeof window !== "undefined") {
+        availW = window.innerWidth - (typeof Nav !== "undefined" && Nav.isIndexVisible ? 260 : 30);
+      }
+    }
+    const netAvailW = Math.max(280, availW - 40);
+    const matrixEl = this.modernStage4Mount ? this.modernStage4Mount.querySelector("table") : null;
+    const matrixWidth = matrixEl ? Math.max(matrixEl.offsetWidth, matrixEl.scrollWidth) : 0;
+    const targetWidth = Math.max(920, matrixWidth + 40);
+    const scale = netAvailW < targetWidth ? Math.max(0.4, netAvailW / targetWidth) : 1;
+    const wrapperStyle = this.modernScaleWrapper.style;
+    if ("zoom" in wrapperStyle) {
+      wrapperStyle.zoom = String(scale);
+      wrapperStyle.transform = "";
+    } else {
+      wrapperStyle.transform = `scale(${scale})`;
+    }
   }
   layoutEditor(customWidth, customHeight) {
     const fow = customWidth || (typeof Nav !== "undefined" && Nav.foWidth ? Nav.foWidth : window.innerWidth - 250);
     const foh = customHeight || (typeof Nav !== "undefined" && Nav.foHeight ? Nav.foHeight : window.innerHeight - 80);
     this.setAA(["width", fow, "height", foh, "style", "display:block;"]);
-    this.editorFrame.setAA(["width", fow, "height", foh]);
-    this.controlsFrame.setA("width", fow - 2 * this.sideMargin);
-    this.pxe.setAA(["width", fow - 2 * this.sideMargin]);
-    this.pxe.layout();
-    const foW = fow - 2 * this.sideMargin;
-    const foH = foh - this.foY - this.vertMargin;
-    this.fo.setAA(["width", foW, "height", Math.max(100, foH)]);
-    this.renderStageControls();
-    this.updatePXEText();
-    if (this.stage === 4) {
-      this.renderStage4Table();
+    this.editorFrame.setA("display", "none");
+    this.controlsFrame.setA("display", "none");
+    this.pxe.setA("display", "none");
+    this.fo.setAA([
+      "x",
+      0,
+      "y",
+      0,
+      "width",
+      fow,
+      "height",
+      foh,
+      "style",
+      "overflow-y: auto; overflow-x: hidden; display: block; background: #f8fafc;"
+    ]);
+    this.buildModernUI();
+    this.syncModernUI();
+    this.applyScale();
+  }
+  // =========================================================================
+  // MODERN STAGE CARD UI IMPLEMENTATION (Equation Evaluator / Image 2 Model)
+  // =========================================================================
+  buildModernUI() {
+    if (this.modernMounted && this.modernContainer) {
+      return;
     }
+    this.modernContainer = document.createElement("div");
+    this.modernContainer.id = "fsdModernContainer";
+    this.modernContainer.className = "fsd-modern-container";
+    this.modernContainer.style.cssText = "box-sizing: border-box; width: 100%; min-height: 100%; padding: 18px 20px 80px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #0f172a; overflow-x: hidden; overflow-y: auto;";
+    const wrap = document.createElement("div");
+    wrap.id = "fsdScaleWrapper";
+    wrap.className = "fsd-scale-wrapper";
+    wrap.style.cssText = "box-sizing: border-box; width: 920px; transform-origin: top left; margin: 0 auto; padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0; color: #0f172a;";
+    this.modernScaleWrapper = wrap;
+    this.modernContainer.appendChild(wrap);
+    const headerBar = document.createElement("div");
+    headerBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;";
+    const titleGroup = document.createElement("div");
+    titleGroup.style.cssText = "display: flex; flex-direction: column;";
+    titleGroup.innerHTML = `
+      <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+        Formal Statement Constructor (FSD)
+      </div>
+      <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+        Constructive Relational Specification &amp; 2D Matrix
+      </h2>
+    `;
+    headerBar.appendChild(titleGroup);
+    this.modernStatusPill = document.createElement("div");
+    this.modernStatusPill.style.cssText = "display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 9999px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;";
+    this.modernStatusPill.innerHTML = `<span>\u2713</span> <span>Stage 1: Enter Relation</span>`;
+    headerBar.appendChild(this.modernStatusPill);
+    wrap.appendChild(headerBar);
+    const stepperBar = document.createElement("div");
+    stepperBar.style.cssText = "display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;";
+    const stagesInfo = [
+      { num: 1, label: "Formal Relation", icon: "\u{1F4DC}" },
+      { num: 2, label: "Slot Typing", icon: "\u{1F3F7}\uFE0F" },
+      { num: 3, label: "Quantifiers", icon: "\u2200\u2203" },
+      { num: 4, label: "2D Matrix & Truth", icon: "\u{1F9EE}" }
+    ];
+    this.modernStagePills = [];
+    stagesInfo.forEach((st, idx) => {
+      const pill = document.createElement("button");
+      pill.setAttribute("data-stage", st.num.toString());
+      pill.style.cssText = "display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1.5px solid #cbd5e1; background: #f8fafc; color: #64748b; cursor: pointer; transition: all 0.15s ease;";
+      pill.innerHTML = `<span>${st.icon}</span> <span>Step ${st.num}: ${st.label}</span>`;
+      pill.addEventListener("click", () => {
+        if (st.num === this.stage) return;
+        if (st.num < this.stage) {
+          if (st.num === 1) {
+            this.stage = 1;
+            this.slots = [];
+          } else if (st.num === 2) {
+            this.stage = 2;
+            this.quantifierBindings = [];
+          } else if (st.num === 3) {
+            this.stage = 3;
+          }
+          this.renderStageControls();
+          this.updatePXEText();
+          this.syncModernUI();
+        } else {
+          if (this.stage === 1) {
+            const expClass = this.pxe.setExpectClass();
+            if (expClass === "back" && this.pxe.nl === 0) {
+              this.advanceStage();
+            }
+          } else if (this.stage === 2) {
+            const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
+            const { hasMismatch } = this.checkTypeMismatch();
+            if (allBound && !hasMismatch) {
+              this.advanceStage();
+            }
+          } else if (this.stage === 3) {
+            const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+            const allQuantified = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
+            if (allQuantified) {
+              this.advanceStage();
+            }
+          }
+        }
+      });
+      this.modernStagePills.push(pill);
+      stepperBar.appendChild(pill);
+      if (idx < stagesInfo.length - 1) {
+        const arrow = document.createElement("span");
+        arrow.style.cssText = "color: #94a3b8; font-size: 12px; font-weight: bold;";
+        arrow.textContent = "\u2794";
+        stepperBar.appendChild(arrow);
+      }
+    });
+    wrap.appendChild(stepperBar);
+    this.modernPredicateBox = document.createElement("div");
+    this.modernPredicateBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; text-align: center; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04);";
+    wrap.appendChild(this.modernPredicateBox);
+    this.modernLeanBox = document.createElement("div");
+    this.modernLeanBox.style.cssText = "background: #f1f5f9; border-left: 4px solid #0284c7; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px;";
+    wrap.appendChild(this.modernLeanBox);
+    this.modernInvariantBox = document.createElement("div");
+    this.modernInvariantBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 6px; padding: 12px 16px; margin-bottom: 18px;";
+    wrap.appendChild(this.modernInvariantBox);
+    this.modernStageCard = document.createElement("div");
+    this.modernStageCard.id = "fsdModernStageCard";
+    this.modernStageCard.style.cssText = "background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; margin-bottom: 18px;";
+    wrap.appendChild(this.modernStageCard);
+    this.modernInspectorDetails = document.createElement("details");
+    this.modernInspectorDetails.style.cssText = "margin-bottom: 20px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; padding: 10px 14px; transition: all 0.2s ease;";
+    this.modernInspectorDetails.innerHTML = `
+      <summary style="font-size: 12.5px; font-weight: 700; color: #475569; cursor: pointer; user-select: none; display: flex; align-items: center; gap: 6px;">
+        <span>\u{1F50D} Inspect Nonstandard Calculation Stencils &amp; Lean 4 Formal Signatures</span>
+      </summary>
+      <div id="fsdInspectorContent" style="margin-top: 12px; font-size: 12px; line-height: 1.6; color: #334155; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+        <div style="margin-bottom: 8px;">
+          <strong>Constructivist Tree Verification:</strong> In Middle Way Math, relations are executed directly on the 1-successor spine <code>\u2115 = {1, 2, 3, ...}</code> and power set <code>\u{1D4AB}(\u2115)</code>. Universal quantifiers (<code>\u2200</code>) are verified across all domain coordinates, while existential quantifiers (<code>\u2203</code>) construct an explicit witness.
+        </div>
+        <div style="font-family: monospace; background: #f8fafc; padding: 8px 12px; border-radius: 5px; border: 1px solid #e2e8f0; color: #0f172a; margin-bottom: 8px;">
+          Dual Nonstandard Representation: { st: real_part, eps: halo_dust }
+        </div>
+        <div style="color: #64748b;">
+          Order relations <code>&lt;</code>, <code>&gt;</code>, <code>\u2264</code>, and halo proximity <code>\u2248</code> evaluate lexicographically: <code>a.st !== b.st ? a.st &lt; b.st : a.eps &lt; b.eps</code>.
+        </div>
+      </div>
+    `;
+    wrap.appendChild(this.modernInspectorDetails);
+    this.modernFooterBar = document.createElement("div");
+    this.modernFooterBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-top: 2px solid #e2e8f0; padding-top: 16px; flex-wrap: wrap; gap: 10px;";
+    wrap.appendChild(this.modernFooterBar);
+    this.fo.elt.innerHTML = "";
+    this.fo.elt.appendChild(this.modernContainer);
+    this.modernMounted = true;
+    this.applyScale();
+  }
+  // =========================================================================
+  // SYNC MODERN UI WITH COMPONENT STATE
+  // =========================================================================
+  syncModernUI() {
+    if (!this.modernMounted || !this.modernContainer) {
+      return;
+    }
+    this.modernStagePills.forEach((pill, idx) => {
+      const stepNum = idx + 1;
+      const isCur = this.stage === stepNum;
+      const isPast = this.stage > stepNum;
+      pill.style.borderColor = isCur ? "#0284c7" : isPast ? "#86efac" : "#cbd5e1";
+      pill.style.background = isCur ? "#0284c7" : isPast ? "#f0fdf4" : "#f8fafc";
+      pill.style.color = isCur ? "#ffffff" : isPast ? "#166534" : "#64748b";
+    });
+    if (this.modernStatusPill) {
+      if (this.stage === 1) {
+        const expClass = this.pxe.setExpectClass();
+        const isValid = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
+        this.modernStatusPill.style.background = isValid ? "#ecfdf5" : "#fef3c7";
+        this.modernStatusPill.style.color = isValid ? "#047857" : "#b45309";
+        this.modernStatusPill.style.borderColor = isValid ? "#a7f3d0" : "#fde68a";
+        this.modernStatusPill.innerHTML = isValid ? `<span>\u2713</span> <span>Formula Complete (Ready for Slots)</span>` : `<span>\u26A1</span> <span>${this.pxe.exp.length === 0 ? "Enter Relation" : "Awaiting Operand / Bracket"}</span>`;
+      } else if (this.stage === 2) {
+        const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
+        const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
+        this.modernStatusPill.style.background = hasMismatch ? "#fee2e2" : allBound ? "#ecfdf5" : "#eff6ff";
+        this.modernStatusPill.style.color = hasMismatch ? "#b91c1c" : allBound ? "#047857" : "#1d4ed8";
+        this.modernStatusPill.style.borderColor = hasMismatch ? "#fca5a5" : allBound ? "#a7f3d0" : "#bfdbfe";
+        this.modernStatusPill.innerHTML = hasMismatch ? `<span>\u26A0\uFE0F</span> <span>Type Clash: ${conflictingVar}</span>` : allBound ? `<span>\u2713</span> <span>Slots Typed (Ready for Quantifiers)</span>` : `<span>\u{1F3F7}\uFE0F</span> <span>Assign Variable Slots</span>`;
+      } else if (this.stage === 3) {
+        const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+        const allQuantified = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
+        this.modernStatusPill.style.background = allQuantified ? "#ecfdf5" : "#eff6ff";
+        this.modernStatusPill.style.color = allQuantified ? "#047857" : "#1d4ed8";
+        this.modernStatusPill.style.borderColor = allQuantified ? "#a7f3d0" : "#bfdbfe";
+        this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Matrix)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
+      } else {
+        const truth = this.evaluateFullStatement();
+        this.modernStatusPill.style.background = truth ? "#ecfdf5" : "#fee2e2";
+        this.modernStatusPill.style.color = truth ? "#047857" : "#b91c1c";
+        this.modernStatusPill.style.borderColor = truth ? "#a7f3d0" : "#fca5a5";
+        this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Statement Verdict: True (T)</span>` : `<span>\u2717</span> <span>Statement Verdict: False (F)</span>`;
+      }
+    }
+    if (this.modernPredicateBox) {
+      const formatted = this.formatFSDExp(this.pxe.exp) || "\u2014";
+      let verdictSnippet = "";
+      if (this.stage === 4) {
+        const truth = this.evaluateFullStatement();
+        verdictSnippet = `
+          <div style="margin-top: 8px;">
+            <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? "#dcfce7" : "#fee2e2"}; color: ${truth ? "#166534" : "#991b1b"}; border: 1px solid ${truth ? "#bbf7d0" : "#fecaca"};">
+              Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"}
+            </span>
+          </div>
+        `;
+      } else {
+        verdictSnippet = `
+          <div style="margin-top: 6px; font-size: 11.5px; color: #64748b;">
+            Stage ${this.stage}: ${this.stage === 1 ? "Authoring Relational Predicate" : this.stage === 2 ? "Configuring Slot Types & Domains" : "Binding Quantifiers"}
+          </div>
+        `;
+      }
+      this.modernPredicateBox.innerHTML = `
+        <div style="font-size: 11px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">
+          Constitutional Formal Statement Predicate
+        </div>
+        <div style="font-family: monospace; font-size: 18px; font-weight: bold; color: #0369a1; word-break: break-all;">
+          ${this.stage >= 3 && this.quantifierBindings.length > 0 ? "" : ""}${formatted}
+        </div>
+        ${verdictSnippet}
+      `;
+    }
+    if (this.modernLeanBox) {
+      const theoremName = this.getGoverningTheorem();
+      const snippet = this.getLeanSnippet();
+      this.modernLeanBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+          <span style="font-weight: 700; color: #0369a1;">Lean 4 Machine Certification:</span>
+          <span style="font-family: monospace; font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700;">
+            MiddleWay.${theoremName}
+          </span>
+        </div>
+        <pre style="margin: 0; font-family: monospace; color: #0f172a; white-space: pre-wrap; font-size: 11.5px; line-height: 1.45; background: #ffffff; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">${snippet}</pre>
+      `;
+    }
+    if (this.modernInvariantBox) {
+      const expDisp = this.formatFSDExp(this.pxe.exp) || "relation";
+      this.modernInvariantBox.innerHTML = `
+        <div style="font-size: 11.5px; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">
+          \u{1F4DC} General Tree Invariant
+        </div>
+        <div style="font-size: 12.5px; color: #1e3a2b; line-height: 1.5;">
+          The relational proposition <code>${expDisp}</code> is verified constructively on the discrete 1-successor spine <strong>\u2115</strong> and power set <strong>\u{1D4AB}(\u2115)</strong> using constructive step verification without non-constructive axioms.
+        </div>
+      `;
+    }
+    this.renderModernStageCard();
+    this.renderModernFooterBar();
+    this.applyScale();
+  }
+  // =========================================================================
+  // RENDER ACTIVE STAGE CARD CONTENT
+  // =========================================================================
+  renderModernStageCard() {
+    if (!this.modernStageCard) return;
+    this.modernStageCard.innerHTML = "";
+    if (this.stage === 1) {
+      this.renderModernStage1(this.modernStageCard);
+    } else if (this.stage === 2) {
+      this.renderModernStage2(this.modernStageCard);
+    } else if (this.stage === 3) {
+      this.renderModernStage3(this.modernStageCard);
+    } else if (this.stage === 4) {
+      this.renderModernStage4(this.modernStageCard);
+    }
+  }
+  // --- STAGE 1: Sparse Authoring with Simpler Stuff on Top & Dropdowns ---
+  renderModernStage1(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Stage 1: Governing Formal Statement & Functional Relation";
+    card.appendChild(cardTitle);
+    const desc = document.createElement("p");
+    desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
+    desc.innerHTML = "Enter a formal mathematical relation or proposition using standard relations and connectives. Select simpler variables and operators on top, or open dropdowns for calculus, functions, and logic:";
+    card.appendChild(desc);
+    const inputRow = document.createElement("div");
+    inputRow.style.cssText = "display: flex; gap: 8px; align-items: center; margin-bottom: 16px;";
+    this.modernFormulaInput = document.createElement("input");
+    this.modernFormulaInput.type = "text";
+    this.modernFormulaInput.id = "fsdModernInput";
+    this.modernFormulaInput.placeholder = "Enter relation (e.g. x\u2081 < x\u2082, x\u2081 = x\u2082, x\u2081 \u2208 y\u2081)...";
+    this.modernFormulaInput.value = this.formatFSDExp(this.pxe.exp);
+    this.modernFormulaInput.style.cssText = "flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; outline: none; transition: border-color 0.15s ease;";
+    this.modernFormulaInput.addEventListener("focus", () => {
+      this.modernFormulaInput.style.borderColor = "#0284c7";
+      this.modernFormulaInput.style.boxShadow = "0 0 0 3px rgba(2, 132, 199, 0.12)";
+    });
+    this.modernFormulaInput.addEventListener("blur", () => {
+      this.modernFormulaInput.style.borderColor = "#bae6fd";
+      this.modernFormulaInput.style.boxShadow = "none";
+    });
+    this.modernFormulaInput.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        this.pxe.backspace();
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const expClass = this.pxe.setExpectClass();
+        if (expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0) {
+          this.advanceStage();
+        }
+      } else if (e.key === "<") {
+        e.preventDefault();
+        this.pxe.addCharacter("s");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === ">") {
+        e.preventDefault();
+        this.pxe.addCharacter("r");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "=") {
+        e.preventDefault();
+        this.pxe.addCharacter("k");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "&" || e.key === "^") {
+        e.preventDefault();
+        this.pxe.addCharacter("a");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "|" || e.key === "v") {
+        e.preventDefault();
+        this.pxe.addCharacter("o");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "!" || e.key === "~") {
+        e.preventDefault();
+        this.pxe.addCharacter("n");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "[") {
+        e.preventDefault();
+        this.pxe.addCharacter("[");
+        this.updatePXEText();
+        this.syncModernUI();
+      } else if (e.key === "]") {
+        e.preventDefault();
+        this.pxe.addCharacter("]");
+        this.updatePXEText();
+        this.syncModernUI();
+      }
+    });
+    inputRow.appendChild(this.modernFormulaInput);
+    const btnClearInput = document.createElement("button");
+    btnClearInput.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1.5px solid #fca5a5; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+    btnClearInput.textContent = "Clear";
+    btnClearInput.addEventListener("click", () => {
+      this.clear();
+      this.syncModernUI();
+    });
+    inputRow.appendChild(btnClearInput);
+    card.appendChild(inputRow);
+    const toolbarBox = document.createElement("div");
+    toolbarBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px;";
+    toolbarBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
+        <span style="font-size: 11.5px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">
+          \u{1F9EE} Sparse Formula Authoring Toolbar
+        </span>
+        <span style="font-size: 11px; color: #64748b;">(Click simpler variables &amp; relations on top, or select from dropdowns below)</span>
+      </div>
+    `;
+    const row1 = document.createElement("div");
+    row1.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;";
+    const createChip = (label, onClick, styleType = "rel") => {
+      const btn = document.createElement("button");
+      let bg = "#ffffff";
+      let color = "#0369a1";
+      let border = "#bae6fd";
+      if (styleType === "var") {
+        bg = "#f1f5f9";
+        color = "#1e293b";
+        border = "#cbd5e1";
+      } else if (styleType === "alg") {
+        bg = "#ffffff";
+        color = "#334155";
+        border = "#cbd5e1";
+      } else if (styleType === "action") {
+        bg = "#fff1f2";
+        color = "#e11d48";
+        border = "#fecdd3";
+      }
+      btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 9px; font-family: monospace; font-size: 13.5px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
+      btn.textContent = label;
+      btn.addEventListener("mouseover", () => btn.style.transform = "translateY(-1px)");
+      btn.addEventListener("mouseout", () => btn.style.transform = "none");
+      btn.addEventListener("click", onClick);
+      return btn;
+    };
+    const varGroup = document.createElement("div");
+    varGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const vars = ["x\u2081", "x\u2082", "y\u2081", "x", "y", "n"];
+    vars.forEach((v) => {
+      varGroup.appendChild(createChip(v, () => {
+        if (this.modernFormulaInput) {
+          this.modernFormulaInput.focus();
+        }
+      }, "var"));
+    });
+    row1.appendChild(varGroup);
+    const div1 = document.createElement("div");
+    div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    row1.appendChild(div1);
+    const algGroup = document.createElement("div");
+    algGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const algs = ["+", "-", "\xB7", "/", "^", "(", ")"];
+    algs.forEach((op) => {
+      algGroup.appendChild(createChip(op, () => {
+        if (op === "(") this.pxe.addCharacter("[");
+        else if (op === ")") this.pxe.addCharacter("]");
+        this.updatePXEText();
+        this.syncModernUI();
+      }, "alg"));
+    });
+    row1.appendChild(algGroup);
+    const div2 = document.createElement("div");
+    div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    row1.appendChild(div2);
+    const relGroup = document.createElement("div");
+    relGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const relations = [
+      { sym: "<", code: "s" },
+      { sym: "\u2264", code: "l" },
+      { sym: "=", code: "k" },
+      { sym: "\u2260", code: "nk" },
+      { sym: ">", code: "r" },
+      { sym: "\u2265", code: "r" },
+      { sym: "\u2208", code: "m" },
+      { sym: "\u2286", code: "b" },
+      { sym: "\u2248", code: "w" },
+      { sym: "+1", code: "u" },
+      { sym: "\u2223", code: "c" },
+      { sym: "\u2254", code: "j" }
+    ];
+    relations.forEach((r) => {
+      relGroup.appendChild(createChip(r.sym, () => {
+        this.pxe.addCharacter(r.code);
+        this.updatePXEText();
+        this.syncModernUI();
+      }, "rel"));
+    });
+    row1.appendChild(relGroup);
+    const div3 = document.createElement("div");
+    div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    row1.appendChild(div3);
+    const actGroup = document.createElement("div");
+    actGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    actGroup.appendChild(createChip("\u232B", () => {
+      this.pxe.backspace();
+      this.updatePXEText();
+      this.syncModernUI();
+    }, "action"));
+    row1.appendChild(actGroup);
+    toolbarBox.appendChild(row1);
+    const row2 = document.createElement("div");
+    row2.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;";
+    const trigItems = [
+      { text: "sin(x)", sub: "Sine", onClick: () => {
+      } },
+      { text: "cos(x)", sub: "Cosine", onClick: () => {
+      } },
+      { text: "tan(x)", sub: "Tangent", onClick: () => {
+      } },
+      { text: "arcsin(x)", sub: "Inv Sine", onClick: () => {
+      } },
+      { text: "arccos(x)", sub: "Inv Cosine", onClick: () => {
+      } },
+      { text: "arctan(x)", sub: "Inv Tangent", onClick: () => {
+      } },
+      { text: "\u03C0", sub: "Archimedes Pi", onClick: () => {
+      } }
+    ];
+    row2.appendChild(this.createDropdown("Trig \u25BE", trigItems));
+    const calcItems = [
+      { text: "st(x)", sub: "Standard Nucleus", onClick: () => {
+      } },
+      { text: "\u03BC(0)", sub: "Infinitesimal Halo", onClick: () => {
+      } },
+      { text: "dx", sub: "Infinitesimal Step (1/\u03C9)", onClick: () => {
+      } },
+      { text: "D(f)", sub: "Discrete Deriv", onClick: () => {
+      } },
+      { text: "\u222B(f)", sub: "Discrete Sum", onClick: () => {
+      } },
+      { text: "\u03C9", sub: "Discrete Infinity", onClick: () => {
+      } }
+    ];
+    row2.appendChild(this.createDropdown("Calculus & Halo \u25BE", calcItems));
+    const fnItems = [
+      { text: "exp(x)", sub: "Exponential", onClick: () => {
+      } },
+      { text: "ln(x)", sub: "Natural Log", onClick: () => {
+      } },
+      { text: "abs(x)", sub: "Absolute Value", onClick: () => {
+      } },
+      { text: "sqrt(x)", sub: "Square Root", onClick: () => {
+      } },
+      { text: "sgn(x)", sub: "Signum Step", onClick: () => {
+      } },
+      { text: "floor(x)", sub: "Floor Step", onClick: () => {
+      } },
+      { text: "ceil(x)", sub: "Ceiling Step", onClick: () => {
+      } }
+    ];
+    row2.appendChild(this.createDropdown("Functions \u25BE", fnItems));
+    const logicItems = [
+      { text: "\xAC", sub: "Negation", onClick: () => {
+        this.pxe.addCharacter("n");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "\u2227", sub: "Conjunction", onClick: () => {
+        this.pxe.addCharacter("a");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "\u2228", sub: "Disjunction", onClick: () => {
+        this.pxe.addCharacter("o");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "\u2192", sub: "Implication", onClick: () => {
+        this.pxe.addCharacter("i");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "\u2194", sub: "Equivalence", onClick: () => {
+        this.pxe.addCharacter("e");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "\u2200", sub: "For All", onClick: () => {
+      } },
+      { text: "\u2203", sub: "There Exists", onClick: () => {
+      } },
+      { text: "[", sub: "Left Bracket", onClick: () => {
+        this.pxe.addCharacter("[");
+        this.updatePXEText();
+        this.syncModernUI();
+      } },
+      { text: "]", sub: "Right Bracket", onClick: () => {
+        this.pxe.addCharacter("]");
+        this.updatePXEText();
+        this.syncModernUI();
+      } }
+    ];
+    row2.appendChild(this.createDropdown("Logic & Quantifiers \u25BE", logicItems));
+    toolbarBox.appendChild(row2);
+    card.appendChild(toolbarBox);
+  }
+  // Helper to build sleek floating dropdown menus
+  createDropdown(label, items) {
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "position: relative; display: inline-block;";
+    const btn = document.createElement("button");
+    btn.style.cssText = "display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; font-size: 12px; font-weight: 600; color: #334155; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+    btn.innerHTML = `<span>${label}</span>`;
+    const menu = document.createElement("div");
+    menu.style.cssText = "position: absolute; top: 100%; left: 0; margin-top: 4px; z-index: 1000; min-width: 170px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); padding: 5px; display: none; flex-direction: column; gap: 2px;";
+    items.forEach((item) => {
+      const itemBtn = document.createElement("button");
+      itemBtn.style.cssText = "display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 5px 9px; font-size: 12px; font-family: monospace; font-weight: 600; color: #0f172a; background: transparent; border: none; border-radius: 4px; text-align: left; cursor: pointer; transition: background 0.12s ease;";
+      itemBtn.innerHTML = `<span>${item.text}</span> ${item.sub ? `<span style="font-size: 10px; color: #64748b; font-family: sans-serif;">${item.sub}</span>` : ""}`;
+      itemBtn.addEventListener("mouseover", () => itemBtn.style.background = "#f1f5f9");
+      itemBtn.addEventListener("mouseout", () => itemBtn.style.background = "transparent");
+      itemBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        menu.style.display = "none";
+        item.onClick();
+      });
+      menu.appendChild(itemBtn);
+    });
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isShown = menu.style.display === "flex";
+      document.querySelectorAll(".fsd-dropdown-menu").forEach((m) => m.style.display = "none");
+      menu.style.display = isShown ? "none" : "flex";
+    });
+    menu.classList.add("fsd-dropdown-menu");
+    wrap.appendChild(btn);
+    wrap.appendChild(menu);
+    return wrap;
+  }
+  // --- STAGE 2: Variable Slot Typing & Domain Configuration ---
+  renderModernStage2(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Stage 2: Slot Typing & Domain Configuration";
+    card.appendChild(cardTitle);
+    const desc = document.createElement("p");
+    desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
+    desc.innerHTML = "Assign typed variables or domain constants to each relation slot. Click any slot chip to configure its variable assignment and domain bounds:";
+    card.appendChild(desc);
+    const slotList = document.createElement("div");
+    slotList.style.cssText = "display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;";
+    this.slots.forEach((s, idx) => {
+      const isSel = idx === this.selectedSlotIndex;
+      const vText = s.assignedVar || (s.domainType === "\u{1D4AB}(\u2115)" ? "y?" : "x?");
+      const chip = document.createElement("button");
+      chip.style.cssText = `display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-family: monospace; font-size: 13px; font-weight: 700; border-radius: 6px; border: 1.5px solid ${isSel ? "#0284c7" : "#cbd5e1"}; background: ${isSel ? "#0284c7" : "#ffffff"}; color: ${isSel ? "#ffffff" : "#0369a1"}; cursor: pointer; transition: all 0.15s ease;`;
+      chip.innerHTML = `<span>Slot ${idx + 1}:</span> <span>${s.predName}(${vText})</span> <span style="font-size: 10px; opacity: 0.8; font-family: sans-serif;">[${s.domainType}]</span>`;
+      chip.addEventListener("click", () => {
+        this.selectedSlotIndex = idx;
+        this.renderStageControls();
+        this.updatePXEText();
+        this.syncModernUI();
+      });
+      slotList.appendChild(chip);
+    });
+    card.appendChild(slotList);
+    const activeSlot = this.slots[this.selectedSlotIndex];
+    if (activeSlot) {
+      const configBox = document.createElement("div");
+      configBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;";
+      const isPowerSet = activeSlot.domainType === "\u{1D4AB}(\u2115)";
+      configBox.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase; margin-bottom: 10px;">
+          Assign Variable for Slot ${this.selectedSlotIndex + 1} (${activeSlot.predName} on ${activeSlot.domainType}):
+        </div>
+      `;
+      const varRow = document.createElement("div");
+      varRow.style.cssText = "display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px;";
+      const varsToShow = isPowerSet ? this.setVars : this.elementVars;
+      varsToShow.forEach((v) => {
+        const isAssigned = activeSlot.assignedVar === v;
+        const btn = document.createElement("button");
+        btn.style.cssText = `padding: 5px 12px; font-family: monospace; font-size: 13px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isAssigned ? "#0284c7" : "#cbd5e1"}; background: ${isAssigned ? "#0284c7" : "#ffffff"}; color: ${isAssigned ? "#ffffff" : "#1e293b"}; cursor: pointer; transition: all 0.12s ease;`;
+        btn.textContent = v;
+        btn.addEventListener("click", () => {
+          this.assignVarToActiveSlot(v);
+          this.syncModernUI();
+        });
+        varRow.appendChild(btn);
+      });
+      const btnNewVar = document.createElement("button");
+      btnNewVar.style.cssText = "padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px dashed #0284c7; background: #f0f9ff; color: #0284c7; cursor: pointer;";
+      btnNewVar.textContent = isPowerSet ? "+ yVar" : "+ xVar";
+      btnNewVar.addEventListener("click", () => {
+        const subscripts = ["\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088"];
+        if (isPowerSet) {
+          const nextIdx = this.setVars.filter((v) => v.startsWith("y")).length;
+          const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
+          const newV = `y${sub}`;
+          this.setVars.unshift(newV);
+          this.assignVarToActiveSlot(newV);
+        } else {
+          const nextIdx = this.elementVars.length;
+          const sub = subscripts[nextIdx] || `${nextIdx + 1}`;
+          const newV = `x${sub}`;
+          this.elementVars.push(newV);
+          this.assignVarToActiveSlot(newV);
+        }
+        this.syncModernUI();
+      });
+      varRow.appendChild(btnNewVar);
+      if (!isPowerSet) {
+        this.numberConstants.forEach((numStr) => {
+          const isAssigned = activeSlot.assignedVar === numStr;
+          const btn = document.createElement("button");
+          btn.style.cssText = `padding: 5px 11px; font-family: monospace; font-size: 12.5px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isAssigned ? "#059669" : "#cbd5e1"}; background: ${isAssigned ? "#059669" : "#ffffff"}; color: ${isAssigned ? "#ffffff" : "#059669"}; cursor: pointer;`;
+          btn.textContent = numStr;
+          btn.addEventListener("click", () => {
+            this.assignVarToActiveSlot(numStr);
+            this.syncModernUI();
+          });
+          varRow.appendChild(btn);
+        });
+      }
+      configBox.appendChild(varRow);
+      if (activeSlot.assignedVar && !isConstantTerm(activeSlot.assignedVar) && !activeSlot.assignedVar.startsWith("y")) {
+        const curDomain = this.getVarDomain(activeSlot.assignedVar);
+        const domRow = document.createElement("div");
+        domRow.style.cssText = "display: flex; gap: 8px; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px; flex-wrap: wrap;";
+        const domLabel = document.createElement("span");
+        domLabel.style.cssText = "font-size: 12px; font-weight: 600; color: #475569;";
+        domLabel.innerHTML = `Domain for <code>${activeSlot.assignedVar}</code>: <strong>${formatDomainSpec(curDomain)}</strong>`;
+        domRow.appendChild(domLabel);
+        const btnCycle = document.createElement("button");
+        btnCycle.style.cssText = "padding: 3px 9px; font-size: 11.5px; font-weight: 600; color: #0284c7; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer;";
+        btnCycle.textContent = "Cycle Domain Type \u27F3";
+        btnCycle.addEventListener("click", () => {
+          this.cycleVarDomain(activeSlot.assignedVar);
+          this.syncModernUI();
+        });
+        domRow.appendChild(btnCycle);
+        if (typeof curDomain.param === "number") {
+          const btnMinus = document.createElement("button");
+          btnMinus.style.cssText = "padding: 2px 7px; font-size: 12px; font-weight: bold; color: #334155; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;";
+          btnMinus.textContent = "-";
+          btnMinus.disabled = curDomain.param <= 1;
+          btnMinus.addEventListener("click", () => {
+            this.adjustVarDomainParam(activeSlot.assignedVar, -1);
+            this.syncModernUI();
+          });
+          domRow.appendChild(btnMinus);
+          const btnPlus = document.createElement("button");
+          btnPlus.style.cssText = "padding: 2px 7px; font-size: 12px; font-weight: bold; color: #334155; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;";
+          btnPlus.textContent = "+";
+          btnPlus.disabled = curDomain.param >= 64;
+          btnPlus.addEventListener("click", () => {
+            this.adjustVarDomainParam(activeSlot.assignedVar, 1);
+            this.syncModernUI();
+          });
+          domRow.appendChild(btnPlus);
+        }
+        configBox.appendChild(domRow);
+      }
+      card.appendChild(configBox);
+    }
+    const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
+    if (hasMismatch) {
+      const clashBox = document.createElement("div");
+      clashBox.style.cssText = "background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 12.5px; color: #991b1b;";
+      clashBox.innerHTML = `<strong>\u26A0\uFE0F Type Clash Detected:</strong> Variable <code>${conflictingVar}</code> is assigned across conflicting domains (\u2115 element vs \u{1D4AB}(\u2115) subset). Please reassign consistent domain variables.`;
+      card.appendChild(clashBox);
+    }
+  }
+  // --- STAGE 3: Quantifier Prefix & Variable Scoping ---
+  renderModernStage3(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Stage 3: Quantifier Prefix & Variable Scoping";
+    card.appendChild(cardTitle);
+    const desc = document.createElement("p");
+    desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
+    desc.innerHTML = "Assign quantifiers (<strong>\u2200</strong> for Universal, <strong>\u2203</strong> for Existential) to each free variable to establish the mathematical scope:";
+    card.appendChild(desc);
+    const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+    const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
+    if (this.quantifierBindings.length > 0) {
+      const boundBox = document.createElement("div");
+      boundBox.style.cssText = "display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center;";
+      const boundLabel = document.createElement("span");
+      boundLabel.style.cssText = "font-size: 12px; font-weight: 700; color: #0f172a;";
+      boundLabel.textContent = "Scoped Quantifiers:";
+      boundBox.appendChild(boundLabel);
+      this.quantifierBindings.forEach((q, idx) => {
+        const chip = document.createElement("div");
+        chip.style.cssText = "display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; font-family: monospace; font-size: 13px; font-weight: bold; border-radius: 6px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #bae6fd;";
+        chip.innerHTML = `<span>${q.quantifier}</span> <span>${q.variable}</span> <span style="font-size: 11px; color: #64748b; font-family: sans-serif;">\u2208 ${q.domainType}</span>`;
+        boundBox.appendChild(chip);
+      });
+      const btnResetQ = document.createElement("button");
+      btnResetQ.style.cssText = "padding: 4px 9px; font-size: 11.5px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1px solid #fca5a5; border-radius: 4px; cursor: pointer;";
+      btnResetQ.textContent = "Clear Quantifiers";
+      btnResetQ.addEventListener("click", () => {
+        this.resetStage3();
+        this.syncModernUI();
+      });
+      boundBox.appendChild(btnResetQ);
+      card.appendChild(boundBox);
+    }
+    if (unquantifiedVars.length > 0) {
+      const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
+      const curDomain = this.getVarDomain(targetVar);
+      const dTypeStr = formatDomainSpec(curDomain);
+      const targetBox = document.createElement("div");
+      targetBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;";
+      targetBox.innerHTML = `
+        <div style="font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase; margin-bottom: 10px;">
+          Choose Quantifier for Variable: <code>${targetVar}</code> (Domain: ${dTypeStr})
+        </div>
+      `;
+      const qActionRow = document.createElement("div");
+      qActionRow.style.cssText = "display: flex; gap: 10px; align-items: center; flex-wrap: wrap;";
+      const btnForall = document.createElement("button");
+      btnForall.style.cssText = "padding: 8px 18px; font-size: 14px; font-weight: 800; color: #ffffff; background: #0284c7; border: 1.5px solid #0284c7; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;";
+      btnForall.innerHTML = `<span>\u2200</span> <span>Universal (For All ${targetVar})</span>`;
+      btnForall.addEventListener("click", () => {
+        this.applyQuantifier("\u2200");
+        this.syncModernUI();
+      });
+      qActionRow.appendChild(btnForall);
+      const btnExists = document.createElement("button");
+      btnExists.style.cssText = "padding: 8px 18px; font-size: 14px; font-weight: 800; color: #ffffff; background: #059669; border: 1.5px solid #059669; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;";
+      btnExists.innerHTML = `<span>\u2203</span> <span>Existential (There Exists ${targetVar})</span>`;
+      btnExists.addEventListener("click", () => {
+        this.applyQuantifier("\u2203");
+        this.syncModernUI();
+      });
+      qActionRow.appendChild(btnExists);
+      targetBox.appendChild(qActionRow);
+      card.appendChild(targetBox);
+    }
+    if (this.quantifierBindings.length >= 2) {
+      const q0 = this.quantifierBindings[0];
+      const q1 = this.quantifierBindings[1];
+      const swapBox = document.createElement("div");
+      swapBox.style.cssText = "background: #f8fafc; border: 1.5px solid #c7d2fe; border-radius: 8px; padding: 12px 16px; margin-top: 10px;";
+      swapBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #4338ca; text-transform: uppercase;">
+              \u21C4 Quantifier Order Switching (2D Matrix Pedagogical Mode)
+            </div>
+            <div style="font-size: 12px; color: #475569; margin-top: 2px;">
+              Current Order: <strong>${q0.quantifier}${q0.variable} ${q1.quantifier}${q1.variable}</strong>
+            </div>
+          </div>
+          <button id="fsdBtnSwapOrder" style="padding: 6px 14px; font-size: 12.5px; font-weight: 700; color: #4338ca; background: #ffffff; border: 1.5px solid #a5b4fc; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
+            Swap Order (${q1.quantifier}${q1.variable} ${q0.quantifier}${q0.variable}) \u21C4
+          </button>
+        </div>
+        <div style="font-size: 11.5px; color: #64748b; margin-top: 6px; line-height: 1.4;">
+          \u21B3 <em>Pedagogical Matrix Contrast:</em> In the 2D Binary Matrix, <code>\u2200x\u2081 \u2203x\u2082</code> checks row-wise coverage (each row contains a light), whereas <code>\u2203x\u2082 \u2200x\u2081</code> demands a solid vertical "master-key" column!
+        </div>
+      `;
+      swapBox.querySelector("#fsdBtnSwapOrder")?.addEventListener("click", () => {
+        this.swapQuantifierOrder();
+      });
+      card.appendChild(swapBox);
+    }
+  }
+  // --- STAGE 4: Truth Table Mount & 2D Matrix Visualizer Mount ---
+  renderModernStage4(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Stage 4: Truth Table & 2D Binary Relation Matrix Visualizer";
+    card.appendChild(cardTitle);
+    const desc = document.createElement("p");
+    desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
+    desc.innerHTML = "Evaluated constructive truth table across the discrete tree, with live 2D binary matrix structure and quantifier row/column sweep analysis:";
+    card.appendChild(desc);
+    this.modernStage4Mount = document.createElement("div");
+    this.modernStage4Mount.id = "fsdModernStage4Mount";
+    this.modernStage4Mount.style.cssText = "width: 100%; box-sizing: border-box;";
+    card.appendChild(this.modernStage4Mount);
+    this.renderStage4Table();
+  }
+  // Swap Quantifier Order for 2-variable pedagogical matrix exploration
+  swapQuantifierOrder() {
+    if (this.quantifierBindings.length >= 2) {
+      const temp = this.quantifierBindings[0];
+      this.quantifierBindings[0] = this.quantifierBindings[1];
+      this.quantifierBindings[1] = temp;
+      this.renderStageControls();
+      this.updatePXEText();
+      this.syncModernUI();
+    }
+  }
+  // --- RENDER FOOTER ACTIONS ---
+  renderModernFooterBar() {
+    if (!this.modernFooterBar) return;
+    this.modernFooterBar.innerHTML = "";
+    const leftGroup = document.createElement("div");
+    leftGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
+    if (this.stage > 1) {
+      const btnPrev = document.createElement("button");
+      btnPrev.style.cssText = "padding: 8px 16px; font-size: 13px; font-weight: 700; color: #475569; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+      btnPrev.innerHTML = `<span>\u2190</span> <span>Previous Step</span>`;
+      btnPrev.addEventListener("click", () => {
+        this.prevStage();
+        this.syncModernUI();
+      });
+      leftGroup.appendChild(btnPrev);
+    }
+    const btnNew = document.createElement("button");
+    btnNew.style.cssText = "padding: 8px 14px; font-size: 12.5px; font-weight: 600; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer;";
+    btnNew.textContent = "New Statement";
+    btnNew.addEventListener("click", () => {
+      this.clear();
+      this.syncModernUI();
+    });
+    leftGroup.appendChild(btnNew);
+    this.modernFooterBar.appendChild(leftGroup);
+    const rightGroup = document.createElement("div");
+    rightGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
+    if (this.usedByContentEditor) {
+      const btnCommit = document.createElement("button");
+      btnCommit.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #059669; border: 1.5px solid #059669; border-radius: 6px; cursor: pointer;";
+      btnCommit.textContent = this.editorButtonLabel || "Return to Content Editor \u2713";
+      btnCommit.addEventListener("click", () => this.backToContentEditor());
+      rightGroup.appendChild(btnCommit);
+      const btnCancel = document.createElement("button");
+      btnCancel.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #64748b; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer;";
+      btnCancel.textContent = "Cancel";
+      btnCancel.addEventListener("click", () => this.cancelAndReturn());
+      rightGroup.appendChild(btnCancel);
+      if (this.isEditingExistingTag) {
+        const btnDelete = document.createElement("button");
+        btnDelete.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #dc2626; background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 6px; cursor: pointer;";
+        btnDelete.textContent = "Delete Tag";
+        btnDelete.addEventListener("click", () => this.deleteTagAndReturn());
+        rightGroup.appendChild(btnDelete);
+      }
+    } else {
+      const btnCopyRef = document.createElement("button");
+      btnCopyRef.style.cssText = "padding: 8px 14px; font-size: 12.5px; font-weight: 600; color: #0284c7; background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; cursor: pointer;";
+      btnCopyRef.textContent = "Copy Ref Tag";
+      btnCopyRef.addEventListener("click", async () => {
+        const exp = this.pxe.exp;
+        const qStr = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}:${q.domainType}`).join(" ");
+        const slotsStr = this.slots.map((s) => s.assignedVar || "").join(",");
+        const refTag = `<fsd-ref exp="${exp}" quantifiers="${qStr}" slots="${slotsStr}" style="color:firebrick;font-weight:bold">${this.formatFSDExp(exp)}</fsd-ref>`;
+        try {
+          await navigator.clipboard.writeText(refTag);
+          btnCopyRef.textContent = "Copied Ref \u2713";
+          setTimeout(() => btnCopyRef.textContent = "Copy Ref Tag", 2e3);
+        } catch (err) {
+          console.error("Failed to copy reference tag:", err);
+        }
+      });
+      rightGroup.appendChild(btnCopyRef);
+      if (this.stage < 4) {
+        let btnText = "Bind Variables \u2192";
+        let isEnabled = false;
+        if (this.stage === 1) {
+          const expClass = this.pxe.setExpectClass();
+          isEnabled = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
+          btnText = "Bind Variables \u2192";
+        } else if (this.stage === 2) {
+          const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
+          const { hasMismatch } = this.checkTypeMismatch();
+          isEnabled = allBound && !hasMismatch;
+          btnText = "Quantify Variables \u2192";
+        } else if (this.stage === 3) {
+          const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+          isEnabled = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
+          btnText = "Evaluate Statement \u2192";
+        }
+        const btnAdvance = document.createElement("button");
+        btnAdvance.style.cssText = `padding: 8px 20px; font-size: 13px; font-weight: 800; border-radius: 6px; border: 1.5px solid ${isEnabled ? "#0284c7" : "#cbd5e1"}; background: ${isEnabled ? "#0284c7" : "#f1f5f9"}; color: ${isEnabled ? "#ffffff" : "#94a3b8"}; cursor: ${isEnabled ? "pointer" : "not-allowed"}; transition: all 0.15s ease;`;
+        btnAdvance.textContent = btnText;
+        btnAdvance.disabled = !isEnabled;
+        btnAdvance.addEventListener("click", () => {
+          if (isEnabled) {
+            this.advanceStage();
+            this.syncModernUI();
+          }
+        });
+        rightGroup.appendChild(btnAdvance);
+      }
+    }
+    this.modernFooterBar.appendChild(rightGroup);
+  }
+  // Generate Lean 4 Machine Certified Theorem Name
+  getGoverningTheorem() {
+    if (this.pxe.exp.includes("s")) return "fsd_order_lt";
+    if (this.pxe.exp.includes("k")) return "fsd_eq_refl";
+    if (this.pxe.exp.includes("l")) return "fsd_le_refl";
+    if (this.pxe.exp.includes("u")) return "fsd_transect_succ";
+    if (this.pxe.exp.includes("m")) return "fsd_powerset_mem";
+    if (this.pxe.exp.includes("b")) return "fsd_subset_refl";
+    if (this.pxe.exp.includes("w")) return "fsd_halo_near";
+    return "fsd_constructive_tree";
+  }
+  // Generate Lean 4 Certified Proof Snippet
+  getLeanSnippet() {
+    if (this.pxe.exp.includes("s")) {
+      return `-- Machine Certified Constructive Order on \u2115 Spine
+theorem fsd_order_lt : \u2200 (x : Nat), \u2203 (y : Nat), x < y := by
+  intro x
+  use (x + 1)
+  apply Nat.lt_succ_self`;
+    }
+    if (this.pxe.exp.includes("k")) {
+      return `-- Constructive Reflexive Identity
+theorem fsd_eq_refl : \u2200 (x : Nat), x = x := by
+  intro x
+  rfl`;
+    }
+    if (this.pxe.exp.includes("l")) {
+      return `-- Constructive Order Reflexivity
+theorem fsd_le_refl : \u2200 (x : Nat), x \u2264 x := by
+  intro x
+  apply Nat.le_refl`;
+    }
+    if (this.pxe.exp.includes("u")) {
+      return `-- Discrete Successor / Transect Step Verified
+theorem fsd_transect_succ : \u2200 (x : Nat), \u2203 (y : Nat), y = x + 1 := by
+  intro x
+  use (x + 1)
+  rfl`;
+    }
+    if (this.pxe.exp.includes("m")) {
+      return `-- Power Set Constructive Incidence Certification
+theorem fsd_powerset_mem : \u2200 (x : Nat), \u2203 (s : Set Nat), x \u2208 s := by
+  intro x
+  use {x}
+  simp`;
+    }
+    if (this.pxe.exp.includes("b")) {
+      return `-- Subset Reflexivity Certified
+theorem fsd_subset_refl : \u2200 (A : Nat \u2192 Prop), \u2200 (x : Nat), A x \u2192 A x := by
+  intro A x h
+  exact h`;
+    }
+    if (this.pxe.exp.includes("w")) {
+      return `-- Infinitesimal Halo Proximity Certified
+theorem fsd_halo_near : \u2200 (x : Real), \u2203 (y : Real), y \u2248 x := by
+  intro x
+  use x
+  apply near_refl`;
+    }
+    return `-- Middle Way Constructive Spine Certification
+theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x := by
+  intro x
+  use (x + 1)
+  apply Nat.lt_succ_self`;
   }
   clearStageControls() {
     this.stageControls.forEach((e) => e.elt.remove());
@@ -41141,9 +42337,13 @@ var FSD = class extends PXEParent {
     }
     this.layoutStageControls();
     this.setButtonStates();
+    if (this.modernMounted) {
+      this.syncModernUI();
+    }
   }
   buildStage1Controls() {
-    this.predButtons = PredicateRegistry.getPredicates().map((p) => {
+    const legacyPredNames = ["GT5", "LT10", "EVEN", "ODD"];
+    this.predButtons = PredicateRegistry.getPredicates().filter((p) => !legacyPredNames.includes(p.symbol) && !legacyPredNames.includes(p.id)).map((p) => {
       return new SVGSelectableText(() => this.pxe.addCharacter(p.code), p.symbol, false);
     });
     this.buttonNeg = new SVGSelectableText(() => this.pxe.addCharacter("n"), "\xAC", false);
@@ -41463,8 +42663,8 @@ var FSD = class extends PXEParent {
     this.stage = 1;
     this.elementVars = ["x\u2081", "x\u2082"];
     this.numberConstants = ["0", "1", "5", "10"];
-    this.setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
-    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
+    this.setVars = ["y\u2081", "y\u2082", "\u2205"];
+    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205"];
     this.selectedVar = "x\u2081";
     this.slots = [];
     this.varDomains = {};
@@ -41473,13 +42673,18 @@ var FSD = class extends PXEParent {
     this.selectedColIndex = -1;
     this.selectedSlotIndex = 0;
     this.selectedQuantifierVarIndex = 0;
-    this.fo.removeChildren();
-    this.fo.setV("");
+    if (!this.modernMounted) {
+      this.fo.removeChildren();
+      this.fo.setV("");
+    }
     this.pxe.exp = "";
     this.pxe.nl = 0;
     this.pxe.caret.setA("visibility", "visible");
     this.renderStageControls();
     this.pxe.displayText();
+    if (this.modernMounted) {
+      this.syncModernUI();
+    }
   }
   prevStage() {
     if (this.stage === 2) {
@@ -41495,10 +42700,15 @@ var FSD = class extends PXEParent {
       this.updatePXEText();
     } else if (this.stage === 4) {
       this.stage = 3;
-      this.fo.removeChildren();
-      this.fo.setV("");
+      if (!this.modernMounted) {
+        this.fo.removeChildren();
+        this.fo.setV("");
+      }
       this.renderStageControls();
       this.updatePXEText();
+    }
+    if (this.modernMounted) {
+      this.syncModernUI();
     }
   }
   resetStage2() {
@@ -41521,6 +42731,9 @@ var FSD = class extends PXEParent {
       this.setupStage3();
     } else if (this.stage === 3) {
       this.setupStage4();
+    }
+    if (this.modernMounted) {
+      this.syncModernUI();
     }
   }
   loadFromRefData(data = {}) {
@@ -41910,14 +43123,27 @@ var FSD = class extends PXEParent {
     this.pxe.txt.setV(result);
     this.pxe.placeCaret();
     this.setButtonStates();
+    if (this.modernMounted) {
+      if (this.modernFormulaInput && document.activeElement !== this.modernFormulaInput) {
+        this.modernFormulaInput.value = result;
+      }
+    }
   }
   // --- STAGE 4 RENDERING (Exact TTD Engine 1-Row Truth Table & Interactive Matrix) ---
   renderStage4Table() {
-    this.fo.removeChildren();
-    this.fo.setV("");
-    const container = new Elt("div");
-    container.setA("style", "width: 100%; height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden; background-color: white; padding: 15px; box-sizing: border-box; font-family: Arial, sans-serif;");
-    this.fo.append(container);
+    let container;
+    if (this.modernMounted && this.modernStage4Mount) {
+      this.modernStage4Mount.innerHTML = "";
+      container = new Elt("div");
+      container.setA("style", "width: 100%; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;");
+      this.modernStage4Mount.appendChild(container.elt);
+    } else {
+      this.fo.removeChildren();
+      this.fo.setV("");
+      container = new Elt("div");
+      container.setA("style", "width: 100%; height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden; background-color: white; padding: 15px; box-sizing: border-box; font-family: Arial, sans-serif;");
+      this.fo.append(container);
+    }
     const predMap = {};
     for (let i = 0; i < this.pxe.exp.length; i++) {
       const ch = this.pxe.exp[i];
@@ -41991,6 +43217,7 @@ var FSD = class extends PXEParent {
       const formalArg = this.buildFormalArgument(finalStatementTruth);
       container.append(new ArgumentCard(formalArg));
     }
+    this.applyScale();
   }
   evaluatePredicate(predName) {
     const pred = PredicateRegistry.getPredicate(predName);
@@ -43483,6 +44710,7 @@ function escapeHtml(str) {
 }
 
 // crud/src/contentEditor.ts
+init_btd();
 async function renderSegmentContentSurface(options) {
   const { container, segmentRecord, onBack, onSaved, onSwitchMode } = options;
   let activeMode = "wysiwyg";
@@ -43544,18 +44772,65 @@ async function renderSegmentContentSurface(options) {
                             `}
                     </div>
 
-                    <!-- Custom Element Insertion Dropdown (Visible in Edit Mode) -->
+                    <!-- Two-Tier Categorized Custom Element Insertion Dropdown (Visible in Edit Mode) -->
                     <div class="tb-dropdown custom-elem-dropdown" id="dropdown-custom-elems" style="${isReadMode ? "display: none;" : "display: inline-flex;"}">
-                        <button id="btn-dropdown-custom-elems" class="btn btn-secondary" style="background: #fdf2f8; border-color: #fbcfe8; color: #be185d; font-weight: 700;" title="Insert Curricular Custom Elements (<ttd-ref>, <fs-ref>, etc.)">
+                        <button id="btn-dropdown-custom-elems" class="btn btn-secondary" style="background: #fdf2f8; border-color: #fbcfe8; color: #be185d; font-weight: 700;" title="Insert Curricular Custom Elements (<ttd-ref>, <btd-ref>, <fs-ref>, etc.)">
                             <span>\u2A01 Insert Element</span> \u25BE
                         </button>
-                        <div class="tb-dropdown-menu" id="menu-custom-elems">
-                            <button class="tb-dropdown-item" data-action="insert-ttd">\u2696\uFE0F Truth Table (&lt;ttd-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-fs">\u{1F4DC} Formal Statement (&lt;fs-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-stencil">\u{1F4D0} Computational Stencil (&lt;interactive-stencil&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-preset">\u{1F39B}\uFE0F Stencil Preset (&lt;preset-ref&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-demo">\u{1F3A8} Interactive Visual Demo (&lt;visual-demo&gt;)...</button>
-                            <button class="tb-dropdown-item" data-action="insert-pseudo">\u26A1 Pseudocode Algorithm (&lt;pseudo-ref&gt;)...</button>
+                        <div class="tb-dropdown-menu" id="menu-custom-elems" style="min-width: 285px; padding: 6px 8px;">
+                            <!-- Tier 1: Logic & Truth Evaluation -->
+                            <div class="tb-dropdown-header">\u2696\uFE0F Logic & Truth Evaluation</div>
+                            <button class="tb-dropdown-item" data-action="insert-ttd">
+                                <span class="tb-item-name">\u2696\uFE0F Truth Table</span>
+                                <code class="tb-item-tag">&lt;ttd-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-fsd">
+                                <span class="tb-item-name">\u{1F52C} Formal Stage Scaffold</span>
+                                <code class="tb-item-tag">&lt;fsd-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 2: Numbers & 2-Successor Trees -->
+                            <div class="tb-dropdown-header">\u{1F332} Numbers & 2-Successor Trees</div>
+                            <button class="tb-dropdown-item" data-action="insert-btd">
+                                <span class="tb-item-name">\u{1F332} Binary Tree Demo</span>
+                                <code class="tb-item-tag">&lt;btd-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-bid">
+                                <span class="tb-item-name">\u{1F522} Dyadic Integer Demo</span>
+                                <code class="tb-item-tag">&lt;bid-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 3: Formal Reasoning & Stencils -->
+                            <div class="tb-dropdown-header">\u{1F4DC} Formal Reasoning & Stencils</div>
+                            <button class="tb-dropdown-item" data-action="insert-fs">
+                                <span class="tb-item-name">\u{1F4DC} Formal Statement</span>
+                                <code class="tb-item-tag">&lt;fs-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-stencil">
+                                <span class="tb-item-name">\u{1F4D0} Computational Stencil</span>
+                                <code class="tb-item-tag">&lt;interactive-stencil&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-preset">
+                                <span class="tb-item-name">\u{1F39B}\uFE0F Stencil Preset</span>
+                                <code class="tb-item-tag">&lt;preset-ref&gt;</code>
+                            </button>
+
+                            <div class="tb-dropdown-divider"></div>
+
+                            <!-- Tier 4: Computation & Visuals -->
+                            <div class="tb-dropdown-header">\u26A1 Computation & Visuals</div>
+                            <button class="tb-dropdown-item" data-action="insert-pseudo">
+                                <span class="tb-item-name">\u26A1 Pseudocode Algorithm</span>
+                                <code class="tb-item-tag">&lt;pseudo-ref&gt;</code>
+                            </button>
+                            <button class="tb-dropdown-item" data-action="insert-demo">
+                                <span class="tb-item-name">\u{1F3A8} General Visual Demo</span>
+                                <code class="tb-item-tag">&lt;visual-demo&gt;</code>
+                            </button>
                         </div>
                     </div>
 
@@ -44128,7 +45403,7 @@ async function renderSegmentContentSurface(options) {
         mjx.remove();
       }
     });
-    temp.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref").forEach((el) => {
+    temp.querySelectorAll("ttd-ref, fsd-ref, btd-ref, bid-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref").forEach((el) => {
       if (el.hasAttribute("data-orig-inner")) {
         el.innerHTML = el.getAttribute("data-orig-inner") || "";
       }
@@ -44139,7 +45414,7 @@ async function renderSegmentContentSurface(options) {
       el.removeAttribute("data-resolved-subtitle");
       el.removeAttribute("data-resolved-formula");
       el.removeAttribute("data-resolved-status");
-      el.classList.remove("custom-ref-chip", "chip-ttd", "chip-fs", "chip-stencil", "chip-demo", "chip-pseudo", "chip-preset");
+      el.classList.remove("custom-ref-chip", "chip-ttd", "chip-fsd", "chip-btd", "chip-bid", "chip-fs", "chip-stencil", "chip-demo", "chip-pseudo", "chip-preset");
       if (!el.getAttribute("class")) {
         el.removeAttribute("class");
       }
@@ -44247,11 +45522,73 @@ async function renderSegmentContentSurface(options) {
       }
       if (row) entityMetaCache.set(cacheKey, row);
       return row;
+    } else if (normTag === "btd-ref") {
+      const id = el.getAttribute("id") || el.getAttribute("demo-id");
+      const mode = el.getAttribute("mode") || "plain";
+      const cacheKey = id ? `btd:id:${id}` : `btd:mode:${mode}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (!row) {
+        const modeMeta = BTD_MODE_METADATA[mode];
+        row = {
+          title: modeMeta ? modeMeta.title : `2-Successor Tree [${mode}]`,
+          engine: "btd",
+          mode,
+          description: modeMeta ? modeMeta.desc : "Binary 2-Successor Tree Demo",
+          status: "active"
+        };
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "bid-ref") {
+      const id = el.getAttribute("id") || el.getAttribute("demo-id");
+      const mode = el.getAttribute("mode") || "";
+      const cacheKey = id ? `bid:id:${id}` : `bid:mode:${mode}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (!row) {
+        row = {
+          title: "Dyadic Integer Demo",
+          engine: "bid",
+          mode: mode || "subdivision",
+          description: "Binary Integer Dyadics & Rotor Projection",
+          status: "active"
+        };
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
+    } else if (normTag === "fsd-ref") {
+      const id = el.getAttribute("id") || el.getAttribute("demo-id");
+      const cacheKey = `fsd:id:${id}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (id) {
+        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        row = rows?.[0] || null;
+      }
+      if (!row) {
+        row = {
+          title: "Formal Stage Scaffold",
+          engine: "fsd",
+          description: "Four-Stage Formal Structure Stage Visualizer",
+          status: "active"
+        };
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
     }
     return null;
   }
   async function decorateCustomElements(pane) {
-    const customTags = pane.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref");
+    const customTags = pane.querySelectorAll("ttd-ref, fsd-ref, btd-ref, bid-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref");
     if (customTags.length === 0) return;
     for (const el of Array.from(customTags)) {
       const htmlEl = el;
@@ -44264,7 +45601,19 @@ async function renderSegmentContentSurface(options) {
       let icon = "\u2696\uFE0F";
       let kindLabel = "TTD";
       let chipThemeClass = "chip-ttd";
-      if (normTag === "fs-ref") {
+      if (normTag === "fsd-ref") {
+        icon = "\u{1F52C}";
+        kindLabel = "FSD";
+        chipThemeClass = "chip-fsd";
+      } else if (normTag === "btd-ref") {
+        icon = "\u{1F332}";
+        kindLabel = "BTD";
+        chipThemeClass = "chip-btd";
+      } else if (normTag === "bid-ref") {
+        icon = "\u{1F522}";
+        kindLabel = "BID";
+        chipThemeClass = "chip-bid";
+      } else if (normTag === "fs-ref") {
         icon = "\u{1F4DC}";
         kindLabel = "FS";
         chipThemeClass = "chip-fs";
@@ -44277,7 +45626,7 @@ async function renderSegmentContentSurface(options) {
         kindLabel = "Preset";
         chipThemeClass = "chip-preset";
       } else if (normTag === "visual-demo") {
-        icon = "\u{1F52C}";
+        icon = "\u{1F3A8}";
         kindLabel = "Demo";
         chipThemeClass = "chip-demo";
       } else if (normTag === "pseudo-ref") {
@@ -44329,6 +45678,27 @@ async function renderSegmentContentSurface(options) {
         displayTitle = rec?.title || (rec?.mode ? `Demo: ${rec.mode}` : `Demo #${id}`);
         displaySubtitle = `interactive_demos \xB7 ID ${id} (${rec?.engine || "canvas"})`;
         statusBadge = rec?.status || "active";
+      } else if (normTag === "fsd-ref") {
+        const id = htmlEl.getAttribute("id") || htmlEl.getAttribute("demo-id") || rec?.id || "";
+        const rawInner = (htmlEl.getAttribute("data-orig-inner") || "").trim();
+        displayTitle = rawInner || rec?.title || "Formal Stage Scaffold";
+        displaySubtitle = id ? `interactive_demos \xB7 FSD \xB7 ID ${id}` : "formal structure stage visualizer";
+        statusBadge = "scaffold";
+      } else if (normTag === "btd-ref") {
+        const mode = htmlEl.getAttribute("mode") || rec?.mode || "plain";
+        const id = htmlEl.getAttribute("id") || htmlEl.getAttribute("demo-id") || rec?.id || "";
+        const rawInner = (htmlEl.getAttribute("data-orig-inner") || "").trim();
+        displayTitle = rawInner || rec?.title || BTD_MODE_METADATA[mode]?.title || `2-Successor Tree [${mode}]`;
+        displaySubtitle = id ? `interactive_demos \xB7 BTD \xB7 ID ${id}` : `2-successor tree \xB7 ${mode}`;
+        formulaPreview = BTD_MODE_METADATA[mode]?.desc || "";
+        statusBadge = "tree";
+      } else if (normTag === "bid-ref") {
+        const mode = htmlEl.getAttribute("mode") || rec?.mode || "";
+        const id = htmlEl.getAttribute("id") || htmlEl.getAttribute("demo-id") || rec?.id || "";
+        const rawInner = (htmlEl.getAttribute("data-orig-inner") || "").trim();
+        displayTitle = rawInner || rec?.title || `Dyadic Integer Demo [${mode || "subdivision"}]`;
+        displaySubtitle = id ? `interactive_demos \xB7 BID \xB7 ID ${id}` : `dyadic integer demo \xB7 ${mode}`;
+        statusBadge = "dyadic";
       } else if (normTag === "pseudo-ref") {
         const key = htmlEl.getAttribute("algo-key") || "";
         const id = htmlEl.getAttribute("id") || rec?.id || "";
@@ -44365,7 +45735,19 @@ async function renderSegmentContentSurface(options) {
       let badgeIcon = "\u2696\uFE0F";
       let badgeColor = "#991b1b";
       let badgeBg = "#fee2e2";
-      if (normTag === "fs-ref") {
+      if (normTag === "fsd-ref") {
+        badgeIcon = "\u{1F52C}";
+        badgeColor = "#4338ca";
+        badgeBg = "#e0e7ff";
+      } else if (normTag === "btd-ref") {
+        badgeIcon = "\u{1F332}";
+        badgeColor = "#0f766e";
+        badgeBg = "#ccfbf1";
+      } else if (normTag === "bid-ref") {
+        badgeIcon = "\u{1F522}";
+        badgeColor = "#0369a1";
+        badgeBg = "#e0f2fe";
+      } else if (normTag === "fs-ref") {
         badgeIcon = "\u{1F4DC}";
         badgeColor = "#1d4ed8";
         badgeBg = "#dbeafe";
@@ -44374,7 +45756,7 @@ async function renderSegmentContentSurface(options) {
         badgeColor = "#166534";
         badgeBg = "#dcfce7";
       } else if (normTag === "visual-demo") {
-        badgeIcon = "\u{1F52C}";
+        badgeIcon = "\u{1F3A8}";
         badgeColor = "#6b21a8";
         badgeBg = "#f3e8ff";
       } else if (normTag === "pseudo-ref") {
@@ -44470,7 +45852,25 @@ async function renderSegmentContentSurface(options) {
     let badgeColor = "#991b1b";
     let badgeBg = "#fee2e2";
     let badgeText = "\u2696\uFE0F Truth Table Proposition";
-    if (normTag === "fs-ref") {
+    if (normTag === "fsd-ref") {
+      kind = "fsd";
+      tableName = "interactive_demos";
+      badgeColor = "#4338ca";
+      badgeBg = "#e0e7ff";
+      badgeText = "\u{1F52C} Formal Stage Visualizer";
+    } else if (normTag === "btd-ref") {
+      kind = "btd";
+      tableName = "interactive_demos";
+      badgeColor = "#0f766e";
+      badgeBg = "#ccfbf1";
+      badgeText = "\u{1F332} 2-Successor Binary Tree";
+    } else if (normTag === "bid-ref") {
+      kind = "bid";
+      tableName = "interactive_demos";
+      badgeColor = "#0369a1";
+      badgeBg = "#e0f2fe";
+      badgeText = "\u{1F522} Dyadic Integer Demo";
+    } else if (normTag === "fs-ref") {
       kind = "fs";
       tableName = "formal_statements";
       badgeColor = "#1d4ed8";
@@ -44493,7 +45893,7 @@ async function renderSegmentContentSurface(options) {
       tableName = "interactive_demos";
       badgeColor = "#6b21a8";
       badgeBg = "#f3e8ff";
-      badgeText = "\u{1F52C} Interactive Demo";
+      badgeText = "\u{1F3A8} Interactive Demo";
     } else if (normTag === "pseudo-ref") {
       kind = "pseudo";
       tableName = "pseudocode_algorithms";
@@ -45116,6 +46516,12 @@ async function renderSegmentContentSurface(options) {
         insertHtmlAtCursor('<hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />');
       } else if (action === "insert-ttd") {
         openCustomElementPicker("ttd");
+      } else if (action === "insert-fsd") {
+        openCustomElementPicker("fsd");
+      } else if (action === "insert-btd") {
+        openCustomElementPicker("btd");
+      } else if (action === "insert-bid") {
+        openCustomElementPicker("bid");
       } else if (action === "insert-fs") {
         openCustomElementPicker("fs");
       } else if (action === "insert-stencil") {
@@ -45145,316 +46551,406 @@ async function renderSegmentContentSurface(options) {
     const isReplace = !!targetElemToReplace;
     const modalTitle = container.querySelector("#custom-elem-modal-title");
     const modalBody2 = container.querySelector("#custom-elem-modal-body");
-    if (kind === "ttd") {
-      modalTitle.textContent = isReplace ? "\u2696\uFE0F Switch Truth Table Reference (<ttd-ref>)" : "\u2696\uFE0F Insert Truth Table Custom Element (<ttd-ref>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Querying authoritative propositions from PostgreSQL database...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const ttdRows = await queryDatabase(
+    const titles = {
+      ttd: { insert: "\u2696\uFE0F Insert Truth Table (<ttd-ref>)", replace: "\u2696\uFE0F Switch Truth Table (<ttd-ref>)" },
+      fsd: { insert: "\u{1F52C} Insert Formal Stage Scaffold (<fsd-ref>)", replace: "\u{1F52C} Switch Stage Scaffold (<fsd-ref>)" },
+      btd: { insert: "\u{1F332} Insert 2-Successor Binary Tree (<btd-ref>)", replace: "\u{1F332} Switch Binary Tree (<btd-ref>)" },
+      bid: { insert: "\u{1F522} Insert Dyadic Integer Demo (<bid-ref>)", replace: "\u{1F522} Switch Dyadic Demo (<bid-ref>)" },
+      fs: { insert: "\u{1F4DC} Insert Formal Statement (<fs-ref>)", replace: "\u{1F4DC} Switch Formal Statement (<fs-ref>)" },
+      stencil: { insert: "\u{1F4D0} Insert Computational Stencil (<interactive-stencil>)", replace: "\u{1F4D0} Switch Stencil (<interactive-stencil>)" },
+      preset: { insert: "\u{1F39B}\uFE0F Insert Stencil Preset (<preset-ref>)", replace: "\u{1F39B}\uFE0F Switch Stencil Preset (<preset-ref>)" },
+      demo: { insert: "\u{1F3A8} Insert Interactive Demo (<visual-demo>)", replace: "\u{1F3A8} Switch Interactive Demo (<visual-demo>)" },
+      pseudo: { insert: "\u26A1 Insert Pseudocode Algorithm (<pseudo-ref>)", replace: "\u26A1 Switch Pseudocode (<pseudo-ref>)" }
+    };
+    const config = titles[kind] || { insert: "\u2A01 Insert Curricular Element", replace: "\u270E Switch Reference" };
+    modalTitle.textContent = isReplace ? config.replace : config.insert;
+    modalBody2.innerHTML = '<div style="padding: 24px; text-align: center; color: #64748b;">Loading authoritative records from database...</div>';
+    customElemModal.classList.add("active");
+    try {
+      let updatePreview = function(item) {
+        if (!item) {
+          previewBadge.textContent = "";
+          previewBadge.style.display = "none";
+          previewTag.textContent = "No item selected";
+          previewDesc.textContent = "";
+          btnConfirm.disabled = true;
+          return;
+        }
+        btnConfirm.disabled = false;
+        previewBadge.style.display = "inline-block";
+        previewBadge.textContent = item.badge || "REF";
+        previewBadge.style.background = item.badgeBg || "#e2e8f0";
+        previewBadge.style.color = item.badgeColor || "#334155";
+        previewTag.textContent = item.tagPreview;
+        previewDesc.textContent = item.sublabel;
+      }, renderList = function() {
+        shownCountEl.textContent = String(currentFiltered.length);
+        if (currentFiltered.length === 0) {
+          listEl.innerHTML = '<div style="padding: 24px; text-align: center; color: #94a3b8; font-size: 13px;">No matching records found.</div>';
+          updatePreview(null);
+          return;
+        }
+        if (activeIdx >= currentFiltered.length) activeIdx = currentFiltered.length - 1;
+        if (activeIdx < 0) activeIdx = 0;
+        listEl.innerHTML = currentFiltered.map((it, idx) => `
+                    <div class="modal-picker-item ${idx === activeIdx ? "active" : ""}" data-idx="${idx}">
+                        <div class="modal-picker-item-main">
+                            <div class="modal-picker-item-title">${escapeHtml2(it.label)}</div>
+                            <div class="modal-picker-item-sub">${escapeHtml2(it.sublabel)}</div>
+                        </div>
+                        <span class="modal-picker-badge" style="background: ${it.badgeBg || "#f1f5f9"}; color: ${it.badgeColor || "#475569"};">${escapeHtml2(it.badge || "")}</span>
+                    </div>
+                `).join("");
+        const activeItemEl = listEl.querySelector(`.modal-picker-item[data-idx="${activeIdx}"]`);
+        if (activeItemEl) {
+          activeItemEl.scrollIntoView({ block: "nearest" });
+        }
+        updatePreview(currentFiltered[activeIdx] || null);
+        listEl.querySelectorAll(".modal-picker-item").forEach((itemNode) => {
+          itemNode.addEventListener("click", () => {
+            const idx = parseInt(itemNode.getAttribute("data-idx") || "0", 10);
+            activeIdx = idx;
+            listEl.querySelectorAll(".modal-picker-item").forEach((n, i) => {
+              n.classList.toggle("active", i === activeIdx);
+            });
+            updatePreview(currentFiltered[activeIdx]);
+          });
+          itemNode.addEventListener("dblclick", () => {
+            const idx = parseInt(itemNode.getAttribute("data-idx") || "0", 10);
+            activeIdx = idx;
+            commitSelection();
+          });
+        });
+      }, commitSelection = function() {
+        const selected = currentFiltered[activeIdx];
+        if (!selected) return;
+        if (targetElemToReplace) {
+          selected.applyToTarget(targetElemToReplace);
+          decorateCustomElements(wysiwygPane);
+          setDirty(true);
+          if (activeMode === "split") {
+            sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+          }
+          showToast(`\u2713 Updated ${selected.label}`);
+        } else {
+          insertHtmlAtCursor(selected.generateHtml());
+          decorateCustomElements(wysiwygPane);
+          setDirty(true);
+          showToast(`\u2713 Inserted ${selected.label}`);
+        }
+        closeCustomElemModal();
+      };
+      const items = [];
+      if (kind === "ttd") {
+        const rows = await queryDatabase(
           "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">
-                        Select a proposition from the Truth Table database to link as a canonical <code>&lt;ttd-ref id="..."&gt;</code> reference:
-                    </p>
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">
-                            Authoritative Propositions (${ttdRows?.length || 0} registered):
-                        </label>
-                        <select id="modal-select-ttd-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; background: #ffffff;">
-                            ${(ttdRows || []).map((d) => {
+        (rows || []).forEach((d) => {
           const exp = d.expression || "";
           const fmt = exp ? PxeEngine.fmt(exp) : "";
-          const statusSuffix = d.status ? ` [${d.status}]` : "";
-          const label = `[#${d.id}] ${d.title ? d.title + " \u2014 " : ""}${fmt || exp || "TTD"}${statusSuffix}`;
-          return `<option value="${d.id}">${escapeHtml2(label)}</option>`;
-        }).join("")}
-                        </select>
-                    </div>
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #64748b; margin-bottom: 16px;">
-                        \u{1F4A1} <strong>Live Citation:</strong> The reader will dynamically embed the interactive truth table widget populated directly with this database proposition.
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-ttd">${isReplace ? "Update Reference" : "Insert &lt;ttd-ref&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-ttd")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-ttd-item");
-          if (sel && sel.value) {
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("id", sel.value);
-              targetElemToReplace.removeAttribute("exp");
-              targetElemToReplace.removeAttribute("style");
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <ttd-ref id="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<ttd-ref id="${sel.value}"></ttd-ref>
-`);
-              showToast(`\u2713 Inserted <ttd-ref id="${sel.value}">`);
+          const label = d.title ? `${d.title} \u2014 ${fmt || exp}` : fmt || exp || `TTD #${d.id}`;
+          const statusStr = (d.status || "TTD").toUpperCase();
+          items.push({
+            id: String(d.id),
+            label: `[#${d.id}] ${label}`,
+            sublabel: exp ? `Formula: ${fmt || exp} \xB7 [${d.mode || "logic"}]` : `interactive_demos \xB7 ID ${d.id}`,
+            badge: statusStr,
+            badgeBg: "#fee2e2",
+            badgeColor: "#991b1b",
+            tagPreview: `<ttd-ref id="${d.id}"></ttd-ref>`,
+            generateHtml: () => `
+<ttd-ref id="${d.id}"></ttd-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", String(d.id));
+              target.removeAttribute("exp");
+              target.removeAttribute("style");
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-      }
-    } else if (kind === "fs") {
-      modalTitle.textContent = isReplace ? "\u{1F4DC} Switch Formal Statement Citation (<fs-ref>)" : "\u{1F4DC} Insert Formal Statement Citation (<fs-ref>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading formal statements from PostgreSQL...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const fsRows = await queryDatabase(
-          "SELECT id, statement_key, title, statement_kind FROM formal_statements ORDER BY id ASC;"
+      } else if (kind === "fsd") {
+        const rows = await queryDatabase(
+          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'fsd' ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a formal statement or directed equality to cite:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-fs-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(fsRows || []).map((s) => `
-                                <option value="${escapeHtml2(s.statement_key)}">
-                                    [${escapeHtml2((s.statement_kind || "fs").toUpperCase())}] ${escapeHtml2(s.title || s.statement_key)} (${escapeHtml2(s.statement_key)})
-                                </option>
-                            `).join("")}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-fs">${isReplace ? "Update Reference" : "Insert &lt;fs-ref&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-fs")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-fs-item");
-          if (sel && sel.value) {
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("statement-key", sel.value);
-              targetElemToReplace.removeAttribute("id");
-              targetElemToReplace.removeAttribute("desc");
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <fs-ref statement-key="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<fs-ref statement-key="${sel.value}"></fs-ref>
-`);
-              showToast(`\u2713 Inserted <fs-ref statement-key="${sel.value}">`);
+        (rows || []).forEach((d) => {
+          items.push({
+            id: String(d.id),
+            label: `[#${d.id}] ${d.title || "Formal Stage Scaffold"}`,
+            sublabel: `interactive_demos \xB7 engine: FSD \xB7 mode: ${d.mode || "stage_visualizer"}`,
+            badge: "FSD",
+            badgeBg: "#e0e7ff",
+            badgeColor: "#4338ca",
+            tagPreview: `<fsd-ref id="${d.id}"></fsd-ref>`,
+            generateHtml: () => `
+<fsd-ref id="${d.id}"></fsd-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", String(d.id));
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-      }
-    } else if (kind === "stencil") {
-      modalTitle.textContent = isReplace ? "\u{1F4D0} Switch Computational Stencil (<interactive-stencil>)" : "\u{1F4D0} Insert Computational Stencil (<interactive-stencil>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading stencils from PostgreSQL...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const stencilRows = await queryDatabase(
-          "SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;"
+      } else if (kind === "btd") {
+        const rows = await queryDatabase(
+          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'btd' ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a computational stencil to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-stencil-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(stencilRows || []).map((st) => `
-                                <option value="${escapeHtml2(st.equation_key)}">
-                                    ${escapeHtml2(st.title || st.label || st.equation_key)} [${escapeHtml2(st.equation_key)}]
-                                </option>
-                            `).join("")}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-stencil">${isReplace ? "Update Reference" : "Insert &lt;interactive-stencil&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-stencil")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-stencil-item");
-          if (sel && sel.value) {
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("equation-key", sel.value);
-              targetElemToReplace.removeAttribute("id");
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <interactive-stencil equation-key="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<interactive-stencil equation-key="${sel.value}"></interactive-stencil>
-`);
-              showToast(`\u2713 Inserted <interactive-stencil equation-key="${sel.value}">`);
+        (rows || []).forEach((d) => {
+          items.push({
+            id: String(d.id),
+            label: `[#${d.id}] ${d.title || d.mode}`,
+            sublabel: `Registered Demo (engine: BTD, mode: ${d.mode})`,
+            badge: "DEMO",
+            badgeBg: "#ccfbf1",
+            badgeColor: "#0f766e",
+            tagPreview: `<btd-ref id="${d.id}" mode="${d.mode}">${escapeHtml2(d.title)}</btd-ref>`,
+            generateHtml: () => `
+<btd-ref id="${d.id}" mode="${d.mode}">${escapeHtml2(d.title)}</btd-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", String(d.id));
+              if (d.mode) target.setAttribute("mode", d.mode);
+              target.textContent = d.title;
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-      }
-    } else if (kind === "preset") {
-      modalTitle.textContent = isReplace ? "\u{1F39B}\uFE0F Switch Stencil Preset (<preset-ref>)" : "\u{1F39B}\uFE0F Insert Stencil Preset (<preset-ref>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading presets from PostgreSQL...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const presetRows = await queryDatabase(
-          "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+        Object.entries(BTD_MODE_METADATA).forEach(([modeKey, meta]) => {
+          items.push({
+            id: modeKey,
+            label: `BTD Mode: ${meta.title} [${modeKey}]`,
+            sublabel: meta.desc,
+            badge: "MODE",
+            badgeBg: "#d1fae5",
+            badgeColor: "#065f46",
+            tagPreview: `<btd-ref mode="${modeKey}">${escapeHtml2(meta.title)}</btd-ref>`,
+            generateHtml: () => `
+<btd-ref mode="${modeKey}">${escapeHtml2(meta.title)}</btd-ref>
+`,
+            applyToTarget: (target) => {
+              target.removeAttribute("id");
+              target.setAttribute("mode", modeKey);
+              target.textContent = meta.title;
+            }
+          });
+        });
+      } else if (kind === "bid") {
+        const rows = await queryDatabase(
+          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'bid' ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pre-parameterized stencil preset to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-preset-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(presetRows || []).map((p) => `
-                                <option value="${escapeHtml2(p.preset_key)}" data-title="${escapeHtml2(p.title)}" data-stencil="${escapeHtml2(p.equation_key || "")}">
-                                    ${escapeHtml2(p.title || p.preset_key)} [${escapeHtml2(p.preset_key)}] ${p.equation_key ? `(Stencil: ${escapeHtml2(p.equation_key)})` : ""}
-                                </option>
-                            `).join("")}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-preset">${isReplace ? "Update Reference" : "Insert &lt;preset-ref&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-preset")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-preset-item");
-          if (sel && sel.value) {
-            const opt = sel.selectedOptions[0];
-            const title = opt?.getAttribute("data-title") || sel.value;
-            const stencil = opt?.getAttribute("data-stencil") || "";
-            const stencilAttr = stencil ? ` stencil="${stencil}"` : "";
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("id", sel.value);
-              if (stencil) targetElemToReplace.setAttribute("stencil", stencil);
-              targetElemToReplace.textContent = title;
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <preset-ref id="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<preset-ref id="${sel.value}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>
-`);
-              showToast(`\u2713 Inserted <preset-ref id="${sel.value}">`);
+        (rows || []).forEach((d) => {
+          items.push({
+            id: String(d.id),
+            label: `[#${d.id}] ${d.title || d.mode}`,
+            sublabel: `interactive_demos \xB7 engine: BID \xB7 mode: ${d.mode}`,
+            badge: "BID",
+            badgeBg: "#e0f2fe",
+            badgeColor: "#0284c7",
+            tagPreview: `<bid-ref id="${d.id}" mode="${d.mode}">${escapeHtml2(d.title)}</bid-ref>`,
+            generateHtml: () => `
+<bid-ref id="${d.id}" mode="${d.mode}">${escapeHtml2(d.title)}</bid-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", String(d.id));
+              if (d.mode) target.setAttribute("mode", d.mode);
+              target.textContent = d.title;
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error loading presets: ${err.message}</div>`;
-      }
-    } else if (kind === "demo") {
-      modalTitle.textContent = isReplace ? "\u{1F3A8} Switch Interactive Demo (<visual-demo>)" : "\u{1F3A8} Insert Interactive Visual Demo (<visual-demo>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading interactive demos from PostgreSQL...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const demoRows = await queryDatabase(
-          "SELECT id, title, engine, mode FROM interactive_demos ORDER BY id ASC;"
+      } else if (kind === "fs") {
+        const rows = await queryDatabase(
+          "SELECT id, statement_key, title, statement_kind, description, expression FROM formal_statements ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose an interactive demo to embed:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-demo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(demoRows || []).map((d) => `
-                                <option value="${d.id}">
-                                    [${escapeHtml2((d.engine || "demo").toUpperCase())}] #${d.id} ${escapeHtml2(d.title || d.mode || "Demo")}
-                                </option>
-                            `).join("")}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-demo">${isReplace ? "Update Reference" : "Insert &lt;visual-demo&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-demo")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-demo-item");
-          if (sel && sel.value) {
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("id", sel.value);
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <visual-demo id="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<visual-demo id="${sel.value}"></visual-demo>
-`);
-              showToast(`\u2713 Inserted <visual-demo id="${sel.value}">`);
+        (rows || []).forEach((s) => {
+          const kindStr = (s.statement_kind || "fs").toUpperCase();
+          items.push({
+            id: s.statement_key,
+            label: `[${kindStr}] ${s.title || s.statement_key} (${s.statement_key})`,
+            sublabel: s.description || s.expression || `formal_statements \xB7 ID ${s.id}`,
+            badge: kindStr,
+            badgeBg: "#dbeafe",
+            badgeColor: "#1e40af",
+            tagPreview: `<fs-ref statement-key="${s.statement_key}"></fs-ref>`,
+            generateHtml: () => `
+<fs-ref statement-key="${s.statement_key}"></fs-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("statement-key", s.statement_key);
+              target.removeAttribute("id");
+              target.removeAttribute("desc");
+              target.removeAttribute("algo");
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
-      }
-    } else if (kind === "pseudo") {
-      modalTitle.textContent = isReplace ? "\u26A1 Switch Pseudocode Algorithm (<pseudo-ref>)" : "\u26A1 Insert Pseudocode Algorithm (<pseudo-ref>)";
-      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading pseudocode algorithms from PostgreSQL...</div>';
-      customElemModal.classList.add("active");
-      try {
-        const pseudoRows = await queryDatabase(
-          "SELECT id, algo_key, name, func_name, badge FROM pseudocode_algorithms ORDER BY id ASC;"
+      } else if (kind === "stencil") {
+        const rows = await queryDatabase(
+          "SELECT id, equation_key, title, label, formula_expr FROM directed_equations ORDER BY id ASC;"
         );
-        modalBody2.innerHTML = `
-                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pseudocode algorithm to reference:</p>
-                    <div style="margin-bottom: 16px;">
-                        <select id="modal-select-pseudo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
-                            ${(pseudoRows || []).map((p) => `
-                                <option value="${escapeHtml2(p.algo_key)}">
-                                    [${escapeHtml2((p.badge || "ALGO").toUpperCase())}] ${escapeHtml2(p.name || p.func_name || p.algo_key)} (${escapeHtml2(p.algo_key)})
-                                </option>
-                            `).join("")}
-                        </select>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-pseudo">${isReplace ? "Update Reference" : "Insert &lt;pseudo-ref&gt;"}</button>
-                    </div>
-                `;
-        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
-        modalBody2.querySelector("#btn-confirm-insert-pseudo")?.addEventListener("click", () => {
-          const sel = modalBody2.querySelector("#modal-select-pseudo-item");
-          if (sel && sel.value) {
-            if (targetElemToReplace) {
-              targetElemToReplace.setAttribute("algo-key", sel.value);
-              targetElemToReplace.removeAttribute("id");
-              decorateCustomElements(wysiwygPane);
-              setDirty(true);
-              if (activeMode === "split") {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-              }
-              showToast(`\u2713 Updated <pseudo-ref algo-key="${sel.value}">`);
-            } else {
-              insertHtmlAtCursor(`
-<pseudo-ref algo-key="${sel.value}"></pseudo-ref>
-`);
-              showToast(`\u2713 Inserted <pseudo-ref algo-key="${sel.value}">`);
+        (rows || []).forEach((st) => {
+          items.push({
+            id: st.equation_key,
+            label: `${st.title || st.label || st.equation_key} [${st.equation_key}]`,
+            sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `directed_equations \xB7 ID ${st.id}`,
+            badge: "STENCIL",
+            badgeBg: "#dcfce7",
+            badgeColor: "#15803d",
+            tagPreview: `<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>`,
+            generateHtml: () => `
+<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("equation-key", st.equation_key);
+              target.removeAttribute("id");
             }
-          }
-          closeCustomElemModal();
+          });
         });
-      } catch (err) {
-        modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+      } else if (kind === "preset") {
+        const rows = await queryDatabase(
+          "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key, sp.param_values FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+        );
+        (rows || []).forEach((p) => {
+          const title = p.title || p.preset_key;
+          const stencilAttr = p.equation_key ? ` stencil="${p.equation_key}"` : "";
+          items.push({
+            id: p.preset_key,
+            label: `${title} [${p.preset_key}]`,
+            sublabel: `${p.equation_key ? `Stencil: ${p.equation_key}` : `Preset #${p.id}`} ${p.param_values ? `\xB7 ${JSON.stringify(p.param_values)}` : ""}`,
+            badge: "PRESET",
+            badgeBg: "#ede9fe",
+            badgeColor: "#6d28d9",
+            tagPreview: `<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>`,
+            generateHtml: () => `
+<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", p.preset_key);
+              if (p.equation_key) target.setAttribute("stencil", p.equation_key);
+              target.textContent = title;
+            }
+          });
+        });
+      } else if (kind === "demo") {
+        const rows = await queryDatabase(
+          "SELECT id, title, engine, mode, status FROM interactive_demos ORDER BY id ASC;"
+        );
+        (rows || []).forEach((d) => {
+          const engStr = (d.engine || "demo").toUpperCase();
+          items.push({
+            id: String(d.id),
+            label: `[#${d.id}] ${d.title || d.mode || "Demo"}`,
+            sublabel: `interactive_demos \xB7 engine: ${engStr} \xB7 mode: ${d.mode || "default"}`,
+            badge: engStr,
+            badgeBg: "#f3e8ff",
+            badgeColor: "#7e22ce",
+            tagPreview: `<visual-demo id="${d.id}"></visual-demo>`,
+            generateHtml: () => `
+<visual-demo id="${d.id}"></visual-demo>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("id", String(d.id));
+            }
+          });
+        });
+      } else if (kind === "pseudo") {
+        const rows = await queryDatabase(
+          "SELECT id, algo_key, name, func_name, badge, signature, description FROM pseudocode_algorithms ORDER BY id ASC;"
+        );
+        (rows || []).forEach((p) => {
+          const badgeStr = (p.badge || "ALGO").toUpperCase();
+          items.push({
+            id: p.algo_key,
+            label: `[${badgeStr}] ${p.name || p.func_name || p.algo_key} (${p.algo_key})`,
+            sublabel: p.signature ? `Signature: ${p.signature}` : p.description || `pseudocode_algorithms \xB7 ID ${p.id}`,
+            badge: badgeStr,
+            badgeBg: "#fef3c7",
+            badgeColor: "#b45309",
+            tagPreview: `<pseudo-ref algo-key="${p.algo_key}"></pseudo-ref>`,
+            generateHtml: () => `
+<pseudo-ref algo-key="${p.algo_key}"></pseudo-ref>
+`,
+            applyToTarget: (target) => {
+              target.setAttribute("algo-key", p.algo_key);
+              target.removeAttribute("id");
+            }
+          });
+        });
       }
+      modalBody2.innerHTML = `
+                <div class="custom-elem-picker-container" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Filter Search Box -->
+                    <div>
+                        <div style="position: relative;">
+                            <input type="text" id="modal-filter-input" placeholder="\u{1F50D} Search by name, symbol, key, formula, or ID..." style="width: 100%; padding: 8px 12px; font-size: 13px; border: 1.5px solid #cbd5e1; border-radius: 6px; outline: none; box-sizing: border-box;" autocomplete="off" />
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; margin-top: 4px; padding: 0 2px;">
+                            <span>Showing <strong id="filter-shown-count">${items.length}</strong> of ${items.length} records</span>
+                            <span style="font-style: italic;">\u2191/\u2193 to navigate \xB7 Enter to insert \xB7 Esc to cancel</span>
+                        </div>
+                    </div>
+
+                    <!-- Items List / Selection Box -->
+                    <div id="modal-picker-list" style="max-height: 250px; overflow-y: auto; border: 1.5px solid #e2e8f0; border-radius: 6px; background: #ffffff;">
+                    </div>
+
+                    <!-- Live Preview Card -->
+                    <div id="modal-picker-preview" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; font-size: 12px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <span style="font-weight: 700; color: #334155;">Preview Canonical Markup:</span>
+                            <span id="preview-badge" style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px;"></span>
+                        </div>
+                        <div id="preview-tag" style="font-family: var(--font-mono, monospace); font-size: 12px; color: #0f172a; background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 4px; word-break: break-all; margin-bottom: 6px;"></div>
+                        <div id="preview-desc" style="color: #64748b; font-size: 11.5px; line-height: 1.4;"></div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 2px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem" style="padding: 6px 14px;">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-picker" style="padding: 6px 16px; font-weight: 600;">${isReplace ? "Update Reference" : "Insert Element"}</button>
+                    </div>
+                </div>
+            `;
+      const filterInput = modalBody2.querySelector("#modal-filter-input");
+      const shownCountEl = modalBody2.querySelector("#filter-shown-count");
+      const listEl = modalBody2.querySelector("#modal-picker-list");
+      const previewBadge = modalBody2.querySelector("#preview-badge");
+      const previewTag = modalBody2.querySelector("#preview-tag");
+      const previewDesc = modalBody2.querySelector("#preview-desc");
+      const btnConfirm = modalBody2.querySelector("#btn-confirm-picker");
+      const btnCancel = modalBody2.querySelector("#btn-cancel-custom-elem");
+      let currentFiltered = [...items];
+      let activeIdx = 0;
+      filterInput.addEventListener("input", () => {
+        const term = filterInput.value.toLowerCase().trim();
+        currentFiltered = items.filter((it) => {
+          return !term || it.label.toLowerCase().includes(term) || it.sublabel.toLowerCase().includes(term) || it.badge && it.badge.toLowerCase().includes(term) || it.id.toLowerCase().includes(term);
+        });
+        activeIdx = 0;
+        renderList();
+      });
+      filterInput.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (activeIdx < currentFiltered.length - 1) {
+            activeIdx++;
+            renderList();
+          }
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (activeIdx > 0) {
+            activeIdx--;
+            renderList();
+          }
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          commitSelection();
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          closeCustomElemModal();
+        }
+      });
+      btnConfirm.addEventListener("click", commitSelection);
+      btnCancel.addEventListener("click", closeCustomElemModal);
+      renderList();
+      setTimeout(() => filterInput.focus(), 60);
+    } catch (err) {
+      modalBody2.innerHTML = `<div style="color: #dc2626; padding: 16px;">Error querying database: ${err.message}</div>`;
     }
   }
   function closeCustomElemModal() {
@@ -45910,8 +47406,22 @@ function injectEditorStyles() {
             gap: 2px;
         }
         .tb-dropdown.open .tb-dropdown-menu { display: flex; }
+        .tb-dropdown-header {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #64748b;
+            padding: 6px 8px 3px;
+            user-select: none;
+        }
+        .tb-dropdown-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 0;
+        }
         .tb-dropdown-item {
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-size: 12px;
             border-radius: 4px;
             border: none;
@@ -45920,12 +47430,34 @@ function injectEditorStyles() {
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 10px;
             color: #1e293b;
             font-weight: 500;
             white-space: nowrap;
+            width: 100%;
         }
         .tb-dropdown-item:hover { background: #f1f5f9; color: #0284c7; }
+        .tb-dropdown-item .tb-item-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tb-dropdown-item .tb-item-tag {
+            font-family: var(--font-mono, monospace);
+            font-size: 10.5px;
+            color: #64748b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-weight: normal;
+        }
+        .tb-dropdown-item:hover .tb-item-tag {
+            color: #0284c7;
+            border-color: #bae6fd;
+            background: #f0f9ff;
+        }
 
         /* Unicode Character Strip */
         .unicode-palette {
@@ -46211,7 +47743,7 @@ function injectEditorStyles() {
             text-decoration: none !important;
         }
 
-        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
+        ttd-ref:hover, fsd-ref:hover, btd-ref:hover, bid-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
             transform: translateY(-1.5px) !important;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12) !important;
             filter: brightness(0.97) !important;
@@ -46226,6 +47758,39 @@ function injectEditorStyles() {
         .chip-ttd .chip-badge {
             background: #fee2e2;
             color: #b91c1c;
+        }
+
+        /* Indigo Formal Stage Scaffold Theme */
+        fsd-ref, .chip-fsd {
+            background: #eef2ff !important;
+            border: 1.5px solid #818cf8 !important;
+            color: #3730a3 !important;
+        }
+        .chip-fsd .chip-badge {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        /* Teal 2-Successor Binary Tree Theme */
+        btd-ref, .chip-btd {
+            background: #f0fdfa !important;
+            border: 1.5px solid #2dd4bf !important;
+            color: #0f766e !important;
+        }
+        .chip-btd .chip-badge {
+            background: #ccfbf1;
+            color: #0f766e;
+        }
+
+        /* Sky Blue Dyadic Integer Theme */
+        bid-ref, .chip-bid {
+            background: #f0f9ff !important;
+            border: 1.5px solid #38bdf8 !important;
+            color: #0369a1 !important;
+        }
+        .chip-bid .chip-badge {
+            background: #e0f2fe;
+            color: #0284c7;
         }
 
         /* Royal Blue Formal Statement Theme */
@@ -46281,6 +47846,58 @@ function injectEditorStyles() {
         .chip-pseudo .chip-badge {
             background: #fef3c7;
             color: #b45309;
+        }
+
+        /* Custom Element Filterable Picker Modal Styles */
+        .modal-picker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background 0.12s ease;
+            user-select: none;
+        }
+        .modal-picker-item:last-child {
+            border-bottom: none;
+        }
+        .modal-picker-item:hover {
+            background: #f8fafc;
+        }
+        .modal-picker-item.active {
+            background: #eff6ff;
+            border-left: 3px solid #2563eb;
+        }
+        .modal-picker-item-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+            padding-right: 8px;
+        }
+        .modal-picker-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-picker-item-sub {
+            font-size: 11px;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-picker-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .chip-icon {

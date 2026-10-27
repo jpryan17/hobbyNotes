@@ -59,8 +59,7 @@ export const navigationMenuTree: MenuItem[] = [
                         children: [
                             { label: 'Introduction', typeKey: 'curriculum_nav_item', instanceKey: 'numbersIntro', subject: 'numbers_trees' },
                             { label: 'Binary Sequences & Counting', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture1', subject: 'numbers_trees' },
-                            { label: 'Surreal Number Line & Growth', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture2', subject: 'numbers_trees' },
-                            { label: 'Infinitesimal Arithmetic & STEM Spaces', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture3', subject: 'numbers_trees' }
+                            { label: 'Surreal Number Line & Growth', typeKey: 'curriculum_nav_item', instanceKey: 'numbersLecture2', subject: 'numbers_trees' }
                         ]
                     }
                 ]
