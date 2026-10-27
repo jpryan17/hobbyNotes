@@ -306,7 +306,8 @@ CREATE TABLE segment_references (
     equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
     demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
     algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
-    ref_type VARCHAR(16) NOT NULL DEFAULT 'fs',  -- 'fs', 'stencil', 'ttd', 'demo', 'algo'
+    preset_id BIGINT REFERENCES stencil_presets(id) ON DELETE CASCADE,
+    ref_type VARCHAR(16) NOT NULL DEFAULT 'fs',  -- 'fs', 'stencil', 'ttd', 'demo', 'algo', 'preset'
     initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator', 'demo'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
     anchor_text TEXT,

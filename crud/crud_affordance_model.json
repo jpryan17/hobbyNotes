@@ -13,7 +13,7 @@
         "delete": {
           "description": "Safeguarded entity deletion governed by two distinct relational policies.",
           "policies": {
-            "restricted_guard": "Zero-Dependents Policy: Enforces that the entity has all empty 1:m relationships. If references exist in segment_references or FK tables, deletion is inhibited and referencing parents are displayed. No automatic attempt is made to delete children. (Applies to TTD/demos, formal statements, directed equations, pseudocode algorithms).",
+            "restricted_guard": "Relational Citation & Cascade Policy: Enforces that the entity and its children are not actively cited in segment_references. If citations exist in segment_references, deletion is inhibited and referencing segments are displayed with jump links. If unreferenced by segments, downstream children (mode_slots, presets, statement links) are traced in an impact manifest and transactionally cascaded via TransactionHandler upon confirmation.",
             "cascading_verified": "Impact Analysis & Dry Run Policy: Computes the structural blast radius across navigation items, segments, and junction tables. Displays an impact inventory modal and executes atomic cascading deletion only after positive user verification. (Applies to leaf index entries and curriculum segments)."
           }
         }

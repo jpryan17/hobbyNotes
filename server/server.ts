@@ -841,6 +841,149 @@ app.get('/api/editor/file', async (req: Request, res: Response) => {
     }
 });
 
+// ---------------------------------------------------------------------
+// 4a. Relational Segment Citation Synchronizer
+// ---------------------------------------------------------------------
+
+export async function syncSegmentReferences(segId: number, contentHtml: string): Promise<number> {
+    if (!segId || typeof contentHtml !== 'string') return 0;
+
+    const fsRows = await pool.query('SELECT id, statement_key FROM formal_statements;');
+    const fsKeyToId = new Map(fsRows.rows.map(r => [r.statement_key, r.id]));
+    const fsIdSet = new Set(fsRows.rows.map(r => r.id));
+
+    const eqRows = await pool.query('SELECT id, equation_key FROM directed_equations;');
+    const eqKeyToId = new Map(eqRows.rows.map(r => [r.equation_key, r.id]));
+    const eqIdSet = new Set(eqRows.rows.map(r => r.id));
+
+    const presetRows = await pool.query('SELECT id, preset_key, equation_id FROM stencil_presets;');
+    const presetKeyToId = new Map(presetRows.rows.map(r => [r.preset_key, { id: r.id, eqId: r.equation_id }]));
+    const presetIdSet = new Set(presetRows.rows.map(r => r.id));
+
+    const demoRows = await pool.query('SELECT id FROM interactive_demos;');
+    const demoIdSet = new Set(demoRows.rows.map(r => r.id));
+
+    const algoRows = await pool.query('SELECT id, algo_key FROM pseudocode_algorithms;');
+    const algoKeyToId = new Map(algoRows.rows.map(r => [r.algo_key, r.id]));
+    const algoIdSet = new Set(algoRows.rows.map(r => r.id));
+
+    await pool.query('DELETE FROM segment_references WHERE segment_id = $1;', [segId]);
+
+    const tagRegex = /<([a-z0-9_-]+-[a-z0-9_-]+)\s+([^>]*?)>(?:([\s\S]*?)<\/\1>)?/gi;
+    let match;
+    let order = 0;
+    let count = 0;
+
+    while ((match = tagRegex.exec(contentHtml)) !== null) {
+        const tagName = match[1].toLowerCase();
+        const attrs = match[2];
+        const innerText = (match[3] || '').replace(/<[^>]*>/g, '').trim();
+
+        const descMatch = /desc=["']([^"']*)["']/i.exec(attrs);
+        const titleMatch = /title=["']([^"']*)["']/i.exec(attrs);
+        const anchor = descMatch ? descMatch[1] : (titleMatch ? titleMatch[1] : innerText);
+
+        const idMatch = /\bid=["']([^"']+)["']/i.exec(attrs);
+        const idVal = idMatch ? idMatch[1] : null;
+
+        let statementId: number | null = null;
+        let equationId: number | null = null;
+        let presetId: number | null = null;
+        let demoId: number | null = null;
+        let algoId: number | null = null;
+        let refType = 'fs';
+        let initialFocus = 'proof';
+
+        if (tagName === 'fs-ref' || tagName === 'fsd-ref') {
+            refType = 'fs';
+            initialFocus = /calculator|calc/i.test(attrs) ? 'calculator' : 'proof';
+            if (idVal) {
+                if (/^\d+$/.test(idVal) && fsIdSet.has(parseInt(idVal, 10))) {
+                    statementId = parseInt(idVal, 10);
+                } else if (fsKeyToId.has(idVal)) {
+                    statementId = fsKeyToId.get(idVal) || null;
+                }
+            }
+        } else if (tagName === 'eq-ref' || tagName === 'interactive-stencil') {
+            refType = 'stencil';
+            initialFocus = 'calculator';
+            const deMatch = /(?:de-id|equation-id)=["']([^"']+)["']/i.exec(attrs);
+            const targetEq = idVal || (deMatch ? deMatch[1] : null);
+            if (targetEq) {
+                if (/^\d+$/.test(targetEq) && eqIdSet.has(parseInt(targetEq, 10))) {
+                    equationId = parseInt(targetEq, 10);
+                } else if (eqKeyToId.has(targetEq)) {
+                    equationId = eqKeyToId.get(targetEq) || null;
+                }
+            }
+        } else if (tagName === 'preset-ref') {
+            refType = 'preset';
+            initialFocus = 'calculator';
+            const pMatch = /(?:preset-id|id)=["']([^"']+)["']/i.exec(attrs);
+            const targetPreset = pMatch ? pMatch[1] : idVal;
+            if (targetPreset) {
+                if (/^\d+$/.test(targetPreset) && presetIdSet.has(parseInt(targetPreset, 10))) {
+                    presetId = parseInt(targetPreset, 10);
+                } else if (presetKeyToId.has(targetPreset)) {
+                    const info = presetKeyToId.get(targetPreset)!;
+                    presetId = info.id;
+                    if (info.eqId) equationId = info.eqId;
+                }
+            }
+        } else if (tagName === 'ttd-ref' || tagName === 'btd-ref' || tagName === 'bid-ref' || tagName === 'visual-demo') {
+            refType = 'demo';
+            initialFocus = 'demo';
+            const dMatch = /(?:demo-id|id)=["']([^"']+)["']/i.exec(attrs);
+            const targetDemo = dMatch ? dMatch[1] : idVal;
+            if (targetDemo && /^\d+$/.test(targetDemo) && demoIdSet.has(parseInt(targetDemo, 10))) {
+                demoId = parseInt(targetDemo, 10);
+            }
+        } else if (tagName === 'pseudo-ref') {
+            refType = 'algo';
+            initialFocus = 'proof';
+            const aMatch = /(?:algo-id|algo|id)=["']([^"']+)["']/i.exec(attrs);
+            const targetAlgo = aMatch ? aMatch[1] : idVal;
+            if (targetAlgo) {
+                if (/^\d+$/.test(targetAlgo) && algoIdSet.has(parseInt(targetAlgo, 10))) {
+                    algoId = parseInt(targetAlgo, 10);
+                } else if (algoKeyToId.has(targetAlgo)) {
+                    algoId = algoKeyToId.get(targetAlgo) || null;
+                }
+            }
+        }
+
+        if (statementId !== null || equationId !== null || presetId !== null || demoId !== null || algoId !== null) {
+            await pool.query(`
+                INSERT INTO segment_references (
+                    segment_id, statement_id, equation_id, preset_id, demo_id, algo_id,
+                    ref_type, initial_focus, occurrence_order, anchor_text, raw_tag
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+            `, [
+                segId, statementId, equationId, presetId, demoId, algoId,
+                refType, initialFocus, order++, anchor || tagName, match[0]
+            ]);
+            count++;
+        }
+    }
+    return count;
+}
+
+// Endpoint to re-sync a segment's references
+app.post('/api/segments/:id/sync-references', async (req: Request, res: Response) => {
+    try {
+        const segId = parseInt(req.params.id as string, 10);
+        let contentHtml = req.body.contentHtml;
+        if (!contentHtml) {
+            const seg = await pool.query('SELECT content_html FROM segments WHERE id = $1;', [segId]);
+            contentHtml = seg.rows[0]?.content_html || '';
+        }
+        const count = await syncSegmentReferences(segId, contentHtml);
+        res.json({ status: 'success', segmentId: segId, syncedReferences: count });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
 // Save or replace any HTML file within the project umbrella or PostgreSQL segments
 app.post('/api/editor/save', async (req: Request, res: Response) => {
     const { path: queryPath, content, saveMode = 'body', isDbSegment, segId } = req.body;
@@ -851,10 +994,15 @@ app.post('/api/editor/save', async (req: Request, res: Response) => {
     try {
         // 1. If explicit DB segment or matches segments table
         if (isDbSegment || segId) {
-            await pool.query(
-                `UPDATE segments SET content_html = $1, updated_at = NOW() WHERE id = $2 OR slug = $3 OR seg_key = $3;`,
+            const updateRes = await pool.query(
+                `UPDATE segments SET content_html = $1, updated_at = NOW() WHERE id = $2 OR slug = $3 OR seg_key = $3 RETURNING id;`,
                 [content, segId || 0, queryPath]
             );
+            const resolvedId = updateRes.rows[0]?.id || segId;
+            if (resolvedId) {
+                try { await syncSegmentReferences(resolvedId, content); } catch (e) { console.warn('[syncRefs] warn:', e); }
+            }
+
             try {
                 // @ts-ignore
                 const { writeCatalogFiles, writeDemoCatalog } = await import('../nodeUtils/public/buildCatalog.js');
@@ -876,10 +1024,12 @@ app.post('/api/editor/save', async (req: Request, res: Response) => {
                 [queryPath]
             );
             if (check.rows && check.rows.length > 0) {
+                const targetId = check.rows[0].id;
                 await pool.query(
                     `UPDATE segments SET content_html = $1, updated_at = NOW() WHERE id = $2;`,
-                    [content, check.rows[0].id]
+                    [content, targetId]
                 );
+                try { await syncSegmentReferences(targetId, content); } catch (e) { console.warn('[syncRefs] warn:', e); }
                 return res.json({
                     status: 'success',
                     ok: true,

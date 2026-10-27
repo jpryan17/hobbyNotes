@@ -1321,6 +1321,15 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 saveStatusPill.classList.remove('dirty');
                 showToast('✓ Saved and replaced content_html in database');
 
+                // Keep relational segment_references in sync automatically
+                if (segmentRecord.id) {
+                    fetch(`/api/segments/${segmentRecord.id}/sync-references`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contentHtml: finalContentHtml })
+                    }).catch(e => console.warn('[sync-references] background notice:', e));
+                }
+
                 if (onSaved) {
                     onSaved(segmentRecord);
                 }

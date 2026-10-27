@@ -9737,6 +9737,53 @@ async function queryDatabase(sql, params) {
   }
   return [];
 }
+async function beginTransaction() {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/transactions/begin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+    return await response.json();
+  } catch (err) {
+    return {
+      status: "error",
+      message: "Failed to initiate begin transaction call.",
+      error: err?.message || String(err)
+    };
+  }
+}
+async function commitTransaction(transactionId) {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/transactions/commit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transactionId })
+    });
+    return await response.json();
+  } catch (err) {
+    return {
+      status: "error",
+      message: "Failed to commit transaction.",
+      error: err?.message || String(err)
+    };
+  }
+}
+async function rollbackTransaction(transactionId) {
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/transactions/rollback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transactionId })
+    });
+    return await response.json();
+  } catch (err) {
+    return {
+      status: "error",
+      message: "Failed to rollback transaction.",
+      error: err?.message || String(err)
+    };
+  }
+}
 async function getDatabaseHealth() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/health`);
@@ -10198,6 +10245,119 @@ async function fetchEnums() {
     `;
   return queryDatabase(sql);
 }
+
+// clientLib/db/transactionHandler.ts
+var TransactionHandler = class {
+  mode;
+  transactionId = null;
+  statements = [];
+  isActive = false;
+  constructor(mode = "stateful") {
+    this.mode = mode;
+  }
+  reset() {
+    this.isActive = false;
+    this.transactionId = null;
+    this.statements = [];
+  }
+  getActiveTransactionId() {
+    return this.transactionId;
+  }
+  /**
+   * Begins a transaction.
+   * In stateful mode, initiates a server session client.
+   * In stateless mode, readies the client-side statement buffer.
+   */
+  async begin() {
+    if (this.isActive) {
+      return { status: "error", message: "Transaction is already active." };
+    }
+    this.isActive = true;
+    if (this.mode === "stateful") {
+      const response = await beginTransaction();
+      if (response.status === "success" && response.transactionId) {
+        this.transactionId = response.transactionId;
+      } else {
+        this.reset();
+      }
+      return response;
+    } else {
+      this.statements = [];
+      return {
+        status: "success",
+        message: "Stateless transaction started. Ready to buffer statements."
+      };
+    }
+  }
+  /**
+   * Executes an SQL statement within the transaction.
+   */
+  async execute(sql, params) {
+    if (!this.isActive) {
+      return { status: "error", message: "No active transaction. Call begin() first." };
+    }
+    if (this.mode === "stateful") {
+      if (!this.transactionId) {
+        return { status: "error", message: "Stateful transaction is active but has no ID." };
+      }
+      return executeSql(sql, params, this.transactionId);
+    } else {
+      this.statements.push({ sql, params });
+      return {
+        status: "success",
+        message: `Statement queued in buffer (${this.statements.length} total).`,
+        data: { rows: [], rowCount: 0 }
+      };
+    }
+  }
+  /**
+   * Commits the active transaction.
+   */
+  async commit() {
+    if (!this.isActive) {
+      return { status: "error", message: "No active transaction to commit." };
+    }
+    let response;
+    if (this.mode === "stateful") {
+      if (!this.transactionId) {
+        return { status: "error", message: "Missing transaction ID." };
+      }
+      response = await commitTransaction(this.transactionId);
+    } else {
+      if (this.statements.length === 0) {
+        response = { status: "success", message: "Stateless transaction committed with 0 statements." };
+      } else {
+        const fullSql = ["BEGIN;", ...this.statements.map((s) => s.sql.trim().replace(/;+$/, "") + ";"), "COMMIT;"].join("\n");
+        response = await executeSql(fullSql);
+      }
+    }
+    this.reset();
+    return response;
+  }
+  /**
+   * Rolls back the active transaction.
+   */
+  async rollback() {
+    if (!this.isActive) {
+      return { status: "error", message: "No active transaction to roll back." };
+    }
+    let response;
+    if (this.mode === "stateful") {
+      if (this.transactionId) {
+        response = await rollbackTransaction(this.transactionId);
+      } else {
+        response = { status: "error", message: "Missing transaction ID." };
+      }
+    } else {
+      response = {
+        status: "success",
+        message: `Stateless transaction rolled back (${this.statements.length} statements discarded).`
+      };
+    }
+    this.reset();
+    return response;
+  }
+};
 
 // crud/src/menuTree.ts
 var navigationMenuTree = [
@@ -35904,7 +36064,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-27T10:02:38.851Z",
+  "generatedAt": "2026-10-27T10:40:28.739Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -44544,6 +44704,13 @@ async function renderSegmentContentSurface(options) {
         saveStatusPill.textContent = "\u2713 Saved";
         saveStatusPill.classList.remove("dirty");
         showToast("\u2713 Saved and replaced content_html in database");
+        if (segmentRecord.id) {
+          fetch(`/api/segments/${segmentRecord.id}/sync-references`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contentHtml: finalContentHtml })
+          }).catch((e) => console.warn("[sync-references] background notice:", e));
+        }
         if (onSaved) {
           onSaved(segmentRecord);
         }
@@ -49205,38 +49372,337 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
     }
   });
 }
+async function traceDeleteImpact(tableName, record) {
+  const trace = {
+    isBlocked: false,
+    blockers: [],
+    cascades: []
+  };
+  const id = record.id;
+  if (!id) return trace;
+  try {
+    if (tableName === "directed_equations") {
+      const directRefs = await queryDatabase(`
+                SELECT DISTINCT s.id, s.title, s.seg_key
+                FROM segment_references sr
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sr.equation_id = $1;
+            `, [id]);
+      if (directRefs.length > 0) {
+        trace.isBlocked = true;
+        trace.blockers.push({
+          entityType: "Directed Equation",
+          title: record.name || record.equation_key || `ID: ${id}`,
+          reason: "Directly cited in HTML segment text",
+          segments: directRefs
+        });
+      }
+      const presetRefs = await queryDatabase(`
+                SELECT DISTINCT sp.id AS preset_id, sp.title AS preset_title, sp.preset_key, s.id AS seg_id, s.title AS seg_title, s.seg_key
+                FROM stencil_presets sp
+                JOIN segment_references sr ON sr.preset_id = sp.id
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sp.equation_id = $1;
+            `, [id]);
+      if (presetRefs.length > 0) {
+        trace.isBlocked = true;
+        const byPreset = /* @__PURE__ */ new Map();
+        for (const r of presetRefs) {
+          const pKey = r.preset_key || `Preset #${r.preset_id}`;
+          if (!byPreset.has(pKey)) {
+            byPreset.set(pKey, { title: r.preset_title || pKey, segments: [] });
+          }
+          byPreset.get(pKey).segments.push({ id: r.seg_id, title: r.seg_title, seg_key: r.seg_key });
+        }
+        for (const [_, info] of byPreset.entries()) {
+          trace.blockers.push({
+            entityType: "Child Preset",
+            title: info.title,
+            reason: "Child preset is cited in HTML segment text",
+            segments: info.segments
+          });
+        }
+      }
+      const presets = await queryDatabase(`
+                SELECT id, title, preset_key FROM stencil_presets WHERE equation_id = $1;
+            `, [id]);
+      if (presets.length > 0) {
+        trace.cascades.push({
+          label: "Child Stencil Presets",
+          count: presets.length,
+          items: presets.map((p) => p.title || p.preset_key)
+        });
+      }
+      const slots = await queryDatabase(`
+                SELECT id, slot_name, slot_kind FROM mode_slots WHERE equation_id = $1;
+            `, [id]);
+      if (slots.length > 0) {
+        trace.cascades.push({
+          label: "Mode Slots & Parameters",
+          count: slots.length,
+          items: slots.map((s) => `${s.slot_name} (${s.slot_kind})`)
+        });
+      }
+      const stmtLinks = await queryDatabase(`
+                SELECT esl.statement_id, fs.title, fs.statement_key
+                FROM equation_statement_links esl
+                JOIN formal_statements fs ON fs.id = esl.statement_id
+                WHERE esl.equation_id = $1;
+            `, [id]);
+      if (stmtLinks.length > 0) {
+        trace.cascades.push({
+          label: "Formal Statement Associations",
+          count: stmtLinks.length,
+          items: stmtLinks.map((l) => l.title || l.statement_key)
+        });
+      }
+    } else if (tableName === "stencil_presets") {
+      const directRefs = await queryDatabase(`
+                SELECT DISTINCT s.id, s.title, s.seg_key
+                FROM segment_references sr
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sr.preset_id = $1;
+            `, [id]);
+      if (directRefs.length > 0) {
+        trace.isBlocked = true;
+        trace.blockers.push({
+          entityType: "Stencil Preset",
+          title: record.title || record.preset_key || `ID: ${id}`,
+          reason: "Directly cited in HTML segment text",
+          segments: directRefs
+        });
+      }
+    } else if (tableName === "formal_statements") {
+      const directRefs = await queryDatabase(`
+                SELECT DISTINCT s.id, s.title, s.seg_key
+                FROM segment_references sr
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sr.statement_id = $1;
+            `, [id]);
+      if (directRefs.length > 0) {
+        trace.isBlocked = true;
+        trace.blockers.push({
+          entityType: "Formal Statement",
+          title: record.title || record.statement_key || `ID: ${id}`,
+          reason: "Directly cited in HTML segment text",
+          segments: directRefs
+        });
+      }
+      const childStmts = await queryDatabase(`
+                SELECT id, title, statement_key FROM formal_statements WHERE parent_id = $1;
+            `, [id]);
+      if (childStmts.length > 0) {
+        trace.cascades.push({
+          label: "Child Derivative Statements",
+          count: childStmts.length,
+          items: childStmts.map((s) => s.title || s.statement_key)
+        });
+      }
+      const eqLinks = await queryDatabase(`
+                SELECT esl.equation_id, de.name, de.equation_key
+                FROM equation_statement_links esl
+                JOIN directed_equations de ON de.id = esl.equation_id
+                WHERE esl.statement_id = $1;
+            `, [id]);
+      if (eqLinks.length > 0) {
+        trace.cascades.push({
+          label: "Associated Directed Equations (Unlinked)",
+          count: eqLinks.length,
+          items: eqLinks.map((e) => e.name || e.equation_key)
+        });
+      }
+    } else if (tableName === "interactive_demos") {
+      const directRefs = await queryDatabase(`
+                SELECT DISTINCT s.id, s.title, s.seg_key
+                FROM segment_references sr
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sr.demo_id = $1;
+            `, [id]);
+      if (directRefs.length > 0) {
+        trace.isBlocked = true;
+        trace.blockers.push({
+          entityType: "Interactive Demo",
+          title: record.title || `ID: ${id}`,
+          reason: "Directly cited in HTML segment text",
+          segments: directRefs
+        });
+      }
+    } else if (tableName === "pseudocode_algorithms") {
+      const directRefs = await queryDatabase(`
+                SELECT DISTINCT s.id, s.title, s.seg_key
+                FROM segment_references sr
+                JOIN segments s ON s.id = sr.segment_id
+                WHERE sr.algo_id = $1;
+            `, [id]);
+      if (directRefs.length > 0) {
+        trace.isBlocked = true;
+        trace.blockers.push({
+          entityType: "Pseudocode Algorithm",
+          title: record.name || record.algo_key || `ID: ${id}`,
+          reason: "Directly cited in HTML segment text",
+          segments: directRefs
+        });
+      }
+    }
+  } catch (traceErr) {
+    console.warn("[traceDeleteImpact] trace warning:", traceErr);
+  }
+  return trace;
+}
 async function renderDeleteConfirmation(tableName, record) {
   if (!displayArea) return;
   const displayCol = getDisplayColumnName(tableName);
   const titleVal = record[displayCol] || `ID: ${record.id}`;
   displayArea.innerHTML = `
         <div class="entity-inspector-view">
-            <div style="background: #ffffff; border: 1px solid #fecaca; border-radius: 8px; padding: 30px; max-width: 600px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <div style="font-size: 36px; margin-bottom: 12px;">\u26A0\uFE0F</div>
-                <h2 style="font-size: 18px; color: #991b1b; margin-bottom: 8px;">Confirm Record Deletion</h2>
-                <p style="color: #475569; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-                    Are you sure you want to permanently delete record <strong>${escapeHtml3(titleVal)}</strong> (id = ${record.id}) from table <code>${tableName}</code>?
-                </p>
-                <div style="display: flex; justify-content: center; gap: 12px;">
-                    <button class="action-btn danger" id="btn-confirm-delete" style="padding: 8px 18px;">
-                        \u{1F5D1}\uFE0F Confirm & Delete
-                    </button>
-                    <button class="action-btn secondary" id="btn-cancel-delete" style="padding: 8px 18px;">
-                        Cancel
-                    </button>
-                </div>
+            <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 36px 30px; max-width: 650px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                <div style="font-size: 28px; margin-bottom: 12px; animation: pulse 1s infinite;">\u{1F50D}</div>
+                <h3 style="font-size: 16px; color: #1e293b; margin-bottom: 8px;">Tracing Relational Dependencies...</h3>
+                <p style="color: #64748b; font-size: 13px;">Checking active usage in PostgreSQL segment references and downstream cascades.</p>
             </div>
         </div>
     `;
+  const trace = await traceDeleteImpact(tableName, record);
+  if (trace.isBlocked) {
+    displayArea.innerHTML = `
+            <div class="entity-inspector-view">
+                <div style="background: #ffffff; border: 1.5px solid #f87171; border-radius: 8px; padding: 28px; max-width: 680px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                        <span style="font-size: 30px;">\u{1F6AB}</span>
+                        <div>
+                            <h2 style="font-size: 17px; color: #991b1b; font-weight: 700; margin: 0;">Deletion Blocked: Relational Constraint Violation</h2>
+                            <p style="color: #64748b; font-size: 13px; margin-top: 2px;">
+                                Record <strong>${escapeHtml3(titleVal)}</strong> cannot be deleted while active references exist in courseware segments.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 16px; margin-bottom: 18px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #991b1b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                            Active Segment Citations Found (${trace.blockers.length})
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            ${trace.blockers.map((b) => `
+                                <div style="background: #ffffff; border: 1px solid #fca5a5; border-radius: 6px; padding: 8px 12px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                                        <span style="font-weight: 600; font-size: 13px; color: #7f1d1d;">\u{1F3F7}\uFE0F ${escapeHtml3(b.title)}</span>
+                                        <span style="font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${escapeHtml3(b.entityType)}</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 6px;">${escapeHtml3(b.reason)}</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                        ${b.segments.map((s) => `
+                                            <span style="display: inline-flex; align-items: center; gap: 4px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #1e293b;">
+                                                \u{1F4C4} <strong>${escapeHtml3(s.title)}</strong> <code style="font-size: 10px; color: #64748b;">(${escapeHtml3(s.seg_key)})</code>
+                                            </span>
+                                        `).join("")}
+                                    </div>
+                                </div>
+                            `).join("")}
+                        </div>
+                    </div>
+
+                    <p style="font-size: 12px; color: #475569; line-height: 1.5; margin-bottom: 20px;">
+                        \u2139\uFE0F To delete this record, first open the referencing segment(s) in the Content Editor and replace or remove the citation custom elements.
+                    </p>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button class="action-btn disabled" disabled style="opacity: 0.5; cursor: not-allowed; padding: 8px 18px;" title="Deletion blocked while referenced in active segments">
+                            \u{1F6AB} Deletion Blocked
+                        </button>
+                        <button class="action-btn secondary" id="btn-cancel-delete" style="padding: 8px 18px;">
+                            Back to Read View
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+  } else {
+    displayArea.innerHTML = `
+            <div class="entity-inspector-view">
+                <div style="background: #ffffff; border: 1px solid #fecaca; border-radius: 8px; padding: 28px; max-width: 680px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                        <span style="font-size: 32px;">\u26A0\uFE0F</span>
+                        <div>
+                            <h2 style="font-size: 17px; color: #991b1b; font-weight: 700; margin: 0;">Confirm Record Deletion</h2>
+                            <p style="color: #64748b; font-size: 13px; margin-top: 2px;">
+                                Table: <code>${tableName}</code> \u2022 Record: <strong>${escapeHtml3(titleVal)}</strong> (id = ${record.id})
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; font-size: 12px; color: #166534; display: flex; align-items: center; gap: 6px;">
+                        <span>\u2713</span>
+                        <span>Pre-flight Check Passed: No active curriculum segments reference this record or its presets.</span>
+                    </div>
+
+                    ${trace.cascades.length > 0 ? `
+                        <div style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; padding: 14px 16px; margin-bottom: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                                \u26A1 Downstream Cascades (Will be permanently deleted by cascade):
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                ${trace.cascades.map((c) => `
+                                    <div style="font-size: 12px; color: #78350f;">
+                                        \u2022 <strong>${escapeHtml3(c.label)}</strong> (${c.count}):
+                                        <span style="color: #92400e; font-family: var(--font-mono, monospace); font-size: 11px;">
+                                            ${c.items.slice(0, 6).map((it) => escapeHtml3(it)).join(", ")}${c.items.length > 6 ? "..." : ""}
+                                        </span>
+                                    </div>
+                                `).join("")}
+                            </div>
+                        </div>
+                    ` : `
+                        <p style="color: #475569; font-size: 13px; line-height: 1.5; margin-bottom: 20px;">
+                            Are you sure you want to permanently delete this record? This action will commit atomically and cannot be undone.
+                        </p>
+                    `}
+
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button class="action-btn danger" id="btn-confirm-delete" style="padding: 8px 18px;">
+                            \u{1F5D1}\uFE0F Confirm & Delete ${trace.cascades.length > 0 ? "(Atomic Cascade)" : ""}
+                        </button>
+                        <button class="action-btn secondary" id="btn-cancel-delete" style="padding: 8px 18px;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+  }
   document.getElementById("btn-cancel-delete")?.addEventListener("click", () => {
     setMode("read");
   });
   document.getElementById("btn-confirm-delete")?.addEventListener("click", async () => {
+    const btn = document.getElementById("btn-confirm-delete");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Deleting in transaction...";
+    }
+    const tx = new TransactionHandler("stateful");
     try {
-      const sql = `DELETE FROM ${tableName} WHERE id = $1;`;
-      const res = await executeSql(sql, [record.id]);
-      if (res.status === "error") throw new Error(res.error || res.message);
-      setStatus(`\u2713 Record #${record.id} permanently deleted.`);
+      const beginRes = await tx.begin();
+      if (beginRes.status === "error") {
+        throw new Error(beginRes.message || "Could not begin database transaction.");
+      }
+      if (tableName === "directed_equations") {
+        await tx.execute("DELETE FROM stencil_presets WHERE equation_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM mode_slots WHERE equation_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM equation_statement_links WHERE equation_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM directed_equations WHERE id = $1;", [record.id]);
+      } else if (tableName === "stencil_presets") {
+        await tx.execute("DELETE FROM stencil_presets WHERE id = $1;", [record.id]);
+      } else if (tableName === "formal_statements") {
+        await tx.execute("DELETE FROM equation_statement_links WHERE statement_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM lean_verifications WHERE statement_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM formal_statements WHERE id = $1;", [record.id]);
+      } else {
+        await tx.execute(`DELETE FROM ${tableName} WHERE id = $1;`, [record.id]);
+      }
+      const commitRes = await tx.commit();
+      if (commitRes.status === "error") {
+        throw new Error(commitRes.message || "Could not commit delete transaction.");
+      }
+      setStatus(`\u2713 Record #${record.id} and all cascaded dependencies permanently deleted.`);
       currentSelectedId = null;
       await syncMenuTreeFromDatabase(queryDatabase);
       if (typeDropdownMenu) {
@@ -49245,13 +49711,17 @@ async function renderDeleteConfirmation(tableName, record) {
       fetch("/api/rebuild-catalog", { method: "POST" }).catch((e) => console.warn("[rebuild-catalog] background notice:", e));
       setMode("read");
     } catch (delErr) {
+      try {
+        await tx.rollback();
+      } catch {
+      }
       showModal(`
-                <h3 style="color: #dc2626; margin-bottom: 8px;">\u26A0\uFE0F Deletion Failed</h3>
+                <h3 style="color: #dc2626; margin-bottom: 8px;">\u26A0\uFE0F Deletion Transaction Failed</h3>
                 <p style="color: #4a5568; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
                     Could not delete record: ${delErr.message}
                 </p>
                 <div style="font-size: 12px; color: #64748b; margin-bottom: 16px;">
-                    Foreign key constraints or dependent child records may prevent this deletion.
+                    The database transaction was safely rolled back. No records were modified.
                 </div>
                 <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">
                     Close
