@@ -91,6 +91,13 @@
           "primary_key": "id",
           "display_col": "label",
           "delete_policy": "restricted_guard"
+        },
+        "stencil_presets": {
+          "table": "stencil_presets",
+          "label": "Stencil Presets",
+          "primary_key": "id",
+          "display_col": "preset_key",
+          "delete_policy": "restricted_guard"
         }
       }
     }
@@ -252,6 +259,12 @@
             "tag": "<pseudo-ref algo-key=\"...\">",
             "source_table": "pseudocode_algorithms",
             "behavior": "Embeds discrete algorithm box with syntax-highlighted routine."
+          },
+          "insert_preset": {
+            "label": "🎛️ Stencil Preset (<preset-ref>)",
+            "tag": "<preset-ref id=\"...\">",
+            "source_table": "stencil_presets",
+            "behavior": "Embeds concrete parameter-configured stencil preset (e.g., 12-TET chromatic pitch scale) linking to directed equation execution."
           }
         }
       },

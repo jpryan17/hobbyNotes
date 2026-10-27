@@ -145,6 +145,48 @@ export function executeDirectedEquality(
     };
   }
 
+  if (spec.id === "linear_ladder_step") {
+    const a = args[0] ?? 0;
+    const d = args[1] ?? 1;
+    const n = Math.round(args[2] ?? 0);
+    const val = a + n * d;
+    const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+    return {
+      resultValue: val,
+      displayValue: valStr,
+      hardPart: valStr,
+      dustPart: "0",
+      isHard: true,
+      domainBadge: spec.rhsDomain || "ℝ_ω",
+      details: [
+        `Linear Ladder Step: a + n·d = ${a} + (${n} · ${d}) = ${valStr}`,
+        `Parameters: a = ${a} (anchor), d = ${d} (step difference)`,
+        `Input: n = ${n} (ladder step index)`
+      ]
+    };
+  }
+
+  if (spec.id === "geom_ladder_step") {
+    const a = args[0] ?? 1;
+    const r = args[1] ?? 2;
+    const n = Math.round(args[2] ?? 0);
+    const val = a * Math.pow(r, n);
+    const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+    return {
+      resultValue: val,
+      displayValue: valStr,
+      hardPart: valStr,
+      dustPart: "0",
+      isHard: true,
+      domainBadge: spec.rhsDomain || "ℝ_ω",
+      details: [
+        `Geometric Ladder Step: a · rⁿ = ${a} · (${r})^${n} = ${valStr}`,
+        `Parameters: a = ${a} (scale), r = ${r} (ratio)`,
+        `Input: n = ${n} (ladder step index)`
+      ]
+    };
+  }
+
   // Generic fallback
   const firstVal = args[0] ?? 0;
   return {
@@ -237,6 +279,40 @@ export const DEFAULT_EQUATIONS: Record<string, EquationSpec> = {
       { name: "y", symbol: "y", domain: "ℝ_ω", defaultValue: 2.0, step: 0.1, min: -50, max: 50, description: "Second operating coordinate" }
     ],
     evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["eq_pred_near"], vals)
+  },
+
+  linear_ladder_step: {
+    id: "linear_ladder_step",
+    title: "Linear Step Stencil (LS)",
+    formalStatementId: "fs_linear_ladder_step",
+    governingTheorem: "linear_ladder_step",
+    lhsFormula: "a + n · d",
+    rhsSymbol: "y",
+    rhsDomain: "ℝ_ω",
+    description: "Evaluates the primitive Tree 1 stepping rule LS: ℕ → ℝ_ω with anchor parameter a, difference parameter d, and input index n.",
+    inputs: [
+      { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 0, step: 1, min: -100, max: 100, description: "Anchor parameter a" },
+      { name: "d", symbol: "d", domain: "ℝ_ω", defaultValue: 1, step: 0.5, min: -50, max: 50, description: "Difference parameter d" },
+      { name: "n", symbol: "n", domain: "ℕ", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
+    ],
+    evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["linear_ladder_step"], vals)
+  },
+
+  geom_ladder_step: {
+    id: "geom_ladder_step",
+    title: "Geometric Step Stencil (GS)",
+    formalStatementId: "fs_geom_ladder_step",
+    governingTheorem: "geom_ladder_step",
+    lhsFormula: "a · rⁿ",
+    rhsSymbol: "y",
+    rhsDomain: "ℝ_ω",
+    description: "Evaluates the primitive Tree 2 stepping rule GS: ℕ → ℝ_ω with base scale parameter a, ratio parameter r, and input index n.",
+    inputs: [
+      { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 1, step: 1, min: 0.01, max: 1000, description: "Scale parameter a" },
+      { name: "r", symbol: "r", domain: "ℝ_ω", defaultValue: 2, step: 0.1, min: 0.01, max: 10, description: "Common ratio parameter r" },
+      { name: "n", symbol: "n", domain: "ℕ", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
+    ],
+    evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["geom_ladder_step"], vals)
   }
 };
 

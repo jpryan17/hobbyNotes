@@ -9853,6 +9853,7 @@ var tables = [
     columns: [
       { column: "equation_id", label: "Parent Equation", canModify: false, len: 24 },
       { column: "slot_order", label: "Slot Order (#)", canModify: true, len: 8 },
+      { column: "slot_kind", label: "Slot Role (parameter | input)", canModify: true, len: 16 },
       { column: "name", label: "Parameter Variable Name", canModify: true, len: 16 },
       { column: "symbol", label: "Parameter Symbol", canModify: true, len: 12 },
       { column: "domain", label: "Parameter Domain", canModify: true, len: 16 },
@@ -9862,6 +9863,20 @@ var tables = [
       { column: "max_val", label: "Maximum Range", canModify: true, len: 14 },
       { column: "step_val", label: "Step Precision", canModify: true, len: 14 },
       { column: "description", label: "Description", canModify: true, len: 60, rows: 2 }
+    ]
+  },
+  {
+    table: "stencil_presets",
+    label: "Stencil Presets",
+    singularLabel: "Stencil Preset",
+    columns: [
+      { column: "preset_key", label: "Preset Key", canModify: true, len: 32 },
+      { column: "equation_id", label: "Governing Stencil (Equation)", canModify: true, len: 24 },
+      { column: "title", label: "Preset Title", canModify: true, len: 45 },
+      { column: "unit", label: "Unit", canModify: true, len: 16 },
+      { column: "param_values", label: "Preset Parameter Values (JSON)", canModify: true, len: 60, rows: 3 },
+      { column: "input_defaults", label: "Default Input Values (JSON)", canModify: true, len: 60, rows: 2 },
+      { column: "description", label: "Description", canModify: true, len: 60, rows: 3 }
     ]
   },
   // -------------------------------------------------------------------------
@@ -9995,6 +10010,7 @@ var dependents = [
   { table: "directed_equations", parent: "formal_statements", displayColumns: ["equation_key", "title"] },
   { table: "lean_verifications", parent: "formal_statements", displayColumns: ["theorem_name", "proof_status"] },
   { table: "mode_slots", parent: "directed_equations", displayColumns: ["slot_order", "symbol", "name"] },
+  { table: "stencil_presets", parent: "directed_equations", displayColumns: ["preset_key", "title"] },
   { table: "curriculum_nav_items", parent: "apps", displayColumns: ["sequence_order", "topic"] },
   { table: "segment_references", parent: "segments", displayColumns: ["ref_type", "target_key"] },
   { table: "segment_references", parent: "interactive_demos", displayColumns: ["ref_type", "segment_id"] },
@@ -10012,7 +10028,8 @@ var navigations = [
     label: "\u{1F4D0} Computational Stencils",
     children: [
       { table: "directed_equations" },
-      { table: "mode_slots" }
+      { table: "mode_slots" },
+      { table: "stencil_presets" }
     ]
   },
   {
@@ -35887,7 +35904,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-24T19:00:17.129Z",
+  "generatedAt": "2026-10-27T10:02:38.851Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -36392,6 +36409,42 @@ var FS_CATALOG = {
         "sequencesAndSums"
       ],
       "leanStatus": "pending"
+    },
+    {
+      "numId": 40,
+      "id": "fs_music_et_scale",
+      "parentId": "fs_geometric_ladder",
+      "type": "physics",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "12-TET Chromatic Pitch Scale Stepping",
+      "description": "Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).",
+      "scaffoldKey": "music_et_scale",
+      "expression": "f_{k+1} \u2254 2^(1/12) \xB7 f_k  \u2227  f_k \u2254 f\u2080 \xB7 (2^(1/12))^k",
+      "pseudoAlgoId": "algo_geometric_scale_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
+    },
+    {
+      "numId": 41,
+      "id": "fs_geom_ladder_step",
+      "parentId": "fs_geometric_ladder",
+      "type": "math",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "General Geometric Ladder Step",
+      "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
+      "scaffoldKey": "geom_ladder_step",
+      "expression": "F(k + 1) \u2254 r \xB7 F(k)  \u2227  F(k) \u2254 a \xB7 r^k",
+      "pseudoAlgoId": "algo_geometric_ladder_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
     }
   ],
   "calculationModes": [
@@ -36870,7 +36923,7 @@ var FS_CATALOG = {
     },
     {
       "id": "geom_ladder_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_geom_ladder_step",
       "label": "Geometric Progression Step F_k = a \xB7 r^k",
       "targetSymbol": "F_k",
       "targetDomain": "\u211D_\u03C9",
@@ -36911,7 +36964,7 @@ var FS_CATALOG = {
     },
     {
       "id": "music_et_scale_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_music_et_scale",
       "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
       "targetSymbol": "f_k",
       "targetDomain": "\u211D_\u03C9",
@@ -36948,7 +37001,7 @@ var FS_CATALOG = {
     {
       "id": "ex_equal_temperament_c5",
       "modeId": "music_et_scale_step",
-      "statementId": "fs_geometric_ladder",
+      "statementId": "fs_music_et_scale",
       "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
       "values": {
         "f0": 440,
@@ -42771,6 +42824,504 @@ function parseStatementToFsdData(expr) {
   };
 }
 
+// clientLib/stencilCalculator.ts
+function evaluateFormulaExpression(formulaExpr, variables) {
+  try {
+    let expr = formulaExpr.trim();
+    if (expr.includes("a * Math.pow(r, k)") || expr.includes("a \xB7 r\u207F") || expr.includes("a * r^k") || expr.includes("a * r^n")) {
+      const a = variables["a"] ?? 1;
+      const r = variables["r"] ?? 2;
+      const k = variables["k"] ?? variables["n"] ?? 0;
+      const res = a * Math.pow(r, k);
+      return {
+        result: res,
+        formattedStep: `${a} \xB7 (${r})^${k} = ${Number.isInteger(res) ? res : res.toFixed(4)}`
+      };
+    }
+    if (expr.includes("a + n * d") || expr.includes("a + k \xB7 d") || expr.includes("a + n \xB7 d")) {
+      const a = variables["a"] ?? 0;
+      const d = variables["d"] ?? 1;
+      const n = variables["n"] ?? variables["k"] ?? 0;
+      const res = a + n * d;
+      return {
+        result: res,
+        formattedStep: `${a} + (${n} \xB7 ${d}) = ${Number.isInteger(res) ? res : res.toFixed(4)}`
+      };
+    }
+    if (expr.includes("v0 - g * t") || expr.includes("v\u2080 - g \xB7 t")) {
+      const v0 = variables["v0"] ?? variables["v\u2080"] ?? 0;
+      const g = variables["g"] ?? 9.80665;
+      const t = variables["t"] ?? 0;
+      const res = v0 - g * t;
+      return {
+        result: res,
+        formattedStep: `${v0} - (${g} \xB7 ${t}) = ${res.toFixed(3)}`
+      };
+    }
+    expr = expr.replace(/\^/g, "**").replace(/·/g, "*");
+    const varNames = Object.keys(variables);
+    const varValues = Object.values(variables);
+    const evaluator = new Function(...varNames, `return (${expr});`);
+    const val = evaluator(...varValues);
+    if (typeof val !== "number" || isNaN(val) || !isFinite(val)) {
+      return { result: null, error: "Expression evaluated to NaN or non-finite value" };
+    }
+    return {
+      result: val,
+      formattedStep: `${formulaExpr} = ${Number.isInteger(val) ? val : val.toFixed(4)}`
+    };
+  } catch (err) {
+    return { result: null, error: err.message || "Evaluation error" };
+  }
+}
+function mountStencilCalculator(options) {
+  const {
+    container,
+    equation,
+    slots,
+    presets = [],
+    initialPresetKeyOrId,
+    isCrudMode = false,
+    onSavePreset
+  } = options;
+  container.innerHTML = "";
+  const paramSlots = slots.filter((s) => {
+    if (s.slot_kind === "parameter") return true;
+    if (s.slot_kind === "input") return false;
+    const isIndex = s.name === "n" || s.name === "k" || s.name === "t" || s.domain === "\u2115";
+    return !isIndex && s.slot_order < 2;
+  });
+  const inputSlots = slots.filter((s) => {
+    return !paramSlots.includes(s);
+  });
+  const paramValues = {};
+  paramSlots.forEach((s) => {
+    const def = s.default_value !== null && s.default_value !== void 0 ? Number(s.default_value) : null;
+    paramValues[s.name] = def;
+  });
+  const inputValues = {};
+  inputSlots.forEach((s) => {
+    const def = s.default_value !== null && s.default_value !== void 0 ? Number(s.default_value) : 0;
+    inputValues[s.name] = def;
+  });
+  let activePreset = null;
+  const root = document.createElement("div");
+  root.className = "stencil-calculator-root";
+  root.style.cssText = `
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+    margin: 16px 0 24px 0;
+    line-height: 1.5;
+  `;
+  const header = document.createElement("div");
+  header.style.cssText = `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: 12px 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  `;
+  const targetSym = equation.target_symbol || "y";
+  const targetDom = equation.target_domain || "\u211D_\u03C9";
+  const targetUnit = equation.target_unit ? ` (${equation.target_unit})` : "";
+  const formulaDisplay = equation.formula_expr ? `${targetSym} = ${equation.formula_expr}` : equation.title;
+  header.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <span style="font-size: 16px;">\u{1F4D0}</span>
+      <span style="font-family: 'Cambria Math', Georgia, serif; font-size: 18px; font-weight: 700; color: #1e3a8a;">
+        ${escapeHtml(formulaDisplay)}
+      </span>
+      <code style="background: #eff6ff; color: #1d4ed8; font-size: 11.5px; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #bfdbfe;">
+        ${escapeHtml(equation.equation_key)}
+      </code>
+      <span style="background: #f1f5f9; color: #475569; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: 600;">
+        Codomain: ${escapeHtml(targetDom)}${escapeHtml(targetUnit)}
+      </span>
+    </div>
+    <div id="calculator-status-badge" style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;">
+      <!-- Dynamic Status Badge rendered here -->
+    </div>
+  `;
+  root.appendChild(header);
+  const body = document.createElement("div");
+  body.style.cssText = "padding: 16px 20px;";
+  const paramSection = document.createElement("div");
+  paramSection.style.cssText = `
+    background: #faf5ff;
+    border: 1.5px solid #d8b4fe;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  `;
+  paramSection.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 14px;">\u2699\uFE0F</span>
+        <span style="font-size: 13.5px; font-weight: 700; color: #581c87; text-transform: uppercase; letter-spacing: 0.5px;">
+          Parameter Configuration (The Stencil)
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <label style="font-size: 12px; font-weight: 600; color: #6b21a8;" for="preset-select-dropdown">Preset:</label>
+        <select id="preset-select-dropdown" style="font-size: 12.5px; padding: 4px 10px; border-radius: 4px; border: 1px solid #c084fc; background: #ffffff; color: #4c1d95; font-weight: 600; cursor: pointer;">
+          <option value="">-- Custom (Open Parameters) --</option>
+          ${presets.map(
+    (p) => `<option value="${p.preset_key || p.id}">\u{1F39B}\uFE0F ${escapeHtml(p.title || p.preset_key)}</option>`
+  ).join("")}
+        </select>
+        ${isCrudMode ? `<button type="button" id="btn-save-as-preset" style="font-size: 12px; font-weight: 700; color: #ffffff; background: #7c3aed; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: background 0.15s ease;">
+                 \u{1F4BE} Save as Preset
+               </button>` : ""}
+      </div>
+    </div>
+    <div id="param-inputs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+      <!-- Parameter slot inputs rendered here -->
+    </div>
+  `;
+  body.appendChild(paramSection);
+  const calcSection = document.createElement("div");
+  calcSection.id = "calc-transect-section";
+  calcSection.style.cssText = `
+    background: #f0fdf4;
+    border: 1.5px solid #86efac;
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s ease;
+  `;
+  calcSection.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
+      <span style="font-size: 14px;">\u26A1</span>
+      <span style="font-size: 13.5px; font-weight: 700; color: #14532d; text-transform: uppercase; letter-spacing: 0.5px;">
+        Stepping &amp; Evaluation Transect (Parameterized Calculator)
+      </span>
+    </div>
+    <div id="unparameterized-gate-msg" style="display: none; padding: 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; color: #92400e; font-size: 13px;">
+      \u26A0\uFE0F <strong>Parameters Required:</strong> Please provide values for all stencil parameters above to activate the calculator transect.
+    </div>
+    <div id="calc-active-controls">
+      <div id="input-slots-container" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px;">
+        <!-- Input Stepper Slots rendered here -->
+      </div>
+      <!-- Output Banner -->
+      <div id="calc-output-banner" style="background: #ffffff; border: 1.5px solid #22c55e; border-radius: 8px; padding: 14px 18px; box-shadow: 0 2px 6px rgba(34, 197, 94, 0.08);">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <span style="font-size: 12px; font-weight: 700; color: #15803d; text-transform: uppercase;">Evaluated Output (${escapeHtml(targetSym)}):</span>
+            <div id="calc-result-display" style="font-size: 26px; font-weight: 800; color: #166534; font-family: 'Cambria Math', Georgia, serif; line-height: 1.2; margin-top: 2px;">
+              --
+            </div>
+          </div>
+          <div id="calc-step-breakdown" style="font-family: monospace; font-size: 13px; color: #4b5563; text-align: right;">
+            --
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  body.appendChild(calcSection);
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "stencil-preset-modal-target";
+  body.appendChild(modalContainer);
+  root.appendChild(body);
+  container.appendChild(root);
+  const paramGrid = paramSection.querySelector("#param-inputs-grid");
+  paramSlots.forEach((slot) => {
+    const slotCard = document.createElement("div");
+    slotCard.style.cssText = `
+      background: #ffffff;
+      border: 1px solid #e9d5ff;
+      border-radius: 6px;
+      padding: 10px 12px;
+    `;
+    const min = slot.min_val !== null ? `min="${slot.min_val}"` : "";
+    const max = slot.max_val !== null ? `max="${slot.max_val}"` : "";
+    const step = slot.step_val !== null ? `step="${slot.step_val}"` : 'step="any"';
+    const unitText = slot.unit ? ` <span style="font-size: 11px; color: #7c3aed; font-weight: 600;">(${escapeHtml(slot.unit)})</span>` : "";
+    const initialVal = paramValues[slot.name] !== null && paramValues[slot.name] !== void 0 ? paramValues[slot.name] : "";
+    slotCard.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+        <label for="slot-input-${slot.name}" style="font-size: 12.5px; font-weight: 700; color: #4c1d95;">
+          ${escapeHtml(slot.description || slot.name)} [ <code>${escapeHtml(slot.symbol || slot.name)}</code> ]${unitText}
+        </label>
+        <span style="font-size: 10.5px; color: #6b21a8; font-weight: 600;">${escapeHtml(slot.domain)}</span>
+      </div>
+      <input type="number" id="slot-input-${slot.name}" ${min} ${max} ${step} value="${initialVal}" placeholder="[ _ ]" style="
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 10px;
+        font-size: 13.5px;
+        font-family: monospace;
+        font-weight: 700;
+        border: 1.5px solid #c084fc;
+        border-radius: 4px;
+        color: #1e1b4b;
+        background: #faf5ff;
+        outline: none;
+      " />
+    `;
+    const input = slotCard.querySelector("input");
+    input.addEventListener("input", () => {
+      const val = input.value.trim() === "" ? null : Number(input.value);
+      paramValues[slot.name] = val;
+      presetDropdown.value = "";
+      activePreset = null;
+      recalculate();
+    });
+    paramGrid.appendChild(slotCard);
+  });
+  const inputContainer = calcSection.querySelector("#input-slots-container");
+  inputSlots.forEach((slot) => {
+    const inputSlotCard = document.createElement("div");
+    inputSlotCard.style.cssText = `
+      background: #ffffff;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 10px 14px;
+    `;
+    const min = slot.min_val !== null && slot.min_val !== void 0 ? Number(slot.min_val) : 0;
+    const max = slot.max_val !== null && slot.max_val !== void 0 ? Number(slot.max_val) : 100;
+    const step = slot.step_val !== null && slot.step_val !== void 0 ? Number(slot.step_val) : 1;
+    const initialVal = inputValues[slot.name] ?? min;
+    inputSlotCard.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+        <label style="font-size: 13px; font-weight: 700; color: #166534;">
+          ${escapeHtml(slot.description || "Stepping Index")} [ <code>${escapeHtml(slot.symbol || slot.name)} \u2208 ${escapeHtml(slot.domain)}</code> ]
+        </label>
+        <span style="font-size: 13px; font-weight: 700; color: #15803d; font-family: monospace;" id="input-val-label-${slot.name}">
+          Step: ${initialVal} / ${max}
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button type="button" class="btn-step-minus" style="width: 32px; height: 32px; border: 1px solid #86efac; background: #f0fdf4; color: #166534; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; line-height: 1;">-</button>
+        <input type="range" class="input-slider" min="${min}" max="${max}" step="${step}" value="${initialVal}" style="flex: 1; cursor: pointer; accent-color: #16a34a;" />
+        <button type="button" class="btn-step-plus" style="width: 32px; height: 32px; border: 1px solid #86efac; background: #f0fdf4; color: #166534; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; line-height: 1;">+</button>
+        <input type="number" class="input-num-box" min="${min}" max="${max}" step="${step}" value="${initialVal}" style="width: 65px; padding: 4px 6px; font-size: 13px; font-family: monospace; font-weight: bold; text-align: center; border: 1px solid #86efac; border-radius: 4px; color: #14532d;" />
+      </div>
+    `;
+    const slider = inputSlotCard.querySelector(".input-slider");
+    const numBox = inputSlotCard.querySelector(".input-num-box");
+    const label = inputSlotCard.querySelector(`#input-val-label-${slot.name}`);
+    const minusBtn = inputSlotCard.querySelector(".btn-step-minus");
+    const plusBtn = inputSlotCard.querySelector(".btn-step-plus");
+    const updateInputVal = (newVal) => {
+      const clamped = Math.min(max, Math.max(min, newVal));
+      inputValues[slot.name] = clamped;
+      slider.value = clamped.toString();
+      numBox.value = clamped.toString();
+      label.textContent = `Step: ${clamped} / ${max}`;
+      recalculate();
+    };
+    slider.addEventListener("input", () => updateInputVal(Number(slider.value)));
+    numBox.addEventListener("change", () => updateInputVal(Number(numBox.value)));
+    minusBtn.addEventListener("click", () => updateInputVal(inputValues[slot.name] - step));
+    plusBtn.addEventListener("click", () => updateInputVal(inputValues[slot.name] + step));
+    inputContainer.appendChild(inputSlotCard);
+  });
+  const statusBadge = header.querySelector("#calculator-status-badge");
+  const gateMsg = calcSection.querySelector("#unparameterized-gate-msg");
+  const activeControls = calcSection.querySelector("#calc-active-controls");
+  const resultDisplay = calcSection.querySelector("#calc-result-display");
+  const stepBreakdown = calcSection.querySelector("#calc-step-breakdown");
+  const presetDropdown = paramSection.querySelector("#preset-select-dropdown");
+  function recalculate() {
+    const allParamsProvided = paramSlots.every((s) => {
+      const val = paramValues[s.name];
+      return val !== null && val !== void 0 && !isNaN(val);
+    });
+    if (!allParamsProvided) {
+      statusBadge.innerHTML = `
+        <span style="background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 12px; border: 1px solid #fde68a;">
+          \u25CF Open Stencil (Parameters Required)
+        </span>
+      `;
+      gateMsg.style.display = "block";
+      activeControls.style.opacity = "0.4";
+      activeControls.style.pointerEvents = "none";
+      resultDisplay.textContent = "Awaiting parameters...";
+      stepBreakdown.textContent = "Formula parameters not yet bound";
+      return;
+    }
+    gateMsg.style.display = "none";
+    activeControls.style.opacity = "1";
+    activeControls.style.pointerEvents = "auto";
+    const presetLabel = activePreset ? `\u{1F39B}\uFE0F Preset: ${escapeHtml(activePreset.title)}` : "\u2713 Parameterized Calculator (Ready)";
+    statusBadge.innerHTML = `
+      <span style="background: #ecfdf5; color: #065f46; padding: 3px 10px; border-radius: 12px; border: 1px solid #a7f3d0;">
+        ${presetLabel}
+      </span>
+    `;
+    const allVars = {};
+    for (const [k, v] of Object.entries(paramValues)) {
+      if (v !== null && v !== void 0) allVars[k] = v;
+    }
+    for (const [k, v] of Object.entries(inputValues)) {
+      allVars[k] = v;
+    }
+    const { result, error, formattedStep } = evaluateFormulaExpression(equation.formula_expr, allVars);
+    if (error || result === null) {
+      resultDisplay.textContent = "Error";
+      stepBreakdown.textContent = error || "Calculation failed";
+      return;
+    }
+    const formattedNum = Number.isInteger(result) ? result.toString() : result.toFixed(3);
+    const unitSuffix = equation.target_unit ? ` ${equation.target_unit}` : "";
+    let noteHint = "";
+    if (equation.equation_key === "geom_ladder_step" && allVars["a"] === 440) {
+      const k = Math.round(allVars["k"] ?? allVars["n"] ?? 0);
+      const noteMap = {
+        0: "A4 (Unison)",
+        1: "A#4",
+        2: "B4",
+        3: "C5 (Minor third)",
+        4: "C#5",
+        5: "D5 (Perfect fourth)",
+        6: "D#5",
+        7: "E5 (Perfect fifth)",
+        8: "F5",
+        9: "F#5",
+        10: "G5",
+        11: "G#5",
+        12: "A5 (Octave doubling)"
+      };
+      if (noteMap[k]) noteHint = ` &nbsp;\u2022&nbsp; <span style="font-size: 15px; color: #6d28d9; font-weight: 600;">${noteMap[k]}</span>`;
+    }
+    resultDisplay.innerHTML = `${formattedNum}${unitSuffix}${noteHint}`;
+    stepBreakdown.textContent = formattedStep || "";
+  }
+  function applyPreset(preset) {
+    activePreset = preset;
+    presetDropdown.value = preset.preset_key || String(preset.id);
+    const vals = typeof preset.param_values === "object" ? preset.param_values : JSON.parse(preset.param_values || "{}");
+    for (const [paramName, val] of Object.entries(vals)) {
+      const numVal = Number(val);
+      paramValues[paramName] = numVal;
+      const inputEl = paramSection.querySelector(`#slot-input-${paramName}`);
+      if (inputEl) inputEl.value = String(numVal);
+    }
+    if (preset.input_defaults) {
+      const inVals = typeof preset.input_defaults === "object" ? preset.input_defaults : JSON.parse(preset.input_defaults || "{}");
+      for (const [inName, inVal] of Object.entries(inVals)) {
+        inputValues[inName] = Number(inVal);
+        const slider = inputContainer.querySelector(".input-slider");
+        if (slider) slider.value = String(inVal);
+        const numBox = inputContainer.querySelector(".input-num-box");
+        if (numBox) numBox.value = String(inVal);
+      }
+    }
+    recalculate();
+  }
+  presetDropdown.addEventListener("change", () => {
+    const chosenKey = presetDropdown.value;
+    if (!chosenKey) {
+      activePreset = null;
+      recalculate();
+      return;
+    }
+    const found = presets.find((p) => p.preset_key === chosenKey || String(p.id) === chosenKey);
+    if (found) {
+      applyPreset(found);
+    }
+  });
+  if (isCrudMode) {
+    const savePresetBtn = paramSection.querySelector("#btn-save-as-preset");
+    savePresetBtn?.addEventListener("click", () => {
+      modalContainer.innerHTML = `
+        <div style="background: #ffffff; border: 2px solid #7c3aed; border-radius: 8px; padding: 18px; margin-top: 14px; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="margin: 0; color: #581c87; font-size: 15px; font-weight: 700;">\u{1F4BE} Save Current Parameters as Stencil Preset</h4>
+            <button type="button" id="btn-close-preset-modal" style="background: none; border: none; font-size: 16px; cursor: pointer; color: #64748b;">\u2715</button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: #334155; display: block; margin-bottom: 4px;">Preset Title:</label>
+              <input type="text" id="modal-preset-title" placeholder="e.g. 19-TET Acoustic Scale" style="width: 100%; box-sizing: border-box; padding: 6px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: #334155; display: block; margin-bottom: 4px;">Preset Key (Slug):</label>
+              <input type="text" id="modal-preset-key" placeholder="e.g. preset_19tet_scale" style="width: 100%; box-sizing: border-box; padding: 6px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace;" />
+            </div>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 12px; font-weight: 700; color: #334155; display: block; margin-bottom: 4px;">Description:</label>
+            <input type="text" id="modal-preset-desc" placeholder="Acoustic tuning or physical constants description..." style="width: 100%; box-sizing: border-box; padding: 6px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button type="button" id="btn-cancel-preset" style="padding: 6px 14px; font-size: 12.5px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 4px; cursor: pointer;">Cancel</button>
+            <button type="button" id="btn-commit-preset" style="padding: 6px 16px; font-size: 12.5px; font-weight: 700; border: none; background: #7c3aed; color: #ffffff; border-radius: 4px; cursor: pointer;">Save Preset to Database \u2713</button>
+          </div>
+        </div>
+      `;
+      modalContainer.querySelector("#btn-close-preset-modal")?.addEventListener("click", () => {
+        modalContainer.innerHTML = "";
+      });
+      modalContainer.querySelector("#btn-cancel-preset")?.addEventListener("click", () => {
+        modalContainer.innerHTML = "";
+      });
+      modalContainer.querySelector("#btn-commit-preset")?.addEventListener("click", async () => {
+        const titleInput = modalContainer.querySelector("#modal-preset-title");
+        const keyInput = modalContainer.querySelector("#modal-preset-key");
+        const descInput = modalContainer.querySelector("#modal-preset-desc");
+        const title = titleInput.value.trim();
+        const key = keyInput.value.trim() || `preset_${Date.now().toString().slice(-4)}`;
+        const desc = descInput.value.trim();
+        if (!title) {
+          alert("Please provide a title for the preset.");
+          return;
+        }
+        const capturedParams = {};
+        for (const [pName, pVal] of Object.entries(paramValues)) {
+          if (pVal !== null && pVal !== void 0) {
+            capturedParams[pName] = pVal;
+          }
+        }
+        if (onSavePreset) {
+          await onSavePreset({
+            preset_key: key,
+            title,
+            unit: equation.target_unit || "",
+            param_values: capturedParams,
+            description: desc
+          });
+        }
+        modalContainer.innerHTML = "";
+      });
+    });
+  }
+  if (initialPresetKeyOrId) {
+    const found = presets.find(
+      (p) => p.preset_key === initialPresetKeyOrId || String(p.id) === String(initialPresetKeyOrId)
+    );
+    if (found) {
+      applyPreset(found);
+    } else {
+      recalculate();
+    }
+  } else {
+    recalculate();
+  }
+  return {
+    recalculate,
+    setPreset: (keyOrId) => {
+      const found = presets.find((p) => p.preset_key === keyOrId || String(p.id) === String(keyOrId));
+      if (found) applyPreset(found);
+    },
+    destroy: () => {
+      container.innerHTML = "";
+    }
+  };
+}
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
 // crud/src/contentEditor.ts
 async function renderSegmentContentSurface(options) {
   const { container, segmentRecord, onBack, onSaved, onSwitchMode } = options;
@@ -42814,13 +43365,13 @@ async function renderSegmentContentSurface(options) {
                     </button>
 
                     <div class="editor-seg-meta">
-                        <span class="editor-seg-title">${escapeHtml(segTitle)}</span>
-                        <span class="editor-seg-slug">${escapeHtml(segSlug)}</span>
+                        <span class="editor-seg-title">${escapeHtml2(segTitle)}</span>
+                        <span class="editor-seg-slug">${escapeHtml2(segSlug)}</span>
                     </div>
 
                     <!-- Editorial Status -->
                     <div id="editor-status-container" class="editor-status-wrapper">
-                        ${isReadMode ? `<span class="editorial-status-pill status-${escapeHtml(currentStatus)}">Status: ${escapeHtml(currentStatus)}</span>` : `
+                        ${isReadMode ? `<span class="editorial-status-pill status-${escapeHtml2(currentStatus)}">Status: ${escapeHtml2(currentStatus)}</span>` : `
                             <div style="display: flex; align-items: center; gap: 5px;">
                                 <label for="editor-status-select" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Status:</label>
                                 <select id="editor-status-select" class="tb-select" style="font-weight: 600; padding: 4px 8px;">
@@ -42842,6 +43393,7 @@ async function renderSegmentContentSurface(options) {
                             <button class="tb-dropdown-item" data-action="insert-ttd">\u2696\uFE0F Truth Table (&lt;ttd-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-fs">\u{1F4DC} Formal Statement (&lt;fs-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-stencil">\u{1F4D0} Computational Stencil (&lt;interactive-stencil&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-preset">\u{1F39B}\uFE0F Stencil Preset (&lt;preset-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-demo">\u{1F3A8} Interactive Visual Demo (&lt;visual-demo&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-pseudo">\u26A1 Pseudocode Algorithm (&lt;pseudo-ref&gt;)...</button>
                         </div>
@@ -43235,7 +43787,7 @@ async function renderSegmentContentSurface(options) {
     { l: "\\pi", t: "\\pi" },
     { l: "\\sigma", t: "\\sigma" },
     { l: "\\omega", t: "\\omega" }
-  ].map((ch) => `<button type="button" class="m-chip" data-tex="${escapeHtml(ch.t)}">${escapeHtml(ch.l)}</button>`).join("")}
+  ].map((ch) => `<button type="button" class="m-chip" data-tex="${escapeHtml2(ch.t)}">${escapeHtml2(ch.l)}</button>`).join("")}
                         </div>
 
                         <div>
@@ -43427,7 +43979,7 @@ async function renderSegmentContentSurface(options) {
       el.removeAttribute("data-resolved-subtitle");
       el.removeAttribute("data-resolved-formula");
       el.removeAttribute("data-resolved-status");
-      el.classList.remove("custom-ref-chip", "chip-ttd", "chip-fs", "chip-stencil", "chip-demo", "chip-pseudo");
+      el.classList.remove("custom-ref-chip", "chip-ttd", "chip-fs", "chip-stencil", "chip-demo", "chip-pseudo", "chip-preset");
       if (!el.getAttribute("class")) {
         el.removeAttribute("class");
       }
@@ -43524,11 +44076,22 @@ async function renderSegmentContentSurface(options) {
       }
       if (row) entityMetaCache.set(cacheKey, row);
       return row;
+    } else if (normTag === "preset-ref") {
+      const presetId = el.getAttribute("id") || el.getAttribute("preset-id") || el.getAttribute("preset-key");
+      const cacheKey = `preset:key:${presetId}`;
+      if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+      let row = null;
+      if (presetId) {
+        const rows = await queryDatabase("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [presetId]);
+        row = rows?.[0] || null;
+      }
+      if (row) entityMetaCache.set(cacheKey, row);
+      return row;
     }
     return null;
   }
   async function decorateCustomElements(pane) {
-    const customTags = pane.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref");
+    const customTags = pane.querySelectorAll("ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref");
     if (customTags.length === 0) return;
     for (const el of Array.from(customTags)) {
       const htmlEl = el;
@@ -43549,6 +44112,10 @@ async function renderSegmentContentSurface(options) {
         icon = "\u{1F4D0}";
         kindLabel = "Stencil";
         chipThemeClass = "chip-stencil";
+      } else if (normTag === "preset-ref") {
+        icon = "\u{1F39B}\uFE0F";
+        kindLabel = "Preset";
+        chipThemeClass = "chip-preset";
       } else if (normTag === "visual-demo") {
         icon = "\u{1F52C}";
         kindLabel = "Demo";
@@ -43589,6 +44156,14 @@ async function renderSegmentContentSurface(options) {
         displaySubtitle = `directed_equations \xB7 ${eqKey || `ID ${id}`}`;
         formulaPreview = rec?.formula_expr || "";
         statusBadge = "stencil";
+      } else if (normTag === "preset-ref") {
+        const presetKey = htmlEl.getAttribute("id") || htmlEl.getAttribute("preset-id") || rec?.preset_key || "";
+        const stencilKey = htmlEl.getAttribute("stencil") || "";
+        const rawInner = (htmlEl.getAttribute("data-orig-inner") || "").trim();
+        displayTitle = rec?.title || rawInner || presetKey || "Preset";
+        displaySubtitle = `stencil_presets \xB7 ${presetKey}${stencilKey ? ` (${stencilKey})` : ""}`;
+        formulaPreview = rec?.param_values ? JSON.stringify(rec.param_values) : "";
+        statusBadge = "preset";
       } else if (normTag === "visual-demo") {
         const id = htmlEl.getAttribute("id") || rec?.id || "";
         displayTitle = rec?.title || (rec?.mode ? `Demo: ${rec.mode}` : `Demo #${id}`);
@@ -43605,7 +44180,7 @@ async function renderSegmentContentSurface(options) {
       htmlEl.innerHTML = `
                 <span class="chip-icon">${icon}</span>
                 <span class="chip-badge">${kindLabel}</span>
-                <span class="chip-label">${escapeHtml(displayTitle)}</span>
+                <span class="chip-label">${escapeHtml2(displayTitle)}</span>
             `;
       htmlEl.dataset.resolvedTitle = displayTitle;
       htmlEl.dataset.resolvedSubtitle = displaySubtitle;
@@ -43649,11 +44224,11 @@ async function renderSegmentContentSurface(options) {
       }
       tooltipEl.innerHTML = `
                 <div class="tooltip-header">
-                    <span class="tooltip-badge" style="background:${badgeBg}; color:${badgeColor};">${badgeIcon} ${escapeHtml(subtitle || normTag)}</span>
-                    ${status ? `<span class="tooltip-status-pill">${escapeHtml(status)}</span>` : ""}
+                    <span class="tooltip-badge" style="background:${badgeBg}; color:${badgeColor};">${badgeIcon} ${escapeHtml2(subtitle || normTag)}</span>
+                    ${status ? `<span class="tooltip-status-pill">${escapeHtml2(status)}</span>` : ""}
                 </div>
-                <div class="tooltip-title">${escapeHtml(title)}</div>
-                ${formula ? `<div class="tooltip-formula">${escapeHtml(formula)}</div>` : ""}
+                <div class="tooltip-title">${escapeHtml2(title)}</div>
+                ${formula ? `<div class="tooltip-formula">${escapeHtml2(formula)}</div>` : ""}
                 <div class="tooltip-footer">
                     <span>\u{1F4A1} <strong>Click</strong> to inspect authoritative DB record</span>
                 </div>
@@ -43686,21 +44261,21 @@ async function renderSegmentContentSurface(options) {
       if (val === null || val === void 0) {
         displayVal = '<span style="color: #94a3b8; font-style: italic;">NULL</span>';
       } else if (typeof val === "object") {
-        displayVal = `<pre style="margin: 0; padding: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml(JSON.stringify(val, null, 2))}</pre>`;
+        displayVal = `<pre style="margin: 0; padding: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml2(JSON.stringify(val, null, 2))}</pre>`;
       } else if (col === "status" || col === "editorial_status") {
-        displayVal = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 11px;">${escapeHtml(String(val))}</span>`;
+        displayVal = `<span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 11px;">${escapeHtml2(String(val))}</span>`;
       } else if (col === "expression" || col === "formula_expr") {
         const expStr = String(val);
         const fmt = PxeEngine.fmt(expStr);
-        displayVal = `<div style="font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: #0f172a; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: inline-block;">${escapeHtml(fmt || expStr)}</div>`;
+        displayVal = `<div style="font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: #0f172a; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: inline-block;">${escapeHtml2(fmt || expStr)}</div>`;
       } else if (col === "code") {
-        displayVal = `<pre style="margin: 0; padding: 6px; background: #0f172a; color: #f8fafc; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml(String(val))}</pre>`;
+        displayVal = `<pre style="margin: 0; padding: 6px; background: #0f172a; color: #f8fafc; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; max-height: 140px; overflow: auto;">${escapeHtml2(String(val))}</pre>`;
       } else {
-        displayVal = `<span style="font-family: var(--font-mono); font-size: 12px; color: #334155;">${escapeHtml(String(val))}</span>`;
+        displayVal = `<span style="font-family: var(--font-mono); font-size: 12px; color: #334155;">${escapeHtml2(String(val))}</span>`;
       }
       return `
                 <tr>
-                    <td style="font-weight: 700; color: #1e293b; width: 180px; font-family: var(--font-mono); font-size: 12px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(col)}</td>
+                    <td style="font-weight: 700; color: #1e293b; width: 180px; font-family: var(--font-mono); font-size: 12px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${escapeHtml2(col)}</td>
                     <td style="color: #64748b; font-size: 11px; font-family: var(--font-mono); width: 110px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${typeof val}</td>
                     <td style="padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${displayVal}</td>
                 </tr>
@@ -43747,6 +44322,12 @@ async function renderSegmentContentSurface(options) {
       badgeColor = "#166534";
       badgeBg = "#dcfce7";
       badgeText = "\u{1F4D0} Computational Stencil";
+    } else if (normTag === "preset-ref") {
+      kind = "preset";
+      tableName = "stencil_presets";
+      badgeColor = "#581c87";
+      badgeBg = "#ede9fe";
+      badgeText = "\u{1F39B}\uFE0F Stencil Preset";
     } else if (normTag === "visual-demo") {
       kind = "demo";
       tableName = "interactive_demos";
@@ -43867,7 +44448,7 @@ async function renderSegmentContentSurface(options) {
       if (spellBtn) spellBtn.style.display = "none";
       if (viewPills) viewPills.style.display = "none";
       if (statusWrapper) {
-        statusWrapper.innerHTML = `<span class="editorial-status-pill status-${escapeHtml(currentStatus)}">Status: ${escapeHtml(currentStatus)}</span>`;
+        statusWrapper.innerHTML = `<span class="editorial-status-pill status-${escapeHtml2(currentStatus)}">Status: ${escapeHtml2(currentStatus)}</span>`;
       }
       if (toggleBtn) {
         toggleBtn.textContent = "\u270F\uFE0F Switch to Edit Mode";
@@ -44360,7 +44941,7 @@ async function renderSegmentContentSurface(options) {
       } else if (action === "insert-image") {
         const url = prompt("Enter image URL or asset path:", "");
         if (url) {
-          insertHtmlAtCursor(`<img src="${escapeHtml(url)}" style="max-width: 100%; height: auto; border-radius: 6px;" alt="Image" />`);
+          insertHtmlAtCursor(`<img src="${escapeHtml2(url)}" style="max-width: 100%; height: auto; border-radius: 6px;" alt="Image" />`);
         }
       } else if (action === "insert-table") {
         openTableModal();
@@ -44372,6 +44953,8 @@ async function renderSegmentContentSurface(options) {
         openCustomElementPicker("fs");
       } else if (action === "insert-stencil") {
         openCustomElementPicker("stencil");
+      } else if (action === "insert-preset") {
+        openCustomElementPicker("preset");
       } else if (action === "insert-demo") {
         openCustomElementPicker("demo");
       } else if (action === "insert-pseudo") {
@@ -44417,7 +45000,7 @@ async function renderSegmentContentSurface(options) {
           const fmt = exp ? PxeEngine.fmt(exp) : "";
           const statusSuffix = d.status ? ` [${d.status}]` : "";
           const label = `[#${d.id}] ${d.title ? d.title + " \u2014 " : ""}${fmt || exp || "TTD"}${statusSuffix}`;
-          return `<option value="${d.id}">${escapeHtml(label)}</option>`;
+          return `<option value="${d.id}">${escapeHtml2(label)}</option>`;
         }).join("")}
                         </select>
                     </div>
@@ -44468,8 +45051,8 @@ async function renderSegmentContentSurface(options) {
                     <div style="margin-bottom: 16px;">
                         <select id="modal-select-fs-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
                             ${(fsRows || []).map((s) => `
-                                <option value="${escapeHtml(s.statement_key)}">
-                                    [${escapeHtml((s.statement_kind || "fs").toUpperCase())}] ${escapeHtml(s.title || s.statement_key)} (${escapeHtml(s.statement_key)})
+                                <option value="${escapeHtml2(s.statement_key)}">
+                                    [${escapeHtml2((s.statement_kind || "fs").toUpperCase())}] ${escapeHtml2(s.title || s.statement_key)} (${escapeHtml2(s.statement_key)})
                                 </option>
                             `).join("")}
                         </select>
@@ -44518,8 +45101,8 @@ async function renderSegmentContentSurface(options) {
                     <div style="margin-bottom: 16px;">
                         <select id="modal-select-stencil-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
                             ${(stencilRows || []).map((st) => `
-                                <option value="${escapeHtml(st.equation_key)}">
-                                    ${escapeHtml(st.title || st.label || st.equation_key)} [${escapeHtml(st.equation_key)}]
+                                <option value="${escapeHtml2(st.equation_key)}">
+                                    ${escapeHtml2(st.title || st.label || st.equation_key)} [${escapeHtml2(st.equation_key)}]
                                 </option>
                             `).join("")}
                         </select>
@@ -44554,6 +45137,60 @@ async function renderSegmentContentSurface(options) {
       } catch (err) {
         modalBody2.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
       }
+    } else if (kind === "preset") {
+      modalTitle.textContent = isReplace ? "\u{1F39B}\uFE0F Switch Stencil Preset (<preset-ref>)" : "\u{1F39B}\uFE0F Insert Stencil Preset (<preset-ref>)";
+      modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading presets from PostgreSQL...</div>';
+      customElemModal.classList.add("active");
+      try {
+        const presetRows = await queryDatabase(
+          "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+        );
+        modalBody2.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pre-parameterized stencil preset to embed:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-preset-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(presetRows || []).map((p) => `
+                                <option value="${escapeHtml2(p.preset_key)}" data-title="${escapeHtml2(p.title)}" data-stencil="${escapeHtml2(p.equation_key || "")}">
+                                    ${escapeHtml2(p.title || p.preset_key)} [${escapeHtml2(p.preset_key)}] ${p.equation_key ? `(Stencil: ${escapeHtml2(p.equation_key)})` : ""}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-preset">${isReplace ? "Update Reference" : "Insert &lt;preset-ref&gt;"}</button>
+                    </div>
+                `;
+        modalBody2.querySelector("#btn-cancel-custom-elem")?.addEventListener("click", closeCustomElemModal);
+        modalBody2.querySelector("#btn-confirm-insert-preset")?.addEventListener("click", () => {
+          const sel = modalBody2.querySelector("#modal-select-preset-item");
+          if (sel && sel.value) {
+            const opt = sel.selectedOptions[0];
+            const title = opt?.getAttribute("data-title") || sel.value;
+            const stencil = opt?.getAttribute("data-stencil") || "";
+            const stencilAttr = stencil ? ` stencil="${stencil}"` : "";
+            if (targetElemToReplace) {
+              targetElemToReplace.setAttribute("id", sel.value);
+              if (stencil) targetElemToReplace.setAttribute("stencil", stencil);
+              targetElemToReplace.textContent = title;
+              decorateCustomElements(wysiwygPane);
+              setDirty(true);
+              if (activeMode === "split") {
+                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+              }
+              showToast(`\u2713 Updated <preset-ref id="${sel.value}">`);
+            } else {
+              insertHtmlAtCursor(`
+<preset-ref id="${sel.value}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>
+`);
+              showToast(`\u2713 Inserted <preset-ref id="${sel.value}">`);
+            }
+          }
+          closeCustomElemModal();
+        });
+      } catch (err) {
+        modalBody2.innerHTML = `<div style="color: #dc2626;">Error loading presets: ${err.message}</div>`;
+      }
     } else if (kind === "demo") {
       modalTitle.textContent = isReplace ? "\u{1F3A8} Switch Interactive Demo (<visual-demo>)" : "\u{1F3A8} Insert Interactive Visual Demo (<visual-demo>)";
       modalBody2.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading interactive demos from PostgreSQL...</div>';
@@ -44568,7 +45205,7 @@ async function renderSegmentContentSurface(options) {
                         <select id="modal-select-demo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
                             ${(demoRows || []).map((d) => `
                                 <option value="${d.id}">
-                                    [${escapeHtml((d.engine || "demo").toUpperCase())}] #${d.id} ${escapeHtml(d.title || d.mode || "Demo")}
+                                    [${escapeHtml2((d.engine || "demo").toUpperCase())}] #${d.id} ${escapeHtml2(d.title || d.mode || "Demo")}
                                 </option>
                             `).join("")}
                         </select>
@@ -44615,8 +45252,8 @@ async function renderSegmentContentSurface(options) {
                     <div style="margin-bottom: 16px;">
                         <select id="modal-select-pseudo-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
                             ${(pseudoRows || []).map((p) => `
-                                <option value="${escapeHtml(p.algo_key)}">
-                                    [${escapeHtml((p.badge || "ALGO").toUpperCase())}] ${escapeHtml(p.name || p.func_name || p.algo_key)} (${escapeHtml(p.algo_key)})
+                                <option value="${escapeHtml2(p.algo_key)}">
+                                    [${escapeHtml2((p.badge || "ALGO").toUpperCase())}] ${escapeHtml2(p.name || p.func_name || p.algo_key)} (${escapeHtml2(p.algo_key)})
                                 </option>
                             `).join("")}
                         </select>
@@ -44830,7 +45467,7 @@ async function renderSegmentContentSurface(options) {
             <div style="display: flex; align-items: center; gap: 8px;">
                 <span style="font-weight: 700; color: #38bdf8;">Draw.io Diagram Editor</span>
                 <span style="color: #94a3b8;">\u2022</span>
-                <span style="color: #cbd5e1;">${escapeHtml(diagramName)}</span>
+                <span style="color: #cbd5e1;">${escapeHtml2(diagramName)}</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <button id="drawio-save-btn" class="btn btn-primary" style="padding: 5px 12px; background: #0284c7;">\u{1F4BE} Embed Changes</button>
@@ -44889,7 +45526,7 @@ async function renderSegmentContentSurface(options) {
     window.addEventListener("message", onMsg);
   }
 }
-function escapeHtml(str) {
+function escapeHtml2(str) {
   if (!str) return "";
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
@@ -45407,7 +46044,7 @@ function injectEditorStyles() {
             text-decoration: none !important;
         }
 
-        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
+        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
             transform: translateY(-1.5px) !important;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12) !important;
             filter: brightness(0.97) !important;
@@ -45444,6 +46081,17 @@ function injectEditorStyles() {
         .chip-stencil .chip-badge {
             background: #dcfce7;
             color: #15803d;
+        }
+
+        /* Royal Purple Stencil Preset Theme */
+        preset-ref, .chip-preset {
+            background: #f5f3ff !important;
+            border: 1.5px solid #c084fc !important;
+            color: #581c87 !important;
+        }
+        .chip-preset .chip-badge {
+            background: #ede9fe;
+            color: #6d28d9;
         }
 
         /* Violet Interactive Demo Theme */
@@ -45591,6 +46239,10 @@ var typeMap = {
   computational_stencils: { table: "directed_equations", label: "Computational Stencils" },
   stencil: { table: "directed_equations", label: "Computational Stencil" },
   stencils: { table: "directed_equations", label: "Computational Stencils" },
+  stencil_preset: { table: "stencil_presets", label: "Stencil Preset" },
+  stencil_presets: { table: "stencil_presets", label: "Stencil Presets" },
+  preset: { table: "stencil_presets", label: "Stencil Preset" },
+  presets: { table: "stencil_presets", label: "Stencil Presets" },
   truth_table: { table: "interactive_demos", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Display (TTD)" },
   ttd: { table: "interactive_demos", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Demo (TTD)" },
   btd: { table: "interactive_demos", filterKind: { column: "engine", value: "btd" }, label: "Binary Tree Demo (BTD)" },
@@ -45672,6 +46324,8 @@ function getRecordFriendlyName(tableName, record) {
   switch (tableName) {
     case "directed_equations":
       return record.equation_key ? `${record.equation_key} \u2014 ${record.title || record.label || "Equation"}` : `${record.title || record.label || "Equation"} (ID: ${record.id})`;
+    case "stencil_presets":
+      return record.preset_key ? `${record.preset_key} \u2014 ${record.title || "Preset"}` : `${record.title || "Preset"} (ID: ${record.id})`;
     case "formal_statements":
       return record.statement_key ? `${record.statement_key} \u2014 ${record.title || record.expression || "Statement"}` : `${record.title || record.expression || "Statement"} (ID: ${record.id})`;
     case "pseudocode_algorithms":
@@ -45763,6 +46417,11 @@ function getRecordUniqueKeyDisplay(tableName, record) {
       return {
         key: record.equation_key || `#${record.id}`,
         label: record.title || record.label || `Equation #${record.id}`
+      };
+    case "stencil_presets":
+      return {
+        key: record.preset_key || `#${record.id}`,
+        label: record.title || `Preset #${record.id}`
       };
     default: {
       const displayCol = getDisplayColumnName(tableName);
@@ -45964,16 +46623,16 @@ function renderFacetPillBar(facets) {
             ${facets.map((facet) => {
     const activeVal = activeFacetFilters[facet.column] || "__ALL__";
     return `
-                        <div class="filter-facet-strip" data-column="${escapeHtml2(facet.column)}">
-                            <span class="facet-label">${escapeHtml2(facet.label)}:</span>
+                        <div class="filter-facet-strip" data-column="${escapeHtml3(facet.column)}">
+                            <span class="facet-label">${escapeHtml3(facet.label)}:</span>
                             <div class="facet-pills">
-                                <button type="button" class="facet-pill ${activeVal === "__ALL__" ? "active" : ""}" data-col="${escapeHtml2(facet.column)}" data-val="__ALL__">
+                                <button type="button" class="facet-pill ${activeVal === "__ALL__" ? "active" : ""}" data-col="${escapeHtml3(facet.column)}" data-val="__ALL__">
                                     All <span class="pill-count">(${facet.totalCount})</span>
                                 </button>
                                 ${facet.options.map(
       (opt) => `
-                                    <button type="button" class="facet-pill ${activeVal === opt.value ? "active" : ""}" data-col="${escapeHtml2(facet.column)}" data-val="${escapeHtml2(opt.value)}">
-                                        ${escapeHtml2(opt.label)} <span class="pill-count">(${opt.count})</span>
+                                    <button type="button" class="facet-pill ${activeVal === opt.value ? "active" : ""}" data-col="${escapeHtml3(facet.column)}" data-val="${escapeHtml3(opt.value)}">
+                                        ${escapeHtml3(opt.label)} <span class="pill-count">(${opt.count})</span>
                                     </button>
                                 `
     ).join("")}
@@ -46033,7 +46692,7 @@ async function openChildRecordPickerModal(parentTable, colName, fkTable, isNulla
         <div style="background: #ffffff; border-radius: 8px; width: 680px; max-width: 92vw; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); border: 1px solid #cbd5e1; overflow: hidden;">
             <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
                 <div>
-                    <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Select ${escapeHtml2(targetLabel)}</h3>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Select ${escapeHtml3(targetLabel)}</h3>
                     <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Table: <code style="font-family: var(--font-mono);">${fkTable}</code> \u2022 Total: ${records.length} records</div>
                 </div>
                 <button type="button" class="btn-close-picker-modal" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer; padding: 2px 8px; border-radius: 4px;">\u2715</button>
@@ -46054,8 +46713,8 @@ async function openChildRecordPickerModal(parentTable, colName, fkTable, isNulla
     return `
                         <div class="picker-item" data-id="${r.id}" style="padding: 8px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 1px solid ${isSelected ? "#38bdf8" : "#e2e8f0"}; background: ${isSelected ? "#f0f9ff" : "#ffffff"}; transition: all 0.1s ease;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; border: 1px solid #e2e8f0;">${escapeHtml2(info.key)}</span>
-                                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">${escapeHtml2(info.label)}</span>
+                                <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; border: 1px solid #e2e8f0;">${escapeHtml3(info.key)}</span>
+                                <span style="font-size: 13px; font-weight: 600; color: #1e293b;">${escapeHtml3(info.label)}</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <span style="font-size: 11px; color: #94a3b8; font-family: var(--font-mono);">#${r.id}</span>
@@ -46296,7 +46955,7 @@ function setupControlListeners() {
                             The PostgreSQL database was successfully dumped to:
                             <br><code style="font-family: var(--font-mono); font-weight: 600;">db/backups/latest.sql</code>
                         </p>
-                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml3(data.output || data.message)}</pre>
                         <div style="margin-top: 14px; text-align: right;">
                             <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
                         </div>
@@ -46331,7 +46990,7 @@ function setupControlListeners() {
                             PostgreSQL database backed up and distribution compiled into:
                             <br><code style="font-family: var(--font-mono); font-weight: 600;">app1/dist/index.html</code> (57 segments loaded from PostgreSQL).
                         </p>
-                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                        <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 180px; overflow-y: auto;">${escapeHtml3(data.output || data.message)}</pre>
                         <div style="margin-top: 14px; text-align: right;">
                             <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
                         </div>
@@ -46385,7 +47044,7 @@ function setupControlListeners() {
                             <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
                                 Changes have been pushed to <code>origin master</code> and deployed live to <strong>middlewaymath.app</strong>!
                             </p>
-                            <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 200px; overflow-y: auto;">${escapeHtml2(data.output || data.message)}</pre>
+                            <pre style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11.5px; max-height: 200px; overflow-y: auto;">${escapeHtml3(data.output || data.message)}</pre>
                             <div style="margin-top: 14px; text-align: right;">
                                 <button class="action-btn primary" onclick="document.getElementById('main-modal').classList.remove('open')">Done</button>
                             </div>
@@ -46398,7 +47057,7 @@ function setupControlListeners() {
           showModal(`
                         <h3 style="color: #dc2626; margin-bottom: 8px;">\u26A0\uFE0F Deployment Failed</h3>
                         <p style="color: #334155; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
-                            ${escapeHtml2(err.message)}
+                            ${escapeHtml3(err.message)}
                         </p>
                         <div style="margin-top: 14px; text-align: right;">
                             <button class="action-btn secondary" onclick="document.getElementById('main-modal').classList.remove('open')">Close</button>
@@ -46751,9 +47410,9 @@ function updateBreadcrumbs() {
   if (breadcrumbActiveType) {
     if (currentSelectedId && currentTitle && currentTitle !== mapping.label) {
       breadcrumbActiveType.innerHTML = `
-                <span>${escapeHtml2(mapping.label)}</span>
+                <span>${escapeHtml3(mapping.label)}</span>
                 <span style="color: #cbd5e1; margin: 0 4px;">/</span>
-                <span style="color: #0369a1; font-weight: 600;">${escapeHtml2(currentTitle)}</span>
+                <span style="color: #0369a1; font-weight: 600;">${escapeHtml3(currentTitle)}</span>
             `;
     } else {
       breadcrumbActiveType.textContent = mapping.label;
@@ -46763,7 +47422,7 @@ function updateBreadcrumbs() {
     if (navHistory.length > 0) {
       const last = navHistory[navHistory.length - 1];
       navBackBtn.style.display = "inline-flex";
-      navBackBtn.innerHTML = `<span>\u2190 Back to ${escapeHtml2(last.title || last.tableName)}</span>`;
+      navBackBtn.innerHTML = `<span>\u2190 Back to ${escapeHtml3(last.title || last.tableName)}</span>`;
     } else {
       navBackBtn.style.display = "none";
     }
@@ -46872,7 +47531,7 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
             <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} to ${actionVerb} (${records.length}${currentSubject !== "all" ? ` of ${allRecords.length}` : ""} available) --</option>
             ${records.map(
       (r) => `<option value="${r.id}">
-                            ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                            ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                         </option>`
     ).join("")}
         `;
@@ -46889,7 +47548,7 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
     const filterScopeBanner = currentSubject !== "all" ? `
             <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
                 <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
-                    Filtered by Subject: <strong>${escapeHtml2(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                    Filtered by Subject: <strong>${escapeHtml3(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
                 </span>
                 <button type="button" id="btn-clear-active-filter-action" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
                     \u2715 Clear Scope
@@ -46914,11 +47573,11 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
                                 <div class="instance-menu-item" data-id="${r.id}" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; background: #ffffff;">
                                     <div style="flex: 1;">
                                         <div class="instance-item-title" style="display: flex; align-items: center; gap: 8px;">
-                                            <span style="font-weight: 600; color: #0f172a;">${escapeHtml2(friendlyTitle)}</span>
-                                            ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
+                                            <span style="font-weight: 600; color: #0f172a;">${escapeHtml3(friendlyTitle)}</span>
+                                            ${key ? `<code class="instance-key-badge">${escapeHtml3(key)}</code>` : ""}
                                             <span class="instance-id-badge">#${r.id}</span>
                                         </div>
-                                        ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 4px;">${escapeHtml2(desc.slice(0, 120))}${desc.length > 120 ? "..." : ""}</div>` : ""}
+                                        ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 4px;">${escapeHtml3(desc.slice(0, 120))}${desc.length > 120 ? "..." : ""}</div>` : ""}
                                     </div>
                                     <button class="btn btn-sm" style="background: ${actionColor}; color: #ffffff; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer;">
                                         ${actionIcon} ${actionVerb}
@@ -47080,7 +47739,7 @@ async function renderEntityInspectorView(tableName, filterKind) {
                 <option value="" ${!currentSelectedId ? "selected" : ""}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${list.length}${list.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
                 ${list.map(
         (r) => `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? "selected" : ""}>
-                                ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                             </option>`
       ).join("")}
             `;
@@ -47098,7 +47757,7 @@ async function renderEntityInspectorView(tableName, filterKind) {
       const filterScopeBanner = currentSubject !== "all" ? `
                 <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; margin-bottom: 14px;">
                     <span style="font-size: 12.5px; font-weight: 600; color: #1d4ed8;">
-                        Filtered by Subject: <strong>${escapeHtml2(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
+                        Filtered by Subject: <strong>${escapeHtml3(currentSubjectLabel?.textContent || currentSubject)}</strong> (${records.length} of ${allRecords.length} records)
                     </span>
                     <button type="button" id="btn-clear-active-filter" style="background: none; border: none; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer;">
                         \u2715 Clear Scope
@@ -47114,14 +47773,14 @@ async function renderEntityInspectorView(tableName, filterKind) {
                         <div class="instance-menu-item" data-id="${r.id}">
                             <div style="flex: 1;">
                                 <div class="instance-item-title">
-                                    <span>${escapeHtml2(friendlyTitle)}</span>
-                                    ${key ? `<code class="instance-key-badge">${escapeHtml2(key)}</code>` : ""}
-                                    ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml2(r.statement_kind)}">${escapeHtml2(r.statement_kind)}</span>` : ""}
-                                    ${r.tier ? `<span class="tier-badge tier-${escapeHtml2(r.tier)}">${escapeHtml2(r.tier)}</span>` : ""}
+                                    <span>${escapeHtml3(friendlyTitle)}</span>
+                                    ${key ? `<code class="instance-key-badge">${escapeHtml3(key)}</code>` : ""}
+                                    ${r.statement_kind ? `<span class="kind-badge kind-${escapeHtml3(r.statement_kind)}">${escapeHtml3(r.statement_kind)}</span>` : ""}
+                                    ${r.tier ? `<span class="tier-badge tier-${escapeHtml3(r.tier)}">${escapeHtml3(r.tier)}</span>` : ""}
                                     <span class="instance-id-badge">#${r.id}</span>
                                 </div>
-                                ${formula ? `<div class="instance-item-formula">${escapeHtml2(formula)}</div>` : ""}
-                                ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml2(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
+                                ${formula ? `<div class="instance-item-formula">${escapeHtml3(formula)}</div>` : ""}
+                                ${desc ? `<div style="font-size: 12px; color: #64748b; margin-top: 3px;">${escapeHtml3(desc.slice(0, 140))}${desc.length > 140 ? "..." : ""}</div>` : ""}
                             </div>
                             <div style="color: var(--primary); font-size: 13px; font-weight: 700; margin-left: 12px;">
                                 Inspect \u2197
@@ -47244,7 +47903,7 @@ async function renderAttributeCompleteCard(tableName, record) {
   card.innerHTML = `
         <div class="card-header-bar">
             <div>
-                <h2 class="card-main-title">${escapeHtml2(titleVal)}</h2>
+                <h2 class="card-main-title">${escapeHtml3(titleVal)}</h2>
                 <div class="card-meta-line">
                     <span>Table: <strong style="font-family: var(--font-mono); color: var(--primary);">${tableName}</strong></span>
                     <span>\u2022</span>
@@ -47275,8 +47934,8 @@ async function renderAttributeCompleteCard(tableName, record) {
     const tdName = document.createElement("td");
     tdName.className = "attr-col-name";
     tdName.innerHTML = `
-            <div>${escapeHtml2(colName)}</div>
-            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml2(colMeta.label)}</div>` : ""}
+            <div>${escapeHtml3(colName)}</div>
+            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml3(colMeta.label)}</div>` : ""}
         `;
     tr.appendChild(tdName);
     const tdType = document.createElement("td");
@@ -47288,7 +47947,7 @@ async function renderAttributeCompleteCard(tableName, record) {
     else flags.push("NULLABLE");
     if (colMeta.isEnum) flags.push("ENUM");
     tdType.innerHTML = `
-            <div>${escapeHtml2(colMeta.dbDataType.toUpperCase())}</div>
+            <div>${escapeHtml3(colMeta.dbDataType.toUpperCase())}</div>
             <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${flags.join(" \u2022 ")}</div>
         `;
     tr.appendChild(tdType);
@@ -47339,7 +47998,7 @@ async function renderAttributeCompleteCard(tableName, record) {
       tdVal.innerHTML = `
                 <div style="padding: 10px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block; min-width: 320px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
                     <div style="font-size: 19px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif; letter-spacing: 0.5px;">
-                        ${escapeHtml2(expStr || "\u2014")}
+                        ${escapeHtml3(expStr || "\u2014")}
                     </div>
                 </div>
             `;
@@ -47349,7 +48008,7 @@ async function renderAttributeCompleteCard(tableName, record) {
         tdVal.innerHTML = `<span class="null-badge">NULL</span>`;
       } else {
         tdVal.innerHTML = `
-                    <pre class="raw-code-box" style="background: #0f172a; color: #38bdf8; font-family: var(--font-mono); font-size: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid #1e293b; white-space: pre-wrap; word-break: break-word; margin: 0; max-height: 240px; overflow-y: auto;">${escapeHtml2(code)}</pre>
+                    <pre class="raw-code-box" style="background: #0f172a; color: #38bdf8; font-family: var(--font-mono); font-size: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid #1e293b; white-space: pre-wrap; word-break: break-word; margin: 0; max-height: 240px; overflow-y: auto;">${escapeHtml3(code)}</pre>
                 `;
       }
     } else if (tableName === "formal_statements" && colName === "status") {
@@ -47378,7 +48037,7 @@ async function renderAttributeCompleteCard(tableName, record) {
         badgeColor = "#475569";
         badgeLabel = "\u{1F4DD} Draft";
       }
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor}; display: inline-flex; align-items: center; gap: 4px;">${escapeHtml2(badgeLabel)}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor}; display: inline-flex; align-items: center; gap: 4px;">${escapeHtml3(badgeLabel)}</span>`;
     } else if (tableName === "formal_statements" && colName === "tier") {
       const trVal = rawVal ? rawVal.toString() : "";
       let tBg = "#f1f5f9";
@@ -47397,7 +48056,7 @@ async function renderAttributeCompleteCard(tableName, record) {
         tColor = "#0369a1";
         tIcon = "\u{1F310}";
       }
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${tBg}; color: ${tColor}; display: inline-flex; align-items: center; gap: 4px;">${tIcon} ${escapeHtml2(trVal)}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${tBg}; color: ${tColor}; display: inline-flex; align-items: center; gap: 4px;">${tIcon} ${escapeHtml3(trVal)}</span>`;
     } else if (tableName === "formal_statements" && colName === "statement_kind") {
       const kVal = rawVal ? rawVal.toString() : "";
       let kBg = "#f8fafc";
@@ -47416,9 +48075,9 @@ async function renderAttributeCompleteCard(tableName, record) {
         kColor = "#1d4ed8";
         kIcon = "\u21CC";
       }
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml2(kVal)}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml3(kVal)}</span>`;
     } else if (tableName === "formal_statements" && colName === "domain_category") {
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml2(rawVal.toString())}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml3(rawVal.toString())}</span>`;
     } else if (tableName === "formal_statements" && colName === "referenced_segments") {
       const segs = Array.isArray(rawVal) ? rawVal : typeof rawVal === "string" ? rawVal.replace(/[{}]/g, "").split(",").map((s) => s.trim()).filter(Boolean) : [];
       if (segs.length === 0) {
@@ -47426,7 +48085,7 @@ async function renderAttributeCompleteCard(tableName, record) {
       } else {
         tdVal.innerHTML = `
                     <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                        ${segs.map((s) => `<span style="font-size: 11px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">${escapeHtml2(s)}</span>`).join("")}
+                        ${segs.map((s) => `<span style="font-size: 11px; font-weight: 600; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">${escapeHtml3(s)}</span>`).join("")}
                     </div>
                 `;
       }
@@ -47447,14 +48106,14 @@ async function renderAttributeCompleteCard(tableName, record) {
         tdVal.innerHTML = `
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                            <code style="font-family: var(--font-mono); font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 4px; font-size: 13px;">Predicate: ${escapeHtml2(expStr || "\u2014")}</code>
-                            <span style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml2(displayFormula)}</span>
+                            <code style="font-family: var(--font-mono); font-weight: 700; color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 4px; font-size: 13px;">Predicate: ${escapeHtml3(expStr || "\u2014")}</code>
+                            <span style="font-size: 20px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml3(displayFormula)}</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: #64748b;">
                             <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 600;">
-                                Active: Stage ${escapeHtml2(initObj?.stage || "4")} (Matrix Visualizer)
+                                Active: Stage ${escapeHtml3(initObj?.stage || "4")} (Matrix Visualizer)
                             </span>
-                            ${initObj?.slots ? `<span>Bound Slots: <strong style="color: #334155;">${escapeHtml2(initObj.slots)}</strong></span>` : ""}
+                            ${initObj?.slots ? `<span>Bound Slots: <strong style="color: #334155;">${escapeHtml3(initObj.slots)}</strong></span>` : ""}
                         </div>
                     </div>
                 `;
@@ -47462,8 +48121,8 @@ async function renderAttributeCompleteCard(tableName, record) {
         const fmtStr = expStr ? PxeEngine.fmt(expStr) : "";
         tdVal.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                        <code style="font-family: var(--font-mono); font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; font-size: 13px;">${escapeHtml2(expStr || "\u2014")}</code>
-                        <span style="font-size: 19px; font-weight: 700; color: firebrick; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml2(fmtStr)}</span>
+                        <code style="font-family: var(--font-mono); font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; font-size: 13px;">${escapeHtml3(expStr || "\u2014")}</code>
+                        <span style="font-size: 19px; font-weight: 700; color: firebrick; font-family: 'Cambria Math', Georgia, serif;">${escapeHtml3(fmtStr)}</span>
                     </div>
                 `;
       }
@@ -47485,16 +48144,16 @@ async function renderAttributeCompleteCard(tableName, record) {
         badgeColor = "#0284c7";
         badgeLabel = "Contingent [cont]";
       }
-      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml2(badgeLabel)}</span>`;
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml3(badgeLabel)}</span>`;
     } else if (tableName === "interactive_demos" && colName === "init_packet") {
       tdVal.innerHTML = `
                 <details style="font-size: 11px; color: #64748b;">
                     <summary style="cursor: pointer; font-weight: 600;">View Raw JSON Packet</summary>
-                    <pre class="raw-code-box" style="margin-top: 4px;">${escapeHtml2(typeof rawVal === "object" ? JSON.stringify(rawVal, null, 2) : (rawVal || "").toString())}</pre>
+                    <pre class="raw-code-box" style="margin-top: 4px;">${escapeHtml3(typeof rawVal === "object" ? JSON.stringify(rawVal, null, 2) : (rawVal || "").toString())}</pre>
                 </details>
             `;
     } else if (typeof rawVal === "object") {
-      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml2(JSON.stringify(rawVal, null, 2))}</pre>`;
+      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml3(JSON.stringify(rawVal, null, 2))}</pre>`;
     } else if (colName === "content_html") {
       tdVal.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 10px; padding: 2px 0;">
@@ -47511,7 +48170,7 @@ async function renderAttributeCompleteCard(tableName, record) {
         renderSegmentAuthoringView(record, "read");
       });
     } else if (colMeta.rows && colMeta.rows > 1) {
-      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml2(rawVal.toString())}</pre>`;
+      tdVal.innerHTML = `<pre class="raw-code-box">${escapeHtml3(rawVal.toString())}</pre>`;
     } else {
       tdVal.textContent = rawVal.toString();
     }
@@ -47519,6 +48178,71 @@ async function renderAttributeCompleteCard(tableName, record) {
     tbody.appendChild(tr);
   }
   card.appendChild(table);
+  if (tableName === "directed_equations") {
+    const stencilSection = document.createElement("div");
+    stencilSection.className = "card-stencil-section";
+    stencilSection.style.cssText = "margin-top: 20px;";
+    card.appendChild(stencilSection);
+    try {
+      const slots = await queryDatabase(
+        "SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;",
+        [record.id]
+      );
+      const presets = await queryDatabase(
+        "SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;",
+        [record.id]
+      );
+      mountStencilCalculator({
+        container: stencilSection,
+        equation: record,
+        slots: slots || [],
+        presets: presets || [],
+        isCrudMode: true,
+        onSavePreset: async (newPreset) => {
+          await executeSql(
+            `INSERT INTO stencil_presets (preset_key, equation_id, title, unit, param_values, description, created_at, updated_at)
+                         VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
+            [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
+          );
+          await renderEntityInspectorView("directed_equations");
+        }
+      });
+    } catch (stErr) {
+      console.error("[renderAttributeCompleteCard] Error mounting stencil calculator:", stErr);
+    }
+  } else if (tableName === "stencil_presets") {
+    const stencilSection = document.createElement("div");
+    stencilSection.className = "card-stencil-section";
+    stencilSection.style.cssText = "margin-top: 20px;";
+    card.appendChild(stencilSection);
+    try {
+      const eqRows = await queryDatabase(
+        "SELECT * FROM directed_equations WHERE id = $1;",
+        [record.equation_id]
+      );
+      if (eqRows && eqRows.length > 0) {
+        const eqRecord = eqRows[0];
+        const slots = await queryDatabase(
+          "SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;",
+          [record.equation_id]
+        );
+        const presets = await queryDatabase(
+          "SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;",
+          [record.equation_id]
+        );
+        mountStencilCalculator({
+          container: stencilSection,
+          equation: eqRecord,
+          slots: slots || [],
+          presets: presets || [],
+          initialPresetKeyOrId: record.id,
+          isCrudMode: false
+        });
+      }
+    } catch (stErr) {
+      console.error("[renderAttributeCompleteCard] Error mounting stencil calculator for preset:", stErr);
+    }
+  }
   container.appendChild(card);
   card.querySelectorAll(".btn-nav-child-arrow, .fk-goto-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -47565,7 +48289,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                     <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
                     ${activeFilteredRecords.map(
     (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
-                                    ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                    ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                                 </option>`
   ).join("")}
                 </select>
@@ -47581,7 +48305,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                         <div class="attribute-card">
                             <div class="card-header-bar">
                                 <div>
-                                    <h2 class="card-main-title">${escapeHtml2(formTitle)}</h2>
+                                    <h2 class="card-main-title">${escapeHtml3(formTitle)}</h2>
                                     <div class="card-meta-line">
                                         <span>Table: <strong style="font-family: var(--font-mono); color: var(--primary);">${tableName}</strong></span>
                                         <span>\u2022</span>
@@ -47643,7 +48367,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                     <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
                     ${activeFilteredRecords.map(
           (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
-                                    ${escapeHtml2(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
+                                    ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                                 </option>`
         ).join("")}
                 `;
@@ -47680,8 +48404,8 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
     const tdName = document.createElement("td");
     tdName.className = "attr-col-name";
     tdName.innerHTML = `
-            <div>${escapeHtml2(colName)}</div>
-            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml2(colMeta.label)}</div>` : ""}
+            <div>${escapeHtml3(colName)}</div>
+            ${colMeta.label && colMeta.label !== colName ? `<div style="font-size: 11px; color: #64748b; font-weight: normal;">${escapeHtml3(colMeta.label)}</div>` : ""}
         `;
     tr.appendChild(tdName);
     const tdType = document.createElement("td");
@@ -47693,7 +48417,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
     else flags.push("NULLABLE");
     if (colMeta.isEnum) flags.push("ENUM");
     tdType.innerHTML = `
-            <div>${escapeHtml2(colMeta.dbDataType.toUpperCase())}</div>
+            <div>${escapeHtml3(colMeta.dbDataType.toUpperCase())}</div>
             <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${flags.join(" \u2022 ")}</div>
         `;
     tr.appendChild(tdType);
@@ -47706,10 +48430,10 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       const pkVal = val !== null && val !== void 0 ? val.toString() : "Auto-generated";
       pkContainer.innerHTML = `
                 <span style="font-family: var(--font-mono); font-weight: 700; color: #0f172a; background: #f1f5f9; padding: 3px 8px; border-radius: 4px; border: 1px solid #e2e8f0; display: inline-block;">
-                    ${escapeHtml2(pkVal)}
+                    ${escapeHtml3(pkVal)}
                 </span>
                 <span style="font-size: 11px; color: #64748b;">(Immutable PK)</span>
-                ${!isNew && val !== null && val !== void 0 ? `<input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml2(val.toString())}" />` : ""}
+                ${!isNew && val !== null && val !== void 0 ? `<input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml3(val.toString())}" />` : ""}
             `;
       inputElement = pkContainer;
     } else if (tableName === "segments" && colName === "content_html") {
@@ -47726,7 +48450,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                     <button type="button" class="action-btn primary btn-open-authoring-surface" style="font-size: 11.5px; padding: 4px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
                         \u270F\uFE0F Open in Full Authoring Surface
                     </button>
-                    <input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml2(rawHtml)}" />
+                    <input type="hidden" id="field-${colName}" name="${colName}" value="${escapeHtml3(rawHtml)}" />
                 </div>
             `;
       container.querySelector(".btn-open-authoring-surface")?.addEventListener("click", () => {
@@ -47791,10 +48515,10 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                             <option value="">-- Select Valid MWM Domain (Lean-Anchored) --</option>
                             ${domainRows.map((d) => {
             const isSel = val === d.domain_key || val === d.symbol;
-            const leanPart = d.lean_type ? ` [Lean: ${escapeHtml2(d.lean_type)}]` : "";
-            const unitPart = d.base_unit ? ` (${escapeHtml2(d.base_unit)})` : "";
-            return `<option value="${escapeHtml2(d.domain_key)}" ${isSel ? "selected" : ""}>
-                                        ${escapeHtml2(d.symbol)} \u2014 ${escapeHtml2(d.name)}${unitPart}${leanPart}
+            const leanPart = d.lean_type ? ` [Lean: ${escapeHtml3(d.lean_type)}]` : "";
+            const unitPart = d.base_unit ? ` (${escapeHtml3(d.base_unit)})` : "";
+            return `<option value="${escapeHtml3(d.domain_key)}" ${isSel ? "selected" : ""}>
+                                        ${escapeHtml3(d.symbol)} \u2014 ${escapeHtml3(d.name)}${unitPart}${leanPart}
                                     </option>`;
           }).join("")}
                         `;
@@ -48000,11 +48724,11 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
         initialDisplay = expVal ? PxeEngine.fmt(expVal) : "\u2014";
       }
       expWrapper.innerHTML = `
-                <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml2(expVal)}" readonly
+                <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml3(expVal)}" readonly
                     style="width: 220px; padding: 7px 10px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;"
                     title="Click to open ${isFsd ? "FSD Quantified Statement" : "Propositional Expression"} Editor" />
                 <div id="preview-field-${colName}" style="font-size: 18px; font-weight: 700; color: ${isFsd ? "#1e3a8a" : "firebrick"}; font-family: 'Cambria Math', Georgia, serif; min-width: 140px; cursor: pointer;" title="Live mathematical display">
-                    ${escapeHtml2(initialDisplay)}
+                    ${escapeHtml3(initialDisplay)}
                 </div>
                 <button type="button" id="btn-open-pxe-editor" class="action-btn secondary" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;">
                     ${isFsd ? "\u{1F4D0} Edit FSD Statement" : "\u270E Edit Proposition"}
@@ -48076,8 +48800,8 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                                 <select id="modal-fsd-constructed-fs-select" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #86efac; border-radius: 4px; background: #ffffff; color: #14532d; font-weight: 600;">
                                     <option value="">-- Choose a constructed FS / DE to initialize FSD (${constructedStmts.length} available) --</option>
                                     ${constructedStmts.map((s) => `
-                                        <option value="${s.id}" data-key="${escapeHtml2(s.statement_key)}" data-kind="${escapeHtml2(s.statement_kind)}" data-title="${escapeHtml2(s.title)}" data-expr="${escapeHtml2(s.expression || "")}" data-desc="${escapeHtml2(s.description || "")}">
-                                            [${escapeHtml2(s.statement_kind.toUpperCase())}] ${escapeHtml2(s.title)} (${escapeHtml2(s.statement_key)})
+                                        <option value="${s.id}" data-key="${escapeHtml3(s.statement_key)}" data-kind="${escapeHtml3(s.statement_kind)}" data-title="${escapeHtml3(s.title)}" data-expr="${escapeHtml3(s.expression || "")}" data-desc="${escapeHtml3(s.description || "")}">
+                                            [${escapeHtml3(s.statement_kind.toUpperCase())}] ${escapeHtml3(s.title)} (${escapeHtml3(s.statement_key)})
                                         </option>
                                     `).join("")}
                                 </select>
@@ -48091,8 +48815,8 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
             const code = eqToCodeMap[pe.equation_key] || pe.equation_key.replace("eq_pred_", "").toLowerCase();
             const isSel = code === currentCode || pe.equation_key === currentCode;
             const sym = PxeEngine.charDisplayMap[code] || pe.target_symbol || code;
-            return `<option value="${escapeHtml2(code)}" ${isSel ? "selected" : ""}>
-                                            ${escapeHtml2(sym)} \u2014 ${escapeHtml2(pe.title)} [${escapeHtml2(pe.equation_key)}]
+            return `<option value="${escapeHtml3(code)}" ${isSel ? "selected" : ""}>
+                                            ${escapeHtml3(sym)} \u2014 ${escapeHtml3(pe.title)} [${escapeHtml3(pe.equation_key)}]
                                         </option>`;
           }).join("")}
                                 </select>
@@ -48102,7 +48826,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                                     <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
                                         2. Quantifier Bindings:
                                     </label>
-                                    <input type="text" id="modal-fsd-quantifiers" value="${escapeHtml2(currentQuantifiers)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <input type="text" id="modal-fsd-quantifiers" value="${escapeHtml3(currentQuantifiers)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
                                     <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
                                         <button type="button" class="btn btn-sm btn-quick-quant" data-val="\u2200x\u2081:\u2115" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">\u2200x\u2081:\u2115</button>
                                         <button type="button" class="btn btn-sm btn-quick-quant" data-val="\u2203x\u2081:\u2115" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">\u2203x\u2081:\u2115</button>
@@ -48115,7 +48839,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                                     <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
                                         3. Bound Slots:
                                     </label>
-                                    <input type="text" id="modal-fsd-slots" value="${escapeHtml2(currentSlots)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
+                                    <input type="text" id="modal-fsd-slots" value="${escapeHtml3(currentSlots)}" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px;" />
                                     <div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
                                         <button type="button" class="btn btn-sm btn-quick-slot" data-val="x\u2081,x\u2082" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x\u2081,x\u2082</button>
                                         <button type="button" class="btn btn-sm btn-quick-slot" data-val="x\u2081" style="padding: 2px 7px; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer;">x\u2081</button>
@@ -48274,7 +48998,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       const expVal = val !== null && val !== void 0 ? val.toString() : "";
       expWrapper.innerHTML = `
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml2(expVal)}"
+                    <input type="text" id="field-${colName}" name="${colName}" value="${escapeHtml3(expVal)}"
                         class="form-input" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #0369a1; background: #f0f9ff; border: 1.5px solid #bae6fd; padding: 8px 12px; border-radius: 6px;"
                         placeholder="e.g. \u2200x\u2081:\u2115 \u2203x\u2082:\u2115 [ x\u2081 < x\u2082 ]" />
                     <button type="button" id="btn-open-fsd-workbench" class="action-btn primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 13px; font-weight: 700; background: #0284c7; border: none; border-radius: 6px; cursor: pointer; color: #ffffff; box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);">
@@ -48286,7 +49010,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Formula Preview:</span>
                         <div id="preview-field-${colName}" style="font-size: 16px; font-weight: 700; color: #1e3a8a; font-family: 'Cambria Math', Georgia, serif;">
-                            ${escapeHtml2(expVal || "\u2014 (Empty Statement) \u2014")}
+                            ${escapeHtml3(expVal || "\u2014 (Empty Statement) \u2014")}
                         </div>
                     </div>
                     <span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">
@@ -48491,7 +49215,7 @@ async function renderDeleteConfirmation(tableName, record) {
                 <div style="font-size: 36px; margin-bottom: 12px;">\u26A0\uFE0F</div>
                 <h2 style="font-size: 18px; color: #991b1b; margin-bottom: 8px;">Confirm Record Deletion</h2>
                 <p style="color: #475569; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-                    Are you sure you want to permanently delete record <strong>${escapeHtml2(titleVal)}</strong> (id = ${record.id}) from table <code>${tableName}</code>?
+                    Are you sure you want to permanently delete record <strong>${escapeHtml3(titleVal)}</strong> (id = ${record.id}) from table <code>${tableName}</code>?
                 </p>
                 <div style="display: flex; justify-content: center; gap: 12px;">
                     <button class="action-btn danger" id="btn-confirm-delete" style="padding: 8px 18px;">
@@ -48546,7 +49270,7 @@ async function fetchRecordById(tableName, id) {
     return null;
   }
 }
-function escapeHtml2(str) {
+function escapeHtml3(str) {
   if (!str) return "";
   return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }

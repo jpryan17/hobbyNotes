@@ -93,6 +93,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                             <button class="tb-dropdown-item" data-action="insert-ttd">⚖️ Truth Table (&lt;ttd-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-fs">📜 Formal Statement (&lt;fs-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-stencil">📐 Computational Stencil (&lt;interactive-stencil&gt;)...</button>
+                            <button class="tb-dropdown-item" data-action="insert-preset">🎛️ Stencil Preset (&lt;preset-ref&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-demo">🎨 Interactive Visual Demo (&lt;visual-demo&gt;)...</button>
                             <button class="tb-dropdown-item" data-action="insert-pseudo">⚡ Pseudocode Algorithm (&lt;pseudo-ref&gt;)...</button>
                         </div>
@@ -692,7 +693,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             el.removeAttribute('data-resolved-subtitle');
             el.removeAttribute('data-resolved-formula');
             el.removeAttribute('data-resolved-status');
-            el.classList.remove('custom-ref-chip', 'chip-ttd', 'chip-fs', 'chip-stencil', 'chip-demo', 'chip-pseudo');
+            el.classList.remove('custom-ref-chip', 'chip-ttd', 'chip-fs', 'chip-stencil', 'chip-demo', 'chip-pseudo', 'chip-preset');
             if (!el.getAttribute('class')) {
                 el.removeAttribute('class');
             }
@@ -799,12 +800,24 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             }
             if (row) entityMetaCache.set(cacheKey, row);
             return row;
+        } else if (normTag === 'preset-ref') {
+            const presetId = el.getAttribute('id') || el.getAttribute('preset-id') || el.getAttribute('preset-key');
+            const cacheKey = `preset:key:${presetId}`;
+            if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
+
+            let row = null;
+            if (presetId) {
+                const rows = await queryDatabase<any>("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [presetId]);
+                row = rows?.[0] || null;
+            }
+            if (row) entityMetaCache.set(cacheKey, row);
+            return row;
         }
         return null;
     }
 
     async function decorateCustomElements(pane: HTMLElement) {
-        const customTags = pane.querySelectorAll('ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref');
+        const customTags = pane.querySelectorAll('ttd-ref, fs-ref, interactive-stencil, visual-demo, pseudo-ref, preset-ref');
         if (customTags.length === 0) return;
 
         for (const el of Array.from(customTags)) {
@@ -825,6 +838,8 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 icon = '📜'; kindLabel = 'FS'; chipThemeClass = 'chip-fs';
             } else if (normTag === 'interactive-stencil') {
                 icon = '📐'; kindLabel = 'Stencil'; chipThemeClass = 'chip-stencil';
+            } else if (normTag === 'preset-ref') {
+                icon = '🎛️'; kindLabel = 'Preset'; chipThemeClass = 'chip-preset';
             } else if (normTag === 'visual-demo') {
                 icon = '🔬'; kindLabel = 'Demo'; chipThemeClass = 'chip-demo';
             } else if (normTag === 'pseudo-ref') {
@@ -865,6 +880,14 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 displaySubtitle = `directed_equations · ${eqKey || `ID ${id}`}`;
                 formulaPreview = rec?.formula_expr || '';
                 statusBadge = 'stencil';
+            } else if (normTag === 'preset-ref') {
+                const presetKey = htmlEl.getAttribute('id') || htmlEl.getAttribute('preset-id') || rec?.preset_key || '';
+                const stencilKey = htmlEl.getAttribute('stencil') || '';
+                const rawInner = (htmlEl.getAttribute('data-orig-inner') || '').trim();
+                displayTitle = rec?.title || rawInner || presetKey || 'Preset';
+                displaySubtitle = `stencil_presets · ${presetKey}${stencilKey ? ` (${stencilKey})` : ''}`;
+                formulaPreview = rec?.param_values ? JSON.stringify(rec.param_values) : '';
+                statusBadge = 'preset';
             } else if (normTag === 'visual-demo') {
                 const id = htmlEl.getAttribute('id') || rec?.id || '';
                 displayTitle = rec?.title || (rec?.mode ? `Demo: ${rec.mode}` : `Demo #${id}`);
@@ -1014,7 +1037,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
     async function openQuickInspectorModal(chipEl: HTMLElement) {
         const normTag = chipEl.tagName.toLowerCase();
-        let kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' = 'ttd';
+        let kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset' = 'ttd';
         let tableName = 'interactive_demos';
         let badgeColor = '#991b1b';
         let badgeBg = '#fee2e2';
@@ -1032,6 +1055,12 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             badgeColor = '#166534';
             badgeBg = '#dcfce7';
             badgeText = '📐 Computational Stencil';
+        } else if (normTag === 'preset-ref') {
+            kind = 'preset';
+            tableName = 'stencil_presets';
+            badgeColor = '#581c87';
+            badgeBg = '#ede9fe';
+            badgeText = '🎛️ Stencil Preset';
         } else if (normTag === 'visual-demo') {
             kind = 'demo';
             tableName = 'interactive_demos';
@@ -1766,6 +1795,8 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 openCustomElementPicker('fs');
             } else if (action === 'insert-stencil') {
                 openCustomElementPicker('stencil');
+            } else if (action === 'insert-preset') {
+                openCustomElementPicker('preset');
             } else if (action === 'insert-demo') {
                 openCustomElementPicker('demo');
             } else if (action === 'insert-pseudo') {
@@ -1788,9 +1819,9 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
     });
 
     // -------------------------------------------------------------------------
-    // Custom Element Pickers (<ttd-ref>, <fs-ref>, <interactive-stencil>, <visual-demo>, <pseudo-ref>)
+    // Custom Element Pickers (<ttd-ref>, <fs-ref>, <interactive-stencil>, <preset-ref>, <visual-demo>, <pseudo-ref>)
     // -------------------------------------------------------------------------
-    async function openCustomElementPicker(kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo', targetElemToReplace: HTMLElement | null = null) {
+    async function openCustomElementPicker(kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset', targetElemToReplace: HTMLElement | null = null) {
         saveEditorSelection();
         const isReplace = !!targetElemToReplace;
         const modalTitle = container.querySelector('#custom-elem-modal-title') as HTMLElement;
@@ -1957,6 +1988,62 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 });
             } catch (err: any) {
                 modalBody.innerHTML = `<div style="color: #dc2626;">Error: ${err.message}</div>`;
+            }
+        } else if (kind === 'preset') {
+            modalTitle.textContent = isReplace ? '🎛️ Switch Stencil Preset (<preset-ref>)' : '🎛️ Insert Stencil Preset (<preset-ref>)';
+            modalBody.innerHTML = '<div style="padding: 16px; color: #64748b;">Loading presets from PostgreSQL...</div>';
+            customElemModal.classList.add('active');
+
+            try {
+                const presetRows = await queryDatabase<any>(
+                    "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+                );
+
+                modalBody.innerHTML = `
+                    <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Choose a pre-parameterized stencil preset to embed:</p>
+                    <div style="margin-bottom: 16px;">
+                        <select id="modal-select-preset-item" style="width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            ${(presetRows || []).map((p: any) => `
+                                <option value="${escapeHtml(p.preset_key)}" data-title="${escapeHtml(p.title)}" data-stencil="${escapeHtml(p.equation_key || '')}">
+                                    ${escapeHtml(p.title || p.preset_key)} [${escapeHtml(p.preset_key)}] ${p.equation_key ? `(Stencil: ${escapeHtml(p.equation_key)})` : ''}
+                                </option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-custom-elem">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btn-confirm-insert-preset">${isReplace ? 'Update Reference' : 'Insert &lt;preset-ref&gt;'}</button>
+                    </div>
+                `;
+
+                modalBody.querySelector('#btn-cancel-custom-elem')?.addEventListener('click', closeCustomElemModal);
+                modalBody.querySelector('#btn-confirm-insert-preset')?.addEventListener('click', () => {
+                    const sel = modalBody.querySelector('#modal-select-preset-item') as HTMLSelectElement;
+                    if (sel && sel.value) {
+                        const opt = sel.selectedOptions[0];
+                        const title = opt?.getAttribute('data-title') || sel.value;
+                        const stencil = opt?.getAttribute('data-stencil') || '';
+                        const stencilAttr = stencil ? ` stencil="${stencil}"` : '';
+
+                        if (targetElemToReplace) {
+                            targetElemToReplace.setAttribute('id', sel.value);
+                            if (stencil) targetElemToReplace.setAttribute('stencil', stencil);
+                            targetElemToReplace.textContent = title;
+                            decorateCustomElements(wysiwygPane);
+                            setDirty(true);
+                            if (activeMode === 'split') {
+                                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+                            }
+                            showToast(`✓ Updated <preset-ref id="${sel.value}">`);
+                        } else {
+                            insertHtmlAtCursor(`\n<preset-ref id="${sel.value}"${stencilAttr}>${escapeHtml(title)}</preset-ref>\n`);
+                            showToast(`✓ Inserted <preset-ref id="${sel.value}">`);
+                        }
+                    }
+                    closeCustomElemModal();
+                });
+            } catch (err: any) {
+                modalBody.innerHTML = `<div style="color: #dc2626;">Error loading presets: ${err.message}</div>`;
             }
         } else if (kind === 'demo') {
             modalTitle.textContent = isReplace ? '🎨 Switch Interactive Demo (<visual-demo>)' : '🎨 Insert Interactive Visual Demo (<visual-demo>)';
@@ -2852,7 +2939,7 @@ function injectEditorStyles() {
             text-decoration: none !important;
         }
 
-        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
+        ttd-ref:hover, fs-ref:hover, interactive-stencil:hover, preset-ref:hover, visual-demo:hover, pseudo-ref:hover, .custom-ref-chip:hover {
             transform: translateY(-1.5px) !important;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12) !important;
             filter: brightness(0.97) !important;
@@ -2889,6 +2976,17 @@ function injectEditorStyles() {
         .chip-stencil .chip-badge {
             background: #dcfce7;
             color: #15803d;
+        }
+
+        /* Royal Purple Stencil Preset Theme */
+        preset-ref, .chip-preset {
+            background: #f5f3ff !important;
+            border: 1.5px solid #c084fc !important;
+            color: #581c87 !important;
+        }
+        .chip-preset .chip-badge {
+            background: #ede9fe;
+            color: #6d28d9;
         }
 
         /* Violet Interactive Demo Theme */

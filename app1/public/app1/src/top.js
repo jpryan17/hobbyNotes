@@ -7,6 +7,7 @@ import { BIDRef } from '../../clientLib/bidRef.js';
 import { StemCard } from '../../clientLib/stemCard.js';
 import { EqRef } from '../../clientLib/eqRef.js';
 import { PseudoRef } from '../../clientLib/pseudoRef.js';
+import { PresetRef } from '../../clientLib/presetRef.js';
 import { mainIndex, hydrateDiagramCallbacks } from './indices.js';
 import { setTTD } from '../../clientLib/ttd.js';
 import { setFSD } from '../../clientLib/fsd.js';
@@ -33,6 +34,8 @@ export function top(edit = false) {
     if (!customElements.get('interactive-stencil'))
         customElements.define('interactive-stencil', class extends EqRef {
         });
+    if (!customElements.get('preset-ref'))
+        customElements.define('preset-ref', PresetRef);
     if (!customElements.get('pseudo-ref'))
         customElements.define('pseudo-ref', PseudoRef);
     setTTD();

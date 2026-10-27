@@ -101,6 +101,7 @@ export const tables: TableConfig[] = [
         columns: [
             { column: 'equation_id', label: 'Parent Equation', canModify: false, len: 24 },
             { column: 'slot_order', label: 'Slot Order (#)', canModify: true, len: 8 },
+            { column: 'slot_kind', label: 'Slot Role (parameter | input)', canModify: true, len: 16 },
             { column: 'name', label: 'Parameter Variable Name', canModify: true, len: 16 },
             { column: 'symbol', label: 'Parameter Symbol', canModify: true, len: 12 },
             { column: 'domain', label: 'Parameter Domain', canModify: true, len: 16 },
@@ -110,6 +111,20 @@ export const tables: TableConfig[] = [
             { column: 'max_val', label: 'Maximum Range', canModify: true, len: 14 },
             { column: 'step_val', label: 'Step Precision', canModify: true, len: 14 },
             { column: 'description', label: 'Description', canModify: true, len: 60, rows: 2 }
+        ]
+    },
+    {
+        table: 'stencil_presets',
+        label: 'Stencil Presets',
+        singularLabel: 'Stencil Preset',
+        columns: [
+            { column: 'preset_key', label: 'Preset Key', canModify: true, len: 32 },
+            { column: 'equation_id', label: 'Governing Stencil (Equation)', canModify: true, len: 24 },
+            { column: 'title', label: 'Preset Title', canModify: true, len: 45 },
+            { column: 'unit', label: 'Unit', canModify: true, len: 16 },
+            { column: 'param_values', label: 'Preset Parameter Values (JSON)', canModify: true, len: 60, rows: 3 },
+            { column: 'input_defaults', label: 'Default Input Values (JSON)', canModify: true, len: 60, rows: 2 },
+            { column: 'description', label: 'Description', canModify: true, len: 60, rows: 3 }
         ]
     },
 
@@ -247,6 +262,7 @@ export const dependents: Dependent[] = [
     { table: 'directed_equations', parent: 'formal_statements', displayColumns: ['equation_key', 'title'] },
     { table: 'lean_verifications', parent: 'formal_statements', displayColumns: ['theorem_name', 'proof_status'] },
     { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_order', 'symbol', 'name'] },
+    { table: 'stencil_presets', parent: 'directed_equations', displayColumns: ['preset_key', 'title'] },
     { table: 'curriculum_nav_items', parent: 'apps', displayColumns: ['sequence_order', 'topic'] },
     { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'target_key'] },
     { table: 'segment_references', parent: 'interactive_demos', displayColumns: ['ref_type', 'segment_id'] },
@@ -265,7 +281,8 @@ export const navigations: TableNavigationPath[] = [
         label: '📐 Computational Stencils',
         children: [
             { table: 'directed_equations' },
-            { table: 'mode_slots' }
+            { table: 'mode_slots' },
+            { table: 'stencil_presets' }
         ]
     },
     {

@@ -25,6 +25,7 @@ const ID_TO_PRESET_OR_FORMULA = {
     '17': { preset: 'nucleus_halo_1d', formula: 'x0 + k * dx', domain: 'ℝ_ω', title: '1D Nucleus-Halo Decomposition' },
     '29': { formula: 'f0 * (2^(1/12))^k', domain: 'ℝ_ω', title: '12-TET Musical Scale Step' },
     '31': { formula: 'a * Math.pow(r, k)', domain: 'ℝ_ω', title: 'Geometric Ladder Step' },
+    '32': { formula: 'a + n * d', domain: 'ℝ_ω', title: 'Linear Ladder Step' },
     'ff_v_from_v0_g_t': { formula: 'v0 - g * t', domain: 'ℝ_ω' },
     'ff_t_from_v_v0_g': { formula: '(v0 - v) / g', domain: 'ℝ_ω' },
     'ff_s_from_v0_g_t': { formula: 'v0*t - 0.5*g*t^2', domain: 'ℝ_ω' },
@@ -43,7 +44,11 @@ const ID_TO_PRESET_OR_FORMULA = {
     'trig_sin_rotor_eval': { formula: 'cos(theta) + i*sin(theta)', domain: 'ℂ_ω' },
     'nucleus_halo_decomp_eval': { preset: 'nucleus_halo_1d' },
     'music_et_scale_step': { formula: 'f0 * (2^(1/12))^k', domain: 'ℝ_ω', title: '12-TET Musical Scale Step' },
-    'geom_ladder_step': { formula: 'a * Math.pow(r, k)', domain: 'ℝ_ω', title: 'Geometric Ladder Step' }
+    'geom_ladder_step': { formula: 'a * Math.pow(r, k)', domain: 'ℝ_ω', title: 'Geometric Ladder Step' },
+    'linear_ladder_step': { formula: 'a + n * d', domain: 'ℝ_ω', title: 'Linear Ladder Step' },
+    'preset_12tet_scale': { formula: '440 * Math.pow(1.059463094359, k)', domain: 'ℝ_ω', title: '12-TET Chromatic Pitch Scale (440 Hz)' },
+    'preset_binary_branching': { formula: '1 * Math.pow(2, k)', domain: 'ℝ_ω', title: 'Binary Tree Branching' },
+    'preset_earth_gravity': { formula: 'v0 - 9.80665 * t', domain: 'ℝ_ω', title: 'Earth Free Fall (g = 9.807 m/s²)' }
 };
 export class EqDemo extends Elt {
     evaluator;

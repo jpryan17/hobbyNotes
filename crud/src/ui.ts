@@ -6,6 +6,7 @@ import { queryDatabase, executeSql } from '../../clientLib/db/api.js';
 import { navigationMenuTree, renderMenuHierarchy, getFilteredMenuTree, syncMenuTreeFromDatabase } from './menuTree.js';
 import { PxeEngine, mountPxeBuilderComponent } from '../../clientLib/pxeEngine.js';
 import { mountFsdBuilder, parseStatementToFsdData, FsdCommitData } from '../../clientLib/fsd.js';
+import { mountStencilCalculator } from '../../clientLib/stencilCalculator.js';
 import { renderSegmentContentSurface } from './contentEditor.js';
 
 export type CrudMode = 'create' | 'read' | 'update' | 'delete';
@@ -32,6 +33,10 @@ export const typeMap: Record<string, TypeMapping> = {
     computational_stencils: { table: 'directed_equations', label: 'Computational Stencils' },
     stencil: { table: 'directed_equations', label: 'Computational Stencil' },
     stencils: { table: 'directed_equations', label: 'Computational Stencils' },
+    stencil_preset: { table: 'stencil_presets', label: 'Stencil Preset' },
+    stencil_presets: { table: 'stencil_presets', label: 'Stencil Presets' },
+    preset: { table: 'stencil_presets', label: 'Stencil Preset' },
+    presets: { table: 'stencil_presets', label: 'Stencil Presets' },
     truth_table: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Display (TTD)' },
     ttd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Demo (TTD)' },
     btd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'btd' }, label: 'Binary Tree Demo (BTD)' },
@@ -136,6 +141,10 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
             return record.equation_key
                 ? `${record.equation_key} — ${record.title || record.label || 'Equation'}`
                 : `${record.title || record.label || 'Equation'} (ID: ${record.id})`;
+        case 'stencil_presets':
+            return record.preset_key
+                ? `${record.preset_key} — ${record.title || 'Preset'}`
+                : `${record.title || 'Preset'} (ID: ${record.id})`;
         case 'formal_statements':
             return record.statement_key
                 ? `${record.statement_key} — ${record.title || record.expression || 'Statement'}`
@@ -235,6 +244,11 @@ export function getRecordUniqueKeyDisplay(tableName: string, record: any): { key
             return {
                 key: record.equation_key || `#${record.id}`,
                 label: record.title || record.label || `Equation #${record.id}`
+            };
+        case 'stencil_presets':
+            return {
+                key: record.preset_key || `#${record.id}`,
+                label: record.title || `Preset #${record.id}`
             };
         default: {
             const displayCol = getDisplayColumnName(tableName);
@@ -2341,7 +2355,77 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
 
     card.appendChild(table);
 
+    // Live Schema-Driven Stencil Calculator (For Directed Equations & Stencil Presets)
+    if (tableName === 'directed_equations') {
+        const stencilSection = document.createElement('div');
+        stencilSection.className = 'card-stencil-section';
+        stencilSection.style.cssText = 'margin-top: 20px;';
+        card.appendChild(stencilSection);
 
+        try {
+            const slots = await queryDatabase<any>(
+                'SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;',
+                [record.id]
+            );
+            const presets = await queryDatabase<any>(
+                'SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;',
+                [record.id]
+            );
+
+            mountStencilCalculator({
+                container: stencilSection,
+                equation: record,
+                slots: slots || [],
+                presets: presets || [],
+                isCrudMode: true,
+                onSavePreset: async (newPreset) => {
+                    await executeSql(
+                        `INSERT INTO stencil_presets (preset_key, equation_id, title, unit, param_values, description, created_at, updated_at)
+                         VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
+                        [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
+                    );
+                    // Refresh view to display new preset in dropdown
+                    await renderEntityInspectorView('directed_equations');
+                }
+            });
+        } catch (stErr) {
+            console.error('[renderAttributeCompleteCard] Error mounting stencil calculator:', stErr);
+        }
+    } else if (tableName === 'stencil_presets') {
+        const stencilSection = document.createElement('div');
+        stencilSection.className = 'card-stencil-section';
+        stencilSection.style.cssText = 'margin-top: 20px;';
+        card.appendChild(stencilSection);
+
+        try {
+            const eqRows = await queryDatabase<any>(
+                'SELECT * FROM directed_equations WHERE id = $1;',
+                [record.equation_id]
+            );
+            if (eqRows && eqRows.length > 0) {
+                const eqRecord = eqRows[0];
+                const slots = await queryDatabase<any>(
+                    'SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;',
+                    [record.equation_id]
+                );
+                const presets = await queryDatabase<any>(
+                    'SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;',
+                    [record.equation_id]
+                );
+
+                mountStencilCalculator({
+                    container: stencilSection,
+                    equation: eqRecord,
+                    slots: slots || [],
+                    presets: presets || [],
+                    initialPresetKeyOrId: record.id,
+                    isCrudMode: false
+                });
+            }
+        } catch (stErr) {
+            console.error('[renderAttributeCompleteCard] Error mounting stencil calculator for preset:', stErr);
+        }
+    }
 
     container.appendChild(card);
 
