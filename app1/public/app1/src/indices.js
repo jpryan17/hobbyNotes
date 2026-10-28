@@ -60,12 +60,6 @@ export const numbersIndex = [
         topic: "lecture 2: 2-successor trees & growth",
         htmlSegmentId: "numbersLecture2",
     },
-    {
-        type: "diagram",
-        topic: "2-successor tree demo (BTD)",
-        initCB: initBTD,
-        layoutCB: layoutBTD,
-    },
 ];
 export const bayesianInferenceIndex = [
     {
