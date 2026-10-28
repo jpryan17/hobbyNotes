@@ -116,6 +116,9 @@ async function buildIndex(app: string) {
 `<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Formalizing Popular Science: Using Middle Way Mathematics to Describe Quantum Statistical Mechanics</title>
 </head>
 <body>
