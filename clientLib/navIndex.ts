@@ -31,7 +31,8 @@ export class Index extends SVGGrpElt{
         this.chosen = initialSelection
         this.setA('style', 'background-color: transparent;')
         const [m, fs] = [Index.margin, Index.fontSize]
-        let y = m + 21
+        Index.rowHeight = Math.max(28, Math.round(fs * 2.25))
+        let y = m + Math.round(fs * 1.3125)
         indexDesc.forEach((choice, idx) => {
             const indents = (choice.indents) ? choice.indents : 0
             const text = choice.topic
@@ -104,6 +105,42 @@ export class Index extends SVGGrpElt{
 
             y += Index.rowHeight
         })
+    }
+
+    updateLayout(){
+        const [m, fs] = [Index.margin, Index.fontSize]
+        Index.rowHeight = Math.max(28, Math.round(fs * 2.25))
+        let y = m + Math.round(fs * 1.3125)
+        this.choices.forEach(([choice, item, rect]) => {
+            const indents = (choice.indents) ? choice.indents : 0
+            const rowY = y - fs - 3
+            rect.setAA([
+                'y', rowY,
+                'height', Index.rowHeight - 6
+            ])
+            item.setAA([
+                'y', y,
+                'font-size', fs
+            ])
+            try {
+                const bb = item.getBB()
+                if (bb && bb.width > 0) {
+                    rect.setA('width', Math.max(175, bb.width + indents * 16 + 24))
+                }
+            } catch(e) {}
+            y += Index.rowHeight
+        })
+    }
+
+    static setFontSize(newFs: number){
+        Index.fontSize = newFs
+        if (typeof Nav !== 'undefined' && Nav.indices) {
+            Nav.indices.forEach(idx => {
+                if (idx && typeof (idx as any).updateLayout === 'function') {
+                    (idx as Index).updateLayout()
+                }
+            })
+        }
     }
 
     setSelectedItem(){

@@ -68,6 +68,21 @@ export class Nav {
 
     constructor (app:string,parent:Elt|null=null,editMode=false,cb:Function|undefined=undefined,
                   bgC='#f1f5f9',lineC='#ffffff',indexC='#f8fafc',foC='#ffffff'){
+        try {
+            if (typeof window !== 'undefined' && window.localStorage) {
+                const saved = localStorage.getItem('mwm_font_size')
+                if (saved) {
+                    const parsed = parseInt(saved, 10)
+                    if (!isNaN(parsed) && parsed >= 12 && parsed <= 28) {
+                        Nav.fontSize = parsed
+                        Nav.textFontSize = parsed
+                        Index.fontSize = parsed
+                        Nav.arrowSize = Math.round(parsed * 1.25)
+                        Nav.lineHeight = Math.max(46, parsed + 28)
+                    }
+                }
+            }
+        } catch(e) {}
         const mainSlot = document.getElementById('main-slot') as HTMLDivElement
          //
         Nav.app = app
@@ -83,7 +98,7 @@ export class Nav {
         Nav.lineArrowButton = new SVGTSpan(Nav.lineBlock)
         Nav.lineTopics = new SVGTSpan(Nav.lineBlock)
         Nav.textSizeControl = new SVGTSpan(Nav.lineBlock)
-        Nav.textSizeControl.setAA(['visibility','hidden','pointer-events','none'])
+        Nav.textSizeControl.setAA(['visibility','visible','pointer-events','auto'])
         Nav.returnControl = new SVGTSpan(Nav.lineBlock)
         Nav.returnControl.setAA(['visibility','hidden','pointer-events','none'])
         Nav.overviewControl = new SVGTSpan(Nav.lineBlock)
@@ -307,8 +322,62 @@ export class Nav {
         }, 150)
     }
     static changeTextSize(whichWay:string){
-        Nav.textFontSize += (whichWay == '+') ? 1 : -1
-        Nav.segDiv.setA('style',Nav.getTextStyle())
+        const delta = (whichWay == '+') ? 1 : -1
+        const newFontSize = Nav.fontSize + delta
+        if (newFontSize < 12 || newFontSize > 28) return
+
+        Nav.fontSize = newFontSize
+        Nav.textFontSize = Nav.fontSize
+        Nav.arrowSize = Math.round(Nav.fontSize * 1.25)
+        Nav.lineHeight = Math.max(46, Nav.fontSize + 28)
+
+        try {
+            if (typeof window !== 'undefined' && window.localStorage) {
+                localStorage.setItem('mwm_font_size', String(Nav.fontSize))
+            }
+        } catch(e) {}
+
+        // 1. Update text segment style
+        Nav.segDiv.setA('style', Nav.getTextStyle())
+
+        // 2. Update index labels and rows
+        Index.setFontSize(Nav.fontSize)
+
+        // 3. Update topline container heights
+        Nav.line.setA('height', Nav.lineHeight)
+        Nav.lineRect.setA('height', Nav.lineHeight)
+
+        // 4. Update breadcrumbs font size
+        const yp = 1/2 * Nav.lineHeight + .35 * Nav.fontSize + Nav.frameMargin
+        const lineElts = Nav.lineTopics.children()
+        lineElts.forEach(widget => {
+            widget.setAA(['font-size', Nav.fontSize])
+        })
+
+        // 5. Update arrow button
+        Nav.lineArrowButton.setAA([
+            'y', yp,
+            'font-size', Nav.arrowSize
+        ])
+
+        // 6. Update text size controls
+        if (Nav.textSizeControl) {
+            Nav.textSizeControl.children().forEach(w => {
+                w.setAA(['font-size', Nav.fontSize])
+            })
+        }
+
+        // 7. Update overview and return controls
+        if (Nav.overviewControl) {
+            Nav.overviewControl.setAA(['font-size', Nav.fontSize])
+        }
+        if (Nav.returnControl) {
+            Nav.returnControl.setAA(['font-size', Nav.fontSize])
+        }
+
+        // 8. Re-align nav line and layout
+        Nav.showNavLine()
+        Nav.display()
     }
     static setTextSizeControlPos(lineWidth:number){
         const yp = 1/2 * Nav.lineHeight + .35 * Nav.fontSize + Nav.frameMargin
@@ -428,7 +497,7 @@ export class Nav {
 
     //
     static processSelection(){
-        Nav.textSizeControl.setAA(['visibility','hidden','pointer-events','none'])
+        // Keep textSizeControl visible so user can adjust text size on index views too
         const index = Nav.indices[Nav.currentIndex]
         const selected = index.choices[index.chosen]
         const [c,w] = selected //[IndexItemDesc,SVGTSpan]
