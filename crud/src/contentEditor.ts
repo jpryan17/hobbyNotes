@@ -439,6 +439,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                     <button class="u-btn" data-char="≥" title="Greater equal">≥</button>
                     <button class="u-btn" data-char="≈" title="Approx equal">≈</button>
                     <button class="u-btn" data-char="≡" title="Identical">≡</button>
+                    <button class="u-btn" data-char="≅" title="Isomorphic (\cong)">≅</button>
 
                     <div class="u-dropdown">
                         <button class="u-dropdown-btn" title="Extended logic, arrows & deduction">Logic ▾</button>
@@ -719,6 +720,39 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             const isDisplay = el.getAttribute('data-display') === 'true' || el.classList.contains('latex-math-block');
             if (rawTex) {
                 el.innerHTML = isDisplay ? `\\[ ${rawTex} \\]` : `\\( ${rawTex} \\)`;
+            }
+        });
+
+        // Clean SVG foreignObjects so raw LaTeX is preserved rather than fragile runtime mjx-containers
+        const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+        temp.querySelectorAll('svg switch').forEach((sw) => {
+            const fo = sw.querySelector('foreignObject');
+            const text = sw.querySelector('text');
+            if (fo && text) {
+                const rawText = text.textContent?.trim() || '';
+                if (mathRegex.test(rawText)) {
+                    const inner = (fo.querySelector('div[style*="display: inline-block"]') ||
+                                   fo.querySelector('div > div > div') ||
+                                   fo.querySelector('span, div') ||
+                                   fo) as HTMLElement;
+                    const tspans = Array.from(text.querySelectorAll('tspan'));
+                    if (tspans.length > 0) {
+                        const linesByY = new Map<string, string[]>();
+                        for (const ts of tspans) {
+                            const y = ts.getAttribute('y') || '0';
+                            const val = ts.textContent?.trim() || '';
+                            if (!linesByY.has(y)) linesByY.set(y, []);
+                            if (val) linesByY.get(y)!.push(val);
+                        }
+                        const lines: string[] = [];
+                        for (const parts of linesByY.values()) {
+                            lines.push(parts.join(' '));
+                        }
+                        inner.innerHTML = lines.filter(Boolean).join('<br>');
+                    } else {
+                        inner.textContent = rawText;
+                    }
+                }
             }
         });
 
@@ -1300,12 +1334,63 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
         }
     }
 
+    // Scan and prepare SVG diagrams that contain raw LaTeX or stripped math
+    function prepareSvgMath(root: HTMLElement): HTMLElement[] {
+        if (!root) return [];
+        const targets: HTMLElement[] = [];
+        const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+        const svgs = root.querySelectorAll('svg');
+        svgs.forEach((svg) => {
+            const switches = svg.querySelectorAll('switch');
+            switches.forEach((sw) => {
+                const fo = sw.querySelector('foreignObject');
+                const text = sw.querySelector('text');
+                if (fo) {
+                    const rawText = text?.textContent?.trim() || '';
+                    const foText = fo.textContent?.trim() || '';
+                    const hasRawMathInText = text && mathRegex.test(rawText);
+                    const hasRawMathInFo = mathRegex.test(foText);
+
+                    if (hasRawMathInText || hasRawMathInFo) {
+                        const innerContainer = (fo.querySelector('div[style*="display: inline-block"]') ||
+                                               fo.querySelector('div > div > div') ||
+                                               fo.querySelector('span, div') ||
+                                               fo) as HTMLElement;
+                        if (hasRawMathInText) {
+                            const tspans = Array.from(text.querySelectorAll('tspan'));
+                            if (tspans.length > 0) {
+                                const linesByY = new Map<string, string[]>();
+                                for (const ts of tspans) {
+                                    const y = ts.getAttribute('y') || '0';
+                                    const val = ts.textContent?.trim() || '';
+                                    if (!linesByY.has(y)) linesByY.set(y, []);
+                                    if (val) linesByY.get(y)!.push(val);
+                                }
+                                const lines: string[] = [];
+                                for (const parts of linesByY.values()) {
+                                    lines.push(parts.join(' '));
+                                }
+                                innerContainer.innerHTML = lines.filter(Boolean).join('<br>');
+                            } else {
+                                innerContainer.textContent = rawText;
+                            }
+                        }
+                        targets.push(fo as unknown as HTMLElement);
+                    }
+                }
+            });
+        });
+        return targets;
+    }
+
     // Typeset MathJax in WYSIWYG
     function typesetMath() {
         if ((window as any).MathJax && (window as any).MathJax.typesetPromise) {
-            const mathElements = wysiwygPane.querySelectorAll('.latex-math, .latex-math-block');
-            if (mathElements.length > 0) {
-                (window as any).MathJax.typesetPromise(Array.from(mathElements)).then(() => {
+            const mathElements = Array.from(wysiwygPane.querySelectorAll('.latex-math, .latex-math-block'));
+            const svgTargets = prepareSvgMath(wysiwygPane);
+            const allTargets = mathElements.concat(svgTargets as unknown as Element[]);
+            if (allTargets.length > 0) {
+                (window as any).MathJax.typesetPromise(allTargets).then(() => {
                     attachMathClickListeners();
                 }).catch((err: any) => console.log('MathJax typeset notice:', err));
             }
@@ -1611,6 +1696,12 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             const sel = window.getSelection();
             if (sel && sel.rangeCount > 0) {
                 const r = sel.getRangeAt(0);
+                // Guard against synthetic focus-reset range (0, 0) on the root container when non-empty
+                if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+                    if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+                        return;
+                    }
+                }
                 if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
                     lastWysiwygRange = r.cloneRange();
                 }
@@ -1626,23 +1717,26 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
         sourceTextarea.addEventListener(evt, saveEditorSelection);
     });
 
+    document.addEventListener('selectionchange', () => {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount > 0) {
+            const r = sel.getRangeAt(0);
+            if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+                if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+                    return;
+                }
+            }
+            if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
+                lastWysiwygRange = r.cloneRange();
+                updateScriptLevelUI();
+            }
+        }
+    });
+
     function insertTextAtCursor(text: string) {
         if (isReadMode) return;
-        if (activeMode === 'wysiwyg' || activeMode === 'split') {
-            wysiwygPane.focus();
-            const sel = window.getSelection();
-            if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
-                sel?.removeAllRanges();
-                sel?.addRange(lastWysiwygRange);
-            }
-            document.execCommand('insertText', false, text);
-            saveEditorSelection();
-            setDirty(true);
-            if (activeMode === 'split') {
-                sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-            }
-        } else if (activeMode === 'source') {
-            sourceTextarea.focus();
+        if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+            sourceTextarea.focus({ preventScroll: true });
             const start = sourceTextarea.selectionStart;
             const end = sourceTextarea.selectionEnd;
             const val = sourceTextarea.value;
@@ -1650,7 +1744,40 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
             saveEditorSelection();
             setDirty(true);
+            return;
         }
+
+        // WYSIWYG or Split mode (editing WYSIWYG pane)
+        const sel = window.getSelection();
+        if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+            sel?.removeAllRanges();
+            sel?.addRange(lastWysiwygRange);
+        }
+        wysiwygPane.focus({ preventScroll: true });
+
+        // In case focus() modified or cleared the range, re-assert
+        if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+            if (!sel?.rangeCount || sel.getRangeAt(0).commonAncestorContainer === wysiwygPane) {
+                sel?.removeAllRanges();
+                sel?.addRange(lastWysiwygRange);
+            }
+        }
+
+        document.execCommand('insertText', false, text);
+
+        // Re-capture selection immediately after inserted character
+        if (sel && sel.rangeCount > 0) {
+            lastWysiwygRange = sel.getRangeAt(0).cloneRange();
+        }
+        saveEditorSelection();
+        setDirty(true);
+
+        if (activeMode === 'split') {
+            sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+        }
+
+        // Re-affirm focus with preventScroll
+        wysiwygPane.focus({ preventScroll: true });
     }
 
     function insertHtmlAtCursor(html: string) {
@@ -1887,15 +2014,26 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
         }
     });
 
-    // Dropdown Toggles and Action Dispatchers
-    container.querySelectorAll('.tb-dropdown').forEach((dropdown) => {
+    // Dropdown Toggles and Action Dispatchers (both .tb-dropdown and .u-dropdown)
+    container.querySelectorAll('.tb-dropdown, .u-dropdown').forEach((dropdown) => {
         const trigger = dropdown.querySelector('button');
         if (!trigger) return;
+        trigger.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            saveEditorSelection();
+        });
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = dropdown.classList.contains('open');
             container.querySelectorAll('.tb-dropdown.open, .u-dropdown.open').forEach((d) => d.classList.remove('open'));
             if (!isOpen) dropdown.classList.add('open');
+        });
+
+        // Prevent clicking background of popover from stealing focus
+        dropdown.querySelector('.u-dropdown-popover, .tb-dropdown-menu')?.addEventListener('mousedown', (e) => {
+            if ((e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
         });
     });
 
@@ -1994,6 +2132,13 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             e.preventDefault();
             const ch = btn.getAttribute('data-char');
             if (ch) insertTextAtCursor(ch);
+            // Dismiss popovers cleanly without focus reset
+            container.querySelectorAll('.u-dropdown.open').forEach((d) => d.classList.remove('open'));
+            if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+                sourceTextarea.focus({ preventScroll: true });
+            } else {
+                wysiwygPane.focus({ preventScroll: true });
+            }
         });
     });
 
@@ -2647,7 +2792,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
         const iframe = document.createElement('iframe');
         iframe.referrerPolicy = 'no-referrer';
-        iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
+        iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&math=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
         iframe.style.cssText = 'flex: 1; width: 100%; border: none; border-radius: 0 0 8px 8px; background: #ffffff;';
 
         overlay.appendChild(header);

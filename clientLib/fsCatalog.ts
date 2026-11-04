@@ -87,7 +87,7 @@ export interface FsCatalog {
 }
 
 export const FS_CATALOG: FsCatalog = {
-  "generatedAt": "2026-11-01T23:45:59.249Z",
+  "generatedAt": "2026-11-04T14:36:01.568Z",
   "version": "2.0.0",
   "formalStatements": [
     {

@@ -116,7 +116,7 @@ export async function getDatabaseHealth() {
         }
         const data = await response.json();
         return {
-            status: data.status === 'connected' ? 'connected' : 'disconnected',
+            status: (data.status === 'connected' || data.status === 'ok') ? 'connected' : 'disconnected',
             database: data.database,
             user: data.user,
             error: data.error,

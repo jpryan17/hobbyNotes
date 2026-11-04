@@ -98,6 +98,27 @@
           "primary_key": "id",
           "display_col": "preset_key",
           "delete_policy": "restricted_guard"
+        },
+        "lean_declarations": {
+          "table": "lean_declarations",
+          "label": "Lean Formal Declarations",
+          "primary_key": "id",
+          "display_col": "name",
+          "delete_policy": "restricted_guard"
+        },
+        "domains": {
+          "table": "domains",
+          "label": "Mathematical & Physical Domains",
+          "primary_key": "id",
+          "display_col": "domain_key",
+          "delete_policy": "restricted_guard"
+        },
+        "apps": {
+          "table": "apps",
+          "label": "Curriculum Applications",
+          "primary_key": "id",
+          "display_col": "app_code",
+          "delete_policy": "restricted_guard"
         }
       }
     }

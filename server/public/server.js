@@ -68,8 +68,13 @@ setInterval(() => {
 // ---------------------------------------------------------------------
 app.get('/api/health', async (_req, res) => {
     try {
-        const dbRes = await pool.query('SELECT NOW() as now');
-        res.json({ status: 'ok', dbTime: dbRes.rows[0].now });
+        const dbRes = await pool.query('SELECT NOW() as now, current_database() as db, current_user as usr');
+        res.json({
+            status: 'connected',
+            dbTime: dbRes.rows[0].now,
+            database: dbRes.rows[0].db || pool.options?.database,
+            user: dbRes.rows[0].usr || pool.options?.user,
+        });
     }
     catch (err) {
         res.status(500).json({ status: 'error', error: err.message });

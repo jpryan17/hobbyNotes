@@ -1215,6 +1215,7 @@
       <button class="u-btn" data-char="≥" title="Greater than or equal">≥</button>
       <button class="u-btn" data-char="≈" title="Approximately equal">≈</button>
       <button class="u-btn" data-char="≡" title="Identical / congruent">≡</button>
+      <button class="u-btn" data-char="≅" title="Isomorphic / congruent (\cong)">≅</button>
 
       <!-- Extended Logic & Sets Dropdown -->
       <div class="u-dropdown">
@@ -1408,6 +1409,7 @@
           <button class="m-chip" data-tex="\mathbf{v}" title="Bold vector">\mathbf{v}</button>
           <button class="m-chip" data-tex="\mathbb{R}" title="Blackboard R">\mathbb{R}</button>
           <button class="m-chip" data-tex="\mathbb{D}" title="Blackboard D (Dyadics)">\mathbb{D}</button>
+          <button class="m-chip" data-tex="\cong" title="Isomorphic (\cong)">\cong</button>
           <button class="m-chip" data-tex="\partial" title="Partial derivative">\partial</button>
           <button class="m-chip" data-tex="\nabla" title="Gradient / Nabla">\nabla</button>
           <button class="m-chip" data-tex="\infty" title="Infinity">\infty</button>
@@ -1556,6 +1558,39 @@
         }
       });
 
+      // Clean SVG foreignObjects so raw LaTeX is preserved rather than fragile runtime mjx-containers
+      const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+      temp.querySelectorAll('svg switch').forEach(sw => {
+        const fo = sw.querySelector('foreignObject');
+        const text = sw.querySelector('text');
+        if (fo && text) {
+          const rawText = text.textContent ? text.textContent.trim() : '';
+          if (mathRegex.test(rawText)) {
+            const inner = fo.querySelector('div[style*="display: inline-block"]') ||
+                          fo.querySelector('div > div > div') ||
+                          fo.querySelector('span, div') ||
+                          fo;
+            const tspans = Array.from(text.querySelectorAll('tspan'));
+            if (tspans.length > 0) {
+              const linesByY = new Map();
+              for (const ts of tspans) {
+                const y = ts.getAttribute('y') || '0';
+                const val = ts.textContent.trim();
+                if (!linesByY.has(y)) linesByY.set(y, []);
+                if (val) linesByY.get(y).push(val);
+              }
+              const lines = [];
+              for (const parts of linesByY.values()) {
+                lines.push(parts.join(' '));
+              }
+              inner.innerHTML = lines.filter(Boolean).join('<br>');
+            } else {
+              inner.textContent = rawText;
+            }
+          }
+        }
+      });
+
       // Remove any lingering or orphan MathJax internal elements
       temp.querySelectorAll('mjx-container, mjx-assistive-mml').forEach(mjx => {
         if (!mjx.closest('.latex-math, .latex-math-block')) {
@@ -1658,7 +1693,7 @@
     // Wrap body content into a full HTML document preserving original head/style if available
     function wrapInCompleteDocument(bodyContent) {
       if (fullDocumentWrapper && /<body[^>]*>/i.test(fullDocumentWrapper)) {
-        return fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, `$1\n${bodyContent}\n$3`);
+        return fullDocumentWrapper.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/i, (_m, p1, _inner, p3) => `${p1}\n${bodyContent}\n${p3}`);
       }
       if (fullDocumentWrapper && /<head[^>]*>([\s\S]*?)<\/head>/i.test(fullDocumentWrapper)) {
         const headMatch = fullDocumentWrapper.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
@@ -2075,12 +2110,64 @@ ${bodyContent}
       }
     });
 
+    // Scan and prepare SVG diagrams that contain raw LaTeX or stripped math
+    function prepareSvgMath(root = wysiwygPane) {
+      if (!root) return [];
+      const targets = [];
+      const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+      const svgs = root.querySelectorAll('svg');
+      svgs.forEach(svg => {
+        const switches = svg.querySelectorAll('switch');
+        switches.forEach(sw => {
+          const fo = sw.querySelector('foreignObject');
+          const text = sw.querySelector('text');
+          if (fo) {
+            const rawText = text ? text.textContent.trim() : '';
+            const foText = fo.textContent ? fo.textContent.trim() : '';
+            const hasRawMathInText = text && mathRegex.test(rawText);
+            const hasRawMathInFo = mathRegex.test(foText);
+
+            if (hasRawMathInText || hasRawMathInFo) {
+              const innerContainer = fo.querySelector('div[style*="display: inline-block"]') ||
+                                     fo.querySelector('div > div > div') ||
+                                     fo.querySelector('span, div') ||
+                                     fo;
+              if (hasRawMathInText) {
+                const tspans = Array.from(text.querySelectorAll('tspan'));
+                if (tspans.length > 0) {
+                  const linesByY = new Map();
+                  for (const ts of tspans) {
+                    const y = ts.getAttribute('y') || '0';
+                    const val = ts.textContent.trim();
+                    if (!linesByY.has(y)) linesByY.set(y, []);
+                    if (val) linesByY.get(y).push(val);
+                  }
+                  const lines = [];
+                  for (const parts of linesByY.values()) {
+                    lines.push(parts.join(' '));
+                  }
+                  innerContainer.innerHTML = lines.filter(Boolean).join('<br>');
+                } else {
+                  innerContainer.textContent = rawText;
+                }
+              }
+              targets.push(fo);
+            }
+          }
+        });
+      });
+      return targets;
+    }
+
+
     // Typeset MathJax
     function typesetMath() {
       if (window.MathJax && window.MathJax.typesetPromise) {
-        const mathElements = wysiwygPane.querySelectorAll('.latex-math, .latex-math-block');
-        if (mathElements.length > 0) {
-          window.MathJax.typesetPromise(Array.from(mathElements)).then(() => {
+        const mathElements = Array.from(wysiwygPane.querySelectorAll('.latex-math, .latex-math-block'));
+        const svgTargets = prepareSvgMath(wysiwygPane);
+        const allTargets = mathElements.concat(svgTargets);
+        if (allTargets.length > 0) {
+          window.MathJax.typesetPromise(allTargets).then(() => {
             attachMathListeners();
           }).catch(err => console.log('MathJax error:', err));
         }
@@ -2394,6 +2481,10 @@ ${bodyContent}
     document.querySelectorAll('.tb-dropdown').forEach(dropdown => {
       const trigger = dropdown.querySelector('.tb-btn');
       if (!trigger) return;
+      trigger.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        saveEditorSelection();
+      });
       trigger.addEventListener('click', (e) => {
         e.stopPropagation();
         const isOpen = dropdown.classList.contains('open');
@@ -2522,6 +2613,12 @@ ${bodyContent}
         const sel = window.getSelection();
         if (sel && sel.rangeCount > 0) {
           const r = sel.getRangeAt(0);
+          // Guard against synthetic focus-reset range (0, 0) on the root container when non-empty
+          if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+            if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+              return;
+            }
+          }
           if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
             lastWysiwygRange = r.cloneRange();
           }
@@ -2748,6 +2845,12 @@ ${bodyContent}
       const sel = window.getSelection();
       if (sel && sel.rangeCount > 0) {
         const r = sel.getRangeAt(0);
+        // Guard against synthetic root offset 0 on blur or unfocused state
+        if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+          if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+            return;
+          }
+        }
         if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
           lastWysiwygRange = r.cloneRange();
           updateScriptLevelUI();
@@ -2757,21 +2860,8 @@ ${bodyContent}
 
     // Insert arbitrary text/character at cursor
     function insertTextAtCursor(text) {
-      if (activeMode === 'wysiwyg' || activeMode === 'split') {
-        wysiwygPane.focus();
-        const sel = window.getSelection();
-        if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
-          sel.removeAllRanges();
-          sel.addRange(lastWysiwygRange);
-        }
-        document.execCommand('insertText', false, text);
-        saveEditorSelection();
-        setDirty(true);
-        if (activeMode === 'split') {
-          sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-        }
-      } else if (activeMode === 'source') {
-        sourceTextarea.focus();
+      if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+        sourceTextarea.focus({ preventScroll: true });
         const start = sourceTextarea.selectionStart;
         const end = sourceTextarea.selectionEnd;
         const val = sourceTextarea.value;
@@ -2779,7 +2869,40 @@ ${bodyContent}
         sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
         saveEditorSelection();
         setDirty(true);
+        return;
       }
+
+      // Pre-restore selection before calling focus to prevent Chromium from resetting to (0,0)
+      const sel = window.getSelection();
+      if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+        sel.removeAllRanges();
+        sel.addRange(lastWysiwygRange);
+      }
+      wysiwygPane.focus({ preventScroll: true });
+
+      // In case focus() modified or cleared the range, re-assert
+      if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+        if (!sel.rangeCount || sel.getRangeAt(0).commonAncestorContainer === wysiwygPane) {
+          sel.removeAllRanges();
+          sel.addRange(lastWysiwygRange);
+        }
+      }
+
+      document.execCommand('insertText', false, text);
+
+      // Re-capture selection immediately after inserted character
+      if (sel && sel.rangeCount > 0) {
+        lastWysiwygRange = sel.getRangeAt(0).cloneRange();
+      }
+      saveEditorSelection();
+      setDirty(true);
+
+      if (activeMode === 'split') {
+        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+      }
+
+      // Re-affirm focus with preventScroll
+      wysiwygPane.focus({ preventScroll: true });
     }
 
     // Unicode character palette buttons (direct strip buttons + popover grid buttons)
@@ -2792,6 +2915,13 @@ ${bodyContent}
         e.preventDefault();
         const ch = btn.getAttribute('data-char');
         if (ch) insertTextAtCursor(ch);
+        // Explicitly dismiss dropdown popovers without triggering fallback focus loss
+        document.querySelectorAll('.u-dropdown.open').forEach(d => d.classList.remove('open'));
+        if (activeMode === 'source' || (activeMode === 'split' && document.activeElement === sourceTextarea)) {
+          sourceTextarea.focus({ preventScroll: true });
+        } else {
+          wysiwygPane.focus({ preventScroll: true });
+        }
       };
     });
 
@@ -2799,11 +2929,22 @@ ${bodyContent}
     document.querySelectorAll('.u-dropdown').forEach(dropdown => {
       const trigger = dropdown.querySelector('.u-dropdown-btn');
       if (!trigger) return;
+      trigger.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        saveEditorSelection();
+      });
       trigger.addEventListener('click', (e) => {
         e.stopPropagation();
         const isOpen = dropdown.classList.contains('open');
         document.querySelectorAll('.u-dropdown.open, .tb-dropdown.open').forEach(d => d.classList.remove('open'));
         if (!isOpen) dropdown.classList.add('open');
+      });
+
+      // Prevent clicking background/padding of popovers from stealing focus
+      dropdown.querySelector('.u-dropdown-popover')?.addEventListener('mousedown', (e) => {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
       });
     });
 
@@ -3294,7 +3435,7 @@ ${bodyContent}
       const iframe = document.createElement('iframe');
       iframe.referrerPolicy = 'no-referrer';
       iframe.setAttribute('referrerpolicy', 'no-referrer');
-      iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
+      iframe.src = 'https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&math=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device';
       iframe.style.cssText = `flex: 1; width: 100%; border: none; border-radius: 0 0 8px 8px; background: #ffffff;`;
 
       overlay.appendChild(header);
@@ -3334,6 +3475,8 @@ ${bodyContent}
         }
 
         setDirty(true);
+        attachDrawioListeners();
+        typesetMath();
         if (activeMode === 'split') {
           sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
         }

@@ -1,7 +1,8 @@
 // crud/src/menuTree.ts
 // Hierarchical Navigation Tree specification for Middle Way Mathematics CRUD Studio.
-// Organizes curriculum index entries, formal statements (axioms, theorems, directed equalities),
-// and interactive demo initializations, with first-class Subject Domain tagging & filtering.
+// Organizes curriculum index entries, lecture segments, computational stencils, formal statements,
+// pseudocode algorithms, interactive demo initializations, and Lean formal declarations,
+// with first-class Subject Domain tagging & filtering.
 
 export interface MenuItem {
     label: string;
@@ -12,6 +13,17 @@ export interface MenuItem {
     instanceId?: string | number;
     subject?: string; // 'logic' | 'numbers_trees' | 'algebra' | 'analysis' | 'physics' | 'information' | 'all'
     children?: MenuItem[];
+}
+
+export function inferSubject(text?: string, key?: string, category?: string): string {
+    const s = `${text || ''} ${key || ''} ${category || ''}`.toLowerCase();
+    if (s.includes('logic') || s.includes('prop') || s.includes('truth table') || s.includes('ttd') || s.includes('boolean')) return 'logic';
+    if (s.includes('tree') || s.includes('btd') || s.includes('number') || s.includes('conway') || s.includes('surreal') || s.includes('arithmetic') || s.includes('dyadic')) return 'numbers_trees';
+    if (s.includes('algebra') || s.includes('vector') || s.includes('linear') || s.includes('matrix') || s.includes('field') || s.includes('group') || s.includes('sequence')) return 'algebra';
+    if (s.includes('analysis') || s.includes('calculus') || s.includes('infinitesimal') || s.includes('derivative') || s.includes('integral') || s.includes('bid') || s.includes('trig') || s.includes('rotor') || s.includes('complex')) return 'analysis';
+    if (s.includes('physic') || s.includes('kinematic') || s.includes('force') || s.includes('energy') || s.includes('oscillator') || s.includes('heat') || s.includes('wave')) return 'physics';
+    if (s.includes('bayes') || s.includes('probability') || s.includes('quantum') || s.includes('entropy') || s.includes('information')) return 'information';
+    return 'all';
 }
 
 export const navigationMenuTree: MenuItem[] = [
@@ -34,6 +46,7 @@ export const navigationMenuTree: MenuItem[] = [
             },
             {
                 label: 'Level 1: Logic & Number',
+                subject: 'logic',
                 children: [
                     { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'level1Overview', subject: 'logic' },
                     {
@@ -68,9 +81,8 @@ export const navigationMenuTree: MenuItem[] = [
                 label: 'Level 2: Algebraic Structure & Linearity',
                 subject: 'algebra',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'lamOverview', subject: 'algebra' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'vectorFoundationsIntro', subject: 'algebra' },
                     { label: 'Sequences & Progressions', typeKey: 'curriculum_nav_item', instanceKey: 'sequencesAndSums', subject: 'algebra' },
-                    { label: 'Vector Foundations Overview', typeKey: 'curriculum_nav_item', instanceKey: 'vectorFoundationsIntro', subject: 'algebra' },
                     {
                         label: 'Linear Algebra & Symmetries',
                         subject: 'algebra',
@@ -83,10 +95,10 @@ export const navigationMenuTree: MenuItem[] = [
                 ]
             },
             {
-                label: 'Level 3: Continuum & Calculus',
+                label: 'Level 3: Infinitesimal Analysis',
                 subject: 'analysis',
                 children: [
-                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'analysis1DIntro', subject: 'analysis' },
+                    { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'lamOverview', subject: 'analysis' },
                     {
                         label: '1D Analysis',
                         subject: 'analysis',
@@ -109,7 +121,7 @@ export const navigationMenuTree: MenuItem[] = [
                 ]
             },
             {
-                label: 'Level 4: Space & Growth',
+                label: 'Level 4: Space, Trigonometry & The Transcendental Engine',
                 subject: 'analysis',
                 children: [
                     { label: 'Trigonometry & Rotor Foundations', typeKey: 'curriculum_nav_item', instanceKey: 'stemTrigFoundations', subject: 'analysis' },
@@ -162,6 +174,7 @@ export const navigationMenuTree: MenuItem[] = [
             },
             {
                 label: 'Level 6: Applied Seminars',
+                subject: 'physics',
                 children: [
                     { label: 'Overview', typeKey: 'curriculum_nav_item', instanceKey: 'satelliteSeminarsIntro', subject: 'physics' },
                     {
@@ -208,11 +221,44 @@ export const navigationMenuTree: MenuItem[] = [
     },
 
     // -------------------------------------------------------------------------
-    // 2. Formal Axiomatic Statements (Tier 1: Declarative Statements & DE Rules)
+    // 2. Lecture Segments (The Core Modular Chapters)
+    // -------------------------------------------------------------------------
+    {
+        label: 'Lecture Segments',
+        icon: '📖',
+        typeKey: 'segments',
+        children: [
+            { label: 'Browse All Lecture Segments', typeKey: 'segments', subject: 'all' }
+        ]
+    },
+
+    // -------------------------------------------------------------------------
+    // 3. Computational Stencils (Directed Equations, Slots & Presets)
+    // -------------------------------------------------------------------------
+    {
+        label: 'Computational Stencils',
+        icon: '📐',
+        typeKey: 'directed_equations',
+        children: [
+            {
+                label: 'Equations & Stencils',
+                typeKey: 'directed_equations',
+                subject: 'all',
+                children: [
+                    { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
+                ]
+            },
+            { label: 'Browse All Calculation Mode Slots', typeKey: 'mode_slots', subject: 'all' },
+            { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
+        ]
+    },
+
+    // -------------------------------------------------------------------------
+    // 4. Formal Axiomatic Statements (Axioms, Theorems, Directed Equalities)
     // -------------------------------------------------------------------------
     {
         label: 'Formal Statements',
-        icon: '📐',
+        icon: '🏛️',
         typeKey: 'formal_statement',
         children: [
             {
@@ -220,9 +266,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'axiom',
                 filterKind: { column: 'statement_kind', value: 'axiom' },
                 children: [
-                    { label: 'Hyperfinite Probability Space', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_probability', subject: 'information' },
-                    { label: 'Core Dyadic Isomorphism', typeKey: 'formal_statement', instanceKey: 'fs_dyadic_isomorphism', subject: 'numbers_trees' },
-                    { label: 'van den Dries–Ehrlich Subfield', typeKey: 'formal_statement', instanceKey: 'fs_van_den_dries_ehrlich', subject: 'numbers_trees' },
                     { label: 'Browse All Axioms', typeKey: 'axiom', subject: 'all' }
                 ]
             },
@@ -231,14 +274,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'theorem',
                 filterKind: { column: 'statement_kind', value: 'theorem' },
                 children: [
-                    { label: 'Newtonian Dynamics & Acceleration', typeKey: 'formal_statement', instanceKey: 'fs_newtonian_mechanics', subject: 'physics' },
-                    { label: 'Telescoping FTC', typeKey: 'formal_statement', instanceKey: 'fs_telescoping_ftc', subject: 'analysis' },
-                    { label: 'Cauchy-Riemann Coordinate Symmetry', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_riemann_symmetry', subject: 'analysis' },
-                    { label: 'Hyperfinite Cauchy-Goursat Loop Vanishing', typeKey: 'formal_statement', instanceKey: 'fs_contour_cauchy_goursat', subject: 'analysis' },
-                    { label: 'Lee-Yang Unit Circle Partition', typeKey: 'formal_statement', instanceKey: 'fs_lee_yang_circle', subject: 'physics' },
-                    { label: 'Total Ordering on Tree2', typeKey: 'formal_statement', instanceKey: 'fs_tree2_totally_ordered', subject: 'numbers_trees' },
-                    { label: 'Standard Part Ring Homomorphism', typeKey: 'formal_statement', instanceKey: 'fs_standard_part_homomorphism', subject: 'analysis' },
-                    { label: 'Discrete Cauchy-Schwarz Inequality', typeKey: 'formal_statement', instanceKey: 'fs_cauchy_schwarz_discrete', subject: 'algebra' },
                     { label: 'Browse All Theorems', typeKey: 'theorem', subject: 'all' }
                 ]
             },
@@ -247,34 +282,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'directed_equality',
                 filterKind: { column: 'statement_kind', value: 'directed_equality' },
                 children: [
-                    // Directed Equalities alphabetically sorted by unique friendly key (statement_key)
-                    { label: 'fs_bayes_updating — Hyperfinite Bayesian Likelihood Inversion', typeKey: 'formal_statement', instanceKey: 'fs_bayes_updating', subject: 'information' },
-                    { label: 'fs_complex_step_invariance — 2D Complex Step & Modulus Invariance', typeKey: 'formal_statement', instanceKey: 'fs_complex_step_invariance', subject: 'analysis' },
-                    { label: 'fs_conway_addition — Conway Inductive Addition (+)', typeKey: 'formal_statement', instanceKey: 'fs_conway_addition', subject: 'numbers_trees' },
-                    { label: 'fs_conway_multiplication — Conway Inductive Multiplication (·)', typeKey: 'formal_statement', instanceKey: 'fs_conway_multiplication', subject: 'numbers_trees' },
-                    { label: 'fs_euler_identity_rotor — Euler Polar Rotor Decomposition', typeKey: 'formal_statement', instanceKey: 'fs_euler_identity_rotor', subject: 'analysis' },
-                    { label: 'fs_free_fall_accel — Uniform Free Fall Kinematics', typeKey: 'formal_statement', instanceKey: 'fs_free_fall_accel', subject: 'physics' },
-                    { label: 'fs_geometric_scale_step — Chromatic Scale Geometric Progression', typeKey: 'formal_statement', instanceKey: 'fs_geometric_scale_step', subject: 'algebra' },
-                    { label: 'fs_harmonic_oscillator — Harmonic Leapfrog Phase Space Orbit', typeKey: 'formal_statement', instanceKey: 'fs_harmonic_oscillator', subject: 'physics' },
-                    { label: 'fs_heat_flux — Discrete Thermal Diffusion Balance', typeKey: 'formal_statement', instanceKey: 'fs_heat_flux', subject: 'physics' },
-                    { label: 'fs_hyperfinite_derivative — Hyperfinite Difference Quotient Derivative', typeKey: 'formal_statement', instanceKey: 'fs_hyperfinite_derivative', subject: 'analysis' },
-                    { label: 'fs_polygonal_rim_chord — Dyadic Polygonal Rim Chord Law', typeKey: 'formal_statement', instanceKey: 'fs_polygonal_rim_chord', subject: 'analysis' },
-                    { label: 'fs_pred_assign — Definitional Assignment (:=)', typeKey: 'formal_statement', instanceKey: 'fs_pred_assign', subject: 'logic' },
-                    { label: 'fs_pred_div — Divisibility (DIV / ∣)', typeKey: 'formal_statement', instanceKey: 'fs_pred_div', subject: 'numbers_trees' },
-                    { label: 'fs_pred_eq — Identity / Equality (EQ / =)', typeKey: 'formal_statement', instanceKey: 'fs_pred_eq', subject: 'logic' },
-                    { label: 'fs_pred_even — Even Parity (EVEN)', typeKey: 'formal_statement', instanceKey: 'fs_pred_even', subject: 'numbers_trees' },
-                    { label: 'fs_pred_gt — Greater-Than (GT / >)', typeKey: 'formal_statement', instanceKey: 'fs_pred_gt', subject: 'logic' },
-                    { label: 'fs_pred_le — Less-Than-or-Equal (LE / ≤)', typeKey: 'formal_statement', instanceKey: 'fs_pred_le', subject: 'logic' },
-                    { label: 'fs_pred_lt — Less-Than (LT / <)', typeKey: 'formal_statement', instanceKey: 'fs_pred_lt', subject: 'logic' },
-                    { label: 'fs_pred_mem — Set Membership (MEM / ∈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_mem', subject: 'logic' },
-                    { label: 'fs_pred_near — Infinitesimal Proximity (NEAR / ≈)', typeKey: 'formal_statement', instanceKey: 'fs_pred_near', subject: 'analysis' },
-                    { label: 'fs_pred_odd — Odd Parity (ODD)', typeKey: 'formal_statement', instanceKey: 'fs_pred_odd', subject: 'numbers_trees' },
-                    { label: 'fs_pred_subset — Subset Inclusion (SUBSET / ⊆)', typeKey: 'formal_statement', instanceKey: 'fs_pred_subset', subject: 'logic' },
-                    { label: 'fs_pred_succ — Successor Step (SUCC / +1)', typeKey: 'formal_statement', instanceKey: 'fs_pred_succ', subject: 'numbers_trees' },
-                    { label: 'fs_ptolemaic_half_angle — Dyadic Ptolemaic Half-Angle Root Bisection', typeKey: 'formal_statement', instanceKey: 'fs_ptolemaic_half_angle', subject: 'analysis' },
-                    { label: 'fs_three_polarizer_quantum — Three-Polarizer Geometric Transmission', typeKey: 'formal_statement', instanceKey: 'fs_three_polarizer_quantum', subject: 'physics' },
-                    { label: 'fs_unit_rotor_projection — Unit Rotor Sine & Cosine Projection', typeKey: 'formal_statement', instanceKey: 'fs_unit_rotor_projection', subject: 'analysis' },
-                    { label: 'fs_work_energy — Telescoping Work-Energy Principle', typeKey: 'formal_statement', instanceKey: 'fs_work_energy', subject: 'physics' },
                     { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
                 ]
             },
@@ -283,7 +290,19 @@ export const navigationMenuTree: MenuItem[] = [
     },
 
     // -------------------------------------------------------------------------
-    // 3. Demo Initializations (Tier 2: Interactive Sandbox Demos & Presets)
+    // 5. Pseudocode Algorithms (Operations, Primitives & Procedures)
+    // -------------------------------------------------------------------------
+    {
+        label: 'Pseudocode Algorithms',
+        icon: '💻',
+        typeKey: 'pseudocode_algorithms',
+        children: [
+            { label: 'Browse All Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' }
+        ]
+    },
+
+    // -------------------------------------------------------------------------
+    // 6. Demo Initializations (Interactive Sandbox Demos & Presets)
     // -------------------------------------------------------------------------
     {
         label: 'Demo Initializations',
@@ -295,13 +314,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'ttd',
                 subject: 'logic',
                 children: [
-                    { label: "De Morgan's First Law", typeKey: 'ttd', instanceId: 2, subject: 'logic' },
-                    { label: 'Modus Ponens (Detachment)', typeKey: 'ttd', instanceId: 3, subject: 'logic' },
-                    { label: 'Law of Excluded Middle', typeKey: 'ttd', instanceId: 4, subject: 'logic' },
-                    { label: 'Principle of Non-Contradiction', typeKey: 'ttd', instanceId: 5, subject: 'logic' },
-                    { label: 'Material Implication (→)', typeKey: 'ttd', instanceId: 6, subject: 'logic' },
-                    { label: 'Material Equivalence (↔)', typeKey: 'ttd', instanceId: 7, subject: 'logic' },
-                    { label: 'Hypothetical Syllogism', typeKey: 'ttd', instanceId: 8, subject: 'logic' },
                     { label: 'Browse All TTD Initializations', typeKey: 'ttd', subject: 'logic' }
                 ]
             },
@@ -310,10 +322,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'btd',
                 subject: 'numbers_trees',
                 children: [
-                    { label: 'Surreal Tree Total Order', typeKey: 'btd', instanceId: 9, subject: 'numbers_trees' },
-                    { label: 'Conway Inductive Addition (+)', typeKey: 'btd', instanceId: 10, subject: 'numbers_trees' },
-                    { label: 'Conway Inductive Multiplication (·)', typeKey: 'btd', instanceId: 11, subject: 'numbers_trees' },
-                    { label: 'Labeled Dyadic Sequences', typeKey: 'btd', instanceId: 12, subject: 'numbers_trees' },
                     { label: 'Browse All BTD Initializations', typeKey: 'btd', subject: 'numbers_trees' }
                 ]
             },
@@ -322,8 +330,6 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'bid',
                 subject: 'analysis',
                 children: [
-                    { label: 'Dyadic Interval Subdivision', typeKey: 'bid', instanceId: 13, subject: 'analysis' },
-                    { label: 'Unit Rotor Circle Projection', typeKey: 'bid', instanceId: 14, subject: 'analysis' },
                     { label: 'Browse All BID Initializations', typeKey: 'bid', subject: 'analysis' }
                 ]
             },
@@ -332,22 +338,78 @@ export const navigationMenuTree: MenuItem[] = [
                 typeKey: 'fsd',
                 subject: 'all',
                 children: [
-                    { label: 'Formal Structure Stage Visualizer', typeKey: 'fsd', instanceId: 15, subject: 'all' },
                     { label: 'Browse All FSD Initializations', typeKey: 'fsd', subject: 'all' }
                 ]
             },
             { label: 'Browse All Demo Initializations', typeKey: 'interactive_demos', subject: 'all' }
+        ]
+    },
+
+    // -------------------------------------------------------------------------
+    // 7. Lean 4 Formal Declarations & Verifications
+    // -------------------------------------------------------------------------
+    {
+        label: 'Lean Declarations',
+        icon: '📜',
+        typeKey: 'lean_declarations',
+        children: [
+            {
+                label: 'Inductive Types',
+                typeKey: 'lean_declarations',
+                subject: 'all',
+                filterKind: { column: 'kind', value: 'inductive' },
+                children: [
+                    { label: 'Browse Inductive Types', typeKey: 'lean_declarations', subject: 'all' }
+                ]
+            },
+            {
+                label: 'Definitions',
+                typeKey: 'lean_declarations',
+                subject: 'all',
+                filterKind: { column: 'kind', value: 'def' },
+                children: [
+                    { label: 'Browse Definitions', typeKey: 'lean_declarations', subject: 'all' }
+                ]
+            },
+            {
+                label: 'Theorems',
+                typeKey: 'lean_declarations',
+                subject: 'all',
+                filterKind: { column: 'kind', value: 'theorem' },
+                children: [
+                    { label: 'Browse Theorems', typeKey: 'lean_declarations', subject: 'all' }
+                ]
+            },
+            {
+                label: 'Structures',
+                typeKey: 'lean_declarations',
+                subject: 'all',
+                filterKind: { column: 'kind', value: 'structure' },
+                children: [
+                    { label: 'Browse Structures', typeKey: 'lean_declarations', subject: 'all' }
+                ]
+            },
+            { label: 'Browse All Lean Declarations', typeKey: 'lean_declarations', subject: 'all' },
+            { label: 'Browse Lean Kernel Verifications', typeKey: 'lean_verifications', subject: 'all' }
+        ]
+    },
+
+    // -------------------------------------------------------------------------
+    // 8. Mathematical & Physical Domains
+    // -------------------------------------------------------------------------
+    {
+        label: 'Domains & Curricula',
+        icon: '🌐',
+        typeKey: 'domains',
+        children: [
+            { label: 'Browse All Domains', typeKey: 'domains', subject: 'all' },
+            { label: 'Browse Curriculum Applications', typeKey: 'apps', subject: 'all' }
         ]
     }
 ];
 
 /**
  * Filter the single canonical navigation tree by subject domain and CRUD mode.
- * - If mode is 'create':
- *     Entity type nodes (such as TTD, BTD, Axioms, Theorems) have their instance children pruned,
- *     so they appear directly without submenus and clicking them immediately launches the initialized creation form.
- * - If mode is 'read', 'update', or 'delete':
- *     Entity type nodes retain their instance children so the user can inspect, update, or delete existing records.
  */
 export function getFilteredMenuTree(subject: string = 'all', mode: string = 'read'): MenuItem[] {
     const isCreate = mode === 'create';
@@ -364,16 +426,14 @@ export function getFilteredMenuTree(subject: string = 'all', mode: string = 'rea
             return null;
         }
 
-        // In Create mode, prune any direct instance items (records with instanceKey or instanceId or "Browse All")
+        // In Create mode, prune direct instance items
         if (isCreate && (item.instanceKey !== undefined || item.instanceId !== undefined || item.label.startsWith('Browse All'))) {
             return null;
         }
 
         // If an item has children:
         if (item.children && item.children.length > 0) {
-            // In Create mode, if this item represents a concrete creatable entity type
-            // (e.g. typeKey is 'ttd', 'btd', 'bid', 'fsd', 'axiom', 'theorem', 'directed_equality', 'curriculum_nav_item'):
-            // prune its children so it becomes a terminal leaf that directly launches creation!
+            // In Create mode, if this item represents a concrete creatable entity type:
             if (isCreate && item.typeKey && item.typeKey !== 'demo_initializations' && item.typeKey !== 'formal_statement') {
                 return {
                     ...item,
@@ -451,7 +511,175 @@ export function renderMenuHierarchy(items: MenuItem[]): string {
  */
 export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, params?: any[]) => Promise<T[]>): Promise<void> {
     try {
-        // 1. Fetch live interactive demos
+        // ---------------------------------------------------------------------
+        // 1. Sync Curriculum Outline Index Entries (curriculum_nav_items + segments)
+        // ---------------------------------------------------------------------
+        const navRows = await queryFn<any>(`
+            SELECT c.id, c.nav_key, c.parent_id, c.sequence_order, c.item_type, c.topic, c.nav_topic, c.segment_id,
+                   s.seg_key, s.title as seg_title
+            FROM curriculum_nav_items c
+            LEFT JOIN segments s ON c.segment_id = s.id
+            ORDER BY c.parent_id NULLS FIRST, c.sequence_order ASC, c.id ASC;
+        `);
+
+        if (navRows && navRows.length > 0) {
+            const navIndexNode = navigationMenuTree.find((n) => n.typeKey === 'curriculum_nav_item');
+            if (navIndexNode) {
+                const byParent = new Map<string, any[]>();
+                for (const r of navRows) {
+                    const p = r.parent_id ? String(r.parent_id) : 'root';
+                    if (!byParent.has(p)) byParent.set(p, []);
+                    byParent.get(p)!.push(r);
+                }
+
+                function buildNavChildren(parentId: string): MenuItem[] {
+                    const children = byParent.get(parentId) || [];
+                    return children.map((c) => {
+                        const subChildren = buildNavChildren(String(c.id));
+                        const subj = inferSubject(c.topic, c.seg_key || c.nav_key);
+                        const hasSubs = subChildren.length > 0;
+
+                        const label = c.topic || c.nav_topic || `Item #${c.id}`;
+
+                        const node: MenuItem = {
+                            label: label,
+                            typeKey: 'curriculum_nav_item',
+                            subject: subj,
+                        };
+
+                        if (hasSubs) {
+                            node.children = subChildren;
+                        } else {
+                            node.instanceId = Number(c.id);
+                            if (c.seg_key) node.instanceKey = c.seg_key;
+                            else if (c.nav_key) node.instanceKey = c.nav_key;
+                        }
+                        return node;
+                    });
+                }
+
+                navIndexNode.children = [
+                    ...buildNavChildren('root').filter((n) => n.label !== 'title'),
+                    { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' }
+                ];
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 2. Sync Lecture Segments (segments)
+        // ---------------------------------------------------------------------
+        const segRows = await queryFn<any>(`
+            SELECT id, seg_key, title, sequence_order, slug FROM segments ORDER BY sequence_order ASC, id ASC;
+        `);
+        if (segRows && segRows.length > 0) {
+            const segNode = navigationMenuTree.find((n) => n.typeKey === 'segments');
+            if (segNode) {
+                segNode.children = [
+                    ...segRows.map((s) => ({
+                        label: s.title ? `${s.sequence_order}. ${s.title}` : (s.slug || s.seg_key || `Segment #${s.id}`),
+                        typeKey: 'segments',
+                        instanceId: Number(s.id),
+                        instanceKey: s.seg_key || s.slug,
+                        subject: inferSubject(s.title, s.seg_key)
+                    })),
+                    { label: 'Browse All Lecture Segments', typeKey: 'segments', subject: 'all' }
+                ];
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 3. Sync Computational Stencils (directed_equations)
+        // ---------------------------------------------------------------------
+        const eqRows = await queryFn<any>(`SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;`);
+        if (eqRows && eqRows.length > 0) {
+            const stencilsNode = navigationMenuTree.find((n) => n.typeKey === 'directed_equations');
+            if (stencilsNode && stencilsNode.children) {
+                const subEquationNode = stencilsNode.children.find((c) => c.typeKey === 'directed_equations');
+                if (subEquationNode) {
+                    subEquationNode.children = [
+                        ...eqRows.map((e) => ({
+                            label: e.title ? `${e.equation_key} — ${e.title}` : e.equation_key,
+                            typeKey: 'directed_equations',
+                            instanceId: Number(e.id),
+                            instanceKey: e.equation_key,
+                            subject: inferSubject(e.title, e.equation_key)
+                        })),
+                        { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
+                    ];
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 4. Sync Formal Statements (formal_statements)
+        // ---------------------------------------------------------------------
+        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
+        if (stmts && stmts.length > 0) {
+            const fsNode = navigationMenuTree.find((n) => n.typeKey === 'formal_statement');
+            if (fsNode && fsNode.children) {
+                for (const kind of ['axiom', 'theorem', 'directed_equality']) {
+                    const kindNode = fsNode.children.find((c) => c.typeKey === kind);
+                    if (kindNode) {
+                        const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+                        kindStmts.sort((a, b) => (a.statement_key || '').localeCompare(b.statement_key || ''));
+                        kindNode.children = [
+                            ...kindStmts.map((s) => {
+                                const subj = inferSubject(s.title, s.statement_key, s.domain_category);
+                                const key = s.statement_key || `fs_${s.id}`;
+                                const displayLabel = s.title ? `${key} — ${s.title}` : key;
+                                return {
+                                    label: displayLabel,
+                                    typeKey: 'formal_statement',
+                                    instanceKey: s.statement_key,
+                                    subject: subj
+                                };
+                            }),
+                            {
+                                label: `Browse All ${kind === 'directed_equality' ? 'Directed Equalities' : kind.charAt(0).toUpperCase() + kind.slice(1) + 's'}`,
+                                typeKey: kind,
+                                subject: 'all'
+                            }
+                        ];
+                    }
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. Sync Pseudocode Algorithms (pseudocode_algorithms)
+        // ---------------------------------------------------------------------
+        const algoRows = await queryFn<any>('SELECT id, algo_key, name, category, algo_kind FROM pseudocode_algorithms ORDER BY algo_key ASC;');
+        if (algoRows && algoRows.length > 0) {
+            const algoNode = navigationMenuTree.find((n) => n.typeKey === 'pseudocode_algorithms');
+            if (algoNode) {
+                const algoCategories = Array.from(new Set(algoRows.map((a) => a.category || 'general')));
+                algoNode.children = [
+                    ...algoCategories.map((cat) => {
+                        const inCat = algoRows.filter((a) => (a.category || 'general') === cat);
+                        return {
+                            label: cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' '),
+                            typeKey: 'pseudocode_algorithms',
+                            subject: inferSubject(cat),
+                            children: [
+                                ...inCat.map((a) => ({
+                                    label: a.name ? `${a.algo_key} — ${a.name}` : a.algo_key,
+                                    typeKey: 'pseudocode_algorithms',
+                                    instanceId: Number(a.id),
+                                    instanceKey: a.algo_key,
+                                    subject: inferSubject(a.name, a.algo_key, a.category)
+                                })),
+                                { label: `Browse All ${cat} Algorithms`, typeKey: 'pseudocode_algorithms', subject: inferSubject(cat) }
+                            ]
+                        };
+                    }),
+                    { label: 'Browse All Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' }
+                ];
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 6. Sync Interactive Demos (interactive_demos)
+        // ---------------------------------------------------------------------
         const demos = await queryFn<any>('SELECT id, engine, mode, title FROM interactive_demos ORDER BY id ASC;');
         if (demos && demos.length > 0) {
             const demoInitializationsNode = navigationMenuTree.find((n) => n.typeKey === 'demo_initializations');
@@ -485,49 +713,53 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
             }
         }
 
-        // 2. Fetch live formal statements
-        // 2. Fetch live formal statements sorted by unique friendly key (statement_key)
-        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
-        if (stmts && stmts.length > 0) {
-            const fsNode = navigationMenuTree.find((n) => n.typeKey === 'formal_statement');
-            if (fsNode && fsNode.children) {
-                for (const kind of ['axiom', 'theorem', 'directed_equality']) {
-                    const kindNode = fsNode.children.find((c) => c.typeKey === kind);
-                    if (kindNode) {
-                        const kindStmts = stmts.filter((s) => s.statement_kind === kind);
-                        // Ensure strict alphabetical sorting by unique friendly key
-                        kindStmts.sort((a, b) => (a.statement_key || '').localeCompare(b.statement_key || ''));
-                        kindNode.children = [
-                            ...kindStmts.map((s) => {
-                                let subj = 'all';
-                                const dc = s.domain_category || '';
-                                if (dc.includes('logic') || dc.includes('order')) subj = 'logic';
-                                else if (dc.includes('tree') || dc.includes('arithmetic')) subj = 'numbers_trees';
-                                else if (dc.includes('algebra') || dc.includes('vector') || dc.includes('sequence') || s.statement_key === 'fs_geometric_scale_step') subj = 'algebra';
-                                else if (dc.includes('analysis') || dc.includes('trig') || dc.includes('rotor')) subj = 'analysis';
-                                else if (dc.includes('physic') || dc.includes('kinematic')) subj = 'physics';
-                                else if (dc.includes('bayes') || dc.includes('quantum') || dc.includes('info')) subj = 'information';
-
-                                const key = s.statement_key || `fs_${s.id}`;
-                                const displayLabel = s.title ? `${key} — ${s.title}` : key;
-
-                                return {
-                                    label: displayLabel,
-                                    typeKey: 'formal_statement',
-                                    instanceKey: s.statement_key,
-                                    subject: subj
-                                };
-                            }),
-                            {
-                                label: `Browse All ${kind === 'directed_equality' ? 'Directed Equalities' : kind.charAt(0).toUpperCase() + kind.slice(1) + 's'}`,
-                                typeKey: kind,
+        // ---------------------------------------------------------------------
+        // 7. Sync Lean Declarations (lean_declarations)
+        // ---------------------------------------------------------------------
+        const declRows = await queryFn<any>('SELECT id, name, kind, decl_key FROM lean_declarations ORDER BY name ASC;');
+        if (declRows && declRows.length > 0) {
+            const leanNode = navigationMenuTree.find((n) => n.typeKey === 'lean_declarations');
+            if (leanNode && leanNode.children) {
+                for (const k of ['inductive', 'def', 'theorem', 'structure']) {
+                    const kNode = leanNode.children.find((c) => c.filterKind?.value === k);
+                    if (kNode) {
+                        const inKind = declRows.filter((d) => d.kind === k);
+                        kNode.children = [
+                            ...inKind.slice(0, 30).map((d) => ({
+                                label: d.name,
+                                typeKey: 'lean_declarations',
+                                instanceId: Number(d.id),
+                                instanceKey: d.decl_key || d.name,
                                 subject: 'all'
-                            }
+                            })),
+                            { label: `Browse All ${k.charAt(0).toUpperCase() + k.slice(1)} Declarations (${inKind.length})`, typeKey: 'lean_declarations', subject: 'all' }
                         ];
                     }
                 }
             }
         }
+
+        // ---------------------------------------------------------------------
+        // 8. Sync Domains (domains)
+        // ---------------------------------------------------------------------
+        const domainRows = await queryFn<any>('SELECT id, domain_key, name, symbol FROM domains ORDER BY domain_key ASC;');
+        if (domainRows && domainRows.length > 0) {
+            const domainNode = navigationMenuTree.find((n) => n.typeKey === 'domains');
+            if (domainNode) {
+                domainNode.children = [
+                    ...domainRows.map((d) => ({
+                        label: `${d.symbol ? `[${d.symbol}] ` : ''}${d.name || d.domain_key}`,
+                        typeKey: 'domains',
+                        instanceId: Number(d.id),
+                        instanceKey: d.domain_key,
+                        subject: inferSubject(d.name, d.domain_key)
+                    })),
+                    { label: 'Browse All Domains', typeKey: 'domains', subject: 'all' },
+                    { label: 'Browse Curriculum Applications', typeKey: 'apps', subject: 'all' }
+                ];
+            }
+        }
+
     } catch (err) {
         console.warn('[syncMenuTreeFromDatabase] Could not sync menu tree from live database:', err);
     }

@@ -354,9 +354,9 @@ var init_navIndex = __esm({
     init_svgElt();
     init_navFW();
     Index = class _Index extends SVGGrpElt {
-      static fontSize = 14;
-      static rowHeight = 32;
-      static margin = 14;
+      static fontSize = 16;
+      static rowHeight = 36;
+      static margin = 16;
       static stdColor = "#334155";
       static overColor = "#0284c7";
       static selectedColor = "#0369a1";
@@ -370,7 +370,8 @@ var init_navIndex = __esm({
         this.chosen = initialSelection;
         this.setA("style", "background-color: transparent;");
         const [m, fs] = [_Index.margin, _Index.fontSize];
-        let y = m + 18;
+        _Index.rowHeight = Math.max(28, Math.round(fs * 2.25));
+        let y = m + Math.round(fs * 1.3125);
         indexDesc.forEach((choice, idx) => {
           const indents = choice.indents ? choice.indents : 0;
           const text = choice.topic;
@@ -383,7 +384,7 @@ var init_navIndex = __esm({
             "y",
             rowY,
             "height",
-            _Index.rowHeight - 4,
+            _Index.rowHeight - 6,
             "rx",
             6,
             "ry",
@@ -400,7 +401,7 @@ var init_navIndex = __esm({
           item.setV(text);
           item.setAA([
             "x",
-            m + indents * 14,
+            m + indents * 16,
             "y",
             y,
             "font-size",
@@ -420,7 +421,7 @@ var init_navIndex = __esm({
             try {
               const bb = item.getBB();
               if (bb && bb.width > 0) {
-                rect.setA("width", Math.max(160, bb.width + indents * 14 + 20));
+                rect.setA("width", Math.max(175, bb.width + indents * 16 + 24));
               }
             } catch (e) {
             }
@@ -450,6 +451,45 @@ var init_navIndex = __esm({
           item.elt.addEventListener("click", onClick);
           y += _Index.rowHeight;
         });
+      }
+      updateLayout() {
+        const [m, fs] = [_Index.margin, _Index.fontSize];
+        _Index.rowHeight = Math.max(28, Math.round(fs * 2.25));
+        let y = m + Math.round(fs * 1.3125);
+        this.choices.forEach(([choice, item, rect]) => {
+          const indents = choice.indents ? choice.indents : 0;
+          const rowY = y - fs - 3;
+          rect.setAA([
+            "y",
+            rowY,
+            "height",
+            _Index.rowHeight - 6
+          ]);
+          item.setAA([
+            "y",
+            y,
+            "font-size",
+            fs
+          ]);
+          try {
+            const bb = item.getBB();
+            if (bb && bb.width > 0) {
+              rect.setA("width", Math.max(175, bb.width + indents * 16 + 24));
+            }
+          } catch (e) {
+          }
+          y += _Index.rowHeight;
+        });
+      }
+      static setFontSize(newFs) {
+        _Index.fontSize = newFs;
+        if (typeof Nav !== "undefined" && Nav.indices) {
+          Nav.indices.forEach((idx) => {
+            if (idx && typeof idx.updateLayout === "function") {
+              idx.updateLayout();
+            }
+          });
+        }
       }
       setSelectedItem() {
         this.choices.forEach((c, i) => {
@@ -7496,21 +7536,37 @@ var init_navFW = __esm({
       static foPadding = 14;
       static foBgColor = "#ffffff";
       static width;
-      static fontSize = 14;
-      static sideFontSize = 13.5;
-      static lineHeight = 44;
+      static fontSize = 16;
+      static sideFontSize = 15;
+      static lineHeight = 46;
       static offset = 24;
       static frameMargin = 6;
       static upArrow = "\u25B6";
       static dnArrow = "\u2630";
       static isIndexVisible = true;
-      static arrowSize = 18;
+      static arrowSize = 20;
       static textFontSize = 16;
       static getTextStyle() {
         const bPad = 50;
         return `background-color:${_Nav.foBgColor};box-sizing:border-box;width:100%;min-height:100%;padding:${_Nav.foPadding}px ${_Nav.foPadding + 8}px ${bPad}px ${_Nav.foPadding + 8}px;font-size:${_Nav.textFontSize}px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;line-height:1.6;display:flow-root;`;
       }
       constructor(app, parent = null, editMode = false, cb = void 0, bgC = "#f1f5f9", lineC = "#ffffff", indexC = "#f8fafc", foC = "#ffffff") {
+        try {
+          if (typeof window !== "undefined" && window.localStorage) {
+            const saved = localStorage.getItem("mwm_font_size");
+            if (saved) {
+              const parsed = parseInt(saved, 10);
+              if (!isNaN(parsed) && parsed >= 12 && parsed <= 28) {
+                _Nav.fontSize = parsed;
+                _Nav.textFontSize = parsed;
+                Index.fontSize = parsed;
+                _Nav.arrowSize = Math.round(parsed * 1.25);
+                _Nav.lineHeight = Math.max(46, parsed + 28);
+              }
+            }
+          }
+        } catch (e) {
+        }
         const mainSlot = document.getElementById("main-slot");
         _Nav.app = app;
         _Nav.parent = parent;
@@ -7525,7 +7581,7 @@ var init_navFW = __esm({
         _Nav.lineArrowButton = new SVGTSpan(_Nav.lineBlock);
         _Nav.lineTopics = new SVGTSpan(_Nav.lineBlock);
         _Nav.textSizeControl = new SVGTSpan(_Nav.lineBlock);
-        _Nav.textSizeControl.setAA(["visibility", "hidden", "pointer-events", "none"]);
+        _Nav.textSizeControl.setAA(["visibility", "visible", "pointer-events", "auto"]);
         _Nav.returnControl = new SVGTSpan(_Nav.lineBlock);
         _Nav.returnControl.setAA(["visibility", "hidden", "pointer-events", "none"]);
         _Nav.overviewControl = new SVGTSpan(_Nav.lineBlock);
@@ -7756,8 +7812,47 @@ var init_navFW = __esm({
         }, 150);
       }
       static changeTextSize(whichWay) {
-        _Nav.textFontSize += whichWay == "+" ? 1 : -1;
+        const delta = whichWay == "+" ? 1 : -1;
+        const newFontSize = _Nav.fontSize + delta;
+        if (newFontSize < 12 || newFontSize > 28) return;
+        _Nav.fontSize = newFontSize;
+        _Nav.textFontSize = _Nav.fontSize;
+        _Nav.arrowSize = Math.round(_Nav.fontSize * 1.25);
+        _Nav.lineHeight = Math.max(46, _Nav.fontSize + 28);
+        try {
+          if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("mwm_font_size", String(_Nav.fontSize));
+          }
+        } catch (e) {
+        }
         _Nav.segDiv.setA("style", _Nav.getTextStyle());
+        Index.setFontSize(_Nav.fontSize);
+        _Nav.line.setA("height", _Nav.lineHeight);
+        _Nav.lineRect.setA("height", _Nav.lineHeight);
+        const yp = 1 / 2 * _Nav.lineHeight + 0.35 * _Nav.fontSize + _Nav.frameMargin;
+        const lineElts = _Nav.lineTopics.children();
+        lineElts.forEach((widget) => {
+          widget.setAA(["font-size", _Nav.fontSize]);
+        });
+        _Nav.lineArrowButton.setAA([
+          "y",
+          yp,
+          "font-size",
+          _Nav.arrowSize
+        ]);
+        if (_Nav.textSizeControl) {
+          _Nav.textSizeControl.children().forEach((w) => {
+            w.setAA(["font-size", _Nav.fontSize]);
+          });
+        }
+        if (_Nav.overviewControl) {
+          _Nav.overviewControl.setAA(["font-size", _Nav.fontSize]);
+        }
+        if (_Nav.returnControl) {
+          _Nav.returnControl.setAA(["font-size", _Nav.fontSize]);
+        }
+        _Nav.showNavLine();
+        _Nav.display();
       }
       static setTextSizeControlPos(lineWidth) {
         const yp = 1 / 2 * _Nav.lineHeight + 0.35 * _Nav.fontSize + _Nav.frameMargin;
@@ -7872,7 +7967,6 @@ var init_navFW = __esm({
       }
       //
       static processSelection() {
-        _Nav.textSizeControl.setAA(["visibility", "hidden", "pointer-events", "none"]);
         const index = _Nav.indices[_Nav.currentIndex];
         const selected = index.choices[index.chosen];
         const [c, w] = selected;
@@ -9948,7 +10042,7 @@ async function getDatabaseHealth() {
     }
     const data = await response.json();
     return {
-      status: data.status === "connected" ? "connected" : "disconnected",
+      status: data.status === "connected" || data.status === "ok" ? "connected" : "disconnected",
       database: data.database,
       user: data.user,
       error: data.error
@@ -10516,6 +10610,16 @@ var TransactionHandler = class {
 };
 
 // crud/src/menuTree.ts
+function inferSubject(text, key, category) {
+  const s = `${text || ""} ${key || ""} ${category || ""}`.toLowerCase();
+  if (s.includes("logic") || s.includes("prop") || s.includes("truth table") || s.includes("ttd") || s.includes("boolean")) return "logic";
+  if (s.includes("tree") || s.includes("btd") || s.includes("number") || s.includes("conway") || s.includes("surreal") || s.includes("arithmetic") || s.includes("dyadic")) return "numbers_trees";
+  if (s.includes("algebra") || s.includes("vector") || s.includes("linear") || s.includes("matrix") || s.includes("field") || s.includes("group") || s.includes("sequence")) return "algebra";
+  if (s.includes("analysis") || s.includes("calculus") || s.includes("infinitesimal") || s.includes("derivative") || s.includes("integral") || s.includes("bid") || s.includes("trig") || s.includes("rotor") || s.includes("complex")) return "analysis";
+  if (s.includes("physic") || s.includes("kinematic") || s.includes("force") || s.includes("energy") || s.includes("oscillator") || s.includes("heat") || s.includes("wave")) return "physics";
+  if (s.includes("bayes") || s.includes("probability") || s.includes("quantum") || s.includes("entropy") || s.includes("information")) return "information";
+  return "all";
+}
 var navigationMenuTree = [
   // -------------------------------------------------------------------------
   // 1. Curriculum Outline Index Entries (The Course Tree Hierarchy)
@@ -10536,6 +10640,7 @@ var navigationMenuTree = [
       },
       {
         label: "Level 1: Logic & Number",
+        subject: "logic",
         children: [
           { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "level1Overview", subject: "logic" },
           {
@@ -10570,9 +10675,8 @@ var navigationMenuTree = [
         label: "Level 2: Algebraic Structure & Linearity",
         subject: "algebra",
         children: [
-          { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "lamOverview", subject: "algebra" },
+          { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "vectorFoundationsIntro", subject: "algebra" },
           { label: "Sequences & Progressions", typeKey: "curriculum_nav_item", instanceKey: "sequencesAndSums", subject: "algebra" },
-          { label: "Vector Foundations Overview", typeKey: "curriculum_nav_item", instanceKey: "vectorFoundationsIntro", subject: "algebra" },
           {
             label: "Linear Algebra & Symmetries",
             subject: "algebra",
@@ -10585,10 +10689,10 @@ var navigationMenuTree = [
         ]
       },
       {
-        label: "Level 3: Continuum & Calculus",
+        label: "Level 3: Infinitesimal Analysis",
         subject: "analysis",
         children: [
-          { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "analysis1DIntro", subject: "analysis" },
+          { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "lamOverview", subject: "analysis" },
           {
             label: "1D Analysis",
             subject: "analysis",
@@ -10611,7 +10715,7 @@ var navigationMenuTree = [
         ]
       },
       {
-        label: "Level 4: Space & Growth",
+        label: "Level 4: Space, Trigonometry & The Transcendental Engine",
         subject: "analysis",
         children: [
           { label: "Trigonometry & Rotor Foundations", typeKey: "curriculum_nav_item", instanceKey: "stemTrigFoundations", subject: "analysis" },
@@ -10664,6 +10768,7 @@ var navigationMenuTree = [
       },
       {
         label: "Level 6: Applied Seminars",
+        subject: "physics",
         children: [
           { label: "Overview", typeKey: "curriculum_nav_item", instanceKey: "satelliteSeminarsIntro", subject: "physics" },
           {
@@ -10709,11 +10814,42 @@ var navigationMenuTree = [
     ]
   },
   // -------------------------------------------------------------------------
-  // 2. Formal Axiomatic Statements (Tier 1: Declarative Statements & DE Rules)
+  // 2. Lecture Segments (The Core Modular Chapters)
+  // -------------------------------------------------------------------------
+  {
+    label: "Lecture Segments",
+    icon: "\u{1F4D6}",
+    typeKey: "segments",
+    children: [
+      { label: "Browse All Lecture Segments", typeKey: "segments", subject: "all" }
+    ]
+  },
+  // -------------------------------------------------------------------------
+  // 3. Computational Stencils (Directed Equations, Slots & Presets)
+  // -------------------------------------------------------------------------
+  {
+    label: "Computational Stencils",
+    icon: "\u{1F4D0}",
+    typeKey: "directed_equations",
+    children: [
+      {
+        label: "Equations & Stencils",
+        typeKey: "directed_equations",
+        subject: "all",
+        children: [
+          { label: "Browse All Stencils", typeKey: "directed_equations", subject: "all" }
+        ]
+      },
+      { label: "Browse All Calculation Mode Slots", typeKey: "mode_slots", subject: "all" },
+      { label: "Browse All Stencil Presets", typeKey: "stencil_presets", subject: "all" }
+    ]
+  },
+  // -------------------------------------------------------------------------
+  // 4. Formal Axiomatic Statements (Axioms, Theorems, Directed Equalities)
   // -------------------------------------------------------------------------
   {
     label: "Formal Statements",
-    icon: "\u{1F4D0}",
+    icon: "\u{1F3DB}\uFE0F",
     typeKey: "formal_statement",
     children: [
       {
@@ -10721,9 +10857,6 @@ var navigationMenuTree = [
         typeKey: "axiom",
         filterKind: { column: "statement_kind", value: "axiom" },
         children: [
-          { label: "Hyperfinite Probability Space", typeKey: "formal_statement", instanceKey: "fs_hyperfinite_probability", subject: "information" },
-          { label: "Core Dyadic Isomorphism", typeKey: "formal_statement", instanceKey: "fs_dyadic_isomorphism", subject: "numbers_trees" },
-          { label: "van den Dries\u2013Ehrlich Subfield", typeKey: "formal_statement", instanceKey: "fs_van_den_dries_ehrlich", subject: "numbers_trees" },
           { label: "Browse All Axioms", typeKey: "axiom", subject: "all" }
         ]
       },
@@ -10732,14 +10865,6 @@ var navigationMenuTree = [
         typeKey: "theorem",
         filterKind: { column: "statement_kind", value: "theorem" },
         children: [
-          { label: "Newtonian Dynamics & Acceleration", typeKey: "formal_statement", instanceKey: "fs_newtonian_mechanics", subject: "physics" },
-          { label: "Telescoping FTC", typeKey: "formal_statement", instanceKey: "fs_telescoping_ftc", subject: "analysis" },
-          { label: "Cauchy-Riemann Coordinate Symmetry", typeKey: "formal_statement", instanceKey: "fs_cauchy_riemann_symmetry", subject: "analysis" },
-          { label: "Hyperfinite Cauchy-Goursat Loop Vanishing", typeKey: "formal_statement", instanceKey: "fs_contour_cauchy_goursat", subject: "analysis" },
-          { label: "Lee-Yang Unit Circle Partition", typeKey: "formal_statement", instanceKey: "fs_lee_yang_circle", subject: "physics" },
-          { label: "Total Ordering on Tree2", typeKey: "formal_statement", instanceKey: "fs_tree2_totally_ordered", subject: "numbers_trees" },
-          { label: "Standard Part Ring Homomorphism", typeKey: "formal_statement", instanceKey: "fs_standard_part_homomorphism", subject: "analysis" },
-          { label: "Discrete Cauchy-Schwarz Inequality", typeKey: "formal_statement", instanceKey: "fs_cauchy_schwarz_discrete", subject: "algebra" },
           { label: "Browse All Theorems", typeKey: "theorem", subject: "all" }
         ]
       },
@@ -10748,34 +10873,6 @@ var navigationMenuTree = [
         typeKey: "directed_equality",
         filterKind: { column: "statement_kind", value: "directed_equality" },
         children: [
-          // Directed Equalities alphabetically sorted by unique friendly key (statement_key)
-          { label: "fs_bayes_updating \u2014 Hyperfinite Bayesian Likelihood Inversion", typeKey: "formal_statement", instanceKey: "fs_bayes_updating", subject: "information" },
-          { label: "fs_complex_step_invariance \u2014 2D Complex Step & Modulus Invariance", typeKey: "formal_statement", instanceKey: "fs_complex_step_invariance", subject: "analysis" },
-          { label: "fs_conway_addition \u2014 Conway Inductive Addition (+)", typeKey: "formal_statement", instanceKey: "fs_conway_addition", subject: "numbers_trees" },
-          { label: "fs_conway_multiplication \u2014 Conway Inductive Multiplication (\xB7)", typeKey: "formal_statement", instanceKey: "fs_conway_multiplication", subject: "numbers_trees" },
-          { label: "fs_euler_identity_rotor \u2014 Euler Polar Rotor Decomposition", typeKey: "formal_statement", instanceKey: "fs_euler_identity_rotor", subject: "analysis" },
-          { label: "fs_free_fall_accel \u2014 Uniform Free Fall Kinematics", typeKey: "formal_statement", instanceKey: "fs_free_fall_accel", subject: "physics" },
-          { label: "fs_geometric_scale_step \u2014 Chromatic Scale Geometric Progression", typeKey: "formal_statement", instanceKey: "fs_geometric_scale_step", subject: "algebra" },
-          { label: "fs_harmonic_oscillator \u2014 Harmonic Leapfrog Phase Space Orbit", typeKey: "formal_statement", instanceKey: "fs_harmonic_oscillator", subject: "physics" },
-          { label: "fs_heat_flux \u2014 Discrete Thermal Diffusion Balance", typeKey: "formal_statement", instanceKey: "fs_heat_flux", subject: "physics" },
-          { label: "fs_hyperfinite_derivative \u2014 Hyperfinite Difference Quotient Derivative", typeKey: "formal_statement", instanceKey: "fs_hyperfinite_derivative", subject: "analysis" },
-          { label: "fs_polygonal_rim_chord \u2014 Dyadic Polygonal Rim Chord Law", typeKey: "formal_statement", instanceKey: "fs_polygonal_rim_chord", subject: "analysis" },
-          { label: "fs_pred_assign \u2014 Definitional Assignment (:=)", typeKey: "formal_statement", instanceKey: "fs_pred_assign", subject: "logic" },
-          { label: "fs_pred_div \u2014 Divisibility (DIV / \u2223)", typeKey: "formal_statement", instanceKey: "fs_pred_div", subject: "numbers_trees" },
-          { label: "fs_pred_eq \u2014 Identity / Equality (EQ / =)", typeKey: "formal_statement", instanceKey: "fs_pred_eq", subject: "logic" },
-          { label: "fs_pred_even \u2014 Even Parity (EVEN)", typeKey: "formal_statement", instanceKey: "fs_pred_even", subject: "numbers_trees" },
-          { label: "fs_pred_gt \u2014 Greater-Than (GT / >)", typeKey: "formal_statement", instanceKey: "fs_pred_gt", subject: "logic" },
-          { label: "fs_pred_le \u2014 Less-Than-or-Equal (LE / \u2264)", typeKey: "formal_statement", instanceKey: "fs_pred_le", subject: "logic" },
-          { label: "fs_pred_lt \u2014 Less-Than (LT / <)", typeKey: "formal_statement", instanceKey: "fs_pred_lt", subject: "logic" },
-          { label: "fs_pred_mem \u2014 Set Membership (MEM / \u2208)", typeKey: "formal_statement", instanceKey: "fs_pred_mem", subject: "logic" },
-          { label: "fs_pred_near \u2014 Infinitesimal Proximity (NEAR / \u2248)", typeKey: "formal_statement", instanceKey: "fs_pred_near", subject: "analysis" },
-          { label: "fs_pred_odd \u2014 Odd Parity (ODD)", typeKey: "formal_statement", instanceKey: "fs_pred_odd", subject: "numbers_trees" },
-          { label: "fs_pred_subset \u2014 Subset Inclusion (SUBSET / \u2286)", typeKey: "formal_statement", instanceKey: "fs_pred_subset", subject: "logic" },
-          { label: "fs_pred_succ \u2014 Successor Step (SUCC / +1)", typeKey: "formal_statement", instanceKey: "fs_pred_succ", subject: "numbers_trees" },
-          { label: "fs_ptolemaic_half_angle \u2014 Dyadic Ptolemaic Half-Angle Root Bisection", typeKey: "formal_statement", instanceKey: "fs_ptolemaic_half_angle", subject: "analysis" },
-          { label: "fs_three_polarizer_quantum \u2014 Three-Polarizer Geometric Transmission", typeKey: "formal_statement", instanceKey: "fs_three_polarizer_quantum", subject: "physics" },
-          { label: "fs_unit_rotor_projection \u2014 Unit Rotor Sine & Cosine Projection", typeKey: "formal_statement", instanceKey: "fs_unit_rotor_projection", subject: "analysis" },
-          { label: "fs_work_energy \u2014 Telescoping Work-Energy Principle", typeKey: "formal_statement", instanceKey: "fs_work_energy", subject: "physics" },
           { label: "Browse All Directed Equalities", typeKey: "directed_equality", subject: "all" }
         ]
       },
@@ -10783,7 +10880,18 @@ var navigationMenuTree = [
     ]
   },
   // -------------------------------------------------------------------------
-  // 3. Demo Initializations (Tier 2: Interactive Sandbox Demos & Presets)
+  // 5. Pseudocode Algorithms (Operations, Primitives & Procedures)
+  // -------------------------------------------------------------------------
+  {
+    label: "Pseudocode Algorithms",
+    icon: "\u{1F4BB}",
+    typeKey: "pseudocode_algorithms",
+    children: [
+      { label: "Browse All Algorithms", typeKey: "pseudocode_algorithms", subject: "all" }
+    ]
+  },
+  // -------------------------------------------------------------------------
+  // 6. Demo Initializations (Interactive Sandbox Demos & Presets)
   // -------------------------------------------------------------------------
   {
     label: "Demo Initializations",
@@ -10795,13 +10903,6 @@ var navigationMenuTree = [
         typeKey: "ttd",
         subject: "logic",
         children: [
-          { label: "De Morgan's First Law", typeKey: "ttd", instanceId: 2, subject: "logic" },
-          { label: "Modus Ponens (Detachment)", typeKey: "ttd", instanceId: 3, subject: "logic" },
-          { label: "Law of Excluded Middle", typeKey: "ttd", instanceId: 4, subject: "logic" },
-          { label: "Principle of Non-Contradiction", typeKey: "ttd", instanceId: 5, subject: "logic" },
-          { label: "Material Implication (\u2192)", typeKey: "ttd", instanceId: 6, subject: "logic" },
-          { label: "Material Equivalence (\u2194)", typeKey: "ttd", instanceId: 7, subject: "logic" },
-          { label: "Hypothetical Syllogism", typeKey: "ttd", instanceId: 8, subject: "logic" },
           { label: "Browse All TTD Initializations", typeKey: "ttd", subject: "logic" }
         ]
       },
@@ -10810,10 +10911,6 @@ var navigationMenuTree = [
         typeKey: "btd",
         subject: "numbers_trees",
         children: [
-          { label: "Surreal Tree Total Order", typeKey: "btd", instanceId: 9, subject: "numbers_trees" },
-          { label: "Conway Inductive Addition (+)", typeKey: "btd", instanceId: 10, subject: "numbers_trees" },
-          { label: "Conway Inductive Multiplication (\xB7)", typeKey: "btd", instanceId: 11, subject: "numbers_trees" },
-          { label: "Labeled Dyadic Sequences", typeKey: "btd", instanceId: 12, subject: "numbers_trees" },
           { label: "Browse All BTD Initializations", typeKey: "btd", subject: "numbers_trees" }
         ]
       },
@@ -10822,8 +10919,6 @@ var navigationMenuTree = [
         typeKey: "bid",
         subject: "analysis",
         children: [
-          { label: "Dyadic Interval Subdivision", typeKey: "bid", instanceId: 13, subject: "analysis" },
-          { label: "Unit Rotor Circle Projection", typeKey: "bid", instanceId: 14, subject: "analysis" },
           { label: "Browse All BID Initializations", typeKey: "bid", subject: "analysis" }
         ]
       },
@@ -10832,11 +10927,70 @@ var navigationMenuTree = [
         typeKey: "fsd",
         subject: "all",
         children: [
-          { label: "Formal Structure Stage Visualizer", typeKey: "fsd", instanceId: 15, subject: "all" },
           { label: "Browse All FSD Initializations", typeKey: "fsd", subject: "all" }
         ]
       },
       { label: "Browse All Demo Initializations", typeKey: "interactive_demos", subject: "all" }
+    ]
+  },
+  // -------------------------------------------------------------------------
+  // 7. Lean 4 Formal Declarations & Verifications
+  // -------------------------------------------------------------------------
+  {
+    label: "Lean Declarations",
+    icon: "\u{1F4DC}",
+    typeKey: "lean_declarations",
+    children: [
+      {
+        label: "Inductive Types",
+        typeKey: "lean_declarations",
+        subject: "all",
+        filterKind: { column: "kind", value: "inductive" },
+        children: [
+          { label: "Browse Inductive Types", typeKey: "lean_declarations", subject: "all" }
+        ]
+      },
+      {
+        label: "Definitions",
+        typeKey: "lean_declarations",
+        subject: "all",
+        filterKind: { column: "kind", value: "def" },
+        children: [
+          { label: "Browse Definitions", typeKey: "lean_declarations", subject: "all" }
+        ]
+      },
+      {
+        label: "Theorems",
+        typeKey: "lean_declarations",
+        subject: "all",
+        filterKind: { column: "kind", value: "theorem" },
+        children: [
+          { label: "Browse Theorems", typeKey: "lean_declarations", subject: "all" }
+        ]
+      },
+      {
+        label: "Structures",
+        typeKey: "lean_declarations",
+        subject: "all",
+        filterKind: { column: "kind", value: "structure" },
+        children: [
+          { label: "Browse Structures", typeKey: "lean_declarations", subject: "all" }
+        ]
+      },
+      { label: "Browse All Lean Declarations", typeKey: "lean_declarations", subject: "all" },
+      { label: "Browse Lean Kernel Verifications", typeKey: "lean_verifications", subject: "all" }
+    ]
+  },
+  // -------------------------------------------------------------------------
+  // 8. Mathematical & Physical Domains
+  // -------------------------------------------------------------------------
+  {
+    label: "Domains & Curricula",
+    icon: "\u{1F310}",
+    typeKey: "domains",
+    children: [
+      { label: "Browse All Domains", typeKey: "domains", subject: "all" },
+      { label: "Browse Curriculum Applications", typeKey: "apps", subject: "all" }
     ]
   }
 ];
@@ -10912,6 +11066,146 @@ function renderMenuHierarchy(items) {
 }
 async function syncMenuTreeFromDatabase(queryFn) {
   try {
+    const navRows = await queryFn(`
+            SELECT c.id, c.nav_key, c.parent_id, c.sequence_order, c.item_type, c.topic, c.nav_topic, c.segment_id,
+                   s.seg_key, s.title as seg_title
+            FROM curriculum_nav_items c
+            LEFT JOIN segments s ON c.segment_id = s.id
+            ORDER BY c.parent_id NULLS FIRST, c.sequence_order ASC, c.id ASC;
+        `);
+    if (navRows && navRows.length > 0) {
+      const navIndexNode = navigationMenuTree.find((n) => n.typeKey === "curriculum_nav_item");
+      if (navIndexNode) {
+        let buildNavChildren = function(parentId) {
+          const children = byParent.get(parentId) || [];
+          return children.map((c) => {
+            const subChildren = buildNavChildren(String(c.id));
+            const subj = inferSubject(c.topic, c.seg_key || c.nav_key);
+            const hasSubs = subChildren.length > 0;
+            const label = c.topic || c.nav_topic || `Item #${c.id}`;
+            const node = {
+              label,
+              typeKey: "curriculum_nav_item",
+              subject: subj
+            };
+            if (hasSubs) {
+              node.children = subChildren;
+            } else {
+              node.instanceId = Number(c.id);
+              if (c.seg_key) node.instanceKey = c.seg_key;
+              else if (c.nav_key) node.instanceKey = c.nav_key;
+            }
+            return node;
+          });
+        };
+        const byParent = /* @__PURE__ */ new Map();
+        for (const r of navRows) {
+          const p = r.parent_id ? String(r.parent_id) : "root";
+          if (!byParent.has(p)) byParent.set(p, []);
+          byParent.get(p).push(r);
+        }
+        navIndexNode.children = [
+          ...buildNavChildren("root").filter((n) => n.label !== "title"),
+          { label: "Browse All Index Entries", typeKey: "curriculum_nav_item", subject: "all" }
+        ];
+      }
+    }
+    const segRows = await queryFn(`
+            SELECT id, seg_key, title, sequence_order, slug FROM segments ORDER BY sequence_order ASC, id ASC;
+        `);
+    if (segRows && segRows.length > 0) {
+      const segNode = navigationMenuTree.find((n) => n.typeKey === "segments");
+      if (segNode) {
+        segNode.children = [
+          ...segRows.map((s) => ({
+            label: s.title ? `${s.sequence_order}. ${s.title}` : s.slug || s.seg_key || `Segment #${s.id}`,
+            typeKey: "segments",
+            instanceId: Number(s.id),
+            instanceKey: s.seg_key || s.slug,
+            subject: inferSubject(s.title, s.seg_key)
+          })),
+          { label: "Browse All Lecture Segments", typeKey: "segments", subject: "all" }
+        ];
+      }
+    }
+    const eqRows = await queryFn(`SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;`);
+    if (eqRows && eqRows.length > 0) {
+      const stencilsNode = navigationMenuTree.find((n) => n.typeKey === "directed_equations");
+      if (stencilsNode && stencilsNode.children) {
+        const subEquationNode = stencilsNode.children.find((c) => c.typeKey === "directed_equations");
+        if (subEquationNode) {
+          subEquationNode.children = [
+            ...eqRows.map((e) => ({
+              label: e.title ? `${e.equation_key} \u2014 ${e.title}` : e.equation_key,
+              typeKey: "directed_equations",
+              instanceId: Number(e.id),
+              instanceKey: e.equation_key,
+              subject: inferSubject(e.title, e.equation_key)
+            })),
+            { label: "Browse All Stencils", typeKey: "directed_equations", subject: "all" }
+          ];
+        }
+      }
+    }
+    const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;");
+    if (stmts && stmts.length > 0) {
+      const fsNode = navigationMenuTree.find((n) => n.typeKey === "formal_statement");
+      if (fsNode && fsNode.children) {
+        for (const kind of ["axiom", "theorem", "directed_equality"]) {
+          const kindNode = fsNode.children.find((c) => c.typeKey === kind);
+          if (kindNode) {
+            const kindStmts = stmts.filter((s) => s.statement_kind === kind);
+            kindStmts.sort((a, b) => (a.statement_key || "").localeCompare(b.statement_key || ""));
+            kindNode.children = [
+              ...kindStmts.map((s) => {
+                const subj = inferSubject(s.title, s.statement_key, s.domain_category);
+                const key = s.statement_key || `fs_${s.id}`;
+                const displayLabel = s.title ? `${key} \u2014 ${s.title}` : key;
+                return {
+                  label: displayLabel,
+                  typeKey: "formal_statement",
+                  instanceKey: s.statement_key,
+                  subject: subj
+                };
+              }),
+              {
+                label: `Browse All ${kind === "directed_equality" ? "Directed Equalities" : kind.charAt(0).toUpperCase() + kind.slice(1) + "s"}`,
+                typeKey: kind,
+                subject: "all"
+              }
+            ];
+          }
+        }
+      }
+    }
+    const algoRows = await queryFn("SELECT id, algo_key, name, category, algo_kind FROM pseudocode_algorithms ORDER BY algo_key ASC;");
+    if (algoRows && algoRows.length > 0) {
+      const algoNode = navigationMenuTree.find((n) => n.typeKey === "pseudocode_algorithms");
+      if (algoNode) {
+        const algoCategories = Array.from(new Set(algoRows.map((a) => a.category || "general")));
+        algoNode.children = [
+          ...algoCategories.map((cat) => {
+            const inCat = algoRows.filter((a) => (a.category || "general") === cat);
+            return {
+              label: cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, " "),
+              typeKey: "pseudocode_algorithms",
+              subject: inferSubject(cat),
+              children: [
+                ...inCat.map((a) => ({
+                  label: a.name ? `${a.algo_key} \u2014 ${a.name}` : a.algo_key,
+                  typeKey: "pseudocode_algorithms",
+                  instanceId: Number(a.id),
+                  instanceKey: a.algo_key,
+                  subject: inferSubject(a.name, a.algo_key, a.category)
+                })),
+                { label: `Browse All ${cat} Algorithms`, typeKey: "pseudocode_algorithms", subject: inferSubject(cat) }
+              ]
+            };
+          }),
+          { label: "Browse All Algorithms", typeKey: "pseudocode_algorithms", subject: "all" }
+        ];
+      }
+    }
     const demos = await queryFn("SELECT id, engine, mode, title FROM interactive_demos ORDER BY id ASC;");
     if (demos && demos.length > 0) {
       const demoInitializationsNode = navigationMenuTree.find((n) => n.typeKey === "demo_initializations");
@@ -10944,42 +11238,43 @@ async function syncMenuTreeFromDatabase(queryFn) {
         }
       }
     }
-    const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;");
-    if (stmts && stmts.length > 0) {
-      const fsNode = navigationMenuTree.find((n) => n.typeKey === "formal_statement");
-      if (fsNode && fsNode.children) {
-        for (const kind of ["axiom", "theorem", "directed_equality"]) {
-          const kindNode = fsNode.children.find((c) => c.typeKey === kind);
-          if (kindNode) {
-            const kindStmts = stmts.filter((s) => s.statement_kind === kind);
-            kindStmts.sort((a, b) => (a.statement_key || "").localeCompare(b.statement_key || ""));
-            kindNode.children = [
-              ...kindStmts.map((s) => {
-                let subj = "all";
-                const dc = s.domain_category || "";
-                if (dc.includes("logic") || dc.includes("order")) subj = "logic";
-                else if (dc.includes("tree") || dc.includes("arithmetic")) subj = "numbers_trees";
-                else if (dc.includes("algebra") || dc.includes("vector") || dc.includes("sequence") || s.statement_key === "fs_geometric_scale_step") subj = "algebra";
-                else if (dc.includes("analysis") || dc.includes("trig") || dc.includes("rotor")) subj = "analysis";
-                else if (dc.includes("physic") || dc.includes("kinematic")) subj = "physics";
-                else if (dc.includes("bayes") || dc.includes("quantum") || dc.includes("info")) subj = "information";
-                const key = s.statement_key || `fs_${s.id}`;
-                const displayLabel = s.title ? `${key} \u2014 ${s.title}` : key;
-                return {
-                  label: displayLabel,
-                  typeKey: "formal_statement",
-                  instanceKey: s.statement_key,
-                  subject: subj
-                };
-              }),
-              {
-                label: `Browse All ${kind === "directed_equality" ? "Directed Equalities" : kind.charAt(0).toUpperCase() + kind.slice(1) + "s"}`,
-                typeKey: kind,
+    const declRows = await queryFn("SELECT id, name, kind, decl_key FROM lean_declarations ORDER BY name ASC;");
+    if (declRows && declRows.length > 0) {
+      const leanNode = navigationMenuTree.find((n) => n.typeKey === "lean_declarations");
+      if (leanNode && leanNode.children) {
+        for (const k of ["inductive", "def", "theorem", "structure"]) {
+          const kNode = leanNode.children.find((c) => c.filterKind?.value === k);
+          if (kNode) {
+            const inKind = declRows.filter((d) => d.kind === k);
+            kNode.children = [
+              ...inKind.slice(0, 30).map((d) => ({
+                label: d.name,
+                typeKey: "lean_declarations",
+                instanceId: Number(d.id),
+                instanceKey: d.decl_key || d.name,
                 subject: "all"
-              }
+              })),
+              { label: `Browse All ${k.charAt(0).toUpperCase() + k.slice(1)} Declarations (${inKind.length})`, typeKey: "lean_declarations", subject: "all" }
             ];
           }
         }
+      }
+    }
+    const domainRows = await queryFn("SELECT id, domain_key, name, symbol FROM domains ORDER BY domain_key ASC;");
+    if (domainRows && domainRows.length > 0) {
+      const domainNode = navigationMenuTree.find((n) => n.typeKey === "domains");
+      if (domainNode) {
+        domainNode.children = [
+          ...domainRows.map((d) => ({
+            label: `${d.symbol ? `[${d.symbol}] ` : ""}${d.name || d.domain_key}`,
+            typeKey: "domains",
+            instanceId: Number(d.id),
+            instanceKey: d.domain_key,
+            subject: inferSubject(d.name, d.domain_key)
+          })),
+          { label: "Browse All Domains", typeKey: "domains", subject: "all" },
+          { label: "Browse Curriculum Applications", typeKey: "apps", subject: "all" }
+        ];
       }
     }
   } catch (err) {
@@ -36219,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-10-27T16:13:58.977Z",
+  "generatedAt": "2026-11-04T13:11:14.068Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -45126,6 +45421,7 @@ async function renderSegmentContentSurface(options) {
                     <button class="u-btn" data-char="\u2265" title="Greater equal">\u2265</button>
                     <button class="u-btn" data-char="\u2248" title="Approx equal">\u2248</button>
                     <button class="u-btn" data-char="\u2261" title="Identical">\u2261</button>
+                    <button class="u-btn" data-char="\u2245" title="Isomorphic (cong)">\u2245</button>
 
                     <div class="u-dropdown">
                         <button class="u-dropdown-btn" title="Extended logic, arrows & deduction">Logic \u25BE</button>
@@ -45396,6 +45692,34 @@ async function renderSegmentContentSurface(options) {
       const isDisplay = el.getAttribute("data-display") === "true" || el.classList.contains("latex-math-block");
       if (rawTex) {
         el.innerHTML = isDisplay ? `\\[ ${rawTex} \\]` : `\\( ${rawTex} \\)`;
+      }
+    });
+    const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+    temp.querySelectorAll("svg switch").forEach((sw) => {
+      const fo = sw.querySelector("foreignObject");
+      const text = sw.querySelector("text");
+      if (fo && text) {
+        const rawText = text.textContent?.trim() || "";
+        if (mathRegex.test(rawText)) {
+          const inner = fo.querySelector('div[style*="display: inline-block"]') || fo.querySelector("div > div > div") || fo.querySelector("span, div") || fo;
+          const tspans = Array.from(text.querySelectorAll("tspan"));
+          if (tspans.length > 0) {
+            const linesByY = /* @__PURE__ */ new Map();
+            for (const ts of tspans) {
+              const y = ts.getAttribute("y") || "0";
+              const val = ts.textContent?.trim() || "";
+              if (!linesByY.has(y)) linesByY.set(y, []);
+              if (val) linesByY.get(y).push(val);
+            }
+            const lines = [];
+            for (const parts of linesByY.values()) {
+              lines.push(parts.join(" "));
+            }
+            inner.innerHTML = lines.filter(Boolean).join("<br>");
+          } else {
+            inner.textContent = rawText;
+          }
+        }
       }
     });
     temp.querySelectorAll("mjx-container, mjx-assistive-mml").forEach((mjx) => {
@@ -45952,11 +46276,56 @@ async function renderSegmentContentSurface(options) {
       });
     }
   }
+  function prepareSvgMath(root) {
+    if (!root) return [];
+    const targets = [];
+    const mathRegex = /\\\(|\\\[|\$\$|\$[^$]+\$/;
+    const svgs = root.querySelectorAll("svg");
+    svgs.forEach((svg) => {
+      const switches = svg.querySelectorAll("switch");
+      switches.forEach((sw) => {
+        const fo = sw.querySelector("foreignObject");
+        const text = sw.querySelector("text");
+        if (fo) {
+          const rawText = text?.textContent?.trim() || "";
+          const foText = fo.textContent?.trim() || "";
+          const hasRawMathInText = text && mathRegex.test(rawText);
+          const hasRawMathInFo = mathRegex.test(foText);
+          if (hasRawMathInText || hasRawMathInFo) {
+            const innerContainer = fo.querySelector('div[style*="display: inline-block"]') || fo.querySelector("div > div > div") || fo.querySelector("span, div") || fo;
+            if (hasRawMathInText) {
+              const tspans = Array.from(text.querySelectorAll("tspan"));
+              if (tspans.length > 0) {
+                const linesByY = /* @__PURE__ */ new Map();
+                for (const ts of tspans) {
+                  const y = ts.getAttribute("y") || "0";
+                  const val = ts.textContent?.trim() || "";
+                  if (!linesByY.has(y)) linesByY.set(y, []);
+                  if (val) linesByY.get(y).push(val);
+                }
+                const lines = [];
+                for (const parts of linesByY.values()) {
+                  lines.push(parts.join(" "));
+                }
+                innerContainer.innerHTML = lines.filter(Boolean).join("<br>");
+              } else {
+                innerContainer.textContent = rawText;
+              }
+            }
+            targets.push(fo);
+          }
+        }
+      });
+    });
+    return targets;
+  }
   function typesetMath() {
     if (window.MathJax && window.MathJax.typesetPromise) {
-      const mathElements = wysiwygPane.querySelectorAll(".latex-math, .latex-math-block");
-      if (mathElements.length > 0) {
-        window.MathJax.typesetPromise(Array.from(mathElements)).then(() => {
+      const mathElements = Array.from(wysiwygPane.querySelectorAll(".latex-math, .latex-math-block"));
+      const svgTargets = prepareSvgMath(wysiwygPane);
+      const allTargets = mathElements.concat(svgTargets);
+      if (allTargets.length > 0) {
+        window.MathJax.typesetPromise(allTargets).then(() => {
           attachMathClickListeners();
         }).catch((err) => console.log("MathJax typeset notice:", err));
       }
@@ -46208,6 +46577,11 @@ async function renderSegmentContentSurface(options) {
       const sel = window.getSelection();
       if (sel && sel.rangeCount > 0) {
         const r = sel.getRangeAt(0);
+        if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+          if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+            return;
+          }
+        }
         if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
           lastWysiwygRange = r.cloneRange();
         }
@@ -46221,23 +46595,25 @@ async function renderSegmentContentSurface(options) {
     });
     sourceTextarea.addEventListener(evt, saveEditorSelection);
   });
+  document.addEventListener("selectionchange", () => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) {
+      const r = sel.getRangeAt(0);
+      if (r.commonAncestorContainer === wysiwygPane && r.startOffset === 0 && r.endOffset === 0 && wysiwygPane.childNodes.length > 0) {
+        if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer) && lastWysiwygRange.commonAncestorContainer !== wysiwygPane) {
+          return;
+        }
+      }
+      if (wysiwygPane.contains(r.commonAncestorContainer) || r.commonAncestorContainer === wysiwygPane) {
+        lastWysiwygRange = r.cloneRange();
+        updateScriptLevelUI();
+      }
+    }
+  });
   function insertTextAtCursor(text) {
     if (isReadMode) return;
-    if (activeMode === "wysiwyg" || activeMode === "split") {
-      wysiwygPane.focus();
-      const sel = window.getSelection();
-      if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
-        sel?.removeAllRanges();
-        sel?.addRange(lastWysiwygRange);
-      }
-      document.execCommand("insertText", false, text);
-      saveEditorSelection();
-      setDirty(true);
-      if (activeMode === "split") {
-        sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
-      }
-    } else if (activeMode === "source") {
-      sourceTextarea.focus();
+    if (activeMode === "source" || activeMode === "split" && document.activeElement === sourceTextarea) {
+      sourceTextarea.focus({ preventScroll: true });
       const start = sourceTextarea.selectionStart;
       const end = sourceTextarea.selectionEnd;
       const val = sourceTextarea.value;
@@ -46245,7 +46621,30 @@ async function renderSegmentContentSurface(options) {
       sourceTextarea.selectionStart = sourceTextarea.selectionEnd = start + text.length;
       saveEditorSelection();
       setDirty(true);
+      return;
     }
+    const sel = window.getSelection();
+    if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+      sel?.removeAllRanges();
+      sel?.addRange(lastWysiwygRange);
+    }
+    wysiwygPane.focus({ preventScroll: true });
+    if (lastWysiwygRange && wysiwygPane.contains(lastWysiwygRange.commonAncestorContainer)) {
+      if (!sel?.rangeCount || sel.getRangeAt(0).commonAncestorContainer === wysiwygPane) {
+        sel?.removeAllRanges();
+        sel?.addRange(lastWysiwygRange);
+      }
+    }
+    document.execCommand("insertText", false, text);
+    if (sel && sel.rangeCount > 0) {
+      lastWysiwygRange = sel.getRangeAt(0).cloneRange();
+    }
+    saveEditorSelection();
+    setDirty(true);
+    if (activeMode === "split") {
+      sourceTextarea.value = cleanHtml(wysiwygPane.innerHTML);
+    }
+    wysiwygPane.focus({ preventScroll: true });
   }
   function insertHtmlAtCursor(html) {
     if (isReadMode) return;
@@ -46445,14 +46844,23 @@ async function renderSegmentContentSurface(options) {
       showToast("Spell check disabled");
     }
   });
-  container.querySelectorAll(".tb-dropdown").forEach((dropdown) => {
+  container.querySelectorAll(".tb-dropdown, .u-dropdown").forEach((dropdown) => {
     const trigger = dropdown.querySelector("button");
     if (!trigger) return;
+    trigger.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
     trigger.addEventListener("click", (e) => {
       e.stopPropagation();
       const isOpen = dropdown.classList.contains("open");
       container.querySelectorAll(".tb-dropdown.open, .u-dropdown.open").forEach((d) => d.classList.remove("open"));
       if (!isOpen) dropdown.classList.add("open");
+    });
+    dropdown.querySelector(".u-dropdown-popover, .tb-dropdown-menu")?.addEventListener("mousedown", (e) => {
+      if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+        e.preventDefault();
+      }
     });
   });
   document.addEventListener("click", () => {
@@ -46544,6 +46952,12 @@ async function renderSegmentContentSurface(options) {
       e.preventDefault();
       const ch = btn.getAttribute("data-char");
       if (ch) insertTextAtCursor(ch);
+      container.querySelectorAll(".u-dropdown.open").forEach((d) => d.classList.remove("open"));
+      if (activeMode === "source" || activeMode === "split" && document.activeElement === sourceTextarea) {
+        sourceTextarea.focus({ preventScroll: true });
+      } else {
+        wysiwygPane.focus({ preventScroll: true });
+      }
     });
   });
   async function openCustomElementPicker(kind, targetElemToReplace = null) {
@@ -47139,7 +47553,7 @@ async function renderSegmentContentSurface(options) {
         `;
     const iframe = document.createElement("iframe");
     iframe.referrerPolicy = "no-referrer";
-    iframe.src = "https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device";
+    iframe.src = "https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&proto=json&configure=1&noSaveBtn=1&saveAndExit=1&libraries=1&math=1&gapi=0&db=0&od=0&gh=0&gl=0&tr=0&picker=0&mode=device";
     iframe.style.cssText = "flex: 1; width: 100%; border: none; border-radius: 0 0 8px 8px; background: #ffffff;";
     overlay.appendChild(header);
     overlay.appendChild(iframe);
