@@ -66,7 +66,7 @@ async function buildIndex(app) {
     const startTime = Date.now();
     const appDir = (0, path_1.resolve)(__dirname, `../../${app}`);
     const distFolder = (0, path_1.resolve)(appDir, 'dist');
-    const outputFilePath = (0, path_1.resolve)(distFolder, 'index.html');
+    const outputFilePath = (0, path_1.resolve)(distFolder, 'lectures.html');
     if (!(0, fs_1.existsSync)(distFolder)) {
         (0, fs_1.mkdirSync)(distFolder, { recursive: true });
     }
@@ -81,11 +81,12 @@ async function buildIndex(app) {
     if ((0, fs_1.existsSync)(diagramsFolder)) {
         (0, fs_1.cpSync)(diagramsFolder, distDiagramsFolder, { recursive: true });
     }
-    // Ensure standalone overview and pseudocode spec are synced to dist
+    // Ensure standalone overview, root index.html, and pseudocode spec are synced to dist
     const rootOverview = (0, path_1.resolve)(rootDir, 'overview.html');
     if ((0, fs_1.existsSync)(rootOverview)) {
         (0, fs_1.copyFileSync)(rootOverview, (0, path_1.resolve)(distFolder, 'overview.html'));
-        console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
+        (0, fs_1.copyFileSync)(rootOverview, (0, path_1.resolve)(distFolder, 'index.html'));
+        console.log(`[indexBuild] Synced overview.html to index.html and overview.html in ${distFolder}`);
     }
     const rootSpec = (0, path_1.resolve)(rootDir, 'mwm_pseudocode_spec.html');
     if ((0, fs_1.existsSync)(rootSpec)) {
@@ -164,7 +165,7 @@ async function buildIndex(app) {
         (0, fs_1.writeFileSync)(outputFilePath, indexFileContent, 'utf8');
         const durationMs = Date.now() - startTime;
         const bytes = Buffer.byteLength(indexFileContent, 'utf8');
-        console.log(`[indexBuild] index.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);
+        console.log(`[indexBuild] lectures.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);
     }
     catch (err) {
         console.error(`[indexBuild Error] Error building index for ${app}:`, err);

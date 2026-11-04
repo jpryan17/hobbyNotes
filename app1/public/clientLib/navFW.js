@@ -228,7 +228,7 @@ export class Nav {
         });
         Nav.overviewControl.elt.addEventListener('click', (ev) => {
             ev.stopPropagation();
-            window.location.href = './overview.html';
+            window.location.href = './index.html';
         });
     }
     static onFoScroll = () => {

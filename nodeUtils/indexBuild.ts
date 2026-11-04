@@ -35,7 +35,7 @@ async function buildIndex(app: string) {
     const startTime = Date.now();
     const appDir = resolve(__dirname, `../../${app}`);
     const distFolder = resolve(appDir, 'dist');
-    const outputFilePath = resolve(distFolder, 'index.html');
+    const outputFilePath = resolve(distFolder, 'lectures.html');
 
     if (!existsSync(distFolder)) {
         mkdirSync(distFolder, { recursive: true });
@@ -53,11 +53,12 @@ async function buildIndex(app: string) {
         cpSync(diagramsFolder, distDiagramsFolder, { recursive: true });
     }
 
-    // Ensure standalone overview and pseudocode spec are synced to dist
+    // Ensure standalone overview, root index.html, and pseudocode spec are synced to dist
     const rootOverview = resolve(rootDir, 'overview.html');
     if (existsSync(rootOverview)) {
         copyFileSync(rootOverview, resolve(distFolder, 'overview.html'));
-        console.log(`[indexBuild] Synced overview.html to ${distFolder}`);
+        copyFileSync(rootOverview, resolve(distFolder, 'index.html'));
+        console.log(`[indexBuild] Synced overview.html to index.html and overview.html in ${distFolder}`);
     }
     const rootSpec = resolve(rootDir, 'mwm_pseudocode_spec.html');
     if (existsSync(rootSpec)) {
@@ -152,7 +153,7 @@ async function buildIndex(app: string) {
 
         const durationMs = Date.now() - startTime;
         const bytes = Buffer.byteLength(indexFileContent, 'utf8');
-        console.log(`[indexBuild] index.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);
+        console.log(`[indexBuild] lectures.html generated successfully for ${app} from PostgreSQL (${bytes} bytes, ${segIds.length} segments) in ${durationMs}ms at ${outputFilePath}.`);
     } catch (err) {
         console.error(`[indexBuild Error] Error building index for ${app}:`, err);
         process.exit(1);

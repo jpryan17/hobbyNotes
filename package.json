@@ -12,7 +12,7 @@
     "deploy:prep": "node ./nodeUtils/public/deploy.js --prep",
     "deploy:all": "npm run prep && npm run deploy",
     "prep": "npm run db:backup && npm run build",
-    "sync:overview": "node -e \"const fs = require('fs'); fs.copyFileSync('overview.html', 'app1/dist/overview.html'); console.log('[sync:overview] overview.html synced to app1/dist/overview.html');\"",
+    "sync:overview": "node -e \"const fs = require('fs'); fs.copyFileSync('overview.html', 'app1/dist/overview.html'); fs.copyFileSync('overview.html', 'app1/dist/index.html'); console.log('[sync:overview] overview.html synced to app1/dist/overview.html and app1/dist/index.html');\"",
     "leanCache": "node ./nodeUtils/public/genLeanCache.js",
     "leanCache:force": "node ./nodeUtils/public/genLeanCache.js --force",
     "catalog": "node ./nodeUtils/public/buildCatalog.js",

@@ -17,11 +17,13 @@ try {
   // Always ensure standalone overview.html and mwm_pseudocode_spec.html are synced to dist before staging
   const rootOverview = path.join(rootDir, 'overview.html');
   const distOverview = path.join(rootDir, 'app1', 'dist', 'overview.html');
+  const distIndex = path.join(rootDir, 'app1', 'dist', 'index.html');
   if (fs.existsSync(rootOverview)) {
     const distDir = path.dirname(distOverview);
     if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
     fs.copyFileSync(rootOverview, distOverview);
-    console.log('[deploy] Synced latest overview.html to app1/dist/overview.html');
+    fs.copyFileSync(rootOverview, distIndex);
+    console.log('[deploy] Synced latest overview.html to app1/dist/index.html and app1/dist/overview.html');
   }
 
   const rootSpec = path.join(rootDir, 'mwm_pseudocode_spec.html');
