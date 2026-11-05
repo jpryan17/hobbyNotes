@@ -7745,7 +7745,7 @@ var init_navFW = __esm({
         });
         _Nav.overviewControl.elt.addEventListener("click", (ev) => {
           ev.stopPropagation();
-          window.location.href = "./overview.html";
+          window.location.href = "./index.html";
         });
       }
       static onFoScroll = () => {
@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-04T13:11:14.068Z",
+  "generatedAt": "2026-11-05T23:27:50.264Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -41572,6 +41572,12 @@ var FSD = class extends PXEParent {
     this.editorFrame.setA("display", "none");
     this.controlsFrame.setA("display", "none");
     this.pxe.setA("display", "none");
+    this.stageControls.forEach((e) => {
+      if (e.elt && e.elt.parentElement === this.elt) {
+        e.elt.remove();
+      }
+      e.setAA(["display", "none", "visibility", "hidden", "pointer-events", "none"]);
+    });
     this.fo.setAA([
       "x",
       0,
@@ -42896,25 +42902,11 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     this.stageControls.push(copyBtn);
   }
   layoutStageControls() {
-    let x = this.sideMargin + 5;
-    const y = 2 * this.vertMargin + PXE.textFrameHeight + 2 / 3 * this.controlsFrameHeight;
-    const getBtnWidth = (btn) => {
-      try {
-        const bb = btn.getBB();
-        if (bb && bb.width > 0) return bb.width;
-      } catch (e) {
-      }
-      if (btn instanceof SVGText) {
-        const str = btn.elt.textContent || "";
-        return Math.max(20, str.length * 9 + 8);
-      }
-      return 35;
-    };
     this.stageControls.forEach((e) => {
-      this.append(e);
-      e.setAA(["x", x, "y", y]);
-      const w = getBtnWidth(e);
-      x += w + 12;
+      if (e.elt && e.elt.parentElement === this.elt) {
+        e.elt.remove();
+      }
+      e.setAA(["display", "none", "visibility", "hidden", "pointer-events", "none"]);
     });
   }
   setButtonStates() {

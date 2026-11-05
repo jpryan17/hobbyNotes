@@ -438,10 +438,16 @@ export class FSD extends PXEParent {
         const fow = customWidth || (typeof Nav !== "undefined" && Nav.foWidth ? Nav.foWidth : (window.innerWidth - 250));
         const foh = customHeight || (typeof Nav !== "undefined" && Nav.foHeight ? Nav.foHeight : (window.innerHeight - 80));
         this.setAA(["width", fow, "height", foh, "style", "display:block;"]);
-        // Hide legacy SVG frames and PXE line editor
+        // Hide legacy SVG frames, PXE line editor, and legacy SVG stage controls
         this.editorFrame.setA("display", "none");
         this.controlsFrame.setA("display", "none");
         this.pxe.setA("display", "none");
+        this.stageControls.forEach((e) => {
+            if (e.elt && e.elt.parentElement === this.elt) {
+                e.elt.remove();
+            }
+            e.setAA(["display", "none", "visibility", "hidden", "pointer-events", "none"]);
+        });
         // Expand foreignObject to occupy full canvas with clean background & scrolling
         this.fo.setAA([
             "x", 0,
@@ -1746,28 +1752,12 @@ export class FSD extends PXEParent {
         this.stageControls.push(copyBtn);
     }
     layoutStageControls() {
-        let x = this.sideMargin + 5;
-        const y = 2 * this.vertMargin +
-            PXE.textFrameHeight +
-            (2 / 3) * this.controlsFrameHeight;
-        const getBtnWidth = (btn) => {
-            try {
-                const bb = btn.getBB();
-                if (bb && bb.width > 0)
-                    return bb.width;
-            }
-            catch (e) { }
-            if (btn instanceof SVGText) {
-                const str = btn.elt.textContent || "";
-                return Math.max(20, str.length * 9 + 8);
-            }
-            return 35;
-        };
+        // Legacy SVG stage controls should not be rendered on top of the modern HTML card
         this.stageControls.forEach((e) => {
-            this.append(e);
-            e.setAA(["x", x, "y", y]);
-            const w = getBtnWidth(e);
-            x += w + 12;
+            if (e.elt && e.elt.parentElement === this.elt) {
+                e.elt.remove();
+            }
+            e.setAA(["display", "none", "visibility", "hidden", "pointer-events", "none"]);
         });
     }
     setButtonStates() {
