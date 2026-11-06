@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-06T02:13:58.693Z",
+  "generatedAt": "2026-11-06T03:23:11.127Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -41438,6 +41438,9 @@ var FSD = class extends PXEParent {
     const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
     return { exp, quantifiers, slots, formattedText, fullStatement };
   }
+  // Mode flag: Reader Inspection (<fsd-ref>) vs Construction Sandbox (App Index)
+  isInspectionMode = false;
+  catalogTheoremName = "";
   // Stage 3 State: Quantifier Prefix
   quantifierBindings = [];
   selectedQuantifier = "\u2200";
@@ -41750,32 +41753,60 @@ var FSD = class extends PXEParent {
     });
     if (this.modernStatusPill) {
       if (this.stage === 1) {
-        const expClass = this.pxe.setExpectClass();
-        const isValid = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
-        this.modernStatusPill.style.background = isValid ? "#ecfdf5" : "#fef3c7";
-        this.modernStatusPill.style.color = isValid ? "#047857" : "#b45309";
-        this.modernStatusPill.style.borderColor = isValid ? "#a7f3d0" : "#fde68a";
-        this.modernStatusPill.innerHTML = isValid ? `<span>\u2713</span> <span>Formula Complete (Ready for Slots)</span>` : `<span>\u26A1</span> <span>${this.pxe.exp.length === 0 ? "Enter Relation" : "Awaiting Operand / Bracket"}</span>`;
+        if (this.isInspectionMode) {
+          this.modernStatusPill.style.background = "#eff6ff";
+          this.modernStatusPill.style.color = "#1d4ed8";
+          this.modernStatusPill.style.borderColor = "#bfdbfe";
+          this.modernStatusPill.innerHTML = `<span>\u{1F4D6}</span> <span>Reader Inspection: ${this.catalogTheoremName ? "MiddleWay." + this.catalogTheoremName : "Catalog Ref"}</span>`;
+        } else {
+          const expClass = this.pxe.setExpectClass();
+          const isValid = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
+          this.modernStatusPill.style.background = isValid ? "#ecfdf5" : "#fef3c7";
+          this.modernStatusPill.style.color = isValid ? "#047857" : "#b45309";
+          this.modernStatusPill.style.borderColor = isValid ? "#a7f3d0" : "#fde68a";
+          this.modernStatusPill.innerHTML = isValid ? `<span>\u2713</span> <span>Formula Complete (Ready for Slots)</span>` : `<span>\u26A1</span> <span>${this.pxe.exp.length === 0 ? "Enter Relation" : "Awaiting Operand / Bracket"}</span>`;
+        }
       } else if (this.stage === 2) {
-        const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
-        const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
-        this.modernStatusPill.style.background = hasMismatch ? "#fee2e2" : allBound ? "#ecfdf5" : "#eff6ff";
-        this.modernStatusPill.style.color = hasMismatch ? "#b91c1c" : allBound ? "#047857" : "#1d4ed8";
-        this.modernStatusPill.style.borderColor = hasMismatch ? "#fca5a5" : allBound ? "#a7f3d0" : "#bfdbfe";
-        this.modernStatusPill.innerHTML = hasMismatch ? `<span>\u26A0\uFE0F</span> <span>Type Clash: ${conflictingVar}</span>` : allBound ? `<span>\u2713</span> <span>Slots Typed (Ready for Quantifiers)</span>` : `<span>\u{1F3F7}\uFE0F</span> <span>Assign Variable Slots</span>`;
+        if (this.isInspectionMode) {
+          this.modernStatusPill.style.background = "#eff6ff";
+          this.modernStatusPill.style.color = "#1d4ed8";
+          this.modernStatusPill.style.borderColor = "#bfdbfe";
+          this.modernStatusPill.innerHTML = `<span>\u{1F4D6}</span> <span>Inspecting Slot Bindings</span>`;
+        } else {
+          const { hasMismatch, conflictingVar } = this.checkTypeMismatch();
+          const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
+          this.modernStatusPill.style.background = hasMismatch ? "#fee2e2" : allBound ? "#ecfdf5" : "#eff6ff";
+          this.modernStatusPill.style.color = hasMismatch ? "#b91c1c" : allBound ? "#047857" : "#1d4ed8";
+          this.modernStatusPill.style.borderColor = hasMismatch ? "#fca5a5" : allBound ? "#a7f3d0" : "#bfdbfe";
+          this.modernStatusPill.innerHTML = hasMismatch ? `<span>\u26A0\uFE0F</span> <span>Type Clash: ${conflictingVar}</span>` : allBound ? `<span>\u2713</span> <span>Slots Typed (Ready for Quantifiers)</span>` : `<span>\u{1F3F7}\uFE0F</span> <span>Assign Variable Slots</span>`;
+        }
       } else if (this.stage === 3) {
-        const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
-        const allQuantified = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
-        this.modernStatusPill.style.background = allQuantified ? "#ecfdf5" : "#eff6ff";
-        this.modernStatusPill.style.color = allQuantified ? "#047857" : "#1d4ed8";
-        this.modernStatusPill.style.borderColor = allQuantified ? "#a7f3d0" : "#bfdbfe";
-        this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Matrix)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
+        if (this.isInspectionMode) {
+          this.modernStatusPill.style.background = "#eff6ff";
+          this.modernStatusPill.style.color = "#1d4ed8";
+          this.modernStatusPill.style.borderColor = "#bfdbfe";
+          this.modernStatusPill.innerHTML = `<span>\u{1F4D6}</span> <span>Inspecting Quantifier Scope</span>`;
+        } else {
+          const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+          const allQuantified = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
+          this.modernStatusPill.style.background = allQuantified ? "#ecfdf5" : "#eff6ff";
+          this.modernStatusPill.style.color = allQuantified ? "#047857" : "#1d4ed8";
+          this.modernStatusPill.style.borderColor = allQuantified ? "#a7f3d0" : "#bfdbfe";
+          this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Matrix)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
+        }
       } else {
         const truth = this.evaluateFullStatement();
-        this.modernStatusPill.style.background = truth ? "#ecfdf5" : "#fee2e2";
-        this.modernStatusPill.style.color = truth ? "#047857" : "#b91c1c";
-        this.modernStatusPill.style.borderColor = truth ? "#a7f3d0" : "#fca5a5";
-        this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Statement Verdict: True (T)</span>` : `<span>\u2717</span> <span>Statement Verdict: False (F)</span>`;
+        if (this.isInspectionMode && this.catalogTheoremName) {
+          this.modernStatusPill.style.background = truth ? "#ecfdf5" : "#fee2e2";
+          this.modernStatusPill.style.color = truth ? "#047857" : "#b91c1c";
+          this.modernStatusPill.style.borderColor = truth ? "#a7f3d0" : "#fca5a5";
+          this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Machine Certified: True (T) \u2208 MiddleWay</span>` : `<span>\u2717</span> <span>Counterexample: False (F)</span>`;
+        } else {
+          this.modernStatusPill.style.background = truth ? "#f0fdf4" : "#fff1f2";
+          this.modernStatusPill.style.color = truth ? "#15803d" : "#be123c";
+          this.modernStatusPill.style.borderColor = truth ? "#bbf7d0" : "#fecdd3";
+          this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Grid Evaluation: True (T) on sampled domain</span>` : `<span>\u2717</span> <span>Grid Evaluation: False (F) on sampled domain</span>`;
+        }
       }
     }
     if (this.modernPredicateBox) {
@@ -41787,10 +41818,11 @@ var FSD = class extends PXEParent {
         let verdictSnippet = "";
         if (this.stage === 4) {
           const truth = this.evaluateFullStatement();
+          const modeTag = this.isInspectionMode && this.catalogTheoremName ? "Lean 4 Machine Verified" : "Construction Sandbox";
           verdictSnippet = `
             <div style="margin-top: 8px;">
               <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? "#dcfce7" : "#fee2e2"}; color: ${truth ? "#166534" : "#991b1b"}; border: 1px solid ${truth ? "#bbf7d0" : "#fecaca"};">
-                Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"}
+                Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"} (${modeTag})
               </span>
             </div>
           `;
@@ -41812,8 +41844,9 @@ var FSD = class extends PXEParent {
         `;
       }
     }
+    const showVerificationInfo = this.stage === 4 && this.isInspectionMode && !!this.catalogTheoremName;
     if (this.modernLeanBox) {
-      if (this.stage === 4) {
+      if (showVerificationInfo) {
         this.modernLeanBox.style.display = "block";
         const theoremName = this.getGoverningTheorem();
         const snippet = this.getLeanSnippet();
@@ -41831,7 +41864,7 @@ var FSD = class extends PXEParent {
       }
     }
     if (this.modernInvariantBox) {
-      if (this.stage === 4) {
+      if (showVerificationInfo) {
         this.modernInvariantBox.style.display = "block";
         const expDisp = this.formatFSDExp(this.pxe.exp) || "relation";
         this.modernInvariantBox.innerHTML = `
@@ -41847,7 +41880,7 @@ var FSD = class extends PXEParent {
       }
     }
     if (this.modernInspectorDetails) {
-      this.modernInspectorDetails.style.display = this.stage === 4 ? "block" : "none";
+      this.modernInspectorDetails.style.display = showVerificationInfo ? "block" : "none";
     }
     this.renderModernStageCard();
     this.renderModernFooterBar();
@@ -41869,7 +41902,7 @@ var FSD = class extends PXEParent {
       this.renderModernStage4(this.modernStageCard);
     }
   }
-  // --- STAGE 1: Sparse Authoring with Simpler Stuff on Top & Dropdowns ---
+  // --- STAGE 1: Governing Formal Statement & Functional Relation ---
   renderModernStage1(card) {
     const cardTitle = document.createElement("div");
     cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
@@ -41877,7 +41910,7 @@ var FSD = class extends PXEParent {
     card.appendChild(cardTitle);
     const desc = document.createElement("p");
     desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
-    desc.innerHTML = "Enter a formal mathematical relation or proposition using standard relations and connectives. Select simpler variables and operators on top, or open dropdowns for calculus, functions, and logic:";
+    desc.innerHTML = this.isInspectionMode ? "Displaying constitutional formal proposition loaded from catalog reference. Inspection mode is active:" : "Enter a formal proposition using relational predicate symbols and logical connectives (variables and quantifiers are configured in stages 2 &amp; 3):";
     card.appendChild(desc);
     const inputRow = document.createElement("div");
     inputRow.style.cssText = "display: flex; gap: 8px; align-items: center; margin-bottom: 16px;";
@@ -41886,102 +41919,114 @@ var FSD = class extends PXEParent {
     this.modernFormulaInput.id = "fsdModernInput";
     this.modernFormulaInput.placeholder = "Enter relation (e.g. x\u2081 < x\u2082, x\u2081 = x\u2082, x\u2081 \u2208 y\u2081)...";
     this.modernFormulaInput.value = this.formatFSDExp(this.pxe.exp);
-    this.modernFormulaInput.style.cssText = "flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; outline: none; transition: border-color 0.15s ease;";
-    this.modernFormulaInput.addEventListener("focus", () => {
-      this.modernFormulaInput.style.borderColor = "#0284c7";
-      this.modernFormulaInput.style.boxShadow = "0 0 0 3px rgba(2, 132, 199, 0.12)";
-    });
-    this.modernFormulaInput.addEventListener("blur", () => {
-      this.modernFormulaInput.style.borderColor = "#bae6fd";
-      this.modernFormulaInput.style.boxShadow = "none";
-    });
-    this.modernFormulaInput.addEventListener("keydown", (e) => {
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        this.pxe.backspace();
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        const expClass = this.pxe.setExpectClass();
-        if (expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0) {
-          this.advanceStage();
+    this.modernFormulaInput.readOnly = this.isInspectionMode;
+    this.modernFormulaInput.style.cssText = `flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: ${this.isInspectionMode ? "#f8fafc" : "#ffffff"}; border: 1.5px solid ${this.isInspectionMode ? "#cbd5e1" : "#bae6fd"}; border-radius: 6px; outline: none; transition: border-color 0.15s ease; cursor: ${this.isInspectionMode ? "default" : "text"};`;
+    if (!this.isInspectionMode) {
+      this.modernFormulaInput.addEventListener("focus", () => {
+        this.modernFormulaInput.style.borderColor = "#0284c7";
+        this.modernFormulaInput.style.boxShadow = "0 0 0 3px rgba(2, 132, 199, 0.12)";
+      });
+      this.modernFormulaInput.addEventListener("blur", () => {
+        this.modernFormulaInput.style.borderColor = "#bae6fd";
+        this.modernFormulaInput.style.boxShadow = "none";
+      });
+      this.modernFormulaInput.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          this.pxe.backspace();
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          const expClass = this.pxe.setExpectClass();
+          if (expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0) {
+            this.advanceStage();
+          }
+        } else if (e.key === "<") {
+          e.preventDefault();
+          this.pxe.addCharacter("s");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === ">") {
+          e.preventDefault();
+          this.pxe.addCharacter("r");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "=") {
+          e.preventDefault();
+          this.pxe.addCharacter("k");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "&" || e.key === "^") {
+          e.preventDefault();
+          this.pxe.addCharacter("a");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "|" || e.key === "v") {
+          e.preventDefault();
+          this.pxe.addCharacter("o");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "!" || e.key === "~") {
+          e.preventDefault();
+          this.pxe.addCharacter("n");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "[") {
+          e.preventDefault();
+          this.pxe.addCharacter("[");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key === "]") {
+          e.preventDefault();
+          this.pxe.addCharacter("]");
+          this.updatePXEText();
+          this.syncModernUI();
         }
-      } else if (e.key === "<") {
-        e.preventDefault();
-        this.pxe.addCharacter("s");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === ">") {
-        e.preventDefault();
-        this.pxe.addCharacter("r");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "=") {
-        e.preventDefault();
-        this.pxe.addCharacter("k");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "&" || e.key === "^") {
-        e.preventDefault();
-        this.pxe.addCharacter("a");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "|" || e.key === "v") {
-        e.preventDefault();
-        this.pxe.addCharacter("o");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "!" || e.key === "~") {
-        e.preventDefault();
-        this.pxe.addCharacter("n");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "[") {
-        e.preventDefault();
-        this.pxe.addCharacter("[");
-        this.updatePXEText();
-        this.syncModernUI();
-      } else if (e.key === "]") {
-        e.preventDefault();
-        this.pxe.addCharacter("]");
-        this.updatePXEText();
-        this.syncModernUI();
-      }
-    });
+      });
+    }
     inputRow.appendChild(this.modernFormulaInput);
-    const btnClearInput = document.createElement("button");
-    btnClearInput.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1.5px solid #fca5a5; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
-    btnClearInput.textContent = "Clear";
-    btnClearInput.addEventListener("click", () => {
-      this.clear();
-      this.syncModernUI();
-    });
-    inputRow.appendChild(btnClearInput);
+    if (!this.isInspectionMode) {
+      const btnClearInput = document.createElement("button");
+      btnClearInput.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1.5px solid #fca5a5; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+      btnClearInput.textContent = "Clear";
+      btnClearInput.addEventListener("click", () => {
+        this.clear();
+        this.syncModernUI();
+      });
+      inputRow.appendChild(btnClearInput);
+    }
     card.appendChild(inputRow);
+    if (this.isInspectionMode) {
+      const inspectNotice = document.createElement("div");
+      inspectNotice.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; color: #0369a1; font-size: 13px; line-height: 1.5;";
+      inspectNotice.innerHTML = `<strong>\u{1F4D6} Reader Inspection Mode:</strong> Displaying cataloged theorem relation <code>${this.catalogTheoremName ? "MiddleWay." + this.catalogTheoremName : "Catalog Ref"}</code>. Expression authoring is locked. Click <strong>Inspect Slots \u2192</strong> below to inspect slot bindings and quantifiers.`;
+      card.appendChild(inspectNotice);
+      return;
+    }
     const toolbarBox = document.createElement("div");
     toolbarBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px;";
     toolbarBox.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
         <span style="font-size: 11.5px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">
-          \u{1F9EE} Sparse Formula Authoring Toolbar
+          \u{1F9EE} Predicate Symbols &amp; Logical Connectives
         </span>
-        <span style="font-size: 11px; color: #64748b;">(Click simpler variables &amp; relations on top, or select from dropdowns below)</span>
+        <span style="font-size: 11px; color: #64748b;">(Click relation or connective to append to formula)</span>
       </div>
     `;
-    const row1 = document.createElement("div");
-    row1.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;";
+    const row = document.createElement("div");
+    row.style.cssText = "display: flex; align-items: center; gap: 6px; flex-wrap: wrap;";
     const createChip = (label, onClick, styleType = "rel") => {
       const btn = document.createElement("button");
       let bg = "#ffffff";
       let color = "#0369a1";
       let border = "#bae6fd";
-      if (styleType === "var") {
-        bg = "#f1f5f9";
-        color = "#1e293b";
-        border = "#cbd5e1";
-      } else if (styleType === "alg") {
-        bg = "#ffffff";
+      if (styleType === "logic") {
+        bg = "#eff6ff";
+        color = "#1d4ed8";
+        border = "#bfdbfe";
+      } else if (styleType === "bracket") {
+        bg = "#f8fafc";
         color = "#334155";
         border = "#cbd5e1";
       } else if (styleType === "action") {
@@ -41989,42 +42034,13 @@ var FSD = class extends PXEParent {
         color = "#e11d48";
         border = "#fecdd3";
       }
-      btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 9px; font-family: monospace; font-size: 13.5px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
+      btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; font-family: monospace; font-size: 13.5px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
       btn.textContent = label;
       btn.addEventListener("mouseover", () => btn.style.transform = "translateY(-1px)");
       btn.addEventListener("mouseout", () => btn.style.transform = "none");
       btn.addEventListener("click", onClick);
       return btn;
     };
-    const varGroup = document.createElement("div");
-    varGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
-    const vars = ["x\u2081", "x\u2082", "y\u2081", "x", "y", "n"];
-    vars.forEach((v) => {
-      varGroup.appendChild(createChip(v, () => {
-        if (this.modernFormulaInput) {
-          this.modernFormulaInput.focus();
-        }
-      }, "var"));
-    });
-    row1.appendChild(varGroup);
-    const div1 = document.createElement("div");
-    div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-    row1.appendChild(div1);
-    const algGroup = document.createElement("div");
-    algGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
-    const algs = ["+", "-", "\xB7", "/", "^", "(", ")"];
-    algs.forEach((op) => {
-      algGroup.appendChild(createChip(op, () => {
-        if (op === "(") this.pxe.addCharacter("[");
-        else if (op === ")") this.pxe.addCharacter("]");
-        this.updatePXEText();
-        this.syncModernUI();
-      }, "alg"));
-    });
-    row1.appendChild(algGroup);
-    const div2 = document.createElement("div");
-    div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-    row1.appendChild(div2);
     const relGroup = document.createElement("div");
     relGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
     const relations = [
@@ -42048,10 +42064,46 @@ var FSD = class extends PXEParent {
         this.syncModernUI();
       }, "rel"));
     });
-    row1.appendChild(relGroup);
+    row.appendChild(relGroup);
+    const div1 = document.createElement("div");
+    div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    row.appendChild(div1);
+    const logicGroup = document.createElement("div");
+    logicGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const logicOps = [
+      { sym: "\xAC", code: "n" },
+      { sym: "\u2227", code: "a" },
+      { sym: "\u2228", code: "o" },
+      { sym: "\u21D2", code: "i" },
+      { sym: "\u21D4", code: "e" }
+    ];
+    logicOps.forEach((op) => {
+      logicGroup.appendChild(createChip(op.sym, () => {
+        this.pxe.addCharacter(op.code);
+        this.updatePXEText();
+        this.syncModernUI();
+      }, "logic"));
+    });
+    row.appendChild(logicGroup);
+    const div2 = document.createElement("div");
+    div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    row.appendChild(div2);
+    const bracketGroup = document.createElement("div");
+    bracketGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    bracketGroup.appendChild(createChip("[", () => {
+      this.pxe.addCharacter("[");
+      this.updatePXEText();
+      this.syncModernUI();
+    }, "bracket"));
+    bracketGroup.appendChild(createChip("]", () => {
+      this.pxe.addCharacter("]");
+      this.updatePXEText();
+      this.syncModernUI();
+    }, "bracket"));
+    row.appendChild(bracketGroup);
     const div3 = document.createElement("div");
     div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-    row1.appendChild(div3);
+    row.appendChild(div3);
     const actGroup = document.createElement("div");
     actGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
     actGroup.appendChild(createChip("\u232B", () => {
@@ -42059,102 +42111,8 @@ var FSD = class extends PXEParent {
       this.updatePXEText();
       this.syncModernUI();
     }, "action"));
-    row1.appendChild(actGroup);
-    toolbarBox.appendChild(row1);
-    const row2 = document.createElement("div");
-    row2.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;";
-    const trigItems = [
-      { text: "sin(x)", sub: "Sine", onClick: () => {
-      } },
-      { text: "cos(x)", sub: "Cosine", onClick: () => {
-      } },
-      { text: "tan(x)", sub: "Tangent", onClick: () => {
-      } },
-      { text: "arcsin(x)", sub: "Inv Sine", onClick: () => {
-      } },
-      { text: "arccos(x)", sub: "Inv Cosine", onClick: () => {
-      } },
-      { text: "arctan(x)", sub: "Inv Tangent", onClick: () => {
-      } },
-      { text: "\u03C0", sub: "Archimedes Pi", onClick: () => {
-      } }
-    ];
-    row2.appendChild(this.createDropdown("Trig \u25BE", trigItems));
-    const calcItems = [
-      { text: "st(x)", sub: "Standard Nucleus", onClick: () => {
-      } },
-      { text: "\u03BC(0)", sub: "Infinitesimal Halo", onClick: () => {
-      } },
-      { text: "dx", sub: "Infinitesimal Step (1/\u03C9)", onClick: () => {
-      } },
-      { text: "D(f)", sub: "Discrete Deriv", onClick: () => {
-      } },
-      { text: "\u222B(f)", sub: "Discrete Sum", onClick: () => {
-      } },
-      { text: "\u03C9", sub: "Discrete Infinity", onClick: () => {
-      } }
-    ];
-    row2.appendChild(this.createDropdown("Calculus & Halo \u25BE", calcItems));
-    const fnItems = [
-      { text: "exp(x)", sub: "Exponential", onClick: () => {
-      } },
-      { text: "ln(x)", sub: "Natural Log", onClick: () => {
-      } },
-      { text: "abs(x)", sub: "Absolute Value", onClick: () => {
-      } },
-      { text: "sqrt(x)", sub: "Square Root", onClick: () => {
-      } },
-      { text: "sgn(x)", sub: "Signum Step", onClick: () => {
-      } },
-      { text: "floor(x)", sub: "Floor Step", onClick: () => {
-      } },
-      { text: "ceil(x)", sub: "Ceiling Step", onClick: () => {
-      } }
-    ];
-    row2.appendChild(this.createDropdown("Functions \u25BE", fnItems));
-    const logicItems = [
-      { text: "\xAC", sub: "Negation", onClick: () => {
-        this.pxe.addCharacter("n");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "\u2227", sub: "Conjunction", onClick: () => {
-        this.pxe.addCharacter("a");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "\u2228", sub: "Disjunction", onClick: () => {
-        this.pxe.addCharacter("o");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "\u2192", sub: "Implication", onClick: () => {
-        this.pxe.addCharacter("i");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "\u2194", sub: "Equivalence", onClick: () => {
-        this.pxe.addCharacter("e");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "\u2200", sub: "For All", onClick: () => {
-      } },
-      { text: "\u2203", sub: "There Exists", onClick: () => {
-      } },
-      { text: "[", sub: "Left Bracket", onClick: () => {
-        this.pxe.addCharacter("[");
-        this.updatePXEText();
-        this.syncModernUI();
-      } },
-      { text: "]", sub: "Right Bracket", onClick: () => {
-        this.pxe.addCharacter("]");
-        this.updatePXEText();
-        this.syncModernUI();
-      } }
-    ];
-    row2.appendChild(this.createDropdown("Logic & Quantifiers \u25BE", logicItems));
-    toolbarBox.appendChild(row2);
+    row.appendChild(actGroup);
+    toolbarBox.appendChild(row);
     card.appendChild(toolbarBox);
   }
   // Helper to build sleek floating dropdown menus
@@ -42217,6 +42175,13 @@ var FSD = class extends PXEParent {
       slotList.appendChild(chip);
     });
     card.appendChild(slotList);
+    if (this.isInspectionMode) {
+      const inspectBox = document.createElement("div");
+      inspectBox.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; font-size: 13px; color: #334155; line-height: 1.5;";
+      inspectBox.innerHTML = `<strong>\u{1F4D6} Reader Inspection Mode:</strong> Variable slots are bound to catalog specifications. Slot mutation is locked. Click <strong>Inspect Quantifiers \u2192</strong> below to proceed.`;
+      card.appendChild(inspectBox);
+      return;
+    }
     const activeSlot = this.slots[this.selectedSlotIndex];
     if (activeSlot) {
       const configBox = document.createElement("div");
@@ -42349,17 +42314,25 @@ var FSD = class extends PXEParent {
         chip.innerHTML = `<span>${q.quantifier}</span> <span>${q.variable}</span> <span style="font-size: 11px; color: #64748b; font-family: sans-serif;">\u2208 ${q.domainType}</span>`;
         boundBox.appendChild(chip);
       });
-      const btnResetQ = document.createElement("button");
-      btnResetQ.style.cssText = "padding: 4px 9px; font-size: 11.5px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1px solid #fca5a5; border-radius: 4px; cursor: pointer;";
-      btnResetQ.textContent = "Clear Quantifiers";
-      btnResetQ.addEventListener("click", () => {
-        this.resetStage3();
-        this.syncModernUI();
-      });
-      boundBox.appendChild(btnResetQ);
+      if (!this.isInspectionMode) {
+        const btnResetQ = document.createElement("button");
+        btnResetQ.style.cssText = "padding: 4px 9px; font-size: 11.5px; font-weight: 600; color: #dc2626; background: #ffffff; border: 1px solid #fca5a5; border-radius: 4px; cursor: pointer;";
+        btnResetQ.textContent = "Clear Quantifiers";
+        btnResetQ.addEventListener("click", () => {
+          this.resetStage3();
+          this.syncModernUI();
+        });
+        boundBox.appendChild(btnResetQ);
+      }
       card.appendChild(boundBox);
     }
-    if (unquantifiedVars.length > 0) {
+    if (this.isInspectionMode) {
+      const inspectBox = document.createElement("div");
+      inspectBox.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; font-size: 13px; color: #334155; line-height: 1.5;";
+      inspectBox.innerHTML = `<strong>\u{1F4D6} Reader Inspection Mode:</strong> Quantifier bindings are loaded from catalog reference. Quantifier scope editing is locked. Click <strong>Inspect Truth Matrix \u2192</strong> below to proceed to evaluation.`;
+      card.appendChild(inspectBox);
+    }
+    if (!this.isInspectionMode && unquantifiedVars.length > 0) {
       const targetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
       const curDomain = this.getVarDomain(targetVar);
       const dTypeStr = formatDomainSpec(curDomain);
@@ -42496,19 +42469,26 @@ var FSD = class extends PXEParent {
       if (this.stage < 4) {
         let btnText = "Bind Variables \u2192";
         let isEnabled = false;
-        if (this.stage === 1) {
-          const expClass = this.pxe.setExpectClass();
-          isEnabled = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
-          btnText = "Bind Variables \u2192";
-        } else if (this.stage === 2) {
-          const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
-          const { hasMismatch } = this.checkTypeMismatch();
-          isEnabled = allBound && !hasMismatch;
-          btnText = "Quantify Variables \u2192";
-        } else if (this.stage === 3) {
-          const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
-          isEnabled = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
-          btnText = "Evaluate Statement \u2192";
+        if (this.isInspectionMode) {
+          isEnabled = true;
+          if (this.stage === 1) btnText = "Inspect Slots \u2192";
+          else if (this.stage === 2) btnText = "Inspect Quantifiers \u2192";
+          else if (this.stage === 3) btnText = "Inspect Truth Matrix \u2192";
+        } else {
+          if (this.stage === 1) {
+            const expClass = this.pxe.setExpectClass();
+            isEnabled = expClass === "back" && this.pxe.nl === 0 && this.pxe.exp.length > 0;
+            btnText = "Bind Variables \u2192";
+          } else if (this.stage === 2) {
+            const allBound = this.slots.length > 0 && this.slots.every((s) => s.assignedVar !== void 0);
+            const { hasMismatch } = this.checkTypeMismatch();
+            isEnabled = allBound && !hasMismatch;
+            btnText = "Quantify Variables \u2192";
+          } else if (this.stage === 3) {
+            const uniqueVars = Array.from(new Set(this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))));
+            isEnabled = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
+            btnText = "Evaluate Statement \u2192";
+          }
         }
         if (isEnabled) {
           const btnAdvance = document.createElement("button");
@@ -42526,6 +42506,7 @@ var FSD = class extends PXEParent {
   }
   // Generate Lean 4 Machine Certified Theorem Name
   getGoverningTheorem() {
+    if (this.catalogTheoremName) return this.catalogTheoremName;
     if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) return "fsd_order_union";
     if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) return "fsd_order_inter";
     if (this.pxe.exp.includes("p")) return "fsd_gt5_witness";
@@ -42990,6 +42971,8 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
   }
   clear() {
     this.stage = 1;
+    this.isInspectionMode = false;
+    this.catalogTheoremName = "";
     this.elementVars = ["x\u2081", "x\u2082"];
     this.numberConstants = ["0", "1", "5", "10"];
     this.setVars = ["y\u2081", "y\u2082", "\u2205"];
@@ -43018,13 +43001,13 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
   prevStage() {
     if (this.stage === 2) {
       this.stage = 1;
-      this.slots = [];
+      if (!this.isInspectionMode) this.slots = [];
       this.pxe.caret.setA("visibility", "visible");
       this.renderStageControls();
       this.updatePXEText();
     } else if (this.stage === 3) {
       this.stage = 2;
-      this.quantifierBindings = [];
+      if (!this.isInspectionMode) this.quantifierBindings = [];
       this.renderStageControls();
       this.updatePXEText();
     } else if (this.stage === 4) {
@@ -43065,8 +43048,10 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
       this.syncModernUI();
     }
   }
-  loadFromRefData(data = {}) {
+  loadFromRefData(data = {}, isInspection = false) {
     this.clear();
+    this.isInspectionMode = isInspection;
+    this.catalogTheoremName = data.theorem || "";
     const exp = (data.exp || "").trim();
     this.pxe.exp = exp;
     let nl = 0;

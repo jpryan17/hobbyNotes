@@ -109,7 +109,8 @@ export class FSDRef extends HTMLElement {
         quantifiers: quantifiersStr || undefined,
         slots: slotsStr || undefined,
         stage: stageStr || undefined,
-      });
+        theorem: this.getAttribute("scaffold") || this.getAttribute("theorem") || undefined
+      }, true);
     });
   }
 
