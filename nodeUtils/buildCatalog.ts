@@ -643,6 +643,20 @@ export function buildCurricularCatalog(): FsCatalog {
       expression: 'F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k',
       pseudoAlgoId: 'algo_geometric_ladder_step',
       referencedInSegments: getRefs('fs_geom_ladder_step', 41, ['sequencesAndSums'])
+    },
+    {
+      numId: 42,
+      id: 'fs_linear_ladder_step',
+      type: 'math',
+      tier: 'scenario',
+      statementKind: 'directed_equality',
+      governingSeed: 'boundary_law',
+      title: 'General Linear (Arithmetic) Ladder Step',
+      description: 'Discrete uniform stepping progression advancing by constant forward difference d.',
+      scaffoldKey: 'linear_ladder_step',
+      expression: 'F(k + 1) ≔ F(k) + d  ∧  F(k) ≔ a + k · d',
+      pseudoAlgoId: 'algo_linear_ladder_step',
+      referencedInSegments: getRefs('fs_linear_ladder_step', 42, ['sequencesAndSums'])
     }
   ];
 
@@ -877,16 +891,30 @@ export function buildCurricularCatalog(): FsCatalog {
       ]
     },
     {
+      id: 'linear_ladder_step',
+      statementId: 'fs_linear_ladder_step',
+      label: 'Linear Progression Step F_k = a + k · d',
+      targetSymbol: 'F_k',
+      targetDomain: '𝔻_ω',
+      formulaDescription: 'F_k = a + k · d',
+      formulaExpr: 'a + k * d',
+      inputs: [
+        { name: 'a', symbol: 'a', domain: '𝔻', defaultValue: 0.0, min: -1000.0, max: 1000.0, step: 0.5, description: 'Initial anchor value (F_0)' },
+        { name: 'd', symbol: 'd', domain: '𝔻', defaultValue: 1.0, min: -100.0, max: 100.0, step: 0.1, description: 'Common difference per step' },
+        { name: 'k', symbol: 'k', domain: 'ℕ', defaultValue: 1, min: 0, max: 100, step: 1.0, description: 'Step index' }
+      ]
+    },
+    {
       id: 'geom_ladder_step',
       statementId: 'fs_geom_ladder_step',
       label: 'Geometric Progression Step F_k = a · r^k',
       targetSymbol: 'F_k',
-      targetDomain: 'ℝ_ω',
+      targetDomain: '𝔻_ω',
       formulaDescription: 'F_k = a · r^k',
       formulaExpr: 'a * Math.pow(r, k)',
       inputs: [
-        { name: 'a', symbol: 'a', domain: 'ℝ', defaultValue: 1.0, min: -1000.0, max: 1000.0, step: 0.1, description: 'Initial seed value (F_0)' },
-        { name: 'r', symbol: 'r', domain: 'ℝ', defaultValue: 2.0, min: -100.0, max: 100.0, step: 0.05, description: 'Common ratio per step' },
+        { name: 'a', symbol: 'a', domain: '𝔻', defaultValue: 1.0, min: -1000.0, max: 1000.0, step: 0.1, description: 'Initial seed value (F_0)' },
+        { name: 'r', symbol: 'r', domain: '𝔻', defaultValue: 2.0, min: -100.0, max: 100.0, step: 0.05, description: 'Common ratio per step' },
         { name: 'k', symbol: 'k', domain: 'ℕ', defaultValue: 1, min: 0, max: 50, step: 1.0, description: 'Step index' }
       ]
     },
@@ -915,8 +943,30 @@ export function buildCurricularCatalog(): FsCatalog {
       values: { f0: 440.0, k: 3 },
       displayResult: '523.251 Hz',
       formattedFormula: 'f_3 = 440 · (2^(1/12))^3 ≈ 523.251 Hz',
-      domainBadge: '∈ ℝ_ω',
+      domainBadge: '∈ 𝔻_ω',
       notes: 'Three semitones above Concert A4 (440 Hz) yields equal-tempered C5.'
+    },
+    {
+      id: 'ex_linear_ladder_step',
+      modeId: 'linear_ladder_step',
+      statementId: 'fs_linear_ladder_step',
+      title: 'Arithmetic March with Step d = 3/2',
+      values: { a: 1.0, d: 1.5, k: 4 },
+      displayResult: '7.000',
+      formattedFormula: 'F_4 = 1.0 + 4 · (1.5) = 7.0',
+      domainBadge: '∈ 𝔻_ω',
+      notes: 'Uniform additive ladder evaluation in 𝔻_ω.'
+    },
+    {
+      id: 'ex_geom_ladder_step',
+      modeId: 'geom_ladder_step',
+      statementId: 'fs_geom_ladder_step',
+      title: 'Binary Tree Branching Doubling (r = 2)',
+      values: { a: 1.0, r: 2.0, k: 5 },
+      displayResult: '32.000',
+      formattedFormula: 'F_5 = 1.0 · (2.0)^5 = 32.0',
+      domainBadge: '∈ 𝔻_ω',
+      notes: 'Geometric ladder exponential progression.'
     },
     {
       id: 'ex_earth_free_fall',

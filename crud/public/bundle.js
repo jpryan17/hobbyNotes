@@ -36357,7 +36357,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-06T06:35:15.329Z",
+  "generatedAt": "2026-11-06T07:25:04.546Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -36898,6 +36898,23 @@ var FS_CATALOG = {
         "sequencesAndSums"
       ],
       "leanStatus": "pending"
+    },
+    {
+      "numId": 42,
+      "id": "fs_linear_ladder_step",
+      "type": "math",
+      "tier": "scenario",
+      "statementKind": "directed_equality",
+      "governingSeed": "boundary_law",
+      "title": "General Linear (Arithmetic) Ladder Step",
+      "description": "Discrete uniform stepping progression advancing by constant forward difference d.",
+      "scaffoldKey": "linear_ladder_step",
+      "expression": "F(k + 1) \u2254 F(k) + d  \u2227  F(k) \u2254 a + k \xB7 d",
+      "pseudoAlgoId": "algo_linear_ladder_step",
+      "referencedInSegments": [
+        "sequencesAndSums"
+      ],
+      "leanStatus": "pending"
     }
   ],
   "calculationModes": [
@@ -37375,18 +37392,59 @@ var FS_CATALOG = {
       ]
     },
     {
+      "id": "linear_ladder_step",
+      "statementId": "fs_linear_ladder_step",
+      "label": "Linear Progression Step F_k = a + k \xB7 d",
+      "targetSymbol": "F_k",
+      "targetDomain": "\u{1D53B}_\u03C9",
+      "formulaDescription": "F_k = a + k \xB7 d",
+      "formulaExpr": "a + k * d",
+      "inputs": [
+        {
+          "name": "a",
+          "symbol": "a",
+          "domain": "\u{1D53B}",
+          "defaultValue": 0,
+          "min": -1e3,
+          "max": 1e3,
+          "step": 0.5,
+          "description": "Initial anchor value (F_0)"
+        },
+        {
+          "name": "d",
+          "symbol": "d",
+          "domain": "\u{1D53B}",
+          "defaultValue": 1,
+          "min": -100,
+          "max": 100,
+          "step": 0.1,
+          "description": "Common difference per step"
+        },
+        {
+          "name": "k",
+          "symbol": "k",
+          "domain": "\u2115",
+          "defaultValue": 1,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "description": "Step index"
+        }
+      ]
+    },
+    {
       "id": "geom_ladder_step",
       "statementId": "fs_geom_ladder_step",
       "label": "Geometric Progression Step F_k = a \xB7 r^k",
       "targetSymbol": "F_k",
-      "targetDomain": "\u211D_\u03C9",
+      "targetDomain": "\u{1D53B}_\u03C9",
       "formulaDescription": "F_k = a \xB7 r^k",
       "formulaExpr": "a * Math.pow(r, k)",
       "inputs": [
         {
           "name": "a",
           "symbol": "a",
-          "domain": "\u211D",
+          "domain": "\u{1D53B}",
           "defaultValue": 1,
           "min": -1e3,
           "max": 1e3,
@@ -37396,7 +37454,7 @@ var FS_CATALOG = {
         {
           "name": "r",
           "symbol": "r",
-          "domain": "\u211D",
+          "domain": "\u{1D53B}",
           "defaultValue": 2,
           "min": -100,
           "max": 100,
@@ -37462,8 +37520,38 @@ var FS_CATALOG = {
       },
       "displayResult": "523.251 Hz",
       "formattedFormula": "f_3 = 440 \xB7 (2^(1/12))^3 \u2248 523.251 Hz",
-      "domainBadge": "\u2208 \u211D_\u03C9",
+      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
       "notes": "Three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
+    },
+    {
+      "id": "ex_linear_ladder_step",
+      "modeId": "linear_ladder_step",
+      "statementId": "fs_linear_ladder_step",
+      "title": "Arithmetic March with Step d = 3/2",
+      "values": {
+        "a": 1,
+        "d": 1.5,
+        "k": 4
+      },
+      "displayResult": "7.000",
+      "formattedFormula": "F_4 = 1.0 + 4 \xB7 (1.5) = 7.0",
+      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
+      "notes": "Uniform additive ladder evaluation in \u{1D53B}_\u03C9."
+    },
+    {
+      "id": "ex_geom_ladder_step",
+      "modeId": "geom_ladder_step",
+      "statementId": "fs_geom_ladder_step",
+      "title": "Binary Tree Branching Doubling (r = 2)",
+      "values": {
+        "a": 1,
+        "r": 2,
+        "k": 5
+      },
+      "displayResult": "32.000",
+      "formattedFormula": "F_5 = 1.0 \xB7 (2.0)^5 = 32.0",
+      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
+      "notes": "Geometric ladder exponential progression."
     },
     {
       "id": "ex_earth_free_fall",
