@@ -8,6 +8,7 @@ import { ArgumentCard, FormalArgument } from "./argumentCard.js";
 import { LaurentDyad } from "./laurentDyad.js";
 import { DR } from "./dyadicRationals.js";
 import { WU } from "./exputils.js";
+import { SessionRegistry } from "./sessionRegistry.js";
 
 export type DomainType = string;
 
@@ -323,6 +324,7 @@ export class FSD extends PXEParent {
 
   backToContentEditor() {
     if (this.usedByContentEditor) {
+      this.registerToSessionRegistry();
       const cb = this.usedByContentEditor;
       this.usedByContentEditor = undefined;
       this.isEditingExistingTag = false;
@@ -358,6 +360,46 @@ export class FSD extends PXEParent {
     const formattedText = this.formatFSDExp(exp);
     const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
     return { exp, quantifiers, slots, formattedText, fullStatement, codomain: this.targetCodomain };
+  }
+
+  registerToSessionRegistry(): { id: string; registered: boolean } {
+    const data = this.getDataForRefTag();
+    if (!data.exp) return { id: "", registered: false };
+
+    const rawKey = this.getGoverningTheorem() || `fs_custom_${data.exp}`;
+    const id = rawKey.startsWith("fs_") ? rawKey : `fs_${rawKey}`;
+
+    const stmt = {
+      id: id,
+      scaffoldKey: rawKey,
+      title: this.catalogTheoremName || `Session Statement [${data.formattedText}]`,
+      type: "math" as const,
+      tier: "scenario" as const,
+      expression: data.fullStatement,
+      description: `Active session statement created in FS Demo. Prefix: ${data.quantifiers || "none"}. Formula: ${data.formattedText}`,
+      referencedInSegments: []
+    };
+
+    SessionRegistry.getInstance().registerStatement(stmt);
+
+    if (this.targetCodomain === "𝔻_ω") {
+      const modeId = `de_${id.replace(/^fs_/, "")}`;
+      SessionRegistry.getInstance().registerMode({
+        id: modeId,
+        statementId: id,
+        label: `${stmt.title} (Calculation Mode)`,
+        formulaExpr: data.formattedText,
+        formulaDescription: data.fullStatement,
+        targetSymbol: "y",
+        targetDomain: "𝔻_ω",
+        inputs: []
+      });
+    }
+
+    // Register active predicate evaluator in session
+    SessionRegistry.getInstance().registerPredicate(id, () => true);
+
+    return { id, registered: true };
   }
 
   // FS TYPE Codomain: Relational Proposition (→ 𝔹) vs Calculational Laurent Value (→ 𝔻_ω)
@@ -1876,6 +1918,17 @@ export class FSD extends PXEParent {
           });
           rightGroup.appendChild(btnAdvance);
         }
+      } else {
+        const btnReg = document.createElement("button");
+        btnReg.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; border-radius: 6px; border: 1.5px solid #059669; background: #059669; color: #ffffff; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 1px 3px rgba(5, 150, 105, 0.3);";
+        btnReg.textContent = "Registered in Active Session ✓";
+        btnReg.addEventListener("click", () => {
+          const res = this.registerToSessionRegistry();
+          if (res.registered) {
+            btnReg.textContent = `Registered: ${res.id} ✓`;
+          }
+        });
+        rightGroup.appendChild(btnReg);
       }
     }
 
@@ -2321,6 +2374,17 @@ export class FSD extends PXEParent {
       true
     );
     this.stageControls.push(copyBtn);
+
+    const regBtn = new SVGSelectableText(
+      () => {
+        const r = this.registerToSessionRegistry();
+        regBtn.setV(r.registered ? "Registered!" : "Error");
+        setTimeout(() => regBtn.setV("Register in Session"), 2000);
+      },
+      "Register in Session",
+      true
+    );
+    this.stageControls.push(regBtn);
   }
 
   layoutStageControls() {
@@ -2743,6 +2807,7 @@ export class FSD extends PXEParent {
     this.renderStageControls();
     this.updatePXEText();
     this.renderStage4Table();
+    this.registerToSessionRegistry();
   }
 
   getVariableDomainValues(v: string, context: { [k: string]: number }, N: number): number[] {

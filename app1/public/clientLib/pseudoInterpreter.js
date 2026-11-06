@@ -1,4 +1,5 @@
 import { dyadicMachine } from './dyadicMachine.js';
+import { sessionRegistry } from './sessionRegistry.js';
 const KEYWORDS = new Set([
     'function',
     'rule',
@@ -19,6 +20,7 @@ const KEYWORDS = new Set([
     'and',
     'not',
     'mod',
+    'assert',
 ]);
 export function tokenize(source) {
     const tokens = [];
@@ -379,7 +381,19 @@ export class PseudoParser {
             this.match('PUNCT', ';');
             return { type: 'RETURN', line: tok.line, expr };
         }
-        // 5. Tuple assignment: (XL, XR) := ...
+        // 4b. Assert statement: "assert condition;" or "assert condition, 'error message';"
+        if (this.match('KEYWORD', 'assert')) {
+            const expr = this.parseExpr();
+            let message = undefined;
+            if (this.match('PUNCT', ',')) {
+                if (this.check('STRING')) {
+                    message = this.advance().value;
+                }
+            }
+            this.match('PUNCT', ';');
+            return { type: 'ASSERT', line: tok.line, expr, message };
+        }
+        // 5. Tuple assignment: (XL, XR) := ... or (x, y, theta) ≔ ...
         if (this.check('PUNCT', '(') && this.peekNext().type === 'IDENT') {
             this.advance(); // consume '('
             const targets = [];
@@ -387,23 +401,29 @@ export class PseudoParser {
                 targets.push(this.expect('IDENT').value);
             } while (this.match('PUNCT', ','));
             this.expect('PUNCT', ')');
-            this.expect('OPERATOR', ':=');
-            const expr = this.parseExpr();
-            this.match('PUNCT', ';');
-            return { type: 'ASSIGN', line: tok.line, target: targets, expr };
+            if (this.match('OPERATOR', ':=') || this.match('OPERATOR', '≔')) {
+                const expr = this.parseExpr();
+                this.match('PUNCT', ';');
+                return { type: 'ASSIGN', line: tok.line, target: targets, expr };
+            }
         }
-        // 6. Identifier-led: assignment (x := ... or x[i] := ...) or procedure call (Insert(...))
+        // 6. Identifier-led: assignment (x := ... or x[i] := ...) or procedure call (DE.step(...))
         if (this.check('IDENT')) {
-            const name = this.advance().value;
+            let name = this.advance().value;
+            if (this.match('PUNCT', '.')) {
+                const member = this.expect('IDENT').value;
+                name = `${name}.${member}`;
+            }
             if (this.match('PUNCT', '[')) {
                 const indexExpr = this.parseExpr();
                 this.expect('PUNCT', ']');
-                this.expect('OPERATOR', ':=');
-                const expr = this.parseExpr();
-                this.match('PUNCT', ';');
-                return { type: 'ASSIGN', line: tok.line, target: name, indexExpr, expr };
+                if (this.match('OPERATOR', ':=') || this.match('OPERATOR', '≔')) {
+                    const expr = this.parseExpr();
+                    this.match('PUNCT', ';');
+                    return { type: 'ASSIGN', line: tok.line, target: name, indexExpr, expr };
+                }
             }
-            if (this.match('OPERATOR', ':=')) {
+            if (this.match('OPERATOR', ':=') || this.match('OPERATOR', '≔')) {
                 const expr = this.parseExpr();
                 this.match('PUNCT', ';');
                 return { type: 'ASSIGN', line: tok.line, target: name, expr };
@@ -510,7 +530,11 @@ export class PseudoParser {
         }
         // Function call or Slicing: X[0 .. i]
         if (this.check('IDENT')) {
-            const name = this.advance().value;
+            let name = this.advance().value;
+            if (this.match('PUNCT', '.')) {
+                const member = this.expect('IDENT').value;
+                name = `${name}.${member}`;
+            }
             // Function Call: Func(a, b)
             if (this.match('PUNCT', '(')) {
                 const args = [];
@@ -826,6 +850,14 @@ export class PseudoInterpreter {
             }
             case 'CALL_STMT': {
                 this.evalExpr(stmt.call, scope);
+                break;
+            }
+            case 'ASSERT': {
+                const cond = this.evalExpr(stmt.expr, scope);
+                if (!cond) {
+                    const msg = stmt.message ? `: ${stmt.message}` : '';
+                    throw new Error(`Assertion failed at line ${stmt.line}${msg}`);
+                }
                 break;
             }
         }
@@ -1197,6 +1229,13 @@ export class PseudoInterpreter {
                         const res = dyadicMachine.simplerOptions(evaluatedArgs[0]);
                         return [new Set(res.leftOptions), new Set(res.rightOptions)];
                     }
+                }
+                // SessionRegistry Dispatch: Directed Equations (DE) & Formal Statements (FS)
+                if (name.startsWith('DE.') || name.startsWith('de.') || name.startsWith('de_') || sessionRegistry.hasDE(name)) {
+                    return sessionRegistry.executeDE(name, ...evaluatedArgs);
+                }
+                if (name.startsWith('FS.') || name.startsWith('fs.') || name.startsWith('fs_') || sessionRegistry.hasPredicate(name)) {
+                    return sessionRegistry.evalPredicate(name, ...evaluatedArgs);
                 }
                 throw new Error(`Unknown function call: ${name}`);
             }
