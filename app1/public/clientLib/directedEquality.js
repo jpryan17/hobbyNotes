@@ -70,4 +70,18 @@ export function createDyadicResult(m, k, path, birthday) {
         domainBadge: "𝔻"
     };
 }
+/**
+ * Formats a LaurentDyad instance into a unified CalculationResult.
+ */
+export function createLaurentResult(laurent, notes) {
+    if (laurent && typeof laurent.toCalculationResult === "function") {
+        return laurent.toCalculationResult(notes);
+    }
+    return {
+        displayValue: String(laurent),
+        domainBadge: "𝔻_ω",
+        notes
+    };
+}
 export { SlotController } from "./slotController.js";
+export { LaurentDyad } from "./laurentDyad.js";

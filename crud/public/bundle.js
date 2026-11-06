@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-06T01:26:27.782Z",
+  "generatedAt": "2026-11-06T02:13:58.693Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -37999,6 +37999,10 @@ var SlotController = class extends Elt {
     if (this.incBtn) this.incBtn.disabled = disabled;
   }
 };
+
+// clientLib/laurentDyad.ts
+init_dyadicRationals();
+init_exputils();
 
 // clientLib/fsCalculator.ts
 function getFsCatalogStatement(scaffoldKeyOrTarget) {
@@ -42489,23 +42493,6 @@ var FSD = class extends PXEParent {
         rightGroup.appendChild(btnDelete);
       }
     } else {
-      const btnCopyRef = document.createElement("button");
-      btnCopyRef.style.cssText = "padding: 8px 14px; font-size: 12.5px; font-weight: 600; color: #0284c7; background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 6px; cursor: pointer;";
-      btnCopyRef.textContent = "Copy Ref Tag";
-      btnCopyRef.addEventListener("click", async () => {
-        const exp = this.pxe.exp;
-        const qStr = this.quantifierBindings.map((q) => `${q.quantifier}${q.variable}:${q.domainType}`).join(" ");
-        const slotsStr = this.slots.map((s) => s.assignedVar || "").join(",");
-        const refTag = `<fsd-ref exp="${exp}" quantifiers="${qStr}" slots="${slotsStr}" style="color:firebrick;font-weight:bold">${this.formatFSDExp(exp)}</fsd-ref>`;
-        try {
-          await navigator.clipboard.writeText(refTag);
-          btnCopyRef.textContent = "Copied Ref \u2713";
-          setTimeout(() => btnCopyRef.textContent = "Copy Ref Tag", 2e3);
-        } catch (err) {
-          console.error("Failed to copy reference tag:", err);
-        }
-      });
-      rightGroup.appendChild(btnCopyRef);
       if (this.stage < 4) {
         let btnText = "Bind Variables \u2192";
         let isEnabled = false;
@@ -42523,17 +42510,16 @@ var FSD = class extends PXEParent {
           isEnabled = uniqueVars.every((v) => this.quantifierBindings.some((q) => q.variable === v));
           btnText = "Evaluate Statement \u2192";
         }
-        const btnAdvance = document.createElement("button");
-        btnAdvance.style.cssText = `padding: 8px 20px; font-size: 13px; font-weight: 800; border-radius: 6px; border: 1.5px solid ${isEnabled ? "#0284c7" : "#cbd5e1"}; background: ${isEnabled ? "#0284c7" : "#f1f5f9"}; color: ${isEnabled ? "#ffffff" : "#94a3b8"}; cursor: ${isEnabled ? "pointer" : "not-allowed"}; transition: all 0.15s ease;`;
-        btnAdvance.textContent = btnText;
-        btnAdvance.disabled = !isEnabled;
-        btnAdvance.addEventListener("click", () => {
-          if (isEnabled) {
+        if (isEnabled) {
+          const btnAdvance = document.createElement("button");
+          btnAdvance.style.cssText = "padding: 8px 20px; font-size: 13px; font-weight: 800; border-radius: 6px; border: 1.5px solid #0284c7; background: #0284c7; color: #ffffff; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);";
+          btnAdvance.textContent = btnText;
+          btnAdvance.addEventListener("click", () => {
             this.advanceStage();
             this.syncModernUI();
-          }
-        });
-        rightGroup.appendChild(btnAdvance);
+          });
+          rightGroup.appendChild(btnAdvance);
+        }
       }
     }
     this.modernFooterBar.appendChild(rightGroup);

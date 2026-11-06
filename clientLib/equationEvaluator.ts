@@ -6,7 +6,10 @@ import {
   SlotParam,
   createHaloResult,
   createDyadicResult,
-  SlotController
+  createLaurentResult,
+  SlotController,
+  LaurentDyad,
+  LaurentTerm
 } from "./directedEquality.js";
 import { PseudoInterpreter } from "./pseudoInterpreter.js";
 import { toDual } from "./predicateRegistry.js";
@@ -18,7 +21,7 @@ export type EquationSpec = DirectedEqualitySpec & {
   funcName?: string;
   statementKey?: string;
 };
-export { DirectedEqualitySpec, CalculationResult, SlotParam, SlotController };
+export { DirectedEqualitySpec, CalculationResult, SlotParam, SlotController, LaurentDyad, LaurentTerm, createLaurentResult };
 
 export interface EquationEvaluatorOptions {
   initialStage?: 1 | 2 | 3 | 4;
@@ -63,6 +66,14 @@ export function executeDirectedEquality(
             `Machine Steps: ${interpreter.telemetry.stepCount}`
           ]
         };
+      }
+
+      if (targetDomain === "𝔻_ω" || targetDomain === "D_w") {
+        if (rawRes instanceof LaurentDyad || (rawRes && typeof rawRes.toCalculationResult === "function")) {
+          return rawRes.toCalculationResult();
+        }
+        const ld = LaurentDyad.fromNumber(typeof rawRes === "number" ? rawRes : Number(rawRes) || 0);
+        return ld.toCalculationResult();
       }
 
       const numRes = typeof rawRes === "number" ? rawRes : Number(rawRes) || 0;

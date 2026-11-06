@@ -1,7 +1,7 @@
 import { Elt } from "./elt.js";
-import { SlotController } from "./directedEquality.js";
+import { createLaurentResult, SlotController, LaurentDyad } from "./directedEquality.js";
 import { PseudoInterpreter } from "./pseudoInterpreter.js";
-export { SlotController };
+export { SlotController, LaurentDyad, createLaurentResult };
 /**
  * Executes a Directed Equality calculation strictly according to its operational pseudocode semantics.
  * Resolves the link between the equation evaluator and the pseudocode interpreter.
@@ -34,6 +34,13 @@ export function executeDirectedEquality(spec, vals) {
                         `Machine Steps: ${interpreter.telemetry.stepCount}`
                     ]
                 };
+            }
+            if (targetDomain === "𝔻_ω" || targetDomain === "D_w") {
+                if (rawRes instanceof LaurentDyad || (rawRes && typeof rawRes.toCalculationResult === "function")) {
+                    return rawRes.toCalculationResult();
+                }
+                const ld = LaurentDyad.fromNumber(typeof rawRes === "number" ? rawRes : Number(rawRes) || 0);
+                return ld.toCalculationResult();
             }
             const numRes = typeof rawRes === "number" ? rawRes : Number(rawRes) || 0;
             const formatted = Number.isInteger(numRes) ? numRes.toString() : numRes.toFixed(4);

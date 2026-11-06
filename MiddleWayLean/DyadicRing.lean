@@ -9,6 +9,7 @@
   4. Tree2 ≡ 𝔻: 2-Successor binary trees and the Core Dyadic Isomorphism.
   5. Tree4 ≡ 𝔻[i]: 4-Successor quadtrees and discrete 2D Gaussian dyadics.
   6. Executable Pseudocode Mirrors: SimplerOptions and the ConwayCut bisection walk.
+  7. D_w ≡ 𝔻[ω, 1/ω]: Nonstandard Laurent Dyadics, Reciprocal Law ω · (1/ω) = 1, and Nonstandard Shadow.
   
   Pure finite structural induction on ℕ, zero noncomputable sections, zero axiomatic assertions.
 -/
@@ -484,4 +485,131 @@ def conwayCut (leftBound rightBound : Dyad) (fuel : Nat := 32) : List Sign :=
 
 end Pseudocode
 
+-- ============================================================================
+-- 10. D_w ≡ 𝔻[ω, 1/ω]: The Nonstandard Dyadic Laurent Polynomial Ring
+-- ============================================================================
+
+namespace Nonstandard
+
+/-
+  The Nonstandard Dyadic Ring D_w is the ring of Laurent polynomials over 𝔻:
+    P(ω) = ∑ c_k · ω^k,   c_k ∈ 𝔻,  k ∈ ℤ
+  
+  Graded Structure:
+  - k > 0 : Transfinite overflow scale (powers of ω).
+  - k = 0 : Standard finite dyadic real part (shadow / st).
+  - k < 0 : Infinitesimal underflow halo dust (powers of dx = 1/ω).
+  
+  Core Algebraic Rule:
+    ω · (1/ω) = ω^1 · ω^(-1) = ω^0 = 1
+-/
+
+-- A monomial term: c · ω^exp
+structure LaurentTerm where
+  exp   : Int
+  coeff : Dyad
+deriving Repr, DecidableEq
+
+-- Laurent Dyadic Polynomial carrier
+abbrev LaurentDyad := List LaurentTerm
+
+namespace LaurentDyad
+
+-- Canonical elements
+def zero : LaurentDyad := []
+def one  : LaurentDyad := [⟨0, Dyad.one⟩]
+def omega : LaurentDyad := [⟨1, Dyad.one⟩]
+def dx   : LaurentDyad := [⟨-1, Dyad.one⟩]
+
+-- Coercion from base Dyad
+def fromDyad (d : Dyad) : LaurentDyad := [⟨0, d⟩]
+def monomial (exp : Int) (d : Dyad) : LaurentDyad := [⟨exp, d⟩]
+
+-- Coefficient extraction at power k
+def coeffAt (k : Int) : LaurentDyad → Dyad
+  | [] => Dyad.zero
+  | ⟨e, c⟩ :: rest =>
+    if e = k then Dyad.add c (coeffAt k rest)
+    else coeffAt k rest
+
+-- Standard part (Shadow projection to 𝔻 at k = 0)
+def st (p : LaurentDyad) : Dyad :=
+  coeffAt 0 p
+
+-- Infinitesimal halo (terms with power k < 0)
+def halo (p : LaurentDyad) : LaurentDyad :=
+  p.filter (fun t => t.exp < 0)
+
+-- Transfinite overflow part (terms with power k > 0)
+def transfinite (p : LaurentDyad) : LaurentDyad :=
+  p.filter (fun t => t.exp > 0)
+
+-- Predicates
+def isFinite (p : LaurentDyad) : Bool :=
+  p.all (fun t => t.exp ≤ 0)
+
+def isInfinitesimal (p : LaurentDyad) : Bool :=
+  p.all (fun t => t.exp < 0)
+
+def isStandard (p : LaurentDyad) : Bool :=
+  p.all (fun t => t.exp == 0)
+
+-- Ring Operations
+def neg (p : LaurentDyad) : LaurentDyad :=
+  p.map (fun t => ⟨t.exp, Dyad.neg t.coeff⟩)
+
+def add (p q : LaurentDyad) : LaurentDyad :=
+  p ++ q
+
+def sub (p q : LaurentDyad) : LaurentDyad :=
+  add p (neg q)
+
+def mulTerm (t : LaurentTerm) (p : LaurentDyad) : LaurentDyad :=
+  p.map (fun u => ⟨t.exp + u.exp, Dyad.mul t.coeff u.coeff⟩)
+
+def mul (p q : LaurentDyad) : LaurentDyad :=
+  p.foldl (fun acc t => acc ++ mulTerm t q) []
+
+def scale (d : Dyad) (p : LaurentDyad) : LaurentDyad :=
+  p.map (fun t => ⟨t.exp, Dyad.mul d t.coeff⟩)
+
+-- Inversion of pure monomial scales: (c · ω^k)⁻¹ = c⁻¹ · ω⁻ᵏ
+def invMonomial (t : LaurentTerm) (invCoeff : Dyad) : LaurentTerm :=
+  ⟨-t.exp, invCoeff⟩
+
+instance : Zero LaurentDyad where zero := zero
+instance : One LaurentDyad where one := one
+instance : Neg LaurentDyad where neg := neg
+instance : Add LaurentDyad where add := add
+instance : Sub LaurentDyad where sub := sub
+instance : Mul LaurentDyad where mul := mul
+
+-- Normalization (combining matching powers and sorting descending)
+def insertTerm (t : LaurentTerm) : LaurentDyad → LaurentDyad
+  | [] => [t]
+  | u :: rest =>
+    if t.exp = u.exp then
+      ⟨u.exp, Dyad.add u.coeff t.coeff⟩ :: rest
+    else if t.exp > u.exp then
+      t :: u :: rest
+    else
+      u :: insertTerm t rest
+
+def normalize (p : LaurentDyad) : LaurentDyad :=
+  p.foldl (fun acc t => insertTerm t acc) []
+
+-- Nonstandard derivative difference quotient:
+-- D(f) := st(ω · (f(x + dx) - f(x)))
+def derivativeQuotient (f_x f_x_plus_dx : LaurentDyad) : Dyad :=
+  st (mul omega (sub f_x_plus_dx f_x))
+
+-- Theorem: Core Law of Reciprocals (ω · dx has standard shadow = 1)
+theorem omega_mul_dx_st :
+    st (mul omega dx) ≈ Dyad.one := rfl
+
+end LaurentDyad
+
+end Nonstandard
+
 end MiddleWay
+

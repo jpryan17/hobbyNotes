@@ -12,7 +12,7 @@
  * - RHS: Codomain value (CalculationResult) in ℝ_ω, 𝔻, ℂ_ω, ℕ, ℤ, or 𝔹.
  */
 
-export type CalculationDomain = "ℝ_ω" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔻" | "𝔹" | string;
+export type CalculationDomain = "ℝ_ω" | "ℂ_ω" | "ℕ" | "ℤ" | "𝔻" | "𝔻_ω" | "𝔹" | string;
 
 /**
  * Option for discrete dropdown-style parameter slots.
@@ -69,6 +69,12 @@ export interface CalculationResult {
 
   /** True if dustPart is zero or purely standard */
   isHard?: boolean;
+
+  /** Transfinite overflow component: terms with powers of ω */
+  transfinitePart?: string;
+
+  /** Structured Laurent polynomial instance if codomain is 𝔻_ω */
+  laurentValue?: any;
 
   /** Conway tree path (e.g. "+-++") */
   dyadicPath?: string;
@@ -243,5 +249,23 @@ export function createDyadicResult(
   };
 }
 
+/**
+ * Formats a LaurentDyad instance into a unified CalculationResult.
+ */
+export function createLaurentResult(
+  laurent: any,
+  notes?: string
+): CalculationResult {
+  if (laurent && typeof laurent.toCalculationResult === "function") {
+    return laurent.toCalculationResult(notes);
+  }
+  return {
+    displayValue: String(laurent),
+    domainBadge: "𝔻_ω",
+    notes
+  };
+}
+
 export { SlotController, SlotControllerOptions } from "./slotController.js";
+export { LaurentDyad, LaurentTerm } from "./laurentDyad.js";
 
