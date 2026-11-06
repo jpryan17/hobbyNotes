@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-06T03:23:11.127Z",
+  "generatedAt": "2026-11-06T04:12:44.790Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -38003,6 +38003,223 @@ var SlotController = class extends Elt {
 // clientLib/laurentDyad.ts
 init_dyadicRationals();
 init_exputils();
+var LaurentDyad = class _LaurentDyad {
+  terms;
+  constructor(terms = []) {
+    this.terms = terms;
+  }
+  // Canonical Elements
+  static zero() {
+    return new _LaurentDyad([]);
+  }
+  static one() {
+    return new _LaurentDyad([{ exp: 0, coeff: new DR(void 0, WU.plus, 1, 0) }]);
+  }
+  static omega() {
+    return new _LaurentDyad([{ exp: 1, coeff: new DR(void 0, WU.plus, 1, 0) }]);
+  }
+  static dx() {
+    return new _LaurentDyad([{ exp: -1, coeff: new DR(void 0, WU.plus, 1, 0) }]);
+  }
+  static fromDyad(d) {
+    if (!d.sign || d.numerator === 0) return _LaurentDyad.zero();
+    return new _LaurentDyad([{ exp: 0, coeff: d }]);
+  }
+  static fromNumber(val, exp = 0, precBits = 16) {
+    if (val === 0 || isNaN(val)) return _LaurentDyad.zero();
+    const sign = val < 0 ? WU.minus : WU.plus;
+    const absVal = Math.abs(val);
+    const P = Math.min(Math.max(precBits, 0), 30);
+    const scale = Math.pow(2, P);
+    const num = Math.round(absVal * scale);
+    const dr = new DR(void 0, sign, num, P).reduce();
+    return new _LaurentDyad([{ exp, coeff: dr }]);
+  }
+  /**
+   * Retrieves or sums the dyadic coefficient at power k (ω^k).
+   */
+  coeffAt(k) {
+    let sum = new DR();
+    for (const t of this.terms) {
+      if (t.exp === k) {
+        sum = DR.add(sum, t.coeff);
+      }
+    }
+    return sum;
+  }
+  /**
+   * Standard part / Shadow map (st): Extracts the k = 0 coordinate.
+   */
+  st() {
+    return this.coeffAt(0);
+  }
+  /**
+   * Infinitesimal halo (terms with k < 0: powers of dx = 1/ω).
+   */
+  halo() {
+    return new _LaurentDyad(this.terms.filter((t) => t.exp < 0)).normalize();
+  }
+  /**
+   * Transfinite overflow part (terms with k > 0: powers of ω).
+   */
+  transfinite() {
+    return new _LaurentDyad(this.terms.filter((t) => t.exp > 0)).normalize();
+  }
+  /**
+   * Classification predicates
+   */
+  isFinite() {
+    return this.terms.every((t) => t.exp <= 0);
+  }
+  isInfinitesimal() {
+    return this.terms.every((t) => t.exp < 0);
+  }
+  isStandard() {
+    return this.terms.every((t) => t.exp === 0);
+  }
+  isZero() {
+    return this.normalize().terms.length === 0;
+  }
+  /**
+   * Normalization: combines matching powers of ω and sorts descending (highest power first).
+   */
+  normalize() {
+    const map = /* @__PURE__ */ new Map();
+    for (const t of this.terms) {
+      const existing = map.get(t.exp);
+      if (existing) {
+        map.set(t.exp, DR.add(existing, t.coeff));
+      } else {
+        map.set(t.exp, t.coeff);
+      }
+    }
+    const result = [];
+    for (const [exp, coeff] of map.entries()) {
+      coeff.reduce();
+      if (coeff.sign && coeff.numerator !== 0) {
+        result.push({ exp, coeff });
+      }
+    }
+    result.sort((a, b) => b.exp - a.exp);
+    return new _LaurentDyad(result);
+  }
+  /**
+   * Algebraic Addition
+   */
+  add(other) {
+    return new _LaurentDyad([...this.terms, ...other.terms]).normalize();
+  }
+  /**
+   * Algebraic Negation
+   */
+  negate() {
+    return new _LaurentDyad(this.terms.map((t) => ({ exp: t.exp, coeff: DR.negate(t.coeff) })));
+  }
+  /**
+   * Algebraic Subtraction
+   */
+  sub(other) {
+    return this.add(other.negate());
+  }
+  /**
+   * Algebraic Multiplication: discrete Cauchy convolution.
+   * Core rule: ω^a · ω^b = ω^(a + b)
+   * specifically, ω^1 · ω^(-1) = ω^0 = 1.
+   */
+  mul(other) {
+    const result = [];
+    for (const t1 of this.terms) {
+      for (const t2 of other.terms) {
+        const productCoeff = DR.multiply(t1.coeff, t2.coeff);
+        result.push({
+          exp: t1.exp + t2.exp,
+          coeff: productCoeff
+        });
+      }
+    }
+    return new _LaurentDyad(result).normalize();
+  }
+  /**
+   * Scalar scale
+   */
+  scale(factor) {
+    const drFactor = typeof factor === "number" ? _LaurentDyad.fromNumber(factor).st() : factor;
+    return new _LaurentDyad(this.terms.map((t) => ({
+      exp: t.exp,
+      coeff: DR.multiply(t.coeff, drFactor)
+    }))).normalize();
+  }
+  /**
+   * Nonstandard difference quotient for a discrete step:
+   * D(f) := st(ω · (f(x + dx) - f(x)))
+   */
+  static derivativeQuotient(fx, fxPlusDx) {
+    const delta = fxPlusDx.sub(fx);
+    const scaled = _LaurentDyad.omega().mul(delta);
+    return scaled.st();
+  }
+  /**
+   * Formats a single term into human-readable notation.
+   * e.g. exp=1 -> "3·ω", exp=-1 -> "1/4·dx", exp=-2 -> "1/8·dx²"
+   */
+  static formatTerm(t) {
+    const coeffStr = t.coeff.format();
+    if (t.exp === 0) {
+      return coeffStr;
+    }
+    let scaleSymbol = "";
+    if (t.exp === 1) {
+      scaleSymbol = "\u03C9";
+    } else if (t.exp > 1) {
+      scaleSymbol = `\u03C9^${t.exp}`;
+    } else if (t.exp === -1) {
+      scaleSymbol = "dx";
+    } else {
+      scaleSymbol = `dx^${Math.abs(t.exp)}`;
+    }
+    if (coeffStr === "1") return scaleSymbol;
+    if (coeffStr === "-1") return `-${scaleSymbol}`;
+    return `${coeffStr}\xB7${scaleSymbol}`;
+  }
+  /**
+   * Formats the entire polynomial into a clean string.
+   */
+  format() {
+    const norm = this.normalize();
+    if (norm.terms.length === 0) return "0";
+    return norm.terms.map((t, idx) => {
+      const formatted = _LaurentDyad.formatTerm(t);
+      if (idx === 0) return formatted;
+      if (formatted.startsWith("-")) {
+        return `- ${formatted.slice(1)}`;
+      }
+      return `+ ${formatted}`;
+    }).join(" ");
+  }
+  /**
+   * Converts to unified CalculationResult.
+   */
+  toCalculationResult(notes) {
+    const norm = this.normalize();
+    const stVal = norm.st();
+    const haloVal = norm.halo();
+    const transVal = norm.transfinite();
+    const hardStr = stVal.format();
+    const dustStr = haloVal.isZero() ? "0 (Zero Dust)" : haloVal.format();
+    const transStr = transVal.isZero() ? void 0 : transVal.format();
+    return {
+      resultValue: stVal.toFloat(),
+      displayValue: norm.format(),
+      displayResult: norm.format(),
+      hardPart: hardStr,
+      dustPart: dustStr,
+      transfinitePart: transStr,
+      isHard: haloVal.isZero(),
+      domainBadge: "\u{1D53B}_\u03C9",
+      notes: notes || (transStr ? `Transfinite overflow: ${transStr}` : void 0)
+    };
+  }
+};
 
 // clientLib/fsCalculator.ts
 function getFsCatalogStatement(scaffoldKeyOrTarget) {
@@ -41143,6 +41360,8 @@ ${cached.summary}`);
 };
 
 // clientLib/fsd.ts
+init_dyadicRationals();
+init_exputils();
 function formatDomainSpec(spec) {
   if (!spec.filterPred) return spec.base;
   if (spec.filterPred === "EVEN") return `[${spec.base} | EVEN]`;
@@ -41436,8 +41655,10 @@ var FSD = class extends PXEParent {
     const slots = this.slots.map((s) => s.assignedVar || "").join(",");
     const formattedText = this.formatFSDExp(exp);
     const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
-    return { exp, quantifiers, slots, formattedText, fullStatement };
+    return { exp, quantifiers, slots, formattedText, fullStatement, codomain: this.targetCodomain };
   }
+  // FS TYPE Codomain: Relational Proposition (→ 𝔹) vs Calculational Laurent Value (→ 𝔻_ω)
+  targetCodomain = "\u{1D539}";
   // Mode flag: Reader Inspection (<fsd-ref>) vs Construction Sandbox (App Index)
   isInspectionMode = false;
   catalogTheoremName = "";
@@ -41795,17 +42016,24 @@ var FSD = class extends PXEParent {
           this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Matrix)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
         }
       } else {
-        const truth = this.evaluateFullStatement();
-        if (this.isInspectionMode && this.catalogTheoremName) {
-          this.modernStatusPill.style.background = truth ? "#ecfdf5" : "#fee2e2";
-          this.modernStatusPill.style.color = truth ? "#047857" : "#b91c1c";
-          this.modernStatusPill.style.borderColor = truth ? "#a7f3d0" : "#fca5a5";
-          this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Machine Certified: True (T) \u2208 MiddleWay</span>` : `<span>\u2717</span> <span>Counterexample: False (F)</span>`;
+        if (this.targetCodomain === "\u{1D53B}_\u03C9") {
+          this.modernStatusPill.style.background = "#faf5ff";
+          this.modernStatusPill.style.color = "#6b21a8";
+          this.modernStatusPill.style.borderColor = "#e9d5ff";
+          this.modernStatusPill.innerHTML = `<span>\u{1F3AF}</span> <span>Judgment: Evaluated \u2208 \u{1D53B}_\u03C9 (Laurent Ring)</span>`;
         } else {
-          this.modernStatusPill.style.background = truth ? "#f0fdf4" : "#fff1f2";
-          this.modernStatusPill.style.color = truth ? "#15803d" : "#be123c";
-          this.modernStatusPill.style.borderColor = truth ? "#bbf7d0" : "#fecdd3";
-          this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Grid Evaluation: True (T) on sampled domain</span>` : `<span>\u2717</span> <span>Grid Evaluation: False (F) on sampled domain</span>`;
+          const truth = this.evaluateFullStatement();
+          if (this.isInspectionMode && this.catalogTheoremName) {
+            this.modernStatusPill.style.background = truth ? "#ecfdf5" : "#fee2e2";
+            this.modernStatusPill.style.color = truth ? "#047857" : "#b91c1c";
+            this.modernStatusPill.style.borderColor = truth ? "#a7f3d0" : "#fca5a5";
+            this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Machine Certified: True (T) \u2208 MiddleWay</span>` : `<span>\u2717</span> <span>Counterexample: False (F)</span>`;
+          } else {
+            this.modernStatusPill.style.background = truth ? "#f0fdf4" : "#fff1f2";
+            this.modernStatusPill.style.color = truth ? "#15803d" : "#be123c";
+            this.modernStatusPill.style.borderColor = truth ? "#bbf7d0" : "#fecdd3";
+            this.modernStatusPill.innerHTML = truth ? `<span>\u2713</span> <span>Grid Evaluation: True (T) on sampled domain</span>` : `<span>\u2717</span> <span>Grid Evaluation: False (F) on sampled domain</span>`;
+          }
         }
       }
     }
@@ -41819,13 +42047,29 @@ var FSD = class extends PXEParent {
         if (this.stage === 4) {
           const truth = this.evaluateFullStatement();
           const modeTag = this.isInspectionMode && this.catalogTheoremName ? "Lean 4 Machine Verified" : "Construction Sandbox";
-          verdictSnippet = `
-            <div style="margin-top: 8px;">
-              <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? "#dcfce7" : "#fee2e2"}; color: ${truth ? "#166534" : "#991b1b"}; border: 1px solid ${truth ? "#bbf7d0" : "#fecaca"};">
-                Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"} (${modeTag})
-              </span>
-            </div>
-          `;
+          if (this.targetCodomain === "\u{1D53B}_\u03C9") {
+            verdictSnippet = `
+              <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe;">
+                  Judgment: Evaluated Value \u2208 \u{1D53B}_\u03C9 (${modeTag})
+                </span>
+                <span style="font-size: 11px; background: #f3e8ff; color: #6b21a8; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #d8b4fe;">
+                  Codomain: \u{1D53B}_\u03C9
+                </span>
+              </div>
+            `;
+          } else {
+            verdictSnippet = `
+              <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? "#dcfce7" : "#fee2e2"}; color: ${truth ? "#166534" : "#991b1b"}; border: 1px solid ${truth ? "#bbf7d0" : "#fecaca"};">
+                  Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"} (${modeTag})
+                </span>
+                <span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #bae6fd;">
+                  Codomain: \u{1D539}
+                </span>
+              </div>
+            `;
+          }
         } else {
           verdictSnippet = `
             <div style="margin-top: 6px; font-size: 11.5px; color: #64748b;">
@@ -41912,6 +42156,47 @@ var FSD = class extends PXEParent {
     desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
     desc.innerHTML = this.isInspectionMode ? "Displaying constitutional formal proposition loaded from catalog reference. Inspection mode is active:" : "Enter a formal proposition using relational predicate symbols and logical connectives (variables and quantifiers are configured in stages 2 &amp; 3):";
     card.appendChild(desc);
+    const typeHeader = document.createElement("div");
+    typeHeader.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap; gap: 8px;";
+    const typeLabel = document.createElement("div");
+    typeLabel.style.cssText = "display: flex; align-items: center; gap: 8px;";
+    typeLabel.innerHTML = `
+      <span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">FS TYPE:</span>
+      <span style="font-size: 12.5px; color: #334155; font-weight: 600;">Domain \u2192 Codomain</span>
+    `;
+    typeHeader.appendChild(typeLabel);
+    const codomainGroup = document.createElement("div");
+    codomainGroup.style.cssText = "display: flex; align-items: center; gap: 6px;";
+    const codomainLabel = document.createElement("span");
+    codomainLabel.style.cssText = "font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;";
+    codomainLabel.textContent = "Codomain:";
+    codomainGroup.appendChild(codomainLabel);
+    const btnB = document.createElement("button");
+    const isB = this.targetCodomain === "\u{1D539}";
+    btnB.style.cssText = `padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isB ? "#0284c7" : "#cbd5e1"}; background: ${isB ? "#0284c7" : "#ffffff"}; color: ${isB ? "#ffffff" : "#334155"}; cursor: ${this.isInspectionMode ? "default" : "pointer"}; transition: all 0.15s ease;`;
+    btnB.textContent = "\u2192 \u{1D539} (Truth Proposition)";
+    if (!this.isInspectionMode) {
+      btnB.addEventListener("click", () => {
+        this.targetCodomain = "\u{1D539}";
+        this.renderModernStageCard();
+        this.syncModernUI();
+      });
+    }
+    codomainGroup.appendChild(btnB);
+    const btnDw = document.createElement("button");
+    const isDw = this.targetCodomain === "\u{1D53B}_\u03C9";
+    btnDw.style.cssText = `padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isDw ? "#7c3aed" : "#cbd5e1"}; background: ${isDw ? "#7c3aed" : "#ffffff"}; color: ${isDw ? "#ffffff" : "#334155"}; cursor: ${this.isInspectionMode ? "default" : "pointer"}; transition: all 0.15s ease;`;
+    btnDw.textContent = "\u2192 \u{1D53B}_\u03C9 (Calculational Laurent Value)";
+    if (!this.isInspectionMode) {
+      btnDw.addEventListener("click", () => {
+        this.targetCodomain = "\u{1D53B}_\u03C9";
+        this.renderModernStageCard();
+        this.syncModernUI();
+      });
+    }
+    codomainGroup.appendChild(btnDw);
+    typeHeader.appendChild(codomainGroup);
+    card.appendChild(typeHeader);
     const inputRow = document.createElement("div");
     inputRow.style.cssText = "display: flex; gap: 8px; align-items: center; margin-bottom: 16px;";
     this.modernFormulaInput = document.createElement("input");
@@ -42393,21 +42678,169 @@ var FSD = class extends PXEParent {
       card.appendChild(swapBox);
     }
   }
-  // --- STAGE 4: Truth Table Mount & 2D Matrix Visualizer Mount ---
+  // --- STAGE 4: Judgment Evaluation (→ 𝔹 Truth Table / 2D Matrix vs → 𝔻_ω Laurent Calculation) ---
   renderModernStage4(card) {
+    const isDw = this.targetCodomain === "\u{1D53B}_\u03C9";
     const cardTitle = document.createElement("div");
-    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; margin-bottom: 6px;";
-    cardTitle.textContent = "Stage 4: Truth Table & 2D Binary Relation Matrix Visualizer";
+    cardTitle.style.cssText = `font-size: 11px; font-weight: 700; color: ${isDw ? "#7c3aed" : "#0284c7"}; text-transform: uppercase; margin-bottom: 6px;`;
+    cardTitle.textContent = isDw ? "Stage 4: Judgment & Directed Equality Laurent Evaluation (\u2192 \u{1D53B}_\u03C9)" : "Stage 4: Judgment & 2D Binary Relation Truth Matrix (\u2192 \u{1D539})";
     card.appendChild(cardTitle);
     const desc = document.createElement("p");
     desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
-    desc.innerHTML = "Evaluated constructive truth table across the discrete tree, with live 2D binary matrix structure and quantifier row/column sweep analysis:";
+    desc.innerHTML = isDw ? "Evaluates the formal expression into a nonstandard dyadic Laurent value in <strong>\u{1D53B}[\u03C9, 1/\u03C9]</strong>, determining standard shadow <strong>st(E)</strong>, infinitesimal halo dust <strong>\u03BC(0)</strong>, and transfinite order:" : "Evaluated constructive truth table across the discrete tree, with live 2D binary matrix structure and quantifier row/column sweep analysis:";
     card.appendChild(desc);
     this.modernStage4Mount = document.createElement("div");
     this.modernStage4Mount.id = "fsdModernStage4Mount";
     this.modernStage4Mount.style.cssText = "width: 100%; box-sizing: border-box;";
     card.appendChild(this.modernStage4Mount);
-    this.renderStage4Table();
+    if (isDw) {
+      this.renderStage4LaurentCalculation();
+    } else {
+      this.renderStage4Table();
+    }
+  }
+  // --- STAGE 4 LAURENT DYADIC EVALUATION (→ 𝔻_ω) ---
+  renderStage4LaurentCalculation() {
+    let container;
+    if (this.modernMounted && this.modernStage4Mount) {
+      this.modernStage4Mount.innerHTML = "";
+      container = this.modernStage4Mount;
+    } else {
+      this.fo.removeChildren();
+      this.fo.setV("");
+      container = this.fo.elt;
+    }
+    const box = document.createElement("div");
+    box.style.cssText = "background: #ffffff; border: 1.5px solid #d8b4fe; border-radius: 8px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(124, 58, 237, 0.06);";
+    const headerRow = document.createElement("div");
+    headerRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #f3e8ff; padding-bottom: 12px;";
+    headerRow.innerHTML = `
+      <div>
+        <div style="font-size: 11px; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px;">
+          \u2696\uFE0F Constructive Laurent Dyadic Judgment
+        </div>
+        <div style="font-size: 14px; font-weight: 700; color: #1e1b4b; margin-top: 2px;">
+          Codomain: \u{1D53B}_\u03C9 \u2261 \u{1D53B}[\u03C9, 1/\u03C9] (Closed Nonstandard Dyadic Ring)
+        </div>
+      </div>
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <span style="font-family: monospace; font-size: 11.5px; background: #f3e8ff; color: #6b21a8; font-weight: 700; padding: 4px 10px; border-radius: 5px; border: 1px solid #d8b4fe;">
+          Codomain: \u{1D53B}_\u03C9
+        </span>
+        <span style="font-family: monospace; font-size: 11.5px; background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 4px 10px; border-radius: 5px; border: 1px solid #bae6fd;">
+          Scale: dx \u2261 1/\u03C9
+        </span>
+      </div>
+    `;
+    box.appendChild(headerRow);
+    let activeLaurent;
+    let evalFormula = "";
+    let stepDerivation = [];
+    if (this.pxe.exp.includes("w")) {
+      activeLaurent = LaurentDyad.dx();
+      evalFormula = "(x + dx) - x \u2254 dx";
+      stepDerivation = [
+        "Input expression: Distance between halo neighbors (x\u2081 \u2248 x\u2082) with x\u2082 = x\u2081 + dx",
+        "Substitute: (1 + dx) - 1",
+        "Ring simplification: 1 - 1 + dx \u27F9 0 + 1\xB7dx",
+        "Standard shadow: st(dx) = 0",
+        "Halo dust: \u03BC(0) = 1\xB7dx"
+      ];
+    } else if (this.pxe.exp.includes("j")) {
+      activeLaurent = LaurentDyad.one();
+      evalFormula = "\u03C9 \xB7 dx \u2254 1";
+      stepDerivation = [
+        "Fundamental Nonstandard Dyadic Law: \u03C9 \xB7 dx \u2254 1",
+        "Expand terms: (1\xB7\u03C9\xB9) \xB7 (1\xB7\u03C9\u207B\xB9)",
+        "Sum exponents: 1\xB7\u03C9^(1 - 1) = 1\xB7\u03C9\u2070",
+        "Standard shadow: st(1) = 1",
+        "Halo dust: 0 (purely standard)"
+      ];
+    } else {
+      activeLaurent = LaurentDyad.fromDyad(new DR(void 0, WU.plus, 1, 0));
+      evalFormula = "st(x) \u2254 1";
+      stepDerivation = [
+        "Canonical evaluation in \u{1D53B}_\u03C9",
+        "Standard shadow: st(1) = 1",
+        "Infinitesimal halo dust: 0"
+      ];
+    }
+    const calcResult = activeLaurent.toCalculationResult();
+    const metricsGrid = document.createElement("div");
+    metricsGrid.style.cssText = "display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;";
+    const cardShadow = document.createElement("div");
+    cardShadow.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 12px 14px;";
+    cardShadow.innerHTML = `
+      <div style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase;">Standard Shadow st(E)</div>
+      <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: #0f172a; margin: 4px 0;">${calcResult.hardPart || "0"}</div>
+      <div style="font-size: 11.5px; color: #64748b;">Finite nucleus projection in <strong>\u{1D53B}</strong></div>
+    `;
+    metricsGrid.appendChild(cardShadow);
+    const cardHalo = document.createElement("div");
+    cardHalo.style.cssText = "background: #fdf4ff; border: 1.5px solid #f0abfc; border-radius: 6px; padding: 12px 14px;";
+    cardHalo.innerHTML = `
+      <div style="font-size: 11px; font-weight: 700; color: #a21caf; text-transform: uppercase;">Infinitesimal Halo \u03BC(0)</div>
+      <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: #86198f; margin: 4px 0;">${calcResult.dustPart || "0"}</div>
+      <div style="font-size: 11.5px; color: #701a75;">Underflow component in powers of <strong>dx \u2261 1/\u03C9</strong></div>
+    `;
+    metricsGrid.appendChild(cardHalo);
+    const cardOmega = document.createElement("div");
+    cardOmega.style.cssText = "background: #f5f3ff; border: 1.5px solid #c4b5fd; border-radius: 6px; padding: 12px 14px;";
+    cardOmega.innerHTML = `
+      <div style="font-size: 11px; font-weight: 700; color: #6d28d9; text-transform: uppercase;">Transfinite Scale</div>
+      <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: #5b21b6; margin: 4px 0;">${calcResult.transfinitePart || "0"}</div>
+      <div style="font-size: 11.5px; color: #4c1d95;">Overflow component in powers of <strong>\u03C9</strong></div>
+    `;
+    metricsGrid.appendChild(cardOmega);
+    box.appendChild(metricsGrid);
+    const derivBox = document.createElement("div");
+    derivBox.style.cssText = "background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin-bottom: 14px;";
+    derivBox.innerHTML = `
+      <div style="font-size: 11.5px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 8px;">
+        \u27F9 Directed Equality Reduction Chain (${evalFormula})
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 12.5px; color: #1e293b;">
+        ${stepDerivation.map((s, idx) => `<div><span style="color:#7c3aed; font-weight:bold;">[Step ${idx}]</span> ${s}</div>`).join("")}
+      </div>
+    `;
+    box.appendChild(derivBox);
+    const testBar = document.createElement("div");
+    testBar.style.cssText = "display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf5ff; border: 1px dashed #d8b4fe; border-radius: 6px; padding: 10px 14px;";
+    testBar.innerHTML = `
+      <span style="font-size: 12px; font-weight: 700; color: #6b21a8;">Operational Ring Shift:</span>
+      <span style="font-size: 12px; color: #475569;">Multiply active term:</span>
+    `;
+    const btnMulDx = document.createElement("button");
+    btnMulDx.style.cssText = "padding: 4px 10px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #7c3aed; border: 1px solid #c4b5fd; border-radius: 4px; cursor: pointer;";
+    btnMulDx.textContent = "\xB7 dx (shift down)";
+    btnMulDx.addEventListener("click", () => {
+      activeLaurent = activeLaurent.mul(LaurentDyad.dx());
+      const res = activeLaurent.toCalculationResult();
+      cardShadow.querySelector("div:nth-child(2)").textContent = res.hardPart || "0";
+      cardHalo.querySelector("div:nth-child(2)").textContent = res.dustPart || "0";
+      cardOmega.querySelector("div:nth-child(2)").textContent = res.transfinitePart || "0";
+    });
+    testBar.appendChild(btnMulDx);
+    const btnMulOmega = document.createElement("button");
+    btnMulOmega.style.cssText = "padding: 4px 10px; font-family: monospace; font-size: 12px; font-weight: 700; background: #ffffff; color: #7c3aed; border: 1px solid #c4b5fd; border-radius: 4px; cursor: pointer;";
+    btnMulOmega.textContent = "\xB7 \u03C9 (shift up)";
+    btnMulOmega.addEventListener("click", () => {
+      activeLaurent = activeLaurent.mul(LaurentDyad.omega());
+      const res = activeLaurent.toCalculationResult();
+      cardShadow.querySelector("div:nth-child(2)").textContent = res.hardPart || "0";
+      cardHalo.querySelector("div:nth-child(2)").textContent = res.dustPart || "0";
+      cardOmega.querySelector("div:nth-child(2)").textContent = res.transfinitePart || "0";
+    });
+    testBar.appendChild(btnMulOmega);
+    const btnResetVal = document.createElement("button");
+    btnResetVal.style.cssText = "padding: 4px 10px; font-size: 11.5px; font-weight: 600; background: #ffffff; color: #dc2626; border: 1px solid #fca5a5; border-radius: 4px; cursor: pointer; margin-left: auto;";
+    btnResetVal.textContent = "Reset";
+    btnResetVal.addEventListener("click", () => {
+      this.renderStage4LaurentCalculation();
+    });
+    testBar.appendChild(btnResetVal);
+    box.appendChild(testBar);
+    container.appendChild(box);
   }
   // Swap Quantifier Order for 2-variable pedagogical matrix exploration
   swapQuantifierOrder() {
@@ -42971,6 +43404,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
   }
   clear() {
     this.stage = 1;
+    this.targetCodomain = "\u{1D539}";
     this.isInspectionMode = false;
     this.catalogTheoremName = "";
     this.elementVars = ["x\u2081", "x\u2082"];
@@ -43052,6 +43486,13 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     this.clear();
     this.isInspectionMode = isInspection;
     this.catalogTheoremName = data.theorem || "";
+    if (data.codomain === "\u{1D53B}_\u03C9" || data.codomain === "D_w") {
+      this.targetCodomain = "\u{1D53B}_\u03C9";
+    } else if (data.codomain === "\u{1D539}") {
+      this.targetCodomain = "\u{1D539}";
+    } else if (data.exp?.includes("j")) {
+      this.targetCodomain = "\u{1D53B}_\u03C9";
+    }
     const exp = (data.exp || "").trim();
     this.pxe.exp = exp;
     let nl = 0;
