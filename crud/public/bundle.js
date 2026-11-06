@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-06T04:12:44.790Z",
+  "generatedAt": "2026-11-06T04:34:48.750Z",
   "version": "2.0.0",
   "formalStatements": [
     {
