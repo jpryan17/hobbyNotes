@@ -11985,14 +11985,14 @@ var DEFAULT_DOMAINS_DATA = {
   constantSubsets: [
     {
       id: "GT5",
-      symbol: "GT5",
+      symbol: "[\u2115 | x > 5]",
       baseSet: "Tree1",
       description: "{x \u2208 \u2115 | x > 5}",
       evaluator: "(x) => x > 5"
     },
     {
       id: "LT10",
-      symbol: "LT10",
+      symbol: "[\u2115 | x < 10]",
       baseSet: "Tree1",
       description: "{x \u2208 \u2115 | x < 10}",
       evaluator: "(x) => x < 10"
@@ -12009,39 +12009,39 @@ var DEFAULT_DOMAINS_DATA = {
     {
       id: "GT5",
       code: "p",
-      symbol: "GT5",
+      symbol: "> 5",
       arity: 1,
       signature: ["Tree1"],
-      displayTemplate: "GT5(${s1})",
+      displayTemplate: "(${s1} > 5)",
       evaluator: "(s1) => s1 > 5",
       isSubsetConstant: true
     },
     {
       id: "LT10",
       code: "q",
-      symbol: "LT10",
+      symbol: "< 10",
       arity: 1,
       signature: ["Tree1"],
-      displayTemplate: "LT10(${s1})",
+      displayTemplate: "(${s1} < 10)",
       evaluator: "(s1) => s1 < 10",
       isSubsetConstant: true
     },
     {
       id: "GT",
       code: "r",
-      symbol: "GT",
+      symbol: ">",
       arity: 2,
       signature: ["Ord", "Ord"],
-      displayTemplate: "${s1} > ${s2}",
+      displayTemplate: "(${s1} > ${s2})",
       evaluator: "(s1, s2) => { const a = (typeof toDual !== 'undefined' ? toDual(s1) : { st: s1, eps: 0 }); const b = (typeof toDual !== 'undefined' ? toDual(s2) : { st: s2, eps: 0 }); return a.st !== b.st ? a.st > b.st : a.eps > b.eps; }"
     },
     {
       id: "LT",
       code: "s",
-      symbol: "LT",
+      symbol: "<",
       arity: 2,
       signature: ["Ord", "Ord"],
-      displayTemplate: "${s1} < ${s2}",
+      displayTemplate: "(${s1} < ${s2})",
       evaluator: "(s1, s2) => { const a = (typeof toDual !== 'undefined' ? toDual(s1) : { st: s1, eps: 0 }); const b = (typeof toDual !== 'undefined' ? toDual(s2) : { st: s2, eps: 0 }); return a.st !== b.st ? a.st < b.st : a.eps < b.eps; }",
       equationKey: "eq_pred_lt"
     },
@@ -36514,7 +36514,7 @@ var NumericVisualizer = class extends Elt {
 
 // clientLib/fsCatalog.ts
 var FS_CATALOG = {
-  "generatedAt": "2026-11-05T23:27:50.264Z",
+  "generatedAt": "2026-11-06T00:59:48.090Z",
   "version": "2.0.0",
   "formalStatements": [
     {
@@ -42522,7 +42522,12 @@ var FSD = class extends PXEParent {
   }
   // Generate Lean 4 Machine Certified Theorem Name
   getGoverningTheorem() {
+    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) return "fsd_order_union";
+    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) return "fsd_order_inter";
+    if (this.pxe.exp.includes("p")) return "fsd_gt5_witness";
+    if (this.pxe.exp.includes("q")) return "fsd_lt10_witness";
     if (this.pxe.exp.includes("s")) return "fsd_order_lt";
+    if (this.pxe.exp.includes("r")) return "fsd_order_gt";
     if (this.pxe.exp.includes("k")) return "fsd_eq_refl";
     if (this.pxe.exp.includes("l")) return "fsd_le_refl";
     if (this.pxe.exp.includes("u")) return "fsd_transect_succ";
@@ -42533,9 +42538,42 @@ var FSD = class extends PXEParent {
   }
   // Generate Lean 4 Certified Proof Snippet
   getLeanSnippet() {
+    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) {
+      return `-- Constructive Order Union Coverage on \u2115
+theorem fsd_order_union : \u2200 (x : Nat), x > 5 \u2228 x < 10 := by
+  intro x
+  cases Classical.em (x < 10) with
+  | inl hlt => exact Or.inr hlt
+  | inr hge => exact Or.inl (Nat.not_lt.mp hge)`;
+    }
+    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) {
+      return `-- Constructive Order Intersection on \u2115
+theorem fsd_order_inter : \u2203 (x : Nat), x > 5 \u2227 x < 10 := by
+  use 6
+  decide`;
+    }
+    if (this.pxe.exp.includes("p")) {
+      return `-- Constructive Order Bound (x > 5) on \u2115
+theorem fsd_gt5_witness : \u2203 (x : Nat), x > 5 := by
+  use 6
+  decide`;
+    }
+    if (this.pxe.exp.includes("q")) {
+      return `-- Constructive Order Bound (x < 10) on \u2115
+theorem fsd_lt10_witness : \u2203 (x : Nat), x < 10 := by
+  use 0
+  decide`;
+    }
     if (this.pxe.exp.includes("s")) {
       return `-- Machine Certified Constructive Order on \u2115 Spine
 theorem fsd_order_lt : \u2200 (x : Nat), \u2203 (y : Nat), x < y := by
+  intro x
+  use (x + 1)
+  apply Nat.lt_succ_self`;
+    }
+    if (this.pxe.exp.includes("r")) {
+      return `-- Machine Certified Constructive Order on \u2115 Spine
+theorem fsd_order_gt : \u2200 (x : Nat), \u2203 (y : Nat), y > x := by
   intro x
   use (x + 1)
   apply Nat.lt_succ_self`;
@@ -43059,9 +43097,9 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
         } else if (exp === "mam" || exp === "mom") {
           if (this.slots.length >= 4) {
             this.slots[0].assignedVar = "x\u2081";
-            this.slots[1].assignedVar = "GT5";
+            this.slots[1].assignedVar = "y\u2081";
             this.slots[2].assignedVar = "x\u2081";
-            this.slots[3].assignedVar = "LT10";
+            this.slots[3].assignedVar = "y\u2082";
           } else if (this.slots.length >= 2) {
             this.slots[0].assignedVar = "x\u2081";
             this.slots[1].assignedVar = "y\u2081";
@@ -43131,8 +43169,8 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     this.slots = [];
     this.elementVars = ["x\u2081", "x\u2082"];
     this.numberConstants = ["0", "1", "5", "10"];
-    this.setVars = ["y\u2081", "y\u2082", "\u2205", "GT5", "LT10"];
-    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205", "GT5", "LT10"];
+    this.setVars = ["y\u2081", "y\u2082", "\u2205"];
+    this.availableVars = ["x\u2081", "x\u2082", "y\u2081", "y\u2082", "0", "1", "5", "10", "\u2205"];
     this.selectedSlotIndex = 0;
     for (let i = 0; i < this.pxe.exp.length; i++) {
       const ch = this.pxe.exp[i];
@@ -43223,7 +43261,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
   applyQuantifier(qSymbol) {
     const uniqueVars = Array.from(
       new Set(
-        this.slots.map((s) => s.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")
+        this.slots.map((s) => s.assignedVar).filter((v) => v && !isConstantTerm(v))
       )
     );
     const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v)).sort((a, b) => {
@@ -43299,7 +43337,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
         return s.domainType === "\u{1D4AB}(\u2115)" ? "y" : "x";
       }
       if (this.stage === 3) {
-        const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")));
+        const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar).filter((v) => v && !isConstantTerm(v))));
         const unquantifiedVars = uniqueVars.filter(
           (v) => !this.quantifierBindings.some((q) => q.variable === v)
         );
@@ -43317,18 +43355,18 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
       const ch = exp[i];
       if (ch === "p") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `GT5(${v0})` : "GT5";
+        display += this.stage >= 2 ? `(${v0} > 5)` : "(x > 5)";
       } else if (ch === "q") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `LT10(${v0})` : "LT10";
+        display += this.stage >= 2 ? `(${v0} < 10)` : "(x < 10)";
       } else if (ch === "r") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `GT(${v0}, ${v1})` : "GT";
+        display += this.stage >= 2 ? `(${v0} > ${v1})` : ">";
       } else if (ch === "s") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `LT(${v0}, ${v1})` : "LT";
+        display += this.stage >= 2 ? `(${v0} < ${v1})` : "<";
       } else if (ch === "m") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
@@ -43512,7 +43550,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     const boundSlots = this.slots.filter((s) => s.predName === pred.symbol || s.predCode === pred.code).map((s) => s.assignedVar || (s.slotIndex === 0 ? "x\u2081" : "x\u2082"));
     if (pred.symbol === "\u2208") {
       const mSlot = this.slots.find((s) => s.predName === "\u2208" && s.slotIndex === 1);
-      if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10" || mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "\u2205")) {
+      if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10" || mSlot.assignedVar === "[\u2115 | x > 5]" || mSlot.assignedVar === "[\u2115 | x < 10]" || mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "\u2205")) {
         const xBinding2 = this.quantifierBindings.find((q) => q.variable.startsWith("x"));
         const xQuant2 = xBinding2 ? xBinding2.quantifier : "\u2203";
         const N2 = 16;
@@ -43667,10 +43705,10 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     const cols = [];
     for (let i = 0; i < exp.length; i++) {
       const ch = exp[i];
-      if (ch === "p") cols.push({ label: "GT5", val: predValues["p"] ?? true });
-      else if (ch === "q") cols.push({ label: "LT10", val: predValues["q"] ?? true });
-      else if (ch === "r") cols.push({ label: "GT", val: predValues["r"] ?? true });
-      else if (ch === "s") cols.push({ label: "LT", val: predValues["s"] ?? true });
+      if (ch === "p") cols.push({ label: "x\u2081 > 5", val: predValues["p"] ?? true });
+      else if (ch === "q") cols.push({ label: "x\u2081 < 10", val: predValues["q"] ?? true });
+      else if (ch === "r") cols.push({ label: ">", val: predValues["r"] ?? true });
+      else if (ch === "s") cols.push({ label: "<", val: predValues["s"] ?? true });
       else if (ch === "m") cols.push({ label: "\u2208", val: predValues["m"] ?? true });
       else if (ch === "v") cols.push({ label: "EVEN", val: predValues["v"] ?? true });
       else if (ch === "d") cols.push({ label: "ODD", val: predValues["d"] ?? true });

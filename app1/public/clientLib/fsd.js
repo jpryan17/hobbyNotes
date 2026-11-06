@@ -1437,8 +1437,18 @@ export class FSD extends PXEParent {
     }
     // Generate Lean 4 Machine Certified Theorem Name
     getGoverningTheorem() {
+        if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o"))
+            return "fsd_order_union";
+        if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a"))
+            return "fsd_order_inter";
+        if (this.pxe.exp.includes("p"))
+            return "fsd_gt5_witness";
+        if (this.pxe.exp.includes("q"))
+            return "fsd_lt10_witness";
         if (this.pxe.exp.includes("s"))
             return "fsd_order_lt";
+        if (this.pxe.exp.includes("r"))
+            return "fsd_order_gt";
         if (this.pxe.exp.includes("k"))
             return "fsd_eq_refl";
         if (this.pxe.exp.includes("l"))
@@ -1455,8 +1465,23 @@ export class FSD extends PXEParent {
     }
     // Generate Lean 4 Certified Proof Snippet
     getLeanSnippet() {
+        if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) {
+            return `-- Constructive Order Union Coverage on ℕ\ntheorem fsd_order_union : ∀ (x : Nat), x > 5 ∨ x < 10 := by\n  intro x\n  cases Classical.em (x < 10) with\n  | inl hlt => exact Or.inr hlt\n  | inr hge => exact Or.inl (Nat.not_lt.mp hge)`;
+        }
+        if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) {
+            return `-- Constructive Order Intersection on ℕ\ntheorem fsd_order_inter : ∃ (x : Nat), x > 5 ∧ x < 10 := by\n  use 6\n  decide`;
+        }
+        if (this.pxe.exp.includes("p")) {
+            return `-- Constructive Order Bound (x > 5) on ℕ\ntheorem fsd_gt5_witness : ∃ (x : Nat), x > 5 := by\n  use 6\n  decide`;
+        }
+        if (this.pxe.exp.includes("q")) {
+            return `-- Constructive Order Bound (x < 10) on ℕ\ntheorem fsd_lt10_witness : ∃ (x : Nat), x < 10 := by\n  use 0\n  decide`;
+        }
         if (this.pxe.exp.includes("s")) {
             return `-- Machine Certified Constructive Order on ℕ Spine\ntheorem fsd_order_lt : ∀ (x : Nat), ∃ (y : Nat), x < y := by\n  intro x\n  use (x + 1)\n  apply Nat.lt_succ_self`;
+        }
+        if (this.pxe.exp.includes("r")) {
+            return `-- Machine Certified Constructive Order on ℕ Spine\ntheorem fsd_order_gt : ∀ (x : Nat), ∃ (y : Nat), y > x := by\n  intro x\n  use (x + 1)\n  apply Nat.lt_succ_self`;
         }
         if (this.pxe.exp.includes("k")) {
             return `-- Constructive Reflexive Identity\ntheorem fsd_eq_refl : ∀ (x : Nat), x = x := by\n  intro x\n  rfl`;
@@ -1931,9 +1956,9 @@ export class FSD extends PXEParent {
                 else if (exp === "mam" || exp === "mom") {
                     if (this.slots.length >= 4) {
                         this.slots[0].assignedVar = "x₁";
-                        this.slots[1].assignedVar = "GT5";
+                        this.slots[1].assignedVar = "y₁";
                         this.slots[2].assignedVar = "x₁";
-                        this.slots[3].assignedVar = "LT10";
+                        this.slots[3].assignedVar = "y₂";
                     }
                     else if (this.slots.length >= 2) {
                         this.slots[0].assignedVar = "x₁";
@@ -2013,8 +2038,8 @@ export class FSD extends PXEParent {
         this.slots = [];
         this.elementVars = ["x₁", "x₂"];
         this.numberConstants = ["0", "1", "5", "10"];
-        this.setVars = ["y₁", "y₂", "∅", "GT5", "LT10"];
-        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "0", "1", "5", "10", "∅", "GT5", "LT10"];
+        this.setVars = ["y₁", "y₂", "∅"];
+        this.availableVars = ["x₁", "x₂", "y₁", "y₂", "0", "1", "5", "10", "∅"];
         this.selectedSlotIndex = 0;
         // Extract all predicate tokens from pxe.exp
         for (let i = 0; i < this.pxe.exp.length; i++) {
@@ -2109,7 +2134,7 @@ export class FSD extends PXEParent {
         // Only quantify variables (not constant subsets like GT5, LT10)
         const uniqueVars = Array.from(new Set(this.slots
             .map((s) => s.assignedVar)
-            .filter((v) => v && v !== "GT5" && v !== "LT10")));
+            .filter((v) => v && !isConstantTerm(v))));
         const unquantifiedVars = uniqueVars
             .filter((v) => !this.quantifierBindings.some((q) => q.variable === v))
             .sort((a, b) => {
@@ -2194,7 +2219,7 @@ export class FSD extends PXEParent {
                 return s.domainType === "𝒫(ℕ)" ? "y" : "x";
             }
             if (this.stage === 3) {
-                const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar).filter((v) => v && v !== "GT5" && v !== "LT10")));
+                const uniqueVars = Array.from(new Set(this.slots.map((st) => st.assignedVar).filter((v) => v && !isConstantTerm(v))));
                 const unquantifiedVars = uniqueVars.filter((v) => !this.quantifierBindings.some((q) => q.variable === v));
                 if (unquantifiedVars.length > 0) {
                     const activeTargetVar = unquantifiedVars[this.selectedQuantifierVarIndex % unquantifiedVars.length];
@@ -2210,21 +2235,21 @@ export class FSD extends PXEParent {
             const ch = exp[i];
             if (ch === "p") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-                display += this.stage >= 2 ? `GT5(${v0})` : "GT5";
+                display += this.stage >= 2 ? `(${v0} > 5)` : "(x > 5)";
             }
             else if (ch === "q") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-                display += this.stage >= 2 ? `LT10(${v0})` : "LT10";
+                display += this.stage >= 2 ? `(${v0} < 10)` : "(x < 10)";
             }
             else if (ch === "r") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-                display += this.stage >= 2 ? `GT(${v0}, ${v1})` : "GT";
+                display += this.stage >= 2 ? `(${v0} > ${v1})` : ">";
             }
             else if (ch === "s") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-                display += this.stage >= 2 ? `LT(${v0}, ${v1})` : "LT";
+                display += this.stage >= 2 ? `(${v0} < ${v1})` : "<";
             }
             else if (ch === "m") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
@@ -2445,7 +2470,7 @@ export class FSD extends PXEParent {
             .map((s) => s.assignedVar || (s.slotIndex === 0 ? "x₁" : "x₂"));
         if (pred.symbol === "∈") {
             const mSlot = this.slots.find((s) => s.predName === "∈" && s.slotIndex === 1);
-            if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10" || mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "∅")) {
+            if (mSlot && (mSlot.assignedVar === "GT5" || mSlot.assignedVar === "LT10" || mSlot.assignedVar === "[ℕ | x > 5]" || mSlot.assignedVar === "[ℕ | x < 10]" || mSlot.assignedVar === "EMPTY" || mSlot.assignedVar === "∅")) {
                 // Membership with constant subset
                 const xBinding = this.quantifierBindings.find((q) => q.variable.startsWith("x"));
                 const xQuant = xBinding ? xBinding.quantifier : "∃";
@@ -2632,13 +2657,13 @@ export class FSD extends PXEParent {
         for (let i = 0; i < exp.length; i++) {
             const ch = exp[i];
             if (ch === "p")
-                cols.push({ label: "GT5", val: predValues["p"] ?? true });
+                cols.push({ label: "x₁ > 5", val: predValues["p"] ?? true });
             else if (ch === "q")
-                cols.push({ label: "LT10", val: predValues["q"] ?? true });
+                cols.push({ label: "x₁ < 10", val: predValues["q"] ?? true });
             else if (ch === "r")
-                cols.push({ label: "GT", val: predValues["r"] ?? true });
+                cols.push({ label: ">", val: predValues["r"] ?? true });
             else if (ch === "s")
-                cols.push({ label: "LT", val: predValues["s"] ?? true });
+                cols.push({ label: "<", val: predValues["s"] ?? true });
             else if (ch === "m")
                 cols.push({ label: "∈", val: predValues["m"] ?? true });
             else if (ch === "v")

@@ -59,14 +59,14 @@ export const DEFAULT_DOMAINS_DATA = {
     constantSubsets: [
         {
             id: "GT5",
-            symbol: "GT5",
+            symbol: "[ℕ | x > 5]",
             baseSet: "Tree1",
             description: "{x ∈ ℕ | x > 5}",
             evaluator: "(x) => x > 5"
         },
         {
             id: "LT10",
-            symbol: "LT10",
+            symbol: "[ℕ | x < 10]",
             baseSet: "Tree1",
             description: "{x ∈ ℕ | x < 10}",
             evaluator: "(x) => x < 10"
@@ -83,39 +83,39 @@ export const DEFAULT_DOMAINS_DATA = {
         {
             id: "GT5",
             code: "p",
-            symbol: "GT5",
+            symbol: "> 5",
             arity: 1,
             signature: ["Tree1"],
-            displayTemplate: "GT5(${s1})",
+            displayTemplate: "(${s1} > 5)",
             evaluator: "(s1) => s1 > 5",
             isSubsetConstant: true
         },
         {
             id: "LT10",
             code: "q",
-            symbol: "LT10",
+            symbol: "< 10",
             arity: 1,
             signature: ["Tree1"],
-            displayTemplate: "LT10(${s1})",
+            displayTemplate: "(${s1} < 10)",
             evaluator: "(s1) => s1 < 10",
             isSubsetConstant: true
         },
         {
             id: "GT",
             code: "r",
-            symbol: "GT",
+            symbol: ">",
             arity: 2,
             signature: ["Ord", "Ord"],
-            displayTemplate: "${s1} > ${s2}",
+            displayTemplate: "(${s1} > ${s2})",
             evaluator: "(s1, s2) => { const a = (typeof toDual !== 'undefined' ? toDual(s1) : { st: s1, eps: 0 }); const b = (typeof toDual !== 'undefined' ? toDual(s2) : { st: s2, eps: 0 }); return a.st !== b.st ? a.st > b.st : a.eps > b.eps; }"
         },
         {
             id: "LT",
             code: "s",
-            symbol: "LT",
+            symbol: "<",
             arity: 2,
             signature: ["Ord", "Ord"],
-            displayTemplate: "${s1} < ${s2}",
+            displayTemplate: "(${s1} < ${s2})",
             evaluator: "(s1, s2) => { const a = (typeof toDual !== 'undefined' ? toDual(s1) : { st: s1, eps: 0 }); const b = (typeof toDual !== 'undefined' ? toDual(s2) : { st: s2, eps: 0 }); return a.st !== b.st ? a.st < b.st : a.eps < b.eps; }",
             equationKey: "eq_pred_lt"
         },

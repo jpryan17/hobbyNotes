@@ -67,6 +67,16 @@ function normalizeToFSDExp(str) {
         slotsList.push(normV1, normV2);
         return 's';
     })
+        .replace(/\(?\s*([a-z0-9_]+)\s*>\s*5\s*\)?/gi, (_, v1) => {
+        const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+        slotsList.push(normV1);
+        return 'p';
+    })
+        .replace(/\(?\s*([a-z0-9_]+)\s*<\s*10\s*\)?/gi, (_, v1) => {
+        const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
+        slotsList.push(normV1);
+        return 'q';
+    })
         .replace(/GT5\s*\(\s*([a-z0-9_]+)\s*\)/gi, (_, v1) => {
         const normV1 = v1.replace(/x1|x_1/g, 'x₁').replace(/x2|x_2/g, 'x₂');
         slotsList.push(normV1);
