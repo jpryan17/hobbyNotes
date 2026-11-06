@@ -351,6 +351,19 @@
           "saved": "✓ Saved — Successfully written to PostgreSQL segments table."
         }
       },
+      "btn_export_html": {
+        "selector": "#editor-btn-export-html",
+        "action": "click",
+        "behavior": "Exports and downloads the active segment content as a standalone HTML file named '<slug>.html' without mutating the database.",
+        "output_semantics": "Triggers browser file download containing current cleaned HTML payload."
+      },
+      "btn_import_html": {
+        "selector": "#editor-btn-import-html",
+        "action": "click",
+        "file_input_selector": "#editor-file-import-html",
+        "behavior": "Prompts file picker for local .html/.htm file, requests user overwrite confirmation if editor is dirty, sets content into WYSIWYG/Source panes, and marks buffer as Modified (pending save to DB).",
+        "output_semantics": "Loads external HTML into editor buffer and flags state as modified."
+      },
       "btn_toggle_mode": {
         "selector": "#editor-btn-toggle-mode",
         "action": "click",
@@ -395,6 +408,8 @@
   },
   "output_semantics": {
     "toast_saved_content_html": "Confirms PostgreSQL has updated the content_html text column for the active segment row.",
+    "toast_dumped_html": "Confirms segment content was exported to local file download.",
+    "toast_imported_html": "Confirms external HTML file was successfully loaded into the editor buffer.",
     "toast_prep_complete": "Confirms database dump completed to db/backups/latest.sql and all 54 segments were recompiled into app1/dist/index.html.",
     "toast_deployed": "Confirms git commit created and pushed to origin master; remote server has received changes for middlewaymath.app.",
     "toast_deleted_restricted": "Confirms entity record deleted after verifying zero referencing dependents exist.",

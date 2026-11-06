@@ -45526,6 +45526,17 @@ async function renderSegmentContentSurface(options) {
                     </button>
                     <div id="editor-save-status-pill" class="status-pill" style="${isReadMode ? "display: none;" : "display: inline-flex;"}">\u2713 Ready</div>
 
+                    <!-- Dump to HTML / Export Button (Visible in Both Modes) -->
+                    <button id="editor-btn-export-html" class="btn btn-secondary" style="font-weight: 600;" title="Export and download this segment as a standalone HTML file">
+                        \u{1F4E4} Dump HTML
+                    </button>
+
+                    <!-- Upload from HTML / Import Button (Visible in Edit Mode) -->
+                    <button id="editor-btn-import-html" class="btn btn-secondary" style="${isReadMode ? "display: none;" : "display: inline-flex;"} font-weight: 600;" title="Upload an HTML file from your disk to replace the editor content">
+                        \u{1F4E5} Upload HTML
+                    </button>
+                    <input type="file" id="editor-file-import-html" accept=".html,.htm" style="display: none;" />
+
                     <!-- Mode Toggle Button -->
                     <button id="editor-btn-toggle-mode" class="btn ${isReadMode ? "btn-primary" : "btn-secondary"}" title="Toggle between Read mode and Edit mode">
                         ${isReadMode ? "\u270F\uFE0F Switch to Edit Mode" : "\u{1F441}\uFE0F Switch to Read Mode"}
@@ -46753,6 +46764,7 @@ async function renderSegmentContentSurface(options) {
     const unicodePalette = container.querySelector("#editor-unicode-palette");
     const toggleBtn = container.querySelector("#editor-btn-toggle-mode");
     const saveDbBtn = container.querySelector("#editor-btn-save-db");
+    const importHtmlBtn = container.querySelector("#editor-btn-import-html");
     const customDropdown = container.querySelector("#dropdown-custom-elems");
     const spellBtn = container.querySelector("#editor-tb-spell");
     const viewPills = container.querySelector(".view-pills");
@@ -46764,6 +46776,7 @@ async function renderSegmentContentSurface(options) {
       if (unicodePalette) unicodePalette.style.display = "none";
       if (saveDbBtn) saveDbBtn.style.display = "none";
       if (saveStatusPill) saveStatusPill.style.display = "none";
+      if (importHtmlBtn) importHtmlBtn.style.display = "none";
       if (customDropdown) customDropdown.style.display = "none";
       if (spellBtn) spellBtn.style.display = "none";
       if (viewPills) viewPills.style.display = "none";
@@ -46783,6 +46796,7 @@ async function renderSegmentContentSurface(options) {
       if (unicodePalette) unicodePalette.style.display = "flex";
       if (saveDbBtn) saveDbBtn.style.display = "inline-flex";
       if (saveStatusPill) saveStatusPill.style.display = "inline-flex";
+      if (importHtmlBtn) importHtmlBtn.style.display = "inline-flex";
       if (customDropdown) customDropdown.style.display = "inline-flex";
       if (spellBtn) spellBtn.style.display = "inline-flex";
       if (viewPills) viewPills.style.display = "inline-flex";
@@ -46957,6 +46971,54 @@ async function renderSegmentContentSurface(options) {
     if (activeMode === "split") {
       wysiwygPane.innerHTML = sourceTextarea.value;
     }
+  });
+  const exportBtn = container.querySelector("#editor-btn-export-html");
+  const importBtn = container.querySelector("#editor-btn-import-html");
+  const fileImportInput = container.querySelector("#editor-file-import-html");
+  exportBtn?.addEventListener("click", () => {
+    syncContent(activeMode, activeMode);
+    const finalContentHtml = activeMode === "source" ? sourceTextarea.value.trim() : cleanHtml(wysiwygPane.innerHTML);
+    const filename = `${segSlug || "segment"}.html`;
+    const blob = new Blob([finalContentHtml], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`\u{1F4E4} Dumped segment to ${filename}`);
+  });
+  importBtn?.addEventListener("click", () => {
+    fileImportInput?.click();
+  });
+  fileImportInput?.addEventListener("change", () => {
+    const file = fileImportInput.files?.[0];
+    if (!file) return;
+    if (isDirty) {
+      if (!confirm(`Importing "${file.name}" will overwrite unsaved changes in this segment buffer. Continue?`)) {
+        fileImportInput.value = "";
+        return;
+      }
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const rawImported = e.target?.result || "";
+      const cleaned = cleanHtml(rawImported);
+      wysiwygPane.innerHTML = cleaned;
+      sourceTextarea.value = cleaned;
+      typesetMath();
+      decorateCustomElements(wysiwygPane);
+      setDirty(true);
+      showToast(`\u{1F4E5} Imported "${file.name}" into editor buffer`);
+      fileImportInput.value = "";
+    };
+    reader.onerror = (err) => {
+      alert("Failed to read file: " + err);
+      fileImportInput.value = "";
+    };
+    reader.readAsText(file);
   });
   function saveEditorSelection() {
     if (activeMode === "source" || activeMode === "split" && document.activeElement === sourceTextarea) {
