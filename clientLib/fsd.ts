@@ -635,26 +635,16 @@ export class FSD extends PXEParent {
     wrap.appendChild(stepperBar);
 
     // =========================================================================
-    // SUB-DISPLAYS: Constitutional Predicate, Lean 4 Certification, Tree Invariant
+    // SUB-DISPLAYS: Constitutional Predicate (Shown in Stage 2/3/4; hidden in Stage 1)
     // =========================================================================
 
     // 1. Constitutional Predicate Box
     this.modernPredicateBox = document.createElement("div");
-    this.modernPredicateBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; text-align: center; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04);";
+    this.modernPredicateBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: center; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04); display: none;";
     wrap.appendChild(this.modernPredicateBox);
 
-    // 2. Lean 4 Machine Certification Card
-    this.modernLeanBox = document.createElement("div");
-    this.modernLeanBox.style.cssText = "background: #f1f5f9; border-left: 4px solid #0284c7; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px;";
-    wrap.appendChild(this.modernLeanBox);
-
-    // 3. General Tree Invariant Card
-    this.modernInvariantBox = document.createElement("div");
-    this.modernInvariantBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 6px; padding: 12px 16px; margin-bottom: 18px;";
-    wrap.appendChild(this.modernInvariantBox);
-
     // =========================================================================
-    // ACTIVE STAGE CARD CONTAINER
+    // ACTIVE STAGE CARD CONTAINER (Constructor - Primary Focus!)
     // =========================================================================
     this.modernStageCard = document.createElement("div");
     this.modernStageCard.id = "fsdModernStageCard";
@@ -662,10 +652,29 @@ export class FSD extends PXEParent {
     wrap.appendChild(this.modernStageCard);
 
     // =========================================================================
-    // COLLAPSIBLE INSPECTOR: Nonstandard Stencils & Lean 4 Signatures
+    // FOOTER ACTIONS BAR
     // =========================================================================
+    this.modernFooterBar = document.createElement("div");
+    this.modernFooterBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-top: 2px solid #e2e8f0; padding-top: 16px; flex-wrap: wrap; gap: 10px; margin-bottom: 18px;";
+    wrap.appendChild(this.modernFooterBar);
+
+    // =========================================================================
+    // VERIFICATION SUB-DISPLAYS: Lean 4 Certification, Tree Invariant, Inspector (Stage 4 only!)
+    // =========================================================================
+
+    // 2. Lean 4 Machine Certification Card
+    this.modernLeanBox = document.createElement("div");
+    this.modernLeanBox.style.cssText = "background: #f1f5f9; border-left: 4px solid #0284c7; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; display: none;";
+    wrap.appendChild(this.modernLeanBox);
+
+    // 3. General Tree Invariant Card
+    this.modernInvariantBox = document.createElement("div");
+    this.modernInvariantBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 6px; padding: 12px 16px; margin-bottom: 18px; display: none;";
+    wrap.appendChild(this.modernInvariantBox);
+
+    // 4. Collapsible Inspector
     this.modernInspectorDetails = document.createElement("details");
-    this.modernInspectorDetails.style.cssText = "margin-bottom: 20px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; padding: 10px 14px; transition: all 0.2s ease;";
+    this.modernInspectorDetails.style.cssText = "margin-bottom: 20px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; padding: 10px 14px; transition: all 0.2s ease; display: none;";
     this.modernInspectorDetails.innerHTML = `
       <summary style="font-size: 12.5px; font-weight: 700; color: #475569; cursor: pointer; user-select: none; display: flex; align-items: center; gap: 6px;">
         <span>🔍 Inspect Nonstandard Calculation Stencils &amp; Lean 4 Formal Signatures</span>
@@ -683,13 +692,6 @@ export class FSD extends PXEParent {
       </div>
     `;
     wrap.appendChild(this.modernInspectorDetails);
-
-    // =========================================================================
-    // FOOTER ACTIONS BAR
-    // =========================================================================
-    this.modernFooterBar = document.createElement("div");
-    this.modernFooterBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-top: 2px solid #e2e8f0; padding-top: 16px; flex-wrap: wrap; gap: 10px;";
-    wrap.appendChild(this.modernFooterBar);
 
     // Mount to foreignObject DOM
     this.fo.elt.innerHTML = "";
@@ -759,62 +761,83 @@ export class FSD extends PXEParent {
 
     // 3. Update Constitutional Predicate Box
     if (this.modernPredicateBox) {
-      const formatted = this.formatFSDExp(this.pxe.exp) || "—";
-      let verdictSnippet = "";
+      if (this.stage === 1) {
+        // In Stage 1, formula input is inside the constructor card - hide redundant banner
+        this.modernPredicateBox.style.display = "none";
+      } else {
+        this.modernPredicateBox.style.display = "block";
+        const formatted = this.formatFSDExp(this.pxe.exp) || "—";
+        let verdictSnippet = "";
+        if (this.stage === 4) {
+          const truth = this.evaluateFullStatement();
+          verdictSnippet = `
+            <div style="margin-top: 8px;">
+              <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? '#dcfce7' : '#fee2e2'}; color: ${truth ? '#166534' : '#991b1b'}; border: 1px solid ${truth ? '#bbf7d0' : '#fecaca'};">
+                Statement Verdict: ${truth ? "True (T) ∈ 𝔹" : "False (F) ∈ 𝔹"}
+              </span>
+            </div>
+          `;
+        } else {
+          verdictSnippet = `
+            <div style="margin-top: 6px; font-size: 11.5px; color: #64748b;">
+              Stage ${this.stage}: ${this.stage === 2 ? "Configuring Slot Types & Domains" : "Binding Quantifiers"}
+            </div>
+          `;
+        }
+
+        this.modernPredicateBox.innerHTML = `
+          <div style="font-size: 11px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">
+            Constitutional Formal Statement Predicate
+          </div>
+          <div style="font-family: monospace; font-size: 18px; font-weight: bold; color: #0369a1; word-break: break-all;">
+            ${formatted}
+          </div>
+          ${verdictSnippet}
+        `;
+      }
+    }
+
+    // 4. Update Lean 4 Machine Certification Box (Only relevant in Stage 4)
+    if (this.modernLeanBox) {
       if (this.stage === 4) {
-        const truth = this.evaluateFullStatement();
-        verdictSnippet = `
-          <div style="margin-top: 8px;">
-            <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? '#dcfce7' : '#fee2e2'}; color: ${truth ? '#166534' : '#991b1b'}; border: 1px solid ${truth ? '#bbf7d0' : '#fecaca'};">
-              Statement Verdict: ${truth ? "True (T) ∈ 𝔹" : "False (F) ∈ 𝔹"}
+        this.modernLeanBox.style.display = "block";
+        const theoremName = this.getGoverningTheorem();
+        const snippet = this.getLeanSnippet();
+        this.modernLeanBox.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+            <span style="font-weight: 700; color: #0369a1;">Lean 4 Machine Certification:</span>
+            <span style="font-family: monospace; font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700;">
+              MiddleWay.${theoremName}
             </span>
+          </div>
+          <pre style="margin: 0; font-family: monospace; color: #0f172a; white-space: pre-wrap; font-size: 11.5px; line-height: 1.45; background: #ffffff; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">${snippet}</pre>
+        `;
+      } else {
+        this.modernLeanBox.style.display = "none";
+      }
+    }
+
+    // 5. Update General Tree Invariant Box (Only relevant in Stage 4)
+    if (this.modernInvariantBox) {
+      if (this.stage === 4) {
+        this.modernInvariantBox.style.display = "block";
+        const expDisp = this.formatFSDExp(this.pxe.exp) || "relation";
+        this.modernInvariantBox.innerHTML = `
+          <div style="font-size: 11.5px; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">
+            📜 General Tree Invariant
+          </div>
+          <div style="font-size: 12.5px; color: #1e3a2b; line-height: 1.5;">
+            The relational proposition <code>${expDisp}</code> is verified constructively on the discrete 1-successor spine <strong>ℕ</strong> and power set <strong>𝒫(ℕ)</strong> using constructive step verification without non-constructive axioms.
           </div>
         `;
       } else {
-        verdictSnippet = `
-          <div style="margin-top: 6px; font-size: 11.5px; color: #64748b;">
-            Stage ${this.stage}: ${this.stage === 1 ? "Authoring Relational Predicate" : (this.stage === 2 ? "Configuring Slot Types & Domains" : "Binding Quantifiers")}
-          </div>
-        `;
+        this.modernInvariantBox.style.display = "none";
       }
-
-      this.modernPredicateBox.innerHTML = `
-        <div style="font-size: 11px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">
-          Constitutional Formal Statement Predicate
-        </div>
-        <div style="font-family: monospace; font-size: 18px; font-weight: bold; color: #0369a1; word-break: break-all;">
-          ${this.stage >= 3 && this.quantifierBindings.length > 0 ? "" : ""}${formatted}
-        </div>
-        ${verdictSnippet}
-      `;
     }
 
-    // 4. Update Lean 4 Machine Certification Box
-    if (this.modernLeanBox) {
-      const theoremName = this.getGoverningTheorem();
-      const snippet = this.getLeanSnippet();
-      this.modernLeanBox.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #0369a1;">Lean 4 Machine Certification:</span>
-          <span style="font-family: monospace; font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700;">
-            MiddleWay.${theoremName}
-          </span>
-        </div>
-        <pre style="margin: 0; font-family: monospace; color: #0f172a; white-space: pre-wrap; font-size: 11.5px; line-height: 1.45; background: #ffffff; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">${snippet}</pre>
-      `;
-    }
-
-    // 5. Update General Tree Invariant Box
-    if (this.modernInvariantBox) {
-      const expDisp = this.formatFSDExp(this.pxe.exp) || "relation";
-      this.modernInvariantBox.innerHTML = `
-        <div style="font-size: 11.5px; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">
-          📜 General Tree Invariant
-        </div>
-        <div style="font-size: 12.5px; color: #1e3a2b; line-height: 1.5;">
-          The relational proposition <code>${expDisp}</code> is verified constructively on the discrete 1-successor spine <strong>ℕ</strong> and power set <strong>𝒫(ℕ)</strong> using constructive step verification without non-constructive axioms.
-        </div>
-      `;
+    // 6. Nonstandard Stencils Inspector (Only relevant in Stage 4)
+    if (this.modernInspectorDetails) {
+      this.modernInspectorDetails.style.display = this.stage === 4 ? "block" : "none";
     }
 
     // 6. Render Active Stage Card
