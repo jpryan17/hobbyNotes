@@ -1,8 +1,7 @@
 // crud/src/menuTree.ts
-// Hierarchical Navigation Tree specification for Middle Way Mathematics CRUD Studio.
-// Organizes curriculum index entries, lecture segments, computational stencils, formal statements,
-// pseudocode algorithms, interactive demo initializations, and Lean formal declarations,
-// with first-class Subject Domain tagging & filtering.
+// Two-Index Navigation Architecture for Middle Way Mathematics CRUD Studio.
+// 1. Curriculum Index: The Course Outline & Lecture Segments Hierarchy
+// 2. Custom Element Instruments: Reusable Catalogs of FSD, Presets, BTD, and BID
 
 export interface MenuItem {
     label: string;
@@ -27,11 +26,11 @@ export function inferSubject(text?: string, key?: string, category?: string): st
 }
 
 export const navigationMenuTree: MenuItem[] = [
-    // -------------------------------------------------------------------------
-    // 1. Curriculum Outline Index Entries (The Course Tree Hierarchy)
-    // -------------------------------------------------------------------------
+    // =========================================================================
+    // INDEX 1: CURRICULUM ARCHITECTURE (Course Tree & Lecture Segments)
+    // =========================================================================
     {
-        label: 'Index Entries',
+        label: 'Curriculum Index',
         icon: '🌲',
         typeKey: 'curriculum_nav_item',
         children: [
@@ -216,194 +215,120 @@ export const navigationMenuTree: MenuItem[] = [
                     { label: 'Minimal Axiomatic Core for General Science', typeKey: 'curriculum_nav_item', instanceKey: 'minimalAxiomaticCoreProposal', subject: 'all' }
                 ]
             },
-            { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' }
-        ]
-    },
-
-    // -------------------------------------------------------------------------
-    // 2. Lecture Segments (The Core Modular Chapters)
-    // -------------------------------------------------------------------------
-    {
-        label: 'Lecture Segments',
-        icon: '📖',
-        typeKey: 'segments',
-        children: [
+            { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' },
             { label: 'Browse All Lecture Segments', typeKey: 'segments', subject: 'all' }
         ]
     },
 
-    // -------------------------------------------------------------------------
-    // 3. Computational Stencils (Directed Equations, Slots & Presets)
-    // -------------------------------------------------------------------------
+    // =========================================================================
+    // INDEX 2: CUSTOM ELEMENT INSTRUMENTS (Reusable Component Catalog)
+    // =========================================================================
     {
-        label: 'Computational Stencils',
-        icon: '📐',
-        typeKey: 'directed_equations',
+        label: 'Custom Element Instruments',
+        icon: '🔬',
+        typeKey: 'custom_elements',
         children: [
+            // -----------------------------------------------------------------
+            // Sub-Index 1: Formal Statements & Scaffolds (FSD)
+            // -----------------------------------------------------------------
             {
-                label: 'Equations & Stencils',
-                typeKey: 'directed_equations',
+                label: 'Formal Statements & Scaffolds (FSD)',
+                icon: '📜',
+                typeKey: 'formal_statement',
+                children: [
+                    {
+                        label: 'Axioms',
+                        typeKey: 'axiom',
+                        filterKind: { column: 'statement_kind', value: 'axiom' },
+                        children: [
+                            { label: 'Browse All Axioms', typeKey: 'axiom', subject: 'all' }
+                        ]
+                    },
+                    {
+                        label: 'Theorems',
+                        typeKey: 'theorem',
+                        filterKind: { column: 'statement_kind', value: 'theorem' },
+                        children: [
+                            { label: 'Browse All Theorems', typeKey: 'theorem', subject: 'all' }
+                        ]
+                    },
+                    {
+                        label: 'Directed Equalities (when DE)',
+                        typeKey: 'directed_equality',
+                        filterKind: { column: 'statement_kind', value: 'directed_equality' },
+                        children: [
+                            {
+                                label: 'Computational Stencils (Equations)',
+                                typeKey: 'directed_equations',
+                                subject: 'all',
+                                children: [
+                                    { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
+                                ]
+                            },
+                            { label: 'Browse Mode Slots', typeKey: 'mode_slots', subject: 'all' },
+                            { label: 'Browse Stencil Presets', typeKey: 'stencil_presets', subject: 'all' },
+                            { label: 'Browse Pseudocode Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' },
+                            { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
+                        ]
+                    },
+                    { label: 'Browse All Formal Statements', typeKey: 'formal_statement', subject: 'all' },
+                    { label: 'Browse Registered FSD Scaffolds', typeKey: 'fsd', subject: 'all' }
+                ]
+            },
+
+            // -----------------------------------------------------------------
+            // Sub-Index 2: Stencil Input Default Presets (Preset)
+            // -----------------------------------------------------------------
+            {
+                label: 'Stencil Input Default Presets (Preset)',
+                icon: '🎛️',
+                typeKey: 'stencil_presets',
                 subject: 'all',
                 children: [
-                    { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
+                    { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
                 ]
             },
-            { label: 'Browse All Calculation Mode Slots', typeKey: 'mode_slots', subject: 'all' },
-            { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
-        ]
-    },
 
-    // -------------------------------------------------------------------------
-    // 4. Formal Axiomatic Statements (Axioms, Theorems, Directed Equalities)
-    // -------------------------------------------------------------------------
-    {
-        label: 'Formal Statements',
-        icon: '🏛️',
-        typeKey: 'formal_statement',
-        children: [
+            // -----------------------------------------------------------------
+            // Sub-Index 3: Conway Binary Tree Instruments (BTD)
+            // -----------------------------------------------------------------
             {
-                label: 'Axioms',
-                typeKey: 'axiom',
-                filterKind: { column: 'statement_kind', value: 'axiom' },
-                children: [
-                    { label: 'Browse All Axioms', typeKey: 'axiom', subject: 'all' }
-                ]
-            },
-            {
-                label: 'Theorems',
-                typeKey: 'theorem',
-                filterKind: { column: 'statement_kind', value: 'theorem' },
-                children: [
-                    { label: 'Browse All Theorems', typeKey: 'theorem', subject: 'all' }
-                ]
-            },
-            {
-                label: 'Directed Equalities',
-                typeKey: 'directed_equality',
-                filterKind: { column: 'statement_kind', value: 'directed_equality' },
-                children: [
-                    { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
-                ]
-            },
-            { label: 'Browse All Formal Statements', typeKey: 'formal_statement', subject: 'all' }
-        ]
-    },
-
-    // -------------------------------------------------------------------------
-    // 5. Pseudocode Algorithms (Operations, Primitives & Procedures)
-    // -------------------------------------------------------------------------
-    {
-        label: 'Pseudocode Algorithms',
-        icon: '💻',
-        typeKey: 'pseudocode_algorithms',
-        children: [
-            { label: 'Browse All Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' }
-        ]
-    },
-
-    // -------------------------------------------------------------------------
-    // 6. Demo Initializations (Interactive Sandbox Demos & Presets)
-    // -------------------------------------------------------------------------
-    {
-        label: 'Demo Initializations',
-        icon: '🎛️',
-        typeKey: 'demo_initializations',
-        children: [
-            {
-                label: 'Truth Table Demo (TTD)',
-                typeKey: 'ttd',
-                subject: 'logic',
-                children: [
-                    { label: 'Browse All TTD Initializations', typeKey: 'ttd', subject: 'logic' }
-                ]
-            },
-            {
-                label: 'Binary Tree Demo (BTD)',
+                label: 'Binary Tree Instruments (BTD)',
+                icon: '🌲',
                 typeKey: 'btd',
                 subject: 'numbers_trees',
                 children: [
-                    { label: 'Browse All BTD Initializations', typeKey: 'btd', subject: 'numbers_trees' }
+                    { label: 'Browse All BTD Instruments', typeKey: 'btd', subject: 'numbers_trees' }
                 ]
             },
+
+            // -----------------------------------------------------------------
+            // Sub-Index 4: Binary Interval Instruments (BID)
+            // -----------------------------------------------------------------
             {
-                label: 'Binary Interval Demo (BID)',
+                label: 'Binary Interval Instruments (BID)',
+                icon: '🔢',
                 typeKey: 'bid',
                 subject: 'analysis',
                 children: [
-                    { label: 'Browse All BID Initializations', typeKey: 'bid', subject: 'analysis' }
+                    { label: 'Browse All BID Instruments', typeKey: 'bid', subject: 'analysis' }
                 ]
             },
-            {
-                label: 'Formal Statements Demo (FSD)',
-                typeKey: 'fsd',
-                subject: 'all',
-                children: [
-                    { label: 'Browse All FSD Initializations', typeKey: 'fsd', subject: 'all' }
-                ]
-            },
-            { label: 'Browse All Demo Initializations', typeKey: 'interactive_demos', subject: 'all' }
-        ]
-    },
 
-    // -------------------------------------------------------------------------
-    // 7. Lean 4 Formal Declarations & Verifications
-    // -------------------------------------------------------------------------
-    {
-        label: 'Lean Declarations',
-        icon: '📜',
-        typeKey: 'lean_declarations',
-        children: [
+            // -----------------------------------------------------------------
+            // Sub-Index 5: Proposition Truth Tables (TTD)
+            // -----------------------------------------------------------------
             {
-                label: 'Inductive Types',
-                typeKey: 'lean_declarations',
-                subject: 'all',
-                filterKind: { column: 'kind', value: 'inductive' },
+                label: 'Proposition Truth Tables (TTD)',
+                icon: '⚖️',
+                typeKey: 'ttd',
+                subject: 'logic',
                 children: [
-                    { label: 'Browse Inductive Types', typeKey: 'lean_declarations', subject: 'all' }
+                    { label: 'Browse All TTD Propositions', typeKey: 'ttd', subject: 'logic' }
                 ]
             },
-            {
-                label: 'Definitions',
-                typeKey: 'lean_declarations',
-                subject: 'all',
-                filterKind: { column: 'kind', value: 'def' },
-                children: [
-                    { label: 'Browse Definitions', typeKey: 'lean_declarations', subject: 'all' }
-                ]
-            },
-            {
-                label: 'Theorems',
-                typeKey: 'lean_declarations',
-                subject: 'all',
-                filterKind: { column: 'kind', value: 'theorem' },
-                children: [
-                    { label: 'Browse Theorems', typeKey: 'lean_declarations', subject: 'all' }
-                ]
-            },
-            {
-                label: 'Structures',
-                typeKey: 'lean_declarations',
-                subject: 'all',
-                filterKind: { column: 'kind', value: 'structure' },
-                children: [
-                    { label: 'Browse Structures', typeKey: 'lean_declarations', subject: 'all' }
-                ]
-            },
-            { label: 'Browse All Lean Declarations', typeKey: 'lean_declarations', subject: 'all' },
-            { label: 'Browse Lean Kernel Verifications', typeKey: 'lean_verifications', subject: 'all' }
-        ]
-    },
 
-    // -------------------------------------------------------------------------
-    // 8. Mathematical & Physical Domains
-    // -------------------------------------------------------------------------
-    {
-        label: 'Domains & Curricula',
-        icon: '🌐',
-        typeKey: 'domains',
-        children: [
-            { label: 'Browse All Domains', typeKey: 'domains', subject: 'all' },
-            { label: 'Browse Curriculum Applications', typeKey: 'apps', subject: 'all' }
+            { label: 'Browse All Registered Custom Elements', typeKey: 'custom_elements', subject: 'all' }
         ]
     }
 ];
@@ -434,7 +359,7 @@ export function getFilteredMenuTree(subject: string = 'all', mode: string = 'rea
         // If an item has children:
         if (item.children && item.children.length > 0) {
             // In Create mode, if this item represents a concrete creatable entity type:
-            if (isCreate && item.typeKey && item.typeKey !== 'demo_initializations' && item.typeKey !== 'formal_statement') {
+            if (isCreate && item.typeKey && item.typeKey !== 'custom_elements' && item.typeKey !== 'formal_statement') {
                 return {
                     ...item,
                     children: []
@@ -512,7 +437,7 @@ export function renderMenuHierarchy(items: MenuItem[]): string {
 export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, params?: any[]) => Promise<T[]>): Promise<void> {
     try {
         // ---------------------------------------------------------------------
-        // 1. Sync Curriculum Outline Index Entries (curriculum_nav_items + segments)
+        // 1. Sync Index 1: Curriculum Outline (curriculum_nav_items + segments)
         // ---------------------------------------------------------------------
         const navRows = await queryFn<any>(`
             SELECT c.id, c.nav_key, c.parent_id, c.sequence_order, c.item_type, c.topic, c.nav_topic, c.segment_id,
@@ -523,7 +448,7 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
         `);
 
         if (navRows && navRows.length > 0) {
-            const navIndexNode = navigationMenuTree.find((n) => n.typeKey === 'curriculum_nav_item');
+            const navIndexNode = navigationMenuTree.find((n) => n.typeKey === 'curriculum_nav_item' || n.label === 'Curriculum Index');
             if (navIndexNode) {
                 const byParent = new Map<string, any[]>();
                 for (const r of navRows) {
@@ -538,7 +463,6 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
                         const subChildren = buildNavChildren(String(c.id));
                         const subj = inferSubject(c.topic, c.seg_key || c.nav_key);
                         const hasSubs = subChildren.length > 0;
-
                         const label = c.topic || c.nav_topic || `Item #${c.id}`;
 
                         const node: MenuItem = {
@@ -560,65 +484,24 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
 
                 navIndexNode.children = [
                     ...buildNavChildren('root').filter((n) => n.label !== 'title'),
-                    { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' }
-                ];
-            }
-        }
-
-        // ---------------------------------------------------------------------
-        // 2. Sync Lecture Segments (segments)
-        // ---------------------------------------------------------------------
-        const segRows = await queryFn<any>(`
-            SELECT id, seg_key, title, sequence_order, slug FROM segments ORDER BY sequence_order ASC, id ASC;
-        `);
-        if (segRows && segRows.length > 0) {
-            const segNode = navigationMenuTree.find((n) => n.typeKey === 'segments');
-            if (segNode) {
-                segNode.children = [
-                    ...segRows.map((s) => ({
-                        label: s.title ? `${s.sequence_order}. ${s.title}` : (s.slug || s.seg_key || `Segment #${s.id}`),
-                        typeKey: 'segments',
-                        instanceId: Number(s.id),
-                        instanceKey: s.seg_key || s.slug,
-                        subject: inferSubject(s.title, s.seg_key)
-                    })),
+                    { label: 'Browse All Index Entries', typeKey: 'curriculum_nav_item', subject: 'all' },
                     { label: 'Browse All Lecture Segments', typeKey: 'segments', subject: 'all' }
                 ];
             }
         }
 
         // ---------------------------------------------------------------------
-        // 3. Sync Computational Stencils (directed_equations)
+        // 2. Sync Index 2: Custom Element Instruments
         // ---------------------------------------------------------------------
-        const eqRows = await queryFn<any>(`SELECT id, equation_key, title, label FROM directed_equations ORDER BY id ASC;`);
-        if (eqRows && eqRows.length > 0) {
-            const stencilsNode = navigationMenuTree.find((n) => n.typeKey === 'directed_equations');
-            if (stencilsNode && stencilsNode.children) {
-                const subEquationNode = stencilsNode.children.find((c) => c.typeKey === 'directed_equations');
-                if (subEquationNode) {
-                    subEquationNode.children = [
-                        ...eqRows.map((e) => ({
-                            label: e.title ? `${e.equation_key} — ${e.title}` : e.equation_key,
-                            typeKey: 'directed_equations',
-                            instanceId: Number(e.id),
-                            instanceKey: e.equation_key,
-                            subject: inferSubject(e.title, e.equation_key)
-                        })),
-                        { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
-                    ];
-                }
-            }
-        }
+        const customElementsNode = navigationMenuTree.find((n) => n.typeKey === 'custom_elements');
+        if (customElementsNode && customElementsNode.children) {
 
-        // ---------------------------------------------------------------------
-        // 4. Sync Formal Statements (formal_statements)
-        // ---------------------------------------------------------------------
-        const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
-        if (stmts && stmts.length > 0) {
-            const fsNode = navigationMenuTree.find((n) => n.typeKey === 'formal_statement');
-            if (fsNode && fsNode.children) {
+            // 2a. Sync Formal Statements (FSD)
+            const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
+            const fsTopNode = customElementsNode.children.find((c) => c.typeKey === 'formal_statement');
+            if (stmts && stmts.length > 0 && fsTopNode && fsTopNode.children) {
                 for (const kind of ['axiom', 'theorem', 'directed_equality']) {
-                    const kindNode = fsNode.children.find((c) => c.typeKey === kind);
+                    const kindNode = fsTopNode.children.find((c) => c.typeKey === kind);
                     if (kindNode) {
                         const kindStmts = stmts.filter((s) => s.statement_kind === kind);
                         kindStmts.sort((a, b) => (a.statement_key || '').localeCompare(b.statement_key || ''));
@@ -643,120 +526,44 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
                     }
                 }
             }
-        }
 
-        // ---------------------------------------------------------------------
-        // 5. Sync Pseudocode Algorithms (pseudocode_algorithms)
-        // ---------------------------------------------------------------------
-        const algoRows = await queryFn<any>('SELECT id, algo_key, name, category, algo_kind FROM pseudocode_algorithms ORDER BY algo_key ASC;');
-        if (algoRows && algoRows.length > 0) {
-            const algoNode = navigationMenuTree.find((n) => n.typeKey === 'pseudocode_algorithms');
-            if (algoNode) {
-                const algoCategories = Array.from(new Set(algoRows.map((a) => a.category || 'general')));
-                algoNode.children = [
-                    ...algoCategories.map((cat) => {
-                        const inCat = algoRows.filter((a) => (a.category || 'general') === cat);
-                        return {
-                            label: cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' '),
-                            typeKey: 'pseudocode_algorithms',
-                            subject: inferSubject(cat),
-                            children: [
-                                ...inCat.map((a) => ({
-                                    label: a.name ? `${a.algo_key} — ${a.name}` : a.algo_key,
-                                    typeKey: 'pseudocode_algorithms',
-                                    instanceId: Number(a.id),
-                                    instanceKey: a.algo_key,
-                                    subject: inferSubject(a.name, a.algo_key, a.category)
-                                })),
-                                { label: `Browse All ${cat} Algorithms`, typeKey: 'pseudocode_algorithms', subject: inferSubject(cat) }
-                            ]
-                        };
-                    }),
-                    { label: 'Browse All Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' }
-                ];
-            }
-        }
-
-        // ---------------------------------------------------------------------
-        // 6. Sync Interactive Demos (interactive_demos)
-        // ---------------------------------------------------------------------
-        const demos = await queryFn<any>('SELECT id, engine, mode, title FROM interactive_demos ORDER BY id ASC;');
-        if (demos && demos.length > 0) {
-            const demoInitializationsNode = navigationMenuTree.find((n) => n.typeKey === 'demo_initializations');
-            if (demoInitializationsNode && demoInitializationsNode.children) {
-                const engineSubjectMap: Record<string, string> = {
-                    ttd: 'logic',
-                    btd: 'numbers_trees',
-                    bid: 'analysis',
-                    fsd: 'all'
-                };
-                for (const engine of ['ttd', 'btd', 'bid', 'fsd']) {
-                    const engineNode = demoInitializationsNode.children.find((c) => c.typeKey === engine);
-                    if (engineNode) {
-                        const engineDemos = demos.filter((d) => d.engine === engine);
-                        const subj = engineSubjectMap[engine] || 'all';
-                        engineNode.children = [
-                            ...engineDemos.map((d) => ({
-                                label: d.title || `Demo #${d.id}`,
-                                typeKey: engine,
-                                instanceId: Number(d.id),
-                                subject: subj
-                            })),
-                            {
-                                label: `Browse All ${engine.toUpperCase()} Initializations`,
-                                typeKey: engine,
-                                subject: subj
-                            }
-                        ];
-                    }
-                }
-            }
-        }
-
-        // ---------------------------------------------------------------------
-        // 7. Sync Lean Declarations (lean_declarations)
-        // ---------------------------------------------------------------------
-        const declRows = await queryFn<any>('SELECT id, name, kind, decl_key FROM lean_declarations ORDER BY name ASC;');
-        if (declRows && declRows.length > 0) {
-            const leanNode = navigationMenuTree.find((n) => n.typeKey === 'lean_declarations');
-            if (leanNode && leanNode.children) {
-                for (const k of ['inductive', 'def', 'theorem', 'structure']) {
-                    const kNode = leanNode.children.find((c) => c.filterKind?.value === k);
-                    if (kNode) {
-                        const inKind = declRows.filter((d) => d.kind === k);
-                        kNode.children = [
-                            ...inKind.slice(0, 30).map((d) => ({
-                                label: d.name,
-                                typeKey: 'lean_declarations',
-                                instanceId: Number(d.id),
-                                instanceKey: d.decl_key || d.name,
-                                subject: 'all'
-                            })),
-                            { label: `Browse All ${k.charAt(0).toUpperCase() + k.slice(1)} Declarations (${inKind.length})`, typeKey: 'lean_declarations', subject: 'all' }
-                        ];
-                    }
-                }
-            }
-        }
-
-        // ---------------------------------------------------------------------
-        // 8. Sync Domains (domains)
-        // ---------------------------------------------------------------------
-        const domainRows = await queryFn<any>('SELECT id, domain_key, name, symbol FROM domains ORDER BY domain_key ASC;');
-        if (domainRows && domainRows.length > 0) {
-            const domainNode = navigationMenuTree.find((n) => n.typeKey === 'domains');
-            if (domainNode) {
-                domainNode.children = [
-                    ...domainRows.map((d) => ({
-                        label: `${d.symbol ? `[${d.symbol}] ` : ''}${d.name || d.domain_key}`,
-                        typeKey: 'domains',
-                        instanceId: Number(d.id),
-                        instanceKey: d.domain_key,
-                        subject: inferSubject(d.name, d.domain_key)
+            // 2b. Sync Stencil Presets
+            const presetRows = await queryFn<any>('SELECT id, preset_key, title, equation_id FROM stencil_presets ORDER BY id ASC;');
+            const presetNode = customElementsNode.children.find((c) => c.typeKey === 'stencil_presets');
+            if (presetRows && presetRows.length > 0 && presetNode) {
+                presetNode.children = [
+                    ...presetRows.map((p) => ({
+                        label: p.title || p.preset_key || `Preset #${p.id}`,
+                        typeKey: 'stencil_presets',
+                        instanceId: Number(p.id),
+                        instanceKey: p.preset_key,
+                        subject: inferSubject(p.title, p.preset_key)
                     })),
-                    { label: 'Browse All Domains', typeKey: 'domains', subject: 'all' },
-                    { label: 'Browse Curriculum Applications', typeKey: 'apps', subject: 'all' }
+                    { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
                 ];
+            }
+
+            // 2c. Sync Custom Elements (BTD, BID, TTD, FSD)
+            const demoRows = await queryFn<any>('SELECT id, engine, mode, title FROM custom_elements ORDER BY id ASC;');
+            if (demoRows && demoRows.length > 0) {
+                for (const eng of ['btd', 'bid', 'ttd', 'fsd']) {
+                    let targetNode = customElementsNode.children.find((c) => c.typeKey === eng);
+                    if (!targetNode && eng === 'fsd' && fsTopNode && fsTopNode.children) {
+                        targetNode = fsTopNode.children.find((c) => c.typeKey === 'fsd');
+                    }
+                    if (targetNode) {
+                        const inEng = demoRows.filter((d) => d.engine === eng);
+                        targetNode.children = [
+                            ...inEng.map((d) => ({
+                                label: d.title || `${eng.toUpperCase()} #${d.id}`,
+                                typeKey: eng,
+                                instanceId: Number(d.id),
+                                subject: eng === 'ttd' ? 'logic' : (eng === 'btd' ? 'numbers_trees' : (eng === 'bid' ? 'analysis' : 'all'))
+                            })),
+                            { label: `Browse All ${eng.toUpperCase()} Instruments`, typeKey: eng, subject: 'all' }
+                        ];
+                    }
+                }
             }
         }
 

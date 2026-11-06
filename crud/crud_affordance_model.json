@@ -42,12 +42,12 @@
           "display_col": "topic",
           "delete_policy": "cascading_verified"
         },
-        "interactive_demos": {
-          "table": "interactive_demos",
-          "label": "Interactive Demos & Truth Tables",
+        "custom_elements": {
+          "table": "custom_elements",
+          "label": "Custom Element Instruments",
           "primary_key": "id",
           "display_col": "title",
-          "engine_filter": ["ttd", "standalone"],
+          "engine_filter": ["fsd", "preset", "btd", "bid", "ttd"],
           "delete_policy": "restricted_guard"
         },
         "formal_statements": {

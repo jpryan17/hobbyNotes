@@ -197,15 +197,33 @@ export const tables: TableConfig[] = [
         ]
     },
     {
-        table: 'interactive_demos',
-        label: 'Interactive Sandbox Demos',
-        singularLabel: 'Interactive Demo',
+        table: 'custom_elements',
+        label: 'Custom Element Instruments',
+        singularLabel: 'Custom Element',
         columns: [
-            { column: 'title', label: 'Demo Title', canModify: true, len: 45 },
-            { column: 'engine', label: 'Engine Type', canModify: false, len: 16 },
-            { column: 'mode', label: 'Canvas / Operational Mode', canModify: false, len: 24 },
+            { column: 'title', label: 'Instrument Title', canModify: true, len: 45 },
+            { column: 'engine', label: 'Engine Type (fsd | preset | btd | bid | ttd)', canModify: true, len: 16 },
+            { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
+            { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
+            { column: 'preset_id', label: 'Linked Stencil Preset', canModify: true, len: 24 },
             { column: 'expression', label: 'Proposition Formula / Expression', canModify: true, len: 45 },
-            { column: 'status', label: 'Logical Status', canModify: true, len: 16, options: ['taut', 'cont', 'unsat'] },
+            { column: 'status', label: 'Status', canModify: true, len: 16 },
+            { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
+            { column: 'description', label: 'Instructional Description', canModify: true, len: 60, rows: 3 }
+        ]
+    },
+    {
+        table: 'interactive_demos',
+        label: 'Custom Element Instruments',
+        singularLabel: 'Custom Element',
+        columns: [
+            { column: 'title', label: 'Instrument Title', canModify: true, len: 45 },
+            { column: 'engine', label: 'Engine Type (fsd | preset | btd | bid | ttd)', canModify: true, len: 16 },
+            { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
+            { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
+            { column: 'preset_id', label: 'Linked Stencil Preset', canModify: true, len: 24 },
+            { column: 'expression', label: 'Proposition Formula / Expression', canModify: true, len: 45 },
+            { column: 'status', label: 'Status', canModify: true, len: 16 },
             { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
             { column: 'description', label: 'Instructional Description', canModify: true, len: 60, rows: 3 }
         ]
@@ -220,14 +238,11 @@ export const tables: TableConfig[] = [
         singularLabel: 'Segment Reference',
         columns: [
             { column: 'segment_id', label: 'Source Segment Chapter', canModify: false, len: 24 },
-            { column: 'ref_type', label: 'Reference Tag Type (fs/stencil/ttd/demo/algo)', canModify: true, len: 18 },
-            { column: 'target_key', label: 'Target Referenced Key', canModify: true, len: 32 },
-            { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
-            { column: 'equation_id', label: 'Linked Stencil Equation', canModify: true, len: 24 },
-            { column: 'demo_id', label: 'Linked Interactive Demo / TTD', canModify: true, len: 24 },
-            { column: 'algo_id', label: 'Linked Pseudocode Algorithm', canModify: true, len: 24 },
+            { column: 'ref_type', label: 'Reference Tag Type (fsd | preset | btd | bid)', canModify: true, len: 18 },
+            { column: 'custom_element_id', label: 'Instantiated Custom Element', canModify: true, len: 24 },
             { column: 'anchor_text', label: 'Embedded Anchor Text', canModify: true, len: 36 },
-            { column: 'occurrence_order', label: 'Occurrence Order (#)', canModify: true, len: 8 }
+            { column: 'occurrence_order', label: 'Occurrence Order (#)', canModify: true, len: 8 },
+            { column: 'raw_tag', label: 'Raw HTML Tag Preview', canModify: false, len: 50 }
         ]
     },
     {

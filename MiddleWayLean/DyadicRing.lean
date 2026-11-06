@@ -1,7 +1,7 @@
 /-
   MiddleWay.DyadicRing: Constructive Proof of the Dyadic Ring (𝔻, +, ·)
   and Unified Computational Discrete Foundations
-  
+
   Level 1 Constructive Grounding:
   1. Tree1 ≡ ℕ: The unary counting spine, clock ticks, and well-ordering.
   2. Dyad ≡ 𝔻: Dyadic rationals, scale exponents, and certified commutative ring (𝔻, +, ·).
@@ -10,7 +10,7 @@
   5. Tree4 ≡ 𝔻[i]: 4-Successor quadtrees and discrete 2D Gaussian dyadics.
   6. Executable Pseudocode Mirrors: SimplerOptions and the ConwayCut bisection walk.
   7. D_w ≡ 𝔻[ω, 1/ω]: Nonstandard Laurent Dyadics, Reciprocal Law ω · (1/ω) = 1, and Nonstandard Shadow.
-  
+
   Pure finite structural induction on ℕ, zero noncomputable sections, zero axiomatic assertions.
 -/
 
@@ -494,12 +494,12 @@ namespace Nonstandard
 /-
   The Nonstandard Dyadic Ring D_w is the ring of Laurent polynomials over 𝔻:
     P(ω) = ∑ c_k · ω^k,   c_k ∈ 𝔻,  k ∈ ℤ
-  
+
   Graded Structure:
   - k > 0 : Transfinite overflow scale (powers of ω).
   - k = 0 : Standard finite dyadic real part (shadow / st).
   - k < 0 : Infinitesimal underflow halo dust (powers of dx = 1/ω).
-  
+
   Core Algebraic Rule:
     ω · (1/ω) = ω^1 · ω^(-1) = ω^0 = 1
 -/
@@ -612,4 +612,3 @@ end LaurentDyad
 end Nonstandard
 
 end MiddleWay
-
