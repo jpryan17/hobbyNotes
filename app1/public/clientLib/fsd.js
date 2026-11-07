@@ -137,6 +137,8 @@ export class FSD extends PXEParent {
     modernInspectorDetails = null;
     modernFooterBar = null;
     modernStagePills = [];
+    modernHeaderTitle = null;
+    modernStepperBar = null;
     // Stage 2 State: Variables & Slots
     elementVars = ["x₁", "x₂"];
     numberConstants = ["0", "1", "5", "10"];
@@ -526,6 +528,7 @@ export class FSD extends PXEParent {
         headerBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;";
         const titleGroup = document.createElement("div");
         titleGroup.style.cssText = "display: flex; flex-direction: column;";
+        this.modernHeaderTitle = titleGroup;
         titleGroup.innerHTML = `
       <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
         Formal Statement Constructor (FSD)
@@ -543,6 +546,7 @@ export class FSD extends PXEParent {
         // Stage Stepper Navigation Bar
         const stepperBar = document.createElement("div");
         stepperBar.style.cssText = "display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;";
+        this.modernStepperBar = stepperBar;
         const stagesInfo = [
             { num: 1, label: "Formal Relation", icon: "📜" },
             { num: 2, label: "Slot Typing", icon: "🏷️" },
@@ -672,6 +676,32 @@ export class FSD extends PXEParent {
         if (!this.modernMounted || !this.modernContainer) {
             return;
         }
+        // 0. Toggle Stepper Bar & Header in Read-Only Inspection Mode
+        if (this.modernStepperBar) {
+            this.modernStepperBar.style.display = this.isInspectionMode ? "none" : "flex";
+        }
+        if (this.modernHeaderTitle) {
+            if (this.isInspectionMode) {
+                this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Inspector (Read-Only)
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            ${this.catalogTheoremName || "Constructive Relational Specification & 2D Matrix"}
+          </h2>
+        `;
+            }
+            else {
+                this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Constructor (FSD)
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            Constructive Relational Specification &amp; 2D Matrix
+          </h2>
+        `;
+            }
+        }
         // 1. Update Stepper Pills
         this.modernStagePills.forEach((pill, idx) => {
             const stepNum = (idx + 1);
@@ -777,12 +807,12 @@ export class FSD extends PXEParent {
                 let verdictSnippet = "";
                 if (this.stage === 4) {
                     const truth = this.evaluateFullStatement();
-                    const modeTag = this.isInspectionMode && this.catalogTheoremName ? "Lean 4 Machine Verified" : "Construction Sandbox";
+                    const modeTag = this.isInspectionMode ? "" : " (Construction Sandbox)";
                     if (this.targetCodomain === "𝔻_ω") {
                         verdictSnippet = `
               <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe;">
-                  Judgment: Evaluated Value ∈ 𝔻_ω (${modeTag})
+                  Judgment: Evaluated Value ∈ 𝔻_ω${modeTag}
                 </span>
                 <span style="font-size: 11px; background: #f3e8ff; color: #6b21a8; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #d8b4fe;">
                   Codomain: 𝔻_ω
@@ -794,7 +824,7 @@ export class FSD extends PXEParent {
                         verdictSnippet = `
               <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? '#dcfce7' : '#fee2e2'}; color: ${truth ? '#166534' : '#991b1b'}; border: 1px solid ${truth ? '#bbf7d0' : '#fecaca'};">
-                  Statement Verdict: ${truth ? "True (T) ∈ 𝔹" : "False (F) ∈ 𝔹"} (${modeTag})
+                  Statement Verdict: ${truth ? "True (T) ∈ 𝔹" : "False (F) ∈ 𝔹"}${modeTag}
                 </span>
                 <span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #bae6fd;">
                   Codomain: 𝔹
@@ -1660,6 +1690,12 @@ export class FSD extends PXEParent {
         if (!this.modernFooterBar)
             return;
         this.modernFooterBar.innerHTML = "";
+        // In read-only inspection mode, there are no footer controls. Navigation is restricted to the top navline.
+        if (this.isInspectionMode) {
+            this.modernFooterBar.style.display = "none";
+            return;
+        }
+        this.modernFooterBar.style.display = "flex";
         // Left: Previous Step Button
         const leftGroup = document.createElement("div");
         leftGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
@@ -2810,7 +2846,7 @@ export class FSD extends PXEParent {
         }
         else {
             const formalArg = this.buildFormalArgument(finalStatementTruth);
-            container.append(new ArgumentCard(formalArg));
+            container.append(new ArgumentCard(formalArg, { disableCalculator: true }));
         }
         this.applyScale();
     }
@@ -3630,7 +3666,7 @@ export class FSD extends PXEParent {
                 svgWrap.append(info);
                 matrixBox.append(svgWrap);
                 const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel);
-                matrixBox.append(new ArgumentCard(formalArg));
+                matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
                 return;
             }
         }
@@ -3757,7 +3793,7 @@ export class FSD extends PXEParent {
         svgWrap.append(info);
         matrixBox.append(svgWrap);
         const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-        matrixBox.append(new ArgumentCard(formalArg));
+        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
     }
 }
 export let fsd;
