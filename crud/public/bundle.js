@@ -3024,7 +3024,7 @@ var FS_CATALOG;
 var init_fsCatalog = __esm({
   "clientLib/fsCatalog.ts"() {
     FS_CATALOG = {
-      "generatedAt": "2026-11-07T03:16:53.574Z",
+      "generatedAt": "2026-11-07T03:25:48.747Z",
       "version": "2.0.0",
       "formalStatements": [
         {
@@ -41929,6 +41929,12 @@ var FSD = class extends PXEParent {
   modernStagePills = [];
   modernHeaderTitle = null;
   modernStepperBar = null;
+  // FS Subtype Mode Bar State (1: Proposition, 2: Predicate Defn, 3: Directed Equality)
+  fsSubtype = "proposition";
+  modernSubtypeBar = null;
+  modernSubtypeButtons = [];
+  selectedPredicateId = "EVEN";
+  selectedDeTemplate = "halo_decomp";
   // Stage 2 State: Variables & Slots
   elementVars = ["x\u2081", "x\u2082"];
   numberConstants = ["0", "1", "5", "10"];
@@ -42113,7 +42119,7 @@ var FSD = class extends PXEParent {
     const slots = this.slots.map((s) => s.assignedVar || "").join(",");
     const formattedText = this.formatFSDExp(exp);
     const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
-    return { exp, quantifiers, slots, formattedText, fullStatement, codomain: this.targetCodomain };
+    return { exp, quantifiers, slots, formattedText, fullStatement, codomain: this.targetCodomain, subtype: this.fsSubtype };
   }
   registerToSessionRegistry() {
     const data = this.getDataForRefTag();
@@ -42348,6 +42354,7 @@ var FSD = class extends PXEParent {
     this.modernStatusPill.innerHTML = `<span>\u2713</span> <span>Stage 1: Enter Relation</span>`;
     headerBar.appendChild(this.modernStatusPill);
     wrap.appendChild(headerBar);
+    this.buildModernSubtypeBar(wrap);
     const stepperBar = document.createElement("div");
     stepperBar.style.cssText = "display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;";
     this.modernStepperBar = stepperBar;
@@ -42456,8 +42463,28 @@ var FSD = class extends PXEParent {
     if (!this.modernMounted || !this.modernContainer) {
       return;
     }
+    const subtypeStyleList = [
+      { id: "proposition", bgActive: "#0284c7", borderActive: "#0284c7" },
+      { id: "predicate", bgActive: "#059669", borderActive: "#059669" },
+      { id: "directed_equality", bgActive: "#7c3aed", borderActive: "#7c3aed" }
+    ];
+    this.modernSubtypeButtons.forEach((btn, idx) => {
+      const st = subtypeStyleList[idx];
+      if (st) {
+        const isCur = this.fsSubtype === st.id;
+        btn.style.background = isCur ? st.bgActive : "#f8fafc";
+        btn.style.color = isCur ? "#ffffff" : "#475569";
+        btn.style.borderColor = isCur ? st.borderActive : "#cbd5e1";
+        btn.style.boxShadow = isCur ? `0 2px 6px ${st.bgActive}40` : "none";
+        const tag = btn.querySelector("span:last-child");
+        if (tag) {
+          tag.style.background = isCur ? "rgba(0,0,0,0.22)" : "#e2e8f0";
+          tag.style.color = isCur ? "#ffffff" : "#334155";
+        }
+      }
+    });
     if (this.modernStepperBar) {
-      this.modernStepperBar.style.display = this.isInspectionMode ? "none" : "flex";
+      this.modernStepperBar.style.display = this.isInspectionMode || this.fsSubtype !== "proposition" ? "none" : "flex";
     }
     if (this.modernHeaderTitle) {
       if (this.isInspectionMode) {
@@ -42469,13 +42496,31 @@ var FSD = class extends PXEParent {
             ${this.catalogTheoremName || "Constructive Relational Specification & Evaluation"}
           </h2>
         `;
+      } else if (this.fsSubtype === "predicate") {
+        this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Constructor \u2022 Subtype 2: Predicate Definition
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            Relational Function into Boolean Truth (predicate_exp \u2192 \u{1D539})
+          </h2>
+        `;
+      } else if (this.fsSubtype === "directed_equality") {
+        this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Constructor \u2022 Subtype 3: Directed Equality
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            Operational Nonstandard Assignment Stencil (numeric_exp \u2192 \u{1D53B}_\u03C9)
+          </h2>
+        `;
       } else {
         this.modernHeaderTitle.innerHTML = `
           <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
-            Formal Statement Constructor (FSD)
+            Formal Statement Constructor \u2022 Subtype 1: Proposition
           </div>
           <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
-            Constructive Relational Specification &amp; Evaluation
+            Constructive Relational Specification &amp; Evaluation (\u2192 true)
           </h2>
         `;
       }
@@ -42489,7 +42534,17 @@ var FSD = class extends PXEParent {
       pill.style.color = isCur ? "#ffffff" : isPast ? "#166534" : "#64748b";
     });
     if (this.modernStatusPill) {
-      if (this.stage === 1) {
+      if (this.fsSubtype === "predicate") {
+        this.modernStatusPill.style.background = "#ecfdf5";
+        this.modernStatusPill.style.color = "#047857";
+        this.modernStatusPill.style.borderColor = "#a7f3d0";
+        this.modernStatusPill.innerHTML = `<span>\u26A1</span> <span>Predicate Def: ${this.selectedPredicateId} (\u2192 \u{1D539})</span>`;
+      } else if (this.fsSubtype === "directed_equality") {
+        this.modernStatusPill.style.background = "#f5f3ff";
+        this.modernStatusPill.style.color = "#6d28d9";
+        this.modernStatusPill.style.borderColor = "#ddd6fe";
+        this.modernStatusPill.innerHTML = `<span>\u{1D4B4}</span> <span>Directed Equality: ${this.selectedDeTemplate} (\u2192 \u{1D53B}_\u03C9)</span>`;
+      } else if (this.stage === 1) {
         if (this.isInspectionMode) {
           this.modernStatusPill.style.background = "#eff6ff";
           this.modernStatusPill.style.color = "#1d4ed8";
@@ -42554,7 +42609,7 @@ var FSD = class extends PXEParent {
       }
     }
     if (this.modernPredicateBox) {
-      if (this.stage === 1) {
+      if (this.stage === 1 || this.fsSubtype !== "proposition") {
         this.modernPredicateBox.style.display = "none";
       } else {
         this.modernPredicateBox.style.display = "block";
@@ -42652,6 +42707,14 @@ var FSD = class extends PXEParent {
   renderModernStageCard() {
     if (!this.modernStageCard) return;
     this.modernStageCard.innerHTML = "";
+    if (this.fsSubtype === "predicate") {
+      this.renderModernPredicateBuilder(this.modernStageCard);
+      return;
+    }
+    if (this.fsSubtype === "directed_equality") {
+      this.renderModernDirectedEqualityBuilder(this.modernStageCard);
+      return;
+    }
     if (this.stage === 1) {
       this.renderModernStage1(this.modernStageCard);
     } else if (this.stage === 2) {
@@ -42672,47 +42735,18 @@ var FSD = class extends PXEParent {
     desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
     desc.innerHTML = this.isInspectionMode ? "Displaying constitutional formal proposition loaded from catalog reference. Inspection mode is active:" : "Enter a formal proposition using relational predicate symbols and logical connectives (variables and quantifiers are configured in stages 2 &amp; 3):";
     card.appendChild(desc);
-    const typeHeader = document.createElement("div");
-    typeHeader.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap; gap: 8px;";
-    const typeLabel = document.createElement("div");
-    typeLabel.style.cssText = "display: flex; align-items: center; gap: 8px;";
-    typeLabel.innerHTML = `
-      <span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">FS TYPE:</span>
-      <span style="font-size: 12.5px; color: #334155; font-weight: 600;">Domain \u2192 Codomain</span>
+    const stageHeader = document.createElement("div");
+    stageHeader.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap; gap: 8px;";
+    stageHeader.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">Subtype 1: Proposition</span>
+        <span style="font-size: 12.5px; color: #0c4a6e; font-weight: 600;">Closed Formal Sentence Verified to Hold</span>
+      </div>
+      <div style="font-size: 11.5px; font-weight: 700; color: #0369a1; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; border: 1px solid #bae6fd;">
+        Codomain: \u2192 true (\u{1D539})
+      </div>
     `;
-    typeHeader.appendChild(typeLabel);
-    const codomainGroup = document.createElement("div");
-    codomainGroup.style.cssText = "display: flex; align-items: center; gap: 6px;";
-    const codomainLabel = document.createElement("span");
-    codomainLabel.style.cssText = "font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;";
-    codomainLabel.textContent = "Codomain:";
-    codomainGroup.appendChild(codomainLabel);
-    const btnB = document.createElement("button");
-    const isB = this.targetCodomain === "\u{1D539}";
-    btnB.style.cssText = `padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isB ? "#0284c7" : "#cbd5e1"}; background: ${isB ? "#0284c7" : "#ffffff"}; color: ${isB ? "#ffffff" : "#334155"}; cursor: ${this.isInspectionMode ? "default" : "pointer"}; transition: all 0.15s ease;`;
-    btnB.textContent = "\u2192 \u{1D539} (Truth Proposition)";
-    if (!this.isInspectionMode) {
-      btnB.addEventListener("click", () => {
-        this.targetCodomain = "\u{1D539}";
-        this.renderModernStageCard();
-        this.syncModernUI();
-      });
-    }
-    codomainGroup.appendChild(btnB);
-    const btnDw = document.createElement("button");
-    const isDw = this.targetCodomain === "\u{1D53B}_\u03C9";
-    btnDw.style.cssText = `padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isDw ? "#7c3aed" : "#cbd5e1"}; background: ${isDw ? "#7c3aed" : "#ffffff"}; color: ${isDw ? "#ffffff" : "#334155"}; cursor: ${this.isInspectionMode ? "default" : "pointer"}; transition: all 0.15s ease;`;
-    btnDw.textContent = "\u2192 \u{1D53B}_\u03C9 (Calculational Laurent Value)";
-    if (!this.isInspectionMode) {
-      btnDw.addEventListener("click", () => {
-        this.targetCodomain = "\u{1D53B}_\u03C9";
-        this.renderModernStageCard();
-        this.syncModernUI();
-      });
-    }
-    codomainGroup.appendChild(btnDw);
-    typeHeader.appendChild(codomainGroup);
-    card.appendChild(typeHeader);
+    card.appendChild(stageHeader);
     const inputRow = document.createElement("div");
     inputRow.style.cssText = "display: flex; gap: 8px; align-items: center; margin-bottom: 16px;";
     this.modernFormulaInput = document.createElement("input");
@@ -42973,6 +43007,804 @@ var FSD = class extends PXEParent {
     row.appendChild(actGroup);
     toolbarBox.appendChild(row);
     card.appendChild(toolbarBox);
+    const activeTokens = Array.from(new Set(this.pxe.exp.split("").filter((ch) => PredicateRegistry.getPredicate(ch))));
+    if (activeTokens.length > 0) {
+      const predInspector = document.createElement("div");
+      predInspector.style.cssText = "margin-top: 14px; background: #f8fafc; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 14px;";
+      predInspector.innerHTML = `
+        <div style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span>\u26A1</span> <span>Constituent Predicates in Formula (Functions into \u{1D539})</span>
+          </div>
+          <span style="font-size: 11px; color: #64748b; font-weight: 600;">(Expand to inspect MWM Pseudocode)</span>
+        </div>
+      `;
+      const predGrid = document.createElement("div");
+      predGrid.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
+      activeTokens.forEach((code) => {
+        const pDef = PredicateRegistry.getPredicate(code);
+        if (!pDef) return;
+        const pDetail = this.getPredicateDetail(pDef.id || pDef.symbol);
+        const itemBox = document.createElement("details");
+        itemBox.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; transition: all 0.15s ease;";
+        itemBox.innerHTML = `
+          <summary style="font-size: 12.5px; font-weight: 700; color: #0f172a; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-family: monospace; color: #0284c7; font-weight: bold; font-size: 13.5px; background: #e0f2fe; padding: 2px 7px; border-radius: 4px;">${pDef.symbol}(...)</span>
+              <span style="font-size: 12px; color: #475569;">${pDetail ? pDetail.signature : `${pDef.symbol} : Domain \u2192 \u{1D539}`}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button type="button" class="btn-goto-pred" style="padding: 2px 8px; font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 4px; cursor: pointer;">\u2699\uFE0F Open in Predicate Builder \u2192</button>
+              <span style="font-size: 11px; color: #0284c7; font-weight: 600;">Pseudocode \u25BE</span>
+            </div>
+          </summary>
+          <div style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+            <div style="font-size: 12px; color: #475569; margin-bottom: 6px;">${pDetail ? pDetail.description : ""}</div>
+            <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 12px; line-height: 1.5; padding: 10px 14px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(pDetail ? pDetail.pseudocode : `rule ${pDef.symbol}(...) : \u{1D539} \u2254 begin return ${pDef.evaluator}; end;`)}</code></pre>
+          </div>
+        `;
+        const gotoBtn = itemBox.querySelector(".btn-goto-pred");
+        if (gotoBtn) {
+          gotoBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.selectedPredicateId = pDef.id || pDef.symbol;
+            this.fsSubtype = "predicate";
+            this.renderModernStageCard();
+            this.syncModernUI();
+          });
+        }
+        predGrid.appendChild(itemBox);
+      });
+      predInspector.appendChild(predGrid);
+      card.appendChild(predInspector);
+    }
+  }
+  // Build the Top-Level Mode Bar (1: Proposition, 2: Predicate Defn, 3: Directed Equality)
+  buildModernSubtypeBar(wrap) {
+    const subtypeBar = document.createElement("div");
+    subtypeBar.id = "fsdSubtypeModeBar";
+    subtypeBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 16px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 6px 10px; flex-wrap: wrap;";
+    this.modernSubtypeBar = subtypeBar;
+    const prefixGroup = document.createElement("div");
+    prefixGroup.style.cssText = "display: flex; align-items: center; gap: 6px;";
+    prefixGroup.innerHTML = `
+      <span style="font-size: 13px;">\u2699\uFE0F</span>
+      <span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">FS Subtype:</span>
+    `;
+    subtypeBar.appendChild(prefixGroup);
+    const btnGroup = document.createElement("div");
+    btnGroup.style.cssText = "display: flex; align-items: center; gap: 6px; flex-wrap: wrap;";
+    const subtypesList = [
+      {
+        id: "proposition",
+        label: "1: Propositional Statement",
+        icon: "\u{1F4DC}",
+        target: "\u2192 true",
+        bgActive: "#0284c7",
+        borderActive: "#0284c7"
+      },
+      {
+        id: "predicate",
+        label: "2: Predicate Definition",
+        icon: "\u26A1",
+        target: "predicate_exp \u2192 \u{1D539}",
+        bgActive: "#059669",
+        borderActive: "#059669"
+      },
+      {
+        id: "directed_equality",
+        label: "3: Directed Equality",
+        icon: "\u{1D4B4}",
+        target: "numeric_exp \u2192 \u{1D53B}_\u03C9",
+        bgActive: "#7c3aed",
+        borderActive: "#7c3aed"
+      }
+    ];
+    this.modernSubtypeButtons = [];
+    subtypesList.forEach((st) => {
+      const btn = document.createElement("button");
+      btn.setAttribute("data-subtype", st.id);
+      const isCur = this.fsSubtype === st.id;
+      btn.style.cssText = `display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; border: 1.5px solid ${isCur ? st.borderActive : "#cbd5e1"}; background: ${isCur ? st.bgActive : "#f8fafc"}; color: ${isCur ? "#ffffff" : "#475569"}; cursor: pointer; transition: all 0.15s ease;`;
+      btn.innerHTML = `<span>${st.icon}</span> <span>${st.label}</span> <span style="font-size: 10px; opacity: 0.95; font-family: monospace; padding: 1px 6px; border-radius: 4px; background: ${isCur ? "rgba(0,0,0,0.22)" : "#e2e8f0"}; color: ${isCur ? "#ffffff" : "#334155"};">${st.target}</span>`;
+      btn.addEventListener("click", () => {
+        if (this.fsSubtype === st.id) return;
+        this.fsSubtype = st.id;
+        if (st.id === "directed_equality") {
+          this.targetCodomain = "\u{1D53B}_\u03C9";
+        } else {
+          this.targetCodomain = "\u{1D539}";
+        }
+        this.renderModernStageCard();
+        this.syncModernUI();
+      });
+      this.modernSubtypeButtons.push(btn);
+      btnGroup.appendChild(btn);
+    });
+    subtypeBar.appendChild(btnGroup);
+    wrap.appendChild(subtypeBar);
+  }
+  // Format MWM Structured Pseudocode syntax highlighting
+  formatPseudocodeHTML(code) {
+    let esc = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    esc = esc.replace(/(\/\/[^\n]*)/g, '<span style="color:#94a3b8;font-style:italic;">$1</span>');
+    esc = esc.replace(/\b(rule|function|var|begin|end|if|then|else|return|for|to|do|while)\b/g, '<span style="color:#38bdf8;font-weight:bold;">$1</span>');
+    esc = esc.replace(/\b(𝔹|ℕ|𝒫\(ℕ\)|Ord|ℝ|ℝ_ω|𝔻_ω|Dual|Real|Integer|Node)\b/g, '<span style="color:#f472b6;font-weight:bold;">$1</span>');
+    esc = esc.replace(/(≔|:=|≠|≤|≥|≈|∣|∈|⊆|bitand|shl|mod)/g, '<span style="color:#cbd5e1;font-weight:bold;">$1</span>');
+    return esc;
+  }
+  // Predicate details dictionary & evaluator lookup
+  getPredicateDetail(idOrSymbol) {
+    const norm = idOrSymbol.toUpperCase().trim();
+    if (norm === "EVEN" || norm === "V") {
+      return {
+        id: "EVEN",
+        symbol: "EVEN",
+        arity: 1,
+        signature: "rule EVEN(x: \u2115) : \u{1D539} \u2254",
+        domain: "1-Successor Counting Spine \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Asserts that natural number x is divisible by 2 with zero remainder.",
+        pseudocode: "rule EVEN(x: \u2115) : \u{1D539} \u2254\nbegin\n    if x mod 2 = 0 then\n        return true\n    else\n        return false;\nend;",
+        isUnaryNat: true,
+        evalUnary: (n) => n % 2 === 0
+      };
+    }
+    if (norm === "ODD" || norm === "D") {
+      return {
+        id: "ODD",
+        symbol: "ODD",
+        arity: 1,
+        signature: "rule ODD(x: \u2115) : \u{1D539} \u2254",
+        domain: "1-Successor Counting Spine \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Asserts that natural number x has remainder 1 when divided by 2.",
+        pseudocode: "rule ODD(x: \u2115) : \u{1D539} \u2254\nbegin\n    if x mod 2 \u2260 0 then\n        return true\n    else\n        return false;\nend;",
+        isUnaryNat: true,
+        evalUnary: (n) => n % 2 !== 0
+      };
+    }
+    if (norm === "DIV" || norm === "\u2223" || norm === "C" || norm === "|") {
+      return {
+        id: "DIV",
+        symbol: "\u2223",
+        arity: 2,
+        signature: "rule DIV(a: \u2115, b: \u2115) : \u{1D539} \u2254",
+        domain: "\u2115 \xD7 \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Divisibility relation: asserts that natural number a divides b with zero remainder.",
+        pseudocode: "rule DIV(a: \u2115, b: \u2115) : \u{1D539} \u2254\nbegin\n    if a = 0 then\n        return false;\n    return (b mod a = 0);\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => a !== 0 && b % a === 0
+      };
+    }
+    if (norm === "LT" || norm === "<" || norm === "S") {
+      return {
+        id: "LT",
+        symbol: "<",
+        arity: 2,
+        signature: "rule LT(a: Ord, b: Ord) : \u{1D539} \u2254",
+        domain: "Ord \xD7 Ord (or \u2115 \xD7 \u2115)",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Strict order relation evaluated lexicographically: standard nucleus first, then halo dust.",
+        pseudocode: "rule LT(a: Ord, b: Ord) : \u{1D539} \u2254\nbegin\n    // Lexicographic nonstandard comparison\n    if a.st \u2260 b.st then\n        return a.st < b.st\n    else\n        return a.eps < b.eps;\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => a < b
+      };
+    }
+    if (norm === "GT" || norm === ">" || norm === "R") {
+      return {
+        id: "GT",
+        symbol: ">",
+        arity: 2,
+        signature: "rule GT(a: Ord, b: Ord) : \u{1D539} \u2254",
+        domain: "Ord \xD7 Ord (or \u2115 \xD7 \u2115)",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Strict greater-than relation evaluated lexicographically.",
+        pseudocode: "rule GT(a: Ord, b: Ord) : \u{1D539} \u2254\nbegin\n    if a.st \u2260 b.st then\n        return a.st > b.st\n    else\n        return a.eps > b.eps;\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => a > b
+      };
+    }
+    if (norm === "EQ" || norm === "=" || norm === "K") {
+      return {
+        id: "EQ",
+        symbol: "=",
+        arity: 2,
+        signature: "rule EQ(a: Ord, b: Ord) : \u{1D539} \u2254",
+        domain: "Ord \xD7 Ord",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Strict identity relation: requires both nucleus and halo dust to coincide.",
+        pseudocode: "rule EQ(a: Ord, b: Ord) : \u{1D539} \u2254\nbegin\n    return (a.st = b.st) \u2227 (a.eps = b.eps);\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => a === b
+      };
+    }
+    if (norm === "LE" || norm === "\u2264" || norm === "L") {
+      return {
+        id: "LE",
+        symbol: "\u2264",
+        arity: 2,
+        signature: "rule LE(a: Ord, b: Ord) : \u{1D539} \u2254",
+        domain: "Ord \xD7 Ord",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Weak linear order relation.",
+        pseudocode: "rule LE(a: Ord, b: Ord) : \u{1D539} \u2254\nbegin\n    if a.st \u2260 b.st then\n        return a.st < b.st\n    else\n        return a.eps \u2264 b.eps;\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => a <= b
+      };
+    }
+    if (norm === "MEM" || norm === "\u2208" || norm === "M") {
+      return {
+        id: "MEM",
+        symbol: "\u2208",
+        arity: 2,
+        signature: "rule MEM(x: \u2115, S: \u{1D4AB}(\u2115)) : \u{1D539} \u2254",
+        domain: "\u2115 \xD7 \u{1D4AB}(\u2115)",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Primitive set membership relation, executed as a bitmask test on the 1-successor spine.",
+        pseudocode: "rule MEM(x: \u2115, S: \u{1D4AB}(\u2115)) : \u{1D539} \u2254\nbegin\n    // Bitmask inclusion: test bit (x - 1)\n    return (S bitand (1 shl (x - 1))) \u2260 0;\nend;",
+        isUnaryNat: false,
+        evalBinary: (x, s) => Boolean(s & 1 << x - 1)
+      };
+    }
+    if (norm === "SUBSET" || norm === "\u2286" || norm === "B") {
+      return {
+        id: "SUBSET",
+        symbol: "\u2286",
+        arity: 2,
+        signature: "rule SUBSET(A: \u{1D4AB}(\u2115), B: \u{1D4AB}(\u2115)) : \u{1D539} \u2254",
+        domain: "\u{1D4AB}(\u2115) \xD7 \u{1D4AB}(\u2115)",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Subset inclusion: asserts that all elements of set A belong to set B.",
+        pseudocode: "rule SUBSET(A: \u{1D4AB}(\u2115), B: \u{1D4AB}(\u2115)) : \u{1D539} \u2254\nbegin\n    // Bitmask intersection must equal set A\n    return (A bitand B) = A;\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => (a & b) === a
+      };
+    }
+    if (norm === "NEAR" || norm === "\u2248" || norm === "W") {
+      return {
+        id: "NEAR",
+        symbol: "\u2248",
+        arity: 2,
+        signature: "rule NEAR(a: \u211D_\u03C9, b: \u211D_\u03C9) : \u{1D539} \u2254",
+        domain: "\u211D_\u03C9 \xD7 \u211D_\u03C9",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Infinitesimal proximity relation: asserts that difference a - b belongs to halo dust \u03BC(0).",
+        pseudocode: "rule NEAR(a: \u211D_\u03C9, b: \u211D_\u03C9) : \u{1D539} \u2254\nbegin\n    // Shadow standard parts must coincide\n    return (a.st = b.st);\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => Math.abs(a - b) < 1e-3
+      };
+    }
+    if (norm === "SUCC" || norm === "+1" || norm === "U") {
+      return {
+        id: "SUCC",
+        symbol: "+1",
+        arity: 2,
+        signature: "rule SUCC(a: \u2115, b: \u2115) : \u{1D539} \u2254",
+        domain: "\u2115 \xD7 \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Direct successor step on 1-successor spine: b = a + 1.",
+        pseudocode: "rule SUCC(a: \u2115, b: \u2115) : \u{1D539} \u2254\nbegin\n    return (b = a + 1);\nend;",
+        isUnaryNat: false,
+        evalBinary: (a, b) => b === a + 1
+      };
+    }
+    if (norm === "GT5" || norm === "> 5" || norm === "P") {
+      return {
+        id: "GT5",
+        symbol: "> 5",
+        arity: 1,
+        signature: "rule GT5(x: \u2115) : \u{1D539} \u2254",
+        domain: "1-Successor Counting Spine \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Unary threshold predicate: true for natural numbers strictly greater than 5.",
+        pseudocode: "rule GT5(x: \u2115) : \u{1D539} \u2254\nbegin\n    return (x > 5);\nend;",
+        isUnaryNat: true,
+        evalUnary: (n) => n > 5
+      };
+    }
+    if (norm === "LT10" || norm === "< 10" || norm === "Q") {
+      return {
+        id: "LT10",
+        symbol: "< 10",
+        arity: 1,
+        signature: "rule LT10(x: \u2115) : \u{1D539} \u2254",
+        domain: "1-Successor Counting Spine \u2115",
+        codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+        description: "Unary threshold predicate: true for natural numbers strictly less than 10.",
+        pseudocode: "rule LT10(x: \u2115) : \u{1D539} \u2254\nbegin\n    return (x < 10);\nend;",
+        isUnaryNat: true,
+        evalUnary: (n) => n < 10
+      };
+    }
+    return {
+      id: idOrSymbol,
+      symbol: idOrSymbol,
+      arity: 1,
+      signature: `rule ${idOrSymbol}(x: \u2115) : \u{1D539} \u2254`,
+      domain: "1-Successor Counting Spine \u2115",
+      codomain: "Boolean Truth Values \u{1D539} = {0, 1}",
+      description: `Custom predicate function on \u2115.`,
+      pseudocode: `rule ${idOrSymbol}(x: \u2115) : \u{1D539} \u2254
+begin
+    return true;
+end;`,
+      isUnaryNat: true,
+      evalUnary: () => true
+    };
+  }
+  // Directed Equality details lookup
+  getDeDetail(deKey) {
+    if (deKey === "parabola_increment") {
+      return {
+        id: "parabola_increment",
+        title: "\u0394f = (x + k\xB7dx)\xB2 - x\xB2",
+        formula: "\u0394f \u2254 (x + k\xB7dx)\xB2 - x\xB2",
+        domain: "\u211D \xD7 \u2124 \xD7 \u211D_\u03C9",
+        codomain: "\u211D_\u03C9",
+        signature: "rule EvalHaloIncrement(x: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254",
+        description: "Evaluates algebraic increment on parabola: isolates 2\xB7x\xB7k\xB7dx + (k\xB7dx)\xB2, verifying st(\u0394f) = 0 without limits.",
+        pseudocode: "rule EvalHaloIncrement(x: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254\nvar\n    xh, diff: Dual;\nbegin\n    xh := { st: x, eps: k * dx };\n    diff := (xh * xh) - (x * x);\n    return diff;\nend;",
+        inputs: [
+          { name: "x", label: "Real Nucleus (x)", defaultVal: 2, min: -10, max: 10, step: 0.5 },
+          { name: "k", label: "Halo Scale (k)", defaultVal: 1, min: -8, max: 8, step: 1 },
+          { name: "dx", label: "Infinitesimal Step (dx)", defaultVal: 244e-6, min: 1e-5, max: 0.01, step: 1e-4 }
+        ],
+        calcFn: (v) => {
+          const deriv = 2 * v.x;
+          const dust = deriv * (v.k * v.dx) + Math.pow(v.k * v.dx, 2);
+          return {
+            st: 0,
+            eps: dust,
+            desc: `st(\u0394f) = 0, algebraic derivative = ${deriv.toFixed(2)}, halo dust = ${dust.toFixed(6)}`
+          };
+        }
+      };
+    }
+    if (deKey === "sine_halo") {
+      return {
+        id: "sine_halo",
+        title: "y = sin(x\u2080 + k\xB7dx)",
+        formula: "y \u2254 sin(x\u2080 + k\xB7dx)",
+        domain: "\u211D \xD7 \u2124 \xD7 \u211D_\u03C9",
+        codomain: "\u211D_\u03C9",
+        signature: "rule HyperrealSine(x0: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254",
+        description: "Nonstandard trigonometric expansion: standard part sin(x0) and halo derivative cos(x0)\xB7k\xB7dx.",
+        pseudocode: "rule HyperrealSine(x0: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254\nbegin\n    return { st: sin(x0), eps: cos(x0) * (k * dx) };\nend;",
+        inputs: [
+          { name: "x0", label: "Angle (x\u2080 in radians)", defaultVal: 0.5236, min: -3.1416, max: 3.1416, step: 0.1 },
+          { name: "k", label: "Halo Multiplier (k)", defaultVal: 1, min: -8, max: 8, step: 1 },
+          { name: "dx", label: "Step (dx)", defaultVal: 244e-6, min: 1e-5, max: 0.01, step: 1e-4 }
+        ],
+        calcFn: (v) => {
+          const st = Math.sin(v.x0);
+          const deriv = Math.cos(v.x0);
+          const dust = deriv * (v.k * v.dx);
+          return {
+            st,
+            eps: dust,
+            desc: `st(y) = ${st.toFixed(4)}, shadow derivative = ${deriv.toFixed(4)}, halo dust = ${dust.toFixed(6)}`
+          };
+        }
+      };
+    }
+    if (deKey === "newtonian_stencil") {
+      return {
+        id: "newtonian_stencil",
+        title: "a = [s(t - dt) - 2s(t) + s(t + dt)] / dt\xB2",
+        formula: "a \u2254 [s(t - dt) - 2s(t) + s(t + dt)] / dt\xB2",
+        domain: "\u211D \xD7 \u211D_\u03C9",
+        codomain: "\u211D_\u03C9",
+        signature: "rule NewtonianSecondDiff(t: \u211D, dt: \u211D_\u03C9) : \u211D_\u03C9 \u2254",
+        description: "Second discrete difference stencil on parabolic free fall isolating invariant gravitational acceleration -g = -9.8.",
+        pseudocode: "rule NewtonianSecondDiff(t: \u211D, dt: \u211D_\u03C9) : \u211D_\u03C9 \u2254\nvar\n    sp, sc, sn: Real;\nbegin\n    sp := -4.9 * (t - dt)^2;\n    sc := -4.9 * t^2;\n    sn := -4.9 * (t + dt)^2;\n    return (sp - 2 * sc + sn) / (dt * dt);\nend;",
+        inputs: [
+          { name: "t", label: "Time Coordinate (t in s)", defaultVal: 2, min: 0, max: 10, step: 0.5 },
+          { name: "dt", label: "Time Differential (dt)", defaultVal: 244e-6, min: 1e-5, max: 0.01, step: 1e-4 }
+        ],
+        calcFn: () => ({
+          st: -9.8,
+          eps: 0,
+          desc: "Invariant acceleration: st(a) = -9.800000 m/s\xB2, zero residual halo dust."
+        })
+      };
+    }
+    if (deKey === "pythagorean_identity") {
+      return {
+        id: "pythagorean_identity",
+        title: "sin(x)\xB2 + cos(x)\xB2 = 1",
+        formula: "y \u2254 sin(x)\xB2 + cos(x)\xB2",
+        domain: "\u211D",
+        codomain: "\u211D",
+        signature: "rule PythagoreanInvariant(x: \u211D) : \u211D \u2254",
+        description: "Verifies the fundamental trigonometric invariant = 1 across all real angles.",
+        pseudocode: "rule PythagoreanInvariant(x: \u211D) : \u211D \u2254\nbegin\n    return (sin(x))^2 + (cos(x))^2;\nend;",
+        inputs: [
+          { name: "x", label: "Angle (x in radians)", defaultVal: 1, min: -6.28, max: 6.28, step: 0.1 }
+        ],
+        calcFn: () => ({
+          st: 1,
+          eps: 0,
+          desc: "Exact invariant: st(y) = 1.000000, eps = 0."
+        })
+      };
+    }
+    return {
+      id: "halo_decomp",
+      title: "x = x\u2080 + k\xB7dx",
+      formula: "x \u2254 x\u2080 + k\xB7dx",
+      domain: "\u211D \xD7 \u2124 \xD7 \u211D_\u03C9",
+      codomain: "\u211D_\u03C9",
+      signature: "rule DecomposeHalo(x0: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254",
+      description: "Decomposes any finite hyperreal point into standard real shadow st(x) and Day \u03C9 halo dust k\xB7dx.",
+      pseudocode: "rule DecomposeHalo(x0: \u211D, k: \u2124, dx: \u211D_\u03C9) : \u211D_\u03C9 \u2254\nbegin\n    return { st: x0, eps: k * dx };\nend;",
+      inputs: [
+        { name: "x0", label: "Standard Nucleus (x\u2080)", defaultVal: 3, min: -10, max: 10, step: 0.5 },
+        { name: "k", label: "Halo Scale (k)", defaultVal: 2, min: -8, max: 8, step: 1 },
+        { name: "dx", label: "Infinitesimal Step (dx)", defaultVal: 244e-6, min: 1e-5, max: 0.01, step: 1e-4 }
+      ],
+      calcFn: (v) => ({
+        st: v.x0,
+        eps: v.k * v.dx,
+        desc: `st(x) = ${v.x0.toFixed(2)}, halo dust = ${v.k > 0 ? "+" : ""}${v.k}\xB7dx (${(v.k * v.dx).toFixed(6)})`
+      })
+    };
+  }
+  // --- SUBTYPE 2: Predicate Definition Builder ---
+  renderModernPredicateBuilder(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Subtype 2: Predicate Definition (predicate_exp \u2192 \u{1D539})";
+    card.appendChild(cardTitle);
+    const banner = document.createElement("div");
+    banner.style.cssText = "background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #065f46; font-size: 13px; line-height: 1.5;";
+    banner.innerHTML = `<strong>Fundamental MWM Principle:</strong> A predicate is strictly defined as a <strong>function whose codomain is the Boolean truth set \u{1D539} = {0, 1}</strong> (e.g. <code>P : Domain \u2192 \u{1D539}</code>). Every predicate possesses an operational <strong>MWM Pseudocode Block</strong> executing the decision procedure on the discrete tree.`;
+    card.appendChild(banner);
+    const paletteBox = document.createElement("div");
+    paletteBox.style.cssText = "background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;";
+    paletteBox.innerHTML = `
+      <div style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+        \u{1F4DA} Predicate Library (Select to Inspect Definition &amp; Pseudocode):
+      </div>
+    `;
+    const predList = [
+      { id: "EVEN", label: "EVEN(_)" },
+      { id: "ODD", label: "ODD(_)" },
+      { id: "DIV", label: "(_ \u2223 _)" },
+      { id: "LT", label: "(_ < _)" },
+      { id: "GT", label: "(_ > _)" },
+      { id: "EQ", label: "(_ = _)" },
+      { id: "LE", label: "(_ \u2264 _)" },
+      { id: "MEM", label: "(_ \u2208 _)" },
+      { id: "SUBSET", label: "(_ \u2286 _)" },
+      { id: "NEAR", label: "(_ \u2248 _)" },
+      { id: "SUCC", label: "SUCC(_, _)" },
+      { id: "GT5", label: "(_ > 5)" },
+      { id: "LT10", label: "(_ < 10)" }
+    ];
+    const btnRow = document.createElement("div");
+    btnRow.style.cssText = "display: flex; gap: 6px; flex-wrap: wrap; align-items: center;";
+    predList.forEach((p) => {
+      const isSel = this.selectedPredicateId === p.id;
+      const b = document.createElement("button");
+      b.style.cssText = `padding: 5px 11px; font-family: monospace; font-size: 12.5px; font-weight: 700; border-radius: 6px; border: 1.5px solid ${isSel ? "#059669" : "#cbd5e1"}; background: ${isSel ? "#059669" : "#f8fafc"}; color: ${isSel ? "#ffffff" : "#334155"}; cursor: pointer; transition: all 0.12s ease;`;
+      b.textContent = p.label;
+      b.addEventListener("click", () => {
+        this.selectedPredicateId = p.id;
+        this.renderModernStageCard();
+        this.syncModernUI();
+      });
+      btnRow.appendChild(b);
+    });
+    paletteBox.appendChild(btnRow);
+    card.appendChild(paletteBox);
+    const detail = this.getPredicateDetail(this.selectedPredicateId);
+    const specCard = document.createElement("div");
+    specCard.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+    specCard.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-family: monospace; font-size: 16px; font-weight: 800; color: #0f172a;">
+          ${detail.signature}
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+            Domain: ${detail.domain}
+          </span>
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
+            Codomain: \u{1D539}
+          </span>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: #334155; line-height: 1.5;">
+        ${detail.description}
+      </div>
+    `;
+    card.appendChild(specCard);
+    const pseudoBox = document.createElement("div");
+    pseudoBox.style.cssText = "background: #ffffff; border: 1.5px solid #0f172a; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);";
+    pseudoBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-size: 11.5px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+          <span>\u{1F4DC}</span> <span>MWM Structured Pseudocode (Decision Procedure)</span>
+        </div>
+        <button type="button" class="btn-copy-code" style="padding: 4px 10px; font-size: 11.5px; font-weight: 700; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 5px; cursor: pointer;">
+          \u{1F4CB} Copy Pseudocode
+        </button>
+      </div>
+      <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 13px; line-height: 1.55; padding: 14px 18px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(detail.pseudocode)}</code></pre>
+    `;
+    const copyBtn = pseudoBox.querySelector(".btn-copy-code");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(detail.pseudocode);
+          copyBtn.textContent = "Copied! \u2713";
+          setTimeout(() => copyBtn.textContent = "\u{1F4CB} Copy Pseudocode", 2e3);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+    card.appendChild(pseudoBox);
+    const runnerBox = document.createElement("div");
+    runnerBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+    if (detail.isUnaryNat && detail.evalUnary) {
+      runnerBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
+            \u26A1 Discrete Truth Vector Evaluation on \u2115 (Counting Spine Nodes 1..8)
+          </div>
+          <span style="font-size: 11px; color: #15803d; font-weight: 700;">Codomain: \u{1D539} = {0, 1}</span>
+        </div>
+        <div class="vector-cells" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"></div>
+        <div style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px 12px;">
+          <span style="font-size: 12px; font-weight: 700; color: #166534;">Test Custom Input n:</span>
+          <input type="number" class="unary-input" value="12" style="width: 70px; padding: 4px 8px; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #86efac; border-radius: 4px; outline: none;">
+          <div class="unary-result" style="font-size: 13px; font-weight: bold; font-family: monospace; color: #166534;"></div>
+        </div>
+      `;
+      const cellsContainer = runnerBox.querySelector(".vector-cells");
+      for (let n = 1; n <= 8; n++) {
+        const res = detail.evalUnary(n);
+        const cell = document.createElement("div");
+        cell.style.cssText = `flex: 1; min-width: 50px; text-align: center; padding: 8px 4px; border-radius: 6px; border: 1.5px solid ${res ? "#86efac" : "#fecaca"}; background: ${res ? "#dcfce7" : "#fee2e2"}; color: ${res ? "#166534" : "#991b1b"};`;
+        cell.innerHTML = `
+          <div style="font-size: 11px; opacity: 0.8; font-family: monospace;">n = ${n}</div>
+          <div style="font-size: 14px; font-weight: 800; font-family: monospace; margin-top: 2px;">${res ? "1 (T)" : "0 (F)"}</div>
+        `;
+        cellsContainer.appendChild(cell);
+      }
+      const unaryInput = runnerBox.querySelector(".unary-input");
+      const unaryRes = runnerBox.querySelector(".unary-result");
+      const updateUnaryRes = () => {
+        const val = parseInt(unaryInput.value, 10);
+        if (isNaN(val)) {
+          unaryRes.textContent = "\u2014";
+        } else {
+          const r = detail.evalUnary(val);
+          unaryRes.innerHTML = `\u2794 <code>${detail.symbol}(${val})</code> = <span style="padding: 2px 8px; border-radius: 4px; background: ${r ? "#dcfce7" : "#fee2e2"}; color: ${r ? "#166534" : "#991b1b"}; border: 1px solid ${r ? "#86efac" : "#fca5a5"};">${r ? "true (1)" : "false (0)"} \u2208 \u{1D539}</span>`;
+        }
+      };
+      unaryInput.addEventListener("input", updateUnaryRes);
+      updateUnaryRes();
+    } else {
+      runnerBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
+            \u26A1 Interactive Binary Relation Evaluator
+          </div>
+          <span style="font-size: 11px; color: #15803d; font-weight: 700;">Codomain: \u{1D539} = {0, 1}</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 6px; padding: 10px 14px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span style="font-size: 12.5px; font-weight: 700; color: #166534;">Input Slot s\u2081:</span>
+          <input type="number" class="binary-s1" value="3" style="width: 65px; padding: 4px 8px; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #86efac; border-radius: 4px;">
+          <span style="font-size: 12.5px; font-weight: 700; color: #166534;">Input Slot s\u2082:</span>
+          <input type="number" class="binary-s2" value="6" style="width: 65px; padding: 4px 8px; font-family: monospace; font-size: 13px; font-weight: bold; border: 1.5px solid #86efac; border-radius: 4px;">
+          <div class="binary-res" style="font-size: 13px; font-weight: bold; font-family: monospace; color: #166534; margin-left: 6px;"></div>
+        </div>
+        <div style="font-size: 11px; color: #475569;">
+          Evaluating <code>${detail.signature}</code> on discrete coordinate pairs.
+        </div>
+      `;
+      const inputS1 = runnerBox.querySelector(".binary-s1");
+      const inputS2 = runnerBox.querySelector(".binary-s2");
+      const binRes = runnerBox.querySelector(".binary-res");
+      const updateBinRes = () => {
+        const s1 = parseFloat(inputS1.value);
+        const s2 = parseFloat(inputS2.value);
+        if (isNaN(s1) || isNaN(s2)) {
+          binRes.textContent = "\u2014";
+        } else {
+          const r = detail.evalBinary ? detail.evalBinary(s1, s2) : true;
+          binRes.innerHTML = `\u2794 <code>(${s1} ${detail.symbol} ${s2})</code> = <span style="padding: 2px 8px; border-radius: 4px; background: ${r ? "#dcfce7" : "#fee2e2"}; color: ${r ? "#166534" : "#991b1b"}; border: 1px solid ${r ? "#86efac" : "#fca5a5"};">${r ? "true (1)" : "false (0)"} \u2208 \u{1D539}</span>`;
+        }
+      };
+      inputS1.addEventListener("input", updateBinRes);
+      inputS2.addEventListener("input", updateBinRes);
+      updateBinRes();
+    }
+    card.appendChild(runnerBox);
+    const actionBox = document.createElement("div");
+    actionBox.style.cssText = "display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 14px;";
+    const btnUse = document.createElement("button");
+    btnUse.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #0284c7; border: 1.5px solid #0284c7; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+    btnUse.innerHTML = `<span>\u2795</span> <span>Load into Proposition (Subtype 1) \u2192</span>`;
+    btnUse.addEventListener("click", () => {
+      const pred = PredicateRegistry.getPredicate(this.selectedPredicateId);
+      if (pred) {
+        this.pxe.addCharacter(pred.code);
+      }
+      this.fsSubtype = "proposition";
+      this.stage = 1;
+      this.updatePXEText();
+      this.renderModernStageCard();
+      this.syncModernUI();
+    });
+    actionBox.appendChild(btnUse);
+    card.appendChild(actionBox);
+  }
+  // --- SUBTYPE 3: Directed Equality Builder ---
+  renderModernDirectedEqualityBuilder(card) {
+    const cardTitle = document.createElement("div");
+    cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #7c3aed; text-transform: uppercase; margin-bottom: 6px;";
+    cardTitle.textContent = "Subtype 3: Directed Equality (DE) (numeric_exp \u2192 \u{1D53B}_\u03C9 / \u211D_\u03C9)";
+    card.appendChild(cardTitle);
+    const banner = document.createElement("div");
+    banner.style.cssText = "background: #f5f3ff; border: 1.5px solid #ddd6fe; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #5b21b6; font-size: 13px; line-height: 1.5;";
+    banner.innerHTML = `<strong>Fundamental MWM Principle:</strong> A <strong>Directed Equality (DE)</strong> is a functional formal statement with a numerical codomain (such as <code>\u{1D53B}_\u03C9</code>, <code>\u211D_\u03C9</code>, or <code>\u2102_\u03C9</code>). Executed by an operational numeric pseudocode block calculating the real nucleus shadow <code>st(y)</code> and Day \u03C9 infinitesimal halo dust <code>\u03B5</code>.`;
+    card.appendChild(banner);
+    const paletteBox = document.createElement("div");
+    paletteBox.style.cssText = "background: #ffffff; border: 1.5px solid #d8b4fe; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;";
+    paletteBox.innerHTML = `
+      <div style="font-size: 11px; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+        \u{1F9EE} Directed Equality Calculation Stencils (Select to Inspect &amp; Evaluate):
+      </div>
+    `;
+    const deList = [
+      { id: "halo_decomp", label: "x = x\u2080 + k\xB7dx" },
+      { id: "parabola_increment", label: "\u0394f = (x + k\xB7dx)\xB2 - x\xB2" },
+      { id: "sine_halo", label: "y = sin(x\u2080 + k\xB7dx)" },
+      { id: "newtonian_stencil", label: "Newtonian d\xB2s/dt\xB2" },
+      { id: "pythagorean_identity", label: "sin(x)\xB2 + cos(x)\xB2 = 1" }
+    ];
+    const btnRow = document.createElement("div");
+    btnRow.style.cssText = "display: flex; gap: 6px; flex-wrap: wrap; align-items: center;";
+    deList.forEach((de) => {
+      const isSel = this.selectedDeTemplate === de.id;
+      const b = document.createElement("button");
+      b.style.cssText = `padding: 5px 11px; font-family: monospace; font-size: 12.5px; font-weight: 700; border-radius: 6px; border: 1.5px solid ${isSel ? "#7c3aed" : "#cbd5e1"}; background: ${isSel ? "#7c3aed" : "#f8fafc"}; color: ${isSel ? "#ffffff" : "#334155"}; cursor: pointer; transition: all 0.12s ease;`;
+      b.textContent = de.label;
+      b.addEventListener("click", () => {
+        this.selectedDeTemplate = de.id;
+        this.renderModernStageCard();
+        this.syncModernUI();
+      });
+      btnRow.appendChild(b);
+    });
+    paletteBox.appendChild(btnRow);
+    card.appendChild(paletteBox);
+    const detail = this.getDeDetail(this.selectedDeTemplate);
+    const specCard = document.createElement("div");
+    specCard.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+    specCard.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-family: monospace; font-size: 16px; font-weight: 800; color: #0f172a;">
+          ${detail.signature}
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+            Domain: ${detail.domain}
+          </span>
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe;">
+            Codomain: ${detail.codomain}
+          </span>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: #334155; line-height: 1.5;">
+        ${detail.description}
+      </div>
+    `;
+    card.appendChild(specCard);
+    const pseudoBox = document.createElement("div");
+    pseudoBox.style.cssText = "background: #ffffff; border: 1.5px solid #0f172a; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);";
+    pseudoBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-size: 11.5px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+          <span>\u{1F4DC}</span> <span>MWM Structured Numeric Pseudocode</span>
+        </div>
+        <button type="button" class="btn-copy-code" style="padding: 4px 10px; font-size: 11.5px; font-weight: 700; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 5px; cursor: pointer;">
+          \u{1F4CB} Copy Pseudocode
+        </button>
+      </div>
+      <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 13px; line-height: 1.55; padding: 14px 18px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(detail.pseudocode)}</code></pre>
+    `;
+    const copyBtn = pseudoBox.querySelector(".btn-copy-code");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(detail.pseudocode);
+          copyBtn.textContent = "Copied! \u2713";
+          setTimeout(() => copyBtn.textContent = "\u{1F4CB} Copy Pseudocode", 2e3);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+    card.appendChild(pseudoBox);
+    const calcBox = document.createElement("div");
+    calcBox.style.cssText = "background: #faf5ff; border: 1.5px solid #d8b4fe; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+    calcBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-size: 11.5px; font-weight: 800; color: #6b21a8; text-transform: uppercase; letter-spacing: 0.5px;">
+          \u{1F9EE} Interactive Nonstandard Slider Calculator
+        </div>
+        <span style="font-size: 11px; color: #6b21a8; font-weight: 700;">Dual Representation: { st, eps }</span>
+      </div>
+      <div class="inputs-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;"></div>
+      <div class="result-card" style="background: #ffffff; border: 1px solid #c4b5fd; border-radius: 6px; padding: 12px 14px;"></div>
+    `;
+    const inputsContainer = calcBox.querySelector(".inputs-container");
+    const resultCard = calcBox.querySelector(".result-card");
+    const currentValues = {};
+    detail.inputs.forEach((inp) => {
+      currentValues[inp.name] = inp.defaultVal;
+      const row = document.createElement("div");
+      row.style.cssText = "display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #ffffff; padding: 8px 12px; border-radius: 6px; border: 1px solid #e9d5ff;";
+      row.innerHTML = `
+        <span style="font-size: 12.5px; font-weight: 600; color: #334155; min-width: 170px;">${inp.label}:</span>
+        <input type="range" class="inp-slider" min="${inp.min}" max="${inp.max}" step="${inp.step}" value="${inp.defaultVal}" style="flex: 1; accent-color: #7c3aed;">
+        <span class="inp-val" style="font-family: monospace; font-size: 13px; font-weight: 700; color: #6b21a8; min-width: 60px; text-align: right;">${inp.defaultVal}</span>
+      `;
+      const slider = row.querySelector(".inp-slider");
+      const valDisp = row.querySelector(".inp-val");
+      slider.addEventListener("input", () => {
+        const num = parseFloat(slider.value);
+        currentValues[inp.name] = num;
+        valDisp.textContent = num.toString();
+        updateCalcResult();
+      });
+      inputsContainer.appendChild(row);
+    });
+    const updateCalcResult = () => {
+      const res = detail.calcFn(currentValues);
+      resultCard.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+          <div style="font-size: 13px; font-weight: 700; color: #0f172a;">
+            Evaluated Codomain Result:
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <span style="font-family: monospace; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+              Nucleus st(y) = ${res.st.toFixed(4)}
+            </span>
+            <span style="font-family: monospace; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe;">
+              Halo \u03B5 = ${res.eps.toFixed(6)}
+            </span>
+          </div>
+        </div>
+        <div style="font-size: 12.5px; color: #475569; font-family: monospace; line-height: 1.5;">
+          ${res.desc}
+        </div>
+      `;
+    };
+    updateCalcResult();
+    card.appendChild(calcBox);
+    const actionBox = document.createElement("div");
+    actionBox.style.cssText = "display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 14px;";
+    const btnUse = document.createElement("button");
+    btnUse.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #0284c7; border: 1.5px solid #0284c7; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+    btnUse.innerHTML = `<span>\u2795</span> <span>Use in Proposition (Subtype 1) \u2192</span>`;
+    btnUse.addEventListener("click", () => {
+      this.pxe.addCharacter("j");
+      this.fsSubtype = "proposition";
+      this.stage = 1;
+      this.updatePXEText();
+      this.renderModernStageCard();
+      this.syncModernUI();
+    });
+    actionBox.appendChild(btnUse);
+    card.appendChild(actionBox);
   }
   // Helper to build sleek floating dropdown menus
   createDropdown(label, items) {
@@ -43438,7 +44270,7 @@ var FSD = class extends PXEParent {
     this.modernFooterBar.style.display = "flex";
     const leftGroup = document.createElement("div");
     leftGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
-    if (this.stage > 1) {
+    if (this.fsSubtype === "proposition" && this.stage > 1) {
       const btnPrev = document.createElement("button");
       btnPrev.style.cssText = "padding: 8px 16px; font-size: 13px; font-weight: 700; color: #475569; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
       btnPrev.innerHTML = `<span>\u2190</span> <span>Previous Step</span>`;
@@ -43459,6 +44291,40 @@ var FSD = class extends PXEParent {
     this.modernFooterBar.appendChild(leftGroup);
     const rightGroup = document.createElement("div");
     rightGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
+    if (this.fsSubtype !== "proposition") {
+      if (this.usedByContentEditor) {
+        const btnCommit = document.createElement("button");
+        btnCommit.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #059669; border: 1.5px solid #059669; border-radius: 6px; cursor: pointer;";
+        btnCommit.textContent = this.editorButtonLabel || "Return to Content Editor \u2713";
+        btnCommit.addEventListener("click", () => this.backToContentEditor());
+        rightGroup.appendChild(btnCommit);
+        const btnCancel = document.createElement("button");
+        btnCancel.style.cssText = "padding: 8px 14px; font-size: 13px; font-weight: 600; color: #64748b; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer;";
+        btnCancel.textContent = "Cancel";
+        btnCancel.addEventListener("click", () => this.cancelAndReturn());
+        rightGroup.appendChild(btnCancel);
+      } else {
+        const btnLoadProp = document.createElement("button");
+        btnLoadProp.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #0284c7; border: 1.5px solid #0284c7; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+        btnLoadProp.textContent = "Use in Proposition (Subtype 1) \u2192";
+        btnLoadProp.addEventListener("click", () => {
+          if (this.fsSubtype === "predicate") {
+            const pred = PredicateRegistry.getPredicate(this.selectedPredicateId);
+            if (pred) this.pxe.addCharacter(pred.code);
+          } else if (this.fsSubtype === "directed_equality") {
+            this.pxe.addCharacter("j");
+          }
+          this.fsSubtype = "proposition";
+          this.stage = 1;
+          this.updatePXEText();
+          this.renderModernStageCard();
+          this.syncModernUI();
+        });
+        rightGroup.appendChild(btnLoadProp);
+      }
+      this.modernFooterBar.appendChild(rightGroup);
+      return;
+    }
     if (this.usedByContentEditor) {
       const btnCommit = document.createElement("button");
       btnCommit.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #059669; border: 1.5px solid #059669; border-radius: 6px; cursor: pointer;";
@@ -43926,6 +44792,7 @@ var FSD = class extends PXEParent {
   }
   clear() {
     this.stage = 1;
+    this.fsSubtype = "proposition";
     this.targetCodomain = "\u{1D539}";
     this.isInspectionMode = false;
     this.catalogTheoremName = "";
@@ -44007,6 +44874,9 @@ var FSD = class extends PXEParent {
   loadFromRefData(data = {}, isInspection = false) {
     this.clear();
     this.isInspectionMode = isInspection;
+    if (data.subtype) {
+      this.fsSubtype = data.subtype;
+    }
     this.catalogTheoremName = data.theorem || "";
     if (data.codomain === "\u{1D53B}_\u03C9" || data.codomain === "D_w") {
       this.targetCodomain = "\u{1D53B}_\u03C9";

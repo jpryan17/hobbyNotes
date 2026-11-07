@@ -265,7 +265,13 @@
                 "label": "🔬 Formal Stage Scaffold (<fsd-ref>)",
                 "tag": "<fsd-ref id=\"...\">",
                 "source_table": "interactive_demos WHERE engine = 'fsd'",
-                "behavior": "Embeds four-stage formal structure stage visualizer widget."
+                "behavior": "Embeds four-stage formal structure stage visualizer widget supporting 3 MWM subtypes: (1) Propositional Statements (→ true), (2) Predicate Definitions (predicate_exp → 𝔹) with discrete truth vector runner and MWM pseudocode, and (3) Directed Equalities (numeric_exp → 𝔻_ω) with halo/nucleus decomposition calculator.",
+                "subtypes": {
+                  "proposition": "Subtype 1: Propositional statement asserted to hold (→ true). 4-step wizard with constituent predicate inspector.",
+                  "predicate": "Subtype 2: Relational function (predicate_exp → 𝔹) with operational MWM structured pseudocode block and discrete truth vector evaluation on ℕ = {1..8}.",
+                  "directed_equality": "Subtype 3: Computational assignment stencil (numeric_exp → 𝔻_ω) with nonstandard Laurent halo/nucleus decomposition calculator."
+                },
+                "mode_bar_selector": "#fsdSubtypeModeBar"
               }
             }
           },
