@@ -981,7 +981,7 @@ export class FSD extends PXEParent {
         this.modernFormulaInput = document.createElement("input");
         this.modernFormulaInput.type = "text";
         this.modernFormulaInput.id = "fsdModernInput";
-        this.modernFormulaInput.placeholder = "Enter relation (e.g. _ < _, _ = _, EVEN(_), _ ∈ _)...";
+        this.modernFormulaInput.placeholder = "Enter relation (e.g. (_ < _), (_ = _), EVEN(_), (_ ∈ _))...";
         this.modernFormulaInput.value = this.formatFSDExp(this.pxe.exp);
         this.modernFormulaInput.readOnly = this.isInspectionMode;
         this.modernFormulaInput.style.cssText = `flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: ${this.isInspectionMode ? '#f8fafc' : '#ffffff'}; border: 1.5px solid ${this.isInspectionMode ? '#cbd5e1' : '#bae6fd'}; border-radius: 6px; outline: none; transition: border-color 0.15s ease; cursor: ${this.isInspectionMode ? 'default' : 'text'};`;
@@ -2661,26 +2661,26 @@ export class FSD extends PXEParent {
             const ch = exp[i];
             if (ch === "p") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} > 5)` : "(_ > 5)";
+                display += `(${v0} > 5)`;
             }
             else if (ch === "q") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} < 10)` : "(_ < 10)";
+                display += `(${v0} < 10)`;
             }
             else if (ch === "r") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} > ${v1})` : "_ > _";
+                display += `(${v0} > ${v1})`;
             }
             else if (ch === "s") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} < ${v1})` : "_ < _";
+                display += `(${v0} < ${v1})`;
             }
             else if (ch === "m") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ∈ ${v1})` : "_ ∈ _";
+                display += `(${v0} ∈ ${v1})`;
             }
             else if (ch === "v") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
@@ -2693,12 +2693,12 @@ export class FSD extends PXEParent {
             else if (ch === "k") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} = ${v1})` : "_ = _";
+                display += `(${v0} = ${v1})`;
             }
             else if (ch === "l") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ≤ ${v1})` : "_ ≤ _";
+                display += `(${v0} ≤ ${v1})`;
             }
             else if (ch === "u") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
@@ -2708,22 +2708,22 @@ export class FSD extends PXEParent {
             else if (ch === "b") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ⊆ ${v1})` : "_ ⊆ _";
+                display += `(${v0} ⊆ ${v1})`;
             }
             else if (ch === "w") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ≈ ${v1})` : "_ ≈ _";
+                display += `(${v0} ≈ ${v1})`;
             }
             else if (ch === "c") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ∣ ${v1})` : "_ ∣ _";
+                display += `(${v0} ∣ ${v1})`;
             }
             else if (ch === "j") {
                 const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
                 const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-                display += this.stage >= 2 ? `(${v0} ≔ ${v1})` : "_ ≔ _";
+                display += `(${v0} ≔ ${v1})`;
             }
             else if (ch === "[") {
                 display += "[\u2009";

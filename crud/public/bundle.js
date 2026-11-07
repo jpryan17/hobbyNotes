@@ -3024,7 +3024,7 @@ var FS_CATALOG;
 var init_fsCatalog = __esm({
   "clientLib/fsCatalog.ts"() {
     FS_CATALOG = {
-      "generatedAt": "2026-11-07T02:59:01.043Z",
+      "generatedAt": "2026-11-07T03:16:53.574Z",
       "version": "2.0.0",
       "formalStatements": [
         {
@@ -42718,7 +42718,7 @@ var FSD = class extends PXEParent {
     this.modernFormulaInput = document.createElement("input");
     this.modernFormulaInput.type = "text";
     this.modernFormulaInput.id = "fsdModernInput";
-    this.modernFormulaInput.placeholder = "Enter relation (e.g. _ < _, _ = _, EVEN(_), _ \u2208 _)...";
+    this.modernFormulaInput.placeholder = "Enter relation (e.g. (_ < _), (_ = _), EVEN(_), (_ \u2208 _))...";
     this.modernFormulaInput.value = this.formatFSDExp(this.pxe.exp);
     this.modernFormulaInput.readOnly = this.isInspectionMode;
     this.modernFormulaInput.style.cssText = `flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: ${this.isInspectionMode ? "#f8fafc" : "#ffffff"}; border: 1.5px solid ${this.isInspectionMode ? "#cbd5e1" : "#bae6fd"}; border-radius: 6px; outline: none; transition: border-color 0.15s ease; cursor: ${this.isInspectionMode ? "default" : "text"};`;
@@ -44308,22 +44308,22 @@ var FSD = class extends PXEParent {
       const ch = exp[i];
       if (ch === "p") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} > 5)` : "(_ > 5)";
+        display += `(${v0} > 5)`;
       } else if (ch === "q") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} < 10)` : "(_ < 10)";
+        display += `(${v0} < 10)`;
       } else if (ch === "r") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} > ${v1})` : "_ > _";
+        display += `(${v0} > ${v1})`;
       } else if (ch === "s") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} < ${v1})` : "_ < _";
+        display += `(${v0} < ${v1})`;
       } else if (ch === "m") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2208 ${v1})` : "_ \u2208 _";
+        display += `(${v0} \u2208 ${v1})`;
       } else if (ch === "v") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         display += `EVEN(${v0})`;
@@ -44333,11 +44333,11 @@ var FSD = class extends PXEParent {
       } else if (ch === "k") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} = ${v1})` : "_ = _";
+        display += `(${v0} = ${v1})`;
       } else if (ch === "l") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2264 ${v1})` : "_ \u2264 _";
+        display += `(${v0} \u2264 ${v1})`;
       } else if (ch === "u") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
@@ -44345,19 +44345,19 @@ var FSD = class extends PXEParent {
       } else if (ch === "b") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2286 ${v1})` : "_ \u2286 _";
+        display += `(${v0} \u2286 ${v1})`;
       } else if (ch === "w") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2248 ${v1})` : "_ \u2248 _";
+        display += `(${v0} \u2248 ${v1})`;
       } else if (ch === "c") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2223 ${v1})` : "_ \u2223 _";
+        display += `(${v0} \u2223 ${v1})`;
       } else if (ch === "j") {
         const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
         const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
-        display += this.stage >= 2 ? `(${v0} \u2254 ${v1})` : "_ \u2254 _";
+        display += `(${v0} \u2254 ${v1})`;
       } else if (ch === "[") {
         display += "[\u2009";
       } else if (ch === "]") {
