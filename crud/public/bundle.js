@@ -42718,7 +42718,7 @@ var FSD = class extends PXEParent {
     this.modernFormulaInput = document.createElement("input");
     this.modernFormulaInput.type = "text";
     this.modernFormulaInput.id = "fsdModernInput";
-    this.modernFormulaInput.placeholder = "Enter relation (e.g. x\u2081 < x\u2082, x\u2081 = x\u2082, x\u2081 \u2208 y\u2081)...";
+    this.modernFormulaInput.placeholder = "Enter relation (e.g. _ < _, _ = _, EVEN(_), _ \u2208 _)...";
     this.modernFormulaInput.value = this.formatFSDExp(this.pxe.exp);
     this.modernFormulaInput.readOnly = this.isInspectionMode;
     this.modernFormulaInput.style.cssText = `flex: 1; padding: 9px 14px; font-family: monospace; font-size: 16px; font-weight: bold; color: #0369a1; background: ${this.isInspectionMode ? "#f8fafc" : "#ffffff"}; border: 1.5px solid ${this.isInspectionMode ? "#cbd5e1" : "#bae6fd"}; border-radius: 6px; outline: none; transition: border-color 0.15s ease; cursor: ${this.isInspectionMode ? "default" : "text"};`;
@@ -42808,66 +42808,6 @@ var FSD = class extends PXEParent {
       inputRow.appendChild(btnClearInput);
     }
     card.appendChild(inputRow);
-    const slotPreviewBox = document.createElement("div");
-    slotPreviewBox.id = "fsdSlotPreviewBox";
-    const expPreds = [];
-    for (let i = 0; i < this.pxe.exp.length; i++) {
-      const ch = this.pxe.exp[i];
-      const p = PredicateRegistry.getPredicate(ch);
-      if (p) {
-        expPreds.push({ char: ch, pred: p });
-      }
-    }
-    if (expPreds.length > 0) {
-      slotPreviewBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;";
-      let rowsHtml = "";
-      let totalSlotCount = 0;
-      expPreds.forEach(({ pred }) => {
-        const slotsDetail = pred.signature.map((sigDomain, sIdx) => {
-          totalSlotCount++;
-          const dType = sigDomain === "P_N" || sigDomain === "P_Tree1" ? "\u{1D4AB}(\u2115)" : sigDomain === "R_w" ? "\u211D_\u03C9" : "\u2115";
-          const role = pred.arity === 1 ? "input term" : sIdx === 0 ? "left operand" : "right operand";
-          return `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; background: #ffffff; border: 1px solid #86efac; border-radius: 4px; font-size: 11.5px; color: #166534; font-family: monospace;">
-            <strong>Slot ${totalSlotCount} (s${sIdx + 1})</strong>: ${dType} <span style="color: #64748b; font-size: 10.5px;">[${role}]</span>
-          </span>`;
-        }).join(" ");
-        rowsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
-            <span style="font-family: monospace; font-size: 12.5px; font-weight: bold; padding: 2px 8px; background: #dcfce7; color: #166534; border: 1px solid #86efac; border-radius: 4px;">
-              ${pred.symbol}
-            </span>
-            <span style="font-size: 12px; font-weight: 700; color: #1e3a2b;">
-              ${pred.id} (${pred.arity === 1 ? "Unary Property" : "Binary Relation"}):
-            </span>
-            <span style="font-size: 12px; color: #15803d; font-family: monospace;">
-              ${pred.displayTemplate}
-            </span>
-            <span style="color: #94a3b8; font-size: 11px;">\u2794</span>
-            <div style="display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-              ${slotsDetail}
-            </div>
-          </div>
-        `;
-      });
-      slotPreviewBox.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dcfce7; padding-bottom: 6px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-          <span style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
-            \u{1F3F7}\uFE0F Selected Relation Slots &amp; Signatures (${expPreds.length} Active Predicate${expPreds.length > 1 ? "s" : ""}, ${totalSlotCount} Slot${totalSlotCount > 1 ? "s" : ""})
-          </span>
-          <span style="font-size: 11px; font-weight: 600; color: #15803d;">
-            Configured in Step 2: Slot Typing
-          </span>
-        </div>
-        ${rowsHtml}
-      `;
-    } else {
-      slotPreviewBox.style.cssText = "background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; color: #64748b; font-size: 12.5px; display: flex; align-items: center; gap: 8px;";
-      slotPreviewBox.innerHTML = `
-        <span style="font-size: 14px;">\u{1F4A1}</span>
-        <span>Click any relation or predicate below (e.g. <code>&lt;</code>, <code>EVEN</code>, <code>\u2208</code>, <code>=</code>) to view its required variable slots and domains.</span>
-      `;
-    }
-    card.appendChild(slotPreviewBox);
     if (this.isInspectionMode) {
       const inspectNotice = document.createElement("div");
       inspectNotice.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; color: #0369a1; font-size: 13px; line-height: 1.5;";
@@ -44367,57 +44307,57 @@ var FSD = class extends PXEParent {
     for (let i = 0; i < exp.length; i++) {
       const ch = exp[i];
       if (ch === "p") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} > 5)` : "(x > 5)";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} > 5)` : "(_ > 5)";
       } else if (ch === "q") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} < 10)` : "(x < 10)";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} < 10)` : "(_ < 10)";
       } else if (ch === "r") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} > ${v1})` : ">";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} > ${v1})` : "_ > _";
       } else if (ch === "s") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} < ${v1})` : "<";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} < ${v1})` : "_ < _";
       } else if (ch === "m") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2208 ${v1})` : "\u2208";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2208 ${v1})` : "_ \u2208 _";
       } else if (ch === "v") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `EVEN(${v0})` : "EVEN";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += `EVEN(${v0})`;
       } else if (ch === "d") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `ODD(${v0})` : "ODD";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += `ODD(${v0})`;
       } else if (ch === "k") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} = ${v1})` : "=";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} = ${v1})` : "_ = _";
       } else if (ch === "l") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2264 ${v1})` : "\u2264";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2264 ${v1})` : "_ \u2264 _";
       } else if (ch === "u") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `SUCC(${v0}, ${v1})` : "+1";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += `SUCC(${v0}, ${v1})`;
       } else if (ch === "b") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2286 ${v1})` : "\u2286";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2286 ${v1})` : "_ \u2286 _";
       } else if (ch === "w") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2248 ${v1})` : "\u2248";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2248 ${v1})` : "_ \u2248 _";
       } else if (ch === "c") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2223 ${v1})` : "\u2223";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2223 ${v1})` : "_ \u2223 _";
       } else if (ch === "j") {
-        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "";
-        display += this.stage >= 2 ? `(${v0} \u2254 ${v1})` : "\u2254";
+        const v0 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        const v1 = this.stage >= 2 ? getSlotVal(slotIdx++) : "_";
+        display += this.stage >= 2 ? `(${v0} \u2254 ${v1})` : "_ \u2254 _";
       } else if (ch === "[") {
         display += "[\u2009";
       } else if (ch === "]") {
